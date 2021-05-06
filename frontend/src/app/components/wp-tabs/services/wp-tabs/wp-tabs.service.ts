@@ -24,7 +24,7 @@ export class WorkPackageTabsService {
     this.registeredTabs = this.buildDefaultTabs();
   }
 
-  get tabs() {
+  get tabs():TabDefinition[] {
     return [...this.registeredTabs];
   }
 
@@ -44,7 +44,7 @@ export class WorkPackageTabsService {
       .map(
         tab => ({
           ...tab,
-          counter: tab.count && tab.count(workPackage, this.injector),
+          ...!!tab.count && { counter: tab.count(workPackage, this.injector) },
         }),
       );
   }

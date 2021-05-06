@@ -1,47 +1,58 @@
-import { HttpClientModule } from '@angular/common/http';
-import { Injector } from '@angular/core';
-import {Input} from '@angular/core';
+import { Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OpenProjectDirectFileUploadService } from 'core-app/components/api/op-file-upload/op-direct-file-upload.service';
-import { OpenProjectFileUploadService } from 'core-app/components/api/op-file-upload/op-file-upload.service';
-import { States } from 'core-app/components/states.service';
 
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
-import { HookService } from 'core-app/modules/plugins/hook-service';
 
-import { Tab, TabComponent } from '../wp-tab-wrapper/tab';
+import { TabComponent } from '../wp-tab-wrapper/tab';
 import { WpTabsComponent } from './wp-tabs.component';
+import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
+import { StateService } from "@uirouter/angular";
+import { UIRouterGlobals } from "@uirouter/core";
+import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 describe('WpTabsComponent', () => {
   class TestComponent implements TabComponent {
     @Input() public workPackage:WorkPackageResource;
   }
 
-  const displayableTab = new Tab(TestComponent, 'Displayable TestTab', 'displayable-test-tab', (_) => true)
-  const notDisplayableTab = new Tab(TestComponent, 'NotDisplayable TestTab', 'not-displayable-test-tab', (_) => false)
-
-  const HookServiceStub = {
-    getWorkPackageTabs: () => [displayableTab, notDisplayableTab]
+  const displayableTab = {
+    component: TestComponent,
+    name: 'Displayable TestTab',
+    identifier: 'displayable-test-tab',
+    displayable: () => true
   };
 
-  let component: WpTabsComponent;
-  let fixture: ComponentFixture<WpTabsComponent>;
+  const notDisplayableTab = {
+    component: TestComponent,
+    name: 'NotDisplayable TestTab',
+    identifier: 'not-displayable-test-tab',
+    displayable: () => false
+  };
+
+  let component:WpTabsComponent;
+  let service:WorkPackageTabsService;
+  let fixture:ComponentFixture<WpTabsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WpTabsComponent ],
+      declarations: [WpTabsComponent],
       providers: [
-        { provide: HookService, useValue: HookServiceStub }
-      ]
+        { provide: StateService, useValue: { includes: () => false } },
+        { provide: UIRouterGlobals, useValue: {} },
+        { provide: KeepTabService, useValue: {} },
+        WorkPackageTabsService,
+      ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WpTabsComponent);
+    service = TestBed.inject(WorkPackageTabsService);
+    (service as any).registeredTabs = [];
+    service.register(displayableTab, notDisplayableTab);
+
     component = fixture.componentInstance;
     component.workPackage = {} as WorkPackageResource;
     fixture.detectChanges();
