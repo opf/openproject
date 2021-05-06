@@ -89,7 +89,7 @@ describe 'Activity tab', js: true, selenium: true do
         activity = page.find("#activity-#{idx + 1}")
 
         if journal.id != note_1.id
-          expect(activity).to have_selector('.user', text: journal.user.name)
+          expect(activity).to have_selector('.op-user-activity--user-line', text: journal.user.name)
           expect(activity).to have_selector('.user-comment > .message', text: journal.notes, visible: :all)
         end
 
