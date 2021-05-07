@@ -62,7 +62,8 @@ describe 'OpenID Connect', type: :rails_request do
     )
 
     # enable storing the access token in a cookie
-    OpenProject::Configuration['omniauth_store_access_token_in_cookie'] = true
+    # Disabled since it is currently not configurable.
+    # OpenProject::Configuration['omniauth_store_access_token_in_cookie'] = true
   end
 
   describe 'sign-up and login' do
