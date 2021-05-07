@@ -66,7 +66,7 @@ ja:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "エンタープライズ オンプレミス エディションを注文する"
+      order: "オンプレミス版エンタープライズエディションを注文する"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
@@ -1174,9 +1174,9 @@ ja:
   gui_validation_error_plural: "%{count}つエラー"
   homescreen:
     additional:
-      projects: "このインスタンスの、最新の表示されるプロジェクト。"
+      projects: "このインスタンスの最新の可視化プロジェクト。"
       no_visible_projects: "このインスタンスに表示されているプロジェクトはありません。"
-      users: "このインスタンスの、最新の登録ユーザー。"
+      users: "このインスタンスの最新の登録ユーザー。"
     blocks:
       community: "OpenProject コミュニティ"
       upsale:
