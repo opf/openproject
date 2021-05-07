@@ -142,10 +142,20 @@ describe Settings::Definition do
           .with(Rails.root.join('config/configuration.yml'))
           .and_return(file_contents)
 
+        allow(YAML)
+          .to receive(:load_file)
+          .with(Rails.root.join('config/settings.yml'))
+          .and_return({})
+
         allow(File)
           .to receive(:file?)
           .with(Rails.root.join('config/configuration.yml'))
           .and_return(true)
+
+        # Loading of the config file is disabled in test env normally.
+        allow(Rails.env)
+          .to receive(:test?)
+          .and_return(false)
       end
 
       it 'overrides from file default' do

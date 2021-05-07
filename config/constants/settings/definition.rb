@@ -30,7 +30,6 @@
 
 module Settings
   class Definition
-
     ENV_PREFIX ||= 'OPENPROJECT_'.freeze
 
     attr_accessor :name,
@@ -120,7 +119,8 @@ module Settings
           self.loaded = true
           load './config/constants/settings/definitions.rb'
 
-          load_config_from_file
+          # The test setup should govern the configuration
+          load_config_from_file unless Rails.env.test?
           override_config
         end
 

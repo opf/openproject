@@ -41,54 +41,6 @@ describe OpenProject::Configuration do
     Setting.clear_cache
   end
 
-  describe '.convert_old_email_settings' do
-    let(:settings) do
-      {
-        'email_delivery' => {
-          'delivery_method' => :smtp,
-          'perform_deliveries' => true,
-          'smtp_settings' => {
-            'address' => 'smtp.example.net',
-            'port' => 25,
-            'domain' => 'example.net'
-          }
-        }
-      }
-    end
-
-    context 'with delivery_method' do
-      before do
-        OpenProject::Configuration.send(:convert_old_email_settings,
-                                        settings,
-                                        disable_deprecation_message: true)
-      end
-
-      it 'should adopt the delivery method' do
-        expect(settings['email_delivery_method']).to eq(:smtp)
-      end
-
-      it 'should convert smtp settings' do
-        expect(settings['smtp_address']).to eq('smtp.example.net')
-        expect(settings['smtp_port']).to eq(25)
-        expect(settings['smtp_domain']).to eq('example.net')
-      end
-    end
-
-    context 'without delivery_method' do
-      before do
-        settings['email_delivery'].delete('delivery_method')
-        OpenProject::Configuration.send(:convert_old_email_settings, settings,
-                                        disable_deprecation_message: true)
-      end
-
-      it 'should convert smtp settings' do
-        expect(settings['smtp_address']).to eq('smtp.example.net')
-        expect(settings['smtp_port']).to eq(25)
-        expect(settings['smtp_domain']).to eq('example.net')
-      end
-    end
-  end
-
   describe '.migrate_mailer_configuration!' do
     it 'does nothing if no legacy configuration given' do
       OpenProject::Configuration['email_delivery_method'] = nil

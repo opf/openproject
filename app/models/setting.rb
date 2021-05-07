@@ -148,8 +148,8 @@ class Setting < ApplicationRecord
   end
 
   validates_uniqueness_of :name
-  #TODO rework to check for config to exist
-  validates_inclusion_of :name, in: lambda { |_setting|
+  validates_inclusion_of :name,
+                         in: lambda { |_setting|
                                       Settings::Definition.all.map(&:name)
                                     } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|

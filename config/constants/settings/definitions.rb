@@ -50,9 +50,29 @@ Settings::Definition.define do
       value: '',
       admin: true
 
+  add :smtp_domain,
+      format: :string,
+      value: '',
+      admin: true
+
+  add :smtp_user_name,
+      format: :string,
+      value: '',
+      admin: true
+
   add :smtp_port,
       format: :integer,
       value: 587,
+      admin: true
+
+  add :smtp_password,
+      format: :string,
+      value: '',
+      admin: true
+
+  add :smtp_authentication,
+      format: :string,
+      value: 'plain',
       admin: true
 
   # Former configurations
@@ -133,13 +153,6 @@ Settings::Definition.define do
 
     # email configuration
     'email_delivery_configuration' => 'inapp',
-    'email_delivery_method' => nil,
-    'smtp_address' => nil,
-    'smtp_port' => nil,
-    'smtp_domain' => nil, # HELO domain
-    'smtp_authentication' => nil,
-    'smtp_user_name' => nil,
-    'smtp_password' => nil,
     'smtp_enable_starttls_auto' => nil,
     'smtp_openssl_verify_mode' => nil, # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
     'sendmail_location' => '/usr/sbin/sendmail',
@@ -236,28 +249,10 @@ Settings::Definition.define do
     # Slow query logging threshold in ms
     'sql_slow_query_threshold' => 2000
   }.each do |key, value|
-    if key == 'email_delivery'
-      ActiveSupport::Deprecation.warn <<~MSG
-        Deprecated mail delivery settings used. Please
-        update them in config/configuration.yml or use
-        environment variables. See doc/CONFIGURATION.md for
-        more information.
-      MSG
-
-      add('email_delivery_method', value: value['delivery_method'] || :smtp)
-
-      %w[sendmail smtp].each do |settings_type|
-        value["#{settings_type}_settings"]&.each do |key, value|
-          add("#{settings_type}_#{key}", value: value)
-        end
-      end
-    else
-      add(key, value: value)
-    end
+    add(key, value: value)
   end
 
-
-  YAML::load(File.open(Rails.root.join('config/settings.yml'))).map do |name, config|
+  YAML.load_file(Rails.root.join('config/settings.yml')).map do |name, config|
     add name,
         format: config['format'] == 'int' ? :integer : config['format'],
         value: config['default'],
@@ -265,4 +260,3 @@ Settings::Definition.define do
         api: false
   end
 end
-
