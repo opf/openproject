@@ -109,6 +109,28 @@ describe UserMailer, type: :mailer do
     end
   end
 
+  describe '#with_deliveries' do
+    context 'with false' do
+      before do
+        described_class.with_deliveries(false) do
+          described_class.test_mail(recipient).deliver_now
+        end
+      end
+
+      it_behaves_like 'mail is not sent'
+    end
+
+    context 'with true' do
+      before do
+        described_class.with_deliveries(true) do
+          described_class.test_mail(recipient).deliver_now
+        end
+      end
+
+      it_behaves_like 'mail is sent'
+    end
+  end
+
   describe '#test_mail' do
     let(:test_email) { 'bob.bobbi@example.com' }
     let(:recipient) { FactoryBot.build_stubbed(:user, firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
@@ -167,6 +189,20 @@ describe UserMailer, type: :mailer do
         expect(deliveries.first.references)
           .to be_nil
       end
+
+      context 'with plain_text_mail active', with_settings: { plain_text_mail: 1 } do
+        it 'only sends plain text' do
+          expect(mail.content_type)
+            .to match /text\/plain/
+        end
+      end
+
+      context 'with plain_text_mail inactive', with_settings: { plain_text_mail: 0 } do
+        it 'sends a multipart mail' do
+          expect(mail.content_type)
+            .to match /multipart\/alternative/
+        end
+      end
     end
 
     it_behaves_like 'does only send mails to author if permitted'
@@ -186,6 +222,32 @@ describe UserMailer, type: :mailer do
       it 'references the message_id' do
         expect(deliveries.first.references)
           .to eql UserMailer.generate_message_id(journal, recipient)
+      end
+
+      context 'with a link' do
+        let(:work_package) do
+          FactoryBot.build_stubbed(:work_package,
+                                   type: type_standard,
+                                   description: "Some text with a reference to ##{referenced_wp.id}")
+        end
+
+        let(:referenced_wp) do
+          FactoryBot.build_stubbed(:work_package)
+        end
+
+        it 'renders the link' do
+          expect(html_body)
+            .to have_link("##{referenced_wp.id}", href: work_package_url(referenced_wp, host: Setting.host_name))
+        end
+
+        context 'with a relative url root',
+                with_config: { rails_relative_url_root: '/subpath' } do
+          it 'renders the link' do
+            expect(html_body)
+              .to have_link("##{referenced_wp.id}",
+                            href: work_package_url(referenced_wp, host: Setting.host_name, script_name: '/subpath'))
+          end
+        end
       end
     end
 
@@ -727,6 +789,74 @@ describe UserMailer, type: :mailer do
         it 'displays deleted done ratio' do
           is_expected.to include(expected)
         end
+      end
+    end
+  end
+
+  describe 'localization' do
+    context 'with the user having a language configured',
+            with_settings: { available_languages: %w[en de],
+                             default_language: 'en',
+                             emails_header: {
+                               "de" => 'deutscher header',
+                               "en" => 'english header'
+                             } } do
+      let(:recipient) do
+        FactoryBot.build_stubbed(:user, language: 'de', preferences: { no_self_notified: false })
+      end
+
+      before do
+        I18n.locale = :en
+
+        described_class.account_information(recipient, 'pwd').deliver_now
+      end
+
+      it 'uses the recipients language' do
+        expect(ActionMailer::Base.deliveries.last.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded)
+          .to include I18n.t(:mail_body_account_information, locale: :de)
+      end
+
+      it 'does not alter I18n.locale' do
+        expect(I18n.locale)
+          .to eql :en
+      end
+
+      it 'include the user language header' do
+        expect(ActionMailer::Base.deliveries.last.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded)
+          .to include 'deutscher header'
+      end
+    end
+
+    context 'with the user having no language configured',
+            with_settings: { available_languages: %w[en de],
+                             default_language: 'en',
+                             emails_header: {
+                               "de" => 'deutscher header',
+                               "en" => 'english header'
+                             } } do
+      let(:recipient) do
+        FactoryBot.build_stubbed(:user, language: '', preferences: { no_self_notified: false })
+      end
+
+      before do
+        I18n.locale = :de
+
+        described_class.account_information(recipient, 'pwd').deliver_now
+      end
+
+      it 'uses the default language' do
+        expect(ActionMailer::Base.deliveries.last.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded)
+          .to include I18n.t(:mail_body_account_information, locale: :en)
+      end
+
+      it 'include the default language header' do
+        expect(ActionMailer::Base.deliveries.last.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded)
+          .to include 'english header'
+      end
+
+      it 'does not alter I18n.locale' do
+        expect(I18n.locale)
+          .to eql :de
       end
     end
   end
