@@ -219,6 +219,8 @@ el:
       versions:
         no_results_title_text: Δεν υπάρχουν προς το παρόν εκδόσεις για το έργο.
         no_results_content_text: Δημιουργήστε μια νέα έκδοση
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν μέλη που να αποτελούν μέρος αυτού του έργου.
@@ -819,32 +821,32 @@ el:
     version: "Έκδοση"
     work_package: "Εργασία"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
+    label_backup_token: "Token αντιγράφου ασφαλείας"
+    label_create_token: "Δημιουργία token αντιγράφου ασφαλείας"
+    label_delete_token: "Διαγραφή token αντιγράφου ασφαλείας"
+    label_reset_token: "Επαναφορά token αντιγράφου ασφαλείας"
     label_token_users: "The following users have active backup tokens"
     reset_token:
       action_create: Δημιουργία
       action_reset: Επαναφορά
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Επαναφορά token αντιγράφου ασφαλείας"
+      heading_create: "Δημιουργία token αντιγράφου ασφαλείας"
       implications: >
         Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
       info: >
         You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
       verification: >
         Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+      verification_word_reset: επαναφορά
+      verification_word_create: δημιουργία
       warning: >
         When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
     text_token_deleted: Backup token deleted. Backups are now disabled.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: Το token αντιγράφου ασφαλείας είναι μη έγκυρο ή λείπει
+      token_cooldown: Το token αντιγράφου ασφαλείας θα είναι έγκυρο σε %{hours} ώρες.
+      backup_pending: Υπάρχει ήδη ένα αντίγραφο ασφαλείας σε εκκρεμότητα.
+      limit_reached: Μπορείτε να κάνετε μόνο %{limit} αντίγραφα ασφαλείας την ημέρα.
   button_add: "Προσθήκη"
   button_add_comment: "Προσθέστε σχόλιο"
   button_add_member: Προσθήκη μέλους
@@ -924,7 +926,7 @@ el:
     text_update_consent_time: Επιλέξτε αυτό το κουτί για να αναγκάσετε τους χρήστες να συναινέσουν ξανά. Ενεργοποιήστε όταν έχετε αλλάξει τις νομικές πτυχές του παραπάνω περιεχομένου συναίνεσης.
     update_consent_last_time: "Τελευταία ενημέρωση συναίνεσης: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Αντιγραφή έργου "%{source_project_name}"'
     started: "Έναρξη αντιγραφής έργου \"%{source_project_name}\" στο \"%{target_project_name}\". Θα ενημερωθείτε με email μόλις το \"%{target_project_name}\" είναι διαθέσιμο."
     failed: "Δεν είναι δυνατή η αντιγραφή του έργου %{source_project_name}"
     failed_internal: "Η αντιγραφή απέτυχε λόγω ενός εσωτερικού σφάλματος."
@@ -932,9 +934,9 @@ el:
     errors: "Σφάλμα"
     project_custom_fields: 'Προσαρμοσμένα πεδία του έργου'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Δεν υπάρχουν αντικείμενα αυτού του τύπου'
+      one: 'Ένα αντικείμενο αυτού του τύπου'
+      other: '%{count} αντικείμενα αυτού του τύπου'
     text:
       failed: "Δεν ήταν δυνατή η αντιγραφή του έργου \"%{source_project_name}\" στο έργο \"%{target_project_name}\"."
       succeeded: "Αντιγράφτηκε το έργο \"%{source_project_name}\" στο \"%{target_project_name}\"."
@@ -1080,7 +1082,7 @@ el:
   default_role_anonymous: "Ανώνυμος"
   default_role_developer: "Προγραμματιστής"
   default_role_project_admin: "Διαχειριστής"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "Προσωπικό και διαχειριστής έργων"
   default_role_non_member: "Μη μέλη"
   default_role_reader: "Αναγνώστης"
   default_role_member: "Μέλος"
@@ -1320,7 +1322,7 @@ el:
   label_available_project_versions: 'Διαθέσιμες εκδόσεις'
   label_available_project_repositories: 'Διαθέσιμα αποθετήρια'
   label_api_documentation: "Τεκμηρίωση API"
-  label_backup: "Backup"
+  label_backup: "Αντίγραφο Ασφαλείας"
   label_between: "μεταξύ"
   label_blocked_by: "αποκλεισμένο από"
   label_blocks: "μπλόκς"

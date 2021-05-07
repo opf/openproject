@@ -66,7 +66,7 @@ ja:
       upgrade_to_ee: "エンタープライズ版にアップグレード"
       add_token: "エンタープライズ版サポートのトークンをアップロード"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "エンタープライズ オンプレミス エディションを注文する"
+      order: "オンプレミス版エンタープライズエディションを注文する"
       paste: "エンタープライズ版サポートのトークンを貼り付け"
       required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
       enterprise_link: "詳細については、ここをクリックしてください。"
@@ -221,11 +221,13 @@ ja:
       versions:
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
         no_results_content_text: 新しいバージョンを作成
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: 現在、このプロジェクトのメンバーはいません。
       no_results_content_text: プロジェクトにメンバーを追加
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "招待状を %{mail} に送信する"
   my:
     access_token:
       failed_to_reset_token: "アクセストークンをリセットできませんでした: %{error}"
@@ -921,7 +923,7 @@ ja:
     text_update_consent_time: ユーザーに再度同意させるにはこのチェックボックスをオンにします。上記の同意についての法的側面を変更した場合に有効にします。
     update_consent_last_time: "同意の最終更新日: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'プロジェクト "%{source_project_name}" をコピー'
     started: "プロジェクト「%{source_project_name}」を「%{target_project_name}」にコピーを開始しました。「%{target_project_name}」が利用可能になり次第、メールで通知されます。"
     failed: "プロジェクト「%{source_project_name}」をコピーできません。"
     failed_internal: "内部エラーのためコピーできませんでした。"
@@ -929,9 +931,9 @@ ja:
     errors: "エラー！"
     project_custom_fields: 'プロジェクトのカスタムフィールド'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'この種類のオブジェクトはありません'
+      one: 'この種類のオブジェクトは 1 個'
+      other: 'この種類のオブジェクトは %{count} 個'
     text:
       failed: "プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーできませんでした。"
       succeeded: "プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーしました。"
@@ -1065,7 +1067,7 @@ ja:
   default_role_anonymous: "匿名ユーザ"
   default_role_developer: "開発者"
   default_role_project_admin: "プロジェクト管理者"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "スタッフとプロジェクトマネージャー"
   default_role_non_member: "非メンバー"
   default_role_reader: "リーダー"
   default_role_member: "メンバー"
@@ -1215,9 +1217,9 @@ ja:
   gui_validation_error_plural: "%{count}つエラー"
   homescreen:
     additional:
-      projects: "このインスタンスの、最新の表示されるプロジェクト。"
+      projects: "このインスタンスの最新の可視化プロジェクト。"
       no_visible_projects: "このインスタンスに表示されているプロジェクトはありません。"
-      users: "このインスタンスの、最新の登録ユーザー。"
+      users: "このインスタンスの最新の登録ユーザー。"
     blocks:
       community: "OpenProject コミュニティ"
       upsale:
@@ -1508,8 +1510,8 @@ ja:
   label_member_new: "新規メンバー"
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'メンバーが追加されました'
+  lable_membership_updated: 'メンバーが更新されました'
   label_menu_item_name: "メニュー項目の名称"
   label_message: "メッセージ"
   label_message_last: "最新のメッセージ"

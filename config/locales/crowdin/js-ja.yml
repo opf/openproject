@@ -40,12 +40,12 @@ ja:
         ここでは、バックアップを開始することができます。データ（特に添付ファイル）の量によっては、処理に時間がかかる場合があります。準備が整うとメールが届きます。
       note: >
         新しいバックアップは以前のバックアップを上書きします。1日にリクエストできるバックアップの数には限りがあります。
-      last_backup: Last backup
-      last_backup_from: Last backup from
+      last_backup: 前回バックアップ
+      last_backup_from: 前回バックアップ日
       title: OpenProject のバックアップ
       options: オプション
       include_attachments: 添付ファイルを含める
-      download_backup: Download backup
+      download_backup: バックアップのダウンロード
       request_backup: バックアップをリクエスト
     close_popup_title: "ポップアップを閉じる"
     close_filter_title: "フィルタを閉じる"
@@ -219,7 +219,7 @@ ja:
           test_ee: "エンタープライズ版を14日間無料でテストする"
           quick_overview: "OpenProject Enterprise Edition でのプロジェクト管理とチームコラボレーションの概要をご確認ください。"
         upsale:
-          become_hero: "ヒーローになる!"
+          become_hero: "ヒーローになろう!"
           benefits:
             description: "オンプレミス版エンタープライズエディションにはどのようなメリットがありますか？"
             high_security: "セキュリティ機能"
@@ -282,7 +282,7 @@ ja:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "新しい機能と製品の更新について表示する"
+          text_new_features: "新しい機能と製品の更新について紹介します。"
           learn_about: "新機能の詳細はこちら"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
@@ -479,10 +479,10 @@ ja:
         next: '次へ'
         got_it: '了承'
       steps:
-        help_menu: '<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！'
+        help_menu: '<b>ヘルプ</b>メニューには、ユーザーガイドやその他のヘルプリソースがあります。 <br> OpenProject と共にあなたの仕事を楽しんでください！'
         members: '新しい<b>メンバー</b>を招待してプロジェクトに参加してください。'
         project_selection: '便利なデモデータを含むプロジェクトを１つ選択して開始してください。 <br> <b>デモプロジェクト</b>は伝統的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: '新しいプロジェクトを作成したり、同僚を招待したりすることができます。'
         sidebar_arrow: "矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。"
         welcome: '3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。'
         wiki: '<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。'
@@ -526,7 +526,7 @@ ja:
       confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
       use_template: "テンプレートを使用"
       copy:
-        copy_options: "Copy options"
+        copy_options: "コピーオプション"
       autocompleter:
         label: 'プロジェクト名の入力補完'
     text_are_you_sure: "よろしいですか？"
