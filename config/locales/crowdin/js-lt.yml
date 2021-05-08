@@ -1030,6 +1030,7 @@ lt:
           group: 'Prašome pasirinkti grupę'
       role:
         label: 'Rolė projekte %{project}'
+        no_roles_found: 'No roles were found'
         description: 'Tai yra rolė, kurią %{principal} gaus, kai prisijungs prie projekto. Ši rolė nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="%{href}" target="_blank">Sužinokite daugiau apie roles ir teises. </a>'
         required: 'Prašome pasirinkti rolę'
         next_button: 'Kitas'

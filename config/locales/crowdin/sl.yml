@@ -74,8 +74,8 @@ sl:
       book_now: 'Rezerviraj'
       get_quote: 'Pridobite ponudbo'
   announcements:
-    show_until: Pokažite dokler
-    is_active: Trenutno prikazano
+    show_until: Prikaži dokler
+    is_active: trenutno prikazano
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
     note_public: 'Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom!'

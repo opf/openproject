@@ -42,3 +42,4 @@ tr:
           copy_error: '❌ Kopyalanamadı!'
       tab_prs:
         empty: 'Henüz bağlanan herhangi bir çekme isteği yok. PR açıklamasında <code>OP#%{wp_id}</code> kodunu kullanarak mevcut bir PR''yi bağlayın veya yeni bir PR oluşturun.'
+      github_actions: Eylemler

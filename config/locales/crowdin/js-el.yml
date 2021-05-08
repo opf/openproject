@@ -1025,6 +1025,7 @@ el:
           group: 'Παρακαλούμε επιλέξτε μια ομάδα'
       role:
         label: 'Ρόλος στο %{project}'
+        no_roles_found: 'No roles were found'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Παρακαλούμε επιλέξτε ένα ρόλο'
         next_button: 'Επόμενο'

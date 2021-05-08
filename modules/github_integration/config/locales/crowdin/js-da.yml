@@ -42,3 +42,4 @@ da:
           copy_error: '❌ Kopiering mislykkedes!'
       tab_prs:
         empty: 'Der er endnu ingen pull requests linket. Link en eksisterende PR ved at bruge koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opret en ny PR.'
+      github_actions: Handlinger

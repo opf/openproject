@@ -1025,6 +1025,7 @@ da:
           group: 'Vælg venligst en gruppe'
       role:
         label: 'Rolle i %{project}'
+        no_roles_found: 'No roles were found'
         description: 'Dette er den rolle, %{principal} vil modtage, når de deltager i dit projekt. Rollen definerer, hvilke foranstaltninger de har lov til at træffe, og hvilke oplysninger de har lov til at se. <a href="%{href}" target="_blank"> Lær mere om roller og tilladelser. </a>'
         required: 'Vælg venligst en rolle'
         next_button: 'Næste'

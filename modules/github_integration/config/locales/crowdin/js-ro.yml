@@ -42,3 +42,4 @@ ro:
           copy_error: Copiere eşuată
       tab_prs:
         empty: 'Nu există încă nicio cerere de extragere legată. Conectați un PR existent folosind codul <code>OP#%{wp_id}</code> în descrierea PR sau creați un nou PR.'
+      github_actions: Acțiuni

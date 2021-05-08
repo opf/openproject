@@ -1027,6 +1027,7 @@ ro:
           group: 'Vă rugăm să selectați limba dvs'
       role:
         label: 'Rolul în %{project}'
+        no_roles_found: 'No roles were found'
         description: 'Acesta este rolul pe care %{principal} îl va primi atunci când se va alătura proiectului dumneavoastră. Rolul definește acțiunile pe care le pot întreprinde și informațiile pe care le pot vedea. <a href="%{href}" target="_blank"> Aflați mai multe despre roluri și permisiuni </a>'
         required: 'Vă rugăm să selectați un rol'
         next_button: 'Înainte'

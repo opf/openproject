@@ -1026,6 +1026,7 @@ tr:
           group: 'Lütfen bir grup seçin'
       role:
         label: 'rol %{project}'
+        no_roles_found: 'No roles were found'
         description: 'Bu %{principal} projenize katıldığı zaman alıcağı roldür. Bu rol gerçekleştirebilecekleri eylemleri ve görebildikleri bilgileri belirler. <a href="%{href}" target="_blank"> Roller ve izinler hakkında daha çok bilgi edinin.</a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'

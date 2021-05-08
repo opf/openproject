@@ -1029,6 +1029,7 @@ sl:
           group: 'Izberite skupino.'
       role:
         label: 'Vloge v %{project}'
+        no_roles_found: 'No roles were found'
         description: 'To je vloga, ki jo bo %{principal} prejel/a ko si pridruži tvojemu projektu. Vloga določi katere akcije lahko ubere in katere informacije lahko vidi. <a href="%{href}" target="_blank"> Preberi več o vlogah in dovoljenjih. </a>'
         required: 'Izberite vlogo'
         next_button: 'Naprej'
