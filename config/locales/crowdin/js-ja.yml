@@ -208,7 +208,7 @@ ja:
         upsale:
           become_hero: "ヒーローになろう!"
           benefits:
-            description: "オンプレミス版エンタープライズエディションにはどのようなメリットがありますか？"
+            description: "オンプレミス版 Enterprise Edition にはどのようなメリットがありますか？"
             high_security: "セキュリティ機能"
             high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
             installation: "インストールサポート"
@@ -522,7 +522,7 @@ ja:
           警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
            
           コンテキスト| リクエストコンテキスト
-        upgrade_to_ee: "オンプレミス版エンタープライズエディションへのアップグレード"
+        upgrade_to_ee: "オンプレミス版 Enterprise Edition へのアップグレード"
         upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
         more_information: "詳細情報"
         nevermind: "無視"
