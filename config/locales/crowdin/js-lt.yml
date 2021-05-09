@@ -523,7 +523,7 @@ lt:
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvesta informaciją. Tęsti?'
       use_template: "Naudoti šabloną"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Kopijos nustatymai"
       autocompleter:
         label: 'Projekto autoužpildymas'
     text_are_you_sure: "Ar esate įsitikinę?"
@@ -1030,7 +1030,7 @@ lt:
           group: 'Prašome pasirinkti grupę'
       role:
         label: 'Rolė projekte %{project}'
-        no_roles_found: 'No roles were found'
+        no_roles_found: 'Nerasta jokių rolių'
         description: 'Tai yra rolė, kurią %{principal} gaus, kai prisijungs prie projekto. Ši rolė nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="%{href}" target="_blank">Sužinokite daugiau apie roles ir teises. </a>'
         required: 'Prašome pasirinkti rolę'
         next_button: 'Kitas'

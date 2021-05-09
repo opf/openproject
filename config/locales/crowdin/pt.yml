@@ -66,7 +66,7 @@ pt:
       upgrade_to_ee: "Atualizar para a Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
       replace_token: "Substitua seu token atual de suporte"
-      order: "Order Enterprise on-premises Edition"
+      order: "Ordem empresarial na edição local"
       paste: "Cole seu token de suporte Enterprise Edition"
       required_for_feature: "Esse recurso só está disponível com um token de suporte Enterprise Edition ativo."
       enterprise_link: "Para mais informações, clique aqui."
@@ -206,7 +206,7 @@ pt:
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Criar um novo projeto
     settings:
-      change_identifier: Change identifier
+      change_identifier: Mudar identificador
       activities:
         no_results_title_text: Atualmente, não há atividades disponíveis.
       forums:
@@ -223,7 +223,7 @@ pt:
         no_results_title_text: Atualmente, não há versões para o projeto.
         no_results_content_text: Criar uma nova versão
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: Não há espaço em disco gravado adicional consumido por este projeto.
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -929,7 +929,7 @@ pt:
     text_update_consent_time: Marque esta caixa para forçar os usuários a consentir novamente. Ative quando você alterar o aspecto legal da informação de consentimento acima.
     update_consent_last_time: "Última atualização do consentimento: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Copiar projeto "%{source_project_name}"'
     started: "A cópia de \"%{source_project_name}\" para \"%{target_project_name}\" foi iniciada. Você será informado por email tão logo \"%{target_project_name}\" estiver disponível."
     failed: "Não é possível copiar o projeto %{source_project_name}"
     failed_internal: "Falha ao copiar devido a um erro interno."
@@ -1085,7 +1085,7 @@ pt:
   default_role_anonymous: "Anônimo"
   default_role_developer: "Desenvolvedor"
   default_role_project_admin: "Administrador do projeto"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "Equipe e gerente de projetos"
   default_role_non_member: "Não membro"
   default_role_reader: "Leitor"
   default_role_member: "Membro"
@@ -1885,21 +1885,21 @@ pt:
     body:
       added_by:
         without_message: "%{user} adicionou você como membro do projeto '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+        with_message: "%{user} adicionou você como membro do projeto '%{project}' escrevendo:"
       roles: "Você tem as seguintes funções:"
   mail_member_updated_project:
     subject: "%{project} - Suas funções foram atualizadas"
     body:
       updated_by:
         without_message: "%{user} atualizou as funções que você tem no projeto '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+        with_message: "%{user} atualizou as funções que você tem no projeto '%{project}' escrevendo:"
       roles: "Agora você tem as seguintes funções:"
   mail_member_updated_global:
     subject: "Suas permissões globais foram atualizadas"
     body:
       updated_by:
         without_message: "%{user} atualizou as funções que você tem globalmente."
-        with_message: "%{user} updated the roles you have globally writing:"
+        with_message: "%{user} atualizou os papéis que você tem globalmente escrevendo:"
       roles: "Agora você tem as seguintes funções:"
   mail_user_activation_limit_reached:
     subject: Limite de ativação de usuários atingido
@@ -2254,7 +2254,7 @@ pt:
   setting_consent_required: "Consentimento necessário"
   setting_consent_decline_mail: "E-mail de contato do consentimento"
   setting_cross_project_work_package_relations: "Permitir relacionamento entre pacotes de trabalho de diferentes projetos"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "A primeira semana no ano contém"
   setting_date_format: "Formato de data"
   setting_default_language: "Idioma padrão"
   setting_default_notification_option: "Opção de notificação padrão"
@@ -2338,9 +2338,9 @@ pt:
     brute_force_prevention: "Bloqueio automatizado de usuário"
     display:
       first_date_of_week_and_year_present: >
-        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Se as opções "Primeiro dia da semana" ou "Primeira semana do ano contém" forem definidas, a outra tem que ser definida também, para evitar inconsistências no frontend.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Selecione a data de janeiro que está contida na primeira semana do ano. Este valor, juntamente com o primeiro dia da semana, determina o número total de semanas num ano.
     projects:
       section_new_projects: "Configurações para novos projetos"
       section_project_overview: "Configurações para a lista de visão geral do projeto"
@@ -2730,7 +2730,7 @@ pt:
       code_403: "Você não está autorizado a acessar este recurso."
       code_404: "O recurso solicitado não pôde ser encontrado."
       code_409: "Não foi possível atualizar o recurso devido a modificações conflitantes."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Muitas requisições. Tente novamente mais tarde."
       code_500: "Ocorreu um erro interno."
       expected:
         date: "AAAA-MM-DD (somente data no formato ISO 8601)"
@@ -2741,8 +2741,8 @@ pt:
       invalid_relation: "A relação é inválida."
       invalid_resource: "Para a propriedade '%{property}' é esperado um link como '%{expected}' mas foi encontrado '%{actual}'."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "A incorporação solicitada de %{invalid} não é suportada. As incorporações suportadas são %{supported}."
+        select: "A seleção solicitada de %{invalid} não é suportada. As seleções suportadas são %{supported}."
       invalid_user_status_transition: "A situação da conta do usuário atual não permite esta operação."
       missing_content_type: "não especificado"
       missing_request_body: "Não havia corpo da requisição."
@@ -2849,4 +2849,4 @@ pt:
     authorization_error: "Ocorreu um erro de autorização."
     revoke_my_application_confirmation: "Você quer realmente remover esta aplicação? Isso irá revogar %{token_count} ativo(s) para ele."
     my_registered_applications: "Aplicações OAuth registradas"
-  you: you
+  you: você

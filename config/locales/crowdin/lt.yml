@@ -221,7 +221,7 @@ lt:
         no_results_title_text: Projektas neturi jokių laidų.
         no_results_content_text: Sukurti naują versiją
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -830,31 +830,31 @@ lt:
     version: "Versija"
     work_package: "Darbų paketas"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "Atsarginės kopijos žetonas"
+    label_create_token: "Sukurti atsarginės kopijos žetoną"
+    label_delete_token: "Pašalinti atsarginės kopijos žetoną"
+    label_reset_token: "Atstatyti atsarginės kopijos žetoną"
+    label_token_users: "Šie vartotojai turi atsarginės kopijos žetonus"
     reset_token:
       action_create: Sukurti
       action_reset: Nustatyti iš naujo
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Atstatyti atsarginės kopijos žetoną"
+      heading_create: "Sukurti atsarginės kopijos žetoną"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Atsarginių kopijų įgalinimas leis bet kuriam vartotojui su priskirtomis teisėmis iš šiuo atsarginės kopijos žetonu parsisiųsti atsarginę kopiją turinčią visus šios OpenProject instaliacijos duomenis. Juos bus ir visų kitų vartotojų duomenys.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Jums reikės sugeneruoti atsarginės kopijos žetoną norint sukurti atsarginę kopiją. Kaskart, kai jūs norėsite sukurti atsarginę kopiją turėsite pateikti šį žetoną. Jūs galite ištrinti žetoną ir taip atimsite iš vartotojo teisę daryti atsargines kopijas.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+        Įveskite %{word} norėdami patvirtinti veiksmą su atsarginės kopijos žetonu: %{action}.
+      verification_word_reset: atstatyti
+      verification_word_create: sukurti
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        Kai jūs sukuriate atsarginės kopijos žetoną, daryti atsargines kopijas jums bus leista po 24 valandų. Tai apsauga. Po šio laiko galėsite užsakyti atsarginę kopiją bet kuriuo metu panaudoję šį žetoną.
+    text_token_deleted: Atsarginės kopijos žetonas ištrintas. Atsarginės kopijos dabar atjungtos.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
+      invalid_token: Nepateiktas arba neteisingas žetonas.
+      token_cooldown: Atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
+      backup_pending: Atsarginės kopijos darymas jau paleistas.
       limit_reached: Jūs galite daryti tik %{limit} atsarginės kopijas per dieną.
   button_add: "Pridėti"
   button_add_comment: "Pridėti komentarą"
@@ -935,7 +935,7 @@ lt:
     text_update_consent_time: Įjunkite šią varnelę jei norite, kad naudotojai būtų priversti iš naujo sutikti. Įjunkite, kai pakeitėte teisinius aukščiau esančio sutikimo aspektus.
     update_consent_last_time: "Paskutinis sutikimo atnaujinimas: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Kopijuoti projektą „%{source_project_name}“'
     started: "Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“. Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas."
     failed: "Negalima kopijuoti „%{source_project_name}“ projekto"
     failed_internal: "Kopijavimas nepavyko dėl vidinės klaidos."
@@ -1115,7 +1115,7 @@ lt:
   default_role_anonymous: "Anonimas"
   default_role_developer: "Kūrėjas"
   default_role_project_admin: "Projekto administratorius"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "Personalo ir projektų vadovas"
   default_role_non_member: "Nėra narys"
   default_role_reader: "Skaitytojas"
   default_role_member: "Narys"
@@ -1882,10 +1882,10 @@ lt:
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
   mail_body_backup_ready: "Jūsų prašyta atsarginė kopija yra paruošta. Ją galite parsisiųsti čia:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_reset_admin_info: Atsarginės kopijos žetonas vartotojui '%{user}' buvo atstatytas.
+  mail_body_backup_token_reset_user_info: Jūsų atsarginės kopijos žetonas buvo atstatytas.
+  mail_body_backup_token_info: Ankstesnis žetonas nebegalioja.
+  mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
   mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
   mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
@@ -1904,7 +1904,7 @@ lt:
   mail_body_wiki_content_updated: "%{author} atnaujino '%{id}' wiki puslapį."
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
   mail_subject_backup_ready: "Jūsų atsarginė kopija paruošta"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Jūsų atsarginės kopijos žetonas buvo atstatytas"
   mail_subject_lost_password: "Jūsų slaptažodis %{value}"
   mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
   mail_subject_reminder: "%{count} darbų paketas(-ai, -ų) baigiasi per ateinančias %{days} dienas(-ai, -ų)"
