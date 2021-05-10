@@ -5,6 +5,7 @@ OpenProject::Application.configure do |application|
     ::Cron::CronJob.register! ::Cron::ClearOldSessionsJob,
                               ::Cron::ClearTmpCacheJob,
                               ::Cron::ClearUploadedFilesJob,
-                              ::OAuth::CleanupJob
+                              ::OAuth::CleanupJob,
+                              ::Attachments::CleanupUncontaineredJob
   end
 end
