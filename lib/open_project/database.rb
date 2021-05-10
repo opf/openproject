@@ -104,13 +104,18 @@ module OpenProject
                   "but current version is #{current}"
 
         raise InsufficientVersionError.new message
+      elsif !version_matches?(130000)
+        message = "The next major release of OpenProject (v12) will require PostgreSQL 13 or later. " \
+                  "You can anticipate this upgrade by updating your database installation by following the guide at " \
+                  "https://TODO"
+        ActiveSupport::Deprecation.warn message, caller
       end
     end
 
     ##
     # Return +true+ if the required version is matched by the current connection.
-    def self.version_matches?
-      numeric_version >= required_version[:numeric]
+    def self.version_matches?(required_numeric_version = nil)
+      numeric_version >= (required_numeric_version || required_version[:numeric])
     end
 
     # Get the raw name of the currently used database adapter.
