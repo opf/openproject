@@ -220,7 +220,7 @@ class MembersController < ApplicationController
   end
 
   def user_ids_for_new_members(member_params)
-    invite_new_users possibly_seperated_ids_for_entity(member_params, :user)
+    invite_new_users possibly_separated_ids_for_entity(member_params, :user)
   end
 
   def invite_new_users(user_ids)
@@ -233,7 +233,7 @@ class MembersController < ApplicationController
           user = UserInvitation.invite_new_user(email: id) ||
                  User.find_by_mail(id)
 
-          user.id if user
+          user&.id
         end
       else
         id
@@ -245,7 +245,7 @@ class MembersController < ApplicationController
     !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
   end
 
-  def each_comma_seperated(array, &block)
+  def each_comma_separated(array, &block)
     array.map do |e|
       if e.to_s.match /\d(,\d)*/
         block.call(e)
@@ -255,17 +255,17 @@ class MembersController < ApplicationController
     end.flatten
   end
 
-  def transform_array_of_comma_seperated_ids(array)
-    return array unless array.present?
+  def transform_array_of_comma_separated_ids(array)
+    return array if array.blank?
 
-    each_comma_seperated(array) do |elem|
+    each_comma_separated(array) do |elem|
       elem.to_s.split(',')
     end
   end
 
-  def possibly_seperated_ids_for_entity(array, entity = :user)
+  def possibly_separated_ids_for_entity(array, entity = :user)
     if !array[:"#{entity}_ids"].nil?
-      transform_array_of_comma_seperated_ids(array[:"#{entity}_ids"])
+      transform_array_of_comma_separated_ids(array[:"#{entity}_ids"])
     elsif !array[:"#{entity}_id"].nil? && (id = array[:"#{entity}_id"]).present?
       [id]
     else
