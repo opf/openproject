@@ -37,6 +37,15 @@ module OpenProject
   module ActsAsUrl
     module Adapter
       class OpActiveRecord < Stringex::ActsAsUrl::Adapter::ActiveRecord
+
+        ##
+        # Avoid generating the slug if the attribute is already set
+        # and only_when_blank is true
+        def ensure_unique_url!(instance)
+          attribute = instance.send(settings.url_attribute)
+          super if attribute.blank? || !settings.only_when_blank
+        end
+
         private
 
         def modify_base_url

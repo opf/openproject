@@ -111,6 +111,15 @@ class Project < ApplicationRecord
   # it implicitly assumes a db:seed-created standard type to be present and currently
   # neither development nor deployment setups are prepared for this
   # validates_presence_of :types
+
+  acts_as_url :name,
+              url_attribute: :identifier,
+              sync_url: false, # Don't update identifier when name changes
+              only_when_blank: true, # Only generate when identifier not set
+              limit: IDENTIFIER_MAX_LENGTH,
+              blacklist: RESERVED_IDENTIFIERS,
+              adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
+
   validates :identifier,
             presence: true,
             uniqueness: { case_sensitive: true },
