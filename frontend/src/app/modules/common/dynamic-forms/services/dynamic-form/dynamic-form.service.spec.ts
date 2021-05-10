@@ -74,7 +74,6 @@ describe('DynamicFormService', () => {
     "fields": [
       {
         "type": "textInput",
-        "className": "op-form--field inline-edit--field",
         "key": "name",
         "templateOptions": {
           "required": true,
@@ -84,7 +83,6 @@ describe('DynamicFormService', () => {
       },
       {
         "type": "selectInput",
-        "className": "op-form--field inline-edit--field Subproject of",
         "expressionProperties": {},
         "key": "_links.parent",
         "templateOptions": {

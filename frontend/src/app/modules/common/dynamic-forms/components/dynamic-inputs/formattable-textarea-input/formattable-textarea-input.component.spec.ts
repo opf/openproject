@@ -11,7 +11,6 @@ describe('FormattableTextareaInputComponent', () => {
     const fieldsConfig = [
       {
         "type": "formattableInput" as "formattableInput",
-        "className": "op-form--field inline-edit--field",
         "key": "testControl",
         "templateOptions": {
           "required": true,

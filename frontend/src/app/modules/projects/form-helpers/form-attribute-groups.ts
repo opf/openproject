@@ -14,7 +14,7 @@ export namespace ProjectFormAttributeGroups {
   ):IOPFormlyFieldSettings {
     return {
       fieldGroup: fields,
-      fieldGroupClassName: "op-form--field-group",
+      fieldGroupClassName: "op-fieldset",
       templateOptions: {
         label: label,
         isFieldGroup: true,

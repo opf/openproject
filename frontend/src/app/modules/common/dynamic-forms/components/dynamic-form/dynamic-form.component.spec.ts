@@ -98,7 +98,6 @@ describe('DynamicFormComponent', () => {
     fields: [
       {
         "type": "textInput",
-        "className": "op-form--field inline-edit--field",
         "key": "name",
         "templateOptions": {
           "required": true,
@@ -110,7 +109,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "integerInput",
-        "className": "op-form--field inline-edit--field",
         "key": "quantity",
         "templateOptions": {
           "required": true,
@@ -122,7 +120,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "textInput",
-        "className": "op-form--field inline-edit--field",
         "key": "identifier",
         "templateOptions": {
           "required": true,
@@ -134,7 +131,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "formattableInput",
-        "className": "op-form--field textarea-wrapper",
         "key": "description",
         "templateOptions": {
           "required": false,
@@ -147,7 +143,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "booleanInput",
-        "className": "op-form--field inline-edit--field inline-edit--boolean-field",
         "key": "public",
         "templateOptions": {
           "required": true,
@@ -159,7 +154,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "booleanInput",
-        "className": "op-form--field inline-edit--field inline-edit--boolean-field",
         "key": "active",
         "templateOptions": {
           "required": true,
@@ -171,7 +165,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "selectInput",
-        "className": "op-form--field inline-edit--field Status",
         "expressionProperties": {},
         "key": "status",
         "templateOptions": {
@@ -197,7 +190,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "formattableInput",
-        "className": "op-form--field textarea-wrapper",
         "key": "statusExplanation",
         "templateOptions": {
           "required": false,
@@ -210,7 +202,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "selectInput",
-        "className": "op-form--field inline-edit--field Subproject of",
         "expressionProperties": {},
         "key": "_links.parent",
         "templateOptions": {
@@ -233,7 +224,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "dateInput",
-        "className": "op-form--field inline-edit--field",
         "key": "customField12",
         "templateOptions": {
           "required": false,
