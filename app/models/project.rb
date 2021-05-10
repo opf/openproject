@@ -130,7 +130,7 @@ class Project < ApplicationRecord
   # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards
   validates :identifier,
             format: { with: /\A[a-z][a-z0-9\-_]*\z/ },
-            if: ->(p) { p.identifier_changed? }
+            if: ->(p) { p.identifier_changed? && p.identifier.present? }
   # reserved words
 
   friendly_id :identifier, use: :finders
