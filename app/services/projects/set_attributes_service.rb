@@ -46,18 +46,9 @@ module Projects
     def set_default_attributes(attributes)
       attribute_keys = attributes.keys.map(&:to_s)
 
-      set_default_identifier(attribute_keys.include?('identifier'))
       set_default_public(attribute_keys.include?('public'))
       set_default_module_names(attribute_keys.include?('enabled_module_names'))
       set_default_types(attribute_keys.include?('types') || attribute_keys.include?('type_ids'))
-    end
-
-    def set_default_identifier(provided)
-      return if provided
-
-      if Setting.sequential_project_identifiers?
-        model.identifier = Project.next_identifier
-      end
     end
 
     def set_default_public(provided)

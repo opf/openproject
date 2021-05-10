@@ -361,12 +361,6 @@ class Project < ApplicationRecord
   end
 
   class << self
-    # Returns an auto-generated project identifier based on the last identifier used
-    def next_identifier
-      p = Project.newest.first
-      p.nil? ? nil : p.identifier.to_s.succ
-    end
-
     # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
     #
     # it expects a simple list of projects with a #lft column (awesome_nested_set)

@@ -102,55 +102,27 @@ describe Projects::SetAttributesService, type: :model do
       end
 
       context 'identifier default value' do
-        context 'with a default identifier configured', with_settings: { sequential_project_identifiers: true } do
-          context 'with an identifier provided' do
-            let(:call_attributes) do
-              {
-                identifier: 'lorem'
-              }
-            end
-
-            it 'does not alter the identifier' do
-              expect(subject.result.identifier)
-                .to eql 'lorem'
-            end
+        context 'with an identifier provided' do
+          let(:call_attributes) do
+            {
+              identifier: 'lorem'
+            }
           end
 
-          context 'with no identifier provided' do
-            it 'sets a default identifier' do
-              allow(Project)
-                .to receive(:next_identifier)
-                .and_return('ipsum')
-
-              expect(subject.result.identifier)
-                .to eql 'ipsum'
-            end
+          it 'does not alter the identifier' do
+            expect(subject.result.identifier)
+              .to eql 'lorem'
           end
         end
 
-        context 'without a default identifier configured', with_settings: { sequential_project_identifiers: false } do
-          context 'with an identifier provided' do
-            let(:call_attributes) do
-              {
-                identifier: 'lorem'
-              }
-            end
+        context 'with no identifier provided' do
+          it 'stays nil' do
+            allow(Project)
+              .to receive(:next_identifier)
+              .and_return('ipsum')
 
-            it 'does not alter the identifier' do
-              expect(subject.result.identifier)
-                .to eql 'lorem'
-            end
-          end
-
-          context 'with no identifier provided' do
-            it 'stays nil' do
-              allow(Project)
-                .to receive(:next_identifier)
-                .and_return('ipsum')
-
-              expect(subject.result.identifier)
-                .to be_nil
-            end
+            expect(subject.result.identifier)
+              .to be_nil
           end
         end
       end
