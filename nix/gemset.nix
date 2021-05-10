@@ -481,7 +481,7 @@
     version = "1.0.0";
   };
   builder = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -659,7 +659,7 @@
     version = "0.66";
   };
   concurrent-ruby = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [{
       engine = "maglev";
     } {
@@ -718,7 +718,7 @@
     version = "0.4.5";
   };
   crass = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -1093,7 +1093,7 @@
     version = "0.1.4";
   };
   erubi = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -1177,7 +1177,7 @@
   };
   faraday = {
     dependencies = ["faraday-net_http" "multipart-post" "ruby2_keywords"];
-    groups = ["default" "development" "test"];
+    groups = ["default" "development" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -1198,7 +1198,7 @@
     version = "2.2.0";
   };
   faraday-net_http = {
-    groups = ["default" "development" "test"];
+    groups = ["default" "development" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -1481,7 +1481,7 @@
   };
   i18n = {
     dependencies = ["concurrent-ruby"];
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [{
       engine = "maglev";
     } {
@@ -1713,7 +1713,7 @@
   };
   loofah = {
     dependencies = ["crass" "nokogiri"];
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -1765,7 +1765,7 @@
     version = "2.14.0";
   };
   method_source = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [{
       engine = "maglev";
     } {
@@ -1820,7 +1820,7 @@
     version = "1.0.3";
   };
   mini_portile2 = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -1840,7 +1840,7 @@
     version = "0.2.5";
   };
   minitest = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [{
       engine = "maglev";
     } {
@@ -1888,7 +1888,7 @@
     version = "1.15.0";
   };
   multipart-post = {
-    groups = ["default" "development" "test"];
+    groups = ["default" "development" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -1991,7 +1991,7 @@
   };
   nokogiri = {
     dependencies = ["mini_portile2" "racc"];
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -2554,7 +2554,7 @@
     version = "5.2.2";
   };
   racc = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -2564,7 +2564,7 @@
     version = "1.5.2";
   };
   rack = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -2641,7 +2641,7 @@
   };
   rack-test = {
     dependencies = ["rack"];
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -2685,7 +2685,7 @@
   };
   rails-dom-testing = {
     dependencies = ["activesupport" "nokogiri"];
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -2696,7 +2696,7 @@
   };
   rails-html-sanitizer = {
     dependencies = ["loofah"];
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -2748,7 +2748,7 @@
     version = "0.19.1";
   };
   rake = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -3138,7 +3138,7 @@
     version = "1.11.0";
   };
   ruby2_keywords = {
-    groups = ["default" "development" "test"];
+    groups = ["default" "development" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -3475,7 +3475,7 @@
     version = "1.0.2";
   };
   thor = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
@@ -3527,7 +3527,7 @@
   };
   tzinfo = {
     dependencies = ["concurrent-ruby"];
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [{
       engine = "maglev";
     } {
@@ -3757,7 +3757,7 @@
     version = "3.2.0";
   };
   zeitwerk = {
-    groups = ["default" "development" "opf_plugins" "test"];
+    groups = ["default" "development" "opf_plugins" "sentry" "test"];
     platforms = [{
       engine = "maglev";
     } {

@@ -12,7 +12,6 @@ let
   };
 in
   mkShell {
-    # nativeBuildInputs is usually what you want -- tools you need to run
     nativeBuildInputs = [
       buildPackages.ruby_2_7
       postgresql
@@ -22,7 +21,8 @@ in
       docker-compose
       google-chrome
 
-      op-get-routes
+      gems
+
       op-get-test-failures
     ];
 
