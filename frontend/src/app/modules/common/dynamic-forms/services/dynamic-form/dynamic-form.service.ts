@@ -48,6 +48,7 @@ export class DynamicFormService {
     const formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {
+      form: new FormGroup({}),
       fields: this._dynamicFieldsService.getConfig(formSchema, formPayload),
       model: this._dynamicFieldsService.getModel(formPayload),
     };

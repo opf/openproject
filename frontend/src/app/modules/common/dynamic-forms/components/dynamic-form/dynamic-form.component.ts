@@ -93,7 +93,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
   @Input() handleSubmit = true;
   @Input() helpTextAttributeScope:string|undefined;
-  @Input('dynamicFormGroup') form:FormGroup = new FormGroup({});
+  @Input() dynamicFormGroup:FormGroup;
 
   @Input() set model(payload:IOPFormModel) {
     if (!this.innerModel && !payload) {
@@ -125,6 +125,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   noPathToSubmitToError = `DynamicForm needs a resourcePath input in order to be submitted 
   and validated. Please provide one.`;
   innerModel:IOPFormModel;
+  form:FormGroup;
 
   get model() {
     return this.form.value;
@@ -271,7 +272,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     this._setupDynamicForm(dynamicFormSettings);
   }
 
-  private _setupDynamicForm({ fields, model }:IOPDynamicFormSettings) {
+  private _setupDynamicForm({ fields, model, form }:IOPDynamicFormSettings) {
     const scopedFields = fields.map(field => ({
       ...field,
       templateOptions: {
@@ -281,6 +282,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }));
     this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(scopedFields) : scopedFields;
     this.innerModel = model;
+    this.form = this.dynamicFormGroup || form;
 
     this._changeDetectorRef.detectChanges();
   }
