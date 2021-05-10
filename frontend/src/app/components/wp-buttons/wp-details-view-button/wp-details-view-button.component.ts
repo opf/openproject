@@ -91,25 +91,18 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   public performAction(event:Event) {
     if (this.isActive) {
-      this.openListView();
+      this.$state.go(this.listState);
     } else {
       this.openDetailsView();
     }
   }
 
   public openListView():void {
-    var params = {
-      projectPath: this.projectIdentifier
-    };
-
-    _.extend(params, this.$state.params);
-    this.$state.go(this.listState, params);
   }
 
   public openDetailsView():void {
     const params = {
-      workPackageId: this.wpTableFocus.focusedWorkPackage,
-      projectPath: this.projectIdentifier,
+      workPackageId: this.wpTableFocus.focusedWorkPackage
     };
 
     this.keepTab.goCurrentDetailsState(params);

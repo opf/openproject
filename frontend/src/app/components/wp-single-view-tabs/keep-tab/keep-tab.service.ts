@@ -29,6 +29,7 @@
 import { StateService, Transition, TransitionService, UIRouterGlobals } from '@uirouter/core';
 import { ReplaySubject } from 'rxjs';
 import { Injectable } from "@angular/core";
+import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
 
 @Injectable({ providedIn: 'root' })
 export class KeepTabService {
@@ -73,8 +74,10 @@ export class KeepTabService {
   }
 
   public goCurrentDetailsState(params:Record<string, unknown> = {}):void {
+    const route = splitViewRoute(this.$state);
+
     this.$state.go(
-      'work-packages.partitioned.list.details.tabs',
+      route + '.tabs',
       {
         ...this.uiRouterGlobals.params,
         ...params,

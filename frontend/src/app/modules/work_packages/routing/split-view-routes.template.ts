@@ -71,9 +71,12 @@ export function makeSplitViewRoutes(baseRoute:string,
     {
       name: routeName + '.details',
       url: '/details/{workPackageId:[0-9]+}',
-      redirectTo: {
-        state: routeName + '.details.tabs',
-        params: { tabIdentifier: 'details' }
+      redirectTo: (trans) => {
+        const params = trans.params('to');
+        return {
+          state: routeName + '.details.tabs',
+          params: { ...params, tabIdentifier: 'overview' }
+        };
       },
       reloadOnSearch: false,
       data: {

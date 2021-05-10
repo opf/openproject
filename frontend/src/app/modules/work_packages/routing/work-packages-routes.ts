@@ -89,7 +89,13 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     name: 'work-packages.show',
     url: '/{workPackageId:[0-9]+}',
     // Redirect to 'activity' by default.
-    redirectTo: 'work-packages.show.activity',
+    redirectTo: (trans) => {
+      const params = trans.params('to');
+      return {
+        state: 'work-packages.show.tabs',
+        params: { ...params, tabIdentifier: 'activity' }
+      };
+    },
     component: WorkPackagesFullViewComponent,
     data: {
       baseRoute: 'work-packages',
