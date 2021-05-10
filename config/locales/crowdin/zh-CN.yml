@@ -66,7 +66,7 @@ zh-CN:
       upgrade_to_ee: "升级到企业版"
       add_token: "上传企业版支持令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "Order Enterprise on-premises Edition"
+      order: "订购企业预置版。"
       paste: "粘贴您的企业版支持令牌"
       required_for_feature: "此功能仅限具有活动企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -173,7 +173,7 @@ zh-CN:
   concatenation:
     single: '或'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: 想要了解更多信息，请查阅关于这个主题的文档。
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -204,7 +204,7 @@ zh-CN:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     settings:
-      change_identifier: Change identifier
+      change_identifier: 更改标识符
       activities:
         no_results_title_text: 目前有可用的任何活动。
       forums:
@@ -221,12 +221,12 @@ zh-CN:
         no_results_title_text: 目前这个项目没有版本。
         no_results_content_text: 创建一个新的版本
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
   members:
     index:
       no_results_title_text: 目前这个项目没有成员。
       no_results_content_text: 将成员添加到该项目
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "发送邀请到 %{mail}"
   my:
     access_token:
       failed_to_reset_token: "无法重置访问令牌: %{error}"
@@ -252,7 +252,7 @@ zh-CN:
       irreversible: "此操作不可逆"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: 将工作分配给非项目成员。
       description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
@@ -818,16 +818,16 @@ zh-CN:
     version: "版本"
     work_package: "工作包"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
+    label_backup_token: "备份令牌"
+    label_create_token: "创建备份令牌"
+    label_delete_token: "删除备份令牌"
+    label_reset_token: "重置备份令牌"
     label_token_users: "The following users have active backup tokens"
     reset_token:
       action_create: 创建
       action_reset: 重置
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "重置备份令牌"
+      heading_create: "创建备份令牌"
       implications: >
         Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
       info: >
@@ -835,7 +835,7 @@ zh-CN:
       verification: >
         Enter %{word} to confirm you want to %{action} the backup token.
       verification_word_reset: reset
-      verification_word_create: create
+      verification_word_create: 创建
       warning: >
         When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
     text_token_deleted: Backup token deleted. Backups are now disabled.
