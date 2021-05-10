@@ -43,6 +43,8 @@ module OpenProject
 
     class UnsupportedDatabaseError < StandardError; end
 
+    class DeprecatedVersionWarning < StandardError; end
+
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
@@ -105,10 +107,10 @@ module OpenProject
 
         raise InsufficientVersionError.new message
       elsif !version_matches?(130000)
-        message = "The next major release of OpenProject (v12) will require PostgreSQL 13 or later. " \
+        message = "The next major release of OpenProject (v12) will require PostgreSQL 13 or later.\n" \
                   "You can anticipate this upgrade by updating your database installation by following the guide at " \
                   "https://TODO"
-        ActiveSupport::Deprecation.warn message, caller
+        raise DeprecatedVersionWarning.new message
       end
     end
 
