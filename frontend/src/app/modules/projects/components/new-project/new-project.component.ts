@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StateService, UIRouterGlobals} from "@uirouter/core";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -12,7 +12,6 @@ import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
-import { FormlyFieldConfig } from "@ngx-formly/core";
 import {ProjectFormAttributeGroups} from "core-app/modules/projects/form-helpers/form-attribute-groups";
 
 export interface ProjectTemplateOption {
@@ -22,7 +21,8 @@ export interface ProjectTemplateOption {
 
 @Component({
   selector: 'op-new-project',
-  templateUrl: './new-project.component.html'
+  templateUrl: './new-project.component.html',
+  styleUrls: ['./new-project.component.sass'],
 })
 export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   resourcePath:string;
@@ -33,6 +33,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   formUrl:string;
   text = {
     use_template: this.I18n.t('js.project.use_template'),
+    no_template_selected: this.I18n.t('js.project.no_template_selected'),
     advancedSettingsLabel: this.I18n.t("js.forms.advanced_settings"),
   };
 
