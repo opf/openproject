@@ -33,7 +33,10 @@
     flex-shrink: 1
     width: 100%
     display: flex
-    justify-content:  flex-start
+    justify-content: flex-start
+    // Fix stretching of images in safari
+    // https://stackoverflow.com/questions/57516373
+    align-items: flex-start
     overflow: auto
     max-height: 100%
 

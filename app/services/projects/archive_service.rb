@@ -48,8 +48,8 @@ module Projects
     end
 
     def archive_project(project)
-      # we do not care for validations
-      project.update_column(:active, false)
+      # We do not care for validations but want the timestamps to be updated
+      project.update_attribute(:active, false)
     end
   end
 end

@@ -24,60 +24,60 @@ da:
         locked: 'Låst'
         closed: 'Lukket'
       new_board: 'New board'
-      add_list: 'Add list to board'
+      add_list: 'Tilføj liste til tavlen'
       add_card: 'Add card'
       error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
       error_loading_the_list: "Error loading the list: %{error_message}"
       error_permission_missing: "The permission to create public queries is missing"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "Du kan ikke flytte en arbejdspakke til sin egen kolonne."
       click_to_remove_list: "Click to remove this list"
       board_type:
         text: 'Board type'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'grundlæggende'
+        select_board_type: 'Vælg venligst den type tavle, du har brug for.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Start fra bunden med et tomt bord. Tilføj manuelt kort og kolonner til denne tavle.
         action: 'Action board'
         action_by_attribute: 'Action board (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          En tavle med filtrerede lister på attributten %{attribute} . Flytning af arbejdspakker til andre lister vil opdatere deres attribut.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Board med automatiserede kolonner til underprojekter. Træk arbejdspakker til andre lister opdaterer (under)projektet i overensstemmelse hermed.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Board med automatiserede kolonner til underelementer. Træk arbejdspakker til andre lister, opdaterer den overordnede i overensstemmelse hermed.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Grundlæggende kanban stil tavle med kolonner til status som To Do, I gang, Udført.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Tavle med automatiserede kolonner baseret på versionsattributten. Ideel til planlægning af produktudvikling.
         action_type:
           assignee: Tildeler
           status: Status
           version: version
-          subproject: subproject
-          subtasks: parent-child
+          subproject: underprojekt
+          subtasks: overordnet-underordnet
         board_type_title:
           assignee: Tildelt
           status: Status
           version: Version
           subproject: Underprojekt
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Overordnet-Underordnet
+          basic: Grundlæggende
         select_attribute: "Action attribute"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Vælg bruger til at tilføje som en ny tildelingsliste
+          status: Vælg status for at tilføje som en ny liste
+          version: Vælg version for at tilføje som en ny liste
+          subproject: Vælg underprojekt der skal tilføjes som en ny liste
+          subtasks: Vælg arbejdspakke at tilføje som en ny liste
         warning:
           status: |
             There is currently no status available. <br>
             Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: Der er ikke noget medlem matchet med din filterværdi.  <br>
+          no_member: Dette projekt har i øjeblikket ikke nogen medlemmer, der kan tilføjes.  <br>
           add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
       configuration_modal:
         title: 'Configure this board'

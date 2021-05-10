@@ -11,9 +11,7 @@ keywords: Time tracking, cost reporting
 
 Time and costs functionality in OpenProject allows keeping track of the resources,  both in terms of labor and budgets. With OpenProject you can always keep control of the time and costs planned for and spent on the projects.
 
-Create budgets, log time and costs on specific work packages and  create time and cost reports based on your needs. Browse through the following sections of this user guide to learn how to do this.
-
-## Overview
+Create budgets, log time and costs on specific work packages and create time and cost reports based on your needs. 
 
 | Topic                 | Content                                     |
 | ------------------------------------- | :------------------------------------------ |

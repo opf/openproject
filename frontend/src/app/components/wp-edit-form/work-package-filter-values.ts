@@ -110,22 +110,18 @@ export class WorkPackageFilterValues {
   }
 
   /**
-   * Avoid applying filter values when
-   *  - more than one filter value selected
-   *  - changeset already matches one of the selected values
+   * Avoid applying filter values when changeset already matches one of the selected values
    * @param filter
    */
   private filterAlreadyApplied(change:WorkPackageChangeset|{[id:string]:any}, filter:any):boolean {
-    // Only applicable if more than one selected
-    if (filter.values.length <= 1) {
-      return false;
-    }
-
-    const current = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
+    let current = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
+    current = _.castArray(current);
 
     for (let i = 0; i < filter.values.length; i++) {
-      if (compareByHrefOrString(current, filter.values[i])) {
-        return true;
+      for (let j = 0; j < current.length; j++) {
+        if (compareByHrefOrString(current[j], filter.values[i])) {
+          return true;
+        }
       }
     }
 

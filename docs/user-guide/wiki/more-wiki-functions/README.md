@@ -24,7 +24,9 @@ To open further configuration settings, navigate to a wiki page and click on the
 
 In the drop down menu, select the corresponding menu item.
 
-![more-wiki-functions](image-20201217112513540.png)
+![more-wiki-functions](image-20210429094259782.png)
+
+
 
 ## Lock a wiki page
 
@@ -32,13 +34,13 @@ To lock an existing wiki page and prevent others from editing the page, select t
 
 Select the item **Lock** in the drop down menu.
 
-![lock-a-wiki-page](image-20201217112558981.png)
-
 The page is now locked and cannot be edited by any other user. 
 
 To unlock a wiki page and make it possible for users to edit it again, select the **Unlock** item under the **More** button on top of a wiki page.
 
-![unlock-wiki-page](image-20201217112657860.png)
+![unlock-wiki-page](image-20210429101715608.png)
+
+
 
 It is now possible to edit the wiki page again.
 
@@ -58,7 +60,7 @@ Please be aware that a deleted wiki page cannot easily be restored within the sy
 
 In some cases, you might want to know the latest change to a wiki page.  You can get information on the type of change as well as on the author using the **History** option. To display it, choose **History** in the [**More** functions](#more-wiki-functions) drop-down menu on top of a wiki page.
 
-![wiki-history](wiki-history.png)
+![wiki-history](image-20210429102421851.png)
 
 First, you will get an overview on author and date of the latest updates. Potential comments can already give you an idea about the type of change. You can explicitly choose two versions to display a more detailed view of the changes between them using the blue **View differences** button at the bottom of the page.
 
@@ -71,8 +73,8 @@ First, you will get an overview on author and date of the latest updates. Potent
 
 To export a wiki page, open the **More** functions menu on a wiki page and select **Export**.
 
-![export-wiki](export-wiki.png)
-
 You can choose between **Atom** or **Markdown** export of your wiki page:
 
 ![wiki-export-options](1568277748319.png)
+
+Alternatively, you can use your browser's print feature to **print a PDF** from a wiki page.

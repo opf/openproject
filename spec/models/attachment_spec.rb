@@ -174,21 +174,6 @@ describe Attachment, type: :model do
       expect(attachment.digest)
         .to eql Digest::MD5.file(file.path).hexdigest
     end
-
-    it 'adds no cleanup job' do
-      expect(Attachments::CleanupUncontaineredJob).not_to receive(:perform_later)
-
-      attachment.save!
-    end
-
-    context 'with an unclaimed attachment' do
-      let(:container) { nil }
-
-      it 'adds a cleanup job' do
-        expect(Attachments::CleanupUncontaineredJob).to receive(:perform_later)
-        attachment.save!
-      end
-    end
   end
 
   describe 'two attachments with same file name' do

@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.2'
+ruby '~> 2.7.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -171,7 +171,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.2.0' # used for development and optionally for production
+gem 'puma', '~> 5.3.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.11.0'
 
