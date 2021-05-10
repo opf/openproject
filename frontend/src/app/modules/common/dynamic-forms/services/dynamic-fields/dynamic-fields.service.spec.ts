@@ -209,7 +209,7 @@ describe('DynamicFieldsService', () => {
 
     expect(formGroup).toBeTruthy();
     expect(formGroup.wrappers![0]).toEqual('op-dynamic-field-group-wrapper', 'should add the form field group wrapper');
-    expect(formGroup.fieldGroupClassName).toEqual('op-fieldset', 'should add the CSS class to the field group wrapper');
+    expect(formGroup.fieldGroupClassName).toEqual('op-form--fieldset', 'should add the CSS class to the field group wrapper');
     expect(formGroup.templateOptions!.label).toEqual('People', 'should add the correct label to the field group wrapper');
     expect(formGroup.fieldGroup![0].key).toEqual('name', 'should add the correct key to the field group wrapper');
   });

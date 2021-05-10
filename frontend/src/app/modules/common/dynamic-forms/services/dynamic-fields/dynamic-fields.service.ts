@@ -204,7 +204,6 @@ export class DynamicFieldsService {
       ...fieldTypeConfig,
       key,
       wrappers: [`op-dynamic-field-wrapper`],
-      fieldGroupClassName: 'op-form--fieldset',
       className: 'op-form--field',
       templateOptions: {
         property,
@@ -306,8 +305,6 @@ export class DynamicFieldsService {
 
     const formFieldGroups = fieldGroups.reduce((formWithFieldGroups:IOPFormlyFieldSettings[], fieldGroup) => {
       const newFormFieldGroup = {
-        wrappers: ['op-dynamic-field-group-wrapper'],
-        fieldGroupClassName: 'op-form--fieldset',
         templateOptions: {
           label: fieldGroup.name,
           isFieldGroup: true,
