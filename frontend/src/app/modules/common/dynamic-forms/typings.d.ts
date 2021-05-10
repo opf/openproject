@@ -29,6 +29,3 @@ export interface IOPDynamicInputTypeSettings {
   config:IOPFormlyFieldSettings,
   useForFields:OPFieldType[];
 }
-
-
-
