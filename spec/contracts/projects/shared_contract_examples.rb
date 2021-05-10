@@ -107,8 +107,12 @@ shared_examples_for 'project contract' do
   context 'if the identifier is nil' do
     let(:project_identifier) { nil }
 
-    it 'is invalid' do
-      expect_valid(false, identifier: %i(blank))
+    it 'is replaced for new project' do
+      if project.new_record?
+        expect_valid(true)
+      else
+        expect_valid(false, identifier: %i(blank))
+      end
     end
   end
 
