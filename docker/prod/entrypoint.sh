@@ -16,6 +16,14 @@ if [ -d "/var/db/openproject" ]; then
 fi
 
 if [ "$(id -u)" = '0' ]; then
+	# reexport PGVERSION and PGBIN env variables according to postgres version of existing cluster (if any)
+	# this must happen in the entrypoint
+	if [ -f "$PGDATA/PG_VERSION" ]; then
+		export PGVERSION="$(cat "$PGDATA/PG_VERSION")"
+		export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
+		echo "INFO: existing PostgreSQL cluster found in $PGDATA. Setting PGVERSION=$PGVERSION PGBIN=$PBGIN"
+	fi
+
 	mkdir -p $APP_DATA_PATH/{files,git,svn}
 	chown -R $APP_USER:$APP_USER $APP_DATA_PATH
 	if [ -d /etc/apache2/sites-enabled ]; then
