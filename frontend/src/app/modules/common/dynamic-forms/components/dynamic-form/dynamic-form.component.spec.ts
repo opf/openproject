@@ -35,7 +35,7 @@ class DynamicFormsTestingComponent {
   @ViewChild(DynamicFormComponent) dynamicFormControl:DynamicFormComponent;
 }
 
-fdescribe('DynamicFormComponent', () => {
+describe('DynamicFormComponent', () => {
   let component:DynamicFormComponent;
   let fixture:ComponentFixture<DynamicFormComponent>;
   const formSchema:any = {
