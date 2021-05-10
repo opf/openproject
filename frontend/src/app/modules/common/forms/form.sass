@@ -15,11 +15,15 @@
     max-width: 100%
     width: 50rem
 
+  formly-group
+    display: flex
+    flex-direction: column
+
   &,
   &--fieldset
-    > * + .op-form-field
-    > * + .op-form--fieldset,
-    > * + .op-form--field,
-    > * + .button
-      margin-top: 1.5rem
+    .op-form-field
+    .op-form--fieldset,
+    .button
+      &:not(:last-child)
+        margin-bottom: 1rem
       

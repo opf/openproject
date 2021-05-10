@@ -203,7 +203,7 @@ export class DynamicFieldsService {
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
-      wrappers: [`op-dynamic-field-wrapper`],
+      wrappers: ['op-dynamic-field-wrapper'],
       className: 'op-form--field',
       templateOptions: {
         property,
