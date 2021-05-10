@@ -1,4 +1,4 @@
-FROM ruby:2.7-buster
+FROM ruby:2.7.3-buster
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn

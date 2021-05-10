@@ -21,7 +21,9 @@ if [ "$(id -u)" = '0' ]; then
 	if [ -f "$PGDATA/PG_VERSION" ]; then
 		export PGVERSION="$(cat "$PGDATA/PG_VERSION")"
 		export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
-		echo "INFO: existing PostgreSQL cluster found in $PGDATA. Setting PGVERSION=$PGVERSION PGBIN=$PBGIN"
+		export PGCONF_FILE="/etc/postgresql/$PGVERSION/main/postgresql.conf"
+		echo "-----> Existing PostgreSQL cluster found in $PGDATA."
+		echo "       Setting PGVERSION=$PGVERSION PGBIN=$PGBIN PGCONF_FILE=$PGCONF_FILE"
 	fi
 
 	mkdir -p $APP_DATA_PATH/{files,git,svn}

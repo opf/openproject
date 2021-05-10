@@ -25,7 +25,7 @@ apt-get install -y \
 
 # remove any existing cluster
 service postgresql stop
-rm -rf /var/lib/postgresql
+rm -rf /var/lib/postgresql/{9.6,13}
 
 # Specifics for BIM edition
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -

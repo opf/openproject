@@ -14,7 +14,6 @@ if [ "$PGDATA" == "" ]; then
 	exit 2
 fi
 
-export PGCONF_FILE="/etc/postgresql/$PGVERSION/main/postgresql.conf"
 PGUSER=${PGUSER:=postgres}
 PGPASSWORD=${PGPASSWORD:=postgres}
 PG_STARTUP_WAIT_TIME=${PG_STARTUP_WAIT_TIME:=10}
@@ -104,6 +103,7 @@ configure_local_postgres() {
 	# Set up pg defaults
 	echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/$PGVERSION/main/pg_hba.conf
 	echo "listen_addresses='0.0.0.0'" >> "$PGCONF_FILE"
+	echo "port=5432" >> "$PGCONF_FILE"
 	echo "data_directory='$PGDATA'" >> "$PGCONF_FILE"
 }
 
@@ -113,7 +113,7 @@ if [ "$dbhost" = "127.0.0.1" ]; then
 	# initialize cluster if it does not exist yet
 	if [ -f "$PGDATA/PG_VERSION" ]; then
 		echo "-----> Database cluster already exists, not modifying."
-		su - postgres -c "$PGBIN/pg_ctl -w -l /dev/null -o '-c config_file=$PGCONF_FILE' -D '$PGDATA' start" | indent
+		su - postgres -c "$PGBIN/pg_ctl -l /tmp/log -w -o '-c config_file=$PGCONF_FILE' -D '$PGDATA' start" | indent
 		(install_plugins && migrate) | indent
 		su - postgres -c "$PGBIN/pg_ctl -D '$PGDATA' stop" | indent
 	else
@@ -135,4 +135,5 @@ echo "-----> Database setup finished."
 echo "       On first installation, the default admin credentials are login: admin, password: admin"
 
 echo "-----> Launching supervisord..."
-exec /usr/bin/supervisord -c $APP_PATH/docker/prod/supervisord.conf -e ${SUPERVISORD_LOG_LEVEL}
+erb -r uri $APP_PATH/docker/prod/supervisord.conf.erb > /etc/supervisor/supervisord.conf
+exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -e ${SUPERVISORD_LOG_LEVEL}

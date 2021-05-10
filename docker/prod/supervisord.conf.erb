@@ -1,5 +1,6 @@
 [supervisord]
 nodaemon=true
+user=root
 
 [unix_http_server]
 file=/var/run/supervisor.sock
@@ -76,6 +77,7 @@ stdout_logfile = /dev/stdout
 stdout_logfile_maxbytes = 0
 stderr_logfile_maxbytes = 0
 
+<% if URI(ENV.fetch("DATABASE_URL")).host == "127.0.0.1" %>
 [program:postgres]
 user=postgres
 priority=1
@@ -85,3 +87,4 @@ stderr_logfile = /dev/stderr
 stdout_logfile = /dev/stdout
 stdout_logfile_maxbytes = 0
 stderr_logfile_maxbytes = 0
+<% end %>
