@@ -28,8 +28,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachments::CleanupUncontaineredJob < ApplicationJob
+class Attachments::CleanupUncontaineredJob < ::Cron::CronJob
   queue_with_priority :low
+
+  # runs at 10:03 pm
+  self.cron_expression = '03 22 * * *'
 
   def perform
     Attachment
