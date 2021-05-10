@@ -35,7 +35,7 @@ class DynamicFormsTestingComponent {
   @ViewChild(DynamicFormComponent) dynamicFormControl:DynamicFormComponent;
 }
 
-describe('DynamicFormComponent', () => {
+fdescribe('DynamicFormComponent', () => {
   let component:DynamicFormComponent;
   let fixture:ComponentFixture<DynamicFormComponent>;
   const formSchema:any = {
@@ -455,6 +455,43 @@ describe('DynamicFormComponent', () => {
     expect(notificationsService.addError).toHaveBeenCalled();
 
     dynamicFormService.submit$.and.returnValue(defer(() => Promise.resolve('ok')));
+  }));
+
+  // Moving the DynamicForm.form assignment out of the _setupDynamicForm breaks the
+  // expressionProperties execution
+  it('should run expressionProperties', fakeAsync(() => {
+    const [firstField, ...restOfFields] = dynamicFormSettings.fields;
+    const expressionPropertiesSpy = jasmine.createSpy('expressionPropertiesSpy');
+    const firstFieldCopy = {
+      ...firstField,
+      expressionProperties: {
+        'templateOptions.test': expressionPropertiesSpy,
+      }
+    };
+    const dynamicFormSettingsForSubmit = {
+      ...dynamicFormSettings,
+      fields: [
+        firstFieldCopy,
+        ...restOfFields,
+      ]
+    }
+    // @ts-ignore
+    dynamicFormService.getSettingsFromBackend$.and.returnValue(defer(() => Promise.resolve(dynamicFormSettingsForSubmit)));
+    dynamicFormService.submit$.and.returnValue(defer(() => Promise.resolve('ok')));
+
+    // Should not show notifications when showNotifications === false
+    component.showNotifications = false;
+
+    component.resourcePath = '/api/v3/projects/1234/form';
+    component.ngOnChanges({});
+    flush();
+    fixture.detectChanges();
+    const submitButton = fixture.debugElement.query(By.css('button[type=submit]'));
+    submitButton.nativeElement.click();
+
+    flush();
+
+    expect(expressionPropertiesSpy).toHaveBeenCalled();
   }));
 });
 
