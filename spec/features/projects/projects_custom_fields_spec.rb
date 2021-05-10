@@ -130,6 +130,65 @@ describe 'Projects custom fields', type: :feature, js: true do
     end
   end
 
+  describe 'with float CF' do
+    let!(:float_cf) do
+      FactoryBot.create(:float_project_custom_field, name: 'MyFloat')
+    end
+    let(:float_field) { ::FormFields::InputFormField.new float_cf }
+
+
+    context 'with english locale' do
+      let(:current_user) { FactoryBot.create :admin, language: 'en' }
+
+      it 'displays the float with english locale' do
+        visit new_project_path
+
+        name_field.set_value 'My project name'
+        find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+
+        float_field.set_value '10000.55'
+
+        # Save project settings
+        click_on 'Save'
+
+        expect(page).to have_current_path /\/projects\/my-project-name\/?/
+        project = Project.find_by(name: 'My project name')
+        cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
+        expect(cv).to eq 10000.55
+
+        visit settings_generic_project_path(project)
+        float_field.expect_value '10000.55'
+      end
+    end
+
+    context 'with german locale',
+            driver: :firefox_de do
+      let(:current_user) { FactoryBot.create :admin, language: 'de' }
+
+      it 'displays the float with german locale' do
+        visit new_project_path
+
+        name_field.set_value 'My project name'
+        find('.form--fieldset-legend a', text: 'ERWEITERTE EINSTELLUNGEN').click
+
+        float_field.set_value '10000,55'
+
+        # Save project settings
+        click_on 'Speichern'
+
+        expect(page).to have_current_path /\/projects\/my-project-name\/?/
+        project = Project.find_by(name: 'My project name')
+        cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
+        expect(cv).to eq 10000.55
+
+        visit settings_generic_project_path(project)
+        # The field renders in german locale, but there's no way to test that
+        # as the internal value is always english locale
+        float_field.expect_value '10000.55'
+      end
+    end
+  end
+
   describe 'with boolean CF' do
     let!(:custom_field) do
       FactoryBot.create(:bool_project_custom_field)
@@ -147,7 +206,6 @@ describe 'Projects custom fields', type: :feature, js: true do
 
       field = page.find(identifier)
       expect(field).to be_checked
-
     end
   end
 end
