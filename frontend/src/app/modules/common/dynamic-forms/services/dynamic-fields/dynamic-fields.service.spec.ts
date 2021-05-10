@@ -200,10 +200,8 @@ describe('DynamicFieldsService', () => {
       return formlyField.fieldGroup ? [...result, ...formlyField.fieldGroup] : [...result, formlyField];
     }, []);
     const formGroup = formlyConfig[1];
-    const everyFieldHasCSSClass = formlyFields.every(formlyField =>  formlyField.className!.startsWith('op-form--field'));
 
-    expect(everyFieldHasCSSClass).toBeTruthy('should place the op-form--field class on every field');
-    expect(formlyFields[1].templateOptions!.required).toBe(true, 'should set the required attribute');
+    expect(formlyFields[2].templateOptions!.required).toBe(true, 'should set the required attribute');
     expect(formlyFields[1].templateOptions!.label).toBe('Name', 'should set the correct label');
     expect(isObservable(formlyFields[0].templateOptions!.options)).toBeTruthy('should add options as observables');
     expect(formlyFields[0].className).toContain('Subproject of', 'should add the specific input type properties');
@@ -211,7 +209,7 @@ describe('DynamicFieldsService', () => {
 
     expect(formGroup).toBeTruthy();
     expect(formGroup.wrappers![0]).toEqual('op-dynamic-field-group-wrapper', 'should add the form field group wrapper');
-    expect(formGroup.fieldGroupClassName).toEqual('op-form-group', 'should add the CSS class to the field group wrapper');
+    expect(formGroup.fieldGroupClassName).toEqual('op-fieldset', 'should add the CSS class to the field group wrapper');
     expect(formGroup.templateOptions!.label).toEqual('People', 'should add the correct label to the field group wrapper');
     expect(formGroup.fieldGroup![0].key).toEqual('name', 'should add the correct key to the field group wrapper');
   });

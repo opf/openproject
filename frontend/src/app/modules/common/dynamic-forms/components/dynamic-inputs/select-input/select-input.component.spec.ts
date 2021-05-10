@@ -20,7 +20,6 @@ describe('SelectInputComponent', () => {
     const fieldsConfig = [
       {
         "type": "selectInput" as "selectInput",
-        "className": "op-form--field inline-edit--field",
         "key": "testControl",
         "templateOptions": {
           "required": true,

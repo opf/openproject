@@ -9,7 +9,6 @@ describe('TextComponent', () => {
     const fieldsConfig = [
       {
         "type": "textInput" as "textInput",
-        "className": "op-form--field inline-edit--field",
         "key": "testControl",
         "templateOptions": {
           "required": true,

@@ -15,7 +15,6 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'textInput',
-        className: 'inline-edit--field',
         templateOptions: {
           type: 'text',
         },
@@ -25,7 +24,6 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'textInput',
-        className: 'inline-edit--field',
         templateOptions: {
           type: 'password',
         },
@@ -35,7 +33,6 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'integerInput',
-        className: `inline-edit--field`,
         templateOptions: {
           type: 'number',
           locale: I18n.locale,
@@ -46,7 +43,6 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'booleanInput',
-        className: `inline-edit--field inline-edit--boolean-field`,
         templateOptions: {
           type: 'checkbox',
         },
@@ -56,7 +52,6 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'dateInput',
-        className: `inline-edit--field`,
       },
       useForFields: ['Date', 'DateTime']
     },
@@ -74,7 +69,6 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'selectInput',
-        className: `inline-edit--field`,
         templateOptions: {
           type: 'number',
           locale: I18n.locale,
@@ -100,7 +94,6 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'selectProjectStatusInput',
-        className: `inline-edit--field`,
         templateOptions: {
           type: 'number',
           locale: I18n.locale,
@@ -210,8 +203,9 @@ export class DynamicFieldsService {
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
-      className: `op-form--field ${fieldTypeConfig.className}`,
       wrappers: [`op-dynamic-field-wrapper`],
+      fieldGroupClassName: 'op-form--fieldset',
+      className: 'op-form--field',
       templateOptions: {
         property,
         required,
@@ -301,17 +295,19 @@ export class DynamicFieldsService {
 
   private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
     const fieldGroupKeys = fieldGroups.reduce((groupKeys, fieldGroup) => [...groupKeys, ...fieldGroup.attributes], []);
-    const fomFieldsWithoutGroup = formFields.filter(formField => {
-      const formFieldKey = formField.key && this.getFieldProperty(formField.key);
+    const formFieldsWithoutGroup = formFields
+      .filter(formField => {
+        const formFieldKey = formField.key && this.getFieldProperty(formField.key);
 
-      return formFieldKey ?
-        !fieldGroupKeys.includes(formFieldKey) :
-        true;
-    });
+        return formFieldKey ?
+          !fieldGroupKeys.includes(formFieldKey) :
+          true;
+      });
+
     const formFieldGroups = fieldGroups.reduce((formWithFieldGroups:IOPFormlyFieldSettings[], fieldGroup) => {
       const newFormFieldGroup = {
         wrappers: ['op-dynamic-field-group-wrapper'],
-        fieldGroupClassName: 'op-form-group',
+        fieldGroupClassName: 'op-form--fieldset',
         templateOptions: {
           label: fieldGroup.name,
           isFieldGroup: true,
@@ -353,6 +349,6 @@ export class DynamicFieldsService {
       return formWithFieldGroups;
     }, []);
 
-    return [...fomFieldsWithoutGroup, ...formFieldGroups];
+    return [...formFieldsWithoutGroup, ...formFieldGroups];
   }
 }
