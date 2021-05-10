@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export PGBIN="/usr/lib/postgresql/$POSTGRES_VERSION/bin"
+export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
