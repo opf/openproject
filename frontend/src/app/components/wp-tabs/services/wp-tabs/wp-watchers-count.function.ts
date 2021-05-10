@@ -10,7 +10,8 @@ export function workPackageWatchersCount(
   injector:Injector,
 ):Observable<number> {
   const watcherService = injector.get(WorkPackageWatchersService);
-  return from(watcherService.require(workPackage))
+  return watcherService
+    .requireAndStream(workPackage)
     .pipe(
       map((watchers:HalResource[]) => watchers.length),
     );
