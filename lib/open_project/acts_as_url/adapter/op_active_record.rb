@@ -46,6 +46,12 @@ module OpenProject
           super if attribute.blank? || !settings.only_when_blank
         end
 
+        ##
+        # Always return the stored url, even if it has errors
+        def url_attribute(instance)
+          read_attribute instance, settings.url_attribute
+        end
+
         private
 
         def modify_base_url
