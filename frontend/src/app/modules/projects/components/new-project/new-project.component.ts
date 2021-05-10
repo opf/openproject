@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StateService, UIRouterGlobals} from "@uirouter/core";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -37,7 +37,6 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   };
 
   hiddenFields:string[] = [
-    'identifier',
     'sendNotifications',
     'active'
   ];
@@ -123,9 +122,29 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   private fieldSettingsPipe(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
     const fieldsLayoutConfig = dynamicFieldsSettings
       .reduce((result, field) => {
-        field = {
-          ...field,
-          hide: this.isHiddenField(field.key),
+        if (field.templateOptions?.property === 'identifier') {
+          field = {
+            ...field,
+            expressionProperties: {
+              'templateOptions.readonly': (model:any, formState:any, field:FormlyFieldConfig) => {
+                return !field.formControl?.hasError('identifier') &&
+                  !field.options?.parentForm?.submitted;
+              }
+            },
+            hooks: {
+              onInit: (field:FormlyFieldConfig) => {
+                field.form?.get('name')?.valueChanges.pipe(
+                  this.untilDestroyed()
+                )
+                .subscribe(name => field.formControl?.setValue(name, {emitEvent:false}));
+              }
+            },
+          }
+        } else {
+          field = {
+            ...field,
+            hide: this.isHiddenField(field.key),
+          }
         }
 
         if (
@@ -133,6 +152,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
             !field.templateOptions.hasDefault &&
             field.templateOptions.payloadValue == null) ||
             field.templateOptions?.property === 'name' ||
+            field.templateOptions?.property === 'identifier' ||
             field.templateOptions?.property === 'parent'
         ) {
           result.firstLevelFields = [...result.firstLevelFields, field];
