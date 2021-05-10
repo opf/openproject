@@ -53,6 +53,10 @@ describe Setting, type: :model do
         Setting.host_name = 'some name'
       end
 
+      after do
+        described_class.find_by(name: 'host_name').destroy
+      end
+
       it 'sets the setting' do
         expect(Setting.host_name).to eq 'some name'
       end
@@ -61,8 +65,21 @@ describe Setting, type: :model do
         expect(Setting.find_by(name: 'host_name').value).to eq 'some name'
       end
 
-      after do
-        Setting.find_by(name: 'host_name').destroy
+      context 'when overwritten' do
+        let(:setting_definition) { Settings::Definition[:host_name] }
+
+        before do
+          setting_definition.writable = false
+        end
+
+        after do
+          setting_definition.writable = true
+        end
+
+        it 'takes the setting from the definition' do
+          expect(described_class.host_name)
+            .to eql setting_definition.value
+        end
       end
     end
 
@@ -72,6 +89,10 @@ describe Setting, type: :model do
         Setting.host_name = 'some other name'
       end
 
+      after do
+        described_class.find_by(name: 'host_name').destroy
+      end
+
       it 'sets the setting' do
         expect(Setting.host_name).to eq 'some other name'
       end
@@ -79,9 +100,33 @@ describe Setting, type: :model do
       it 'stores the setting' do
         expect(Setting.find_by(name: 'host_name').value).to eq 'some other name'
       end
+    end
+  end
 
-      after do
-        Setting.find_by(name: 'host_name').destroy
+  describe '.[setting]_writable?' do
+    before do
+      Settings::Definition[:host_name].writable = writable
+    end
+
+    after do
+      Settings::Definition[:host_name].writable = true
+    end
+
+    context 'if definition states it to be writable' do
+      let(:writable) { true }
+
+      it 'is writable' do
+        expect(described_class)
+          .to be_host_name_writable
+      end
+    end
+
+    context 'if definition states it to be non writable' do
+      let(:writable) { false }
+
+      it 'is non writable' do
+        expect(described_class)
+          .not_to be_host_name_writable
       end
     end
   end

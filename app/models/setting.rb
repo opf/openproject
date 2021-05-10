@@ -118,6 +118,10 @@ class Setting < ApplicationRecord
             nil # when running too early, there is no settings table. do nothing
           end
         end
+
+        def self.#{name}_writable?
+          Settings::Definition[:#{name}].writable?
+        end
       END_SRC
       class_eval src, __FILE__, __LINE__
     end
@@ -143,15 +147,15 @@ class Setting < ApplicationRecord
     private
 
     def accessor_base_name(name)
-      name.to_s.gsub(/[?=]?\z/, '')
+      name.to_s.sub(/(_writable\?)|(\?)|=\z/, '')
     end
   end
 
   validates_uniqueness_of :name
   validates_inclusion_of :name,
                          in: lambda { |_setting|
-                                      Settings::Definition.all.map(&:name)
-                                    } # lambda, because @available_settings changes at runtime
+                               Settings::Definition.all.map(&:name)
+                             } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|
                                                               setting.format == :integer
                                                             }
@@ -268,6 +272,8 @@ class Setting < ApplicationRecord
 
     value = cached_or_default(name)
 
+    # TODO: Turn into part of the setting definition if it works from an initialization
+    # perspective. Otherwise let it be a part of the setting definition loading.
     case name
     when "work_package_list_default_highlighting_mode"
       value = "none" unless EnterpriseToken.allows_to? :conditional_highlighting
@@ -277,12 +283,25 @@ class Setting < ApplicationRecord
   end
 
   # Returns the Setting instance for the setting named name
-  # (record found in cache or default value)
+  # The setting can come from either
+  # * The database
+  # * The cached database value
+  # * The setting definition
+  #
+  # In case the definition is overwritten, e.g. via an ENV var,
+  # the definition value will always be used.
   def self.cached_or_default(name)
     name = name.to_s
     raise "There's no setting named #{name}" unless exists? name
 
-    value = cached_settings.fetch(name) { Settings::Definition[name].value }
+    definition = Settings::Definition[name]
+
+    value = if definition.writable?
+              cached_settings.fetch(name) { Settings::Definition[name].value }
+            else
+              definition.value
+            end
+
     deserialize(name, value)
   end
 
