@@ -125,7 +125,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
 }
 
 export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any>, model:any, selector:string) {
-  const dynamicControl: FormGroup = fixture.componentInstance.dynamicControl.form;
+  const dynamicControl: FormGroup = fixture.componentInstance.dynamicControl.form.get('testValue');
   const dynamicInput = fixture.debugElement.query(By.css(selector)).nativeElement;
 
   // Test ControlValueAccessor
