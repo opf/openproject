@@ -22,49 +22,80 @@ import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mi
 import { FormsService } from "core-app/core/services/forms/forms.service";
 import { HttpErrorResponse } from "@angular/common/http";
 
-/*
+/**
 * SETTINGS:
 * The DynamicFormComponent can get its settings (payload and fields) in two ways:
 *
 * - @Input settings:
 * Passing down an object that mimics a backend form configuration (IOPFormSettings),
-* with and easier format (not _embedded).
+* with and easier format (not _embedded) through the 'settings' @Input.
 *
+*   ```
 *   <op-dynamic-form [settings]="formSettings">
 *   </op-dynamic-form>
+*   ```
 *
 * - Backend settings:
 * In order to fetch its settings from the backend, the DynamicFormComponent will
-* always need the 'resourcePath' @Input and, optionally, the 'resourceId' @Input if
-* we are editing a resource.
+* always need a backend endpoint to target. It can be provided in two ways:
+*   - Through the 'resourcePath' @Input and, optionally, the 'resourceId' @Input if
+*     we are editing an existing form.
 *
-*   <op-dynamic-form [resourcePath]="resourcePath">
-*   </op-dynamic-form>
+*     ```
+*     <op-dynamic-form [resourcePath]="resourcePath">
+*     </op-dynamic-form>
+*     ```
+*
+*   - Through the the 'formUrl' @Input. In this case we'll need to also provide the
+*     formHttpMethod @Input if it is not POST.
+*
+*     ```
+*     <op-dynamic-form [formUrl]="formUrl"
+*                      [formHttpMethod]="formHttpMethod">
+*     </op-dynamic-form>
+*     ```
 *
 * USE CASES:
 * The DynamicFormComponent can be used in two ways:
 *
 * - Standalone Form:
-* In order to work as an standalone form, handling the submit operation by
-* showing a submit button, the DynamicFormComponent will always need the
-* 'resourcePath' @Input and, optionally, the 'resourceId' @Input if we are
-* editing a single resource.
+* In order to work as an standalone form, handling the submit operation,
+* the DynamicFormComponent will need a backend endpoint to target as explained above.
+ *
+*     ```
+*     <op-dynamic-form [resourcePath]="resourcePath">
+*     </op-dynamic-form>
+*     ```
 *
-*   <op-dynamic-form [resourcePath]="projectsPath">
-*   </op-dynamic-form>
+* - FormGroup:
+* In order to use the DynamicFormComponent as a formGroup, it will need a
+* FormGroup to be passed through the dynamicFormGroup @Input.
 *
-* - FormControl:
-* The DynamicFormComponent can be used inside a FormGroup as a FormControl.
+*   ```
+*   <op-dynamic-form  [dynamicFormGroup]="dynamicFormGroup">
+*   </op-dynamic-form>`
+*   ```
 *
-*   <op-dynamic-form  formControlName="workpackage"
-*                     [settings]="formSettings">
-*   </op-dynamic-form>
+* FORM SETTINGS CUSTOMIZATIONS:
+* The form settings can be customized in different ways:
 *
-* When used as a FormControl (formControlName), the DynamicFormComponent will set
-* the entire form value as the value of the FormControl. Using it as a FormGroup
-* (formGroupName) would require to pass down the configuration of the form in order
-* to use the DynamicFormComponent, which would make no sense because what this
-* component does is to generate a form automatically from a configuration object.
+* - initialPayload @Input:
+*   Allows to provide and initial payload to the form settings request. Checkout
+*   the [forms documentation](https://docs.openproject.org/api/forms/).
+*
+* - model @Input:
+*   Allows to change model of the form.
+*
+* - fieldsSettingsPipe:
+*   Allows to modify the dynamicFormFields settings before the form is rendered.
+ *
+*   ```
+*   <op-dynamic-form [formUrl]="formUrl"
+*                    [formHttpMethod]="formHttpMethod"
+*                    [initialPayload]="initialPayload">
+*    </op-dynamic-form>
+*    ```
+*
 */
 
 @Component({
@@ -77,25 +108,26 @@ import { HttpErrorResponse } from "@angular/common/http";
   ],
 })
 export class DynamicFormComponent extends UntilDestroyedMixin implements OnChanges {
-  // Backend form URL (e.g. https://community.openproject.org/api/v3/projects/dev-large/form)
+  /** Backend form URL (e.g. https://community.openproject.org/api/v3/projects/dev-large/form) */
   @Input() formUrl:string;
-  // When using the formUrl @Input(), set the http method to use if it is not 'POST'
+  /** When using the formUrl @Input(), set the http method to use if it is not 'POST' */
   @Input() formHttpMethod:'post'|'patch' = 'post';
-  // Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example)
-  // Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath
-  // for you (⌐■_■).
+  /** Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example) */
+  /** Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath */
+  /** for you (⌐■_■). */
   @Input() resourcePath:string;
-  // Pass the resourceId in case you are editing an existing resource and you don't have the Form URL.
+  /** Pass the resourceId in case you are editing an existing resource and you don't have the Form URL. */
   @Input() resourceId:string;
   @Input() settings:IOPFormSettings;
-  // Chance to modify the dynamicFormFields settings before the form is rendered
+  /** Chance to modify the dynamicFormFields settings before the form is rendered */
   @Input() fieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
   @Input() handleSubmit = true;
   @Input() helpTextAttributeScope:string|undefined;
   @Input() dynamicFormGroup:FormGroup;
-
+  /** Initial payload to POST to the form */
+  @Input() initialPayload:Object = {};
   @Input() set model(payload:IOPFormModel) {
     if (!this.innerModel && !payload) {
       return;
@@ -105,14 +137,14 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     this.innerModel = formattedModel;
   }
 
-  /** Initial payload to POST to the form */
-  @Input() initialPayload:Object = {};
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();
 
+  form:FormGroup;
   fields:IOPFormlyFieldSettings[];
   formEndpoint?:string;
+  innerModel:IOPFormModel;
   inFlight:boolean;
   text = {
     save: this._I18n.t('js.button_save'),
@@ -124,15 +156,9 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   in order to fetch its setting. Please provide one.`;
   noPathToSubmitToError = `DynamicForm needs a resourcePath input in order to be submitted 
   and validated. Please provide one.`;
-  innerModel:IOPFormModel;
-  form:FormGroup;
 
   get model() {
     return this.form.value;
-  }
-
-  get isStandaloneForm():boolean {
-    return !this.settings;
   }
 
   @ViewChild(FormlyForm)
