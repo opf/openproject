@@ -198,6 +198,15 @@ describe 'custom field inplace editor', js: true do
     let(:args) { {} }
     let(:initial_custom_values) { { custom_field.id => 123.50 } }
 
+    context 'with zero value' do
+      let(:user) { FactoryBot.create :admin, language: 'en' }
+      let(:initial_custom_values) { { custom_field.id => 0 } }
+
+      it 'displays the zero (Regression #37157)' do
+        field.expect_state_text '0'
+      end
+    end
+
     context 'with english locale' do
       let(:user) { FactoryBot.create :admin, language: 'en' }
 
