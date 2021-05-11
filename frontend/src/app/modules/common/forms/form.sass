@@ -1,29 +1,23 @@
 .op-form
-  display: flex
-  flex-direction: column
-  align-items: flex-start
-
   &--submit
     margin: 1.5rem 0
     display: flex
 
-  &--fieldset
-    display: flex
-    flex-direction: column
-
-  > *
-    max-width: 100%
-    width: 50rem
-
-  formly-group
-    display: flex
-    flex-direction: column
-
   &,
   &--fieldset
-    .op-form-field
-    .op-form--fieldset,
-    .button
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+
+    > *
+      max-width: 100%
+      width: 50rem
+
+    > .op-form--fieldset,
+    > .op-form--field,
+    > .op-form-field,
+    > .op-option-list,
+    > .button
       &:not(:last-child)
         margin-bottom: 1rem
       

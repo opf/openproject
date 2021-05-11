@@ -8796,7 +8796,7 @@
       "integrity": "sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg=="
     },
     "jquery-ui": {
-      "version": "git+ssh://git@github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
+      "version": "git+https://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
       "from": "jquery-ui@git+https://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
       "requires": {
         "jquery": ">=1.7.0 <4.0.0"
