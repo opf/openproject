@@ -53,8 +53,8 @@ module OpenProject
         end
       end
 
-      sub = ActiveSupport::Notifications.subscribe(name.to_s) do |_, _, _, _, payload|
-        block.call(payload)
+      sub = ActiveSupport::Notifications.subscribe(name.to_s) do |_, _, _, _, data|
+        block.call(data.fetch(:payload, data))
       end
 
       subs = clear_subscriptions ? [] : Array(subscriptions[name])
@@ -78,7 +78,7 @@ module OpenProject
     # delivered (although it is not at the moment), so don't count on object equality
     # for the payload.
     def send(name, payload)
-      ActiveSupport::Notifications.instrument(name.to_s, payload)
+      ActiveSupport::Notifications.instrument(name.to_s, payload: payload)
     end
 
     def subscriptions
