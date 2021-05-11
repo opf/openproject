@@ -21,6 +21,7 @@ export interface IOPFormlyTemplateOptions extends FormlyTemplateOptions {
   collapsibleFieldGroups?:boolean;
   collapsibleFieldGroupsCollapsed?:boolean;
   helpTextAttributeScope?:string;
+  showValidationErrorOn?:'change' | 'blur' | 'submit' | 'never';
 }
 
 type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|

@@ -4,41 +4,36 @@ import {
   HostBinding,
   ContentChild,
   Optional,
-  OnInit,
 } from "@angular/core";
 import {
   NgControl,
   AbstractControl,
   FormGroupDirective,
 } from "@angular/forms";
-import { FormlyField } from "@ngx-formly/core";
-import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
 
 @Component({
   selector: 'op-form-field',
   templateUrl: './form-field.component.html',
 })
-export class OpFormFieldComponent implements OnInit{
+export class OpFormFieldComponent {
   @HostBinding('class.op-form-field') className = true;
   @HostBinding('class.op-form-field_invalid') get errorClassName() {
     return this.showErrorMessage;
   }
 
   @Input() label = '';
-  @Input() set helpTextAttribute(helpTextAttribute:string|undefined) {
-    this._helpTextAttribute = helpTextAttribute;
-  };
-  @Input() set helpTextAttributeScope(helpTextAttributeScope:string|undefined) {
-    this._helpTextAttributeScope = helpTextAttributeScope;
-  };
   @Input() noWrapLabel = true;
   @Input() required = false;
-  @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never';
+  @Input() hidden = false;
+  @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
+  @Input() control?:AbstractControl;
+  @Input() helpTextAttribute?:string;
+  @Input() helpTextAttributeScope?:string;
 
   @ContentChild(NgControl) ngControl:NgControl;
 
-  get formControl ():AbstractControl|undefined|null {
-    return this.ngControl?.control || this._dynamicControl?.field?.formControl;
+  get formControl():AbstractControl|undefined|null {
+    return this.ngControl?.control || this.control;
   }
 
   get showErrorMessage():boolean {
@@ -59,30 +54,7 @@ export class OpFormFieldComponent implements OnInit{
     return showErrorMessage;
   }
 
-  get hidden () {
-    return this._dynamicControl?.field?.hide;
-  }
-
-  get helpTextAttribute() {
-    return this._helpTextAttribute || this._dynamicControl?.field?.templateOptions?.property;
-  }
-
-  get helpTextAttributeScope() {
-    return this._helpTextAttributeScope || this._dynamicFormComponent?.helpTextAttributeScope;
-  }
-
-  private _helpTextAttribute:string|undefined;
-  private _helpTextAttributeScope:string|undefined;
-
   constructor(
     @Optional() private _formGroupDirective:FormGroupDirective,
-    @Optional() private _dynamicFormComponent:DynamicFormComponent,
-    @Optional() private _dynamicControl:FormlyField,
   ) {}
-
-  ngOnInit() {
-    this.showValidationErrorOn = this.showValidationErrorOn ||
-      this._dynamicFormComponent?.showValidationErrorsOn ||
-      'submit';
-  }
 }

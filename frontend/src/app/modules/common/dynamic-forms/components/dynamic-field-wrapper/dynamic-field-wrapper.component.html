@@ -1,13 +1,14 @@
-<op-form-field
-  [label]="to?.label"
-  [noWrapLabel]="to?.noWrapLabel"
-  [required]="to?.required"
-  [helpTextAttribute]="to?.property"
-  [helpTextAttributeScope]="to?.helpTextAttributeScope"
-  [attr.data-qa-field-name]="to?.property"
-  [ngClass]="{ 'op-form-field_checkbox': field.type === 'booleanInput' }"
->
+<op-form-field [control]="field?.formControl"
+               [label]="to?.label"
+               [hidden]="field?.hide"
+               [noWrapLabel]="to?.noWrapLabel"
+               [required]="to?.required"
+               [helpTextAttribute]="to?.property"
+               [helpTextAttributeScope]="to?.helpTextAttributeScope || dynamicFormComponent?.helpTextAttributeScope"
+               [showValidationErrorOn]="to?.showValidationErrorOn || dynamicFormComponent?.showValidationErrorsOn"
+               [attr.data-qa-field-name]="to?.property">
   <ng-container #fieldComponent slot="input"></ng-container>
+
   <formly-validation-message
     class="op-form-field--error"
     [field]="field"
