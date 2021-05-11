@@ -2,7 +2,7 @@
   class="op-form"
   [formGroup]="templateForm"
 >
-  <div [ngClass]="{ 'op-select-box': true, 'op-select-box_active': !!templateControl?.value }">
+  <div [ngClass]="{ 'op-highlighted-input': true, 'op-highlighted-input_active': !!templateControl?.value }">
     <op-form-field
       [label]="text.use_template"
       data-qa-field-name="use_template"
