@@ -20,6 +20,7 @@ import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/serv
 import { FormGroup } from "@angular/forms";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 import { FormsService } from "core-app/core/services/forms/forms.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 /*
 * SETTINGS:
@@ -115,7 +116,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   inFlight:boolean;
   text = {
     save: this._I18n.t('js.button_save'),
-    validation_error_message: this._I18n.t('js.forms.validation_error_message'),
     load_error_message: this._I18n.t('js.forms.load_error_message'),
     successful_update: this._I18n.t('js.notice_successful_update'),
     successful_create: this._I18n.t('js.notice_successful_create'),
@@ -190,9 +190,9 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
           this.submitted.emit(formResource);
           this.showNotifications && this.showSuccessNotification();
         },
-        (error:IOPFormErrorResponse) => {
-          this.errored.emit(error);
-          this.showNotifications && this._notificationsService.addError(this.text.validation_error_message);
+        (error:HttpErrorResponse) => {
+          this.errored.emit(error?.error || error);
+          this.showNotifications && this._notificationsService.addError(error?.error?.message || error?.message);
         },
       );
   }
