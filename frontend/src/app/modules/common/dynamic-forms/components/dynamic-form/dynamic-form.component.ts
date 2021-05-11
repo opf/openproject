@@ -109,33 +109,31 @@ import { HttpErrorResponse } from "@angular/common/http";
 })
 export class DynamicFormComponent extends UntilDestroyedMixin implements OnChanges {
   /** Backend form URL (e.g. https://community.openproject.org/api/v3/projects/dev-large/form) */
-  @Input() formUrl:string;
+  @Input() formUrl?:string;
   /** When using the formUrl @Input(), set the http method to use if it is not 'POST' */
-  @Input() formHttpMethod:'post'|'patch' = 'post';
+  @Input() formHttpMethod?:'post'|'patch' = 'post';
   /** Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example) */
   /** Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath */
   /** for you (⌐■_■). */
-  @Input() resourcePath:string;
+  @Input() resourcePath?:string;
   /** Pass the resourceId in case you are editing an existing resource and you don't have the Form URL. */
-  @Input() resourceId:string;
-  @Input() settings:IOPFormSettings;
+  @Input() resourceId?:string;
+  @Input() settings?:IOPFormSettings;
+  @Input() dynamicFormGroup?:FormGroup;
   /** Chance to modify the dynamicFormFields settings before the form is rendered */
-  @Input() fieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
-  @Input() showNotifications = true;
-  @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
-  @Input() handleSubmit = true;
-  @Input() helpTextAttributeScope:string|undefined;
-  @Input() dynamicFormGroup:FormGroup;
+  @Input() fieldsSettingsPipe?:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
   @Input() set model(payload:IOPFormModel) {
-    if (!this.innerModel && !payload) {
-      return;
-    }
+    if (!this.innerModel && !payload) { return; }
 
     const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
     this.innerModel = formattedModel;
   }
+  @Input() showNotifications = true;
+  @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
+  @Input() handleSubmit = true;
+  @Input() helpTextAttributeScope?:string;
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
   @Output() submitted = new EventEmitter<HalSource>();
@@ -152,9 +150,9 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     successful_update: this._I18n.t('js.notice_successful_update'),
     successful_create: this._I18n.t('js.notice_successful_create'),
   };
-  noSettingsSourceErrorMessage = `DynamicFormComponent needs a settings or resourcePath @Input
+  noSettingsSourceErrorMessage = `DynamicFormComponent needs a settings, formUrl or resourcePath @Input
   in order to fetch its setting. Please provide one.`;
-  noPathToSubmitToError = `DynamicForm needs a resourcePath input in order to be submitted 
+  noPathToSubmitToError = `DynamicForm needs a resourcePath or formUrl @Input in order to be submitted 
   and validated. Please provide one.`;
 
   get model() {
@@ -289,8 +287,8 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   private _setupDynamicFormFromSettings() {
     const formattedSettings:IOPFormSettingsResource = {
       _embedded: {
-        payload: this.settings.payload,
-        schema: this.settings.schema,
+        payload: this.settings!.payload,
+        schema: this.settings!.schema,
       },
     };
     const dynamicFormSettings = this._dynamicFormService.getSettings(formattedSettings);
@@ -299,14 +297,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   private _setupDynamicForm({ fields, model, form }:IOPDynamicFormSettings) {
-    const scopedFields = fields.map(field => ({
-      ...field,
-      templateOptions: {
-        ...field.templateOptions,
-        helpTextAttributeScope: this.helpTextAttributeScope,
-      },
-    }));
-    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(scopedFields) : scopedFields;
+    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
     this.innerModel = model;
     this.form = this.dynamicFormGroup || form;
 
