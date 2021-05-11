@@ -125,12 +125,12 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
 }
 
 export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any>, model:any, selector:string) {
-  const dynamicControl: FormGroup = fixture.componentInstance.dynamicControl.form.get('testValue');
+  const dynamicControl: FormGroup = fixture.componentInstance.dynamicControl.form;
   const dynamicInput = fixture.debugElement.query(By.css(selector)).nativeElement;
 
   // Test ControlValueAccessor
   // Write Value
-  expect(dynamicControl.value).toBe(model.initialValue);
+  expect(dynamicControl.value.testControl).toBe(model.initialValue);
   expect(dynamicInput.classList.contains('ng-untouched')).toBeTrue();
   expect(dynamicInput.classList.contains('ng-valid')).toBeTrue();
   expect(dynamicInput.classList.contains('ng-pristine')).toBeTrue();
@@ -145,7 +145,7 @@ export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any
 
   fixture.detectChanges();
 
-  expect(dynamicControl.value).toBe(model.changedValue);
+  expect(dynamicControl.value.testControl).toBe(model.changedValue);
   expect(dynamicInput.classList.contains('ng-dirty')).toBeTrue();
 
   // Blur
