@@ -14,7 +14,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { FormlyModule } from "@ngx-formly/core";
 import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
-import { FormlyField } from "@ngx-formly/core";
+import { FormlyForm } from "@ngx-formly/core";
 import { By } from "@angular/platform-browser";
 import { FormattableControlComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component";
 import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
@@ -50,7 +50,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
     model = model;
     fields = fields;
 
-    @ViewChild(FormlyField) dynamicControl:FormlyField;
+    @ViewChild(FormlyForm) dynamicControl:FormlyForm;
   }
 
   const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
@@ -125,7 +125,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
 }
 
 export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any>, model:any, selector:string) {
-  const dynamicControl = fixture.componentInstance.dynamicControl.field.formControl;
+  const dynamicControl: FormGroup = fixture.componentInstance.dynamicControl.form;
   const dynamicInput = fixture.debugElement.query(By.css(selector)).nativeElement;
 
   // Test ControlValueAccessor
