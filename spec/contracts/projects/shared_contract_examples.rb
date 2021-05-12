@@ -104,14 +104,6 @@ shared_examples_for 'project contract' do
     end
   end
 
-  context 'if the identifier is nil' do
-    let(:project_identifier) { nil }
-
-    it 'is invalid' do
-      expect_valid(false, identifier: %i(blank))
-    end
-  end
-
   context 'if the description is nil' do
     let(:project_description) { nil }
 

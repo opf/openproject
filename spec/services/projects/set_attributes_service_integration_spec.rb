@@ -27,30 +27,39 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
 
-describe Projects::UpdateContract do
-  it_behaves_like 'project contract' do
-    let(:project) do
-      FactoryBot.build_stubbed(:project,
-                               identifier: project_identifier,
-                               active: project_active,
-                               public: project_public,
-                               status: project_status).tap do |p|
-        # in order to actually have something changed
-        p.name = project_name
-        p.parent = project_parent
+describe Projects::SetAttributesService, 'integration', type: :model do
+  let(:user) do
+    FactoryBot.create(:user, global_permissions: %w[add_project])
+  end
+  let(:contract) { Projects::CreateContract }
+  let(:instance) { described_class.new(user: user, model: project, contract_class: contract) }
+  let(:attributes) { {} }
+  let(:service_result) do
+    instance.call(attributes)
+  end
+
+  describe 'with an existing project' do
+    let!(:existing) { FactoryBot.create :project, identifier: 'my-new-project' }
+
+    context 'and a new project with no identifier set' do
+      let(:project) { Project.new name: 'My new project' }
+
+      it 'will auto-correct the identifier' do
+        expect(service_result).to be_success
+        expect(service_result.result.identifier).to eq 'my-new-project-1'
       end
     end
-    let(:permissions) { [:edit_project] }
 
-    subject(:contract) { described_class.new(project, current_user) }
+    context 'and a new project with the same identifier set' do
+      let(:project) { Project.new name: 'My new project', identifier: 'my-new-project' }
 
-    context 'if the identifier is nil' do
-      let(:project_identifier) { nil }
+      it 'will result in an error' do
+        expect(service_result).not_to be_success
+        expect(service_result.result.identifier).to eq 'my-new-project'
 
-      it 'is replaced for new project' do
-        expect_valid(false, identifier: %i(blank))
+        errors = service_result.errors.full_messages
+        expect(errors).to eq ['Identifier has already been taken.']
       end
     end
   end

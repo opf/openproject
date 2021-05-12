@@ -74,15 +74,15 @@ describe 'Projects', type: :feature, js: true do
     end
 
     it 'does not create a project with an already existing identifier' do
-      skip "TODO identifier is not yet rendered on error in dynamic form"
-
       click_on 'New project'
 
       name_field.set_value 'Foo project'
       click_on 'Save'
 
-      expect(page).to have_content 'Identifier has already been taken'
-      expect(page).to have_current_path /\/projects\/new\/?/
+      expect(page).to have_current_path /\/projects\/foo-project-1\/?/
+
+      project = Project.last
+      expect(project.identifier).to eq 'foo-project-1'
     end
 
     context 'with a multi-select custom field' do
