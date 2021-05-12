@@ -69,12 +69,11 @@ export class MainMenuNavigationService {
     // Wrap main item
     this.wrapMainItem();
 
-    // Scroll to the active item
-    const selected = jQuery('.main-item-wrapper a.selected');
-    if (selected.length > 0) {
-      selected[0].scrollIntoView();
-    }
+    // Scroll to the active item or if none found, the active menu wrapper
+    const selected = document.querySelector('.tree-menu--item.-selected') ||
+      document.querySelector('.main-item-wrapper a.selected');
 
+    selected?.scrollIntoView();
 
     // Recreate toggler
     const toggler = this.recreateToggler();

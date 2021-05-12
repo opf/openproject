@@ -26,18 +26,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Using test-prof's before_all block to safely wrap shared data in a transaction,
-# shared_let acts similarly to +let(:foo) { value }+ but initialized the value only once
-# Changes _within_ an example will be rolled back by database cleaner,
-# and the creation is rolled back in an after_all hook.
-#
-# Caveats: Set +reload: true+ if you plan to modify this value, otherwise Rails may still
-# have cached the local value. This will perform a database update, but is much faster
-# than creating new records (especially, work packages).
-#
-# Since test-prof added `let_it_be` this is only a wrapper for it
-# before_all / let_it_be fixture
-def shared_let(key, reload: true, refind: false, &block)
-  let_it_be(key, reload: reload, refind: refind, &block)
+require 'spec_helper'
+
+describe 'Wiki page navigation spec', type: :feature, js: true do
+  shared_let(:admin) { FactoryBot.create :admin }
+  current_user { admin }
+
+  let(:project) { FactoryBot.create :project, enabled_module_names: %w[wiki] }
+  let!(:wiki_page_55) do
+    FactoryBot.create :wiki_page_with_content,
+                      wiki: project.wiki,
+                      title: 'Wiki Page No. 55'
+  end
+  let!(:wiki_pages) do
+    FactoryBot.create_list(:wiki_page_with_content, 30, wiki: project.wiki)
+  end
+
+  # Always use the same user for the wiki pages
+  # that otherwise gets created
+  before do
+    FactoryBot.set_factory_default(:author, admin)
+  end
+
+  it 'scrolls to the selected page on load (Regression #36937)' do
+    visit project_wiki_path(project, wiki_page_55)
+
+    expect(page).to have_selector('div.wiki-content')
+
+    expect(page).to have_selector('.title-container h2', text: 'Wiki Page No. 55')
+
+    # Expect scrolled to menu node
+    expect_element_in_view page.find('.tree-menu--item.-selected', text: 'Wiki Page No. 55')
+  end
 end
