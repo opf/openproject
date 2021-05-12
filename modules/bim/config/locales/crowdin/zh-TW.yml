@@ -5,7 +5,7 @@ zh-TW:
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
+    label_imported_successfully: ' '
     issues: "Issues"
     recommended: 'recommended'
     not_recommended: 'not recommended'
