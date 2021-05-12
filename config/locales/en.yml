@@ -625,13 +625,13 @@ en:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "There is only one value allowed for (%{name})."
+          empty: "The value of (%{name}) can't be empty."
+          inclusion: "The value of (%{name}) is not set to one of the allowed values."
+          not_logged_in: "The value of (%{name}) cannot be set because you are not logged in."
+          not_an_integer: "The value for (%{name}) is not an integer."
+          smaller_than_or_equal_to: "The value of (%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "The value of (%{name}) must be greater than or equal to %{count}."
           format: "%{message}"
         doorkeeper/application:
           attributes:
