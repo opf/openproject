@@ -8,7 +8,7 @@ module OpenProject::XlsExport
              author_url: 'https://www.openproject.com',
              bundled: true
 
-    patches %i[Queries::WorkPackages::Columns::WorkPackageColumn CostReportsController]
+    patches %i[CostReportsController]
 
     extend_api_response(:v3, :work_packages, :work_package_collection) do
       require_relative 'patches/api/v3/export_formats'
