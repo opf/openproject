@@ -204,7 +204,7 @@ export class DynamicFieldsService {
       ...fieldTypeConfig,
       key,
       wrappers: ['op-dynamic-field-wrapper'],
-      className: 'op-form--field',
+      className: `op-form--field ${fieldTypeConfig?.className || ''}`,
       templateOptions: {
         property,
         required,
@@ -233,9 +233,9 @@ export class DynamicFieldsService {
     let inputConfig = inputType.config;
     let configCustomizations;
 
-    if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput') {
+    if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput' || inputConfig.type === 'selectProjectStatusInput') {
       configCustomizations = {
-        className: `${inputConfig.className} ${field.name}`,
+        className: field.name,
         ...field.type.startsWith('[]') && {
           templateOptions: {
             ...inputConfig.templateOptions,

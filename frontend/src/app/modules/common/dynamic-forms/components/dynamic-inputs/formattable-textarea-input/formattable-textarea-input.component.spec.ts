@@ -42,7 +42,7 @@ describe('FormattableTextareaInputComponent', () => {
 
     // Test ControlValueAccessor
     // Write Value
-    expect(dynamicControl.value).toEqual(testModel.initialValue);
+    expect(dynamicControl.value.testControl).toEqual(testModel.initialValue);
     expect(dynamicElement.classList.contains('ng-untouched')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-valid')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-pristine')).toBeTrue();

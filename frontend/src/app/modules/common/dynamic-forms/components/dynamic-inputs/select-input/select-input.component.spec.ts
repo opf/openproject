@@ -46,10 +46,9 @@ describe('SelectInputComponent', () => {
     const dynamicDebugElement = fixture.debugElement.query(By.css('ng-select'));
     const dynamicElement = dynamicDebugElement.nativeElement;
 
-
     // Test ControlValueAccessor
     // Write Value
-    expect(dynamicControl.value).toBe(testModel.initialValue);
+    expect(dynamicControl.value.testControl).toBe(testModel.initialValue);
     expect(dynamicElement.classList.contains('ng-untouched')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-valid')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-pristine')).toBeTrue();
@@ -75,7 +74,7 @@ describe('SelectInputComponent', () => {
     fixture.detectChanges();
     flush();
 
-    expect(dynamicControl.value).toBe(testModel.changedValue);
+    expect(dynamicControl.value.testControl).toBe(testModel.changedValue);
     expect(dynamicElement.classList.contains('ng-dirty')).toBeTrue();
 
     // Blur

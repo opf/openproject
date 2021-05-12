@@ -30,16 +30,6 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
         <formly-form [form]="form"
                      [model]="model"
                      [fields]="fields">
-          <ng-template formlyTemplate let-field>
-            <op-form-field *ngFor="let field of fields"
-                           [label]="field.templateOptions?.label"
-                           [noWrapLabel]="field.templateOptions?.noWrapLabel"
-                           [required]="field.templateOptions?.required">
-              <formly-field [field]="field" slot=input></formly-field>
-    
-              <formly-validation-message [field]="field" slot=errors></formly-validation-message>
-            </op-form-field>
-          </ng-template>
         </formly-form>
       </form>      
     `,
