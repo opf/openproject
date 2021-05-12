@@ -175,7 +175,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   and validated. Please provide one.`;
 
   get model() {
-    return this.form.value;
+    return this.form.getRawValue();
   }
 
   @ViewChild(FormlyForm)
@@ -200,13 +200,25 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   ngOnChanges(changes:SimpleChanges) {
-    this._initializeDynamicForm(
-      changes?.settings?.currentValue,
-      this.resourcePath,
-      this.resourceId,
-      this.formUrl,
-      this.innerModel || this.initialPayload,
-    );
+    if (
+      changes.settings ||
+      changes.resourcePath ||
+      changes.resourceId ||
+      changes.formUrl ||
+      changes.formHttpMethod ||
+      changes.dynamicFormGroup ||
+      changes.initialPayload ||
+      changes.fieldsSettingsPipe ||
+      changes.fieldGroups
+    ) {
+      this._initializeDynamicForm(
+        this.settings,
+        this.resourcePath,
+        this.resourceId,
+        this.formUrl,
+        this.initialPayload,
+      );
+    }
   }
 
   onModelChange(changes:any) {
@@ -260,14 +272,14 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     formUrl?:string,
     payload?:Object,
   ) {
-    const newFormEndPoint = this._getFormEndPoint(formUrl, resourcePath);
-    if (!newFormEndPoint) {
+    const formEndPoint = this._getFormEndPoint(formUrl, resourcePath);
+    if (!formEndPoint) {
       throw new Error(this.noSettingsSourceErrorMessage);
     }
 
-    const isNewEndpoint = newFormEndPoint !== this.formEndpoint;
+    const isNewEndpoint = formEndPoint !== this.formEndpoint;
     if (isNewEndpoint) {
-      this.formEndpoint = newFormEndPoint;
+      this.formEndpoint = formEndPoint;
     }
 
     if (settings) {
