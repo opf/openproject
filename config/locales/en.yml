@@ -625,7 +625,7 @@ en:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
-          only_one_allowed: "There is only one value allowed for (%{name})."
+          only_one_allowed: "Only one value is allowed to be entered for (%{name})."
           empty: "The value of (%{name}) can't be empty."
           inclusion: "The value of (%{name}) is not set to one of the allowed values."
           not_logged_in: "The value of (%{name}) cannot be set because you are not logged in."
