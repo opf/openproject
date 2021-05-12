@@ -747,7 +747,7 @@ GEM
     rbtree3 (0.6.0)
     rchardet (1.8.0)
     rdoc (6.3.1)
-    recaptcha (5.7.0)
+    recaptcha (5.8.0)
       json
     redcarpet (3.5.1)
     regexp_parser (2.1.1)
