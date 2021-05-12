@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 import { HttpClient } from "@angular/common/http";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { isObservable } from "rxjs";
+import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 
 describe('DynamicFieldsService', () => {
   let httpClient: HttpClient;
@@ -198,7 +199,7 @@ describe('DynamicFieldsService', () => {
     const formlyConfig = service.getConfig(formSchema, formPayload);
     const formlyFields = formlyConfig.reduce((result, formlyField) => {
       return formlyField.fieldGroup ? [...result, ...formlyField.fieldGroup] : [...result, formlyField];
-    }, []);
+    }, [] as IOPFormlyFieldSettings[]);
     const formGroup = formlyConfig[1];
 
     expect(formlyFields[1].templateOptions!.label).toBe('Name', 'should set the correct label');
