@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :bcf_viewpoint_attachment, class: Attachment do
+  factory :bcf_viewpoint_attachment, class: 'Attachment' do
     description  { "snapshot" }
     filename     { "snapshot.jpg" }
     content_type { "image/jpeg" }

@@ -29,23 +29,23 @@
 require 'securerandom'
 
 FactoryBot.define do
-  factory :invitation_token, class: ::Token::Invitation do
+  factory :invitation_token, class: '::Token::Invitation' do
     user
   end
 
-  factory :api_token, class: ::Token::API do
+  factory :api_token, class: '::Token::API' do
     user
   end
 
-  factory :rss_token, class: ::Token::RSS do
+  factory :rss_token, class: '::Token::RSS' do
     user
   end
 
-  factory :recovery_token, class: ::Token::Recovery do
+  factory :recovery_token, class: '::Token::Recovery' do
     user
   end
 
-  factory :backup_token, class: ::Token::Backup do
+  factory :backup_token, class: '::Token::Backup' do
     user
 
     after(:build) do |token|

@@ -95,7 +95,7 @@ gem 'semantic', '~> 1.6.1'
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.2.0'
 
-gem 'date_validator', '~> 0.10.0'
+gem 'date_validator', '~> 0.11.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -267,9 +267,9 @@ end
 
 group :development, :test do
   # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 6.1.0'
+  gem 'factory_bot', '~> 6.2.0'
   # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 6.1.0'
+  gem 'factory_bot_rails', '~> 6.2.0'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false
