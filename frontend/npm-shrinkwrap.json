@@ -21787,11 +21787,18 @@
       }
     },
     "@ngx-formly/core": {
-      "version": "6.0.0-next.1",
-      "resolved": "https://registry.npmjs.org/@ngx-formly/core/-/core-6.0.0-next.1.tgz",
-      "integrity": "sha512-YMmLNJyi3UZn1PyvmsF0gKe9t8ihHdhvLyHQn7oxdd96551beVZmylxnlazKV4+5To/SolZSbup3QcmcOj6z8g==",
+      "version": "5.10.19",
+      "resolved": "https://registry.npmjs.org/@ngx-formly/core/-/core-5.10.19.tgz",
+      "integrity": "sha512-vPUBMCGXfOov6h1WC8Yw3pIkOjxHixCmI4v+UJVOk0ThFg9XwAplG0TyE2Gkjp5KBNu4VVPxT6II6meSf0ivXQ==",
       "requires": {
-        "tslib": "^2.0.0"
+        "tslib": "^1.7.1"
+      },
+      "dependencies": {
+        "tslib": {
+          "version": "1.14.1",
+          "resolved": "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz",
+          "integrity": "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
+        }
       }
     },
     "@nodelib/fs.scandir": {
