@@ -27,53 +27,56 @@
 #++
 
 Settings::Definition.define do
-  add :smtp_enable_starttls_auto,
-      format: :boolean,
-      api_name: 'smtpEnableStartTLSAuto',
-      value: false,
-      admin: true
+  add :email_delivery_method,
+      format: :symbol,
+      value: nil
+
+  add :sendmail_arguments,
+      format: :string,
+      value: "-i"
+
+  add :sendmail_location,
+      format: :string,
+      value: "/usr/sbin/sendmail"
 
   add :smtp_enable_starttls_auto,
       format: :boolean,
       api_name: 'smtpEnableStartTLSAuto',
-      value: false,
-      admin: true
+      value: false
+
+  add :smtp_openssl_verify_mode,
+      format: :string,
+      value: "none",
+      allowed: %w[none peer client_once fail_if_no_peer_cert]
 
   add :smtp_ssl,
       format: :boolean,
       api_name: 'smtpSSL',
-      value: false,
-      admin: true
+      value: false
 
   add :smtp_address,
       format: :string,
-      value: '',
-      admin: true
+      value: ''
 
   add :smtp_domain,
       format: :string,
-      value: '',
-      admin: true
+      value: 'your.domain.com'
 
   add :smtp_user_name,
       format: :string,
-      value: '',
-      admin: true
+      value: ''
 
   add :smtp_port,
       format: :integer,
-      value: 587,
-      admin: true
+      value: 587
 
   add :smtp_password,
       format: :string,
-      value: '',
-      admin: true
+      value: ''
 
   add :smtp_authentication,
       format: :string,
-      value: 'plain',
-      admin: true
+      value: 'plain'
 
   # Former configurations
 
@@ -81,14 +84,12 @@ Settings::Definition.define do
       format: :string,
       value: 'standard',
       api: false,
-      admin: true,
       writable: false
 
   add :scm,
       format: :hash,
       value: {},
       api: false,
-      admin: true,
       writable: false
 
   # Configuration default values
@@ -154,9 +155,6 @@ Settings::Definition.define do
     # email configuration
     'email_delivery_configuration' => 'inapp',
     'smtp_enable_starttls_auto' => nil,
-    'smtp_openssl_verify_mode' => nil, # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
-    'sendmail_location' => '/usr/sbin/sendmail',
-    'sendmail_arguments' => '-i',
 
     'disable_password_login' => false,
     'auth_source_sso' => nil,

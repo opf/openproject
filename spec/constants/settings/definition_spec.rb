@@ -193,6 +193,21 @@ describe Settings::Definition do
           .to eql nil
       end
 
+      context 'when having invalid values in the file' do
+        let(:file_contents) do
+          {
+            'default' => {
+              'smtp_openssl_verify_mode' => 'bogus'
+            }
+          }
+        end
+
+        it 'is invalid' do
+          expect { all }
+            .to raise_error ArgumentError
+        end
+      end
+
       context 'when overwritten from ENV' do
         before do
           stub_const('ENV', { 'OPENPROJECT_SENDMAIL__LOCATION' => 'env location' })
@@ -354,6 +369,21 @@ describe Settings::Definition do
           .not_to be_writable
       end
     end
+
+    context 'with an invalid value' do
+      let(:instance) do
+        described_class
+          .new 'bogus',
+               format: format,
+               value: 'foo',
+               allowed: %w[foo bar]
+      end
+
+      it 'raises an error' do
+        expect { instance.override_value('invalid') }
+          .to raise_error ArgumentError
+      end
+    end
   end
 
   describe '.exists?' do
@@ -382,7 +412,8 @@ describe Settings::Definition do
                             serialized: true,
                             api: false,
                             admin: false,
-                            writable: false
+                            writable: false,
+                            allowed: [1, 2, 3]
       end
 
       it 'has the name' do
@@ -423,6 +454,11 @@ describe Settings::Definition do
       it 'has the writable value' do
         expect(instance.writable)
           .to eql false
+      end
+
+      it 'has the allowed value' do
+        expect(instance.allowed)
+          .to eql [1, 2, 3]
       end
     end
 

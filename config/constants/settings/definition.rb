@@ -39,9 +39,18 @@ module Settings
                   :serialized,
                   :api,
                   :admin,
-                  :writable
+                  :writable,
+                  :allowed
 
-    def initialize(name, value:, format: nil, api_name: name, serialized: false, api: true, admin: true, writable: true)
+    def initialize(name,
+                   value:,
+                   format: nil,
+                   api_name: name,
+                   serialized: false,
+                   api: true,
+                   admin: true,
+                   writable: true,
+                   allowed: nil)
       self.name = name.to_s
       self.format = format ? format.to_sym : deduce_format(value)
       self.value = value
@@ -50,6 +59,7 @@ module Settings
       self.api = api
       self.admin = admin
       self.writable = writable
+      self.allowed = allowed
     end
 
     def serialized?
@@ -75,11 +85,24 @@ module Settings
         self.value = other_value
       end
 
+      raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{value}" unless valid?
+
       self.writable = false
     end
 
+    def valid?
+      !allowed || allowed.include?(value)
+    end
+
     class << self
-      def add(name, value:, format: nil, api_name: name, serialized: false, api: true, admin: true, writable: true)
+      def add(name, value:,
+              format: nil,
+              api_name: name,
+              serialized: false,
+              api: true,
+              admin: true,
+              writable: true,
+              allowed: nil)
         return if @by_name.present? && @by_name[name.to_s].present?
 
         @by_name = nil
@@ -91,7 +114,8 @@ module Settings
                    serialized: serialized,
                    api: api,
                    admin: admin,
-                   writable: writable)
+                   writable: writable,
+                   allowed: allowed)
       end
 
       def define(&block)
@@ -176,7 +200,7 @@ module Settings
         all
           .map(&:name)
           .select { |key| source.include? key.upcase }
-          .each { |key| self[key] = extract_value key, source[key.upcase] }
+          .each { |key| self[key].override_value(extract_value(key, source[key.upcase])) }
       end
 
       def merge_hash_config(source, prefix: ENV_PREFIX)
