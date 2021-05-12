@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StateService, UIRouterGlobals} from "@uirouter/core";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResource, HalSource} from "core-app/modules/hal/resources/hal-resource";
-import {IOPFormlyFieldSettings} from "core-app/modules/common/dynamic-forms/typings";
+import {IDynamicFieldGroupConfig, IOPFormlyFieldSettings} from "core-app/modules/common/dynamic-forms/typings";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
@@ -12,8 +12,6 @@ import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
-import { FormlyFieldConfig } from "@ngx-formly/core";
-import {ProjectFormAttributeGroups} from "core-app/modules/projects/form-helpers/form-attribute-groups";
 
 export interface ProjectTemplateOption {
   href:string|null;
@@ -27,6 +25,7 @@ export interface ProjectTemplateOption {
 export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   resourcePath:string;
   dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
+  fieldGroups:IDynamicFieldGroupConfig[];
 
   initialPayload = {};
 
@@ -78,6 +77,10 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   ngOnInit():void {
     this.resourcePath = this.pathHelperService.projectsPath();
+    this.fieldGroups = [{
+      name: this.text.advancedSettingsLabel,
+      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!),
+    }];
 
     if (this.uIRouterGlobals.params.parent_id) {
       this.setParentAsPayload(this.uIRouterGlobals.params.parent_id);
@@ -121,34 +124,6 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private fieldSettingsPipe(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
-    const fieldsLayoutConfig = dynamicFieldsSettings
-      .reduce((result, field) => {
-        field = {
-          ...field,
-          hide: this.isHiddenField(field.key),
-        }
-
-        if (
-          (field.templateOptions?.required &&
-            !field.templateOptions.hasDefault &&
-            field.templateOptions.payloadValue == null) ||
-            field.templateOptions?.property === 'name' ||
-            field.templateOptions?.property === 'parent'
-        ) {
-          result.firstLevelFields = [...result.firstLevelFields, field];
-        } else {
-          result.advancedSettingsFields = [...result.advancedSettingsFields, field];
-        }
-
-        return result;
-      }, {
-        firstLevelFields: [],
-        advancedSettingsFields: []
-      } as { firstLevelFields:IOPFormlyFieldSettings[], advancedSettingsFields:IOPFormlyFieldSettings[] });
-
-    return [
-      ...fieldsLayoutConfig.firstLevelFields,
-      ProjectFormAttributeGroups.collapsibleFieldset(fieldsLayoutConfig.advancedSettingsFields, this.text.advancedSettingsLabel),
-    ];
+    return dynamicFieldsSettings.map(field => ({...field, hide: this.isHiddenField(field.key)}))
   }
 }

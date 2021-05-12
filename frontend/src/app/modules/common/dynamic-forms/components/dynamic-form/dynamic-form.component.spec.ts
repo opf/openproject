@@ -1,13 +1,12 @@
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { Component, forwardRef, ViewChild } from "@angular/core";
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from "@angular/platform-browser";
 import { defer, of } from "rxjs";
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { FormlyModule } from "@ngx-formly/core";
-
 import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
 import { DynamicFormService } from "core-app/modules/common/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
@@ -372,7 +371,7 @@ describe('DynamicFormComponent', () => {
 
     expect(fixture.debugElement.query(By.css('[data-qa="op-form--container"]'))).toBeTruthy();
     expect(fixture.debugElement.queryAll(By.css('formly-form')).length).toEqual(1);
-    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(11);
+    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(10);
     expect(fixture.debugElement.queryAll(By.css('op-text-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-formattable-textarea-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-select-input')).length).toEqual(2);
@@ -400,7 +399,7 @@ describe('DynamicFormComponent', () => {
 
     expect(fixture.debugElement.query(By.css('[data-qa="op-form--container"]'))).toBeTruthy();
     expect(fixture.debugElement.queryAll(By.css('formly-form')).length).toEqual(1);
-    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(11);
+    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(10);
     expect(fixture.debugElement.queryAll(By.css('op-text-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-formattable-textarea-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-select-input')).length).toEqual(2);

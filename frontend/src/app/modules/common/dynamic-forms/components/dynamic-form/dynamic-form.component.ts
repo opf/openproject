@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
-import { IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
+import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { catchError, finalize } from "rxjs/operators";
@@ -96,6 +96,23 @@ import { HttpErrorResponse } from "@angular/common/http";
 *    </op-dynamic-form>
 *    ```
 *
+* - fieldGroups:
+*   Allows to create field groups programmatically. For example, the following group would
+*   create an 'Advanced settings' field group with all the fields that are not 'name'
+*   or 'parent' overriding the default collapsibleFieldGroupsCollapsed (showing them
+*   uncollapsed).
+*
+*   ```
+*    const fieldGroups = [{
+*      name: 'Advanced settings',
+*      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!),
+ *     settings: {
+ *       templateOptions: {
+ *         collapsibleFieldGroupsCollapsed: false
+ *       }
+ *     }
+*    }];
+*   ```
 */
 
 @Component({
@@ -120,8 +137,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Input() resourceId?:string;
   @Input() settings?:IOPFormSettings;
   @Input() dynamicFormGroup?:FormGroup;
-  /** Chance to modify the dynamicFormFields settings before the form is rendered */
-  @Input() fieldsSettingsPipe?:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
   @Input() set model(payload:IOPFormModel) {
@@ -130,6 +145,10 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
     this.innerModel = formattedModel;
   }
+  /** Chance to modify the dynamicFormFields settings before the form is rendered */
+  @Input() fieldsSettingsPipe?:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
+  /** Create fieldGroups programmatically */
+  @Input() fieldGroups:IDynamicFieldGroupConfig[];
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
   @Input() handleSubmit = true;
@@ -297,7 +316,15 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   private _setupDynamicForm({ fields, model, form }:IOPDynamicFormSettings) {
-    this.fields = this.fieldsSettingsPipe ? this.fieldsSettingsPipe(fields) : fields;
+    if (this.fieldsSettingsPipe) {
+      fields = this.fieldsSettingsPipe(fields);
+    }
+
+    if (this.fieldGroups) {
+      fields = this._dynamicFieldsService.getFormlyFormWithFieldGroups(this.fieldGroups, fields);
+    }
+
+    this.fields = fields;
     this.innerModel = model;
     this.form = this.dynamicFormGroup || form;
 

@@ -42,7 +42,7 @@ describe('SelectInputComponent', () => {
       changedValue: selectOptions[1],
     };
     const fixture = createDynamicInputFixture(fieldsConfig, formModel);
-    const dynamicControl = fixture.componentInstance.dynamicControl.field.formControl;
+    const dynamicForm = fixture.componentInstance.dynamicForm.field.formControl;
     const dynamicInput = fixture.debugElement.query(By.css('op-select-input input')).nativeElement;
     const dynamicDebugElement = fixture.debugElement.query(By.css('ng-select'));
     const dynamicElement = dynamicDebugElement.nativeElement;
@@ -50,7 +50,7 @@ describe('SelectInputComponent', () => {
 
     // Test ControlValueAccessor
     // Write Value
-    expect(dynamicControl.value).toBe(testModel.initialValue);
+    expect(dynamicForm.value.testControl).toBe(testModel.initialValue);
     expect(dynamicElement.classList.contains('ng-untouched')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-valid')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-pristine')).toBeTrue();
@@ -76,7 +76,7 @@ describe('SelectInputComponent', () => {
     fixture.detectChanges();
     flush();
 
-    expect(dynamicControl.value).toBe(testModel.changedValue);
+    expect(dynamicForm.value.testControl).toBe(testModel.changedValue);
     expect(dynamicElement.classList.contains('ng-dirty')).toBeTrue();
 
     // Blur
@@ -85,7 +85,7 @@ describe('SelectInputComponent', () => {
     expect(dynamicElement.classList.contains('ng-touched')).toBeTrue();
 
     // Disabled
-    dynamicControl.disable();
+    dynamicForm.disable();
     fixture.detectChanges();
     expect(dynamicInput.disabled).toBeTrue();
   }));

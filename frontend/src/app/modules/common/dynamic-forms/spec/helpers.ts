@@ -14,7 +14,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { FormlyModule } from "@ngx-formly/core";
 import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
-import { FormlyField } from "@ngx-formly/core";
+import { FormlyForm } from "@ngx-formly/core";
 import { By } from "@angular/platform-browser";
 import { FormattableControlComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component";
 import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
@@ -30,16 +30,6 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
         <formly-form [form]="form"
                      [model]="model"
                      [fields]="fields">
-          <ng-template formlyTemplate let-field>
-            <op-form-field *ngFor="let field of fields"
-                           [label]="field.templateOptions?.label"
-                           [noWrapLabel]="field.templateOptions?.noWrapLabel"
-                           [required]="field.templateOptions?.required">
-              <formly-field [field]="field" slot=input></formly-field>
-    
-              <formly-validation-message [field]="field" slot=errors></formly-validation-message>
-            </op-form-field>
-          </ng-template>
         </formly-form>
       </form>      
     `,
@@ -50,7 +40,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
     model = model;
     fields = fields;
 
-    @ViewChild(FormlyField) dynamicControl:FormlyField;
+    @ViewChild(FormlyForm) dynamicForm:FormlyForm;
   }
 
   const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
@@ -125,12 +115,12 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
 }
 
 export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any>, model:any, selector:string) {
-  const dynamicControl = fixture.componentInstance.dynamicControl.field.formControl;
+  const dynamicForm: FormGroup = fixture.componentInstance.dynamicForm.form;
   const dynamicInput = fixture.debugElement.query(By.css(selector)).nativeElement;
 
   // Test ControlValueAccessor
   // Write Value
-  expect(dynamicControl.value).toBe(model.initialValue);
+  expect(dynamicForm.value.testControl).toBe(model.initialValue);
   expect(dynamicInput.classList.contains('ng-untouched')).toBeTrue();
   expect(dynamicInput.classList.contains('ng-valid')).toBeTrue();
   expect(dynamicInput.classList.contains('ng-pristine')).toBeTrue();
@@ -145,7 +135,7 @@ export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any
 
   fixture.detectChanges();
 
-  expect(dynamicControl.value).toBe(model.changedValue);
+  expect(dynamicForm.value.testControl).toBe(model.changedValue);
   expect(dynamicInput.classList.contains('ng-dirty')).toBeTrue();
 
   // Blur
@@ -154,7 +144,7 @@ export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any
   expect(dynamicInput.classList.contains('ng-touched')).toBeTrue();
 
   // Disabled
-  dynamicControl.disable();
+  dynamicForm.disable();
   fixture.detectChanges();
   expect(dynamicInput.disabled).toBeTrue();
 }

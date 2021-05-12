@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  IDynamicFieldGroupConfig,
   IOPDynamicInputTypeSettings,
   IOPFormlyFieldSettings,
 } from "../../typings";
@@ -123,12 +124,15 @@ export class DynamicFieldsService {
   }
 
   getConfig(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormlyFieldSettings[] {
-    const formFieldGroups = formSchema._attributeGroups;
+    const formFieldGroups = formSchema._attributeGroups?.map(fieldGroup => ({
+      name: fieldGroup.name,
+      fieldsFilter: (field:IOPFormlyFieldSettings) => fieldGroup.attributes?.includes(field.templateOptions?.property!),
+    }));
     const fieldSchemas = this._getFieldsSchemasWithKey(formSchema);
     const formlyFields = fieldSchemas
       .map(fieldSchema => this._getFormlyFieldConfig(fieldSchema, formPayload))
       .filter(f => f !== null) as IOPFormlyFieldSettings[];
-    const formlyFormWithFieldGroups = this._getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
+    const formlyFormWithFieldGroups = this.getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
 
     return formlyFormWithFieldGroups;
   }
@@ -149,12 +153,19 @@ export class DynamicFieldsService {
     return model;
   }
 
+  getFormlyFormWithFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
+    const fomFieldsWithoutGroup = formFields.filter(formField => fieldGroups.every(fieldGroup => !fieldGroup.fieldsFilter || !fieldGroup.fieldsFilter(formField)));
+    const formFieldGroups = this._getDynamicFormFieldGroups(fieldGroups, formFields);
+
+    return [...fomFieldsWithoutGroup, ...formFieldGroups];
+  }
+
   private _getFieldsSchemasWithKey(formSchema:IOPFormSchema):IOPFieldSchemaWithKey[] {
     return Object.keys(formSchema)
       .map(fieldSchemaKey => {
         const fieldSchema = {
           ...formSchema[fieldSchemaKey],
-          key: this.getAttributeKey(formSchema[fieldSchemaKey], fieldSchemaKey)
+          key: this._getAttributeKey(formSchema[fieldSchemaKey], fieldSchemaKey)
         };
 
         return fieldSchema;
@@ -162,7 +173,7 @@ export class DynamicFieldsService {
       .filter(fieldSchema => this._isFieldSchema(fieldSchema) && fieldSchema.writable);
   }
 
-  private getAttributeKey(fieldSchema:IOPFieldSchema, key:string):string {
+  private _getAttributeKey(fieldSchema:IOPFieldSchema, key:string):string {
     switch (fieldSchema.location) {
       case "_links":
       case "_meta":
@@ -205,7 +216,7 @@ export class DynamicFieldsService {
     }
     const { templateOptions, ...fieldTypeConfig } = fieldTypeConfigSearch;
     const fieldOptions = this._getFieldOptions(fieldSchema);
-    const property = this.getFieldProperty(key);
+    const property = this._getFieldProperty(key);
     const payloadValue = property && formPayload[property];
     const formlyFieldConfig = {
       ...fieldTypeConfig,
@@ -295,64 +306,78 @@ export class DynamicFieldsService {
   }
 
   // Map a field key that may be a _links.property to the property name
-  private getFieldProperty(key:string) {
+  private _getFieldProperty(key:string) {
     return key.split('.').pop();
   }
 
-  private _getFormlyFormWithFieldGroups(fieldGroups:IOPAttributeGroup[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
-    const fieldGroupKeys = fieldGroups.reduce((groupKeys, fieldGroup) => [...groupKeys, ...fieldGroup.attributes], []);
-    const fomFieldsWithoutGroup = formFields.filter(formField => {
-      const formFieldKey = formField.key && this.getFieldProperty(formField.key);
+  private _getDynamicFormFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []) {
+    return fieldGroups.reduce((formWithFieldGroups:IOPFormlyFieldSettings[], fieldGroup) => {
+      let newFormFieldGroup = this._getDefaultFieldGroupSettings(fieldGroup, formFields);
 
-      return formFieldKey ?
-        !fieldGroupKeys.includes(formFieldKey) :
-        true;
-    });
-    const formFieldGroups = fieldGroups.reduce((formWithFieldGroups:IOPFormlyFieldSettings[], fieldGroup) => {
-      const newFormFieldGroup = {
-        wrappers: ['op-dynamic-field-group-wrapper'],
-        fieldGroupClassName: 'op-form-group',
-        templateOptions: {
-          label: fieldGroup.name,
-          isFieldGroup: true,
-          collapsibleFieldGroups: false,
-          collapsibleFieldGroupsCollapsed: true,
-        },
-        fieldGroup: formFields.filter(formField => {
-          const formFieldKey = formField.key && this.getFieldProperty(formField.key);
-
-          return formFieldKey ?
-            fieldGroup.attributes.includes(formFieldKey) :
-            false;
-        }),
-        expressionProperties: {
-          'templateOptions.collapsibleFieldGroupsCollapsed': (model:any, formState:any, field:FormlyFieldConfig) => {
-            // Uncollapse field groups when the form has errors and is submitted
-            if (
-              field.type !== 'formly-group' ||
-              !field.templateOptions?.collapsibleFieldGroups ||
-              !field.templateOptions?.collapsibleFieldGroupsCollapsed
-            ) {
-              return;
-            } else {
-              return !(
-                field.fieldGroup?.some(groupField =>
-                  groupField?.formControl?.errors &&
-                  !groupField.hide &&
-                  field.options?.parentForm?.submitted
-                ));
-            }
+      if (fieldGroup.settings) {
+        newFormFieldGroup = {
+          ...newFormFieldGroup,
+          templateOptions: {
+            ...newFormFieldGroup.templateOptions,
+            ...fieldGroup.settings.templateOptions && fieldGroup.settings.templateOptions,
           },
+          expressionProperties: {
+            ...newFormFieldGroup.expressionProperties,
+            ...fieldGroup.settings.expressionProperties && fieldGroup.settings.expressionProperties,
+          }
         }
       }
 
-      if (newFormFieldGroup.fieldGroup.length) {
+      if (newFormFieldGroup?.fieldGroup?.length) {
         formWithFieldGroups = [...formWithFieldGroups, newFormFieldGroup];
       }
 
       return formWithFieldGroups;
     }, []);
+  }
 
-    return [...fomFieldsWithoutGroup, ...formFieldGroups];
+  private _getDefaultFieldGroupSettings(fieldGroupConfig:IDynamicFieldGroupConfig, formFields:IOPFormlyFieldSettings[]): IOPFormlyFieldSettings {
+    const defaultFieldGroupSettings = {
+      wrappers: ['op-dynamic-field-group-wrapper'],
+      fieldGroupClassName: 'op-form-group',
+      templateOptions: {
+        label: fieldGroupConfig.name,
+        isFieldGroup: true,
+        collapsibleFieldGroups: true,
+        collapsibleFieldGroupsCollapsed: true,
+      },
+      fieldGroup: formFields.filter(formField => {
+        const formFieldKey = formField.key && this._getFieldProperty(formField.key);
+
+        if (!formFieldKey) {
+          return false;
+        } else if (fieldGroupConfig.fieldsFilter) {
+          return fieldGroupConfig.fieldsFilter(formField);
+        } else {
+          return true;
+        }
+      }),
+      expressionProperties: {
+        'templateOptions.collapsibleFieldGroupsCollapsed': (model:any, formState:any, field:FormlyFieldConfig) => {
+          // Uncollapse field groups when the form has errors and is submitted
+          if (
+            field.type !== 'formly-group' ||
+            !field.templateOptions?.collapsibleFieldGroups ||
+            !field.templateOptions?.collapsibleFieldGroupsCollapsed
+          ) {
+            return;
+          } else {
+            return !(
+              field.fieldGroup?.some((groupField: IOPFormlyFieldSettings) =>
+                groupField.formControl?.errors &&
+                !groupField.hide &&
+                field.options?.parentForm?.submitted
+              ));
+            }
+          },
+        }
+      };
+
+    return defaultFieldGroupSettings;
   }
 }

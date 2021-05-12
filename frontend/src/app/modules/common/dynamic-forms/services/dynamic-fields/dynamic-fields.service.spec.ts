@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from "@angular/common/
 import { HttpClient } from "@angular/common/http";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { isObservable } from "rxjs";
+import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 
 describe('DynamicFieldsService', () => {
   let httpClient: HttpClient;
@@ -198,9 +199,9 @@ describe('DynamicFieldsService', () => {
     const formlyConfig = service.getConfig(formSchema, formPayload);
     const formlyFields = formlyConfig.reduce((result, formlyField) => {
       return formlyField.fieldGroup ? [...result, ...formlyField.fieldGroup] : [...result, formlyField];
-    }, []);
+    }, [] as IOPFormlyFieldSettings[]);
     const formGroup = formlyConfig[1];
-    const everyFieldHasCSSClass = formlyFields.every(formlyField =>  formlyField.className!.startsWith('op-form--field'));
+    const everyFieldHasCSSClass = formlyFields.every((formlyField:IOPFormlyFieldSettings) =>  formlyField.className!.startsWith('op-form--field'));
 
     expect(everyFieldHasCSSClass).toBeTruthy('should place the op-form--field class on every field');
     expect(formlyFields[1].templateOptions!.required).toBe(true, 'should set the required attribute');
