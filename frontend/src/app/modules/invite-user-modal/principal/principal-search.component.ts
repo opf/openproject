@@ -14,6 +14,7 @@ import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-build
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {PrincipalLike} from "core-app/modules/principal/principal-types";
 import {CurrentUserService} from "core-app/modules/current-user/current-user.service";
 import {PrincipalType} from '../invite-user.component';
@@ -49,12 +50,12 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     this.input$,
     this.currentUserService.hasCapabilities$('users/create'),
   ).pipe(
-    map(([elements, input, canCreateUsers]) =>
-      canCreateUsers
+    map(([elements, input, canCreateUsers]) => {
+      return canCreateUsers
       && this.type === PrincipalType.User
       && input?.includes('@')
-      && !elements.find((el:any) => el.email === input)
-    ),
+      && !elements.find((el) => (el.principal as UserResource).email === input);
+    }),
   );
 
   public canCreateNewPlaceholder$ = combineLatest(

@@ -93,7 +93,7 @@ module Pages
 
     def ensure_page_loaded
       expect_angular_frontend_initialized
-      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+      expect(page).to have_selector('.op-user-activity--user-name',
                                     text: work_package.journals.last.user.name,
                                     minimum: 1,
                                     wait: 10)
@@ -130,7 +130,7 @@ module Pages
       container = '#work-package-activites-container'
       container += " #activity-#{number}" if number
 
-      expect(page).to have_selector(container + ' .user', text: user.name)
+      expect(page).to have_selector(container + ' .op-user-activity--user-line', text: user.name)
     end
 
     def expect_activity_message(message)
