@@ -66,14 +66,12 @@ describe Setting, type: :model do
       end
 
       context 'when overwritten' do
-        let(:setting_definition) { Settings::Definition[:host_name] }
-
-        before do
-          setting_definition.writable = false
-        end
-
-        after do
-          setting_definition.writable = true
+        let!(:setting_definition) do
+          Settings::Definition[:host_name].tap do |setting|
+            allow(setting)
+              .to receive(:writable?)
+                    .and_return false
+          end
         end
 
         it 'takes the setting from the definition' do
@@ -105,11 +103,9 @@ describe Setting, type: :model do
 
   describe '.[setting]_writable?' do
     before do
-      Settings::Definition[:host_name].writable = writable
-    end
-
-    after do
-      Settings::Definition[:host_name].writable = true
+      allow(Settings::Definition[:host_name])
+        .to receive(:writable?)
+              .and_return writable
     end
 
     context 'if definition states it to be writable' do

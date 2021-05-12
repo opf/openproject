@@ -111,7 +111,7 @@ module Redmine #:nodoc:
       if p.settings
         Settings::Definition.add("plugin_#{id}",
                                  value: p.settings[:default],
-                                 serialized: true,
+                                 format: :hash,
                                  api: false)
       end
 

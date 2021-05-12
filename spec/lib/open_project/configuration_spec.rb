@@ -250,25 +250,17 @@ describe OpenProject::Configuration do
     context 'without cache store already set' do
       before do
         application_config.cache_store = nil
+        OpenProject::Configuration.send(:configure_cache, application_config)
       end
 
-      context 'with additional cache store configuration' do
-        before do
-          OpenProject::Configuration['rails_cache_store'] = 'bar'
-        end
-
+      context 'with additional cache store configuration', with_config: { 'rails_cache_store' => 'bar' } do
         it 'changes the cache store' do
-          OpenProject::Configuration.send(:configure_cache, application_config)
           expect(application_config.cache_store).to eq([:bar])
         end
       end
 
-      context 'without additional cache store configuration' do
-        before do
-          OpenProject::Configuration['rails_cache_store'] = nil
-        end
+      context 'without additional cache store configuration', with_config: { 'rails_cache_store' => nil } do
         it 'defaults the cache store to :file_store' do
-          OpenProject::Configuration.send(:configure_cache, application_config)
           expect(application_config.cache_store.first).to eq(:file_store)
         end
       end

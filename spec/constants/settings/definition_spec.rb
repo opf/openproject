@@ -74,14 +74,14 @@ describe Settings::Definition do
       include_context 'clean definitions'
 
       it 'allows overriding configuration from ENV' do
-        stub_const('ENV', { 'OPENPROJECT_EDITION' => 'foo' })
+        stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
 
         expect(all.detect { |d| d.name == 'edition' }.value)
-          .to eql 'foo'
+          .to eql 'bim'
       end
 
       it 'overriding configuration from ENV will set it to non writable' do
-        stub_const('ENV', { 'OPENPROJECT_EDITION' => 'foo' })
+        stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
 
         expect(all.detect { |d| d.name == 'edition' })
           .not_to be_writable
@@ -125,7 +125,7 @@ describe Settings::Definition do
       let(:file_contents) do
         {
           'default' => {
-            'edition' => 'default edition',
+            'edition' => 'bim',
             'sendmail_location' => 'default location'
           },
           'test' => {
@@ -160,7 +160,7 @@ describe Settings::Definition do
 
       it 'overrides from file default' do
         expect(all.detect { |d| d.name == 'edition' }.value)
-          .to eql 'default edition'
+          .to eql 'bim'
       end
 
       it 'marks the value overwritten from file default unwritable' do
@@ -409,7 +409,6 @@ describe Settings::Definition do
                             format: :integer,
                             value: 1,
                             api_name: 'boGus',
-                            serialized: true,
                             api: false,
                             admin: false,
                             writable: false,
@@ -436,24 +435,24 @@ describe Settings::Definition do
           .to eql 'boGus'
       end
 
-      it 'has the serialized' do
-        expect(instance.serialized)
-          .to eql true
+      it 'is not serialized' do
+        expect(instance)
+          .not_to be_serialized
       end
 
       it 'has the api' do
-        expect(instance.api)
-          .to eql false
+        expect(instance)
+          .not_to be_api
       end
 
       it 'has the admin value' do
-        expect(instance.admin)
-          .to eql false
+        expect(instance)
+          .not_to be_admin
       end
 
       it 'has the writable value' do
-        expect(instance.writable)
-          .to eql false
+        expect(instance)
+          .not_to be_writable
       end
 
       it 'has the allowed value' do
@@ -488,24 +487,24 @@ describe Settings::Definition do
           .to eql 'bogus'
       end
 
-      it 'has the serialized' do
-        expect(instance.serialized)
-          .to eql false
+      it 'is not serialized' do
+        expect(instance)
+          .not_to be_serialized
       end
 
       it 'has the api' do
-        expect(instance.api)
-          .to eql true
+        expect(instance)
+          .to be_api
       end
 
       it 'has the admin value' do
-        expect(instance.admin)
-          .to eql true
+        expect(instance)
+          .to be_admin
       end
 
       it 'has the writable value' do
-        expect(instance.writable)
-          .to eql true
+        expect(instance)
+          .to be_writable
       end
     end
 
@@ -519,6 +518,11 @@ describe Settings::Definition do
         expect(instance.format)
           .to eql :hash
       end
+
+      it 'is serialized' do
+        expect(instance)
+          .to be_serialized
+      end
     end
 
     context 'with the minimal attributes (array value)' do
@@ -530,6 +534,11 @@ describe Settings::Definition do
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
           .to eql :array
+      end
+
+      it 'is serialized' do
+        expect(instance)
+          .to be_serialized
       end
     end
 
@@ -590,6 +599,58 @@ describe Settings::Definition do
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
           .to eql :string
+      end
+    end
+
+    context 'with procs for value, writable and allowed' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            format: 'string',
+                            value: -> { 'some value' },
+                            writable: -> { false },
+                            allowed: -> { %w[a b c] }
+
+      end
+
+      it 'returns the procs return value for value' do
+        expect(instance.value)
+          .to eql 'some value'
+      end
+
+      it 'returns the procs return value for writable' do
+        expect(instance.writable?)
+          .to be false
+      end
+
+      it 'returns the procs return value for allowed' do
+        expect(instance.allowed)
+          .to eql %w[a b c]
+      end
+    end
+
+    context 'with an integer provided as a string' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            format: :integer,
+                            value: '5'
+      end
+
+      it 'returns value as an int' do
+        expect(instance.value)
+          .to eql 5
+      end
+    end
+
+    context 'with a float provided as a string' do
+      let(:instance) do
+        described_class.new 'bogus',
+                            format: :float,
+                            value: '0.5'
+      end
+
+      it 'returns value as a float' do
+        expect(instance.value)
+          .to eql 0.5
       end
     end
   end

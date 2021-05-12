@@ -66,7 +66,7 @@ describe 'Protected settings', type: :feature do
 
     after do
       setting.value = setting_value
-      setting.writable = true
+      setting.instance_variable_set(:@writable, true)
     end
 
     it 'is the overwritten value and cannot be altered' do

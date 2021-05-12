@@ -34,19 +34,15 @@ module Settings
 
     attr_accessor :name,
                   :format,
-                  :value,
-                  :api_name,
-                  :serialized,
-                  :api,
-                  :admin,
-                  :writable,
-                  :allowed
+                  :api_name
+
+    attr_writer :value,
+                :allowed
 
     def initialize(name,
                    value:,
                    format: nil,
                    api_name: name,
-                   serialized: false,
                    api: true,
                    admin: true,
                    writable: true,
@@ -55,15 +51,31 @@ module Settings
       self.format = format ? format.to_sym : deduce_format(value)
       self.value = value
       self.api_name = api_name
-      self.serialized = serialized
       self.api = api
       self.admin = admin
       self.writable = writable
       self.allowed = allowed
     end
 
+    def value
+      return nil unless @value
+
+      case format
+      when :integer
+        @value.to_i
+      when :float
+        @value.to_f
+      else
+        if @value.respond_to?(:call)
+          @value.call
+        else
+          @value
+        end
+      end
+    end
+
     def serialized?
-      !!serialized
+      %i[array hash].include?(format)
     end
 
     def api?
@@ -75,7 +87,11 @@ module Settings
     end
 
     def writable?
-      !!writable
+      if writable.respond_to?(:call)
+        writable.call
+      else
+        !!writable
+      end
     end
 
     def override_value(other_value)
@@ -91,14 +107,23 @@ module Settings
     end
 
     def valid?
-      !allowed || allowed.include?(value)
+      !allowed ||
+        (format == :array && (value - allowed).empty?) ||
+        allowed.include?(value)
+    end
+
+    def allowed
+      if @allowed.respond_to?(:call)
+        @allowed.call
+      else
+        @allowed
+      end
     end
 
     class << self
       def add(name, value:,
               format: nil,
               api_name: name,
-              serialized: false,
               api: true,
               admin: true,
               writable: true,
@@ -111,7 +136,6 @@ module Settings
                    format: format,
                    value: value,
                    api_name: api_name,
-                   serialized: serialized,
                    api: api,
                    admin: admin,
                    writable: writable,
@@ -277,12 +301,21 @@ module Settings
 
     private
 
+    attr_accessor :serialized,
+                  :api,
+                  :admin,
+                  :writable
+
     def deduce_format(value)
       case value
       when TrueClass, FalseClass
         :boolean
-      when Integer, Date, DateTime, String, Hash, Array
+      when Integer, Date, DateTime, String, Hash, Array, Float, Symbol
         value.class.name.underscore.to_sym
+      when ActiveSupport::Duration
+        :duration
+      else
+        raise ArgumentError, "Cannot deduce the format for the setting definition #{name}"
       end
     end
   end

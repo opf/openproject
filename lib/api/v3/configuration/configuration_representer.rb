@@ -153,6 +153,7 @@ module API
 
         def reformated(setting, &block)
           setting
+            .to_s
             .gsub(/%\w/, &block)
             .presence
         end
