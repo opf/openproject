@@ -25,7 +25,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 
 import { Injector, NgModule } from '@angular/core';
-import { Tab } from 'core-app/components/wp-tabs/components/wp-tab-wrapper/tab';
 import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
 
 import { GitHubTabComponent } from './github-tab/github-tab.component';
@@ -42,7 +41,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
   wpTabService.register({
     component: GitHubTabComponent,
     name: I18n.t('js.github_integration.work_packages.tab_name'),
-    identifier: 'github',
+    id: 'github',
     displayable: (workPackage) => !!workPackage.github,
   });
 }

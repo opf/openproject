@@ -5,23 +5,15 @@ import { StateDeclaration } from "@uirouter/core";
 import { StateParams } from "@uirouter/core/lib/params/stateParams";
 import { Observable } from "rxjs";
 import { StateService } from "@uirouter/angular";
+import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
 
 export interface TabComponent extends Component {
   workPackage:WorkPackageResource;
 }
 
-export interface Tab {
+export interface WpTabDefinition extends TabDefinition {
   component:Type<TabComponent>;
-  name:string;
-  identifier:string;
-}
-
-export interface TabDefinition extends Tab {
   displayable?:(workPackage:WorkPackageResource, $state:StateService) => boolean;
   count?:(workPackage:WorkPackageResource, injector:Injector) => Observable<number>;
-}
-
-export interface TabInstance extends Tab {
-  counter?:Observable<number>;
 }
 

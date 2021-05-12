@@ -1,19 +1,51 @@
-<div #scrollContainer [ngClass]="classes">
-  <ul #scrollPane class="tabrow" (scroll)="onScroll($event)">
-    <li *ngFor="let tab of tabs"
-        [class.selected]="tab.id === currentTabId"
-        [attr.tab-id]="tab.id">
-      <a [href]="tab.path" (click)="clickTab(tab.id)" [textContent]="tab.name"></a>
-    </li>
+<div class="op-scrollable-tabs" [ngClass]="classes">
+  <div #scrollContainer
+       [ngClass]="{ '-narrow': narrow }"
+       class="op-scrollable-tabs--tab-container"
+  >
+    <ul #scrollPane class="tabrow" (scroll)="onScroll($event)">
+      <li *ngFor="let tab of tabs; trackBy:trackById"
+          [attr.tab-id]="tab.id"
+      >
+        <a
+          *ngIf="!tab.route"
+          [href]="tab.path"
+          [class.selected]="tab.id === currentTabId"
+          (click)="clickTab(tab, $event)"
+          [textContent]="tab.name"
+        >
+        </a>
+        <a
+          *ngIf="tab.route"
+          [uiSref]="tab.route"
+          [uiParams]="tab.routeParams"
+          uiSrefActive="selected"
+          (click)="clickTab(tab, $event)"
+          [textContent]="tab.name"
+          href=""
+          role="button"
+        >
+        </a>
+        <op-tab-count
+          *ngIf="tab.counter"
+          [counter]="tab.counter"
+        ></op-tab-count>
+      </li>
+    </ul>
+    <div #scrollLeftBtn [hidden]="hideLeftButton"
+         class="op-scrollable-tabs--button -left"
+         (click)="scrollLeft()"
+    >
+      <span class="icon-arrow-left2"></span>
+    </div>
+    <div #scrollRightBtn [hidden]="hideRightButton"
+         class="op-scrollable-tabs--button -right"
+         (click)="scrollRight()"
+    >
+      <span class="icon-arrow-right2"></span>
+    </div>
+  </div>
+  <ul class="op-scrollable-tabs--actions">
+    <ng-content select="[slot=actions]"></ng-content>
   </ul>
-  <div #scrollLeftBtn [hidden]="hideLeftButton"
-                      class="scrollable-tabs--button -left"
-                      (click)="scrollLeft()">
-    <span class="icon-arrow-left2"></span>
-  </div>
-  <div #scrollRightBtn [hidden]="hideRightButton"
-                       class="scrollable-tabs--button -right"
-                       (click)="scrollRight()">
-    <span class="icon-arrow-right2"></span>
-  </div>
 </div>

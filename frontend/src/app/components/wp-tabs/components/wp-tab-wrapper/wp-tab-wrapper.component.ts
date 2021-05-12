@@ -31,10 +31,10 @@ import { Component, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
-import { Tab } from './tab';
 import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { WpTabDefinition } from "core-components/wp-tabs/components/wp-tab-wrapper/tab";
 
 @Component({
   templateUrl: './wp-tab-wrapper.html',
@@ -44,7 +44,7 @@ export class WpTabWrapperComponent implements OnInit {
   workPackage:WorkPackageResource;
   ndcDynamicInputs$:Observable<{
     workPackage:WorkPackageResource;
-    tab:Tab | undefined;
+    tab:WpTabDefinition | undefined;
   }>;
 
   get workPackageId() {
@@ -70,7 +70,7 @@ export class WpTabWrapperComponent implements OnInit {
       );
   }
 
-  findTab(workPackage:WorkPackageResource):Tab | undefined {
+  findTab(workPackage:WorkPackageResource):WpTabDefinition | undefined {
     const tabIdentifier = this.$transition.params('to').tabIdentifier;
 
     return this.wpTabsService.getTab(tabIdentifier, workPackage);

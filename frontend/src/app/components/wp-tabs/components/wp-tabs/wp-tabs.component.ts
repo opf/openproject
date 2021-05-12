@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
-import { Tab, TabInstance } from "core-app/components/wp-tabs/components/wp-tab-wrapper/tab";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { StateService } from "@uirouter/angular";
 import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import { UIRouterGlobals } from "@uirouter/core";
 import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
 
 @Component({
   selector: 'op-wp-tabs',
@@ -18,9 +18,7 @@ export class WpTabsComponent implements OnInit {
   @Input() workPackage:WorkPackageResource;
   @Input() view:'full'|'split';
 
-  trackByIdentifier = AngularTrackingHelpers.trackByProperty('identifier');
-
-  public tabs:TabInstance[];
+  public tabs:TabDefinition[];
   public uiSrefBase:string;
   public canViewWatchers = false;
 
@@ -42,9 +40,22 @@ export class WpTabsComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.tabs = this.wpTabsService.getDisplayableTabs(this.workPackage);
     this.uiSrefBase = this.view === 'split' ? '' : 'work-packages.show';
     this.canViewWatchers = !!(this.workPackage && this.workPackage.watchers);
+    this.tabs = this.getDisplayableTabs();
+  }
+
+  private getDisplayableTabs() {
+    return this
+      .wpTabsService
+      .getDisplayableTabs(this.workPackage)
+      .map(tab => {
+        return {
+          ...tab,
+          route: this.uiSrefBase + '.tabs',
+          routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id }
+        };
+      });
   }
 
   public switchToFullscreen():void {

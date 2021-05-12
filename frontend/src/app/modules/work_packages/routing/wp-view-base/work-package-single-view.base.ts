@@ -41,7 +41,6 @@ import { WorkPackageNotificationService } from 'core-app/modules/work_packages/n
 import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
-import { Tab } from 'core-app/components/wp-tabs/components/wp-tab-wrapper/tab';
 import { HookService } from 'core-app/modules/plugins/hook-service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {

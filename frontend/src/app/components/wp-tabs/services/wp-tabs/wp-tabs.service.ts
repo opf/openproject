@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { Tab, TabDefinition, TabInstance } from "core-components/wp-tabs/components/wp-tab-wrapper/tab";
+import { WpTabDefinition } from "core-components/wp-tabs/components/wp-tab-wrapper/tab";
 import { WorkPackageActivityTabComponent } from "core-components/wp-single-view-tabs/activity-panel/activity-tab.component";
 import { WorkPackageRelationsTabComponent } from "core-components/wp-single-view-tabs/relations-tab/relations-tab.component";
 import { WorkPackageWatchersTabComponent } from "core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component";
@@ -9,12 +9,13 @@ import { workPackageWatchersCount } from "core-components/wp-tabs/services/wp-ta
 import { StateService } from "@uirouter/angular";
 import { WorkPackageOverviewTabComponent } from "core-components/wp-single-view-tabs/overview-tab/overview-tab.component";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkPackageTabsService {
-  private registeredTabs:TabDefinition[];
+  private registeredTabs:WpTabDefinition[];
 
   constructor(
     private $state:StateService,
@@ -24,18 +25,18 @@ export class WorkPackageTabsService {
     this.registeredTabs = this.buildDefaultTabs();
   }
 
-  get tabs():TabDefinition[] {
+  get tabs():WpTabDefinition[] {
     return [...this.registeredTabs];
   }
 
-  register(...tabs:TabDefinition[]) {
+  register(...tabs:WpTabDefinition[]) {
     this.registeredTabs = [
       ...this.registeredTabs,
       ...tabs,
     ];
   }
 
-  getDisplayableTabs(workPackage:WorkPackageResource):TabInstance[] {
+  getDisplayableTabs(workPackage:WorkPackageResource):WpTabDefinition[] {
     return this
       .tabs
       .filter(
@@ -49,31 +50,31 @@ export class WorkPackageTabsService {
       );
   }
 
-  getTab(tabId:string, workPackage:WorkPackageResource):Tab|undefined {
-    return this.getDisplayableTabs(workPackage).find(({ identifier: id }) => id === tabId);
+  getTab(tabId:string, workPackage:WorkPackageResource):WpTabDefinition|undefined {
+    return this.getDisplayableTabs(workPackage).find(({ id: id }) => id === tabId);
   }
 
-  private buildDefaultTabs():TabDefinition[] {
+  private buildDefaultTabs():WpTabDefinition[] {
     return [
       {
         component: WorkPackageOverviewTabComponent,
         name: this.I18n.t('js.work_packages.tabs.overview'),
-        identifier: 'overview',
+        id: 'overview',
         displayable: (_, $state) => $state.includes('**.details.*'),
       },
       {
-        identifier: 'activity',
+        id: 'activity',
         component: WorkPackageActivityTabComponent,
         name: I18n.t('js.work_packages.tabs.activity'),
       },
       {
-        identifier: 'relations',
+        id: 'relations',
         component: WorkPackageRelationsTabComponent,
         name: I18n.t('js.work_packages.tabs.relations'),
         count: workPackageRelationsCount,
       },
       {
-        identifier: 'watchers',
+        id: 'watchers',
         component: WorkPackageWatchersTabComponent,
         name: I18n.t('js.work_packages.tabs.watchers'),
         displayable: (workPackage) => !!workPackage.watchers,
