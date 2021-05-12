@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :user, parent: :principal, class: User do
+  factory :user, parent: :principal, class: 'User' do
     firstname { 'Bob' }
     lastname { 'Bobbit' }
     sequence(:login) { |n| "bob#{n}" }
@@ -74,7 +74,7 @@ FactoryBot.define do
       first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
     end
 
-    factory :deleted_user, class: DeletedUser
+    factory :deleted_user, class: 'DeletedUser'
 
     factory :locked_user do
       firstname { 'Locked' }
@@ -91,11 +91,11 @@ FactoryBot.define do
     end
   end
 
-  factory :anonymous, class: AnonymousUser do
+  factory :anonymous, class: 'AnonymousUser' do
     initialize_with { User.anonymous }
   end
 
-  factory :system, class: SystemUser do
+  factory :system, class: 'SystemUser' do
     initialize_with { User.system }
   end
 end
