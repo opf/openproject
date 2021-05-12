@@ -183,10 +183,6 @@ Doorkeeper.configure do
   #   Rails.logger.info(params.inspect)
   # end
   #
-  after_successful_authorization do |_controller|
-    # Schedule a cleanup job to clean out over-TTL tokens and grants
-    ::OAuth::CleanupJob.perform_later
-  end
 
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.

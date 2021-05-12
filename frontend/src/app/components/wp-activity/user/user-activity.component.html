@@ -10,14 +10,14 @@
       [hide-name]="true"
     ></op-principal>
 
-    <span class="user">
-      <user-link [user]="user"></user-link>
-    </span>
+    <div>
+      <user-link class="op-user-activity--user-name" [user]="user"></user-link>
+      <span class="op-user-activity--date">
+      {{ isInitial ? text.label_created_on : text.label_updated_on }}
+        <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>
+      </span>
+    </div>
   </div>
-  <span class="date">
-    {{ isInitial ? text.label_created_on : text.label_updated_on }}
-    <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>
-  </span>
   <div class="comments-number">
     <activity-link [workPackage]="workPackage"
                    [activityNo]="activityNo">

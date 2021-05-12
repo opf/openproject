@@ -176,7 +176,7 @@ tr:
   concatenation:
     single: 'ya da'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Daha fazla bilgi için lütfen bu konuyla ilgili belgelerimize bakın.
   global_search:
     overwritten_tabs:
       wiki_pages: "Viki"
@@ -207,7 +207,7 @@ tr:
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
     settings:
-      change_identifier: Change identifier
+      change_identifier: Dil Tanımlayıcı değiştir
       activities:
         no_results_title_text: Şu anda hiç bir etkinlik mevcut değil.
       forums:
@@ -224,12 +224,12 @@ tr:
         no_results_title_text: Şu anda proje için versiyon mevcut değil.
         no_results_content_text: Yeni bir versiyon oluştur
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: Bu proje tarafından tüketilen ek kayıtlı disk alanı yoktur.
   members:
     index:
       no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
       no_results_content_text: Projeye üye ekle
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Davet gönder %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Erişim anahtarı sıfırlaması başarısız oldu: %{error}"
@@ -826,32 +826,32 @@ tr:
     version: "Sürüm"
     work_package: "İş paketi"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "Yedek jeton"
+    label_create_token: "Yedek jeton oluşturun"
+    label_delete_token: "Yedek jetonu silin"
+    label_reset_token: "Yedekleme jetonunu sıfırlayın"
+    label_token_users: "Aşağıdaki kullanıcıların aktif yedekleme jetonları var"
     reset_token:
       action_create: Oluştur
       action_reset: Sıfırla
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Yedekleme jetonunu sıfırlayın"
+      heading_create: "Yedek jeton oluşturun"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Yedeklemeleri etkinleştirmek, gerekli izinlere ve bu yedekleme jetonuna sahip herhangi bir kullanıcının bu OpenProject kurulumunun tüm verilerini içeren bir yedeği indirmesine izin verecektir. Bu, diğer tüm kullanıcıların verilerini içerir.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Yedek oluşturabilmek için bir yedekleme belirteci oluşturmanız gerekecektir. Her yedekleme talebinde bulunduğunuzda, bu belirteci sağlamanız gerekecektir. Bu kullanıcı için yedeklemeleri devre dışı bırakmak için yedekleme jetonunu silebilirsiniz.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+        Yedek jetonu %{action} istediğinizi onaylamak için %{word} girin.
+      verification_word_reset: Sıfırla
+      verification_word_create: oluşturuldu
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        Yeni bir belirteç oluşturduğunuzda, yalnızca 24 saat sonra bir yedekleme isteğinde bulunmanıza izin verilir. Bu bir güvenlik önlemidir. Bundan sonra, bu belirteci kullanarak istediğiniz zaman bir yedekleme talep edebilirsiniz.
+    text_token_deleted: Yedek jeton silindi. Yedeklemeler artık devre dışı bırakıldı.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: Geçersiz veya eksik yedekleme jetonu
+      token_cooldown: Yedek jeton %{hours} saat içinde geçerli olacaktır.
+      backup_pending: Zaten bekleyen bir yedek var.
+      limit_reached: Günde yalnızca %{limit} yedekleme yapabilirsiniz.
   button_add: "Ekle"
   button_add_comment: "Yorum ekle"
   button_add_member: Üye ekle
@@ -931,7 +931,7 @@ tr:
     text_update_consent_time: Kullanıcıları tekrar onaylamaya zorlamak için bu kutuyu işaretleyin. Yukarıdaki izin bilgilerinin yasal yönünü değiştirdiğinizde etkinleştirin.
     update_consent_last_time: "Rıza son güncelleme: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: '%{source_project_name} projesini kopyala'
     started: "\"%{source_project_name}\" adlı proje \"%{target_project_name}\" adlı yeni bir projeye kopyalanmaya başladı. \"%{target_project_name}\" projesi hazır olduğunda e-posta ile bilgilendirileceksiniz."
     failed: "%{source_project_name} project kopyalanamadı"
     failed_internal: "Dahili bir hata nedeniyle kopyalama başarısız oldu."
@@ -939,9 +939,9 @@ tr:
     errors: "Hata"
     project_custom_fields: 'Projedeki özel alanlar'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Bu türden nesne yok'
+      one: 'Bu türden bir nesne'
+      other: '%{count} bu tür nesneler'
     text:
       failed: "\"%{source_project_name}\" project \"%{target_project_name}\" projesine kopyalanamadı."
       succeeded: "\"%{source_project_name}\" projesini \"%{target_project_name}\" dosyasına kopyaladı."
@@ -1087,7 +1087,7 @@ tr:
   default_role_anonymous: "Anonim"
   default_role_developer: "Geliştirici"
   default_role_project_admin: "Proje yöneticisi"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "Personel ve proje yöneticisi"
   default_role_non_member: "Üye Değil"
   default_role_reader: "Okuyucu"
   default_role_member: "Üye"
@@ -1327,7 +1327,7 @@ tr:
   label_available_project_versions: 'Uygun sürümler'
   label_available_project_repositories: 'Uygun depolar'
   label_api_documentation: "API belgelendirmesi"
-  label_backup: "Backup"
+  label_backup: "Destek olmak"
   label_between: "arasında"
   label_blocked_by: "bağlı"
   label_blocks: "engeller"
@@ -1530,8 +1530,8 @@ tr:
   label_member_new: "Yeni Üye"
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
   label_member_plural: "Üyeler"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Üye eklendi'
+  lable_membership_updated: 'Üye güncellendi'
   label_menu_item_name: "Menü öğesinin ismi"
   label_message: "İleti"
   label_message_last: "Son mesaj"
@@ -1853,12 +1853,12 @@ tr:
   mail_body_account_activation_request: "Yeni bir kullanıcı ( %{value}) kaydoldu. Hesap onayınızı bekliyor:"
   mail_body_account_information: "Hesap bilgilerinizi giriniz"
   mail_body_account_information_external: "Giriş yapmak için %{value} hesabınızı kullanabilirsiniz."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_ready: "İstediğiniz yedekleme hazır. Buradan indirebilirsiniz:"
+  mail_body_backup_token_reset_admin_info: '''%{user}'' kullanıcısının yedek simgesi sıfırlandı.'
+  mail_body_backup_token_reset_user_info: Yedek jetonunuz sıfırlandı.
+  mail_body_backup_token_info: Önceki jeton artık geçerli değil.
+  mail_body_backup_waiting_period: Yeni jeton %{hours} saat içinde etkinleştirilecek.
+  mail_body_backup_token_warning: Bu siz değildiyseniz, hemen OpenProject'te oturum açın ve yeniden sıfırlayın.
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
   mail_body_register: "OpenProject'e hoş geldiniz. Lütfen bu bağlantıyı tıklayarak hesabınızı etkinleştirin:"
   mail_body_register_header_title: "Proje üyesi davet e-postası"
@@ -1875,8 +1875,8 @@ tr:
   mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
   mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
   mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_ready: "Yedeklemeniz hazır"
+  mail_subject_backup_token_reset: "Yedek jetonunuz sıfırlandı"
   mail_subject_lost_password: "Sizin %{value} parola"
   mail_subject_register: "İşletme %{value} hesap etkinleştirme"
   mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
@@ -1884,26 +1884,26 @@ tr:
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
   mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - Üye olarak eklendiniz"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} sizi '%{project}' projesine üye olarak ekledi."
+        with_message: "%{user} sizi '%{project}' projesine üye olarak ekledi."
+      roles: "Aşağıdaki rollere sahipsiniz:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Rolleriniz güncellendi"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} projesinde sahip olduğunuz rolleri güncelledi '%{project}'."
+        with_message: "%{user} projesinde sahip olduğunuz rolleri '%{project}'  güncelledi:"
+      roles: "Aşağıdaki rollere sahipsiniz:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Genel izinleriniz güncellendi"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} sahip olduğunuz rolleri küresel olarak güncelledi."
+        with_message: "%{user} küresel olarak yazdığınız rolleri güncelledi:"
+      roles: "Aşağıdaki rollere sahipsiniz:"
   mail_user_activation_limit_reached:
     subject: Kullanıcı etkinleştirme sınırına ulaşıldı
     message: |
@@ -2257,7 +2257,7 @@ tr:
   setting_consent_required: "Onay gerekli"
   setting_consent_decline_mail: "Onay iletişim posta adresi"
   setting_cross_project_work_package_relations: "Projeler arası iş paketi ilişkilerine izin ver"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "Yılın ilk haftası"
   setting_date_format: "Tarih formatı"
   setting_default_language: "Varsayılan dil"
   setting_default_notification_option: "Varsayılan bildirim seçeneği"
@@ -2341,9 +2341,9 @@ tr:
     brute_force_prevention: "Otomatik kullanıcı engelleme"
     display:
       first_date_of_week_and_year_present: >
-        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        "Haftanın ilk tarihi" veya "Yılın ilk haftası şunu içerir" seçeneklerinden biri ayarlanmışsa, diğerinin de ön uçta tutarsızlıklardan kaçınmak için ayarlanması gerekir.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Yılın ilk haftasında yer alan Ocak tarihini seçin. Haftanın ilk günü ile birlikte bu değer, bir yıldaki toplam hafta sayısını belirler.
     projects:
       section_new_projects: "Yeni projeler için ayarlar"
       section_project_overview: "Projeye genel bakış listesi ayarları"
@@ -2733,7 +2733,7 @@ tr:
       code_403: "Bu kaynağa erişim için yetkiniz yoktur."
       code_404: "İstenen kaynak bulunamadı."
       code_409: "Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Çok fazla istek. Lütfen daha sonra tekrar deneyiniz."
       code_500: "İç hata oluştu."
       expected:
         date: "YYYY-AA-GG (ISO 8601 sadece tarih)"
@@ -2852,4 +2852,4 @@ tr:
     authorization_error: "Bir yetkilendirme hatası oluştu."
     revoke_my_application_confirmation: "Bu uygulamayı gerçekten kaldırmak istiyor musunuz? Bu, %{token_count} aktif olanını iptal edecektir."
     my_registered_applications: "OAuth uygulamalarını kayıtedin"
-  you: you
+  you: sen

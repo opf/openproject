@@ -57,14 +57,18 @@ class GithubPullRequest < ApplicationRecord
   validate :validate_labels_schema
 
   scope :without_work_package, -> { left_outer_joins(:work_packages).where(work_packages: { id: nil }) }
-  scope :partial, -> {
-    where(body: nil,
-          comments_count: nil,
-          review_comments_count: nil,
-          additions_count: nil,
-          deletions_count: nil,
-          changed_files_count: nil)
-  }
+
+  def self.find_by_github_identifiers(id: nil, url: nil, initialize: false)
+    raise ArgumentError, "needs an id or an url" if id.nil? && url.blank?
+
+    found = where(github_id: id).or(where(github_html_url: url)).take
+
+    if found
+      found
+    elsif initialize
+      new(github_id: id, github_html_url: url)
+    end
+  end
 
   ##
   # When a PR lives long enough and receives many pushes, the same check (say, a CI test run) can be run multiple times.

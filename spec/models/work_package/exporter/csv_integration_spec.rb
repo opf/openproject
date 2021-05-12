@@ -44,7 +44,7 @@ describe WorkPackage::Exporter::CSV, 'integration', type: :model do
   end
   let(:query) do
     Query.new(name: '_').tap do |query|
-      query.column_names = %i(subject assigned_to updated_at)
+      query.column_names = %i(subject assigned_to updated_at estimated_hours)
     end
   end
   let(:instance) do
@@ -64,6 +64,7 @@ describe WorkPackage::Exporter::CSV, 'integration', type: :model do
         subject: "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
         description: "\u2022 requires unicode.",
         assigned_to: current_user,
+        derived_estimated_hours: 15.0,
         project: project
       )
     end
@@ -83,6 +84,7 @@ describe WorkPackage::Exporter::CSV, 'integration', type: :model do
       expect(data.last).to include(work_package.description)
       expect(data.last).to include(current_user.name)
       expect(data.last).to include(work_package.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
+      expect(data.last).to include('(15.0)')
     end
   end
 end
