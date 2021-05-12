@@ -4540,9 +4540,9 @@
       "integrity": "sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA=="
     },
     "chart.js": {
-      "version": "2.9.3",
-      "resolved": "https://registry.npmjs.org/chart.js/-/chart.js-2.9.3.tgz",
-      "integrity": "sha512-+2jlOobSk52c1VU6fzkh3UwqHMdSlgH1xFv9FKMqHiNCpXsGPQa/+81AFa+i3jZ253Mq9aAycPwDjnn1XbRNNw==",
+      "version": "2.9.4",
+      "resolved": "https://registry.npmjs.org/chart.js/-/chart.js-2.9.4.tgz",
+      "integrity": "sha512-B07aAzxcrikjAPyV+01j7BmOpxtQETxTSlQ26BEYJ+3iUkbNKaOJ/nDbT6JjyqYxseM0ON12COHYdU2cTIjC7A==",
       "requires": {
         "chartjs-color": "^2.1.0",
         "moment": "^2.10.2"
@@ -8796,8 +8796,8 @@
       "integrity": "sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg=="
     },
     "jquery-ui": {
-      "version": "git+ssh://git@github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
-      "from": "jquery-ui@git+https://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
+      "version": "git+https://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
+      "from": "git+https://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
       "requires": {
         "jquery": ">=1.7.0 <4.0.0"
       }
@@ -14383,7 +14383,7 @@
     },
     "tickety-tick-formatter": {
       "version": "git+ssh://git@github.com/bitcrowd/tickety-tick-formatter.git#aa1895189e08689d340bf05d9e2855695a4dbb18",
-      "from": "tickety-tick-formatter@github:bitcrowd/tickety-tick-formatter",
+      "from": "github:bitcrowd/tickety-tick-formatter",
       "requires": {
         "prettier": "^2.2.1",
         "speakingurl": "^14.0.1",

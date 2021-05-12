@@ -33,12 +33,13 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
   include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
 
-  attr_accessor :pdf
+  attr_accessor :pdf, :columns
 
   def initialize(work_package)
     super
 
     self.pdf = get_pdf(current_language)
+    self.columns = ::Query.available_columns(work_package.project)
 
     configure_markup
   end
@@ -83,7 +84,9 @@ class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
       label_options
     )
 
-    value_content = field_value work_package, attribute
+    column = columns.find { |col| col.name == attribute.to_sym }
+    formatter = ::WorkPackage::Exporter::Formatters.for_column(column)
+    value_content = formatter.format(work_package, column)
     value = pdf.make_cell(value_content.to_s, value_options)
 
     [label, value]
