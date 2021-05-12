@@ -66,15 +66,20 @@
           </ng-container>
         </ng-template>
 
-          <ng-template ng-label-tmp let-item="item">
-            <ng-container [ngTemplateOutlet]="labelTemplate ? labelTemplate : defaultLabel" [ngTemplateOutletContext]="{$implicit:item}">
-            </ng-container>
-          </ng-template>
+        <ng-template ng-label-tmp let-item="item">
+          <ng-container [ngTemplateOutlet]="labelTemplate ? labelTemplate : defaultLabel" [ngTemplateOutletContext]="{$implicit:item}">
+          </ng-container>
+        </ng-template>
 
-          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-            <ng-container [ngTemplateOutlet]="optionTemplate ? optionTemplate : defaultOption" [ngTemplateOutletContext]="{$implicit:item}">
-            </ng-container>
-          </ng-template>
+        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+          <ng-container [ngTemplateOutlet]="optionTemplate ? optionTemplate : defaultOption" [ngTemplateOutletContext]="{$implicit:item}">
+          </ng-container>
+        </ng-template>
+
+        <ng-template ng-footer-tmp *ngIf="footerTemplate">
+          <ng-container [ngTemplateOutlet]="footerTemplate" [ngTemplateOutletContext]="{$implicit:item}">
+          </ng-container>
+        </ng-template>
 
   </ng-select>
 </div>
@@ -124,7 +129,7 @@
   </ng-container>
 
 
-  <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status'">
+  <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default'">
   {{ item.name }}
   </ng-container>
 </ng-template>
