@@ -30,7 +30,12 @@ require File.expand_path('../config/environment', __dir__)
 require 'factory_bot_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'
+
+# Require test_prof helpers for better performance around factories/specs
+# see https://test-prof.evilmartians.io for all options.
 require 'test_prof/recipes/rspec/before_all'
+require 'test_prof/recipes/rspec/let_it_be'
+require "test_prof/recipes/rspec/factory_default"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
