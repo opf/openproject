@@ -106,7 +106,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private isMeta(key:string):boolean {
-    return key.startsWith('copy');
+    return key.startsWith('_meta.');
   }
 
   private setParentAsPayload(parentId:string) {
