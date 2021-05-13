@@ -50,8 +50,8 @@
         "@uirouter/core": "^6.0.7",
         "@uirouter/rx": "^0.6.5",
         "@w11k/ngx-componentdestroyed": "^5.0.2",
-        "@xeokit/xeokit-bim-viewer": "2.2.0-alpha.6",
-        "@xeokit/xeokit-sdk": "1.9.0-alpha.4",
+        "@xeokit/xeokit-bim-viewer": "2.2.0-alpha.7",
+        "@xeokit/xeokit-sdk": "1.9.0-alpha.6",
         "autoprefixer": "^9.6.1",
         "browserslist": "^4.9.1",
         "cdk-drag-scroll": "^0.0.6",
@@ -3831,17 +3831,17 @@
       }
     },
     "node_modules/@xeokit/xeokit-bim-viewer": {
-      "version": "2.2.0-alpha.6",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-2.2.0-alpha.6.tgz",
-      "integrity": "sha512-j/30ZpVw79xxzA9WV5Vdn2M+Y/E2YdW36zVv6L4vKahNw5W07JNFyND5dpv25aBhakkTjIRZ1NMKggkVcG9QKg==",
+      "version": "2.2.0-alpha.7",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-2.2.0-alpha.7.tgz",
+      "integrity": "sha512-BsKUB3gwrBa51o+AAst/mGtSQmf8hjsiPDFSQPWLfOtNLG98IfeCbO7ka5wx7OM0WweOaXknQu62V8jxPJAa9A==",
       "dependencies": {
-        "@xeokit/xeokit-sdk": "1.9.0-alpha.4"
+        "@xeokit/xeokit-sdk": "1.9.0-alpha.6"
       }
     },
     "node_modules/@xeokit/xeokit-sdk": {
-      "version": "1.9.0-alpha.4",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.9.0-alpha.4.tgz",
-      "integrity": "sha512-blRexjlhSzC3/PQfAYWKnm48KK22P1ZjmJXyKSZxQFQcMX+g+FlggNwEuYDs+dNnR8piOy7S+YI8gZVLJ1Hb1g=="
+      "version": "1.9.0-alpha.6",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.9.0-alpha.6.tgz",
+      "integrity": "sha512-DcIIa+0eCmrpNbCba9pfYHhUChyoneiiHcD5UigJTJOE3RYDSXWujpYH0dISdtyzwt2L1U2Qd0gGlf/mloKWOA=="
     },
     "node_modules/@xtuc/ieee754": {
       "version": "1.2.0",
@@ -22567,17 +22567,17 @@
       }
     },
     "@xeokit/xeokit-bim-viewer": {
-      "version": "2.2.0-alpha.6",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-2.2.0-alpha.6.tgz",
-      "integrity": "sha512-j/30ZpVw79xxzA9WV5Vdn2M+Y/E2YdW36zVv6L4vKahNw5W07JNFyND5dpv25aBhakkTjIRZ1NMKggkVcG9QKg==",
+      "version": "2.2.0-alpha.7",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-2.2.0-alpha.7.tgz",
+      "integrity": "sha512-BsKUB3gwrBa51o+AAst/mGtSQmf8hjsiPDFSQPWLfOtNLG98IfeCbO7ka5wx7OM0WweOaXknQu62V8jxPJAa9A==",
       "requires": {
-        "@xeokit/xeokit-sdk": "1.9.0-alpha.4"
+        "@xeokit/xeokit-sdk": "1.9.0-alpha.6"
       }
     },
     "@xeokit/xeokit-sdk": {
-      "version": "1.9.0-alpha.4",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.9.0-alpha.4.tgz",
-      "integrity": "sha512-blRexjlhSzC3/PQfAYWKnm48KK22P1ZjmJXyKSZxQFQcMX+g+FlggNwEuYDs+dNnR8piOy7S+YI8gZVLJ1Hb1g=="
+      "version": "1.9.0-alpha.6",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-sdk/-/xeokit-sdk-1.9.0-alpha.6.tgz",
+      "integrity": "sha512-DcIIa+0eCmrpNbCba9pfYHhUChyoneiiHcD5UigJTJOE3RYDSXWujpYH0dISdtyzwt2L1U2Qd0gGlf/mloKWOA=="
     },
     "@xtuc/ieee754": {
       "version": "1.2.0",
