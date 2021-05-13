@@ -40,9 +40,7 @@ export class XeokitServer {
       viewerContent: {
         modelsLoaded: this.ifcModels.shown_models
       },
-      viewerConfigs: {
-        saoEnabled: true // Needs to be enabled by default if we want to use it selectively on the available models.
-      }
+      viewerConfigs: {}
     };
 
     done(manifestData);

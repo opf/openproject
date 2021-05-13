@@ -26,7 +26,6 @@ export interface IfcModelDefinition {
   name:string;
   id:number;
   default:boolean;
-  saoEnabled:boolean;
 }
 
 @Injectable()
