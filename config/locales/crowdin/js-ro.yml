@@ -521,6 +521,7 @@ ro:
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
       confirm_template_load: 'Schimbarea șablonului va reîncărca pagina și veți pierde toate datele introduse în acest formular. Continuați?'
       use_template: "Utilizează șablon"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

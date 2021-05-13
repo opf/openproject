@@ -2345,7 +2345,6 @@ ru:
   setting_repository_truncate_at: "Максимальное число файлов, отображаемых в браузере репозитория"
   setting_rest_api_enabled: "Включите веб-службы REST"
   setting_self_registration: "Самостоятельная регистрация"
-  setting_sequential_project_identifiers: "Генерировать последовательные идентификаторы проектов"
   setting_session_ttl: "Срок действия сеанса при неактивности"
   setting_session_ttl_hint: "При значении ниже 5-ти отключено"
   setting_session_ttl_enabled: "Сессия истекает"

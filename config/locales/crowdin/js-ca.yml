@@ -522,6 +522,7 @@ ca:
       click_to_switch_context: 'Obrir aquest paquet de treball d''aquell projecte.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

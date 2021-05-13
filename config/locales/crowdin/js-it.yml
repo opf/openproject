@@ -34,18 +34,18 @@ it:
       remove: "Rimuovi %{name}"
       active: "Attiva %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Gli allegati non sono includibili poiché possono eccedere la dimensione complessiva massima consentita. Puoi modificare ciò tramite la configurazione (richiede un riavvio del server).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Qui puoi causare un backup. Il processo può impiegare un po' di tempo in base alla quantità di dati (specialmente allegati) che hai. Riceverai un'email una volta pronto.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
+        Un nuovo backup sovrascriverà ogni suo precedente. Sono richiedibili solo un numero limitato di backup giornalieri.
+      last_backup: Ultimo backup
+      last_backup_from: Ultimo backup da
       title: Backup OpenProject
       options: Opzioni
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Includi allegati
+      download_backup: Scarica backup
+      request_backup: Richiedi backup
     close_popup_title: "Chiudi popup"
     close_filter_title: "Chiudi il filtro"
     close_form_title: "Chiudi il modulo"
@@ -220,7 +220,7 @@ it:
         upsale:
           become_hero: "Diventa un eroe!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Quali sono i benefici dell'Edizione Impresa in sede?"
             high_security: "Funzionalità di sicurezza"
             high_security_text: "Accesso single sign on (SAML, OpenID Connect, CAS), autenticazione a due fattori e sincronizzazione automatica dei gruppi LDAP."
             installation: "Assistenza all'installazione"
@@ -479,7 +479,7 @@ it:
         help_menu: 'Nel menu <b>Aiuto</b> troverai una guids utente e risorse di aiuto aggiuntive. <br> Goditi il tuo lsvoto con OpenProject!'
         members: 'Invita nuovi <b>Membri</b> per entrare al tuo progetto.'
         project_selection: 'Clicca su uno dei progetti con dati demo per iniziare. <br> Il <b>Progetto Demo</b> si adatta meglio per la gestione dei progetti classici, mentre il <b>Progetto Scrum</b> è più adatto per la gestione dei progetti Agile.'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: 'Crea un nuovo progetto o invita collaboratori.'
         sidebar_arrow: "Con la freccia puoi navigare indietro al <b>Menu Principale</b> del progetto."
         welcome: 'Fai un tour introduttivo di tre minuti per apprendere le <b>funzioni importanti</b>. <br> Consigliamo di completare i passaggi fino alla fine. Puoi riavviare il tour in qualsiasi momento.'
         wiki: 'Nella <b>Wiki</b> puoi documentare e condividere la conoscenza con il tuo team.'
@@ -522,8 +522,9 @@ it:
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'
       confirm_template_load: 'Cambiare il modello ricaricherà la pagina e perderai tutti gli input in questo modulo. Continuare?'
       use_template: "Utilizza modello"
+      no_template_selected: "(None)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Copia le opzioni"
       autocompleter:
         label: 'Autocompletamento del progetto'
     text_are_you_sure: "Sei sicuro?"
@@ -534,7 +535,7 @@ it:
         reset_title: "Reimposta la configurazione del modulo"
         confirm_reset: >
           Attenzione: vuoi reimpostare la configurazione del modulo? Tutti gli attributi torneranno al loro gruppo predefinito e TUTTI i campi personalizzati verranno disattivati.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
+        upgrade_to_ee: "Passa all'Edizione Impresa in sede"
         upgrade_to_ee_text: "Wow! Se hai bisogno di questa funzionalità sei un vero professionista! Ti andrebbe di aiutare noi sviluppatori OpenSource diventando un cliente Enterprise Edition?"
         more_information: "Altre informazioni"
         nevermind: "Lascia stare"
@@ -979,74 +980,74 @@ it:
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Indietro'
-      invite: 'Invite'
+      invite: 'Invita'
       title:
         invite: 'Invita utente'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite_to_project: 'Invita %{type} a %{project}'
+        User: 'utente'
+        Group: 'gruppo'
+        PlaceholderUser: 'utente del segnaposto'
+        invite_principal_to_project: 'Invita %{principal} a %{project}'
       project:
         label: 'Progetto'
-        required: 'Please select a project'
+        required: 'Sei pregato di selezionare un progetto'
         next_button: 'Prossimo'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_results: 'Nessun progetto è stato trovato'
+        no_invite_rights: 'Non puoi invitare i membri a questo progetto'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Sei pregato di selezionare il tipo da invitare'
         user:
           title: 'Utente'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'I permessi basati sul ruolo assegnato nel progetto selezionato'
         group:
           title: 'Gruppo'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'I permessi basati sul ruolo assegnato nel progetto selezionato'
         placeholder:
           title: 'Utente segnaposto'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title_no_ee: 'Utente del segnaposto (funzionalità solo dell''Edizione Impresa)'
+          description: 'Non ha accesso al progetto e non è inviata alcuna email.'
+          description_no_ee: 'Non ha accesso al progetto e non è inviata alcuna email. <br>Dai un''occhiata all''<a href="%{eeHref}" target="_blank">Edizione Impresa</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Nome o indirizzo email'
           name: 'Nome'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
-        no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
+        already_member_message: 'Già un membro di %{project}'
+        no_results_user: 'Nessun utente è stato trovato'
+        invite_user: 'Invito:'
+        change_user_selection: 'Cambia l''indirizzo email o seleziona un utente esistente'
+        no_results_placeholder: 'Nessun segnaposto è stato trovato'
+        change_placeholder_selection: 'Cambia nome o seleziona un segnaposto esistente'
+        create_new_placeholder: 'Crea nuovo segnaposto:'
+        no_results_group: 'Nessun gruppo è stato trovato'
+        change_group_selection: 'Cambia nome o seleziona un gruppo esistente'
         next_button: 'Prossimo'
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: 'Sei pregato di selezionare un utente'
+          placeholder: 'Sei pregato di selezionare un segnaposto'
+          group: 'Sei pregato di selezionare un gruppo'
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        label: 'Ruolo in %{project}'
+        no_roles_found: 'Nessun ruolo è stato trovato'
+        description: 'Questo è il ruolo che %{principal} riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="%{href}" target="_blank"> Scopri di più sui ruoli e le autorizzazioni. </a>'
+        required: 'Sei pregato di selezionare un ruolo'
         next_button: 'Prossimo'
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        label: 'Messaggio di invito'
+        description: 'Invieremo un''email a %{principal}, a cui puoi aggiungere qui un messaggio personale. Una spiegazione per l''invito potrebbe essere utile o forse qualche informazione sul progetto per aiutarli a iniziare.'
+        next_button: 'Revisiona l''invito'
       summary:
         next_button: 'Invia invito'
       success:
-        title: '%{principal} was invited!'
+        title: '%{principal} è stato invitato!'
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: 'L''utente può ora connettersi per accedere a %{project}. Nel mentre puoi ad esempio già pianificare con quell''utente e assegnare pacchetti di lavoro.'
+          placeholder: 'Il segnaposto è ora utilizzabile in %{project}. Nel mentre puoi ad esempio già pianificare con quell''utente e assegnare pacchetti di lavoro.'
+          group: 'Il gruppo è ora parte di %{project}. Nel mentre puoi ad esempio già pianificare con quel gruppo e assegnare pacchetti di lavoro.'
         next_button: 'Continua'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: 'Il modulo è stato inviato correttamente'
+      load_error_message: 'Si è verificato un errore caricando il modulo'
+      validation_error_message: 'Sei pregato di risolvere gli errori presenti nel modulo'
       advanced_settings: 'Impostazioni avanzate'
 
 

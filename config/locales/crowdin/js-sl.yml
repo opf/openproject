@@ -521,6 +521,7 @@ sl:
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
       confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
       use_template: "Uporabi predlogo"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

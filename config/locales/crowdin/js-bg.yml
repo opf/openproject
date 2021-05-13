@@ -522,6 +522,7 @@ bg:
       click_to_switch_context: 'Open this work package in that project.'
       confirm_template_load: 'Превключването на шаблона ще презареди страницата и ще загубите всички данни за този формуляр. Ще продължите ли?'
       use_template: "Използвайте шаблон"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

@@ -2343,7 +2343,6 @@ lt:
   setting_repository_truncate_at: "Maksimalus failų skaičius, kuris rodomas repozitorijos naršyklėje"
   setting_rest_api_enabled: "Įjungti REST tinklo tarnybą"
   setting_self_registration: "Registracija savarankiškai"
-  setting_sequential_project_identifiers: "Generuoti nuoseklius projekto identifikatorius"
   setting_session_ttl: "Seanso galiojimo laikas po neaktyvumo"
   setting_session_ttl_hint: "Vertė, mažesnė už 5, išjungia"
   setting_session_ttl_enabled: "Sesija baigiasi"

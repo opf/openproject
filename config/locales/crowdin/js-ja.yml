@@ -525,6 +525,7 @@ ja:
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
       confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
       use_template: "テンプレートを使用"
+      no_template_selected: "(None)"
       copy:
         copy_options: "コピーオプション"
       autocompleter:

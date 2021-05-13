@@ -2346,7 +2346,6 @@ sl:
   setting_repository_truncate_at: "Največje število datotek prikazanih v brskalniku za odlagališče"
   setting_rest_api_enabled: "Omogoči REST spletno storitev"
   setting_self_registration: "Samostojna registracija"
-  setting_sequential_project_identifiers: "Generiraj sekvenčne identifikatorje projekta"
   setting_session_ttl: "Čas poteka seje po neaktivnosti"
   setting_session_ttl_hint: "Vrednost pod 5 deluje kot onemogočena"
   setting_session_ttl_enabled: "Seja je potekla"

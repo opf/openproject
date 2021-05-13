@@ -2314,7 +2314,6 @@ nl:
   setting_repository_truncate_at: "Het maximaal aantal bestanden dat wordt weer gegeven in de reposity browser"
   setting_rest_api_enabled: "REST webservice inschakelen"
   setting_self_registration: "Zelfregistratie"
-  setting_sequential_project_identifiers: "Sequentiële project-id's genereren"
   setting_session_ttl: "Tijd verstrijken sessie na inactiviteit"
   setting_session_ttl_hint: "Value below 5 works like disabled"
   setting_session_ttl_enabled: "Sessie verloopt"

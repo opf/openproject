@@ -522,6 +522,7 @@ lt:
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvesta informaciją. Tęsti?'
       use_template: "Naudoti šabloną"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Kopijos nustatymai"
       autocompleter:

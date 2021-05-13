@@ -521,6 +521,7 @@ el:
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
       confirm_template_load: 'Η αλλαγή του προτύπου θα επαναφορτώσει τη σελίδα και θα χάσετε όλα τα στοιχεία εισόδου σε αυτή τη φόρμα. Συνέχεια?'
       use_template: "Χρήση προτύπου"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

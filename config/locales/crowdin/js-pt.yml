@@ -521,6 +521,7 @@ pt:
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
       confirm_template_load: 'Mudar o template irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
       use_template: "Usar modelo"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

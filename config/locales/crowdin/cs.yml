@@ -2348,7 +2348,6 @@ cs:
   setting_repository_truncate_at: "Maximální počet souborů zobrazených v prohlížeči repozitáře"
   setting_rest_api_enabled: "Povolit webové služby REST"
   setting_self_registration: "Povolit automatickou registraci"
-  setting_sequential_project_identifiers: "Generovat sekvenční identifikátory projektů"
   setting_session_ttl: "Čas vypršení sezení při neaktivitě"
   setting_session_ttl_hint: "Hodnota menší než 5 funguje jako zakázáno"
   setting_session_ttl_enabled: "Platnost relace vyprší"

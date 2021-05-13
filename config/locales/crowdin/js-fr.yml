@@ -522,6 +522,7 @@ fr:
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
       confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
       use_template: "Utiliser le modèle"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

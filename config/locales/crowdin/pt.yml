@@ -2312,7 +2312,6 @@ pt:
   setting_repository_truncate_at: "Número máximo de arquivos exibidos no navegador de repositório"
   setting_rest_api_enabled: "Habilitar serviço REST"
   setting_self_registration: "Auto-registro"
-  setting_sequential_project_identifiers: "Gerar identificadores sequenciais de projeto"
   setting_session_ttl: "Tempo de expiração de sessão após inatividade"
   setting_session_ttl_hint: "Valor abaixo de 5 funciona como desativado"
   setting_session_ttl_enabled: "Sessão expira"

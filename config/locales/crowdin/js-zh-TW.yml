@@ -521,6 +521,7 @@ zh-TW:
       click_to_switch_context: '在該專案中打開此工作項目。'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "使用範本"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

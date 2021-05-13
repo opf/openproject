@@ -2331,7 +2331,6 @@ ro:
   setting_repository_truncate_at: "Număr maxim de fișiere este afișat în exploratorul de repozitoriu"
   setting_rest_api_enabled: "Activare serviciu web REST"
   setting_self_registration: "Înregistrare individuală"
-  setting_sequential_project_identifiers: "Generare identificatori secvențiali pentru proiecte"
   setting_session_ttl: "Durata de inactivitate pentru expirarea sesiunii"
   setting_session_ttl_hint: "O valoare sub 5 dezactivează expirarea sesiunii"
   setting_session_ttl_enabled: "Sesiunea expiră"

@@ -522,6 +522,7 @@ zh-CN:
       click_to_switch_context: '在该项目中打开此工作包。'
       confirm_template_load: '切换模板将重新加载页面，您将丢失此表单上的所有输入。是否继续？'
       use_template: "使用模板"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

@@ -522,6 +522,7 @@
       click_to_switch_context: 'Open this work package in that project.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

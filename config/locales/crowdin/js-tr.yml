@@ -522,6 +522,7 @@ tr:
       click_to_switch_context: 'Bu iş paketini o projede aç.'
       confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
       use_template: "Şablon kullan"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Ayarları kopyala"
       autocompleter:

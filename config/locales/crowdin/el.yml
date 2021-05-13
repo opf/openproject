@@ -2309,7 +2309,6 @@ el:
   setting_repository_truncate_at: "Μέγιστος αριθμός αρχείων που εμφανίζονται στον περιηγητή αποθετηρίων"
   setting_rest_api_enabled: "Ενεργοποίηση του REST web service"
   setting_self_registration: "Αυτο-εγγραφή"
-  setting_sequential_project_identifiers: "Δημιουργία διαδοχικών αναγνωριστικών έργου"
   setting_session_ttl: "Χρόνος λήξης της συνεδρίας μετά από αδράνεια"
   setting_session_ttl_hint: "Η τιμή κάτω του 5 λειτουργεί ως απενεργοποιημένη"
   setting_session_ttl_enabled: "Η συνεδρία λήγει"

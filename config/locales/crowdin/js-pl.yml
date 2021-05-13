@@ -522,6 +522,7 @@ pl:
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
       confirm_template_load: 'Przełączenie szablonu spowoduje ponowne załadowanie strony i utracisz wszystkie dane wprowadzone do tego formularza. Kontynuować?'
       use_template: "Użyj szablonu"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

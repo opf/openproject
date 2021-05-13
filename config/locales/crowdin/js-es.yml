@@ -522,6 +522,7 @@ es:
       click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
       confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
       use_template: "Usar plantilla"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:

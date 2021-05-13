@@ -2295,7 +2295,6 @@ id:
   setting_repository_truncate_at: "Jumlah maksimum file yang ditampilkan dalam browser tempat penyimpanan"
   setting_rest_api_enabled: "Aktifkan REST web service"
   setting_self_registration: "Registrasi mandiri"
-  setting_sequential_project_identifiers: "Buat pengenal Project"
   setting_session_ttl: "Sesi kadaluwarsa ketika tidak aktif"
   setting_session_ttl_hint: "Nilai di bawah 5 akan didisable"
   setting_session_ttl_enabled: "Sesi telah berakhir"

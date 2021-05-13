@@ -2348,7 +2348,6 @@ sk:
   setting_repository_truncate_at: "Maximálny počet súborov, ktoré sú zobrazené v prehliadači"
   setting_rest_api_enabled: "Zapnúť webovú službu REST"
   setting_self_registration: "Povoliť automatickú registráciu"
-  setting_sequential_project_identifiers: "Generovať sekvenčné identifikátory projektov"
   setting_session_ttl: "Čas ukončenia relácie po nečinnosti"
   setting_session_ttl_hint: "Hodnota pod 5 funguje ako zakázaná"
   setting_session_ttl_enabled: "Relácia vypršala"
