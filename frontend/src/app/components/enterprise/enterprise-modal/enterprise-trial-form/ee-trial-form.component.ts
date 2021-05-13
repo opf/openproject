@@ -31,7 +31,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { I18nService } from "app/modules/common/i18n/i18n.service";
 import { EnterpriseTrialData, EnterpriseTrialService } from "core-components/enterprise/enterprise-trial.service";
 import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
-import { I18nHelpers } from "core-app/helpers/i18n/localized-link";
+import { I18nHelpers } from "core-app/shared/helpers/i18n/localized-link";
 
 const newsletterURL = 'https://www.openproject.com/newsletter/';
 

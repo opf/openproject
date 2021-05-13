@@ -14,11 +14,11 @@ import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-a
 import { WorkPackageFilterButtonComponent } from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import { ZenModeButtonComponent } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import { BoardsMenuButtonComponent } from "core-app/modules/boards/board/toolbar-menu/boards-menu-button.component";
-import { RequestSwitchmap } from "core-app/helpers/rxjs/request-switchmap";
+import { RequestSwitchmap } from "core-app/shared/helpers/rxjs/request-switchmap";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { finalize, take } from "rxjs/operators";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { QueryResource } from "core-app/modules/hal/resources/query-resource";
 import { Ng2StateDeclaration } from "@uirouter/angular";
 import { BoardFiltersService } from "core-app/modules/boards/board/board-filter/board-filters.service";

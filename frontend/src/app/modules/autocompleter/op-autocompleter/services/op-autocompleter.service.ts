@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiV3FilterBuilder, FilterOperator } from 'core-app/components/api/api-v3/api-v3-filter-builder';
+import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { APIv3ResourceCollection } from 'core-app/modules/apiv3/paths/apiv3-resource';
 import { UserResource } from 'core-app/modules/hal/resources/user-resource';
@@ -9,7 +9,7 @@ import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {of, Observable} from "rxjs";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {UntilDestroyedMixin} from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Injectable()
 

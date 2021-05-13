@@ -37,7 +37,7 @@ import {
   Injector, ViewChild,
   ViewEncapsulation
 } from "@angular/core";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { OpModalComponent } from "core-app/modules/modal/modal.component";
 import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";

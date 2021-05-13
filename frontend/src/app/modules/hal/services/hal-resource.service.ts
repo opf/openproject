@@ -42,7 +42,7 @@ import {
   HTTPClientParamMap,
   HTTPSupportedMethods
 } from "core-app/modules/hal/http/http.interfaces";
-import { whenDebugging } from "core-app/helpers/debug_output";
+import { whenDebugging } from "core-app/shared/helpers/debug_output";
 import { initializeHalProperties } from "../helpers/hal-resource-builder";
 
 export interface HalResourceFactoryConfigInterface {

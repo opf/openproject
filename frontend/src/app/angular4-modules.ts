@@ -45,11 +45,10 @@ import { OpDragScrollDirective } from "core-app/modules/common/ui/op-drag-scroll
 import { OpenprojectPluginsModule } from "core-app/modules/plugins/openproject-plugins.module";
 import { ConfirmFormSubmitController } from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import { ProjectMenuAutocompleteComponent } from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
-import { OpenProjectFileUploadService } from "core-components/api/op-file-upload/op-file-upload.service";
-import { OpenProjectDirectFileUploadService } from './components/api/op-file-upload/op-direct-file-upload.service';
+import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { LinkedPluginsModule } from "core-app/modules/plugins/linked-plugins.module";
 import { HookService } from "core-app/modules/plugins/hook-service";
-import { DynamicBootstrapper } from "core-app/globals/dynamic-bootstrapper";
+import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 import { OpenprojectWorkPackagesModule } from 'core-app/modules/work_packages/openproject-work-packages.module';
 import { OpenprojectAttachmentsModule } from 'core-app/modules/attachments/openproject-attachments.module';
 import { OpenprojectEditorModule } from 'core-app/modules/editor/openproject-editor.module';
@@ -65,12 +64,12 @@ import { OpenprojectAdminModule } from "core-app/modules/admin/openproject-admin
 import { OpenprojectDashboardsModule } from "core-app/modules/dashboards/openproject-dashboards.module";
 import { OpenprojectWorkPackageGraphsModule } from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
 import { WpPreviewModal } from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
-import { PreviewTriggerService } from "core-app/globals/global-listeners/preview-trigger.service";
+import { PreviewTriggerService } from "core-app/core/setup/globals/global-listeners/preview-trigger.service";
 import { OpenprojectOverviewModule } from "core-app/modules/overview/openproject-overview.module";
 import { OpenprojectMyPageModule } from "core-app/modules/my-page/openproject-my-page.module";
 import { OpenprojectProjectsModule } from "core-app/modules/projects/openproject-projects.module";
 import { KeyboardShortcutService } from "core-app/modules/a11y/keyboard-shortcut-service";
-import { globalDynamicComponents } from "core-app/global-dynamic-components.const";
+import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
 import { OpenprojectMembersModule } from "core-app/modules/members/members.module";
 import { OpenprojectEnterpriseModule } from "core-components/enterprise/openproject-enterprise.module";
 import { OpenprojectAugmentingModule } from "core-app/modules/augmenting/openproject-augmenting.module";
@@ -78,7 +77,8 @@ import { OpenprojectInviteUserModalModule } from "core-app/modules/invite-user-m
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { RevitAddInSettingsButtonService } from "core-app/modules/bim/revit_add_in/revit-add-in-settings-button.service";
 import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
-import { OpenProjectBackupService } from './components/api/op-backup/op-backup.service';
+import { OpenProjectBackupService } from './core/backup/op-backup.service';
+import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 
 @NgModule({
   imports: [

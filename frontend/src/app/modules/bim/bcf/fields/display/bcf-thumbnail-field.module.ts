@@ -27,7 +27,7 @@
 //++
 
 import { DisplayField } from "core-app/modules/fields/display/display-field.module";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { BcfPathHelperService } from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
 
 export class BcfThumbnailDisplayField extends DisplayField {

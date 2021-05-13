@@ -30,7 +30,7 @@ import { HierarchyRenderPass } from "core-components/wp-fast-table/builders/mode
 import Moment = moment.Moment;
 import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 

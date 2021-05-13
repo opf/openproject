@@ -27,19 +27,18 @@
 //++
 
 import { APIV3WorkPackagePaths } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-paths";
-import { ApiV3FilterBuilder, buildApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
 import { Observable } from "rxjs";
 import { APIv3WorkPackageForm } from "core-app/modules/apiv3/endpoints/work_packages/apiv3-work-package-form";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { CachableAPIV3Collection } from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
-import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 import { WorkPackageCache } from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
 import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
 import { ApiV3WorkPackageCachedSubresource } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource";
+import { ApiV3FilterBuilder, buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+
 
 export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageResource, APIV3WorkPackagePaths, WorkPackageCache> {
   // Base path

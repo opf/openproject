@@ -31,8 +31,8 @@ import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { filter } from "rxjs/operators";
 import { States } from "core-components/states.service";
-import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Component({
   selector: 'attachment-list',

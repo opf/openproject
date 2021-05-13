@@ -27,7 +27,7 @@
 //++
 
 import { Injector } from "@angular/core";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { HttpClient } from "@angular/common/http";
 import { SimpleResource } from "core-app/modules/apiv3/paths/path-resources";
 

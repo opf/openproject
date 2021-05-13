@@ -45,10 +45,10 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Component({
   selector: 'wp-relations-autocomplete',

@@ -43,7 +43,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { AngularTrackingHelpers } from 'core-components/angular/tracking-functions';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { HalResourceSortingService } from "core-app/modules/hal/services/hal-resource-sorting.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";

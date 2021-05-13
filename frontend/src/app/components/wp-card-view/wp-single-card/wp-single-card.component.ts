@@ -17,7 +17,7 @@ import { WorkPackageCardViewService } from "core-components/wp-card-view/service
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { CardHighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { CardViewOrientation } from "core-components/wp-card-view/wp-card-view.component";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { WorkPackageViewFocusService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
 

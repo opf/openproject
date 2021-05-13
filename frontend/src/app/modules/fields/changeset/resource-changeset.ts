@@ -4,7 +4,7 @@ import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { ChangeItem, ChangeMap, Changeset } from "core-app/modules/fields/changeset/changeset";
 import { input, InputState } from "reactivestates";
 import { IFieldSchema } from "core-app/modules/fields/field.base";
-import { debugLog } from "core-app/helpers/debug_output";
+import { debugLog } from "core-app/shared/helpers/debug_output";
 import { take } from "rxjs/operators";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { Injector } from '@angular/core';

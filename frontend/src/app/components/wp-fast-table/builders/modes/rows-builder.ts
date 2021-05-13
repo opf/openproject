@@ -2,7 +2,7 @@ import { Injector } from '@angular/core';
 import { States } from '../../../states.service';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { PrimaryRenderPass } from '../primary-render-pass';
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export abstract class RowsBuilder {
 

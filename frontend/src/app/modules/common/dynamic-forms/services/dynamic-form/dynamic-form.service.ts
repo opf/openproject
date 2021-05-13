@@ -10,7 +10,7 @@ import {
   IOPDynamicFormSettings,
 } from "../../typings";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
-import { FormsService } from "core-app/core/services/forms/forms.service";
+import { FormsService } from "core-app/core/forms/forms.service";
 @Injectable()
 export class DynamicFormService {
   dynamicForm:FormlyForm;

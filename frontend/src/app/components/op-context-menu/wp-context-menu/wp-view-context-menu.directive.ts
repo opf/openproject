@@ -14,7 +14,7 @@ import { PERMITTED_CONTEXT_MENU_ACTIONS } from "core-components/op-context-menu/
 import { OpModalService } from "core-app/modules/modal/modal.service";
 import { WpDestroyModal } from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import { StateService } from "@uirouter/core";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TimeEntryCreateService } from "core-app/modules/time_entries/create/create.service";
 import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
 

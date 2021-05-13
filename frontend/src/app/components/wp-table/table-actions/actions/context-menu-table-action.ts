@@ -3,7 +3,7 @@ import {
   contextMenuLinkClassName,
   OpTableAction
 } from 'core-components/wp-table/table-actions/table-action';
-import { opIconElement } from 'core-app/helpers/op-icon-builder';
+import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 
 export class OpContextMenuTableAction extends OpTableAction {
 

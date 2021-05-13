@@ -3,7 +3,7 @@ import { States } from '../../../states.service';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { commonRowClassName } from '../rows/single-row-builder';
 import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export const timelineCellClassName = 'wp-timeline-cell';

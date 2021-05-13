@@ -28,7 +28,6 @@ import { AuthorisationService } from "core-app/modules/common/model-auth/model-a
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
-import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 import { BoardService } from "app/modules/boards/board/board.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
@@ -38,7 +37,7 @@ import { BoardActionService } from "core-app/modules/boards/board/board-actions/
 import { ComponentType } from "@angular/cdk/portal";
 import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import { BoardListMenuComponent } from "core-app/modules/boards/board/board-list/board-list-menu.component";
-import { debugLog } from "core-app/helpers/debug_output";
+import { debugLog } from "core-app/shared/helpers/debug_output";
 import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
@@ -52,6 +51,7 @@ import { HalEvent, HalEventsService } from "core-app/modules/hal/services/hal-ev
 import { ChangeItem } from "core-app/modules/fields/changeset/changeset";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 export interface DisabledButtonPlaceholder {
   text:string;

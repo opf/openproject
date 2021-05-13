@@ -34,12 +34,12 @@ import { WorkPackageRelationsService } from "core-components/wp-relations/wp-rel
 import { WpRelationInlineCreateServiceInterface } from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
-import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { RelationResource } from "core-app/modules/hal/resources/relation-resource";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'

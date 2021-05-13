@@ -5,7 +5,7 @@ import { WorkPackageTable } from '../../wp-fast-table';
 import { ClickOrEnterHandler } from '../click-or-enter-handler';
 import { TableEventComponent, TableEventHandler } from "core-components/wp-fast-table/handlers/table-handler-registry";
 import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections

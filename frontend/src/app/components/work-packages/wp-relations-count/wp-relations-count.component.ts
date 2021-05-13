@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
 import { combineLatest } from 'rxjs';
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({

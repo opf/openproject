@@ -2,7 +2,7 @@ import { Directive, EventEmitter, HostBinding, Injector, Input, Output } from "@
 import { GridWidgetResource } from "app/modules/hal/resources/grid-widget-resource";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WidgetChangeset } from "core-app/modules/grids/widgets/widget-changeset";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Directive()
 export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {

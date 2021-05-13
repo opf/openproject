@@ -40,7 +40,7 @@ import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/ed
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';

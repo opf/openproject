@@ -38,8 +38,8 @@ import { WorkPackageTimelineTableController } from '../container/wp-timeline-con
 import { timelineElementCssClass, TimelineViewParameters } from '../wp-timeline';
 import { TimelineRelationElement, workPackagePrefix } from './timeline-relation-element';
 import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 

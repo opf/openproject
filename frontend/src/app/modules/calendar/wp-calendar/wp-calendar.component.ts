@@ -28,7 +28,7 @@ import { Subject } from "rxjs";
 import { take, debounceTime } from 'rxjs/operators';
 import { ToolbarInput } from '@fullcalendar/common';
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 interface CalendarViewEvent {

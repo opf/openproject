@@ -13,7 +13,7 @@ import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-components/op-context-menu/
 import { OpModalService } from 'core-app/modules/modal/modal.service';
 import { WorkPackageAuthorization } from 'core-components/work-packages/work-package-authorization.service';
 import { WorkPackageAction } from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TimeEntryCreateService } from "core-app/modules/time_entries/create/create.service";
 
 @Directive({

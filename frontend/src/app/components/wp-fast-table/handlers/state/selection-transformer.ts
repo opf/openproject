@@ -11,7 +11,7 @@ import {
   WorkPackageViewSelectionService,
   WorkPackageViewSelectionState
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class SelectionTransformer {
 

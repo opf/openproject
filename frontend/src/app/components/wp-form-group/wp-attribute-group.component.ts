@@ -31,7 +31,7 @@ import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { FieldDescriptor, GroupDescriptor } from 'core-components/work-packages/wp-single-view/wp-single-view.component';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { fromEvent } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 

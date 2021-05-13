@@ -4,7 +4,7 @@ import { DragDropHandleBuilder } from "core-components/wp-fast-table/builders/dr
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
 import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 export class DragDropHandleRenderPass {

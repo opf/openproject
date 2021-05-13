@@ -30,7 +30,7 @@ import { Component, OnInit } from "@angular/core";
 import * as moment from "moment";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 
 @Component({

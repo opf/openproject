@@ -34,7 +34,7 @@ import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { WikiIncludePageMacroModal } from 'core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
 import { CodeBlockMacroModal } from 'core-components/modals/editor/macro-code-block-modal/code-block-macro.modal';
 import { ChildPagesMacroModal } from 'core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
-import { CkeditorAugmentedTextareaComponent } from 'core-app/ckeditor/ckeditor-augmented-textarea.component';
+import { CkeditorAugmentedTextareaComponent } from 'core-app/shared/ckeditor/ckeditor-augmented-textarea.component';
 import { OpCkeditorComponent } from 'core-app/modules/common/ckeditor/op-ckeditor.component';
 import { EditorMacrosService } from 'core-components/modals/editor/editor-macros.service';
 import { CKEditorSetupService } from 'core-app/modules/common/ckeditor/ckeditor-setup.service';

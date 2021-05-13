@@ -21,7 +21,6 @@ import { DomSanitizer } from "@angular/platform-browser";
 import timeGrid from '@fullcalendar/timegrid';
 import { CalendarOptions, Duration, EventApi, EventInput } from '@fullcalendar/core';
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
-import { FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
 import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
@@ -34,6 +33,7 @@ import { BrowserDetector } from "core-app/modules/common/browser/browser-detecto
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 interface CalendarViewEvent {
   el:HTMLElement;

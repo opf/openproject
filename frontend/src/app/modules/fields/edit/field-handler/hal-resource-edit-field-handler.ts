@@ -33,13 +33,13 @@ import { Injector } from '@angular/core';
 import { FocusHelperService } from 'core-app/modules/focus/focus-helper';
 import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
-import { debugLog } from "core-app/helpers/debug_output";
+import { debugLog } from "core-app/shared/helpers/debug_output";
 import { IFieldSchema } from "core-app/modules/fields/field.base";
 import { Subject } from 'rxjs';
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections

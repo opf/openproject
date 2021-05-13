@@ -9,7 +9,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {PrincipalType} from '../invite-user.component';
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import {ImageHelpers} from "core-app/shared/helpers/images/path-helper";
 
 @Component({
   selector: 'op-ium-success',

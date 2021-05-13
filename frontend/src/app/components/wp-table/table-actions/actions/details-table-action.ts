@@ -1,5 +1,5 @@
 import { contextColumnIcon, OpTableAction } from 'core-components/wp-table/table-actions/table-action';
-import { opIconElement } from 'core-app/helpers/op-icon-builder';
+import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 
 import { KeepTabService } from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-components/wp-fast-table/builders/ui-state-link-builder';

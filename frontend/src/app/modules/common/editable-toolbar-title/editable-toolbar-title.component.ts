@@ -39,7 +39,7 @@ import {
 } from "@angular/core";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { ContainHelpers } from "core-app/modules/focus/contain-helpers";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export const triggerEditingEvent = 'op:selectableTitle:trigger';
 export const selectableTitleIdentifier = 'editable-toolbar-title';

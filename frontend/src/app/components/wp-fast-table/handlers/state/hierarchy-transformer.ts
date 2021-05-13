@@ -12,7 +12,7 @@ import {
 import { indicatorCollapsedClass } from "core-components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder";
 import { tableRowClassName } from "core-components/wp-fast-table/builders/rows/single-row-builder";
 import { WorkPackageViewHierarchies } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class HierarchyTransformer {
 

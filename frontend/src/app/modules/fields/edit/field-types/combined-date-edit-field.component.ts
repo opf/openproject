@@ -28,7 +28,7 @@
 
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { TimezoneService } from "core-components/datetime/timezone.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { DatePickerModal } from "core-components/datepicker/datepicker.modal";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 import { take } from "rxjs/operators";

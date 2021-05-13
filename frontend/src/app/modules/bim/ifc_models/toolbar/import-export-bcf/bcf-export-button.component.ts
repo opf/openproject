@@ -34,7 +34,7 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { QueryResource } from "core-app/modules/hal/resources/query-resource";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { StateService } from "@uirouter/core";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { WpTableExportModal } from "core-components/modals/export-modal/wp-table-export.modal";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 

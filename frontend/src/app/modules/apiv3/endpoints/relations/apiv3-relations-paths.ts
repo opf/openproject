@@ -27,17 +27,12 @@
 //++
 
 import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/modules/apiv3/paths/apiv3-resource";
-import { VersionResource } from "core-app/modules/hal/resources/version-resource";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { APIv3FormResource } from "core-app/modules/apiv3/forms/apiv3-form-resource";
-import { from, NEVER, Observable } from "rxjs";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { from, Observable } from "rxjs";
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
-import { Apiv3AvailableProjectsPaths } from "core-app/modules/apiv3/endpoints/projects/apiv3-available-projects-paths";
-import { APIv3VersionPaths } from "core-app/modules/apiv3/endpoints/versions/apiv3-version-paths";
 import { RelationResource } from "core-app/modules/hal/resources/relation-resource";
-import { buildApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 import { map } from "rxjs/operators";
+import { buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 export class Apiv3RelationsPaths extends APIv3ResourceCollection<RelationResource, APIv3GettableResource<RelationResource>> {
   constructor(protected apiRoot:APIV3Service,

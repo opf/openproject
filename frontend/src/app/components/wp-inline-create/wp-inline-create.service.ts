@@ -32,7 +32,7 @@ import { Subject } from "rxjs";
 import { ComponentType } from "@angular/cdk/portal";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {

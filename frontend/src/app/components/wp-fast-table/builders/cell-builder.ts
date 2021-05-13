@@ -6,7 +6,7 @@ import {
 import { Injector } from '@angular/core';
 import { QueryColumn } from "core-components/wp-query/query-column";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
 

@@ -30,7 +30,7 @@ import { Component } from '@angular/core';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { DomSanitizer } from "@angular/platform-browser";
 import { BcfRestApi } from "core-app/modules/bim/bcf/bcf-constants.const";
-import { ImageHelpers } from "core-app/helpers/images/path-helper";
+import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import imagePath = ImageHelpers.imagePath;
 
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';

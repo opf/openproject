@@ -31,7 +31,7 @@ import { BehaviorSubject } from 'rxjs';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { DeviceService } from "app/modules/common/browser/device.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 @Injectable({ providedIn: 'root' })
 export class MainMenuToggleService {

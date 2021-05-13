@@ -18,7 +18,7 @@ import { WorkPackageResource } from "core-app/modules/hal/resources/work-package
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
-import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { CardHighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
 import { StateService } from "@uirouter/core";
@@ -37,7 +37,7 @@ import {
   WorkPackageViewHandlerToken,
   WorkPackageViewOutputs
 } from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 

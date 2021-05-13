@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {StateService, UIRouterGlobals} from "@uirouter/core";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import {UntilDestroyedMixin} from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalSource} from "core-app/modules/hal/resources/hal-resource";
 import {

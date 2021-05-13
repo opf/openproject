@@ -7,7 +7,7 @@ import {
   hierarchyRootClass
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 import { relationRowClass, isInsideCollapsedGroup } from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export class HierarchyDragActionService extends TableDragActionService {

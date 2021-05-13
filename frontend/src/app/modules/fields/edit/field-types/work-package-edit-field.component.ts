@@ -28,10 +28,10 @@
 
 import { Component } from "@angular/core";
 import { SelectEditFieldComponent, ValueOption } from './select-edit-field/select-edit-field.component';
-import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/helpers/rxjs/debounced-input-switchmap";
+import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
 import { take } from 'rxjs/operators';
+import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Component({
   templateUrl: './work-package-edit-field.component.html'

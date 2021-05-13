@@ -31,8 +31,8 @@ import { combineLatest } from 'rxjs';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 export const globalSearchTitleSelector = 'global-search-title';
 

@@ -42,7 +42,7 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { FormResource } from "core-app/modules/hal/resources/form-resource";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { HalResource, HalSource, HalSourceLink } from "core-app/modules/hal/resources/hal-resource";

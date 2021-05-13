@@ -5,7 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormGroup } from "@angular/forms";
 import { of } from "rxjs";
-import { FormsService } from "core-app/core/services/forms/forms.service";
+import { FormsService } from "core-app/core/forms/forms.service";
 
 describe('DynamicFormService', () => {
   let httpClient:HttpClient;

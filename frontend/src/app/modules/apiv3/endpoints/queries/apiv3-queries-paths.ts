@@ -33,7 +33,7 @@ import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { Apiv3QueryForm } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-form";
 import { Observable } from "rxjs";
 import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 import { Apiv3ListParameters, listParamsString } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 import { QueryFiltersService } from "core-components/wp-query/query-filters.service";

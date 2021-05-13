@@ -11,7 +11,7 @@ import {
 } from "core-app/modules/hal/http/http.interfaces";
 import { URLParamsEncoder } from "core-app/modules/hal/services/url-params-encoder";
 import { catchError, map } from "rxjs/operators";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class BcfApiRequestService<T> {
   @InjectField() http:HttpClient;

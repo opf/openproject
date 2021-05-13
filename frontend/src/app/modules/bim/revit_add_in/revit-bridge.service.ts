@@ -5,7 +5,7 @@ import { BcfViewpointInterface } from "core-app/modules/bim/bcf/api/viewpoints/b
 import { ViewerBridgeService } from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { ViewpointsService } from "core-app/modules/bim/bcf/helper/viewpoints.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 
 declare global {

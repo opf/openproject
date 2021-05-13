@@ -38,7 +38,7 @@ import { BoardActionsRegistryService } from "core-app/modules/boards/board/board
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 import { ITileViewEntry } from '../tile-view/tile-view.component';
-import { ImageHelpers } from "core-app/helpers/images/path-helper";
+import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import imagePath = ImageHelpers.imagePath;
 
 

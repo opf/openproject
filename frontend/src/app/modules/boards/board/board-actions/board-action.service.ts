@@ -5,7 +5,6 @@ import { ComponentType } from "@angular/cdk/portal";
 import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
 import { DisabledButtonPlaceholder } from "core-app/modules/boards/board/board-list/board-list.component";
 import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
-import { FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
 import { BoardListsService } from "core-app/modules/boards/board/board-list/board-lists.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
@@ -21,6 +20,7 @@ import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { Observable } from "rxjs";
 import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
+import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export abstract class BoardActionService {

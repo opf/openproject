@@ -3,7 +3,7 @@ import {
   OpTableAction,
   OpTableActionFactory,
 } from 'core-components/wp-table/table-actions/table-action';
-import { opIconElement } from 'core-app/helpers/op-icon-builder';
+import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 

@@ -53,12 +53,12 @@ import { WorkPackageRelationsService } from 'core-components/wp-relations/wp-rel
 import { WorkPackageViewHierarchiesService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageTimelineCell } from 'core-components/wp-table/timeline/cells/wp-timeline-cell';
 import { selectorTimelineSide } from 'core-components/wp-table/wp-table-scroll-sync';
-import { debugLog, timeOutput } from 'core-app/helpers/debug_output';
+import { debugLog, timeOutput } from 'core-app/shared/helpers/debug_output';
 import { RenderedWorkPackage } from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
 import { HalEventsService } from 'core-app/modules/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/modules/work_packages/notifications/work-package-notification.service';
 import { combineLatest, Observable } from 'rxjs';
-import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mixin';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackagesTableComponent } from 'core-components/wp-table/wp-table.component';
 import {
   groupIdFromIdentifier,

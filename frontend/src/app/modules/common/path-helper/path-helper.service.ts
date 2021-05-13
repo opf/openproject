@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
+import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 class Apiv3Paths {
   readonly apiV3Base:string;

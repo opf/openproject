@@ -6,7 +6,7 @@ import { WorkPackageNotificationService } from "core-app/modules/work_packages/n
 import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";
 import { bimSplitViewCardsIdentifier, bimSplitViewListIdentifier, bimListViewIdentifier, BimViewService } from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { IfcModelsDataService } from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
 import { WorkPackageViewColumnsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { UIRouterGlobals } from '@uirouter/core';

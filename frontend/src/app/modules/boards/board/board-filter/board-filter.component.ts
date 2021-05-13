@@ -9,7 +9,7 @@ import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/quer
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { StateService } from "@uirouter/core";
 import { debounceTime, skip, take } from "rxjs/operators";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { Observable } from "rxjs";
 import { BoardFiltersService } from "core-app/modules/boards/board/board-filter/board-filters.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";

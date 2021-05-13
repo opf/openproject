@@ -8,8 +8,8 @@
   "files": [
     "main.ts",
     "polyfills.ts",
-    "app/init-globals.ts",
-    "app/init-vendors.ts"
+    "app/core/setup/init-globals.ts",
+    "app/core/setup/init-vendors.ts"
   ],
   "include": [
     "src/**/*.ts",

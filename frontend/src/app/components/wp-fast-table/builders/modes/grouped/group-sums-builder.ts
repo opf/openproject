@@ -1,5 +1,5 @@
 import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SingleRowBuilder } from "core-components/wp-fast-table/builders/rows/single-row-builder";
 import { IFieldSchema } from "core-app/modules/fields/field.base";
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";

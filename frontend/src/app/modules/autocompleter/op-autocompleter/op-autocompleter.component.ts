@@ -1,7 +1,7 @@
 import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
 import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, TemplateRef, ContentChild, AfterViewInit, NgZone} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {AngularTrackingHelpers} from 'core-components/angular/tracking-functions';
+import {AngularTrackingHelpers} from 'core-app/shared/helpers/angular/tracking-functions';
 import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
 import {HalResourceSortingService} from 'core-app/modules/hal/services/hal-resource-sorting.service';
 import {DropdownPosition, NgSelectComponent} from '@ng-select/ng-select';
@@ -9,7 +9,7 @@ import { Observable, Subject } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { UntilDestroyedMixin } from 'core-app/helpers/angular/until-destroyed.mixin';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 import { OpAutocompleterOptionTemplateDirective } from "./directives/op-autocompleter-option-template.directive";
 import { OpAutocompleterLabelTemplateDirective } from "./directives/op-autocompleter-label-template.directive";

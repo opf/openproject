@@ -31,9 +31,8 @@ import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { Component, ElementRef, Input, ViewChild , OnInit } from '@angular/core';
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
-
-import { UploadFile } from "core-components/api/op-file-upload/op-file-upload.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { UploadFile } from "core-app/core/file-upload/op-file-upload.service";
 
 @Component({
   selector: 'attachments-upload',

@@ -2,7 +2,7 @@ import { Injector, Injectable } from '@angular/core';
 import { BcfViewpointInterface } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { Observable } from "rxjs";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { StateService } from "@uirouter/core";
 
 

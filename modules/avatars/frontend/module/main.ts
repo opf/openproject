@@ -27,7 +27,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { AvatarUploadFormComponent } from "./avatar-upload-form/avatar-upload-form.component";
-import { HookService } from "../../hook-service";
+import { HookService } from "core-app/modules/plugins/hook-service";
 
 @NgModule({
   imports: [

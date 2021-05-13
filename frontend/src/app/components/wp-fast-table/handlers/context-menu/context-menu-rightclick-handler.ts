@@ -1,12 +1,12 @@
 import { Injector } from '@angular/core';
-import { debugLog } from '../../../../helpers/debug_output';
+import { debugLog } from '../../../../shared/helpers/debug_output';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { timelineCellClassName } from '../../builders/timeline/timeline-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { ContextMenuHandler } from './context-menu-handler';
 import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TableEventComponent } from "core-components/wp-fast-table/handlers/table-handler-registry";
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {

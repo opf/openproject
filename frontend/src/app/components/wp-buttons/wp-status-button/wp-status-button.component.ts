@@ -33,7 +33,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
 

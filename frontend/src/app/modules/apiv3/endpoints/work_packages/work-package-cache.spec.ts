@@ -34,8 +34,8 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { OpenprojectHalModule } from 'core-app/modules/hal/openproject-hal.module';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
-import { OpenProjectFileUploadService } from 'core-components/api/op-file-upload/op-file-upload.service';
-import { OpenProjectDirectFileUploadService } from "core-components/api/op-file-upload/op-direct-file-upload.service";
+import { OpenProjectFileUploadService } from 'core-components/../../../../core/file-upload/file-upload.service';
+import { OpenProjectDirectFileUploadService } from "core-components/../../../../core/file-upload/op-direct-file-upload.service";
 import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
 import { States } from 'core-components/states.service';
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";

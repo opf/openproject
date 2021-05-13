@@ -28,7 +28,7 @@
 
 import { Subject } from 'rxjs';
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**

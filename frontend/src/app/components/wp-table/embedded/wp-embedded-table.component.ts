@@ -9,7 +9,7 @@ import { OpModalService } from 'core-app/modules/modal/modal.service';
 import { WorkPackageEmbeddedBaseComponent } from "core-components/wp-table/embedded/wp-embedded-base.component";
 import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
 import { distinctUntilChanged, map, take, withLatestFrom } from "rxjs/operators";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 

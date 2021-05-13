@@ -28,7 +28,7 @@
 
 import {ResourcesDisplayField} from "./resources-display-field.module";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {InjectField} from "core-app/shared/helpers/angular/inject-field.decorator";
 import {PrincipalRendererService} from "core-app/modules/principal/principal-renderer.service";
 import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 

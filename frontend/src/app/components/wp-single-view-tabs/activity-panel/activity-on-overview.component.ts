@@ -31,7 +31,7 @@ import { ActivityPanelBaseController } from 'core-components/wp-single-view-tabs
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
-import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 
 @Component({
   selector: 'newest-activity-on-overview',

@@ -30,7 +30,7 @@ import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
 import { QueryFilterInstanceSchemaResource } from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
 import { QueryOperatorResource } from 'core-app/modules/hal/resources/query-operator-resource';
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 

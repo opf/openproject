@@ -30,7 +30,7 @@ import { Transition } from '@uirouter/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({

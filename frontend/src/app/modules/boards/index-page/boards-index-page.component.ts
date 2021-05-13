@@ -9,10 +9,10 @@ import { NewBoardModalComponent } from "core-app/modules/boards/new-board-modal/
 import { BannersService } from "core-app/modules/common/enterprise/banners.service";
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
-import { contactUrl } from "core-app/globals/constants.const";
+import { contactUrl } from "core-app/core/setup/globals/constants.const";
 import { DomSanitizer } from "@angular/platform-browser";
 import { boardTeaserVideoURL } from "core-app/modules/boards/board-constants.const";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 

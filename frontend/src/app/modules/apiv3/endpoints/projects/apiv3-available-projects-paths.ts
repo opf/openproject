@@ -29,13 +29,13 @@
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { APIv3GettableResource } from "core-app/modules/apiv3/paths/apiv3-resource";
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
-import { buildApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface, listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import { buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 export class Apiv3AvailableProjectsPaths
   extends APIv3GettableResource<CollectionResource<ProjectResource>>

@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { EditFormComponent } from 'core-app/modules/fields/edit/edit-form/edit-form.component';
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 
 @Component({

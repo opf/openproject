@@ -43,15 +43,14 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } f
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Component({
   selector: 'board-inline-add-autocompleter',

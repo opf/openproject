@@ -3,7 +3,7 @@ import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { groupName } from './grouped-rows-helpers';
 import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
 import { rowGroupClassName } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export function groupClassNameFor(group:GroupObject) {
   return `group-${group.identifier}`;

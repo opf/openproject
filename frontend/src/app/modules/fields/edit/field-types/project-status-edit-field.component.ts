@@ -31,7 +31,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/modules/fields/helpers/project-status-helper";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 
 interface ProjectStatusOption {

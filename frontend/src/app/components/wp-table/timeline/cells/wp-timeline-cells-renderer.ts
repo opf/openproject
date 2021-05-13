@@ -37,7 +37,7 @@ import { WorkPackageTimelineCell } from './wp-timeline-cell';
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class WorkPackageTimelineCellsRenderer {
 

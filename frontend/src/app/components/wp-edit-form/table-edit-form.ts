@@ -40,7 +40,7 @@ import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
 import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
 import { editModeClassName } from "core-app/modules/fields/edit/edit-field.component";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';

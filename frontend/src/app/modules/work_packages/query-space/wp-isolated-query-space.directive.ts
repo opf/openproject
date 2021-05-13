@@ -55,7 +55,7 @@ import { WorkPackageInlineCreateService } from "core-components/wp-inline-create
 import { WpChildrenInlineCreateService } from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 import { WpRelationInlineCreateService } from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import { WorkPackagesListChecksumService } from "core-components/wp-list/wp-list-checksum.service";
-import { debugLog } from "core-app/helpers/debug_output";
+import { debugLog } from "core-app/shared/helpers/debug_output";
 import { TableDragActionsRegistryService } from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";

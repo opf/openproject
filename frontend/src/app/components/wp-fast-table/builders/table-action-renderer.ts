@@ -4,7 +4,7 @@ import { OpTableActionsService } from 'core-components/wp-table/table-actions/ta
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { contextMenuSpanClassName, contextMenuTdClassName } from "core-components/wp-table/table-actions/table-action";
 import { internalContextMenuColumn } from "core-components/wp-fast-table/builders/internal-sort-columns";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class TableActionRenderer {
 

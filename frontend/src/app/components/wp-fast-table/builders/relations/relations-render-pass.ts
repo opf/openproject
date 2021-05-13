@@ -11,7 +11,7 @@ import {
   RelationColumnType,
   WorkPackageViewRelationColumnsService
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{

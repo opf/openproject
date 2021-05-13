@@ -38,7 +38,7 @@ import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/ta
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { OpenProject } from "core-app/globals/openproject";
+import { OpenProject } from "core-app/core/setup/globals/openproject";
 import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 import { OpIconComponent } from "core-app/modules/icon/icon.component";

@@ -1,12 +1,12 @@
 import { Injector } from '@angular/core';
-import { debugLog } from '../../../../helpers/debug_output';
+import { debugLog } from '../../../../shared/helpers/debug_output';
 import { relationCellIndicatorClassName, relationCellTdClassName } from '../../builders/relation-cell-builder';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { ClickOrEnterHandler } from '../click-or-enter-handler';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { WorkPackageViewRelationColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class RelationsCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 

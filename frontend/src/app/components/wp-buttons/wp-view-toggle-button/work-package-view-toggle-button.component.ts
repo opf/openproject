@@ -35,7 +35,7 @@ import {
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { combineLatest } from "rxjs";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 
 @Component({

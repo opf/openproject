@@ -34,7 +34,7 @@ import { take } from "rxjs/operators";
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { ComponentType } from "@angular/cdk/overlay";
 import { Ng2StateDeclaration } from "@uirouter/angular";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";

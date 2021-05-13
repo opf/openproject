@@ -32,7 +32,7 @@ import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { WorkPackageRelationsHierarchyService } from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { take } from 'rxjs/operators';
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({

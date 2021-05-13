@@ -8,8 +8,8 @@ import { DragulaService, DrakeWithModels } from 'ng2-dragula';
 import { ConfirmDialogService } from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import { Drake } from 'dragula';
 import { GonService } from "core-app/modules/common/gon/gon.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
-import { install_menu_logic } from "core-app/globals/global-listeners/action-menu";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { install_menu_logic } from "core-app/core/setup/globals/global-listeners/action-menu";
 
 export type TypeGroupType = 'attribute'|'query';
 

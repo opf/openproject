@@ -27,7 +27,7 @@
 //++
 
 import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import {InjectField} from "core-app/shared/helpers/angular/inject-field.decorator";
 import {PrincipalRendererService} from "core-app/modules/principal/principal-renderer.service";
 
 export class UserDisplayField extends DisplayField {

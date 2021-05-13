@@ -38,7 +38,7 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { debounceTime, distinctUntilChanged, skip } from "rxjs/operators";
 import { combineLatest } from "rxjs";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 

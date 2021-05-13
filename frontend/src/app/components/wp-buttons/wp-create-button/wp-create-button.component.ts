@@ -32,7 +32,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
 import { Observable } from "rxjs";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 @Component({

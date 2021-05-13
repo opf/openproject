@@ -8,7 +8,7 @@ import { tdClassName } from '../cell-builder';
 import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { RelationColumnType } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;

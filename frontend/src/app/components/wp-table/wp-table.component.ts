@@ -50,7 +50,7 @@ import {
 } from 'core-app/components/wp-table/wp-table-configuration';
 import { QueryColumn } from 'core-components/wp-query/query-column';
 import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
 import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
@@ -59,7 +59,7 @@ import { WpTableHoverSync } from "core-components/wp-table/wp-table-hover-sync";
 import { WorkPackageTimelineTableController } from "core-components/wp-table/timeline/container/wp-timeline-container.directive";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
 import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
 
 export interface WorkPackageFocusContext {

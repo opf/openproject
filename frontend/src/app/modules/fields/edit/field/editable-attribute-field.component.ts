@@ -28,8 +28,8 @@
 
 import { States } from 'core-components/states.service';
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import { SelectionHelpers } from '../../../../helpers/selection-helpers';
-import { debugLog } from '../../../../helpers/debug_output';
+import { SelectionHelpers } from '../../../../shared/helpers/selection-helpers';
+import { debugLog } from '../../../../shared/helpers/debug_output';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -48,7 +48,7 @@ import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
 import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
 import {

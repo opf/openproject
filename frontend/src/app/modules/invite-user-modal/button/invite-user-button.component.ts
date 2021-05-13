@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { PermissionsService } from "core-app/core/services/permissions/permissions.service";
+import { PermissionsService } from "core-app/core/permissions/permissions.service";
 import { OpInviteUserModalService } from "core-app/modules/invite-user-modal/invite-user-modal.service";
 
 @Component({

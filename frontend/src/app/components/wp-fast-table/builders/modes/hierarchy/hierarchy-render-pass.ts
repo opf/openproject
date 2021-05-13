@@ -12,7 +12,7 @@ import {
 import { WorkPackageViewHierarchies } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export class HierarchyRenderPass extends PrimaryRenderPass {

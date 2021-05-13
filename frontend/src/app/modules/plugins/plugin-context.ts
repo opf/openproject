@@ -12,17 +12,17 @@ import { DisplayField } from "core-app/modules/fields/display/display-field.modu
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
 import { EditFieldService } from "core-app/modules/fields/edit/edit-field.service";
-import { OpenProjectFileUploadService } from "core-components/api/op-file-upload/op-file-upload.service";
 import { EditorMacrosService } from "core-components/modals/editor/editor-macros.service";
 import { HTMLSanitizeService } from "../common/html-sanitize/html-sanitize.service";
 import { PathHelperService } from "../common/path-helper/path-helper.service";
-import { DynamicBootstrapper } from "core-app/globals/dynamic-bootstrapper";
+import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 import { States } from 'core-components/states.service';
 import { CKEditorPreviewService } from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 import { ExternalRelationQueryConfigurationService } from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context

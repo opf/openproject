@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { debugLog } from '../../../../helpers/debug_output';
+import { debugLog } from '../../../../shared/helpers/debug_output';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { ContextMenuHandler } from './context-menu-handler';

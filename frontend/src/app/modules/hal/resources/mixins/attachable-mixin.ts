@@ -28,14 +28,14 @@
 
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { AttachmentCollectionResource } from 'core-app/modules/hal/resources/attachment-collection-resource';
-import { OpenProjectFileUploadService, UploadFile } from 'core-components/api/op-file-upload/op-file-upload.service';
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { HttpErrorResponse } from "@angular/common/http";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { OpenProjectDirectFileUploadService } from 'core-app/components/api/op-file-upload/op-direct-file-upload.service';
+import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
+import { OpenProjectFileUploadService, UploadFile } from "core-app/core/file-upload/op-file-upload.service";
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 

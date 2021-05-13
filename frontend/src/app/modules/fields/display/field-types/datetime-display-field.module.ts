@@ -28,7 +28,7 @@
 
 import { DisplayField } from "core-app/modules/fields/display/display-field.module";
 import { TimezoneService } from 'core-components/datetime/timezone.service';
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class DateTimeDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;

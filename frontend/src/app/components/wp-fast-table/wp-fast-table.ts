@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
-import { debugLog } from '../../helpers/debug_output';
+import { debugLog } from '../../shared/helpers/debug_output';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { States } from '../states.service';
 import { WorkPackageTimelineTableController } from '../wp-table/timeline/container/wp-timeline-container.directive';
@@ -14,7 +14,7 @@ import { WorkPackageTableEditingContext } from './wp-table-editing';
 import { WorkPackageTableRow } from './wp-table.interfaces';
 import { WorkPackageTableConfiguration } from 'core-app/components/wp-table/wp-table-configuration';
 import { RenderedWorkPackage } from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
-import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 

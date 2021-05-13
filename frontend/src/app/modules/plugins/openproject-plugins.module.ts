@@ -30,7 +30,7 @@
 import { Injector, NgModule } from "@angular/core";
 import { HookService } from "core-app/modules/plugins/hook-service";
 import { OpenProjectPluginContext } from "core-app/modules/plugins/plugin-context";
-import { debugLog } from "core-app/helpers/debug_output";
+import { debugLog } from "core-app/shared/helpers/debug_output";
 
 
 @NgModule({

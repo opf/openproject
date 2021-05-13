@@ -32,7 +32,7 @@ import { QueryFormResource } from "core-app/modules/hal/resources/query-form-res
 import { Observable } from "rxjs";
 import * as URI from "urijs";
 import { map, tap } from "rxjs/operators";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { QueryFiltersService } from "core-components/wp-query/query-filters.service";
 
 export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {

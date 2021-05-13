@@ -34,7 +34,7 @@ import { Apiv3ListParameters, listParamsString } from "core-app/modules/apiv3/pa
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 import { Board, BoardType } from "core-app/modules/boards/board/board";
 import { map, switchMap, tap } from "rxjs/operators";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
 import { CachableAPIV3Collection } from "core-app/modules/apiv3/cache/cachable-apiv3-collection";

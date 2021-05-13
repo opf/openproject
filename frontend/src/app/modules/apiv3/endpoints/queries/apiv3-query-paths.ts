@@ -32,7 +32,7 @@ import { APIV3QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-
 import { Apiv3QueryForm } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-form";
 import { Observable } from "rxjs";
 import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { QueryFiltersService } from "core-components/wp-query/query-filters.service";
 import { PaginationObject } from "core-components/table-pagination/pagination-service";
 import { HalPayloadHelper } from "core-app/modules/hal/schemas/hal-payload.helper";

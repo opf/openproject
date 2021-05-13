@@ -30,7 +30,7 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core'
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ResizeDelta } from "core-app/modules/common/resizer/resizer.component";
 import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 export const mainMenuResizerSelector = 'main-menu-resizer';
 

@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { timeOutput } from '../../../helpers/debug_output';
+import { timeOutput } from '../../../shared/helpers/debug_output';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { States } from '../../states.service';
 
@@ -12,7 +12,7 @@ import { TimelineRenderPass } from './timeline/timeline-render-pass';
 import { HighlightingRenderPass } from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
 import { DragDropHandleRenderPass } from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
 import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export type RenderedRowType = 'primary'|'relations';
 

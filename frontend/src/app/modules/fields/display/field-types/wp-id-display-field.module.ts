@@ -30,7 +30,7 @@ import { KeepTabService } from 'core-components/wp-single-view-tabs/keep-tab/kee
 import { StateService } from '@uirouter/core';
 import { UiStateLinkBuilder } from "core-components/wp-fast-table/builders/ui-state-link-builder";
 import { IdDisplayField } from "core-app/modules/fields/display/field-types/id-display-field.module";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class WorkPackageIdDisplayField extends IdDisplayField {
   @InjectField() $state!:StateService;

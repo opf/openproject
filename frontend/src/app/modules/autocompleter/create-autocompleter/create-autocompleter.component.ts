@@ -44,11 +44,11 @@ import { CurrentProjectService } from "core-components/projects/current-project.
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { Subject } from 'rxjs';
 import { PrincipalHelper } from "core-app/modules/principal/principal-helper";
-import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 
 export interface CreateAutocompleterValueOption {
   name:string;

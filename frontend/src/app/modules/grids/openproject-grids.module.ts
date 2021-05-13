@@ -51,7 +51,6 @@ import { WidgetWpGraphComponent } from "core-app/modules/grids/widgets/wp-graph/
 import { WidgetWpGraphMenuComponent } from "core-app/modules/grids/widgets/wp-graph/wp-graph-menu.component";
 import { WidgetWpTableQuerySpaceComponent } from "core-app/modules/grids/widgets/wp-table/wp-table-qs.component";
 import { OpenprojectWorkPackageGraphsModule } from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
-import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WidgetProjectDescriptionComponent } from "core-app/modules/grids/widgets/project-description/project-description.component";
 import { WidgetHeaderComponent } from "core-app/modules/grids/widgets/header/header.component";
@@ -67,6 +66,7 @@ import { WidgetProjectStatusComponent } from "core-app/modules/grids/widgets/pro
 import { OpenprojectTimeEntriesModule } from "core-app/modules/time_entries/openproject-time-entries.module";
 import { WidgetTimeEntriesCurrentUserMenuComponent } from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component";
 import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
+import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @NgModule({
   imports: [

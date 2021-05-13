@@ -31,7 +31,7 @@ import { Directive, ViewChild } from "@angular/core";
 import { WorkPackageEmbeddedTableComponent } from "core-components/wp-table/embedded/wp-embedded-table.component";
 import { QueryResource } from "core-app/modules/hal/resources/query-resource";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Directive()
 export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {

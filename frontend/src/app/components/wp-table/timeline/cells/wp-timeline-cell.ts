@@ -38,7 +38,7 @@ import { LoadingIndicatorService } from "core-app/modules/common/loading-indicat
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 export const classNameLeftLabel = 'labelLeft';

@@ -10,9 +10,9 @@ import { StateService } from "@uirouter/core";
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 import { VersionBoardHeaderComponent } from "core-app/modules/boards/board/board-actions/version/version-board-header.component";
 import { FormResource } from "core-app/modules/hal/resources/form-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CachedBoardActionService } from "core-app/modules/boards/board/board-actions/cached-board-action.service";
-import { ImageHelpers } from "core-app/helpers/images/path-helper";
+import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import { VersionAutocompleterComponent } from "core-app/modules/autocompleter/version-autocompleter/version-autocompleter.component";
 
 @Injectable()

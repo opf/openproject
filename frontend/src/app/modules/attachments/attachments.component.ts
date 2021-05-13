@@ -32,7 +32,7 @@ import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.s
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { States } from 'core-components/states.service';
 import { filter } from 'rxjs/operators';
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 export const attachmentsSelector = 'attachments';
 

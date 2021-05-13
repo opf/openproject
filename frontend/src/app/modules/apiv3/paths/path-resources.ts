@@ -1,4 +1,3 @@
-import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
 import { Constructor } from "@angular/cdk/table";
 
 /**

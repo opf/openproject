@@ -28,7 +28,7 @@
 
 import {Inject, Injectable} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
-import {enterpriseEditionUrl} from "core-app/globals/constants.const";
+import {enterpriseEditionUrl} from "core-app/core/setup/globals/constants.const";
 
 @Injectable({ providedIn: 'root' })
 export class BannersService {

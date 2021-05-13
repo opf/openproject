@@ -50,7 +50,7 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { DeviceService } from "core-app/modules/common/browser/device.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { QueryResource } from "core-app/modules/hal/resources/query-resource";
 import { StateService } from "@uirouter/core";
 import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";

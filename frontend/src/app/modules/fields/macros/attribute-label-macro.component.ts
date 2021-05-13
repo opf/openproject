@@ -48,7 +48,7 @@ import {
   AttributeModelLoaderService,
   SupportedAttributeModels
 } from "core-app/modules/fields/macros/attribute-model-loader.service";
-import { StringHelpers } from "core-app/helpers/string-helpers";
+import { StringHelpers } from "core-app/shared/helpers/string-helpers";
 
 export const attributeLabelMacro = 'macro.macro--attribute-label';
 

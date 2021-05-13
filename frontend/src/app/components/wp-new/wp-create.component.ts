@@ -42,7 +42,7 @@ import { WorkPackageViewFocusService } from "core-app/modules/work_packages/rout
 import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import * as URI from 'urijs';
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { HalSource, HalSourceLinks } from "core-app/modules/hal/resources/hal-resource";

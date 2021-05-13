@@ -11,7 +11,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { WorkPackagesViewBase } from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import { QueryResource } from "core-app/modules/hal/resources/query-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Directive()

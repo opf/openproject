@@ -8,7 +8,7 @@ import { ProgressTextDisplayField } from "core-app/modules/fields/display/field-
 import { MultipleLinesUserFieldModule } from "core-app/modules/fields/display/field-types/multiple-lines-user-display-field.module";
 import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";

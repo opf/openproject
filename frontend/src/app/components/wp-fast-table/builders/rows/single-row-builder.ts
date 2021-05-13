@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { locateTableRowByIdentifier } from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
-import { debugLog } from '../../../../helpers/debug_output';
+import { debugLog } from '../../../../shared/helpers/debug_output';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
 import { WorkPackageViewColumnsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
@@ -15,7 +15,7 @@ import {
   internalContextMenuColumn,
   internalSortColumn
 } from "core-components/wp-fast-table/builders/internal-sort-columns";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';

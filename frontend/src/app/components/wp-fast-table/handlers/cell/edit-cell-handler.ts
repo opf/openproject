@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { debugLog } from '../../../../helpers/debug_output';
+import { debugLog } from '../../../../shared/helpers/debug_output';
 import { States } from '../../../states.service';
 import { displayClassName, editableClassName, readOnlyClassName } from 'core-app/modules/fields/display/display-field-renderer';
 
@@ -9,7 +9,7 @@ import { WorkPackageTable } from '../../wp-fast-table';
 import { ClickOrEnterHandler } from '../click-or-enter-handler';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {

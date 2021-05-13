@@ -1,4 +1,4 @@
-import { debugLog, timeOutput } from "core-app/helpers/debug_output";
+import { debugLog, timeOutput } from "core-app/shared/helpers/debug_output";
 import { QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
 
 // min allowed position

@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subject , of } from "rxjs";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { BcfApiService } from "core-app/modules/bim/bcf/api/bcf-api.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { ViewpointsService } from "core-app/modules/bim/bcf/helper/viewpoints.service";
 import { CurrentProjectService} from "core-app/components/projects/current-project.service";
 import { HttpClient } from "@angular/common/http";

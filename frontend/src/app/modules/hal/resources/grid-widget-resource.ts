@@ -29,7 +29,7 @@
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { GridResource } from "core-app/modules/hal/resources/grid-resource";
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 
 export class GridWidgetResource extends HalResource {

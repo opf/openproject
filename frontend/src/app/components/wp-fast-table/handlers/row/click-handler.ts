@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { debugLog } from '../../../../helpers/debug_output';
+import { debugLog } from '../../../../shared/helpers/debug_output';
 import { States } from '../../../states.service';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
@@ -10,7 +10,7 @@ import { TableEventComponent, TableEventHandler } from '../table-handler-registr
 import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { displayClassName } from "core-app/modules/fields/display/display-field-renderer";
 import { activeFieldClassName } from "core-app/modules/fields/edit/edit-form/edit-form";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class RowClickHandler implements TableEventHandler {
 

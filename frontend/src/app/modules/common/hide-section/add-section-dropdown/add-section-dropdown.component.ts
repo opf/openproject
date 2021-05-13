@@ -29,8 +29,8 @@
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { HideSectionDefinition, HideSectionService } from "core-app/modules/common/hide-section/hide-section.service";
-import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 export const addSectionDropdownSelector = 'add-section-dropdown';
 

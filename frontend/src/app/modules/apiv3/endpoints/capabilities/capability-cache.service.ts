@@ -27,7 +27,7 @@
 //++
 
 import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { States } from "core-components/states.service";
 import { Injector } from "@angular/core";

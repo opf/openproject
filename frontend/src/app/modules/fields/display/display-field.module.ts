@@ -31,7 +31,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { DisplayFieldContext } from "core-app/modules/fields/display/display-field.service";
 import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export const cssClassCustomOption = 'custom-option';
 

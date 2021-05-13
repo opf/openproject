@@ -27,7 +27,7 @@
 //++
 
 import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector } from "@angular/core";
-import { DynamicBootstrapper } from "core-app/globals/dynamic-bootstrapper";
+import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 
 @Injectable()
 export class CKEditorPreviewService {

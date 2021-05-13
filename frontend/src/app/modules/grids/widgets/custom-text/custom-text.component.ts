@@ -18,7 +18,7 @@ import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { filter } from 'rxjs/operators';
 import { GridAreaService } from "core-app/modules/grids/grid/area.service";
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { DynamicBootstrapper } from "core-app/globals/dynamic-bootstrapper";
+import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 
 @Component({
   templateUrl: './custom-text.component.html',

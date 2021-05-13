@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { BcfApiService } from "core-app/modules/bim/bcf/api/bcf-api.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { BcfViewpointPaths } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.paths";

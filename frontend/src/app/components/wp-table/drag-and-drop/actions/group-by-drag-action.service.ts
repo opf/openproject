@@ -8,7 +8,7 @@ import { locatePredecessorBySelector } from "core-components/wp-fast-table/helpe
 import { groupIdentifier } from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 export class GroupByDragActionService extends TableDragActionService {

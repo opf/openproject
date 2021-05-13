@@ -31,8 +31,8 @@ import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter
 import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
 import { Component, Input, Output } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { DebouncedEventEmitter } from 'core-components/angular/debounced-event-emitter';
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 

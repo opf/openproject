@@ -11,7 +11,7 @@ import { BoardService } from "core-app/modules/boards/board/board.service";
 import { BannersService } from "core-app/modules/common/enterprise/banners.service";
 import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import { QueryUpdatedService } from "core-app/modules/boards/board/query-updated/query-updated.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { Board, BoardWidgetOption } from "core-app/modules/boards/board/board";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";

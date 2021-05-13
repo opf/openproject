@@ -5,7 +5,7 @@ import { WorkPackageTable } from 'core-components/wp-fast-table/wp-fast-table';
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
 import { TableEditForm } from "core-components/wp-edit-form/table-edit-form";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class WorkPackageTableEditingContext {
 

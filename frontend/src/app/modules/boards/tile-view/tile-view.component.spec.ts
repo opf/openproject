@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { TileViewComponent } from './tile-view.component';
-import { ImageHelpers } from "core-app/helpers/images/path-helper";
+import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import imagePath = ImageHelpers.imagePath;
 
 describe('shows tiles', () => {

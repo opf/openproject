@@ -15,7 +15,7 @@ import { QueryColumn } from "core-components/wp-query/query-column";
 import { tdClassName } from "core-components/wp-fast-table/builders/cell-builder";
 import { internalContextMenuColumn } from "core-components/wp-fast-table/builders/internal-sort-columns";
 import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';

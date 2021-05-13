@@ -52,9 +52,9 @@ import { WorkPackageViewOrderService } from "core-app/modules/work_packages/rout
 import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { HalEvent, HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { DeviceService } from "core-app/modules/common/browser/device.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {

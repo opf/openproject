@@ -3,8 +3,8 @@ import { Injector } from '@angular/core';
 import {Input} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OpenProjectDirectFileUploadService } from 'core-app/components/api/op-file-upload/op-direct-file-upload.service';
-import { OpenProjectFileUploadService } from 'core-app/components/api/op-file-upload/op-file-upload.service';
+import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
+import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { States } from 'core-app/components/states.service';
 
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';

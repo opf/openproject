@@ -38,10 +38,10 @@ import {
 } from '@angular/core';
 import { WorkPackageViewFiltersService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
-import { DebouncedEventEmitter } from "core-components/angular/debounced-event-emitter";
+import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
 import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
 import { Observable } from "rxjs";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 @Component({

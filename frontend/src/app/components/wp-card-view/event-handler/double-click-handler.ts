@@ -3,7 +3,7 @@ import { CardEventHandler } from "core-components/wp-card-view/event-handler/car
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
 import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { StateService } from "@uirouter/core";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class CardDblClickHandler implements CardEventHandler {
   @InjectField() $state:StateService;

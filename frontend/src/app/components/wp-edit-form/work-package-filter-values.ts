@@ -3,11 +3,11 @@ import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/quer
 import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
-import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
-import { FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 export class WorkPackageFilterValues {
 

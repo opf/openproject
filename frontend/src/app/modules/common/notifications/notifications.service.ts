@@ -29,7 +29,7 @@
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { input, State } from 'reactivestates';
 import { Injectable } from '@angular/core';
-import { UploadInProgress } from "core-components/api/op-file-upload/op-file-upload.service";
+import { UploadInProgress } from "core-app/core/file-upload/op-file-upload.service";
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();

@@ -35,7 +35,7 @@ import { Observable, zip } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { RelatedWorkPackagesGroup } from './wp-relations.interfaces';
 import { RelationsStateValue, WorkPackageRelationsService } from './wp-relations.service';
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 

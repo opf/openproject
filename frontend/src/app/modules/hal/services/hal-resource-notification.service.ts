@@ -35,7 +35,7 @@ import { NotificationsService } from 'core-app/modules/common/notifications/noti
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 @Injectable()

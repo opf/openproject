@@ -5,10 +5,10 @@ import { QueryResource } from "core-app/modules/hal/resources/query-resource";
 import { Board } from "core-app/modules/boards/board/board";
 import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
-import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Injectable({ providedIn: 'root' })
 export class BoardListsService {

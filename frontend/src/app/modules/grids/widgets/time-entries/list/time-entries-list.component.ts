@@ -5,10 +5,10 @@ import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-res
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
-import { FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
 import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
