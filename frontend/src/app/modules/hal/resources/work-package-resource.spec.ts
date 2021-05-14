@@ -41,13 +41,13 @@ import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicat
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { StateService } from "@uirouter/core";
-import { OpenProjectFileUploadService } from "core-components/../../../core/file-upload/file-upload.service";
-import { OpenProjectDirectFileUploadService } from "core-components/../../../core/file-upload/op-direct-file-upload.service";
 import { WorkPackageCreateService } from 'core-app/components/wp-new/wp-create.service';
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
+import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;

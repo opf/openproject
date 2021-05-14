@@ -35,7 +35,6 @@ import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-packa
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
-
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { TypeResource } from "core-app/modules/hal/resources/type-resource";
@@ -47,14 +46,14 @@ import { ConfigurationService } from "core-app/modules/common/config/configurati
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { UIRouterModule } from "@uirouter/angular";
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import { OpenProjectFileUploadService } from "core-components/../../core/file-upload/file-upload.service";
-import { OpenProjectDirectFileUploadService } from "core-components/../../core/file-upload/op-direct-file-upload.service";
 import { HookService } from "core-app/modules/plugins/hook-service";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
+import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
 
 describe('WorkPackageFilterValues', () => {
   let resource:WorkPackageResource;

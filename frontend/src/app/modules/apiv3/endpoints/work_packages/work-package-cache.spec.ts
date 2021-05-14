@@ -34,8 +34,6 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { OpenprojectHalModule } from 'core-app/modules/hal/openproject-hal.module';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
-import { OpenProjectFileUploadService } from 'core-components/../../../../core/file-upload/file-upload.service';
-import { OpenProjectDirectFileUploadService } from "core-components/../../../../core/file-upload/op-direct-file-upload.service";
 import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
 import { States } from 'core-components/states.service';
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
@@ -45,6 +43,8 @@ import { TimezoneService } from "core-components/datetime/timezone.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { WorkPackageCache } from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
+import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
+import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
 
 describe('WorkPackageCache', () => {
   let injector:Injector;

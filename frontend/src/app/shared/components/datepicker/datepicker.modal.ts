@@ -46,7 +46,7 @@ import { TimezoneService } from "core-components/datetime/timezone.service";
 import { DatePicker } from "core-app/modules/common/op-date-picker/datepicker";
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
-import { DatePickerModalHelper } from "core-components/datepicker/datepicker.modal.helper";
+import { DatePickerModalHelper } from "core-app/shared/components/datepicker/datepicker.modal.helper";
 import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 

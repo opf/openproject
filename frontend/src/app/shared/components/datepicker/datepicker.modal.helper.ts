@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { DateKeys } from "core-components/datepicker/datepicker.modal";
+import { DateKeys } from "core-app/shared/components/datepicker/datepicker.modal";
 import { DatePicker } from "core-app/modules/common/op-date-picker/datepicker";
 import { DateOption } from "flatpickr/dist/types/options";
 
