@@ -66,7 +66,7 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
       replace_token: "Sostituisci il token di assistenza attuale"
-      order: "Order Enterprise on-premises Edition"
+      order: "Ordina Edizione Impresa in sede"
       paste: "Incolla il tuo token di assistenza per Enterprise Edition"
       required_for_feature: "Questa funzionalità è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
@@ -244,10 +244,10 @@ it:
         Tutte le occorrenze dell'utente segnaposto (ad esempio, come assegnatario, responsabile o altri valori) saranno riassegnate a un account chiamato "Utente eliminato".
         Poiché i dati di ogni account eliminato vengono riassegnati a questo account, non sarà possibile distinguere i dati creati dall'utente dai dati di un altro account eliminato.
       irreversible: "Questa azione è irreversibile"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Inserisci il nome utente del segnaposto %{name} per confermare l'eliminazione."
     upsale:
-      title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      title: Assegna lavoro alle persone che non sono membri del progetto.
+      description: Ci sono diversi scenari in cui vuoi assegnare lavoro a persone che non sono membri del tuo progetto. Potrebbe semplicemente essere che devi ancora assumere le persone adatte al lavoro. O che non vuoi dare accesso a quella persona alle informazioni del progetto ma vuoi comunque monitorare le mansioni che gli hai assegnato.
   prioritiies:
     edit:
       priority_color_text: |
@@ -651,7 +651,7 @@ it:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "impossibile dedurre dal titolo '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia."
           attributes:
