@@ -22,6 +22,7 @@ import { OpenprojectCommonModule } from "core-app/modules/common/openproject-com
 import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";
 import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
 import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper/dynamic-field-wrapper.component';
+import { InviteUserButtonModule } from "core-app/modules/invite-user-modal/button/invite-user-button.module";
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper
     NgOptionHighlightModule,
     FormattableEditFieldModule,
     OpenprojectEditorModule,
+    InviteUserButtonModule,
   ],
   declarations: [
     DynamicFieldGroupWrapperComponent,
