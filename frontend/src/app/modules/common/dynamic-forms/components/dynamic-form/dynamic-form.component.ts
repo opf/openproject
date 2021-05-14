@@ -129,9 +129,10 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Input() formUrl?:string;
   /** When using the formUrl @Input(), set the http method to use if it is not 'POST' */
   @Input() formHttpMethod?:'post'|'patch' = 'post';
-  /** Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example) */
-  /** Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath */
-  /** for you (⌐■_■). */
+  /** Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example)
+  * Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath
+  * for you (⌐■_■).
+  */
   @Input() resourcePath?:string;
   /** Pass the resourceId in case you are editing an existing resource and you don't have the Form URL. */
   @Input() resourceId?:string;
@@ -140,15 +141,16 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
   @Input() set model(payload:IOPFormModel) {
-    if (!this.innerModel && !payload) { return; }
+    if (!this._innerModel && !payload) { return; }
 
     const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
-    this.innerModel = formattedModel;
+
+    this.form.patchValue(formattedModel);
   }
   /** Chance to modify the dynamicFormFields settings before the form is rendered */
   @Input() fieldsSettingsPipe?:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   /** Create fieldGroups programmatically */
-  @Input() fieldGroups:IDynamicFieldGroupConfig[];
+  @Input() fieldGroups?:IDynamicFieldGroupConfig[];
   @Input() showNotifications = true;
   @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
   @Input() handleSubmit = true;
@@ -161,7 +163,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   form:FormGroup;
   fields:IOPFormlyFieldSettings[];
   formEndpoint?:string;
-  innerModel:IOPFormModel;
   inFlight:boolean;
   text = {
     save: this._I18n.t('js.button_save'),
@@ -173,6 +174,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   in order to fetch its setting. Please provide one.`;
   noPathToSubmitToError = `DynamicForm needs a resourcePath or formUrl @Input in order to be submitted 
   and validated. Please provide one.`;
+  _innerModel:IOPFormModel;
 
   get model() {
     return this.form.getRawValue();
@@ -337,7 +339,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     this.fields = fields;
-    this.innerModel = model;
+    this._innerModel = model;
     this.form = this.dynamicFormGroup || form;
 
     this._changeDetectorRef.detectChanges();

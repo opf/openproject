@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {StateService, UIRouterGlobals} from "@uirouter/core";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
@@ -12,6 +12,7 @@ import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
+import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
 
 export interface ProjectTemplateOption {
   href:string|null;
@@ -27,10 +28,9 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   resourcePath:string;
   dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
   fieldGroups:IDynamicFieldGroupConfig[];
-
   initialPayload = {};
+  formModel:Object;
 
-  formUrl:string;
   text = {
     use_template: this.I18n.t('js.project.use_template'),
     no_template_selected: this.I18n.t('js.project.no_template_selected'),
@@ -66,6 +66,8 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     return this.templateForm.get('template');
   }
 
+  @ViewChild(DynamicFormComponent) dynamicForm:DynamicFormComponent;
+
   constructor(
     private apiV3Service:APIV3Service,
     private uIRouterGlobals:UIRouterGlobals,
@@ -99,7 +101,15 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   onTemplateSelected(selected:{ href:string|null }) {
     if (selected.href) {
-      this.formUrl = selected.href + '/copy';
+      const projectId = selected.href.split('/').pop();
+
+      this.apiV3Service.projects.id(projectId!).copy.form.post()
+        .subscribe(projectResource => {
+          this.formModel = {
+            ...projectResource.payload.$source,
+            name: this.dynamicForm.model.name,
+          };
+        });
     } else {
       this.resourcePath = this.pathHelperService.projectsPath();
     }
