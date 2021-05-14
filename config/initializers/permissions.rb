@@ -45,7 +45,7 @@ end
 OpenProject::AccessControl.map do |map|
   map.project_module nil, order: 100 do
     map.permission :add_project,
-                   { projects: %i[new create] },
+                   { projects: %i[new] },
                    require: :loggedin,
                    global: true,
                    contract_actions: { projects: %i[create] }
@@ -116,7 +116,7 @@ OpenProject::AccessControl.map do |map|
                    require: :member
 
     map.permission :add_subprojects,
-                   { projects: %i[new create] },
+                   { projects: %i[new] },
                    require: :member
 
     map.permission :copy_projects,
