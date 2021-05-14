@@ -235,23 +235,24 @@ export class DynamicFieldsService {
   private getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
     const fieldType = field.type.replace('[]', '') as OPFieldType;
     let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
+
     if (!inputType) {
       console.warn(
         `Could not find a input definition for a field with the folowing type: ${fieldType}. The full field configuration is`, field
       );
       return null;
     }
+
     let inputConfig = inputType.config;
     let configCustomizations;
 
     if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput' || inputConfig.type === 'selectProjectStatusInput') {
       configCustomizations = {
         className: field.name,
-        ...field.type.startsWith('[]') && {
-          templateOptions: {
-            ...inputConfig.templateOptions,
-            multiple: true
-          }
+        templateOptions: {
+          ...inputConfig.templateOptions,
+          ...field.type.startsWith('[]') && {multiple: true},
+          ...fieldType === 'User' && {showInviteUserButton: true},
         },
       };
     } else if (inputConfig.type === 'formattableInput') {
