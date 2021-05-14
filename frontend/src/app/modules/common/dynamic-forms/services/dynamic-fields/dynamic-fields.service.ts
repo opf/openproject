@@ -241,7 +241,7 @@ export class DynamicFieldsService {
         templateOptions: {
           ...inputConfig.templateOptions,
           ...field.type.startsWith('[]') && {multiple: true},
-          ...fieldType === 'User' && {showInviteUserButton: true},
+          ...fieldType === 'User' && {showAddNewUserButton: true},
         },
       };
     } else if (inputConfig.type === 'formattableInput') {
