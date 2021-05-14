@@ -31,7 +31,14 @@ require 'spec_helper'
 describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) do
+    FactoryBot.build_stubbed(:user).tap do |user|
+      allow(user)
+        .to receive(:allowed_to_globally?) do |permission|
+        global_permissions.include?(permission)
+      end
+    end
+  end
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
@@ -75,6 +82,9 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     contract
   end
+
+  let(:global_permissions) { %i[add_project] }
+
   let(:representer) do
     described_class.create(contract,
                            self_link: self_link,
@@ -231,7 +241,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
     describe 'parent' do
       let(:path) { 'parent' }
 
-      context 'if having a new record' do
+      context 'when having a new record' do
         it_behaves_like 'has basic schema properties' do
           let(:type) { 'Project' }
           let(:name) { Project.human_attribute_name('parent') }
@@ -240,7 +250,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           let(:location) { '_links' }
         end
 
-        context 'if embedding' do
+        context 'when embedding' do
           let(:embedded) { true }
 
           it_behaves_like 'links to allowed values via collection link' do
@@ -250,10 +260,23 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           end
         end
 
-        context 'if not embedding' do
+        context 'when not embedding' do
           let(:embedded) { false }
 
           it_behaves_like 'does not link to allowed values'
+        end
+
+        context 'when only having the add_subprojects permissions' do
+          let(:global_permissions) { %i[add_subprojects] }
+
+          it_behaves_like 'has basic schema properties' do
+            let(:type) { 'Project' }
+            let(:name) { Project.human_attribute_name('parent') }
+            # Required is different when the add_project permisison is lacking
+            let(:required) { true }
+            let(:writable) { true }
+            let(:location) { '_links' }
+          end
         end
       end
 
