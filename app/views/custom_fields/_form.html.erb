@@ -60,7 +60,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </span>
   </div>
 
-  <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
+  <% if @custom_field.new_record? || @custom_field.multi_value_possible? %>
     <div class="form--field" id="custom_field_multi_select" style="display:none">
       <% if EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
         <%= f.check_box :multi_value %>
