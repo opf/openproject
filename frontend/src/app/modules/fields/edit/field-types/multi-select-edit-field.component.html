@@ -18,7 +18,7 @@
            [appendTo]="appendTo"
            [dropdownPosition]="'top'"
            [hideSelected]="true">
-  <ng-template ng-footer-tmp *ngIf="schema.type === 'User'">
+  <ng-template ng-footer-tmp *ngIf="showAddNewUserButton">
     <op-invite-user-button (invited)="selectedOption = $event"></op-invite-user-button>
   </ng-template>
 </ng-select>
