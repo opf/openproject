@@ -13,13 +13,28 @@
         [opFormBinding]="projectControl"
         slot="input"
       ></op-ium-project-search>
-      
+
+      <div
+        slot="help-text"
+        *ngIf="projectControl!.errors?.lackingPermission"
+      >
+        {{ text.project.lackingPermissionInfo }}
+      </div>
+
       <div
         slot="errors"
         class="op-form-field--error"
-        *ngIf="projectControl?.touched && projectControl?.invalid"
+        *ngIf="projectControl!.errors?.required"
       >
         {{ text.project.required }}
+      </div>
+
+      <div
+        slot="errors"
+        class="op-form-field--error"
+        *ngIf="projectControl!.errors?.lackingPermission"
+      >
+        {{ text.project.lackingPermission }}
       </div>
     </op-form-field>
 
