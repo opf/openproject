@@ -9,6 +9,7 @@
           [attr.data-tab-id]="tab.id"
           [attr.data-qa-tab-id]="tab.id"
           [attr.data-qa-tab-selected]="tab.id === currentTabId || undefined"
+          [attr.data-qa-tab-disabled]="tab.disable || undefined"
       >
         <a
           *ngIf="!tab.route"

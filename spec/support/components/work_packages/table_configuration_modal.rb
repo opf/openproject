@@ -89,7 +89,7 @@ module Components
       end
 
       def expect_disabled_tab(name)
-        expect(page).to have_selector("#{selector} li.-disabled", text: name.upcase)
+        expect(page).to have_selector("#{selector} [data-qa-tab-disabled]", text: name.upcase)
       end
 
       def selected_tab(name)

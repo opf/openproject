@@ -64,7 +64,7 @@ describe 'Meetings close', type: :feature do
 
       # Close the meeting
       SeleniumHubWaiter.wait
-      find('..op-tab-row--link', text: 'AGENDA').click
+      find('.op-tab-row--link', text: 'AGENDA').click
       SeleniumHubWaiter.wait
       find('.button', text: 'Close').click
       page.accept_confirm
