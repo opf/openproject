@@ -7,6 +7,8 @@
       <li *ngFor="let tab of tabs; trackBy:trackById"
           class="op-tab-row--tab"
           [attr.data-tab-id]="tab.id"
+          [attr.data-qa-tab-id]="tab.id"
+          [attr.data-qa-tab-selected]="tab.id === currentTabId || undefined"
       >
         <a
           *ngIf="!tab.route"
@@ -14,8 +16,6 @@
           class="op-tab-row--link"
           [class.op-tab-row--link__selected]="tab.id === currentTabId"
           (click)="clickTab(tab, $event)"
-          [attr.data-qa-tab-id]="tab.id"
-          [attr.data-qa-tab-selected]="tab.id === currentTabId || undefined"
           [textContent]="tab.name"
         >
         </a>

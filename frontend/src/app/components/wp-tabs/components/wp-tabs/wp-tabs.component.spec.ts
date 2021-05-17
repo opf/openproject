@@ -1,5 +1,5 @@
 import { Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
@@ -10,6 +10,7 @@ import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs
 import { StateService } from "@uirouter/angular";
 import { UIRouterGlobals } from "@uirouter/core";
 import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { ScrollableTabsComponent } from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
 
 describe('WpTabsComponent', () => {
   class TestComponent implements TabComponent {
@@ -19,14 +20,14 @@ describe('WpTabsComponent', () => {
   const displayableTab = {
     component: TestComponent,
     name: 'Displayable TestTab',
-    identifier: 'displayable-test-tab',
+    id: 'displayable-test-tab',
     displayable: () => true
   };
 
   const notDisplayableTab = {
     component: TestComponent,
     name: 'NotDisplayable TestTab',
-    identifier: 'not-displayable-test-tab',
+    id: 'not-displayable-test-tab',
     displayable: () => false
   };
 
@@ -36,7 +37,7 @@ describe('WpTabsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WpTabsComponent],
+      declarations: [WpTabsComponent, ScrollableTabsComponent],
       providers: [
         { provide: StateService, useValue: { includes: () => false } },
         { provide: UIRouterGlobals, useValue: {} },
@@ -58,10 +59,8 @@ describe('WpTabsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('displays the visible tab', waitForAsync(() => {
-    fixture.whenStable().then(() => {
-      const tabLink:HTMLElement = fixture.debugElement.query(By.css('li a')).nativeElement;
-      expect(tabLink.innerText).toContain('Displayable TestTab');
-    });
+  it('displays the visible tab', fakeAsync(() => {
+    const tabLink:HTMLElement = fixture.debugElement.query(By.css('[data-qa-tab-id="displayable-test-tab"]')).nativeElement;
+    expect(tabLink.innerText).toContain('Displayable TestTab');
   }));
 });
