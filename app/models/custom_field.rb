@@ -262,13 +262,18 @@ class CustomField < ApplicationRecord
     multi_value
   end
 
+  def multi_value_possible?
+    %w[user list].include?(field_format) &&
+      [ProjectCustomField, WorkPackageCustomField].include?(self.class)
+  end
+
   ##
   # Overrides cache key so that a custom field's representation
   # is updated correctly when it's mutli_value attribute changes.
   def cache_key
     tag = multi_value? ? "mv" : "sv"
 
-    super + '/' + tag
+    "#{super}/#{tag}"
   end
 
   private

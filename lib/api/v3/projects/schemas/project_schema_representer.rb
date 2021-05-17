@@ -85,7 +85,12 @@ module API
 
           schema_with_allowed_link :parent,
                                    type: 'Project',
-                                   required: false,
+                                   required: ->(*) {
+                                     # Users only having the add_subprojects permission need to provide
+                                     # a parent when creating a new project.
+                                     represented.model.new_record? &&
+                                       !current_user.allowed_to_globally?(:add_project)
+                                   },
                                    href_callback: ->(*) {
                                      query_props = if represented.model.new_record?
                                                      ''

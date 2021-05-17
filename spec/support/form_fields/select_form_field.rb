@@ -8,6 +8,13 @@ module FormFields
       end
     end
 
+    def expect_no_option(option)
+      field_container.find('.ng-select-container').click
+
+      expect(page)
+        .not_to have_selector('.ng-option', text: option, visible: :all)
+    end
+
     def expect_visible
       expect(field_container).to have_selector('ng-select')
     end

@@ -521,7 +521,7 @@ de:
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       use_template: "Projektvorlage verwenden"
-      no_template_selected: "(None)"
+      no_template_selected: "(Keine)"
       copy:
         copy_options: "Kopieroptionen"
       autocompleter:
