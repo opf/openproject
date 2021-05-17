@@ -190,9 +190,12 @@ describe 'Invite user modal', type: :feature, js: true do
             context 'without permissions to manage placeholders' do
               let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
               it 'does not allow to invite a new placeholder' do
-                modal.within_modal do
-                  expect(page).to have_selector '.op-option-list--item', count: 2
-                end
+                modal.project_step
+
+                modal.open_select_in_step 'SOME NEW PLACEHOLDER'
+
+                expect(page)
+                  .to have_text I18n.t('js.invite_user_modal.principal.no_results_placeholder')
               end
             end
           end
@@ -200,7 +203,7 @@ describe 'Invite user modal', type: :feature, js: true do
           context 'with an existing placeholder' do
             let(:principal) { FactoryBot.create :placeholder_user, name: 'EXISTING PLACEHOLDER' }
             let(:permissions) { %i[view_work_packages edit_work_packages manage_members] }
-            let(:global_permissions) { %i[manage_placeholder_user] }
+            let(:global_permissions) { %i[] }
 
             it_behaves_like 'invites the principal to the project' do
               let(:added_principal) { principal }
