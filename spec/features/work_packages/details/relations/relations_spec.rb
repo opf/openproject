@@ -40,7 +40,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
 
-  let(:relations_tab) { find('.tabrow li.selected', text: 'RELATIONS') }
+  let(:relations_tab) { find('.op-tab-row--link__selected', text: 'RELATIONS') }
 
   let(:visit) { true }
 

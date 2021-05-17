@@ -82,7 +82,7 @@ export class ScrollableTabsComponent implements AfterViewInit {
   }
 
   private scrollIntoVisibleArea(tabId:string) {
-    const tab:JQuery<Element> = jQuery(this.pane).find(`[tab-id=${tabId}]`);
+    const tab:JQuery<Element> = jQuery(this.pane).find(`[data-tab-id=${tabId}]`);
     const position:JQueryCoordinates = tab.position();
 
     const tabRightBorderAt:number = position.left + Number(tab.outerWidth());

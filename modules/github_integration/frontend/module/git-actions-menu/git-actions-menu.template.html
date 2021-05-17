@@ -3,11 +3,16 @@
     <op-icon icon-classes="button--icon icon-console-light"></op-icon>
     {{text.title}}
   </h3>
-  <ul class="tabrow">
-    <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
-              properly. Thus, don't remove the hrefs or the empty URLs! -->
-    <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.selected]="tab.selected">
-      <a href="" [textContent]="tab.label"></a>
+  <ul class="op-tab-row">
+    <li
+        *ngFor="let tab of tabs"
+        class="op-tab-row--tab"
+        >
+      <a
+          href=""
+          (click)="selectTab(tab)"
+          [class.op-tab-row--link__selected]="tab.selected"
+          [textContent]="tab.label"></a>
     </li>
   </ul>
   <div class="copy-wrapper">

@@ -42,11 +42,11 @@ module Pages
     end
 
     def switch_to_tab(tab:)
-      find('.tabrow li a', text: tab.upcase).click
+      find('.op-tab-row--link', text: tab.upcase).click
     end
 
     def expect_tab(tab)
-      expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.upcase)
+      expect(page).to have_selector('.op-tab-row--link__selected', text: tab.to_s.upcase)
     end
 
     def edit_field(attribute)

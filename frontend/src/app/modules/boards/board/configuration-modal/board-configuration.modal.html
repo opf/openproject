@@ -1,25 +1,27 @@
 <div
-  class="op-modal wp-table--configuration-modal loading-indicator--location"
-  data-indicator-name="modal"
+    class="op-modal wp-table--configuration-modal loading-indicator--location"
+    data-indicator-name="modal"
 >
   <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
   <div class="op-modal--body">
     <div
-      *ngIf="!!tabPortalHost"
-      class="content--tabs scrollable-tabs"
+        *ngIf="!!tabPortalHost"
+        class="content--tabs scrollable-tabs"
     >
-      <ul class="tabrow">
-        <li *ngFor="let tab of availableTabs"
-            [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name }">
+      <ul class="op-tab-row">
+        <li
+            *ngFor="let tab of availableTabs"
+            class="op-tab-row--tab"
+        >
           <a
-            class="tab-show"
-            role="button"
-            [ngClass]="{ '-disabled': tab.disableBecause != null, 'selected': currentTab && tab.name === currentTab.name }"
-            [attr.title]="tab.disableBecause || tab.title"
-            [textContent]="tab.title"
-            (click)="switchTo(tab.name)"
-            href
+              class="op-tab-row--link"
+              role="button"
+              [ngClass]="{ 'op-tab-row--link__selected': currentTab && tab.name === currentTab.name, 'op-tab-row--link__disabled': tab.disableBecause != null  }"
+              [attr.title]="tab.disableBecause || tab.title"
+              [textContent]="tab.title"
+              (click)="switchTo(tab.name)"
+              href
           ></a>
         </li>
       </ul>
@@ -29,13 +31,17 @@
   </div>
 
   <div class="op-modal--footer">
-    <button class="button -highlight"
-            [textContent]="text.applyButton"
-            (click)="saveChanges()">
+    <button
+        class="button -highlight"
+        [textContent]="text.applyButton"
+        (click)="saveChanges()"
+    >
     </button>
-    <button class="button"
-            [textContent]="text.cancelButton"
-            (click)="closeMe($event)">
+    <button
+        class="button"
+        [textContent]="text.cancelButton"
+        (click)="closeMe($event)"
+    >
     </button>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <div
-  class="op-modal op-modal_wide wp-table--configuration-modal loading-indicator--location"
-  data-indicator-name="modal"
+    class="op-modal op-modal_wide wp-table--configuration-modal loading-indicator--location"
+    data-indicator-name="modal"
 >
   <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
@@ -10,19 +10,24 @@
       <ng-container *ngComponentOutlet="prependModalComponent; injector: injector"></ng-container>
     </ng-container>
 
-    <div *ngIf="!!tabPortalHost"
-         class="content--tabs scrollable-tabs">
-      <ul class="tabrow">
-        <li *ngFor="let tab of availableTabs"
-            [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name, '-disabled': tab.disableBecause != null }">
+    <div
+        *ngIf="!!tabPortalHost"
+        class="content--tabs scrollable-tabs"
+    >
+      <ul class="op-tab-row">
+        <li
+            *ngFor="let tab of availableTabs"
+            class="op-tab-row--tab"
+        >
           <a
-            class="tab-show"
-            role="button"
-            [ngClass]="{ 'selected': currentTab && tab.name === currentTab.name }"
-            [attr.title]="tab.disableBecause || tab.title"
-            [textContent]="tab.title"
-            (click)="switchTo(tab.name)"
-            href
+              class="op-tab-row--link"
+              role="button"
+              [class.op-tab-row--link__selected]="currentTab && tab.name === currentTab.name",
+              [class.op-tab-row--link__disabled]="tab.disableBecause != null",
+              [attr.title]="tab.disableBecause || tab.title"
+              [textContent]="tab.title"
+              (click)="switchTo(tab.name)"
+              href
           ></a>
       </ul>
     </div>
@@ -30,13 +35,17 @@
     <div class="tab-content" #tabContentOutlet></div>
   </div>
   <div class="op-modal--footer">
-    <button class="button -highlight"
-            [textContent]="text.applyButton"
-            (click)="saveChanges()">
+    <button
+        class="button -highlight"
+        [textContent]="text.applyButton"
+        (click)="saveChanges()"
+    >
     </button>
-    <button class="button"
-            [textContent]="text.cancelButton"
-            (click)="closeMe($event)">
+    <button
+        class="button"
+        [textContent]="text.cancelButton"
+        (click)="closeMe($event)"
+    >
     </button>
   </div>
 </div>

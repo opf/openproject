@@ -5,8 +5,8 @@
   >
     <ul #scrollPane class="op-tab-row" (scroll)="onScroll($event)">
       <li *ngFor="let tab of tabs; trackBy:trackById"
-          [attr.tab-id]="tab.id"
           class="op-tab-row--tab"
+          [attr.data-tab-id]="tab.id"
       >
         <a
           *ngIf="!tab.route"
@@ -14,6 +14,8 @@
           class="op-tab-row--link"
           [class.op-tab-row--link__selected]="tab.id === currentTabId"
           (click)="clickTab(tab, $event)"
+          [attr.data-qa-tab-id]="tab.id"
+          [attr.data-qa-tab-selected]="tab.id === currentTabId || undefined"
           [textContent]="tab.name"
         >
         </a>
@@ -24,15 +26,15 @@
           class="op-tab-row--link"
           uiSrefActive="op-tab-row--link__selected"
           (click)="clickTab(tab, $event)"
-          [textContent]="tab.name"
           href=""
           role="button"
         >
+          <span [textContent]="tab.name"></span>
+          <op-tab-count
+              *ngIf="tab.counter"
+              [counter]="tab.counter"
+          ></op-tab-count>
         </a>
-        <op-tab-count
-          *ngIf="tab.counter"
-          [counter]="tab.counter"
-        ></op-tab-count>
       </li>
     </ul>
     <div #scrollLeftBtn [hidden]="hideLeftButton"

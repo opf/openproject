@@ -93,7 +93,7 @@ module Components
       end
 
       def selected_tab(name)
-        page.find("#{selector} .tab-show.selected", text: name.upcase)
+        page.find("#{selector} .op-tab-row--link__selected", text: name.upcase)
         page.find("#{selector} .tab-content[data-tab-name='#{name}']")
       end
 
@@ -103,7 +103,7 @@ module Components
         SeleniumHubWaiter.wait
 
         retry_block do
-          find("#{selector} .tab-show", text: target.upcase, wait: 2).click
+          find("#{selector} .op-tab-row--link", text: target.upcase, wait: 2).click
           selected_tab(target)
         end
       end
