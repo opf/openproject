@@ -25,11 +25,11 @@ export interface ProjectTemplateOption {
   styleUrls: ['./new-project.component.sass'],
 })
 export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
+  formUrl:string|null;
   resourcePath:string;
   dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
   fieldGroups:IDynamicFieldGroupConfig[];
   initialPayload = {};
-  formModel:Object;
 
   text = {
     use_template: this.I18n.t('js.project.use_template'),
@@ -103,19 +103,11 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   onTemplateSelected(selected:{ href:string|null }) {
-    if (selected.href) {
-      const projectId = selected.href.split('/').pop();
-
-      this.apiV3Service.projects.id(projectId!).copy.form.post()
-        .subscribe(projectResource => {
-          this.formModel = {
-            ...projectResource.payload.$source,
-            name: this.dynamicForm.model.name,
-          };
-        });
-    } else {
-      this.resourcePath = this.pathHelperService.projectsPath();
+    this.initialPayload = {
+      ...this.initialPayload,
+      name: this.dynamicForm.model.name,
     }
+    this.formUrl = selected?.href ? `${selected.href}/copy` : null;
   }
 
   private isHiddenField(key:string|undefined):boolean {

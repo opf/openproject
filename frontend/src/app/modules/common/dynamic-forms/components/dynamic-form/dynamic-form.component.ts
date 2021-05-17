@@ -169,6 +169,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     load_error_message: this._I18n.t('js.forms.load_error_message'),
     successful_update: this._I18n.t('js.notice_successful_update'),
     successful_create: this._I18n.t('js.notice_successful_create'),
+    job_started: this._I18n.t('js.notice_job_started'),
   };
   noSettingsSourceErrorMessage = `DynamicFormComponent needs a settings, formUrl or resourcePath @Input
   in order to fetch its setting. Please provide one.`;
@@ -243,20 +244,15 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
         finalize(() => this.inFlight = false),
       )
       .subscribe(
-        (formResource:HalSource) => {
-          this.submitted.emit(formResource);
-          this.showNotifications && this.showSuccessNotification();
+        (formResponse:HalSource|any) => {
+          this.submitted.emit(formResponse);
+          this.showNotifications && this.showSuccessNotification(formResponse);
         },
         (error:HttpErrorResponse) => {
           this.errored.emit(error?.error || error);
           this.showNotifications && this._notificationsService.addError(error?.error?.message || error?.message);
         },
       );
-  }
-
-  private showSuccessNotification():void {
-    const submit_message = this.resourceId ? this.text.successful_update : this.text.successful_create;
-    this._notificationsService.addSuccess(submit_message);
   }
 
   validateForm() {
@@ -343,5 +339,19 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     this.form = this.dynamicFormGroup || form;
 
     this._changeDetectorRef.detectChanges();
+  }
+
+  private showSuccessNotification(formResponse:HalSource|any):void {
+    let submit_message;
+
+    if (formResponse?.jobId) {
+      const title = formResponse?.payload?.title;
+
+      submit_message = `${title || ''} ${this.text.job_started}`;
+    } else {
+      submit_message = this.resourceId ? this.text.successful_update : this.text.successful_create;
+    }
+
+    this._notificationsService.addSuccess(submit_message);
   }
 }
