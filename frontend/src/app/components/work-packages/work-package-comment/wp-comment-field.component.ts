@@ -30,12 +30,11 @@ import { ConfigurationService } from 'core-app/modules/common/config/configurati
 import { Component, OnInit } from "@angular/core";
 import {
   FormattableEditFieldComponent,
-  formattableFieldTemplate
 } from "core-app/modules/fields/edit/field-types/formattable-edit-field/formattable-edit-field.component";
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 @Component({
-  template: formattableFieldTemplate
+  templateUrl: "../../../modules/fields/edit/field-types/formattable-edit-field/formattable-edit-field.component.html"
 })
 export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
   public isBusy = false;
@@ -49,6 +48,5 @@ export class WorkPackageCommentFieldComponent extends FormattableEditFieldCompon
 
   ngOnInit() {
     super.ngOnInit();
-    this.rawValue = this.rawValue || '';
   }
 }

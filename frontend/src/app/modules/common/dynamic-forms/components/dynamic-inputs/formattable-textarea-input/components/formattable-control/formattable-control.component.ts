@@ -73,14 +73,10 @@ export class FormattableControlComponent implements OnInit {
   }
 
   onContentChange(value:string) {
-    this.editor
-      .getTransformedContent()
-      .then((val) => {
-        const valueToEmit = {raw: val};
+    const valueToEmit = {raw: value};
 
-        this.onTouch();
-        this.onChange(valueToEmit);
-      });
+    this.onTouch();
+    this.onChange(valueToEmit);
   }
 
   onCkeditorSetup(editor:ICKEditorInstance) {
