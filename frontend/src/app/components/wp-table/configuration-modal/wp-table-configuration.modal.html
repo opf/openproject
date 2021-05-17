@@ -10,28 +10,14 @@
       <ng-container *ngComponentOutlet="prependModalComponent; injector: injector"></ng-container>
     </ng-container>
 
-    <div
-        *ngIf="!!tabPortalHost"
-        class="content--tabs scrollable-tabs"
-    >
-      <ul class="op-tab-row">
-        <li
-            *ngFor="let tab of availableTabs"
-            class="op-tab-row--tab"
+    <op-scrollable-tabs
+        *ngIf="tabPortalHost"
+        [tabs]="availableTabs"
+        [currentTabId]="tabPortalHost.currentTab?.id"
+        (tabSelected)="switchTo($event)"
         >
-          <a
-              class="op-tab-row--link"
-              role="button"
-              [class.op-tab-row--link__selected]="currentTab && tab.name === currentTab.name",
-              [class.op-tab-row--link__disabled]="tab.disableBecause != null",
-              [attr.title]="tab.disableBecause || tab.title"
-              [textContent]="tab.title"
-              (click)="switchTo(tab.name)"
-              href
-          ></a>
-      </ul>
-    </div>
 
+    </op-scrollable-tabs>
     <div class="tab-content" #tabContentOutlet></div>
   </div>
   <div class="op-modal--footer">

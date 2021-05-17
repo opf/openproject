@@ -4,8 +4,8 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
-  Output,
+  Input, OnChanges,
+  Output, SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from "@angular/core";
@@ -18,13 +18,13 @@ import { AngularTrackingHelpers } from "core-components/angular/tracking-functio
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ScrollableTabsComponent implements AfterViewInit {
+export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
   @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
   @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
   @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef;
   @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef;
 
-  @Input() public currentTabId = '';
+  @Input() public currentTabId:string|null = null;
   @Input() public tabs:TabDefinition[] = [];
   @Input() public classes:string[] = [];
   @Input() public narrow = false;
@@ -45,8 +45,18 @@ export class ScrollableTabsComponent implements AfterViewInit {
     this.container = this.scrollContainer.nativeElement;
     this.pane = this.scrollPane.nativeElement;
 
+    this.updateScrollableArea();
+  }
+
+  ngOnChanges(changes:SimpleChanges):void {
+    if (this.pane) {
+      this.updateScrollableArea();
+    }
+  }
+
+  private updateScrollableArea() {
     this.determineScrollButtonVisibility();
-    if (this.currentTabId !== '') {
+    if (this.currentTabId != null) {
       this.scrollIntoVisibleArea(this.currentTabId);
     }
   }
@@ -79,6 +89,10 @@ export class ScrollableTabsComponent implements AfterViewInit {
 
   public scrollLeft():void {
     this.pane.scrollLeft -= this.container.clientWidth;
+  }
+
+  public tabTitle(tab:TabDefinition):string {
+    return (typeof tab.disable === 'string') ? tab.disable : tab.name;
   }
 
   private scrollIntoVisibleArea(tabId:string) {

@@ -13,4 +13,6 @@ export interface TabDefinition {
   routeParams?:unknown;
   /** Show a tab count with this observable's result */
   counter?:Observable<number>;
+  /** Disable the tab, optionally with an explanatory title */
+  disable?:string|true;
 }

@@ -74,7 +74,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     this.loadingIndicator.indicator('modal').promise = this.graphConfiguration.loadForms()
@@ -92,7 +92,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.tabPortalHost.dispose();
   }
 
@@ -104,8 +104,8 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(name:string) {
-    this.tabPortalHost.switchTo(name);
+  public switchTo(tab:TabInterface):void {
+    this.tabPortalHost.switchTo(tab);
   }
 
   public saveChanges():void {

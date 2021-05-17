@@ -170,6 +170,7 @@ import { WorkPackageGroupToggleDropdownMenuDirective } from "core-components/op-
 import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
 import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
 import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-controls/edit-field-controls.module";
+import { OpenprojectTabsModule } from "core-app/modules/common/tabs/openproject-tabs.module";
 
 
 @NgModule({
@@ -194,6 +195,7 @@ import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-cont
     OpWpTabsModule,
 
     EditFieldControlsModule,
+    OpenprojectTabsModule,
   ],
   providers: [
     // Notification service

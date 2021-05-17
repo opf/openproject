@@ -15,7 +15,9 @@
           [href]="tab.path"
           class="op-tab-row--link"
           [class.op-tab-row--link__selected]="tab.id === currentTabId"
+          [class.op-tab-row--link__disabled]="tab.disable !== undefined"
           (click)="clickTab(tab, $event)"
+          [attr.title]="tabTitle(tab)"
           [textContent]="tab.name"
         >
         </a>
@@ -26,6 +28,8 @@
           class="op-tab-row--link"
           uiSrefActive="op-tab-row--link__selected"
           (click)="clickTab(tab, $event)"
+          [attr.title]="tabTitle(tab)"
+          [class.op-tab-row--link__disabled]="tab.disable !== undefined"
           href=""
           role="button"
         >

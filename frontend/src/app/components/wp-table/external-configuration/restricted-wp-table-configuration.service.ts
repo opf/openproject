@@ -21,7 +21,7 @@ export class RestrictedWpTableConfigurationService extends WpTableConfigurationS
       .map(el => {
         const reason = disabledTabs[el.name];
         if (reason != null) {
-          el.disableBecause = reason;
+          el.disable = reason;
         }
 
         return el;
