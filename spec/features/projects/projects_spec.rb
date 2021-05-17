@@ -54,25 +54,6 @@ describe 'Projects', type: :feature, js: true do
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
     end
 
-    it 'can create a subproject' do
-      click_on project.name
-      SeleniumHubWaiter.wait
-      click_on 'Project settings'
-      SeleniumHubWaiter.wait
-      click_on 'New subproject'
-
-      name_field.set_value 'Foo child'
-      parent_field.expect_selected project.name
-
-      click_button 'Save'
-
-      expect(page).to have_current_path /\/projects\/foo-child\/?/
-
-      child = Project.last
-      expect(child.identifier).to eq 'foo-child'
-      expect(child.parent).to eq project
-    end
-
     it 'does not create a project with an already existing identifier' do
       click_on 'New project'
 
