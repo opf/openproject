@@ -9,11 +9,11 @@
     margin-bottom: 0
     height: initial
 
-    .tabrow
+    .op-tab-row
       height: initial
       line-height: initial
 
-      li
+      &--tab
         line-height: initial
         padding-bottom: 6px
 
@@ -33,16 +33,15 @@
     overflow: hidden
     box-sizing: content-box
 
-  .tabrow
+  .op-tab-row
     display: block
     overflow-x: auto
     white-space: nowrap
     height: 40px
-    li
-      display: inline-block
+
+    &--link
       padding-left: 1rem
       padding-right: 1rem
-      font-size: 14px
 
   &--button
     display: block

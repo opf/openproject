@@ -55,7 +55,11 @@ export class ScrollableTabsComponent implements AfterViewInit {
     this.currentTabId = tab.id;
     this.tabSelected.emit(tab);
 
-    event.preventDefault();
+    // If the tab does not provide its own link,
+    // avoid propagation
+    if (!tab.path) {
+      event.preventDefault();
+    }
   }
 
   public onScroll(event:any):void {

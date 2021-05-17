@@ -1,4 +1,4 @@
-.tabrow
+.op-tab-row
   display: table
   text-align: left
   list-style: none
@@ -12,7 +12,7 @@
   font-weight: bold
   text-transform: uppercase
 
-  li
+  &--tab
     display: table-cell
     box-sizing: content-box
     position: relative
@@ -22,48 +22,31 @@
     text-align: center
     cursor: pointer
 
-
-
-  a
-    display: inline-block
-    color: #333
-    text-decoration: none
-    &:hover
-      text-decoration: none
-
-  li.tab-icon
+  &--tab-icon
     width: 5%
     .icon-context:before
       padding-top: 10px
     &:hover
       border-bottom: 0
-  li.selected,
-  li:hover
-    color: #999
-    border-bottom: 2px solid
-    a
-      color: var(--content-link-color)
-    .op-tab-count
-      color: var(--content-link-color)
-      &:hover
-        color: var(--content-link-color)
-  li.selected,
-  li.selected:hover
-    border-bottom-color: var(--content-link-color)
-  li:hover
-    border-bottom-color: #DDDDDD
 
-  li.-disabled
-    cursor: default
-    pointer-events: none
-    border-bottom-width: 0
-    a
+  &--link
+    display: block
+    color: var(--body-font-color)
+    text-decoration: none
+    font-size: var(--generic-table--header-font-size)
+
+    &:hover
+      text-decoration: none
+      border-bottom: 2px solid
+      border-bottom-color: var(--light-gray)
+
+    &__selected, &__selected:hover
+      color: var(--content-link-color)
+      border-bottom: 2px solid
+      border-bottom-color: var(--content-link-color)
+
+    &__disabled
+      cursor: default
+      pointer-events: none
+      border-bottom-width: 0
       color: var(--tabs-font-color-disabled)
-
-content-tabs
-  min-height: 73px
-  display: block
-
-.tab-content
-  .form--section
-    padding: 0

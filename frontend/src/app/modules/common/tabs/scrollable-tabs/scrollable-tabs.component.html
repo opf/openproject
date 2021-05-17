@@ -3,14 +3,16 @@
        [ngClass]="{ '-narrow': narrow }"
        class="op-scrollable-tabs--tab-container"
   >
-    <ul #scrollPane class="tabrow" (scroll)="onScroll($event)">
+    <ul #scrollPane class="op-tab-row" (scroll)="onScroll($event)">
       <li *ngFor="let tab of tabs; trackBy:trackById"
           [attr.tab-id]="tab.id"
+          class="op-tab-row--tab"
       >
         <a
           *ngIf="!tab.route"
           [href]="tab.path"
-          [class.selected]="tab.id === currentTabId"
+          class="op-tab-row--link"
+          [class.op-tab-row--link__selected]="tab.id === currentTabId"
           (click)="clickTab(tab, $event)"
           [textContent]="tab.name"
         >
@@ -19,7 +21,8 @@
           *ngIf="tab.route"
           [uiSref]="tab.route"
           [uiParams]="tab.routeParams"
-          uiSrefActive="selected"
+          class="op-tab-row--link"
+          uiSrefActive="op-tab-row--link__selected"
           (click)="clickTab(tab, $event)"
           [textContent]="tab.name"
           href=""
