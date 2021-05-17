@@ -1,20 +1,24 @@
 .op-tab-row
-  display: table
+  display: block
   text-align: left
   list-style: none
   margin: 0
   padding: 0
   line-height: var(--work-package-details--tab-height) - 10px
   height:      var(--work-package-details--tab-height)
-  overflow: hidden
+  overflow-x: scroll
+  white-space: nowrap
   position: relative
   width: 100%
   font-weight: bold
   text-transform: uppercase
 
+  &::-webkit-scrollbar
+    width: 0
+    background: transparent
+
   &--tab
-    display: table-cell
-    position: relative
+    display: inline-block
     line-height: 38px
     margin: 0
     padding: 0
@@ -30,6 +34,8 @@
 
   &--link
     display: block
+    padding-left: 1rem
+    padding-right: 1rem
     color: var(--body-font-color)
     text-decoration: none
     font-size: var(--generic-table--header-font-size)
