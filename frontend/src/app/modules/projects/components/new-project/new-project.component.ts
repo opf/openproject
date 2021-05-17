@@ -83,7 +83,10 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.resourcePath = this.pathHelperService.projectsPath();
     this.fieldGroups = [{
       name: this.text.advancedSettingsLabel,
-      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!),
+      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!) &&
+        !(field.templateOptions?.required &&
+        !field.templateOptions.hasDefault &&
+        field.templateOptions.payloadValue == null),
     }];
 
     if (this.uIRouterGlobals.params.parent_id) {

@@ -50,6 +50,8 @@ describe 'Projects', type: :feature, js: true do
       name_field.set_value 'Foo bar'
       click_button 'Save'
 
+      sleep 1
+
       expect(page).to have_content 'Foo bar'
       expect(page).to have_current_path /\/projects\/foo-bar\/?/
     end
@@ -62,9 +64,14 @@ describe 'Projects', type: :feature, js: true do
       click_on 'New subproject'
 
       name_field.set_value 'Foo child'
+
+      sleep 1
+
       parent_field.expect_selected project.name
 
       click_button 'Save'
+
+      sleep 1
 
       expect(page).to have_current_path /\/projects\/foo-child\/?/
 
