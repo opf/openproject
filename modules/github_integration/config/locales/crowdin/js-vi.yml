@@ -28,18 +28,18 @@ vi:
         title: "Pull Requests"
         copy_menu:
           label: Git
-          description: Copy important git content to clipboard
+          description: Sao chép nội dung git quan trọng vào bộ nhớ tạm
         git_actions:
           branch: Nhánh
-          branch_help: Copy the default branch name.
+          branch_help: Sao chép tên nhánh mặc định.
           message: Message
           message_help: Copy the default commit message.
-          cmd: Command
+          cmd: Câu lệnh
           cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
+          title: Sao chép vào bộ nhớ tạm
           copy_button_help: Sao chép vào clipboard
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ Đã sao chép!'
+          copy_error: '❌ Sao chép thất bại!'
       tab_prs:
         empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
       github_actions: Hành động

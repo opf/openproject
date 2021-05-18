@@ -1031,7 +1031,7 @@ ja:
       role:
         label: '%{project} でのロール'
         no_roles_found: 'No roles were found'
-        description: 'これは、 %{principal} がプロジェクトに参加したときに受け取るロールです。ロールは、どのような行動を取ることができるか、どのような情報を見ることができるかを定義します。<a href="%{href}" target="_blank">ロールとパーミッションについての詳細はこちら。</a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'ロールを選択してください'
         next_button: '次へ'
       message:

@@ -858,7 +858,7 @@ ru:
       invalid_token: Invalid or missing backup token
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      limit_reached: Вы можете делать только %{limit} резервных копий в день.
   button_add: "Добавить"
   button_add_comment: "Добавить комментарий"
   button_add_member: Добавить участника
@@ -938,7 +938,7 @@ ru:
     text_update_consent_time: Установите этот флажок для повторного запроса согласия у пользователей. Включите, если вы изменили юридический аспект согласия с вышеизложенным.
     update_consent_last_time: "Последнее обновление согласования: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Копировать проект "%{source_project_name}"'
     started: "Копирование проекта «%{source_project_name}» в «%{target_project_name}» началось. Вы будете проинформированы по электронной почте, как только «%{target_project_name}» будет доступен."
     failed: "Не удается скопировать проект %{source_project_name}"
     failed_internal: "Копирование не удалось из-за внутренней ошибки."

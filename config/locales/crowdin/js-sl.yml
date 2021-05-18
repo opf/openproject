@@ -1031,7 +1031,7 @@ sl:
       role:
         label: 'Vloge v %{project}'
         no_roles_found: 'No roles were found'
-        description: 'To je vloga, ki jo bo %{principal} prejel/a ko si pridruži tvojemu projektu. Vloga določi katere akcije lahko ubere in katere informacije lahko vidi. <a href="%{href}" target="_blank"> Preberi več o vlogah in dovoljenjih. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Izberite vlogo'
         next_button: 'Naprej'
       message:

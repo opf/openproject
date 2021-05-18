@@ -1028,7 +1028,7 @@ tr:
       role:
         label: 'rol %{project}'
         no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'Bu %{principal} projenize katıldığı zaman alıcağı roldür. Bu rol gerçekleştirebilecekleri eylemleri ve görebildikleri bilgileri belirler. <a href="%{href}" target="_blank"> Roller ve izinler hakkında daha çok bilgi edinin.</a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:
