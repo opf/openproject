@@ -26,30 +26,34 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { IFCGonDefinition } from "../../../features/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { BimViewService } from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
 
-declare global {
-  interface Window {
-    gon:GonType;
-  }
-}
 
-export interface GonType {
- [key:string]:unknown;
- ifc_models:IFCGonDefinition;
-}
+@Component({
+  template: `
+    <ng-container *ngIf="(view$ | async) as current">
+      <button class="button"
+              id="bim-view-toggle-button"
+              bimViewDropdown>
+        <op-icon icon-classes="button--icon {{bimView.icon[current]}}"></op-icon>
+        <span class="button--text"
+              aria-hidden="true"
+              [textContent]="bimView.text[current]">
+        </span>
+        <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+      </button>
+    </ng-container>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'bim-view-toggle-button'
+})
+export class BimViewToggleButtonComponent {
 
-@Injectable({ providedIn: 'root' })
-export class GonService {
-  get(...path:string[]):unknown|null {
-    return _.get(window.gon, path, null);
-  }
+  view$ = this.bimView.view$;
 
-  /**
-   * Get the gon object
-   */
-  get gon():GonType {
-    return window.gon;
+  constructor(readonly I18n:I18nService,
+              readonly bimView:BimViewService) {
   }
 }

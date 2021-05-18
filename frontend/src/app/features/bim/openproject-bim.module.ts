@@ -26,30 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { IFCGonDefinition } from "../../../features/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { NgModule } from '@angular/core';
+import { OpenprojectBcfModule } from "core-app/features/bim/bcf/openproject-bcf.module";
+import { OpenprojectIFCModelsModule } from "core-app/features/bim/ifc_models/openproject-ifc-models.module";
 
-declare global {
-  interface Window {
-    gon:GonType;
-  }
+@NgModule({
+  imports: [
+    OpenprojectBcfModule,
+    OpenprojectIFCModelsModule,
+  ]
+})
+export class OpenprojectBimModule {
 }
 
-export interface GonType {
- [key:string]:unknown;
- ifc_models:IFCGonDefinition;
-}
-
-@Injectable({ providedIn: 'root' })
-export class GonService {
-  get(...path:string[]):unknown|null {
-    return _.get(window.gon, path, null);
-  }
-
-  /**
-   * Get the gon object
-   */
-  get gon():GonType {
-    return window.gon;
-  }
-}

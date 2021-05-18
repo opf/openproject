@@ -26,30 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { IFCGonDefinition } from "../../../features/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
 
-declare global {
-  interface Window {
-    gon:GonType;
-  }
-}
+export class BcfThumbnailDisplayField extends DisplayField {
+  @InjectField() bcfPathHelper:BcfPathHelperService;
 
-export interface GonType {
- [key:string]:unknown;
- ifc_models:IFCGonDefinition;
-}
-
-@Injectable({ providedIn: 'root' })
-export class GonService {
-  get(...path:string[]):unknown|null {
-    return _.get(window.gon, path, null);
-  }
-
-  /**
-   * Get the gon object
-   */
-  get gon():GonType {
-    return window.gon;
+  public render(element:HTMLElement, displayText:string):void {
+    const viewpoints = this.resource.bcfViewpoints;
+    if (viewpoints && viewpoints.length > 0) {
+      const viewpoint = viewpoints[0];
+      element.innerHTML = `
+        <img src="${this.bcfPathHelper.snapshotPath(viewpoint)}" class="thumbnail">
+      `;
+    } else {
+      element.innerHTML = '';
+    }
   }
 }

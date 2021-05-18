@@ -75,7 +75,7 @@ import { OpenprojectEnterpriseModule } from "core-components/enterprise/openproj
 import { OpenprojectAugmentingModule } from "core-app/core/augmenting/openproject-augmenting.module";
 import { OpenprojectInviteUserModalModule } from "core-app/modules/invite-user-modal/invite-user-modal.module";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
-import { RevitAddInSettingsButtonService } from "core-app/modules/bim/revit_add_in/revit-add-in-settings-button.service";
+import { RevitAddInSettingsButtonService } from "core-app/features/bim/revit_add_in/revit-add-in-settings-button.service";
 import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";

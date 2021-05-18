@@ -145,7 +145,7 @@ import { QueryFiltersService } from "core-components/wp-query/query-filters.serv
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
 import { WorkPackageIsolatedQuerySpaceDirective } from "core-app/modules/work_packages/query-space/wp-isolated-query-space.directive";
 import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
-import { OpenprojectBcfModule } from "core-app/modules/bim/bcf/openproject-bcf.module";
+import { OpenprojectBcfModule } from "core-app/features/bim/bcf/openproject-bcf.module";
 import { WorkPackageRelationsAutocomplete } from "core-components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
 import { CustomDateActionAdminComponent } from 'core-components/wp-custom-actions/date-action/custom-date-action-admin.component';
 import { WorkPackagesTableConfigMenu } from "core-components/wp-table/config-menu/config-menu.component";

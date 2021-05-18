@@ -26,30 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { IFCGonDefinition } from "../../../features/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { WorkPackageCreateComponent } from 'core-components/wp-new/wp-create.component';
+import { Component } from '@angular/core';
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 
-declare global {
-  interface Window {
-    gon:GonType;
-  }
-}
+@Component({
+  selector: 'bcf-new-split',
+  templateUrl: './bcf-new-split.component.html'
+})
+export class BCFNewSplitComponent extends WorkPackageCreateComponent {
+  public cancelState = '^';
 
-export interface GonType {
- [key:string]:unknown;
- ifc_models:IFCGonDefinition;
-}
+  @InjectField()
+  readonly viewer:IFCViewerService;
 
-@Injectable({ providedIn: 'root' })
-export class GonService {
-  get(...path:string[]):unknown|null {
-    return _.get(window.gon, path, null);
-  }
-
-  /**
-   * Get the gon object
-   */
-  get gon():GonType {
-    return window.gon;
+  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
+    super.onSaved(params);
   }
 }
