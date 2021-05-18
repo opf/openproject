@@ -4,8 +4,8 @@ import { GRID_PROVIDERS } from "core-app/modules/grids/grid/grid.component";
 
 @Component({
   selector: 'dashboard',
-  templateUrl: '../../grids/grid/page/grid-page.component.html',
-  styleUrls: ['../../grids/grid/page/grid-page.component.sass'],
+  templateUrl: '../../../modules/grids/grid/page/grid-page.component.html',
+  styleUrls: ['../../../modules/grids/grid/page/grid-page.component.sass'],
   providers: GRID_PROVIDERS
 })
 export class DashboardComponent extends GridPageComponent {
