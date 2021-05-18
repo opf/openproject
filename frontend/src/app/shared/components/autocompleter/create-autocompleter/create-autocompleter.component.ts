@@ -46,7 +46,7 @@ import { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { Subject } from 'rxjs';
-import { PrincipalHelper } from "core-app/modules/principal/principal-helper";
+import { PrincipalHelper } from "core-app/shared/components/principal/principal-helper";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 
 export interface CreateAutocompleterValueOption {

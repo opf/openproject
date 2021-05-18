@@ -14,7 +14,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {UntilDestroyedMixin} from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import {ProjectResource} from "core-app/core/hal/resources/project-resource";
 import {UserResource} from "core-app/core/hal/resources/user-resource";
-import {PrincipalLike} from "core-app/modules/principal/principal-types";
+import {PrincipalLike} from "core-app/shared/components/principal/principal-types";
 import {CurrentUserService} from "core-app/core/current-user/current-user.service";
 import {PrincipalType} from '../invite-user.component';
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";

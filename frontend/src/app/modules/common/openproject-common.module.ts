@@ -75,7 +75,7 @@ import {DynamicBootstrapModule} from './dynamic-bootstrap/dynamic-bootstrap.modu
 import {OpFormFieldComponent} from './forms/form-field/form-field.component';
 import {OpFormBindingDirective} from './forms/form-field/form-binding.directive';
 import {OpOptionListComponent} from './option-list/option-list.component';
-import {OpenprojectPrincipalRenderingModule} from "core-app/modules/principal/principal-rendering.module";
+import {OpenprojectPrincipalRenderingModule} from "core-app/shared/components/principal/principal-rendering.module";
 import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
 import { FocusModule } from "core-app/shared/directives/focus/focus.module";
 

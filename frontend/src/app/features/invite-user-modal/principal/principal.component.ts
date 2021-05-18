@@ -16,7 +16,7 @@ import {
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { PrincipalData, PrincipalLike } from "core-app/modules/principal/principal-types";
+import { PrincipalData, PrincipalLike } from "core-app/shared/components/principal/principal-types";
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component"
 import { PrincipalType } from '../invite-user.component';

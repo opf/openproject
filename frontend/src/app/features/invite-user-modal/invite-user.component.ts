@@ -11,7 +11,7 @@ import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { PrincipalData } from "core-app/modules/principal/principal-types";
+import { PrincipalData } from "core-app/shared/components/principal/principal-types";
 import { RoleResource } from "core-app/core/hal/resources/role-resource";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";

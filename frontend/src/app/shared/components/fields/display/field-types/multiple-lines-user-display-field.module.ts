@@ -29,7 +29,7 @@
 import {ResourcesDisplayField} from "./resources-display-field.module";
 import {UserResource} from "core-app/core/hal/resources/user-resource";
 import {InjectField} from "core-app/shared/helpers/angular/inject-field.decorator";
-import {PrincipalRendererService} from "core-app/modules/principal/principal-renderer.service";
+import {PrincipalRendererService} from "core-app/shared/components/principal/principal-renderer.service";
 
 export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
   @InjectField() principalRenderer:PrincipalRendererService;
