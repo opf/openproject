@@ -60,7 +60,7 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     name: 'boards.**',
     parent: 'root',
     url: '/boards',
-    loadChildren: () => import('../boards/openproject-boards.module').then(m => m.OpenprojectBoardsModule)
+    loadChildren: () => import('../../features/boards/openproject-boards.module').then(m => m.OpenprojectBoardsModule)
   },
   {
     name: 'bim.**',

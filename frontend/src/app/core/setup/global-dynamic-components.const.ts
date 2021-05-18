@@ -29,7 +29,7 @@ import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector
 } from "core-components/wp-custom-actions/date-action/custom-date-action-admin.component";
-import { BoardsMenuComponent, boardsMenuSelector } from "core-app/modules/boards/boards-sidebar/boards-menu.component";
+import { BoardsMenuComponent, boardsMenuSelector } from "core-app/features/boards/boards-sidebar/boards-menu.component";
 import {
   GlobalSearchWorkPackagesEntryComponent,
   globalSearchWorkPackagesSelectorEntry

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Board } from "core-app/modules/boards/board/board";
+import { Board } from "core-app/features/boards/board/board";
 import { Observable } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";

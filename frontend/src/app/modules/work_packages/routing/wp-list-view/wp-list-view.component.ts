@@ -36,7 +36,7 @@ import {
   NgZone
 } from "@angular/core";
 import { take } from "rxjs/operators";
-import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
 import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import {
   WorkPackageViewDisplayRepresentationService,

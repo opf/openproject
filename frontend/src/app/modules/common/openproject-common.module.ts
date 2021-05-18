@@ -50,7 +50,7 @@ import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context
 import {EnterpriseBannerComponent} from 'core-components/enterprise-banner/enterprise-banner.component';
 import {EnterpriseBannerBootstrapComponent} from 'core-components/enterprise-banner/enterprise-banner-bootstrap.component';
 import {HomescreenNewFeaturesBlockComponent} from 'core-components/homescreen/blocks/new-features.component';
-import {BoardVideoTeaserModalComponent} from 'core-app/modules/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
+import {BoardVideoTeaserModalComponent} from 'core-app/features/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
 import {highlightColBootstrap} from './highlight-col/highlight-col.directive';
 import {HighlightColDirective} from './highlight-col/highlight-col.directive';
 import {CopyToClipboardDirective} from './copy-to-clipboard/copy-to-clipboard.directive';

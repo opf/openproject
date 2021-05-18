@@ -26,7 +26,7 @@ import { States } from "core-components/states.service";
 import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { filter, map, withLatestFrom } from 'rxjs/operators';
-import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
 import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { CardViewHandlerRegistry } from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";

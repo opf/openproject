@@ -58,7 +58,7 @@ import { WorkPackagesListChecksumService } from "core-components/wp-list/wp-list
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { TableDragActionsRegistryService } from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
-import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";
+import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
 import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { WorkPackageViewHierarchyIdentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
