@@ -38,7 +38,7 @@ import {
 } from '@angular/core';
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { OpInviteUserModalService } from "core-app/modules/invite-user-modal/invite-user-modal.service";
+import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

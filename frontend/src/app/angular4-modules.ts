@@ -73,7 +73,7 @@ import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-comp
 import { OpenprojectMembersModule } from "core-app/modules/members/members.module";
 import { OpenprojectEnterpriseModule } from "core-components/enterprise/openproject-enterprise.module";
 import { OpenprojectAugmentingModule } from "core-app/core/augmenting/openproject-augmenting.module";
-import { OpenprojectInviteUserModalModule } from "core-app/modules/invite-user-modal/invite-user-modal.module";
+import { OpenprojectInviteUserModalModule } from "core-app/features/invite-user-modal/invite-user-modal.module";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { RevitAddInSettingsButtonService } from "core-app/features/bim/revit_add_in/revit-add-in-settings-button.service";
 import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";

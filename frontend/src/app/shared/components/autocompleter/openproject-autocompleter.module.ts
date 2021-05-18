@@ -11,7 +11,7 @@ import { AutocompleteSelectDecorationComponent } from "core-app/shared/component
 import { VersionAutocompleterComponent } from "core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component";
 import { UserAutocompleterComponent } from "core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component";
 import { CommonModule } from "@angular/common";
-import { OpenprojectInviteUserModalModule } from "core-app/modules/invite-user-modal/invite-user-modal.module";
+import { OpenprojectInviteUserModalModule } from "core-app/features/invite-user-modal/invite-user-modal.module";
 import { DragulaModule } from "ng2-dragula";
 import {OpAutocompleterComponent} from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
 import {OpAutocompleterOptionTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-option-template.directive";
