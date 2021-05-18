@@ -37,10 +37,15 @@
             </a>
           </li>
           <li
+              class="op-tab-row--tab"
               [ngClass]="{'selected': mode === 'recent'}"
               (click)="setMode('recent')"
           >
-            <a href="#" [textContent]="text.recent">
+            <a
+                class="op-tab-row--link"
+                href="#"
+                [textContent]="text.recent"
+            >
             </a>
           </li>
         </ul>
