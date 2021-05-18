@@ -29,7 +29,7 @@ import { ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy } 
 import { distinctUntilChanged } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
+import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

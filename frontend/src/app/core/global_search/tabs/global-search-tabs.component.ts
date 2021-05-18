@@ -27,7 +27,7 @@
 //++
 
 import { Component, OnDestroy } from '@angular/core';
-import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
+import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { Subscription } from "rxjs";
 import { ScrollableTabsComponent } from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
 
@@ -35,7 +35,7 @@ export const globalSearchTabsSelector = 'global-search-tabs';
 
 @Component({
   selector: globalSearchTabsSelector,
-  templateUrl: '../../common/tabs/scrollable-tabs/scrollable-tabs.component.html'
+  templateUrl: '../../../modules/common/tabs/scrollable-tabs/scrollable-tabs.component.html'
 })
 
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {

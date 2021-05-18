@@ -27,12 +27,12 @@
 //++
 
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { FocusHelperService } from 'app/shared/directives/focus/focus-helper';
-import { I18nService } from 'app/modules/common/i18n/i18n.service';
-import { HalResourceService } from "app/modules/hal/services/hal-resource.service";
-import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
-import { WorkPackageFiltersService } from "app/components/filters/wp-filters/wp-filters.service";
-import { UrlParamsHelperService } from "app/components/wp-query/url-params-helper";
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
+import { WorkPackageFiltersService } from "core-components/filters/wp-filters/wp-filters.service";
+import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { WorkPackageTableConfigurationObject } from "core-components/wp-table/wp-table-configuration";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";

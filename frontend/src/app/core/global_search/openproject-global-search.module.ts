@@ -29,12 +29,12 @@
 import { NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
-import { GlobalSearchInputComponent } from "core-app/modules/global_search/input/global-search-input.component";
-import { GlobalSearchWorkPackagesComponent } from "core-app/modules/global_search/global-search-work-packages.component";
-import { GlobalSearchTabsComponent } from "core-app/modules/global_search/tabs/global-search-tabs.component";
-import { GlobalSearchTitleComponent } from "core-app/modules/global_search/title/global-search-title.component";
-import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
-import { GlobalSearchWorkPackagesEntryComponent } from "core-app/modules/global_search/global-search-work-packages-entry.component";
+import { GlobalSearchInputComponent } from "core-app/core/global_search/input/global-search-input.component";
+import { GlobalSearchWorkPackagesComponent } from "core-app/core/global_search/global-search-work-packages.component";
+import { GlobalSearchTabsComponent } from "core-app/core/global_search/tabs/global-search-tabs.component";
+import { GlobalSearchTitleComponent } from "core-app/core/global_search/title/global-search-title.component";
+import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
+import { GlobalSearchWorkPackagesEntryComponent } from "core-app/core/global_search/global-search-work-packages-entry.component";
 
 @NgModule({
   imports: [

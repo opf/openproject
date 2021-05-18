@@ -20,7 +20,7 @@ import {
 import {
   GlobalSearchWorkPackagesComponent,
   globalSearchWorkPackagesSelector
-} from "core-app/modules/global_search/global-search-work-packages.component";
+} from "core-app/core/global_search/global-search-work-packages.component";
 import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector
@@ -33,7 +33,7 @@ import { BoardsMenuComponent, boardsMenuSelector } from "core-app/features/board
 import {
   GlobalSearchWorkPackagesEntryComponent,
   globalSearchWorkPackagesSelectorEntry
-} from "core-app/modules/global_search/global-search-work-packages-entry.component";
+} from "core-app/core/global_search/global-search-work-packages-entry.component";
 import {
   NotificationsContainerComponent,
   notificationsContainerSelector
@@ -83,7 +83,7 @@ import { MainMenuResizerComponent, mainMenuResizerSelector } from "core-componen
 import {
   GlobalSearchInputComponent,
   globalSearchSelector
-} from "core-app/modules/global_search/input/global-search-input.component";
+} from "core-app/core/global_search/input/global-search-input.component";
 import {
   collapsibleSectionAugmentSelector,
   CollapsibleSectionComponent
@@ -111,11 +111,11 @@ import {
 import {
   GlobalSearchTitleComponent,
   globalSearchTitleSelector
-} from "core-app/modules/global_search/title/global-search-title.component";
+} from "core-app/core/global_search/title/global-search-title.component";
 import {
   GlobalSearchTabsComponent,
   globalSearchTabsSelector
-} from "core-app/modules/global_search/tabs/global-search-tabs.component";
+} from "core-app/core/global_search/tabs/global-search-tabs.component";
 import { MainMenuToggleComponent, mainMenuToggleSelector } from "core-components/main-menu/main-menu-toggle.component";
 import {
   MembersAutocompleterComponent,

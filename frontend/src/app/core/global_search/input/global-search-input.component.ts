@@ -42,7 +42,7 @@ import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
+import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { DeviceService } from "core-app/modules/common/browser/device.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
@@ -52,7 +52,7 @@ import { HalResourceNotificationService } from "core-app/modules/hal/services/ha
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
 import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
 import { filter, map, take, tap } from "rxjs/operators";
-import { APIV3Service } from "../../../core/apiv3/api-v3.service";
+import { APIV3Service } from "../../apiv3/api-v3.service";
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export const globalSearchSelector = 'global-search-input';

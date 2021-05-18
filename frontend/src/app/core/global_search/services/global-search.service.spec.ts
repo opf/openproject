@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
+import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
