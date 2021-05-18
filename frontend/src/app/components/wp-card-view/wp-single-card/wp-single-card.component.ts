@@ -74,7 +74,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public emitStateLinkClicked(wp:WorkPackageResource, detail?:boolean) {
     const classIdentifier = this.classIdentifier(wp);
-    const stateToEmit = detail ? splitViewRoute(this.$state) : 'work-packages.show';
+    const stateToEmit = detail ? 'split' : 'show';
 
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.wpTableFocus.updateFocus(wp.id!);

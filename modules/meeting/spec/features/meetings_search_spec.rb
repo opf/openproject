@@ -48,7 +48,7 @@ describe 'Meeting search', type: :feature, js: true do
                           query: "Meeting",
                           select_text: "In this project ↵")
 
-      page.find('[tab-id="meetings"]').click
+      page.find('[data-qa-tab-id="meetings"]').click
       expect(page.find('#search-results')).to have_text(meeting.title)
     end
   end
