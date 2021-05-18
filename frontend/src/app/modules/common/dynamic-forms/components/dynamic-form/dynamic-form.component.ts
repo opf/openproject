@@ -18,9 +18,9 @@ import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormGroup } from "@angular/forms";
-import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
-import { FormsService } from "core-app/core/services/forms/forms.service";
 import { HttpErrorResponse } from "@angular/common/http";
+import { FormsService } from "core-app/core/forms/forms.service";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 /**
 * SETTINGS:
