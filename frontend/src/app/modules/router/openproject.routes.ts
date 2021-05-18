@@ -72,13 +72,13 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     name: 'backlogs.**',
     parent: 'root',
     url: '/backlogs',
-    loadChildren: () => import('../backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
+    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
   },
   {
     name: 'backlogs_sprint.**',
     parent: 'root',
     url: '/sprints',
-    loadChildren: () => import('../backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
+    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
   },
   {
     name: 'reporting.**',

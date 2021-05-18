@@ -133,7 +133,7 @@ import {
 import {
   BacklogsPageComponent,
   backlogsPageComponentSelector
-} from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
+} from "core-app/features/backlogs/backlogs-page/backlogs-page.component";
 import {
   attributeValueMacro,
   AttributeValueMacroComponent

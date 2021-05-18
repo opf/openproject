@@ -26,26 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Ng2StateDeclaration, UIRouter } from "@uirouter/angular";
-import { BacklogsPageComponent } from "core-app/modules/backlogs/backlogs-page/backlogs-page.component";
+import { NgModule } from '@angular/core';
+import { UIRouterModule } from "@uirouter/angular";
+import { BacklogsPageComponent } from "core-app/features/backlogs/backlogs-page/backlogs-page.component";
+import { BACKLOGS_ROUTES } from "core-app/features/backlogs/openproject-backlogs.routes";
 
-export const BACKLOGS_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'backlogs',
-    parent: 'root',
-    url: '/backlogs',
-    component: BacklogsPageComponent
-  },
-  {
-    name: 'backlogs_sprint',
-    parent: 'root',
-    url: '/sprints/{sprintId:int}/taskboard',
-    component: BacklogsPageComponent
-  },
-  {
-    name: 'backlogs_burndown',
-    parent: 'root',
-    url: '/sprints/{sprintId:int}/burndown_chart',
-    component: BacklogsPageComponent
-  },
-];
+@NgModule({
+  imports: [
+    // Routes for /backlogs
+    UIRouterModule.forChild({
+      states: BACKLOGS_ROUTES
+    }),
+  ],
+  declarations: [
+    BacklogsPageComponent
+  ]
+})
+export class OpenprojectBacklogsModule {
+}
+
