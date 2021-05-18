@@ -60,7 +60,7 @@ import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fie
 import { WidgetProjectDetailsComponent } from "core-app/modules/grids/widgets/project-details/project-details.component";
 import { WidgetTimeEntriesProjectComponent } from "core-app/modules/grids/widgets/time-entries/project/time-entries-project.component";
 import { WidgetSubprojectsComponent } from "core-app/modules/grids/widgets/subprojects/subprojects.component";
-import { OpenprojectAttachmentsModule } from "core-app/modules/attachments/openproject-attachments.module";
+import { OpenprojectAttachmentsModule } from "core-app/shared/components/attachments/openproject-attachments.module";
 import { WidgetMembersComponent } from "core-app/modules/grids/widgets/members/members.component";
 import { WidgetProjectStatusComponent } from "core-app/modules/grids/widgets/project-status/project-status.component";
 import { OpenprojectTimeEntriesModule } from "core-app/modules/time_entries/openproject-time-entries.module";

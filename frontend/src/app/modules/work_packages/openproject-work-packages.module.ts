@@ -66,7 +66,7 @@ import { UserActivityComponent } from 'core-components/wp-activity/user/user-act
 import { RevisionActivityComponent } from 'core-components/wp-activity/revision/revision-activity.component';
 import { ActivityLinkComponent } from 'core-components/wp-activity/activity-link.component';
 import { WorkPackageActivityTabComponent } from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
-import { OpenprojectAttachmentsModule } from 'core-app/modules/attachments/openproject-attachments.module';
+import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { WpCustomActionComponent } from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import { WpCustomActionsComponent } from 'core-components/wp-custom-actions/wp-custom-actions.component';
 import { WorkPackageRelationsCountComponent } from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
@@ -138,8 +138,8 @@ import { WorkPackageRelationQueryComponent } from "core-components/wp-relations/
 import { WorkPackagesBaseComponent } from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
 import { WorkPackageSplitViewComponent } from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
 import { WorkPackagesFullViewComponent } from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
-import { AttachmentsUploadComponent } from 'core-app/modules/attachments/attachments-upload/attachments-upload.component';
-import { AttachmentListComponent } from 'core-app/modules/attachments/attachment-list/attachment-list.component';
+import { AttachmentsUploadComponent } from 'core-app/shared/components/attachments/attachments-upload/attachments-upload.component';
+import { AttachmentListComponent } from 'core-app/shared/components/attachments/attachment-list/attachment-list.component';
 import { WorkPackageFilterByTextInputComponent } from "core-components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
 import { QueryFiltersService } from "core-components/wp-query/query-filters.service";
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";

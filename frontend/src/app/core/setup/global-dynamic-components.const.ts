@@ -12,7 +12,7 @@ import {
   ZenModeButtonComponent,
   zenModeComponentSelector
 } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
-import { AttachmentsComponent, attachmentsSelector } from "core-app/modules/attachments/attachments.component";
+import { AttachmentsComponent, attachmentsSelector } from "core-app/shared/components/attachments/attachments.component";
 import {
   UserAutocompleterComponent,
   usersAutocompleterSelector
@@ -145,7 +145,7 @@ import {
 import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector
-} from "core-app/modules/attribute-help-texts/attribute-help-text.component";
+} from "core-app/shared/components/attribute-help-texts/attribute-help-text.component";
 import {
   quickInfoMacroSelector,
   WorkPackageQuickinfoMacroComponent

@@ -29,7 +29,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from "@angular/common";
-import { OpenprojectAttachmentsModule } from 'core-app/modules/attachments/openproject-attachments.module';
+import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { WikiIncludePageMacroModal } from 'core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
 import { CodeBlockMacroModal } from 'core-components/modals/editor/macro-code-block-modal/code-block-macro.modal';

@@ -39,7 +39,7 @@ import {HookService} from '../plugins/hook-service';
 import {OpenprojectAccessibilityModule} from 'core-app/shared/directives/a11y/openproject-a11y.module';
 import {CurrentUserModule} from 'core-app/modules/current-user/current-user.module';
 import {IconModule} from 'core-app/modules/icon/icon.module';
-import {AttributeHelpTextModule} from 'core-app/modules/attribute-help-texts/attribute-help-text.module';
+import {AttributeHelpTextModule} from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 
 import {IconTriggeredContextMenuComponent} from 'core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
