@@ -41,7 +41,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
                       field_format: 'int',
                       is_for_all: true
   end
-  let(:relations_tab) { find('.op-tab-row--link__selected', text: 'RELATIONS') }
+  let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
 
   before do
     login_as user
