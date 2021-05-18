@@ -93,7 +93,7 @@ module Components
       end
 
       def selected_tab(name)
-        page.find("#{selector} .op-tab-row--link__selected", text: name.upcase)
+        page.find("#{selector} .op-tab-row--link_selected", text: name.upcase)
         page.find("#{selector} .tab-content[data-tab-name='#{name}']")
       end
 

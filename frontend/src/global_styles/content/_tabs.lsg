@@ -5,7 +5,7 @@
   <div class="op-scrollable-tabs--tab-container">
       <ul class="op-tab-row"">
         <li class="op-tab-row--tab">
-          <a class="op-tab-row--link op-tab-row--link__selected" href="#scrollable-tabs?tab=tab_1">Tab 1</a>
+          <a class="op-tab-row--link op-tab-row--link_selected" href="#scrollable-tabs?tab=tab_1">Tab 1</a>
         </li>
         <li class="op-tab-row--tab">
           <a class="op-tab-row--link" href="#scrollable-tabs?tab=tab_2">Tab 2</a>
@@ -31,7 +31,7 @@ The height of the tabs section can be reduced applying the `-narrow` modificatio
   <div class="op-scrollable-tabs--tab-container">
       <ul class="op-tab-row"">
         <li class="op-tab-row--tab">
-          <a class="op-tab-row--link op-tab-row--link__selected" href="#scrollable-tabs?tab=tab_1">Tab 1</a>
+          <a class="op-tab-row--link op-tab-row--link_selected" href="#scrollable-tabs?tab=tab_1">Tab 1</a>
         </li>
         <li class="op-tab-row--tab">
           <a class="op-tab-row--link" href="#scrollable-tabs?tab=tab_2">Tab 2</a>

@@ -37,7 +37,7 @@ describe 'work package hierarchies for milestones', js: true, selenium: true do
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
-  let(:relations_tab) { find('.op-tab-row--link__selected', text: 'RELATIONS') }
+  let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }
   let(:visit) { true }
 
   before do

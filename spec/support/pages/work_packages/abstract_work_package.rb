@@ -46,7 +46,7 @@ module Pages
     end
 
     def expect_tab(tab)
-      expect(page).to have_selector('.op-tab-row--link__selected', text: tab.to_s.upcase)
+      expect(page).to have_selector('.op-tab-row--link_selected', text: tab.to_s.upcase)
     end
 
     def edit_field(attribute)

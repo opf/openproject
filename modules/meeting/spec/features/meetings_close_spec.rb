@@ -70,7 +70,7 @@ describe 'Meetings close', type: :feature do
       page.accept_confirm
 
       # Expect to be on minutes
-      expect(page).to have_selector('.op-tab-row--link__selected', text: 'MINUTES')
+      expect(page).to have_selector('.op-tab-row--link_selected', text: 'MINUTES')
 
       # Copies the text
       expect(page).to have_selector('#meeting_minutes-text', text: 'asdf')
