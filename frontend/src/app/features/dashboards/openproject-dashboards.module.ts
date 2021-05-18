@@ -30,7 +30,7 @@ import { NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { Ng2StateDeclaration, UIRouter, UIRouterModule } from "@uirouter/angular";
 import { DashboardComponent } from "core-app/features/dashboards/dashboard/dashboard.component";
-import { OpenprojectGridsModule } from "core-app/modules/grids/openproject-grids.module";
+import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
 
 const menuItemClass = 'dashboards-menu-item';
 

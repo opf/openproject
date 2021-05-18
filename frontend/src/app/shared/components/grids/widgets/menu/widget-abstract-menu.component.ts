@@ -26,38 +26,41 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
-import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
-import { MyPageComponent } from "core-app/modules/my-page/my-page.component";
+import { Input, Directive } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
+import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
 
-export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'my_page',
-    url: '/my/page',
-    component: MyPageComponent,
-    data: {
-      bodyClasses: ['router--work-packages-my-page', 'widget-grid-layout'],
-      parent: 'work-packages'
-    }
-  },
-];
+@Directive()
+export abstract class WidgetAbstractMenuComponent {
+  @Input() resource:GridWidgetResource;
 
-@NgModule({
-  imports: [
-    OpenprojectCommonModule,
-    OpenprojectGridsModule,
-    OpenprojectModalModule,
+  protected menuItemList:OpContextMenuItem[] = [this.removeItem];
 
-    // Routes for my_page
-    UIRouterModule.forChild({ states: MY_PAGE_ROUTES }),
-  ],
-  declarations: [
-    MyPageComponent
-  ]
-})
-export class OpenprojectMyPageModule {
+  constructor(readonly i18n:I18nService,
+              protected readonly remove:GridRemoveWidgetService,
+              protected readonly layout:GridAreaService) {
+  }
+
+  public get menuItems() {
+    return async () => {
+      return this.menuItemList;
+    };
+  }
+
+  protected get removeItem() {
+    return {
+      linkText: this.i18n.t('js.grid.remove'),
+      onClick: () => {
+        this.remove.widget(this.resource);
+        return true;
+      }
+    };
+  }
+
+  public get hasMenu() {
+    return this.layout.isEditable;
+  }
 }
-

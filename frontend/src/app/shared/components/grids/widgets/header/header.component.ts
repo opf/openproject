@@ -26,38 +26,29 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
-import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
-import { MyPageComponent } from "core-app/modules/my-page/my-page.component";
+import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
 
-export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'my_page',
-    url: '/my/page',
-    component: MyPageComponent,
-    data: {
-      bodyClasses: ['router--work-packages-my-page', 'widget-grid-layout'],
-      parent: 'work-packages'
-    }
-  },
-];
-
-@NgModule({
-  imports: [
-    OpenprojectCommonModule,
-    OpenprojectGridsModule,
-    OpenprojectModalModule,
-
-    // Routes for my_page
-    UIRouterModule.forChild({ states: MY_PAGE_ROUTES }),
-  ],
-  declarations: [
-    MyPageComponent
-  ]
+@Component({
+  selector: 'widget-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OpenprojectMyPageModule {
-}
+export class WidgetHeaderComponent {
+  @Input() name:string;
+  @Input() editable = true;
+  @Output() onRenamed = new EventEmitter<string>();
 
+  constructor(readonly layout:GridAreaService) {
+
+  }
+
+  public renamed(name:string) {
+    this.onRenamed.emit(name);
+  }
+
+  public get isRenameable() {
+    return this.editable && this.layout.isEditable;
+  }
+}
