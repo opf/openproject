@@ -154,7 +154,7 @@ import { WorkPackageViewToggleButton } from "core-components/wp-buttons/wp-view-
 import { WorkPackagesGridComponent } from "core-components/wp-grid/wp-grid.component";
 import { WorkPackageViewDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
-import { OpenprojectProjectsModule } from "core-app/modules/projects/openproject-projects.module";
+import { OpenprojectProjectsModule } from "core-app/features/projects/openproject-projects.module";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { WorkPackageEditActionsBarComponent } from "core-app/modules/common/edit-actions-bar/wp-edit-actions-bar.component";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

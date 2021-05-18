@@ -39,7 +39,7 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'new_project.**',
     url: '/projects/new',
-    loadChildren: () => import('../projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
   },
   {
     name: 'root',
@@ -96,13 +96,13 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     name: 'project_settings.**',
     parent: 'root',
     url: '/settings/generic',
-    loadChildren: () => import('../projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
   },
   {
     name: 'project_copy.**',
     parent: 'root',
     url: '/copy',
-    loadChildren: () => import('../projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
   },
 ];
 
