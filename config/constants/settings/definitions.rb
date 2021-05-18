@@ -34,6 +34,12 @@ Settings::Definition.define do
       format: :string,
       value: nil
 
+  add :apiv3_cors_enabled,
+      value: false
+
+  add :apiv3_cors_origins,
+      value: []
+
   add :app_title,
       value: 'OpenProject'
 
@@ -56,6 +62,9 @@ Settings::Definition.define do
   add :bcc_recipients,
       value: true
 
+  add :boards_demo_data_available,
+      value: false
+
   add :brute_force_block_minutes,
       value: 30
 
@@ -75,6 +84,10 @@ Settings::Definition.define do
       format: :integer,
       value: nil,
       allowed: -> { Status.pluck(:id) + [nil] }
+
+  # encoding used to convert commit logs to UTF-8
+  add :commit_logs_encoding,
+      value: 'UTF-8'
 
   add :commit_logtime_activity_id,
       format: :integer,
@@ -108,6 +121,9 @@ Settings::Definition.define do
   add :consent_required,
       value: false
 
+  add :cross_project_work_package_relations,
+      value: true
+
   add :date_format,
       format: :string,
       value: nil,
@@ -129,22 +145,85 @@ Settings::Definition.define do
   add :default_language,
       value: 'en'
 
+  add :default_notification_option,
+      value: 'only_my_events',
+      allowed: -> { User::MAIL_NOTIFICATION_OPTIONS.map(&:first).map(&:to_s) }
+
+  add :default_projects_modules,
+      value: %w[calendar board_view work_package_tracking news costs wiki],
+      allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
+
+  add :default_projects_public,
+      value: false
+
+  add :demo_projects_available,
+      value: false
+
   add :diff_max_lines_displayed,
       value: 1500
+
+  add :display_subprojects_work_packages,
+      value: true
 
   add :email_delivery_method,
       format: :symbol,
       value: nil
 
+  add :emails_footer,
+      value: {
+        "en" => <<~MSG
+          You have received this notification because you have either subscribed to it, or are involved in it.
+          To change your notification preferences, please click here: http://hostname/my/account
+        MSG
+      }
+
+  add :emails_header,
+      value: {
+        'en' => ''
+      }
+
+  # use email address as login, hide login in registration form
+  add :email_login,
+      value: false
+
+  add :enabled_projects_columns,
+      value: %w[project_status public created_at latest_activity_at required_disk_space],
+      allowed: -> { Projects::TableCell.new(nil, current_user: User.admin.first).all_columns.map(&:first).map(&:to_s) }
+
   add :enabled_scm,
       value: %w[subversion git]
+
+  add :feeds_enabled,
+      value: true
+
+  add :feeds_limit,
+      value: 15
+
+  # Maximum size of files that can be displayed
+  # inline through the file viewer (in KB)
+  add :file_max_size_displayed,
+      value: 512
+
+  add :first_week_of_year,
+      value: nil,
+      format: :integer,
+      allowed: [1, 4]
 
   add :forced_single_page_size,
       value: 250
 
+  add :host_name,
+      value: "localhost:3000"
+
   add :installation_uuid,
       format: :string,
       value: nil
+
+  add :invitation_expiration_days,
+      value: 7
+
+  add :journal_aggregation_time_minutes,
+      value: 5
 
   add :log_requesting_user,
       value: false
@@ -161,6 +240,57 @@ Settings::Definition.define do
   add :mail_handler_api_key,
       format: :string,
       value: nil
+
+  add :mail_handler_body_delimiters,
+      value: ''
+
+  add :mail_handler_body_delimiter_regex,
+      value: ''
+
+  add :mail_handler_ignore_filenames,
+      value: 'signature.asc'
+
+  add :mail_suffix_separators,
+      value: '+'
+
+  # Role given to a non-admin user who creates a project
+  add :new_project_user_role_id,
+      format: :integer,
+      value: nil,
+      allowed: -> { Role.pluck(:id) }
+
+  add :oauth_allow_remapping_of_existing_users,
+      value: false
+
+  add :notified_events,
+      value: %w[
+        work_package_added
+        work_package_updated
+        work_package_note_added
+        status_updated
+        work_package_priority_updated
+        news_added
+        news_comment_added
+        file_added message_posted
+        wiki_content_added
+        wiki_content_updated
+        membership_added
+        membership_updated
+      ],
+      allowed: %w[
+        work_package_added
+        work_package_updated
+        work_package_note_added
+        status_updated
+        work_package_priority_updated
+        news_added
+        news_comment_added
+        file_added message_posted
+        wiki_content_added
+        wiki_content_updated
+        membership_added
+        membership_updated
+      ]
 
   add :password_active_rules,
       value: %w[lowercase uppercase numeric special],
@@ -187,6 +317,54 @@ Settings::Definition.define do
   add :plain_text_mail,
       value: false
 
+  add :protocol,
+      value: "http",
+      allowed: %w[http https]
+
+  add :project_gantt_query,
+      value: nil,
+      format: :string
+
+  add :registration_footer,
+      value: {
+        'en' => ''
+      }
+
+  add :repositories_automatic_managed_vendor,
+      value: nil,
+      format: :string,
+      allowed: -> { OpenProject::SCM::Manager.registered.keys.map(&:to_s) }
+
+  # encodings used to convert repository files content to UTF-8
+  # multiple values accepted, comma separated
+  add :repositories_encodings,
+      value: nil,
+      format: :string
+
+  add :repository_authentication_caching_enabled,
+      value: true
+
+  add :repository_checkout_data,
+      value: {
+        "git" => { "enabled" => 0 },
+        "subversion" => { "enabled" => 0 }
+      }
+
+  add :repository_log_display_limit,
+      value: 100
+
+  add :repository_storage_cache_minutes,
+      value: 720
+
+  add :repository_truncate_at,
+      value: 500
+
+  add :rest_api_enabled,
+      value: true
+
+  add :security_badge_displayed,
+      value: true
+
   add :self_registration,
       value: 2
 
@@ -197,6 +375,12 @@ Settings::Definition.define do
   add :sendmail_location,
       format: :string,
       value: "/usr/sbin/sendmail"
+
+  add :session_ttl_enabled,
+      value: false
+
+  add :session_ttl,
+      value: 120
 
   add :smtp_enable_starttls_auto,
       format: :boolean,
@@ -243,6 +427,18 @@ Settings::Definition.define do
   add :software_url,
       value: 'https://www.openproject.org/'
 
+  add :start_of_week,
+      value: nil,
+      format: :integer,
+      allowed: [1, 6, 7]
+
+  add :sys_api_enabled,
+      value: false
+
+  add :sys_api_key,
+      value: nil,
+      format: :string
+
   add :time_format,
       format: :string,
       value: nil,
@@ -251,14 +447,20 @@ Settings::Definition.define do
         '%I:%M %p'
       ].freeze
 
-  add :work_packages_export_limit,
-      value: 500
-
-  add :work_package_list_default_highlighting_mode,
+  add :user_default_timezone,
+      value: nil,
       format: :string,
-      value: -> { EnterpriseToken.allows_to?(:conditional_highlighting) ? 'inline' : 'none' },
-      allowed: -> { Query::QUERY_HIGHLIGHTING_MODES },
-      writable: -> { EnterpriseToken.allows_to?(:conditional_highlighting) }
+      allowed: ActiveSupport::TimeZone.all + [nil]
+
+  add :users_deletable_by_admins,
+      value: false
+
+  add :users_deletable_by_self,
+      value: false
+
+  add :user_format,
+      value: :firstname_lastname,
+      allowed: -> { User::USER_FORMATS_STRUCTURE.keys }
 
   add :welcome_text,
       format: :string,
@@ -269,6 +471,32 @@ Settings::Definition.define do
       value: nil
 
   add :welcome_on_homescreen,
+      value: false
+
+  add :work_package_done_ratio,
+      value: 'field',
+      allowed: %w[field status disabled]
+
+  add :work_packages_export_limit,
+      value: 500
+
+  add :work_package_list_default_highlighted_attributes,
+      value: [],
+      allowed: -> {
+        Query.available_columns(nil).select(&:highlightable).map(&:name).map(&:to_s)
+      }
+
+  add :work_package_list_default_highlighting_mode,
+      format: :string,
+      value: -> { EnterpriseToken.allows_to?(:conditional_highlighting) ? 'inline' : 'none' },
+      allowed: -> { Query::QUERY_HIGHLIGHTING_MODES },
+      writable: -> { EnterpriseToken.allows_to?(:conditional_highlighting) }
+
+  add :work_package_list_default_columns,
+      value: %w[id subject type status assigned_to priority],
+      allowed: -> { Query.new.available_columns.map(&:name).map(&:to_s) }
+
+  add :work_package_startdate_is_adddate,
       value: false
 
   # Former configurations
@@ -572,12 +800,5 @@ Settings::Definition.define do
     'sql_slow_query_threshold' => 2000
   }.each do |key, value|
     add(key, value: value)
-  end
-
-  YAML.load_file(Rails.root.join('config/settings.yml')).map do |name, config|
-    add name,
-        format: config['format'] == 'int' ? :integer : config['format'],
-        value: config['default'],
-        api: false
   end
 end

@@ -80,6 +80,13 @@ describe Settings::Definition do
           .to eql 'bim'
       end
 
+      it 'overriding boolean configuration from ENV will cast the value' do
+        stub_const('ENV', { 'OPENPROJECT_REST__API__ENABLED' => '0' })
+
+        expect(all.detect { |d| d.name == 'rest_api_enabled' }.value)
+          .to be false
+      end
+
       it 'overriding configuration from ENV will set it to non writable' do
         stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
 

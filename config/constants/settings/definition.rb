@@ -58,13 +58,15 @@ module Settings
     end
 
     def value
-      return nil unless @value
+      return nil if @value.nil?
 
       case format
       when :integer
         @value.to_i
       when :float
         @value.to_f
+      when :boolean
+        @value.is_a?(Integer) ? ActiveRecord::Type::Boolean.new.cast(@value) : @value
       else
         if @value.respond_to?(:call)
           @value.call
