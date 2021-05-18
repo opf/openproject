@@ -21,28 +21,30 @@
     bindLabel="name"
 >
   <ng-template ng-header-tmp>
-    <div class="scrollable-tabs -narrow">
-      <ul class="op-tab-row">
-        <li
-            class="op-tab-row--tab"
-            (click)="setMode('all')"
-        >
-          <a
-              href="#"
-              class="op-tab-row--link"
-              [class.op-tab-row--link__selected]="mode === 'all'"
-              [textContent]="text.all"
+    <div class="scrollable-tabs">
+      <div class="op-scrollable-tabs--tab-container">
+        <ul class="op-tab-row">
+          <li
+              class="op-tab-row--tab"
+              (click)="setMode('all')"
           >
-          </a>
-        </li>
-        <li
-            [ngClass]="{'selected': mode === 'recent'}"
-            (click)="setMode('recent')"
-        >
-          <a href="#" [textContent]="text.recent">
-          </a>
-        </li>
-      </ul>
+            <a
+                href="#"
+                class="op-tab-row--link"
+                [class.op-tab-row--link__selected]="mode === 'all'"
+                [textContent]="text.all"
+            >
+            </a>
+          </li>
+          <li
+              [ngClass]="{'selected': mode === 'recent'}"
+              (click)="setMode('recent')"
+          >
+            <a href="#" [textContent]="text.recent">
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </ng-template>
   <ng-template ng-tag-tmp let-search="searchTerm">

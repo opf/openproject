@@ -27,7 +27,6 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
   @Input() public currentTabId:string|null = null;
   @Input() public tabs:TabDefinition[] = [];
   @Input() public classes:string[] = [];
-  @Input() public narrow = false;
   @Input() public hideLeftButton = true;
   @Input() public hideRightButton = true;
 
