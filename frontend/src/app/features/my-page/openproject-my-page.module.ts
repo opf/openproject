@@ -31,7 +31,7 @@ import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
-import { MyPageComponent } from "core-app/modules/my-page/my-page.component";
+import { MyPageComponent } from "core-app/features/my-page/my-page.component";
 
 export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
   {

@@ -66,7 +66,7 @@ import { OpenprojectWorkPackageGraphsModule } from "core-app/modules/work-packag
 import { WpPreviewModal } from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import { PreviewTriggerService } from "core-app/core/setup/globals/global-listeners/preview-trigger.service";
 import { OpenprojectOverviewModule } from "core-app/modules/overview/openproject-overview.module";
-import { OpenprojectMyPageModule } from "core-app/modules/my-page/openproject-my-page.module";
+import { OpenprojectMyPageModule } from "core-app/features/my-page/openproject-my-page.module";
 import { OpenprojectProjectsModule } from "core-app/modules/projects/openproject-projects.module";
 import { KeyboardShortcutService } from "core-app/shared/directives/a11y/keyboard-shortcut-service";
 import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
