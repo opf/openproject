@@ -52,6 +52,7 @@ import { HalEvent, HalEventsService } from "core-app/modules/hal/services/hal-ev
 import { ChangeItem } from "core-app/modules/fields/changeset/changeset";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -147,7 +148,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
               readonly boardService:BoardService,
               readonly boardActionRegistry:BoardActionsRegistryService,
               readonly causedUpdates:CausedUpdatesService,
-              readonly $state:StateService) {
+              readonly keepTab:KeepTabService,
+              readonly $state:StateService,
+  ) {
     super(I18n, injector);
   }
 
@@ -180,16 +183,16 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         debounceTime(100),
         this.untilDestroyed()
       ).subscribe((selectionState) => {
-        const selected = Object.keys(_.pickBy(selectionState.selected, (selected, _) => selected === true));
+      const selected = Object.keys(_.pickBy(selectionState.selected, (selected, _) => selected === true));
 
-        const focused = this.wpViewFocusService.focusedWorkPackage;
+      const focused = this.wpViewFocusService.focusedWorkPackage;
 
-        this.boardListCrossSelectionService.updateSelection({
-          withinQuery: this.queryId,
-          focusedWorkPackage: focused,
-          allSelected: selected
-        });
+      this.boardListCrossSelectionService.updateSelection({
+        withinQuery: this.queryId,
+        focusedWorkPackage: focused,
+        allSelected: selected
       });
+    });
 
     // Apply focus and selection when changed in cross service
     this.boardListCrossSelectionService
@@ -459,8 +462,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           return !!current && (current === to || current === from);
         })
       ).subscribe((event) => {
-        this.updateQuery(true);
-      });
+      this.updateQuery(true);
+    });
   }
 
   openFullViewOnDoubleClick(event:{ workPackageId:string, double:boolean }) {
@@ -475,7 +478,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   openStateLink(event:{ workPackageId:string; requestedState:string }) {
     const params = { workPackageId: event.workPackageId };
 
-    this.$state.go(event.requestedState, params);
+    if (event.requestedState === 'split') {
+      this.keepTab.goCurrentDetailsState(params);
+    } else {
+      this.keepTab.goCurrentShowState(params);
+    }
   }
 
   private schema(workPackage:WorkPackageResource) {

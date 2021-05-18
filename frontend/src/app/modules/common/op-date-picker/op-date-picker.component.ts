@@ -44,7 +44,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   @Output() public onCancel = new EventEmitter<string>();
 
   @Input() public initialDate = '';
-  @Input() public appendTo?:HTMLElement = document.body;
+  @Input() public appendTo?:HTMLElement;
   @Input() public classes = '';
   @Input() public id = '';
   @Input() public name = '';

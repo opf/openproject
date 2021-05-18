@@ -225,19 +225,19 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         global_search.submit_in_current_project
 
         # Expect that the "All" tab is selected.
-        expect(page).to have_selector('[tab-id="all"].selected')
+        expect(page).to have_selector('[data-qa-tab-id="all"][data-qa-tab-selected]')
 
         # Expect that the project scope is set to current_project and no module (this is the "all" tab) is requested.
         expect(current_url).to match(/\/#{project.identifier}\/search\?q=#{query}&scope=current_project$/)
 
         # Select "Work packages" tab
-        page.find('[tab-id="work_packages"]').click
+        page.find('[data-qa-tab-id="work_packages"]').click
 
         # Expect that the project scope is set to current_project and the module "work_packages" is requested.
         expect(current_url).to match(/\/search\?q=#{query}&work_packages=1&scope=current_project$/)
 
         # Expect that the "Work packages" tab is selected.
-        expect(page).to have_selector('[tab-id="work_packages"].selected')
+        expect(page).to have_selector('[data-qa-tab-id="work_packages"][data-qa-tab-selected]')
 
         table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
         table.expect_work_package_count(5) # because we set the page size to this
@@ -312,7 +312,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         global_search.submit_in_project_and_subproject_scope
 
         # Expect that the "Work packages" tab is selected.
-        expect(page).to have_selector('[tab-id="work_packages"].selected')
+        expect(page).to have_selector('[data-qa-tab-id="work_packages"][data-qa-tab-selected]')
 
         expect(page).to have_text "Search for \"#{other_work_package.subject}\" in #{project.name} and all subprojects"
 

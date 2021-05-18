@@ -56,7 +56,7 @@ module Pages
     end
 
     def expect_tab_not_present
-      expect(page).not_to have_selector('.tabrow li', text: 'GITHUB')
+      expect(page).not_to have_selector('.op-tab-row--link', text: 'GITHUB')
     end
 
     private

@@ -10,13 +10,21 @@ module WorkPackage::Exporter
       ##
       # Takes a WorkPackage and a QueryColumn and returns the value to be exported.
       def format(work_package, column, **options)
-        value = work_package.estimated_hours
-        derived_estimated_value = work_package.derived_estimated_hours
+        estimated_hours = work_package.estimated_hours
+        derived_hours = formatted_derived_hours(work_package)
 
-        if value.nil? && derived_estimated_value.present?
+        if estimated_hours.nil? || derived_hours.nil?
+          return estimated_hours || derived_hours
+        end
+
+        "#{estimated_hours} #{derived_hours}"
+      end
+
+      private
+
+      def formatted_derived_hours(work_package)
+        if (derived_estimated_value = work_package.derived_estimated_hours)
           "(#{derived_estimated_value})"
-        else
-          value
         end
       end
     end

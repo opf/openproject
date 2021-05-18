@@ -61,8 +61,6 @@ import {UploadProgressComponent} from './notifications/upload-progress.component
 import {ResizerComponent} from './resizer/resizer.component';
 import {CollapsibleSectionComponent} from './collapsible-section/collapsible-section.component';
 import {NoResultsComponent} from './no-results/no-results.component';
-import {ScrollableTabsComponent} from './tabs/scrollable-tabs/scrollable-tabs.component';
-import {ContentTabsComponent} from './tabs/content-tabs/content-tabs.component';
 import {EditableToolbarTitleComponent} from './editable-toolbar-title/editable-toolbar-title.component';
 import {PersistentToggleComponent} from './persistent-toggle/persistent-toggle.component';
 import {AddSectionDropdownComponent} from './hide-section/add-section-dropdown/add-section-dropdown.component';
@@ -169,8 +167,6 @@ export function bootstrapModule(injector:Injector) {
 
     NoResultsComponent,
 
-    ScrollableTabsComponent,
-
     EditableToolbarTitleComponent,
 
     // Enterprise Edition
@@ -217,9 +213,6 @@ export function bootstrapModule(injector:Injector) {
     ZenModeButtonComponent,
 
     NoResultsComponent,
-
-    ScrollableTabsComponent,
-    ContentTabsComponent,
 
     EditableToolbarTitleComponent,
 

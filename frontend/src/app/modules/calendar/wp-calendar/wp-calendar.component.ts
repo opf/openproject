@@ -106,7 +106,10 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   ngOnInit() {
     this.resizeSubject
-      .pipe(debounceTime(50))
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(50)
+      )
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();
       });

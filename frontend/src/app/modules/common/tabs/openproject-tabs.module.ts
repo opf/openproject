@@ -25,40 +25,32 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IconModule } from 'core-app/modules/icon/icon.module';
+import { AttributeHelpTextModule } from 'core-app/modules/attribute-help-texts/attribute-help-text.module';
+import { FocusModule } from "core-app/modules/focus/focus.module";
+import { ScrollableTabsComponent } from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
+import { ContentTabsComponent } from "core-app/modules/common/tabs/content-tabs/content-tabs.component";
+import { TabCountComponent } from "core-app/modules/common/tabs/tab-badges/tab-count.component";
+import { UIRouterModule } from "@uirouter/angular";
 
-import { Injectable } from '@angular/core';
-
-@Injectable({
-  providedIn: 'root'
+@NgModule({
+  imports: [
+    CommonModule,
+    FocusModule,
+    IconModule,
+    AttributeHelpTextModule,
+    UIRouterModule,
+  ],
+  exports: [
+    ScrollableTabsComponent,
+  ],
+  declarations: [
+    ScrollableTabsComponent,
+    ContentTabsComponent,
+    TabCountComponent,
+  ],
 })
-export class HookService {
-  private hooks:{ [hook:string]:Function[] } = {};
-
-  public register(id:string, callback:Function) {
-    if (!callback) {
-      return;
-    }
-
-    if (!this.hooks[id]) {
-      this.hooks[id] = [];
-    }
-
-    this.hooks[id].push(callback);
-  }
-
-  public call(id:string, ...params:any[]):any[] {
-    const results = [];
-
-    if (this.hooks[id]) {
-      for (let x = 0; x < this.hooks[id].length; x++) {
-        const result = this.hooks[id][x](...params);
-
-        if (result) {
-          results.push(result);
-        }
-      }
-    }
-
-    return results;
-  }
+export class OpenprojectTabsModule {
 }
