@@ -141,7 +141,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
   @Input() set model(payload:IOPFormModel) {
-    if (!this._innerModel && !payload) { return; }
+    if (!this.innerModel && !payload) { return; }
 
     const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
 
@@ -175,7 +175,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   in order to fetch its setting. Please provide one.`;
   noPathToSubmitToError = `DynamicForm needs a resourcePath or formUrl @Input in order to be submitted 
   and validated. Please provide one.`;
-  _innerModel:IOPFormModel;
+  innerModel:IOPFormModel;
 
   get model() {
     return this.form.getRawValue();
@@ -214,7 +214,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       changes.fieldsSettingsPipe ||
       changes.fieldGroups
     ) {
-      this._initializeDynamicForm(
+      this.initializeDynamicForm(
         this.settings,
         this.resourcePath,
         this.resourceId,
@@ -263,14 +263,14 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     return this._formsService.validateForm$(this.form, this.formEndpoint);
   }
 
-  private _initializeDynamicForm(
+  private initializeDynamicForm(
     settings?:IOPFormSettings,
     resourcePath?:string,
     resourceId?:string,
     formUrl?:string,
     payload?:Object,
   ) {
-    const formEndPoint = this._getFormEndPoint(formUrl, resourcePath);
+    const formEndPoint = this.getFormEndPoint(formUrl, resourcePath);
     if (!formEndPoint) {
       throw new Error(this.noSettingsSourceErrorMessage);
     }
@@ -281,13 +281,13 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     if (settings) {
-      this._setupDynamicFormFromSettings();
+      this.setupDynamicFormFromSettings();
     } else {
-      this._setupDynamicFormFromBackend(this.formEndpoint, resourceId, payload);
+      this.setupDynamicFormFromBackend(this.formEndpoint, resourceId, payload);
     }
   }
 
-  private _getFormEndPoint(formUrl?:string, resourcePath?:string):string|undefined {
+  private getFormEndPoint(formUrl?:string, resourcePath?:string):string|undefined {
     if (formUrl) {
       return formUrl.endsWith(`/form`) ?
         formUrl.replace(`/form`, ``) :
@@ -301,7 +301,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     return;
   }
 
-  private _setupDynamicFormFromBackend(formEndpoint?:string, resourceId?:string, payload?:Object) {
+  private setupDynamicFormFromBackend(formEndpoint?:string, resourceId?:string, payload?:Object) {
     this._dynamicFormService
       .getSettingsFromBackend$(formEndpoint, resourceId, payload)
       .pipe(
@@ -310,10 +310,10 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
           throw error;
         }),
       )
-      .subscribe(dynamicFormSettings => this._setupDynamicForm(dynamicFormSettings));
+      .subscribe(dynamicFormSettings => this.setupDynamicForm(dynamicFormSettings));
   }
 
-  private _setupDynamicFormFromSettings() {
+  private setupDynamicFormFromSettings() {
     const formattedSettings:IOPFormSettingsResource = {
       _embedded: {
         payload: this.settings!.payload,
@@ -322,10 +322,10 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     };
     const dynamicFormSettings = this._dynamicFormService.getSettings(formattedSettings);
 
-    this._setupDynamicForm(dynamicFormSettings);
+    this.setupDynamicForm(dynamicFormSettings);
   }
 
-  private _setupDynamicForm({ fields, model, form }:IOPDynamicFormSettings) {
+  private setupDynamicForm({ fields, model, form }:IOPDynamicFormSettings) {
     if (this.fieldsSettingsPipe) {
       fields = this.fieldsSettingsPipe(fields);
     }
@@ -335,7 +335,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     this.fields = fields;
-    this._innerModel = model;
+    this.innerModel = model;
     this.form = this.dynamicFormGroup || form;
 
     this._changeDetectorRef.detectChanges();

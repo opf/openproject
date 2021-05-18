@@ -121,9 +121,9 @@ export class DynamicFieldsService {
       name: fieldGroup.name,
       fieldsFilter: (field:IOPFormlyFieldSettings) => fieldGroup.attributes?.includes(field.templateOptions?.property!),
     }));
-    const fieldSchemas = this._getFieldsSchemasWithKey(formSchema);
+    const fieldSchemas = this.getFieldsSchemasWithKey(formSchema);
     const formlyFields = fieldSchemas
-      .map(fieldSchema => this._getFormlyFieldConfig(fieldSchema, formPayload))
+      .map(fieldSchema => this.getFormlyFieldConfig(fieldSchema, formPayload))
       .filter(f => f !== null) as IOPFormlyFieldSettings[];
     const formlyFormWithFieldGroups = this.getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
 
@@ -140,7 +140,7 @@ export class DynamicFieldsService {
     const model = {
       ...otherElementsModel,
       _meta: metaModel,
-      _links: this._getFormattedResourcesModel(resourcesModel),
+      _links: this.getFormattedResourcesModel(resourcesModel),
     };
 
     return model;
@@ -148,25 +148,25 @@ export class DynamicFieldsService {
 
   getFormlyFormWithFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
     const fomFieldsWithoutGroup = formFields.filter(formField => fieldGroups.every(fieldGroup => !fieldGroup.fieldsFilter || !fieldGroup.fieldsFilter(formField)));
-    const formFieldGroups = this._getDynamicFormFieldGroups(fieldGroups, formFields);
+    const formFieldGroups = this.getDynamicFormFieldGroups(fieldGroups, formFields);
 
     return [...fomFieldsWithoutGroup, ...formFieldGroups];
   }
 
-  private _getFieldsSchemasWithKey(formSchema:IOPFormSchema):IOPFieldSchemaWithKey[] {
+  private getFieldsSchemasWithKey(formSchema:IOPFormSchema):IOPFieldSchemaWithKey[] {
     return Object.keys(formSchema)
       .map(fieldSchemaKey => {
         const fieldSchema = {
           ...formSchema[fieldSchemaKey],
-          key: this._getAttributeKey(formSchema[fieldSchemaKey], fieldSchemaKey)
+          key: this.getAttributeKey(formSchema[fieldSchemaKey], fieldSchemaKey)
         };
 
         return fieldSchema;
       })
-      .filter(fieldSchema => this._isFieldSchema(fieldSchema) && fieldSchema.writable);
+      .filter(fieldSchema => this.isFieldSchema(fieldSchema) && fieldSchema.writable);
   }
 
-  private _getAttributeKey(fieldSchema:IOPFieldSchema, key:string):string {
+  private getAttributeKey(fieldSchema:IOPFieldSchema, key:string):string {
     switch (fieldSchema.location) {
       case "_links":
       case "_meta":
@@ -176,11 +176,11 @@ export class DynamicFieldsService {
     }
   }
 
-  private _isFieldSchema(schemaValue:IOPFieldSchemaWithKey|any):boolean {
+  private isFieldSchema(schemaValue:IOPFieldSchemaWithKey|any):boolean {
     return !!schemaValue?.type;
   }
 
-  private _getFormattedResourcesModel(resourcesModel:IOPFormModel['_links'] = {}):IOPFormModel['_links'] {
+  private getFormattedResourcesModel(resourcesModel:IOPFormModel['_links'] = {}):IOPFormModel['_links'] {
     return Object.keys(resourcesModel).reduce((result, resourceKey) => {
       const resource = resourcesModel[resourceKey];
       // ng-select needs a 'name' in order to show the label
@@ -201,15 +201,15 @@ export class DynamicFieldsService {
     }, {});
   }
 
-  private _getFormlyFieldConfig(fieldSchema:IOPFieldSchemaWithKey, formPayload:IOPFormModel):IOPFormlyFieldSettings|null {
+  private getFormlyFieldConfig(fieldSchema:IOPFieldSchemaWithKey, formPayload:IOPFormModel):IOPFormlyFieldSettings|null {
     const { key, name: label, required, hasDefault, minLength, maxLength } = fieldSchema;
-    const fieldTypeConfigSearch = this._getFieldTypeConfig(fieldSchema);
+    const fieldTypeConfigSearch = this.getFieldTypeConfig(fieldSchema);
     if (!fieldTypeConfigSearch) {
       return null;
     }
     const { templateOptions, ...fieldTypeConfig } = fieldTypeConfigSearch;
-    const fieldOptions = this._getFieldOptions(fieldSchema);
-    const property = this._getFieldProperty(key);
+    const fieldOptions = this.getFieldOptions(fieldSchema);
+    const property = this.getFieldProperty(key);
     const payloadValue = property && formPayload[property];
     const formlyFieldConfig = {
       ...fieldTypeConfig,
@@ -232,7 +232,7 @@ export class DynamicFieldsService {
     return formlyFieldConfig;
   }
 
-  private _getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
+  private getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
     const fieldType = field.type.replace('[]', '') as OPFieldType;
     let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
     if (!inputType) {
@@ -267,7 +267,7 @@ export class DynamicFieldsService {
     return { ...inputConfig, ...configCustomizations };
   }
 
-  private _getFieldOptions(field:IOPFieldSchemaWithKey) {
+  private getFieldOptions(field:IOPFieldSchemaWithKey) {
     const allowedValues = field._embedded?.allowedValues || field._links?.allowedValues;
 
     if (!allowedValues) {
@@ -276,7 +276,7 @@ export class DynamicFieldsService {
 
     if (Array.isArray(allowedValues)) {
       const options = allowedValues[0]?._links?.self?.title ?
-        this._formatAllowedValues(allowedValues) :
+        this.formatAllowedValues(allowedValues) :
         allowedValues;
 
       return of(options);
@@ -285,7 +285,7 @@ export class DynamicFieldsService {
         .get(allowedValues!.href!)
         .pipe(
           map((response:api.v3.Result) => response._embedded.elements),
-          map(options => this._formatAllowedValues(options)),
+          map(options => this.formatAllowedValues(options)),
         );
     }
 
@@ -294,18 +294,18 @@ export class DynamicFieldsService {
 
   // ng-select needs a 'name' in order to show the label
   // We need to add it in case of the form payload (HalLinkSource)
-  private _formatAllowedValues(options:IOPAllowedValue[]) {
+  private formatAllowedValues(options:IOPAllowedValue[]) {
     return options.map((option:IOPFieldSchema['options']) => ({ ...option, name: option._links?.self?.title }));
   }
 
   // Map a field key that may be a _links.property to the property name
-  private _getFieldProperty(key:string) {
+  private getFieldProperty(key:string) {
     return key.split('.').pop();
   }
 
-  private _getDynamicFormFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []) {
+  private getDynamicFormFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []) {
     return fieldGroups.reduce((formWithFieldGroups:IOPFormlyFieldSettings[], fieldGroup) => {
-      let newFormFieldGroup = this._getDefaultFieldGroupSettings(fieldGroup, formFields);
+      let newFormFieldGroup = this.getDefaultFieldGroupSettings(fieldGroup, formFields);
 
       if (fieldGroup.settings) {
         newFormFieldGroup = {
@@ -329,7 +329,7 @@ export class DynamicFieldsService {
     }, []);
   }
 
-  private _getDefaultFieldGroupSettings(fieldGroupConfig:IDynamicFieldGroupConfig, formFields:IOPFormlyFieldSettings[]): IOPFormlyFieldSettings {
+  private getDefaultFieldGroupSettings(fieldGroupConfig:IDynamicFieldGroupConfig, formFields:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings {
     const defaultFieldGroupSettings = {
       wrappers: ['op-dynamic-field-group-wrapper'],
       fieldGroupClassName: 'op-form-group',
@@ -339,38 +339,45 @@ export class DynamicFieldsService {
         collapsibleFieldGroups: true,
         collapsibleFieldGroupsCollapsed: true,
       },
-      fieldGroup: formFields.filter(formField => {
-        const formFieldKey = formField.key && this._getFieldProperty(formField.key);
-
-        if (!formFieldKey) {
-          return false;
-        } else if (fieldGroupConfig.fieldsFilter) {
-          return fieldGroupConfig.fieldsFilter(formField);
-        } else {
-          return true;
-        }
-      }),
+      fieldGroup: this.getGroupFields(fieldGroupConfig, formFields),
       expressionProperties: {
-        'templateOptions.collapsibleFieldGroupsCollapsed': (model:any, formState:any, field:FormlyFieldConfig) => {
-          // Uncollapse field groups when the form has errors and is submitted
-          if (
-            field.type !== 'formly-group' ||
-            !field.templateOptions?.collapsibleFieldGroups ||
-            !field.templateOptions?.collapsibleFieldGroupsCollapsed
-          ) {
-            return;
-          } else {
-            return !(
-              field.fieldGroup?.some((groupField: IOPFormlyFieldSettings) =>
-                groupField.formControl?.errors &&
-                !groupField.hide &&
-                field.options?.parentForm?.submitted
-              ));
-            }
-          },
-        }
-      };
+        'templateOptions.collapsibleFieldGroupsCollapsed': this.collapsibleFieldGroupsCollapsedExpressionProperty
+      }
+    };
 
     return defaultFieldGroupSettings;
   }
+
+  private getGroupFields(fieldGroupConfig:IDynamicFieldGroupConfig, formFields:IOPFormlyFieldSettings[]) {
+    return formFields.filter(formField => {
+      const formFieldKey = formField.key && this.getFieldProperty(formField.key);
+
+      if (!formFieldKey) {
+        return false;
+      } else if (fieldGroupConfig.fieldsFilter) {
+        return fieldGroupConfig.fieldsFilter(formField);
+      } else {
+        return true;
+      }
+    })
+  }
+
+  private collapsibleFieldGroupsCollapsedExpressionProperty(model:any, formState:any, field:FormlyFieldConfig) {
+    // Uncollapse field groups when the form has errors and is submitted
+    if (
+      field.type !== 'formly-group' ||
+      !field.templateOptions?.collapsibleFieldGroups ||
+      !field.templateOptions?.collapsibleFieldGroupsCollapsed
+    ) {
+      return;
+    } else {
+      return !(
+        field.fieldGroup?.some((groupField:IOPFormlyFieldSettings) =>
+          groupField.formControl?.errors &&
+          !groupField.hide &&
+          field.options?.parentForm?.submitted
+        ));
+    }
+  }
 }
+

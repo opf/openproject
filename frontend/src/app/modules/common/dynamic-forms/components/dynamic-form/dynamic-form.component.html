@@ -7,7 +7,7 @@
 >
   <formly-form
     [form]="form"
-    [model]="_innerModel"
+    [model]="innerModel"
     [fields]="fields"
     (modelChange)="onModelChange($event)"
     class="op-form--fieldset"
@@ -31,7 +31,7 @@
   class="op-form--fieldset"
   *ngIf="form && !handleSubmit"
   [form]="form"
-  [model]="_innerModel"
+  [model]="innerModel"
   [fields]="fields"
   (modelChange)="onModelChange($event)"
 ></formly-form>
