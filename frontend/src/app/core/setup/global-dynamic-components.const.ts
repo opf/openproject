@@ -129,7 +129,7 @@ import {
 import {
   TriggerActionsEntryComponent,
   triggerActionsEntryComponentSelector
-} from "core-app/modules/time_entries/edit/trigger-actions-entry.component";
+} from "core-app/shared/components/time_entries/edit/trigger-actions-entry.component";
 import {
   BacklogsPageComponent,
   backlogsPageComponentSelector

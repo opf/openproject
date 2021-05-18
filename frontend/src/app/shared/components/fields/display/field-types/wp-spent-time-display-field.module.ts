@@ -31,7 +31,7 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
-import { TimeEntryCreateService } from 'core-app/modules/time_entries/create/create.service';
+import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

@@ -14,7 +14,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageAuthorization } from 'core-components/work-packages/work-package-authorization.service';
 import { WorkPackageAction } from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { TimeEntryCreateService } from "core-app/modules/time_entries/create/create.service";
+import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
 
 @Directive({
   selector: '[wpSingleContextMenu]'

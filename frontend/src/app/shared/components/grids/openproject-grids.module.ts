@@ -63,7 +63,7 @@ import { WidgetSubprojectsComponent } from "core-app/shared/components/grids/wid
 import { OpenprojectAttachmentsModule } from "core-app/shared/components/attachments/openproject-attachments.module";
 import { WidgetMembersComponent } from "core-app/shared/components/grids/widgets/members/members.component";
 import { WidgetProjectStatusComponent } from "core-app/shared/components/grids/widgets/project-status/project-status.component";
-import { OpenprojectTimeEntriesModule } from "core-app/modules/time_entries/openproject-time-entries.module";
+import { OpenprojectTimeEntriesModule } from "core-app/shared/components/time_entries/openproject-time-entries.module";
 import { WidgetTimeEntriesCurrentUserMenuComponent } from "core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component";
 import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";

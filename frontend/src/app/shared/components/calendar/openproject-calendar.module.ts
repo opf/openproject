@@ -35,7 +35,7 @@ import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/op
 import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
 import { TimeEntryCalendarComponent } from "core-app/shared/components/calendar/te-calendar/te-calendar.component";
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
-import { OpenprojectTimeEntriesModule } from "core-app/modules/time_entries/openproject-time-entries.module";
+import { OpenprojectTimeEntriesModule } from "core-app/shared/components/time_entries/openproject-time-entries.module";
 
 const menuItemClass = 'calendar-menu-item';
 

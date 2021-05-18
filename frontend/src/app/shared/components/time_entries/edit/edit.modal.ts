@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { TimeEntryBaseModal } from "core-app/modules/time_entries/shared/modal/base.modal";
+import { TimeEntryBaseModal } from "core-app/shared/components/time_entries/shared/modal/base.modal";
 
 @Component({
   templateUrl: '../shared/modal/base.modal.html',

@@ -64,7 +64,7 @@ import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/wo
 import { WorkPackageViewHierarchyIdentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { TimeEntryCreateService } from "core-app/modules/time_entries/create/create.service";
+import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
 import { WorkPackageViewCollapsedGroupsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 /**

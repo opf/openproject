@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit } from "@angular/core";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.service";
+import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";

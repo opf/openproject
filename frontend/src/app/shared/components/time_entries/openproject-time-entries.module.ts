@@ -30,11 +30,11 @@ import { NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
-import { TimeEntryCreateModal } from "core-app/modules/time_entries/create/create.modal";
-import { TimeEntryEditModal } from "core-app/modules/time_entries/edit/edit.modal";
-import { TimeEntryFormComponent } from "core-app/modules/time_entries/form/form.component";
-import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.service";
-import { TriggerActionsEntryComponent } from "core-app/modules/time_entries/edit/trigger-actions-entry.component";
+import { TimeEntryCreateModal } from "core-app/shared/components/time_entries/create/create.modal";
+import { TimeEntryEditModal } from "core-app/shared/components/time_entries/edit/edit.modal";
+import { TimeEntryFormComponent } from "core-app/shared/components/time_entries/form/form.component";
+import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
+import { TriggerActionsEntryComponent } from "core-app/shared/components/time_entries/edit/trigger-actions-entry.component";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 
 @NgModule({
