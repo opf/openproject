@@ -21,7 +21,7 @@ import { DragAndDropTransformer } from "core-components/wp-fast-table/handlers/s
 import {
   WorkPackageViewEventHandler, WorkPackageViewOutputs,
   WorkPackageViewHandlerRegistry
-} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+} from "core-app/features/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 import { WorkPackageFocusContext } from "core-components/wp-table/wp-table.component";
 import { GroupFoldTransformer } from "core-components/wp-fast-table/handlers/state/group-fold-transformer";
 

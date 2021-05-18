@@ -1,6 +1,6 @@
 
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { WorkPackageViewGroupByService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { WorkPackageViewGroupByService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
 import { Component } from "@angular/core";
 import { ChartType } from 'chart.js';

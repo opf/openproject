@@ -5,7 +5,7 @@ import {
 } from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import { States } from "core-components/states.service";
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
 import { OpContextMenuHandler } from "core-components/op-context-menu/op-context-menu-handler";
 import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
@@ -16,7 +16,7 @@ import { WpDestroyModal } from "core-components/modals/wp-destroy-modal/wp-destr
 import { StateService } from "@uirouter/core";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
-import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import { splitViewRoute } from "core-app/features/work_packages/routing/split-view-routes.helper";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 

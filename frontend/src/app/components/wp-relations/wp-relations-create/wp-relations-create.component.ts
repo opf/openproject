@@ -4,7 +4,7 @@ import { WorkPackageRelationsService } from '../wp-relations.service';
 import { Component, Input } from "@angular/core";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-relations-create',

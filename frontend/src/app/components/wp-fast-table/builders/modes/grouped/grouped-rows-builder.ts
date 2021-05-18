@@ -8,12 +8,12 @@ import { GroupHeaderBuilder } from './group-header-builder';
 import { GroupedRenderPass } from './grouped-render-pass';
 import { groupedRowClassName, groupIdentifier } from './grouped-rows-helpers';
 import { GroupObject } from 'core-app/core/hal/resources/wp-collection-resource';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import {
   collapsedRowClass,
   rowGroupClassName
 } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class GroupedRowsBuilder extends RowsBuilder {

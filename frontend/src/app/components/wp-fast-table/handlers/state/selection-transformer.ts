@@ -1,16 +1,16 @@
 import { Injector } from '@angular/core';
-import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { takeUntil } from 'rxjs/operators';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { checkedClassName } from '../../builders/ui-state-link-builder';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import {
   WorkPackageViewSelectionService,
   WorkPackageViewSelectionState
-} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+} from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class SelectionTransformer {

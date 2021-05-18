@@ -4,13 +4,13 @@ import { locateTableRowByIdentifier } from 'core-components/wp-fast-table/helper
 import { debugLog } from '../../../../shared/helpers/debug_output';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
-import { WorkPackageViewColumnsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { CellBuilder, tdClassName } from '../cell-builder';
 import { RelationCellbuilder } from '../relation-cell-builder';
 import { checkedClassName } from '../ui-state-link-builder';
 import { TableActionRenderer } from 'core-components/wp-fast-table/builders/table-action-renderer';
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {
   internalContextMenuColumn,
   internalSortColumn

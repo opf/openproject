@@ -5,7 +5,7 @@ import {
   QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from 'core-app/core/hal/resources/query-sort-by-resource';
-import { WorkPackageViewSortByService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { WorkPackageViewSortByService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 
 export class SortModalObject {

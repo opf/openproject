@@ -38,7 +38,7 @@ import {
   OnInit, Output
 } from '@angular/core';
 import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
-import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { filter } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
@@ -49,11 +49,11 @@ import {
   InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from './inline-create-row-builder';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { Subscription } from 'rxjs';
-import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

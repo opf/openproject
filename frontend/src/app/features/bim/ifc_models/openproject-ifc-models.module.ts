@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import { NgModule } from "@angular/core";
-import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
+import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
 import { UIRouterModule } from '@uirouter/angular';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { IFCViewerComponent } from './ifc-viewer/ifc-viewer.component';

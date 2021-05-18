@@ -9,8 +9,8 @@ import {
 } from '../wp-fast-table/builders/rows/single-row-builder';
 import { rowId } from '../wp-fast-table/helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { QueryColumn } from "core-components/wp-query/query-column";
 import { tdClassName } from "core-components/wp-fast-table/builders/cell-builder";
 import { internalContextMenuColumn } from "core-components/wp-fast-table/builders/internal-sort-columns";

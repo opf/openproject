@@ -32,7 +32,7 @@ import { WorkPackageTimelineTableController } from '../container/wp-timeline-con
 import { RenderInfo } from '../wp-timeline';
 import { TimelineCellRenderer } from './timeline-cell-renderer';
 import { WorkPackageCellLabels } from './wp-timeline-cell';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
@@ -40,7 +40,7 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import Moment = moment.Moment;
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { take } from "rxjs/operators";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

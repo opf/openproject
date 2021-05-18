@@ -12,14 +12,14 @@ import { checkedClassName, uiStateLinkClass } from "core-components/wp-fast-tabl
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { StateService } from "@uirouter/core";
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { CardHighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { CardViewOrientation } from "core-components/wp-card-view/wp-card-view.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { WorkPackageViewFocusService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import { WorkPackageViewFocusService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import { splitViewRoute } from "core-app/features/work_packages/routing/split-view-routes.helper";
 
 @Component({
   selector: 'wp-single-card',

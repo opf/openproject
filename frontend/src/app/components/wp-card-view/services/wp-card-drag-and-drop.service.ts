@@ -1,6 +1,6 @@
 import { Injectable, Injector, Optional } from '@angular/core';
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
-import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
+import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { States } from "core-components/states.service";
 import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
@@ -9,7 +9,7 @@ import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-a
 import { DragAndDropHelpers } from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()

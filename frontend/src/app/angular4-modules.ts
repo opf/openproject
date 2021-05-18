@@ -49,12 +49,12 @@ import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct
 import { LinkedPluginsModule } from "core-app/modules/plugins/linked-plugins.module";
 import { HookService } from "core-app/modules/plugins/hook-service";
 import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
-import { OpenprojectWorkPackagesModule } from 'core-app/modules/work_packages/openproject-work-packages.module';
+import { OpenprojectWorkPackagesModule } from 'core-app/features/work_packages/openproject-work-packages.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
 import { OpenprojectRouterModule } from "core-app/core/routing/openproject-router.module";
-import { OpenprojectWorkPackageRoutesModule } from "core-app/modules/work_packages/openproject-work-package-routes.module";
+import { OpenprojectWorkPackageRoutesModule } from "core-app/features/work_packages/openproject-work-package-routes.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";
 import { OpenprojectGlobalSearchModule } from "core-app/core/global_search/openproject-global-search.module";

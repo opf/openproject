@@ -41,7 +41,7 @@ import { filter } from "rxjs/operators";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { GroupDescriptor } from "core-components/work-packages/wp-single-view/wp-single-view.component";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 
 @Component({
   selector: 'wp-relation-query',

@@ -37,7 +37,7 @@ import { LoadingIndicatorService } from "core-app/modules/common/loading-indicat
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 

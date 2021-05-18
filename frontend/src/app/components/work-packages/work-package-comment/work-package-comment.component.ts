@@ -49,7 +49,7 @@ import { ConfigurationService } from "core-app/modules/common/config/configurati
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({

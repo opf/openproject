@@ -12,7 +12,7 @@ import {
   ViewChild
 } from "@angular/core";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { QueryColumn } from "app/components/wp-query/query-column";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
@@ -23,20 +23,20 @@ import { CardHighlightingMode } from "core-components/wp-fast-table/builders/hig
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
 import { StateService } from "@uirouter/core";
 import { States } from "core-components/states.service";
-import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
+import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { CardViewHandlerRegistry } from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
 import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { DeviceService } from "core-app/modules/common/browser/device.service";
 import {
   WorkPackageViewHandlerToken,
   WorkPackageViewOutputs
-} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+} from "core-app/features/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";

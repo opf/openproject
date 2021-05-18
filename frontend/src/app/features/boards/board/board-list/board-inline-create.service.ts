@@ -30,7 +30,7 @@ import { Injectable, Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { BoardInlineAddAutocompleterComponent } from "core-app/features/boards/board/inline-add/board-inline-add-autocompleter.component";

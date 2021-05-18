@@ -35,7 +35,7 @@ import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/o
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
+import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
 import { WidgetWpCalendarComponent } from "core-app/shared/components/grids/widgets/wp-calendar/wp-calendar.component";
 import { WidgetTimeEntriesCurrentUserComponent } from "core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user.component";
 import { GridWidgetsService } from "core-app/shared/components/grids/widgets/widgets.service";

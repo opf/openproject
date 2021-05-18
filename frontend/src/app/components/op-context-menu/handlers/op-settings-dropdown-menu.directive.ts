@@ -40,7 +40,7 @@ import { WpTableExportModal } from "core-components/modals/export-modal/wp-table
 import { SaveQueryModal } from "core-components/modals/save-modal/save-query.modal";
 import { QuerySharingModal } from "core-components/modals/share-modal/query-sharing.modal";
 import { WpTableConfigurationModalComponent } from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import {
   selectableTitleIdentifier,
   triggerEditingEvent

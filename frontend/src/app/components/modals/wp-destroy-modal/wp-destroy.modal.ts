@@ -33,12 +33,12 @@ import { OpModalComponent } from "core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageService } from "core-components/work-packages/work-package.service";
 import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './wp-destroy.modal.html'

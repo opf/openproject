@@ -32,7 +32,7 @@ import { AuthorisationService } from 'core-app/modules/common/model-auth/model-a
 import { OpContextMenuTrigger } from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-components/op-context-menu/op-context-menu.service';
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { BoardListComponent } from "core-app/features/boards/board/board-list/board-list.component";
 

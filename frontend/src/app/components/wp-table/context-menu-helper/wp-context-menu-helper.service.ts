@@ -30,9 +30,9 @@ import { Injectable } from "@angular/core";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 import { HookService } from "core-app/modules/plugins/hook-service";
-import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { WorkPackageViewHierarchyIdentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
-import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
+import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 export type WorkPackageAction = {
   text:string;

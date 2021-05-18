@@ -1,10 +1,10 @@
 
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import { WorkPackageViewGroupByService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { WorkPackageViewGroupByService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
-import { WorkPackageViewHierarchiesService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { WorkPackageViewSumService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewSumService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import { Component, Injector } from "@angular/core";
 
 @Component({

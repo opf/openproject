@@ -1,6 +1,6 @@
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { TableDragActionService } from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageViewGroupByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { rowGroupClassName } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";

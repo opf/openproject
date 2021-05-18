@@ -35,7 +35,7 @@ import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.ser
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
 import { StateService } from '@uirouter/core';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
@@ -46,7 +46,7 @@ import { catchError, mergeMap, share, switchMap, take } from "rxjs/operators";
 import {
   PaginationUpdateObject,
   WorkPackageViewPaginationService
-} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+} from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 import { PaginationService } from "core-components/table-pagination/pagination-service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

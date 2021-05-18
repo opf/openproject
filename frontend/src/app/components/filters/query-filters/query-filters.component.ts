@@ -34,7 +34,7 @@ import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-ev
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { BannersService } from "core-app/modules/common/enterprise/banners.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
-import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { WorkPackageFiltersService } from "core-components/filters/wp-filters/wp-filters.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";

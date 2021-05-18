@@ -3,7 +3,7 @@ import {
   DynamicComponentDefinition,
   ToolbarButtonComponentDefinition,
   ViewPartitionState
-} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
+} from "core-app/features/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import { StateService, TransitionService } from "@uirouter/core";
 import { BoardFilterComponent } from "core-app/features/boards/board/board-filter/board-filter.component";
 import { Board } from "core-app/features/boards/board/board";
@@ -30,9 +30,9 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 }
 
 @Component({
-  templateUrl: '../../../../modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: '../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
-    '../../../../modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
+    '../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
     './board-partitioned-page.component.sass'
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

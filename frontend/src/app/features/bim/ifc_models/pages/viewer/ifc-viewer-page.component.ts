@@ -3,7 +3,7 @@ import { GonService } from "core-app/modules/common/gon/gon.service";
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition
-} from "core-app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
+} from "core-app/features/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import { WorkPackageFilterButtonComponent } from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import { ZenModeButtonComponent } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {
@@ -25,9 +25,9 @@ import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
-  templateUrl: '../../../../../modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: '../../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
-    '../../../../../modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
+    '../../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
     './styles/generic.sass'
   ],
   encapsulation: ViewEncapsulation.None,

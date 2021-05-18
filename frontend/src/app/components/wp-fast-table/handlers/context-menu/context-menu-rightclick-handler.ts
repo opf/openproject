@@ -5,7 +5,7 @@ import { timelineCellClassName } from '../../builders/timeline/timeline-row-buil
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { ContextMenuHandler } from './context-menu-handler';
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TableEventComponent } from "core-components/wp-fast-table/handlers/table-handler-registry";
 

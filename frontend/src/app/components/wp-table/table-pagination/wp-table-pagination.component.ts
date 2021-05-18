@@ -30,10 +30,10 @@ import { TablePaginationComponent } from 'core-components/table-pagination/table
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { IPaginationOptions, PaginationService } from 'core-components/table-pagination/pagination-service';
-import { WorkPackageViewPaginationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import { WorkPackageViewPagination } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
-import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { WorkPackageViewPaginationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+import { WorkPackageViewPagination } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
+import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { combineLatest } from 'rxjs';
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 

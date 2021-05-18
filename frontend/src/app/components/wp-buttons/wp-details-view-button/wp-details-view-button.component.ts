@@ -28,7 +28,7 @@
 
 import { KeepTabService } from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { States } from '../../states.service';
-import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { StateService, TransitionService } from '@uirouter/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { AbstractWorkPackageButtonComponent } from 'core-components/wp-buttons/wp-buttons.module';

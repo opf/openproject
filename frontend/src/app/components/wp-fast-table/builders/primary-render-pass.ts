@@ -11,7 +11,7 @@ import { SingleRowBuilder } from './rows/single-row-builder';
 import { TimelineRenderPass } from './timeline/timeline-render-pass';
 import { HighlightingRenderPass } from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
 import { DragDropHandleRenderPass } from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
-import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import { RenderedWorkPackage } from "core-app/features/work_packages/render-info/rendered-work-package.type";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export type RenderedRowType = 'primary'|'relations';

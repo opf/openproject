@@ -27,7 +27,7 @@
 //++
 
 import { Component, ElementRef, Injector, OnInit } from '@angular/core';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { State } from 'reactivestates';
 import { combineLatest } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -37,7 +37,7 @@ import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { timelineElementCssClass, TimelineViewParameters } from '../wp-timeline';
 import { TimelineRelationElement, workPackagePrefix } from './timeline-relation-element';
-import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 

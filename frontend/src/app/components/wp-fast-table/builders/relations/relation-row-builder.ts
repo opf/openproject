@@ -7,7 +7,7 @@ import { WorkPackageTable } from '../../wp-fast-table';
 import { tdClassName } from '../cell-builder';
 import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { RelationColumnType } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+import { RelationColumnType } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export function relationGroupClass(workPackageId:string) {

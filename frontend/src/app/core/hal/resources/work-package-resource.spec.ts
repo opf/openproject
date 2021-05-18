@@ -42,7 +42,7 @@ import { ConfigurationService } from 'core-app/modules/common/config/configurati
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { StateService } from "@uirouter/core";
 import { WorkPackageCreateService } from 'core-components/wp-new/wp-create.service';
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

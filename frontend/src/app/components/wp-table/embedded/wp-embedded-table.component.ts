@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { WorkPackageViewTimelineService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { WorkPackageViewPaginationService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewPaginationService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { OpTableActionFactory } from 'core-components/wp-table/table-actions/table-action';
 import { OpTableActionsService } from 'core-components/wp-table/table-actions/table-actions.service';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';

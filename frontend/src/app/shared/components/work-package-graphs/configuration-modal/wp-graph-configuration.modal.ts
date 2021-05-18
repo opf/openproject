@@ -27,7 +27,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { ComponentType } from "@angular/cdk/portal";
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import { WpGraphConfiguration } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 

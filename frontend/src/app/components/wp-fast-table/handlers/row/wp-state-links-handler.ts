@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { States } from '../../../states.service';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
@@ -8,7 +8,7 @@ import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { StateService } from '@uirouter/core';
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {

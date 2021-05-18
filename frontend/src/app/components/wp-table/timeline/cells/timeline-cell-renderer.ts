@@ -28,7 +28,7 @@ import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HierarchyRenderPass } from "core-components/wp-fast-table/builders/modes/hierarchy/hierarchy-render-pass";
 import Moment = moment.Moment;
-import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";

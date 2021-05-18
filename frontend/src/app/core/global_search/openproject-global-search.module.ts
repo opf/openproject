@@ -28,7 +28,7 @@
 
 import { NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
+import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
 import { GlobalSearchInputComponent } from "core-app/core/global_search/input/global-search-input.component";
 import { GlobalSearchWorkPackagesComponent } from "core-app/core/global_search/global-search-work-packages.component";
 import { GlobalSearchTabsComponent } from "core-app/core/global_search/tabs/global-search-tabs.component";

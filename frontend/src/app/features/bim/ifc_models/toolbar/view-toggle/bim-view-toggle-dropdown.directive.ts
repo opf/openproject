@@ -43,7 +43,7 @@ import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
   wpDisplayListRepresentation,
-} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+} from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 @Directive({
   selector: '[bimViewDropdown]'

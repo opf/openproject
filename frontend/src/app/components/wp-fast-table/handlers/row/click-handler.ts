@@ -1,13 +1,13 @@
 import { Injector } from '@angular/core';
 import { StateService } from '@uirouter/core';
-import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { debugLog } from '../../../../shared/helpers/debug_output';
 import { States } from '../../../states.service';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { displayClassName } from "core-app/shared/components/fields/display/display-field-renderer";
 import { activeFieldClassName } from "core-app/shared/components/fields/edit/edit-form/edit-form";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

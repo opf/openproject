@@ -38,7 +38,7 @@ import {
 } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { filter } from "rxjs/operators";
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { FormResource } from "core-app/core/hal/resources/form-resource";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";

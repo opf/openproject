@@ -41,7 +41,7 @@ import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { TableEventComponent, TableHandlerRegistry } from 'core-components/wp-fast-table/handlers/table-handler-registry';
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { combineLatest } from 'rxjs';
 import { States } from '../states.service';
 import {
@@ -49,18 +49,18 @@ import {
   WorkPackageTableConfigurationObject
 } from 'core-app/components/wp-table/wp-table-configuration';
 import { QueryColumn } from 'core-components/wp-query/query-column';
-import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
-import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewGroupByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { createScrollSync } from "core-components/wp-table/wp-table-scroll-sync";
 import { WpTableHoverSync } from "core-components/wp-table/wp-table-hover-sync";
 import { WorkPackageTimelineTableController } from "core-components/wp-table/timeline/container/wp-timeline-container.directive";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
-import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import {WorkPackageViewSumService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
+import {WorkPackageViewSumService} from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sum.service";
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */

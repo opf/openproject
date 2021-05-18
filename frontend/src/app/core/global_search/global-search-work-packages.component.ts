@@ -34,8 +34,8 @@ import { GlobalSearchService } from "core-app/core/global_search/services/global
 import { WorkPackageFiltersService } from "core-components/filters/wp-filters/wp-filters.service";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { WorkPackageTableConfigurationObject } from "core-components/wp-table/wp-table-configuration";
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
-import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { debounceTime, distinctUntilChanged, skip } from "rxjs/operators";
 import { combineLatest } from "rxjs";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

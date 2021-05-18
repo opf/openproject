@@ -10,10 +10,10 @@ import {
 } from "@angular/core";
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { States } from "core-components/states.service";
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
-import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import * as moment from "moment";
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
 import { StateService } from "@uirouter/core";

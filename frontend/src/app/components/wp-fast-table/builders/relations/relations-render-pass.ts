@@ -6,11 +6,11 @@ import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
 import { QueryColumn } from 'core-components/wp-query/query-column';
 import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
-import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import {
   RelationColumnType,
   WorkPackageViewRelationColumnsService
-} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+} from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export interface RelationRenderInfo extends RowRenderInfo {

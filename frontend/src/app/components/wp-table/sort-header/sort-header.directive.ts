@@ -31,10 +31,10 @@ import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { RelationQueryColumn, TypeRelationQueryColumn } from 'core-components/wp-query/query-column';
 import { WorkPackageTable } from 'core-components/wp-fast-table/wp-fast-table';
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/core/hal/resources/query-sort-by-resource';
-import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import { WorkPackageViewRelationColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+import { WorkPackageViewHierarchiesService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { WorkPackageViewGroupByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageViewRelationColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { combineLatest } from "rxjs";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 

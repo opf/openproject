@@ -32,7 +32,7 @@ import { StateService } from '@uirouter/core';
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
-import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()

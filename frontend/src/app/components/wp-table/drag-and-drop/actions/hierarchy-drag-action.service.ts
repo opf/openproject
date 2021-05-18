@@ -1,6 +1,6 @@
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { TableDragActionService } from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageViewHierarchiesService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {
   hierarchyGroupClass,

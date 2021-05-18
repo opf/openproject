@@ -30,7 +30,7 @@ import { AbstractWorkPackageButtonComponent } from 'core-components/wp-buttons/w
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
-import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 
 @Component({

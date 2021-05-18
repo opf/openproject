@@ -21,7 +21,7 @@ import { BoardInlineCreateService } from "core-app/features/boards/board/board-l
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Board } from "core-app/features/boards/board/board";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
@@ -43,8 +43,8 @@ import { WorkPackageChangeset } from "core-components/wp-edit/work-package-chang
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { BoardFiltersService } from "core-app/features/boards/board/board-filter/board-filters.service";
 import { StateService, TransitionService } from "@uirouter/core";
-import { WorkPackageViewFocusService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewFocusService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { BoardListCrossSelectionService } from "core-app/features/boards/board/board-list/board-list-cross-selection.service";
 import { debounceTime, filter, map, retry } from "rxjs/operators";
 import { HalEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";

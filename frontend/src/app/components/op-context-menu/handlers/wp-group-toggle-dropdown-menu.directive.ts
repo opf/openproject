@@ -34,9 +34,9 @@ import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
   wpDisplayListRepresentation
-} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { WorkPackageViewCollapsedGroupsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
+} from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 @Directive({
   selector: '[wpGroupToggleDropdown]'

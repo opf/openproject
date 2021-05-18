@@ -1,4 +1,4 @@
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { Injector } from "@angular/core";
 

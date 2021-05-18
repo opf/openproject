@@ -1,8 +1,8 @@
 import { Injector } from '@angular/core';
 import { CardEventHandler } from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
-import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { WorkPackageViewFocusService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewFocusService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
 import { StateService } from "@uirouter/core";
 import { DeviceService } from "core-app/modules/common/browser/device.service";

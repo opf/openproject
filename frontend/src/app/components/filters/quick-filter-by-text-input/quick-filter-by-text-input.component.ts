@@ -28,10 +28,10 @@
 
 import { Component, EventEmitter, Output } from '@angular/core';
 import { I18nService } from "app/modules/common/i18n/i18n.service";
-import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, map, tap } from "rxjs/operators";
-import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { input } from "reactivestates";
 import { QueryFilterResource } from "core-app/core/hal/resources/query-filter-resource";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
