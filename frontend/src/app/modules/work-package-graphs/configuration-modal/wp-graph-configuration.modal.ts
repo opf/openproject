@@ -1,5 +1,6 @@
 import {
   ApplicationRef,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
@@ -33,6 +34,7 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
 
 @Component({
   templateUrl: '../../../components/wp-table/configuration-modal/wp-table-configuration.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
 
@@ -87,8 +89,10 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
           this.injector
         );
 
-        const initialTab = this.locals['initialTab'] || this.availableTabs[0].name;
-        this.switchTo(initialTab);
+        const initialTabName = this.locals['initialTab'];
+        const initialTab = this.availableTabs.find(el => el.id === initialTabName);
+        this.cdRef.markForCheck();
+        this.switchTo(initialTab || this.availableTabs[0]);
       });
   }
 
