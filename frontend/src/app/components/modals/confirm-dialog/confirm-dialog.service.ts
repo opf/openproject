@@ -27,7 +27,7 @@
 //++
 
 import { ConfirmDialogModal, ConfirmDialogOptions } from "core-components/modals/confirm-dialog/confirm-dialog.modal";
-import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { Injectable, Injector } from "@angular/core";
 
 @Injectable()

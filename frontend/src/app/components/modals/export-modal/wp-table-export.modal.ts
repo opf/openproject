@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
-import { OpModalComponent } from 'core-app/modules/modal/modal.component';
-import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { WorkPackageViewColumnsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";

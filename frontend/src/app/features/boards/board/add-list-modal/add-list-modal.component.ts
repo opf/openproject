@@ -27,9 +27,9 @@
 //++
 
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
-import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
-import { OpModalComponent } from "core-app/modules/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { Board } from "core-app/features/boards/board/board";
 import { StateService } from "@uirouter/core";

@@ -27,9 +27,9 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
-import { OpModalComponent } from 'core-app/modules/modal/modal.component';
-import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ComponentType } from "@angular/cdk/portal";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

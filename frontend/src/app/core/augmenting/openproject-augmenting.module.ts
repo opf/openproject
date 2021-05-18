@@ -27,8 +27,8 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
-import { OpModalWrapperAugmentService } from "core-app/modules/modal/modal-wrapper-augment.service";
+import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
+import { OpModalWrapperAugmentService } from "core-app/shared/components/modal/modal-wrapper-augment.service";
 import { PathScriptAugmentService } from "core-app/core/augmenting/services/path-script.augment.service";
 
 @NgModule({

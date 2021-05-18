@@ -36,7 +36,7 @@ import { UrlParamsHelperService } from "core-components/wp-query/url-params-help
 import { StateService } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { WpTableExportModal } from "core-components/modals/export-modal/wp-table-export.modal";
-import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 
 @Component({
   template: `

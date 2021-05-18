@@ -30,9 +30,9 @@ import { ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@an
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { OpModalComponent } from "core-app/modules/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { QuerySharingChange } from "core-components/modals/share-modal/query-sharing-form.component";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";

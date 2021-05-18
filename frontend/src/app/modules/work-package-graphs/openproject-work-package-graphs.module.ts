@@ -28,7 +28,7 @@
 
 import { NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
-import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
 import { WpGraphConfigurationModalComponent } from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
 import { WpGraphConfigurationFiltersTab } from "core-app/modules/work-package-graphs/configuration-modal/tabs/filters-tab.component";

@@ -28,8 +28,8 @@
 
 import { Injector, EventEmitter, Output, Directive } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { OpModalService } from "core-app/modules/modal/modal.service";
-import { OpModalComponent } from "core-app/modules/modal/modal.component";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
 import { ComponentType } from '@angular/cdk/portal';
 import { WidgetAbstractMenuComponent } from "core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component";

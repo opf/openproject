@@ -12,9 +12,9 @@ import {
   Optional,
   ViewChild
 } from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
-import { OpModalComponent } from 'core-app/modules/modal/modal.component';
-import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import {
   ActiveTabInterface,

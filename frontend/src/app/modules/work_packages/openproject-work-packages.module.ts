@@ -29,7 +29,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
-import { OpenprojectModalModule } from 'core-app/modules/modal/modal.module';
+import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import {
   GroupDescriptor,
   WorkPackageSingleViewComponent

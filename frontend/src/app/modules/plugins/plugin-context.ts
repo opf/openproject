@@ -6,7 +6,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { ExternalQueryConfigurationService } from "core-components/wp-table/external-configuration/external-query-configuration.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PasswordConfirmationModal } from "../../components/modals/request-for-confirmation/password-confirmation.modal";
-import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { DynamicContentModal } from "../../components/modals/modal-wrapper/dynamic-content.modal";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

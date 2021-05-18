@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { TextFieldModule } from '@angular/cdk/text-field'; 
 import { NgSelectModule } from "@ng-select/ng-select";
-import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynamic-forms.module";
 import { OpInviteUserModalAugmentService } from "core-app/features/invite-user-modal/invite-user-modal-augment.service";

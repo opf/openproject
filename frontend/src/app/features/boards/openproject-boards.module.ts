@@ -29,7 +29,7 @@
 import { NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
-import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { UIRouterModule } from "@uirouter/angular";
 import { BoardListComponent } from "core-app/features/boards/board/board-list/board-list.component";
 import { BoardsRootComponent } from "core-app/features/boards/boards-root/boards-root.component";

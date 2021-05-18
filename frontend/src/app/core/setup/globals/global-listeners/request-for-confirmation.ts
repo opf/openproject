@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { PasswordConfirmationModal } from "core-components/modals/request-for-confirmation/password-confirmation.modal";
 
 function registerListener(

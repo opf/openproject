@@ -28,7 +28,7 @@
 
 import { NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
-import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
 import { DisplayJobPageComponent } from "core-app/features/job-status/display-job-page/display-job-page.component";
 import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";

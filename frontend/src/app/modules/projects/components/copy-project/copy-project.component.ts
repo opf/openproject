@@ -11,7 +11,7 @@ import {
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
 import {JobStatusModal} from "core-app/features/job-status/job-status-modal/job-status.modal";
-import {OpModalService} from "core-app/modules/modal/modal.service";
+import {OpModalService} from "core-app/shared/components/modal/modal.service";
 
 @Component({
   selector: 'op-copy-project',

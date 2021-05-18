@@ -36,7 +36,7 @@ import {
   OnInit
 } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { OpModalService } from 'core-app/modules/modal/modal.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
 import { AttributeHelpTextModal } from "./attribute-help-text.modal";
 

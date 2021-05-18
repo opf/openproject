@@ -11,7 +11,7 @@ import { OpContextMenuHandler } from "core-components/op-context-menu/op-context
 import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
 import { OpContextMenuItem, OpContextMenuLocalsMap } from "core-components/op-context-menu/op-context-menu.types";
 import { PERMITTED_CONTEXT_MENU_ACTIONS } from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
-import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { WpDestroyModal } from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import { StateService } from "@uirouter/core";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

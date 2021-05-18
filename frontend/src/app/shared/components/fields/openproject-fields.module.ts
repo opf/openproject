@@ -29,7 +29,7 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { OpenprojectAccessibilityModule } from "core-app/shared/directives/a11y/openproject-a11y.module";
-import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectAttachmentsModule } from "core-app/shared/components/attachments/openproject-attachments.module";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";

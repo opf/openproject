@@ -31,7 +31,7 @@ import * as moment from "moment";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 
 @Component({
   template: `

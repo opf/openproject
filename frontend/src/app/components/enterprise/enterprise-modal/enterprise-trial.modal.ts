@@ -29,9 +29,9 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { FormControl, FormGroup } from "@angular/forms";
-import { OpModalComponent } from "core-app/modules/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
+import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { I18nService } from "app/modules/common/i18n/i18n.service";
 import { EETrialFormComponent } from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
 import { EnterpriseTrialService } from "core-components/enterprise/enterprise-trial.service";

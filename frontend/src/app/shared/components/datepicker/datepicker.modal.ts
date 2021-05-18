@@ -39,9 +39,9 @@ import {
 } from "@angular/core";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { OpModalComponent } from "core-app/modules/modal/modal.component";
-import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
-import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
+import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { DatePicker } from "core-app/modules/common/op-date-picker/datepicker";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";

@@ -9,7 +9,7 @@ import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {JobStatusModal} from "core-app/features/job-status/job-status-modal/job-status.modal";
-import {OpModalService} from "core-app/modules/modal/modal.service";
+import {OpModalService} from "core-app/shared/components/modal/modal.service";
 import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";

@@ -1,5 +1,5 @@
 import { Injectable, Injector } from "@angular/core";
-import { OpModalService } from "core-app/modules/modal/modal.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { AddGridWidgetModal } from "core-app/shared/components/grids/widgets/add/add.modal";
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
 import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
