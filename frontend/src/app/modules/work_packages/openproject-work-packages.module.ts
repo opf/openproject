@@ -168,7 +168,7 @@ import { WorkPackageSettingsButtonComponent } from "core-components/wp-buttons/w
 import { BackButtonComponent } from "core-app/modules/common/back-routing/back-button.component";
 import { WorkPackagesTableComponent } from "core-components/wp-table/wp-table.component";
 import { WorkPackageGroupToggleDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
-import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
+import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
 import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-controls/edit-field-controls.module";
 import { DatePickerModal } from "core-app/shared/components/datepicker/datepicker.modal";

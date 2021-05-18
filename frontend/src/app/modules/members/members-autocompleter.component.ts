@@ -7,12 +7,12 @@ import { PathHelperService } from "core-app/modules/common/path-helper/path-help
 import {
   UserAutocompleteItem,
   UserAutocompleterComponent,
-} from "core-app/modules/autocompleter/user-autocompleter/user-autocompleter.component";
+} from "core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component";
 
 export const membersAutocompleterSelector = 'members-autocompleter';
 
 @Component({
-  templateUrl: '../autocompleter/user-autocompleter/user-autocompleter.component.html',
+  templateUrl: '../../shared/components/autocompleter/user-autocompleter/user-autocompleter.component.html',
   selector: membersAutocompleterSelector
 })
 export class MembersAutocompleterComponent extends UserAutocompleterComponent {

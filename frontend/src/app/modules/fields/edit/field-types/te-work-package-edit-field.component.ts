@@ -34,7 +34,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import {
   TimeEntryWorkPackageAutocompleterComponent,
   TimeEntryWorkPackageAutocompleterMode
-} from "core-app/modules/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component";
+} from "core-app/shared/components/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;

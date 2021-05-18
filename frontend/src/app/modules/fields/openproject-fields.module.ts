@@ -53,7 +53,7 @@ import { AttributeValueMacroComponent } from "core-app/modules/fields/macros/att
 import { AttributeLabelMacroComponent } from "core-app/modules/fields/macros/attribute-label-macro.component";
 import { WorkPackageQuickinfoMacroComponent } from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
 import { DisplayFieldComponent } from "core-app/modules/fields/display/display-field.component";
-import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
+import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 import { BooleanEditFieldModule } from "core-app/modules/fields/edit/field-types/boolean-edit-field/boolean-edit-field.module";
 import { IntegerEditFieldModule } from "core-app/modules/fields/edit/field-types/integer-edit-field/integer-edit-field.module";
 import { TextEditFieldModule } from "core-app/modules/fields/edit/field-types/text-edit-field/text-edit-field.module";

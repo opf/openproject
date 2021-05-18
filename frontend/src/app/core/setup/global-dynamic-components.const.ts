@@ -16,7 +16,7 @@ import { AttachmentsComponent, attachmentsSelector } from "core-app/shared/compo
 import {
   UserAutocompleterComponent,
   usersAutocompleterSelector
-} from "core-app/modules/autocompleter/user-autocompleter/user-autocompleter.component";
+} from "core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component";
 import {
   GlobalSearchWorkPackagesComponent,
   globalSearchWorkPackagesSelector
@@ -66,7 +66,7 @@ import {
 import {
   AutocompleteSelectDecorationComponent,
   autocompleteSelectDecorationSelector
-} from "core-app/modules/autocompleter/autocomplete-select-decoration/autocomplete-select-decoration.component";
+} from "core-app/shared/components/autocompleter/autocomplete-select-decoration/autocomplete-select-decoration.component";
 import {
   ContentTabsComponent,
   contentTabsSelector

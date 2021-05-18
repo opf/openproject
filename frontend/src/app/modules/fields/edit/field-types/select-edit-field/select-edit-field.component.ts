@@ -37,7 +37,7 @@ import { map, tap } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PermissionsService } from 'core-app/core/permissions/permissions.service';
-import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
+import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import { StateService } from "@uirouter/core";
 

@@ -43,8 +43,8 @@ import { ProjectStatusEditFieldComponent } from "core-app/modules/fields/edit/fi
 import { PlainFormattableEditFieldComponent } from "core-app/modules/fields/edit/field-types/plain-formattable-edit-field.component";
 import { TimeEntryWorkPackageEditFieldComponent } from "core-app/modules/fields/edit/field-types/te-work-package-edit-field.component";
 import { CombinedDateEditFieldComponent } from "core-app/modules/fields/edit/field-types/combined-date-edit-field.component";
-import { VersionAutocompleterComponent } from "core-app/modules/autocompleter/version-autocompleter/version-autocompleter.component";
-import { WorkPackageAutocompleterComponent } from "core-app/modules/autocompleter/work-package-autocompleter/wp-autocompleter.component";
+import { VersionAutocompleterComponent } from "core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component";
+import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
 
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {

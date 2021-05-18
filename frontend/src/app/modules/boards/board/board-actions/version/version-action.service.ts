@@ -13,7 +13,7 @@ import { FormResource } from "core-app/modules/hal/resources/form-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CachedBoardActionService } from "core-app/modules/boards/board/board-actions/cached-board-action.service";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
-import { VersionAutocompleterComponent } from "core-app/modules/autocompleter/version-autocompleter/version-autocompleter.component";
+import { VersionAutocompleterComponent } from "core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component";
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {

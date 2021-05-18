@@ -56,7 +56,7 @@ import { TileViewComponent } from './tile-view/tile-view.component';
 import { SubprojectBoardHeaderComponent } from "core-app/modules/boards/board/board-actions/subproject/subproject-board-header.component";
 import { SubtasksBoardHeaderComponent } from "core-app/modules/boards/board/board-actions/subtasks/subtasks-board-header.component";
 import { StatusBoardHeaderComponent } from "core-app/modules/boards/board/board-actions/status/status-board-header.component";
-import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
+import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 
 @NgModule({
   imports: [

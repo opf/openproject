@@ -38,7 +38,7 @@ import {
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { WorkPackageAutocompleterComponent } from "core-app/modules/autocompleter/work-package-autocompleter/wp-autocompleter.component";
+import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
 
 export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
 
