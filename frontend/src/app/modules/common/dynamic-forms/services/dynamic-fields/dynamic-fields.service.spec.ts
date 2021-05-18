@@ -74,7 +74,7 @@ describe('DynamicFieldsService', () => {
     };
 
     // @ts-ignore
-    const fieldsSchemas = service._getFieldsSchemasWithKey(formSchema, formPayload);
+    const fieldsSchemas = service.getFieldsSchemasWithKey(formSchema, formPayload);
 
     expect(fieldsSchemas.length).toBe(2, 'should return only writable field schemas');
     expect(fieldsSchemas[0].key).toBe('name', 'should place the correct key on primitives');
