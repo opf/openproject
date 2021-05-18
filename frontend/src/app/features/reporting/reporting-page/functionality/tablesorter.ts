@@ -1,4 +1,4 @@
-import 'tablesorter';
+import 'core-app/features/reporting/reporting-page/functionality/tablesorter';
 
 /**
  * Ported from legacy asset pipeline reporting

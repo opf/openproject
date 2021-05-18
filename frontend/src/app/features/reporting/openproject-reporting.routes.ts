@@ -26,24 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { UIRouterModule } from "@uirouter/angular";
-import {
-  REPORTING_ROUTES,
-} from "core-app/modules/reporting/openproject-reporting.routes";
-import { ReportingPageComponent } from "core-app/modules/reporting/reporting-page/reporting-page.component";
+import { Ng2StateDeclaration, UIRouter } from "@uirouter/angular";
+import { ReportingPageComponent } from "core-app/features/reporting/reporting-page/reporting-page.component";
 
-@NgModule({
-  imports: [
-    // Routes for /cost_reports
-    UIRouterModule.forChild({
-      states: REPORTING_ROUTES
-    }),
-  ],
-  declarations: [
-    ReportingPageComponent
-  ]
-})
-export class OpenprojectReportingModule {
-}
-
+export const REPORTING_ROUTES:Ng2StateDeclaration[] = [
+  {
+    name: 'reporting',
+    parent: 'root',
+    url: '/cost_reports',
+    component: ReportingPageComponent
+  },
+  {
+    name: 'reporting.show',
+    url: '/:id',
+    component: ReportingPageComponent
+  },
+];

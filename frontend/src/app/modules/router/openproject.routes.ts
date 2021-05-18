@@ -84,7 +84,7 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     name: 'reporting.**',
     parent: 'root',
     url: '/cost_reports',
-    loadChildren: () => import('../reporting/openproject-reporting.module').then(m => m.OpenprojectReportingModule)
+    loadChildren: () => import('../../features/reporting/openproject-reporting.module').then(m => m.OpenprojectReportingModule)
   },
   {
     name: 'job-statuses.**',
