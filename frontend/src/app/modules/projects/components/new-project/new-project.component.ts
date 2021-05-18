@@ -8,7 +8,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
-import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
+import {JobStatusModal} from "core-app/features/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
 import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

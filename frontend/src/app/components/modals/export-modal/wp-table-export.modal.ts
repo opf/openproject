@@ -12,7 +12,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 import { Observable } from 'rxjs';
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { JobStatusModal } from "core-app/modules/job-status/job-status-modal/job-status.modal";
+import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
 
 interface ExportLink extends HalLink {
   identifier:string;

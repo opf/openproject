@@ -10,7 +10,7 @@ import {
 } from "core-app/modules/common/dynamic-forms/typings";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
-import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
+import {JobStatusModal} from "core-app/features/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
 
 @Component({
