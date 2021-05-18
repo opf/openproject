@@ -8,7 +8,7 @@ import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import { OpContextMenuLocalsToken } from "core-app/components/op-context-menu/op-context-menu.types";
 import { GitActionsService } from "../git-actions/git-actions.service";
 import { By } from "@angular/platform-browser";
-import { OpIconComponent } from "core-app/modules/icon/icon.component";
+import { OpIconComponent } from "core-app/shared/components/icon/icon.component";
 
 
 describe('GitActionsMenuComponent', () => {
