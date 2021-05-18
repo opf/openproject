@@ -50,7 +50,7 @@ import { GridInitializationService } from "core-app/shared/components/grids/grid
 import { WidgetWpGraphComponent } from "core-app/shared/components/grids/widgets/wp-graph/wp-graph.component";
 import { WidgetWpGraphMenuComponent } from "core-app/shared/components/grids/widgets/wp-graph/wp-graph-menu.component";
 import { WidgetWpTableQuerySpaceComponent } from "core-app/shared/components/grids/widgets/wp-table/wp-table-qs.component";
-import { OpenprojectWorkPackageGraphsModule } from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
+import { OpenprojectWorkPackageGraphsModule } from "core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WidgetProjectDescriptionComponent } from "core-app/shared/components/grids/widgets/project-description/project-description.component";
 import { WidgetHeaderComponent } from "core-app/shared/components/grids/widgets/header/header.component";

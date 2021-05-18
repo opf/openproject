@@ -33,7 +33,7 @@ import { OpModalComponent } from "core-app/shared/components/modal/modal.compone
 import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
 import { ComponentType } from '@angular/cdk/portal';
 import { WidgetAbstractMenuComponent } from "core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component";
-import { WpGraphConfigurationModalComponent } from "core-app/modules/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
+import { WpGraphConfigurationModalComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
 
 @Directive()

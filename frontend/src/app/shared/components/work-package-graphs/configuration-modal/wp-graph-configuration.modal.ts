@@ -25,14 +25,14 @@ import {
 import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { ComponentType } from "@angular/cdk/portal";
-import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
-import { WpGraphConfiguration } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
+import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
+import { WpGraphConfiguration } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
-  templateUrl: '../../../components/wp-table/configuration-modal/wp-table-configuration.modal.html',
+  templateUrl: '../../../../components/wp-table/configuration-modal/wp-table-configuration.modal.html',
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
 

@@ -2,14 +2,14 @@ import { Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectorRef, Cha
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset
-} from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
+} from "core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { ChartOptions } from 'chart.js';
-import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
+import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import {
   WpGraphConfiguration,
   WpGraphQueryParams
-} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
+} from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
 
 export const wpOverviewGraphSelector = 'wp-overview-graph';
 

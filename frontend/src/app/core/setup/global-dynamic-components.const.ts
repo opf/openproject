@@ -103,7 +103,7 @@ import {
 import {
   WorkPackageOverviewGraphComponent,
   wpOverviewGraphSelector
-} from "core-app/modules/work-package-graphs/overview/wp-overview-graph.component";
+} from "core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component";
 import {
   WorkPackageQuerySelectDropdownComponent,
   wpQuerySelectSelector

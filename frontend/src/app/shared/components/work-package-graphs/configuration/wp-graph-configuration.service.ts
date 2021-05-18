@@ -1,15 +1,15 @@
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { WpGraphConfigurationSettingsTab } from "core-app/modules/work-package-graphs/configuration-modal/tabs/settings-tab.component";
+import { WpGraphConfigurationSettingsTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { TabInterface } from "core-components/wp-table/configuration-modal/tab-portal-outlet";
 import { Injectable } from '@angular/core';
-import { WpGraphConfigurationFiltersTab } from "core-app/modules/work-package-graphs/configuration-modal/tabs/filters-tab.component";
+import { WpGraphConfigurationFiltersTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component";
 import { ChartType } from 'chart.js';
 import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
 import {
   WpGraphConfiguration,
   WpGraphQueryParams
-} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
+} from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

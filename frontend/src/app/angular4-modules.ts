@@ -62,7 +62,7 @@ import { MainMenuToggleComponent } from "core-components/main-menu/main-menu-tog
 import { MainMenuNavigationService } from "core-components/main-menu/main-menu-navigation.service";
 import { OpenprojectAdminModule } from "core-app/core/admin/openproject-admin.module";
 import { OpenprojectDashboardsModule } from "core-app/features/dashboards/openproject-dashboards.module";
-import { OpenprojectWorkPackageGraphsModule } from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
+import { OpenprojectWorkPackageGraphsModule } from "core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module";
 import { WpPreviewModal } from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import { PreviewTriggerService } from "core-app/core/setup/globals/global-listeners/preview-trigger.service";
 import { OpenprojectOverviewModule } from "core-app/features/overview/openproject-overview.module";

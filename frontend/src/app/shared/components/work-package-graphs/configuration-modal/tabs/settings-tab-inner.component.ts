@@ -4,10 +4,10 @@ import { WorkPackageViewGroupByService } from 'core-app/modules/work_packages/ro
 import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
 import { Component } from "@angular/core";
 import { ChartType } from 'chart.js';
-import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
+import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
 import { TabComponent } from "core-components/wp-table/configuration-modal/tab-portal-outlet";
-import { QuerySpacedTabComponent } from "core-app/modules/work-package-graphs/configuration-modal/tabs/abstract-query-spaced-tab.component";
+import { QuerySpacedTabComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/abstract-query-spaced-tab.component";
 
 interface OpChartType {
   identifier:ChartType;

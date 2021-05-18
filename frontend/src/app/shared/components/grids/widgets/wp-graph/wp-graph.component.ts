@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { WorkPackageEmbeddedGraphDataset } from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
+import { WorkPackageEmbeddedGraphDataset } from "core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { ChartOptions, ChartType } from 'chart.js';
-import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
-import { WpGraphConfiguration } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
+import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
+import { WpGraphConfiguration } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
 
 @Component({
   selector: 'widget-wp-graph',

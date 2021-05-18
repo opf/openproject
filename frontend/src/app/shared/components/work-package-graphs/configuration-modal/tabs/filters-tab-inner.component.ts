@@ -4,9 +4,9 @@ import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-p
 import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
 import { WorkPackageViewFiltersService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
-import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
+import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
-import { QuerySpacedTabComponent } from "core-app/modules/work-package-graphs/configuration-modal/tabs/abstract-query-spaced-tab.component";
+import { QuerySpacedTabComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/abstract-query-spaced-tab.component";
 
 @Component({
   selector: 'filters-tab-inner',

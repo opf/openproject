@@ -1,7 +1,7 @@
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
-import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
+import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 
 export abstract class QuerySpacedTabComponent {
   constructor(readonly I18n:I18nService,
