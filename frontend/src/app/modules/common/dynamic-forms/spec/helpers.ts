@@ -40,7 +40,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
     model = model;
     fields = fields;
 
-    @ViewChild(FormlyForm) dynamicControl:FormlyForm;
+    @ViewChild(FormlyForm) dynamicForm:FormlyForm;
   }
 
   const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
@@ -115,12 +115,12 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
 }
 
 export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any>, model:any, selector:string) {
-  const dynamicControl: FormGroup = fixture.componentInstance.dynamicControl.form;
+  const dynamicForm: FormGroup = fixture.componentInstance.dynamicForm.form;
   const dynamicInput = fixture.debugElement.query(By.css(selector)).nativeElement;
 
   // Test ControlValueAccessor
   // Write Value
-  expect(dynamicControl.value.testControl).toBe(model.initialValue);
+  expect(dynamicForm.value.testControl).toBe(model.initialValue);
   expect(dynamicInput.classList.contains('ng-untouched')).toBeTrue();
   expect(dynamicInput.classList.contains('ng-valid')).toBeTrue();
   expect(dynamicInput.classList.contains('ng-pristine')).toBeTrue();
@@ -135,7 +135,7 @@ export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any
 
   fixture.detectChanges();
 
-  expect(dynamicControl.value.testControl).toBe(model.changedValue);
+  expect(dynamicForm.value.testControl).toBe(model.changedValue);
   expect(dynamicInput.classList.contains('ng-dirty')).toBeTrue();
 
   // Blur
@@ -144,7 +144,7 @@ export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any
   expect(dynamicInput.classList.contains('ng-touched')).toBeTrue();
 
   // Disabled
-  dynamicControl.disable();
+  dynamicForm.disable();
   fixture.detectChanges();
   expect(dynamicInput.disabled).toBeTrue();
 }

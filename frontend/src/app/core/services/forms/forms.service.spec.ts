@@ -74,7 +74,7 @@ describe('FormsService', () => {
 
   it('should format the model to fit the backend expectation', () => {
     // @ts-ignore
-    const formattedModel = service._formatModelToSubmit(formModel);
+    const formattedModel = service.formatModelToSubmit(formModel);
     const expectedResult = {
       "name": "Project 1",
       "_links": {
@@ -130,7 +130,7 @@ describe('FormsService', () => {
     };
 
     // @ts-ignore
-    service._handleBackendFormValidationErrors(backEndErrorResponse, form);
+    service.handleBackendFormValidationErrors(backEndErrorResponse, form);
 
     expect(form.get('name')!.invalid).toBe(true);
     expect(form.get('_links')!.get('parent')!.invalid).toBe(true);

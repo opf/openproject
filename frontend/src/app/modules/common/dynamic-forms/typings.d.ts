@@ -11,16 +11,19 @@ export interface IOPFormlyFieldSettings extends FormlyFieldConfig {
   key?:string;
   type?:OPInputType;
   templateOptions?:IOPFormlyTemplateOptions;
+  [key:string]:any;
 }
 
 export interface IOPFormlyTemplateOptions extends FormlyTemplateOptions {
-  property?: string;
-  label?: string;
-  hasDefault?: boolean;
+  property?:string;
+  label?:string;
+  hasDefault?:boolean;
+  fieldGroup?:string;
   isFieldGroup?:boolean;
   collapsibleFieldGroups?:boolean;
   collapsibleFieldGroupsCollapsed?:boolean;
   helpTextAttributeScope?:string;
+  showValidationErrorOn?:'change' | 'blur' | 'submit' | 'never';
 }
 
 type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|
@@ -29,4 +32,10 @@ type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|
 export interface IOPDynamicInputTypeSettings {
   config:IOPFormlyFieldSettings,
   useForFields:OPFieldType[];
+}
+
+export interface IDynamicFieldGroupConfig {
+  name:string;
+  fieldsFilter?:(fieldProperty:IOPFormlyFieldSettings) => boolean;
+  settings?:IOPFormlyFieldSettings;
 }

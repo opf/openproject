@@ -30,7 +30,7 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
     this.resourceId = this._uIRouterGlobals.params.projectPath;
     this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
       return dynamicFieldsSettings
-        .reduce((formattedDynamicFieldsSettings, dynamicFormField) => {
+        .reduce((formattedDynamicFieldsSettings:IOPFormlyFieldSettings[], dynamicFormField) => {
           if (this.isFieldHidden(dynamicFormField.key)) {
             dynamicFormField = {
               ...dynamicFormField,
