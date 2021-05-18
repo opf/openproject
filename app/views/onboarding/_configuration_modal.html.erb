@@ -30,7 +30,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <div class="modal-delivery-element">
   <%= labelled_tabular_form_for current_user, url: { action: 'user_settings', controller: 'onboarding' }, html: { id: 'user-form' } do |f| %>
     <div class="op-modal--header op-modal--header_highlight">
-      <%= avatar(current_user, class: 'op-modal--header-icon') %>
+      <%= avatar(current_user) %>
       <h1 class="op-modal--title">
         <%= I18n.t('onboarding.welcome') %>, <%= current_user.name %>
       </h1>

@@ -32,9 +32,10 @@
 
   &--header
     display: flex
-    padding: var(--modal-padding) var(--modal-padding) calc(0.5 * var(--modal-padding)) var(--modal-padding)
+    padding: calc(0.5 * var(--modal-padding)) var(--modal-padding) calc(0.5 * var(--modal-padding)) var(--modal-padding)
     position: relative
     border-bottom: 1px solid #eee
+    align-items: center
 
     &_highlight
       background-color: var(--header-bg-color)
@@ -43,9 +44,6 @@
 
       *
         color: var(--header-item-font-color)
-
-  &--header-icon
-    align-self: center
 
   &--body
     display: flex
