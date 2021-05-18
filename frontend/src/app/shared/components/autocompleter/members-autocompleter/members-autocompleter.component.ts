@@ -12,7 +12,7 @@ import {
 export const membersAutocompleterSelector = 'members-autocompleter';
 
 @Component({
-  templateUrl: '../../shared/components/autocompleter/user-autocompleter/user-autocompleter.component.html',
+  templateUrl: '../user-autocompleter/user-autocompleter.component.html',
   selector: membersAutocompleterSelector
 })
 export class MembersAutocompleterComponent extends UserAutocompleterComponent {

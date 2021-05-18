@@ -120,7 +120,7 @@ import { MainMenuToggleComponent, mainMenuToggleSelector } from "core-components
 import {
   MembersAutocompleterComponent,
   membersAutocompleterSelector
-} from "core-app/modules/members/members-autocompleter.component";
+} from "core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component";
 import { EnterpriseBaseComponent, enterpriseBaseSelector } from "core-components/enterprise/enterprise-base.component";
 import {
   EEActiveSavedTrialComponent,

@@ -70,7 +70,7 @@ import { OpenprojectMyPageModule } from "core-app/modules/my-page/openproject-my
 import { OpenprojectProjectsModule } from "core-app/modules/projects/openproject-projects.module";
 import { KeyboardShortcutService } from "core-app/shared/directives/a11y/keyboard-shortcut-service";
 import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
-import { OpenprojectMembersModule } from "core-app/modules/members/members.module";
+import { OpenprojectMembersModule } from "core-app/shared/components/autocompleter/members-autocompleter/members.module";
 import { OpenprojectEnterpriseModule } from "core-components/enterprise/openproject-enterprise.module";
 import { OpenprojectAugmentingModule } from "core-app/core/augmenting/openproject-augmenting.module";
 import { OpenprojectInviteUserModalModule } from "core-app/features/invite-user-modal/invite-user-modal.module";
