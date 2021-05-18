@@ -27,8 +27,8 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { QueryResource, TimelineLabels, TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { QueryResource, TimelineLabels, TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { input } from 'reactivestates';
 import { WorkPackageQueryStateService } from './wp-view-base.service';

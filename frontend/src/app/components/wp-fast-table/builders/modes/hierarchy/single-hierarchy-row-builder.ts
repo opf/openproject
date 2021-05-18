@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { SingleRowBuilder } from "core-components/wp-fast-table/builders/rows/single-row-builder";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
 import { States } from "core-components/states.service";

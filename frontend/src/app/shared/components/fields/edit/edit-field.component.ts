@@ -40,7 +40,7 @@ import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { Field, IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { CurrentProjectService } from 'core-components/projects/current-project.service';
 
 export const OpEditingPortalSchemaToken = new InjectionToken('editing-portal--schema');

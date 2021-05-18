@@ -2,7 +2,7 @@ import { Observable } from "rxjs";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Component } from "@angular/core";
-import { URLParamsEncoder } from "core-app/modules/hal/services/url-params-encoder";
+import { URLParamsEncoder } from "core-app/core/hal/services/url-params-encoder";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import {
   UserAutocompleteItem,

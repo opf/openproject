@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { RoleResource } from "core-app/modules/hal/resources/role-resource";
+import { RoleResource } from "core-app/core/hal/resources/role-resource";
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 

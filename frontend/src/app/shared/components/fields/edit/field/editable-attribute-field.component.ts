@@ -47,10 +47,10 @@ import { NotificationsService } from 'core-app/modules/common/notifications/noti
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
 import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
+import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
 import {
   displayClassName,
   DisplayFieldRenderer,

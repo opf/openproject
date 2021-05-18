@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { GridResource } from "core-app/modules/hal/resources/grid-resource";
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { GridResource } from "core-app/core/hal/resources/grid-resource";
+import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { switchMap } from "rxjs/operators";
 

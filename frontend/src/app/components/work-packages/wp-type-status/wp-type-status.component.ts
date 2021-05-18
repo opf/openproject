@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { Component, Input } from '@angular/core';
 
 @Component({

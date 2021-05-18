@@ -27,14 +27,14 @@
 //++
 
 import { Component, InjectFlags, OnInit } from '@angular/core';
-import { HalResourceSortingService } from 'core-app/modules/hal/services/hal-resource-sorting.service';
-import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalResourceSortingService } from 'core-app/core/hal/services/hal-resource-sorting.service';
+import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { EditFieldComponent } from '../../edit-field.component';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
 import { from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
+import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PermissionsService } from 'core-app/core/permissions/permissions.service';
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";

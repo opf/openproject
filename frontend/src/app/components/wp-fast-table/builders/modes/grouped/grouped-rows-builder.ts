@@ -7,7 +7,7 @@ import { RowsBuilder } from '../rows-builder';
 import { GroupHeaderBuilder } from './group-header-builder';
 import { GroupedRenderPass } from './grouped-render-pass';
 import { groupedRowClassName, groupIdentifier } from './grouped-rows-helpers';
-import { GroupObject } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { GroupObject } from 'core-app/core/hal/resources/wp-collection-resource';
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import {
   collapsedRowClass,

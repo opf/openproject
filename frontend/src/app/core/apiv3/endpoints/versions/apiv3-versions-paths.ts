@@ -27,12 +27,12 @@
 //++
 
 import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { VersionResource } from "core-app/modules/hal/resources/version-resource";
+import { VersionResource } from "core-app/core/hal/resources/version-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
 import { Observable } from "rxjs";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { Apiv3AvailableProjectsPaths } from "core-app/core/apiv3/endpoints/projects/apiv3-available-projects-paths";
 import { APIv3VersionPaths } from "core-app/core/apiv3/endpoints/versions/apiv3-version-paths";
 

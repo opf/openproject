@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { PrimaryRenderPass, RowRenderInfo } from "core-components/wp-fast-table/builders/primary-render-pass";
 import { States } from "core-components/states.service";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";

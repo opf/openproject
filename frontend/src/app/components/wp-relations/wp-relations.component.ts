@@ -28,8 +28,8 @@
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 
 import { Observable, zip } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';

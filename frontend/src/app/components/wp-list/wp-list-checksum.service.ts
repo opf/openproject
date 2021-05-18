@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { StateService, TransitionPromise } from '@uirouter/core';
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 import { Injectable } from '@angular/core';

@@ -27,7 +27,7 @@
 //++
 import { Component, Input } from "@angular/core";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { StatusResource } from "core-app/modules/hal/resources/status-resource";
+import { StatusResource } from "core-app/core/hal/resources/status-resource";
 
 
 @Component({

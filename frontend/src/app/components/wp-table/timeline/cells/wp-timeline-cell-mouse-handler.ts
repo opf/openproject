@@ -38,10 +38,10 @@ import { LoadingIndicatorService } from "core-app/modules/common/loading-indicat
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
-import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import Moment = moment.Moment;
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { take } from "rxjs/operators";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

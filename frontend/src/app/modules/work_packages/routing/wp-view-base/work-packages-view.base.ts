@@ -50,7 +50,7 @@ import { WorkPackageQueryStateService } from "core-app/modules/work_packages/rou
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
 import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { HalEvent, HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { DeviceService } from "core-app/modules/common/browser/device.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CurrentProjectService } from "core-components/projects/current-project.service";

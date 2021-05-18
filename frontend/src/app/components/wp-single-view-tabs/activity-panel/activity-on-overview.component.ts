@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { ActivityPanelBaseController } from 'core-components/wp-single-view-tabs/activity-panel/activity-base.controller';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-components/wp-single-view-tabs/activity-panel/activity-entry-info';
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 

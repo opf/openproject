@@ -131,7 +131,7 @@ import { WorkPackagesListInvalidQueryService } from 'core-components/wp-list/wp-
 import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
 import { WorkPackageWatchersService } from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackageChildrenQueryComponent } from "core-components/wp-relations/embedded/children/wp-children-query.component";
 import { WpRelationInlineAddExistingComponent } from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
 import { WorkPackageRelationQueryComponent } from "core-components/wp-relations/embedded/relations/wp-relation-query.component";
@@ -153,11 +153,11 @@ import { WorkPackageIsolatedGraphQuerySpaceDirective } from "core-app/modules/wo
 import { WorkPackageViewToggleButton } from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import { WorkPackagesGridComponent } from "core-components/wp-grid/wp-grid.component";
 import { WorkPackageViewDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
-import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { OpenprojectProjectsModule } from "core-app/modules/projects/openproject-projects.module";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { WorkPackageEditActionsBarComponent } from "core-app/modules/common/edit-actions-bar/wp-edit-actions-bar.component";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageSingleCardComponent } from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
 import { TimeEntryChangeset } from 'core-app/components/time-entries/time-entry-changeset';

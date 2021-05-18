@@ -15,7 +15,7 @@ import {
   LoadingIndicatorService,
   withLoadingIndicator
 } from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { BoardInlineCreateService } from "core-app/features/boards/board/board-list/board-inline-create.service";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
@@ -23,15 +23,15 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { Board } from "core-app/features/boards/board/board";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
 import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
 import { ComponentType } from "@angular/cdk/portal";
@@ -47,7 +47,7 @@ import { WorkPackageViewFocusService } from "core-app/modules/work_packages/rout
 import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { BoardListCrossSelectionService } from "core-app/features/boards/board/board-list/board-list-cross-selection.service";
 import { debounceTime, filter, map, retry } from "rxjs/operators";
-import { HalEvent, HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { ChangeItem } from "core-app/shared/components/fields/changeset/changeset";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

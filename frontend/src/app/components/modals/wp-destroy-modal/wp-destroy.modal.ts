@@ -32,7 +32,7 @@ import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angul
 import { OpModalComponent } from "core-app/modules/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/modules/modal/modal.types";
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";

@@ -4,7 +4,7 @@ import {
 } from 'core-components/wp-table/table-actions/table-action';
 import { OpDetailsTableAction } from 'core-components/wp-table/table-actions/actions/details-table-action';
 import { OpContextMenuTableAction } from 'core-components/wp-table/table-actions/actions/context-menu-table-action';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 
 @Injectable()
 export class OpTableActionsService {

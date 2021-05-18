@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
-import { QueryGroupByResource } from 'core-app/modules/hal/resources/query-group-by-resource';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { States } from 'core-components/states.service';
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { QueryColumn } from "core-components/wp-query/query-column";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 
 @Injectable()
 export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<QueryGroupByResource|null> {

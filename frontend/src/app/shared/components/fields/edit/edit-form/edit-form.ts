@@ -27,7 +27,7 @@
 //++
 
 import { Injector } from '@angular/core';
-import { ErrorResource } from 'core-app/modules/hal/resources/error-resource';
+import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
 import { States } from 'core-components/states.service';
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 
@@ -35,11 +35,11 @@ import {
   HalResourceEditingService,
   ResourceChangesetCommit
 } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';

@@ -29,7 +29,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 import { OpUnlinkTableAction } from 'core-components/wp-table/table-actions/actions/unlink-table-action';
 import { OpTableActionFactory } from 'core-components/wp-table/table-actions/table-action';
@@ -38,9 +38,9 @@ import { WorkPackageRelationQueryBase } from "core-components/wp-relations/embed
 import { WpRelationInlineCreateService } from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
 import { filter } from "rxjs/operators";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { GroupDescriptor } from "core-components/work-packages/wp-single-view/wp-single-view.component";
-import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({

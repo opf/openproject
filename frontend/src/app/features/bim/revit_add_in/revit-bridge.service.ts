@@ -3,7 +3,7 @@ import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { distinctUntilChanged, filter, first, map, mapTo } from "rxjs/operators";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 

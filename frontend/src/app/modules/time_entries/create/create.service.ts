@@ -1,15 +1,15 @@
 import { Injectable, Injector } from "@angular/core";
 import { OpModalService } from "core-app/modules/modal/modal.service";
-import { HalResourceService } from "app/modules/hal/services/hal-resource.service";
+import { HalResourceService } from "app/core/hal/services/hal-resource.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-resource';
+import { TimeEntryResource } from 'core-app/core/hal/resources/time-entry-resource';
 import { take } from 'rxjs/operators';
-import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { FormResource } from "core-app/core/hal/resources/form-resource";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { Moment } from 'moment';
 import { TimeEntryCreateModal } from "core-app/modules/time_entries/create/create.modal";
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

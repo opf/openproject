@@ -1,8 +1,8 @@
 import { Injector } from '@angular/core';
 import { States } from '../../states.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { tdClassName } from './cell-builder';
-import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { QueryColumn } from '../../wp-query/query-column';
 import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
 import { WorkPackageViewRelationColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";

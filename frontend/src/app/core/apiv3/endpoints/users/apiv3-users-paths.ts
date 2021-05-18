@@ -29,7 +29,7 @@
 import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
 import { APIv3UserPaths } from "core-app/core/apiv3/endpoints/users/apiv3-user-paths";
 import { Observable } from "rxjs";
-import { UserResource } from "core-app/modules/hal/resources/user-resource";
+import { UserResource } from "core-app/core/hal/resources/user-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {

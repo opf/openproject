@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { UserResource } from 'core-app/modules/hal/resources/user-resource';
+import { UserResource } from 'core-app/core/hal/resources/user-resource';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import {
   ApplicationRef,
@@ -45,7 +45,7 @@ import { CommentService } from "core-components/wp-activity/comment-service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({

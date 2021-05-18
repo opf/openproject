@@ -33,7 +33,7 @@ import { PathHelperService } from "core-app/modules/common/path-helper/path-help
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { HalDeletedEvent, HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalDeletedEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";
 
 @Injectable()
 export class WorkPackageService {

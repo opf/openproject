@@ -32,7 +32,7 @@ import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/shared/components/fields/helpers/project-status-helper";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 
 interface ProjectStatusOption {
   href:string

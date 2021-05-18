@@ -30,7 +30,7 @@ import { ChangeDetectorRef, Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { OpTitleService } from 'core-components/html/op-title.service';
 import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
 import { States } from 'core-components/states.service';

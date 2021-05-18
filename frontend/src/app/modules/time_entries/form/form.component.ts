@@ -1,5 +1,5 @@
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import {
   ChangeDetectionStrategy,
@@ -13,7 +13,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";

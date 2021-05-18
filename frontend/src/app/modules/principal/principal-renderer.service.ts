@@ -6,7 +6,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { PrincipalLike } from "./principal-types";
 import { PrincipalHelper } from "./principal-helper";
 import PrincipalType = PrincipalHelper.PrincipalType;
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 
 export type AvatarSize = 'default'|'medium'|'mini';
 

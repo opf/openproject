@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, NgZone } from "@angular/core";
 import { WorkPackageListViewComponent } from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
-import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
 import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";

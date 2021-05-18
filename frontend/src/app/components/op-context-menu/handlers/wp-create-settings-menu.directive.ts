@@ -32,7 +32,7 @@ import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/o
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { States } from "core-components/states.service";
-import { FormResource } from 'core-app/modules/hal/resources/form-resource';
+import { FormResource } from 'core-app/core/hal/resources/form-resource';
 
 @Directive({
   selector: '[wpCreateSettingsMenu]'

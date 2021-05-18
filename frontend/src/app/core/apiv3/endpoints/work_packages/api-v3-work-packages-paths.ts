@@ -27,13 +27,13 @@
 //++
 
 import { APIV3WorkPackagePaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { Observable } from "rxjs";
 import { APIv3WorkPackageForm } from "core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { WorkPackageCache } from "core-app/core/apiv3/endpoints/work_packages/work-package.cache";
 import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
 import { ApiV3WorkPackageCachedSubresource } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource";

@@ -27,9 +27,9 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
+import { QueryFilterResource } from 'core-app/core/hal/resources/query-filter-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { BannersService } from "core-app/modules/common/enterprise/banners.service";

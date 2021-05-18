@@ -27,7 +27,7 @@
 //++
 
 import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { Observable } from "rxjs";
 import { APIV3WorkPackagesPaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
 import { take, tap } from "rxjs/operators";

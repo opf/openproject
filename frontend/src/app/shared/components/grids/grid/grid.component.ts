@@ -4,7 +4,7 @@ import { Component,
   OnInit,
   Input,
   HostListener } from "@angular/core";
-import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { GridResource } from "core-app/core/hal/resources/grid-resource";
 import { DomSanitizer } from "@angular/platform-browser";
 import { GridWidgetsService } from "core-app/shared/components/grids/widgets/widgets.service";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";

@@ -35,8 +35,8 @@ import {
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
-import { GroupResource } from 'core-app/modules/hal/resources/group-resource';
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
+import { GroupResource } from 'core-app/core/hal/resources/group-resource';
 
 export class Apiv3GroupsPaths
   extends APIv3ResourceCollection<GroupResource, Apiv3GroupPaths>

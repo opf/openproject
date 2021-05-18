@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { Moment } from 'moment';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
 import { Component, Input, OnInit, Output } from '@angular/core';

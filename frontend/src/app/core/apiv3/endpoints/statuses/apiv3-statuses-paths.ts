@@ -28,10 +28,10 @@
 
 import { APIv3ResourceCollection, APIv3ResourcePath } from "core-app/core/apiv3/paths/apiv3-resource";
 import { Injector } from "@angular/core";
-import { StatusResource } from "core-app/modules/hal/resources/status-resource";
+import { StatusResource } from "core-app/core/hal/resources/status-resource";
 import { APIv3StatusPaths } from "core-app/core/apiv3/endpoints/statuses/apiv3-status-paths";
 import { Observable } from "rxjs";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { tap } from "rxjs/operators";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

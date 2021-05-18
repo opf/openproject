@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
+import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
 import {
   QueryFilterInstanceSchemaResource,
   QueryFilterInstanceSchemaResourceLinks
-} from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
-import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
+} from "core-app/core/hal/resources/query-filter-instance-schema-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 
 @Injectable()
 export class QueryFiltersService {

@@ -24,7 +24,7 @@ import {
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageStatesInitializationService } from 'core-components/wp-list/wp-states-initialization.service';
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
-import { QueryFormResource } from 'core-app/modules/hal/resources/query-form-resource';
+import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";

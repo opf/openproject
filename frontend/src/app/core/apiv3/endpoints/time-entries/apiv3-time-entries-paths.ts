@@ -28,11 +28,11 @@
 
 
 import { Apiv3TimeEntryPaths } from "core-app/core/apiv3/endpoints/time-entries/apiv3-time-entry-paths";
-import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
 import { Observable } from "rxjs";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
 import { MultiInputState } from "reactivestates";
 import {

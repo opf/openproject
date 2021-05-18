@@ -30,7 +30,7 @@ import { UserLinkComponent } from './user-link.component';
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { UserResource } from '../../../modules/hal/resources/user-resource';
+import { UserResource } from '../../../core/hal/resources/user-resource';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 
 describe('UserLinkComponent component test', () => {

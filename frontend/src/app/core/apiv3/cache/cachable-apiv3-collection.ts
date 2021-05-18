@@ -31,8 +31,8 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { States } from "core-components/states.service";
 import { HasId, StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { tap } from "rxjs/operators";
 
 export abstract class CachableAPIV3Collection<

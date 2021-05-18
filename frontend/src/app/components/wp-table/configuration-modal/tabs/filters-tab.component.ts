@@ -3,7 +3,7 @@ import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
 import { WorkPackageViewFiltersService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
+import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { BannersService } from "core-app/modules/common/enterprise/banners.service";
 
 @Component({

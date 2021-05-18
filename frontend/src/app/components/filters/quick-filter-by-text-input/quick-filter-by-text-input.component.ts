@@ -33,7 +33,7 @@ import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, map, tap } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { input } from "reactivestates";
-import { QueryFilterResource } from "core-app/modules/hal/resources/query-filter-resource";
+import { QueryFilterResource } from "core-app/core/hal/resources/query-filter-resource";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

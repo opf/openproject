@@ -1,14 +1,14 @@
-import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
 import { Injectable } from "@angular/core";
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
 import { map, take, tap } from "rxjs/operators";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 

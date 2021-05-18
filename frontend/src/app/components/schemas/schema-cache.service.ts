@@ -27,12 +27,12 @@
 //++
 import { MultiInputState, State } from 'reactivestates';
 import { States } from '../states.service';
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Injectable } from '@angular/core';
-import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
-import { ISchemaProxy, SchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
-import { WorkPackageSchemaProxy } from "core-app/modules/hal/schemas/work-package-schema-proxy";
+import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';
+import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
+import { ISchemaProxy, SchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
+import { WorkPackageSchemaProxy } from "core-app/core/hal/schemas/work-package-schema-proxy";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
 import { take } from "rxjs/operators";

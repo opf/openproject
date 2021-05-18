@@ -8,8 +8,8 @@ import {
   HTTPClientOptions,
   HTTPClientParamMap,
   HTTPSupportedMethods
-} from "core-app/modules/hal/http/http.interfaces";
-import { URLParamsEncoder } from "core-app/modules/hal/services/url-params-encoder";
+} from "core-app/core/hal/http/http.interfaces";
+import { URLParamsEncoder } from "core-app/core/hal/services/url-params-encoder";
 import { catchError, map } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 

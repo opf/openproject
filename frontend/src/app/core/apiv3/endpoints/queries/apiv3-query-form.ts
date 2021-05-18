@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
-import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
+import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
 import { Observable } from "rxjs";
 import * as URI from "urijs";
 import { map, tap } from "rxjs/operators";

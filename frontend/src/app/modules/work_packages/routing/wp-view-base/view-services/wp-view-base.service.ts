@@ -30,9 +30,9 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { combine, deriveRaw, input, State } from 'reactivestates';
 import { map, mapTo, take } from 'rxjs/operators';
 import { merge, Observable } from 'rxjs';
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
-import { QuerySchemaResource } from 'core-app/modules/hal/resources/query-schema-resource';
-import { WorkPackageCollectionResource } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QuerySchemaResource } from 'core-app/core/hal/resources/query-schema-resource';
+import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { Injectable } from "@angular/core";
 
 @Injectable()

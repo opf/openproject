@@ -29,7 +29,7 @@
 import {
   TimelineLabels,
   TimelineZoomLevel
-} from 'core-app/modules/hal/resources/query-resource';
+} from 'core-app/core/hal/resources/query-resource';
 
 export interface WorkPackageTimelineState {
   visible:boolean;

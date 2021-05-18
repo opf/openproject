@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { VersionResource } from "core-app/modules/hal/resources/version-resource";
+import { VersionResource } from "core-app/core/hal/resources/version-resource";
 import { Observable } from "rxjs";
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 import { MultiInputState } from "reactivestates";

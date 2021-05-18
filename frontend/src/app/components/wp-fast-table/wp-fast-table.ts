@@ -2,7 +2,7 @@ import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
 import { debugLog } from '../../shared/helpers/debug_output';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { States } from '../states.service';
 import { WorkPackageTimelineTableController } from '../wp-table/timeline/container/wp-timeline-container.directive';
 import { GroupedRowsBuilder } from './builders/modes/grouped/grouped-rows-builder';

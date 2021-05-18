@@ -29,7 +29,7 @@
 import { Board } from "core-app/features/boards/board/board";
 import { Observable } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 import { MultiInputState } from "reactivestates";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";

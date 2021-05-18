@@ -27,7 +27,7 @@
 //++
 
 import { take } from 'rxjs/operators';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackageCreateComponent } from 'core-components/wp-new/wp-create.component';
 import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
 

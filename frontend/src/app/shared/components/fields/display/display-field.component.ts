@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { Constructor } from "@angular/cdk/table";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";

@@ -1,4 +1,4 @@
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 
 export namespace AngularTrackingHelpers {
   export function halHref<T extends HalResource>(_index:number, item:T):string|null {

@@ -35,7 +35,7 @@ import { PaginationInstance } from 'core-components/table-pagination/pagination-
 import { IPaginationOptions, PaginationService } from 'core-components/table-pagination/pagination-service';
 import { WorkPackageViewPaginationService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { OpenProject } from "core-app/core/setup/globals/openproject";

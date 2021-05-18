@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { WorkPackageTableConfiguration } from "core-components/wp-table/wp-table-configuration";
 import { Observable } from 'rxjs';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";

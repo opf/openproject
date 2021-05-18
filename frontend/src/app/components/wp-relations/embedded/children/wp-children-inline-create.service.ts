@@ -27,7 +27,7 @@
 //++
 
 import { Injectable, Injector } from '@angular/core';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { WpRelationInlineCreateServiceInterface } from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";

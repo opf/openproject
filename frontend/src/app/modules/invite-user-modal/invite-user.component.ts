@@ -12,9 +12,9 @@ import { OpModalComponent } from 'core-app/modules/modal/modal.component';
 import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { PrincipalData } from "core-app/modules/principal/principal-types";
-import { RoleResource } from "core-app/modules/hal/resources/role-resource";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { RoleResource } from "core-app/core/hal/resources/role-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 
 enum Steps {
   ProjectSelection,

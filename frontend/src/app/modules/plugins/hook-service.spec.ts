@@ -30,7 +30,7 @@
 
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HookService } from 'core-app/modules/plugins/hook-service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { Tab, TabComponent } from 'core-app/components/wp-tabs/components/wp-tab-wrapper/tab';
 
 describe('HookService', function() {

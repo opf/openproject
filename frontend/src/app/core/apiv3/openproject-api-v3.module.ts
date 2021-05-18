@@ -28,7 +28,7 @@
 
 import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
 import { NgModule } from '@angular/core';
-import { OpenprojectHalModule } from "core-app/modules/hal/openproject-hal.module";
+import { OpenprojectHalModule } from "core-app/core/hal/openproject-hal.module";
 
 @NgModule({
   imports: [

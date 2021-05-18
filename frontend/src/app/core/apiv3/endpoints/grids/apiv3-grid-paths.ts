@@ -27,8 +27,8 @@
 //++
 
 import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { GridResource } from "core-app/modules/hal/resources/grid-resource";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { GridResource } from "core-app/core/hal/resources/grid-resource";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { Observable } from "rxjs";
 import { Apiv3GridForm } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-form";
 

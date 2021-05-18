@@ -29,8 +29,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { States } from 'core-components/states.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";

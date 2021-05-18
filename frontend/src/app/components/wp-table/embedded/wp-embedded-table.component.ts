@@ -3,11 +3,11 @@ import { WorkPackageViewTimelineService } from 'core-app/modules/work_packages/r
 import { WorkPackageViewPaginationService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { OpTableActionFactory } from 'core-components/wp-table/table-actions/table-action';
 import { OpTableActionsService } from 'core-components/wp-table/table-actions/table-actions.service';
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { WpTableConfigurationModalComponent } from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { OpModalService } from 'core-app/modules/modal/modal.service';
 import { WorkPackageEmbeddedBaseComponent } from "core-components/wp-table/embedded/wp-embedded-base.component";
-import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
+import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
 import { distinctUntilChanged, map, take, withLatestFrom } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";

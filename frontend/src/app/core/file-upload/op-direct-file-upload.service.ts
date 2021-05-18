@@ -28,7 +28,7 @@
 
 import { Injectable } from "@angular/core";
 import { HttpEvent, HttpResponse } from "@angular/common/http";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { from, Observable, of } from "rxjs";
 import { share, switchMap } from "rxjs/operators";
 import { OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress } from './op-file-upload.service';

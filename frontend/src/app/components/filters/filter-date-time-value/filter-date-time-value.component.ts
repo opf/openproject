@@ -28,8 +28,8 @@
 
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { Moment } from 'moment';

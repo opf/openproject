@@ -27,11 +27,11 @@
 //++
 
 import { Constructor } from "@angular/cdk/table";
-import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { GridResource } from "core-app/core/hal/resources/grid-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Observable } from "rxjs";
 import { Apiv3ListParameters, listParamsString } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { Board, BoardType } from "core-app/features/boards/board/board";
 import { map, switchMap, tap } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

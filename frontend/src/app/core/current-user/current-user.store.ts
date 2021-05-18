@@ -28,7 +28,7 @@
 
 import { Injectable } from "@angular/core";
 import { Store, StoreConfig } from '@datorama/akita';
-import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
+import { CapabilityResource } from "core-app/core/hal/resources/capability-resource";
 
 export interface CurrentUser {
   id: string|null;

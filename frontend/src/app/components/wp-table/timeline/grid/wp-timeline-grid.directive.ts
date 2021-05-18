@@ -36,7 +36,7 @@ import {
   TimelineViewParameters
 } from '../wp-timeline';
 import Moment = moment.Moment;
-import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
+import { TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 
 function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
   const day = date.day();

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Injector, OnInit, Directive } from "@angular/core";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";

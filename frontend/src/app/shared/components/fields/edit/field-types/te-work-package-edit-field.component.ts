@@ -28,7 +28,7 @@
 
 import { Component } from "@angular/core";
 import { WorkPackageEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/work-package-edit-field.component";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import {

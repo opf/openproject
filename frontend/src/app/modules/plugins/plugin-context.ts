@@ -4,12 +4,12 @@ import { NotificationsService } from "core-app/modules/common/notifications/noti
 import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { ExternalQueryConfigurationService } from "core-components/wp-table/external-configuration/external-query-configuration.service";
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PasswordConfirmationModal } from "../../components/modals/request-for-confirmation/password-confirmation.modal";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 import { DynamicContentModal } from "../../components/modals/modal-wrapper/dynamic-content.modal";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { EditFieldService } from "core-app/shared/components/fields/edit/edit-field.service";
 import { EditorMacrosService } from "core-components/modals/editor/editor-macros.service";

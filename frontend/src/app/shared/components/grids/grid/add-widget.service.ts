@@ -1,9 +1,9 @@
 import { Injectable, Injector } from "@angular/core";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 import { AddGridWidgetModal } from "core-app/shared/components/grids/widgets/add/add.modal";
-import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
 import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
 import { GridDragAndDropService } from "core-app/shared/components/grids/grid/drag-and-drop.service";

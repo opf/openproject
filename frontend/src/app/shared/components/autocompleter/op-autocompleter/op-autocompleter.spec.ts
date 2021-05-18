@@ -7,7 +7,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { of } from "rxjs";
 import { NgSelectComponent} from '@ng-select/ng-select';
 import { NgSelectModule } from "@ng-select/ng-select";
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResource} from 'core-app/core/hal/resources/hal-resource';
 import { By } from '@angular/platform-browser';
 
 function triggerKeyDownEvent(element:DebugElement, which:number, key = ''):void {

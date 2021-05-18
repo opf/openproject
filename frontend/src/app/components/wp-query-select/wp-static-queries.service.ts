@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import { IAutocompleteItem } from 'core-components/wp-query-select/wp-query-select-dropdown.component';
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { Injectable } from '@angular/core';
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";

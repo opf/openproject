@@ -1,7 +1,7 @@
 import { BcfResourceCollectionPath } from "core-app/features/bim/bcf/api/bcf-path-resources";
 import { BcfApiRequestService } from "core-app/features/bim/bcf/api/bcf-api-request.service";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/modules/hal/http/http.interfaces";
+import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/core/hal/http/http.interfaces";
 import { Observable } from "rxjs";
 import { BcfViewpointPaths } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
 

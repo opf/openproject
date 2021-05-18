@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageTable } from 'core-components/wp-fast-table/wp-fast-table';
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";

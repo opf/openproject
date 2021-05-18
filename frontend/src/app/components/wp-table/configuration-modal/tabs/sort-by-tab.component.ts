@@ -4,7 +4,7 @@ import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
   QuerySortByResource
-} from 'core-app/modules/hal/resources/query-sort-by-resource';
+} from 'core-app/core/hal/resources/query-sort-by-resource';
 import { WorkPackageViewSortByService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 

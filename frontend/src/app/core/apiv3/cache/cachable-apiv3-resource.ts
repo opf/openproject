@@ -31,7 +31,7 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { States } from "core-components/states.service";
 import { HasId, StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { concat, from, merge, Observable, of } from "rxjs";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { mapTo, publish, share, shareReplay, switchMap, take, tap } from "rxjs/operators";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 

@@ -27,8 +27,8 @@
 //++
 
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { filter } from "rxjs/operators";
 import { States } from "core-components/states.service";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";

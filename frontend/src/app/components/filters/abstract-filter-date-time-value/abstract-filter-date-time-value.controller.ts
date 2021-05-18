@@ -27,7 +27,7 @@
 //++
 
 import { Moment } from 'moment';
-import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { OnInit, Directive } from '@angular/core';

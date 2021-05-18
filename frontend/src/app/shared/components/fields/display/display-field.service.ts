@@ -27,7 +27,7 @@
 //++
 
 import { Injectable, Injector } from '@angular/core';
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { AbstractFieldService, IFieldType } from "core-app/shared/components/fields/field.service";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";

@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
-import { QuerySortByResource } from 'core-app/modules/hal/resources/query-sort-by-resource';
-import { HalLink } from 'core-app/modules/hal/hal-link/hal-link';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QuerySortByResource } from 'core-app/core/hal/resources/query-sort-by-resource';
+import { HalLink } from 'core-app/core/hal/hal-link/hal-link';
 import { Injectable } from '@angular/core';
 import { PaginationService } from 'core-components/table-pagination/pagination-service';
-import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { ApiV3Filter, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Injectable({ providedIn: 'root' })

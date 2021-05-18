@@ -1,5 +1,5 @@
 import { Observable, Subject } from "rxjs";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { switchMap, takeUntil } from "rxjs/operators";
 
 export type RequestSwitchmapHandler<T, R> = (input:T) => Observable<R>;

@@ -27,9 +27,9 @@
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { CustomActionResource } from "core-app/modules/hal/resources/custom-action-resource";
+import { CustomActionResource } from "core-app/core/hal/resources/custom-action-resource";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Component({

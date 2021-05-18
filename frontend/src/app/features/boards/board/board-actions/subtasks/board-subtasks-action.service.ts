@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { SubtasksBoardHeaderComponent } from "core-app/features/boards/board/board-actions/subtasks/subtasks-board-header.component";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";

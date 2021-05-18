@@ -27,9 +27,9 @@
 //++
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { UserResource } from "core-app/modules/hal/resources/user-resource";
-import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { UserResource } from "core-app/core/hal/resources/user-resource";
+import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

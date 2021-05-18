@@ -32,8 +32,8 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { WorkPackageViewBaseService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
-import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 
 export interface WPFocusState {
   workPackageId:string;

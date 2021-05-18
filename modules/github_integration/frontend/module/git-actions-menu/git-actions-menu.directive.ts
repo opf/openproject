@@ -30,7 +30,7 @@ import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu
 import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
 import {Directive, ElementRef, Input} from '@angular/core';
 import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import {WorkPackageResource} from 'core-app/core/hal/resources/work-package-resource';
 import {GitActionsMenuComponent} from './git-actions-menu.component';
 
 @Directive({

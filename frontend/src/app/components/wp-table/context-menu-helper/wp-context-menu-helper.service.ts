@@ -25,7 +25,7 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { Injectable } from "@angular/core";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';

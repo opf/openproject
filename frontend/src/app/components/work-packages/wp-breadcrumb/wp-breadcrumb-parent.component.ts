@@ -27,7 +27,7 @@
 //++
 
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackageRelationsHierarchyService } from 'core-app/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";

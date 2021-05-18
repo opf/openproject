@@ -1,6 +1,6 @@
 import { BcfResourcePath } from "core-app/features/bim/bcf/api/bcf-path-resources";
 import { BcfApiRequestService } from "core-app/features/bim/bcf/api/bcf-api-request.service";
-import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/modules/hal/http/http.interfaces";
+import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/core/hal/http/http.interfaces";
 import { BcfExtensionResource } from "core-app/features/bim/bcf/api/extensions/bcf-extension.resource";
 
 export class BcfExtensionPaths extends BcfResourcePath {

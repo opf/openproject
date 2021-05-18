@@ -32,13 +32,13 @@ import { Directive, ElementRef, Input } from "@angular/core";
 import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Directive({

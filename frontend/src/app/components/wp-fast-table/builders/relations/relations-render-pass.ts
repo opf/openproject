@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
-import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
 import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
 import { QueryColumn } from 'core-components/wp-query/query-column';

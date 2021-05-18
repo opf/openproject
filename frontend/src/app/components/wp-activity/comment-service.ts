@@ -29,8 +29,8 @@
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { Subject } from "rxjs";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 

@@ -5,7 +5,7 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { States } from 'core-components/states.service';
 import { WorkPackageViewOrderService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class RowsTransformer {

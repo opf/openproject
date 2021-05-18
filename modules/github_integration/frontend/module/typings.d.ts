@@ -1,4 +1,4 @@
-import { HalResource } from "../../../../frontend/src/app/modules/hal/resources/hal-resource";
+import { HalResource } from "../../../../frontend/src/app/core/hal/resources/hal-resource";
 
 export interface ITab {
   label:string,

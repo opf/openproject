@@ -27,10 +27,10 @@
 //++
 
 import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Observable } from "rxjs";
-import { HelpTextResource } from "core-app/modules/hal/resources/help-text-resource";
+import { HelpTextResource } from "core-app/core/hal/resources/help-text-resource";
 
 export class Apiv3HelpTextsPaths
   extends APIv3ResourceCollection<HelpTextResource, APIv3GettableResource<HelpTextResource>> {

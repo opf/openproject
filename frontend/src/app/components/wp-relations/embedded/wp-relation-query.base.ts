@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { Directive, ViewChild } from "@angular/core";
 import { WorkPackageEmbeddedTableComponent } from "core-components/wp-table/embedded/wp-embedded-table.component";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 

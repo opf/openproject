@@ -2,11 +2,11 @@ import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing
 import { ElementRef, Injector, Injectable } from "@angular/core";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { BehaviorSubject } from "rxjs";
-import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
+import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { UploadFile } from "core-app/core/file-upload/op-file-upload.service";
 
 @Injectable()

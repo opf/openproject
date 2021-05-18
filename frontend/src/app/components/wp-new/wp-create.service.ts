@@ -28,8 +28,8 @@
 
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { HookService } from 'core-app/modules/plugins/hook-service';
 import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-package-filter-values";
 import {
@@ -39,14 +39,14 @@ import {
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { filter } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
-import { FormResource } from "core-app/modules/hal/resources/form-resource";
-import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { FormResource } from "core-app/core/hal/resources/form-resource";
+import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { HalResource, HalSource, HalSourceLink } from "core-app/modules/hal/resources/hal-resource";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { HalResource, HalSource, HalSourceLink } from "core-app/core/hal/resources/hal-resource";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 

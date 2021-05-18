@@ -28,8 +28,8 @@
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { Transition } from '@uirouter/core';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { WorkPackageWatchersService } from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';

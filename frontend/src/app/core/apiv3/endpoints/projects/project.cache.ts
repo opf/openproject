@@ -27,13 +27,13 @@
 //++
 
 import { MultiInputState } from 'reactivestates';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { Injectable, Injector } from '@angular/core';
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 
 @Injectable()
 export class ProjectCache extends StateCacheService<ProjectResource> {

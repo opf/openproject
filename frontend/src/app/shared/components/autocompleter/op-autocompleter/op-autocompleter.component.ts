@@ -1,12 +1,12 @@
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import {HalResource} from 'core-app/core/hal/resources/hal-resource';
 import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, TemplateRef, ContentChild, AfterViewInit, NgZone} from '@angular/core';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-app/shared/helpers/angular/tracking-functions';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {HalResourceSortingService} from 'core-app/modules/hal/services/hal-resource-sorting.service';
+import {HalResourceService} from 'core-app/core/hal/services/hal-resource.service';
+import {HalResourceSortingService} from 'core-app/core/hal/services/hal-resource-sorting.service';
 import {DropdownPosition, NgSelectComponent} from '@ng-select/ng-select';
 import { Observable, Subject } from 'rxjs';
-import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
+import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
 import { CurrentProjectService } from 'core-components/projects/current-project.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';

@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
-import { QueryFormResource } from 'core-app/modules/hal/resources/query-form-resource';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { States } from '../states.service';
-import { ErrorResource } from 'core-app/modules/hal/resources/error-resource';
-import { WorkPackageCollectionResource } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
+import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';

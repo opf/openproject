@@ -1,25 +1,25 @@
 import { Board } from "core-app/features/boards/board/board";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { ComponentType } from "@angular/cdk/portal";
 import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
 import { DisabledButtonPlaceholder } from "core-app/features/boards/board/board-list/board-list.component";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { Injectable, Injector } from "@angular/core";
 import { map } from "rxjs/operators";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-package-filter-values";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { Observable } from "rxjs";
-import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
+import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Injectable()

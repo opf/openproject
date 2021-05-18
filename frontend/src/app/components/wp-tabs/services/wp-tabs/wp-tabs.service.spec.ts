@@ -5,9 +5,9 @@ import { TestBed } from '@angular/core/testing';
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { States } from 'core-app/components/states.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
+import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { HookService } from 'core-app/modules/plugins/hook-service';
 import { Tab, TabComponent } from '../../components/wp-tab-wrapper/tab';
 

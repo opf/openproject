@@ -28,8 +28,8 @@
 
 import { WorkPackagesListService } from '../../wp-list/wp-list.service';
 import { States } from '../../states.service';
-import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { OpModalComponent } from "core-app/modules/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";

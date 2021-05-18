@@ -27,8 +27,8 @@
 //++
 
 
-import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
-import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { QueryFilterResource } from 'core-app/core/hal/resources/query-filter-resource';
+import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { Component, Input, Output } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';

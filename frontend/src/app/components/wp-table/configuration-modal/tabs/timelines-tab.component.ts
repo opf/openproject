@@ -2,7 +2,7 @@ import { Component, Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewTimelineService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { TimelineLabels, TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
+import { TimelineLabels, TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageViewColumnsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { QueryColumn } from 'core-components/wp-query/query-column';
 import { zoomLevelOrder } from "core-components/wp-table/timeline/wp-timeline";

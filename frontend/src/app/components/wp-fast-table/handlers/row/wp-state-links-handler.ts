@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { States } from '../../../states.service';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';

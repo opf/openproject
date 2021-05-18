@@ -1,12 +1,12 @@
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { Injectable, OnDestroy } from '@angular/core';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { States } from 'core-components/states.service';
 import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
 import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
 import { WorkPackageViewBaseService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
-import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 
 export interface WorkPackageViewSelectionState {
   // Map of selected rows

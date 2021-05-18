@@ -7,11 +7,11 @@ import { MultipleLinesCustomOptionsDisplayField } from "core-app/shared/componen
 import { ProgressTextDisplayField } from "core-app/shared/components/fields/display/field-types/progress-text-display-field.module";
 import { MultipleLinesUserFieldModule } from "core-app/shared/components/fields/display/field-types/multiple-lines-user-display-field.module";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
-import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
+import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { DateDisplayField } from "core-app/shared/components/fields/display/field-types/date-display-field.module";
 

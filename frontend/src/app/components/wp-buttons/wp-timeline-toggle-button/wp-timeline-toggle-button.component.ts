@@ -29,7 +29,7 @@
 import { AbstractWorkPackageButtonComponent, ButtonControllerText } from '../wp-buttons.module';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
+import { TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 export interface TimelineButtonText extends ButtonControllerText {

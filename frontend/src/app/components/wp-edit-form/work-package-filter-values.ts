@@ -1,7 +1,7 @@
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";

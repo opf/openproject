@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { timeOutput } from '../../../shared/helpers/debug_output';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { States } from '../../states.service';
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";

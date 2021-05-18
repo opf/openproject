@@ -28,9 +28,9 @@
 
 import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
 import { Apiv3GridPaths } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-paths";
-import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { GridResource } from "core-app/core/hal/resources/grid-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { Apiv3GridForm } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-form";
 import { Observable } from "rxjs";
 import {
@@ -38,7 +38,7 @@ import {
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 
 export class Apiv3GridsPaths
   extends APIv3ResourceCollection<GridResource, Apiv3GridPaths>

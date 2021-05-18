@@ -35,7 +35,7 @@ import { WorkPackageViewPagination } from "core-app/modules/work_packages/routin
 import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { combineLatest } from 'rxjs';
-import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
+import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 
 @Component({
   templateUrl: '../../table-pagination/table-pagination.component.html',

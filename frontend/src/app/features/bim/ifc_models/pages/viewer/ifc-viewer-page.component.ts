@@ -14,7 +14,7 @@ import {
 import { BimViewToggleButtonComponent } from "core-app/features/bim/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
 import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
 import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { BimManageIfcModelsButtonComponent } from "core-app/features/bim/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import { WorkPackageCreateButtonComponent } from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
 import { StateService, TransitionService } from "@uirouter/core";

@@ -38,7 +38,7 @@ import {
   activeFieldContainerClassName,
   EditForm
 } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { EditingPortalService } from "core-app/shared/components/fields/edit/editing-portal/editing-portal-service";

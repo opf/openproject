@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
-import { UserResource } from 'core-app/modules/hal/resources/user-resource';
-import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
-import { RootResource } from 'core-app/modules/hal/resources/root-resource';
-import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { UserResource } from 'core-app/core/hal/resources/user-resource';
+import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
+import { RootResource } from 'core-app/core/hal/resources/root-resource';
+import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -44,8 +44,8 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
-import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
-import { HalResourceSortingService } from "core-app/modules/hal/services/hal-resource-sorting.service";
+import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
+import { HalResourceSortingService } from "core-app/core/hal/services/hal-resource-sorting.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

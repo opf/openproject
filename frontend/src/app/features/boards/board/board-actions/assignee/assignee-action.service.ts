@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
-import { UserResource } from 'core-app/modules/hal/resources/user-resource';
-import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { UserResource } from 'core-app/core/hal/resources/user-resource';
+import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { AssigneeBoardHeaderComponent } from "core-app/features/boards/board/board-actions/assignee/assignee-board-header.component";
-import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Board } from "core-app/features/boards/board/board";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

@@ -35,7 +35,7 @@ import {
   Injector,
   ViewChild
 } from "@angular/core";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { NEVER, Observable } from "rxjs";
 import { filter, map, take, tap } from "rxjs/operators";

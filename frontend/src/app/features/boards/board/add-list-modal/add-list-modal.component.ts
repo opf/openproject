@@ -36,12 +36,12 @@ import { StateService } from "@uirouter/core";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
 import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component.js";
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
 import { ValueOption } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component";
-import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 
 @Component({
   templateUrl: './add-list-modal.html'

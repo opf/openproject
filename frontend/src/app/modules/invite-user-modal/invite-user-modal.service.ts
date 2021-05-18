@@ -28,7 +28,7 @@
 
 
 import { Inject, Injectable, Injector, EventEmitter } from "@angular/core";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { InviteUserModalComponent } from "./invite-user.component";

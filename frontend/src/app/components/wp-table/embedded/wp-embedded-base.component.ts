@@ -10,7 +10,7 @@ import { UrlParamsHelperService } from 'core-components/wp-query/url-params-help
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { WorkPackagesViewBase } from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
-import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

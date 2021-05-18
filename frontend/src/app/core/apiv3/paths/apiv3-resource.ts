@@ -1,8 +1,8 @@
 import { Constructor } from "@angular/cdk/table";
 import { SimpleResource, SimpleResourceCollection } from "core-app/core/apiv3/paths/path-resources";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Observable } from "rxjs";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";

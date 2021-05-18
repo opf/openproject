@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { States } from '../../states.service';
 import { StateService } from '@uirouter/core';
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
-import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

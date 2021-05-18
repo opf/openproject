@@ -38,9 +38,9 @@ import {
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { Observable } from "rxjs";
-import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

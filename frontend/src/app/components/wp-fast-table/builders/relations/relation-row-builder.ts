@@ -1,12 +1,12 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
-import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { States } from '../../../states.service';
 import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { tdClassName } from '../cell-builder';
 import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { RelationColumnType } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 

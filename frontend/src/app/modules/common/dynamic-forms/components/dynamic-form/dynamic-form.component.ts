@@ -14,7 +14,7 @@ import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSetting
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { catchError, finalize } from "rxjs/operators";
-import { HalSource } from "core-app/modules/hal/resources/hal-resource";
+import { HalSource } from "core-app/core/hal/resources/hal-resource";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormGroup } from "@angular/forms";

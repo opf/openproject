@@ -29,7 +29,7 @@
 import { AfterViewInit, Component, ElementRef, Injector } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { INotification, NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
 import * as moment from 'moment';
 import { Moment } from 'moment';
@@ -55,7 +55,7 @@ import { WorkPackageTimelineCell } from 'core-components/wp-table/timeline/cells
 import { selectorTimelineSide } from 'core-components/wp-table/wp-table-scroll-sync';
 import { debugLog, timeOutput } from 'core-app/shared/helpers/debug_output';
 import { RenderedWorkPackage } from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
-import { HalEventsService } from 'core-app/modules/hal/services/hal-events.service';
+import { HalEventsService } from 'core-app/core/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/modules/work_packages/notifications/work-package-notification.service';
 import { combineLatest, Observable } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';

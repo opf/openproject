@@ -27,16 +27,16 @@
 //++
 
 import { APIv3ProjectPaths } from "core-app/core/apiv3/endpoints/projects/apiv3-project-paths";
-import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import { Observable } from "rxjs";
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { ProjectCache } from "core-app/core/apiv3/endpoints/projects/project.cache";

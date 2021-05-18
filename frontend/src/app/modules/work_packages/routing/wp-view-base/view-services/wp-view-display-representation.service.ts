@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { States } from 'core-components/states.service';
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";

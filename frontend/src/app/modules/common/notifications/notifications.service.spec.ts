@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpenprojectHalModule } from 'core-app/modules/hal/openproject-hal.module';
+import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';

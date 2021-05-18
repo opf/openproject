@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { Observable } from "rxjs";
 import { ApiV3FilterBuilder, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

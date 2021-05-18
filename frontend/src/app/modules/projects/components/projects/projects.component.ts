@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StateService, UIRouterGlobals } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { HalSource } from "core-app/modules/hal/resources/hal-resource";
+import { HalSource } from "core-app/core/hal/resources/hal-resource";
 import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 
 @Component({

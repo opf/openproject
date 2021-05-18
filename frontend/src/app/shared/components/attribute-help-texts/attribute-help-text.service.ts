@@ -27,15 +27,15 @@
 //++
 
 import { input } from 'reactivestates';
-import { HelpTextResource } from 'core-app/modules/hal/resources/help-text-resource';
+import { HelpTextResource } from 'core-app/core/hal/resources/help-text-resource';
 import { Injectable } from '@angular/core';
-import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Observable } from "rxjs";
 import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { ProjectResource } from "core-app/core/hal/resources/project-resource";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { take } from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })

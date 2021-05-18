@@ -27,11 +27,11 @@
 //++
 
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
-import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { OpTitleService } from "core-components/html/op-title.service";
 import { WorkPackagesViewBase } from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
 import { take } from "rxjs/operators";
-import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
