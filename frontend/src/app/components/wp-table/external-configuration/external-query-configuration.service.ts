@@ -1,7 +1,7 @@
 import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
 import { ComponentPortal, DomPortalOutlet, PortalInjector } from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
-import { FocusHelperService } from 'core-app/modules/focus/focus-helper';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import {
   ExternalQueryConfigurationComponent,
   QueryConfigurationLocals

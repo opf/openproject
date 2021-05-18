@@ -30,7 +30,7 @@ import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { Injector } from '@angular/core';
-import { FocusHelperService } from 'core-app/modules/focus/focus-helper';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
 import { debugLog } from "core-app/shared/helpers/debug_output";

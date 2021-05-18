@@ -27,7 +27,7 @@
 //++
 
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { FocusHelperService } from 'app/modules/focus/focus-helper';
+import { FocusHelperService } from 'app/shared/directives/focus/focus-helper';
 import { I18nService } from 'app/modules/common/i18n/i18n.service';
 import { HalResourceService } from "app/modules/hal/services/hal-resource.service";
 import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";

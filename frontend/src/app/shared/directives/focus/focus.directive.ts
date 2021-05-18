@@ -27,7 +27,7 @@
 //++
 
 import { AfterViewInit, Directive, ElementRef, Input } from "@angular/core";
-import { FocusHelperService } from "core-app/modules/focus/focus-helper";
+import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
 
 @Directive({
   selector: '[focus]'
