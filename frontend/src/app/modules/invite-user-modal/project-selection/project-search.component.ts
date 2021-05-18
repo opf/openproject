@@ -7,7 +7,7 @@ import {
 import { FormControl } from "@angular/forms";
 import { BehaviorSubject, combineLatest } from "rxjs";
 import { debounceTime, map, switchMap } from "rxjs/operators";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";

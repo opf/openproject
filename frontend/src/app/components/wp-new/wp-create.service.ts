@@ -44,7 +44,7 @@ import { HalEventsService } from "core-app/modules/hal/services/hal-events.servi
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { HalResource, HalSource, HalSourceLink } from "core-app/modules/hal/resources/hal-resource";
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 

@@ -43,7 +43,7 @@ import Moment = moment.Moment;
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { take } from "rxjs/operators";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';

@@ -13,7 +13,7 @@ import {
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { JobStatusEnum, JobStatusInterface } from "core-app/modules/job-status/job-status.interface";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 
 @Component({

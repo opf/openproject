@@ -30,7 +30,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
 
 import { IconModule } from 'core-app/modules/icon/icon.module';
-import { OpenprojectAccessibilityModule } from 'core-app/modules/a11y/openproject-a11y.module';
+import { OpenprojectAccessibilityModule } from 'core-app/shared/directives/a11y/openproject-a11y.module';
 
 import { AttachmentsComponent } from "./attachments.component";
 import { AttachmentListComponent } from "./attachment-list/attachment-list.component";

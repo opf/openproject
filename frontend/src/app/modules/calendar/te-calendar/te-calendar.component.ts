@@ -31,7 +31,7 @@ import { TimeEntryCreateService } from "core-app/modules/time_entries/create/cre
 import { ColorsService } from "core-app/modules/common/colors/colors.service";
 import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

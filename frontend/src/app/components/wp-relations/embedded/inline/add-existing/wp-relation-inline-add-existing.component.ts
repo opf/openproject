@@ -38,7 +38,7 @@ import { UrlParamsHelperService } from "core-components/wp-query/url-params-help
 import { RelationResource } from "core-app/modules/hal/resources/relation-resource";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Component({

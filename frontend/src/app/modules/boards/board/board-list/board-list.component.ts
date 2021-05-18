@@ -50,7 +50,7 @@ import { debounceTime, filter, map, retry } from "rxjs/operators";
 import { HalEvent, HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { ChangeItem } from "core-app/modules/fields/changeset/changeset";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 export interface DisabledButtonPlaceholder {

@@ -8,7 +8,7 @@ import {
 import {Observable, of} from "rxjs";
 import {mapTo, switchMap} from "rxjs/operators";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
 import {PrincipalData, PrincipalLike} from "core-app/modules/principal/principal-types";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";

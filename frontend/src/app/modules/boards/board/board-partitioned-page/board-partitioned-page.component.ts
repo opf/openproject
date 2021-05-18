@@ -23,7 +23,7 @@ import { QueryResource } from "core-app/modules/hal/resources/query-resource";
 import { Ng2StateDeclaration } from "@uirouter/angular";
 import { BoardFiltersService } from "core-app/modules/boards/board/board-filter/board-filters.service";
 import { CardViewHandlerRegistry } from "core-components/wp-card-view/event-handler/card-view-handler-registry";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);

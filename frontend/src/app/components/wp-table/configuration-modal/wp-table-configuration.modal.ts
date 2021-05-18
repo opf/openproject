@@ -32,7 +32,7 @@ import { OpModalComponent } from 'core-app/modules/modal/modal.component';
 import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
 import { ComponentType } from "@angular/cdk/portal";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 

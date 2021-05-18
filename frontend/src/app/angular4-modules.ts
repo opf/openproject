@@ -60,7 +60,7 @@ import { OpenprojectCalendarModule } from "core-app/modules/calendar/openproject
 import { OpenprojectGlobalSearchModule } from "core-app/modules/global_search/openproject-global-search.module";
 import { MainMenuToggleComponent } from "core-components/main-menu/main-menu-toggle.component";
 import { MainMenuNavigationService } from "core-components/main-menu/main-menu-navigation.service";
-import { OpenprojectAdminModule } from "core-app/modules/admin/openproject-admin.module";
+import { OpenprojectAdminModule } from "core-app/core/admin/openproject-admin.module";
 import { OpenprojectDashboardsModule } from "core-app/modules/dashboards/openproject-dashboards.module";
 import { OpenprojectWorkPackageGraphsModule } from "core-app/modules/work-package-graphs/openproject-work-package-graphs.module";
 import { WpPreviewModal } from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
@@ -68,7 +68,7 @@ import { PreviewTriggerService } from "core-app/core/setup/globals/global-listen
 import { OpenprojectOverviewModule } from "core-app/modules/overview/openproject-overview.module";
 import { OpenprojectMyPageModule } from "core-app/modules/my-page/openproject-my-page.module";
 import { OpenprojectProjectsModule } from "core-app/modules/projects/openproject-projects.module";
-import { KeyboardShortcutService } from "core-app/modules/a11y/keyboard-shortcut-service";
+import { KeyboardShortcutService } from "core-app/shared/directives/a11y/keyboard-shortcut-service";
 import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
 import { OpenprojectMembersModule } from "core-app/modules/members/members.module";
 import { OpenprojectEnterpriseModule } from "core-components/enterprise/openproject-enterprise.module";

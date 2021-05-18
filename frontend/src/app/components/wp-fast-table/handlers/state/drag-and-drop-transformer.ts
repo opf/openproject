@@ -16,7 +16,7 @@ import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/
 import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { isInsideCollapsedGroup } from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import { collapsedGroupClass } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 

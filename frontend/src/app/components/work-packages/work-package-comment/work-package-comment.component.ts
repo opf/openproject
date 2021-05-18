@@ -50,7 +50,7 @@ import { NotificationsService } from "core-app/modules/common/notifications/noti
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'work-package-comment',

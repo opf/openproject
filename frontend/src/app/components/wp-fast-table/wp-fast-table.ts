@@ -15,7 +15,7 @@ import { WorkPackageTableRow } from './wp-table.interfaces';
 import { WorkPackageTableConfiguration } from 'core-app/components/wp-table/wp-table-configuration';
 import { RenderedWorkPackage } from 'core-app/modules/work_packages/render-info/rendered-work-package.type';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 
 export class WorkPackageTable {

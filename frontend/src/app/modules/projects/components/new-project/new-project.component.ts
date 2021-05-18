@@ -5,7 +5,7 @@ import {HalResource, HalSource} from "core-app/modules/hal/resources/hal-resourc
 import {IDynamicFieldGroupConfig, IOPFormlyFieldSettings} from "core-app/modules/common/dynamic-forms/typings";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FormControl, FormGroup} from "@angular/forms";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";

@@ -27,7 +27,7 @@
 //++    Ng1FieldControlsWrapper,
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector } from "@angular/core";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";

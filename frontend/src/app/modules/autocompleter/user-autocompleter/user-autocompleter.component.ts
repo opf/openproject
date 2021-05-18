@@ -36,7 +36,7 @@ import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/sh
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { UserResource } from "core-app/modules/hal/resources/user-resource";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3FilterBuilder, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 export const usersAutocompleterSelector = 'user-autocompleter';

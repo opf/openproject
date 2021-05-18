@@ -14,7 +14,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { boardTeaserVideoURL } from "core-app/modules/boards/board-constants.const";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './boards-index-page.component.html',

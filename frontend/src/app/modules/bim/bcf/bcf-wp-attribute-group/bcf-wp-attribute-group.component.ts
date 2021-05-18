@@ -20,7 +20,7 @@ import { WorkPackageCreateService } from "core-components/wp-new/wp-create.servi
 import { BcfAuthorizationService } from "core-app/modules/bim/bcf/api/bcf-authorization.service";
 import { ViewpointsService } from "core-app/modules/bim/bcf/helper/viewpoints.service";
 import { BcfViewpointItem } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 
 @Component({

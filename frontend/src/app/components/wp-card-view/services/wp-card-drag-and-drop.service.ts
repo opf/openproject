@@ -10,7 +10,7 @@ import { DragAndDropHelpers } from "core-app/modules/common/drag-and-drop/drag-a
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {

@@ -33,7 +33,7 @@ import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {

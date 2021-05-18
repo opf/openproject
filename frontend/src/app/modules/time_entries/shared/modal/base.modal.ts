@@ -6,7 +6,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { TimeEntryFormComponent } from "core-app/modules/time_entries/form/form.component";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Directive()
 export abstract class TimeEntryBaseModal extends OpModalComponent {

@@ -6,8 +6,8 @@ import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";
 import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
 import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Apiv3ListParameters} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
+import {Apiv3ListParameters} from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import {HalResource} from "core-app/modules/hal/resources/hal-resource";
 
 const DISPLAYED_MEMBERS_LIMIT = 100;

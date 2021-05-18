@@ -41,7 +41,7 @@ import { filter } from "rxjs/operators";
 import { QueryResource } from "core-app/modules/hal/resources/query-resource";
 import { GroupDescriptor } from "core-components/work-packages/wp-single-view/wp-single-view.component";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-children-query',

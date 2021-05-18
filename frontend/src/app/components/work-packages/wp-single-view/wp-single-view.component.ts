@@ -56,7 +56,7 @@ import { HalResourceService } from "core-app/modules/hal/services/hal-resource.s
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export interface FieldDescriptor {
   name:string;

@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { OpenprojectAttachmentsModule } from "core-app/modules/attachments/openproject-attachments.module";
-import { OpenprojectAccessibilityModule } from "core-app/modules/a11y/openproject-a11y.module";
+import { OpenprojectAccessibilityModule } from "core-app/shared/directives/a11y/openproject-a11y.module";
 import { IconModule } from "core-app/modules/icon/icon.module";
 
 import { AttributeHelpTextComponent } from "./attribute-help-text.component";

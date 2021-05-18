@@ -4,8 +4,8 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
 import { Injectable } from "@angular/core";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
 import { map, take, tap } from "rxjs/operators";
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";

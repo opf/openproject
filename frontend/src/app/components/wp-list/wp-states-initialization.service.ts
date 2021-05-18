@@ -22,7 +22,7 @@ import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/r
 import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { WorkPackageViewRelationColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { WorkPackageViewCollapsedGroupsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 @Injectable()

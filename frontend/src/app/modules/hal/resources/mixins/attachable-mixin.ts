@@ -33,7 +33,7 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
 import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import { HttpErrorResponse } from "@angular/common/http";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { OpenProjectFileUploadService, UploadFile } from "core-app/core/file-upload/op-file-upload.service";
 

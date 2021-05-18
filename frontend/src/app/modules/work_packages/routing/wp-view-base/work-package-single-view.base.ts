@@ -40,7 +40,7 @@ import { HalResourceEditingService } from 'core-app/modules/fields/edit/services
 import { WorkPackageNotificationService } from 'core-app/modules/work_packages/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Tab } from 'core-app/components/wp-tabs/components/wp-tab-wrapper/tab';
 import { HookService } from 'core-app/modules/plugins/hook-service';
 

@@ -41,7 +41,7 @@ import {
 import {
   adminTypeFormConfigurationSelector,
   TypeFormConfigurationComponent
-} from "core-app/modules/admin/types/type-form-configuration.component";
+} from "core-app/core/admin/types/type-form-configuration.component";
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector
@@ -153,7 +153,7 @@ import {
 import {
   EditableQueryPropsComponent,
   editableQueryPropsSelector
-} from "core-app/modules/admin/editable-query-props/editable-query-props.component";
+} from "core-app/core/admin/editable-query-props/editable-query-props.component";
 import { SlideToggleComponent, slideToggleSelector } from "core-app/modules/common/slide-toggle/slide-toggle.component";
 import { BackupComponent, backupSelector } from "core-app/core/setup/globals/components/admin/backup.component";
 

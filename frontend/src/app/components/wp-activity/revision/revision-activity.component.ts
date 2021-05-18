@@ -32,7 +32,7 @@ import { UserResource } from "core-app/modules/hal/resources/user-resource";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'revision-activity',

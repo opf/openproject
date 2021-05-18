@@ -46,7 +46,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'user-activity',

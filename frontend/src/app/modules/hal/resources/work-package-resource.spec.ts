@@ -45,7 +45,7 @@ import { WorkPackageCreateService } from 'core-app/components/wp-new/wp-create.s
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { TimezoneService } from "core-components/datetime/timezone.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
 

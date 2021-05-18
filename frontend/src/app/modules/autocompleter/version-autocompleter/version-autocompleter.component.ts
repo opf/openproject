@@ -33,7 +33,7 @@ import { VersionResource } from "core-app/modules/hal/resources/version-resource
 import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',

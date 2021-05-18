@@ -30,7 +30,7 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { TimezoneService } from 'core-components/datetime/timezone.service';
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 import { AvatarSize, PrincipalRendererService } from "./principal-renderer.service";
 import { PrincipalLike } from "./principal-types";

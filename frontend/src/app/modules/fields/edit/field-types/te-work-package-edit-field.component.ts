@@ -30,7 +30,7 @@ import { Component } from "@angular/core";
 import { WorkPackageEditFieldComponent } from "core-app/modules/fields/edit/field-types/work-package-edit-field.component";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import {
   TimeEntryWorkPackageAutocompleterComponent,
   TimeEntryWorkPackageAutocompleterMode

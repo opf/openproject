@@ -49,7 +49,7 @@ import { SchemaCacheService } from "core-components/schemas/schema-cache.service
 import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Component({

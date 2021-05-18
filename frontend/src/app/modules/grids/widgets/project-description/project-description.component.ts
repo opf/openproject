@@ -33,7 +33,7 @@ import { CurrentProjectService } from "core-components/projects/current-project.
 import { Observable } from "rxjs";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './project-description.component.html',

@@ -30,7 +30,7 @@ import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { ConfigurationResource } from "core-app/modules/hal/resources/configuration-resource";
 import * as moment from "moment";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {

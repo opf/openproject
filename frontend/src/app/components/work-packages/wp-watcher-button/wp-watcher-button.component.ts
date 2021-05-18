@@ -31,7 +31,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } 
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { WorkPackageWatchersService } from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-watcher-button',

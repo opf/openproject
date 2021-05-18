@@ -41,7 +41,7 @@ import { InputState } from "reactivestates";
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 
 export interface WorkPackageResourceEmbedded {

@@ -40,8 +40,8 @@ import { take } from "rxjs/operators";
 import { InputState } from "reactivestates";
 import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { CausedUpdatesService } from "core-app/modules/boards/board/caused-updates/caused-updates.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
 
 
 @Injectable()

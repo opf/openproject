@@ -48,7 +48,7 @@ import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.s
 import { HalResourceSortingService } from "core-app/modules/hal/services/hal-resource-sorting.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
 
 @Component({

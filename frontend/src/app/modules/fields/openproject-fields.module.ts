@@ -28,7 +28,7 @@
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { OpenprojectAccessibilityModule } from "core-app/modules/a11y/openproject-a11y.module";
+import { OpenprojectAccessibilityModule } from "core-app/shared/directives/a11y/openproject-a11y.module";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { OpenprojectEditorModule } from 'core-app/modules/editor/openproject-editor.module';
 import { OpenprojectAttachmentsModule } from "core-app/modules/attachments/openproject-attachments.module";

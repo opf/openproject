@@ -9,7 +9,7 @@ import { UrlParamsHelperService } from "core-components/wp-query/url-params-help
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { StateService } from '@uirouter/core';
 import { finalize, publish, skip } from 'rxjs/operators';
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'widget-wp-table',

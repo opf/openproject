@@ -36,7 +36,7 @@ import { WorkPackageRelationsHierarchyService } from "core-components/wp-relatio
 import { WorkPackageViewHierarchyIdentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 import { WorkPackageViewDisplayRepresentationService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import SpyObj = jasmine.SpyObj;
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { of } from "rxjs";
 
 describe('WorkPackageViewIndentation service', function () {

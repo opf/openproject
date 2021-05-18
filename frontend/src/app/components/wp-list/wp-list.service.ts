@@ -49,9 +49,9 @@ import {
 } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 import { PaginationService } from "core-components/table-pagination/pagination-service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { APIv3QueriesPaths } from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
-import { APIv3QueryPaths } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-paths";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";
+import { APIv3QueryPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-query-paths";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };

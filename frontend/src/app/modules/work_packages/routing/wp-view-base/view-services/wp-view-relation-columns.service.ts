@@ -42,7 +42,7 @@ import {
   RelationQueryColumn,
   TypeRelationQueryColumn
 } from "core-components/wp-query/query-column";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export type RelationColumnType = 'toType'|'ofType';
 

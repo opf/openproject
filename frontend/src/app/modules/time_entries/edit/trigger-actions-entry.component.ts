@@ -4,7 +4,7 @@ import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.se
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
 
 export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions-entry';

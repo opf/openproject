@@ -1,5 +1,5 @@
 import { debugLog, timeOutput } from "core-app/shared/helpers/debug_output";
-import { QueryOrder } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-order";
+import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
 
 // min allowed position
 export const MIN_ORDER = -2147483647;

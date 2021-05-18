@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { OpAutocompleterComponent } from "./op-autocompleter.component";
 import { OpAutocompleterService } from "./services/op-autocompleter.service";
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { of } from "rxjs";
 import { NgSelectComponent} from '@ng-select/ng-select';
 import { NgSelectModule } from "@ng-select/ng-select";

@@ -9,8 +9,8 @@ import { WidgetChangeset } from "core-app/modules/grids/widgets/widget-changeset
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { BehaviorSubject } from 'rxjs';
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
-import { Apiv3GridForm } from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-form";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Apiv3GridForm } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-form";
 import { map } from "rxjs/operators";
 
 @Injectable()

@@ -44,7 +44,7 @@ import { WorkPackageNotificationService } from "core-app/modules/work_packages/n
 import * as URI from 'urijs';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { HalSource, HalSourceLinks } from "core-app/modules/hal/resources/hal-resource";
 
 @Directive()

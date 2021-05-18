@@ -20,7 +20,7 @@ import { States } from 'core-components/states.service';
 import { CKEditorPreviewService } from "core-app/modules/common/ckeditor/ckeditor-preview.service";
 import { ExternalRelationQueryConfigurationService } from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 

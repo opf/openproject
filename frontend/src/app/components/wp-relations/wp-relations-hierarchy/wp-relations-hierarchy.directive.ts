@@ -33,7 +33,7 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { WorkPackageRelationsHierarchyService } from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { take } from 'rxjs/operators';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-relations-hierarchy',

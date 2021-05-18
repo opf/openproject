@@ -8,7 +8,7 @@ import { PathHelperService } from "core-app/modules/common/path-helper/path-help
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { DomSanitizer } from '@angular/platform-browser';
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './documents.component.html',

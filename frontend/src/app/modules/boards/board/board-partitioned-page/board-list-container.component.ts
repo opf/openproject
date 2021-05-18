@@ -21,7 +21,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { BoardListCrossSelectionService } from "core-app/modules/boards/board/board-list/board-list-cross-selection.service";
 import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
 import { BoardActionsRegistryService } from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { WorkPackageStatesInitializationService } from 'core-app/components/wp-list/wp-states-initialization.service';
 
 @Component({

@@ -33,7 +33,7 @@ import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { ISchemaProxy, SchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
 import { WorkPackageSchemaProxy } from "core-app/modules/hal/schemas/work-package-schema-proxy";
-import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
 import { take } from "rxjs/operators";
 

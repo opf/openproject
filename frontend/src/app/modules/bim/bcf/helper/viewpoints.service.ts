@@ -8,7 +8,7 @@ import { switchMap, map, tap } from 'rxjs/operators';
 import { of, forkJoin, Observable } from 'rxjs';
 import { BcfViewpointInterface } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { BcfTopicResource } from "core-app/modules/bim/bcf/api/topics/bcf-topic.resource";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 
 @Injectable()

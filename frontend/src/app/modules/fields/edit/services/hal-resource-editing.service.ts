@@ -36,7 +36,7 @@ import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-ch
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { HookService } from "core-app/modules/plugins/hook-service";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
-import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';

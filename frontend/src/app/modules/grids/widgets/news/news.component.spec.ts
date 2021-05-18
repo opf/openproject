@@ -7,7 +7,7 @@ import { States } from 'core-app/components/states.service';
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 import { HttpClientModule } from "@angular/common/http";
 import { By } from '@angular/platform-browser';
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { of } from "rxjs";
 
 describe('shows news', () => {

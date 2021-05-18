@@ -7,7 +7,7 @@ import { TimeEntryEditModal } from './edit.modal';
 import { take } from 'rxjs/operators';
 import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
 import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()
 export class TimeEntryEditService {

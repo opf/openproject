@@ -7,7 +7,7 @@ import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking
 import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
 import { HalResourceSortingService } from 'core-app/modules/hal/services/hal-resource-sorting.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { ValueOption } from 'core-app/modules/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { Observable } from 'rxjs';
@@ -15,9 +15,9 @@ import { HalResourceNotificationService } from 'core-app/modules/hal/services/ha
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
 import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { map } from 'rxjs/operators';
-import { APIv3ResourceCollection } from 'core-app/modules/apiv3/paths/apiv3-resource';
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 
 @Component({
   selector: 'filter-searchable-multiselect-value',

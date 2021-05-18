@@ -11,7 +11,7 @@ import { QueryFormResource } from "core-app/modules/hal/resources/query-form-res
 import { distinctUntilChanged, map, take, withLatestFrom } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-embedded-table',

@@ -16,7 +16,7 @@ import { WorkPackageResource } from "core-app/modules/hal/resources/work-package
 import { IFieldSchema } from "core-app/modules/fields/field.base";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-package-filter-values";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { Observable } from "rxjs";
 import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";

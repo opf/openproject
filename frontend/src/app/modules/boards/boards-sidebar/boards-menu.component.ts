@@ -7,7 +7,7 @@ import { MainMenuNavigationService } from "core-components/main-menu/main-menu-n
 import { map } from "rxjs/operators";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export const boardsMenuSelector = 'boards-menu';
 
