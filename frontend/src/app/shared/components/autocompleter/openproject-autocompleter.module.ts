@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component.js";
 import { DraggableAutocompleteComponent } from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
 import { DynamicModule } from "ng-dynamic-component";
 import { ColorsAutocompleter } from "core-app/modules/common/colors/colors-autocompleter.component";
@@ -18,6 +17,7 @@ import {OpAutocompleterComponent} from "core-app/shared/components/autocompleter
 import {OpAutocompleterOptionTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-option-template.directive";
 import {OpAutocompleterLabelTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-label-template.directive";
 import {OpAutocompleterHeaderTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-header-template.directive";
+import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,
