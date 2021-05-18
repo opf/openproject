@@ -53,7 +53,7 @@ import { OpenprojectWorkPackagesModule } from 'core-app/modules/work_packages/op
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
-import { OpenprojectRouterModule } from "core-app/modules/router/openproject-router.module";
+import { OpenprojectRouterModule } from "core-app/core/routing/openproject-router.module";
 import { OpenprojectWorkPackageRoutesModule } from "core-app/modules/work_packages/openproject-work-package-routes.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";

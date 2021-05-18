@@ -30,7 +30,7 @@ import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/c
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from "core-components/states.service";
-import { FirstRouteService } from "core-app/modules/router/first-route-service";
+import { FirstRouteService } from "core-app/core/routing/first-route-service";
 import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { WorkPackageSingleViewBase } from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";

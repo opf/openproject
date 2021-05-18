@@ -1,5 +1,5 @@
 import { OptionalBootstrapDefinition } from "core-app/core/setup/globals/dynamic-bootstrapper";
-import { appBaseSelector, ApplicationBaseComponent } from "core-app/modules/router/base/application-base.component";
+import { appBaseSelector, ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";
 import {
   EmbeddedTablesMacroComponent,
   wpEmbeddedTableMacroSelector

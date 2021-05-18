@@ -30,9 +30,9 @@ import { StateDeclaration, StateService, Transition, TransitionService, UIRouter
 import { INotification, NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { Injector } from "@angular/core";
-import { FirstRouteService } from "core-app/modules/router/first-route-service";
+import { FirstRouteService } from "core-app/core/routing/first-route-service";
 import { Ng2StateDeclaration, StatesModule } from "@uirouter/angular";
-import { appBaseSelector, ApplicationBaseComponent } from "core-app/modules/router/base/application-base.component";
+import { appBaseSelector, ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";
 import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [

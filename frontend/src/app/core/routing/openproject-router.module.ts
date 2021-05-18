@@ -27,14 +27,14 @@
 //++
 
 import { Injector, NgModule } from '@angular/core';
-import { FirstRouteService } from "core-app/modules/router/first-route-service";
+import { FirstRouteService } from "core-app/core/routing/first-route-service";
 import { UIRouterModule } from "@uirouter/angular";
-import { ApplicationBaseComponent } from "core-app/modules/router/base/application-base.component";
+import { ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";
 import {
   initializeUiRouterListeners,
   OPENPROJECT_ROUTES,
   uiRouterConfiguration
-} from "core-app/modules/router/openproject.routes";
+} from "core-app/core/routing/openproject.routes";
 
 @NgModule({
   imports: [
