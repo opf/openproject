@@ -5,7 +5,7 @@ import { TimezoneService } from "core-components/datetime/timezone.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { AbstractWidgetComponent } from "core-app/modules/grids/widgets/abstract-widget.component";
-import { DisplayedDays } from "core-app/modules/calendar/te-calendar/te-calendar.component";
+import { DisplayedDays } from "core-app/shared/components/calendar/te-calendar/te-calendar.component";
 
 @Component({
   templateUrl: './time-entries-current-user.component.html',

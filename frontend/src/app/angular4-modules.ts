@@ -56,7 +56,7 @@ import { OpenprojectGridsModule } from "core-app/modules/grids/openproject-grids
 import { OpenprojectRouterModule } from "core-app/modules/router/openproject-router.module";
 import { OpenprojectWorkPackageRoutesModule } from "core-app/modules/work_packages/openproject-work-package-routes.module";
 import { BrowserModule } from "@angular/platform-browser";
-import { OpenprojectCalendarModule } from "core-app/modules/calendar/openproject-calendar.module";
+import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";
 import { OpenprojectGlobalSearchModule } from "core-app/modules/global_search/openproject-global-search.module";
 import { MainMenuToggleComponent } from "core-components/main-menu/main-menu-toggle.component";
 import { MainMenuNavigationService } from "core-components/main-menu/main-menu-navigation.service";

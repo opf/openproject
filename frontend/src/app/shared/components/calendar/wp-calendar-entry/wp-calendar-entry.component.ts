@@ -28,7 +28,7 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { WorkPackagesViewBase } from "core-app/modules/work_packages/routing/wp-view-base/work-packages-view.base";
-import { WorkPackagesCalendarController } from "core-app/modules/calendar/wp-calendar/wp-calendar.component";
+import { WorkPackagesCalendarController } from "core-app/shared/components/calendar/wp-calendar/wp-calendar.component";
 
 @Component({
   templateUrl: './wp-calendar-entry.component.html'
