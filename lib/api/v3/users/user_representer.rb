@@ -36,7 +36,7 @@ module API
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
         cached_representer key_parts: %i(auth_source),
-                           dependencies: ->(*) { avatar_cache_dependencies }
+                           dependencies: ->(*) { avatar_cache_dependencies + [Setting.user_format] }
 
         self_link
 
