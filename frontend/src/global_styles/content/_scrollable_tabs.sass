@@ -1,17 +1,20 @@
 .op-scrollable-tabs
   display: flex
-  align-items: center
-  height: 40px
-  border-bottom: 1px solid #DDDDDD
+  border-bottom: 1px solid #ddd
   margin-bottom: 1rem
 
   &--tab-container
     flex: 1
+    position: relative
+    overflow: hidden
+    box-sizing: content-box
+    height: 40px
 
   &--actions
     margin: 0 0 0 10px
     list-style: none
     flex: 0
+    height: 40px
     // Vertically center icons, space them out
     display: flex
     align-items: center
