@@ -42,7 +42,7 @@ import { ProjectResource } from "core-app/modules/hal/resources/project-resource
 import { WorkPackageViewHighlightingService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
 import { Observable } from "rxjs";
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({

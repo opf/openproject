@@ -35,7 +35,7 @@ import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handle
 import { Injector } from '@angular/core';
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

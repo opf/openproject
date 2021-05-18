@@ -1,7 +1,7 @@
-import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { ElementRef, Injector, OnInit, Directive } from "@angular/core";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { Subject } from "rxjs";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 

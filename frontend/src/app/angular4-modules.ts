@@ -38,7 +38,7 @@ import { ConfirmDialogModal } from "core-components/modals/confirm-dialog/confir
 import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import { DynamicContentModal } from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import { PasswordConfirmationModal } from "core-components/modals/request-for-confirmation/password-confirmation.modal";
-import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
+import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { CommentService } from "core-components/wp-activity/comment-service";
 import { OpDragScrollDirective } from "core-app/modules/common/ui/op-drag-scroll.directive";

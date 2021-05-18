@@ -36,7 +36,7 @@ import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/i
 import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import Moment = moment.Moment;

@@ -9,7 +9,7 @@ import { HalResourceSortingService } from 'core-app/modules/hal/services/hal-res
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
-import { ValueOption } from 'core-app/modules/fields/edit/field-types/select-edit-field/select-edit-field.component';
+import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { Observable } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';

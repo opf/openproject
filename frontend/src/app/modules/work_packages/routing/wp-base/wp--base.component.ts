@@ -27,7 +27,7 @@
 //++
 
 import { Component } from "@angular/core";
-import { EditFormRoutingService } from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
+import { EditFormRoutingService } from "core-app/shared/components/fields/edit/edit-form/edit-form-routing.service";
 import { WorkPackageEditFormRoutingService } from "core-app/modules/work_packages/routing/wp-edit-form/wp-edit-form-routing.service";
 
 export const wpBaseSelector = 'work-packages-base';

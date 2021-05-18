@@ -25,7 +25,7 @@ import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-res
 import { TimezoneService } from "core-components/datetime/timezone.service";
 import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 import interactionPlugin from '@fullcalendar/interaction';
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.service";
 import { TimeEntryCreateService } from "core-app/modules/time_entries/create/create.service";
 import { ColorsService } from "core-app/modules/common/colors/colors.service";

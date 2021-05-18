@@ -1,10 +1,10 @@
-import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { ElementRef, Injector, Injectable } from "@angular/core";
-import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { BehaviorSubject } from "rxjs";
 import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
 import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
-import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 import { UploadFile } from "core-app/core/file-upload/op-file-upload.service";

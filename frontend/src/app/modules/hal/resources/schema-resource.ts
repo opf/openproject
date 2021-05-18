@@ -29,7 +29,7 @@
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
 import { InputState } from 'reactivestates';
-import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 
 export class SchemaResource extends HalResource {
 

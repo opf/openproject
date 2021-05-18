@@ -2,7 +2,7 @@ import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package
 import {
   DisplayFieldRenderer,
   editFieldContainerClass
-} from "core-app/modules/fields/display/display-field-renderer";
+} from "core-app/shared/components/fields/display/display-field-renderer";
 import { Injector } from '@angular/core';
 import { QueryColumn } from "core-components/wp-query/query-column";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";

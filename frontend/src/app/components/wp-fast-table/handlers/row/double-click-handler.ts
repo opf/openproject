@@ -9,8 +9,8 @@ import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
 import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { displayClassName } from "core-app/modules/fields/display/display-field-renderer";
-import { activeFieldClassName } from "core-app/modules/fields/edit/edit-form/edit-form";
+import { displayClassName } from "core-app/shared/components/fields/display/display-field-renderer";
+import { activeFieldClassName } from "core-app/shared/components/fields/edit/edit-form/edit-form";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class RowDoubleClickHandler implements TableEventHandler {

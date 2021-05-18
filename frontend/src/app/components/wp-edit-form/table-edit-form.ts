@@ -29,16 +29,16 @@
 import { Injector } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { States } from 'core-components/states.service';
-import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 
-import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { FocusHelperService } from "core-app/modules/focus/focus-helper";
-import { EditingPortalService } from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
+import { EditingPortalService } from "core-app/shared/components/fields/edit/editing-portal/editing-portal-service";
 import { CellBuilder, editCellContainer, tdClassName } from "core-components/wp-fast-table/builders/cell-builder";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
-import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
-import { editModeClassName } from "core-app/modules/fields/edit/edit-field.component";
+import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
+import { editModeClassName } from "core-app/shared/components/fields/edit/edit-field.component";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

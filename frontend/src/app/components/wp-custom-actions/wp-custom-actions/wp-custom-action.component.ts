@@ -33,7 +33,7 @@ import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.s
 import { CustomActionResource } from 'core-app/modules/hal/resources/custom-action-resource';
 import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";

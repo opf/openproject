@@ -29,7 +29,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { NgxGalleryModule } from "@kolkov/ngx-gallery";
-import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
+import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { BcfThumbnailDisplayField } from "core-app/features/bim/bcf/fields/display/bcf-thumbnail-field.module";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { OpenProjectHeaderInterceptor } from "core-app/modules/hal/http/openproject-header-interceptor";

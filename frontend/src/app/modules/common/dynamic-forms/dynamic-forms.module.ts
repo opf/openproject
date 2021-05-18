@@ -19,7 +19,7 @@ import { FormattableTextareaInputComponent } from './components/dynamic-inputs/f
 import { OpenprojectEditorModule } from "core-app/shared/components/editor/openproject-editor.module";
 import { FormattableControlComponent } from './components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";
+import { FormattableEditFieldModule } from "core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";
 import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
 import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper/dynamic-field-wrapper.component';
 import { InviteUserButtonModule } from "core-app/modules/invite-user-modal/button/invite-user-button.module";

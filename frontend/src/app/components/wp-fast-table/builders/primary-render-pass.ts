@@ -4,7 +4,7 @@ import { timeOutput } from '../../../shared/helpers/debug_output';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { States } from '../../states.service';
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageTable } from '../wp-fast-table';
 import { RelationRenderInfo, RelationsRenderPass } from './relations/relations-render-pass';
 import { SingleRowBuilder } from './rows/single-row-builder';

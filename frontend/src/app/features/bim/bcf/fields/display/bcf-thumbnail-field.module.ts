@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
 

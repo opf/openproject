@@ -1,4 +1,4 @@
-import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-resource';
 
 export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {

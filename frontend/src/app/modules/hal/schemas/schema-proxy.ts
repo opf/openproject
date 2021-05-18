@@ -28,7 +28,7 @@
 
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 
 export interface ISchemaProxy extends SchemaResource {
   ofProperty(property:string):IFieldSchema;

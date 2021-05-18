@@ -35,7 +35,7 @@ import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-packa
 import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { TypeResource } from "core-app/modules/hal/resources/type-resource";
 import { HttpClientModule } from "@angular/common/http";

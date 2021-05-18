@@ -137,11 +137,11 @@ import {
 import {
   attributeValueMacro,
   AttributeValueMacroComponent
-} from "core-app/modules/fields/macros/attribute-value-macro.component";
+} from "core-app/shared/components/fields/macros/attribute-value-macro.component";
 import {
   attributeLabelMacro,
   AttributeLabelMacroComponent
-} from "core-app/modules/fields/macros/attribute-label-macro.component";
+} from "core-app/shared/components/fields/macros/attribute-label-macro.component";
 import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector
@@ -149,7 +149,7 @@ import {
 import {
   quickInfoMacroSelector,
   WorkPackageQuickinfoMacroComponent
-} from "core-app/modules/fields/macros/work-package-quickinfo-macro.component";
+} from "core-app/shared/components/fields/macros/work-package-quickinfo-macro.component";
 import {
   EditableQueryPropsComponent,
   editableQueryPropsSelector

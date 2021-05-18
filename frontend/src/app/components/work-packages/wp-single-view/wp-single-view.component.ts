@@ -43,9 +43,9 @@ import { CurrentProjectService } from '../../projects/current-project.service';
 import { States } from '../../states.service';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import { DisplayFieldService } from 'core-app/modules/fields/display/display-field.service';
-import { DisplayField } from 'core-app/modules/fields/display/display-field.module';
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
 import { HookService } from 'core-app/modules/plugins/hook-service';
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";

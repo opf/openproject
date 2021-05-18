@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { Component, Input } from '@angular/core';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';

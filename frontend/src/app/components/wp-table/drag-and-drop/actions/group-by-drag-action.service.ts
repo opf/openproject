@@ -2,7 +2,7 @@ import { WorkPackageResource } from "core-app/modules/hal/resources/work-package
 import { TableDragActionService } from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
 import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { rowGroupClassName } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import { locatePredecessorBySelector } from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 import { groupIdentifier } from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";

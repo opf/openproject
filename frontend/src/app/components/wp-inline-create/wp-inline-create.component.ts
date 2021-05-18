@@ -55,7 +55,7 @@ import { WorkPackageInlineCreateService } from "core-components/wp-inline-create
 import { Subscription } from 'rxjs';
 import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
-import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
+import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";

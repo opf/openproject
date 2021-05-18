@@ -27,8 +27,8 @@
 //++
 
 
-import { DisplayField } from "core-app/modules/fields/display/display-field.module";
-import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
+import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

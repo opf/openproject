@@ -39,7 +39,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageViewFocusService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import * as URI from 'urijs';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

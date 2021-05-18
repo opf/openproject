@@ -32,7 +32,7 @@ import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { Observable } from "rxjs";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({

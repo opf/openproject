@@ -31,7 +31,7 @@ import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package
 import { WorkPackageCreateComponent } from 'core-components/wp-new/wp-create.component';
 import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { Directive } from "@angular/core";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

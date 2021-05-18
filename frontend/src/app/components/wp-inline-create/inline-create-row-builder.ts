@@ -14,7 +14,7 @@ import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/ro
 import { QueryColumn } from "core-components/wp-query/query-column";
 import { tdClassName } from "core-components/wp-fast-table/builders/cell-builder";
 import { internalContextMenuColumn } from "core-components/wp-fast-table/builders/internal-sort-columns";
-import { EditForm } from "core-app/modules/fields/edit/edit-form/edit-form";
+import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';

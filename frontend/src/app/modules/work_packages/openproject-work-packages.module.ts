@@ -28,7 +28,7 @@
 
 import { Injector, NgModule } from '@angular/core';
 import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
-import { OpenprojectFieldsModule } from 'core-app/modules/fields/openproject-fields.module';
+import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/modules/modal/modal.module';
 import {
   GroupDescriptor,
@@ -170,7 +170,7 @@ import { WorkPackagesTableComponent } from "core-components/wp-table/wp-table.co
 import { WorkPackageGroupToggleDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
 import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
-import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-controls/edit-field-controls.module";
+import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/field-controls/edit-field-controls.module";
 import { DatePickerModal } from "core-app/shared/components/datepicker/datepicker.modal";
 
 

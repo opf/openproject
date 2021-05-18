@@ -8,10 +8,10 @@ import { HalResourceService } from "core-app/modules/hal/services/hal-resource.s
 import { PasswordConfirmationModal } from "../../components/modals/request-for-confirmation/password-confirmation.modal";
 import { OpModalService } from "core-app/modules/modal/modal.service";
 import { DynamicContentModal } from "../../components/modals/modal-wrapper/dynamic-content.modal";
-import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
-import { EditFieldService } from "core-app/modules/fields/edit/edit-field.service";
+import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
+import { EditFieldService } from "core-app/shared/components/fields/edit/edit-field.service";
 import { EditorMacrosService } from "core-components/modals/editor/editor-macros.service";
 import { HTMLSanitizeService } from "../common/html-sanitize/html-sanitize.service";
 import { PathHelperService } from "../common/path-helper/path-helper.service";

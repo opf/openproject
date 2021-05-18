@@ -37,7 +37,7 @@ import { BimViewToggleButtonComponent } from "core-app/features/bim/ifc_models/t
 import { BimViewToggleDropdownDirective } from "core-app/features/bim/ifc_models/toolbar/view-toggle/bim-view-toggle-dropdown.directive";
 import { BimManageIfcModelsButtonComponent } from "core-app/features/bim/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
 import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
-import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
+import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { BCFNewSplitComponent } from "core-app/features/bim/ifc_models/bcf/new-split/bcf-new-split.component";
 import { BcfListContainerComponent } from "core-app/features/bim/ifc_models/bcf/list-container/bcf-list-container.component";
 import { OpenprojectHalModule } from "core-app/modules/hal/openproject-hal.module";

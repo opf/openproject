@@ -56,7 +56,7 @@ import { WidgetProjectDescriptionComponent } from "core-app/modules/grids/widget
 import { WidgetHeaderComponent } from "core-app/modules/grids/widgets/header/header.component";
 import { WidgetWpOverviewComponent } from "core-app/modules/grids/widgets/wp-overview/wp-overview.component";
 import { WidgetCustomTextComponent } from "core-app/modules/grids/widgets/custom-text/custom-text.component";
-import { OpenprojectFieldsModule } from "core-app/modules/fields/openproject-fields.module";
+import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { WidgetProjectDetailsComponent } from "core-app/modules/grids/widgets/project-details/project-details.component";
 import { WidgetTimeEntriesProjectComponent } from "core-app/modules/grids/widgets/time-entries/project/time-entries-project.component";
 import { WidgetSubprojectsComponent } from "core-app/modules/grids/widgets/subprojects/subprojects.component";

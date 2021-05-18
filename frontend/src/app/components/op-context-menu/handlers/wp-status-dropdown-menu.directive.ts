@@ -31,7 +31,7 @@ import { OPContextMenuService } from "core-components/op-context-menu/op-context
 import { Directive, ElementRef, Input } from "@angular/core";
 import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 
-import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';

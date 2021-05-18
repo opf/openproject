@@ -35,7 +35,7 @@ import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-packa
 import {
   HalResourceEditingService,
   ResourceChangesetCommit
-} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+} from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { filter } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";

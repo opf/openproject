@@ -13,7 +13,7 @@ import { CurrentProjectService } from "core-components/projects/current-project.
 import { Injectable, Injector } from "@angular/core";
 import { map } from "rxjs/operators";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-package-filter-values";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
