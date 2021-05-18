@@ -46,6 +46,7 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`global_basic_auth`](#global-basic-auth)
 * [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
 * [`enterprise_limits`](#enterprise-limits)
+* [`show_community_links`](#show-community-links)
 
 ## Setting session options
 
@@ -387,6 +388,13 @@ Or through the environment like this:
 OPENPROJECT_ENTERPRISE_FAIL__FAST=true
 ```
 
+### Show community links
+
+If you would like to hide the homescreen links to the OpenProject community, you can do this with the following configuration:
+
+```
+OPENPROJECT_SHOW__COMMUNITY__LINKS=false
+```
 
 
 | ----------- | :---------- |
