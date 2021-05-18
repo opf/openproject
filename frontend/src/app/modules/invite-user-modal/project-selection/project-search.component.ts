@@ -37,6 +37,7 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
       debounceTime(100),
       switchMap((searchTerm:string) => {
         const filters = new ApiV3FilterBuilder();
+        filters.add('active', '=', true);
         if (searchTerm) {
           filters.add('name_and_identifier', '~', [searchTerm]);
         }

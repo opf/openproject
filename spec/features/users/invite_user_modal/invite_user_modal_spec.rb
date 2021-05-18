@@ -169,6 +169,17 @@ describe 'Invite user modal', type: :feature, js: true do
             expect(ngselect).to have_text "#{project_no_permissions.name}\nYou are not allowed to invite members to this project"
           end
         end
+
+        context 'with a project that is archived' do
+          let!(:archived_project) { FactoryBot.create :project, active: false }
+          # Use admin to ensure all projects are visible
+          let(:current_user) { FactoryBot.create :admin }
+
+          it 'disables projects for which you do not have rights' do
+            ngselect = modal.open_select_in_step
+            expect(ngselect).to have_no_text archived_project
+          end
+        end
       end
 
       describe 'inviting placeholders' do
