@@ -39,7 +39,7 @@ class Apiv3Paths {
   /**
    * Preview markup path
    *
-   * Primarily used from ckeditor
+   * Primarily used from ckeditor-augmented-textarea
    * https://github.com/opf/commonmark-ckeditor-build/
    *
    * @param context
@@ -57,7 +57,7 @@ class Apiv3Paths {
   /**
    * Principals autocompleter path
    *
-   * Primarily used from ckeditor
+   * Primarily used from ckeditor-augmented-textarea
    * https://github.com/opf/commonmark-ckeditor-build/
    *
    */

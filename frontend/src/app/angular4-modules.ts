@@ -51,7 +51,7 @@ import { HookService } from "core-app/modules/plugins/hook-service";
 import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 import { OpenprojectWorkPackagesModule } from 'core-app/modules/work_packages/openproject-work-packages.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
-import { OpenprojectEditorModule } from 'core-app/modules/editor/openproject-editor.module';
+import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from "core-app/modules/grids/openproject-grids.module";
 import { OpenprojectRouterModule } from "core-app/modules/router/openproject-router.module";
 import { OpenprojectWorkPackageRoutesModule } from "core-app/modules/work_packages/openproject-work-package-routes.module";

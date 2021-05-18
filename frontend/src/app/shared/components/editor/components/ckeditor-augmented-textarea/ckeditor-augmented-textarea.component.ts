@@ -35,13 +35,13 @@ import { States } from 'core-components/states.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { ICKEditorContext, ICKEditorInstance } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
+import { ICKEditorContext, ICKEditorInstance } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
+import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 
-export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
+export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea-augmented-textarea';
 
 @Component({
   selector: ckeditorAugmentedTextareaSelector,
@@ -67,7 +67,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   public macros:boolean;
   public editorType:string;
 
-  // Reference to the actual ckeditor instance component
+  // Reference to the actual ckeditor-augmented-textarea instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
 
   private attachments:HalResource[];
@@ -112,7 +112,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.formElement.off('submit.ckeditor');
+    this.formElement.off('submit.ckeditor-augmented-textarea');
   }
 
   public markEdited() {
@@ -130,7 +130,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     // Listen for form submission to set textarea content
-    this.formElement.on('submit.ckeditor change.ckeditor', () => {
+    this.formElement.on('submit.ckeditor-augmented-textarea change.ckeditor-augmented-textarea', () => {
       try {
         this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
       } catch (e) {

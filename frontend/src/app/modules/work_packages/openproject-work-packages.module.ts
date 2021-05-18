@@ -120,7 +120,7 @@ import { WpDestroyModal } from 'core-components/modals/wp-destroy-modal/wp-destr
 import { QuerySharingForm } from 'core-components/modals/share-modal/query-sharing-form.component';
 import { EmbeddedTablesMacroComponent } from 'core-components/wp-table/embedded/embedded-tables-macro.component';
 import { WpButtonMacroModal } from 'core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
-import { OpenprojectEditorModule } from 'core-app/modules/editor/openproject-editor.module';
+import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { WorkPackageTableSumsRowController } from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import { ExternalQueryConfigurationComponent } from 'core-components/wp-table/external-configuration/external-query-configuration.component';
 import { ExternalQueryConfigurationService } from 'core-components/wp-table/external-configuration/external-query-configuration.service';

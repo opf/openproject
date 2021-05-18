@@ -16,7 +16,7 @@ import { BooleanInputComponent } from './components/dynamic-inputs/boolean-input
 import { DateInputComponent } from './components/dynamic-inputs/date-input/date-input.component';
 import { DatePickerAdapterComponent } from './components/dynamic-inputs/date-input/components/date-picker-adapter/date-picker-adapter.component';
 import { FormattableTextareaInputComponent } from './components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
-import { OpenprojectEditorModule } from "core-app/modules/editor/openproject-editor.module";
+import { OpenprojectEditorModule } from "core-app/shared/components/editor/openproject-editor.module";
 import { FormattableControlComponent } from './components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";

@@ -109,8 +109,8 @@ describe 'Projects custom fields', type: :feature, js: true do
     scenario 'allows settings the project boolean CF (regression #26313)' do
       visit settings_generic_project_path(project.id)
 
-      # expect CF, description and status description ckeditor
-      expect(page).to have_selector('.op-ckeditor--wrapper', count: 3)
+      # expect CF, description and status description ckeditor-augmented-textarea
+      expect(page).to have_selector('.op-ckeditor-augmented-textarea--wrapper', count: 3)
 
       # single hash autocomplete
       editor.insert_link 'http://example.org/link with spaces'

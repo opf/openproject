@@ -17,7 +17,7 @@ import { HTMLSanitizeService } from "../common/html-sanitize/html-sanitize.servi
 import { PathHelperService } from "../common/path-helper/path-helper.service";
 import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 import { States } from 'core-components/states.service';
-import { CKEditorPreviewService } from "core-app/modules/common/ckeditor/ckeditor-preview.service";
+import { CKEditorPreviewService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-preview.service";
 import { ExternalRelationQueryConfigurationService } from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

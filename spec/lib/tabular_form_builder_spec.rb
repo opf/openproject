@@ -212,7 +212,7 @@ JJ Abrams</textarea>
       context 'an id is missing' do
         it 'outputs the wysiwyg wrapper' do
           expect(output).to have_selector 'textarea'
-          expect(output).to have_selector 'ckeditor-augmented-textarea'
+          expect(output).to have_selector 'ckeditor-augmented-textarea-augmented-textarea'
         end
       end
 
@@ -221,7 +221,7 @@ JJ Abrams</textarea>
 
         it 'outputs the wysiwyg wrapper' do
           expect(output).to have_selector 'textarea'
-          expect(output).to have_selector 'ckeditor-augmented-textarea'
+          expect(output).to have_selector 'ckeditor-augmented-textarea-augmented-textarea'
         end
       end
     end

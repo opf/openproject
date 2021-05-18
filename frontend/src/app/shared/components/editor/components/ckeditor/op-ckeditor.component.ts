@@ -31,14 +31,14 @@ import {
   CKEditorSetupService,
   ICKEditorContext,
   ICKEditorInstance
-} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+} from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 
 declare module 'codemirror';
 
-const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
+const manualModeLocalStorageKey = 'op-ckeditor-augmented-textarea-uses-manual-mode';
 
 @Component({
   selector: 'op-ckeditor',
@@ -207,7 +207,7 @@ export class OpCkeditorComponent implements OnInit {
   private disableManualMode() {
     const current = this.getRawData();
 
-    // Apply content to ckeditor
+    // Apply content to ckeditor-augmented-textarea
     this.ckEditorInstance.setData(current);
     this.codeMirrorInstance = null;
     this.manualMode = false;

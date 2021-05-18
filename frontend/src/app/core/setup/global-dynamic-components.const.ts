@@ -45,7 +45,7 @@ import {
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector
-} from "core-app/shared/components/ckeditor/ckeditor-augmented-textarea.component";
+} from "core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component";
 import {
   PersistentToggleComponent,
   persistentToggleSelector

@@ -51,7 +51,7 @@ module OpenProject::TextFormatting::Formats
 
         # Pass an optional resource to the CKEditor instance
         resource = context.fetch(:resource, {})
-        helpers.content_tag 'ckeditor-augmented-textarea',
+        helpers.content_tag 'ckeditor-augmented-textarea-augmented-textarea',
                             '',
                             'textarea-selector': "##{field_id}",
                             'editor-type': context[:editor_type] || 'full',

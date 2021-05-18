@@ -212,7 +212,7 @@ class EditField
 
   def input_selector
     if property_name == 'description'
-      '.op-ckeditor--wrapper'
+      '.op-ckeditor-augmented-textarea--wrapper'
     else
       '.inline-edit--field'
     end

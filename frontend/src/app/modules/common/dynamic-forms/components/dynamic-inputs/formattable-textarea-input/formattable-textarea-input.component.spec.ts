@@ -4,7 +4,7 @@ import {
 } from "core-app/modules/common/dynamic-forms/spec/helpers";
 import { By } from "@angular/platform-browser";
 // @ts-ignore
-import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
+import(/* webpackChunkName: "ckeditor-augmented-textarea" */ 'core-vendor/ckeditor/ckeditor.js');
 
 describe('FormattableTextareaInputComponent', () => {
   it('should load the field', fakeAsync(() => {

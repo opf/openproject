@@ -42,7 +42,7 @@ export class EditorMacrosService {
 
   /**
    * Show a modal to edit the work package button macro settings.
-   * Used from within ckeditor.
+   * Used from within ckeditor-augmented-textarea.
    */
   public configureWorkPackageButton(typeName?:string, classes?:string):Promise<{ type:string, classes:string }> {
     return new Promise<{ type:string, classes:string }>((resolve, reject) => {
@@ -57,7 +57,7 @@ export class EditorMacrosService {
 
   /**
    * Show a modal to edit the wiki include macro.
-   * Used from within ckeditor.
+   * Used from within ckeditor-augmented-textarea.
    */
   public configureWikiPageInclude(page:string):Promise<string> {
     return new Promise<string>((resolve, _) => {
@@ -73,7 +73,7 @@ export class EditorMacrosService {
 
   /**
    * Show a modal to show an enhanced code editor for editing code blocks.
-   * Used from within ckeditor.
+   * Used from within ckeditor-augmented-textarea.
    */
   public editCodeBlock(content:string, languageClass:string):Promise<{ content:string, languageClass:string }> {
     return new Promise<{ content:string, languageClass:string }>((resolve, _) => {
@@ -88,7 +88,7 @@ export class EditorMacrosService {
 
   /**
    * Show a modal to edit the child pages macro.
-   * Used from within ckeditor.
+   * Used from within ckeditor-augmented-textarea.
    */
   public configureChildPages(page:string, includeParent:string):Promise<object> {
     return new Promise<object>((resolve, _) => {

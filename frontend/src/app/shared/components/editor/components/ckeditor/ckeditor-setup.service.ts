@@ -85,20 +85,20 @@ export class CKEditorSetupService {
 
     // Allow custom events on wrapper to set/get data for debugging
     jQuery(wrapper)
-      .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))
-      .on('op:ckeditor:clear', (event:any) => editor.setData(' '))
-      .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData({ trim: false })));
+      .on('op:ckeditor-augmented-textarea:setData', (event:any, data:string) => editor.setData(data))
+      .on('op:ckeditor-augmented-textarea:clear', (event:any) => editor.setData(' '))
+      .on('op:ckeditor-augmented-textarea:getData', (event:any, cb:any) => cb(editor.getData({ trim: false })));
 
     return editor;
   }
 
   /**
-   * Load the ckeditor asset
+   * Load the ckeditor-augmented-textarea asset
    */
   private load():Promise<unknown> {
     // untyped module cannot be dynamically imported
     // @ts-ignore
-    return import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
+    return import(/* webpackChunkName: "ckeditor-augmented-textarea" */ 'core-vendor/ckeditor/ckeditor.js');
   }
 
   private createConfig(context:ICKEditorContext):any {

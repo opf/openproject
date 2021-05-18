@@ -27,8 +27,8 @@
 
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.component";
-import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
-import { ICKEditorContext, ICKEditorInstance } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
+import { ICKEditorContext, ICKEditorInstance } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 
 @Component({
   templateUrl: "./formattable-edit-field.component.html",
