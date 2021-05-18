@@ -29,7 +29,7 @@
 import { NgModule } from '@angular/core';
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { OpModalWrapperAugmentService } from "core-app/modules/modal/modal-wrapper-augment.service";
-import { PathScriptAugmentService } from "core-app/modules/augmenting/services/path-script.augment.service";
+import { PathScriptAugmentService } from "core-app/core/augmenting/services/path-script.augment.service";
 
 @NgModule({
   imports: [ OpenprojectModalModule ],
