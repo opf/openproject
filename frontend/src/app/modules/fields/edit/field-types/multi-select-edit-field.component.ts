@@ -50,11 +50,11 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
     cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
   };
-
   public appendTo:any = null;
-  private hiddenOverflowContainer = '.__hidden_overflow_container';
-
   public currentValueInvalid = false;
+  public showAddNewUserButton:boolean;
+
+  private hiddenOverflowContainer = '.__hidden_overflow_container';
   private nullOption:ValueOption;
   private _selectedOption:ValueOption[];
 
@@ -63,6 +63,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   ngOnInit() {
     this.nullOption = { name: this.text.placeholder, href: null };
+    this.showAddNewUserButton = this.schema.type === 'User';
 
     this.handler
       .$onUserActivate
