@@ -11,7 +11,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
-import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 interface NgSelectProjectOption {

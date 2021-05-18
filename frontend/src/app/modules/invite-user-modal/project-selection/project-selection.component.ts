@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { BannersService } from "core-app/modules/common/enterprise/banners.service";
-import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { IOpOptionListOption } from "core-app/modules/common/option-list/option-list.component";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { PrincipalType } from '../invite-user.component';

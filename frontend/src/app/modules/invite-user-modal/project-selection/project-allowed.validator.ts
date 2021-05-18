@@ -1,5 +1,5 @@
 import { AbstractControl } from "@angular/forms";
-import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
+import { CurrentUserService } from "core-app/core/current-user/current-user.service";
 import { of } from "rxjs";
 import { catchError, map, take } from "rxjs/operators";
 

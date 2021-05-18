@@ -37,7 +37,7 @@ import {DynamicModule} from 'ng-dynamic-component';
 import {StateService, UIRouterModule} from '@uirouter/angular';
 import {HookService} from '../plugins/hook-service';
 import {OpenprojectAccessibilityModule} from 'core-app/shared/directives/a11y/openproject-a11y.module';
-import {CurrentUserModule} from 'core-app/modules/current-user/current-user.module';
+import {CurrentUserModule} from 'core-app/core/current-user/current-user.module';
 import {IconModule} from 'core-app/modules/icon/icon.module';
 import {AttributeHelpTextModule} from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 

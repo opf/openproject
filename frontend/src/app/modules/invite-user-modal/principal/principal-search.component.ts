@@ -15,7 +15,7 @@ import {UntilDestroyedMixin} from "core-app/shared/helpers/angular/until-destroy
 import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {PrincipalLike} from "core-app/modules/principal/principal-types";
-import {CurrentUserService} from "core-app/modules/current-user/current-user.service";
+import {CurrentUserService} from "core-app/core/current-user/current-user.service";
 import {PrincipalType} from '../invite-user.component';
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
