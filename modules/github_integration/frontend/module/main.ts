@@ -35,6 +35,7 @@ import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.com
 import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
 import { PullRequestComponent } from './pull-request/pull-request.component';
 import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
+import { OpenprojectTabsModule } from "core-app/modules/common/tabs/openproject-tabs.module";
 
 export function initializeGithubIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -50,6 +51,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
 @NgModule({
   imports: [
     OpenprojectCommonModule,
+    OpenprojectTabsModule,
   ],
   providers: [
     WorkPackagesGithubPrsService,

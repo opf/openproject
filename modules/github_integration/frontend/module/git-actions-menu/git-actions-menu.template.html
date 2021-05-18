@@ -3,20 +3,14 @@
     <op-icon icon-classes="button--icon icon-console-light"></op-icon>
     {{text.title}}
   </h3>
-  <ul class="op-tab-row">
-    <li
-        *ngFor="let tab of tabs"
-        class="op-tab-row--tab"
-        >
-      <a
-          href=""
-          (click)="selectTab(tab)"
-          [class.op-tab-row--link_selected]="tab.selected"
-          [textContent]="tab.label"></a>
-    </li>
-  </ul>
+  <op-scrollable-tabs
+    [tabs]="tabs"
+    [currentTabId]="selectedTab.id"
+    (tabSelected)="selectedTab = $event"
+  >
+  </op-scrollable-tabs>
   <div class="copy-wrapper">
-    <textarea class="copy-content" [textContent]="selectedTab().textToCopy()" [style.height.em]="selectedTab().lines" readonly="true"></textarea>
+    <textarea class="copy-content" [textContent]="selectedTab.textToCopy()" [style.height.em]="selectedTab.lines" readonly="true"></textarea>
     <button class="button copy-button"
         type="button"
         [attr.aria-label]="text.copyButtonHelpText"
@@ -25,5 +19,5 @@
     </button>
     <div class="copy-result-message" *ngIf="showCopyResult" [textContent]="lastCopyResult"></div>
   </div>
-  <div class="help-text" [textContent]="selectedTab().help"></div>
+  <div class="help-text" [textContent]="selectedTab.help"></div>
 </div>
