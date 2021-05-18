@@ -66,11 +66,11 @@ describe('GitActionsMenuComponent', () => {
 
   it('should select tab', () => {
     const tabToSelect = component.tabs[0];
-    component.selectTab(tabToSelect);
+    component.selectedTab = tabToSelect;
 
     fixture.detectChanges();
 
-    expect(component.selectedTab()).toBe(tabToSelect);
+    expect(component.selectedTab).toBe(tabToSelect);
   });
 
   it('should select tab', () => {
@@ -78,7 +78,7 @@ describe('GitActionsMenuComponent', () => {
     const copyButton = fixture.debugElement.query(By.css('button')).nativeElement;
 
     gitActionsService.branchName.and.returnValue('test branch');
-    component.selectTab(tabToSelect);
+    component.selectedTab = tabToSelect;
     copyButton.click();
 
     fixture.detectChanges();

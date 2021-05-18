@@ -1,14 +1,13 @@
-import { HalResource } from "../../../../frontend/src/app/modules/hal/resources/hal-resource";
+import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
+import { HalResourceClass } from "core-app/modules/hal/resources/hal-resource";
 
-export interface ITab {
-  label:string,
+export interface ITab extends TabDefinition {
   help:string,
-  selected:boolean,
   lines:number,
   textToCopy: ()=>string
 }
 
-export interface IGithubPullRequestResource extends HalResource {
+export interface IGithubPullRequestResource extends HalResourceClass {
   additionsCount?:number;
   body?:{
     format?:string;
