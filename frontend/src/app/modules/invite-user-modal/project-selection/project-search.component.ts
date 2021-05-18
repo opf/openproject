@@ -4,9 +4,9 @@ import {
   OnInit,
   ElementRef,
 } from '@angular/core';
-import { FormControl, NgControl } from "@angular/forms";
-import { Observable, BehaviorSubject, combineLatest } from "rxjs";
-import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from "rxjs/operators";
+import { FormControl } from "@angular/forms";
+import { BehaviorSubject, combineLatest } from "rxjs";
+import { debounceTime, map, switchMap } from "rxjs/operators";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
@@ -17,7 +17,7 @@ import { CurrentUserService } from 'core-app/modules/current-user/current-user.s
 interface NgSelectProjectOption {
   project: ProjectResource,
   disabled: boolean;
-};
+}
 
 @Component({
   selector: 'op-ium-project-search',

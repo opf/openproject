@@ -105,6 +105,9 @@ module Components
       end
 
       def principal_step(next_step: true)
+        # Without it, the "Invite/Create new option is sometimes not displayed"
+        sleep(0.1)
+
         if invite_user?
           autocomplete principal_name, select_text: "Invite: #{principal_name}"
         else
@@ -172,8 +175,23 @@ module Components
           principal.name
         end
       end
+
       def type
         principal.model_name.human
+      end
+
+      def expect_error_displayed(message)
+        within_modal do
+          expect(page)
+            .to have_selector('.op-form-field--error', text: message)
+        end
+      end
+
+      def expect_help_displayed(message)
+        within_modal do
+          expect(page)
+            .to have_selector('.op-form-field--help-text', text: message)
+        end
       end
     end
   end
