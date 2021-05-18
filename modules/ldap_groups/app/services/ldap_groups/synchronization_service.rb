@@ -1,7 +1,9 @@
 module LdapGroups
   class SynchronizationService
     def self.synchronize!
-      new.call
+      User.system.run_given do
+        new.call
+      end
     end
 
     def call
