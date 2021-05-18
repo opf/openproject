@@ -1,6 +1,7 @@
 <op-icon
+  class="op-modal--header-icon"
   *ngIf="icon"
-  [icon-classes]="icon"
+  icon-classes="{{ icon }} icon-context"
 ></op-icon>
 <h1 class="op-modal--title">
   <ng-content></ng-content>
