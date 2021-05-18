@@ -75,6 +75,22 @@ module API
                  },
                  render_nil: true
 
+        Setting.definitions.select(&:api?).each do |definition|
+          next unless %w(boolean).include?(definition.format)
+
+          property definition.api_name,
+                   if: ->(*) { !definition.admin? || current_user.admin? },
+                   exec_context: :decorator,
+                   getter: ->(*) {
+                     Setting[definition.name]
+                   }
+        end
+
+        property :updatedAt,
+                 getter: ->(decorator:, **) {
+                   decorator.datetime_formatter.format_datetime(Setting.maximum(:updated_at), allow_nil: true)
+                 }
+
         property :user_preferences,
                  embedded: true,
                  exec_context: :decorator,
@@ -136,9 +152,10 @@ module API
         end
 
         def reformated(setting, &block)
-          format = setting.gsub(/%\w/, &block)
-
-          format.blank? ? nil : format
+          setting
+            .to_s
+            .gsub(/%\w/, &block)
+            .presence
         end
       end
     end

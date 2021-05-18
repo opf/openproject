@@ -387,6 +387,10 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'show', :role
   end
 
+  describe 'settings paths' do
+    it_behaves_like 'index', :settings
+  end
+
   describe 'statuses paths' do
     it_behaves_like 'index', :status
     it_behaves_like 'show', :status

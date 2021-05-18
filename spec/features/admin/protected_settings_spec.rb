@@ -26,30 +26,54 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'open_project/configuration'
+require 'spec_helper'
 
-module OpenProject::Reporting::Patches
-  module OpenProject::ConfigurationPatch
-    def self.included(base)
-      base.class_eval do
-        extend ModuleMethods
+describe 'Protected settings', type: :feature do
+  current_user { FactoryBot.create(:admin) }
 
-        @defaults['cost_reporting_cache_filter_classes'] = true
+  after do
+    Setting.clear_cache
+  end
 
-        if config_loaded_before_patch?
-          @config['cost_reporting_cache_filter_classes'] = true
-        end
-      end
+  context "when not overwritten" do
+    it 'is the default value and can be altered' do
+      visit admin_settings_general_path
+
+      expect(page)
+        .to have_field("Application title", with: 'OpenProject')
+
+      fill_in("Application title", with: 'New app title')
+
+      click_button 'Save'
+
+      expect(page)
+        .to have_content I18n.t(:notice_successful_update)
+
+      expect(Setting.app_title)
+        .to eql 'New app title'
+    end
+  end
+
+  context "when overwritten" do
+    let!(:setting) { Settings::Definition['app_title'] }
+    let!(:setting_value) { setting.value.dup }
+
+    before do
+      stub_const('ENV', { 'OPENPROJECT_APP__TITLE' => 'Overwritten' })
+
+      Settings::Definition.send(:override_config)
     end
 
-    module ModuleMethods
-      def config_loaded_before_patch?
-        @config.present? && !@config.has_key?('cost_reporting_cache_filter_classes')
-      end
+    after do
+      setting.value = setting_value
+      setting.instance_variable_set(:@writable, true)
+    end
 
-      def cost_reporting_cache_filter_classes
-        @config['cost_reporting_cache_filter_classes']
-      end
+    it 'is the overwritten value and cannot be altered' do
+      visit admin_settings_general_path
+
+      expect(page)
+        .to have_field("Application title", with: 'Overwritten', disabled: true)
     end
   end
 end
