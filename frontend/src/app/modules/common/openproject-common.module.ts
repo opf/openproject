@@ -76,7 +76,7 @@ import {OpFormFieldComponent} from '../../shared/components/forms/form-field/for
 import {OpFormBindingDirective} from '../../shared/components/forms/form-field/form-binding.directive';
 import {OpOptionListComponent} from './option-list/option-list.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/shared/components/principal/principal-rendering.module";
-import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
+import { DatePickerModule } from "core-app/shared/components/op-date-picker/date-picker.module";
 import { FocusModule } from "core-app/shared/directives/focus/focus.module";
 
 

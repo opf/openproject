@@ -43,7 +43,7 @@ import { OpModalComponent } from "core-app/shared/components/modal/modal.compone
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { TimezoneService } from "core-components/datetime/timezone.service";
-import { DatePicker } from "core-app/modules/common/op-date-picker/datepicker";
+import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { DatePickerModalHelper } from "core-app/shared/components/datepicker/datepicker.modal.helper";
