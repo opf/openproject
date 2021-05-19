@@ -925,6 +925,7 @@ cs:
     notice_successful_create: "Úspěšné vytvoření."
     notice_successful_delete: "Úspěšné odstranění."
     notice_successful_update: "Úspěšná aktualizace."
+    notice_job_started: "job started."
     notice_bad_request: "Chybný požadavek."
     relations:
       empty: Neexistuje žádný vztah
@@ -995,6 +996,8 @@ cs:
       project:
         label: 'Projekt'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Další'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

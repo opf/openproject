@@ -924,6 +924,7 @@ el:
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
     notice_successful_update: "Επιτυχής ενημέρωση."
+    notice_job_started: "job started."
     notice_bad_request: "Εσφαλμένο Αίτημα."
     relations:
       empty: Δεν υπάρχει συσχέτιση
@@ -990,6 +991,8 @@ el:
       project:
         label: 'Έργο'
         required: 'Παρακαλώ επιλέξτε ένα έργο'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Επόμενο'
         no_results: 'Δεν βρέθηκαν έργα'
         no_invite_rights: 'You are not allowed to invite members to this project'

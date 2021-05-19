@@ -924,6 +924,7 @@ zh-TW:
     notice_successful_create: "建立成功"
     notice_successful_delete: "刪除成功"
     notice_successful_update: "更新成功"
+    notice_job_started: "job started."
     notice_bad_request: "錯誤的請求"
     relations:
       empty: 無關聯存在
@@ -988,6 +989,8 @@ zh-TW:
       project:
         label: '專案'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: '下一個'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

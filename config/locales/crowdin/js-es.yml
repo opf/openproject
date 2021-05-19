@@ -925,6 +925,7 @@ es:
     notice_successful_create: "Creación exitosa."
     notice_successful_delete: "Eliminado con éxito."
     notice_successful_update: "Actualización correcta."
+    notice_job_started: "job started."
     notice_bad_request: "Petición incorrecta."
     relations:
       empty: No existen relaciones
@@ -991,6 +992,8 @@ es:
       project:
         label: 'Proyecto'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Siguiente'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

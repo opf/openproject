@@ -925,6 +925,7 @@ fr:
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."
     notice_successful_update: "Mise à jour réussie."
+    notice_job_started: "job started."
     notice_bad_request: "Mauvaise requête."
     relations:
       empty: Aucune relation n'existe
@@ -991,6 +992,8 @@ fr:
       project:
         label: 'Projet'
         required: 'Veuillez sélectionner un projet'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Suivante'
         no_results: 'Aucun projet trouvé'
         no_invite_rights: 'You are not allowed to invite members to this project'

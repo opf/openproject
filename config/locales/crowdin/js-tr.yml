@@ -925,6 +925,7 @@ tr:
     notice_successful_create: "Oluşturma başarılı."
     notice_successful_delete: "Silme başarılı."
     notice_successful_update: "Güncelleme başarılı."
+    notice_job_started: "job started."
     notice_bad_request: "Hatalı istek."
     relations:
       empty: İlişki bulunmuyor
@@ -991,6 +992,8 @@ tr:
       project:
         label: 'Proje'
         required: 'Lütfen bir proje seçin'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Sonraki'
         no_results: 'Hiç proje bulunamadı'
         no_invite_rights: 'Bu projeye üye davet etme izniniz yok'

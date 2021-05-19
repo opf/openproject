@@ -925,6 +925,7 @@ it:
     notice_successful_create: "Creato con successo."
     notice_successful_delete: "Cancellato con successo."
     notice_successful_update: "Aggiornato con successo."
+    notice_job_started: "job started."
     notice_bad_request: "Richiesta non valida."
     relations:
       empty: Non esiste alcuna relazione
@@ -991,6 +992,8 @@ it:
       project:
         label: 'Progetto'
         required: 'Sei pregato di selezionare un progetto'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Prossimo'
         no_results: 'Nessun progetto è stato trovato'
         no_invite_rights: 'Non puoi invitare i membri a questo progetto'

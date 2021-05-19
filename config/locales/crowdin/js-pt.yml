@@ -924,6 +924,7 @@ pt:
     notice_successful_create: "Criado com sucesso."
     notice_successful_delete: "Exclusão bem sucedida."
     notice_successful_update: "Atualizado com sucesso."
+    notice_job_started: "job started."
     notice_bad_request: "Requisição Inválida."
     relations:
       empty: Nenhuma relação existente
@@ -990,6 +991,8 @@ pt:
       project:
         label: 'Projeto'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Próxima'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

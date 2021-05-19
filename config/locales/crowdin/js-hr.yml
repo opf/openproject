@@ -925,6 +925,7 @@ hr:
     notice_successful_create: "Uspješno kreirano."
     notice_successful_delete: "Brisanje uspješno."
     notice_successful_update: "Ažuriranje je uspješno završeno."
+    notice_job_started: "job started."
     notice_bad_request: "Neispravan zahtjev."
     relations:
       empty: Relacija ne postoji
@@ -993,6 +994,8 @@ hr:
       project:
         label: 'Projekt'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Sljedeći'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

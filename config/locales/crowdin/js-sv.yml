@@ -924,6 +924,7 @@ sv:
     notice_successful_create: "Skapades utan problem."
     notice_successful_delete: "Raderades utan problem."
     notice_successful_update: "Uppdaterades utan problem."
+    notice_job_started: "job started."
     notice_bad_request: "Felaktig förfrågan."
     relations:
       empty: Inga samband finns
@@ -990,6 +991,8 @@ sv:
       project:
         label: 'Projekt'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Nästa'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

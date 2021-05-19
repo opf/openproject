@@ -924,6 +924,7 @@ ru:
     notice_successful_create: "Создание выполнено."
     notice_successful_delete: "Удаление выполнено."
     notice_successful_update: "Обновление выполнено."
+    notice_job_started: "job started."
     notice_bad_request: "Неправильный запрос."
     relations:
       empty: Не существует отношения
@@ -994,6 +995,8 @@ ru:
       project:
         label: 'Проект'
         required: 'Пожалуйста, выберите проект'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Следующие'
         no_results: 'Проекты не найдены'
         no_invite_rights: 'Вы не можете пригласить участников в этот проект'
