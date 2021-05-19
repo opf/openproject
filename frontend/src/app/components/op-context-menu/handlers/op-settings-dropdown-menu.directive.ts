@@ -28,7 +28,7 @@
 
 import { Directive, ElementRef, Injector, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpContextMenuTrigger } from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-components/op-context-menu/op-context-menu.service';
 import { States } from 'core-components/states.service';

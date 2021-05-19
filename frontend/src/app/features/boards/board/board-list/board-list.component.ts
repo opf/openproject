@@ -24,7 +24,7 @@ import { NotificationsService } from "core-app/modules/common/notifications/noti
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Board } from "core-app/features/boards/board/board";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-card-view.component";
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";

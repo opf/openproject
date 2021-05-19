@@ -32,7 +32,7 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { OpTitleService } from 'core-components/html/op-title.service';
-import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { States } from 'core-components/states.service';
 import { KeepTabService } from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
 

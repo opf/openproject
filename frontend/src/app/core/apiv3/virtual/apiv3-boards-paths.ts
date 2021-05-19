@@ -36,7 +36,7 @@ import { Board, BoardType } from "core-app/features/boards/board/board";
 import { map, switchMap, tap } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { MultiInputState } from "reactivestates";

@@ -20,7 +20,7 @@ import { WorkPackageInlineCreateService } from "core-components/wp-inline-create
 import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { CardHighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { StateService } from "@uirouter/core";
 import { States } from "core-components/states.service";
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";

@@ -30,7 +30,7 @@ import { StateService, TransitionService } from '@uirouter/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { Observable } from "rxjs";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";

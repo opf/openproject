@@ -4,7 +4,7 @@ import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-co
 import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';
 import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { WorkPackagesListChecksumService } from './wp-list-checksum.service';
-import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { QuerySchemaResource } from 'core-app/core/hal/resources/query-schema-resource';

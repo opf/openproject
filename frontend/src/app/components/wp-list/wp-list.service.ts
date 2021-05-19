@@ -33,7 +33,7 @@ import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
 import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
-import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';

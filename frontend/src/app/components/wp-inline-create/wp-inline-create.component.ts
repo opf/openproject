@@ -37,7 +37,7 @@ import {
   EventEmitter,
   OnInit, Output
 } from '@angular/core';
-import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { filter } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';

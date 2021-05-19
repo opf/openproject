@@ -41,7 +41,7 @@ import { filter } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { FormResource } from "core-app/core/hal/resources/form-resource";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
-import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

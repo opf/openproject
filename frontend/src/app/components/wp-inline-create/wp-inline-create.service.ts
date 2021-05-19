@@ -31,7 +31,7 @@ import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-re
 import { Subject } from "rxjs";
 import { ComponentType } from "@angular/cdk/portal";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 @Injectable()

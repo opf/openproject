@@ -28,7 +28,7 @@
 
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Board } from "core-app/features/boards/board/board";
