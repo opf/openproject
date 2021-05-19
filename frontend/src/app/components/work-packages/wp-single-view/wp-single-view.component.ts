@@ -42,7 +42,6 @@ import { debugLog } from '../../../shared/helpers/debug_output';
 import { CurrentProjectService } from '../../projects/current-project.service';
 import { States } from '../../states.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
@@ -56,7 +55,6 @@ import { HalResourceService } from "core-app/core/hal/services/hal-resource.serv
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export interface FieldDescriptor {
   name:string;

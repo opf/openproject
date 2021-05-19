@@ -68,7 +68,7 @@ import {PersistentToggleComponent} from './persistent-toggle/persistent-toggle.c
 import {AddSectionDropdownComponent} from './hide-section/add-section-dropdown/add-section-dropdown.component';
 import {HideSectionLinkComponent} from './hide-section/hide-section-link/hide-section-link.component';
 import {RemoteFieldUpdaterComponent} from './remote-field-updater/remote-field-updater.component';
-import {AutofocusDirective} from './autofocus/autofocus.directive';
+import {AutofocusDirective} from '../../shared/directives/autofocus/autofocus.directive';
 import {ShowSectionDropdownComponent} from './hide-section/show-section-dropdown.component';
 import {SlideToggleComponent} from './slide-toggle/slide-toggle.component';
 import {DynamicBootstrapModule} from './dynamic-bootstrap/dynamic-bootstrap.module';
