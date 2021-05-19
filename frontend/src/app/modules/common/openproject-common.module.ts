@@ -61,8 +61,8 @@ import {UploadProgressComponent} from '../../shared/components/notifications/upl
 import {ResizerComponent} from '../../shared/components/resizer/resizer.component';
 import {CollapsibleSectionComponent} from '../../shared/components/collapsible-section/collapsible-section.component';
 import {NoResultsComponent} from '../../shared/components/no-results/no-results.component';
-import {ScrollableTabsComponent} from './tabs/scrollable-tabs/scrollable-tabs.component';
-import {ContentTabsComponent} from './tabs/content-tabs/content-tabs.component';
+import {ScrollableTabsComponent} from '../../shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
+import {ContentTabsComponent} from '../../shared/components/tabs/content-tabs/content-tabs.component';
 import {EditableToolbarTitleComponent} from '../../shared/components/editable-toolbar-title/editable-toolbar-title.component';
 import {PersistentToggleComponent} from '../../shared/components/persistent-toggle/persistent-toggle.component';
 import {AddSectionDropdownComponent} from '../../shared/components/hide-section/add-section-dropdown/add-section-dropdown.component';

@@ -70,7 +70,7 @@ import {
 import {
   ContentTabsComponent,
   contentTabsSelector
-} from "core-app/modules/common/tabs/content-tabs/content-tabs.component";
+} from "core-app/shared/components/tabs/content-tabs/content-tabs.component";
 import {
   CopyToClipboardDirective,
   copyToClipboardSelector
