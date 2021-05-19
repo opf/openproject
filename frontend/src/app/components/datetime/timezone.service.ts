@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import * as moment from 'moment-timezone';
 import { Moment } from 'moment';
 

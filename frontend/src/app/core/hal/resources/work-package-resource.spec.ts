@@ -39,7 +39,7 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { AttachmentCollectionResource } from 'core-app/core/hal/resources/attachment-collection-resource';
 import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { StateService } from "@uirouter/core";
 import { WorkPackageCreateService } from 'core-components/wp-new/wp-create.service';
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";

@@ -32,7 +32,7 @@ import { WorkPackageViewFocusService } from 'core-app/features/work_packages/rou
 import { StateService, TransitionService } from '@uirouter/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { AbstractWorkPackageButtonComponent } from 'core-components/wp-buttons/wp-buttons.module';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',

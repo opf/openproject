@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, HostBinding, Injector, Input, Output } from "@angular/core";
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WidgetChangeset } from "core-app/shared/components/grids/widgets/widget-changeset";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 

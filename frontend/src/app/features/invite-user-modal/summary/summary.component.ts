@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {Observable, of} from "rxjs";
 import {mapTo, switchMap} from "rxjs/operators";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {I18nService} from "core-app/core/i18n/i18n.service";
 import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
 import {RoleResource} from "core-app/core/hal/resources/role-resource";
 import {PrincipalData, PrincipalLike} from "core-app/shared/components/principal/principal-types";

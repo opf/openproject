@@ -50,7 +50,7 @@ import {
   inlineCreateRowClassName
 } from './inline-create-row-builder';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { Subscription } from 'rxjs';
 import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";

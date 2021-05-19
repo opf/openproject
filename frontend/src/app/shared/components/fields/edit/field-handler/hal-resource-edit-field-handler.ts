@@ -27,7 +27,7 @@
 //++
 
 import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { Injector } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';

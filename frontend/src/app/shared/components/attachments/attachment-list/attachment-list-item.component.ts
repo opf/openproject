@@ -27,7 +27,7 @@
 //++
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { States } from 'core-components/states.service';

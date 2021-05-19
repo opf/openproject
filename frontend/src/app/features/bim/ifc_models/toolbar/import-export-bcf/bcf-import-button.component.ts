@@ -27,7 +27,7 @@
 //++
 
 import { Component } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
 

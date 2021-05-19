@@ -1,7 +1,7 @@
 import { Injectable, Injector } from "@angular/core";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { TimeEntryResource } from 'core-app/core/hal/resources/time-entry-resource';
 import { take } from 'rxjs/operators';
 import { FormResource } from "core-app/core/hal/resources/form-resource";

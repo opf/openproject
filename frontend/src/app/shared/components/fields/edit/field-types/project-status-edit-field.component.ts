@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
 import { NgSelectComponent } from "@ng-select/ng-select";

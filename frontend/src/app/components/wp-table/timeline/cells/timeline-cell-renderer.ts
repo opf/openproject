@@ -32,7 +32,7 @@ import { WorkPackageViewTimelineService } from "core-app/features/work_packages/
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 export interface CellDateMovement {
   // Target values to move work package to

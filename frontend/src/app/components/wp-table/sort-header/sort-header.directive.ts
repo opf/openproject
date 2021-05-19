@@ -27,7 +27,7 @@
 //++
 
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { RelationQueryColumn, TypeRelationQueryColumn } from 'core-components/wp-query/query-column';
 import { WorkPackageTable } from 'core-components/wp-fast-table/wp-fast-table';
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/core/hal/resources/query-sort-by-resource';

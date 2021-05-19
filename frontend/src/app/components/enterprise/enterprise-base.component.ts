@@ -27,7 +27,7 @@
 //++
 
 import { Component, Injector } from "@angular/core";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { EnterpriseTrialModal } from "core-components/enterprise/enterprise-modal/enterprise-trial.modal";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { EnterpriseTrialService } from "core-components/enterprise/enterprise-trial.service";

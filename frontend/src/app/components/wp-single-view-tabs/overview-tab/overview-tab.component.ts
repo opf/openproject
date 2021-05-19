@@ -29,7 +29,7 @@
 import { Component } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

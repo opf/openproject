@@ -26,7 +26,7 @@ import { WorkPackageStatesInitializationService } from 'core-components/wp-list/
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';

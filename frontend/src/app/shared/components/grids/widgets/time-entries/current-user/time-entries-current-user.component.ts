@@ -2,7 +2,7 @@ import { Component, Injector, ChangeDetectionStrategy, ChangeDetectorRef } from 
 import { TimeEntryResource } from 'core-app/core/hal/resources/time-entry-resource';
 import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { TimezoneService } from "core-components/datetime/timezone.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { DisplayedDays } from "core-app/shared/components/calendar/te-calendar/te-calendar.component";

@@ -2,7 +2,7 @@ import { RelationResource } from 'core-app/core/hal/resources/relation-resource'
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackageRelationsService } from '../wp-relations.service';
 import { Component, Input } from "@angular/core";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 

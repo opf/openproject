@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, OnDestroy, OnInit, Renderer2, Directive } from '@angular/core';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Title } from '@angular/platform-browser';
 import { GridInitializationService } from "core-app/shared/components/grids/grid/initialization.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";

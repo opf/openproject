@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";

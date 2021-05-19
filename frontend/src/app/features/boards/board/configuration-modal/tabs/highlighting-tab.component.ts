@@ -1,5 +1,5 @@
 import { Component, Inject, Injector } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";

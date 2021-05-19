@@ -2,7 +2,7 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-components/wp-table/wp-table-configuration';
 import { GroupObject } from 'core-app/core/hal/resources/wp-collection-resource';
 import { ChartOptions, ChartType } from 'chart.js';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;

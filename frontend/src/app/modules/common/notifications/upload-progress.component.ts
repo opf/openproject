@@ -28,7 +28,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { HttpErrorResponse, HttpEventType, HttpProgressEvent } from "@angular/common/http";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { UploadFile, UploadHttpEvent, UploadInProgress } from "core-app/core/file-upload/op-file-upload.service";

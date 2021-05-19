@@ -42,7 +42,7 @@ import {
   OnInit
 } from "@angular/core";
 import { CommentService } from "core-components/wp-activity/comment-service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

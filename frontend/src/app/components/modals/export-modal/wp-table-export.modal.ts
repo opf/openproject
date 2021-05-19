@@ -6,7 +6,7 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work_packages/r
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { HalLink } from "core-app/core/hal/hal-link/hal-link";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import * as URI from 'urijs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";

@@ -20,7 +20,7 @@ import { Injector } from '@angular/core';
 import { OpenProject } from 'core-app/core/setup/globals/openproject';
 import * as TLodash from 'lodash';
 import * as TMoment from 'moment';
-import { GlobalI18n } from "core-app/modules/common/i18n/i18n.service";
+import { GlobalI18n } from "core-app/core/i18n/i18n.service";
 import { Dragula } from "dragula";
 import { Screenfull } from "screenfull";
 

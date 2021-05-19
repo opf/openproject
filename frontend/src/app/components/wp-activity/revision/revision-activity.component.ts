@@ -31,7 +31,7 @@ import { WorkPackageResource } from "core-app/core/hal/resources/work-package-re
 import { UserResource } from "core-app/core/hal/resources/user-resource";
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { TimezoneService } from "core-components/datetime/timezone.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({

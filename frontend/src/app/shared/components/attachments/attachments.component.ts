@@ -29,7 +29,7 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-components/states.service';
 import { filter } from 'rxjs/operators';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

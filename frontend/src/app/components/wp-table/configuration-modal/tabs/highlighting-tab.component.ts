@@ -1,7 +1,7 @@
 import { Component, Injector, ViewChild } from '@angular/core';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { States } from "core-app/components/states.service";

@@ -17,7 +17,7 @@ import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
 import { BoardPartitionedPageComponent } from "core-app/features/boards/board/board-partitioned-page/board-partitioned-page.component";
 import { AddListModalComponent } from "core-app/features/boards/board/add-list-modal/add-list-modal.component";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardListCrossSelectionService } from "core-app/features/boards/board/board-list/board-list-cross-selection.service";
 import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";

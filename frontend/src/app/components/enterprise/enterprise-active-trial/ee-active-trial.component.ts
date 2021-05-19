@@ -28,7 +28,7 @@
 
 import { ChangeDetectorRef, Component, ElementRef, OnInit } from "@angular/core";
 import { distinctUntilChanged } from "rxjs/operators";
-import { I18nService } from "app/modules/common/i18n/i18n.service";
+import { I18nService } from "app/core/i18n/i18n.service";
 import { EnterpriseTrialService } from "app/components/enterprise/enterprise-trial.service";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { EEActiveTrialBase } from "core-components/enterprise/enterprise-active-trial/ee-active-trial.base";

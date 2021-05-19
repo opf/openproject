@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabInterface } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import { WpTableConfigurationService } from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import { QueryConfigurationLocals } from 'core-components/wp-table/external-configuration/external-query-configuration.component';

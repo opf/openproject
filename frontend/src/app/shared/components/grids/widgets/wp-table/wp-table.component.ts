@@ -4,7 +4,7 @@ import { QueryFormResource } from "core-app/core/hal/resources/query-form-resour
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { WorkPackageTableConfiguration } from "core-components/wp-table/wp-table-configuration";
 import { Observable } from 'rxjs';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { StateService } from '@uirouter/core';

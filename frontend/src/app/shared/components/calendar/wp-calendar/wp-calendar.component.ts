@@ -17,7 +17,7 @@ import { WorkPackageViewFiltersService } from "core-app/features/work_packages/r
 import * as moment from "moment";
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
 import { StateService } from "@uirouter/core";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { DomSanitizer } from "@angular/platform-browser";
 import { WorkPackagesListChecksumService } from "core-components/wp-list/wp-list-checksum.service";

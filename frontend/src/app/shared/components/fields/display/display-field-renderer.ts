@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { DisplayFieldContext, DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";

@@ -27,7 +27,7 @@
 //++
 
 import { Field, IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { DisplayFieldContext } from "core-app/shared/components/fields/display/display-field.service";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

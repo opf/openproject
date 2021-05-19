@@ -30,7 +30,7 @@ import { InputState } from "reactivestates";
 import { HalLinkInterface } from 'core-app/core/hal/hal-link/hal-link';
 import { Injector } from '@angular/core';
 import { States } from 'core-components/states.service';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export interface HalResourceClass<T extends HalResource = HalResource> {

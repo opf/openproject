@@ -17,7 +17,7 @@ import { BoardsMenuButtonComponent } from "core-app/features/boards/board/toolba
 import { RequestSwitchmap } from "core-app/shared/helpers/rxjs/request-switchmap";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { finalize, take } from "rxjs/operators";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { Ng2StateDeclaration } from "@uirouter/angular";

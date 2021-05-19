@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { States } from '../../../states.service';
 import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';

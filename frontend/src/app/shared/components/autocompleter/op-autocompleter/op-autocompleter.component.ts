@@ -1,6 +1,6 @@
 import {HalResource} from 'core-app/core/hal/resources/hal-resource';
 import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, TemplateRef, ContentChild, AfterViewInit, NgZone} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import {I18nService} from 'core-app/core/i18n/i18n.service';
 import {AngularTrackingHelpers} from 'core-app/shared/helpers/angular/tracking-functions';
 import {HalResourceService} from 'core-app/core/hal/services/hal-resource.service';
 import {HalResourceSortingService} from 'core-app/core/hal/services/hal-resource-sorting.service';

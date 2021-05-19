@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Board } from "core-app/features/boards/board/board";
 import { Observable } from "rxjs";
 

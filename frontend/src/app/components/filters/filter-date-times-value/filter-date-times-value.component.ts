@@ -31,7 +31,7 @@ import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-f
 import { Moment } from 'moment';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";

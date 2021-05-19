@@ -3,7 +3,7 @@ import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset
 } from "core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ChartOptions } from 'chart.js';
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import {

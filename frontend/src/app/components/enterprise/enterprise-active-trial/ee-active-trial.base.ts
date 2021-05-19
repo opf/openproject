@@ -27,7 +27,7 @@
 //++
 
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { I18nService } from "app/modules/common/i18n/i18n.service";
+import { I18nService } from "app/core/i18n/i18n.service";
 
 export class EEActiveTrialBase extends UntilDestroyedMixin {
   public text = {

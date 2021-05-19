@@ -1,6 +1,6 @@
 import {AbstractWidgetComponent} from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import {Component, OnInit, ChangeDetectorRef, Injector, ChangeDetectionStrategy} from '@angular/core';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {I18nService} from "core-app/core/i18n/i18n.service";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {UserResource} from "core-app/core/hal/resources/user-resource";
 import {CurrentProjectService} from "core-components/projects/current-project.service";

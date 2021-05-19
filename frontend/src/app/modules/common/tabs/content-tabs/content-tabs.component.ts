@@ -33,7 +33,7 @@ import {
 } from '@angular/core';
 import { GonService } from "core-app/core/gon/gon.service";
 import { StateService } from '@uirouter/core';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ScrollableTabsComponent } from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
 
 

@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work_packages/query-space/isolated-query-space';
 import { debugLog } from '../../shared/helpers/debug_output';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';

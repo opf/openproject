@@ -1,4 +1,4 @@
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Component, OnInit, Injector } from '@angular/core';
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";

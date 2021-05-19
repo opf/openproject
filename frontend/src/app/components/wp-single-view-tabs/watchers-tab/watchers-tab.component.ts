@@ -31,7 +31,7 @@ import { Transition } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageWatchersService } from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";

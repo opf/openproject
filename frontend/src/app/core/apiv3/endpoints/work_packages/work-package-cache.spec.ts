@@ -28,7 +28,7 @@
 
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';

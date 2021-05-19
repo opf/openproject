@@ -10,7 +10,7 @@ import { GridDragAndDropService } from "core-app/shared/components/grids/grid/dr
 import { GridResizeService } from "core-app/shared/components/grids/grid/resize.service";
 import { GridMoveService } from "core-app/shared/components/grids/grid/move.service";
 import { GridGap } from "core-app/shared/components/grids/areas/grid-gap";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Injectable()
 export class GridAddWidgetService {

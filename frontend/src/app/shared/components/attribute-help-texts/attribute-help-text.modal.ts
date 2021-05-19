@@ -31,7 +31,7 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { HelpTextResource } from 'core-app/core/hal/resources/help-text-resource';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   templateUrl: './help-text.modal.html',

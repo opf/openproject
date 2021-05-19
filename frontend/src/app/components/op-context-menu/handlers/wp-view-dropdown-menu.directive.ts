@@ -29,7 +29,7 @@
 import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
 import { Directive, ElementRef } from "@angular/core";
 import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,

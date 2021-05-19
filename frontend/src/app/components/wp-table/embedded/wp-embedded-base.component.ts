@@ -7,7 +7,7 @@ import {
 } from 'core-components/wp-table/wp-table-configuration';
 import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { WorkPackagesViewBase } from "core-app/features/work_packages/routing/wp-view-base/work-packages-view.base";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";

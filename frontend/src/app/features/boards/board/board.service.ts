@@ -5,7 +5,7 @@ import { PathHelperService } from "core-app/modules/common/path-helper/path-help
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { Board, BoardType } from "core-app/features/boards/board/board";
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
 import { BehaviorSubject, Observable } from "rxjs";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

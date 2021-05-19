@@ -29,7 +29,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, Injector, ViewChild } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
 import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';

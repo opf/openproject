@@ -14,7 +14,7 @@ import { Highlighting } from "core-components/wp-fast-table/builders/highlightin
 import { StateService } from "@uirouter/core";
 import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CardHighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { CardViewOrientation } from "core-components/wp-card-view/wp-card-view.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

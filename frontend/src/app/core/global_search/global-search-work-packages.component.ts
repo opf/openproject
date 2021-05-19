@@ -28,7 +28,7 @@
 
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { WorkPackageFiltersService } from "core-components/filters/wp-filters/wp-filters.service";

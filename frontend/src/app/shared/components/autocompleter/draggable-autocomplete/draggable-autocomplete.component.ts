@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { DragulaService, Group } from "ng2-dragula";
 import { DomAutoscrollService } from "core-app/shared/helpers/drag-and-drop/dom-autoscroll.service";

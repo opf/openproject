@@ -27,7 +27,7 @@
 //++
 
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AttachmentCollectionResource } from 'core-app/core/hal/resources/attachment-collection-resource';
 import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { TypeResource } from 'core-app/core/hal/resources/type-resource';

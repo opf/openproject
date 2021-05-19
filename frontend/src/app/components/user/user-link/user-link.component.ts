@@ -28,7 +28,7 @@
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { UserResource } from 'core-app/core/hal/resources/user-resource';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   selector: 'user-link',

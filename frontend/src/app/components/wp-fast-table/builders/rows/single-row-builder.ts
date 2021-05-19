@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { locateTableRowByIdentifier } from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import { debugLog } from '../../../../shared/helpers/debug_output';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';

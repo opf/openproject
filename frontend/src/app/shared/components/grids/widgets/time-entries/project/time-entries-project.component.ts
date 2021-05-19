@@ -1,7 +1,7 @@
 import { Component, OnInit, Injector, ChangeDetectorRef } from "@angular/core";
 import { WidgetTimeEntriesListComponent } from "core-app/shared/components/grids/widgets/time-entries/list/time-entries-list.component";
 import { TimezoneService } from "core-components/datetime/timezone.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";

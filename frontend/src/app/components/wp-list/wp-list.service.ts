@@ -39,7 +39,7 @@ import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/
 import { Injectable } from '@angular/core';
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { from, Observable, of } from 'rxjs';
 import { input } from "reactivestates";
 import { catchError, mergeMap, share, switchMap, take } from "rxjs/operators";

@@ -33,7 +33,7 @@ import {
 } from 'core-app/shared/components/autocompleter/lazyloaded/lazyloaded-autocompleter';
 import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
 import { LinkHandling } from 'core-app/modules/common/link-handling/link-handling';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpClient } from "@angular/common/http";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from "@angular/core";
 import { CurrentProjectService } from "core-components/projects/current-project.service";

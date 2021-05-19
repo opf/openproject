@@ -28,7 +28,7 @@
 
 import { AfterViewInit, Directive, ElementRef, Injector, Input } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { States } from '../../states.service';

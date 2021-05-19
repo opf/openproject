@@ -30,7 +30,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewCh
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   templateUrl: './wiki-include-page-macro.modal.html'

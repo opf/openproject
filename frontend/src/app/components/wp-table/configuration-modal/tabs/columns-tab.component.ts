@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { QueryColumn } from 'core-components/wp-query/query-column';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';

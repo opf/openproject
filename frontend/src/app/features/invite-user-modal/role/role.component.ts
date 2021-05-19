@@ -10,7 +10,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import {I18nService} from "core-app/core/i18n/i18n.service";
 import {PrincipalType} from '../invite-user.component';
 import {RoleResource} from "core-app/core/hal/resources/role-resource";
 import {ProjectResource} from "core-app/core/hal/resources/project-resource";

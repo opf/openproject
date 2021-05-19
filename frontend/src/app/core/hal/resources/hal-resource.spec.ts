@@ -28,7 +28,7 @@
 
 import { Injector } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalLink, HalLinkInterface } from 'core-app/core/hal/hal-link/hal-link';
 import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';

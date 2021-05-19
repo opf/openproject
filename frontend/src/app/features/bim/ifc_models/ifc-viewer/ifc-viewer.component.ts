@@ -37,7 +37,7 @@ import {
 } from '@angular/core';
 import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CurrentUserService } from "core-app/core/current-user/current-user.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 

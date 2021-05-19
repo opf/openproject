@@ -35,7 +35,7 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { debugLog } from '../../../shared/helpers/debug_output';

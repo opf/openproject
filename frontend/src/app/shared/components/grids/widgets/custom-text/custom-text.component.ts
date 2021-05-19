@@ -13,7 +13,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { CustomTextEditFieldService } from "core-app/shared/components/grids/widgets/custom-text/custom-text-edit-field.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { filter } from 'rxjs/operators';
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";

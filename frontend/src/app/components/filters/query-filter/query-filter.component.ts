@@ -27,7 +27,7 @@
 //++
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { QueryFilterResource } from 'core-app/core/hal/resources/query-filter-resource';
 import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";

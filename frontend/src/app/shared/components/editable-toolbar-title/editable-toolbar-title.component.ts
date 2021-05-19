@@ -37,7 +37,7 @@ import {
   SimpleChanges,
   ViewChild
 } from "@angular/core";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ContainHelpers } from "core-app/shared/directives/focus/contain-helpers";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 

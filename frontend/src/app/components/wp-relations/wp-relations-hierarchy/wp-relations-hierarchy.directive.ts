@@ -27,7 +27,7 @@
 //++
 
 import { Component, Input, OnInit } from '@angular/core';
-import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { WorkPackageRelationsHierarchyService } from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';

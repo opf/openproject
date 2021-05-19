@@ -16,7 +16,7 @@ import { States } from "core-components/states.service";
 import * as moment from "moment";
 import { Moment } from "moment";
 import { StateService } from "@uirouter/core";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { DomSanitizer } from "@angular/platform-browser";
 import timeGrid from '@fullcalendar/timegrid';
 import { CalendarOptions, Duration, EventApi, EventInput } from '@fullcalendar/core';

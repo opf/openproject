@@ -6,7 +6,7 @@ import { OpContextMenuItem } from "core-components/op-context-menu/op-context-me
 import { DisabledButtonPlaceholder } from "core-app/features/boards/board/board-list/board-list.component";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";

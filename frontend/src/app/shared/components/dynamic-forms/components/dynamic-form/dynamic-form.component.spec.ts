@@ -11,7 +11,7 @@ import { FormlyModule } from "@ngx-formly/core";
 import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component";
 import { DynamicFormService } from "core-app/shared/components/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { TextInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";

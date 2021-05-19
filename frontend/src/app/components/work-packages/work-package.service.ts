@@ -32,7 +32,7 @@ import { HttpClient } from "@angular/common/http";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HalDeletedEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";
 
 @Injectable()

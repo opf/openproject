@@ -36,7 +36,7 @@ import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.servi
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
 import { QuerySharingChange } from "core-components/modals/share-modal/query-sharing-form.component";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 
 @Component({

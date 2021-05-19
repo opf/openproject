@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FieldType } from "@ngx-formly/core";
 import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/shared/components/fields/helpers/project-status-helper";
 import { Observable } from 'rxjs';
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   selector: 'op-select-project-status-input',
