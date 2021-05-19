@@ -37,7 +37,7 @@ import { WorkPackageViewFocusService } from 'core-app/features/work_packages/rou
 import { StateService } from '@uirouter/core';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageService } from "core-components/work-packages/work-package.service";
-import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
+import { BackRoutingService } from "core-app/features/work_packages/components/back-routing/back-routing.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 
 @Component({

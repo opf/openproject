@@ -36,7 +36,7 @@ import { WorkPackageViewSelectionService } from "core-app/features/work_packages
 import { WorkPackageSingleViewBase } from "core-app/features/work_packages/routing/wp-view-base/work-package-single-view.base";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
-import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
+import { BackRoutingService } from "core-app/features/work_packages/components/back-routing/back-routing.service";
 
 @Component({
   templateUrl: './wp-split-view.html',

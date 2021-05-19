@@ -165,7 +165,7 @@ import { WorkPackageListViewComponent } from "core-app/features/work_packages/ro
 import { PartitionedQuerySpacePageComponent } from "core-app/features/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import { WorkPackageViewPageComponent } from "core-app/features/work_packages/routing/wp-view-page/wp-view-page.component";
 import { WorkPackageSettingsButtonComponent } from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
-import { BackButtonComponent } from "core-app/modules/common/back-routing/back-button.component";
+import { BackButtonComponent } from "core-app/features/work_packages/components/back-routing/back-button.component";
 import { WorkPackagesTableComponent } from "core-components/wp-table/wp-table.component";
 import { WorkPackageGroupToggleDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
 import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";

@@ -33,7 +33,7 @@ import { Injector } from "@angular/core";
 import { FirstRouteService } from "core-app/core/routing/first-route-service";
 import { Ng2StateDeclaration, StatesModule } from "@uirouter/angular";
 import { appBaseSelector, ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";
-import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
+import { BackRoutingService } from "core-app/features/work_packages/components/back-routing/back-routing.service";
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {

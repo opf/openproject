@@ -27,7 +27,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
+import { BackRoutingService } from "core-app/features/work_packages/components/back-routing/back-routing.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
