@@ -99,7 +99,7 @@ import {
 import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector
-} from "core-app/modules/common/remote-field-updater/remote-field-updater.component";
+} from "core-app/shared/components/remote-field-updater/remote-field-updater.component";
 import {
   WorkPackageOverviewGraphComponent,
   wpOverviewGraphSelector

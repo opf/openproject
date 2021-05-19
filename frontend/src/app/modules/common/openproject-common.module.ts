@@ -67,7 +67,7 @@ import {EditableToolbarTitleComponent} from '../../shared/components/editable-to
 import {PersistentToggleComponent} from '../../shared/components/persistent-toggle/persistent-toggle.component';
 import {AddSectionDropdownComponent} from '../../shared/components/hide-section/add-section-dropdown/add-section-dropdown.component';
 import {HideSectionLinkComponent} from '../../shared/components/hide-section/hide-section-link/hide-section-link.component';
-import {RemoteFieldUpdaterComponent} from './remote-field-updater/remote-field-updater.component';
+import {RemoteFieldUpdaterComponent} from '../../shared/components/remote-field-updater/remote-field-updater.component';
 import {AutofocusDirective} from '../../shared/directives/autofocus/autofocus.directive';
 import {ShowSectionDropdownComponent} from '../../shared/components/hide-section/show-section-dropdown.component';
 import {SlideToggleComponent} from './slide-toggle/slide-toggle.component';
