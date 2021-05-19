@@ -74,7 +74,7 @@ import {
 import {
   CopyToClipboardDirective,
   copyToClipboardSelector
-} from "core-app/modules/common/copy-to-clipboard/copy-to-clipboard.directive";
+} from "core-app/shared/components/copy-to-clipboard/copy-to-clipboard.directive";
 import {
   ConfirmFormSubmitController,
   confirmFormSubmitSelector
