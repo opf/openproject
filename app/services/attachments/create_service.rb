@@ -27,6 +27,8 @@
 #++
 
 class Attachments::CreateService
+  include Attachments::TouchContainer
+
   attr_reader :container, :author
 
   def initialize(container, author:)
@@ -59,14 +61,14 @@ class Attachments::CreateService
         # in the meantime, e.g when bulk uploading.
         container.attachments.reload
 
-        save_container
+        touch(container)
       end
     end
   end
 
   def create_unjournalized(uploaded_file, description)
     create_attachment(uploaded_file, description).tap do
-      save_container
+      touch(container)
     end
   end
 
@@ -82,15 +84,5 @@ class Attachments::CreateService
 
   def build_attachment(uploaded_file, description)
     container.attachments.build(file: uploaded_file, description: description, author: author)
-  end
-
-  def save_container
-    # We allow invalid containers to be saved as
-    # adding the attachments does not change the validity of the container
-    # but without that leeway, the user needs to fix the container before
-    # the attachment can be added.
-    # However we want the container to be updated when uploading an attachment. This is important,
-    # e.g. for invalidating caches and also for journalizing
-    container.update_attribute(:updated_at, Time.current)
   end
 end

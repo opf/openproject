@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe Attachments::CreateService do
+describe Attachments::CreateService, 'integration' do
   let(:user) { FactoryBot.create(:user) }
   let(:description) { 'a fancy description' }
 
