@@ -49,7 +49,7 @@ import {
 import {
   PersistentToggleComponent,
   persistentToggleSelector
-} from "core-app/modules/common/persistent-toggle/persistent-toggle.component";
+} from "core-app/shared/components/persistent-toggle/persistent-toggle.component";
 import {OpPrincipalComponent, principalSelector} from "core-app/shared/components/principal/principal.component";
 import {
   HideSectionLinkComponent,

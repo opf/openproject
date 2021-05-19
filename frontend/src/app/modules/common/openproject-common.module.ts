@@ -64,7 +64,7 @@ import {NoResultsComponent} from '../../shared/components/no-results/no-results.
 import {ScrollableTabsComponent} from './tabs/scrollable-tabs/scrollable-tabs.component';
 import {ContentTabsComponent} from './tabs/content-tabs/content-tabs.component';
 import {EditableToolbarTitleComponent} from '../../shared/components/editable-toolbar-title/editable-toolbar-title.component';
-import {PersistentToggleComponent} from './persistent-toggle/persistent-toggle.component';
+import {PersistentToggleComponent} from '../../shared/components/persistent-toggle/persistent-toggle.component';
 import {AddSectionDropdownComponent} from '../../shared/components/hide-section/add-section-dropdown/add-section-dropdown.component';
 import {HideSectionLinkComponent} from '../../shared/components/hide-section/hide-section-link/hide-section-link.component';
 import {RemoteFieldUpdaterComponent} from './remote-field-updater/remote-field-updater.component';
