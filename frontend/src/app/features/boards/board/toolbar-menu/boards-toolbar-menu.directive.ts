@@ -36,7 +36,7 @@ import { BoardConfigurationModal } from "core-app/features/boards/board/configur
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { StateService } from "@uirouter/core";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { triggerEditingEvent } from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
+import { triggerEditingEvent } from "core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component";
 
 @Directive({
   selector: '[boardsToolbarMenu]'

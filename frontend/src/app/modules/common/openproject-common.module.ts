@@ -63,7 +63,7 @@ import {CollapsibleSectionComponent} from '../../shared/components/collapsible-s
 import {NoResultsComponent} from './no-results/no-results.component';
 import {ScrollableTabsComponent} from './tabs/scrollable-tabs/scrollable-tabs.component';
 import {ContentTabsComponent} from './tabs/content-tabs/content-tabs.component';
-import {EditableToolbarTitleComponent} from './editable-toolbar-title/editable-toolbar-title.component';
+import {EditableToolbarTitleComponent} from '../../shared/components/editable-toolbar-title/editable-toolbar-title.component';
 import {PersistentToggleComponent} from './persistent-toggle/persistent-toggle.component';
 import {AddSectionDropdownComponent} from './hide-section/add-section-dropdown/add-section-dropdown.component';
 import {HideSectionLinkComponent} from './hide-section/hide-section-link/hide-section-link.component';

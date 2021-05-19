@@ -44,7 +44,7 @@ import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/
 import {
   selectableTitleIdentifier,
   triggerEditingEvent
-} from "core-app/modules/common/editable-toolbar-title/editable-toolbar-title.component";
+} from "core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component";
 
 @Directive({
   selector: '[opSettingsContextMenu]'
