@@ -71,7 +71,7 @@ import {RemoteFieldUpdaterComponent} from './remote-field-updater/remote-field-u
 import {AutofocusDirective} from '../../shared/directives/autofocus/autofocus.directive';
 import {ShowSectionDropdownComponent} from './hide-section/show-section-dropdown.component';
 import {SlideToggleComponent} from './slide-toggle/slide-toggle.component';
-import {DynamicBootstrapModule} from './dynamic-bootstrap/dynamic-bootstrap.module';
+import {DynamicBootstrapModule} from '../../shared/components/dynamic-bootstrap/dynamic-bootstrap.module';
 import {OpFormFieldComponent} from './forms/form-field/form-field.component';
 import {OpFormBindingDirective} from './forms/form-field/form-binding.directive';
 import {OpOptionListComponent} from './option-list/option-list.component';
