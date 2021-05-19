@@ -51,8 +51,8 @@ import {EnterpriseBannerComponent} from 'core-components/enterprise-banner/enter
 import {EnterpriseBannerBootstrapComponent} from 'core-components/enterprise-banner/enterprise-banner-bootstrap.component';
 import {HomescreenNewFeaturesBlockComponent} from 'core-components/homescreen/blocks/new-features.component';
 import {BoardVideoTeaserModalComponent} from 'core-app/features/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
-import {highlightColBootstrap} from './highlight-col/highlight-col.directive';
-import {HighlightColDirective} from './highlight-col/highlight-col.directive';
+import {highlightColBootstrap} from '../../shared/directives/highlight-col/highlight-col.directive';
+import {HighlightColDirective} from '../../shared/directives/highlight-col/highlight-col.directive';
 import {CopyToClipboardDirective} from '../../shared/components/copy-to-clipboard/copy-to-clipboard.directive';
 import {OpDateTimeComponent} from '../../shared/components/date/op-date-time.component';
 import {NotificationComponent} from './notifications/notification.component';
