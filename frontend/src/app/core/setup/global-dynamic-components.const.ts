@@ -54,15 +54,15 @@ import {OpPrincipalComponent, principalSelector} from "core-app/shared/component
 import {
   HideSectionLinkComponent,
   hideSectionLinkSelector
-} from "core-app/modules/common/hide-section/hide-section-link/hide-section-link.component";
+} from "core-app/shared/components/hide-section/hide-section-link/hide-section-link.component";
 import {
   ShowSectionDropdownComponent,
   showSectionDropdownSelector
-} from "core-app/modules/common/hide-section/show-section-dropdown.component";
+} from "core-app/shared/components/hide-section/show-section-dropdown.component";
 import {
   AddSectionDropdownComponent,
   addSectionDropdownSelector
-} from "core-app/modules/common/hide-section/add-section-dropdown/add-section-dropdown.component";
+} from "core-app/shared/components/hide-section/add-section-dropdown/add-section-dropdown.component";
 import {
   AutocompleteSelectDecorationComponent,
   autocompleteSelectDecorationSelector

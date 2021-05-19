@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Injector, ViewEncapsulation } from "@angular/core";
-import { GonService } from "core-app/modules/common/gon/gon.service";
+import { GonService } from "core-app/core/gon/gon.service";
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition

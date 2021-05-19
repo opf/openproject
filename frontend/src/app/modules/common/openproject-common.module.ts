@@ -65,11 +65,11 @@ import {ScrollableTabsComponent} from './tabs/scrollable-tabs/scrollable-tabs.co
 import {ContentTabsComponent} from './tabs/content-tabs/content-tabs.component';
 import {EditableToolbarTitleComponent} from '../../shared/components/editable-toolbar-title/editable-toolbar-title.component';
 import {PersistentToggleComponent} from './persistent-toggle/persistent-toggle.component';
-import {AddSectionDropdownComponent} from './hide-section/add-section-dropdown/add-section-dropdown.component';
-import {HideSectionLinkComponent} from './hide-section/hide-section-link/hide-section-link.component';
+import {AddSectionDropdownComponent} from '../../shared/components/hide-section/add-section-dropdown/add-section-dropdown.component';
+import {HideSectionLinkComponent} from '../../shared/components/hide-section/hide-section-link/hide-section-link.component';
 import {RemoteFieldUpdaterComponent} from './remote-field-updater/remote-field-updater.component';
 import {AutofocusDirective} from '../../shared/directives/autofocus/autofocus.directive';
-import {ShowSectionDropdownComponent} from './hide-section/show-section-dropdown.component';
+import {ShowSectionDropdownComponent} from '../../shared/components/hide-section/show-section-dropdown.component';
 import {SlideToggleComponent} from './slide-toggle/slide-toggle.component';
 import {DynamicBootstrapModule} from '../../shared/components/dynamic-bootstrap/dynamic-bootstrap.module';
 import {OpFormFieldComponent} from '../../shared/components/forms/form-field/form-field.component';

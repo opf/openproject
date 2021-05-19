@@ -27,7 +27,7 @@
 //++
 
 
-import { GonService } from "core-app/modules/common/gon/gon.service";
+import { GonService } from "core-app/core/gon/gon.service";
 import { Injectable } from "@angular/core";
 import { input } from "reactivestates";
 

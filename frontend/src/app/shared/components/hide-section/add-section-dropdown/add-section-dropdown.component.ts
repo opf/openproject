@@ -28,7 +28,7 @@
 
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { HideSectionDefinition, HideSectionService } from "core-app/modules/common/hide-section/hide-section.service";
+import { HideSectionDefinition, HideSectionService } from "core-app/shared/components/hide-section/hide-section.service";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 

@@ -34,7 +34,7 @@ import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { BoardInlineAddAutocompleterComponent } from "core-app/features/boards/board/inline-add/board-inline-add-autocompleter.component";
-import { GonService } from "core-app/modules/common/gon/gon.service";
+import { GonService } from "core-app/core/gon/gon.service";
 
 @Injectable()
 export class BoardInlineCreateService extends WorkPackageInlineCreateService {

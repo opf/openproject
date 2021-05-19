@@ -26,30 +26,29 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { IFCGonDefinition } from "../../../features/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { Component, ElementRef, OnInit } from "@angular/core";
+import { HideSectionService } from "core-app/shared/components/hide-section/hide-section.service";
 
-declare global {
-  interface Window {
-    gon:GonType;
+export const hideSectionLinkSelector = 'hide-section-link';
+
+@Component({
+  selector: hideSectionLinkSelector,
+  templateUrl: './hide-section-link.component.html',
+})
+export class HideSectionLinkComponent implements OnInit {
+  displayed = true;
+
+  public sectionName:string;
+
+  constructor(protected elementRef:ElementRef,
+              protected hideSectionService:HideSectionService) {}
+
+  ngOnInit():void {
+    this.sectionName = this.elementRef.nativeElement.dataset.sectionName;
   }
-}
 
-export interface GonType {
- [key:string]:unknown;
- ifc_models:IFCGonDefinition;
-}
-
-@Injectable({ providedIn: 'root' })
-export class GonService {
-  get(...path:string[]):unknown|null {
-    return _.get(window.gon, path, null);
-  }
-
-  /**
-   * Get the gon object
-   */
-  get gon():GonType {
-    return window.gon;
+  hideSection() {
+    this.hideSectionService.hide(this.sectionName);
+    return false;
   }
 }

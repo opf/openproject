@@ -32,7 +32,7 @@ import { I18nService } from "app/modules/common/i18n/i18n.service";
 import { EnterpriseTrialService } from "app/components/enterprise/enterprise-trial.service";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { EEActiveTrialBase } from "core-components/enterprise/enterprise-active-trial/ee-active-trial.base";
-import { GonService } from "core-app/modules/common/gon/gon.service";
+import { GonService } from "core-app/core/gon/gon.service";
 
 @Component({
   selector: 'enterprise-active-trial',
