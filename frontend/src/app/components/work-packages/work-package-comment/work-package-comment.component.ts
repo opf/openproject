@@ -29,7 +29,7 @@
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
 import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { CommentService } from "core-components/wp-activity/comment-service";
 import {
   ChangeDetectionStrategy,

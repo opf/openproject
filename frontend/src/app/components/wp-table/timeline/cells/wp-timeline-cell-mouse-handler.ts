@@ -34,7 +34,7 @@ import { TimelineCellRenderer } from './timeline-cell-renderer';
 import { WorkPackageCellLabels } from './wp-timeline-cell';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
-import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";

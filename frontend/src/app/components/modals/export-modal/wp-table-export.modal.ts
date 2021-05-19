@@ -9,7 +9,7 @@ import { HalLink } from "core-app/core/hal/hal-link/hal-link";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import * as URI from 'urijs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { Observable } from 'rxjs';
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";

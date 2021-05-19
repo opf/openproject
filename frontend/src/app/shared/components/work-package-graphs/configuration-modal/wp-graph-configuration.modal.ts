@@ -22,7 +22,7 @@ import {
   TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ComponentType } from "@angular/cdk/portal";
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";

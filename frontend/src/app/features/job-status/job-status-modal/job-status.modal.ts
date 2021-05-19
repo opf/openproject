@@ -9,7 +9,7 @@ import { switchMap, takeWhile } from "rxjs/operators";
 import {
   LoadingIndicatorService,
   withDelayedLoadingIndicator
-} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+} from "core-app/core/loading-indicator/loading-indicator.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { JobStatusEnum, JobStatusInterface } from "core-app/features/job-status/job-status.interface";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";

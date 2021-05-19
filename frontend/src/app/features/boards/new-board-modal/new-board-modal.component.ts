@@ -35,7 +35,7 @@ import { BoardType } from "core-app/features/boards/board/board";
 import { StateService } from "@uirouter/core";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
-import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { ITileViewEntry } from '../tile-view/tile-view.component';
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";

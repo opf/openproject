@@ -45,7 +45,7 @@ import { NotificationsService } from "core-app/modules/common/notifications/noti
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { UIRouterModule } from "@uirouter/angular";
-import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { HookService } from "core-app/modules/plugins/hook-service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";

@@ -5,7 +5,7 @@ import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject
 } from 'core-components/wp-table/wp-table-configuration';
-import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";

@@ -30,7 +30,7 @@ import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
 import { StateService } from '@uirouter/core';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { Injectable, Injector } from '@angular/core';
-import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpErrorResponse } from "@angular/common/http";

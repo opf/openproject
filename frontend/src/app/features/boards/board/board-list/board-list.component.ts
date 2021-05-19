@@ -14,7 +14,7 @@ import {
 import {
   LoadingIndicatorService,
   withLoadingIndicator
-} from "core-app/modules/common/loading-indicator/loading-indicator.service";
+} from "core-app/core/loading-indicator/loading-indicator.service";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { BoardInlineCreateService } from "core-app/features/boards/board/board-list/board-inline-create.service";

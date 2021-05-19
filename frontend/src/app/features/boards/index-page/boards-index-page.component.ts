@@ -7,7 +7,7 @@ import { NotificationsService } from "core-app/modules/common/notifications/noti
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { NewBoardModalComponent } from "core-app/features/boards/new-board-modal/new-board-modal.component";
 import { BannersService } from "core-app/core/enterprise/banners.service";
-import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
 import { contactUrl } from "core-app/core/setup/globals/constants.const";
 import { DomSanitizer } from "@angular/platform-browser";

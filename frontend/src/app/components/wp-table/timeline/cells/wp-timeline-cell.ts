@@ -33,7 +33,7 @@ import { TimelineCellRenderer } from './timeline-cell-renderer';
 import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
 import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handler';
 import { Injector } from '@angular/core';
-import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
