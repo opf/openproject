@@ -54,7 +54,7 @@ import {BoardVideoTeaserModalComponent} from 'core-app/features/boards/board/boa
 import {highlightColBootstrap} from './highlight-col/highlight-col.directive';
 import {HighlightColDirective} from './highlight-col/highlight-col.directive';
 import {CopyToClipboardDirective} from '../../shared/components/copy-to-clipboard/copy-to-clipboard.directive';
-import {OpDateTimeComponent} from './date/op-date-time.component';
+import {OpDateTimeComponent} from '../../shared/components/date/op-date-time.component';
 import {NotificationComponent} from './notifications/notification.component';
 import {NotificationsContainerComponent} from './notifications/notifications-container.component';
 import {UploadProgressComponent} from './notifications/upload-progress.component';
