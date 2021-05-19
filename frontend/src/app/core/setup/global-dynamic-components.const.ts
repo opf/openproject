@@ -154,7 +154,7 @@ import {
   EditableQueryPropsComponent,
   editableQueryPropsSelector
 } from "core-app/core/admin/editable-query-props/editable-query-props.component";
-import { SlideToggleComponent, slideToggleSelector } from "core-app/modules/common/slide-toggle/slide-toggle.component";
+import { SlideToggleComponent, slideToggleSelector } from "core-app/shared/components/slide-toggle/slide-toggle.component";
 import { BackupComponent, backupSelector } from "core-app/core/setup/globals/components/admin/backup.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
