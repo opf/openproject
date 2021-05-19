@@ -7,7 +7,7 @@ import {
 import {
   ColorsAutocompleter,
   colorsAutocompleterSelector
-} from "core-app/modules/common/colors/colors-autocompleter.component";
+} from "core-app/shared/components/colors/colors-autocompleter.component";
 import {
   ZenModeButtonComponent,
   zenModeComponentSelector

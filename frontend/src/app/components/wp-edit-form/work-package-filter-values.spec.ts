@@ -42,7 +42,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { States } from "core-components/states.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { UIRouterModule } from "@uirouter/angular";
 import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";

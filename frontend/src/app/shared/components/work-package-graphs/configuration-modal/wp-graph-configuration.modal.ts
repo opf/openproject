@@ -15,7 +15,7 @@ import {
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   ActiveTabInterface,
   TabComponent,

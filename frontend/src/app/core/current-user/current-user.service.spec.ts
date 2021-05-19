@@ -32,7 +32,7 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { States } from "core-components/states.service";
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CurrentUserService } from './current-user.service';
 import { CurrentUserStore } from "./current-user.store";
 import { CurrentUserQuery } from "./current-user.query";

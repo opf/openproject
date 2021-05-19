@@ -27,7 +27,7 @@
 //++
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';

@@ -13,7 +13,7 @@ import {
   Optional,
   ViewChild
 } from '@angular/core';
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WpTableConfigurationService } from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {

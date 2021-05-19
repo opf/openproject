@@ -47,7 +47,7 @@ import {
   PaginationUpdateObject,
   WorkPackageViewPaginationService
 } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { PaginationService } from "core-components/table-pagination/pagination-service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";

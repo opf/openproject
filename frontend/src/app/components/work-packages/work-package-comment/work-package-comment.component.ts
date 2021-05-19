@@ -44,7 +44,7 @@ import {
   TemplateRef,
   ViewChild
 } from "@angular/core";
-import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";

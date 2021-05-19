@@ -48,7 +48,7 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { DatePickerModalHelper } from "core-app/shared/components/datepicker/datepicker.modal.helper";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 
 export type DateKeys = 'date'|'start'|'end';
 

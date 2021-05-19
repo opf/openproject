@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { Component, OnInit } from "@angular/core";
 import {
   FormattableEditFieldComponent,

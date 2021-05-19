@@ -18,7 +18,7 @@ import { FormlyForm } from "@ngx-formly/core";
 import { By } from "@angular/platform-browser";
 import { FormattableControlComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component";
 import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
-import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { CKEditorSetupService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { OpFormFieldComponent } from "core-app/modules/common/forms/form-field/form-field.component";

@@ -40,7 +40,7 @@ import { PathHelperService } from 'core-app/modules/common/path-helper/path-help
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { OpenProject } from "core-app/core/setup/globals/openproject";
 import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { OpIconComponent } from "core-app/shared/components/icon/icon.component";
 
 function setupMocks(paginationService:PaginationService) {

@@ -3,7 +3,7 @@ import {
   Injector,
   OnInit,
 } from '@angular/core';
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { QueryFilterResource } from "core-app/core/hal/resources/query-filter-resource";

@@ -4,7 +4,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { DraggableAutocompleteComponent } from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
 import { DynamicModule } from "ng-dynamic-component";
-import { ColorsAutocompleter } from "core-app/modules/common/colors/colors-autocompleter.component";
+import { ColorsAutocompleter } from "core-app/shared/components/colors/colors-autocompleter.component";
 import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
 import { TimeEntryWorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component";
 import { AutocompleteSelectDecorationComponent } from "core-app/shared/components/autocompleter/autocomplete-select-decoration/autocomplete-select-decoration.component";

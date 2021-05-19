@@ -28,7 +28,7 @@
 
 import { Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
 import { StateService, Transition, TransitionService } from '@uirouter/core';
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
 import { input } from 'reactivestates';
 import { filter, map, take } from 'rxjs/operators';

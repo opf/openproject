@@ -21,7 +21,7 @@ import { CKEditorPreviewService } from "core-app/shared/components/editor/compon
 import { ExternalRelationQueryConfigurationService } from "core-components/wp-table/external-configuration/external-relation-query-configuration.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 
 /**

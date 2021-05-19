@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { Component, ElementRef, Input, ViewChild , OnInit } from '@angular/core';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';

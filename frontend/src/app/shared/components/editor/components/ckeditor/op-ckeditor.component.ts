@@ -34,7 +34,7 @@ import {
 } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 
 declare module 'codemirror';
 
