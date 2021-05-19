@@ -21,7 +21,7 @@ import { OpCkeditorComponent } from "core-app/shared/components/editor/component
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { CKEditorSetupService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { OpFormFieldComponent } from "core-app/modules/common/forms/form-field/form-field.component";
+import { OpFormFieldComponent } from "core-app/shared/components/forms/form-field/form-field.component";
 
 export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], model:any, providers?:any[]): ComponentFixture<any> {
   @Component({

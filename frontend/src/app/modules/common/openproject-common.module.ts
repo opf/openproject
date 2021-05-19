@@ -72,8 +72,8 @@ import {AutofocusDirective} from '../../shared/directives/autofocus/autofocus.di
 import {ShowSectionDropdownComponent} from './hide-section/show-section-dropdown.component';
 import {SlideToggleComponent} from './slide-toggle/slide-toggle.component';
 import {DynamicBootstrapModule} from '../../shared/components/dynamic-bootstrap/dynamic-bootstrap.module';
-import {OpFormFieldComponent} from './forms/form-field/form-field.component';
-import {OpFormBindingDirective} from './forms/form-field/form-binding.directive';
+import {OpFormFieldComponent} from '../../shared/components/forms/form-field/form-field.component';
+import {OpFormBindingDirective} from '../../shared/components/forms/form-field/form-binding.directive';
 import {OpOptionListComponent} from './option-list/option-list.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/shared/components/principal/principal-rendering.module";
 import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
