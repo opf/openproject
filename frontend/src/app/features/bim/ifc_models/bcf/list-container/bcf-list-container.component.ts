@@ -3,7 +3,7 @@ import { WorkPackageListViewComponent } from "core-app/features/work_packages/ro
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
-import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
 import { bimSplitViewCardsIdentifier, bimSplitViewListIdentifier, bimListViewIdentifier, BimViewService } from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

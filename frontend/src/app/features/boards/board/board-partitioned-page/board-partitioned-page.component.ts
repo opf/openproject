@@ -10,7 +10,7 @@ import { Board } from "core-app/features/boards/board/board";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
-import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import { WorkPackageFilterButtonComponent } from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import { ZenModeButtonComponent } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import { BoardsMenuButtonComponent } from "core-app/features/boards/board/toolbar-menu/boards-menu-button.component";

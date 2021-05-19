@@ -35,7 +35,7 @@ import { WorkPackageResource } from "core-app/core/hal/resources/work-package-re
 import { States } from "core-components/states.service";
 import { QuerySchemaResource } from "core-app/core/hal/resources/query-schema-resource";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
-import { MAX_ORDER, ReorderDeltaBuilder } from "core-app/modules/common/drag-and-drop/reorder-delta-builder";
+import { MAX_ORDER, ReorderDeltaBuilder } from "core-app/shared/helpers/drag-and-drop/reorder-delta-builder";
 import { take } from "rxjs/operators";
 import { InputState } from "reactivestates";
 import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";

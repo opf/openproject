@@ -11,7 +11,7 @@ import {
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { DragulaService, Group } from "ng2-dragula";
-import { DomAutoscrollService } from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
+import { DomAutoscrollService } from "core-app/shared/helpers/drag-and-drop/dom-autoscroll.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { merge } from "rxjs";
 import { DomHelpers } from "core-app/shared/helpers/dom/set-window-cursor.helper";

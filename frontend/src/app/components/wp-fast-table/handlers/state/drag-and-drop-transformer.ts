@@ -9,8 +9,8 @@ import { TableDragActionsRegistryService } from "core-components/wp-table/drag-a
 import { TableDragActionService } from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
 import { States } from "core-components/states.service";
 import { tableRowClassName } from "core-components/wp-fast-table/builders/rows/single-row-builder";
-import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import { DragAndDropHelpers } from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
+import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
+import { DragAndDropHelpers } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers";
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { RenderedWorkPackage } from "core-app/features/work_packages/render-info/rendered-work-package.type";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";

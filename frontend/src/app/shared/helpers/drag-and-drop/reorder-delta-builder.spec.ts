@@ -30,7 +30,7 @@ import {
   DEFAULT_ORDER,
   MAX_ORDER,
   ReorderDeltaBuilder
-} from "core-app/modules/common/drag-and-drop/reorder-delta-builder";
+} from "core-app/shared/helpers/drag-and-drop/reorder-delta-builder";
 import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
 
 describe('ReorderDeltaBuilder', () => {

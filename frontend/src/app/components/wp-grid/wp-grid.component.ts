@@ -33,7 +33,7 @@ import { WorkPackageViewSortByService } from "core-app/features/work_packages/ro
 import { distinctUntilChanged, takeUntil } from "rxjs/operators";
 import { HighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
-import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
 import { WorkPackageTableConfiguration } from "core-components/wp-table/wp-table-configuration";

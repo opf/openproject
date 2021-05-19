@@ -3,7 +3,7 @@ import { TypeBannerService } from 'core-app/core/admin/types/type-banner.service
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
 import { ExternalRelationQueryConfigurationService } from 'core-components/wp-table/external-configuration/external-relation-query-configuration.service';
-import { DomAutoscrollService } from 'core-app/modules/common/drag-and-drop/dom-autoscroll.service';
+import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { DragulaService, DrakeWithModels } from 'ng2-dragula';
 import { ConfirmDialogService } from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import { Drake } from 'dragula';

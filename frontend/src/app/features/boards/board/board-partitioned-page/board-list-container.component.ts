@@ -9,7 +9,7 @@ import { BoardListsService } from "core-app/features/boards/board/board-list/boa
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { BannersService } from "core-app/modules/common/enterprise/banners.service";
-import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import { QueryUpdatedService } from "core-app/features/boards/board/query-updated/query-updated.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { Board, BoardWidgetOption } from "core-app/features/boards/board/board";
