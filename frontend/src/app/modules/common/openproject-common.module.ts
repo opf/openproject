@@ -74,7 +74,7 @@ import {SlideToggleComponent} from './slide-toggle/slide-toggle.component';
 import {DynamicBootstrapModule} from '../../shared/components/dynamic-bootstrap/dynamic-bootstrap.module';
 import {OpFormFieldComponent} from '../../shared/components/forms/form-field/form-field.component';
 import {OpFormBindingDirective} from '../../shared/components/forms/form-field/form-binding.directive';
-import {OpOptionListComponent} from './option-list/option-list.component';
+import {OpOptionListComponent} from '../../shared/components/option-list/option-list.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/shared/components/principal/principal-rendering.module";
 import { DatePickerModule } from "core-app/shared/components/op-date-picker/date-picker.module";
 import { FocusModule } from "core-app/shared/directives/focus/focus.module";
