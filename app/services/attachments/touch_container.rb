@@ -42,7 +42,8 @@ module Attachments
         # the attachment can be added.
         # However we want the container to be updated when uploading an attachment. This is important,
         # e.g. for invalidating caches and also for journalizing
-        container.update_attribute(:updated_at, Time.current)
+        container.update_column(:updated_at, Time.current)
+        container.save_journals if container.respond_to?(:save_journals)
       end
     end
   end
