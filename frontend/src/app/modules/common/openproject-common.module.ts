@@ -60,7 +60,7 @@ import {NotificationsContainerComponent} from './notifications/notifications-con
 import {UploadProgressComponent} from './notifications/upload-progress.component';
 import {ResizerComponent} from './resizer/resizer.component';
 import {CollapsibleSectionComponent} from '../../shared/components/collapsible-section/collapsible-section.component';
-import {NoResultsComponent} from './no-results/no-results.component';
+import {NoResultsComponent} from '../../shared/components/no-results/no-results.component';
 import {ScrollableTabsComponent} from './tabs/scrollable-tabs/scrollable-tabs.component';
 import {ContentTabsComponent} from './tabs/content-tabs/content-tabs.component';
 import {EditableToolbarTitleComponent} from '../../shared/components/editable-toolbar-title/editable-toolbar-title.component';
