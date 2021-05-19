@@ -13,7 +13,7 @@ import { DynamicFormService } from "core-app/shared/components/dynamic-forms/ser
 import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { TextInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";
 import { IntegerInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component";
 import { SelectInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component";

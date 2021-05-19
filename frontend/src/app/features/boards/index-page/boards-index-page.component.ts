@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { Board } from "core-app/features/boards/board/board";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { NewBoardModalComponent } from "core-app/features/boards/new-board-modal/new-board-modal.component";
 import { BannersService } from "core-app/core/enterprise/banners.service";

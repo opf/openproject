@@ -7,7 +7,7 @@ import {
 import { StateService, TransitionService } from "@uirouter/core";
 import { BoardFilterComponent } from "core-app/features/boards/board/board-filter/board-filter.component";
 import { Board } from "core-app/features/boards/board/board";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";

@@ -28,7 +28,7 @@
 
 import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 

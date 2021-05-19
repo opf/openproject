@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inje
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";

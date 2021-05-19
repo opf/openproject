@@ -43,7 +43,7 @@ import {
 } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
-import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
 import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";

@@ -6,7 +6,7 @@ import { GridResource } from "core-app/core/hal/resources/grid-resource";
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
 import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { WidgetChangeset } from "core-app/shared/components/grids/widgets/widget-changeset";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BehaviorSubject } from 'rxjs';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

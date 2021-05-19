@@ -3,7 +3,7 @@ import { forkJoin, Observable, of, Subscription } from "rxjs";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { BoardListComponent } from "core-app/features/boards/board/board-list/board-list.component";
 import { StateService } from "@uirouter/core";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";

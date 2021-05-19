@@ -15,7 +15,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { catchError, finalize } from "rxjs/operators";
 import { HalSource } from "core-app/core/hal/resources/hal-resource";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormGroup } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";

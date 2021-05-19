@@ -30,7 +30,7 @@ import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { AttachmentCollectionResource } from 'core-app/core/hal/resources/attachment-collection-resource';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
-import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { HttpErrorResponse } from "@angular/common/http";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

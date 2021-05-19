@@ -20,7 +20,7 @@ import { WorkPackageInlineCreateService } from "core-components/wp-inline-create
 import { BoardInlineCreateService } from "core-app/features/boards/board/board-list/board-inline-create.service";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Board } from "core-app/features/boards/board/board";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

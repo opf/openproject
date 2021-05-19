@@ -37,7 +37,7 @@ import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 

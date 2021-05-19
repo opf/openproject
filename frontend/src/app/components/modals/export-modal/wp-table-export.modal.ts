@@ -11,7 +11,7 @@ import * as URI from 'urijs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { Observable } from 'rxjs';
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
 
 interface ExportLink extends HalLink {

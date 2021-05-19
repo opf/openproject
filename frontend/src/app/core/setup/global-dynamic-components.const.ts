@@ -37,7 +37,7 @@ import {
 import {
   NotificationsContainerComponent,
   notificationsContainerSelector
-} from "core-app/modules/common/notifications/notifications-container.component";
+} from "core-app/shared/components/notifications/notifications-container.component";
 import {
   adminTypeFormConfigurationSelector,
   TypeFormConfigurationComponent

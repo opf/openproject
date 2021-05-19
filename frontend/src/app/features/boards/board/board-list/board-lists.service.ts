@@ -6,7 +6,7 @@ import { Board } from "core-app/features/boards/board/board";
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

@@ -46,7 +46,7 @@ import {
 } from "@angular/core";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";

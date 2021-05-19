@@ -55,9 +55,9 @@ import {highlightColBootstrap} from '../../shared/directives/highlight-col/highl
 import {HighlightColDirective} from '../../shared/directives/highlight-col/highlight-col.directive';
 import {CopyToClipboardDirective} from '../../shared/components/copy-to-clipboard/copy-to-clipboard.directive';
 import {OpDateTimeComponent} from '../../shared/components/date/op-date-time.component';
-import {NotificationComponent} from './notifications/notification.component';
-import {NotificationsContainerComponent} from './notifications/notifications-container.component';
-import {UploadProgressComponent} from './notifications/upload-progress.component';
+import {NotificationComponent} from '../../shared/components/notifications/notification.component';
+import {NotificationsContainerComponent} from '../../shared/components/notifications/notifications-container.component';
+import {UploadProgressComponent} from '../../shared/components/notifications/upload-progress.component';
 import {ResizerComponent} from './resizer/resizer.component';
 import {CollapsibleSectionComponent} from '../../shared/components/collapsible-section/collapsible-section.component';
 import {NoResultsComponent} from '../../shared/components/no-results/no-results.component';

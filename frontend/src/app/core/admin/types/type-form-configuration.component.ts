@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { TypeBannerService } from 'core-app/core/admin/types/type-banner.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { ExternalRelationQueryConfigurationService } from 'core-components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { DragulaService, DrakeWithModels } from 'ng2-dragula';

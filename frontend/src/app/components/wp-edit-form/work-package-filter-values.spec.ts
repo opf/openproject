@@ -41,7 +41,7 @@ import { TypeResource } from "core-app/core/hal/resources/type-resource";
 import { HttpClientModule } from "@angular/common/http";
 import { States } from "core-components/states.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { UIRouterModule } from "@uirouter/angular";

@@ -35,7 +35,7 @@ import { Board } from "core-app/features/boards/board/board";
 import { BoardConfigurationModal } from "core-app/features/boards/board/configuration-modal/board-configuration.modal";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { StateService } from "@uirouter/core";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { triggerEditingEvent } from "core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component";
 
 @Directive({

@@ -28,7 +28,7 @@
 
 import { AfterViewInit, Component, ElementRef, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { INotification, NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work_packages/query-space/isolated-query-space';
 import * as moment from 'moment';

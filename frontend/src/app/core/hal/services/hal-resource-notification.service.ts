@@ -31,7 +31,7 @@ import { StateService } from '@uirouter/core';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { Injectable, Injector } from '@angular/core';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
-import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

@@ -32,7 +32,7 @@ import { HalResourceService } from 'core-app/core/hal/services/hal-resource.serv
 import { Injector } from '@angular/core';
 import { States } from 'core-components/states.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';

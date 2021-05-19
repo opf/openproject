@@ -1,6 +1,6 @@
 import { ApplicationRef, Injector, NgZone } from "@angular/core";
 import { HookService } from "core-app/modules/plugins/hook-service";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ExternalQueryConfigurationService } from "core-components/wp-table/external-configuration/external-query-configuration.service";

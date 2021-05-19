@@ -15,7 +15,7 @@ import { HalLink } from "core-app/core/hal/hal-link/hal-link";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
 import { BcfAuthorizationService } from "core-app/features/bim/bcf/api/bcf-authorization.service";
 import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";

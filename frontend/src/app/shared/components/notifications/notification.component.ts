@@ -32,7 +32,7 @@ import {
   INotification,
   NotificationsService,
   NotificationType
-} from 'core-app/modules/common/notifications/notifications.service';
+} from 'core-app/shared/components/notifications/notifications.service';
 
 @Component({
   templateUrl: './notification.component.html',
