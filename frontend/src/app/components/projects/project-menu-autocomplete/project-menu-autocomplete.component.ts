@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import {
   IAutocompleteItem,
   ILazyAutocompleterBridge

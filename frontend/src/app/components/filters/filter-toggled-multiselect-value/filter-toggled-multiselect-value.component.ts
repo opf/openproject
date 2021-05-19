@@ -46,7 +46,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { HalResourceSortingService } from "core-app/core/hal/services/hal-resource-sorting.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { CurrentUserService } from "core-app/core/current-user/current-user.service";

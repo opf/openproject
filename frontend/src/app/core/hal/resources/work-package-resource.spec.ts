@@ -35,7 +35,7 @@ import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-re
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { AttachmentCollectionResource } from 'core-app/core/hal/resources/attachment-collection-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';

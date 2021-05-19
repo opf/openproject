@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {StateService, UIRouterGlobals} from "@uirouter/core";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import {PathHelperService} from "core-app/core/path-helper/path-helper.service";
 import {HalResource, HalSource} from "core-app/core/hal/resources/hal-resource";
 import {IDynamicFieldGroupConfig, IOPFormlyFieldSettings} from "core-app/shared/components/dynamic-forms/typings";
 import {I18nService} from "core-app/core/i18n/i18n.service";

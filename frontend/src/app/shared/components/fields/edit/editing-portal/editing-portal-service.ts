@@ -7,7 +7,7 @@ import { EditFormPortalComponent } from "core-app/shared/components/fields/edit/
 import { createLocalInjector } from "core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector";
 import { take } from "rxjs/operators";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { HalResourceEditFieldHandler } from "core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler";

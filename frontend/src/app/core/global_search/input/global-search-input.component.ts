@@ -39,7 +39,7 @@ import {
 } from '@angular/core';
 import { ContainHelpers } from 'core-app/shared/directives/focus/contain-helpers';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";

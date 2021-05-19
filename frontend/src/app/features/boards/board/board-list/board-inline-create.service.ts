@@ -32,7 +32,7 @@ import { WorkPackageRelationsHierarchyService } from "core-components/wp-relatio
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { BoardInlineAddAutocompleterComponent } from "core-app/features/boards/board/inline-add/board-inline-add-autocompleter.component";
 import { GonService } from "core-app/core/gon/gon.service";
 

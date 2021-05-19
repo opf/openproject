@@ -33,7 +33,7 @@ import { CollectionResource } from 'core-app/core/hal/resources/collection-resou
 import { TypeResource } from 'core-app/core/hal/resources/type-resource';
 import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { States } from 'core-components/states.service';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { Attachable } from 'core-app/core/hal/resources/mixins/attachable-mixin';
 import { FormResource } from "core-app/core/hal/resources/form-resource";

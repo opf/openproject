@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { HalLink } from "core-app/core/hal/hal-link/hal-link";
 
 @Injectable()

@@ -4,7 +4,7 @@ import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { BehaviorSubject, Observable, Subject , of } from "rxjs";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";

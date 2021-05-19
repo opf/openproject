@@ -28,7 +28,7 @@
 import { Component, Input } from "@angular/core";
 import { VersionResource } from "core-app/core/hal/resources/version-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 
 @Component({

@@ -29,7 +29,7 @@ import { IAutocompleteItem } from 'core-components/wp-query-select/wp-query-sele
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Injectable } from '@angular/core';
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { StateService } from "@uirouter/core";
 import { CurrentUserService } from "core-app/core/current-user/current-user.service";

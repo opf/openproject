@@ -30,7 +30,7 @@ import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-re
 import { States } from '../../states.service';
 import { StateService } from '@uirouter/core';
 import { Injectable } from '@angular/core';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

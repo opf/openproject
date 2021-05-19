@@ -43,7 +43,7 @@ import { States } from "core-components/states.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { UIRouterModule } from "@uirouter/angular";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { HookService } from "core-app/modules/plugins/hook-service";

@@ -1,6 +1,6 @@
 import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
 import { Injectable } from "@angular/core";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";

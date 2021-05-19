@@ -28,7 +28,7 @@
 
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, Injector } from '@angular/core';
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { VersionResource } from "core-app/core/hal/resources/version-resource";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";

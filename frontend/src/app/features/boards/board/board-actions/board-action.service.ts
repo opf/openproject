@@ -8,7 +8,7 @@ import { CreateAutocompleterComponent } from "core-app/shared/components/autocom
 import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { Injectable, Injector } from "@angular/core";
 import { map } from "rxjs/operators";

@@ -28,7 +28,7 @@
 
 import { ChangeDetectorRef, Directive, Injector, OnInit, ViewChild } from '@angular/core';
 import { StateService, Transition } from '@uirouter/core';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from '../states.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { RootResource } from 'core-app/core/hal/resources/root-resource';

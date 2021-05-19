@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { Board } from "core-app/features/boards/board/board";
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";

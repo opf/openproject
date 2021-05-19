@@ -37,7 +37,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { DateDisplayField } from "core-app/shared/components/fields/display/field-types/date-display-field.module";
 import { CombinedDateDisplayField } from "core-app/shared/components/fields/display/field-types/combined-date-display.field";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 export const quickInfoMacroSelector = 'macro.macro--wp-quickinfo';
 

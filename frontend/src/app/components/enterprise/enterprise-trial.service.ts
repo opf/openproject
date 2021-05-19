@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { FormGroup } from "@angular/forms";
 import { input } from "reactivestates";

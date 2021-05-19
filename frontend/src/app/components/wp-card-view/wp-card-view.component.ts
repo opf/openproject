@@ -24,7 +24,7 @@ import { AuthorisationService } from "core-app/core/model-auth/model-auth.servic
 import { StateService } from "@uirouter/core";
 import { States } from "core-components/states.service";
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
 import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";

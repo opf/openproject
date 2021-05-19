@@ -27,7 +27,7 @@
 //++
 
 import { DurationDisplayField } from './duration-display-field.module';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';

@@ -12,7 +12,7 @@ import { FormlyForm } from "@ngx-formly/core";
 import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
 import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { catchError, finalize } from "rxjs/operators";
 import { HalSource } from "core-app/core/hal/resources/hal-resource";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";

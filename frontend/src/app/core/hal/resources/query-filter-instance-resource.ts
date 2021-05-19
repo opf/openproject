@@ -32,7 +32,7 @@ import { QueryFilterInstanceSchemaResource } from 'core-app/core/hal/resources/q
 import { QueryOperatorResource } from 'core-app/core/hal/resources/query-operator-resource';
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;

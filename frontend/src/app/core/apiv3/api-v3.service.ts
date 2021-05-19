@@ -33,7 +33,7 @@ import {
   APIv3ResourcePath
 } from "core-app/core/apiv3/paths/apiv3-resource";
 import { Constructor } from "@angular/cdk/table";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { Apiv3GridsPaths } from "core-app/core/apiv3/endpoints/grids/apiv3-grids-paths";
 import { Apiv3TimeEntriesPaths } from "core-app/core/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
 import { Apiv3CapabilitiesPaths } from "core-app/core/apiv3/endpoints/capabilities/apiv3-capabilities-paths";

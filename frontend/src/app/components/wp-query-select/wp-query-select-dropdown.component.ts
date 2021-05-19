@@ -32,7 +32,7 @@ import { StateService, TransitionService } from '@uirouter/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageStaticQueriesService } from 'core-components/wp-query-select/wp-static-queries.service';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";

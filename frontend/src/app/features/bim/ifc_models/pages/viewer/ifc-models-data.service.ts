@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { GonService } from "core-app/core/gon/gon.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 

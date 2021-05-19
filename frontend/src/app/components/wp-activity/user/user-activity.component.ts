@@ -27,7 +27,7 @@
 //++
 
 import { UserResource } from 'core-app/core/hal/resources/user-resource';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';

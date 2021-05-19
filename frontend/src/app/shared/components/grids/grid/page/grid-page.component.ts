@@ -2,7 +2,7 @@ import { ChangeDetectorRef, OnDestroy, OnInit, Renderer2, Directive } from '@ang
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Title } from '@angular/platform-browser';
 import { GridInitializationService } from "core-app/shared/components/grids/grid/initialization.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { GridResource } from "core-app/core/hal/resources/grid-resource";
 import { GridAddWidgetService } from "core-app/shared/components/grids/grid/add-widget.service";
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";

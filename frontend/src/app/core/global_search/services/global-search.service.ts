@@ -31,7 +31,7 @@ import { BehaviorSubject } from 'rxjs';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 @Injectable()
 export class GlobalSearchService {

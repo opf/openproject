@@ -29,7 +29,7 @@
 
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { StateService } from '@uirouter/core';
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 export class WorkPackageAuthorization {
 

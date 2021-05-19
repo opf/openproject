@@ -27,7 +27,7 @@
 //++
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { Injectable } from "@angular/core";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 import { HookService } from "core-app/modules/plugins/hook-service";
 import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";

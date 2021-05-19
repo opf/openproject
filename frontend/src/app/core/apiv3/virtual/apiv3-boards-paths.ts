@@ -38,7 +38,7 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { MultiInputState } from "reactivestates";
 import { APIv3BoardPath } from "core-app/core/apiv3/virtual/apiv3-board-path";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";

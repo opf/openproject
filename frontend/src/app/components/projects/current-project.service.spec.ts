@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 import { CurrentProjectService } from './current-project.service';
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 describe('currentProject service', function() {
   let element:JQuery;

@@ -14,7 +14,7 @@ import { DisplayFieldService } from "core-app/shared/components/fields/display/d
 import { EditFieldService } from "core-app/shared/components/fields/edit/edit-field.service";
 import { EditorMacrosService } from "core-components/modals/editor/editor-macros.service";
 import { HTMLSanitizeService } from "../../core/html-sanitize/html-sanitize.service";
-import { PathHelperService } from "../common/path-helper/path-helper.service";
+import { PathHelperService } from "../../core/path-helper/path-helper.service";
 import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 import { States } from 'core-components/states.service';
 import { CKEditorPreviewService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-preview.service";

@@ -10,7 +10,7 @@ import {
   LoadingIndicatorService,
   withDelayedLoadingIndicator
 } from "core-app/core/loading-indicator/loading-indicator.service";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { JobStatusEnum, JobStatusInterface } from "core-app/features/job-status/job-status.interface";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
