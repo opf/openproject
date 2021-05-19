@@ -35,7 +35,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public model?:any;
   @Input() public searchKey?:string;
   @Input() public defaulData?:boolean = false;
-  @Input() public focusDirectly?:boolean = false;
+  @Input() public focusDirectly?:boolean = true;
+  @Input() public labelRequired?:boolean = true;
   @Input() public name?:string;
   @Input() public required?:boolean = false;
   @Input() public disabled?:string;
@@ -147,8 +148,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
           switchMap(queryString => this.getOptionsFn(queryString))
         ));
 
-        this.ngSelectInstance.focus();
-        this.repositionDropdown();
+        if(this.openDirectly) {
+          this.ngSelectInstance.focus();
+          this.repositionDropdown();
+        }
+        else if (this.focusDirectly) {
+          this.ngSelectInstance.focus();
+        }
       }, 25);
     });
 

@@ -103,6 +103,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   /** Remember the current value */
   public currentValue = '';
+  public isFocusedDirectly = (this.globalSearchService.searchTerm.length > 0);
 
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
@@ -275,7 +276,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
 
     const hashFreeQuery = this.queryWithoutHash(query);
-    this.setMarkedOption();
+
+   this.setMarkedOption();
     this.isLoading = true
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
