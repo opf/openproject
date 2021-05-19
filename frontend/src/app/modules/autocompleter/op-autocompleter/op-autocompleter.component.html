@@ -19,6 +19,7 @@
         [openOnEnter]="openOnEnter"
         [disabled]="disabled"
         [name]="name"
+        [id]="id"
         bindLabel="name"
         [bindValue]="bindValue"
         [markFirst]="markFirst"
@@ -55,6 +56,7 @@
         (focus)="focused($event)"
         (clear)="cleared($event)"
         (keydown)="keydowned($event)"
+        (search)="searched($event)"
         (scroll)="scrolled($event)"
         (scrollToEnd)="scrolledToEnd($event)"
         (add)="added($event)"
@@ -86,7 +88,7 @@
     
     <div class="op-autocompleter--option-wrapper">
       
-      <op-principal
+      <op-principal *ngIf="item.author && item.author.href"
       data-class-list="avatar op-autocompleter-author-avatar hidden-for-mobile"
       [principal]="item.author"
       [hide-name]="true"
@@ -134,7 +136,7 @@
 <ng-template let-item  #defaultLabel [ngSwitch]="resource">
 
   <ng-container *ngSwitchCase="'work_packages'">
-    {{item.type.name }} #{{ item.id }} {{ item.subject }}
+    {{item.type?.name }} #{{ item.id }} {{ item.subject }}
   </ng-container>
 
   <ng-container *ngSwitchDefault>
