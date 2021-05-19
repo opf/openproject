@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { HttpClient } from "@angular/common/http";
-import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
+import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { isObservable } from "rxjs";
-import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
+import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
 
 describe('DynamicFieldsService', () => {
   let httpClient: HttpClient;

@@ -5,7 +5,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { DynamicFormsModule } from "core-app/modules/common/dynamic-forms/dynamic-forms.module";
+import { DynamicFormsModule } from "core-app/shared/components/dynamic-forms/dynamic-forms.module";
 import { OpInviteUserModalAugmentService } from "core-app/features/invite-user-modal/invite-user-modal-augment.service";
 import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
 import { InviteUserModalComponent } from "./invite-user.component";

@@ -6,7 +6,7 @@ import { NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
   selector: 'op-date-picker-adapter',
-  templateUrl: '../../../../../../op-date-picker/op-date-picker.component.html',
+  templateUrl: '../../../../../../../../modules/common/op-date-picker/op-date-picker.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

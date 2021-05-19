@@ -1,7 +1,7 @@
 import { discardPeriodicTasks, fakeAsync, flush, tick } from '@angular/core/testing';
 import {
   createDynamicInputFixture,
-} from "core-app/modules/common/dynamic-forms/spec/helpers";
+} from "core-app/shared/components/dynamic-forms/spec/helpers";
 import { By } from "@angular/platform-browser";
 // @ts-ignore
 import(/* webpackChunkName: "ckeditor-augmented-textarea" */ 'core-vendor/ckeditor/ckeditor.js');

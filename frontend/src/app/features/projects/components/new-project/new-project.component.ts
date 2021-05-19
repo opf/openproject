@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {StateService, UIRouterGlobals} from "@uirouter/core";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalResource, HalSource} from "core-app/core/hal/resources/hal-resource";
-import {IDynamicFieldGroupConfig, IOPFormlyFieldSettings} from "core-app/modules/common/dynamic-forms/typings";
+import {IDynamicFieldGroupConfig, IOPFormlyFieldSettings} from "core-app/shared/components/dynamic-forms/typings";
 import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
@@ -10,7 +10,7 @@ import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {JobStatusModal} from "core-app/features/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/shared/components/modal/modal.service";
-import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
+import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

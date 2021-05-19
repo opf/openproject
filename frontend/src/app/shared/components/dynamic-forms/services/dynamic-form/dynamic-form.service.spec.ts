@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { DynamicFormService } from "core-app/modules/common/dynamic-forms/services/dynamic-form/dynamic-form.service";
+import { DynamicFormService } from "core-app/shared/components/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { HttpClient } from "@angular/common/http";
-import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
+import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormGroup } from "@angular/forms";
 import { of } from "rxjs";
 import { FormsService } from "core-app/core/forms/forms.service";

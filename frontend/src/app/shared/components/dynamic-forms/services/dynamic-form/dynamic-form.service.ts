@@ -9,7 +9,7 @@ import {
 import {
   IOPDynamicFormSettings,
 } from "../../typings";
-import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
+import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormsService } from "core-app/core/forms/forms.service";
 @Injectable()
 export class DynamicFormService {

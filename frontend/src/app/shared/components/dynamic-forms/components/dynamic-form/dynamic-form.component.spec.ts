@@ -8,22 +8,22 @@ import { FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "
 import { CommonModule } from "@angular/common";
 import { FormlyModule } from "@ngx-formly/core";
 
-import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
-import { DynamicFormService } from "core-app/modules/common/dynamic-forms/services/dynamic-form/dynamic-form.service";
-import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
+import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component";
+import { DynamicFormService } from "core-app/shared/components/dynamic-forms/services/dynamic-form/dynamic-form.service";
+import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
-import { TextInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";
-import { IntegerInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component";
-import { SelectInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/select-input/select-input.component";
-import { BooleanInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component";
-import { DateInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/date-input/date-input.component";
-import { FormattableTextareaInputComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component";
-import { DynamicFieldGroupWrapperComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
+import { TextInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";
+import { IntegerInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component";
+import { SelectInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component";
+import { BooleanInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component";
+import { DateInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/date-input.component";
+import { FormattableTextareaInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component";
+import { DynamicFieldGroupWrapperComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
 import { OpFormFieldComponent } from "core-app/modules/common/forms/form-field/form-field.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { DynamicFieldWrapperComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-field-wrapper/dynamic-field-wrapper.component";
+import { DynamicFieldWrapperComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-field-wrapper/dynamic-field-wrapper.component";
 
 @Component({
   template: `

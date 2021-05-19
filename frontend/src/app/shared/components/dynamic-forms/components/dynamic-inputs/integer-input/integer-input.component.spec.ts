@@ -2,7 +2,7 @@ import { fakeAsync } from '@angular/core/testing';
 import {
   createDynamicInputFixture,
   testDynamicInputControValueAccessor,
-} from "core-app/modules/common/dynamic-forms/spec/helpers";
+} from "core-app/shared/components/dynamic-forms/spec/helpers";
 
 describe('IntegerInputComponent', () => {
   it('should load the field', fakeAsync(() => {
