@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { DraggableAutocompleteComponent } from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
+import { DraggableAutocompleteComponent } from "core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component";
 import { DynamicModule } from "ng-dynamic-component";
 import { ColorsAutocompleter } from "core-app/shared/components/colors/colors-autocompleter.component";
 import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
