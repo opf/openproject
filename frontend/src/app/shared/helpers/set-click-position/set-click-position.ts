@@ -1,5 +1,5 @@
 
-import { debugLog } from '../../../shared/helpers/debug_output';
+import { debugLog } from '../debug_output';
 export namespace ClickPositionMapper {
 
   /**

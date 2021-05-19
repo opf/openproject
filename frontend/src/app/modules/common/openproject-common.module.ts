@@ -58,7 +58,7 @@ import {OpDateTimeComponent} from '../../shared/components/date/op-date-time.com
 import {NotificationComponent} from '../../shared/components/notifications/notification.component';
 import {NotificationsContainerComponent} from '../../shared/components/notifications/notifications-container.component';
 import {UploadProgressComponent} from '../../shared/components/notifications/upload-progress.component';
-import {ResizerComponent} from './resizer/resizer.component';
+import {ResizerComponent} from '../../shared/components/resizer/resizer.component';
 import {CollapsibleSectionComponent} from '../../shared/components/collapsible-section/collapsible-section.component';
 import {NoResultsComponent} from '../../shared/components/no-results/no-results.component';
 import {ScrollableTabsComponent} from './tabs/scrollable-tabs/scrollable-tabs.component';

@@ -32,7 +32,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { Injector } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
+import { ClickPositionMapper } from "core-app/shared/helpers/set-click-position/set-click-position";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { Subject } from 'rxjs';

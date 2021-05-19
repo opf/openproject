@@ -8,7 +8,7 @@ import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { ClickOrEnterHandler } from '../click-or-enter-handler';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
-import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
+import { ClickPositionMapper } from "core-app/shared/helpers/set-click-position/set-click-position";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 

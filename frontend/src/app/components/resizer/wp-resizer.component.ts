@@ -32,7 +32,7 @@ import { TransitionService } from '@uirouter/core';
 import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { ResizeDelta } from "core-app/modules/common/resizer/resizer.component";
+import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";
 import { fromEvent } from "rxjs";
 
 @Component({
