@@ -17,7 +17,7 @@ import { GridAddWidgetService } from "core-app/shared/components/grids/grid/add-
 import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
 import { WidgetWpGraphComponent } from "core-app/shared/components/grids/widgets/wp-graph/wp-graph.component";
 import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
-import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
+import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 
 export interface WidgetRegistration {
   identifier:string;

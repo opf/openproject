@@ -29,7 +29,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { DeviceService } from "app/modules/common/browser/device.service";
+import { DeviceService } from "app/core/browser/device.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { MainMenuToggleService } from './main-menu-toggle.service';

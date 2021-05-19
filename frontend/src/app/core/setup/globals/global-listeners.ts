@@ -30,7 +30,7 @@ import { performAnchorHijacking } from "./global-listeners/link-hijacking";
 import { augmentedDatePicker } from "./global-listeners/augmented-date-picker";
 import { refreshOnFormChanges } from 'core-app/core/setup/globals/global-listeners/refresh-on-form-changes';
 import { registerRequestForConfirmation } from "core-app/core/setup/globals/global-listeners/request-for-confirmation";
-import { DeviceService } from "core-app/modules/common/browser/device.service";
+import { DeviceService } from "core-app/core/browser/device.service";
 import { scrollHeaderOnMobile } from "core-app/core/setup/globals/global-listeners/top-menu-scroll";
 import { setupToggableFieldsets } from "core-app/core/setup/globals/global-listeners/toggable-fieldset";
 import { TopMenu } from "core-app/core/setup/globals/global-listeners/top-menu";

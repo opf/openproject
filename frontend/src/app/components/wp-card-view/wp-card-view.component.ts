@@ -32,7 +32,7 @@ import { CardViewHandlerRegistry } from "core-components/wp-card-view/event-hand
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
 import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
-import { DeviceService } from "core-app/modules/common/browser/device.service";
+import { DeviceService } from "core-app/core/browser/device.service";
 import {
   WorkPackageViewHandlerToken,
   WorkPackageViewOutputs

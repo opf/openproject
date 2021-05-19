@@ -50,7 +50,7 @@ import { HookService } from 'core-app/modules/plugins/hook-service';
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { Subject } from "rxjs";
 import { randomString } from "core-app/shared/helpers/random-string";
-import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
+import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";

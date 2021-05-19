@@ -29,7 +29,7 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
 import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
 import { ColorsService } from "core-app/modules/common/colors/colors.service";
-import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
+import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";

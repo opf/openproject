@@ -5,7 +5,7 @@ import { WorkPackageViewSelectionService } from "core-app/features/work_packages
 import { WorkPackageViewFocusService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
 import { StateService } from "@uirouter/core";
-import { DeviceService } from "core-app/modules/common/browser/device.service";
+import { DeviceService } from "core-app/core/browser/device.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class CardClickHandler implements CardEventHandler {

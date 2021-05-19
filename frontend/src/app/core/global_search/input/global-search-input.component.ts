@@ -44,7 +44,7 @@ import { HalResourceService } from "core-app/core/hal/services/hal-resource.serv
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { DeviceService } from "core-app/modules/common/browser/device.service";
+import { DeviceService } from "core-app/core/browser/device.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { Observable, of } from "rxjs";
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";

@@ -13,7 +13,7 @@ import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-a
 import { DragAndDropHelpers } from "core-app/modules/common/drag-and-drop/drag-and-drop.helpers";
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { RenderedWorkPackage } from "core-app/features/work_packages/render-info/rendered-work-package.type";
-import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
+import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
