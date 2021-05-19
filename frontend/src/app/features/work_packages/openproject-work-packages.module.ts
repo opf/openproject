@@ -156,7 +156,7 @@ import { WorkPackageViewDropdownMenuDirective } from "core-components/op-context
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { OpenprojectProjectsModule } from "core-app/features/projects/openproject-projects.module";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
-import { WorkPackageEditActionsBarComponent } from "core-app/modules/common/edit-actions-bar/wp-edit-actions-bar.component";
+import { WorkPackageEditActionsBarComponent } from "core-app/features/work_packages/components/edit-actions-bar/wp-edit-actions-bar.component";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageSingleCardComponent } from "core-components/wp-card-view/wp-single-card/wp-single-card.component";
