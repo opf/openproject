@@ -99,12 +99,6 @@ module UsersHelper
     result
   end
 
-  ##
-  # Returns the user avatar or a default image
-  def user_avatar_icon
-    op_icon('op-icon icon-context icon-user')
-  end
-
   def change_user_status_buttons(user)
     build_change_user_status_action(user) do |title, name|
       submit_tag(title, name: name, class: 'button')

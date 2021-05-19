@@ -2,7 +2,11 @@
   class="op-modal op-modal_autoheight loading-indicator--location"
   data-indicator-name="modal"
 >
-  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+  <op-modal-header
+    icon="icon-log_time"
+    (close)="closeMe($event)">
+    {{text.title}}
+  </op-modal-header>
 
   <div class="ngdialog-body op-modal--body">
     <te-form #editForm
