@@ -6,7 +6,7 @@ import {
 import { States } from "core-components/states.service";
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { OpContextMenuHandler } from "core-components/op-context-menu/op-context-menu-handler";
 import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
 import { OpContextMenuItem, OpContextMenuLocalsMap } from "core-components/op-context-menu/op-context-menu.types";

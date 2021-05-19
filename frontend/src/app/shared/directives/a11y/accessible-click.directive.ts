@@ -27,7 +27,7 @@
 //++
 
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { LinkHandling } from 'core-app/modules/common/link-handling/link-handling';
+import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
 
 @Directive({
   selector: '[accessibleClick]',

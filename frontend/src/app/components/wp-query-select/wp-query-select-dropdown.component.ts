@@ -35,7 +35,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { WorkPackageStaticQueriesService } from 'core-components/wp-query-select/wp-static-queries.service';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
 import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";

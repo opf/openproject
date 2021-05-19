@@ -30,7 +30,7 @@ import { OpContextMenuItem } from 'core-components/op-context-menu/op-context-me
 import { StateService } from '@uirouter/core';
 import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
 import { Directive, ElementRef, Input, OnInit } from "@angular/core";
-import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import { TypeResource } from 'core-app/core/hal/resources/type-resource';
 import { Highlighting } from 'core-app/components/wp-fast-table/builders/highlighting/highlighting.functions';

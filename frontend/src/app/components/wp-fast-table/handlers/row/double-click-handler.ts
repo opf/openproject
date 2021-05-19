@@ -7,7 +7,7 @@ import { tdClassName } from '../../builders/cell-builder';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
-import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { displayClassName } from "core-app/shared/components/fields/display/display-field-renderer";
 import { activeFieldClassName } from "core-app/shared/components/fields/edit/edit-form/edit-form";

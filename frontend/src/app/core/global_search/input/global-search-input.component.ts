@@ -50,7 +50,7 @@ import { Observable, of } from "rxjs";
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
-import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { filter, map, take, tap } from "rxjs/operators";
 import { APIV3Service } from "../../apiv3/api-v3.service";
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';

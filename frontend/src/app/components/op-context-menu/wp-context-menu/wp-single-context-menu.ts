@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Injector, Input } from '@angular/core';
 import { StateService } from '@uirouter/core';
-import { LinkHandling } from 'core-app/modules/common/link-handling/link-handling';
+import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
 import { AuthorisationService } from 'core-app/modules/common/model-auth/model-auth.service';
 import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';

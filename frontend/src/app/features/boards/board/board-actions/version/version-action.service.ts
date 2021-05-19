@@ -5,7 +5,7 @@ import { BoardActionService } from "core-app/features/boards/board/board-actions
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { VersionResource } from "core-app/core/hal/resources/version-resource";
 import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
-import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { StateService } from "@uirouter/core";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { VersionBoardHeaderComponent } from "core-app/features/boards/board/board-actions/version/version-board-header.component";
