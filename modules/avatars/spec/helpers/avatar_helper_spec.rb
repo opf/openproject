@@ -199,4 +199,12 @@ describe AvatarHelper, type: :helper, with_settings: { protocol: 'http' } do
       expect(helper.avatar_url(user)).to eq('')
     end
   end
+
+  context 'with system user' do
+    let(:user) { User.system }
+
+    it 'renders the avatar as user type (Regression #37278)' do
+      expect(helper.avatar(user)).to be_html_eql(default_expected_user_avatar_tag(user))
+    end
+  end
 end
