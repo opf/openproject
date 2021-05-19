@@ -5,7 +5,7 @@ import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { WidgetRegistration } from "core-app/shared/components/grids/grid/grid.component";
 import { GridWidgetsService } from "core-app/shared/components/grids/widgets/widgets.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { BannersService } from "core-app/modules/common/enterprise/banners.service";
+import { BannersService } from "core-app/core/enterprise/banners.service";
 
 @Component({
   templateUrl: './add.modal.html'

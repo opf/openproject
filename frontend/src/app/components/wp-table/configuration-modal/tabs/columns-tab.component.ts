@@ -4,7 +4,7 @@ import { QueryColumn } from 'core-components/wp-query/query-column';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import { BannersService } from "core-app/modules/common/enterprise/banners.service";
+import { BannersService } from "core-app/core/enterprise/banners.service";
 import { DraggableOption } from "core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component";
 
 @Component({
