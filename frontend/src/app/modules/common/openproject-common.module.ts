@@ -59,7 +59,7 @@ import {NotificationComponent} from './notifications/notification.component';
 import {NotificationsContainerComponent} from './notifications/notifications-container.component';
 import {UploadProgressComponent} from './notifications/upload-progress.component';
 import {ResizerComponent} from './resizer/resizer.component';
-import {CollapsibleSectionComponent} from './collapsible-section/collapsible-section.component';
+import {CollapsibleSectionComponent} from '../../shared/components/collapsible-section/collapsible-section.component';
 import {NoResultsComponent} from './no-results/no-results.component';
 import {ScrollableTabsComponent} from './tabs/scrollable-tabs/scrollable-tabs.component';
 import {ContentTabsComponent} from './tabs/content-tabs/content-tabs.component';

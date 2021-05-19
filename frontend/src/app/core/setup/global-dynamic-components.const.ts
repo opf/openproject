@@ -87,7 +87,7 @@ import {
 import {
   collapsibleSectionAugmentSelector,
   CollapsibleSectionComponent
-} from "core-app/modules/common/collapsible-section/collapsible-section.component";
+} from "core-app/shared/components/collapsible-section/collapsible-section.component";
 import {
   EnterpriseBannerBootstrapComponent,
   enterpriseBannerSelector
