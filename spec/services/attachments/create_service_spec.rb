@@ -31,8 +31,6 @@ require 'spec_helper'
 
 describe Attachments::CreateService do
   let(:user) { FactoryBot.create(:user) }
-  let(:work_package) { FactoryBot.create(:work_package) }
-  let(:container) { work_package }
   let(:description) { 'a fancy description' }
 
   subject { described_class.new(container, author: user) }
@@ -43,43 +41,122 @@ describe Attachments::CreateService do
                    description: description
     end
 
-    shared_examples 'successful creation' do
-      it 'saves the attachment' do
-        attachment = Attachment.first
-        expect(attachment.filename).to eq 'foobar.txt'
-        expect(attachment.description).to eq description
+    context 'when journalized' do
+      let(:container) { FactoryBot.create(:work_package) }
+
+      shared_examples 'successful creation' do
+        it 'saves the attachment' do
+          attachment = Attachment.first
+          expect(attachment.filename).to eq 'foobar.txt'
+          expect(attachment.description).to eq description
+        end
+
+        it 'adds the attachment to the container' do
+          container.reload
+          expect(container.attachments).to include Attachment.first
+        end
+
+        it 'adds a journal entry on the container' do
+          expect(container.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
+        end
+
+        it 'updates the timestamp on the container' do
+          expect(container.reload.updated_at)
+            .not_to eql timestamp_before
+        end
       end
 
-      it 'adds the attachment to the WP' do
-        container.reload
-        expect(container.attachments).to include Attachment.first
+      context 'with a valid container' do
+        let!(:timestamp_before) { container.updated_at }
+
+        before do
+          call_tested_method
+        end
+
+        it_behaves_like 'successful creation'
       end
 
-      it 'adds a journal entry on the WP' do
-        expect(container.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
+      context "with an invalid container" do
+        let!(:timestamp_before) { container.updated_at }
+
+        before do
+          # have an invalid work package
+          container.update_column(:subject, '')
+
+          call_tested_method
+        end
+
+        it_behaves_like 'successful creation'
+      end
+
+      context 'with an invalid attachment', with_settings: { attachment_max_size: 0 } do
+        it 'raises the exception' do
+          expect { call_tested_method }
+            .to raise_exception ActiveRecord::RecordInvalid
+        end
+
+        it 'does not create the attachment' do
+          begin
+            call_tested_method
+          rescue ActiveRecord::RecordInvalid
+            # expected
+          end
+
+          expect(Attachment.count)
+            .to eq 0
+        end
       end
     end
 
-    context 'happy path' do
-      before do
-        call_tested_method
+    context 'when not journalized' do
+      let(:container) { FactoryBot.create(:message) }
+
+      shared_examples 'successful creation' do
+        it 'saves the attachment' do
+          attachment = Attachment.first
+          expect(attachment.filename).to eq 'foobar.txt'
+          expect(attachment.description).to eq description
+        end
+
+        it 'adds the attachment to the container' do
+          container.reload
+          expect(container.attachments).to include Attachment.first
+        end
+
+        it 'adds a journal entry on the container' do
+          expect(container.journals.count).to eq 2 # 1 for WP creation + 1 for the attachment
+        end
+
+        it 'updates the timestamp on the container' do
+          expect(container.reload.updated_at)
+            .not_to eql timestamp_before
+        end
       end
 
-      it_behaves_like 'successful creation'
-    end
+      context 'with a valid container' do
+        let!(:timestamp_before) { container.updated_at }
 
-    context "invalid container" do
-      before do
-        # have an invalid work package
-        work_package.subject = ''
+        before do
+          call_tested_method
+        end
 
-        call_tested_method
+        it_behaves_like 'successful creation'
       end
 
-      it_behaves_like 'successful creation'
+      context "with an invalid container" do
+        let!(:timestamp_before) { container.updated_at }
+
+        before do
+          container.update_column(:subject, '')
+
+          call_tested_method
+        end
+
+        it_behaves_like 'successful creation'
+      end
     end
 
-    context "uncontainered" do
+    context "when uncontainered" do
       let(:container) { nil }
 
       before do
@@ -90,24 +167,6 @@ describe Attachments::CreateService do
         attachment = Attachment.first
         expect(attachment.filename).to eq 'foobar.txt'
         expect(attachment.description).to eq description
-      end
-    end
-
-    context 'invalid attachment', with_settings: { attachment_max_size: 0 } do
-      it 'raises the exception' do
-        expect { call_tested_method }
-          .to raise_exception ActiveRecord::RecordInvalid
-      end
-
-      it 'does not create the attachment' do
-        begin
-          call_tested_method
-        rescue ActiveRecord::RecordInvalid
-          # expected
-        end
-
-        expect(Attachment.count)
-          .to eq 0
       end
     end
   end

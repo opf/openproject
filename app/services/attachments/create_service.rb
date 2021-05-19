@@ -53,16 +53,14 @@ class Attachments::CreateService
 
   def create_journalized(uploaded_file, description)
     OpenProject::Mutex.with_advisory_lock_transaction(container) do
-      attachment = create_attachment(uploaded_file, description)
-      # Get the latest attachments to ensure having them all for journalization.
-      # We just created an attachment and a different worker might have added attachments
-      # in the meantime, e.g when bulk uploading.
-      container.attachments.reload
+      create_attachment(uploaded_file, description).tap do
+        # Get the latest attachments to ensure having them all for journalization.
+        # We just created an attachment and a different worker might have added attachments
+        # in the meantime, e.g when bulk uploading.
+        container.attachments.reload
 
-      add_journal
-      save_container
-
-      attachment
+        save_container
+      end
     end
   end
 
@@ -70,10 +68,6 @@ class Attachments::CreateService
     create_attachment(uploaded_file, description).tap do
       save_container
     end
-  end
-
-  def add_journal
-    container.add_journal author
   end
 
   def create_attachment(uploaded_file, description)
@@ -95,6 +89,8 @@ class Attachments::CreateService
     # adding the attachments does not change the validity of the container
     # but without that leeway, the user needs to fix the container before
     # the attachment can be added.
-    container.save!(validate: false)
+    # However we want the container to be updated when uploading an attachment. This is important,
+    # e.g. for invalidating caches and also for journalizing
+    container.update_attribute(:updated_at, Time.current)
   end
 end
