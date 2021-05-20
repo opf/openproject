@@ -87,6 +87,7 @@ FactoryBot.define do
 
         filters = [{ "onlySubproject" => { "operator" => "=", "values" => [project.id.to_s] } }]
 
+        board.options = { 'type' => 'action', 'attribute' => 'subproject' }
         board.widgets << FactoryBot.create(:grid_widget,
                                            identifier: 'work_package_query',
                                            start_row: 1,
