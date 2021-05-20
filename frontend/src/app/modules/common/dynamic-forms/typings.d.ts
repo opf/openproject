@@ -24,10 +24,11 @@ export interface IOPFormlyTemplateOptions extends FormlyTemplateOptions {
   collapsibleFieldGroupsCollapsed?:boolean;
   helpTextAttributeScope?:string;
   showValidationErrorOn?:'change' | 'blur' | 'submit' | 'never';
+  showAddNewUserButton?:boolean;
 }
 
 type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|
-  'booleanInput'| 'dateInput' | 'formly-group'|'selectProjectStatusInput';
+  'booleanInput'|'dateInput'|'formly-group'|'selectProjectStatusInput';
 
 export interface IOPDynamicInputTypeSettings {
   config:IOPFormlyFieldSettings,

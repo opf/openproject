@@ -136,11 +136,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   initializeShowAddButton() {
-    if (this.schema.type === 'User') {
-      this.permissionsService
-        .canInviteUsersToProject()
-        .subscribe(canInviteUsersToProject => this.showAddNewButton = canInviteUsersToProject);
-    }
+    this.showAddNewButton = this.schema.type === 'User';
   }
 
   protected initialValueLoading() {

@@ -59,7 +59,7 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'formattableInput',
-        className: `textarea-wrapper`,
+        className: '',
         templateOptions: {
           editorType: 'full',
           noWrapLabel: true,
@@ -235,23 +235,24 @@ export class DynamicFieldsService {
   private getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
     const fieldType = field.type.replace('[]', '') as OPFieldType;
     let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
+
     if (!inputType) {
       console.warn(
         `Could not find a input definition for a field with the folowing type: ${fieldType}. The full field configuration is`, field
       );
       return null;
     }
+
     let inputConfig = inputType.config;
     let configCustomizations;
 
     if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput' || inputConfig.type === 'selectProjectStatusInput') {
       configCustomizations = {
         className: field.name,
-        ...field.type.startsWith('[]') && {
-          templateOptions: {
-            ...inputConfig.templateOptions,
-            multiple: true
-          }
+        templateOptions: {
+          ...inputConfig.templateOptions,
+          ...field.type.startsWith('[]') && {multiple: true},
+          ...fieldType === 'User' && {showAddNewUserButton: true},
         },
       };
     } else if (inputConfig.type === 'formattableInput') {
@@ -332,7 +333,7 @@ export class DynamicFieldsService {
   private getDefaultFieldGroupSettings(fieldGroupConfig:IDynamicFieldGroupConfig, formFields:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings {
     const defaultFieldGroupSettings = {
       wrappers: ['op-dynamic-field-group-wrapper'],
-      fieldGroupClassName: 'op-form-group',
+      fieldGroupClassName: 'op-form--fieldset',
       templateOptions: {
         label: fieldGroupConfig.name,
         isFieldGroup: true,
