@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,20 +28,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachments::DeleteService < ::BaseServices::Delete
-  include Attachments::TouchContainer
+module Attachments
+  module TouchContainer
+    extend ActiveSupport::Concern
 
-  def call(params = nil)
-    in_context(model.container || model) do
-      perform(params)
-    end
-  end
+    included do
+      private
 
-  private
-
-  def destroy(attachment)
-    super.tap do
-      touch(attachment.container) if attachment.container
+      def touch(container)
+        # We allow invalid containers to be saved as
+        # adding the attachments does not change the validity of the container
+        # but without that leeway, the user needs to fix the container before
+        # the attachment can be added.
+        # However we want the container to be updated when uploading an attachment. This is important,
+        # e.g. for invalidating caches and also for journalizing
+        container.update_column(:updated_at, Time.current)
+        container.save_journals if container.respond_to?(:save_journals)
+      end
     end
   end
 end
