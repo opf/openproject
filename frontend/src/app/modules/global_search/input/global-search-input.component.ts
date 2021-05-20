@@ -277,7 +277,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
     const hashFreeQuery = this.queryWithoutHash(query);
 
-   this.setMarkedOption();
+   
     this.isLoading = true
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
@@ -286,7 +286,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         map((collection) => {
           return this.searchResultsToOptions(collection.elements, hashFreeQuery);
         }),
-        tap(() => this.isLoading = false)
+        tap(() => {
+          this.isLoading = false;
+          this.setMarkedOption();})
       );
   }
 
