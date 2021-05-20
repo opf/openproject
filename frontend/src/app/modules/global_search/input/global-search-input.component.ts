@@ -36,7 +36,7 @@ import {
   OnInit,
   ViewChild,
   ViewEncapsulation,
-  NgZone
+  NgZone, AfterViewInit
 } from '@angular/core';
 import { ContainHelpers } from 'core-app/modules/focus/contain-helpers';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
@@ -82,7 +82,7 @@ interface SearchOptionItem {
   // Necessary because of ng-select
   encapsulation: ViewEncapsulation.None
 })
-export class GlobalSearchInputComponent implements OnInit, OnDestroy {
+export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   @ViewChild('btn', { static: true }) btn:ElementRef;
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
@@ -135,20 +135,14 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
               readonly ngZone:NgZone) {
   }
 
-  ngOnInit() {
-   
+  ngAfterViewInit():void {
     // check searchterm on init, expand / collapse search bar and set correct classes
-    this.ngZone.runOutsideAngular( () => {
-        setTimeout(() => {
-        this.ngSelectComponent.ngSelectInstance.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
-        this.expanded = (this.ngSelectComponent.ngSelectInstance.searchTerm.length > 0);
-        this.toggleTopMenuClass();
-      }, 25);
-    });
-
+    this.ngSelectComponent.ngSelectInstance.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
+    this.expanded = (this.ngSelectComponent.ngSelectInstance.searchTerm.length > 0);
+    this.toggleTopMenuClass();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.unregister();
   }
 
