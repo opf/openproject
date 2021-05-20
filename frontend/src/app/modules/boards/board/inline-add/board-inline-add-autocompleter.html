@@ -1,15 +1,11 @@
 <op-autocompleter
 [appendTo]="appendToContainer"
-[multiple]="false"
-[ngClass]="'wp-inline-create--reference-autocompleter'"
+classes="wp-inline-create--reference-autocompleter"
 [closeOnSelect]="false"
-[defaulData]="false"
 [placeholder]="text.placeholder"
 [loading]="isLoading"
 [resource]="autocompleterOptions.resource"
-[searchKey]="autocompleterOptions.searchKey"
 [getOptionsFn]="autocompleterOptions.getOptionsFn"
-(open)="opened()"
 (close)="cancel()"
 (change)="addWorkPackageToQuery($event)">
 </op-autocompleter>

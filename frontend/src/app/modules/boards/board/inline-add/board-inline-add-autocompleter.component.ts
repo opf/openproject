@@ -113,9 +113,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   }
 
   public autocompleterOptions = {
-    filters: [],
     resource:'work_packages',
-    searchKey:'subjectOrId',
     getOptionsFn: this.getAutocompleterData
   }
 
@@ -143,12 +141,8 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     if (!this.ngSelectComponent.ngSelectInstance) {
       return;
     }
-    this.ngSelectComponent.ngSelectInstance.open();
-
-    setTimeout(() => {
-      this.ngSelectComponent.ngSelectInstance.focus();
-    }, 25);
-
+    this.ngSelectComponent.openSelect();
+    this.ngSelectComponent.focusSelect();
     this.wpCardDragDrop.removeReferenceWorkPackageForm();
   }
 
@@ -163,20 +157,9 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
         .ensureLoaded(workPackage)
         .then(() => {
           this.onReferenced.emit(workPackage);
-          this.ngSelectComponent.ngSelectInstance.close();
+          this.ngSelectComponent.closeSelect();
         });
     }
   }
 
-  public opened() {
-    // Force reposition as a workaround for BUG
-    // https://github.com/ng-select/ng-select/issues/1259
-    setTimeout(() => {
-      const component = this.ngSelectComponent.ngSelectInstance as any;
-     
-      if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
-    }, 25);
-  }
 }
