@@ -925,6 +925,7 @@ ca:
     notice_successful_create: "Creat correctament."
     notice_successful_delete: "Esborrat correctament."
     notice_successful_update: "S'ha modificat correctament."
+    notice_job_started: "job started."
     notice_bad_request: "Sol·licitud incorrecte."
     relations:
       empty: No existeix cap relació
@@ -991,6 +992,8 @@ ca:
       project:
         label: 'Projecte'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Següent'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

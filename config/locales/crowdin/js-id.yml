@@ -925,6 +925,7 @@ id:
     notice_successful_create: "Berhasil dibuat."
     notice_successful_delete: "Berhasil dihapus."
     notice_successful_update: "Berhasil diperbarui."
+    notice_job_started: "job started."
     notice_bad_request: "Bad Request."
     relations:
       empty: Tidak ada yang berkaitan
@@ -989,6 +990,8 @@ id:
       project:
         label: 'Project'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Lanjut'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

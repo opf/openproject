@@ -924,6 +924,7 @@ da:
     notice_successful_create: "Oprettelse gennemført."
     notice_successful_delete: "Sletning gennemført."
     notice_successful_update: "Opdatering gennemført."
+    notice_job_started: "job started."
     notice_bad_request: "Uanvendelig anmodning."
     relations:
       empty: Ingen relationer findes
@@ -990,6 +991,8 @@ da:
       project:
         label: 'Prjoekt'
         required: 'Vælg et projekt'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Næste'
         no_results: 'Ingen projekter blev fundet'
         no_invite_rights: 'Du har ikke tilladelse til at invitere medlemmer til dette projekt'

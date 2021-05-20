@@ -924,6 +924,7 @@ hu:
     notice_successful_create: "Sikeres létrehozás."
     notice_successful_delete: "Sikeres törlés."
     notice_successful_update: "Sikeres frissítés."
+    notice_job_started: "job started."
     notice_bad_request: "Rossz kérés."
     relations:
       empty: Nincs kapcsolata
@@ -990,6 +991,8 @@ hu:
       project:
         label: 'Projekt'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: ' Következő'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

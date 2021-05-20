@@ -924,6 +924,7 @@ sl:
     notice_successful_create: "Ustvarjanje uspelo."
     notice_successful_delete: "Uspešen izbris."
     notice_successful_update: "Posodobitev uspela."
+    notice_job_started: "job started."
     notice_bad_request: "Napačen zahtevek."
     relations:
       empty: Ni relacij
@@ -994,6 +995,8 @@ sl:
       project:
         label: 'Projekt'
         required: 'Prosim izberi projekt'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Naprej'
         no_results: 'Nobeni projekti niso bili najdeni'
         no_invite_rights: 'Nimate dovoljenja za vabljenje članov v ta projekt'

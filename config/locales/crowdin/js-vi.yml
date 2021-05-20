@@ -924,6 +924,7 @@ vi:
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
+    notice_job_started: "job started."
     notice_bad_request: "Bad Request."
     relations:
       empty: Không tồn tại mối quan hệ
@@ -988,6 +989,8 @@ vi:
       project:
         label: 'Dự án'
         required: 'Vui lòng chọn một dự án'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Tiếp'
         no_results: 'Không tìm thấy dự án nào'
         no_invite_rights: 'Bạn không được phép mời các thành viên tới dự án này'

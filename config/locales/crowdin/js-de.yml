@@ -924,6 +924,7 @@ de:
     notice_successful_create: "Erfolgreich angelegt."
     notice_successful_delete: "Erfolgreich gelöscht."
     notice_successful_update: "Erfolgreich aktualisiert."
+    notice_job_started: "Vorgang gestartet."
     notice_bad_request: "Fehlerhafte Anfrage."
     relations:
       empty: Keine bestehenden Beziehungen
@@ -990,6 +991,8 @@ de:
       project:
         label: 'Projekt'
         required: 'Bitte wählen Sie ein Projekt'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Weiter'
         no_results: 'Keine Projekte gefunden'
         no_invite_rights: 'Sie dürfen keine Mitglieder zu diesem Projekt hinzufügen'

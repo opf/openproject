@@ -924,6 +924,7 @@ ro:
     notice_successful_create: "Creare reuşită."
     notice_successful_delete: "Ştergere reuşită."
     notice_successful_update: "Actualizare reușită."
+    notice_job_started: "job started."
     notice_bad_request: "Cerere invalidă."
     relations:
       empty: Nu există relații
@@ -992,6 +993,8 @@ ro:
       project:
         label: 'Proiect'
         required: 'Vă rugăm să selectați un proiect'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Înainte'
         no_results: 'Nu au fost găsite proiecte'
         no_invite_rights: 'Nu aveți voie să invitați membri în acest proiect'

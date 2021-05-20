@@ -925,6 +925,7 @@ fil:
     notice_successful_create: "Matagumpay pagkalikha."
     notice_successful_delete: "Matagumpay ang pagtanggal."
     notice_successful_update: "Matagumpay nai-update."
+    notice_job_started: "job started."
     notice_bad_request: "Masamang kahilingan."
     relations:
       empty: Walang relasyon ang umiiral
@@ -991,6 +992,8 @@ fil:
       project:
         label: 'Proyekto'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Susunod'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'

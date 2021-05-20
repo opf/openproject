@@ -925,6 +925,7 @@ ko:
     notice_successful_create: "생성에 성공했습니다."
     notice_successful_delete: "삭제에 성공했습니다."
     notice_successful_update: "업데이트에 성공했습니다."
+    notice_job_started: "job started."
     notice_bad_request: "잘못된 요청입니다."
     relations:
       empty: 관계가 없습니다.
@@ -989,6 +990,8 @@ ko:
       project:
         label: '프로젝트'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: '다음'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'
