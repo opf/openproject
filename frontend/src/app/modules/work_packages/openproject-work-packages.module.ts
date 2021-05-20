@@ -69,8 +69,6 @@ import { WorkPackageActivityTabComponent } from 'core-components/wp-single-view-
 import { OpenprojectAttachmentsModule } from 'core-app/modules/attachments/openproject-attachments.module';
 import { WpCustomActionComponent } from 'core-components/wp-custom-actions/wp-custom-actions/wp-custom-action.component';
 import { WpCustomActionsComponent } from 'core-components/wp-custom-actions/wp-custom-actions.component';
-import { WorkPackageRelationsCountComponent } from 'core-components/work-packages/wp-relations-count/wp-relations-count.component';
-import { WorkPackageWatchersCountComponent } from 'core-components/work-packages/wp-relations-count/wp-watchers-count.component';
 import { WorkPackageBreadcrumbComponent } from 'core-components/work-packages/wp-breadcrumb/wp-breadcrumb.component';
 import { WorkPackageSplitViewToolbarComponent } from 'core-components/wp-details/wp-details-toolbar.component';
 import { WorkPackageWatcherButtonComponent } from 'core-components/work-packages/wp-watcher-button/wp-watcher-button.component';
@@ -172,6 +170,7 @@ import { WorkPackageGroupToggleDropdownMenuDirective } from "core-components/op-
 import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
 import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
 import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-controls/edit-field-controls.module";
+import { OpenprojectTabsModule } from "core-app/modules/common/tabs/openproject-tabs.module";
 
 
 @NgModule({
@@ -196,6 +195,7 @@ import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-cont
     OpWpTabsModule,
 
     EditFieldControlsModule,
+    OpenprojectTabsModule,
   ],
   providers: [
     // Notification service
@@ -351,8 +351,6 @@ import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-cont
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
-    WorkPackageRelationsCountComponent,
-    WorkPackageWatchersCountComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
@@ -412,8 +410,6 @@ import { EditFieldControlsModule } from "core-app/modules/fields/edit/field-cont
     WorkPackageBreadcrumbParentComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageSubjectComponent,
-    WorkPackageWatchersCountComponent,
-    WorkPackageRelationsCountComponent,
     WorkPackagesGridComponent,
 
     // Modals

@@ -33,6 +33,7 @@ describe('keepTab service', () => {
   const includes = (path:string) => false;
   let $state:any;
   let $transitions:any;
+  let uiRouterGlobals:any;
   let keepTab:KeepTabService;
   let defaults:any;
 
@@ -48,22 +49,24 @@ describe('keepTab service', () => {
       onSuccess: (criteria:any, cb:(transition:any) => void) => callback = cb
     };
 
-    keepTab = new KeepTabService($state, $transitions);
+    uiRouterGlobals = {
+      params: { tabIdentifier: 'activity' }
+    };
+
+    keepTab = new KeepTabService($state, uiRouterGlobals, $transitions);
 
     defaults = {
-      showTab: 'work-packages.show.activity',
-      detailsTab: 'work-packages.partitioned.list.details.overview'
+      showTab: 'work-packages.show.tabs',
+      detailsTab: 'work-packages.partitioned.list.details.tabs'
     };
   });
 
   describe('when initially invoked, or when an unsupported route is opened', () => {
     it('should have the correct default value for the currentShowTab', () => {
-      expect(keepTab.currentShowState).toEqual(defaults.showTab);
       expect(keepTab.currentShowTab).toEqual('activity');
     });
 
     it('should have the correct default value for the currentDetailsTab', () => {
-      expect(keepTab.currentDetailsState).toEqual(defaults.detailsTab);
       expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
@@ -76,16 +79,17 @@ describe('keepTab service', () => {
         return path === currentPathPrefix;
       });
 
-      $state.current.name = 'work-packages.show.relations';
+      $state.current.name = 'work-packages.show.tabs';
+      uiRouterGlobals.params.tabIdentifier = 'relations';
       keepTab.updateTabs();
     });
 
     it('should update the currentShowTab value', () => {
-      expect(keepTab.currentShowState).toEqual('work-packages.show.relations');
+      expect(keepTab.currentShowTab).toEqual('relations');
     });
 
     it('should also update the value of currentDetailsTab', () => {
-      expect(keepTab.currentDetailsState).toEqual('work-packages.partitioned.list.details.relations');
+      expect(keepTab.currentShowTab).toEqual('relations');
     });
 
     it('should propagate the previous change', () => {
@@ -93,8 +97,8 @@ describe('keepTab service', () => {
 
       var expected = {
         active: 'relations',
-        show: 'work-packages.show.relations',
-        details: 'work-packages.partitioned.list.details.relations'
+        show: 'relations',
+        details: 'relations'
       };
 
       keepTab.observable.subscribe(cb);
@@ -104,12 +108,10 @@ describe('keepTab service', () => {
     it('should correctly change when switching back', () => {
       currentPathPrefix = '**.details.*';
 
-      $state.current.name = 'work-packages.partitioned.list.details.overview';
+      uiRouterGlobals.params.tabIdentifier = 'overview';
       keepTab.updateTabs();
 
-      expect(keepTab.currentShowState).toEqual('work-packages.show.activity');
       expect(keepTab.currentShowTab).toEqual('activity');
-      expect(keepTab.currentDetailsState).toEqual('work-packages.partitioned.list.details.overview');
       expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
@@ -120,12 +122,13 @@ describe('keepTab service', () => {
         return path === 'work-packages.show.*';
       });
 
-      $state.current.name = 'work-packages.show.activity';
-      keepTab.updateTabs('work-packages.show.activity');
+      uiRouterGlobals.params.tabIdentifier = 'activity';
+      $state.current.name = 'work-packages.show.tabs';
+      keepTab.updateTabs('activity');
     });
 
     it('should set the tab to overview', () => {
-      expect(keepTab.currentDetailsState).toEqual('work-packages.partitioned.list.details.overview');
+      expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
 
@@ -135,17 +138,16 @@ describe('keepTab service', () => {
         return path === '**.details.*';
       });
 
-      $state.current.name = 'work-packages.partitioned.list.details.activity';
+      uiRouterGlobals.params.tabIdentifier = 'activity';
+      $state.current.name = 'work-packages.partitioned.list.details.tabs';
       keepTab.updateTabs();
     });
 
     it('should update the currentShowTab value', () => {
-      expect(keepTab.currentDetailsState).toEqual('work-packages.partitioned.list.details.activity');
       expect(keepTab.currentDetailsTab).toEqual('activity');
     });
 
     it('should also update the value of currentDetailsTab', () => {
-      expect(keepTab.currentShowState).toEqual('work-packages.show.activity');
       expect(keepTab.currentShowTab).toEqual('activity');
     });
 
@@ -154,8 +156,8 @@ describe('keepTab service', () => {
 
       var expected = {
         active: 'activity',
-        details: 'work-packages.partitioned.list.details.activity',
-        show: 'work-packages.show.activity'
+        details: 'activity',
+        show: 'activity'
       };
 
       keepTab.observable.subscribe(cb);

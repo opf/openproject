@@ -95,7 +95,7 @@ gem 'semantic', '~> 1.6.1'
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.2.0'
 
-gem 'date_validator', '~> 0.10.0'
+gem 'date_validator', '~> 0.11.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -167,7 +167,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.2.0' # used for development and optionally for production
+gem 'puma', '~> 5.3.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.11.0'
 
@@ -191,9 +191,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-ruby", '~> 4.3.1',  require: false
-  gem "sentry-rails", '~> 4.3.3', require: false
-  gem "sentry-delayed_job", '~> 4.3.0', require: false
+  gem "sentry-delayed_job", '~> 4.4.0', require: false
+  gem "sentry-rails", '~> 4.4.0', require: false
+  gem "sentry-ruby", '~> 4.4.1',  require: false
 end
 
 group :test do
@@ -267,9 +267,9 @@ end
 
 group :development, :test do
   # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 6.1.0'
+  gem 'factory_bot', '~> 6.2.0'
   # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 6.1.0'
+  gem 'factory_bot_rails', '~> 6.2.0'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false

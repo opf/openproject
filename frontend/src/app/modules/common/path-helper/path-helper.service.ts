@@ -112,6 +112,18 @@ export class PathHelperService {
     return `${this.staticBase}/projects/${projectIdentifier}/ifc_models`;
   }
 
+  public ifcModelsNewPath(projectIdentifier:string) {
+    return `${this.ifcModelsPath(projectIdentifier)}/new`;
+  }
+
+  public ifcModelsEditPath(projectIdentifier:string, modelId:number|string) {
+    return `${this.ifcModelsPath(projectIdentifier)}/${modelId}/edit`;
+  }
+
+  public ifcModelsDeletePath(projectIdentifier:string, modelId:number|string) {
+    return `${this.ifcModelsPath(projectIdentifier)}/${modelId}`;
+  }
+
   public bimDetailsPath(projectIdentifier:string, workPackageId:string, viewpoint:number|string|null = null) {
     let path = `${this.projectPath(projectIdentifier)}/bcf/split/details/${workPackageId}`;
 

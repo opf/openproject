@@ -34,7 +34,7 @@ module API
       class AvailableParentsAPI < ::API::OpenProjectAPI
         resource :available_parent_projects do
           after_validation do
-            authorize_any(%i[add_project edit_project], global: true)
+            authorize_any(%i[add_project add_subprojects edit_project], global: true)
           end
 
           get &::API::V3::Utilities::Endpoints::Index.new(model: Project,

@@ -165,12 +165,15 @@ describe ProjectsController, type: :controller do
       end
 
       context 'on failure' do
+        let(:errors) { ActiveModel::Errors.new(project) }
         let(:error_message) { 'error message' }
 
         before do
           expect(update_service).to receive(:call).with([1, 2, 3]).and_return false
 
-          allow(project).to receive_message_chain(:errors, :full_messages).and_return(error_message)
+          # acts_as_url tries to access the errors object which we stub here
+          allow(project).to receive(:errors).and_return errors
+          allow(errors).to receive(:full_messages).and_return(error_message)
 
           patch :types, params: { id: project.id, project: { 'type_ids' => ['1', '2', '3'] } }
         end

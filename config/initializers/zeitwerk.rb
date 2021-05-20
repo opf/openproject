@@ -45,8 +45,7 @@ end
 # As it is complicated to return all the paths where such an initialization file might exist,
 # we simply return the general OpenProject namespace for such files.
 OpenProject::Inflector.rule do |_basename, abspath|
-  if abspath =~ /openproject-\w+\/lib\/openproject-\w+.rb\z/ ||
-     abspath =~ /modules\/\w+\/lib\/openproject-\w+.rb\z/
+  if abspath =~ /\/lib\/openproject-\w+.rb\z/
     'OpenProject'
   end
 end

@@ -223,6 +223,8 @@ zh-TW:
       versions:
         no_results_title_text: 目前的專案沒有版本號
         no_results_content_text: 建立一個新版本號
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: 目前這個專案沒有成員
@@ -2295,7 +2297,6 @@ zh-TW:
   setting_repository_truncate_at: "儲存庫瀏覽器中顯示的最大檔案數量"
   setting_rest_api_enabled: "啟用 REST 網路服務"
   setting_self_registration: "自助註冊"
-  setting_sequential_project_identifiers: "產生循序專案標示"
   setting_session_ttl: "非活躍使用後連線失效時間"
   setting_session_ttl_hint: "低於5個工作同於停用"
   setting_session_ttl_enabled: "連線逾時"

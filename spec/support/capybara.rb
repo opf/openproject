@@ -44,6 +44,9 @@ if ENV['CAPYBARA_AWS_ACCESS_KEY_ID']
     },
     bucket_name: ENV.fetch('CAPYBARA_AWS_BUCKET', 'openproject-ci-public-logs')
   }
+  Capybara::Screenshot.s3_object_configuration = {
+    acl: 'public-read'
+  }
 end
 
 Rails.application.config do

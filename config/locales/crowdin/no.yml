@@ -223,6 +223,8 @@
       versions:
         no_results_title_text: Det finnes ingen versjoner for prosjektet.
         no_results_content_text: Lag en ny versjon
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Det er ingen medlemmer i prosjektet.
@@ -2313,7 +2315,6 @@
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "Aktiver REST webservice"
   setting_self_registration: "Selv-registrering"
-  setting_sequential_project_identifiers: "Generèr sekvensielle prosjektidentifikatorer"
   setting_session_ttl: "Tidsavbrudd for sesjon etter inaktivitet"
   setting_session_ttl_hint: "Verdi under 5 fungerer som deaktivering"
   setting_session_ttl_enabled: "Sesjonen utløper"

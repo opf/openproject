@@ -85,6 +85,8 @@ module Pages
       subject.set card_title
       subject.send_keys :enter
 
+      sleep 1
+
       expect_card(list_name, card_title)
     end
 

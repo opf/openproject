@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :dashboard, class: Grids::Dashboard do
+  factory :dashboard, class: 'Grids::Dashboard' do
     project
     row_count { 7 }
     column_count { 4 }
@@ -16,7 +16,7 @@ FactoryBot.define do
     end
   end
 
-  factory :dashboard_with_table, class: Grids::Dashboard do
+  factory :dashboard_with_table, class: 'Grids::Dashboard' do
     project
     row_count { 7 }
     column_count { 4 }
@@ -39,7 +39,7 @@ FactoryBot.define do
     end
   end
 
-  factory :dashboard_with_custom_text, class: Grids::Dashboard do
+  factory :dashboard_with_custom_text, class: 'Grids::Dashboard' do
     project
     row_count { 7 }
     column_count { 4 }

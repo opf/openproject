@@ -223,6 +223,8 @@ ko:
       versions:
         no_results_title_text: 프로젝트에 버전이 없습니다.
         no_results_content_text: 새 버전 생성
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
@@ -2293,7 +2295,6 @@ ko:
   setting_repository_truncate_at: "리포지토리 브라우저에 표시되는 최대 파일 수"
   setting_rest_api_enabled: "REST 웹 서비스 사용"
   setting_self_registration: "자체 등록"
-  setting_sequential_project_identifiers: "순차적 프로젝트 ID 생성"
   setting_session_ttl: "비활성화된 후 세션 만료 시간"
   setting_session_ttl_hint: "5 아래 값은 사용 안함으로 작동합니다."
   setting_session_ttl_enabled: "세션 만료됨"

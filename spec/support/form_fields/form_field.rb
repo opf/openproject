@@ -14,6 +14,11 @@ module FormFields
       raise NotImplementedError
     end
 
+    def expect_required
+      expect(field_container)
+        .to have_selector '.op-form-field--label-indicator', text: '*'
+    end
+
     def field_container
       page.find(selector)
     end

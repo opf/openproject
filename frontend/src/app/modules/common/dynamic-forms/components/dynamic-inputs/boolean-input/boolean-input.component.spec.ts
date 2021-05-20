@@ -9,7 +9,6 @@ describe('BooleanInputComponent', () => {
     const fieldsConfig = [
       {
         "type": "booleanInput" as "booleanInput",
-        "className": "op-form--field inline-edit--field",
         "key": "testControl",
         "templateOptions": {
           "required": true,

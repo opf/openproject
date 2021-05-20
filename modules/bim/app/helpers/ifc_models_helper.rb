@@ -26,8 +26,7 @@ module IfcModelsHelper
       {
         id: ifc_model.id,
         name: ifc_model.title,
-        default: ifc_model.is_default,
-        saoEnabled: ifc_model.is_default
+        default: ifc_model.is_default
       }
     end
   end

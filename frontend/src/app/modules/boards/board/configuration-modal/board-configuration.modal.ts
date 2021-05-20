@@ -73,7 +73,7 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
     );
 
     setTimeout(() => {
-      const initialTab = this.availableTabs[0].name;
+      const initialTab = this.availableTabs[0];
       this.switchTo(initialTab);
     });
   }
@@ -90,8 +90,8 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(name:string) {
-    this.tabPortalHost.switchTo(name);
+  public switchTo(tab:TabInterface) {
+    this.tabPortalHost.switchTo(tab);
   }
 
   public saveChanges():void {

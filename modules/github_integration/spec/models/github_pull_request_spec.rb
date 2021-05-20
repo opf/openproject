@@ -33,12 +33,19 @@ describe GithubPullRequest do
     it { is_expected.to validate_presence_of :number }
     it { is_expected.to validate_presence_of :repository }
     it { is_expected.to validate_presence_of :state }
+    it { is_expected.to validate_presence_of :title }
+    it { is_expected.to validate_presence_of :github_updated_at }
 
     context 'when it is not a partial pull request' do
-      subject { described_class.new(state: 'open') }
+      subject do
+        described_class.new(changed_files_count: 5,
+                            body: 'something',
+                            comments_count: 4,
+                            review_comments_count: 3,
+                            additions_count: 2,
+                            deletions_count: 1)
+      end
 
-      it { is_expected.to validate_presence_of :github_updated_at }
-      it { is_expected.to validate_presence_of :title }
       it { is_expected.to validate_presence_of :body }
       it { is_expected.to validate_presence_of :comments_count }
       it { is_expected.to validate_presence_of :review_comments_count }
@@ -54,20 +61,6 @@ describe GithubPullRequest do
       it { is_expected.not_to allow_value([{ 'name' => 'grey' }]).for(:labels) }
       it { is_expected.not_to allow_value([{}]).for(:labels) }
     end
-  end
-
-  describe '.complete' do
-    subject { described_class.complete }
-
-    let(:open) { FactoryBot.create(:github_pull_request, :open) }
-    let(:merged) { FactoryBot.create(:github_pull_request, :closed_merged) }
-    let(:closed) { FactoryBot.create(:github_pull_request, :closed_unmerged) }
-    let(:partial) { FactoryBot.create(:github_pull_request, :partial) }
-    let(:all_pull_requests) { [open, merged, closed, partial] }
-
-    before { all_pull_requests }
-
-    it { is_expected.to match_array [open, merged, closed] }
   end
 
   describe '.without_work_package' do
@@ -87,23 +80,89 @@ describe GithubPullRequest do
     end
   end
 
-  describe '#partial?' do
-    context 'when the state is partial' do
-      subject { described_class.new(state: 'partial').partial? }
-
-      it { is_expected.to be true }
+  describe '.find_by_github_identifiers' do
+    let(:github_id) { 5 }
+    let(:github_url) { 'https://github.com/opf/openproject/pull/123' }
+    let(:pull_request) do
+      FactoryBot.create(:github_pull_request,
+                        github_id: github_id,
+                        github_html_url: github_url)
     end
 
-    context 'when the state is open' do
-      subject { described_class.new(state: 'open').partial? }
-
-      it { is_expected.to be false }
+    context 'when the github_id attribute matches' do
+      it 'finds by github_id' do
+        expect(described_class.find_by_github_identifiers(id: pull_request.github_id))
+          .to eql pull_request
+      end
     end
 
-    context 'when the state is closed' do
-      subject { described_class.new(state: 'closed').partial? }
+    context 'when the github_html_url attribute matches' do
+      it 'finds by github_html_url' do
+        expect(described_class.find_by_github_identifiers(url: pull_request.github_html_url))
+          .to eql pull_request
+      end
+    end
 
-      it { is_expected.to be false }
+    context 'when the provided github_id does not match' do
+      it 'is nil' do
+        expect(described_class.find_by_github_identifiers(id: pull_request.github_id + 1))
+          .to be_nil
+      end
+    end
+
+    context 'when the provided github_html_url does not match' do
+      it 'is nil' do
+        expect(described_class.find_by_github_identifiers(url: "#{pull_request.github_html_url}zzzz"))
+          .to be_nil
+      end
+    end
+
+    context 'when neither match' do
+      it 'is nil' do
+        expect(described_class.find_by_github_identifiers(id: pull_request.github_id + 1,
+                                                          url: "#{pull_request.github_html_url}zzzz"))
+          .to be_nil
+      end
+    end
+
+    context 'when the provided github_html_url does not match but the github_id does' do
+      it 'is nil' do
+        expect(described_class.find_by_github_identifiers(id: pull_request.github_id,
+                                                          url: "#{pull_request.github_html_url}zzzz"))
+          .to eql pull_request
+      end
+    end
+
+    context 'when the provided github_html_url does match but the github_id does not' do
+      it 'is nil' do
+        expect(described_class.find_by_github_identifiers(id: pull_request.github_id + 1,
+                                                          url: pull_request.github_html_url))
+          .to eql pull_request
+      end
+    end
+
+    context 'when neither match but initialize is true' do
+      subject(:finder) do
+        described_class.find_by_github_identifiers(id: pull_request.github_id + 1,
+                                                   url: "#{pull_request.github_html_url}zzzz",
+                                                   initialize: true)
+      end
+
+      it 'returns a pull reqeust' do
+        expect(finder)
+          .to be_a(described_class)
+      end
+
+      it 'returns a new record' do
+        expect(finder)
+          .to be_new_record
+      end
+
+      it 'has the privided attributes initialized' do
+        expect(finder.attributes.compact)
+          .to eql("github_id" => pull_request.github_id + 1,
+                  "github_html_url" => "#{pull_request.github_html_url}zzzz")
+      end
     end
   end
 

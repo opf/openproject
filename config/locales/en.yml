@@ -251,6 +251,8 @@ en:
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
 
   members:
     index:
@@ -2409,7 +2411,6 @@ en:
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
-  setting_sequential_project_identifiers: "Generate sequential project identifiers"
   setting_session_ttl: "Session expiry time after inactivity"
   setting_session_ttl_hint: "Value below 5 works like disabled"
   setting_session_ttl_enabled: "Session expires"
@@ -2435,8 +2436,8 @@ en:
     session: "Session"
     brute_force_prevention: "Automated user blocking"
     display:
-      first_date_of_week_and_year_present: >
-        If either options "First date of week" or "First week of year contains" are set,
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set,
         the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year.

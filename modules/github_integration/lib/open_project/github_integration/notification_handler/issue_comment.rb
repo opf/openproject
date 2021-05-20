@@ -69,9 +69,7 @@ module OpenProject::GithubIntegration
         # We still want to create a PR record (even if it just has partial data), to remember that it was referenced
         # and avoid adding reference-comments twice.
         OpenProject::GithubIntegration::Services::UpsertPartialPullRequest.new.call(
-          github_html_url: payload.issue.pull_request.html_url,
-          number: payload.issue.number,
-          repository: payload.repository.full_name,
+          payload,
           work_packages: work_packages
         )
       end

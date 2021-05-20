@@ -63,6 +63,8 @@ describe UserMailer, type: :mailer do
 
   shared_examples_for 'mail is sent' do
     let(:letters_sent_count) { 1 }
+    let(:mail) { deliveries.first }
+    let(:html_body) { mail.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded }
 
     it 'actually sends a mail' do
       expect(deliveries.size).to eql(letters_sent_count)
@@ -104,6 +106,28 @@ describe UserMailer, type: :mailer do
       let(:recipient) { user }
 
       it_behaves_like 'mail is not sent'
+    end
+  end
+
+  describe '#with_deliveries' do
+    context 'with false' do
+      before do
+        described_class.with_deliveries(false) do
+          described_class.test_mail(recipient).deliver_now
+        end
+      end
+
+      it_behaves_like 'mail is not sent'
+    end
+
+    context 'with true' do
+      before do
+        described_class.with_deliveries(true) do
+          described_class.test_mail(recipient).deliver_now
+        end
+      end
+
+      it_behaves_like 'mail is sent'
     end
   end
 
@@ -155,6 +179,30 @@ describe UserMailer, type: :mailer do
         expect(deliveries.first['Auto-Submitted'].value)
           .to eql 'auto-generated'
       end
+
+      it 'carries a message_id' do
+        expect(deliveries.first.message_id)
+          .to eql(UserMailer.generate_message_id(journal, recipient))
+      end
+
+      it 'does not reference' do
+        expect(deliveries.first.references)
+          .to be_nil
+      end
+
+      context 'with plain_text_mail active', with_settings: { plain_text_mail: 1 } do
+        it 'only sends plain text' do
+          expect(mail.content_type)
+            .to match /text\/plain/
+        end
+      end
+
+      context 'with plain_text_mail inactive', with_settings: { plain_text_mail: 0 } do
+        it 'sends a multipart mail' do
+          expect(mail.content_type)
+            .to match /multipart\/alternative/
+        end
+      end
     end
 
     it_behaves_like 'does only send mails to author if permitted'
@@ -165,7 +213,43 @@ describe UserMailer, type: :mailer do
       UserMailer.work_package_updated(recipient, journal, user).deliver_now
     end
 
-    it_behaves_like 'mail is sent'
+    it_behaves_like 'mail is sent' do
+      it 'carries a message_id' do
+        expect(deliveries.first.message_id)
+          .to eql(UserMailer.generate_message_id(journal, recipient))
+      end
+
+      it 'references the message_id' do
+        expect(deliveries.first.references)
+          .to eql UserMailer.generate_message_id(journal, recipient)
+      end
+
+      context 'with a link' do
+        let(:work_package) do
+          FactoryBot.build_stubbed(:work_package,
+                                   type: type_standard,
+                                   description: "Some text with a reference to ##{referenced_wp.id}")
+        end
+
+        let(:referenced_wp) do
+          FactoryBot.build_stubbed(:work_package)
+        end
+
+        it 'renders the link' do
+          expect(html_body)
+            .to have_link("##{referenced_wp.id}", href: work_package_url(referenced_wp, host: Setting.host_name))
+        end
+
+        context 'with a relative url root',
+                with_config: { rails_relative_url_root: '/subpath' } do
+          it 'renders the link' do
+            expect(html_body)
+              .to have_link("##{referenced_wp.id}",
+                            href: work_package_url(referenced_wp, host: Setting.host_name, script_name: '/subpath'))
+          end
+        end
+      end
+    end
 
     it_behaves_like 'does only send mails to author if permitted'
   end
@@ -184,7 +268,7 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe :wiki_content_added do
+  describe '#wiki_content_added' do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
@@ -207,6 +291,129 @@ describe UserMailer, type: :mailer do
 
     it 'should link to the latest version diff page' do
       expect(deliveries.first.body.encoded).to include 'diff/1'
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#message_posted' do
+    let(:message) do
+      FactoryBot.build_stubbed(:message).tap do |msg|
+        allow(msg)
+          .to receive(:project)
+                .and_return(msg.forum.project)
+      end
+    end
+
+    before do
+      UserMailer.message_posted(recipient, message, user).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'carries a message_id' do
+        expect(deliveries.first.message_id)
+          .to eql(UserMailer.generate_message_id(message, recipient))
+      end
+
+      it 'has no references' do
+        expect(deliveries.first.references)
+          .to be_nil
+      end
+
+      it 'includes a link to the message' do
+        expect(html_body)
+          .to have_link(message.subject,
+                        href: topic_url(message, host: Setting.host_name, r: message.id, anchor: "message-#{message.id}"))
+      end
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#account_information' do
+    let(:pwd) { "pAsswORd" }
+
+    before do
+      UserMailer.account_information(recipient, pwd).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'includes the password' do
+        expect(html_body)
+          .to have_content(pwd)
+      end
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#news_added' do
+    let(:news) { FactoryBot.build_stubbed(:news) }
+
+    before do
+      UserMailer.news_added(recipient, news, user).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'carries a message_id' do
+        expect(mail.message_id)
+          .to eql(UserMailer.generate_message_id(news, recipient))
+      end
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#news_comment_added' do
+    let(:news) { FactoryBot.build_stubbed(:news) }
+    let(:comment) { FactoryBot.build_stubbed(:comment, commented: news) }
+
+    before do
+      UserMailer.news_comment_added(recipient, comment, user).deliver_now
+    end
+
+    it_behaves_like 'mail is sent'
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#password_lost' do
+    let(:token) { FactoryBot.build_stubbed(:recovery_token) }
+    let(:recipient) { token.user }
+
+    before do
+      UserMailer.password_lost(token).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'includes a link to reset' do
+        url = account_lost_password_url(host: Setting.host_name, token: token.value)
+
+        expect(html_body)
+          .to have_link(url,
+                        href: url)
+      end
+    end
+
+    it_behaves_like 'does only send mails to author if permitted'
+  end
+
+  describe '#user_signed_up' do
+    let(:token) { FactoryBot.build_stubbed(:invitation_token) }
+    let(:recipient) { token.user }
+
+    before do
+      UserMailer.user_signed_up(token).deliver_now
+    end
+
+    it_behaves_like 'mail is sent' do
+      it 'includes a link to activate' do
+        url = account_activate_url(host: Setting.host_name, token: token.value)
+
+        expect(html_body)
+          .to have_link(url,
+                        href: url)
+      end
     end
 
     it_behaves_like 'does only send mails to author if permitted'
@@ -582,6 +789,74 @@ describe UserMailer, type: :mailer do
         it 'displays deleted done ratio' do
           is_expected.to include(expected)
         end
+      end
+    end
+  end
+
+  describe 'localization' do
+    context 'with the user having a language configured',
+            with_settings: { available_languages: %w[en de],
+                             default_language: 'en',
+                             emails_header: {
+                               "de" => 'deutscher header',
+                               "en" => 'english header'
+                             } } do
+      let(:recipient) do
+        FactoryBot.build_stubbed(:user, language: 'de', preferences: { no_self_notified: false })
+      end
+
+      before do
+        I18n.locale = :en
+
+        described_class.account_information(recipient, 'pwd').deliver_now
+      end
+
+      it 'uses the recipients language' do
+        expect(ActionMailer::Base.deliveries.last.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded)
+          .to include I18n.t(:mail_body_account_information, locale: :de)
+      end
+
+      it 'does not alter I18n.locale' do
+        expect(I18n.locale)
+          .to eql :en
+      end
+
+      it 'include the user language header' do
+        expect(ActionMailer::Base.deliveries.last.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded)
+          .to include 'deutscher header'
+      end
+    end
+
+    context 'with the user having no language configured',
+            with_settings: { available_languages: %w[en de],
+                             default_language: 'en',
+                             emails_header: {
+                               "de" => 'deutscher header',
+                               "en" => 'english header'
+                             } } do
+      let(:recipient) do
+        FactoryBot.build_stubbed(:user, language: '', preferences: { no_self_notified: false })
+      end
+
+      before do
+        I18n.locale = :de
+
+        described_class.account_information(recipient, 'pwd').deliver_now
+      end
+
+      it 'uses the default language' do
+        expect(ActionMailer::Base.deliveries.last.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded)
+          .to include I18n.t(:mail_body_account_information, locale: :en)
+      end
+
+      it 'include the default language header' do
+        expect(ActionMailer::Base.deliveries.last.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded)
+          .to include 'english header'
+      end
+
+      it 'does not alter I18n.locale' do
+        expect(I18n.locale)
+          .to eql :de
       end
     end
   end

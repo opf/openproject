@@ -299,8 +299,6 @@ project_gantt_query:
 new_project_user_role_id:
   format: int
   default: ''
-sequential_project_identifiers:
-  default: 0
 # encodings used to convert repository files content to UTF-8
 # multiple values accepted, comma separated
 repositories_encodings:

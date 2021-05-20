@@ -1,8 +1,6 @@
 # Force the latest version of chromedriver using the webdriver gem
 require 'webdrivers/chromedriver'
 
-::Webdrivers.logger.level = :DEBUG
-
 def register_chrome(language, name: :"chrome_#{language}")
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new

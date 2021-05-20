@@ -223,6 +223,8 @@ ca:
       versions:
         no_results_title_text: Actualment no hi ha cap versió per al projecte.
         no_results_content_text: Crear una nova versió
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest projecte.
@@ -2311,7 +2313,6 @@ ca:
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "Habilita el servei web REST"
   setting_self_registration: "Registre automàtic"
-  setting_sequential_project_identifiers: "Genera identificadors de projecte seqüencials"
   setting_session_ttl: "Temps d'expiració de la sessió per inactivitat"
   setting_session_ttl_hint: "Valor per sota de 5 funciona com a deshabilitat"
   setting_session_ttl_enabled: "La sessió expira"

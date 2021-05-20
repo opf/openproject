@@ -1,11 +1,17 @@
 import { NgModule } from "@angular/core";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { CommonModule } from "@angular/common";
+import { FocusModule } from "core-app/modules/focus/focus.module";
+import { IconModule } from "core-app/modules/icon/icon.module";
 import { OpModalService } from "./modal.service";
 import { OpModalWrapperAugmentService } from "./modal-wrapper-augment.service";
 import { OpModalHeaderComponent } from "./modal-header.component";
 
 @NgModule({
-  imports: [ OpenprojectCommonModule ],
+  imports: [
+    CommonModule,
+    FocusModule,
+    IconModule,
+  ],
   exports: [ OpModalHeaderComponent ],
   providers: [
     OpModalService,

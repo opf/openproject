@@ -4,21 +4,18 @@ import {
   HostBinding,
   ContentChild,
   Optional,
-  OnInit,
 } from "@angular/core";
 import {
   NgControl,
   AbstractControl,
   FormGroupDirective,
 } from "@angular/forms";
-import { FormlyField } from "@ngx-formly/core";
-import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component";
 
 @Component({
   selector: 'op-form-field',
   templateUrl: './form-field.component.html',
 })
-export class OpFormFieldComponent implements OnInit{
+export class OpFormFieldComponent {
   @HostBinding('class.op-form-field') className = true;
   @HostBinding('class.op-form-field_invalid') get errorClassName() {
     return this.showErrorMessage;
@@ -27,12 +24,16 @@ export class OpFormFieldComponent implements OnInit{
   @Input() label = '';
   @Input() noWrapLabel = true;
   @Input() required = false;
-  @Input() showValidationErrorOn: 'change' | 'blur' | 'submit' | 'never';
+  @Input() hidden = false;
+  @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
+  @Input() control?:AbstractControl;
+  @Input() helpTextAttribute?:string;
+  @Input() helpTextAttributeScope?:string;
 
   @ContentChild(NgControl) ngControl:NgControl;
 
-  get formControl ():AbstractControl|undefined|null {
-    return this.ngControl?.control || this._dynamicControl?.field?.formControl;
+  get formControl():AbstractControl|undefined|null {
+    return this.ngControl?.control || this.control;
   }
 
   get showErrorMessage():boolean {
@@ -53,19 +54,7 @@ export class OpFormFieldComponent implements OnInit{
     return showErrorMessage;
   }
 
-  get hidden () {
-    return this._dynamicControl?.field?.hide;
-  }
-
   constructor(
-    @Optional() private _dynamicControl: FormlyField,
     @Optional() private _formGroupDirective:FormGroupDirective,
-    @Optional() private _dynamicFormComponent:DynamicFormComponent,
   ) {}
-
-  ngOnInit() {
-    this.showValidationErrorOn = this.showValidationErrorOn ||
-      this._dynamicFormComponent?.showValidationErrorsOn ||
-      'submit';
-  }
 }

@@ -1,5 +1,5 @@
 import { AfterContentInit, Directive, ElementRef, Input } from '@angular/core';
-import { FocusHelperService } from "core-app/modules/common/focus/focus-helper";
+import { FocusHelperService } from "core-app/modules/focus/focus-helper";
 
 @Directive({
   selector: '[autoFocus]'

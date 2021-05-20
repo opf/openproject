@@ -48,20 +48,23 @@ module OpenProject::Bim
                    {
                      'bim/ifc_models/ifc_models': %i[index show defaults],
                      'bim/ifc_models/ifc_viewer': %i[show]
-                   }
+                   },
+                   contract_actions: { ifc_models: %i[read] }
         permission :manage_ifc_models,
                    { 'bim/ifc_models/ifc_models': %i[index show destroy edit update create new] },
-                   dependencies: %i[view_ifc_models]
-
+                   dependencies: %i[view_ifc_models],
+                   contract_actions: { ifc_models: %i[create update destroy] }
         permission :view_linked_issues,
                    { 'bim/bcf/issues': %i[index] },
-                   dependencies: %i[view_work_packages]
+                   dependencies: %i[view_work_packages],
+                   contract_actions: { bcf: %i[read] }
         permission :manage_bcf,
                    { 'bim/bcf/issues': %i[index upload prepare_import configure_import perform_import] },
                    dependencies: %i[view_linked_issues
                                     view_work_packages
                                     add_work_packages
-                                    edit_work_packages]
+                                    edit_work_packages],
+                   contract_actions: { bcf: %i[create update] }
         permission :delete_bcf,
                    {},
                    dependencies: %i[view_linked_issues
@@ -69,7 +72,8 @@ module OpenProject::Bim
                                     view_work_packages
                                     add_work_packages
                                     edit_work_packages
-                                    delete_work_packages]
+                                    delete_work_packages],
+                   contract_actions: { bcf: %i[destroy] }
       end
 
       OpenProject::AccessControl.permission(:view_work_packages).controller_actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'

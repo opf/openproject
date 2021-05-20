@@ -223,6 +223,8 @@ bg:
       versions:
         no_results_title_text: В момента няма версии за проекта.
         no_results_content_text: Създаване на нова версия
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: В момента има няма членове част от този проект.
@@ -2313,7 +2315,6 @@ bg:
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
-  setting_sequential_project_identifiers: "Generate sequential project identifiers"
   setting_session_ttl: "Session expiry time after inactivity"
   setting_session_ttl_hint: "Value below 5 works like disabled"
   setting_session_ttl_enabled: "Session expires"

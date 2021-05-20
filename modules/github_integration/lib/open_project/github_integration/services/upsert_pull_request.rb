@@ -46,12 +46,9 @@ module OpenProject::GithubIntegration::Services
     private
 
     def find_or_initialize(payload)
-      GithubPullRequest.partial.find_by(
-        github_html_url: payload.fetch('html_url')
-      ) ||
-        GithubPullRequest.find_or_initialize_by(
-          github_id: payload.fetch('id')
-        )
+      GithubPullRequest.find_by_github_identifiers(id: payload.fetch('id'),
+                                                   url: payload.fetch('html_url'),
+                                                   initialize: true)
     end
 
     # Receives the input from the github webhook and translates them

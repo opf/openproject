@@ -42,3 +42,4 @@ sl:
           copy_error: '❌ Kopiranje ni uspelo!'
       tab_prs:
         empty: 'Zaenkrat še ni povezanih pull zahtev. Poveži obstoječ PR z uporabo kode <code>OP#%{wp_id}</code> v PR opisu ali pa kreiraj nov PR.'
+      github_actions: Akcije

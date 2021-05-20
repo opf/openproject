@@ -111,6 +111,15 @@ class Project < ApplicationRecord
   # it implicitly assumes a db:seed-created standard type to be present and currently
   # neither development nor deployment setups are prepared for this
   # validates_presence_of :types
+
+  acts_as_url :name,
+              url_attribute: :identifier,
+              sync_url: false, # Don't update identifier when name changes
+              only_when_blank: true, # Only generate when identifier not set
+              limit: IDENTIFIER_MAX_LENGTH,
+              blacklist: RESERVED_IDENTIFIERS,
+              adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
+
   validates :identifier,
             presence: true,
             uniqueness: { case_sensitive: true },
@@ -121,7 +130,7 @@ class Project < ApplicationRecord
   # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards
   validates :identifier,
             format: { with: /\A[a-z][a-z0-9\-_]*\z/ },
-            if: ->(p) { p.identifier_changed? }
+            if: ->(p) { p.identifier_changed? && p.identifier.present? }
   # reserved words
 
   friendly_id :identifier, use: :finders
@@ -352,12 +361,6 @@ class Project < ApplicationRecord
   end
 
   class << self
-    # Returns an auto-generated project identifier based on the last identifier used
-    def next_identifier
-      p = Project.newest.first
-      p.nil? ? nil : p.identifier.to_s.succ
-    end
-
     # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
     #
     # it expects a simple list of projects with a #lft column (awesome_nested_set)

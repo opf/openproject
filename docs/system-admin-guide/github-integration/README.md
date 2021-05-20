@@ -8,7 +8,7 @@ keywords: github integration
 ---
 # GitHub integration
 
-OpenProject offers are very basic GitHub integration for pull requests.
+OpenProject offers an integration for GitHub pull requests.
 You create a pull request in GitHub and link to an OpenProject work package.
 
 ![New pull request linking to an OpenProject work package](github-pr-workpackage-reference.png)
@@ -24,11 +24,7 @@ the pull request is
 
 ![Github comments on work package](workpackage-github-comments.png)
 
-Mind that editing an existing pull request's description to add a work package link will
-not add a comment in OpenProject. GitHub does not send webhook events for that.
-
-If you still want a comment in OpenProject you will have to reference the
-work package in a comment on the pull request in GitHub.
+Given the right permissions on the project, a "GitHub" tab is shown for work packages. All previously linked pull requests can be seen there including the PR's status and checks (e.g. tests and linter runs).
 
 ## Configuration
 

@@ -6,7 +6,7 @@ module Components
       element.click
       # Insert the text to find
       within(element) do
-        page.find('input', visible: :all).set(query)
+        ng_enter_query(query)
       end
       sleep(0.5)
 
@@ -23,6 +23,25 @@ module Components
 
       scroll_to_element(list)
       list
+    end
+
+    ##
+    # Insert the query, typing
+    def ng_enter_query(query)
+      input = page.find('input', visible: :all).native
+      input.clear
+
+      query = query.to_s
+
+      if query.length > 1
+        # Send all keys, and then with a delay the last one
+        # to emulate normal typing
+        input.send_keys(query[0..-2])
+        sleep 0.2
+        input.send_keys(query[-1])
+      else
+        input.send_keys(query)
+      end
     end
 
     ##

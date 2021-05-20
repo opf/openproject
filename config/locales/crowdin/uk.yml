@@ -223,6 +223,8 @@ uk:
       versions:
         no_results_title_text: Наразі не існує версій для проекту.
         no_results_content_text: Створіть нову версію
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Наразі учасників цього проекту немає.
@@ -2347,7 +2349,6 @@ uk:
   setting_repository_truncate_at: "Максимальна кількість файлів, відображених у переглядачі сховища"
   setting_rest_api_enabled: "Увімкніть веб-службу REST"
   setting_self_registration: "Самостійна реєстрація"
-  setting_sequential_project_identifiers: "Генерувати послідовні проекту ідентифікатори"
   setting_session_ttl: "Сесії час після закінчення неактивність"
   setting_session_ttl_hint: "Значення нижче 5 працює як відключено"
   setting_session_ttl_enabled: "Сеанс закінчився"

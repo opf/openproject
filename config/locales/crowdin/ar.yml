@@ -223,6 +223,8 @@ ar:
       versions:
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
         no_results_content_text: إنشاء إصدار جديد
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: لا يوجد حالياً قسم للأعضاء في هذا المشروع.
@@ -2379,7 +2381,6 @@ ar:
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "تمكين خدمة ويب REST"
   setting_self_registration: "التسجيل الذاتي"
-  setting_sequential_project_identifiers: "إنشاء معرفات المشروع متسلسلة"
   setting_session_ttl: "وقت انتهاء الدورة بعد الخمول"
   setting_session_ttl_hint: "قيمة أدناه يعمل 5 مثل ا"
   setting_session_ttl_enabled: "انتهت الجلسة"

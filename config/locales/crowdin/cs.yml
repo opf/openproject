@@ -223,6 +223,8 @@ cs:
       versions:
         no_results_title_text: V současné době neexistují žádné verze pro projekt.
         no_results_content_text: Vytvořit novou verzi
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -2346,7 +2348,6 @@ cs:
   setting_repository_truncate_at: "Maximální počet souborů zobrazených v prohlížeči repozitáře"
   setting_rest_api_enabled: "Povolit webové služby REST"
   setting_self_registration: "Povolit automatickou registraci"
-  setting_sequential_project_identifiers: "Generovat sekvenční identifikátory projektů"
   setting_session_ttl: "Čas vypršení sezení při neaktivitě"
   setting_session_ttl_hint: "Hodnota menší než 5 funguje jako zakázáno"
   setting_session_ttl_enabled: "Platnost relace vyprší"

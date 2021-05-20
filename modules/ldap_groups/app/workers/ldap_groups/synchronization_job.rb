@@ -37,9 +37,7 @@ module LdapGroups
       return unless EnterpriseToken.allows_to?(:ldap_groups)
       return if skipped?
 
-      User.system.run_given do
-        ::LdapGroups::SynchronizationService.synchronize!
-      end
+      ::LdapGroups::SynchronizationService.synchronize!
     end
 
     def skipped?
