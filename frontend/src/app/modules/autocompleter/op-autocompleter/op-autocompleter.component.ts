@@ -85,7 +85,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public minTermLength ? = 0;
   @Input() public editableSearchTerm?:boolean = false;
   @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
-  @Input() public hasDefaultContent:boolean;
   @Input() public typeahead?:Subject<string>;
   // a function for setting the options of ng-select
   @Input() public getOptionsFn: (searchTerm:string) => any;

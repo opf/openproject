@@ -34,7 +34,8 @@ import {
   Input,
   Output,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  NgZone
 } from '@angular/core';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
@@ -60,7 +61,7 @@ import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./wp-relations-autocomplete.sass']
 })
-export class WorkPackageRelationsAutocomplete implements AfterContentInit {
+export class WorkPackageRelationsAutocomplete {
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
@@ -110,9 +111,7 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
       );
   };
   public autocompleterOptions = {
-    filters:[],
     resource:'work_packages',
-    searchKey:'subjectOrId',
     getOptionsFn: this.getAutocompleterData
     };
 
@@ -125,21 +124,13 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
               private readonly halResourceService:HalResourceService,
               private readonly schemaCacheService:SchemaCacheService,
               private readonly cdRef:ChangeDetectorRef,
+              private readonly ngZone:NgZone,
               private readonly I18n:I18nService) {
   }
 
   @HostListener('keydown.escape')
   public reset() {
     this.cancel();
-  }
-
-  ngAfterContentInit():void {
-    if (!this.ngSelectComponent) {
-      return;
-    }
-    setTimeout(() => {
-       this.ngSelectComponent.ngSelectInstance.focus();
-    }, 25);
   }
 
   cancel() {
@@ -160,16 +151,13 @@ export class WorkPackageRelationsAutocomplete implements AfterContentInit {
     onOpen() {
     // Force reposition as a workaround for BUG
     // https://github.com/ng-select/ng-select/issues/1259
-    setTimeout(() => {
-      const component = (this.ngSelectComponent.ngSelectInstance) as any;
-      if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
-
-      jQuery(this.hiddenOverflowContainer).one('scroll', () => {
-        this.ngSelectComponent.ngSelectInstance.close();
-      });
-    }, 25);
-
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.ngSelectComponent.repositionDropdown();
+        jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+          this.ngSelectComponent.closeSelect();
+        });
+      }, 25);    
+    });
   }
 }

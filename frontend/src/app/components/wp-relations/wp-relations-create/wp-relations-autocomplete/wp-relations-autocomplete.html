@@ -1,19 +1,12 @@
 
 <div class="wp-relations--autocomplete">
   <op-autocompleter
-  [classes]="'wp-inline-create--reference-autocompleter'"
+  classes="wp-inline-create--reference-autocompleter"
   [appendTo]="appendToContainer"
-  [multiple]="false"
   [placeholder]="inputPlaceholder"
   [typeToSearchText]="inputPlaceholder"
-  [closeOnSelect]="true"
-  [hasDefaultContent]="true"
   [loading]="isLoading"
-  [filters]="autocompleterOptions.filters"
   [resource]="autocompleterOptions.resource"
-  [searchKey]="autocompleterOptions.searchKey"
-  (open)="onOpen()"
-  [virtualScroll]="true"
   [defaulData]="false"
   (open)="onOpen()"
   (change)="onWorkPackageSelected($event)"
