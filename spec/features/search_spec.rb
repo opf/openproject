@@ -270,9 +270,6 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
 
         table.expect_work_package_subject(work_packages[1].subject)
 
-        # Expect that changing the advanced filters will not affect the global search input.
-        expect(global_search.input.value).to eq query
-
         # Expect that a fresh global search will reset the advanced filters, i.e. that they are closed
         global_search.search work_packages[6].subject, submit: true
 

@@ -35,11 +35,13 @@ import { GlobalSearchTabsComponent } from "core-app/modules/global_search/tabs/g
 import { GlobalSearchTitleComponent } from "core-app/modules/global_search/title/global-search-title.component";
 import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
 import { GlobalSearchWorkPackagesEntryComponent } from "core-app/modules/global_search/global-search-work-packages-entry.component";
+import { OpenprojectAutocompleterModule } from "core-app/modules/autocompleter/openproject-autocompleter.module";
 
 @NgModule({
   imports: [
     OpenprojectCommonModule,
-    OpenprojectWorkPackagesModule
+    OpenprojectWorkPackagesModule,
+    OpenprojectAutocompleterModule
   ],
   providers: [
     GlobalSearchService,

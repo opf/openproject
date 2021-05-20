@@ -36,15 +36,16 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public model?:any;
   @Input() public searchKey?:string = '';
   @Input() public defaulData?:boolean = false;
+  @Input() public focusDirectly?:boolean = true;
+  @Input() public labelRequired?:boolean = true;
   @Input() public name?:string;
   @Input() public required?:boolean = false;
   @Input() public disabled?:string;
   @Input() public searchable?:boolean = true;
   @Input() public clearable?:boolean = true;
   @Input() public addTag?:boolean = false;
+  @Input() public id?:string;
   @Input() public configOptions?:IOPAutocompleterOptions[];
-
-
   @Input() public clearSearchOnAdd?:boolean = true;
   @Input() public classes?:string;
   @Input() public multiple?:boolean = false;
@@ -135,7 +136,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   ngAfterViewInit():void {
-
     if (!this.ngSelectInstance) {
       return;
     }
@@ -157,9 +157,15 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         distinctUntilChanged(),
         switchMap(queryString => this.getOptionsFn(queryString))
       ));
+        
+      if(this.openDirectly) {
+        this.ngSelectInstance.focus();
+        this.repositionDropdown();
+      }
+      else if (this.focusDirectly) {
+        this.ngSelectInstance.focus();
+      }
 
-      this.ngSelectInstance.focus();
-      this.repositionDropdown();
       }, 25);
     });
 
@@ -210,13 +216,15 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   public changed(val:any) {
     this.change.emit(val);
   }
+  public searched(val:any) {
+    this.search.emit(val);
+  }
 
   public blured(val:any) {
     this.blur.emit(val);
   }
 
   public focused(val:any) {
-
     this.focus.emit(val);
   }
 
