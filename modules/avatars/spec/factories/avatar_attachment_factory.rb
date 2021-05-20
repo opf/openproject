@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :avatar_attachment, class: Attachment do
+  factory :avatar_attachment, class: 'Attachment' do
     author       factory: :user
     container    factory: :work_package
     description  { "avatar" }

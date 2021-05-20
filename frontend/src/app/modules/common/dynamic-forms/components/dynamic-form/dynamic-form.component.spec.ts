@@ -1,7 +1,7 @@
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { Component, forwardRef, ViewChild } from "@angular/core";
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from "@angular/platform-browser";
 import { defer, of } from "rxjs";
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
@@ -23,6 +23,7 @@ import { FormattableTextareaInputComponent } from "core-app/modules/common/dynam
 import { DynamicFieldGroupWrapperComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
 import { OpFormFieldComponent } from "core-app/modules/common/forms/form-field/form-field.component";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { DynamicFieldWrapperComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-field-wrapper/dynamic-field-wrapper.component";
 
 @Component({
   template: `
@@ -98,7 +99,6 @@ describe('DynamicFormComponent', () => {
     fields: [
       {
         "type": "textInput",
-        "className": "op-form--field inline-edit--field",
         "key": "name",
         "templateOptions": {
           "required": true,
@@ -110,7 +110,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "integerInput",
-        "className": "op-form--field inline-edit--field",
         "key": "quantity",
         "templateOptions": {
           "required": true,
@@ -122,7 +121,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "textInput",
-        "className": "op-form--field inline-edit--field",
         "key": "identifier",
         "templateOptions": {
           "required": true,
@@ -134,7 +132,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "formattableInput",
-        "className": "op-form--field textarea-wrapper",
         "key": "description",
         "templateOptions": {
           "required": false,
@@ -147,7 +144,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "booleanInput",
-        "className": "op-form--field inline-edit--field inline-edit--boolean-field",
         "key": "public",
         "templateOptions": {
           "required": true,
@@ -159,7 +155,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "booleanInput",
-        "className": "op-form--field inline-edit--field inline-edit--boolean-field",
         "key": "active",
         "templateOptions": {
           "required": true,
@@ -171,7 +166,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "selectInput",
-        "className": "op-form--field inline-edit--field Status",
         "expressionProperties": {},
         "key": "status",
         "templateOptions": {
@@ -197,7 +191,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "formattableInput",
-        "className": "op-form--field textarea-wrapper",
         "key": "statusExplanation",
         "templateOptions": {
           "required": false,
@@ -210,7 +203,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "selectInput",
-        "className": "op-form--field inline-edit--field Subproject of",
         "expressionProperties": {},
         "key": "_links.parent",
         "templateOptions": {
@@ -233,7 +225,6 @@ describe('DynamicFormComponent', () => {
       },
       {
         "type": "dateInput",
-        "className": "op-form--field inline-edit--field",
         "key": "customField12",
         "templateOptions": {
           "required": false,
@@ -304,6 +295,10 @@ describe('DynamicFormComponent', () => {
                 name: "op-dynamic-field-group-wrapper",
                 component: DynamicFieldGroupWrapperComponent,
               },
+              {
+                name: 'op-dynamic-field-wrapper',
+                component: DynamicFieldWrapperComponent,
+              },
             ]
           }),
           NgSelectModule,
@@ -317,6 +312,8 @@ describe('DynamicFormComponent', () => {
           SelectInputComponent,
           BooleanInputComponent,
           DynamicFormsTestingComponent,
+          DynamicFieldGroupWrapperComponent,
+          DynamicFieldWrapperComponent,
           // Skip adding DateInputComponent and FormattableTextareaInputComponent
           // to keep it simple (inheritance test issues).
         ],
@@ -363,7 +360,7 @@ describe('DynamicFormComponent', () => {
     dynamicFormService.getSettingsFromBackend$.and.returnValue(defer(() => Promise.resolve(dynamicFormSettings)));
 
     component.resourcePath = '/api/v3/projects/1234/form';
-    component.ngOnChanges({});
+    component.ngOnChanges({ resourcePath: { currentValue: '/api/v3/projects/1234/form' }} as any);
 
     expect(dynamicFormService.getSettingsFromBackend$).toHaveBeenCalled();
 
@@ -372,7 +369,7 @@ describe('DynamicFormComponent', () => {
 
     expect(fixture.debugElement.query(By.css('[data-qa="op-form--container"]'))).toBeTruthy();
     expect(fixture.debugElement.queryAll(By.css('formly-form')).length).toEqual(1);
-    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(11);
+    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(10);
     expect(fixture.debugElement.queryAll(By.css('op-text-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-formattable-textarea-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-select-input')).length).toEqual(2);
@@ -400,7 +397,7 @@ describe('DynamicFormComponent', () => {
 
     expect(fixture.debugElement.query(By.css('[data-qa="op-form--container"]'))).toBeTruthy();
     expect(fixture.debugElement.queryAll(By.css('formly-form')).length).toEqual(1);
-    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(11);
+    expect(fixture.debugElement.queryAll(By.css('formly-field')).length).toEqual(10);
     expect(fixture.debugElement.queryAll(By.css('op-text-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-formattable-textarea-input')).length).toEqual(2);
     expect(fixture.debugElement.queryAll(By.css('op-select-input')).length).toEqual(2);
@@ -420,7 +417,7 @@ describe('DynamicFormComponent', () => {
     component.showNotifications = false;
 
     component.resourcePath = '/api/v3/projects/1234/form';
-    component.ngOnChanges({});
+    component.ngOnChanges({ resourcePath: { currentValue: '/api/v3/projects/1234/form' }} as any);
     flush();
     fixture.detectChanges();
     submitButton = fixture.debugElement.query(By.css('button[type=submit]'));
@@ -479,11 +476,8 @@ describe('DynamicFormComponent', () => {
     dynamicFormService.getSettingsFromBackend$.and.returnValue(defer(() => Promise.resolve(dynamicFormSettingsForSubmit)));
     dynamicFormService.submit$.and.returnValue(defer(() => Promise.resolve('ok')));
 
-    // Should not show notifications when showNotifications === false
-    component.showNotifications = false;
-
     component.resourcePath = '/api/v3/projects/1234/form';
-    component.ngOnChanges({});
+    component.ngOnChanges({ resourcePath: { currentValue: '/api/v3/projects/1234/form' }} as any);
     flush();
     fixture.detectChanges();
     const submitButton = fixture.debugElement.query(By.css('button[type=submit]'));

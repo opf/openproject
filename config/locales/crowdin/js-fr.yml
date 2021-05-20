@@ -522,6 +522,7 @@ fr:
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
       confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
       use_template: "Utiliser le modèle"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -924,6 +925,7 @@ fr:
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."
     notice_successful_update: "Mise à jour réussie."
+    notice_job_started: "job started."
     notice_bad_request: "Mauvaise requête."
     relations:
       empty: Aucune relation n'existe
@@ -990,6 +992,8 @@ fr:
       project:
         label: 'Projet'
         required: 'Veuillez sélectionner un projet'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Suivante'
         no_results: 'Aucun projet trouvé'
         no_invite_rights: 'You are not allowed to invite members to this project'
@@ -1027,7 +1031,7 @@ fr:
       role:
         label: 'Rôle dans %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Veuillez sélectionner un rôle'
         next_button: 'Suivante'
       message:

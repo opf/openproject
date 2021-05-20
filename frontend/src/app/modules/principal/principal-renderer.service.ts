@@ -6,6 +6,7 @@ import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { PrincipalLike } from "./principal-types";
 import { PrincipalHelper } from "./principal-helper";
 import PrincipalType = PrincipalHelper.PrincipalType;
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 
 export type AvatarSize = 'default'|'medium'|'mini';
 
@@ -108,17 +109,28 @@ export class PrincipalRendererService {
     return fallback;
   }
 
-  private renderUserAvatar(principal:PrincipalLike, fallback:HTMLElement, options:AvatarOptions) {
+  private renderUserAvatar(principal:PrincipalLike, fallback:HTMLElement, options:AvatarOptions):void {
+    const url = this.userAvatarUrl(principal);
+
+    if (!url) {
+      return;
+    }
+
     const image = new Image();
     image.classList.add('op-avatar');
     image.classList.add(`op-avatar_${options.size}`);
-    image.src = this.apiV3Service.users.id(principal.id || '').avatar.toString();
+    image.src = url;
     image.title = principal.name;
     image.alt = principal.name;
     image.onload = function () {
       fallback.replaceWith(image);
       (fallback as any) = undefined;
     };
+  }
+
+  private userAvatarUrl(principal:PrincipalLike):string|null {
+    const id = principal.id || HalResource.idFromLink(principal.href || '');
+    return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
   }
 
   private renderName(principal:PrincipalLike, type:PrincipalType, asLink = true) {

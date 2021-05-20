@@ -1,12 +1,12 @@
 FactoryBot.define do
-  factory :board_grid, class: Boards::Grid do
+  factory :board_grid, class: 'Boards::Grid' do
     project
     name { 'My board' }
     row_count { 1 }
     column_count { 4 }
   end
 
-  factory :board_grid_with_query, class: Boards::Grid do
+  factory :board_grid_with_query, class: 'Boards::Grid' do
     project
     sequence(:name) { |n| "Board with query #{n}" }
     row_count { 1 }
@@ -36,7 +36,7 @@ FactoryBot.define do
     end
   end
 
-  factory :board_grid_with_queries, class: Boards::Grid do
+  factory :board_grid_with_queries, class: 'Boards::Grid' do
     project
     sequence(:name) { |n| "Board with query #{n}" }
     row_count { 1 }
@@ -66,7 +66,7 @@ FactoryBot.define do
     end
   end
 
-  factory :subproject_board, class: Boards::Grid do
+  factory :subproject_board, class: 'Boards::Grid' do
     project
     name { 'My board' }
     row_count { 1 }

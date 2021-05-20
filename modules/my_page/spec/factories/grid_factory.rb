@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :my_page, class: Grids::MyPage do
+  factory :my_page, class: 'Grids::MyPage' do
     user
     row_count { 7 }
     column_count { 4 }

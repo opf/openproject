@@ -21,8 +21,8 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
 
   constructor(
     timezoneService:TimezoneService,
-    private _ngZone: NgZone,
-    private _changeDetectorRef:ChangeDetectorRef,
+    private ngZone: NgZone,
+    private changeDetectorRef:ChangeDetectorRef,
   ) {
     super(timezoneService);
   }
@@ -44,10 +44,10 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
   }
 
   ngAfterViewInit():void {
-    this._ngZone.runOutsideAngular(() => {
+    this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.initializeDatepicker();
-        this._changeDetectorRef.detectChanges();
+        this.changeDetectorRef.detectChanges();
       });
     });
   }

@@ -4,12 +4,11 @@ import {
   testDynamicInputControValueAccessor,
 } from "core-app/modules/common/dynamic-forms/spec/helpers";
 
-describe('TextComponent', () => {
+describe('TextInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
         "type": "textInput" as "textInput",
-        "className": "op-form--field inline-edit--field",
         "key": "testControl",
         "templateOptions": {
           "required": true,

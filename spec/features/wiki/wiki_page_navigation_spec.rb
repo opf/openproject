@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,41 +25,37 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require_relative '../legacy_spec_helper'
-require 'enumerations_controller'
 
-describe EnumerationsController, type: :controller do
-  fixtures :all
+require 'spec_helper'
 
+describe 'Wiki page navigation spec', type: :feature, js: true do
+  shared_let(:admin) { FactoryBot.create :admin }
+  current_user { admin }
+
+  let(:project) { FactoryBot.create :project, enabled_module_names: %w[wiki] }
+  let!(:wiki_page_55) do
+    FactoryBot.create :wiki_page_with_content,
+                      wiki: project.wiki,
+                      title: 'Wiki Page No. 55'
+  end
+  let!(:wiki_pages) do
+    FactoryBot.create_list(:wiki_page_with_content, 30, wiki: project.wiki)
+  end
+
+  # Always use the same user for the wiki pages
+  # that otherwise gets created
   before do
-    session[:user_id] = 1 # admin
+    FactoryBot.set_factory_default(:author, admin)
   end
 
-  it 'should index' do
-    get :index
-    assert_response :success
-    assert_template 'index'
-  end
+  it 'scrolls to the selected page on load (Regression #36937)' do
+    visit project_wiki_path(project, wiki_page_55)
 
-  it 'should destroy enumeration not in use' do
-    post :destroy, params: { id: 7 }
-    assert_redirected_to enumerations_path
-    assert_nil Enumeration.find_by(id: 7)
-  end
+    expect(page).to have_selector('div.wiki-content')
 
-  it 'should destroy enumeration in use' do
-    post :destroy, params: { id: 4 }
-    assert_response :success
-    assert_template 'destroy'
-    refute_nil Enumeration.find_by(id: 4)
-  end
+    expect(page).to have_selector('.title-container h2', text: 'Wiki Page No. 55')
 
-  it 'should destroy enumeration in use with reassignment' do
-    issue = WorkPackage.find_by(priority_id: 4)
-    post :destroy, params: { id: 4, reassign_to_id: 6 }
-    assert_redirected_to enumerations_path
-    assert_nil Enumeration.find_by(id: 4)
-    # check that the issue was reassign
-    assert_equal 6, issue.reload.priority_id
+    # Expect scrolled to menu node
+    expect_element_in_view page.find('.tree-menu--item.-selected', text: 'Wiki Page No. 55')
   end
 end

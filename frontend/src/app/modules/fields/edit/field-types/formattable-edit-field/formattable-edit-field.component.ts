@@ -30,29 +30,8 @@ import { EditFieldComponent } from "core-app/modules/fields/edit/edit-field.comp
 import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import { ICKEditorContext, ICKEditorInstance } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
-export const formattableFieldTemplate = `
-    <div class="textarea-wrapper">
-      <div class="op-ckeditor--wrapper op-ckeditor-element">
-        <op-ckeditor [context]="ckEditorContext"
-                     [content]="rawValue"
-                     (onContentChange)="onContentChange($event)"
-                     (onInitializationFailed)="initializationError = true"
-                     (onInitialized)="onCkeditorSetup($event)"
-                     [ckEditorType]="editorType">
-        </op-ckeditor>
-      </div>
-      <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
-                           [fieldController]="field"
-                           (onSave)="handleUserSubmit()"
-                           (onCancel)="handler.handleUserCancel()"
-                           [saveTitle]="text.save"
-                           [cancelTitle]="text.cancel">
-      </edit-field-controls>
-    </div>
-`;
-
 @Component({
-  template: formattableFieldTemplate,
+  templateUrl: "./formattable-edit-field.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
@@ -67,6 +46,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   public isPreview = false;
   public previewHtml = '';
   public text:any = {};
+  public initialContent:string;
 
   public editorType = this.resource.getEditorTypeFor(this.field.name);
 
@@ -150,6 +130,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   protected initialize() {
+    this.initialContent = this.rawValue;
+
     if (this.resource.isNew && this.editor) {
       // Reset CKEditor when reloading after type/form changes
       this.reset();

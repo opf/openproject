@@ -137,9 +137,10 @@ export class IFCViewerService extends ViewerBridgeService {
     // ('bim.partitioned.split')
     if (this.routeWithViewer) {
       if (this.viewer) {
+        let viewpointOptions = { updateCompositeObjects: true };
         this.viewpointsService
           .getViewPoint$(workPackage, index)
-          .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, {}));
+          .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, viewpointOptions));
       }
     } else {
       // Reload the whole app to get the correct menus and GON data

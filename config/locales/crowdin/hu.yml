@@ -2311,7 +2311,6 @@ hu:
   setting_repository_truncate_at: "Megjelenített fájlok maximális száma a tároló böngészőben"
   setting_rest_api_enabled: "Engedélyezi a REST-alapú webszolgáltatást"
   setting_self_registration: "Önregisztráció"
-  setting_sequential_project_identifiers: "Szekvenciális projekt azonosítók létrehozása"
   setting_session_ttl: "Munkamenet lejárata ennyi tétlenség ideje után"
   setting_session_ttl_hint: "Érték alatt 5 működik, mint a letiltott"
   setting_session_ttl_enabled: "A munkamenet lejárt"

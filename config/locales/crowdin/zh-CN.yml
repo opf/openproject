@@ -2290,7 +2290,6 @@ zh-CN:
   setting_repository_truncate_at: "存储库浏览器中显示的最多的文件个数"
   setting_rest_api_enabled: "启用REST web service"
   setting_self_registration: "自助注册"
-  setting_sequential_project_identifiers: "生成顺序项目标识符"
   setting_session_ttl: "在处于非活动状态后会话过期时间"
   setting_session_ttl_hint: "值低于5的类似禁用"
   setting_session_ttl_enabled: "会话过期"

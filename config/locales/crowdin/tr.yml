@@ -2315,7 +2315,6 @@ tr:
   setting_repository_truncate_at: "Depo tarayıcıda görüntülenen dosya sayısı üst sınırı"
   setting_rest_api_enabled: "REST web hizmetini etkinleştir"
   setting_self_registration: "Kendi kendine kayıt"
-  setting_sequential_project_identifiers: "Sıralı proje tanımlayıcıları oluştur"
   setting_session_ttl: "Hareketsizlikten sonra oturum son kullanma süresi"
   setting_session_ttl_hint: "5'in altındaki değer, devre dışı gibi"
   setting_session_ttl_enabled: "Oturum sona eriyor"

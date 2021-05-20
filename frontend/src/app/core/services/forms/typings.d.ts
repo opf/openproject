@@ -1,38 +1,38 @@
 interface IOPFormSettingsResource {
-  _type?: "Form";
-  _embedded: IOPFormSettings;
-  _links?: {
-    self: IOPApiCall;
-    validate: IOPApiCall;
-    commit: IOPApiCall;
-    previewMarkup?: IOPApiCall;
+  _type?:"Form";
+  _embedded:IOPFormSettings;
+  _links?:{
+    self:IOPApiCall;
+    validate:IOPApiCall;
+    commit:IOPApiCall;
+    previewMarkup?:IOPApiCall;
   };
 }
 
 interface IOPFormSettings {
-  payload: IOPFormModel;
-  schema: IOPFormSchema;
-  validationErrors?: IOPValidationErrors;
+  payload:IOPFormModel;
+  schema:IOPFormSchema;
+  validationErrors?:IOPValidationErrors;
   [nonUsedSchemaKeys:string]:any,
 }
 
 interface IOPFormSchema {
-  _type?: "Schema";
-  _dependencies?: unknown[];
-  _attributeGroups?: IOPAttributeGroup[];
-  lockVersion?: IOPFieldSchema;
-  [fieldKey: string]: IOPFieldSchema | any;
-  _links?: {
-    baseSchema?: {
-      href: string;
+  _type?:"Schema";
+  _dependencies?:unknown[];
+  _attributeGroups?:IOPAttributeGroup[];
+  lockVersion?:number;
+  [fieldKey:string]:IOPFieldSchema | any;
+  _links?:{
+    baseSchema?:{
+      href:string;
     };
   };
 }
 
 interface IOPFormModel {
-  [key: string]: string | number | Object | HalLinkSource | null | undefined;
-  _links?: {
-    [key: string]: IOPFieldModel | IOPFieldModel[] | null;
+  [key:string]:string | number | Object | HalLinkSource | null | undefined;
+  _links?:{
+    [key:string]:IOPFieldModel | IOPFieldModel[] | null;
   };
   _meta?:{
     [key:string]:string|number|Object|HalLinkSource|null|undefined;
@@ -40,33 +40,33 @@ interface IOPFormModel {
 }
 
 interface IOPFieldSchema {
-  type: OPFieldType;
-  writable: boolean;
-  allowedValues?: any;
-  required?: boolean;
-  hasDefault: boolean;
-  name?: string;
-  minLength?: number,
-  maxLength?: number,
-  attributeGroup?: string;
-  location?: '_meta'|'_links'|undefined;
-  options: {
-    [key: string]: any;
+  type:OPFieldType;
+  writable:boolean;
+  allowedValues?:any;
+  required?:boolean;
+  hasDefault:boolean;
+  name?:string;
+  minLength?:number,
+  maxLength?:number,
+  attributeGroup?:string;
+  location?:'_meta'|'_links'|undefined;
+  options:{
+    [key:string]:any;
   };
-  _embedded?: {
-    allowedValues?: IOPApiCall | IOPAllowedValue[];
+  _embedded?:{
+    allowedValues?:IOPApiCall | IOPAllowedValue[];
   };
-  _links?: {
-    allowedValues?: IOPApiCall;
+  _links?:{
+    allowedValues?:IOPApiCall;
   };
 }
 
 interface IOPFieldSchemaWithKey extends IOPFieldSchema {
-  key: string;
+  key:string;
 }
 
 interface IOPFieldModel extends Partial<HalSource>{
-  name?: string;
+  name?:string;
 }
 
 type HalSource = {
@@ -75,13 +75,13 @@ type HalSource = {
 };
 
 interface IOPApiCall {
-  href: string;
-  method?: string;
+  href:string;
+  method?:string;
 }
 
 interface IOPApiOption {
-  href: string;
-  title?: string;
+  href:string;
+  title?:string;
 }
 
 interface IOPAttributeGroup {
@@ -90,17 +90,17 @@ interface IOPAttributeGroup {
     | "WorkPackageFormChildrenQueryGroup"
     | "WorkPackageFormRelationQueryGroup"
     | unknown;
-  name: string;
-  attributes: string[];
+  name:string;
+  attributes:string[];
 }
 
 interface IOPAllowedValue {
-  id: string;
-  name: string;
-  [key: string]: unknown;
-  _links: {
-    self: HalSource | IOPApiOption;
-    [key: string]: HalSource;
+  id:string;
+  name:string;
+  [key:string]:unknown;
+  _links:{
+    self:HalSource | IOPApiOption;
+    [key:string]:HalSource;
   };
 }
 
@@ -112,7 +112,7 @@ interface IOPFormError {
   errorIdentifier:string;
   message:string;
   _type:string;
-  _embedded: IOPFormErrorDetails;
+  _embedded:IOPFormErrorDetails;
 }
 
 interface IFormattedValidationError {
@@ -121,21 +121,21 @@ interface IFormattedValidationError {
 }
 
 interface IOPFormErrorResponse extends IOPFormError {
-  _embedded: IOPFormErrorDetails | IOPFormErrors;
+  _embedded:IOPFormErrorDetails | IOPFormErrors;
 }
 
 interface IOPFormErrorDetails {
-  details: {
-    attribute: string;
+  details:{
+    attribute:string;
   }
 }
 
 interface IOPFormErrors {
-  errors: IOPFormError[];
+  errors:IOPFormError[];
 }
 
 interface IOPValidationErrors {
-  [key: string]: IOPFormError;
+  [key:string]:IOPFormError;
 }
 
 

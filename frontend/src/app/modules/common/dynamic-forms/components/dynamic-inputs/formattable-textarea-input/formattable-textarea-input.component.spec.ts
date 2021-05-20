@@ -11,7 +11,6 @@ describe('FormattableTextareaInputComponent', () => {
     const fieldsConfig = [
       {
         "type": "formattableInput" as "formattableInput",
-        "className": "op-form--field inline-edit--field",
         "key": "testControl",
         "templateOptions": {
           "required": true,
@@ -37,13 +36,13 @@ describe('FormattableTextareaInputComponent', () => {
     };
     const fixture = createDynamicInputFixture(fieldsConfig, formModel);
     const dynamicInput = fixture.debugElement.query(By.css('.document-editor__editable-container')).nativeElement;
-    const dynamicControl = fixture.componentInstance.dynamicControl.field.formControl;
+    const dynamicForm = fixture.componentInstance.dynamicForm.field.formControl;
     const dynamicDebugElement = fixture.debugElement.query(By.css('op-formattable-control'));
     const dynamicElement = dynamicDebugElement.nativeElement;
 
     // Test ControlValueAccessor
     // Write Value
-    expect(dynamicControl.value).toEqual(testModel.initialValue);
+    expect(dynamicForm.value.testControl).toEqual(testModel.initialValue);
     expect(dynamicElement.classList.contains('ng-untouched')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-valid')).toBeTrue();
     expect(dynamicElement.classList.contains('ng-pristine')).toBeTrue();

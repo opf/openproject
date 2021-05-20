@@ -673,6 +673,11 @@ en:
       placeholder: "Type to search"
       parent_placeholder: "Choose new parent or press escape to cancel."
 
+    autocompleter:
+      placeholder: "Type to search"
+      notFoundText: "No items found"
+      typeToSearchText: "Type to search"
+
     repositories:
       select_tag: 'Select tag'
       select_branch: 'Select branch'
@@ -1000,6 +1005,7 @@ en:
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
+    notice_job_started: "job started."
 
     notice_bad_request: "Bad Request."
     relations:
@@ -1071,6 +1077,8 @@ en:
       project:
         label: 'Project'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Next'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'
@@ -1118,7 +1126,7 @@ en:
         no_roles_found: 'No roles were found'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see.
             <a
-              href="%{href}"
+              href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions"
               target="_blank">
               Learn more about roles and permissions.
             </a>'

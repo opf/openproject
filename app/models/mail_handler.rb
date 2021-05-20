@@ -125,6 +125,10 @@ class MailHandler < ActionMailer::Base
     options[:allow_override] << :project unless options[:issue].has_key?(:project)
     # Status overridable by default
     options[:allow_override] << :status unless options[:issue].has_key?(:status)
+    # Version overridable by default
+    options[:allow_override] << :version unless options[:issue].has_key?(:version)
+    # Type overridable by default
+    options[:allow_override] << :type unless options[:issue].has_key?(:type)
     # Priority overridable by default
     options[:allow_override] << :priority unless options[:issue].has_key?(:priority)
     options[:no_permission_check] = options[:no_permission_check].to_s == '1'

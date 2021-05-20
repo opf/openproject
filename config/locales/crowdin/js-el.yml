@@ -521,6 +521,7 @@ el:
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
       confirm_template_load: 'Η αλλαγή του προτύπου θα επαναφορτώσει τη σελίδα και θα χάσετε όλα τα στοιχεία εισόδου σε αυτή τη φόρμα. Συνέχεια?'
       use_template: "Χρήση προτύπου"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -923,6 +924,7 @@ el:
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
     notice_successful_update: "Επιτυχής ενημέρωση."
+    notice_job_started: "job started."
     notice_bad_request: "Εσφαλμένο Αίτημα."
     relations:
       empty: Δεν υπάρχει συσχέτιση
@@ -989,6 +991,8 @@ el:
       project:
         label: 'Έργο'
         required: 'Παρακαλώ επιλέξτε ένα έργο'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Επόμενο'
         no_results: 'Δεν βρέθηκαν έργα'
         no_invite_rights: 'You are not allowed to invite members to this project'
@@ -1026,7 +1030,7 @@ el:
       role:
         label: 'Ρόλος στο %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Παρακαλούμε επιλέξτε ένα ρόλο'
         next_button: 'Επόμενο'
       message:

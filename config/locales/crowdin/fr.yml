@@ -2314,7 +2314,6 @@ fr:
   setting_repository_truncate_at: "Le nombre maiximum de fichiers exposes au navigateur"
   setting_rest_api_enabled: "Autoriser service web REST"
   setting_self_registration: "Auto-enregistrement"
-  setting_sequential_project_identifiers: "Générer les identifiants de projets séquentiellement"
   setting_session_ttl: "Délai d'expiration de session après inactivité"
   setting_session_ttl_hint: "Une valeur inférieur à 5 désactive cette fonction"
   setting_session_ttl_enabled: "Session expirée"

@@ -522,6 +522,7 @@ id:
       click_to_switch_context: 'Buka paket kerja ini dalam proyek tersebut.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -924,6 +925,7 @@ id:
     notice_successful_create: "Berhasil dibuat."
     notice_successful_delete: "Berhasil dihapus."
     notice_successful_update: "Berhasil diperbarui."
+    notice_job_started: "job started."
     notice_bad_request: "Bad Request."
     relations:
       empty: Tidak ada yang berkaitan
@@ -988,6 +990,8 @@ id:
       project:
         label: 'Project'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Lanjut'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'
@@ -1025,7 +1029,7 @@ id:
       role:
         label: 'Role in %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: 'Lanjut'
       message:

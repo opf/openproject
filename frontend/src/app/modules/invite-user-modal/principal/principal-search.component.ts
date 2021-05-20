@@ -119,6 +119,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public createNewFromInput() {
     this.createNew.emit({ name: this.input });
   }
+
   private loadPrincipalData(searchTerm:string) {
     const nonMemberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {

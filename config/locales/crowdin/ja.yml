@@ -2294,7 +2294,6 @@ ja:
   setting_repository_truncate_at: "リポジトリブラウザーで表示するファイルの最大数"
   setting_rest_api_enabled: "RESTによるWebサービスを有効にする"
   setting_self_registration: "ユーザーよるアカウント登録"
-  setting_sequential_project_identifiers: "プロジェクト識別子を連番で生成する"
   setting_session_ttl: "無操作タイムアウト"
   setting_session_ttl_hint: "5未満の値は無効にすると同様"
   setting_session_ttl_enabled: "セッションの有効期限"

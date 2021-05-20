@@ -521,6 +521,7 @@ ro:
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
       confirm_template_load: 'Schimbarea șablonului va reîncărca pagina și veți pierde toate datele introduse în acest formular. Continuați?'
       use_template: "Utilizează șablon"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -923,6 +924,7 @@ ro:
     notice_successful_create: "Creare reuşită."
     notice_successful_delete: "Ştergere reuşită."
     notice_successful_update: "Actualizare reușită."
+    notice_job_started: "job started."
     notice_bad_request: "Cerere invalidă."
     relations:
       empty: Nu există relații
@@ -991,6 +993,8 @@ ro:
       project:
         label: 'Proiect'
         required: 'Vă rugăm să selectați un proiect'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Înainte'
         no_results: 'Nu au fost găsite proiecte'
         no_invite_rights: 'Nu aveți voie să invitați membri în acest proiect'
@@ -1028,7 +1032,7 @@ ro:
       role:
         label: 'Rolul în %{project}'
         no_roles_found: 'No roles were found'
-        description: 'Acesta este rolul pe care %{principal} îl va primi atunci când se va alătura proiectului dumneavoastră. Rolul definește acțiunile pe care le pot întreprinde și informațiile pe care le pot vedea. <a href="%{href}" target="_blank"> Aflați mai multe despre roluri și permisiuni </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Vă rugăm să selectați un rol'
         next_button: 'Înainte'
       message:

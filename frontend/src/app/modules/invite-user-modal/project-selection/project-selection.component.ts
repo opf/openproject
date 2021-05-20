@@ -11,13 +11,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { take } from "rxjs/operators";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { BannersService } from "core-app/modules/common/enterprise/banners.service";
 import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
 import { IOpOptionListOption } from "core-app/modules/common/option-list/option-list.component";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { PrincipalType } from '../invite-user.component';
+import { ProjectAllowedValidator } from './project-allowed.validator';
 
 @Component({
   selector: 'op-ium-project-selection',
@@ -35,6 +35,8 @@ export class ProjectSelectionComponent implements OnInit {
     title: this.I18n.t('js.invite_user_modal.title.invite'),
     project: {
       required: this.I18n.t('js.invite_user_modal.project.required'),
+      lackingPermission: this.I18n.t('js.invite_user_modal.project.lacking_permission'),
+      lackingPermissionInfo: this.I18n.t('js.invite_user_modal.project.lacking_permission_info'),
     },
     type: {
       required: this.I18n.t('js.invite_user_modal.type.required'),
@@ -57,7 +59,7 @@ export class ProjectSelectionComponent implements OnInit {
 
   projectAndTypeForm = new FormGroup({
     type: new FormControl(PrincipalType.User, [ Validators.required ]),
-    project: new FormControl(null, [ Validators.required ]),
+    project: new FormControl(null, [ Validators.required ], ProjectAllowedValidator(this.currentUserService))
   });
 
   get typeControl() { return this.projectAndTypeForm.get('type'); }
@@ -91,17 +93,11 @@ export class ProjectSelectionComponent implements OnInit {
         disabled: true,
       });
     } else {
-      this.currentUserService.capabilities$.pipe(take(1)).subscribe((capabilities) => {
-        if (!capabilities.find(c => c.action.href.endsWith('/placeholder_users/read'))) {
-          return;
-        }
-        // We only add the option if the user has placeholder read rights
-        this.typeOptions.push({
-          value: PrincipalType.Placeholder,
-          title: this.I18n.t('js.invite_user_modal.type.placeholder.title'),
-          description: this.I18n.t('js.invite_user_modal.type.placeholder.description'),
-          disabled: false,
-        });
+      this.typeOptions.push({
+        value: PrincipalType.Placeholder,
+        title: this.I18n.t('js.invite_user_modal.type.placeholder.title'),
+        description: this.I18n.t('js.invite_user_modal.type.placeholder.description'),
+        disabled: false,
       });
     }
   }

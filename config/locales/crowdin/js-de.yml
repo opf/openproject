@@ -34,18 +34,18 @@ de:
       remove: "Entferne %{name}"
       active: "Aktive %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Anhänge können ggf. nicht mit eingebunden werden, da sie die maximal zulässige Gesamtgröße überschreiten. Sie können dies über die Konfiguration ändern (erfordert einen Neustart des Servers).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Sie können hier ein Backup auslösen. Der Prozess kann je nach Datenmenge (insbesondere bei Anhängen) einige Zeit in Anspruch nehmen. Sie erhalten eine E-Mail, sobald das Backup verfügbar ist.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        Ein neues Backup wird alle vorherigen überschreiben. Es kann nur eine begrenzte Anzahl von Backups pro Tag angefordert werden.
+      last_backup: Letztes Backup
+      last_backup_from: Letztes Backup von
+      title: Backup für OpenProject erstellen
       options: Optionen
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Anhänge einschließen
+      download_backup: Backup herunterladen
+      request_backup: Backup anfordern
     close_popup_title: "Dialog schließen"
     close_filter_title: "Filter schließen"
     close_form_title: "Formular schließen"
@@ -521,8 +521,9 @@ de:
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       use_template: "Projektvorlage verwenden"
+      no_template_selected: "(Keine)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Kopieroptionen"
       autocompleter:
         label: 'Projekt Auto-Vervollständigung'
     text_are_you_sure: "Sind Sie sicher?"
@@ -923,6 +924,7 @@ de:
     notice_successful_create: "Erfolgreich angelegt."
     notice_successful_delete: "Erfolgreich gelöscht."
     notice_successful_update: "Erfolgreich aktualisiert."
+    notice_job_started: "job started."
     notice_bad_request: "Fehlerhafte Anfrage."
     relations:
       empty: Keine bestehenden Beziehungen
@@ -989,6 +991,8 @@ de:
       project:
         label: 'Projekt'
         required: 'Bitte wählen Sie ein Projekt'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Weiter'
         no_results: 'Keine Projekte gefunden'
         no_invite_rights: 'Sie dürfen keine Mitglieder zu diesem Projekt hinzufügen'
@@ -1025,8 +1029,8 @@ de:
           group: 'Bitte wählen Sie eine Gruppe'
       role:
         label: 'Rolle in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        no_roles_found: 'Keine Rollen gefunden'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Bitte eine Rolle auswählen'
         next_button: 'Weiter'
       message:
@@ -1043,9 +1047,9 @@ de:
           group: 'Die Gruppe ist nun %{project} zugewiesen. In der Zwischenzeit können Sie bereits mit dieser Gruppe planen und ihr zum Beispiel Arbeitspakete zuweisen.'
         next_button: 'Fortfahren'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
+      load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'
+      validation_error_message: 'Bitte die Fehler im Formular beheben'
       advanced_settings: 'Erweiterte Einstellungen'
 
 

@@ -106,8 +106,9 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
     this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then(() => {
-        const initialTab = this.locals['initialTab'] || this.availableTabs[0].name;
-        this.switchTo(initialTab);
+        const initialTabName = this.locals['initialTab'];
+        const initialTab = this.availableTabs.find(el => el.id === initialTabName);
+        this.switchTo(initialTab || this.availableTabs[0]);
       });
   }
 
@@ -124,8 +125,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(name:string) {
-    this.tabPortalHost.switchTo(name);
+  public switchTo(tab:TabInterface) {
+    this.tabPortalHost.switchTo(tab);
   }
 
   public saveChanges():void {

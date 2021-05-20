@@ -522,6 +522,7 @@ ko:
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
       confirm_template_load: '템플릿을 전환하면 페이지가 다시 로드되고 이 양식에 대한 모든 입력이 손실됩니다. 계속하시겠습니까?'
       use_template: "템플릿 사용"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -924,6 +925,7 @@ ko:
     notice_successful_create: "생성에 성공했습니다."
     notice_successful_delete: "삭제에 성공했습니다."
     notice_successful_update: "업데이트에 성공했습니다."
+    notice_job_started: "job started."
     notice_bad_request: "잘못된 요청입니다."
     relations:
       empty: 관계가 없습니다.
@@ -988,6 +990,8 @@ ko:
       project:
         label: '프로젝트'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: '다음'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'
@@ -1025,7 +1029,7 @@ ko:
       role:
         label: 'Role in %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: '다음'
       message:

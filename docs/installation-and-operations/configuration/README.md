@@ -47,6 +47,7 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
 * [`enterprise_limits`](#enterprise-limits)
 * [`backup_enabled`](#backup-enabled)
+* [`show_community_links`](#show-community-links)
 
 ## Setting session options
 
@@ -414,6 +415,14 @@ As usual this can be override via the environment, for example like this:
 OPENPROJECT_BACKUP__ENABLED=true
 OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS=true
 OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB=1024
+```
+
+### Show community links
+
+If you would like to hide the homescreen links to the OpenProject community, you can do this with the following configuration:
+
+```
+OPENPROJECT_SHOW__COMMUNITY__LINKS=false
 ```
 
 | ----------- | :---------- |
