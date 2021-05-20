@@ -145,7 +145,7 @@ import {
 import {
   AttributeHelpTextComponent,
   attributeHelpTextSelector
-} from "core-app/modules/fields/help-texts/attribute-help-text.component";
+} from "core-app/modules/attribute-help-texts/attribute-help-text.component";
 import {
   quickInfoMacroSelector,
   WorkPackageQuickinfoMacroComponent

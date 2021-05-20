@@ -59,9 +59,10 @@ module OpenProject::GithubIntegration
       # Returns:
       #  - Array<WorkPackage>
       def find_visible_work_packages(ids, user)
-        WorkPackage.includes(:project)
-                  .where(id: ids)
-                  .select { |wp| user.allowed_to?(:add_work_package_notes, wp.project) }
+        WorkPackage
+          .includes(:project)
+          .where(id: ids)
+          .select { |wp| user.allowed_to?(:add_work_package_notes, wp.project) }
       end
 
       # Returns a list of `WorkPackage`s that were referenced in the `text` and are visible to the given `user`.

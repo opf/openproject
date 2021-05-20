@@ -1,6 +1,8 @@
 .op-avatar
   border-radius: var(--user-avatar-border-radius)
   width: var(--user-avatar-width)
+  // min-width was added because the avatar was getting squished as a flex-child
+  min-width: var(--user-avatar-width) 
   height: var(--user-avatar-height)
   margin-right: 5px
   color: white
@@ -9,19 +11,19 @@
   vertical-align: middle
   cursor: inherit
   user-select: none
+  background-color: var(--user-avatar-default-bg-color)
+  // Default size
+  line-height: 36px
+  font-size: 16px
 
   // Fallback avatar if no img tag gets rendered
   &--fallback
     max-width: none
 
-  // Default size
-  line-height: 34px
-  font-size: 16px
-  background-color: var(--user-avatar-default-bg-color)
-
   &_mini
     border-radius: var(--user-avatar-mini-border-radius)
     width: var(--user-avatar-mini-width)
+    min-width: var(--user-avatar-mini-width) 
     height: var(--user-avatar-mini-height)
     margin-right: 10px -5px
     line-height: var(--user-avatar-mini-height)
@@ -30,6 +32,7 @@
   &_medium
     border-radius: var(--user-avatar-medium-border-radius)
     width: var(--user-avatar-medium-width)
+    min-width: var(--user-avatar-medium-width) 
     height: var(--user-avatar-medium-height)
     line-height: var(--user-avatar-medium-height)
     font-size: 13px

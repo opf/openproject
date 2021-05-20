@@ -38,11 +38,11 @@ services:
 installer: https://github.com/pkgr/installer.git
 wizards:
   - https://github.com/pkgr/addon-legacy-installer.git
-  - https://github.com/opf/addon-openproject-edition.git
+  - ./packaging/addons/openproject-edition
   - https://github.com/pkgr/addon-postgres
   - https://github.com/pkgr/addon-apache2.git
-  - https://github.com/opf/addon-repositories.git
+  - ./packaging/addons/repositories
   - https://github.com/pkgr/addon-smtp.git
   - https://github.com/pkgr/addon-memcached.git
-  - https://github.com/opf/addon-openproject.git
+  - ./packaging/addons/openproject
 buildpack: https://github.com/opf/heroku-buildpack-multi.git

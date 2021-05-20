@@ -27,23 +27,20 @@
 //++
 
 import copy from 'copy-text-to-clipboard';
-import {Component, Inject, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import { GitActionsService} from '../git-actions/git-actions.service';
+import { Component, Inject, Input } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { GitActionsService } from '../git-actions/git-actions.service';
 import { OPContextMenuComponent } from 'core-app/components/op-context-menu/op-context-menu.component';
-import { OpContextMenuLocalsMap, OpContextMenuLocalsToken } from 'core-app/components/op-context-menu/op-context-menu.types';
+import {
+  OpContextMenuLocalsMap,
+  OpContextMenuLocalsToken
+} from 'core-app/components/op-context-menu/op-context-menu.types';
+import { ITab } from "core-app/modules/plugins/linked/openproject-github_integration/typings";
 
-interface Tab {
-  label:string,
-  help:string,
-  selected:boolean,
-  lines:number,
-  textToCopy: ()=>string
-}
 
 @Component({
-  selector: 'git-actions-menu',
+  selector: 'op-git-actions-menu',
   templateUrl: './git-actions-menu.template.html',
   styleUrls: [
     './styles/git-actions-menu.sass'
@@ -64,29 +61,31 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
   public lastCopyResult:string = this.text.copyResult.success;
   public showCopyResult:boolean = false;
 
-  public tabs:Tab[] = [
+  public tabs:ITab[] = [
     {
-      label: this.I18n.t('js.github_integration.tab_header.git_actions.branch'),
+      id: 'branch',
+      name: this.I18n.t('js.github_integration.tab_header.git_actions.branch'),
       help: this.I18n.t('js.github_integration.tab_header.git_actions.branch_help'),
-      selected: true,
       lines: 1,
       textToCopy: () => this.gitActions.branchName(this.workPackage)
     },
     {
-      label: this.I18n.t('js.github_integration.tab_header.git_actions.message'),
+      id: 'message',
+      name: this.I18n.t('js.github_integration.tab_header.git_actions.message'),
       help: this.I18n.t('js.github_integration.tab_header.git_actions.message_help'),
-      selected: false,
       lines: 6,
       textToCopy: () => this.gitActions.commitMessage(this.workPackage)
     },
     {
-      label: this.I18n.t('js.github_integration.tab_header.git_actions.cmd'),
+      id: 'command',
+      name: this.I18n.t('js.github_integration.tab_header.git_actions.cmd'),
       help: this.I18n.t('js.github_integration.tab_header.git_actions.cmd_help'),
-      selected: false,
       lines: 6,
       textToCopy: () => this.gitActions.gitCommand(this.workPackage)
     },
   ];
+
+  public selectedTab:ITab = this.tabs[0];
 
   constructor(@Inject(OpContextMenuLocalsToken)
               public locals:OpContextMenuLocalsMap,
@@ -96,18 +95,8 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
     this.workPackage = this.locals.workPackage;
   }
 
-  public selectedTab():Tab {
-    const selectedTabs = this.tabs.filter((tab)=>tab.selected);
-    return(selectedTabs[0] || this.tabs[0]);
-  }
-
-  public selectTab(tab:Tab) {
-    this.tabs.forEach(tab => tab.selected = false);
-    tab.selected = true;
-  }
-
-  public onCopyButtonClick() {
-    const success = copy(this.selectedTab().textToCopy())
+  public onCopyButtonClick():void {
+    const success = this.copySelectedTabText();
 
     if (success) {
       this.lastCopyResult = this.text.copyResult.success;
@@ -115,6 +104,12 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
       this.lastCopyResult = this.text.copyResult.error;
     }
     this.showCopyResult = true;
-    window.setTimeout(() => { this.showCopyResult = false;}, 2000);
+    window.setTimeout(() => {
+      this.showCopyResult = false;
+    }, 2000);
+  }
+
+  public copySelectedTabText():boolean {
+    return copy(this.selectedTab.textToCopy());
   }
 }

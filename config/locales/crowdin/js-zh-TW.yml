@@ -521,6 +521,7 @@ zh-TW:
       click_to_switch_context: '在該專案中打開此工作項目。'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "使用範本"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -923,6 +924,7 @@ zh-TW:
     notice_successful_create: "建立成功"
     notice_successful_delete: "刪除成功"
     notice_successful_update: "更新成功"
+    notice_job_started: "job started."
     notice_bad_request: "錯誤的請求"
     relations:
       empty: 無關聯存在
@@ -987,6 +989,8 @@ zh-TW:
       project:
         label: '專案'
         required: 'Please select a project'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: '下一個'
         no_results: 'No projects were found'
         no_invite_rights: 'You are not allowed to invite members to this project'
@@ -1023,7 +1027,8 @@ zh-TW:
           group: 'Please select a group'
       role:
         label: 'Role in %{project}'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="%{href}" target="_blank"> Learn more about roles and permissions. </a>'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: '下一個'
       message:

@@ -272,17 +272,6 @@ describe Project, type: :model do
     assert !versions.map(&:id).include?(6)
   end
 
-  it 'should next identifier' do
-    ProjectCustomField.delete_all
-    Project.create!(name: 'last', identifier: 'p2008040')
-    assert_equal 'p2008041', Project.next_identifier
-  end
-
-  it 'should next identifier first project' do
-    Project.delete_all
-    assert_nil Project.next_identifier
-  end
-
   context 'with modules',
           with_settings: { default_projects_modules: ['work_package_tracking', 'repository'] } do
     it 'should enabled module names' do

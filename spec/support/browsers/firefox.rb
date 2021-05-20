@@ -2,8 +2,6 @@
 require 'webdrivers/geckodriver'
 require 'socket'
 
-::Webdrivers.logger.level = :DEBUG
-
 def register_firefox(language, name: :"firefox_#{language}")
   require 'selenium/webdriver'
 

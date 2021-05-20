@@ -42,3 +42,4 @@ de:
           copy_error: Kopieren fehlgeschlagen!
       tab_prs:
         empty: 'Es sind noch keine Pull-Requests verknüpft. Verknüpfen Sie eine existierende PR mit dem Code <code>OP#%{wp_id}</code> in der PR-Beschreibung oder erstellen Sie einen neuen PR.'
+      github_actions: Aktionen

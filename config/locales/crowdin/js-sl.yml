@@ -521,6 +521,7 @@ sl:
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
       confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
       use_template: "Uporabi predlogo"
+      no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -923,6 +924,7 @@ sl:
     notice_successful_create: "Ustvarjanje uspelo."
     notice_successful_delete: "Uspešen izbris."
     notice_successful_update: "Posodobitev uspela."
+    notice_job_started: "job started."
     notice_bad_request: "Napačen zahtevek."
     relations:
       empty: Ni relacij
@@ -993,6 +995,8 @@ sl:
       project:
         label: 'Projekt'
         required: 'Prosim izberi projekt'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Naprej'
         no_results: 'Nobeni projekti niso bili najdeni'
         no_invite_rights: 'Nimate dovoljenja za vabljenje članov v ta projekt'
@@ -1029,7 +1033,8 @@ sl:
           group: 'Izberite skupino.'
       role:
         label: 'Vloge v %{project}'
-        description: 'To je vloga, ki jo bo %{principal} prejel/a ko si pridruži tvojemu projektu. Vloga določi katere akcije lahko ubere in katere informacije lahko vidi. <a href="%{href}" target="_blank"> Preberi več o vlogah in dovoljenjih. </a>'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Izberite vlogo'
         next_button: 'Naprej'
       message:

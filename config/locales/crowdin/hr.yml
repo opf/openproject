@@ -223,6 +223,8 @@ hr:
       versions:
         no_results_title_text: Trenutno nema dostupnih novih verzija projekta.
         no_results_content_text: Dodaj novu verziju projekta
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Trenutno nema korisnika koji su dio ovog projekta.
@@ -2330,7 +2332,6 @@ hr:
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "Omogući REST web servis"
   setting_self_registration: "Samo-registracija"
-  setting_sequential_project_identifiers: "Generate sequential project identifiers"
   setting_session_ttl: "Session expiry time after inactivity"
   setting_session_ttl_hint: "Value below 5 works like disabled"
   setting_session_ttl_enabled: "Sesija je istekla"

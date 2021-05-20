@@ -121,7 +121,7 @@ export class DatePicker {
     // multiple scrolls event when it is open
     const target = event.target! as HTMLInputElement;
 
-    if (target.classList.contains('flatpickr-monthDropdown-months')) {
+    if (target?.classList?.contains('flatpickr-monthDropdown-months')) {
       return;
     }
 

@@ -187,8 +187,8 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
           href: this.$state.href(
-            splitViewRoute(this.$state) + '.overview',
-            { workPackageId: this.workPackageId }),
+            splitViewRoute(this.$state) + '.tabs',
+            { workPackageId: this.workPackageId, tabIdentifier: 'overview' }),
           linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQuery.TriggeredEvent) => {
             if (LinkHandling.isClickedWithModifier($event)) {
@@ -196,8 +196,8 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             }
 
             this.$state.go(
-              splitViewRoute(this.$state) + '.overview',
-              { workPackageId: this.workPackageId }
+              splitViewRoute(this.$state) + '.tabs',
+              { workPackageId: this.workPackageId, tabIdentifier: 'overview' }
             );
             return true;
           }

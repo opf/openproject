@@ -101,7 +101,7 @@ export class CurrentUserService {
               .fill(null)
               .map((_, i) => this.apiV3Service.capabilities.list({
                 pageSize: this.PAGE_FETCH_SIZE,
-                offset: this.PAGE_FETCH_SIZE * (i + 1),
+                offset: i + 2, // Page offsets are 1-indexed, and we already fetched the first page
                 filters,
               }));
 

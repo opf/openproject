@@ -89,7 +89,13 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     name: 'work-packages.show',
     url: '/{workPackageId:[0-9]+}',
     // Redirect to 'activity' by default.
-    redirectTo: 'work-packages.show.activity',
+    redirectTo: (trans) => {
+      const params = trans.params('to');
+      return {
+        state: 'work-packages.show.tabs',
+        params: { ...params, tabIdentifier: 'activity' }
+      };
+    },
     component: WorkPackagesFullViewComponent,
     data: {
       baseRoute: 'work-packages',
@@ -99,44 +105,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     }
   },
   {
-    name: 'work-packages.show.activity',
-    url: '/activity',
-    component: WorkPackageActivityTabComponent,
-    data: {
-      parent: 'work-packages.show',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.show.activity.details',
-    url: '/activity/details/#{activity_no:\d+}',
-    component: WorkPackageActivityTabComponent,
-    data: {
-      parent: 'work-packages.show',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.show.relations',
-    url: '/relations',
-    component: WorkPackageRelationsTabComponent,
-    data: {
-      parent: 'work-packages.show',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.show.watchers',
-    url: '/watchers',
-    component: WorkPackageWatchersTabComponent,
-    data: {
-      parent: 'work-packages.show',
-      menuItem: menuItemClass
-    }
-  },
-  {
     name: 'work-packages.show.tabs',
-    url: '/tabs/:tabIdentifier',
+    url: "/:tabIdentifier",
     component: WpTabWrapperComponent,
     data: {
       parent: 'work-packages.show',

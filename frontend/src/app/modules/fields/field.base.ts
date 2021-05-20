@@ -75,7 +75,7 @@ export class Field extends UntilDestroyedMixin {
   }
 
   public isEmpty():boolean {
-    return !this.value;
+    return this.value === undefined || this.value === null || this.value === '';
   }
 
   public get unknownAttribute():boolean {

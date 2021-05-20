@@ -96,7 +96,11 @@ describe 'Project templates', type: :feature, js: true do
 
       # Updates the identifier in advanced settings
       page.find('.form--fieldset-legend', text: 'ADVANCED SETTINGS').click
-      status_field.expect_selected 'On track'
+      status_field.expect_selected 'ON TRACK'
+
+      # It does not show the copy meta flags
+      expect(page).to have_no_selector('[data-qa-field-name="copyMembers"]')
+      expect(page).to have_no_selector('[data-qa-field-name="sendNotifications"]')
 
       # Update status to off track
       status_field.select_option 'Off track'

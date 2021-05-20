@@ -35,6 +35,7 @@ See docs/COPYRIGHT.rdoc for more details.
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   <meta name="viewport" content="width=device-width">
   <%= output_title_and_meta_tags %>
+  <%= sentry_frontend_tags %>
 
   <% relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || '' %>
   <meta name="app_base_path" content="<%= relative_url_root %>"/>
@@ -50,16 +51,6 @@ See docs/COPYRIGHT.rdoc for more details.
           data-name="<%= User.current.name %>"
           data-mail="<%= User.current.mail %>"
           data-id="<%= User.current.id %>" />
-  <% end %>
-
-  <% if OpenProject::Configuration.sentry_frontend_dsn %>
-    <%= tag :meta,
-            name: 'openproject_sentry',
-            data: {
-              dsn: OpenProject::Configuration.sentry_frontend_dsn,
-              version: OpenProject::VERSION.to_s,
-              tracing_rate: OpenProject::Configuration.sentry_traces_sample_rate
-            } %>
   <% end %>
 
   <meta name="openproject_initializer"
@@ -178,7 +169,7 @@ See docs/COPYRIGHT.rdoc for more details.
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"
-                 data-modal-class-name="onboarding-modal -highlight">
+                 data-modal-class-name="onboarding-modal op-modal_autoheight -highlight">
           <%= render partial: '/onboarding/configuration_modal' %>
         </section>
       <% end %>

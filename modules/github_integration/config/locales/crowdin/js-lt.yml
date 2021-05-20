@@ -42,3 +42,4 @@ lt:
           copy_error: '❌ Kopijavimas nepavyko!'
       tab_prs:
         empty: 'Dar nėra susietų įtraukimo užklausų (PR). Susiekite esamą PR naudojant kodą <code>OP#%{wp_id}</code> PR aprašyme arba sukurkite naują PR.'
+      github_actions: Veiksmai

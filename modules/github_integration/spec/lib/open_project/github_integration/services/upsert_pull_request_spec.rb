@@ -123,11 +123,31 @@ describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
 
   context 'when a partial github pull request with that html_url already exists' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request, github_html_url: 'https://github.com/test_user/repo', state: 'partial')
+      FactoryBot.create(:github_pull_request,
+                        github_id: nil,
+                        changed_files_count: nil,
+                        body: nil,
+                        comments_count: nil,
+                        review_comments_count: nil,
+                        additions_count: nil,
+                        deletions_count: nil,
+                        github_html_url: 'https://github.com/test_user/repo',
+                        state: 'closed')
     end
 
     it 'updates the github pull request' do
-      expect { upsert }.to change { github_pull_request.reload.state }.from('partial').to('open')
+      expect { upsert }.to change { github_pull_request.reload.state }.from('closed').to('open')
+
+      expect(github_pull_request).to have_attributes(
+        github_id: 123,
+        state: 'open',
+        number: 5,
+        title: 'The PR title',
+        body: 'The PR body',
+        github_html_url: 'https://github.com/test_user/repo',
+        github_updated_at: DateTime.parse('20210409T12:13:14Z'),
+        repository: 'test_user/repo'
+      )
     end
   end
 

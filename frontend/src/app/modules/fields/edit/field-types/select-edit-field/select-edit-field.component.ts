@@ -36,7 +36,6 @@ import { from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
 import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
-import { PermissionsService } from 'core-app/core/services/permissions/permissions.service';
 import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
 import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 import { StateService } from "@uirouter/core";
@@ -53,7 +52,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
   @InjectField() halNotification:HalResourceNotificationService;
   @InjectField() halSorting:HalResourceSortingService;
-  @InjectField() permissionsService:PermissionsService;
   @InjectField() $state:StateService;
   @InjectField(EditFormComponent, null, InjectFlags.Optional) editFormComponent:EditFormComponent;
 
@@ -136,11 +134,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   initializeShowAddButton() {
-    if (this.schema.type === 'User') {
-      this.permissionsService
-        .canInviteUsersToProject()
-        .subscribe(canInviteUsersToProject => this.showAddNewButton = canInviteUsersToProject);
-    }
+    this.showAddNewButton = this.schema.type === 'User';
   }
 
   protected initialValueLoading() {

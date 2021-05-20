@@ -4,6 +4,7 @@ module FormFields
   class InputFormField < FormField
 
     def expect_value(value)
+      scroll_to_element(field_container)
       expect(field_container).to have_selector('input') { |el| el.value == value }
     end
 

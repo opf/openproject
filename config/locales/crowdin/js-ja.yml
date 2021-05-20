@@ -40,12 +40,12 @@ ja:
         ここでは、バックアップを開始することができます。データ（特に添付ファイル）の量によっては、処理に時間がかかる場合があります。準備が整うとメールが届きます。
       note: >
         新しいバックアップは以前のバックアップを上書きします。1日にリクエストできるバックアップの数には限りがあります。
-      last_backup: Last backup
-      last_backup_from: Last backup from
+      last_backup: 前回バックアップ
+      last_backup_from: 前回バックアップ日
       title: OpenProject のバックアップ
       options: オプション
       include_attachments: 添付ファイルを含める
-      download_backup: Download backup
+      download_backup: バックアップのダウンロード
       request_backup: バックアップをリクエスト
     close_popup_title: "ポップアップを閉じる"
     close_filter_title: "フィルタを閉じる"
@@ -219,9 +219,9 @@ ja:
           test_ee: "エンタープライズ版を14日間無料でテストする"
           quick_overview: "OpenProject Enterprise Edition でのプロジェクト管理とチームコラボレーションの概要をご確認ください。"
         upsale:
-          become_hero: "ヒーローになる!"
+          become_hero: "ヒーローになろう!"
           benefits:
-            description: "オンプレミス版エンタープライズエディションにはどのようなメリットがありますか？"
+            description: "オンプレミス版 Enterprise Edition にはどのようなメリットがありますか？"
             high_security: "セキュリティ機能"
             high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
             installation: "インストールサポート"
@@ -282,7 +282,7 @@ ja:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "新しい機能と製品の更新について表示する"
+          text_new_features: "新しい機能と製品の更新について紹介します。"
           learn_about: "新機能の詳細はこちら"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
@@ -479,10 +479,10 @@ ja:
         next: '次へ'
         got_it: '了承'
       steps:
-        help_menu: '<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！'
+        help_menu: '<b>ヘルプ</b>メニューには、ユーザーガイドやその他のヘルプリソースがあります。 <br> OpenProject と共にあなたの仕事を楽しんでください！'
         members: '新しい<b>メンバー</b>を招待してプロジェクトに参加してください。'
         project_selection: '便利なデモデータを含むプロジェクトを１つ選択して開始してください。 <br> <b>デモプロジェクト</b>は伝統的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: '新しいプロジェクトを作成したり、同僚を招待したりすることができます。'
         sidebar_arrow: "矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。"
         welcome: '3分間の導入ツアーで、最も<b>重要な機能</b>を確認します。 <br>最後まで手順を完了することをお勧めします。 ツアーはいつでも再開できます。'
         wiki: '<b>Wiki</b>内ではチームと一緒に知識を文書化して共有することができます。'
@@ -525,8 +525,9 @@ ja:
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
       confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
       use_template: "テンプレートを使用"
+      no_template_selected: "(None)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "コピーオプション"
       autocompleter:
         label: 'プロジェクト名の入力補完'
     text_are_you_sure: "よろしいですか？"
@@ -539,7 +540,7 @@ ja:
           警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
            
           コンテキスト| リクエストコンテキスト
-        upgrade_to_ee: "オンプレミス版エンタープライズエディションへのアップグレード"
+        upgrade_to_ee: "オンプレミス版 Enterprise Edition へのアップグレード"
         upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
         more_information: "詳細情報"
         nevermind: "無視"
@@ -929,6 +930,7 @@ ja:
     notice_successful_create: "正常に作成しました。"
     notice_successful_delete: "正常に削除しました。"
     notice_successful_update: "正常に更新しました。"
+    notice_job_started: "job started."
     notice_bad_request: "不正な要求です。"
     relations:
       empty: 関係は存在しません
@@ -993,6 +995,8 @@ ja:
       project:
         label: 'プロジェクト'
         required: 'プロジェクトを選択してください'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: '次へ'
         no_results: 'プロジェクトが見つかりませんでした'
         no_invite_rights: 'このプロジェクトにメンバーを招待することは許可されていません'
@@ -1029,7 +1033,8 @@ ja:
           group: 'グループを選択してください'
       role:
         label: '%{project} でのロール'
-        description: 'これは、 %{principal} がプロジェクトに参加したときに受け取るロールです。ロールは、どのような行動を取ることができるか、どのような情報を見ることができるかを定義します。<a href="%{href}" target="_blank">ロールとパーミッションについての詳細はこちら。</a>'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'ロールを選択してください'
         next_button: '次へ'
       message:

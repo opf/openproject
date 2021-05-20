@@ -74,8 +74,8 @@ sl:
       book_now: 'Rezerviraj'
       get_quote: 'Pridobite ponudbo'
   announcements:
-    show_until: Pokažite dokler
-    is_active: Trenutno prikazano
+    show_until: Prikaži dokler
+    is_active: trenutno prikazano
     is_inactive: trenutno ni prikazano
   attribute_help_texts:
     note_public: 'Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom!'
@@ -222,6 +222,8 @@ sl:
       versions:
         no_results_title_text: Trenutno ni nobene različice za projekt.
         no_results_content_text: Ustvari novo različico
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Trenutno ni nobenega člana tega projekta.
@@ -2344,7 +2346,6 @@ sl:
   setting_repository_truncate_at: "Največje število datotek prikazanih v brskalniku za odlagališče"
   setting_rest_api_enabled: "Omogoči REST spletno storitev"
   setting_self_registration: "Samostojna registracija"
-  setting_sequential_project_identifiers: "Generiraj sekvenčne identifikatorje projekta"
   setting_session_ttl: "Čas poteka seje po neaktivnosti"
   setting_session_ttl_hint: "Vrednost pod 5 deluje kot onemogočena"
   setting_session_ttl_enabled: "Seja je potekla"

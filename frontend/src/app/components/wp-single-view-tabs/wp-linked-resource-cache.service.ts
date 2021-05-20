@@ -29,6 +29,7 @@
 import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import { input, InputState } from 'reactivestates';
 import { take } from 'rxjs/operators';
+import { Observable, of } from "rxjs";
 
 export abstract class WorkPackageLinkedResourceCache<T> {
 
@@ -50,7 +51,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
    * @param {WorkPackageResource} workPackage
    * @returns {Promise<T>}
    */
-  public require(workPackage:WorkPackageResource, force = false):Promise<T> {
+  public requireAndStream(workPackage:WorkPackageResource, force = false):Observable<T> {
     const id = workPackage.id!;
     const state = this.cache.state;
 
@@ -61,16 +62,22 @@ export abstract class WorkPackageLinkedResourceCache<T> {
 
     // Return cached value if id matches and value is present
     if (this.isCached(id)) {
-      return Promise.resolve(state.value!);
+      return of(state.value!);
     }
 
     // Ensure value is loaded only once
     this.cache.id = id;
     this.cache.state.putFromPromiseIfPristine(() => this.load(workPackage));
 
-    return this.cache.state
-      .values$()
-      .pipe(take(1))
+    return this.cache.state.values$();
+  }
+
+  public require(workPackage:WorkPackageResource, force = false):Promise<T> {
+    return this
+      .requireAndStream(workPackage, force)
+      .pipe(
+        take(1)
+      )
       .toPromise();
   }
 

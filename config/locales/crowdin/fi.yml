@@ -223,6 +223,8 @@ fi:
       versions:
         no_results_title_text: Projektille ei ole versioita.
         no_results_content_text: Luo uusi versio
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
@@ -2313,7 +2315,6 @@ fi:
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "Ota käyttöön REST-verkkopalvelu"
   setting_self_registration: "Itserekisteröinti"
-  setting_sequential_project_identifiers: "Luo peräkkäiset projektien tunnisteet"
   setting_session_ttl: "Istunnon vanhentumisaika jälkeen toimettomuus"
   setting_session_ttl_hint: "Arvo alle 5 toimii kuten käytöstä"
   setting_session_ttl_enabled: "Istunto päättyy"

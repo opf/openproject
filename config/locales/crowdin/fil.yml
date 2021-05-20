@@ -223,6 +223,8 @@ fil:
       versions:
         no_results_title_text: Sa kasalukuyan ay walang mga bersyon para sa proyekto.
         no_results_content_text: Gumawa ng bagong bersyon
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Sa kasalukuyan ay walang parte ng mga myembro sa proyektong ito.
@@ -2311,7 +2313,6 @@ fil:
   setting_repository_truncate_at: "Pinakamataas na bilang ng mga file naka-displey sa respository browser"
   setting_rest_api_enabled: "Paganahin ang serbisyo ng REST web"
   setting_self_registration: "Sariling-pagparehistro"
-  setting_sequential_project_identifiers: "Bumuo ng pagkasunod-sunod na pagkakilanlan ng proyekto"
   setting_session_ttl: "Oras ng pagkawalang -bisa pagkatapos ng hindi aktibo"
   setting_session_ttl_hint: "Ang halaga mababa sa 5 na trabaho ay tulad ng may kapansanan"
   setting_session_ttl_enabled: "Nag-expire na ang sesyon"

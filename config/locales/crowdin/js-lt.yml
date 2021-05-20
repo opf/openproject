@@ -522,8 +522,9 @@ lt:
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvesta informaciją. Tęsti?'
       use_template: "Naudoti šabloną"
+      no_template_selected: "(Nėra)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Kopijos nustatymai"
       autocompleter:
         label: 'Projekto autoužpildymas'
     text_are_you_sure: "Ar esate įsitikinę?"
@@ -924,6 +925,7 @@ lt:
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingas atnaujinimas."
+    notice_job_started: "job started."
     notice_bad_request: "Netinkama užklausa."
     relations:
       empty: Nėra jokių ryšių
@@ -994,6 +996,8 @@ lt:
       project:
         label: 'Projektas'
         required: 'Pasirinkite projektą'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
         no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
@@ -1030,7 +1034,8 @@ lt:
           group: 'Prašome pasirinkti grupę'
       role:
         label: 'Rolė projekte %{project}'
-        description: 'Tai yra rolė, kurią %{principal} gaus, kai prisijungs prie projekto. Ši rolė nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="%{href}" target="_blank">Sužinokite daugiau apie roles ir teises. </a>'
+        no_roles_found: 'Nerasta jokių rolių'
+        description: 'Tai yra rolė, kurią %{principal} gaus, kai prisijungs prie projekto. Ši rolė nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="<a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">" target="_blank">Sužinokite daugiau apie roles ir teises. </a>'
         required: 'Prašome pasirinkti rolę'
         next_button: 'Kitas'
       message:

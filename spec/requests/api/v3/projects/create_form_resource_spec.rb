@@ -34,13 +34,16 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
+  subject(:response) { last_response }
+
+  current_user do
     FactoryBot.create(:user).tap do |u|
       FactoryBot.create(:global_member,
                         principal: u,
                         roles: [global_role])
     end
   end
+
   let(:global_role) do
     FactoryBot.create(:global_role, permissions: permissions)
   end
@@ -58,12 +61,8 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
   end
 
   before do
-    login_as(current_user)
-
     post path, params.to_json
   end
-
-  subject(:response) { last_response }
 
   describe '#POST /api/v3/projects/form' do
     it 'returns 200 OK' do
@@ -188,6 +187,36 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
       it 'has no commit link' do
         expect(subject.body)
           .not_to have_json_path('_links/commit')
+      end
+    end
+
+    context 'with only add_subprojects permission' do
+      current_user do
+        FactoryBot.create(:user,
+                          member_in_project: parent_project,
+                          member_with_permissions: %i[add_subprojects])
+      end
+
+      let(:parent_project) { FactoryBot.create(:project) }
+
+      let(:params) do
+        {
+          "_links": {
+            "parent": {
+              "href": api_v3_paths.project(parent_project.id)
+            }
+          }
+        }
+      end
+
+      it 'returns 200 OK' do
+        expect(response.status).to eq(200)
+      end
+
+      it 'returns the schema with a required parent field' do
+        expect(response.body)
+          .to be_json_eql(true)
+                .at_path('_embedded/schema/parent/required')
       end
     end
 

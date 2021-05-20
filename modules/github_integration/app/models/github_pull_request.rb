@@ -38,17 +38,16 @@ class GithubPullRequest < ApplicationRecord
 
   enum state: {
     open: 'open',
-    closed: 'closed',
-    partial: 'partial'
+    closed: 'closed'
   }
 
   validates_presence_of :github_html_url,
                         :number,
                         :repository,
-                        :state
-  validates_presence_of :github_updated_at,
+                        :state,
                         :title,
-                        :body,
+                        :github_updated_at
+  validates_presence_of :body,
                         :comments_count,
                         :review_comments_count,
                         :additions_count,
@@ -57,8 +56,19 @@ class GithubPullRequest < ApplicationRecord
                         unless: :partial?
   validate :validate_labels_schema
 
-  scope :complete, -> { where(state: ['open', 'closed']) }
   scope :without_work_package, -> { left_outer_joins(:work_packages).where(work_packages: { id: nil }) }
+
+  def self.find_by_github_identifiers(id: nil, url: nil, initialize: false)
+    raise ArgumentError, "needs an id or an url" if id.nil? && url.blank?
+
+    found = where(github_id: id).or(where(github_html_url: url)).take
+
+    if found
+      found
+    elsif initialize
+      new(github_id: id, github_html_url: url)
+    end
+  end
 
   ##
   # When a PR lives long enough and receives many pushes, the same check (say, a CI test run) can be run multiple times.
@@ -66,6 +76,10 @@ class GithubPullRequest < ApplicationRecord
   def latest_check_runs
     github_check_runs.select("DISTINCT ON (github_check_runs.app_id, github_check_runs.name) *")
                      .order(app_id: :asc, name: :asc, started_at: :desc)
+  end
+
+  def partial?
+    [body, comments_count, review_comments_count, additions_count, deletions_count, changed_files_count].all?(&:nil?)
   end
 
   private

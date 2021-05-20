@@ -26,22 +26,40 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
 import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-
+import { APIV3Service } from 'core-app/modules/apiv3/api-v3.service';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { ChangeDetectorRef } from '@angular/core';
+import { IGithubPullRequestResource } from "../../../../../../../../modules/github_integration/frontend/module/typings";
 
 @Component({
   selector: 'tab-prs',
   templateUrl: './tab-prs.template.html'
 })
-export class TabPrsComponent {
+export class TabPrsComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
-  @Input() public pullRequests:WorkPackageResource[];
 
-  constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService) {
+  public pullRequests:IGithubPullRequestResource[] = [];
+
+  constructor(
+    readonly I18n:I18nService,
+    readonly apiV3Service:APIV3Service,
+    readonly halResourceService:HalResourceService,
+    readonly changeDetector:ChangeDetectorRef,
+  ) {}
+
+  ngOnInit(): void {
+    const pullRequestsPath = this.apiV3Service.work_packages.id({id: this.workPackage.id })?.github_pull_requests.path;
+
+    this.halResourceService
+      .get<CollectionResource<IGithubPullRequestResource>>(pullRequestsPath)
+      .subscribe((value) => {
+        this.pullRequests = value.elements;
+        this.changeDetector.detectChanges();
+      });
   }
 
   public getEmptyText() {

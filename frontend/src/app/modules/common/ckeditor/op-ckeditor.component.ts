@@ -48,7 +48,14 @@ const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
 export class OpCkeditorComponent implements OnInit {
   @Input() ckEditorType:'full'|'constrained' = 'full';
   @Input() context:ICKEditorContext;
-  @Input('content') _content:string;
+  @Input()
+  public set content(newVal:string) {
+    this._content = newVal;
+
+    if (this.initialized) {
+      this.ckEditorInstance!.setData(newVal);
+    }
+  }
 
   // Output notification once ready
   @Output() onInitialized = new EventEmitter<ICKEditorInstance>();
@@ -68,6 +75,7 @@ export class OpCkeditorComponent implements OnInit {
   public error:string|null = null;
   public allowManualMode = false;
   public manualMode = false;
+  private _content:string;
 
   public text = {
     errorTitle: this.I18n.t('js.editor.error_initialization_failed')
@@ -136,15 +144,6 @@ export class OpCkeditorComponent implements OnInit {
         reject(error);
       }
     });
-  }
-
-  public set content(newVal:string) {
-    if (!this.initialized) {
-      throw "Tried to access CKEditor instance before initialization.";
-    }
-
-    this._content = newVal;
-    this.ckEditorInstance!.setData(newVal);
   }
 
   /**
