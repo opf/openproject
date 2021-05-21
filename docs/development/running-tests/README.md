@@ -251,7 +251,7 @@ Now in the linux world do the following variables:
 ```
 export RAILS_ENV=test
 export CAPYBARA_APP_HOSTNAME=`hostname -I`
-export SELENIUM_GRID_URL=http://192.168.0.216:4444
+export SELENIUM_GRID_URL=http://192.168.0.216:4444/wd/hub
 ```
 
 Again `192.168.0.216` is the WSL IP from step 3). `hostname -I` is the IP of your Linux host seen from within Windows.
