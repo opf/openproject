@@ -207,7 +207,65 @@ You can also run *all* feature specs locally with this command. This is not reco
 RAILS_ENV=test bundle exec rake parallel:features -- --group-number 1 --only-group 1
 ```
 
+#### WSL2
 
+In case you are on Windows using WSL2 rather than Linux directly, running tests this way will not work. You will see an error like "Failed to find Chrome binary.". The solution here is to use Selenium Grid.
+
+**1) Download the chrome web driver**
+
+You can find the driver for your Chrome version here: https://chromedriver.chromium.org/downloads
+
+**2) Add the driver to your `PATH`**
+
+Either save the driver under `C:\Windows\system32` to make it available or add its alternative location to the `PATH` using the system environment variable settings ([ress the WIN key and search for 'system env').
+
+**3) Find out your WSL ethernet adapter IP**
+
+You can do this by opening a powershell and running `wsl cat /etc/resolv.conf `| grep nameserver `| cut -d ' ' -f 2`. Alternatively looking for the adapter's IP in the output of `ipconfig` works too.
+It will be called something like "Ethernet adapter vEthernet (WSL)".
+
+**4) Download Selenium hub**
+
+Download version 3.141.59 (at the time of writing) here: https://www.selenium.dev/downloads/
+
+The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Envrionment in at least version 8 to be able to run it.
+
+**5) Run the Selenium Server**
+
+In your powershell on Windows, find the JAR you downloaded in the previous step and run it like this:
+
+```
+java -jar .\Downloads\selenium-server-standalone-3.141.59.jar -host 192.168.0.216
+```
+
+Where `192.168.0.216` is your WSL IP from step 3).
+
+**6) Setup your test environment**
+
+Now you are almost ready to go. All that you need to do now is to set the necessary environment
+for the browser on Windows to be able to access the application running on the Linux host.
+Usually this should work transparently but it doesn't always. So we'll make sure it does.
+
+Now in the linux world do the following variables:
+
+```
+export RAILS_ENV=test
+export CAPYBARA_APP_HOSTNAME=`hostname -I`
+export SELENIUM_GRID_URL=http://192.168.0.216:4444
+```
+
+Again `192.168.0.216` is the WSL IP from step 3). `hostname -I` is the IP of your Linux host seen from within Windows.
+Setting this make sure the browser in Windows will try to access, for instance `http://172.29.233.42:3001/` rather than `http://localhost:3001` which may not work.
+
+**7) Run the tests**
+
+Now you can run the integration tests as usual as seen above. For instance like this:
+
+```
+bundle exec rspec ./modules/documents/spec/features/attachment_upload_spec.rb[1:1:1:1]
+```
+
+There is no need to prefix this with the `RAILS_ENV` here since we've exported it already before.
 
 ### Headless testing
 
