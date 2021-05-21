@@ -207,7 +207,7 @@ fil:
         upsale:
           become_hero: "Maging isang bayani!"
           benefits:
-            description: "What are the benefits?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -517,7 +517,7 @@ fil:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "I-upgrade sa Enterprise Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! kung kinakailngan mo ang tampok na ito ikaw sobrang galing! Ayos lang ba sa iyo na suportahan ag aming OpenSource developers sa pamamagitan ng pagiging isang kliyente ng Enterprise Edition?"
         more_information: "Karagdagang impornasyon"
         nevermind: "Hindi bale"
@@ -940,9 +940,9 @@ fil:
         one: "isang bata work package"
         other: "%{count} work package mga bata"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'I-aktibo ang zen mode'
       button_deactivate: 'I-deactive ang zen mode'

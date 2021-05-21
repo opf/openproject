@@ -206,7 +206,7 @@ ru:
         upsale:
           become_hero: "Станьте героем!"
           benefits:
-            description: "Каковы преимущества?"
+            description: "Каковы преимущества корпоративной версии?"
             high_security: "Функции безопасности"
             high_security_text: "Единый вход (SAML, OpenID Connect, CAS), двухфакторная аутентификация и автоматическая синхронизация LDAP-групп."
             installation: "Поддержка установки"
@@ -272,11 +272,11 @@ ru:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая концепция <b>замещающих пользователей</b> (премиум-функция) позволяет добавлять предварительных пользователей без адреса электронной почты в OpenProject и назначать задачи для этих ресурсов.</li> <li>Пакет работ <b>фильтров продлевается родительским параметром </b>для того, чтобы легко увидеть всех прямых дочерних процессов, а также <b>по ID</b> для включения или исключения только этих точных пакетов работ в списке.</li> <li>Администрация пользователя распределена среди неадминов <b>новой глобальной ролью</b>, позволяет управлять и приглашать пользователей без полных прав администратора.</li> <li>Дальнейшие улучшения пользовательского интерфейса и интерфейса UX, т.е. согласование ценовой отчетности, адаптированные фоновые цвета суммарных и групповых строк в списке пакетов работ, добавление групповой страницы.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая концепция <b>замещающих пользователей</b> (премиум-функция) позволяет добавлять предварительных пользователей без адреса электронной почты в OpenProject и назначать задачи для этих ресурсов.</li> <li>Пакет работ <b>фильтров продлевается родительским параметром </b>для того, чтобы легко увидеть всех прямых дочерних процессов, а также <b>по ID</b> для включения или исключения только этих точных пакетов работ в списке.</li> <li>Администрация пользователя распределена среди неадминов <b>новой глобальной ролью</b>, позволяет управлять и приглашать пользователей без полных прав администратора.</li> <li>Дальнейшие улучшения пользовательского интерфейса и интерфейса UX, т.е. согласование ценовой отчетности, адаптированные фоновые цвета суммарных и групповых строк в списке пакетов работ, добавление групповой страницы.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -516,7 +516,7 @@ ru:
         reset_title: "Сбросить настройки формы"
         confirm_reset: >
           Предупреждение: хотите сбросить форму? Это сбросит атрибуты к первоначальным значениям группы и запретит правку настраиваемых полей.
-        upgrade_to_ee: "Обновите до корпоративной версии"
+        upgrade_to_ee: "Обновление до корпоративной версии"
         upgrade_to_ee_text: "Ух ты! Если вам нужна эта функция, вы – супер профессионал! Не хотите поддержать OpenSource разработчиков, став клиентом корпоративной версии?"
         more_information: "Больше информации"
         nevermind: "Неважно"
@@ -844,7 +844,7 @@ ru:
           automatic: 'Автоматически'
           manually: 'Вручную'
           warning: 'При активации режима автоматического упорядования вы потеряете свою предыдущую сортировку.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Используйте поле ввода выше, чтобы добавить столбцы в вид таблицы. Вы можете перетаскивать колонки для их сортировки."
         upsale:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'
           relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
@@ -943,11 +943,9 @@ ru:
         many: "пакет работ с %{count} дочерними"
         other: "пакет работ с %{count} дочерними"
       hour:
+        one: "1 ч"
+        other: "%{count} ч"
         zero: "0 ч"
-        one: ""
-        few: ""
-        many: ""
-        other: ""
     zen_mode:
       button_activate: 'Включить дзен-режим'
       button_deactivate: 'Отключить дзен-режим'

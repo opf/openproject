@@ -206,7 +206,7 @@ vi:
         upsale:
           become_hero: "Become a hero!"
           benefits:
-            description: "What are the benefits?"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -516,7 +516,7 @@ vi:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Chú ý: Bạn có chắc bạn muốn đặt lại cấu hình dạng? Điều này sẽ thiết lập lại các thuộc tính của nhóm mặc định và vô hiệu hóa tất cả các trường tùy chỉnh.
-        upgrade_to_ee: "Nâng cấp lên Ultimate Edition"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
         nevermind: "Nevermind"
@@ -937,8 +937,9 @@ vi:
       child_work_packages:
         other: "%{count} tác phẩm gói phần mềm trẻ em"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 giờ"
-        other: ""
     zen_mode:
       button_activate: 'Kích hoạt chế độ zen'
       button_deactivate: 'Tắt chế độ zen'

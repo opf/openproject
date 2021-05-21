@@ -136,7 +136,7 @@ class UsersController < ApplicationController
                                 self_notified: params[:self_notified] == '1',
                                 notified_project_ids: params[:notified_project_ids])
 
-      if !@user.password.blank? && @user.change_password_allowed?
+      if update_params[:password].present? && @user.change_password_allowed?
         send_information = params[:send_information]
 
         if @user.invited?
@@ -146,7 +146,7 @@ class UsersController < ApplicationController
         end
 
         if @user.active? && send_information
-          UserMailer.account_information(@user, @user.password).deliver_later
+          UserMailer.account_information(@user, update_params[:password]).deliver_later
         end
       end
 

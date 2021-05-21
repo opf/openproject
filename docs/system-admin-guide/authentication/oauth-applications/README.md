@@ -8,29 +8,30 @@ keywords: OAuth application settings
 ---
 # OAuth applications
 
-To activate and configure oauth applications, navigate to -> *Administration* -> *Authentication* and choose -> *Oauth applications*.
+To activate and configure OAuth applications, navigate to -> *Administration* -> *Authentication* -> *OAuth applications*.
 
-## Add a new authentication application for oauth
+## Add a new authentication application for OAuth
 
-To add a new oauth application, click the green **+ Add** button.
+To add a new OAuth application, click the green **+ Add** button.
 
-![Sys-admin-authenticatoin-oauth-applications](Sys-admin-authenticatoin-oauth-applications.png)
+![Sys-admin-authentication-OAuth-applications](Sys-admin-authentication-oauth-applications.png)
 
 
 
-You can configure the following options to add your oauth application.
+You can configure the following options to add your OAuth application.
 
-1. Enter the **name** of your oauth application.
+1. Enter the **name** of your OAuth application.
 2. **Define redirect URLs** where authorized users can be redirected to.
-3. Check if the application will be used **confidentially**.
-4. (Optional) Choose **client credential flows** and define a user on whose behalf requests will be performed.
-5. Press the blue **Create** button to add your oauth application.
+3. Set the **scope** that the OAuth application will have access to. Choose the API you want to grant access to. Multiple selection is possible. If no scope is checked, per default **api_v3** is assumed.
+4. Check if the application will be used **confidentially**.
+5. (Optional) Choose **client credential flows** and define a user on whose behalf requests will be performed.
+6. Press the blue **Create** button to add your OAuth application.
 
-![Sys-admin-authentication-add-oauth-application](Sys-admin-authentication-add-oauth-application.png)
+![add-new-oauth-application](add-new-oauth-application.png)
 
 Don't forget to note down your `Client ID` and your `Client secret` in a safe space. You will need it later.
 
-## Oauth endpoints
+## OAuth endpoints
 
 The authentication endpoints are at
 
@@ -62,7 +63,7 @@ In this example we skip that server side implementation and just copy the value 
 With the authorization code that you obtained above you can now request an API token.
 
 We do this manually in the command line using cURL. Please replace
- 
+
  * the `example.com` with the root path of your OpenProject instance,
  * `<Client ID>` with your client ID
  * `<Authentication code>` with the code you obtained above,
@@ -94,7 +95,7 @@ For example, the following cURL command fetches all projects from the API V3. Pl
 `$ curl --request GET 'https://example.com/api/v3/projects' \
   --header 'Authorization: Bearer <Token>'`
 
-## Using Postman with oauth?
+## Using Postman with OAuth?
 
 Set redirect URLs to `urn:ietf:wg:oauth:2.0:oob` in both, for your application (see step 2 above) and 
 within Postman.
@@ -102,7 +103,7 @@ within Postman.
 In Postman the configuration should look like this (Replace `{{protocolHostPort}}` with your host, 
 i.e. `https://example.com`)
 
-![Sys-admin-authentication-add-oauth-application](Sys-admin-authentication-oauth-postman.png)
+![Sys-admin-authentication-add-OAuth-application](Sys-admin-authentication-oauth-postman.png)
 
 ## CORS headers
 

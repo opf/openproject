@@ -206,7 +206,7 @@ de:
         upsale:
           become_hero: "Werde zum Held!"
           benefits:
-            description: "Was sind die Vorteile?"
+            description: "Was sind die Vorteile von Enterprise on-premises?"
             high_security: "Sicherheitsfunktionen"
             high_security_text: "Single Sign on (SAML, OpenID Connect, CAS), Zwei-Faktor-Authentifizierung und automatische Synchronisation von LDAP-Gruppen."
             installation: "Installations-Support"
@@ -272,11 +272,11 @@ de:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -516,7 +516,7 @@ de:
         reset_title: "Formularkonfiguration zurücksetzen"
         confirm_reset: >
           Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen? Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt und ALLE benutzerdefinierten Felder entfernt.
-        upgrade_to_ee: "Auf Enterprise-Edition upgraden"
+        upgrade_to_ee: "Enterprise on-premises bestellen"
         upgrade_to_ee_text: "Wow! Wenn du dieses Feature benötigst, bist du ein super Pro! Würdest du uns OpenProject-Entwickler unterstützen, indem du ein Enterprise Edition-Kunde wirst?"
         more_information: "Weitere Informationen"
         nevermind: "Nein danke"
@@ -844,7 +844,7 @@ de:
           automatic: 'Automatisch'
           manually: 'Manuell'
           warning: 'Sie verlieren Ihre vorherige Sortierung beim Aktivieren des automatischen Sortiermodus.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Über das Eingabefeld oben können Sie weitere Spalten zu Ihrer Tabellenansicht hinzuzufügen. Sie können die Spalten durch drag and drop neu anordnen."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
           relation_columns: 'Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?'
@@ -939,9 +939,9 @@ de:
         one: "ein untergeordnetes Arbeitspaket"
         other: "%{count} untergeordnete Arbeitspakete"
       hour:
+        one: "1 h"
+        other: "%{count} h"
         zero: "0 h"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Zen-Modus aktivieren'
       button_deactivate: 'Zen-Modus deaktivieren'
