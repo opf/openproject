@@ -221,7 +221,7 @@ Either save the driver under `C:\Windows\system32` to make it available or add i
 
 **3) Find out your WSL ethernet adapter IP**
 
-You can do this by opening a powershell and running `wsl cat /etc/resolv.conf `| grep nameserver `| cut -d ' ' -f 2`. Alternatively looking for the adapter's IP in the output of `ipconfig` works too.
+You can do this by opening a powershell and running ```wsl cat /etc/resolv.conf `| grep nameserver `| cut -d ' ' -f 2```. Alternatively looking for the adapter's IP in the output of `ipconfig` works too.
 It will be called something like "Ethernet adapter vEthernet (WSL)".
 
 **4) Download Selenium hub**
