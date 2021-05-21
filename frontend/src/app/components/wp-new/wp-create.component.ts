@@ -34,7 +34,7 @@ import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-re
 import { RootResource } from 'core-app/core/hal/resources/root-resource';
 import { WorkPackageCreateService } from './wp-create.service';
 import { takeWhile } from 'rxjs/operators';
-import { OpTitleService } from 'core-components/html/op-title.service';
+import { OpTitleService } from 'core-components/../../core/html/op-title.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
