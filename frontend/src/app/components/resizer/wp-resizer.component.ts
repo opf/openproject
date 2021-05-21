@@ -29,11 +29,11 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TransitionService } from '@uirouter/core';
-import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";
 import { fromEvent } from "rxjs";
+import { MainMenuToggleService } from "core-app/core/main-menu/main-menu-toggle.service";
 
 @Component({
   selector: 'wp-resizer',

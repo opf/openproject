@@ -29,8 +29,8 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";
-import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { MainMenuToggleService } from "core-app/core/main-menu/main-menu-toggle.service";
 
 export const mainMenuResizerSelector = 'main-menu-resizer';
 

@@ -38,10 +38,10 @@ import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";
-import { MainMenuNavigationService } from "core-components/main-menu/main-menu-navigation.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { MainMenuNavigationService } from "core-app/core/main-menu/main-menu-navigation.service";
+import { MainMenuToggleService } from "core-app/core/main-menu/main-menu-toggle.service";
 
 export type QueryCategory = 'starred'|'public'|'private'|'default';
 

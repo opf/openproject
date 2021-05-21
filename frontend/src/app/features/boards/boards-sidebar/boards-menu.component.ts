@@ -3,11 +3,11 @@ import { Observable } from "rxjs";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { Board } from "core-app/features/boards/board/board";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { MainMenuNavigationService } from "core-components/main-menu/main-menu-navigation.service";
 import { map } from "rxjs/operators";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { MainMenuNavigationService } from "core-app/core/main-menu/main-menu-navigation.service";
 
 export const boardsMenuSelector = 'boards-menu';
 

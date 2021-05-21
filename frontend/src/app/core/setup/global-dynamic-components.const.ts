@@ -108,7 +108,6 @@ import {
   GlobalSearchTabsComponent,
   globalSearchTabsSelector
 } from "core-app/core/global_search/tabs/global-search-tabs.component";
-import { MainMenuToggleComponent, mainMenuToggleSelector } from "core-components/main-menu/main-menu-toggle.component";
 import {
   MembersAutocompleterComponent,
   membersAutocompleterSelector
@@ -159,6 +158,7 @@ import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector,
 } from "core-app/shared/components/homescreen/blocks/new-features.component";
+import { MainMenuToggleComponent, mainMenuToggleSelector } from "core-app/core/main-menu/main-menu-toggle.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },

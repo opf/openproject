@@ -58,8 +58,6 @@ import { OpenprojectWorkPackageRoutesModule } from "core-app/features/work_packa
 import { BrowserModule } from "@angular/platform-browser";
 import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";
 import { OpenprojectGlobalSearchModule } from "core-app/core/global_search/openproject-global-search.module";
-import { MainMenuToggleComponent } from "core-components/main-menu/main-menu-toggle.component";
-import { MainMenuNavigationService } from "core-components/main-menu/main-menu-navigation.service";
 import { OpenprojectAdminModule } from "core-app/core/admin/openproject-admin.module";
 import { OpenprojectDashboardsModule } from "core-app/features/dashboards/openproject-dashboards.module";
 import { OpenprojectWorkPackageGraphsModule } from "core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module";
@@ -79,6 +77,8 @@ import { OpenprojectAutocompleterModule } from "core-app/shared/components/autoc
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 import { OpenprojectEnterpriseModule } from "core-app/features/enterprise/openproject-enterprise.module";
+import { MainMenuToggleComponent } from "core-app/core/main-menu/main-menu-toggle.component";
+import { MainMenuNavigationService } from "core-app/core/main-menu/main-menu-navigation.service";
 
 @NgModule({
   imports: [
