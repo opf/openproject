@@ -41,7 +41,7 @@ import { PasswordConfirmationModal } from "core-components/modals/request-for-co
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 import { CommentService } from "core-components/wp-activity/comment-service";
-import { OpDragScrollDirective } from "core-app/modules/common/ui/op-drag-scroll.directive";
+import { OpDragScrollDirective } from "core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive";
 import { OpenprojectPluginsModule } from "core-app/modules/plugins/openproject-plugins.module";
 import { ConfirmFormSubmitController } from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import { ProjectMenuAutocompleteComponent } from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
