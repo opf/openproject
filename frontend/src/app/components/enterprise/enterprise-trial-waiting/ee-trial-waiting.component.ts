@@ -32,7 +32,7 @@ import { EnterpriseTrialService } from "app/components/enterprise/enterprise-tri
 import { HttpClient } from "@angular/common/http";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { distinctUntilChanged } from "rxjs/operators";
-import { TimezoneService } from "core-components/datetime/timezone.service";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   selector: 'enterprise-trial-waiting',

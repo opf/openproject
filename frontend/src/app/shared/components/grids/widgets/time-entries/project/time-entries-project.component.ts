@@ -1,11 +1,11 @@
 import { Component, OnInit, Injector, ChangeDetectorRef } from "@angular/core";
 import { WidgetTimeEntriesListComponent } from "core-app/shared/components/grids/widgets/time-entries/list/time-entries-list.component";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   templateUrl: '../list/time-entries-list.component.html',

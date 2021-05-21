@@ -24,7 +24,6 @@ import { classNameBarLabel, classNameLeftHandle, classNameRightHandle } from './
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { DisplayFieldRenderer } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { Injector } from '@angular/core';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HierarchyRenderPass } from "core-components/wp-fast-table/builders/modes/hierarchy/hierarchy-render-pass";
 import Moment = moment.Moment;
@@ -43,6 +42,9 @@ export interface CellDateMovement {
 }
 
 export type LabelPosition = 'left'|'right'|'farRight';
+
+class TimezoneService {
+}
 
 export class TimelineCellRenderer {
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;

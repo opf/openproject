@@ -49,11 +49,11 @@ import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading
 import { HookService } from "core-app/modules/plugins/hook-service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 describe('WorkPackageFilterValues', () => {
   let resource:WorkPackageResource;

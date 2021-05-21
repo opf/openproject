@@ -2,13 +2,13 @@ import { ChangeDetectorRef, Injector, OnInit, Directive } from "@angular/core";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {

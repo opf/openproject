@@ -33,7 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 describe('TimezoneService', function () {
 

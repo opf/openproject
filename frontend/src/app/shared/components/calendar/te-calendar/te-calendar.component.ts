@@ -22,7 +22,6 @@ import timeGrid from '@fullcalendar/timegrid';
 import { CalendarOptions, Duration, EventApi, EventInput } from '@fullcalendar/core';
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import interactionPlugin from '@fullcalendar/interaction';
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
@@ -34,6 +33,7 @@ import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-r
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;

@@ -32,7 +32,7 @@ import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageLinkedResourceCache } from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Injectable()
 export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {

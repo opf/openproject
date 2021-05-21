@@ -30,9 +30,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } 
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { UserResource } from "core-app/core/hal/resources/user-resource";
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   selector: 'revision-activity',

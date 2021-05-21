@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, forwardRef, NgZone } from '@angular/core';
 import { OpDatePickerComponent } from "core-app/shared/components/op-date-picker/op-date-picker.component";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import * as moment from "moment";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   selector: 'op-date-picker-adapter',

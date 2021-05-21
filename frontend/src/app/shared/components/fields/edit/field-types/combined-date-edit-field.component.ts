@@ -27,13 +27,13 @@
 //++
 
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { take } from "rxjs/operators";
 import { DateEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { DatePickerModal } from "core-app/shared/components/datepicker/datepicker.modal";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   template: `

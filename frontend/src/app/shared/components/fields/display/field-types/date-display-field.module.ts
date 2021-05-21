@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HighlightableDisplayField } from "core-app/shared/components/fields/display/field-types/highlightable-display-field.module";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 export class DateDisplayField extends HighlightableDisplayField {
   @InjectField() timezoneService:TimezoneService;

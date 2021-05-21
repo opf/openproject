@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TimezoneService } from 'core-components/datetime/timezone.service';
 import * as moment from 'moment';
 import { Component } from "@angular/core";
 import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   template: `

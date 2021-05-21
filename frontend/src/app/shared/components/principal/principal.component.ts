@@ -29,13 +29,13 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 import { AvatarSize, PrincipalRendererService } from "./principal-renderer.service";
 import { PrincipalLike } from "./principal-types";
 import { PrincipalHelper } from "./principal-helper";
 import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 export const principalSelector = 'op-principal';
 

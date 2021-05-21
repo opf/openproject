@@ -42,13 +42,13 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { DatePickerModalHelper } from "core-app/shared/components/datepicker/datepicker.modal.helper";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 export type DateKeys = 'date'|'start'|'end';
 

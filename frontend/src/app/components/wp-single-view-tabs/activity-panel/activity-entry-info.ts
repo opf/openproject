@@ -26,7 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TimezoneService } from 'core-components/datetime/timezone.service';
+
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 export class ActivityEntryInfo {
 

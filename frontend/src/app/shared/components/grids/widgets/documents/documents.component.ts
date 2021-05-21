@@ -5,10 +5,10 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { TimezoneService } from "core-components/datetime/timezone.service";
 import { DomSanitizer } from '@angular/platform-browser';
 import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   templateUrl: './documents.component.html',

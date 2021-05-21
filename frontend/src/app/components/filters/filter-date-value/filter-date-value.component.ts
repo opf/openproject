@@ -31,9 +31,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   selector: 'filter-date-value',

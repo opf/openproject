@@ -30,7 +30,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   templateUrl: './authoring.component.html',

@@ -27,7 +27,7 @@
 //++
 
 import { Component, Input } from '@angular/core';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
   selector: 'op-date-time',

@@ -1,7 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { WidgetNewsComponent } from './news.component';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { States } from 'core-components/states.service';
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
@@ -9,6 +8,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { By } from '@angular/platform-browser';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { of } from "rxjs";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 describe('shows news', () => {
   let app:WidgetNewsComponent;

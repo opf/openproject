@@ -28,10 +28,10 @@
 
 import { Moment } from 'moment';
 import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
-import { TimezoneService } from 'core-components/datetime/timezone.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OnInit, Directive } from '@angular/core';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Directive()
 export abstract class AbstractDateTimeValueController extends UntilDestroyedMixin implements OnInit {
