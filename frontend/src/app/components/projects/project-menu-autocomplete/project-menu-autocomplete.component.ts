@@ -31,7 +31,7 @@ import {
   IAutocompleteItem,
   ILazyAutocompleterBridge
 } from 'core-app/shared/components/autocompleter/lazyloaded/lazyloaded-autocompleter';
-import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpClient } from "@angular/common/http";

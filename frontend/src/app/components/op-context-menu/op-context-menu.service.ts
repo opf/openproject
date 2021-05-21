@@ -4,7 +4,7 @@ import { TransitionService } from "@uirouter/core";
 import { OpContextMenuHandler } from "core-components/op-context-menu/op-context-menu-handler";
 import { OpContextMenuLocalsMap, OpContextMenuLocalsToken } from "core-components/op-context-menu/op-context-menu.types";
 import { OPContextMenuComponent } from "core-components/op-context-menu/op-context-menu.component";
-import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 @Injectable({ providedIn: 'root' })

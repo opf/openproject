@@ -37,7 +37,7 @@ import { WorkPackageStaticQueriesService } from 'core-components/wp-query-select
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
-import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { MainMenuToggleService } from "core-components/main-menu/main-menu-toggle.service";
 import { MainMenuNavigationService } from "core-components/main-menu/main-menu-navigation.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

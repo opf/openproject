@@ -33,7 +33,7 @@ import { RenderInfo } from '../wp-timeline';
 import { TimelineCellRenderer } from './timeline-cell-renderer';
 import { WorkPackageCellLabels } from './wp-timeline-cell';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
-import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";

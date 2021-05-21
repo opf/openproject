@@ -9,7 +9,7 @@ import {
 import { ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector } from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
