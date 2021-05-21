@@ -157,7 +157,7 @@ import {
 import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector,
-} from "core-app/shared/components/homescreen/blocks/new-features.component";
+} from "core-app/features/homescreen/blocks/new-features.component";
 import { MainMenuToggleComponent, mainMenuToggleSelector } from "core-app/core/main-menu/main-menu-toggle.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
