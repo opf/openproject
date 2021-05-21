@@ -5,7 +5,6 @@ import { AuthorisationService } from 'core-app/core/model-auth/model-auth.servic
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HookService } from 'core-app/modules/plugins/hook-service';
-import { WpDestroyModal } from 'core-components/modals/wp-destroy-modal/wp-destroy.modal';
 import { OpContextMenuTrigger } from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-components/op-context-menu/op-context-menu.service';
 import { OpContextMenuItem } from 'core-components/op-context-menu/op-context-menu.types';
@@ -15,6 +14,7 @@ import { WorkPackageAuthorization } from 'core-components/work-packages/work-pac
 import { WorkPackageAction } from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
+import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
 
 @Directive({
   selector: '[wpSingleContextMenu]'

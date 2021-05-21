@@ -34,16 +34,11 @@ import { OpContextMenuTrigger } from 'core-components/op-context-menu/handlers/o
 import { States } from 'core-components/states.service';
 import { PaginationService } from 'core-components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-components/resizer/main-menu-resizer.component';
-import { ConfirmDialogModal } from "core-components/modals/confirm-dialog/confirm-dialog.modal";
-import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
-import { DynamicContentModal } from "core-components/modals/modal-wrapper/dynamic-content.modal";
-import { PasswordConfirmationModal } from "core-components/modals/request-for-confirmation/password-confirmation.modal";
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { CommentService } from "core-components/wp-activity/comment-service";
 import { OpDragScrollDirective } from "core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive";
 import { OpenprojectPluginsModule } from "core-app/modules/plugins/openproject-plugins.module";
-import { ConfirmFormSubmitController } from "core-components/modals/confirm-form-submit/confirm-form-submit.directive";
 import { ProjectMenuAutocompleteComponent } from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { LinkedPluginsModule } from "core-app/modules/plugins/linked-plugins.module";
@@ -61,7 +56,6 @@ import { OpenprojectGlobalSearchModule } from "core-app/core/global_search/openp
 import { OpenprojectAdminModule } from "core-app/core/admin/openproject-admin.module";
 import { OpenprojectDashboardsModule } from "core-app/features/dashboards/openproject-dashboards.module";
 import { OpenprojectWorkPackageGraphsModule } from "core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module";
-import { WpPreviewModal } from "core-components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import { PreviewTriggerService } from "core-app/core/setup/globals/global-listeners/preview-trigger.service";
 import { OpenprojectOverviewModule } from "core-app/features/overview/openproject-overview.module";
 import { OpenprojectMyPageModule } from "core-app/features/my-page/openproject-my-page.module";
@@ -79,6 +73,12 @@ import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-
 import { OpenprojectEnterpriseModule } from "core-app/features/enterprise/openproject-enterprise.module";
 import { MainMenuToggleComponent } from "core-app/core/main-menu/main-menu-toggle.component";
 import { MainMenuNavigationService } from "core-app/core/main-menu/main-menu-navigation.service";
+import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
+import { ConfirmDialogModal } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal";
+import { DynamicContentModal } from "core-app/shared/components/modals/modal-wrapper/dynamic-content.modal";
+import { PasswordConfirmationModal } from "core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal";
+import { WpPreviewModal } from "core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
+import { ConfirmFormSubmitController } from "core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive";
 
 @NgModule({
   imports: [

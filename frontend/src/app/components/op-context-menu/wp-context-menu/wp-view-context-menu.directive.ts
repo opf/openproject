@@ -12,11 +12,11 @@ import { OPContextMenuService } from "core-components/op-context-menu/op-context
 import { OpContextMenuItem, OpContextMenuLocalsMap } from "core-components/op-context-menu/op-context-menu.types";
 import { PERMITTED_CONTEXT_MENU_ACTIONS } from "core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WpDestroyModal } from "core-components/modals/wp-destroy-modal/wp-destroy.modal";
 import { StateService } from "@uirouter/core";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
 import { splitViewRoute } from "core-app/features/work_packages/routing/split-view-routes.helper";
+import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 

@@ -101,13 +101,7 @@ import { WorkPackageCopySplitViewComponent } from 'core-components/wp-copy/wp-co
 import { WorkPackageTypeStatusComponent } from 'core-components/work-packages/wp-type-status/wp-type-status.component';
 import { WorkPackageNewSplitViewComponent } from 'core-components/wp-new/wp-new-split-view.component';
 import { WorkPackageNewFullViewComponent } from 'core-components/wp-new/wp-new-full-view.component';
-import { WpTableExportModal } from 'core-components/modals/export-modal/wp-table-export.modal';
-import { QuerySharingModal } from 'core-components/modals/share-modal/query-sharing.modal';
-import { SaveQueryModal } from 'core-components/modals/save-modal/save-query.modal';
-import { WpDestroyModal } from 'core-components/modals/wp-destroy-modal/wp-destroy.modal';
-import { QuerySharingForm } from 'core-components/modals/share-modal/query-sharing-form.component';
 import { EmbeddedTablesMacroComponent } from 'core-components/wp-table/embedded/embedded-tables-macro.component';
-import { WpButtonMacroModal } from 'core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { WorkPackageTableSumsRowController } from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import { ExternalQueryConfigurationComponent } from 'core-components/wp-table/external-configuration/external-query-configuration.component';
@@ -172,6 +166,12 @@ import { WorkPackageFilterByTextInputComponent } from "core-app/features/work_pa
 import { FilterIntegerValueComponent } from "core-app/features/work_packages/filters/filter-integer-value/filter-integer-value.component";
 import { WorkPackageFilterContainerComponent } from "core-app/features/work_packages/filters/filter-container/filter-container.directive";
 import { FilterBooleanValueComponent } from "core-app/features/work_packages/filters/filter-boolean-value/filter-boolean-value.component";
+import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
+import { WpButtonMacroModal } from "core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
+import { QuerySharingModal } from "core-app/shared/components/modals/share-modal/query-sharing.modal";
+import { SaveQueryModal } from "core-app/shared/components/modals/save-modal/save-query.modal";
+import { QuerySharingForm } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
+import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
 
 
 @NgModule({

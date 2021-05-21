@@ -39,8 +39,8 @@ import { WorkPackageViewSortByService } from 'core-app/features/work_packages/ro
 import { WorkPackageTable } from 'core-components/wp-fast-table/wp-fast-table';
 import { QueryColumn } from 'core-components/wp-query/query-column';
 import { WpTableConfigurationModalComponent } from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from "core-app/core/hal/resources/query-sort-by-resource";
+import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 @Directive({
   selector: '[opColumnsContextMenu]'

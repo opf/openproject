@@ -28,10 +28,10 @@
 
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { Injectable, Injector } from "@angular/core";
-import { WpButtonMacroModal } from "core-components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
-import { WikiIncludePageMacroModal } from "core-components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
-import { CodeBlockMacroModal } from "core-components/modals/editor/macro-code-block-modal/code-block-macro.modal";
-import { ChildPagesMacroModal } from "core-components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
+import { WpButtonMacroModal } from "core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
+import { WikiIncludePageMacroModal } from "core-app/shared/components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
+import { CodeBlockMacroModal } from "core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal";
+import { ChildPagesMacroModal } from "core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
 
 @Injectable()
 export class EditorMacrosService {

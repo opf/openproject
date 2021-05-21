@@ -1,8 +1,8 @@
-import { ConfirmDialogService } from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 @Injectable()
 export class TypeBannerService extends BannersService {

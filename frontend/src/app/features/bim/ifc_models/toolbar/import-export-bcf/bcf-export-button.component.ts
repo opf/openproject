@@ -35,8 +35,8 @@ import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { StateService } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { WpTableExportModal } from "core-components/modals/export-modal/wp-table-export.modal";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
 
 @Component({
   template: `

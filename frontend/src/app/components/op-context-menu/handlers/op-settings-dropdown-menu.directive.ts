@@ -36,15 +36,15 @@ import { WorkPackagesListService } from 'core-components/wp-list/wp-list.service
 import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WpTableExportModal } from "core-components/modals/export-modal/wp-table-export.modal";
-import { SaveQueryModal } from "core-components/modals/save-modal/save-query.modal";
-import { QuerySharingModal } from "core-components/modals/share-modal/query-sharing.modal";
 import { WpTableConfigurationModalComponent } from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import {
   selectableTitleIdentifier,
   triggerEditingEvent
 } from "core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component";
+import { QuerySharingModal } from "core-app/shared/components/modals/share-modal/query-sharing.modal";
+import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
+import { SaveQueryModal } from "core-app/shared/components/modals/save-modal/save-query.modal";
 
 @Directive({
   selector: '[opSettingsContextMenu]'

@@ -26,27 +26,29 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackagesListService } from '../../wp-list/wp-list.service';
-import { States } from '../../states.service';
+import { ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
-import { QuerySharingChange } from "core-components/modals/share-modal/query-sharing-form.component";
+import { QuerySharingChange } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
+import { States } from 'core-components/states.service';
 
 @Component({
-  templateUrl: './query-sharing.modal.html'
+  templateUrl: './save-query.modal.html'
 })
-export class QuerySharingModal extends OpModalComponent implements OnInit {
-  public query:QueryResource;
+export class SaveQueryModal extends OpModalComponent {
+  public queryName = '';
   public isStarred = false;
   public isPublic = false;
   public isBusy = false;
+
+  @ViewChild('queryNameField', { static: true }) queryNameField:ElementRef;
 
   public text = {
     title: this.I18n.t('js.modals.form_submit.title'),
@@ -64,59 +66,46 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
               readonly I18n:I18nService,
               readonly states:States,
               readonly querySpace:IsolatedQuerySpace,
-              readonly cdRef:ChangeDetectorRef,
               readonly wpListService:WorkPackagesListService,
               readonly halNotification:HalResourceNotificationService,
+              readonly cdRef:ChangeDetectorRef,
               readonly notificationsService:NotificationsService) {
     super(locals, cdRef, elementRef);
   }
-
-  ngOnInit() {
-    super.ngOnInit();
-
-    this.query = this.querySpace.query.value!;
-
-    this.isStarred = this.query.starred;
-    this.isPublic = this.query.public;
-  }
-
 
   public setValues(change:QuerySharingChange) {
     this.isStarred = change.isStarred;
     this.isPublic = change.isPublic;
   }
 
+  public onOpen() {
+    this.queryNameField.nativeElement.focus();
+  }
+
   public get afterFocusOn() {
     return jQuery('#work-packages-settings-button');
   }
 
-  public saveQuery($event:JQuery.TriggeredEvent) {
-    if (this.isBusy) {
+  public saveQueryAs($event:JQuery.TriggeredEvent) {
+    if (this.isBusy || !this.queryName) {
       return;
     }
 
     this.isBusy = true;
-    const promises = [];
+    const query = this.querySpace.query.value!;
+    query.public = this.isPublic;
 
-    if (this.query.public !== this.isPublic) {
-      this.query.public = this.isPublic;
+    this.wpListService
+      .create(query, this.queryName)
+      .then((savedQuery:QueryResource):Promise<any> => {
+        if (this.isStarred && !savedQuery.starred) {
+          return this.wpListService.toggleStarred(savedQuery).then(() => this.closeMe($event));
+        }
 
-      promises.push(this.wpListService.save(this.query));
-    }
-
-    if (this.query.starred !== this.isStarred) {
-      promises.push(this.wpListService.toggleStarred(this.query));
-    }
-
-    Promise
-      .all(promises)
-      .then(() => {
         this.closeMe($event);
-        this.isBusy = false;
+        return Promise.resolve(true);
       })
-      .catch(() => {
-        this.notificationsService.addError(this.I18n.t('js.errors.query_saving'));
-        this.isBusy = false;
-      });
+      .catch((error:any) => this.halNotification.handleRawError(error))
+      .then(() => this.isBusy = false); // Same as .finally()
   }
 }

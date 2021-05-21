@@ -29,8 +29,8 @@
 
 import { Inject, Injectable, Injector } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
-import { DynamicContentModal } from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { DynamicContentModal } from "core-app/shared/components/modals/modal-wrapper/dynamic-content.modal";
 
 const iframeSelector = '.iframe-target-wrapper';
 

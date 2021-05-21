@@ -5,11 +5,11 @@ import { NotificationsService } from 'core-app/shared/components/notifications/n
 import { ExternalRelationQueryConfigurationService } from 'core-components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { DragulaService, DrakeWithModels } from 'ng2-dragula';
-import { ConfirmDialogService } from 'core-components/modals/confirm-dialog/confirm-dialog.service';
 import { Drake } from 'dragula';
 import { GonService } from "core-app/core/gon/gon.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { install_menu_logic } from "core-app/core/setup/globals/global-listeners/action-menu";
+import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 export type TypeGroupType = 'attribute'|'query';
 
