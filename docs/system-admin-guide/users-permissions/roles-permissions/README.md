@@ -42,6 +42,10 @@ To create a new role, navigate to the administration and select *Users & Permiss
 
 You will see the list of all the roles that have been created so far.
 
+*Non member* is the default role of users of your OpenProject instance who have not been added to a project. This only applies if the project has been set as "public" in the project settings.
+*Anonymous* is the default role of users who are not logged in. This only applies if you disabled the need for authentication for your instance and if the project is set as "public".
+Those two roles can't be deleted.
+
 ![create roles](image-20200211142134472.png)
 
 After clicking the green **+ Role** button, a form will be shown to define the role and its permissions.

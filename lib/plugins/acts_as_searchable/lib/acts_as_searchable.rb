@@ -99,7 +99,6 @@ module Redmine
                 OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
                                                       tsv_column[:column_name],
                                                       tokens.join(' '),
-                                                      concatenation: :and,
                                                       normalization: tsv_column[:normalization_type])
               end
             end

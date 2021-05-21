@@ -206,9 +206,9 @@ ja:
           test_ee: "エンタープライズ版を14日間無料でテストする"
           quick_overview: "OpenProject Enterprise Edition でのプロジェクト管理とチームコラボレーションの概要をご確認ください。"
         upsale:
-          become_hero: "ヒーローになる!"
+          become_hero: "ヒーローになろう!"
           benefits:
-            description: "オンプレミス版エンタープライズエディションにはどのようなメリットがありますか？"
+            description: "オンプレミス版 Enterprise Edition にはどのようなメリットがありますか？"
             high_security: "セキュリティ機能"
             high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
             installation: "インストールサポート"
@@ -269,7 +269,7 @@ ja:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "新しい機能と製品の更新について表示する"
+          text_new_features: "新しい機能と製品の更新について紹介します。"
           learn_about: "新機能の詳細はこちら"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-2-release
@@ -466,7 +466,7 @@ ja:
         next: '次へ'
         got_it: '了承'
       steps:
-        help_menu: '<b>ヘルプ</b>メニューには、ユーザーガイドとその他のヘルプリソースがあります。 <br> OpenProjectであなたの仕事をお楽しみください！'
+        help_menu: '<b>ヘルプ</b>メニューには、ユーザーガイドやその他のヘルプリソースがあります。 <br> OpenProject と共にあなたの仕事を楽しんでください！'
         members: '新しい<b>メンバー</b>を招待してプロジェクトに参加してください。'
         project_selection: '便利なデモデータを含むプロジェクトを１つ選択して開始してください。 <br> <b>デモプロジェクト</b>は伝統的なプロジェクト管理に最適ですが、<b>スクラムプロジェクト</b>はアジャイルプロジェクト管理に適しています。'
         sidebar_arrow: "矢印を使って、プロジェクトの<b>メインメニュー</b>に戻ることができます。"
@@ -522,7 +522,7 @@ ja:
           警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。
            
           コンテキスト| リクエストコンテキスト
-        upgrade_to_ee: "オンプレミス版エンタープライズエディションへのアップグレード"
+        upgrade_to_ee: "オンプレミス版 Enterprise Edition へのアップグレード"
         upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
         more_information: "詳細情報"
         nevermind: "無視"

@@ -19,7 +19,7 @@ point to an external database.
 Example:
 
 ```bash
-docker run -d ... -e DATABASE_URL=mysql2://user:pass@host:port/dbname openproject/community:10
+docker run -d ... -e DATABASE_URL=postgres://user:pass@host:port/dbname openproject/community:11
 ```
 
 If you run the Compose based docker stack, you can simply override the `DATABASE_URL` environment variable, and remove the `db` service from the `docker-compose.yml` file. Then you can restart the stack with:
