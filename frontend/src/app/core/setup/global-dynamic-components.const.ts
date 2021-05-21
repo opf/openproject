@@ -121,11 +121,6 @@ import {
   MembersAutocompleterComponent,
   membersAutocompleterSelector
 } from "core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component";
-import { EnterpriseBaseComponent, enterpriseBaseSelector } from "core-components/enterprise/enterprise-base.component";
-import {
-  EEActiveSavedTrialComponent,
-  enterpriseActiveSavedTrialSelector
-} from "core-components/enterprise/enterprise-active-trial/ee-active-saved-trial.component";
 import {
   TriggerActionsEntryComponent,
   triggerActionsEntryComponentSelector
@@ -156,6 +151,14 @@ import {
 } from "core-app/core/admin/editable-query-props/editable-query-props.component";
 import { SlideToggleComponent, slideToggleSelector } from "core-app/shared/components/slide-toggle/slide-toggle.component";
 import { BackupComponent, backupSelector } from "core-app/core/setup/globals/components/admin/backup.component";
+import {
+  EnterpriseBaseComponent,
+  enterpriseBaseSelector,
+} from "core-app/features/enterprise/enterprise-base.component";
+import {
+  EEActiveSavedTrialComponent,
+  enterpriseActiveSavedTrialSelector,
+} from "core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },

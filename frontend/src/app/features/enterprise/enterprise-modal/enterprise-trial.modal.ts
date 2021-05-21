@@ -32,9 +32,9 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { I18nService } from "app/core/i18n/i18n.service";
-import { EETrialFormComponent } from "core-components/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
-import { EnterpriseTrialService } from "core-components/enterprise/enterprise-trial.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { EETrialFormComponent } from "core-app/features/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
+import { EnterpriseTrialService } from "core-app/features/enterprise/enterprise-trial.service";
 
 export const eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1';
 

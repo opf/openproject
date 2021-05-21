@@ -26,21 +26,28 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { I18nService } from "app/core/i18n/i18n.service";
+import { Component, ElementRef } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { EEActiveTrialBase } from "core-app/features/enterprise/enterprise-active-trial/ee-active-trial.base";
 
-export class EEActiveTrialBase extends UntilDestroyedMixin {
-  public text = {
-    label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
-    label_expires_at: this.I18n.t('js.admin.enterprise.trial.form.label_expires_at'),
-    label_maximum_users: this.I18n.t('js.admin.enterprise.trial.form.label_maximum_users'),
-    label_company: this.I18n.t('js.admin.enterprise.trial.form.label_company'),
-    label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
-    label_starts_at: this.I18n.t('js.admin.enterprise.trial.form.label_starts_at'),
-    label_subscriber: this.I18n.t('js.admin.enterprise.trial.form.label_subscriber')
-  };
+export const enterpriseActiveSavedTrialSelector = 'enterprise-active-saved-trial';
 
-  constructor(readonly I18n:I18nService) {
-    super();
+@Component({
+  selector: enterpriseActiveSavedTrialSelector,
+  templateUrl: './ee-active-trial.component.html',
+  styleUrls: ['./ee-active-trial.component.sass']
+})
+export class EEActiveSavedTrialComponent extends EEActiveTrialBase {
+  public subscriber = this.elementRef.nativeElement.dataset['subscriber'];
+  public email = this.elementRef.nativeElement.dataset['email'];
+  public company = this.elementRef.nativeElement.dataset['company'];
+  public domain = this.elementRef.nativeElement.dataset['domain'];
+  public userCount = this.elementRef.nativeElement.dataset['userCount'];
+  public startsAt = this.elementRef.nativeElement.dataset['startsAt'];
+  public expiresAt = this.elementRef.nativeElement.dataset['expiresAt'];
+
+  constructor(readonly elementRef:ElementRef,
+              readonly I18n:I18nService) {
+    super(I18n);
   }
 }

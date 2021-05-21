@@ -27,8 +27,8 @@
 //++
 
 import { Component, ElementRef, OnInit } from "@angular/core";
-import { I18nService } from "app/core/i18n/i18n.service";
-import { EnterpriseTrialService } from "app/components/enterprise/enterprise-trial.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { EnterpriseTrialService } from "core-app/features/enterprise/enterprise-trial.service";
 import { HttpClient } from "@angular/common/http";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { distinctUntilChanged } from "rxjs/operators";

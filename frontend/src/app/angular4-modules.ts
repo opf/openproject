@@ -71,7 +71,6 @@ import { OpenprojectProjectsModule } from "core-app/features/projects/openprojec
 import { KeyboardShortcutService } from "core-app/shared/directives/a11y/keyboard-shortcut-service";
 import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
 import { OpenprojectMembersModule } from "core-app/shared/components/autocompleter/members-autocompleter/members.module";
-import { OpenprojectEnterpriseModule } from "core-components/enterprise/openproject-enterprise.module";
 import { OpenprojectAugmentingModule } from "core-app/core/augmenting/openproject-augmenting.module";
 import { OpenprojectInviteUserModalModule } from "core-app/features/invite-user-modal/invite-user-modal.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
@@ -79,6 +78,7 @@ import { RevitAddInSettingsButtonService } from "core-app/features/bim/revit_add
 import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
+import { OpenprojectEnterpriseModule } from "core-app/features/enterprise/openproject-enterprise.module";
 
 @NgModule({
   imports: [
