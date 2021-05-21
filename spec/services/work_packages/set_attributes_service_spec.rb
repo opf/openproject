@@ -776,25 +776,25 @@ describe WorkPackages::SetAttributesService, type: :model do
           context 'a default type exists in new project' do
             let(:new_types) { [other_type, default_type] }
 
-            it 'uses the default type' do
+            it 'uses the first type (by position)' do
               subject
 
               expect(work_package.type)
-                .to eql default_type
+                .to eql other_type
             end
 
             it 'adds change to system changes' do
               subject
 
               expect(work_package.changed_by_system['type_id'])
-                .to eql [initial_type.id, default_type.id]
+                .to eql [initial_type.id, other_type.id]
             end
           end
 
           context 'no default type exists in new project' do
             let(:new_types) { [other_type, yet_another_type] }
 
-            it 'uses the first type' do
+            it 'uses the first type (by position)' do
               subject
 
               expect(work_package.type)
