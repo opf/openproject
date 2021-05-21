@@ -28,7 +28,7 @@
 
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { OpTitleService } from "core-components/../../../../core/html/op-title.service";
+import { OpTitleService } from "core-app/core/html/op-title.service";
 import { WorkPackagesViewBase } from "core-app/features/work_packages/routing/wp-view-base/work-packages-view.base";
 import { take } from "rxjs/operators";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";

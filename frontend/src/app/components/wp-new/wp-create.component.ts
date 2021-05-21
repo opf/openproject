@@ -34,7 +34,6 @@ import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-re
 import { RootResource } from 'core-app/core/hal/resources/root-resource';
 import { WorkPackageCreateService } from './wp-create.service';
 import { takeWhile } from 'rxjs/operators';
-import { OpTitleService } from 'core-components/../../core/html/op-title.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
@@ -46,6 +45,7 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 import { splitViewRoute } from "core-app/features/work_packages/routing/split-view-routes.helper";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { HalSource, HalSourceLinks } from "core-app/core/hal/resources/hal-resource";
+import { OpTitleService } from "core-app/core/html/op-title.service";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {

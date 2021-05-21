@@ -31,7 +31,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { OpTitleService } from 'core-components/../../../../core/html/op-title.service';
+import { OpTitleService } from "core-app/core/html/op-title.service";
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { States } from 'core-components/states.service';
 import { KeepTabService } from 'core-components/wp-single-view-tabs/keep-tab/keep-tab.service';
