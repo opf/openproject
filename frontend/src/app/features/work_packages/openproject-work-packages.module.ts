@@ -42,12 +42,12 @@ import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/ta
 import { WpResizerDirective } from 'core-components/resizer/wp-resizer.component';
 import { WorkPackageTimelineTableController } from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import { WorkPackageInlineCreateComponent } from 'core-components/wp-inline-create/wp-inline-create.component';
-import { OpTypesContextMenuDirective } from 'core-components/op-context-menu/handlers/op-types-context-menu.directive';
-import { OpColumnsContextMenu } from 'core-components/op-context-menu/handlers/op-columns-context-menu.directive';
-import { OpSettingsMenuDirective } from 'core-components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
-import { WorkPackageStatusDropdownDirective } from 'core-components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
-import { WorkPackageCreateSettingsMenuDirective } from 'core-components/op-context-menu/handlers/wp-create-settings-menu.directive';
-import { WorkPackageSingleContextMenuDirective } from 'core-components/op-context-menu/wp-context-menu/wp-single-context-menu';
+import { OpTypesContextMenuDirective } from 'core-app/shared/components/op-context-menu/handlers/op-types-context-menu.directive';
+import { OpColumnsContextMenu } from 'core-app/shared/components/op-context-menu/handlers/op-columns-context-menu.directive';
+import { OpSettingsMenuDirective } from 'core-app/shared/components/op-context-menu/handlers/op-settings-dropdown-menu.directive';
+import { WorkPackageStatusDropdownDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
+import { WorkPackageCreateSettingsMenuDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-create-settings-menu.directive';
+import { WorkPackageSingleContextMenuDirective } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-single-context-menu';
 import { WorkPackageQuerySelectDropdownComponent } from 'core-components/wp-query-select/wp-query-select-dropdown.component';
 import { WorkPackageTimelineHeaderController } from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
 import { WorkPackageTableTimelineRelations } from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
@@ -133,7 +133,7 @@ import { WorkPackagesTableConfigMenu } from "core-components/wp-table/config-men
 import { WorkPackageIsolatedGraphQuerySpaceDirective } from "core-app/features/work_packages/query-space/wp-isolated-graph-query-space.directive";
 import { WorkPackageViewToggleButton } from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import { WorkPackagesGridComponent } from "core-components/wp-grid/wp-grid.component";
-import { WorkPackageViewDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
+import { WorkPackageViewDropdownMenuDirective } from "core-app/shared/components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { OpenprojectProjectsModule } from "core-app/features/projects/openproject-projects.module";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
@@ -148,7 +148,7 @@ import { WorkPackageViewPageComponent } from "core-app/features/work_packages/ro
 import { WorkPackageSettingsButtonComponent } from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
 import { BackButtonComponent } from "core-app/features/work_packages/components/back-routing/back-button.component";
 import { WorkPackagesTableComponent } from "core-components/wp-table/wp-table.component";
-import { WorkPackageGroupToggleDropdownMenuDirective } from "core-components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
+import { WorkPackageGroupToggleDropdownMenuDirective } from "core-app/shared/components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
 import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 import { OpWpTabsModule } from "core-components/wp-tabs/wp-tabs.module";
 import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/field-controls/edit-field-controls.module";

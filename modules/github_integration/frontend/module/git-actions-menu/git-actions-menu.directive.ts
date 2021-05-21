@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
-import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
+import {OpContextMenuItem} from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import {OPContextMenuService} from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import {Directive, ElementRef, Input} from '@angular/core';
-import {OpContextMenuTrigger} from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import {OpContextMenuTrigger} from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import {WorkPackageResource} from 'core-app/core/hal/resources/work-package-resource';
 import {GitActionsMenuComponent} from './git-actions-menu.component';
 

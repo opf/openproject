@@ -1,5 +1,5 @@
-import { OPContextMenuService } from 'core-components/op-context-menu/op-context-menu.service';
-import { OpContextMenuItem } from 'core-components/op-context-menu/op-context-menu.types';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 /**

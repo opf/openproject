@@ -8,7 +8,7 @@ import { TabHeaderComponent } from "core-app/modules/plugins/linked/openproject-
 import { By } from "@angular/platform-browser";
 import { OpIconComponent } from "core-app/shared/components/icon/icon.component";
 import { GitActionsMenuDirective } from "core-app/modules/plugins/linked/openproject-github_integration/git-actions-menu/git-actions-menu.directive";
-import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
 
 
 describe('TabHeaderComponent', () => {

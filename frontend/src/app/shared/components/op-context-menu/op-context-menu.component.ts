@@ -2,8 +2,8 @@ import { Component, Inject } from "@angular/core";
 import {
   OpContextMenuItem,
   OpContextMenuLocalsMap, OpContextMenuLocalsToken
-} from "core-components/op-context-menu/op-context-menu.types";
-import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+} from "core-app/shared/components/op-context-menu/op-context-menu.types";
+import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
 
 @Component({
   templateUrl: './op-context-menu.html'

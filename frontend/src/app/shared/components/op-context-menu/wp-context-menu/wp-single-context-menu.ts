@@ -5,10 +5,10 @@ import { AuthorisationService } from 'core-app/core/model-auth/model-auth.servic
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HookService } from 'core-app/modules/plugins/hook-service';
-import { OpContextMenuTrigger } from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { OPContextMenuService } from 'core-components/op-context-menu/op-context-menu.service';
-import { OpContextMenuItem } from 'core-components/op-context-menu/op-context-menu.types';
-import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageAuthorization } from 'core-components/work-packages/work-package-authorization.service';
 import { WorkPackageAction } from 'core-components/wp-table/context-menu-helper/wp-context-menu-helper.service';

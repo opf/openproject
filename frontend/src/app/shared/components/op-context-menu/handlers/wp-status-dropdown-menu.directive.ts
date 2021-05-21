@@ -27,9 +27,9 @@
 //++
 
 import { StateService } from '@uirouter/core';
-import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
 import { Directive, ElementRef, Input } from "@angular/core";
-import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";

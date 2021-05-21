@@ -2,7 +2,7 @@ import { Board } from "core-app/features/boards/board/board";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { ComponentType } from "@angular/cdk/portal";
-import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
+import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
 import { DisabledButtonPlaceholder } from "core-app/features/boards/board/board-list/board-list.component";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";

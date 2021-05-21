@@ -41,12 +41,12 @@ import {CurrentUserModule} from 'core-app/core/current-user/current-user.module'
 import {IconModule} from 'core-app/shared/components/icon/icon.module';
 import {AttributeHelpTextModule} from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 
-import {IconTriggeredContextMenuComponent} from 'core-components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
+import {IconTriggeredContextMenuComponent} from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-components/projects/current-project.service';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
-import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
+import {OPContextMenuComponent} from 'core-app/shared/components/op-context-menu/op-context-menu.component';
 import {BoardVideoTeaserModalComponent} from 'core-app/features/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
 import {highlightColBootstrap} from './directives/highlight-col/highlight-col.directive';
 import {HighlightColDirective} from './directives/highlight-col/highlight-col.directive';

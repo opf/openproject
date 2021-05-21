@@ -1,7 +1,7 @@
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Component, OnInit, Injector } from '@angular/core';
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
 import { WpTableConfigurationModalComponent } from "core-components/wp-table/configuration-modal/wp-table-configuration.modal";
 
 @Component({

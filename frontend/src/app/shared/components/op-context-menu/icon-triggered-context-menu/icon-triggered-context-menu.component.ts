@@ -26,39 +26,34 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
-import { Directive, ElementRef } from "@angular/core";
-import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import { ChangeDetectorRef, Component, ElementRef, Injector, Input } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { States } from "core-components/states.service";
-import { FormResource } from 'core-app/core/hal/resources/form-resource';
-
-@Directive({
-  selector: '[wpCreateSettingsMenu]'
+@Component({
+  selector: 'icon-triggered-context-menu',
+  templateUrl: './icon-triggered-context-menu.component.html',
+  styleUrls: ['./icon-triggered-context-menu.component.sass']
 })
-export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger {
-
+export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
               readonly opContextMenu:OPContextMenuService,
-              readonly states:States,
-              readonly halEditing:HalResourceEditingService) {
+              readonly opModalService:OpModalService,
+              readonly injector:Injector,
+              readonly cdRef:ChangeDetectorRef,
+              readonly I18n:I18nService) {
 
     super(elementRef, opContextMenu);
   }
 
-  protected open(evt:JQuery.TriggeredEvent) {
-    const wp = this.states.workPackages.get('new').value;
+  @Input('menu-items') menuItems:Function;
 
-    if (wp) {
-      const change = this.halEditing.changeFor(wp);
-      change.getForm().then(
-        (loadedForm:FormResource) => {
-          this.buildItems(loadedForm);
-          this.opContextMenu.show(this, evt);
-        }
-      );
-    }
+  protected async open(evt:JQuery.TriggeredEvent) {
+    this.items = await this.buildItems();
+    this.opContextMenu.show(this, evt);
   }
 
   /**
@@ -78,28 +73,15 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     return position;
   }
 
-  private buildItems(form:FormResource) {
-    this.items = [];
-    const configureFormLink = form.configureForm;
-    const queryCustomFields = form.customFields;
+  private async buildItems() {
+    const items:OpContextMenuItem[] = [];
 
-    if (queryCustomFields) {
-      this.items.push({
-        href: queryCustomFields.href,
-        icon: 'icon-custom-fields',
-        linkText: queryCustomFields.name,
-        onClick: () => false
-      });
+    // Add action specific menu entries
+    if (this.menuItems) {
+      const additional = await this.menuItems();
+      return items.concat(additional);
     }
 
-    if (configureFormLink) {
-      this.items.push({
-        href: configureFormLink.href,
-        icon: 'icon-settings3',
-        linkText: configureFormLink.name,
-        onClick: () => false
-      });
-    }
+    return items;
   }
 }
-

@@ -30,7 +30,7 @@ import { APP_INITIALIZER, ApplicationRef, Injector, NgModule } from '@angular/co
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 
-import { OpContextMenuTrigger } from 'core-components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-components/states.service';
 import { PaginationService } from 'core-components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-components/resizer/main-menu-resizer.component';

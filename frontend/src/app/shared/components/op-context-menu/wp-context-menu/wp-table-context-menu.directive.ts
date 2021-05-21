@@ -1,7 +1,7 @@
 import { Injector } from "@angular/core";
 import { WorkPackageAction } from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
-import { WorkPackageViewContextMenu } from "core-components/op-context-menu/wp-context-menu/wp-view-context-menu.directive";
+import { WorkPackageViewContextMenu } from "core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive";
 import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 

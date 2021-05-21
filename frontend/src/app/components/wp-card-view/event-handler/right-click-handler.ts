@@ -5,8 +5,8 @@ import { WorkPackageViewSelectionService } from "core-app/features/work_packages
 import { uiStateLinkClass } from "core-components/wp-fast-table/builders/ui-state-link-builder";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
-import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
-import { WorkPackageViewContextMenu } from "core-components/op-context-menu/wp-context-menu/wp-view-context-menu.directive";
+import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
+import { WorkPackageViewContextMenu } from "core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class CardRightClickHandler implements CardEventHandler {

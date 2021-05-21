@@ -33,7 +33,7 @@ import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Board } from "core-app/features/boards/board/board";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
-import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
+import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
 

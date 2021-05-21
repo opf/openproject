@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
 import { Directive, ElementRef } from "@angular/core";
-import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { StateService } from "@uirouter/core";
 import { WorkPackageFiltersService } from "core-app/features/work_packages/filters/wp-filters/wp-filters.service";

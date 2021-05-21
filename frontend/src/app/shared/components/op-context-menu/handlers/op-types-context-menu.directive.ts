@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpContextMenuItem } from 'core-components/op-context-menu/op-context-menu.types';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { StateService } from '@uirouter/core';
-import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
 import { Directive, ElementRef, Input, OnInit } from "@angular/core";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
-import { OpContextMenuTrigger } from "core-components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import { TypeResource } from 'core-app/core/hal/resources/type-resource';
 import { Highlighting } from 'core-app/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
