@@ -47,7 +47,6 @@ import {TablePaginationComponent} from 'core-components/table-pagination/table-p
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
-import {HomescreenNewFeaturesBlockComponent} from 'core-components/components/homescreen/blocks/new-features.component';
 import {BoardVideoTeaserModalComponent} from 'core-app/features/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
 import {highlightColBootstrap} from './directives/highlight-col/highlight-col.directive';
 import {HighlightColDirective} from './directives/highlight-col/highlight-col.directive';
@@ -78,6 +77,7 @@ import { DatePickerModule } from "core-app/shared/components/op-date-picker/date
 import { FocusModule } from "core-app/shared/directives/focus/focus.module";
 import { EnterpriseBannerComponent } from "core-app/shared/components/enterprise-banner/enterprise-banner.component";
 import { EnterpriseBannerBootstrapComponent } from "core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component";
+import { HomescreenNewFeaturesBlockComponent } from "core-app/shared/components/homescreen/blocks/new-features.component";
 
 
 export function bootstrapModule(injector:Injector) {

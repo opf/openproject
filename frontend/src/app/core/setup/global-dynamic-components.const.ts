@@ -22,10 +22,6 @@ import {
   globalSearchWorkPackagesSelector
 } from "core-app/core/global_search/global-search-work-packages.component";
 import {
-  HomescreenNewFeaturesBlockComponent,
-  homescreenNewFeaturesBlockSelector
-} from "core-components/../../shared/components/homescreen/blocks/new-features.component";
-import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector
 } from "core-components/wp-custom-actions/date-action/custom-date-action-admin.component";
@@ -159,6 +155,10 @@ import {
   EnterpriseBannerBootstrapComponent,
   enterpriseBannerSelector,
 } from "core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component";
+import {
+  HomescreenNewFeaturesBlockComponent,
+  homescreenNewFeaturesBlockSelector,
+} from "core-app/shared/components/homescreen/blocks/new-features.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
