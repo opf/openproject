@@ -37,7 +37,7 @@ import {
 } from '@angular/core';
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { WorkPackageViewHighlightingService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";

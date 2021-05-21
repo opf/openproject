@@ -6,7 +6,7 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
 import { GridResource } from "core-app/core/hal/resources/grid-resource";
 import { GridAddWidgetService } from "core-app/shared/components/grids/grid/add-widget.service";
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 @Directive()
 export abstract class GridPageComponent implements OnInit, OnDestroy {

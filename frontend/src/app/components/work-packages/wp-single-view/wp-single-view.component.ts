@@ -39,7 +39,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { debugLog } from '../../../shared/helpers/debug_output';
-import { CurrentProjectService } from '../../projects/current-project.service';
 import { States } from '../../states.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
@@ -55,6 +54,7 @@ import { HalResourceService } from "core-app/core/hal/services/hal-resource.serv
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 export interface FieldDescriptor {
   name:string;

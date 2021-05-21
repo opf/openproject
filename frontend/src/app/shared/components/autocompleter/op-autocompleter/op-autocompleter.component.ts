@@ -7,7 +7,7 @@ import {HalResourceSortingService} from 'core-app/core/hal/services/hal-resource
 import {DropdownPosition, NgSelectComponent} from '@ng-select/ng-select';
 import { Observable, Subject } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
-import { CurrentProjectService } from 'core-components/projects/current-project.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';

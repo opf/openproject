@@ -39,7 +39,7 @@ import { OpModalComponent } from "core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { TypeResource } from "core-app/core/hal/resources/type-resource";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { FormResource } from "core-app/core/hal/resources/form-resource";
 

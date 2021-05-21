@@ -30,7 +30,7 @@
 import {Inject, Injectable} from "@angular/core";
 import {DOCUMENT} from "@angular/common";
 import {OpModalService} from "core-app/shared/components/modal/modal.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {CurrentProjectService} from "core-app/core/current-project/current-project.service";
 import {InviteUserModalComponent} from "./invite-user.component";
 import ClickEvent = JQuery.ClickEvent;
 

@@ -29,7 +29,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Injector } from '@angular/core';
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { Observable } from "rxjs";
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";

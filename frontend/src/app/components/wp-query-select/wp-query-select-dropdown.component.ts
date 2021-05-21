@@ -36,7 +36,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { WorkPackageStaticQueriesService } from 'core-components/wp-query-select/wp-static-queries.service';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

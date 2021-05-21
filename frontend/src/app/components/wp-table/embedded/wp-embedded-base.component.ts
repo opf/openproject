@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Directive, Input, SimpleChanges } from '@angular/core';
-import { CurrentProjectService } from '../../projects/current-project.service';
 import { WorkPackageStatesInitializationService } from '../../wp-list/wp-states-initialization.service';
 import {
   WorkPackageTableConfiguration,
@@ -13,6 +12,7 @@ import { WorkPackagesViewBase } from "core-app/features/work_packages/routing/wp
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 @Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {

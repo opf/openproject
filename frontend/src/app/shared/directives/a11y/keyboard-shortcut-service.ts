@@ -29,7 +29,7 @@
 import { Injectable } from "@angular/core";
 import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 
 const accessKeys = {

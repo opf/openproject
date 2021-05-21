@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Injector, OnInit, ChangeDetectorRef
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { NewsResource } from "core-app/core/hal/resources/news-resource";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Apiv3ListParameters } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";

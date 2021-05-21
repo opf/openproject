@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { TestBed, waitForAsync } from "@angular/core/testing";

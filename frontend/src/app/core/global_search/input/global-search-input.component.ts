@@ -43,7 +43,7 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { DeviceService } from "core-app/core/browser/device.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { Observable, of } from "rxjs";

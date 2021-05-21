@@ -3,7 +3,6 @@ import { WorkPackageResource } from "core-app/core/hal/resources/work-package-re
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { States } from "core-components/states.service";
 import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import { DragAndDropHelpers } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers";
@@ -11,6 +10,7 @@ import { WorkPackageCardViewComponent } from "core-components/wp-card-view/wp-ca
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {

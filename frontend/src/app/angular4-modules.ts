@@ -39,7 +39,6 @@ import { OPSharedModule } from "core-app/shared/shared.module";
 import { CommentService } from "core-components/wp-activity/comment-service";
 import { OpDragScrollDirective } from "core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive";
 import { OpenprojectPluginsModule } from "core-app/modules/plugins/openproject-plugins.module";
-import { ProjectMenuAutocompleteComponent } from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { LinkedPluginsModule } from "core-app/modules/plugins/linked-plugins.module";
 import { HookService } from "core-app/modules/plugins/hook-service";
@@ -79,6 +78,7 @@ import { DynamicContentModal } from "core-app/shared/components/modals/modal-wra
 import { PasswordConfirmationModal } from "core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal";
 import { WpPreviewModal } from "core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import { ConfirmFormSubmitController } from "core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive";
+import { ProjectMenuAutocompleteComponent } from "core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component";
 
 @NgModule({
   imports: [

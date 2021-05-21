@@ -8,7 +8,7 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
 import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
-import { CurrentProjectService} from "core-components/projects/current-project.service";
+import { CurrentProjectService} from "core-app/core/current-project/current-project.service";
 import { HttpClient } from "@angular/common/http";
 
 

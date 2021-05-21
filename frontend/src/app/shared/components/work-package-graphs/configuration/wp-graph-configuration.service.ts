@@ -10,7 +10,7 @@ import {
   WpGraphConfiguration,
   WpGraphQueryParams
 } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

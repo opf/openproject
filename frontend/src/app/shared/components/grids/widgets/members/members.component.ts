@@ -3,7 +3,7 @@ import {Component, OnInit, ChangeDetectorRef, Injector, ChangeDetectionStrategy}
 import {I18nService} from "core-app/core/i18n/i18n.service";
 import {PathHelperService} from "core-app/core/path-helper/path-helper.service";
 import {UserResource} from "core-app/core/hal/resources/user-resource";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
+import {CurrentProjectService} from "core-app/core/current-project/current-project.service";
 import {MembershipResource} from "core-app/core/hal/resources/membership-resource";
 import {RoleResource} from "core-app/core/hal/resources/role-resource";
 import {APIV3Service} from "core-app/core/apiv3/api-v3.service";

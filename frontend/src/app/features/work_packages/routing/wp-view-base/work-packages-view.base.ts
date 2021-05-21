@@ -53,7 +53,7 @@ import { WorkPackageViewDisplayRepresentationService } from "core-app/features/w
 import { HalEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { DeviceService } from "core-app/core/browser/device.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Directive()

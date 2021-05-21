@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { Board, BoardType } from "core-app/features/boards/board/board";
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";

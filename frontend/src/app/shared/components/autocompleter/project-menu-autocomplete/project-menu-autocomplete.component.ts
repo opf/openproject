@@ -36,7 +36,7 @@ import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handlin
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpClient } from "@angular/common/http";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from "@angular/core";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 export interface IProjectMenuEntry {
   id:number;

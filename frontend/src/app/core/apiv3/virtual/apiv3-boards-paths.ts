@@ -35,7 +35,7 @@ import { CollectionResource } from "core-app/core/hal/resources/collection-resou
 import { Board, BoardType } from "core-app/features/boards/board/board";
 import { map, switchMap, tap } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";

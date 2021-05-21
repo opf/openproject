@@ -35,7 +35,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { multiInput } from "reactivestates";
 import { TransitionService } from "@uirouter/core";
 import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 export type SupportedAttributeModels = 'project'|'workPackage';
 

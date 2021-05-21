@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { Board } from "core-app/features/boards/board/board";

@@ -36,7 +36,7 @@ import {
   Injector,
 } from '@angular/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
 

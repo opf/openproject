@@ -44,7 +44,7 @@ import { NgSelectComponent } from "@ng-select/ng-select";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";

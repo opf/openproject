@@ -43,7 +43,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } f
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";

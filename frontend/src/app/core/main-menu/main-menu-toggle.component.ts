@@ -28,7 +28,7 @@
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { DeviceService } from "core-app/core/browser/device.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

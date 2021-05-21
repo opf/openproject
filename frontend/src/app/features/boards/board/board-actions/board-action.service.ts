@@ -9,7 +9,7 @@ import { BoardListsService } from "core-app/features/boards/board/board-list/boa
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { Injectable, Injector } from "@angular/core";
 import { map } from "rxjs/operators";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";

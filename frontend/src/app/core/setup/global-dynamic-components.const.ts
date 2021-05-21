@@ -83,7 +83,7 @@ import {
 import {
   ProjectMenuAutocompleteComponent,
   projectMenuAutocompleteSelector
-} from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
+} from "core-app/shared/components/autocompleter//project-menu-autocomplete/project-menu-autocomplete.component";
 import {
   RemoteFieldUpdaterComponent,
   remoteFieldUpdaterSelector
