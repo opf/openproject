@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
 import { WpGraphConfigurationModalComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
@@ -43,7 +43,7 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
 @NgModule({
   imports: [
     // Commons
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectModalModule,
 
     OpenprojectWorkPackagesModule,

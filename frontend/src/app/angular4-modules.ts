@@ -39,7 +39,7 @@ import { ConfirmDialogService } from "core-components/modals/confirm-dialog/conf
 import { DynamicContentModal } from "core-components/modals/modal-wrapper/dynamic-content.modal";
 import { PasswordConfirmationModal } from "core-components/modals/request-for-confirmation/password-confirmation.modal";
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { CommentService } from "core-components/wp-activity/comment-service";
 import { OpDragScrollDirective } from "core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive";
 import { OpenprojectPluginsModule } from "core-app/modules/plugins/openproject-plugins.module";
@@ -85,7 +85,7 @@ import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-
     // The BrowserModule must only be loaded here!
     BrowserModule,
     // Commons
-    OpenprojectCommonModule,
+    OPSharedModule,
     // Router module
     OpenprojectRouterModule,
     // Hal Module

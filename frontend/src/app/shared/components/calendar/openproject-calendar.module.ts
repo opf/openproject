@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OPSharedModule } from 'core-app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { WorkPackagesCalendarEntryComponent } from "core-app/shared/components/calendar/wp-calendar-entry/wp-calendar-entry.component";
@@ -56,7 +56,7 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
 @NgModule({
   imports: [
     // Commons
-    OpenprojectCommonModule,
+    OPSharedModule,
 
     // Routes for /work_packages/calendar
     UIRouterModule.forChild({ states: CALENDAR_ROUTES }),

@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
 import { GlobalSearchInputComponent } from "core-app/core/global_search/input/global-search-input.component";
 import { GlobalSearchWorkPackagesComponent } from "core-app/core/global_search/global-search-work-packages.component";
@@ -38,7 +38,7 @@ import { GlobalSearchWorkPackagesEntryComponent } from "core-app/core/global_sea
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectWorkPackagesModule
   ],
   providers: [

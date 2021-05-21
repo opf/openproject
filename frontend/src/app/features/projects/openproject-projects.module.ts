@@ -35,13 +35,13 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { DynamicFormsModule } from "core-app/shared/components/dynamic-forms/dynamic-forms.module";
 import { NewProjectComponent } from "core-app/features/projects/components/new-project/new-project.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { CopyProjectComponent } from "core-app/features/projects/components/copy-project/copy-project.component";
 
 @NgModule({
   imports: [
     // Commons
-    OpenprojectCommonModule,
+    OPSharedModule,
     ReactiveFormsModule,
 
     OpenprojectHalModule,

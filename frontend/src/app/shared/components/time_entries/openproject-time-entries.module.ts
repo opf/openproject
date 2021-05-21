@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { TimeEntryCreateModal } from "core-app/shared/components/time_entries/create/create.modal";
@@ -40,7 +40,7 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 @NgModule({
   imports: [
     // Commons
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectModalModule,
 
     // Editable fields e.g. for modals

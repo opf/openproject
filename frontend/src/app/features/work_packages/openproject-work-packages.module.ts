@@ -27,7 +27,7 @@
 //++
 
 import { Injector, NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import {
@@ -177,7 +177,7 @@ import { DatePickerModal } from "core-app/shared/components/datepicker/datepicke
 @NgModule({
   imports: [
     // Commons
-    OpenprojectCommonModule,
+    OPSharedModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
     // CKEditor

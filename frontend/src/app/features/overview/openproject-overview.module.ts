@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { Ng2StateDeclaration, UIRouter, UIRouterModule } from "@uirouter/angular";
 import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
 import { OverviewComponent } from "core-app/features/overview/overview.component";
@@ -60,7 +60,7 @@ export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule,
+    OPSharedModule,
 
     OpenprojectGridsModule,
 

@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
 import { DisplayJobPageComponent } from "core-app/features/job-status/display-job-page/display-job-page.component";
@@ -48,7 +48,7 @@ export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
 @NgModule({
   imports: [
     // Commons
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectModalModule,
 
     // Routes for /job_statuses/:uuid

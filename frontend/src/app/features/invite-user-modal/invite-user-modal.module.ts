@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { TextFieldModule } from '@angular/cdk/text-field'; 
 import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { DynamicFormsModule } from "core-app/shared/components/dynamic-forms/dynamic-forms.module";
 import { OpInviteUserModalAugmentService } from "core-app/features/invite-user-modal/invite-user-modal-augment.service";
 import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
@@ -30,7 +30,7 @@ export function initializeServices(injector:Injector) {
 @NgModule({
   imports: [
     CommonModule,
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectModalModule,
     NgSelectModule,
     ReactiveFormsModule,

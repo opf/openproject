@@ -29,11 +29,11 @@
 import { NgModule } from "@angular/core";
 import { MembersAutocompleterComponent } from "core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component";
 import { NgSelectModule } from "@ng-select/ng-select";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule,
+    OPSharedModule,
     NgSelectModule
   ],
   exports: [  ],

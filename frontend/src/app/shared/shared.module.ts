@@ -35,7 +35,7 @@ import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {DragulaModule} from 'ng2-dragula';
 import {DynamicModule} from 'ng-dynamic-component';
 import {StateService, UIRouterModule} from '@uirouter/angular';
-import {HookService} from '../plugins/hook-service';
+import {HookService} from '../modules/plugins/hook-service';
 import {OpenprojectAccessibilityModule} from 'core-app/shared/directives/a11y/openproject-a11y.module';
 import {CurrentUserModule} from 'core-app/core/current-user/current-user.module';
 import {IconModule} from 'core-app/shared/components/icon/icon.module';
@@ -51,30 +51,30 @@ import {EnterpriseBannerComponent} from 'core-components/enterprise-banner/enter
 import {EnterpriseBannerBootstrapComponent} from 'core-components/enterprise-banner/enterprise-banner-bootstrap.component';
 import {HomescreenNewFeaturesBlockComponent} from 'core-components/homescreen/blocks/new-features.component';
 import {BoardVideoTeaserModalComponent} from 'core-app/features/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
-import {highlightColBootstrap} from '../../shared/directives/highlight-col/highlight-col.directive';
-import {HighlightColDirective} from '../../shared/directives/highlight-col/highlight-col.directive';
-import {CopyToClipboardDirective} from '../../shared/components/copy-to-clipboard/copy-to-clipboard.directive';
-import {OpDateTimeComponent} from '../../shared/components/date/op-date-time.component';
-import {NotificationComponent} from '../../shared/components/notifications/notification.component';
-import {NotificationsContainerComponent} from '../../shared/components/notifications/notifications-container.component';
-import {UploadProgressComponent} from '../../shared/components/notifications/upload-progress.component';
-import {ResizerComponent} from '../../shared/components/resizer/resizer.component';
-import {CollapsibleSectionComponent} from '../../shared/components/collapsible-section/collapsible-section.component';
-import {NoResultsComponent} from '../../shared/components/no-results/no-results.component';
-import {ScrollableTabsComponent} from '../../shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
-import {ContentTabsComponent} from '../../shared/components/tabs/content-tabs/content-tabs.component';
-import {EditableToolbarTitleComponent} from '../../shared/components/editable-toolbar-title/editable-toolbar-title.component';
-import {PersistentToggleComponent} from '../../shared/components/persistent-toggle/persistent-toggle.component';
-import {AddSectionDropdownComponent} from '../../shared/components/hide-section/add-section-dropdown/add-section-dropdown.component';
-import {HideSectionLinkComponent} from '../../shared/components/hide-section/hide-section-link/hide-section-link.component';
-import {RemoteFieldUpdaterComponent} from '../../shared/components/remote-field-updater/remote-field-updater.component';
-import {AutofocusDirective} from '../../shared/directives/autofocus/autofocus.directive';
-import {ShowSectionDropdownComponent} from '../../shared/components/hide-section/show-section-dropdown.component';
-import {SlideToggleComponent} from '../../shared/components/slide-toggle/slide-toggle.component';
-import {DynamicBootstrapModule} from '../../shared/components/dynamic-bootstrap/dynamic-bootstrap.module';
-import {OpFormFieldComponent} from '../../shared/components/forms/form-field/form-field.component';
-import {OpFormBindingDirective} from '../../shared/components/forms/form-field/form-binding.directive';
-import {OpOptionListComponent} from '../../shared/components/option-list/option-list.component';
+import {highlightColBootstrap} from './directives/highlight-col/highlight-col.directive';
+import {HighlightColDirective} from './directives/highlight-col/highlight-col.directive';
+import {CopyToClipboardDirective} from './components/copy-to-clipboard/copy-to-clipboard.directive';
+import {OpDateTimeComponent} from './components/date/op-date-time.component';
+import {NotificationComponent} from './components/notifications/notification.component';
+import {NotificationsContainerComponent} from './components/notifications/notifications-container.component';
+import {UploadProgressComponent} from './components/notifications/upload-progress.component';
+import {ResizerComponent} from './components/resizer/resizer.component';
+import {CollapsibleSectionComponent} from './components/collapsible-section/collapsible-section.component';
+import {NoResultsComponent} from './components/no-results/no-results.component';
+import {ScrollableTabsComponent} from './components/tabs/scrollable-tabs/scrollable-tabs.component';
+import {ContentTabsComponent} from './components/tabs/content-tabs/content-tabs.component';
+import {EditableToolbarTitleComponent} from './components/editable-toolbar-title/editable-toolbar-title.component';
+import {PersistentToggleComponent} from './components/persistent-toggle/persistent-toggle.component';
+import {AddSectionDropdownComponent} from './components/hide-section/add-section-dropdown/add-section-dropdown.component';
+import {HideSectionLinkComponent} from './components/hide-section/hide-section-link/hide-section-link.component';
+import {RemoteFieldUpdaterComponent} from './components/remote-field-updater/remote-field-updater.component';
+import {AutofocusDirective} from './directives/autofocus/autofocus.directive';
+import {ShowSectionDropdownComponent} from './components/hide-section/show-section-dropdown.component';
+import {SlideToggleComponent} from './components/slide-toggle/slide-toggle.component';
+import {DynamicBootstrapModule} from './components/dynamic-bootstrap/dynamic-bootstrap.module';
+import {OpFormFieldComponent} from './components/forms/form-field/form-field.component';
+import {OpFormBindingDirective} from './components/forms/form-field/form-binding.directive';
+import {OpOptionListComponent} from './components/option-list/option-list.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/shared/components/principal/principal-rendering.module";
 import { DatePickerModule } from "core-app/shared/components/op-date-picker/date-picker.module";
 import { FocusModule } from "core-app/shared/directives/focus/focus.module";
@@ -244,7 +244,7 @@ export function bootstrapModule(injector:Injector) {
     OpOptionListComponent,
   ]
 })
-export class OpenprojectCommonModule {
+export class OPSharedModule {
   constructor(injector:Injector) {
     bootstrapModule(injector);
 

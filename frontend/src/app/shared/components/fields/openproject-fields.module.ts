@@ -32,7 +32,7 @@ import { OpenprojectAccessibilityModule } from "core-app/shared/directives/a11y/
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectAttachmentsModule } from "core-app/shared/components/attachments/openproject-attachments.module";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { AttributeHelpTextModule } from "core-app/shared/components/attribute-help-texts/attribute-help-text.module";
 import { EditFieldService } from "core-app/shared/components/fields/edit/edit-field.service";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
@@ -65,7 +65,7 @@ import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/
 @NgModule({
   imports: [
     CommonModule,
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectAttachmentsModule,
     OpenprojectAccessibilityModule,
     OpenprojectEditorModule,

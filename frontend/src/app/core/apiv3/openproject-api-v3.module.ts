@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpenprojectCommonModule } from 'core-app/modules/common/openproject-common.module';
+import { OPSharedModule } from 'core-app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { OpenprojectHalModule } from "core-app/core/hal/openproject-hal.module";
 
 @NgModule({
   imports: [
     // Commons
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectHalModule,
   ]
 })

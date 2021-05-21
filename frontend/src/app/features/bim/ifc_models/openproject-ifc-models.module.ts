@@ -28,7 +28,7 @@
 import { NgModule } from "@angular/core";
 import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
 import { UIRouterModule } from '@uirouter/angular';
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { IFCViewerComponent } from './ifc-viewer/ifc-viewer.component';
 import { IFC_ROUTES } from "core-app/features/bim/ifc_models/openproject-ifc-models.routes";
 import { IFCViewerPageComponent } from "core-app/features/bim/ifc_models/pages/viewer/ifc-viewer-page.component";
@@ -47,7 +47,7 @@ import { OpenprojectBcfModule } from "core-app/features/bim/bcf/openproject-bcf.
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectFieldsModule,
     OpenprojectHalModule,
     OpenprojectBcfModule,

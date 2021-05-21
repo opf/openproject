@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { TypeFormConfigurationComponent } from 'core-app/core/admin/types/type-form-configuration.component';
 import { GroupEditInPlaceComponent } from 'core-app/core/admin/types/group-edit-in-place.component';
 import { TypeFormAttributeGroupComponent } from 'core-app/core/admin/types/attribute-group.component';
@@ -39,7 +39,7 @@ import { EditableQueryPropsComponent } from "core-app/core/admin/editable-query-
 @NgModule({
   imports: [
     DragulaModule.forRoot(),
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectAccessibilityModule
   ],
   providers: [

@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { EnterpriseTrialService } from "core-components/enterprise/enterprise-trial.service";
 import { EnterpriseBaseComponent } from "core-components/enterprise/enterprise-base.component";
@@ -40,7 +40,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectModalModule,
     FormsModule,
     ReactiveFormsModule,

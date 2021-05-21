@@ -18,7 +18,7 @@ import { DatePickerAdapterComponent } from './components/dynamic-inputs/date-inp
 import { FormattableTextareaInputComponent } from './components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
 import { OpenprojectEditorModule } from "core-app/shared/components/editor/openproject-editor.module";
 import { FormattableControlComponent } from './components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { FormattableEditFieldModule } from "core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";
 import { DatePickerModule } from "core-app/shared/components/op-date-picker/date-picker.module";
 import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper/dynamic-field-wrapper.component';
@@ -50,7 +50,7 @@ import { InviteUserButtonModule } from "core-app/features/invite-user-modal/butt
       ]
     }),
     HttpClientModule,
-    OpenprojectCommonModule,
+    OPSharedModule,
 
     // Input dependencies
     DatePickerModule,

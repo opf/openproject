@@ -29,7 +29,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { HookService } from "core-app/modules/plugins/hook-service";
-import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";
 import { BrowserModule } from '@angular/platform-browser';
@@ -74,7 +74,7 @@ import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter
     FormsModule,
     DragDropModule,
 
-    OpenprojectCommonModule,
+    OPSharedModule,
     OpenprojectModalModule,
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageGraphsModule,
