@@ -32,12 +32,13 @@ class Principal < ApplicationRecord
   include ::Scopes::Scoped
 
   # Account statuses
+  # Disables enum scopes to include not_builtin (cf. Principals::Scopes::Status)
   enum status: {
     active: 1,
     registered: 2,
     locked: 3,
     invited: 4
-  }.freeze
+  }.freeze, _scopes: false
 
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
@@ -63,11 +64,8 @@ class Principal < ApplicationRecord
          :possible_assignee,
          :possible_member,
          :user,
-         :ordered_by_name
-
-  scope :not_locked, -> {
-    not_builtin.where.not(status: statuses[:locked])
-  }
+         :ordered_by_name,
+         :status
 
   scope :in_project, ->(project) {
     where(id: Member.of(project).select(:user_id))

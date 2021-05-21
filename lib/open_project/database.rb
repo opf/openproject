@@ -89,9 +89,7 @@ module OpenProject
     # Raises an +InsufficientVersionError+ when the version is incompatible
     def self.check!
       if !postgresql?
-        message = "Database server is not PostgreSql. " \
-                  "As OpenProject uses non standard ANSI-SQL for performance optimizations, using a different DBMS will " \
-                  "break and is thus prevented."
+        message = "OpenProject requires a PostgreSQL database, but database adapter is set to #{adapter_name}."
 
         if adapter_name.match?(/mysql/i)
           message << " As MySql used to be supported, there is a migration script to ease the transition " \
@@ -119,6 +117,9 @@ module OpenProject
     # This string is set by the used adapter gem.
     def self.adapter_name(connection = self.connection)
       connection.adapter_name
+    rescue StandardError => e
+      Rails.logger.error "Failed to retrieve database adapter name #{e} #{e.message}"
+      "Unknown due to error #{e}"
     end
 
     # Get the AR base connection object handle

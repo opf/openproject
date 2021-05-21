@@ -86,7 +86,7 @@ el:
     caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
       browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "Αντιγράφηκε επιτυχώς στο πρόχειρο!"
     chart:
       type: 'Τύπος διαγράμματος'
       axis_criteria: 'Κριτήρια άξονα'
@@ -118,11 +118,11 @@ el:
         manual: 'Αλλαγή σε Markdown source'
         wysiwyg: 'Αλλαγή σε επεξεργαστή WYSIWYG'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Αδυναμία επέκτασης μακροεντολής: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Αυτό το τμήμα κειμένου δημιουργείται δυναμικά από μια μακροεντολή.'
+          not_found: 'Ο ζητούμενος πόρος δεν βρέθηκε.'
+          invalid_attribute: "Το επιλεγμένο χαρακτηριστικό '%{name}' δεν υπάρχει."
         child_pages:
           button: 'Σύνδεσμοι σε σελίδες-παιδιά'
           include_parent: 'Συμπεριλάβετε τον γονέα'
@@ -174,7 +174,7 @@ el:
         trial:
           confirmation: "Επιβεβαίωση της διεύθυνσης email"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Σας στείλαμε ένα email στο %{date} στο %{email}. Παρακαλούμε ελέγξτε τα εισερχόμενά σας και κάντε κλικ στον σύνδεσμο επιβεβαίωσης που παρέχεται για να ξεκινήσετε τη δοκιμή 14 ημερών.
           form:
             general_consent: >
               Συμφωνώ με τους <a target="_blank" href="%{link_terms}">όρους χρήσης</a> και με την <a target="_blank" href="%{link_privacy}">πολιτική απορρήτου</a>.
@@ -202,26 +202,26 @@ el:
           status_confirmed: "επιβεβαιωμένο"
           status_waiting: "το email απεστάλη - αναμονή για επιβεβαίωση"
           test_ee: "Δοκιμάστε την Έκδοση για Επιχειρήσεις για 14 ημέρες δωρεάν "
-          quick_overview: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με το OpenProject."
+          quick_overview: "Λάβετε μια γρήγορη επισκόπηση της διαχείρισης έργων και της ομαδικής συνεργασίας με την Enterprise έκδοση του OpenProject."
         upsale:
           become_hero: "Γίνετε ήρωας!"
           benefits:
-            description: "Ποιά είναι τα οφέλη;"
+            description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Χαρακτηριστικά ασφαλείας"
             high_security_text: "Σύστημα ενιαίας πρόσβασης (SAML, OpenID Connect, CAS), έλεγχος ταυτότητας δύο παραγόντων και αυτόματος συγχρονισμός ομάδων LDAP."
             installation: "Υποστήριξη εγκατάστασης"
             installation_text: "Οι έμπειροι μηχανικοί λογισμικού σας καθοδηγούν στην πλήρη διαδικασία εγκατάστασης και εγκατάστασης στη δική σας υποδομή."
             premium_features: "Premium λειτουργίες"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            premium_features_text: "Agile πίνακες, προσαρμοσμένα θέματα και λογότυπα, γραφήματα, έξυπνες ροές εργασίας με προσαρμοσμένες ενέργειες, αναζήτηση κειμένου για συνημμένα πακέτων εργασίας και πολλαπλή επιλογή προσαρμοσμένων πεδίων."
             professional_support: "Επαγγελματική υποστήριξη"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+            professional_support_text: "Αποκτήστε αξιόπιστη, high-touch υποστήριξη από ανώτερους μηχανικούς υποστήριξης με εξειδικευμένες γνώσεις σχετικά με τη λειτουργία του OpenProject σε κρίσιμα επιχειρηματικά περιβάλλοντα."
           button_start_trial: "Έναρξη δωρεάν δοκιμαστικής περιόδου"
           button_book_now: "Κάντε κράτηση τώρα"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+            Παρέχουμε την εμπιστοσύνη ενός δοκιμασμένου και υποστηριζόμενου λογισμικού διαχείρισης έργων, επιχειρησιακού επιπέδου - με Ανοιχτό Κώδικα και ανοιχτό μυαλό.
           link_quote: "Λάβετε μια προσφορά"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            Η OpenProject Enterprise έκδοση βασίζεται στην Community έκδοση. Περιλαμβάνει premium χαρακτηριστικά και επαγγελματική υποστήριξη που απευθύνεται κυρίως σε οργανισμούς με περισσότερους από 10 χρήστες που διαχειρίζονται κρίσιμα επιχειρηματικά έργα με το OpenProject.
           unlimited: "Απεριόριστα"
           you_contribute: "Και οι προγραμματιστές πρέπει να πληρώσουν τους λογαριασμούς τους. Με την Έκδοση για Επιχειρήσεις, μπορείτε να συνεισφέρετε ουσιαστικά σε αυτή προσπάθεια της Open Source κοινότητας."
     custom_actions:
@@ -287,7 +287,7 @@ el:
     label_add_row_before: "Προσθήκη γραμμής πριν"
     label_add_selected_columns: "Προσθέστε τις επιλεγμένες στήλες"
     label_added_by: "προστέθηκε από"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Προστέθηκε από <a href=%{authorLink}>%{author}</a> στις %{age}"
     label_ago: "ημέρες πριν"
     label_all: "όλα"
     label_all_work_packages: "όλα τα πακέτα εργασίας"
@@ -328,7 +328,7 @@ el:
     label_expand_all: "Ανάπτυξη όλων"
     label_expand_project_menu: "Επέκταση του μενού έργου"
     label_export: "Εξαγωγή"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "Η εξαγωγή προετοιμάζεται και θα κατεβεί σύντομα."
     label_filename: "Aρχείο"
     label_filesize: "Μέγεθος"
     label_general: "Γενικά"
@@ -362,7 +362,7 @@ el:
     label_next: "Επόμενο"
     label_no_color: "Χωρίς χρώμα"
     label_no_data: "Δεν υπάρχουν δεδομένα για εμφάνιση"
-    label_no_due_date: "ημερομηνία μη ολοκλήρωσης"
+    label_no_due_date: "καμία ημερομηνία λήξης"
     label_no_start_date: "δεν υπάρχει ημερομηνία έναρξης"
     label_no_value: "Καμία τιμή"
     label_none: "κανένα"
@@ -402,10 +402,10 @@ el:
     label_public_query: "Δημόσιο"
     label_sum: "Άθροισμα"
     label_sum_for: "Άθροισμα του"
-    label_total_sum: "Total sum"
+    label_total_sum: "Συνολικό άθροισμα"
     label_subject: "Θέμα"
     label_this_week: "αυτή την εβδομάδα"
-    label_today: "Today"
+    label_today: "Σήμερα "
     label_time_entry_plural: "Χρόνος που δαπανήθηκε"
     label_up: "Πάνω"
     label_user_plural: "Χρήστες"
@@ -418,7 +418,7 @@ el:
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Προειδοποίηση"
     label_work_package: "Εργασία"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Πακετό εργασίας γονέας"
     label_work_package_plural: "Πακέτα εργασίας"
     label_watch: "Παρακολουθήστε"
     label_watch_work_package: "Παρακολούθηση πακέτου εργασίας"
@@ -505,7 +505,7 @@ el:
       context: 'Πλαίσιο έργου'
       work_package_belongs_to: 'Αυτό το πακέτο εργασίας ανήκει στο έργο %{projectname}.'
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: 'Η αλλαγή του προτύπου θα επαναφορτώσει τη σελίδα και θα χάσετε όλα τα στοιχεία εισόδου σε αυτή τη φόρμα. Συνέχεια?'
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
     text_are_you_sure: "Είστε σίγουρος/η;"
@@ -516,7 +516,7 @@ el:
         reset_title: "Επαναφορά φόρμας διαμόρφωσης"
         confirm_reset: >
           Προειδοποίηση: Είστε σίγουροι ότι θέλετε να επαναφέρετε τη φόρμα διαμόρφωσης; Αυτό θα επαναφέρει τα χαρακτηριστικά στις προεπιλεγμένες ομάδες τους και θα απενεργοποιήσει ΌΛΑ τα προσαρμοσμένα πεδία.
-        upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
         upgrade_to_ee_text: "Wow! Αν χρειάζεστε αυτή τη λειτουργία τότε είστε σούπερ επαγγελματίας! Θα θέλατε να στηρίξετε εμάς τους προγραμματιστές OpenSource με το να γίνετε πελάτης της έκδοσης για επιχειρήσεις;"
         more_information: "Περισσότερες πληροφορίες"
         nevermind: "Δεν πειράζει"
@@ -595,8 +595,8 @@ el:
     field_value_enter_prompt: "Εισαγωγή τιμής για το '%{field}'"
     project_menu_details: "Λεπτομέρειες"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Χειροκίνητος προγραμματισμός'
+      automatic: 'Αυτόματος προγραμματισμός'
     sort:
       sorted_asc: 'Εφαρμόστηκε αύξουσα ταξινόμηση, '
       sorted_dsc: 'Εφαρμόστηκε φθίνουσα ταξινόμηση, '
@@ -809,8 +809,8 @@ el:
           duplicate_query_title: "Το όνομα αυτής της προβολής υπάρχει ήδη. Αλλαγή παρόλα αυτά;"
         text_no_results: "Δεν βρέθηκαν προβολές που να ταιριάζουν."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Οι ημερομηνίες αυτού του πακέτου εργασίας προκύπτουν αυτόματα από τα παιδιά του. Ενεργοποιήστε τον \"Χειροκίνητο προγραμματισμό\" για να ορίσετε τις ημερομηνίες."
+        is_switched_from_manual_to_automatic: "Οι ημερομηνίες αυτού του πακέτου εργασίας μπορεί να χρειαστεί να υπολογιστούν εκ νέου μετά τη μετάβαση από χειροκίνητο σε αυτόματο προγραμματισμό λόγω των σχέσεων με άλλα πακέτα εργασίας."
       table:
         configure_button: 'Διαμόρφωση του πίνακα πακέτων εργασίας'
         summary: "Πίνακας με γραμμές από πακέτα εργασίας και στήλες από χαρακτηριστικά πακέτων εργασίας."
@@ -844,7 +844,7 @@ el:
           automatic: 'Αυτόματα'
           manually: 'Χειροκίνητα'
           warning: 'Θα χάσετε την προηγούμενη ταξινόμηση όταν ενεργοποιήσετε την λειτουργία αυτόματης ταξινόμησης.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "Χρησιμοποιήστε το παραπάνω πεδίο εισόδου για να προσθέσετε στήλες στην προβολή πίνακα σας. Μπορείτε να σύρετε και να αποθέσετε τις στήλες για να τις αναδιατάξετε."
         upsale:
           attribute_highlighting: 'Χρειάζεστε συγκεκριμένα πακέτα εργασίας για να ξεχωρίσετε από την μάζα;'
           relation_columns: 'Χρειάζεστε να βλέπετε συσχετίσεις στη λίστα πακέτων εργασίας;'
@@ -939,9 +939,9 @@ el:
         one: "ένα παιδί πακέτο εργασίας"
         other: "%{count} παιδιά πακέτα εργασίας"
       hour:
+        one: "1 ώρα"
+        other: "%{count} ώρες"
         zero: "0 ω"
-        one: ""
-        other: ""
     zen_mode:
       button_activate: 'Ενεργοποίηση λειτουργίας zen'
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'

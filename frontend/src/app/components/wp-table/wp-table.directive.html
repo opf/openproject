@@ -67,7 +67,9 @@
       <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"
-             [wp-inline-create--project-identifier]="projectIdentifier">
+             [wp-inline-create--project-identifier]="projectIdentifier"
+             (wp-inline-create--showing)="inlineCreateVisible = $event"
+      >
       </tbody>
     </table>
   </div>
@@ -79,7 +81,8 @@
                 [localStorageKey]="'openProject-timelineFlexBasis'"></wp-resizer>
   </div>
 
-  <div class="work-packages-tabletimeline--timeline-side">
+  <div class="work-packages-tabletimeline--timeline-side"
+       [ngClass]="{ '-single-margin': (sumVisible || inlineCreateVisible) && !(sumVisible && inlineCreateVisible), '-double-margin': sumVisible && inlineCreateVisible }">
     <wp-timeline-container></wp-timeline-container>
   </div>
 </div>

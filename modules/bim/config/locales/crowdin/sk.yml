@@ -15,10 +15,8 @@ sk:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
       zero: 'No BCF issues'
-      one: ''
-      few: ''
-      many: ''
-      other: ''
+      one: 'One BCF issue'
+      other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML File'
       import_title: 'Import'

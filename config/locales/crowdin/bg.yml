@@ -66,7 +66,7 @@ bg:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
       replace_token: "Replace your current support token"
-      order: "Order Enterprise Edition"
+      order: "Order Enterprise on-premises Edition"
       paste: "Paste your Enterprise Edition support token"
       required_for_feature: "This feature is only available with an active Enterprise Edition support token."
       enterprise_link: "For more information, click here."
@@ -247,7 +247,10 @@ bg:
         Всички повторения на потребителя на резервоар (напр. Като правоприемник, отговорник или други потребителски стойности) ще бъдат преназначени към акаунт, наречен „Изтрит потребител“.
         Тъй като данните от всеки изтрит акаунт се пренасочват към този акаунт, няма да е възможно да се разграничат данните, създадени от потребителя, от данните на друг изтрит акаунт.
       irreversible: "Това действие е необратимо"
-      confirmation: "Въведете името на заместителя %{name}, за да потвърдите изтриването."
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -649,6 +652,10 @@ bg:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
         work_package:
           is_not_a_valid_target_for_time_entries: "Работен пакет #%{id} не е валидна цел за преразпределяне на времевите записи."
           attributes:
@@ -768,7 +775,7 @@ bg:
     default_columns: "Колони по подразбиране"
     description: "Описание"
     derived_due_date: "Изведена крайна дата"
-    derived_estimated_time: "Изведено приблизително време"
+    derived_estimated_hours: "Изведено приблизително време"
     derived_start_date: "Изведена начална дата"
     display_sums: "Показване на суми"
     due_date: "Finish date"
@@ -1748,21 +1755,21 @@ bg:
   label_workflow_plural: "Работни потоци"
   label_workflow_summary: "Обобщение"
   label_x_closed_work_packages_abbr:
+    one: "1 затворен"
+    other: "%{count} затворено"
     zero: "0 closed"
-    one: ""
-    other: ""
   label_x_comments:
+    one: "1 коментар"
+    other: "%{count} коментара"
     zero: "no comments"
-    one: ""
-    other: ""
   label_x_open_work_packages_abbr:
+    one: "1 отворен"
+    other: "%{count} отворени"
     zero: "0 open"
-    one: ""
-    other: ""
   label_x_projects:
+    one: "1 проект"
+    other: "%{count} проекти"
     zero: "no projects"
-    one: ""
-    other: ""
   label_yesterday: "вчера"
   label_role_type: "Тип"
   label_member_role: "Project Role"
