@@ -47,8 +47,8 @@ import {TablePaginationComponent} from 'core-components/table-pagination/table-p
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-components/op-context-menu/op-context-menu.component';
-import {EnterpriseBannerComponent} from 'core-components/enterprise-banner/enterprise-banner.component';
-import {EnterpriseBannerBootstrapComponent} from 'core-components/enterprise-banner/enterprise-banner-bootstrap.component';
+import {EnterpriseBannerComponent} from 'core-components/components/enterprise-banner/enterprise-banner.component';
+import {EnterpriseBannerBootstrapComponent} from 'core-components/components/enterprise-banner/enterprise-banner-bootstrap.component';
 import {HomescreenNewFeaturesBlockComponent} from 'core-components/homescreen/blocks/new-features.component';
 import {BoardVideoTeaserModalComponent} from 'core-app/features/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
 import {highlightColBootstrap} from './directives/highlight-col/highlight-col.directive';

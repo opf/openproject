@@ -91,7 +91,7 @@ import {
 import {
   EnterpriseBannerBootstrapComponent,
   enterpriseBannerSelector
-} from "core-components/enterprise-banner/enterprise-banner-bootstrap.component";
+} from "core-components/../../shared/components/enterprise-banner/enterprise-banner-bootstrap.component";
 import {
   ProjectMenuAutocompleteComponent,
   projectMenuAutocompleteSelector
