@@ -45,7 +45,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
         icon: 'icon-add',
         class: 'op-quick-add-menu--button'
       },
-      items: first_level_menu_items_for(:quick_add_menu),
+      items: first_level_menu_items_for(:quick_add_menu, @project),
       options: {
         drop_down_id: 'quick-add-menu',
         menu_item_class: 'op-quick-add-menu'
@@ -107,9 +107,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def show_quick_add_menu?
     !anonymous_and_login_required? &&
-      %i[add_work_packages add_project manage_members].any? do |permission|
-        User.current.allowed_to_globally?(permission)
-      end
+      (global_add_permissions? || add_subproject_permission?)
   end
 
   def in_project_context?
@@ -118,5 +116,16 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def anonymous_and_login_required?
     Setting.login_required? && User.current.anonymous?
+  end
+
+  def global_add_permissions?
+    %i[add_work_packages add_project manage_members].any? do |permission|
+      User.current.allowed_to_globally?(permission)
+    end
+  end
+
+  def add_subproject_permission?
+    in_project_context? &&
+      User.current.allowed_to?(:add_subprojects, @project)
   end
 end
