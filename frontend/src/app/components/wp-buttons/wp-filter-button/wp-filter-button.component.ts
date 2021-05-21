@@ -29,7 +29,7 @@
 import { AbstractWorkPackageButtonComponent } from 'core-components/wp-buttons/wp-buttons.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
+import { WorkPackageFiltersService } from "core-app/features/work_packages/filters/wp-filters/wp-filters.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 

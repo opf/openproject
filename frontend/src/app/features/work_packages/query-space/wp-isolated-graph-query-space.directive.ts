@@ -49,7 +49,7 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
 import { WorkPackageService } from "core-components/work-packages/work-package.service";
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { WorkPackageFiltersService } from "core-components/filters/wp-filters/wp-filters.service";
+import { WorkPackageFiltersService } from "core-app/features/work_packages/filters/wp-filters/wp-filters.service";
 import { WorkPackageContextMenuHelperService } from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { WpChildrenInlineCreateService } from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";

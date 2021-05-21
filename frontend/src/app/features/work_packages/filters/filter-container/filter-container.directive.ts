@@ -37,7 +37,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { WorkPackageViewFiltersService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
+import { WorkPackageFiltersService } from 'core-app/features/work_packages/filters/wp-filters/wp-filters.service';
 import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { Observable } from "rxjs";

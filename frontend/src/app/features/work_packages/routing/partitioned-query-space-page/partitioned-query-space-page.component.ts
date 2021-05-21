@@ -38,9 +38,9 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { ComponentType } from "@angular/cdk/overlay";
 import { Ng2StateDeclaration } from "@uirouter/angular";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageFilterContainerComponent } from "core-components/filters/filter-container/filter-container.directive";
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/invite-user.component';
+import { WorkPackageFilterContainerComponent } from "core-app/features/work_packages/filters/filter-container/filter-container.directive";
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;

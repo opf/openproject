@@ -12,7 +12,7 @@ import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/sh
 import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { Observable } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
-import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
+import { CurrentProjectService } from 'core-components/projects/current-project.service';
 import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { map } from 'rxjs/operators';
 import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';

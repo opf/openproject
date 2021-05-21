@@ -1,7 +1,7 @@
 import { Component, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import { WorkPackageFiltersService } from 'core-components/filters/wp-filters/wp-filters.service';
+import { WorkPackageFiltersService } from "core-app/features/work_packages/filters/wp-filters/wp-filters.service";
 import { WorkPackageViewFiltersService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { BannersService } from "core-app/core/enterprise/banners.service";

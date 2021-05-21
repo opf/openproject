@@ -89,10 +89,6 @@ import {
   CollapsibleSectionComponent
 } from "core-app/shared/components/collapsible-section/collapsible-section.component";
 import {
-  EnterpriseBannerBootstrapComponent,
-  enterpriseBannerSelector
-} from "core-components/../../shared/components/enterprise-banner/enterprise-banner-bootstrap.component";
-import {
   ProjectMenuAutocompleteComponent,
   projectMenuAutocompleteSelector
 } from "core-components/projects/project-menu-autocomplete/project-menu-autocomplete.component";
@@ -159,6 +155,10 @@ import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from "core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component";
+import {
+  EnterpriseBannerBootstrapComponent,
+  enterpriseBannerSelector,
+} from "core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },

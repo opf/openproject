@@ -31,7 +31,7 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
-import { WorkPackageFiltersService } from "core-components/filters/wp-filters/wp-filters.service";
+import { WorkPackageFiltersService } from "core-app/features/work_packages/filters/wp-filters/wp-filters.service";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
 import { WorkPackageTableConfigurationObject } from "core-components/wp-table/wp-table-configuration";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
