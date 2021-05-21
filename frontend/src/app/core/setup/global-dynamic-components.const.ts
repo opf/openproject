@@ -24,7 +24,7 @@ import {
 import {
   HomescreenNewFeaturesBlockComponent,
   homescreenNewFeaturesBlockSelector
-} from "core-components/homescreen/blocks/new-features.component";
+} from "core-components/../../shared/components/homescreen/blocks/new-features.component";
 import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector
