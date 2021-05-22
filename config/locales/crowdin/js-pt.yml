@@ -607,6 +607,10 @@ pt:
     relations_autocomplete:
       placeholder: "Digite para pesquisar"
       parent_placeholder: "Escolha o novo principal ou pressione esc para cancelar."
+    autocompleter:
+      placeholder: "Digite para pesquisar"
+      notFoundText: "No items found"
+      typeToSearchText: "Digite para pesquisar"
     repositories:
       select_tag: 'Selecionar marca'
       select_branch: 'Selecionar o branch'
@@ -991,7 +995,7 @@ pt:
       project:
         label: 'Projeto'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Próxima'
         no_results: 'No projects were found'

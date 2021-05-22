@@ -522,7 +522,7 @@ it:
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'
       confirm_template_load: 'Cambiare il modello ricaricherà la pagina e perderai tutti gli input in questo modulo. Continuare?'
       use_template: "Utilizza modello"
-      no_template_selected: "(None)"
+      no_template_selected: "(Nessuno)"
       copy:
         copy_options: "Copia le opzioni"
       autocompleter:
@@ -608,6 +608,10 @@ it:
     relations_autocomplete:
       placeholder: "Tipo di ricerca"
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
+    autocompleter:
+      placeholder: "Tipo di ricerca"
+      notFoundText: "No items found"
+      typeToSearchText: "Tipo di ricerca"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'
@@ -992,7 +996,7 @@ it:
       project:
         label: 'Progetto'
         required: 'Sei pregato di selezionare un progetto'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Prossimo'
         no_results: 'Nessun progetto è stato trovato'

@@ -2324,8 +2324,8 @@ vi:
     session: "Session"
     brute_force_prevention: "Automated user blocking"
     display:
-      first_date_of_week_and_year_present: >
-        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Chọn ngày tháng 1 có trong tuần đầu tiên của năm. Giá trị này cùng với ngày đầu tuần xác định tổng số tuần trong một năm.
     projects:

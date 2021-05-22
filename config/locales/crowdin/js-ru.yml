@@ -607,6 +607,10 @@ ru:
     relations_autocomplete:
       placeholder: "Введите текст для поиска"
       parent_placeholder: "Выберите нового родителя или нажмите кнопку \"Отменить\"."
+    autocompleter:
+      placeholder: "Введите текст для поиска"
+      notFoundText: "No items found"
+      typeToSearchText: "Введите текст для поиска"
     repositories:
       select_tag: 'Выберите тег'
       select_branch: 'Выберите ветвь'
@@ -995,7 +999,7 @@ ru:
       project:
         label: 'Проект'
         required: 'Пожалуйста, выберите проект'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Следующие'
         no_results: 'Проекты не найдены'

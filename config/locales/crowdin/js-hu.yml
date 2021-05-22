@@ -607,6 +607,10 @@ hu:
     relations_autocomplete:
       placeholder: "Type to search"
       parent_placeholder: "Choose new parent or press escape to cancel."
+    autocompleter:
+      placeholder: "Type to search"
+      notFoundText: "No items found"
+      typeToSearchText: "Type to search"
     repositories:
       select_tag: 'Címke kiválasztása'
       select_branch: 'Branch kiválasztása'
@@ -991,7 +995,7 @@ hu:
       project:
         label: 'Projekt'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: ' Következő'
         no_results: 'No projects were found'

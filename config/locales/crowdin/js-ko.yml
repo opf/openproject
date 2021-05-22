@@ -608,6 +608,10 @@ ko:
     relations_autocomplete:
       placeholder: "검색할 유형"
       parent_placeholder: "새로운 상위 항목은 선택하거나 Escape를 눌러 취소하십시오."
+    autocompleter:
+      placeholder: "검색할 유형"
+      notFoundText: "No items found"
+      typeToSearchText: "검색할 유형"
     repositories:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'
@@ -990,7 +994,7 @@ ko:
       project:
         label: '프로젝트'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: '다음'
         no_results: 'No projects were found'

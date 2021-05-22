@@ -2367,8 +2367,8 @@ lt:
     session: "Sesija"
     brute_force_prevention: "Automatinis vartotojų blokavimas"
     display:
-      first_date_of_week_and_year_present: >
-        Jei vienas iš „Pirma savaitės diena“ ir „Pirma metų savaitė turi“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų vartotojo sąsajoje.
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
     projects:

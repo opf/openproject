@@ -608,6 +608,10 @@ fil:
     relations_autocomplete:
       placeholder: "Type to search"
       parent_placeholder: "Choose new parent or press escape to cancel."
+    autocompleter:
+      placeholder: "Type to search"
+      notFoundText: "No items found"
+      typeToSearchText: "Type to search"
     repositories:
       select_tag: 'Pumiling ng tag'
       select_branch: 'Pumili ng sangay'
@@ -992,7 +996,7 @@ fil:
       project:
         label: 'Proyekto'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Susunod'
         no_results: 'No projects were found'

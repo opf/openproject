@@ -607,6 +607,10 @@ vi:
     relations_autocomplete:
       placeholder: "Type to search"
       parent_placeholder: "Choose new parent or press escape to cancel."
+    autocompleter:
+      placeholder: "Type to search"
+      notFoundText: "No items found"
+      typeToSearchText: "Type to search"
     repositories:
       select_tag: 'Chọn từ khóa'
       select_branch: 'Chọn nhánh'
@@ -989,7 +993,7 @@ vi:
       project:
         label: 'Dự án'
         required: 'Vui lòng chọn một dự án'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Tiếp'
         no_results: 'Không tìm thấy dự án nào'
