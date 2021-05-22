@@ -992,7 +992,7 @@ fil:
       project:
         label: 'Proyekto'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Susunod'
         no_results: 'No projects were found'
