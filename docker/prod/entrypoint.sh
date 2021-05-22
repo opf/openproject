@@ -25,6 +25,7 @@ if [ "$(id -u)" = '0' ]; then
 	export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 	export PGCONF_FILE="/etc/postgresql/$PGVERSION/main/postgresql.conf"
 	echo "-----> Setting PGVERSION=$PGVERSION PGBIN=$PGBIN PGCONF_FILE=$PGCONF_FILE"
+	export PATH="$PGBIN:$PATH"
 
 	mkdir -p $APP_DATA_PATH/{files,git,svn}
 	chown -R $APP_USER:$APP_USER $APP_DATA_PATH
