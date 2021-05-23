@@ -608,6 +608,10 @@ fr:
     relations_autocomplete:
       placeholder: "Taper pour rechercher"
       parent_placeholder: "Choisissez un nouveau parent ou appuyez sur Echap pour annuler."
+    autocompleter:
+      placeholder: "Taper pour rechercher"
+      notFoundText: "No items found"
+      typeToSearchText: "Taper pour rechercher"
     repositories:
       select_tag: 'Sélectionner une étiquette'
       select_branch: 'Sélectionner une branche'
@@ -992,7 +996,7 @@ fr:
       project:
         label: 'Projet'
         required: 'Veuillez sélectionner un projet'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Suivante'
         no_results: 'Aucun projet trouvé'

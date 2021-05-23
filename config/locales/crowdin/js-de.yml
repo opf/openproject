@@ -607,6 +607,10 @@ de:
     relations_autocomplete:
       placeholder: "Suchbegriff eintippen"
       parent_placeholder: "Wählen Sie ein neues Eltern-Arbeitspaket oder drücken Sie Escape, um abzubrechen."
+    autocompleter:
+      placeholder: "Suchbegriff eintippen"
+      notFoundText: "No items found"
+      typeToSearchText: "Suchbegriff eintippen"
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'
@@ -991,7 +995,7 @@ de:
       project:
         label: 'Projekt'
         required: 'Bitte wählen Sie ein Projekt'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Bitte wählen Sie ein anderes Projekt, da Ihnen die Berechtigungen fehlen, Nutzer zu dem aktuell ausgewählten Projekt zuzuweisen.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Weiter'
         no_results: 'Keine Projekte gefunden'

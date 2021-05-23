@@ -608,6 +608,10 @@ ca:
     relations_autocomplete:
       placeholder: "Escriviu per cercar..."
       parent_placeholder: "Escull nou pare o clica escapar per cancel·lar."
+    autocompleter:
+      placeholder: "Escriviu per cercar..."
+      notFoundText: "No items found"
+      typeToSearchText: "Escriviu per cercar..."
     repositories:
       select_tag: 'Seleccionar l''etiqueta'
       select_branch: 'Seleccionar branca'
@@ -992,7 +996,7 @@ ca:
       project:
         label: 'Projecte'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Següent'
         no_results: 'No projects were found'

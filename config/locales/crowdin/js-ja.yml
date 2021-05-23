@@ -613,6 +613,10 @@ ja:
     relations_autocomplete:
       placeholder: "検索キーワードを入力"
       parent_placeholder: "新しい親を選択するか、ESCを押してキャンセルしてください。"
+    autocompleter:
+      placeholder: "検索キーワードを入力"
+      notFoundText: "No items found"
+      typeToSearchText: "検索キーワードを入力"
     repositories:
       select_tag: 'タグを選択する'
       select_branch: '分岐を選択する'
@@ -995,7 +999,7 @@ ja:
       project:
         label: 'プロジェクト'
         required: 'プロジェクトを選択してください'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: '次へ'
         no_results: 'プロジェクトが見つかりませんでした'

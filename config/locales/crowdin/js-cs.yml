@@ -608,6 +608,10 @@ cs:
     relations_autocomplete:
       placeholder: "Zadejte hledaný text"
       parent_placeholder: "Vyberte nového rodiče nebo stiskněte úniku pro zrušení."
+    autocompleter:
+      placeholder: "Zadejte hledaný text"
+      notFoundText: "No items found"
+      typeToSearchText: "Zadejte hledaný text"
     repositories:
       select_tag: 'Vybrat štítek'
       select_branch: 'Vybrat větev'
@@ -996,7 +1000,7 @@ cs:
       project:
         label: 'Projekt'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Další'
         no_results: 'No projects were found'

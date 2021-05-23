@@ -607,6 +607,10 @@ ro:
     relations_autocomplete:
       placeholder: "Introduceți textul de căutat"
       parent_placeholder: "Alegeți un nou părinte sau apăsați Escape pentru a anula."
+    autocompleter:
+      placeholder: "Introduceți textul de căutat"
+      notFoundText: "No items found"
+      typeToSearchText: "Introduceți textul de căutat"
     repositories:
       select_tag: 'Selectare etichetă'
       select_branch: 'Selectare ramură'
@@ -993,7 +997,7 @@ ro:
       project:
         label: 'Proiect'
         required: 'Vă rugăm să selectați un proiect'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Înainte'
         no_results: 'Nu au fost găsite proiecte'

@@ -608,6 +608,10 @@ es:
     relations_autocomplete:
       placeholder: "Escriba para buscar"
       parent_placeholder: "Elija un nuevo padre ó presione escape para cancelar."
+    autocompleter:
+      placeholder: "Escriba para buscar"
+      notFoundText: "No items found"
+      typeToSearchText: "Escriba para buscar"
     repositories:
       select_tag: 'Seleccionar etiqueta'
       select_branch: 'Seleccione Sucursal'
@@ -992,7 +996,7 @@ es:
       project:
         label: 'Proyecto'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Siguiente'
         no_results: 'No projects were found'

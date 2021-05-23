@@ -607,6 +607,10 @@ sv:
     relations_autocomplete:
       placeholder: "Skriv för att söka"
       parent_placeholder: "Välj ny förälder eller tryck på escape för att avbryta."
+    autocompleter:
+      placeholder: "Skriv för att söka"
+      notFoundText: "No items found"
+      typeToSearchText: "Skriv för att söka"
     repositories:
       select_tag: 'Välj etikett'
       select_branch: 'Välj gren'
@@ -991,7 +995,7 @@ sv:
       project:
         label: 'Projekt'
         required: 'Please select a project'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Nästa'
         no_results: 'No projects were found'

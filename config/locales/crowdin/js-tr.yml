@@ -608,6 +608,10 @@ tr:
     relations_autocomplete:
       placeholder: "Aramak için metni yazın"
       parent_placeholder: "Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna basın."
+    autocompleter:
+      placeholder: "Aramak için metni yazın"
+      notFoundText: "No items found"
+      typeToSearchText: "Aramak için metni yazın"
     repositories:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'
@@ -992,7 +996,7 @@ tr:
       project:
         label: 'Proje'
         required: 'Lütfen bir proje seçin'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Sonraki'
         no_results: 'Hiç proje bulunamadı'

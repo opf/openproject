@@ -608,6 +608,10 @@ lt:
     relations_autocomplete:
       placeholder: "Paieškai pradėkite rinkti tekstą"
       parent_placeholder: "Pasirinkite naują tėvą arba spauskite Escape atšaukimui."
+    autocompleter:
+      placeholder: "Paieškai pradėkite rinkti tekstą"
+      notFoundText: "No items found"
+      typeToSearchText: "Paieškai pradėkite rinkti tekstą"
     repositories:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'
@@ -996,7 +1000,7 @@ lt:
       project:
         label: 'Projektas'
         required: 'Pasirinkite projektą'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'

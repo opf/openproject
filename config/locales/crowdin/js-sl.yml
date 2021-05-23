@@ -607,6 +607,10 @@ sl:
     relations_autocomplete:
       placeholder: "Iskalni niz"
       parent_placeholder: "Izberite novo nadrejeno ali pritisnite izhod za preklic."
+    autocompleter:
+      placeholder: "Iskalni niz"
+      notFoundText: "No items found"
+      typeToSearchText: "Iskalni niz"
     repositories:
       select_tag: 'Izberite oznako'
       select_branch: 'Izberite vejo'
@@ -995,7 +999,7 @@ sl:
       project:
         label: 'Projekt'
         required: 'Prosim izberi projekt'
-        lacking_permission: 'Please select a different projects since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Naprej'
         no_results: 'Nobeni projekti niso bili najdeni'
