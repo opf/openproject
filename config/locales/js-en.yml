@@ -104,6 +104,7 @@ en:
     button_update: "Update"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
+    button_create_version: "Create new version"
 
     calendar:
       title: 'Calendar'
