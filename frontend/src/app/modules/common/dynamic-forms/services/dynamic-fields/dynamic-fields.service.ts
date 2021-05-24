@@ -304,7 +304,7 @@ export class DynamicFieldsService {
         );
     }
 
-    // TODO: Backend status options don't include the default 'not set' status
+    // Backend status options don't include the default 'not set' status
     if (options && field.type === 'ProjectStatus') {
       const defaultStatusOption = {
         name: projectStatusI18n('not_set', this.I18n),
