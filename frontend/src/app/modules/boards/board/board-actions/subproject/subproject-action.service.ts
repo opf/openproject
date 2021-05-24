@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { QueryResource } from "core-app/modules/hal/resources/query-resource";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
-import { buildApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
+import { ApiV3FilterBuilder, buildApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
 import { UserResource } from 'core-app/modules/hal/resources/user-resource';
 import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
@@ -46,7 +46,11 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
     return this
       .apiV3Service
       .projects
-      .filtered(buildApiV3Filter('ancestor', '=', [currentProjectId]))
+      .filtered(
+        new ApiV3FilterBuilder()
+          .add('ancestor', '=', [currentProjectId])
+          .add('active', '=', true)
+      )
       .get()
       .toPromise()
       .then((collection:CollectionResource<UserResource>) => collection.elements);
