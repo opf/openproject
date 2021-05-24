@@ -2,33 +2,20 @@
   @include breakpoint(680px down)
     display: none
 
-  &--button
-    display: flex
-    justify-content: center
-    align-items: center
-    position: relative
-    color: var(--button--alt-highlight-font-color)
-    font-size: 0.8rem
-
-    > *
-      z-index: 1
-
-    &::after
-      display: block
-      background: var(--button--alt-highlight-background-color)
-      border-width: 2px
-      border-style: solid
-      border-color: var(--button--alt-highlight-background-color)
-      border-radius: 50%
-      padding: 0.25rem
-      width: 26px
-      height: 26px
-      content: ''
-      position: absolute
+  .op-quick-add-menu--button
+    > i::before
+        display: flex
+        justify-content: center
+        align-items: center
+        border: 2px solid var(--header-item-font-color)
+        border-radius: 50%
+        width: 26px
+        height: 26px
+        padding: 1px 8px 0 8px
+        background: var(--button--alt-highlight-background-color)
+        border-color: var(--button--alt-highlight-background-color)
 
     &:hover
-      > *
-        opacity: 0.9
-
-      &::after
-        opacity: 0.8
+      > i::before
+        background: var(--button--alt-highlight-background-hover-color)
+        border-color: var(--button--alt-highlight-background-hover-color)
