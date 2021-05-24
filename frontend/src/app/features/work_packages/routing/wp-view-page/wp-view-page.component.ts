@@ -29,7 +29,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { take } from "rxjs/operators";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
 import {
   PartitionedQuerySpacePageComponent,

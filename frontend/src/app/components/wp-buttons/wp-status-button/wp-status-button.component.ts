@@ -34,8 +34,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 @Component({
   selector: 'wp-status-button',

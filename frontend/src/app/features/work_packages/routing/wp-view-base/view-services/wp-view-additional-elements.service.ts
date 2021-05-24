@@ -30,14 +30,14 @@ import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-re
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
 import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { RelationsStateValue, WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()

@@ -23,7 +23,7 @@ import {
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageStatesInitializationService } from 'core-components/wp-list/wp-states-initialization.service';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -31,7 +31,7 @@ import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.servi
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ComponentType } from "@angular/cdk/portal";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');

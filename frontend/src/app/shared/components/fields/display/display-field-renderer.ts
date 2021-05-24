@@ -9,7 +9,7 @@ import { MultipleLinesUserFieldModule } from "core-app/shared/components/fields/
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";

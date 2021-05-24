@@ -30,13 +30,13 @@ import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageViewBaseService } from './wp-view-base.service';
 import { Injectable } from '@angular/core';
 import { WorkPackageViewGroupByService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import { IsolatedQuerySpace } from 'core-app/features/work_packages/query-space/isolated-query-space';
+import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import { take } from 'rxjs/operators';
 import { GroupObject, WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { QuerySchemaResource } from 'core-app/core/hal/resources/query-schema-resource';
 import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {

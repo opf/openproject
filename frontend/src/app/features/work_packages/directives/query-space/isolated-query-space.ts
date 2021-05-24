@@ -6,7 +6,6 @@ import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { GroupObject, WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
 import { QueryColumn } from "core-components/wp-query/query-column";
-import { RenderedWorkPackage } from "core-app/features/work_packages/render-info/rendered-work-package.type";
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {

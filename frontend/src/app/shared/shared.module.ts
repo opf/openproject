@@ -43,7 +43,6 @@ import {AttributeHelpTextModule} from 'core-app/shared/components/attribute-help
 
 import {IconTriggeredContextMenuComponent} from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-app/core/current-project/current-project.service';
-import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {ZenModeButtonComponent} from 'core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-app/shared/components/op-context-menu/op-context-menu.component';
@@ -78,6 +77,7 @@ import { FocusModule } from "core-app/shared/directives/focus/focus.module";
 import { EnterpriseBannerComponent } from "core-app/shared/components/enterprise-banner/enterprise-banner.component";
 import { EnterpriseBannerBootstrapComponent } from "core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component";
 import { HomescreenNewFeaturesBlockComponent } from "core-app/features/homescreen/blocks/new-features.component";
+import { TablePaginationComponent } from "core-app/shared/components/table-pagination/table-pagination.component";
 
 
 export function bootstrapModule(injector:Injector) {

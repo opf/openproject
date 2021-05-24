@@ -27,12 +27,9 @@
 //++
 
 import { HttpClientModule } from '@angular/common/http';
-
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { States } from 'core-components/states.service';
-import { PaginationInstance } from 'core-components/table-pagination/pagination-instance';
-import { IPaginationOptions, PaginationService } from 'core-components/table-pagination/pagination-service';
 import { WorkPackageViewPaginationService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
@@ -42,6 +39,8 @@ import { OpenProject } from "core-app/core/setup/globals/openproject";
 import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { OpIconComponent } from "core-app/shared/components/icon/icon.component";
+import { IPaginationOptions, PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
+import { PaginationInstance } from "core-app/shared/components/table-pagination/pagination-instance";
 
 function setupMocks(paginationService:PaginationService) {
   const options:IPaginationOptions = {
@@ -162,6 +161,7 @@ describe('wpTablePagination Directive', () => {
       }));
   });
 });
+
 
 
 

@@ -32,7 +32,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { States } from '../../states.service';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { QueryColumn } from "core-components/wp-query/query-column";
@@ -41,7 +41,7 @@ import { WorkPackageViewSumService } from "core-app/features/work_packages/routi
 import { combineLatest } from "rxjs";
 import { GroupSumsBuilder } from "core-components/wp-fast-table/builders/modes/grouped/group-sums-builder";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 @Directive({
   selector: '[wpTableSumsRow]',

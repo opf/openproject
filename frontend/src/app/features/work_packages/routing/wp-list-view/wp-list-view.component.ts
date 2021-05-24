@@ -44,9 +44,9 @@ import {
 } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { WorkPackageTableConfigurationObject } from "core-components/wp-table/wp-table-configuration";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { DeviceService } from "core-app/core/browser/device.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";

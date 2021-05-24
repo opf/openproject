@@ -10,8 +10,8 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { Moment } from 'moment';
 import { TimeEntryCreateModal } from "core-app/shared/components/time_entries/create/create.modal";
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 @Injectable()
 export class TimeEntryCreateService {

@@ -39,9 +39,9 @@ import { WorkPackageRelationQueryBase } from "core-components/wp-relations/embed
 import { WpChildrenInlineCreateService } from "core-components/wp-relations/embedded/children/wp-children-inline-create.service";
 import { filter } from "rxjs/operators";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
-import { GroupDescriptor } from "core-components/work-packages/wp-single-view/wp-single-view.component";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { GroupDescriptor } from "core-app/features/work_packages/components/wp-single-view/wp-single-view.component";
 
 @Component({
   selector: 'wp-children-query',

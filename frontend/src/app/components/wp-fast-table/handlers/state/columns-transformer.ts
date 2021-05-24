@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { debugLog } from '../../../../shared/helpers/debug_output';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { takeUntil } from "rxjs/operators";
 import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

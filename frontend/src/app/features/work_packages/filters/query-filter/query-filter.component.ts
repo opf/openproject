@@ -33,7 +33,7 @@ import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { BannersService } from "core-app/core/enterprise/banners.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({

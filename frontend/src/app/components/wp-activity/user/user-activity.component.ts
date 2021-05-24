@@ -43,10 +43,10 @@ import {
 } from "@angular/core";
 import { CommentService } from "core-components/wp-activity/comment-service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { WorkPackageCommentFieldHandler } from "core-app/features/work_packages/components/work-package-comment/work-package-comment-field-handler";
 
 @Component({
   selector: 'user-activity',

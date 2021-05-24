@@ -21,7 +21,7 @@ import { BoardInlineCreateService } from "core-app/features/boards/board/board-l
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { Board } from "core-app/features/boards/board/board";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
@@ -49,7 +49,7 @@ import { BoardListCrossSelectionService } from "core-app/features/boards/board/b
 import { debounceTime, filter, map, retry } from "rxjs/operators";
 import { HalEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { ChangeItem } from "core-app/shared/components/fields/changeset/changeset";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

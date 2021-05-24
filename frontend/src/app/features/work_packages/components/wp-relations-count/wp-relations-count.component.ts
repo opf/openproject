@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
 import { combineLatest } from 'rxjs';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
+
 
 @Component({
   templateUrl: './wp-relations-count.html',

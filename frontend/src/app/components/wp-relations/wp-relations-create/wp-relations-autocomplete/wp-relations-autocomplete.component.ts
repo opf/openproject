@@ -41,13 +41,13 @@ import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-re
 import { from, Observable, of, Subject } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from "rxjs/operators";
 import { NgSelectComponent } from "@ng-select/ng-select";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Component({

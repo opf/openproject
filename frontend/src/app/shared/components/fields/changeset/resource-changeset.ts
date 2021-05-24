@@ -6,7 +6,7 @@ import { input, InputState } from "reactivestates";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { take } from "rxjs/operators";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { Injector } from '@angular/core';
 import { SchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
 

@@ -33,7 +33,7 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work_packages
 import { WorkPackageSingleViewBase } from "core-app/features/work_packages/routing/wp-view-base/work-package-single-view.base";
 import { of } from "rxjs";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './wp-full-view.html',

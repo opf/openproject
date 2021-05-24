@@ -30,7 +30,7 @@ import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { States } from 'core-components/states.service';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
 import { QueryColumn } from "core-components/wp-query/query-column";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

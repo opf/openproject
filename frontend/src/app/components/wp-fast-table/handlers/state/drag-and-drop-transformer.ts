@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { take, takeUntil } from "rxjs/operators";
 import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
@@ -12,7 +12,6 @@ import { tableRowClassName } from "core-components/wp-fast-table/builders/rows/s
 import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import { DragAndDropHelpers } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers";
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
-import { RenderedWorkPackage } from "core-app/features/work_packages/render-info/rendered-work-package.type";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

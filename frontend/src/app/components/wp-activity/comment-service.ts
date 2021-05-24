@@ -32,7 +32,7 @@ import { NotificationsService } from 'core-app/shared/components/notifications/n
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { Subject } from "rxjs";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 
 @Injectable()
 export class CommentService {

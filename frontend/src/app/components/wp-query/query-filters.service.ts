@@ -6,7 +6,7 @@ import {
 } from "core-app/core/hal/resources/query-filter-instance-schema-resource";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 
 @Injectable()

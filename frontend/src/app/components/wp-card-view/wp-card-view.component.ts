@@ -12,7 +12,7 @@ import {
   ViewChild
 } from "@angular/core";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { QueryColumn } from "app/components/wp-query/query-column";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -31,7 +31,7 @@ import { WorkPackageViewSelectionService } from "core-app/features/work_packages
 import { CardViewHandlerRegistry } from "core-components/wp-card-view/event-handler/card-view-handler-registry";
 import { WorkPackageCardViewService } from "core-components/wp-card-view/services/wp-card-view.service";
 import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { DeviceService } from "core-app/core/browser/device.service";
 import {
   WorkPackageViewHandlerToken,

@@ -38,15 +38,16 @@ import {
 } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
 import { filter } from "rxjs/operators";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { FormResource } from "core-app/core/hal/resources/form-resource";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { HalResource, HalSource, HalSourceLink } from "core-app/core/hal/resources/hal-resource";
 import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 

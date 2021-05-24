@@ -28,7 +28,7 @@
 
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import { States } from 'core-components/states.service';
 import { Injectable } from '@angular/core';
 import { cloneHalResourceCollection } from 'core-app/core/hal/helpers/hal-resource-builder';

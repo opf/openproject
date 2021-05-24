@@ -30,12 +30,11 @@ import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { States } from '../states.service';
 import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
-import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { StateService } from '@uirouter/core';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { UrlParamsHelperService } from 'core-components/wp-query/url-params-helper';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
@@ -48,10 +47,10 @@ import {
   WorkPackageViewPaginationService
 } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { PaginationService } from "core-components/table-pagination/pagination-service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";
 import { APIv3QueryPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-query-paths";
+import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };

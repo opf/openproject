@@ -30,7 +30,6 @@ import { AfterViewInit, Component, ElementRef, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work_packages/query-space/isolated-query-space';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -54,9 +53,8 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work_packag
 import { WorkPackageTimelineCell } from 'core-components/wp-table/timeline/cells/wp-timeline-cell';
 import { selectorTimelineSide } from 'core-components/wp-table/wp-table-scroll-sync';
 import { debugLog, timeOutput } from 'core-app/shared/helpers/debug_output';
-import { RenderedWorkPackage } from 'core-app/features/work_packages/render-info/rendered-work-package.type';
 import { HalEventsService } from 'core-app/core/hal/services/hal-events.service';
-import { WorkPackageNotificationService } from 'core-app/features/work_packages/notifications/work-package-notification.service';
+import { WorkPackageNotificationService } from 'core-app/features/work_packages/services/notifications/work-package-notification.service';
 import { combineLatest, Observable } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackagesTableComponent } from 'core-components/wp-table/wp-table.component';
@@ -65,6 +63,8 @@ import {
   groupTypeFromIdentifier
 } from 'core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
+
 
 @Component({
   selector: 'wp-timeline-container',

@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { States } from "core-components/states.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
@@ -29,7 +29,7 @@ import { take, debounceTime } from 'rxjs/operators';
 import { ToolbarInput } from '@fullcalendar/common';
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;

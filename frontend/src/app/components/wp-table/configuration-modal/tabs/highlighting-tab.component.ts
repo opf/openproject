@@ -6,7 +6,7 @@ import { HighlightingMode } from "core-components/wp-fast-table/builders/highlig
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { States } from "core-app/components/states.service";
 import { BannersService } from "core-app/core/enterprise/banners.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { NgSelectComponent } from "@ng-select/ng-select";
 
 @Component({

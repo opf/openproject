@@ -3,8 +3,8 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { SingleRowBuilder } from "core-components/wp-fast-table/builders/rows/single-row-builder";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { groupedRowClassName } from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 

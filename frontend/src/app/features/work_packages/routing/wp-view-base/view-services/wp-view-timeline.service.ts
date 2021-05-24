@@ -29,7 +29,7 @@
 import { Injectable } from '@angular/core';
 import { QueryResource, TimelineLabels, TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { input } from 'reactivestates';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { WorkPackageTimelineState } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-table-timeline";

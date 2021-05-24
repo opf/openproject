@@ -32,7 +32,7 @@ import { Injectable, Injector } from '@angular/core';
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 
 @Injectable()

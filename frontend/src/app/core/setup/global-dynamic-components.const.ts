@@ -71,7 +71,6 @@ import {
   CopyToClipboardDirective,
   copyToClipboardSelector
 } from "core-app/shared/components/copy-to-clipboard/copy-to-clipboard.directive";
-import { MainMenuResizerComponent, mainMenuResizerSelector } from "core-components/resizer/main-menu-resizer.component";
 import {
   GlobalSearchInputComponent,
   globalSearchSelector
@@ -159,6 +158,10 @@ import {
   ConfirmFormSubmitController,
   confirmFormSubmitSelector,
 } from "core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive";
+import {
+  MainMenuResizerComponent,
+  mainMenuResizerSelector,
+} from "core-app/shared/components/resizer/resizer/main-menu-resizer.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },

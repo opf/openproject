@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input } from "@angular/core";
 import { Board } from "core-app/features/boards/board/board";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";

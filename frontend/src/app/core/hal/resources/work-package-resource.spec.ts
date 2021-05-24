@@ -34,7 +34,7 @@ import { States } from 'core-components/states.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { AttachmentCollectionResource } from 'core-app/core/hal/resources/attachment-collection-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
@@ -42,7 +42,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { StateService } from "@uirouter/core";
 import { WorkPackageCreateService } from 'core-components/wp-new/wp-create.service';
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { TimezoneService } from "core-components/../../datetime/timezone.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

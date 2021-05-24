@@ -41,7 +41,7 @@ import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TableEventComponent, TableHandlerRegistry } from 'core-components/wp-fast-table/handlers/table-handler-registry';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import { combineLatest } from 'rxjs';
 import { States } from '../states.service';
 import {

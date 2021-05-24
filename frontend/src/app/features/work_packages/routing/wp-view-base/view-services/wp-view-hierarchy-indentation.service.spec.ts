@@ -30,7 +30,7 @@
 
 import { TestBed, waitForAsync } from "@angular/core/testing";
 import { States } from "core-components/states.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { WorkPackageViewHierarchiesService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";

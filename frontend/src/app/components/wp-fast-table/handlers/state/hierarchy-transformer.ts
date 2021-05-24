@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { scrollTableRowIntoView } from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { WorkPackageViewHierarchiesService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
 import {

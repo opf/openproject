@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";

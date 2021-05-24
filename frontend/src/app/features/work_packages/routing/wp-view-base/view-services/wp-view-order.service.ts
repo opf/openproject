@@ -29,7 +29,7 @@
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { Injectable } from '@angular/core';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { States } from "core-components/states.service";

@@ -33,7 +33,7 @@ import { HasId, StateCacheService } from "core-app/core/apiv3/cache/state-cache.
 import { concat, from, merge, Observable, of } from "rxjs";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { mapTo, publish, share, shareReplay, switchMap, take, tap } from "rxjs/operators";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
   extends APIv3GettableResource<T> {

@@ -37,7 +37,6 @@ import { BooleanEditFieldComponent } from "core-app/shared/components/fields/edi
 import { WorkPackageEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/work-package-edit-field.component";
 import { DateEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component";
 import { FormattableEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.component";
-import { WorkPackageCommentFieldComponent } from "core-components/work-packages/work-package-comment/wp-comment-field.component";
 import { SelectAutocompleterRegisterService } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service";
 import { ProjectStatusEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/project-status-edit-field.component";
 import { PlainFormattableEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/plain-formattable-edit-field.component";
@@ -45,6 +44,7 @@ import { TimeEntryWorkPackageEditFieldComponent } from "core-app/shared/componen
 import { CombinedDateEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/combined-date-edit-field.component";
 import { VersionAutocompleterComponent } from "core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component";
 import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
+import { WorkPackageCommentFieldComponent } from "core-app/features/work_packages/components/work-package-comment/wp-comment-field.component";
 
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {

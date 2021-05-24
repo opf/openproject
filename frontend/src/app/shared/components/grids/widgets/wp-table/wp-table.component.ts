@@ -6,7 +6,7 @@ import { WorkPackageTableConfiguration } from "core-components/wp-table/wp-table
 import { Observable } from 'rxjs';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import { StateService } from '@uirouter/core';
 import { finalize, publish, skip } from 'rxjs/operators';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

@@ -39,7 +39,7 @@ import { Attachable } from 'core-app/core/hal/resources/mixins/attachable-mixin'
 import { FormResource } from "core-app/core/hal/resources/form-resource";
 import { InputState } from "reactivestates";
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";

@@ -29,7 +29,6 @@ import { TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 import * as moment from 'moment';
 import { InputState, MultiInputState } from 'reactivestates';
 import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
-import { RenderedWorkPackage } from "core-app/features/work_packages/render-info/rendered-work-package.type";
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import Moment = moment.Moment;
 

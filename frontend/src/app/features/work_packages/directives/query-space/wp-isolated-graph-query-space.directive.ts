@@ -27,7 +27,6 @@
 //++
 
 import { Directive } from '@angular/core';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { OpTableActionsService } from "core-components/wp-table/table-actions/table-actions.service";
 import { WorkPackageViewRelationColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { WorkPackageViewPaginationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
@@ -47,7 +46,6 @@ import { WorkPackageViewFocusService } from "core-app/features/work_packages/rou
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
-import { WorkPackageService } from "core-components/work-packages/work-package.service";
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import { WorkPackageFiltersService } from "core-app/features/work_packages/filters/wp-filters/wp-filters.service";
 import { WorkPackageContextMenuHelperService } from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
@@ -56,9 +54,11 @@ import { WpChildrenInlineCreateService } from "core-components/wp-relations/embe
 import { WpRelationInlineCreateService } from "core-components/wp-relations/embedded/relations/wp-relation-inline-create.service";
 import { WorkPackagesListChecksumService } from "core-components/wp-list/wp-list-checksum.service";
 import { TableDragActionsRegistryService } from "core-components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
-import { IsolatedGraphQuerySpace } from "core-app/features/work_packages/query-space/isolated-graph-query-space";
-import { WorkPackageIsolatedQuerySpaceDirective } from "core-app/features/work_packages/query-space/wp-isolated-query-space.directive";
 import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
+import { WorkPackageService } from "core-app/features/work_packages/services/work-package.service";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
+import { WorkPackageIsolatedQuerySpaceDirective } from "core-app/features/work_packages/directives/query-space/wp-isolated-query-space.directive";
+import { IsolatedGraphQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-graph-query-space";
 
 export const WpIsolatedGraphQuerySpaceProviders = [
   // Open the isolated space first, order is important here

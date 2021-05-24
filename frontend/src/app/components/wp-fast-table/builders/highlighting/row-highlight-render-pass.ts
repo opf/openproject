@@ -4,7 +4,7 @@ import { WorkPackageTable } from "core-components/wp-fast-table/wp-fast-table";
 import { WorkPackageViewHighlightingService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class HighlightingRenderPass {

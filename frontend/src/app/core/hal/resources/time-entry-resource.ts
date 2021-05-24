@@ -28,7 +28,7 @@
 
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class TimeEntryResource extends HalResource {

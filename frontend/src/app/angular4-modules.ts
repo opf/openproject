@@ -29,11 +29,8 @@
 import { APP_INITIALIZER, ApplicationRef, Injector, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
-
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-components/states.service';
-import { PaginationService } from 'core-components/table-pagination/pagination-service';
-import { MainMenuResizerComponent } from 'core-components/resizer/main-menu-resizer.component';
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { CommentService } from "core-components/wp-activity/comment-service";
@@ -79,6 +76,8 @@ import { PasswordConfirmationModal } from "core-app/shared/components/modals/req
 import { WpPreviewModal } from "core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
 import { ConfirmFormSubmitController } from "core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive";
 import { ProjectMenuAutocompleteComponent } from "core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component";
+import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
+import { MainMenuResizerComponent } from "core-app/shared/components/resizer/resizer/main-menu-resizer.component";
 
 @NgModule({
   imports: [

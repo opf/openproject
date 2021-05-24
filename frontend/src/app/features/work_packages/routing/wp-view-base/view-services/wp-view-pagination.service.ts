@@ -29,10 +29,10 @@
 import { Injectable } from '@angular/core';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
-import { PaginationObject, PaginationService } from 'core-components/table-pagination/pagination-service';
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { WorkPackageViewPagination } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
 import { WorkPackageViewBaseService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
+import { PaginationObject, PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 
 export interface PaginationUpdateObject {
   page?:number;

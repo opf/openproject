@@ -34,14 +34,14 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { States } from 'core-components/states.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { take, takeWhile } from 'rxjs/operators';
 import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { TimezoneService } from "core-components/../../../datetime/timezone.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { WorkPackageCache } from "core-app/core/apiv3/endpoints/work_packages/work-package.cache";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";

@@ -38,8 +38,6 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { debugLog } from '../../../shared/helpers/debug_output';
-import { States } from '../../states.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
@@ -52,9 +50,11 @@ import { randomString } from "core-app/shared/helpers/random-string";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { States } from "core-components/states.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { debugLog } from "core-app/shared/helpers/debug_output";
 
 export interface FieldDescriptor {
   name:string;

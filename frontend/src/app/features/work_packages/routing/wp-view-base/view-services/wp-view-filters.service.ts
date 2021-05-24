@@ -31,7 +31,7 @@ import { Injectable } from '@angular/core';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { QuerySchemaResource } from 'core-app/core/hal/resources/query-schema-resource';
 import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { combine, input, InputState } from 'reactivestates';
 import { cloneHalResourceCollection } from 'core-app/core/hal/helpers/hal-resource-builder';
 import { QueryFilterResource } from "core-app/core/hal/resources/query-filter-resource";

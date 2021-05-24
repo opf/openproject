@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { PaginationService } from 'core-components/table-pagination/pagination-service';
-import { PaginationInstance } from 'core-components/table-pagination/pagination-instance';
-import { IPaginationOptions } from './pagination-service';
+import { IPaginationOptions, PaginationService } from './pagination-service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -40,6 +38,7 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { PaginationInstance } from "core-app/shared/components/table-pagination/pagination-instance";
 
 @Component({
   selector: '[tablePagination]',

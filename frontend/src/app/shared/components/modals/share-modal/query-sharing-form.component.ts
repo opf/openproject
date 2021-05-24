@@ -2,7 +2,7 @@ import { States } from 'core-components/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 
 export interface QuerySharingChange {
   isStarred:boolean;

@@ -27,7 +27,7 @@
 //++
 
 import { Directive, ElementRef, Injector } from '@angular/core';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { OpTableActionsService } from "core-components/wp-table/table-actions/table-actions.service";
 import { WorkPackageViewRelationColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { WorkPackageViewPaginationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
@@ -44,10 +44,8 @@ import { WorkPackageViewHighlightingService } from "core-app/features/work_packa
 import { WorkPackageCreateService } from "core-components/wp-new/wp-create.service";
 import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
 import { WorkPackageViewFocusService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
-import { WorkPackageService } from "core-components/work-packages/work-package.service";
 import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import { WorkPackageFiltersService } from "core-app/features/work_packages/filters/wp-filters/wp-filters.service";
 import { WorkPackageContextMenuHelperService } from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
@@ -63,9 +61,10 @@ import { WorkPackageCardViewService } from "core-components/wp-card-view/service
 import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
 import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
+import { WorkPackageService } from "core-app/features/work_packages/services/work-package.service";
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy

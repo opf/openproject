@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
-import { IsolatedQuerySpace } from 'core-app/features/work_packages/query-space/isolated-query-space';
+import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import { rowGroupClassName } from 'core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';

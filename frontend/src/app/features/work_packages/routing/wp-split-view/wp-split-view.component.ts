@@ -35,7 +35,7 @@ import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/kee
 import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { WorkPackageSingleViewBase } from "core-app/features/work_packages/routing/wp-view-base/work-package-single-view.base";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { BackRoutingService } from "core-app/features/work_packages/components/back-routing/back-routing.service";
 
 @Component({

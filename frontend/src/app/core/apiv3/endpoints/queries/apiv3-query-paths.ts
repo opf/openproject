@@ -34,8 +34,8 @@ import { Observable } from "rxjs";
 import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { QueryFiltersService } from "core-components/wp-query/query-filters.service";
-import { PaginationObject } from "core-components/table-pagination/pagination-service";
 import { HalPayloadHelper } from "core-app/core/hal/schemas/hal-payload.helper";
+import { PaginationObject } from "core-app/shared/components/table-pagination/pagination-service";
 
 export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
   @InjectField() private queryFilters:QueryFiltersService;

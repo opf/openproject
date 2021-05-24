@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import { MultiInputState, State } from 'reactivestates';
-import { States } from '../states.service';
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Injectable } from '@angular/core';
 import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';
@@ -36,6 +35,7 @@ import { WorkPackageSchemaProxy } from "core-app/core/hal/schemas/work-package-s
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
 import { take } from "rxjs/operators";
+import { States } from "core-components/states.service";
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {

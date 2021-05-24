@@ -33,7 +33,7 @@ import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { WorkPackageViewRelationColumns } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-table-relation-columns";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { RelationsStateValue, WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
 import { Injectable } from "@angular/core";
 import {

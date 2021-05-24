@@ -36,9 +36,9 @@ import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-re
 import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageService } from "core-components/work-packages/work-package.service";
 import { BackRoutingService } from "core-app/features/work_packages/components/back-routing/back-routing.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
+import { WorkPackageService } from "core-app/features/work_packages/services/work-package.service";
 
 @Component({
   templateUrl: './wp-destroy.modal.html'

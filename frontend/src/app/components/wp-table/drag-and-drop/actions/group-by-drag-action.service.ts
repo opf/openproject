@@ -9,7 +9,7 @@ import { groupIdentifier } from "core-components/wp-fast-table/builders/modes/gr
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 export class GroupByDragActionService extends TableDragActionService {
 

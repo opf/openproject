@@ -10,7 +10,7 @@ import { QueryFilterResource } from "core-app/core/hal/resources/query-filter-re
 import { QueryOperatorResource } from "core-app/core/hal/resources/query-operator-resource";
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 @Component({
   templateUrl: './wp-table-configuration-relation-selector.html',

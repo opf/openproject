@@ -5,7 +5,7 @@ import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { checkedClassName } from '../../builders/ui-state-link-builder';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import {
   WorkPackageViewSelectionService,

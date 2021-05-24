@@ -37,7 +37,7 @@ import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resour
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { WpTableConfigurationModalComponent } from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import {
   selectableTitleIdentifier,
   triggerEditingEvent

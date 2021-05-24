@@ -1,6 +1,6 @@
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 
 @Injectable()
 export class WorkPackageCardViewService {

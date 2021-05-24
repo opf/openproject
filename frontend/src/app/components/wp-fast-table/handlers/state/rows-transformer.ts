@@ -1,12 +1,12 @@
 import { Injector } from '@angular/core';
 import { filter, takeUntil } from 'rxjs/operators';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { IsolatedQuerySpace } from "core-app/features/work_packages/query-space/isolated-query-space";
 import { States } from 'core-components/states.service';
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 
 export class RowsTransformer {
 
