@@ -38,7 +38,7 @@ import { TablePaginationComponent } from "core-app/shared/components/table-pagin
 import { IPaginationOptions, PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 
 @Component({
-  templateUrl: '../../table-pagination/table-pagination.component.html',
+  templateUrl: '../../../shared/components/table-pagination/table-pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-table-pagination'
 })

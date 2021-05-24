@@ -25,12 +25,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 
 import {Injector, NgModule} from '@angular/core';
-
-import {HookService} from 'core-app/modules/plugins/hook-service';
-import {WorkPackageResource} from 'core-app/core/hal/resources/work-package-resource';
-import { Tab } from 'core-app/components/wp-tabs/components/wp-tab-wrapper/tab';
-import {OpenprojectCommonModule} from 'core-app/modules/common/openproject-common.module';
-
 import {GitHubTabComponent} from './github-tab/github-tab.component';
 import {TabHeaderComponent} from './tab-header/tab-header.component';
 import {TabPrsComponent} from './tab-prs/tab-prs.component';
@@ -38,6 +32,10 @@ import {GitActionsMenuDirective} from './git-actions-menu/git-actions-menu.direc
 import {GitActionsMenuComponent} from './git-actions-menu/git-actions-menu.component';
 import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
 import { PullRequestComponent } from './pull-request/pull-request.component';
+import { OPSharedModule } from "core-app/shared/shared.module";
+import { HookService } from "core-app/modules/plugins/hook-service";
+import { Tab } from "core-components/wp-tabs/components/wp-tab-wrapper/tab";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 
 function displayable(work_package: WorkPackageResource): boolean {
   return(!!work_package.github);
@@ -58,7 +56,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
 
 @NgModule({
   imports: [
-    OpenprojectCommonModule
+    OPSharedModule,
   ],
   providers: [
     WorkPackagesGithubPrsService

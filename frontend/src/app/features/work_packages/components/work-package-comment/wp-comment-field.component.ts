@@ -34,7 +34,7 @@ import {
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 @Component({
-  templateUrl: "../../../shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.component.html"
+  templateUrl: "../../../../shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.component.html",
 })
 export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
   public isBusy = false;

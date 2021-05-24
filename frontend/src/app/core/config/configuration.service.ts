@@ -25,7 +25,6 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationResource } from "core-app/core/hal/resources/configuration-resource";

@@ -28,8 +28,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { OpenProjectFileUploadService, UploadFile } from "core-app/core/file-upload/op-file-upload.service";
 import { ImageHelpers } from "core-app/shared/helpers/images/resizer";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 
 @Component({
   selector: 'avatar-upload-form',
