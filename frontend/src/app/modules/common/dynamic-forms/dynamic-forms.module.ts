@@ -14,7 +14,7 @@ import { SelectProjectStatusInputComponent } from "./components/dynamic-inputs/s
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { BooleanInputComponent } from './components/dynamic-inputs/boolean-input/boolean-input.component';
 import { DateInputComponent } from './components/dynamic-inputs/date-input/date-input.component';
-import { DatePickerAdapterComponent } from './components/dynamic-inputs/date-input/components/date-picker-adapter/date-picker-adapter.component';
+import { DatePickerControlComponent } from './components/dynamic-inputs/date-input/components/date-picker-control/date-picker-control.component';
 import { FormattableTextareaInputComponent } from './components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
 import { OpenprojectEditorModule } from "core-app/modules/editor/openproject-editor.module";
 import { FormattableControlComponent } from './components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
@@ -68,7 +68,7 @@ import { InviteUserButtonModule } from "core-app/modules/invite-user-modal/butto
     IntegerInputComponent,
     TextInputComponent,
     DateInputComponent,
-    DatePickerAdapterComponent,
+    DatePickerControlComponent,
     SelectInputComponent,
     SelectProjectStatusInputComponent,
     FormattableTextareaInputComponent,
