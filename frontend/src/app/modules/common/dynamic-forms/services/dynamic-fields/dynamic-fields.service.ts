@@ -8,6 +8,8 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 import { of } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
+import { projectStatusI18n } from "core-app/modules/fields/helpers/project-status-helper";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 
 @Injectable()
@@ -36,7 +38,7 @@ export class DynamicFieldsService {
         type: 'integerInput',
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
         },
       },
       useForFields: ['Integer', 'Float']
@@ -72,7 +74,7 @@ export class DynamicFieldsService {
         type: 'selectInput',
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
           bindLabel: 'name',
           searchable: true,
           virtualScroll: true,
@@ -80,7 +82,7 @@ export class DynamicFieldsService {
           clearSearchOnAdd: false,
           hideSelected: false,
           text: {
-            add_new_action: I18n.t('js.label_create'),
+            add_new_action: this.I18n.t('js.label_create'),
           },
         },
         expressionProperties: {
@@ -97,9 +99,12 @@ export class DynamicFieldsService {
         type: 'selectProjectStatusInput',
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
           bindLabel: 'name',
           searchable: true,
+        },
+        defaultValue: {
+          name: projectStatusI18n('not_set', this.I18n),
         },
         expressionProperties: {
           'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
@@ -112,7 +117,8 @@ export class DynamicFieldsService {
   ];
 
   constructor(
-    private _httpClient:HttpClient,
+    private httpClient:HttpClient,
+    private I18n:I18nService,
   ) {
   }
 
@@ -135,7 +141,14 @@ export class DynamicFieldsService {
   }
 
   getFormattedFieldsModel(formModel:IOPFormModel = {}):IOPFormModel {
-    const { _links: resourcesModel, _meta: metaModel, ...otherElementsModel } = formModel;
+    const { _links: resourcesModel, _meta: metaModel, ...otherElements } = formModel;
+    const otherElementsModel = Object.keys(otherElements).reduce((model, key) => {
+      if (![null, undefined, ''].includes(otherElements[key])) {
+        model = {...model, [key]: otherElements[key]}
+      }
+
+      return model;
+    }, {})
 
     const model = {
       ...otherElementsModel,
@@ -194,7 +207,7 @@ export class DynamicFieldsService {
 
       result = {
         ...result,
-        [resourceKey]: resourceModel,
+        ...![null, undefined, ''].includes(resourceModel) && {[resourceKey]: resourceModel},
       };
 
       return result;
@@ -270,19 +283,20 @@ export class DynamicFieldsService {
 
   private getFieldOptions(field:IOPFieldSchemaWithKey) {
     const allowedValues = field._embedded?.allowedValues || field._links?.allowedValues;
+    let options;
 
     if (!allowedValues) {
       return;
     }
 
     if (Array.isArray(allowedValues)) {
-      const options = allowedValues[0]?._links?.self?.title ?
+      const optionValues = allowedValues[0]?._links?.self?.title ?
         this.formatAllowedValues(allowedValues) :
         allowedValues;
 
-      return of(options);
+      options = of(optionValues);
     } else if (allowedValues!.href) {
-      return this._httpClient
+      options = this.httpClient
         .get(allowedValues!.href!)
         .pipe(
           map((response:api.v3.Result) => response._embedded.elements),
@@ -290,7 +304,16 @@ export class DynamicFieldsService {
         );
     }
 
-    return;
+    // TODO: Backend status options don't include the default 'not set' status
+    if (options && field.type === 'ProjectStatus') {
+      const defaultStatusOption = {
+        name: projectStatusI18n('not_set', this.I18n),
+      }
+
+      options = options.pipe(map(optionValues => ([defaultStatusOption, ...optionValues])))
+    }
+
+    return options;
   }
 
   // ng-select needs a 'name' in order to show the label

@@ -95,10 +95,10 @@ interface IOPAttributeGroup {
 }
 
 interface IOPAllowedValue {
-  id:string;
+  id?:string;
   name:string;
   [key:string]:unknown;
-  _links:{
+  _links?:{
     self:HalSource | IOPApiOption;
     [key:string]:HalSource;
   };
