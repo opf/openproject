@@ -471,7 +471,7 @@ GEM
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.1.0)
     fastimage (2.2.3)
-    ffi (1.15.0)
+    ffi (1.15.1)
     flamegraph (0.9.5)
     fog-aws (3.10.0)
       fog-core (~> 2.1)
