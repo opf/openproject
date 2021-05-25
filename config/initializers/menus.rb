@@ -76,7 +76,10 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
               aria: { label: I18n.t(:label_project_new) },
               title: I18n.t(:label_project_new)
             },
-            if: Proc.new { User.current.allowed_to_globally?(:add_project) }
+            if: ->(project) {
+              User.current.allowed_to_globally?(:add_project) ||
+                User.current.allowed_to?(:add_subprojects, project)
+            }
 
   menu.push :invite_user,
             nil,

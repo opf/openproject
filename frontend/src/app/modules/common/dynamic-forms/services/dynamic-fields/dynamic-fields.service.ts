@@ -59,7 +59,7 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'formattableInput',
-        className: `textarea-wrapper`,
+        className: '',
         templateOptions: {
           editorType: 'full',
           noWrapLabel: true,
@@ -333,7 +333,7 @@ export class DynamicFieldsService {
   private getDefaultFieldGroupSettings(fieldGroupConfig:IDynamicFieldGroupConfig, formFields:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings {
     const defaultFieldGroupSettings = {
       wrappers: ['op-dynamic-field-group-wrapper'],
-      fieldGroupClassName: 'op-form-group',
+      fieldGroupClassName: 'op-form--fieldset',
       templateOptions: {
         label: fieldGroupConfig.name,
         isFieldGroup: true,

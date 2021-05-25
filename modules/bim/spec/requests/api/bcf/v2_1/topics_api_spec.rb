@@ -596,7 +596,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
       {
         guid: issue&.uuid,
-        topic_type: (base && base.type.name) || standard_type.name,
+        topic_type: (base && base.type.name) || type.name,
         topic_status: (base && base.status.name) || default_status.name,
         priority: (base && base.priority.name) || default_priority.name,
         title: title,

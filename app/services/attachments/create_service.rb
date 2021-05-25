@@ -27,6 +27,8 @@
 #++
 
 class Attachments::CreateService
+  include Attachments::TouchContainer
+
   attr_reader :container, :author
 
   def initialize(container, author:)
@@ -53,27 +55,21 @@ class Attachments::CreateService
 
   def create_journalized(uploaded_file, description)
     OpenProject::Mutex.with_advisory_lock_transaction(container) do
-      attachment = create_attachment(uploaded_file, description)
-      # Get the latest attachments to ensure having them all for journalization.
-      # We just created an attachment and a different worker might have added attachments
-      # in the meantime, e.g when bulk uploading.
-      container.attachments.reload
+      create_attachment(uploaded_file, description).tap do
+        # Get the latest attachments to ensure having them all for journalization.
+        # We just created an attachment and a different worker might have added attachments
+        # in the meantime, e.g when bulk uploading.
+        container.attachments.reload
 
-      add_journal
-      save_container
-
-      attachment
+        touch(container)
+      end
     end
   end
 
   def create_unjournalized(uploaded_file, description)
     create_attachment(uploaded_file, description).tap do
-      save_container
+      touch(container)
     end
-  end
-
-  def add_journal
-    container.add_journal author
   end
 
   def create_attachment(uploaded_file, description)
@@ -88,13 +84,5 @@ class Attachments::CreateService
 
   def build_attachment(uploaded_file, description)
     container.attachments.build(file: uploaded_file, description: description, author: author)
-  end
-
-  def save_container
-    # We allow invalid containers to be saved as
-    # adding the attachments does not change the validity of the container
-    # but without that leeway, the user needs to fix the container before
-    # the attachment can be added.
-    container.save!(validate: false)
   end
 end

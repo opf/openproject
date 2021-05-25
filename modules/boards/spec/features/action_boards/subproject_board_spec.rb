@@ -215,4 +215,36 @@ describe 'Subproject action board', type: :feature, js: true do
         .to have_no_content invisible_work_package.subject
     end
   end
+
+  context 'with an archived subproject' do
+    let(:user) do
+      FactoryBot.create(:user,
+                        member_in_projects: [project, subproject1, subproject2],
+                        member_through_role: role)
+    end
+
+    let!(:board) do
+      FactoryBot.create(:subproject_board,
+                        project: project,
+                        projects_columns: [subproject1])
+    end
+
+    let(:board_page) { Pages::Board.new(board) }
+
+    before do
+      # Archive the second project
+      subproject2.update! active: false
+    end
+
+    it 'displays only the columns for the projects in which the current user has permission' do
+      board_page.visit!
+
+      board_page.expect_list subproject1.name
+      board_page.expect_no_list(subproject2.name)
+
+      board_page.open_and_fill_add_list_modal subproject2.name
+
+      expect(page).to have_no_selector('.ng-option', text: subproject2.name)
+    end
+  end
 end

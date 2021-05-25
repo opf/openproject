@@ -45,7 +45,7 @@ class Admin::BackupsController < ApplicationController
 
     if last_backup
       @job_status_id = last_backup.job_status.job_id
-      @last_backup_date = I18n.localize(last_backup.updated_at)
+      @last_backup_date = format_time(last_backup.updated_at)
       @last_backup_attachment_id = last_backup.attachments.first&.id
     end
 
