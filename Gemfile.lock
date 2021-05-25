@@ -267,7 +267,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
     afm (0.2.2)
-    airbrake (11.0.1)
+    airbrake (11.0.3)
       airbrake-ruby (~> 5.1)
     airbrake-ruby (5.2.0)
       rbtree3 (~> 0.5)
