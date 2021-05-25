@@ -32,14 +32,17 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% html_title(t(:label_administration), t("backup.reset_token.heading_#{action}")) -%>
 
-<%= labelled_tabular_form_for(
-  :user,
-  url: { action: 'reset_token' },
+<%= password_confirmation_form_for(
+  @user,
+  as: :user,
+  url: { action: 'perform_token_reset' },
+  builder: ::TabularFormBuilder,
+  lang: current_language,
   html: {
-    method: :post, class: 'confirm_required request-for-confirmation form danger-zone',
-    data: { "request-for-confirmation": true }
+    method: :post,
+    class: '-wide-labels confirm_required request-for-confirmation form danger-zone'
   }
-) do %>
+) do |f| %>
   <div class='wiki'>
     <section class="form--section">
       <h3 class="form--section-title">
