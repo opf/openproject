@@ -25,21 +25,21 @@ ko:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "끌어오기 요청"
         copy_menu:
           label: Git
-          description: Copy important git content to clipboard
+          description: 중요 git 콘텐츠를 클립보드로 복사
         git_actions:
           branch: 브랜치
-          branch_help: Copy the default branch name.
+          branch_help: 기본 브랜치 이름을 복사합니다.
           message: 메시지
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
+          message_help: 기본 커밋 메시지를 복사합니다.
+          cmd: 명령
+          cmd_help: 기본 브랜치 이름과 커밋 메시지를 사용하여 새 브랜치와 빈 커밋을 만드는 셸 명령어를 복사합니다.
+          title: 클립보드에 복사
           copy_button_help: 클립보드 복사
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          copy_success: '✅ 복사 완료!'
+          copy_error: '❌ 복사 실패!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: '아직 연결된 끌어오기 요청이 없습니다. 끌어오기 요청 설명란에서 코드 <code>OP#%{wp_id}</code>(을)를 사용하여 기존 끌어오기 요청을 연결하거나 새 끌어오기 요청을 만드십시오.'
       github_actions: 작업
