@@ -5,18 +5,20 @@
   <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
   <div class="ngdialog-body op-modal--body">
-    <div *ngFor="let widget of selectable;trackBy: trackWidgetBy"
-         (click)="select($event, widget)"
-         [id]="widget.identifier"
-         [textContent]="widget.title"
-         class="grid--addable-widget" >
-    </div>
+    <div
+      *ngFor="let widget of selectable;trackBy: trackWidgetBy"
+      (click)="select($event, widget)"
+      [id]="widget.identifier"
+      [textContent]="widget.title"
+      class="grid--addable-widget"
+    ></div>
 
-    <enterprise-banner *ngIf="eeShowBanners"
-                       [linkMessage]="text.upsale_link"
-                       [textMessage]="text.upsale_text"
-                       class="grid--add-widget-ee"
-                       opReferrer="grids#add-widget">
-    </enterprise-banner>
+    <enterprise-banner
+      *ngIf="eeShowBanners"
+      [linkMessage]="text.upsale_link"
+      [textMessage]="text.upsale_text"
+      class="grid--add-widget-ee"
+      opReferrer="grids#add-widget"
+    ></enterprise-banner>
   </div>
 </div>

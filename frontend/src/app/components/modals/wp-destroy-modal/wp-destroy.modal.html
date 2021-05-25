@@ -64,14 +64,16 @@
   </div>
 
   <div class="op-modal--footer">
-    <button class="button -danger"
-            [textContent]="text.confirm"
-            [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
-            (click)="confirmDeletion($event)">
-    </button>
-    <button class="button"
-            [textContent]="text.cancel"
-            (click)="closeMe($event)">
-    </button>
+    <button
+      class="button"
+      [textContent]="text.cancel"
+      (click)="closeMe($event)"
+    ></button>
+    <button
+      class="button -danger"
+      [textContent]="text.confirm"
+      [attr.disabled]="busy || blockedDueToUnconfirmedChildren || undefined"
+      (click)="confirmDeletion($event)"
+    ></button>
   </div>
 </div>

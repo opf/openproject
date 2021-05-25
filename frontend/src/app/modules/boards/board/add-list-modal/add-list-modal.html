@@ -30,16 +30,18 @@
       </div>
   </div>
   <div class="op-modal--footer">
-    <button class="button -highlight"
-            (click)="create()"
-            [disabled]="!this.selectedAttribute || inFlight"
-            [textContent]="text.button_add"
-            [attr.title]="text.button_add">
-    </button>
-    <button class="confirm-form-submit--cancel button"
-            (click)="closeMe($event)"
-            [textContent]="text.button_cancel"
-            [attr.title]="text.button_cancel">
-    </button>
+    <button
+      class="confirm-form-submit--cancel button"
+      (click)="closeMe($event)"
+      [textContent]="text.button_cancel"
+      [attr.title]="text.button_cancel"
+    ></button>
+    <button
+      class="button -highlight"
+      (click)="create()"
+      [disabled]="!this.selectedAttribute || inFlight"
+      [textContent]="text.button_add"
+      [attr.title]="text.button_add"
+    ></button>
   </div>
 </div>
