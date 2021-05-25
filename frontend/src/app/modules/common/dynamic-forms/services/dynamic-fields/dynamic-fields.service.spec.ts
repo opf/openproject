@@ -5,7 +5,7 @@ import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/serv
 import { isObservable } from "rxjs";
 import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 
-describe('DynamicFieldsService', () => {
+fdescribe('DynamicFieldsService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service:DynamicFieldsService;
@@ -273,7 +273,6 @@ describe('DynamicFieldsService', () => {
 
     expect(formConfigWithFieldGroups?.length).toBe(2, 'should create the correct number of fields (1 field + 1 field group)');
     expect(fieldGroup?.wrappers![0]).toBe('op-dynamic-field-group-wrapper', 'should set the correct group label');
-    expect(fieldGroup?.fieldGroupClassName).toBe('op-form-group', 'should set the correct group CSS class');
     expect(fieldGroup?.templateOptions?.label).toBe(fieldGroups[0].name, 'should set the correct group label (overwriting previous grouping)');
     expect(fieldGroup?.templateOptions?.isFieldGroup).toBe(true, 'should set isFieldGroup to true');
     expect(fieldGroup?.templateOptions?.collapsibleFieldGroups).toBe(true, 'should set collapsibleFieldGroups to true');
