@@ -2,20 +2,19 @@
   @include breakpoint(680px down)
     display: none
 
-  .op-quick-add-menu--button
-    > i::before
-        display: flex
-        justify-content: center
-        align-items: center
-        border: 2px solid var(--header-item-font-color)
-        border-radius: 50%
-        width: 26px
-        height: 26px
-        padding: 1px 8px 0 8px
-        background: var(--button--alt-highlight-background-color)
-        border-color: var(--button--alt-highlight-background-color)
+  &--icon::before
+    display: flex
+    justify-content: center
+    align-items: center
+    border: 2px solid var(--header-item-font-color)
+    border-radius: 50%
+    width: 26px
+    height: 26px
+    padding: 1px 8px 0 8px
+    background: var(--button--alt-highlight-background-color)
+    border-color: var(--button--alt-highlight-background-color)
 
-    &:hover
-      > i::before
-        background: var(--button--alt-highlight-background-hover-color)
-        border-color: var(--button--alt-highlight-background-hover-color)
+  &:hover
+    .op-quick-add-menu--icon::before
+      background: var(--button--alt-highlight-background-hover-color)
+      border-color: var(--button--alt-highlight-background-hover-color)
