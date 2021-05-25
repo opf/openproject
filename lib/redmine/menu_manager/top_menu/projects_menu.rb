@@ -40,7 +40,10 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
     label = !!(@project && !@project.name.empty?) ? @project.name : t(:label_select_project)
     render_menu_dropdown_with_items(
       label: label,
-      label_options: { id: 'projects-menu' },
+      label_options: {
+        id: 'projects-menu',
+        accesskey: OpenProject::AccessKeys.key_for(:project_search)
+      },
       items: project_items,
       options: {
         drop_down_class: 'drop-down--projects'
@@ -61,10 +64,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       :list_projects,
       main_app.projects_path,
       caption: t(:label_project_view_all),
-      icon: "icon-show-all-projects icon4",
-      html: {
-        accesskey: OpenProject::AccessKeys.key_for(:project_search)
-      }
+      icon: "icon-show-all-projects icon4"
     )
   end
 
