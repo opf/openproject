@@ -1,4 +1,4 @@
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';

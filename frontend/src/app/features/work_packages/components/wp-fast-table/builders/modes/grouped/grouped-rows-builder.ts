@@ -14,7 +14,7 @@ import {
 } from "core-app/features/work_packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 
 export class GroupedRowsBuilder extends RowsBuilder {
 

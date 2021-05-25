@@ -9,7 +9,7 @@ import { TimelineRenderPass } from './timeline/timeline-render-pass';
 import { HighlightingRenderPass } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
 import { DragDropHandleRenderPass } from "core-app/features/work_packages/components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { timeOutput } from "core-app/shared/helpers/debug_output";
 
 export type RenderedRowType = 'primary'|'relations';

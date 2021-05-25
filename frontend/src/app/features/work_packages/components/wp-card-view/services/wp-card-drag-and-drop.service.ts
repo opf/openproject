@@ -1,7 +1,7 @@
 import { Injectable, Injector, Optional } from '@angular/core';
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { WorkPackageCreateService } from "core-app/features/work_packages/components/wp-new/wp-create.service";
 import { WorkPackageInlineCreateService } from "core-app/features/work_packages/components/wp-inline-create/wp-inline-create.service";
 import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";

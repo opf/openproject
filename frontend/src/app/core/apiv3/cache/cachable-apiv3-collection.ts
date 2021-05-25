@@ -28,7 +28,7 @@
 
 import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { HasId, StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";

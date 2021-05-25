@@ -29,7 +29,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { inject, TestBed, waitForAsync } from '@angular/core/testing';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewPaginationService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { WorkPackageTablePaginationComponent } from 'core-app/features/work_packages/components/wp-table/table-pagination/wp-table-pagination.component';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';

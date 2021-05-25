@@ -7,7 +7,7 @@ import { HalResourceNotificationService } from "core-app/core/hal/services/hal-r
 import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { TableDragActionsRegistryService } from "core-app/features/work_packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import { TableDragActionService } from "core-app/features/work_packages/components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { tableRowClassName } from "core-app/features/work_packages/components/wp-fast-table/builders/rows/single-row-builder";
 import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import { DragAndDropHelpers } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers";

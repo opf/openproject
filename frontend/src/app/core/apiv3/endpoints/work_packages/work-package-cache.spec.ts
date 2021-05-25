@@ -35,7 +35,7 @@ import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { take, takeWhile } from 'rxjs/operators';
 import { WorkPackagesActivityService } from "core-app/features/work_packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";

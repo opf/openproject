@@ -31,7 +31,7 @@ import { takeUntil } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";

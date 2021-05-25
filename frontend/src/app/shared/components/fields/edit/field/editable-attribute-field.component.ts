@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { States } from 'core-components/states.service';
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { SelectionHelpers } from '../../../../helpers/selection-helpers';
 import { debugLog } from '../../../../helpers/debug_output';
@@ -56,6 +55,7 @@ import {
   DisplayFieldRenderer,
   editFieldContainerClass
 } from "core-app/shared/components/fields/display/display-field-renderer";
+import { States } from "core-app/core/states/states.service";
 
 @Component({
   selector: 'editable-attribute-field',

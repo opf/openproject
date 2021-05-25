@@ -27,7 +27,7 @@
 //++
 
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { StateService } from '@uirouter/core';
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';

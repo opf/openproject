@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { WorkPackageTable } from '../../wp-fast-table';
 import { commonRowClassName } from '../rows/single-row-builder';
 import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";

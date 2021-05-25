@@ -52,7 +52,7 @@ import { HalResourceService } from "core-app/core/hal/services/hal-resource.serv
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 

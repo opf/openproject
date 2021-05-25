@@ -29,7 +29,7 @@
 import { ChangeDetectorRef, Directive, Injector, OnInit, ViewChild } from '@angular/core';
 import { StateService, Transition } from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { RootResource } from 'core-app/core/hal/resources/root-resource';
 import { WorkPackageCreateService } from './wp-create.service';

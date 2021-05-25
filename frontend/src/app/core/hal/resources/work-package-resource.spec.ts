@@ -30,7 +30,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";

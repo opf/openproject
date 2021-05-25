@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { ClickOrEnterHandler } from '../click-or-enter-handler';

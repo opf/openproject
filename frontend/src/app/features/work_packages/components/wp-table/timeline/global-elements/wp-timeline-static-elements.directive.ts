@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { TimelineViewParameters } from '../wp-timeline';
 import { TimelineStaticElement, timelineStaticElementCssClassname } from './timeline-static-element';

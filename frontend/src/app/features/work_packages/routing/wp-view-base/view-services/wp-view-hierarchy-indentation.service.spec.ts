@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 import { TestBed, waitForAsync } from "@angular/core/testing";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { WorkPackageViewHierarchiesService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageRelationsHierarchyService } from "core-app/features/work_packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";

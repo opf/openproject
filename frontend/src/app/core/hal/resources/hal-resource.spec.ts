@@ -33,7 +33,7 @@ import { HalLink, HalLinkInterface } from 'core-app/core/hal/hal-link/hal-link';
 import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { of } from 'rxjs';
 import Spy = jasmine.Spy;
 

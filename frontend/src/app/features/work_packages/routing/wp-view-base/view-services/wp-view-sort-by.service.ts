@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { combine } from 'reactivestates';
 import { mapTo } from 'rxjs/operators';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';

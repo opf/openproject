@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';

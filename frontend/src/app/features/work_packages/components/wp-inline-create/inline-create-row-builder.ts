@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import {
   commonRowClassName,
   SingleRowBuilder,

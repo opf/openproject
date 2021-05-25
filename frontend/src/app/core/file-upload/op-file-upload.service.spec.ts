@@ -31,7 +31,7 @@ import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { getTestBed, TestBed } from "@angular/core/testing";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 describe('opFileUpload service', () => {

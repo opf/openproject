@@ -8,7 +8,7 @@ import { TableEventComponent, TableEventHandler } from '../table-handler-registr
 import { ClickPositionMapper } from "core-app/shared/helpers/set-click-position/set-click-position";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {

@@ -21,7 +21,7 @@ import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking
 import { CardHighlightingMode } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { StateService } from "@uirouter/core";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { filter, map, withLatestFrom } from 'rxjs/operators';

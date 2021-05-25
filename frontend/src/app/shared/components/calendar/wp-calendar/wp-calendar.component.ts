@@ -9,7 +9,7 @@ import {
   ViewChild
 } from "@angular/core";
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";

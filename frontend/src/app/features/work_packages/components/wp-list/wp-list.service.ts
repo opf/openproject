@@ -28,7 +28,7 @@
 
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';

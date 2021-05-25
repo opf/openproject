@@ -60,7 +60,7 @@ import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject,
 } from "core-app/features/work_packages/components/wp-table/wp-table-configuration";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */

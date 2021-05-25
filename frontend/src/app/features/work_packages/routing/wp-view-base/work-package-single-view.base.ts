@@ -33,7 +33,7 @@ import { WorkPackageViewFocusService } from 'core-app/features/work_packages/rou
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { OpTitleService } from "core-app/core/html/op-title.service";
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { KeepTabService } from 'core-app/features/work_packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';

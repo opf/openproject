@@ -27,7 +27,7 @@
 //++
 
 import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { StateService, TransitionService } from '@uirouter/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";

@@ -29,7 +29,7 @@
 import { InputState } from "reactivestates";
 import { HalLinkInterface } from 'core-app/core/hal/hal-link/hal-link';
 import { Injector } from '@angular/core';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 

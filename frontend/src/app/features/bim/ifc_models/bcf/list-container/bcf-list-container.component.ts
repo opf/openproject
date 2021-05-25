@@ -11,7 +11,7 @@ import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/vie
 import { WorkPackageViewColumnsService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { UIRouterGlobals } from '@uirouter/core';
 import { pluck, distinctUntilChanged } from "rxjs/operators";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
 import { splitViewRoute } from "core-app/features/work_packages/routing/split-view-routes.helper";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";

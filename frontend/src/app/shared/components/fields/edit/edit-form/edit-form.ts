@@ -28,7 +28,7 @@
 
 import { Injector } from '@angular/core';
 import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 
 import {

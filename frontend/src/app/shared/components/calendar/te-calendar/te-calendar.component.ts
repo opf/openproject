@@ -12,7 +12,7 @@ import {
   ViewEncapsulation
 } from "@angular/core";
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import * as moment from "moment";
 import { Moment } from "moment";
 import { StateService } from "@uirouter/core";

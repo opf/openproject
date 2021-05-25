@@ -35,7 +35,7 @@ import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageStaticQueriesService } from 'core-app/features/work_packages/components/wp-query-select/wp-static-queries.service';
 import { WorkPackageViewHighlightingService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { WorkPackageViewSortByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { WorkPackageViewGroupByService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";

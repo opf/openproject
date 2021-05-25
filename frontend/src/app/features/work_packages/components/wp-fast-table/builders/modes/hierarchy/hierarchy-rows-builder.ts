@@ -6,7 +6,7 @@ import { SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 import { WorkPackageViewHierarchiesService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 
 export class HierarchyRowsBuilder extends RowsBuilder {
 

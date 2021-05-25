@@ -2,7 +2,7 @@ import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { BannersService } from "core-app/core/enterprise/banners.service";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";

@@ -30,7 +30,7 @@ import { ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angula
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { filter } from "rxjs/operators";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 

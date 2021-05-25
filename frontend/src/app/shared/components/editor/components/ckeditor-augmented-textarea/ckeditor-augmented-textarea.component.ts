@@ -31,7 +31,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";

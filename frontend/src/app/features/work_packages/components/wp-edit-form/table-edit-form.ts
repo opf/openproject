@@ -28,7 +28,7 @@
 
 import { Injector } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";

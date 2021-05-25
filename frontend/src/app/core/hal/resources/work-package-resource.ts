@@ -32,7 +32,7 @@ import { AttachmentCollectionResource } from 'core-app/core/hal/resources/attach
 import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { TypeResource } from 'core-app/core/hal/resources/type-resource';
 import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { Attachable } from 'core-app/core/hal/resources/mixins/attachable-mixin';

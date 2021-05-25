@@ -31,7 +31,7 @@ import { Directive, ElementRef } from "@angular/core";
 import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { FormResource } from 'core-app/core/hal/resources/form-resource';
 
 @Directive({

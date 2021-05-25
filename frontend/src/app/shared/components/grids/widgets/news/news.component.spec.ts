@@ -2,7 +2,7 @@ import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angul
 import { WidgetNewsComponent } from './news.component';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { HttpClientModule } from "@angular/common/http";
 import { By } from '@angular/platform-browser';

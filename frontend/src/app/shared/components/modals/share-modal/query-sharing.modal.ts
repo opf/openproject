@@ -27,7 +27,7 @@
 //++
 
 import { WorkPackagesListService } from 'core-app/features/work_packages/components/wp-list/wp-list.service';
-import { States } from 'core-components/states.service';
+import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";

@@ -39,7 +39,7 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { TypeResource } from "core-app/core/hal/resources/type-resource";
 import { HttpClientModule } from "@angular/common/http";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";

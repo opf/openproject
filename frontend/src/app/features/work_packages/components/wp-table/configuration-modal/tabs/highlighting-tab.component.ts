@@ -4,10 +4,10 @@ import { WorkPackageViewHighlightingService } from 'core-app/features/work_packa
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HighlightingMode } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { States } from "core-app/components/states.service";
 import { BannersService } from "core-app/core/enterprise/banners.service";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { NgSelectComponent } from "@ng-select/ng-select";
+import { States } from "core-app/core/states/states.service";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'

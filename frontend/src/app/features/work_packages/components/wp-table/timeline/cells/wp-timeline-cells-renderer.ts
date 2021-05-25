@@ -27,7 +27,7 @@
 //++
 
 import { Injector } from '@angular/core';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { RenderInfo } from '../wp-timeline';
 import { TimelineCellRenderer } from './timeline-cell-renderer';

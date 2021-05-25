@@ -2,7 +2,7 @@ import { Injector } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { tdClassName } from '../../builders/cell-builder';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';

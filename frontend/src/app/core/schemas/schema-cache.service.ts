@@ -35,7 +35,7 @@ import { WorkPackageSchemaProxy } from "core-app/core/hal/schemas/work-package-s
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
 import { take } from "rxjs/operators";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {

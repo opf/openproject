@@ -32,7 +32,7 @@ import { StateService, TransitionService } from '@uirouter/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { AbstractWorkPackageButtonComponent } from 'core-app/features/work_packages/components/wp-buttons/wp-buttons.module';
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 
 @Component({
   templateUrl: '../wp-button.template.html',

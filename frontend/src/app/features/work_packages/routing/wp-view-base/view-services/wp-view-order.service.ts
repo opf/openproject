@@ -32,7 +32,7 @@ import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { QuerySchemaResource } from "core-app/core/hal/resources/query-schema-resource";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { MAX_ORDER, ReorderDeltaBuilder } from "core-app/shared/helpers/drag-and-drop/reorder-delta-builder";

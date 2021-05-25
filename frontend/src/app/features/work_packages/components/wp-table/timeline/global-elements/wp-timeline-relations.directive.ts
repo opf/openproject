@@ -31,7 +31,7 @@ import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/q
 import { State } from 'reactivestates';
 import { combineLatest } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { States } from "core-components/states.service";
+import { States } from "core-app/core/states/states.service";
 import { RelationsStateValue, WorkPackageRelationsService } from '../../../wp-relations/wp-relations.service';
 import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
