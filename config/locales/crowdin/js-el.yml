@@ -607,10 +607,6 @@ el:
     relations_autocomplete:
       placeholder: "Πληκτρολογήστε για αναζήτηση"
       parent_placeholder: "Επιλέξτε νέο γονέα ή πατήστε escale για ακύρωση."
-    autocompleter:
-      placeholder: "Πληκτρολογήστε για αναζήτηση"
-      notFoundText: "No items found"
-      typeToSearchText: "Πληκτρολογήστε για αναζήτηση"
     repositories:
       select_tag: 'Επιλογή σήμανσης'
       select_branch: 'Επιλογή κλάδου'

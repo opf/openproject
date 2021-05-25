@@ -613,10 +613,6 @@ ja:
     relations_autocomplete:
       placeholder: "検索キーワードを入力"
       parent_placeholder: "新しい親を選択するか、ESCを押してキャンセルしてください。"
-    autocompleter:
-      placeholder: "検索キーワードを入力"
-      notFoundText: "No items found"
-      typeToSearchText: "検索キーワードを入力"
     repositories:
       select_tag: 'タグを選択する'
       select_branch: '分岐を選択する'

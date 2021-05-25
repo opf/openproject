@@ -607,10 +607,6 @@ ru:
     relations_autocomplete:
       placeholder: "Введите текст для поиска"
       parent_placeholder: "Выберите нового родителя или нажмите кнопку \"Отменить\"."
-    autocompleter:
-      placeholder: "Введите текст для поиска"
-      notFoundText: "No items found"
-      typeToSearchText: "Введите текст для поиска"
     repositories:
       select_tag: 'Выберите тег'
       select_branch: 'Выберите ветвь'

@@ -608,10 +608,6 @@ cs:
     relations_autocomplete:
       placeholder: "Zadejte hledaný text"
       parent_placeholder: "Vyberte nového rodiče nebo stiskněte úniku pro zrušení."
-    autocompleter:
-      placeholder: "Zadejte hledaný text"
-      notFoundText: "No items found"
-      typeToSearchText: "Zadejte hledaný text"
     repositories:
       select_tag: 'Vybrat štítek'
       select_branch: 'Vybrat větev'
