@@ -17,15 +17,15 @@ Click on the link **Create a new custom field** to create a project custom field
 
 ![Sys-admin-create-custom-field-projects](Sys-admin-create-custom-field-projects.png)
 
-1. In the newly opened create form provide a **name** to display in the project list (e.g. Project accountable).
-2. Choose a **format** for the custom field, e.g. List.
+1. In the newly opened create form provide a **name** to display in the project list (e.g. Project ID).
+2. Choose a **format** for the custom field, e.g. List. Decide if you want to the custom field to allow multi-select.
 3. **Enter the possible values** which can be selected (for a list). This is not relevant if you choose e.g. text format.
 4. Define if the custom field should be **required**.
 5. If you check **visible** it will also be visible for all users (non-admins) in the project overview and displayed in the project details widget on the [Project Overview](../../../user-guide/project-overview/).
 6. Define if the custom field for projects should be **searchable**.
 7. Click **Save** to create the custom field.
 
-![Sys-admin-custom-fields-projects](Sys-admin-custom-fields-projects.png)
+![project_custom_field_create](project_custom_field_create-1952858.png)
 
 ## Populating a project custom field
 
