@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,38 +26,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module AccessControl
-    class Mapper
-      def permission(name, hash, options = {})
-        options[:project_module] = @project_module
-        mapped_permissions << Permission.new(name, hash, options)
-      end
+module Projects
+  class EnabledModulesContract < ModelContract
+    validate :validate_permission
+    validate :validate_dependencies_met
 
-      def project_module(name, options = {})
-        options[:dependencies] = Array(options[:dependencies]) if options[:dependencies]
-        mapped_modules << { name: name, order: 0 }.merge(options)
+    protected
 
-        if block_given?
-          @project_module = name
-          yield self
-          @project_module = nil
-        else
-          project_modules_without_permissions << name
+    def validate_model?
+      false
+    end
+
+    def validate_permission
+      errors.add :base, :error_unauthorized unless user.allowed_to?(:select_project_modules, model)
+    end
+
+    def validate_dependencies_met
+      enabled_modules_with_dependencies
+        .each do |mod|
+        (mod[:dependencies] - model.enabled_module_names.map(&:to_sym)).each do |dep|
+          errors.add(:enabled_modules,
+                     :dependency_missing,
+                     dependency: I18n.t("project_module_#{dep}"),
+                     module: I18n.t("project_module_#{mod[:name]}"))
         end
       end
+    end
 
-      def mapped_modules
-        @mapped_modules ||= []
-      end
-
-      def mapped_permissions
-        @permissions ||= []
-      end
-
-      def project_modules_without_permissions
-        @project_modules_without_permissions ||= []
-      end
+    def enabled_modules_with_dependencies
+      OpenProject::AccessControl
+        .modules
+        .select { |m| model.enabled_module_names.include?(m[:name].to_s) && m[:dependencies] }
     end
   end
 end
