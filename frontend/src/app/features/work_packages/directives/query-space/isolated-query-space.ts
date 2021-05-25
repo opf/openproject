@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { GroupObject, WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
-import { QueryColumn } from "core-components/wp-query/query-column";
+import { QueryColumn } from "core-app/features/work_packages/components/wp-query/query-column";
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {

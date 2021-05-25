@@ -11,8 +11,8 @@ import { NotificationsService } from "core-app/shared/components/notifications/n
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
-import { WorkPackageFilterButtonComponent } from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
-import { ZenModeButtonComponent } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+import { WorkPackageFilterButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-filter-button/wp-filter-button.component";
+import { ZenModeButtonComponent } from "core-app/features/work_packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import { BoardsMenuButtonComponent } from "core-app/features/boards/board/toolbar-menu/boards-menu-button.component";
 import { RequestSwitchmap } from "core-app/shared/helpers/rxjs/request-switchmap";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
@@ -22,7 +22,7 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { Ng2StateDeclaration } from "@uirouter/angular";
 import { BoardFiltersService } from "core-app/features/boards/board/board-filter/board-filters.service";
-import { CardViewHandlerRegistry } from "core-components/wp-card-view/event-handler/card-view-handler-registry";
+import { CardViewHandlerRegistry } from "core-app/features/work_packages/components/wp-card-view/event-handler/card-view-handler-registry";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export function boardCardViewHandlerFactory(injector:Injector) {

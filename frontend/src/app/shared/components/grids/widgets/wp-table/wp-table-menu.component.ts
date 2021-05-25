@@ -27,7 +27,7 @@
 //++
 
 import { Component } from '@angular/core';
-import { WpTableConfigurationModalComponent } from "core-components/wp-table/configuration-modal/wp-table-configuration.modal";
+import { WpTableConfigurationModalComponent } from "core-app/features/work_packages/components/wp-table/configuration-modal/wp-table-configuration.modal";
 import { WidgetWpSetMenuComponent } from "core-app/shared/components/grids/widgets/menu/wp-set-menu.component";
 
 @Component({

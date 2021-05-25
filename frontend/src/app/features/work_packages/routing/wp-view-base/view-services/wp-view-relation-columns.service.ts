@@ -34,14 +34,14 @@ import { HalResourceService } from 'core-app/core/hal/services/hal-resource.serv
 import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { WorkPackageViewRelationColumns } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-table-relation-columns";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
-import { RelationsStateValue, WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
+import { RelationsStateValue, WorkPackageRelationsService } from "core-app/features/work_packages/components/wp-relations/wp-relations.service";
 import { Injectable } from "@angular/core";
 import {
   QueryColumn,
   queryColumnTypes,
   RelationQueryColumn,
   TypeRelationQueryColumn
-} from "core-components/wp-query/query-column";
+} from "core-app/features/work_packages/components/wp-query/query-column";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export type RelationColumnType = 'toType'|'ofType';

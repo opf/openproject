@@ -29,7 +29,7 @@
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageWatchersService } from 'core-components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import { WorkPackageWatchersService } from 'core-app/features/work_packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

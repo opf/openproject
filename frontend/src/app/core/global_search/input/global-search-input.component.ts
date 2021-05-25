@@ -47,7 +47,7 @@ import { CurrentProjectService } from "core-app/core/current-project/current-pro
 import { DeviceService } from "core-app/core/browser/device.service";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { Observable, of } from "rxjs";
-import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";

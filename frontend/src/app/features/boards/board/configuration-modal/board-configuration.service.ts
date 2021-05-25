@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { TabInterface } from "core-components/wp-table/configuration-modal/tab-portal-outlet";
+import { TabInterface } from "core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { BoardHighlightingTabComponent } from "core-app/features/boards/board/configuration-modal/tabs/highlighting-tab.component";
 
 @Injectable()

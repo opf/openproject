@@ -3,7 +3,7 @@ import { ElementRef, Injector, OnInit, Directive } from "@angular/core";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { Subject } from "rxjs";
-import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { WorkPackageChangeset } from "core-app/features/work_packages/components/wp-edit/work-package-changeset";
 
 @Directive()
 export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler implements OnInit {

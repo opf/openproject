@@ -1,10 +1,10 @@
 import { Component, Inject, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import { TabComponent } from 'core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { Board } from "core-app/features/boards/board/board";
-import { CardHighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { CardHighlightingMode } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 
 @Component({
   templateUrl: './highlighting-tab.component.html'

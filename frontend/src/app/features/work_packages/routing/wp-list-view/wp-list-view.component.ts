@@ -42,7 +42,7 @@ import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation
 } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageTableConfigurationObject } from "core-components/wp-table/wp-table-configuration";
+import { WorkPackageTableConfigurationObject } from "core-app/features/work_packages/components/wp-table/wp-table-configuration";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -53,7 +53,7 @@ import { WorkPackageViewFiltersService } from "core-app/features/work_packages/r
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { StateService } from "@uirouter/core";
-import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { KeepTabService } from "core-app/features/work_packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 @Component({
   selector: 'wp-list-view',

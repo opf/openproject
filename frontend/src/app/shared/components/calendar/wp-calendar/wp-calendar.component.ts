@@ -15,12 +15,12 @@ import { WorkPackageResource } from "core-app/core/hal/resources/work-package-re
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import * as moment from "moment";
-import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
+import { WorkPackagesListService } from "core-app/features/work_packages/components/wp-list/wp-list.service";
 import { StateService } from "@uirouter/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { DomSanitizer } from "@angular/platform-browser";
-import { WorkPackagesListChecksumService } from "core-components/wp-list/wp-list-checksum.service";
+import { WorkPackagesListChecksumService } from "core-app/features/work_packages/components/wp-list/wp-list-checksum.service";
 import { OpTitleService } from "core-app/core/html/op-title.service";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions, EventApi, EventInput } from '@fullcalendar/core';

@@ -36,7 +36,7 @@ import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { Observable } from 'rxjs';
 import { QuerySortByResource } from 'core-app/core/hal/resources/query-sort-by-resource';
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { QueryColumn } from "core-components/wp-query/query-column";
+import { QueryColumn } from "core-app/features/work_packages/components/wp-query/query-column";
 
 @Injectable()
 export class WorkPackageViewSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {

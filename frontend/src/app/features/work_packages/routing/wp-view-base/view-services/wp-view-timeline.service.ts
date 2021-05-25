@@ -33,7 +33,7 @@ import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/q
 import { input } from 'reactivestates';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { WorkPackageTimelineState } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-table-timeline";
-import { zoomLevelOrder } from "core-components/wp-table/timeline/wp-timeline";
+import { zoomLevelOrder } from "core-app/features/work_packages/components/wp-table/timeline/wp-timeline";
 
 @Injectable()
 export class WorkPackageViewTimelineService extends WorkPackageQueryStateService<WorkPackageTimelineState> {

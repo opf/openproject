@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ExternalQueryConfigurationService } from "core-components/wp-table/external-configuration/external-query-configuration.service";
-import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
+import { ExternalQueryConfigurationService } from "core-app/features/work_packages/components/wp-table/external-configuration/external-query-configuration.service";
+import { UrlParamsHelperService } from "core-app/features/work_packages/components/wp-query/url-params-helper";
 
 export const editableQueryPropsSelector = 'editable-query-props';
 

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { HighlightingMode } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 
 export interface WorkPackageViewHighlight {

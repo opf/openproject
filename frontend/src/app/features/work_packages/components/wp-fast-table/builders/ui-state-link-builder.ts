@@ -1,0 +1,44 @@
+import { KeepTabService } from 'core-app/features/work_packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { StateService } from '@uirouter/core';
+
+export const uiStateLinkClass = '__ui-state-link';
+export const checkedClassName = '-checked';
+
+export const currentDetailsState = 'currentDetailsState';
+export const currentShowState = 'currentShowState';
+
+export class UiStateLinkBuilder {
+
+  constructor(public readonly $state:StateService,
+              public readonly keepTab:KeepTabService) {
+  }
+
+  public linkToDetails(workPackageId:string, title:string, content:string) {
+    return this.build(workPackageId, currentDetailsState, title, content);
+  }
+
+  public linkToShow(workPackageId:string, title:string, content:string) {
+    return this.build(workPackageId, currentShowState, title, content);
+  }
+
+  private build(workPackageId:string, state:string, title:string, content:string) {
+    const a = document.createElement('a');
+    const selectedTabIdentifier = this.$state.params?.tabIdentifier;
+
+    a.href = this.$state.href(
+      (this.keepTab as any)[state],
+      {
+        workPackageId: workPackageId,
+        ...selectedTabIdentifier && {tabIdentifier: selectedTabIdentifier},
+      }
+    );
+    a.classList.add(uiStateLinkClass);
+    a.dataset['workPackageId'] = workPackageId;
+    a.dataset['wpState'] = state;
+
+    a.setAttribute('title', title);
+    a.textContent = content;
+
+    return a;
+  }
+}

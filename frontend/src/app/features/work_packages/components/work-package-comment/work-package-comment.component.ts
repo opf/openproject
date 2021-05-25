@@ -26,11 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
-import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
-import { CommentService } from "core-components/wp-activity/comment-service";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -50,6 +47,9 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { WorkPackageCommentFieldHandler } from "core-app/features/work_packages/components/work-package-comment/work-package-comment-field-handler";
+import { CommentService } from "core-app/features/work_packages/components/wp-activity/comment-service";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackagesActivityService } from "core-app/features/work_packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
 
 @Component({
   selector: 'work-package-comment',

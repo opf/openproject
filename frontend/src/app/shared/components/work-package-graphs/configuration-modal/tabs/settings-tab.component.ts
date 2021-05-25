@@ -1,4 +1,4 @@
-import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import { TabComponent } from 'core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { Component, ViewChild } from "@angular/core";
 
 @Component({

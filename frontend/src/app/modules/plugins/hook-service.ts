@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { Tab } from 'core-app/components/wp-tabs/components/wp-tab-wrapper/tab';
+import { Tab } from "core-app/features/work_packages/components/wp-tabs/components/wp-tab-wrapper/tab";
 
 @Injectable({
   providedIn: 'root'

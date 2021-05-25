@@ -30,20 +30,20 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { take } from "rxjs/operators";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
-import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
+import { QueryParamListenerService } from "core-app/features/work_packages/components/wp-query/query-param-listener.service";
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition,
 } from "core-app/features/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
-import { WorkPackageCreateButtonComponent } from "core-components/wp-buttons/wp-create-button/wp-create-button.component";
-import { WorkPackageFilterButtonComponent } from "core-components/wp-buttons/wp-filter-button/wp-filter-button.component";
-import { WorkPackageViewToggleButton } from "core-components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
-import { WorkPackageDetailsViewButtonComponent } from "core-components/wp-buttons/wp-details-view-button/wp-details-view-button.component";
-import { WorkPackageTimelineButtonComponent } from "core-components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component";
-import { ZenModeButtonComponent } from "core-components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
-import { WorkPackageSettingsButtonComponent } from "core-components/wp-buttons/wp-settings-button/wp-settings-button.component";
+import { WorkPackageCreateButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-create-button/wp-create-button.component";
+import { WorkPackageFilterButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-filter-button/wp-filter-button.component";
+import { WorkPackageViewToggleButton } from "core-app/features/work_packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
+import { WorkPackageDetailsViewButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-details-view-button/wp-details-view-button.component";
+import { WorkPackageTimelineButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component";
+import { ZenModeButtonComponent } from "core-app/features/work_packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+import { WorkPackageSettingsButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-settings-button/wp-settings-button.component";
 import { of } from "rxjs";
-import { WorkPackageFoldToggleButtonComponent } from "core-components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component";
+import { WorkPackageFoldToggleButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component";
 
 @Component({
   selector: 'wp-view-page',

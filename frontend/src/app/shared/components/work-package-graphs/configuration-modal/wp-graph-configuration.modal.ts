@@ -21,7 +21,7 @@ import {
   TabComponent,
   TabInterface,
   TabPortalOutlet
-} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+} from 'core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ComponentType } from "@angular/cdk/portal";
@@ -32,7 +32,7 @@ import { WorkPackageNotificationService } from "core-app/features/work_packages/
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
-  templateUrl: '../../../../components/wp-table/configuration-modal/wp-table-configuration.modal.html',
+  templateUrl: '../../../../features/work_packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html',
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
 

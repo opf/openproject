@@ -27,7 +27,7 @@
 //++
 
 import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';
-import { QueryColumn } from 'core-components/wp-query/query-column';
+import { QueryColumn } from 'core-app/features/work_packages/components/wp-query/query-column';
 import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { QueryFilterInstanceSchemaResource } from 'core-app/core/hal/resources/query-filter-instance-schema-resource';
 import { QuerySortByResource } from 'core-app/core/hal/resources/query-sort-by-resource';

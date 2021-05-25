@@ -22,7 +22,7 @@ import { BoardListCrossSelectionService } from "core-app/features/boards/board/b
 import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageStatesInitializationService } from 'core-components/wp-list/wp-states-initialization.service';
+import { WorkPackageStatesInitializationService } from 'core-app/features/work_packages/components/wp-list/wp-states-initialization.service';
 
 @Component({
   templateUrl: './board-list-container.component.html',

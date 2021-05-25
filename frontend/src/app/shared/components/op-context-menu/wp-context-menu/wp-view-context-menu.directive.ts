@@ -2,9 +2,9 @@ import { Injector } from "@angular/core";
 import {
   WorkPackageAction,
   WorkPackageContextMenuHelperService
-} from "core-components/wp-table/context-menu-helper/wp-context-menu-helper.service";
+} from "core-app/features/work_packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import { States } from "core-components/states.service";
-import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { WorkPackageRelationsHierarchyService } from "core-app/features/work_packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { OpContextMenuHandler } from "core-app/shared/components/op-context-menu/op-context-menu-handler";

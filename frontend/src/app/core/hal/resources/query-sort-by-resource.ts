@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryColumn } from 'core-components/wp-query/query-column';
+import { QueryColumn } from 'core-app/features/work_packages/components/wp-query/query-column';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 
 export const QUERY_SORT_BY_ASC = "urn:openproject-org:api:v3:queries:directions:asc";

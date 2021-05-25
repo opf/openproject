@@ -34,7 +34,7 @@ import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
 import { PullRequestComponent } from './pull-request/pull-request.component';
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { HookService } from "core-app/modules/plugins/hook-service";
-import { Tab } from "core-components/wp-tabs/components/wp-tab-wrapper/tab";
+import { Tab } from "core-app/features/work_packages/components/wp-tabs/components/wp-tab-wrapper/tab";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 
 function displayable(work_package: WorkPackageResource): boolean {

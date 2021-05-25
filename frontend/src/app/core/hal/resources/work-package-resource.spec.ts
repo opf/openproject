@@ -41,9 +41,9 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { StateService } from "@uirouter/core";
-import { WorkPackageCreateService } from 'core-components/wp-new/wp-create.service';
+import { WorkPackageCreateService } from 'core-app/features/work_packages/components/wp-new/wp-create.service';
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
-import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import { WorkPackagesActivityService } from "core-app/features/work_packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { TimezoneService } from "core-components/../../datetime/timezone.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";

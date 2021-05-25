@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackagesListService } from 'core-components/wp-list/wp-list.service';
+import { WorkPackagesListService } from 'core-app/features/work_packages/components/wp-list/wp-list.service';
 import { States } from 'core-components/states.service';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";

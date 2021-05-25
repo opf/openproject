@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { WorkPackageWatchersService } from 'core-app/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { WorkPackageWatchersService } from "core-app/features/work_packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service";
 
 @Component({
   templateUrl: './wp-relations-count.html',

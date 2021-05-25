@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackagesListService } from 'core-components/wp-list/wp-list.service';
+import { WorkPackagesListService } from 'core-app/features/work_packages/components/wp-list/wp-list.service';
 import { States } from 'core-components/states.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';

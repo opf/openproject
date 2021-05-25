@@ -6,7 +6,6 @@ import { UserResource } from 'core-app/core/hal/resources/user-resource';
 import { PlaceholderUserResource } from 'core-app/core/hal/resources/placeholder-user-resource';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { input, InputState, multiInput, MultiInputState, StatesGroup } from 'reactivestates';
-import { QueryColumn } from './wp-query/query-column';
 import { PostResource } from 'core-app/core/hal/resources/post-resource';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { StatusResource } from "core-app/core/hal/resources/status-resource";
@@ -18,6 +17,7 @@ import { VersionResource } from "core-app/core/hal/resources/version-resource";
 import { WorkPackageDisplayRepresentationValue } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
 import { CapabilityResource } from "core-app/core/hal/resources/capability-resource";
+import { QueryColumn } from "core-app/features/work_packages/components/wp-query/query-column";
 
 export class States extends StatesGroup {
   name = 'MainStore';

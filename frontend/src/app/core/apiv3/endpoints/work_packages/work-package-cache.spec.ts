@@ -38,7 +38,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { States } from 'core-components/states.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { take, takeWhile } from 'rxjs/operators';
-import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import { WorkPackagesActivityService } from "core-app/features/work_packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { TimezoneService } from "core-components/../../../datetime/timezone.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";

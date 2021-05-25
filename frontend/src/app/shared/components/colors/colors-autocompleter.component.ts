@@ -27,7 +27,7 @@
 //++
 
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 export const colorsAutocompleterSelector = 'colors-autocompleter';

@@ -33,7 +33,6 @@ import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu
 import { States } from 'core-components/states.service';
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { OPSharedModule } from "core-app/shared/shared.module";
-import { CommentService } from "core-components/wp-activity/comment-service";
 import { OpDragScrollDirective } from "core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive";
 import { OpenprojectPluginsModule } from "core-app/modules/plugins/openproject-plugins.module";
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
@@ -78,6 +77,7 @@ import { ConfirmFormSubmitController } from "core-app/shared/components/modals/c
 import { ProjectMenuAutocompleteComponent } from "core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component";
 import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 import { MainMenuResizerComponent } from "core-app/shared/components/resizer/resizer/main-menu-resizer.component";
+import { CommentService } from "core-app/features/work_packages/components/wp-activity/comment-service";
 
 @NgModule({
   imports: [

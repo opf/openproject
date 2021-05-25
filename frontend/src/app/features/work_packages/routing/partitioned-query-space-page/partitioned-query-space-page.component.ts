@@ -33,7 +33,7 @@ import { WorkPackagesViewBase } from "core-app/features/work_packages/routing/wp
 import { take } from "rxjs/operators";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
-import { QueryParamListenerService } from "core-components/wp-query/query-param-listener.service";
+import { QueryParamListenerService } from "core-app/features/work_packages/components/wp-query/query-param-listener.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { ComponentType } from "@angular/cdk/overlay";
 import { Ng2StateDeclaration } from "@uirouter/angular";

@@ -31,7 +31,7 @@ import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from "core-components/states.service";
 import { FirstRouteService } from "core-app/core/routing/first-route-service";
-import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { KeepTabService } from "core-app/features/work_packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { WorkPackageSingleViewBase } from "core-app/features/work_packages/routing/wp-view-base/work-package-single-view.base";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";

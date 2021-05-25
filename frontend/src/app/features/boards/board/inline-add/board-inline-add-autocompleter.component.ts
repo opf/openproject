@@ -46,9 +46,9 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
+import { WorkPackageCardDragAndDropService } from "core-app/features/work_packages/components/wp-card-view/services/wp-card-drag-and-drop.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
-import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
+import { UrlParamsHelperService } from "core-app/features/work_packages/components/wp-query/url-params-helper";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

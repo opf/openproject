@@ -32,7 +32,7 @@ import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { States } from 'core-components/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
-import { QueryColumn } from "core-components/wp-query/query-column";
+import { QueryColumn } from "core-app/features/work_packages/components/wp-query/query-column";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 
 @Injectable()

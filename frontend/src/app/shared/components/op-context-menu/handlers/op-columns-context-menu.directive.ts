@@ -36,9 +36,9 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work_packages/r
 import { WorkPackageViewGroupByService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { WorkPackageTable } from 'core-components/wp-fast-table/wp-fast-table';
-import { QueryColumn } from 'core-components/wp-query/query-column';
-import { WpTableConfigurationModalComponent } from 'core-components/wp-table/configuration-modal/wp-table-configuration.modal';
+import { WorkPackageTable } from 'core-app/features/work_packages/components/wp-fast-table/wp-fast-table';
+import { QueryColumn } from 'core-app/features/work_packages/components/wp-query/query-column';
+import { WpTableConfigurationModalComponent } from 'core-app/features/work_packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from "core-app/core/hal/resources/query-sort-by-resource";
 import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 

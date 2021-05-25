@@ -33,7 +33,7 @@ import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { RelationsStateValue, WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
+import { RelationsStateValue, WorkPackageRelationsService } from "core-app/features/work_packages/components/wp-relations/wp-relations.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";

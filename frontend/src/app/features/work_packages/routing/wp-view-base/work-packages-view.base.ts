@@ -33,7 +33,7 @@ import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/q
 import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageStaticQueriesService } from 'core-components/wp-query-select/wp-static-queries.service';
+import { WorkPackageStaticQueriesService } from 'core-app/features/work_packages/components/wp-query-select/wp-static-queries.service';
 import { WorkPackageViewHighlightingService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import { States } from "core-components/states.service";
 import { WorkPackageViewColumnsService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
@@ -44,10 +44,10 @@ import { WorkPackageViewSumService } from "core-app/features/work_packages/routi
 import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { WorkPackageViewHierarchiesService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageViewPaginationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
-import { WorkPackagesListChecksumService } from "core-components/wp-list/wp-list-checksum.service";
+import { WorkPackagesListService } from "core-app/features/work_packages/components/wp-list/wp-list.service";
+import { WorkPackagesListChecksumService } from "core-app/features/work_packages/components/wp-list/wp-list-checksum.service";
 import { WorkPackageQueryStateService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
-import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
+import { WorkPackageStatesInitializationService } from "core-app/features/work_packages/components/wp-list/wp-states-initialization.service";
 import { WorkPackageViewOrderService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { HalEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";

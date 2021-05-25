@@ -33,7 +33,7 @@ import { Apiv3QueryForm } from "core-app/core/apiv3/endpoints/queries/apiv3-quer
 import { Observable } from "rxjs";
 import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { QueryFiltersService } from "core-components/wp-query/query-filters.service";
+import { QueryFiltersService } from "core-app/features/work_packages/components/wp-query/query-filters.service";
 import { HalPayloadHelper } from "core-app/core/hal/schemas/hal-payload.helper";
 import { PaginationObject } from "core-app/shared/components/table-pagination/pagination-service";
 

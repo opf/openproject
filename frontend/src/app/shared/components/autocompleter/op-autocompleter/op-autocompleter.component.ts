@@ -15,7 +15,7 @@ import { OpAutocompleterOptionTemplateDirective } from "./directives/op-autocomp
 import { OpAutocompleterLabelTemplateDirective } from "./directives/op-autocompleter-label-template.directive";
 import { OpAutocompleterHeaderTemplateDirective } from "./directives/op-autocompleter-header-template.directive";
 import { OpAutocompleterService } from "./services/op-autocompleter.service";
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import {Highlighting} from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 @Component({
   selector: 'op-autocompleter',

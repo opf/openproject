@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryColumn } from 'core-components/wp-query/query-column';
+import { QueryColumn } from 'core-app/features/work_packages/components/wp-query/query-column';
 import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
 import { ProjectResource } from 'core-app/core/hal/resources/project-resource';
 import { QuerySortByResource } from 'core-app/core/hal/resources/query-sort-by-resource';
 import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
-import { HighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { HighlightingMode } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
 
 export interface QueryResourceEmbedded {

@@ -33,9 +33,9 @@ import { Directive, ElementRef, Input, OnInit } from "@angular/core";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import { TypeResource } from 'core-app/core/hal/resources/type-resource';
-import { Highlighting } from 'core-app/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { WorkPackageCreateService } from 'core-components/wp-new/wp-create.service';
+import { WorkPackageCreateService } from 'core-app/features/work_packages/components/wp-new/wp-create.service';
+import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 @Directive({
   selector: '[opTypesCreateDropdown]'
