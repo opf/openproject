@@ -69,7 +69,7 @@ module OpenProject::Backlogs
         edit.controller_actions << 'rb_impediments/update'
       end
 
-      project_module :backlogs do
+      project_module :backlogs, dependencies: :work_package_tracking do
         # SYNTAX: permission :name_of_permission, { :controller_name => [:action1, :action2] }
 
         # Master backlog permissions

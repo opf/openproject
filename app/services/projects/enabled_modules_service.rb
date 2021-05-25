@@ -28,37 +28,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module AccessControl
-    class Mapper
-      def permission(name, hash, options = {})
-        options[:project_module] = @project_module
-        mapped_permissions << Permission.new(name, hash, options)
-      end
+##
+# Adds and removes modules from a project
+#
+module Projects
+  class EnabledModulesService < ::BaseServices::BaseContracted
+    def initialize(user:, model:, contract_class: ::Projects::EnabledModulesContract)
+      super(user: user, contract_class: contract_class)
+      self.model = model
+    end
 
-      def project_module(name, options = {})
-        options[:dependencies] = Array(options[:dependencies]) if options[:dependencies]
-        mapped_modules << { name: name, order: 0 }.merge(options)
+    private
 
-        if block_given?
-          @project_module = name
-          yield self
-          @project_module = nil
-        else
-          project_modules_without_permissions << name
-        end
-      end
+    def before_perform(params)
+      model.enabled_module_names = params[:enabled_modules]
+      super
+    end
 
-      def mapped_modules
-        @mapped_modules ||= []
-      end
+    def persist(call)
+      # Nothing to do any more
+      call
+    end
 
-      def mapped_permissions
-        @permissions ||= []
-      end
-
-      def project_modules_without_permissions
-        @project_modules_without_permissions ||= []
+    def after_perform(call)
+      super.tap do
+        # Ensure the project is touched to update its cache key
+        model.touch
       end
     end
   end

@@ -60,7 +60,7 @@ module OpenProject::GithubIntegration
 
     initializer 'github.permissions' do
       OpenProject::AccessControl.map do |ac_map|
-        ac_map.project_module(:github, {}) do |pm_map|
+        ac_map.project_module(:github, dependencies: :work_package_tracking) do |pm_map|
           pm_map.permission(:show_github_content, {}, {})
         end
       end
