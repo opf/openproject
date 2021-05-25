@@ -147,10 +147,14 @@ export class DynamicFieldsService {
   }
 
   getFormlyFormWithFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
-    const fomFieldsWithoutGroup = formFields.filter(formField => fieldGroups.every(fieldGroup => !fieldGroup.fieldsFilter || !fieldGroup.fieldsFilter(formField)));
+    // Remove previous grouping
+    formFields = formFields.reduce((result:IOPFormlyFieldSettings[], formField) => {
+      return formField.fieldGroup ? [...result, ...formField.fieldGroup] : [...result, formField];
+    }, []);
+    const formFieldsWithoutGroup = formFields.filter(formField => fieldGroups.every(fieldGroup => !fieldGroup.fieldsFilter || !fieldGroup.fieldsFilter(formField)));
     const formFieldGroups = this.getDynamicFormFieldGroups(fieldGroups, formFields);
 
-    return [...fomFieldsWithoutGroup, ...formFieldGroups];
+    return [...formFieldsWithoutGroup, ...formFieldGroups];
   }
 
   private getFieldsSchemasWithKey(formSchema:IOPFormSchema):IOPFieldSchemaWithKey[] {

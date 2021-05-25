@@ -211,4 +211,73 @@ describe('DynamicFieldsService', () => {
     expect(formGroup.templateOptions!.label).toEqual('People', 'should add the correct label to the field group wrapper');
     expect(formGroup.fieldGroup![0].key).toEqual('name', 'should add the correct key to the field group wrapper');
   });
+
+  it('should group fields from @Input fieldGroups (IDynamicFieldGroupConfig)', () => {
+    const formPayload = {};
+    const formSchema = {
+      "parent": {
+        "type": "Project",
+        "name": "Subproject of",
+        "required": false,
+        "hasDefault": false,
+        "writable": true,
+        "_links": {
+          "allowedValues": {
+            "href": "/api/v3/projects/available_parent_projects?of=25"
+          }
+        }
+      },
+      "name": {
+        "type": "String",
+        "name": "Name",
+        "required": true,
+        "hasDefault": false,
+        "writable": true,
+        "minLength": 1,
+        "maxLength": 255,
+        "options": {},
+        "attributeGroup": "People"
+      },
+      "id": {
+        "type": "Integer",
+        "name": "ID",
+        "required": true,
+        "hasDefault": false,
+        "writable": true,
+        "options": {}
+      },
+      _attributeGroups: [
+        {
+          "_type": "WorkPackageFormAttributeGroup",
+          "name": "People",
+          "attributes": [
+            "name",
+          ]
+        },
+      ]
+    };
+    const fieldGroups = [
+      {
+        name: 'Advanced settings',
+        fieldsFilter: (field:IOPFormlyFieldSettings) => ['name', 'parent'].includes(field.templateOptions?.property!),
+        settings: {
+          templateOptions: {
+            collapsibleFieldGroupsCollapsed: false
+          }
+        }
+      }
+    ];
+    const formConfig = service.getConfig(formSchema, formPayload);
+    const formConfigWithFieldGroups = service.getFormlyFormWithFieldGroups(fieldGroups, formConfig);
+    const fieldGroup = formConfigWithFieldGroups[1];
+
+    expect(formConfigWithFieldGroups?.length).toBe(2, 'should create the correct number of fields (1 field + 1 field group)');
+    expect(fieldGroup?.wrappers![0]).toBe('op-dynamic-field-group-wrapper', 'should set the correct group label');
+    expect(fieldGroup?.fieldGroupClassName).toBe('op-form-group', 'should set the correct group CSS class');
+    expect(fieldGroup?.templateOptions?.label).toBe(fieldGroups[0].name, 'should set the correct group label (overwriting previous grouping)');
+    expect(fieldGroup?.templateOptions?.isFieldGroup).toBe(true, 'should set isFieldGroup to true');
+    expect(fieldGroup?.templateOptions?.collapsibleFieldGroups).toBe(true, 'should set collapsibleFieldGroups to true');
+    expect(fieldGroup?.templateOptions?.collapsibleFieldGroupsCollapsed).toBe(false, 'should overwrite the default group options with the group settings');
+    expect(fieldGroup?.fieldGroup?.length).toBe(2, 'should contain the correct number of fields');
+  });
 });
