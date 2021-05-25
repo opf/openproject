@@ -16,4 +16,8 @@
 
   &:focus
     color: var(--content-link-hover-active-color)
-  
+
+  // Ensure op-icon within a link gets inline-block
+  // to avoid it receiving any text-decoration on hover
+  .op-icon--wrapper
+    display: inline-block

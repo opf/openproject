@@ -13,13 +13,13 @@
       </a>
     </span>
   </span>
-  <accessible-by-keyboard (execute)="remove()"
-                          [linkAriaLabel]="text.remove"
-                          [linkTitle]="text.remove"
-                          linkClass="form--selected-value--remover">
-    <op-icon icon-classes="icon-remove"
-             [icon-title]="text.remove"></op-icon>
-  </accessible-by-keyboard>
+  <button
+      class="op-link form--selected-value--remover"
+      [title]="text.remove"
+      (click)="remove()"
+  >
+    <op-icon icon-classes="icon-remove"></op-icon>
+  </button>
 </div>
 
 
