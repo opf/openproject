@@ -92,7 +92,8 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :select_project_modules,
                    { projects: :modules },
-                   require: :member
+                   require: :member,
+                   dependencies: :edit_project
 
     map.permission :manage_members,
                    { members: %i[index new create update destroy autocomplete_for_member] },
@@ -338,7 +339,7 @@ OpenProject::AccessControl.map do |map|
                      require: :loggedin
   end
 
-  map.project_module :calendar do |cal|
+  map.project_module :calendar, dependencies: :work_package_tracking do |cal|
     cal.permission :view_calendar,
                    'work_packages/calendars': [:index]
   end
