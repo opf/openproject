@@ -37,14 +37,16 @@
   </div>
 
   <div class="op-modal--footer">
-    <button class="button -highlight -with-icon icon-checkmark"
-            (click)="saveQueryAs($event)"
-            [textContent]="text.button_save"
-            [disabled]="isBusy || !queryName">
-    </button>
-    <button class="button -with-icon icon-cancel"
-            [textContent]="text.button_cancel"
-            (click)="closeMe($event)">
-    </button>
+    <button
+      class="button -with-icon icon-cancel"
+      [textContent]="text.button_cancel"
+      (click)="closeMe($event)"
+    ></button>
+    <button
+      class="button -highlight -with-icon icon-checkmark"
+      (click)="saveQueryAs($event)"
+      [textContent]="text.button_save"
+      [disabled]="isBusy || !queryName"
+    ></button>
   </div>
 </form>

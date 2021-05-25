@@ -32,16 +32,14 @@
 
   <div class="op-modal--footer">
     <button
-        class="button -highlight"
-        [textContent]="text.applyButton"
-        (click)="saveChanges()"
-    >
-    </button>
+      class="button"
+      [textContent]="text.cancelButton"
+      (click)="closeMe($event)"
+    ></button>
     <button
-        class="button"
-        [textContent]="text.cancelButton"
-        (click)="closeMe($event)"
-    >
-    </button>
+      class="button -highlight"
+      [textContent]="text.applyButton"
+      (click)="saveChanges()"
+    ></button>
   </div>
 </div>
