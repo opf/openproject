@@ -65,7 +65,7 @@ $advanced-filters--grid-gap: 10px
     margin-bottom: 10px
 
     &.--without-operator
-      grid-template-columns: $advanced-filters--label-size $advanced-filters--values-and-operator-size $advanced-filters--close-icon-size
+      grid-template-columns: $advanced-filters--label-size calc(#{$advanced-filters--values-and-operator-size} + #{$advanced-filters--grid-gap}) $advanced-filters--close-icon-size
 
   .advanced-filters--filter-name,
   .advanced-filters--add-filter-label
@@ -82,7 +82,7 @@ $advanced-filters--grid-gap: 10px
 
 .advanced-filters--add-filter
   display: grid
-  grid-template-columns: $advanced-filters--label-size $advanced-filters--values-and-operator-size $advanced-filters--close-icon-size
+  grid-template-columns: $advanced-filters--label-size calc(#{$advanced-filters--values-and-operator-size} + #{$advanced-filters--grid-gap}) $advanced-filters--close-icon-size
   grid-gap: $advanced-filters--grid-gap
 
 // The type="text" is required to be more specific
