@@ -870,7 +870,7 @@ GEM
     shoulda-context (2.0.0)
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
-    spreadsheet (1.2.8)
+    spreadsheet (1.2.9)
       ruby-ole
     spring (2.1.1)
     spring-commands-rspec (1.0.4)
