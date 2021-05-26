@@ -283,18 +283,13 @@ module API
 
         def allowed_users_href_callback
           static_filters = allowed_users_static_filters
+          instance_filters = method(:allowed_users_instance_filter)
 
           ->(*) {
-            project_id_value = if represented.respond_to?(:model) && represented.model.is_a?(Project)
-                                 represented.id
-                               else
-                                 represented.project_id.to_s
-                               end
-
             # Careful to not alter the static_filters object here.
             # It is made available in the closure (which is class level) and would thus
             # keep the appended filters between requests.
-            filters = static_filters + [{ member: { operator: '=', values: [project_id_value.to_s] } }]
+            filters = static_filters + instance_filters.call(represented)
 
             api_v3_paths.path_for(:principals, filters: filters, page_size: 0)
           }
@@ -353,6 +348,21 @@ module API
             { type: { operator: '=',
                       values: %w[User Group PlaceholderUser] } }
           ]
+        end
+
+        def allowed_users_instance_filter(represented)
+          project_id_value =
+            if represented.respond_to?(:model) && represented.model.is_a?(Project)
+              represented.id
+            else
+              represented.project_id.to_s
+            end
+
+          if project_id_value.nil?
+            [{ member: { operator: '*', values: [] } }]
+          else
+            [{ member: { operator: '=', values: [project_id_value.to_s] } }]
+          end
         end
 
         module RepresenterClass
