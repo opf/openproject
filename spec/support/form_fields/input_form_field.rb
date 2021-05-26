@@ -24,6 +24,10 @@ module FormFields
       input_element.fill_in with: content, fill_options: { clear: :backspace }
     end
 
+    def send_keys(*args)
+      input_element.send_keys(*args)
+    end
+
     def input_element
       field_container.find 'input'
     end
