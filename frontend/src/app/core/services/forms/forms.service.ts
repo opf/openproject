@@ -87,14 +87,9 @@ export class FormsService {
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface
         if (Array.isArray(resource)) {
-          const formattedResourceValue = resource.reduce((result:any[], resourceElement) => {
-            const href = resourceElement?.href || resourceElement?._links?.self?.href;
-            if (href) {
-              result = [...result, {href}]
-            }
-
-            return result
-          }, []);
+          const formattedResourceValue = resource
+            .map(resourceElement => ({href: resourceElement?.href || resourceElement?._links?.self?.href}))
+            .filter(resourceElement => !!resourceElement.href);
 
           resourceValue = formattedResourceValue.length ? formattedResourceValue : null;
         } else {
