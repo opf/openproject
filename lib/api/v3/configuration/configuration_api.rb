@@ -34,7 +34,11 @@ module API
       class ConfigurationAPI < ::API::OpenProjectAPI
         resources :configuration do
           get do
-            ConfigurationRepresenter.new(Setting, current_user: current_user, embed_links: true)
+            representer = ConfigurationRepresenter.new(Setting, current_user: current_user, embed_links: true)
+
+            with_etag! representer.json_cache_key + [current_user.pref]
+
+            representer
           end
         end
       end

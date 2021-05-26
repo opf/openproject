@@ -129,10 +129,21 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
     let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
+    let(:schema_representer) do
+      schema_class = API::V3::WorkPackages::Schema::TypedWorkPackageSchema
+      representer_class = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
+
+      schema = schema_class.new(project: project,
+                                type: type)
+      self_link = api_v3_paths.work_package_schema(project.id, type.id)
+      representer_class.create(schema,
+                               self_link: self_link,
+                               current_user: current_user)
+    end
 
     context 'logged in' do
       before do
-        allow(User).to receive(:current).and_return(current_user)
+        login_as current_user
         get schema_path
       end
 
@@ -141,22 +152,12 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
           expect(last_response.status).to eql(200)
         end
 
-        it 'should set a weak ETag' do
-          expect(last_response.headers['ETag']).to match(/W\/"\w+"/)
+        it 'allows browser caching based on the representer cache key' do
+          expect(last_response.headers['ETag']).to eql(%(W/"#{::Digest::SHA1.hexdigest(schema_representer.json_cache_key.to_s)}"))
         end
 
         it 'caches the response' do
-          schema_class = API::V3::WorkPackages::Schema::TypedWorkPackageSchema
-          representer_class = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
-
-          schema = schema_class.new(project: project,
-                                    type: type)
-          self_link = api_v3_paths.work_package_schema(project.id, type.id)
-          represented_schema = representer_class.create(schema,
-                                                        self_link: self_link,
-                                                        current_user: current_user)
-
-          expect(OpenProject::Cache.fetch(represented_schema.json_cache_key)).to_not be_nil
+          expect(OpenProject::Cache.fetch(schema_representer.json_cache_key)).to_not be_nil
         end
       end
 
@@ -170,6 +171,23 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
         it_behaves_like 'not found' do
           let(:schema_path) { "/api/v3/work_packages/schemas/#{project.id}" }
         end
+      end
+    end
+
+    context 'logged in and If-None-Match header' do
+      before do
+        login_as current_user
+        header 'If-None-Match', %(W/"#{::Digest::SHA1.hexdigest(schema_representer.json_cache_key.to_s)}")
+        get schema_path
+      end
+
+      it 'returns HTTP 304' do
+        expect(last_response.status).to be(304)
+      end
+
+      it 'has no contents' do
+        expect(last_response.body)
+          .to be_empty
       end
     end
 
