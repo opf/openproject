@@ -79,28 +79,21 @@ export class FormsService {
   private formatModelToSubmit(formModel:IOPFormModel):IOPFormModel {
     const resources = formModel?._links || {};
 
+    console.log('formatModelToSubmit', formModel)
+
     const formattedResources = Object
       .keys(resources)
       .reduce((result, resourceKey) => {
         const resource = resources[resourceKey];
-        let resourceValue;
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface
-        if (Array.isArray(resource)) {
-          const formattedResourceValue = resource
-            .map(resourceElement => ({href: resourceElement?.href || resourceElement?._links?.self?.href}))
-            .filter(resourceElement => !!resourceElement.href);
-
-          resourceValue = formattedResourceValue.length ? formattedResourceValue : null;
-        } else {
-          const href = resource?.href || resource?._links?.self?.href;
-
-          resourceValue = href ? {href} : null;
-        }
+        const resourceValue = Array.isArray(resource) ?
+          resource.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href || null })) :
+          { href: resource?.href || resource?._links?.self?.href || null };
 
         return {
           ...result,
-          ...resourceValue && {[resourceKey]: resourceValue},
+          [resourceKey]: resourceValue,
         };
       }, {});
 
