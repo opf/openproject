@@ -5,10 +5,44 @@ import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/serv
 import { isObservable } from "rxjs";
 import { IOPFormlyFieldSettings } from "core-app/modules/common/dynamic-forms/typings";
 
-fdescribe('DynamicFieldsService', () => {
+describe('DynamicFieldsService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service:DynamicFieldsService;
+  const formSchema = {
+    "name": {
+      "type": "String",
+      "name": "Name",
+      "required": true,
+      "hasDefault": false,
+      "writable": true,
+      "minLength": 1,
+      "maxLength": 255,
+      "options": {}
+    },
+    "parent": {
+      "type": "Project",
+      "name": "Subproject of",
+      "required": false,
+      "hasDefault": false,
+      "location": "_links",
+      "writable": true,
+      "_links": {
+        "allowedValues": {
+          "href": "/api/v3/projects/available_parent_projects?of=25"
+        }
+      }
+    },
+    "id": {
+      "type": "Integer",
+      "name": "ID",
+      "required": true,
+      "hasDefault": false,
+      "writable": false,
+      "options": {}
+    },
+    _dependencies: [],
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,40 +71,6 @@ fdescribe('DynamicFieldsService', () => {
           "title": "Parent project"
         }
       }
-    };
-    const formSchema = {
-      "name": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
-      },
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "location": "_links",
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      "id": {
-        "type": "Integer",
-        "name": "ID",
-        "required": true,
-        "hasDefault": false,
-        "writable": false,
-        "options": {}
-      },
-      _dependencies: [],
     };
 
     // @ts-ignore
@@ -101,44 +101,6 @@ fdescribe('DynamicFieldsService', () => {
         ]
       },
     };
-    const formSchema = {
-      "title": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
-      },
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "location": "_links",
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      "children": {
-        "type": "Project",
-        "name": "Project's children",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      _dependencies: [],
-    };
 
     // @ts-ignore
     const formModel = service.getModel(formPayload);
@@ -161,30 +123,10 @@ fdescribe('DynamicFieldsService', () => {
         },
       }
     };
-    const formSchema = {
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      "name": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {},
-        "attributeGroup": "People"
-      },
+    const {parent, name} = formSchema;
+    const formSchemaWithGroups = {
+      parent,
+      name,
       _attributeGroups: [
         {
           "_type": "WorkPackageFormAttributeGroup",
@@ -196,7 +138,7 @@ fdescribe('DynamicFieldsService', () => {
       ]
     };
     // @ts-ignore
-    const formlyConfig = service.getConfig(formSchema, formPayload);
+    const formlyConfig = service.getConfig(formSchemaWithGroups, formPayload);
     const formlyFields = formlyConfig.reduce((result, formlyField) => {
       return formlyField.fieldGroup ? [...result, ...formlyField.fieldGroup] : [...result, formlyField];
     }, [] as IOPFormlyFieldSettings[]);
@@ -214,30 +156,10 @@ fdescribe('DynamicFieldsService', () => {
 
   it('should group fields from @Input fieldGroups (IDynamicFieldGroupConfig)', () => {
     const formPayload = {};
-    const formSchema = {
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      "name": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {},
-        "attributeGroup": "People"
-      },
+    const {parent, name} = formSchema;
+    const formSchemaWithGroups = {
+      parent,
+      name,
       "id": {
         "type": "Integer",
         "name": "ID",
@@ -267,7 +189,7 @@ fdescribe('DynamicFieldsService', () => {
         }
       }
     ];
-    const formConfig = service.getConfig(formSchema, formPayload);
+    const formConfig = service.getConfig(formSchemaWithGroups, formPayload);
     const formConfigWithFieldGroups = service.getFormlyFormWithFieldGroups(fieldGroups, formConfig);
     const fieldGroup = formConfigWithFieldGroups[1];
 
