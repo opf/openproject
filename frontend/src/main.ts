@@ -1,4 +1,4 @@
-import { OpenProjectModule } from 'core-app/angular4-modules';
+import { OpenProjectModule } from 'core-app/app.module';
 import { enableProdMode } from '@angular/core';
 import * as jQuery from "jquery";
 import { environment } from './environments/environment';
