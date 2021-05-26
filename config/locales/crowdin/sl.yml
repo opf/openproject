@@ -615,6 +615,9 @@ sl:
           attributes:
             types:
               in_use_by_work_packages: "delovni paketi še vedno uporabljajo: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:

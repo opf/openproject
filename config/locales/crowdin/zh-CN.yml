@@ -610,6 +610,9 @@ zh-CN:
           attributes:
             types:
               in_use_by_work_packages: "仍在使用的工作包: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:

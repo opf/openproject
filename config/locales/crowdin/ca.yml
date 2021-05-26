@@ -615,6 +615,9 @@ ca:
           attributes:
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:

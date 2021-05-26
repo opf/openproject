@@ -616,6 +616,9 @@ hr:
           attributes:
             types:
               in_use_by_work_packages: "još uvijek u uporabi od strane radnih paketa: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:

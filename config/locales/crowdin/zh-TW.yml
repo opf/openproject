@@ -614,6 +614,9 @@ zh-TW:
           attributes:
             types:
               in_use_by_work_packages: "%{types} 仍在被工作項目使用中"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:

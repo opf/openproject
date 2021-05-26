@@ -616,6 +616,9 @@ ro:
           attributes:
             types:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "Mesaj"
         query:
           attributes:
             project:

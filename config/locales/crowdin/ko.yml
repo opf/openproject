@@ -613,6 +613,9 @@ ko:
           attributes:
             types:
               in_use_by_work_packages: "아직 작업 패키지에 사용됨: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
