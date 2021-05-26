@@ -522,7 +522,7 @@ tr:
       click_to_switch_context: 'Bu iş paketini o projede aç.'
       confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
       use_template: "Şablon kullan"
-      no_template_selected: "(None)"
+      no_template_selected: "(Yok)"
       copy:
         copy_options: "Ayarları kopyala"
       autocompleter:
@@ -608,6 +608,10 @@ tr:
     relations_autocomplete:
       placeholder: "Aramak için metni yazın"
       parent_placeholder: "Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna basın."
+    autocompleter:
+      placeholder: "Aramak için metni yazın"
+      notFoundText: "No items found"
+      typeToSearchText: "Aramak için metni yazın"
     repositories:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'
@@ -925,7 +929,7 @@ tr:
     notice_successful_create: "Oluşturma başarılı."
     notice_successful_delete: "Silme başarılı."
     notice_successful_update: "Güncelleme başarılı."
-    notice_job_started: "job started."
+    notice_job_started: "görev başlatıldı."
     notice_bad_request: "Hatalı istek."
     relations:
       empty: İlişki bulunmuyor
@@ -992,8 +996,8 @@ tr:
       project:
         label: 'Proje'
         required: 'Lütfen bir proje seçin'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission: 'Şu anda seçili olan projeye kişiler atama izniniz olmadığından lütfen başka bir proje seçin.'
+        lacking_permission_info: 'Şu anda içinde olduğunuz projeye kullanıcılar atama izniniz yok. Başka bir tane seçmeniz gerekli.'
         next_button: 'Sonraki'
         no_results: 'Hiç proje bulunamadı'
         no_invite_rights: 'Bu projeye üye davet etme izniniz yok'
@@ -1031,7 +1035,7 @@ tr:
       role:
         label: 'rol %{project}'
         no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Bu, %{principal} projenize katıldığı zaman alacağı roldür. Bu rol hangi eylemleri gerçekleştirebileceklerini ve hangi bilgileri görebileceklerini belirler. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">Roller ve izinler hakkında daha fazla bilgi edinin. </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:

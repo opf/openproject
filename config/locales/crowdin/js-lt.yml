@@ -608,6 +608,10 @@ lt:
     relations_autocomplete:
       placeholder: "Paieškai pradėkite rinkti tekstą"
       parent_placeholder: "Pasirinkite naują tėvą arba spauskite Escape atšaukimui."
+    autocompleter:
+      placeholder: "Paieškai pradėkite rinkti tekstą"
+      notFoundText: "No items found"
+      typeToSearchText: "Paieškai pradėkite rinkti tekstą"
     repositories:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'

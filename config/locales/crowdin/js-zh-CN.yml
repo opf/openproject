@@ -608,6 +608,10 @@ zh-CN:
     relations_autocomplete:
       placeholder: "键入内容进行搜索"
       parent_placeholder: "选择新父级，或按 Escape 键来取消。"
+    autocompleter:
+      placeholder: "键入内容进行搜索"
+      notFoundText: "No items found"
+      typeToSearchText: "键入内容进行搜索"
     repositories:
       select_tag: '选择标签'
       select_branch: '选择分支'
