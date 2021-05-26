@@ -358,10 +358,10 @@ module API
               represented.project_id.to_s
             end
 
-          if project_id_value.nil?
-            [{ member: { operator: '*', values: [] } }]
-          else
+          if project_id_value.present?
             [{ member: { operator: '=', values: [project_id_value.to_s] } }]
+          else
+            [{ member: { operator: '*', values: [] } }]
           end
         end
 
