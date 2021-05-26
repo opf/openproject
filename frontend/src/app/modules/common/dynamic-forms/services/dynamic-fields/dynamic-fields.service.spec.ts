@@ -9,6 +9,40 @@ describe('DynamicFieldsService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service:DynamicFieldsService;
+  const formSchema = {
+    "name": {
+      "type": "String",
+      "name": "Name",
+      "required": true,
+      "hasDefault": false,
+      "writable": true,
+      "minLength": 1,
+      "maxLength": 255,
+      "options": {}
+    },
+    "parent": {
+      "type": "Project",
+      "name": "Subproject of",
+      "required": false,
+      "hasDefault": false,
+      "location": "_links",
+      "writable": true,
+      "_links": {
+        "allowedValues": {
+          "href": "/api/v3/projects/available_parent_projects?of=25"
+        }
+      }
+    },
+    "id": {
+      "type": "Integer",
+      "name": "ID",
+      "required": true,
+      "hasDefault": false,
+      "writable": false,
+      "options": {}
+    },
+    _dependencies: [],
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,40 +71,6 @@ describe('DynamicFieldsService', () => {
           "title": "Parent project"
         }
       }
-    };
-    const formSchema = {
-      "name": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
-      },
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "location": "_links",
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      "id": {
-        "type": "Integer",
-        "name": "ID",
-        "required": true,
-        "hasDefault": false,
-        "writable": false,
-        "options": {}
-      },
-      _dependencies: [],
     };
 
     // @ts-ignore
@@ -101,44 +101,6 @@ describe('DynamicFieldsService', () => {
         ]
       },
     };
-    const formSchema = {
-      "title": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
-      },
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "location": "_links",
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      "children": {
-        "type": "Project",
-        "name": "Project's children",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      _dependencies: [],
-    };
 
     // @ts-ignore
     const formModel = service.getModel(formPayload);
@@ -161,30 +123,10 @@ describe('DynamicFieldsService', () => {
         },
       }
     };
-    const formSchema = {
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
-      },
-      "name": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {},
-        "attributeGroup": "People"
-      },
+    const {parent, name} = formSchema;
+    const formSchemaWithGroups = {
+      parent,
+      name,
       _attributeGroups: [
         {
           "_type": "WorkPackageFormAttributeGroup",
@@ -196,7 +138,7 @@ describe('DynamicFieldsService', () => {
       ]
     };
     // @ts-ignore
-    const formlyConfig = service.getConfig(formSchema, formPayload);
+    const formlyConfig = service.getConfig(formSchemaWithGroups, formPayload);
     const formlyFields = formlyConfig.reduce((result, formlyField) => {
       return formlyField.fieldGroup ? [...result, ...formlyField.fieldGroup] : [...result, formlyField];
     }, [] as IOPFormlyFieldSettings[]);
@@ -210,5 +152,53 @@ describe('DynamicFieldsService', () => {
     expect(formGroup).toBeTruthy();
     expect(formGroup.templateOptions!.label).toEqual('People', 'should add the correct label to the field group wrapper');
     expect(formGroup.fieldGroup![0].key).toEqual('name', 'should add the correct key to the field group wrapper');
+  });
+
+  it('should group fields from @Input fieldGroups (IDynamicFieldGroupConfig)', () => {
+    const formPayload = {};
+    const {parent, name} = formSchema;
+    const formSchemaWithGroups = {
+      parent,
+      name,
+      "id": {
+        "type": "Integer",
+        "name": "ID",
+        "required": true,
+        "hasDefault": false,
+        "writable": true,
+        "options": {}
+      },
+      _attributeGroups: [
+        {
+          "_type": "WorkPackageFormAttributeGroup",
+          "name": "People",
+          "attributes": [
+            "name",
+          ]
+        },
+      ]
+    };
+    const fieldGroups = [
+      {
+        name: 'Advanced settings',
+        fieldsFilter: (field:IOPFormlyFieldSettings) => ['name', 'parent'].includes(field.templateOptions?.property!),
+        settings: {
+          templateOptions: {
+            collapsibleFieldGroupsCollapsed: false
+          }
+        }
+      }
+    ];
+    const formConfig = service.getConfig(formSchemaWithGroups, formPayload);
+    const formConfigWithFieldGroups = service.getFormlyFormWithFieldGroups(fieldGroups, formConfig);
+    const fieldGroup = formConfigWithFieldGroups[1];
+
+    expect(formConfigWithFieldGroups?.length).toBe(2, 'should create the correct number of fields (1 field + 1 field group)');
+    expect(fieldGroup?.wrappers![0]).toBe('op-dynamic-field-group-wrapper', 'should set the correct group label');
+    expect(fieldGroup?.templateOptions?.label).toBe(fieldGroups[0].name, 'should set the correct group label (overwriting previous grouping)');
+    expect(fieldGroup?.templateOptions?.isFieldGroup).toBe(true, 'should set isFieldGroup to true');
+    expect(fieldGroup?.templateOptions?.collapsibleFieldGroups).toBe(true, 'should set collapsibleFieldGroups to true');
+    expect(fieldGroup?.templateOptions?.collapsibleFieldGroupsCollapsed).toBe(false, 'should overwrite the default group options with the group settings');
+    expect(fieldGroup?.fieldGroup?.length).toBe(2, 'should contain the correct number of fields');
   });
 });
