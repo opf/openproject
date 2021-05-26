@@ -439,6 +439,7 @@ en:
     label_quote_comment: "Quote this comment"
     label_recent: "Recent"
     label_reset: "Reset"
+    label_remove: "Remove"
     label_remove_column: "Remove column"
     label_remove_columns: "Remove selected columns"
     label_remove_row: "Remove row"

@@ -28,6 +28,7 @@
 
 import { Component, ElementRef, OnInit } from "@angular/core";
 import { HideSectionService } from "core-app/modules/common/hide-section/hide-section.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 export const hideSectionLinkSelector = 'hide-section-link';
 
@@ -40,8 +41,13 @@ export class HideSectionLinkComponent implements OnInit {
 
   public sectionName:string;
 
+  text = {
+    remove: this.I18n.t('js.label_remove')
+  }
+
   constructor(protected elementRef:ElementRef,
-              protected hideSectionService:HideSectionService) {}
+              protected hideSectionService:HideSectionService,
+              protected I18n:I18nService) {}
 
   ngOnInit():void {
     this.sectionName = this.elementRef.nativeElement.dataset.sectionName;
