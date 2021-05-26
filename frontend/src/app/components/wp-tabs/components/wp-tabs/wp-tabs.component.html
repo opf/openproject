@@ -3,24 +3,22 @@
   class="op-work-package-tabs">
     <ng-container slot="actions" *ngIf="view === 'split'">
       <li class="tab-icon">
-        <accessible-by-keyboard
-          (execute)="switchToFullscreen()"
-          [linkAriaLabel]="text.details.goToFullScreen"
-          [linkTitle]="text.details.goToFullScreen"
-          linkClass="work-packages--details-fullscreen-icon"
-          spanClass="icon-context icon-to-fullscreen"
+        <button
+            class="op-link work-packages--details-fullscreen-icon"
+            [title]="text.details.goToFullScreen"
+            (click)="switchToFullscreen()"
         >
-        </accessible-by-keyboard>
+          <op-icon icon-classes="icon-context icon-no-color icon-to-fullscreen"></op-icon>
+        </button>
       </li>
       <li class="tab-icon">
-        <accessible-by-keyboard
-          (execute)="close()"
-          [linkAriaLabel]="text.details.close"
-          [linkTitle]="text.details.close"
-          linkClass="work-packages--details-close-icon"
-          spanClass="icon-context icon-close"
+        <button
+            class="op-link work-packages--details-close-icon"
+            [title]="text.details.close"
+            (click)="close()"
         >
-        </accessible-by-keyboard>
+          <op-icon icon-classes="icon-context icon-no-color icon-close"></op-icon>
+        </button>
       </li>
     </ng-container>
 </op-scrollable-tabs>
