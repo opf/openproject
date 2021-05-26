@@ -83,15 +83,29 @@ export class FormsService {
       .keys(resources)
       .reduce((result, resourceKey) => {
         const resource = resources[resourceKey];
+        let resourceValue;
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface
-        const resourceValue = Array.isArray(resource) ?
-          resource.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href })) :
-          { href: resource?.href || resource?._links?.self?.href };
+        if (Array.isArray(resource)) {
+          const formattedResourceValue = resource.reduce((result:any[], resourceElement) => {
+            const href = resourceElement?.href || resourceElement?._links?.self?.href;
+            if (href) {
+              result = [...result, {href}]
+            }
+
+            return result
+          }, []);
+
+          resourceValue = formattedResourceValue.length ? formattedResourceValue : null;
+        } else {
+          const href = resource?.href || resource?._links?.self?.href;
+
+          resourceValue = href ? {href} : null;
+        }
 
         return {
           ...result,
-          [resourceKey]: resourceValue,
+          ...resourceValue && {[resourceKey]: resourceValue},
         };
       }, {});
 
