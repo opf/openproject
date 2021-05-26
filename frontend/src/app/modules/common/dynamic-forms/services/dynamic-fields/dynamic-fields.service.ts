@@ -8,10 +8,12 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 
 @Injectable()
 export class DynamicFieldsService {
+  readonly selectDefaultValue = {name:'-'};
   readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
@@ -36,7 +38,7 @@ export class DynamicFieldsService {
         type: 'integerInput',
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
         },
       },
       useForFields: ['Integer', 'Float']
@@ -70,10 +72,10 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'selectInput',
-        defaultValue: {name:'-'},
+        defaultValue: this.selectDefaultValue,
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
           bindLabel: 'name',
           searchable: true,
           virtualScroll: true,
@@ -81,7 +83,7 @@ export class DynamicFieldsService {
           clearSearchOnAdd: false,
           hideSelected: false,
           text: {
-            add_new_action: I18n.t('js.label_create'),
+            add_new_action: this.I18n.t('js.label_create'),
           },
         },
         expressionProperties: {
@@ -96,9 +98,10 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'selectProjectStatusInput',
+        defaultValue: this.selectDefaultValue,
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
           bindLabel: 'name',
           searchable: true,
         },
@@ -113,7 +116,8 @@ export class DynamicFieldsService {
   ];
 
   constructor(
-    private _httpClient:HttpClient,
+    private httpClient:HttpClient,
+    private I18n:I18nService,
   ) {
   }
 
@@ -293,7 +297,7 @@ export class DynamicFieldsService {
 
       options = of(optionsValues);
     } else if (allowedValues!.href) {
-      options = this._httpClient
+      options = this.httpClient
         .get(allowedValues!.href!)
         .pipe(
           map((response:api.v3.Result) => response._embedded.elements),
