@@ -27,10 +27,10 @@
 //++
 
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { ExpressionService } from "../../../../../../../common/expression.service";
 import { ApplicationRef } from "@angular/core";
 import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { ExpressionService } from "core-app/core/expression/expression.service";
 
 export class FormattableDisplayField extends DisplayField {
 
