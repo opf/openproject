@@ -37,6 +37,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public searchKey?:string = '';
   @Input() public defaulData?:boolean = false;
   @Input() public focusDirectly?:boolean = true;
+  @Input() public fetchDataDirectly?:boolean = false;
   @Input() public labelRequired?:boolean = true;
   @Input() public name?:string;
   @Input() public required?:boolean = false;
@@ -157,7 +158,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         distinctUntilChanged(),
         switchMap(queryString => this.getOptionsFn(queryString))
       ));
-        
+      if (this.fetchDataDirectly) {
+        this.results$ = this.defaulData 
+        ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
+        : (this.getOptionsFn(''));
+      }
       if(this.openDirectly) {
         this.ngSelectInstance.focus();
         this.repositionDropdown();
@@ -185,7 +190,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public opened(val:any) {
-
    if (this.openDirectly) {
     this.results$ = this.defaulData 
     ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
@@ -200,6 +204,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
   public closeSelect() {
     this.ngSelectInstance && this.ngSelectInstance.close();
+  }
+  public openSelect() {
+    this.ngSelectInstance && this.ngSelectInstance.open();
   }
 
   public focusSelect() {
