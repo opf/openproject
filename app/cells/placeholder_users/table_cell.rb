@@ -54,5 +54,9 @@ module PlaceholderUsers
     def desc_by_default
       [:created_at]
     end
+
+    def user_allowed_service
+      @user_allowed_service ||= Authorization::UserAllowedService.new(options[:current_user])
+    end
   end
 end

@@ -74,8 +74,24 @@ module Pages
           end
         end
 
+        def expect_no_delete_button_for_all_rows
+          expect(page).to have_selector('i.icon-help2')
+        end
+
+        def expect_no_delete_button(placeholder_user)
+          within_placeholder_user_row(placeholder_user) do
+            expect(page).to have_selector('i.icon-help2')
+          end
+        end
+
+        def expect_delete_button(placeholder_user)
+          within_placeholder_user_row(placeholder_user) do
+            expect(page).to have_selector('i.icon-delete')
+          end
+        end
+
         def click_placeholder_user_button(placeholder_user, text)
-          within_user_row(placeholder_user) do
+          within_placeholder_user_row(placeholder_user) do
             click_link text
           end
         end
@@ -83,7 +99,7 @@ module Pages
         private
 
         def within_placeholder_user_row(placeholder_user)
-          row = find('tr.placeholder_user', text: placeholder_user.name)
+          row = find('tr.placeholder_user td.name', text: placeholder_user.name).ancestor('tr')
           within row do
             yield
           end

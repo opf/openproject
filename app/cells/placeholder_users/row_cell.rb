@@ -46,11 +46,20 @@ module PlaceholderUsers
     end
 
     def delete_link
-      return nil unless PlaceholderUsers::DeleteContract.deletion_allowed?(User.current)
+      if PlaceholderUsers::DeleteContract.deletion_allowed?(placeholder_user,
+                                                            User.current,
+                                                            table.user_allowed_service)
 
-      link_to '',
-              deletion_info_placeholder_user_path(placeholder_user),
-              class: 'icon icon-delete'
+        link_to deletion_info_placeholder_user_path(placeholder_user) do
+          "<span class=\"tooltip--left\" data-tooltip=\"#{I18n.t('placeholder_users.delete_tooltip')}\"><i class=\"icon icon-delete\"></i></span>".html_safe
+        end
+      else
+        "<span class=\"tooltip--left\" data-tooltip=\"#{I18n.t('placeholder_users.right_to_manage_members_missing')}\"><i class=\"icon icon-help2\"></i></span>".html_safe
+      end
+    end
+
+    def row_css_class
+      "placeholder_user"
     end
   end
 end
