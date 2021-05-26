@@ -19,7 +19,10 @@
            [dropdownPosition]="'top'"
            [hideSelected]="true">
   <ng-template ng-footer-tmp *ngIf="showAddNewUserButton">
-    <op-invite-user-button (invited)="selectedOption = $event"></op-invite-user-button>
+    <op-invite-user-button
+        [projectId]="resource.project?.id"
+        (invited)="selectedOption = $event"
+    ></op-invite-user-button>
   </ng-template>
 </ng-select>
 
