@@ -234,7 +234,7 @@ describe 'form query configuration', type: :feature, js: true do
                                                      query: 'Unrelated',
                                                      results_selector: '.ng-dropdown-panel-items'
 
-        expect(results).to have_text "Task ##{unrelated_task.id} Unrelated task"
+        expect(results).to have_text "Unrelated task"
         expect(results).to have_no_text "Bug ##{unrelated_task.id} Unrelated bug"
 
         # Cancel that referencing
