@@ -159,8 +159,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
       ));
         
       if(this.openDirectly) {
+        this.ngSelectInstance.open();
         this.ngSelectInstance.focus();
-        this.repositionDropdown();
       }
       else if (this.focusDirectly) {
         this.ngSelectInstance.focus();
@@ -185,7 +185,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public opened(val:any) {
-
    if (this.openDirectly) {
     this.results$ = this.defaulData 
     ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
@@ -200,6 +199,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
   public closeSelect() {
     this.ngSelectInstance && this.ngSelectInstance.close();
+  }
+  public openSelect() {
+    this.ngSelectInstance && this.ngSelectInstance.open();
   }
 
   public focusSelect() {
