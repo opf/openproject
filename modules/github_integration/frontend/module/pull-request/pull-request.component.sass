@@ -31,7 +31,7 @@
 .op-pr-pull-request
   display: grid
   grid-template-columns: auto 1fr auto auto
-  grid-template-areas: "title title title state" "avatar user link link" "avatar date link link" "avatar checks checks checks"
+  grid-template-areas: "link link link link" "title title title state" "info info info info" "checks checks checks checks"
   margin-bottom: 24px
 
 .op-pr-title
@@ -39,37 +39,38 @@
   font-weight: bold
   grid-area: title
   // have the same line height as the status "button" next to it
-  line-height: 34px
+  line-height: 32px
   margin-right: 20px
 
-.op-avatar
-  grid-area: avatar
+.op-avatar_mini
+  grid-area: info
 
-.op-pr-user
+.op-pr-info
   display: block
-  font-weight: bold
-  line-height: 16px
+  grid-area: info
   margin-bottom: 3px
-  grid-area: user
+  font-size: 0.9rem
+  grid-area: info
+  color: var(--gray-dark)
+  // The mini avatar is much higher than the text line. Compensate it.
+  margin-top: -4px
 
 .op-pr-date
-  display: block
-  font-size: 0.8rem
-  color: var(--gray-dark)
-  grid-area: date
+  grid-area: info
 
 .op-pr-link
   grid-area: link
   margin-top: 6px
+  font-size: 0.9rem
 
 .op-pr-state
   grid-area: state
   display: inline-block
-  padding: 9px 12px
-  border-radius: 17px
+  padding: 8px 11px
+  border-radius: 16px
   border: 1px solid #fff
   color: #fff
-  font-size: 14px
+  font-size: 0.9rem
   text-transform: capitalize
 .op-pr-state_draft
   background-color: #6a737d
