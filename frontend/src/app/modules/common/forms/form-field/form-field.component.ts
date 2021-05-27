@@ -32,26 +32,38 @@ export class OpFormFieldComponent {
 
   @ContentChild(NgControl) ngControl:NgControl;
 
+  internalID = `op-form-field-${+new Date()}`;
+
+  get errorsID() {
+    return `${this.internalID}-errors`;
+  }
+
+  get descriptionID() {
+    return `${this.internalID}-description`;
+  }
+
+  get describedByID() {
+    return this.showErrorMessage ? this.errorsID : this.descriptionID;
+  }
+
   get formControl():AbstractControl|undefined|null {
     return this.ngControl?.control || this.control;
   }
 
   get showErrorMessage():boolean {
-    let showErrorMessage = false;
-
     if (!this.formControl) {
       return false;
     }
 
     if (this.showValidationErrorOn === 'submit') {
-      showErrorMessage =  this.formControl.invalid && this._formGroupDirective?.submitted;
+      return this.formControl.invalid && this._formGroupDirective?.submitted;
     } else if (this.showValidationErrorOn === 'blur') {
-      showErrorMessage =  this.formControl.invalid && this.formControl.touched;
+      return this.formControl.invalid && this.formControl.touched;
     } else if (this.showValidationErrorOn === 'change') {
-      showErrorMessage =  this.formControl.invalid && this.formControl.dirty;
+      return this.formControl.invalid && this.formControl.dirty;
     }
 
-    return showErrorMessage;
+    return false;
   }
 
   constructor(

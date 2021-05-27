@@ -1,12 +1,16 @@
-<fieldset class="form--fieldset -collapsible"
-          [ngClass]="{'collapsed': to.collapsibleFieldGroupsCollapsed}"
-          *ngIf="to?.collapsibleFieldGroups">
-  <legend class="form--fieldset-legend"
-          title="Show/hide"
-          (click)="to.collapsibleFieldGroupsCollapsed = !to.collapsibleFieldGroupsCollapsed">
-    <a href="#">
+<fieldset
+  class="form--fieldset -collapsible"
+  [ngClass]="{'collapsed': to.collapsibleFieldGroupsCollapsed}"
+  *ngIf="to?.collapsibleFieldGroups"
+>
+  <legend class="form--fieldset-legend">
+    <button
+      title="Show/hide"
+      type="button"
+      (click)="to.collapsibleFieldGroupsCollapsed = !to.collapsibleFieldGroupsCollapsed"
+    >
       {{ to.label }}
-    </a>
+    </button>
   </legend>
 
   <div 

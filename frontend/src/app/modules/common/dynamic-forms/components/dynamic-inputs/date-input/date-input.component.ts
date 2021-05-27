@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FieldType } from "@ngx-formly/core";
 
 @Component({
@@ -6,5 +6,4 @@ import { FieldType } from "@ngx-formly/core";
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss'],
 })
-export class DateInputComponent extends FieldType {
-}
+export class DateInputComponent extends FieldType {}
