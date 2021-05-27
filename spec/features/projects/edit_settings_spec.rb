@@ -39,7 +39,9 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
                       member_with_permissions: permissions)
   end
 
-  shared_let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
+  shared_let(:project) do
+    FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project')
+  end
 
   it 'hides the field whose functionality is presented otherwise' do
     visit settings_generic_project_path(project.id)
@@ -172,6 +174,32 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
       cv = project.reload.custom_value_for(date_custom_field)
       expect(cv.typed_value).to eq '2021-05-26'.to_date
+    end
+  end
+
+  context 'with a user not allowed to see the parent project' do
+    let(:parent_project) { FactoryBot.create(:project) }
+
+    before do
+      project.update_attribute(:parent, parent_project)
+    end
+
+    it 'can update the project without destroying the relation to the parent' do
+      visit settings_generic_project_path(project.id)
+
+      fill_in 'Name', with: 'New project name'
+
+      click_on 'Save'
+
+      expect(page).to have_content 'Successful update.'
+
+      project.reload
+
+      expect(project.name)
+        .to eql 'New project name'
+
+      expect(project.parent)
+        .to eql parent_project
     end
   end
 end
