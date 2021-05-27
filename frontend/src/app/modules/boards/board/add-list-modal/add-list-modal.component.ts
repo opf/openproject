@@ -45,6 +45,7 @@ import { HalResourceNotificationService } from "core-app/modules/hal/services/ha
 import {OpAutocompleterComponent} from "core-app/modules/autocompleter/op-autocompleter/op-autocompleter.component";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { tap } from "rxjs/operators";
 
 @Component({
   templateUrl: './add-list-modal.html'
@@ -53,40 +54,16 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
   
-  data = (searchTerm:string):Observable<HalResource[]> => {
+  getAutocompleterData = (searchTerm:string):Observable<HalResource[]> => {
 
     // Remove prefix # from search
-
     searchTerm = searchTerm.replace(/^#/, '');
-    let filteredData = this.actionService.loadAvailable(this.board, this.active, searchTerm);
-
-    filteredData.subscribe((values:unknown[]) => {
-
-      let hasMember = false;
-      if (values.length === 0) {
-        if (this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && this.ngSelectComponent.ngSelectInstance.searchTerm !== '') {
-          hasMember = true;
-        } else {
-          hasMember = false;
-        }
-      } else {
-        hasMember = false;
-      }
-      this.actionService
-        .warningTextWhenNoOptionsAvailable(hasMember)
-        .then((text) => {
-          this.warningText = text;
-        });
-      this.showWarning = this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && (values.length === 0);
-      this.cdRef.detectChanges();
-    });
-    
-    return filteredData;
+    return this.actionService.loadAvailable(this.board, this.active, searchTerm).pipe(tap((values) => this.warnIfNoOptions(values)));
   };
   
   public autocompleterOptions = {
     resource:"",
-    getOptionsFn: this.data
+    getOptionsFn: this.getAutocompleterData
     };
 
   public showClose:boolean;
@@ -197,5 +174,25 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     };
 
     return payload;
+  }
+
+  private warnIfNoOptions(values:unknown[]) {
+    let hasMember = false;
+    if (values.length === 0) {
+      if (this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && this.ngSelectComponent.ngSelectInstance.searchTerm !== '') {
+        hasMember = true;
+      } else {
+        hasMember = false;
+      }
+    } else {
+      hasMember = false;
+    }
+    this.actionService
+      .warningTextWhenNoOptionsAvailable(hasMember)
+      .then((text) => {
+        this.warningText = text;
+      });
+    this.showWarning = this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && (values.length === 0);
+    this.cdRef.detectChanges();
   }
 }
