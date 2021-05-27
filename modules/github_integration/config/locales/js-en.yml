@@ -34,8 +34,8 @@ en:
       tab_header:
         title: "Pull Requests"
         copy_menu:
-          label: Git
-          description: Copy important git content to clipboard
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
           branch: Branch
           branch_help: Copy the default branch name.
