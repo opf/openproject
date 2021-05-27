@@ -237,6 +237,36 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
         end
       end
     end
+
+    describe 'user custom field on new project' do
+      let(:schema) do
+        double('ProjectSchema',
+               id: nil,
+               model: Project.new,
+               defines_assignable_values?: true,
+               available_custom_fields: [custom_field])
+      end
+      let(:custom_field) do
+        FactoryBot.build(:custom_field,
+                         field_format: 'user',
+                         is_required: true)
+      end
+
+      it_behaves_like 'links to allowed values via collection link' do
+        let(:path) { cf_path }
+        let(:href) do
+          params = [
+            { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
+            { type: { operator: '=', values: %w[User Group PlaceholderUser] } },
+            { member: { operator: '*', values: [] } }
+          ]
+
+          query = CGI.escape(::JSON.dump(params))
+
+          "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+        end
+      end
+    end
   end
 
   describe '#inject_value' do
