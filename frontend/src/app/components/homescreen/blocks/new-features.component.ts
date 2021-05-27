@@ -60,7 +60,7 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
  */
 export class HomescreenNewFeaturesBlockComponent {
   public isStandardEdition:boolean;
-  new_features_image = ImageHelpers.imagePath('new_features.png');
+  new_features_image = ImageHelpers.imagePath('11_3_features.png');
   public text = {
     newFeatures: this.i18n.t('js.label_new_features'),
     descriptionNewFeatures: this.i18n.t('js.homescreen.blocks.new_features.text_new_features'),
