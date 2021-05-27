@@ -14,15 +14,12 @@ import { SelectProjectStatusInputComponent } from "./components/dynamic-inputs/s
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
 import { BooleanInputComponent } from './components/dynamic-inputs/boolean-input/boolean-input.component';
 import { DateInputComponent } from './components/dynamic-inputs/date-input/date-input.component';
-import { DatePickerControlComponent } from './components/dynamic-inputs/date-input/components/date-picker-control/date-picker-control.component';
 import { FormattableTextareaInputComponent } from './components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
-import { OpenprojectEditorModule } from "core-app/modules/editor/openproject-editor.module";
-import { FormattableControlComponent } from './components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { FormattableEditFieldModule } from "core-app/modules/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";
-import { DatePickerModule } from "core-app/modules/common/op-date-picker/date-picker.module";
 import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper/dynamic-field-wrapper.component';
 import { InviteUserButtonModule } from "core-app/modules/invite-user-modal/button/invite-user-button.module";
+import { DatePickerControlModule } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/date-input/components/date-picker-control/date-picker-control.module";
+import { FormattableControlModule } from "core-app/modules/common/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.module";
 
 @NgModule({
   imports: [
@@ -53,27 +50,24 @@ import { InviteUserButtonModule } from "core-app/modules/invite-user-modal/butto
     OpenprojectCommonModule,
 
     // Input dependencies
-    DatePickerModule,
     NgSelectModule,
     NgOptionHighlightModule,
-    FormattableEditFieldModule,
-    OpenprojectEditorModule,
     InviteUserButtonModule,
+    DatePickerControlModule,
+    FormattableControlModule,
   ],
   declarations: [
-    DynamicFieldGroupWrapperComponent,
     DynamicFormComponent,
+    DynamicFieldGroupWrapperComponent,
+    DynamicFieldWrapperComponent,
     // Input Types
     BooleanInputComponent,
     IntegerInputComponent,
     TextInputComponent,
-    DateInputComponent,
-    DatePickerControlComponent,
     SelectInputComponent,
     SelectProjectStatusInputComponent,
+    DateInputComponent,
     FormattableTextareaInputComponent,
-    FormattableControlComponent,
-    DynamicFieldWrapperComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
