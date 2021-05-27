@@ -21,7 +21,10 @@
     <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
   </span>
 
-  <span class='op-pr-state' [ngClass]="'op-pr-state_' + state">{{state}}</span>
+  <span class='op-pr-state' [ngClass]="'op-pr-state_' + state">
+    <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
+    {{state}}
+  </span>
   <a class='op-pr-link' [href]="pullRequest.htmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
 
   <ul [attr.aria-label]="text.label_actions" class='op-pr-checks' *ngIf="pullRequest.checkRuns?.length">
