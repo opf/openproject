@@ -71,7 +71,6 @@ export class DynamicFieldsService {
       config: {
         type: 'selectInput',
         templateOptions: {
-          type: 'number',
           locale: I18n.locale,
           bindLabel: 'name',
           searchable: true,
