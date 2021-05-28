@@ -79,8 +79,6 @@ export class FormsService {
   private formatModelToSubmit(formModel:IOPFormModel):IOPFormModel {
     const resources = formModel?._links || {};
 
-    console.log('formatModelToSubmit', formModel)
-
     const formattedResources = Object
       .keys(resources)
       .reduce((result, resourceKey) => {
