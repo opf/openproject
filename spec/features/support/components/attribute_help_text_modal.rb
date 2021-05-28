@@ -52,7 +52,7 @@ module Components
 
     def open!
       SeleniumHubWaiter.wait
-      container.find(".help-text--for-#{help_text.attribute_name}").click
+      container.find("[data-qa-help-text--for='#{help_text.attribute_name}']").click
       expect(page).to have_selector('.attribute-help-text--modal h1', text: help_text.attribute_caption)
     end
 
