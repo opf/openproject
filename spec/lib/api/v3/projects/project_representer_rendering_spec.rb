@@ -214,7 +214,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
 
         it_behaves_like 'has a titled link' do
           let(:link) { 'parent' }
-          let(:href) { nil }
+          let(:href) { API::V3::URN_HIDDEN }
           let(:title) { nil }
         end
       end

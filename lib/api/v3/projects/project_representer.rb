@@ -166,7 +166,7 @@ module API
                                 }
                               else
                                 {
-                                  href: nil,
+                                  href: API::V3::URN_HIDDEN,
                                   title: nil
                                 }
                               end
