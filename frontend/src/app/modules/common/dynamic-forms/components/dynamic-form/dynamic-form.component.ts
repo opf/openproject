@@ -143,7 +143,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Input() set model(payload:IOPFormModel) {
     if (!this.innerModel && !payload) { return; }
 
-    const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
+    const formattedModel = this._formsService.formatModelToEdit(payload);
 
     this.form.patchValue(formattedModel);
   }

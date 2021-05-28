@@ -77,10 +77,10 @@ export class FormsService {
   }
 
   /** HAL resources formatting
-   * The backend form model/payload, HAL resources are nested in the '_links' property.
-   * In order to simplify its use, we flat the model and place the HAL resources at
-   * the first level of the model.
-   * This method places HAL resources model back to the '_links' property and formats them
+   * The backend form model/payload contains HAL resources nested in the '_links' property.
+   * In order to simplify its use, the model is flatted and HAL resources are placed at
+   * the first level of the model with the 'formatModelToEdit' method.
+   * 'formatModelToSubmit' places HAL resources model back to the '_links' property and formats them
    * in the shape of '{href:hrefValue}' in order to fit the backend expectations.
    * */
   private formatModelToSubmit(formModel:IOPFormModel, formSchema:IOPFormSchema = {}):IOPFormModel {
@@ -114,6 +114,27 @@ export class FormsService {
       ...mainModel,
       _links: formattedResourcesModel,
     }
+  }
+
+  /** HAL resources formatting
+   * The backend form model/payload contains HAL resources nested in the '_links' property.
+   * In order to simplify its use, the model is flatted and HAL resources are placed at
+   * the first level of the model. 'NonValue' values are also removed from the model so
+   * default values from the DynamicForm are set.
+   */
+  formatModelToEdit(formModel:IOPFormModel = {}):IOPFormModel {
+    const { _links: resourcesModel, _meta: metaModel, ...otherElements } = formModel;
+    const otherElementsModel = Object.keys(otherElements)
+      .filter(key => this.isValue(otherElements[key]))
+      .reduce((model, key) => ({...model, [key]:otherElements[key]}), {});
+
+    const model = {
+      ...otherElementsModel,
+      _meta: metaModel,
+      ...this.getFormattedResourcesModel(resourcesModel),
+    };
+
+    return model;
   }
 
   private handleBackendFormValidationErrors(error:HttpErrorResponse, form:FormGroup):void {
@@ -160,5 +181,27 @@ export class FormsService {
     }));
 
     return formattedErrors;
+  }
+
+  private getFormattedResourcesModel(resourcesModel:IOPFormModel['_links'] = {}):IOPFormModel['_links'] {
+    return Object.keys(resourcesModel).reduce((result, resourceKey) => {
+      const resource = resourcesModel[resourceKey];
+      // ng-select needs a 'name' in order to show the label
+      // We need to add it in case of the form payload (HalLinkSource)
+      const resourceModel = Array.isArray(resource) ?
+        resource.map(resourceElement => ({...resourceElement, name: resourceElement?.name || resourceElement?.title})) :
+        {...resource, name: resource?.name || resource?.title};
+
+      result = {
+        ...result,
+        ...this.isValue(resourceModel) && {[resourceKey]: resourceModel},
+      };
+
+      return result;
+    }, {});
+  }
+
+  private isValue(value:any) {
+    return ![null, undefined, ''].includes(value);
   }
 }
