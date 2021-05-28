@@ -105,7 +105,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
       end
 
-      context 'with null for a scope' do
+      context 'with null for a status' do
         let(:hash) do
           {
             '_links' => {
@@ -131,6 +131,70 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
 
           expect(status[:code])
             .to eq nil
+        end
+      end
+    end
+  end
+
+  describe '_links' do
+    context 'with a parent link' do
+      context 'with the href being an url' do
+        let(:hash) do
+          {
+            '_links' => {
+              'parent' => {
+                'href' => api_v3_paths.project(5)
+              }
+            }
+          }
+        end
+
+        it 'sets the parent_id to the value' do
+          project = representer.from_hash(hash).to_h
+
+          expect(project[:parent_id])
+            .to eq "5"
+        end
+      end
+
+      context 'with the href being nil' do
+        let(:hash) do
+          {
+            '_links' => {
+              'parent' => {
+                'href' => nil
+              }
+            }
+          }
+        end
+
+        it 'sets the parent_id to nil' do
+          project = representer.from_hash(hash).to_h
+
+          expect(project)
+            .to have_key(:parent_id)
+
+          expect(project[:parent_id])
+            .to eq nil
+        end
+      end
+
+      context 'with the href being the hidden uri' do
+        let(:hash) do
+          {
+            '_links' => {
+              'parent' => {
+                'href' => API::V3::URN_HIDDEN
+              }
+            }
+          }
+        end
+
+        it 'omits the parent information' do
+          project = representer.from_hash(hash).to_h
+
+          expect(project)
+            .not_to have_key(:parent_id)
         end
       end
     end

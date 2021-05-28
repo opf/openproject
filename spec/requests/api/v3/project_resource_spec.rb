@@ -146,9 +146,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         let!(:parent_memberships) do
         end
 
-        it 'has no path to the parent' do
+        it 'shows the `undisclosed` uri' do
           expect(subject.body)
-            .to be_json_eql(nil.to_json)
+            .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
             .at_path('_links/parent/href')
         end
       end
