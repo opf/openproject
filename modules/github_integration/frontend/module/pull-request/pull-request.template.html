@@ -30,19 +30,26 @@
     {{state}}
   </span>
 
+  <span class="op-pr-checks-label"  *ngIf="pullRequest.checkRuns?.length">{{ text.label_actions }}</span>
+
   <ul [attr.aria-label]="text.label_actions" class='op-pr-checks' *ngIf="pullRequest.checkRuns?.length">
     <li class='op-pr-check' *ngFor="let checkRun of pullRequest.checkRuns">
+      <span class='op-pr-check-state-icon' [ngClass]="'op-pr-check-state-icon_' + checkRunState(checkRun)">
+        <op-icon icon-classes="icon-{{ checkRunStateIcon(checkRun) }}"></op-icon>
+      </span>
       <span class='op-pr-check-avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
 
-      <span class='op-pr-check-name' [textContent]="checkRun.name"></span>
+      <span class='op-pr-check-info'>
+        <span class='op-pr-check-name' [textContent]="checkRun.name"></span>
+        <span class='op-pr-check-state' [textContent]="checkRunStateText(checkRun)"></span>
+      </span>
 
-      <span class='op-pr-check-state' [textContent]="checkRunState(checkRun)"></span>
 
-      <div class='op-pr-check-details'>
+      <span class='op-pr-check-details'>
         <a [href]="checkRun.detailsUrl">
           {{ text.label_details }}
         </a>
-      </div>
+      </span>
     </li>
   </ul>
 </div>
