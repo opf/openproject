@@ -929,7 +929,7 @@ lt:
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingas atnaujinimas."
-    notice_job_started: "job started."
+    notice_job_started: "užduoties vykdymas pradėtas."
     notice_bad_request: "Netinkama užklausa."
     relations:
       empty: Nėra jokių ryšių
@@ -1000,8 +1000,8 @@ lt:
       project:
         label: 'Projektas'
         required: 'Pasirinkite projektą'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission: 'Prašome pasirinkti kitą projektą, nes dabar pasirinktame jūs neturite teisių priskirti vartotojus.'
+        lacking_permission_info: 'Jums trūksta teisių priskirti vartotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą.'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
         no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'

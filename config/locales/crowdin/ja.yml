@@ -245,6 +245,9 @@ ja:
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "プレースホルダー ユーザー %{name} を削除"
       data_consequences: >
@@ -254,7 +257,8 @@ ja:
       confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
       title: プロジェクトのメンバーではないユーザーに作業を割り当てる
-      description: プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
+      description: >
+        プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
   prioritiies:
     edit:
       priority_color_text: |

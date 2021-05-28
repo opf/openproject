@@ -244,6 +244,9 @@ zh-CN:
     memberships:
       no_results_title_text: 该用户当前不是项目的成员。
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "删除占位符用户 %{name}"
       data_consequences: >
@@ -253,7 +256,8 @@ zh-CN:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: 将工作分配给非项目成员。
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |

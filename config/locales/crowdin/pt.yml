@@ -246,6 +246,9 @@ pt:
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Excluir usuário do espaço reservado %{name}"
       data_consequences: >
@@ -255,7 +258,8 @@ pt:
       confirmation: "Digite o nome de usuário placeholder %{name} para confirmar a exclusão."
     upsale:
       title: Atribuir trabalho a pessoas que não são membros do projeto.
-      description: Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
+      description: >
+        Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
     edit:
       priority_color_text: |

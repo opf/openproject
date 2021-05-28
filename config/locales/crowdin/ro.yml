@@ -247,6 +247,9 @@ ro:
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Ștergeți utilizatorul de tip placeholder %{name}"
       data_consequences: >
@@ -256,7 +259,8 @@ ro:
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
       title: Atribuiți munca unor persoane care nu sunt membri ai proiectului.
-      description: Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
+      description: >
+        Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
   prioritiies:
     edit:
       priority_color_text: |

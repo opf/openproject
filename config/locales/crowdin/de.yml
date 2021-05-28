@@ -244,6 +244,9 @@ de:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Platzhalter-Benutzer %{name} löschen"
       data_consequences: >
@@ -253,7 +256,8 @@ de:
       confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
     upsale:
       title: Weisen Sie Arbeit Personen zu, die nicht Mitglieder des Projekts sind
-      description: Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
+      description: >
+        Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
   prioritiies:
     edit:
       priority_color_text: |
@@ -611,7 +615,7 @@ de:
             types:
               in_use_by_work_packages: "wird noch genutzt von folgenden Arbeitspaketen: %{types}"
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              dependency_missing: "Das Modul \"%{dependency}\" muss ebenfalls aktiviert sein, da das Modul \"%{module}\" dieses benötigt."
               format: "%{message}"
         query:
           attributes:

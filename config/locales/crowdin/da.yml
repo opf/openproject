@@ -245,6 +245,9 @@ da:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Slet pladsholderbruger %{name}"
       data_consequences: >
@@ -254,7 +257,8 @@ da:
       confirmation: "Indtast pladsholderens brugernavn %{name} for at bekræfte sletningen."
     upsale:
       title: Tildel arbejde til personer, der ikke er medlemmer af projektet.
-      description: Der er flere scenarier, hvor du ønsker at tildele arbejde til folk, der ikke er medlem af dit projekt. Det kunne simpelthen være, at du stadig har brug for at ansætte den rigtige person til jobbet. Eller du vil bare ikke give personen adgang til projektets oplysninger, men vil stadig have spore opgaverne tildelt den pågældende person.
+      description: >
+        Der er flere scenarier, hvor du ønsker at tildele arbejde til folk, der ikke er medlem af dit projekt. Det kunne simpelthen være, at du stadig har brug for at ansætte den rigtige person til jobbet. Eller du vil bare ikke give personen adgang til projektets oplysninger, men vil stadig have spore opgaverne tildelt den pågældende person.
   prioritiies:
     edit:
       priority_color_text: |

@@ -247,6 +247,9 @@ fr:
     memberships:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Supprimer l’utilisateur fictif %{name}"
       data_consequences: >
@@ -256,7 +259,8 @@ fr:
       confirmation: "Saisissez le nom d'utilisateur fictif %{name} pour confirmer ça suppression."
     upsale:
       title: Assigner du travail à des personnes qui ne sont pas membres du projet.
-      description: Il existe de multiples scénarios dans lesquels vous souhaitez confier des tâches à des personnes qui ne font pas partie de votre projet. Il se peut simplement que vous ayez encore besoin d'engager la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet, mais vous voulez quand même suivre les tâches qui lui sont assignées.
+      description: >
+        Il existe de multiples scénarios dans lesquels vous souhaitez confier des tâches à des personnes qui ne font pas partie de votre projet. Il se peut simplement que vous ayez encore besoin d'engager la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet, mais vous voulez quand même suivre les tâches qui lui sont assignées.
   prioritiies:
     edit:
       priority_color_text: |
