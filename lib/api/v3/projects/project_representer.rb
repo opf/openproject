@@ -157,6 +157,7 @@ module API
                             v3_path: :project,
                             representer: ::API::V3::Projects::ProjectRepresenter,
                             uncacheable_link: true,
+                            skip_render: ->(*) { !represented.parent&.visible? },
                             link: ->(*) {
                               if represented.parent&.visible?
                                 {

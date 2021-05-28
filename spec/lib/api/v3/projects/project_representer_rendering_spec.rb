@@ -31,6 +31,8 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
+  subject(:generated) { representer.to_json }
+
   let(:project) do
     FactoryBot.build_stubbed(:project,
                              parent: parent_project,
@@ -54,7 +56,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     FactoryBot.build_stubbed(:project_status)
   end
   let(:parent_project) { FactoryBot.build_stubbed(:project) }
-  let(:representer) { described_class.create(project, current_user: user) }
+  let(:representer) { described_class.create(project, current_user: user, embed_links: true) }
 
   let(:user) do
     FactoryBot.build_stubbed(:user).tap do |u|
@@ -84,8 +86,6 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
   end
 
   let(:permissions) { %i[add_work_packages view_members] }
-
-  subject(:generated) { representer.to_json }
 
   it { is_expected.to include_json('Project'.to_json).at_path('_type') }
 
@@ -423,14 +423,52 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     end
   end
 
+  describe '_embedded' do
+    describe 'parent' do
+      let(:embedded_path) { '_embedded/parent' }
+
+      before do
+        allow(parent_project)
+          .to receive(:visible?)
+                .and_return(parent_visible)
+      end
+
+      context 'when the user is allowed to see the parent' do
+        let(:parent_visible) { true }
+
+        it 'has the parent embedded' do
+          expect(generated)
+            .to be_json_eql('Project'.to_json)
+                  .at_path("#{embedded_path}/_type")
+
+          expect(generated)
+            .to be_json_eql(parent_project.name.to_json)
+                  .at_path("#{embedded_path}/name")
+        end
+      end
+
+      context 'when the user is forbidden to see the parent' do
+        let(:parent_visible) { false }
+
+        it 'hides the parent' do
+          expect(generated)
+            .not_to have_json_path(embedded_path)
+        end
+      end
+    end
+  end
+
   describe 'caching' do
     it 'is based on the representer\'s cache_key' do
-      expect(OpenProject::Cache)
+      allow(OpenProject::Cache)
         .to receive(:fetch)
-        .with(representer.json_cache_key)
         .and_call_original
 
       representer.to_json
+
+      expect(OpenProject::Cache)
+        .to have_received(:fetch)
+              .with(representer.json_cache_key)
     end
 
     describe '#json_cache_key' do
