@@ -31,7 +31,6 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { AccessibleClickDirective } from "core-app/modules/a11y/accessible-click.directive";
-import { AccessibleByKeyboardComponent } from "core-app/modules/a11y/accessible-by-keyboard.component";
 import { DoubleClickOrTapDirective } from "core-app/modules/a11y/double-click-or-tap.directive";
 
 @NgModule({
@@ -42,12 +41,10 @@ import { DoubleClickOrTapDirective } from "core-app/modules/a11y/double-click-or
   exports: [
     AccessibleClickDirective,
     DoubleClickOrTapDirective,
-    AccessibleByKeyboardComponent,
   ],
   declarations: [
     AccessibleClickDirective,
     DoubleClickOrTapDirective,
-    AccessibleByKeyboardComponent,
   ]
 })
 export class OpenprojectAccessibilityModule {
