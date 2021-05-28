@@ -14,6 +14,7 @@ import { FormsService } from "core-app/core/services/forms/forms.service";
 @Injectable()
 export class DynamicFormService {
   dynamicForm:FormlyForm;
+  formSchema:IOPFormSchema;
 
   constructor(
     private _httpClient:HttpClient,
@@ -45,11 +46,11 @@ export class DynamicFormService {
   }
 
   getSettings(formConfig:IOPFormSettingsResource):IOPDynamicFormSettings {
-    const formSchema = formConfig._embedded?.schema;
+    this.formSchema = formConfig._embedded?.schema;
     const formPayload = formConfig._embedded?.payload;
     const dynamicForm = {
       form: new FormGroup({}),
-      fields: this._dynamicFieldsService.getConfig(formSchema, formPayload),
+      fields: this._dynamicFieldsService.getConfig(this.formSchema, formPayload),
       model: this._dynamicFieldsService.getModel(formPayload),
     };
 
@@ -57,6 +58,6 @@ export class DynamicFormService {
   }
 
   submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch') {
-    return this._formsService.submit$(form, resourceEndpoint, resourceId, formHttpMethod);
+    return this._formsService.submit$(form, resourceEndpoint, resourceId, formHttpMethod, this.formSchema);
   }
 }

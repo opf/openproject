@@ -281,7 +281,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     if (settings) {
-      this.setupDynamicFormFromSettings();
+      this.setupDynamicFormFromSettings(settings);
     } else {
       this.setupDynamicFormFromBackend(this.formEndpoint, resourceId, payload);
     }
@@ -313,11 +313,11 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       .subscribe(dynamicFormSettings => this.setupDynamicForm(dynamicFormSettings));
   }
 
-  private setupDynamicFormFromSettings() {
+  private setupDynamicFormFromSettings(settings:IOPFormSettings) {
     const formattedSettings:IOPFormSettingsResource = {
       _embedded: {
-        payload: this.settings!.payload,
-        schema: this.settings!.schema,
+        payload: settings?.payload,
+        schema: settings?.schema,
       },
     };
     const dynamicFormSettings = this._dynamicFormService.getSettings(formattedSettings);

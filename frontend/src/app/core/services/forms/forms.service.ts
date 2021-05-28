@@ -13,8 +13,8 @@ export class FormsService {
     private _httpClient:HttpClient,
   ) { }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch'):Observable<any> {
-    const modelToSubmit = this.formatModelToSubmit(form.getRawValue());
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch', formSchema?:IOPFormSchema):Observable<any> {
+    const modelToSubmit = this.formatModelToSubmit(form.getRawValue(), formSchema);
     const httpMethod = resourceId ? 'patch' : (formHttpMethod || 'post');
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
 
@@ -76,28 +76,43 @@ export class FormsService {
       );
   }
 
-  private formatModelToSubmit(formModel:IOPFormModel):IOPFormModel {
-    const resources = formModel?._links || {};
+  /** HAL resources formatting
+   * The backend form model/payload, HAL resources are nested in the '_links' property.
+   * In order to simplify its use, we flat the model and place the HAL resources at
+   * the first level of the model.
+   * This method places HAL resources model back to the '_links' property and formats them
+   * in the shape of '{href:hrefValue}' in order to fit the backend expectations.
+   * */
+  private formatModelToSubmit(formModel:IOPFormModel, formSchema:IOPFormSchema = {}):IOPFormModel {
+    let {_links:linksModel, ...mainModel} = formModel;
+    const resourcesModel = linksModel || Object.keys(formSchema)
+      .filter(formSchemaKey => !!formSchema[formSchemaKey]?.type && formSchema[formSchemaKey]?.location === '_links')
+      .reduce((result, formSchemaKey) => {
+        const {[formSchemaKey]:keyToRemove, ...mainModelWithoutResource} = mainModel;
+        mainModel = mainModelWithoutResource;
 
-    const formattedResources = Object
-      .keys(resources)
+        return {...result, [formSchemaKey]: formModel[formSchemaKey]};
+      }, {});
+
+    const formattedResourcesModel = Object
+      .keys(resourcesModel)
       .reduce((result, resourceKey) => {
-        const resource = resources[resourceKey];
+        const resourceModel = resourcesModel[resourceKey];
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface
-        const resourceValue = Array.isArray(resource) ?
-          resource.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href || null })) :
-          { href: resource?.href || resource?._links?.self?.href || null };
+        const formattedResourceModel = Array.isArray(resourceModel) ?
+          resourceModel.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href || null })) :
+          { href: resourceModel?.href || resourceModel?._links?.self?.href || null };
 
         return {
           ...result,
-          [resourceKey]: resourceValue,
+          [resourceKey]: formattedResourceModel,
         };
       }, {});
 
     return {
-      ...formModel,
-      _links: formattedResources,
+      ...mainModel,
+      _links: formattedResourcesModel,
     }
   }
 

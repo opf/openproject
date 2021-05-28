@@ -154,7 +154,7 @@ export class DynamicFieldsService {
     const model = {
       ...otherElementsModel,
       _meta: metaModel,
-      _links: this.getFormattedResourcesModel(resourcesModel),
+      ...this.getFormattedResourcesModel(resourcesModel),
     };
 
     return model;
@@ -182,7 +182,6 @@ export class DynamicFieldsService {
 
   private getAttributeKey(fieldSchema:IOPFieldSchema, key:string):string {
     switch (fieldSchema.location) {
-      case "_links":
       case "_meta":
         return `${fieldSchema.location}.${key}`;
       default:
@@ -200,11 +199,8 @@ export class DynamicFieldsService {
       // ng-select needs a 'name' in order to show the label
       // We need to add it in case of the form payload (HalLinkSource)
       const resourceModel = Array.isArray(resource) ?
-        resource.map(resourceElement => resourceElement?.href && {
-          ...resourceElement,
-          name: resourceElement?.name || resourceElement?.title
-        }) :
-        resource?.href && { ...resource, name: resource?.name || resource?.title };
+        resource.map(resourceElement => ({...resourceElement, name: resourceElement?.name || resourceElement?.title})) :
+        {...resource, name: resource?.name || resource?.title};
 
       result = {
         ...result,
