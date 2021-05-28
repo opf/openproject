@@ -8,12 +8,14 @@
               [ngClass]="{'-with-toggler': first && showToggler}"
               *ngIf="first || inf.isNextDate">
             <span class="activity-date--label" [textContent]="inf.date"></span>
-            <accessible-by-keyboard (execute)="toggleComments()"
-                                    *ngIf="first && showToggler"
-                                    linkClass="activity-comments--toggler button -small -transparent -with-icon icon-filter icon-small hide-when-print"
-                                    [linkAriaLabel]="togglerText">
-              <span [textContent]="togglerText"></span>
-            </accessible-by-keyboard>
+            <button
+                *ngIf="first && showToggler"
+                role="button"
+                class="activity-comments--toggler button -small -transparent -with-icon icon-filter icon-small hide-when-print"
+                [textContent]="togglerText"
+                (click)="toggleComments()"
+            >
+            </button>
           </h3>
 
           <activity-entry [workPackage]="workPackage"
