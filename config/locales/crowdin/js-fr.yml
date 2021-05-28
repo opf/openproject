@@ -608,10 +608,6 @@ fr:
     relations_autocomplete:
       placeholder: "Taper pour rechercher"
       parent_placeholder: "Choisissez un nouveau parent ou appuyez sur Echap pour annuler."
-    autocompleter:
-      placeholder: "Taper pour rechercher"
-      notFoundText: "No items found"
-      typeToSearchText: "Taper pour rechercher"
     repositories:
       select_tag: 'Sélectionner une étiquette'
       select_branch: 'Sélectionner une branche'

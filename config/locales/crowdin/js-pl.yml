@@ -608,10 +608,6 @@ pl:
     relations_autocomplete:
       placeholder: "Wpisz szukaną frazę"
       parent_placeholder: "Wybierz nowy element nadrzędny albo naciśnij klawisz Escape, aby anulować."
-    autocompleter:
-      placeholder: "Wpisz szukaną frazę"
-      notFoundText: "No items found"
-      typeToSearchText: "Wpisz szukaną frazę"
     repositories:
       select_tag: 'Wybierz tag'
       select_branch: 'Wybierz gałąź'

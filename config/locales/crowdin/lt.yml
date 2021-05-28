@@ -244,6 +244,9 @@ lt:
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Pašalinti statytinį vartotoją %{name}"
       data_consequences: >
@@ -253,7 +256,8 @@ lt:
       confirmation: "Naikinimo patvirtinimui įveskite statytinio vartotojo vardą %{name}."
     upsale:
       title: Priskirkite darbus žmonėms, kurie nėra projekto nariai.
-      description: Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
+      description: >
+        Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
   prioritiies:
     edit:
       priority_color_text: |
@@ -613,6 +617,9 @@ lt:
           attributes:
             types:
               in_use_by_work_packages: "vis dar naudojama darbų paketuose: %{types}"
+            enabled_modules:
+              dependency_missing: "Reikia taip pat įjungti ir modulį '%{dependency}' nes modulis '%{module}' priklauso nuo jo."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2368,7 +2375,7 @@ lt:
     brute_force_prevention: "Automatinis vartotojų blokavimas"
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų vartotojo sąsajoje.
       first_week_of_year_text: >
         Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
     projects:
