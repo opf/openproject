@@ -41,6 +41,7 @@
   </div>
   <button
       *ngIf="removable()"
+      role="button"
       class="op-link notification-box--close"
       [title]="text.close_popup"
       (click)="remove()"

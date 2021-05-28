@@ -26,6 +26,7 @@
     <div class="comments-icons"
          [hidden]="shouldHideIcons()">
       <button
+          role="button"
           *ngIf="userCanQuote"
           class="op-link"
           [title]="text.quote_comment"
@@ -35,6 +36,7 @@
       </button>
       <button
           *ngIf="userCanEdit"
+          role="button"
           class="op-link"
           [ngClass]="'edit-activity--' + activityNo"
           [title]="text.edit_comment"

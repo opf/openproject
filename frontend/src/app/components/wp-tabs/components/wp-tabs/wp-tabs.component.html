@@ -4,6 +4,7 @@
     <ng-container slot="actions" *ngIf="view === 'split'">
       <li class="tab-icon">
         <button
+            role="button"
             class="op-link work-packages--details-fullscreen-icon"
             [title]="text.details.goToFullScreen"
             (click)="switchToFullscreen()"
@@ -13,6 +14,7 @@
       </li>
       <li class="tab-icon">
         <button
+            role="button"
             class="op-link work-packages--details-close-icon"
             [title]="text.details.close"
             (click)="close()"
