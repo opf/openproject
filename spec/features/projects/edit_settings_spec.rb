@@ -179,6 +179,8 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
   context 'with a user not allowed to see the parent project' do
     let(:parent_project) { FactoryBot.create(:project) }
+    include_context 'ng-select-autocomplete helpers'
+    let(:parent_field) { ::FormFields::SelectFormField.new 'parent' }
 
     before do
       project.update_attribute(:parent, parent_project)
@@ -188,6 +190,8 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
       visit settings_generic_project_path(project.id)
 
       fill_in 'Name', with: 'New project name'
+
+      parent_field.expect_selected 'UNDISCLOSED'
 
       click_on 'Save'
 

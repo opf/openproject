@@ -68,7 +68,7 @@ module API
       def href=(value)
         # Ignore linked resources that are hidden to the client
         # See lib/api/v3.rb for more details.
-        return if value == API::V3::URN_HIDDEN
+        return if value == API::V3::URN_UNDISCLOSED
 
         id = if value
                ::API::Utilities::ResourceLinkParser.parse_id value,

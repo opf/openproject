@@ -115,12 +115,19 @@ module API
                    embedded: false)
         end
 
+        # Includes _link and _embedded elements into the HAL representer for
+        # resources that are connected to the current resource via a belongs_to association, e.g.
+        # WorkPackage -> belongs_to -> project.
+        #
+        # @param skip_render [optional, Proc] If the proc returns true, neither _link nor _embedded of the resource will be rendered.
+        # @param undisclosed [optional, true, false] If true, instead of not rendering the resource upon `skip_render`, an { "href": "urn:openproject-org:api:v3:undisclosed" } link will be rendered. This can be used e.g. when the parent of a project is invisible to the user and the existence, if not the actual parent, is to be communicated. The resource is still not embedded in this case.
         def associated_resource(name,
                                 as: nil,
                                 representer: nil,
                                 v3_path: name,
                                 skip_render: ->(*) { false },
                                 skip_link: skip_render,
+                                undisclosed: false,
                                 link_title_attribute: :name,
                                 uncacheable_link: false,
                                 getter: associated_resource_default_getter(name, representer),
@@ -128,6 +135,7 @@ module API
                                 link: associated_resource_default_link(name,
                                                                        v3_path: v3_path,
                                                                        skip_link: skip_link,
+                                                                       undisclosed: undisclosed,
                                                                        title_attribute: link_title_attribute))
 
           resource((as || name),
@@ -172,17 +180,23 @@ module API
                                              v3_path:,
                                              skip_link:,
                                              title_attribute:,
-                                             getter: :"#{name}_id")
+                                             getter: :"#{name}_id",
+                                             undisclosed: false)
           ->(*) do
-            next if instance_exec(&skip_link)
-
-            ::API::Decorators::LinkObject
-              .new(represented,
-                   path: v3_path,
-                   property_name: name,
-                   title_attribute: title_attribute,
-                   getter: getter)
-              .to_hash
+            if undisclosed && instance_exec(&skip_link)
+              {
+                href: API::V3::URN_UNDISCLOSED,
+                title: I18n.t(:label_undisclosed)
+              }
+            elsif !instance_exec(&skip_link)
+              ::API::Decorators::LinkObject
+                .new(represented,
+                     path: v3_path,
+                     property_name: name,
+                     title_attribute: title_attribute,
+                     getter: getter)
+                .to_hash
+            end
           end
         end
 

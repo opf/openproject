@@ -184,7 +184,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
           {
             '_links' => {
               'parent' => {
-                'href' => API::V3::URN_HIDDEN
+                'href' => API::V3::URN_UNDISCLOSED
               }
             }
           }
