@@ -39,9 +39,12 @@
       </div>
     </div>
   </div>
-  <accessible-by-keyboard *ngIf="removable()"
-                          (execute)="remove()"
-                          [linkTitle]="text.close_popup"
-                          linkClass="notification-box--close icon-context icon-close">
-  </accessible-by-keyboard>
+  <button
+      *ngIf="removable()"
+      class="op-link notification-box--close"
+      [title]="text.close_popup"
+      (click)="remove()"
+  >
+    <op-icon icon-classes="icon-context icon-close icon-no-color"></op-icon>
+  </button>
 </div>
