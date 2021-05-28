@@ -5,13 +5,15 @@ import {
   IOPFormlyFieldSettings,
 } from "../../typings";
 import { FormlyFieldConfig } from "@ngx-formly/core";
-import { of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 
 @Injectable()
 export class DynamicFieldsService {
+  readonly selectDefaultValue = {name:'-'};
   readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
@@ -36,7 +38,7 @@ export class DynamicFieldsService {
         type: 'integerInput',
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
         },
       },
       useForFields: ['Integer', 'Float']
@@ -70,9 +72,10 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'selectInput',
+        defaultValue: this.selectDefaultValue,
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
           bindLabel: 'name',
           searchable: true,
           virtualScroll: true,
@@ -80,7 +83,7 @@ export class DynamicFieldsService {
           clearSearchOnAdd: false,
           hideSelected: false,
           text: {
-            add_new_action: I18n.t('js.label_create'),
+            add_new_action: this.I18n.t('js.label_create'),
           },
         },
         expressionProperties: {
@@ -95,9 +98,10 @@ export class DynamicFieldsService {
     {
       config: {
         type: 'selectProjectStatusInput',
+        defaultValue: this.selectDefaultValue,
         templateOptions: {
           type: 'number',
-          locale: I18n.locale,
+          locale: this.I18n.locale,
           bindLabel: 'name',
           searchable: true,
         },
@@ -112,7 +116,8 @@ export class DynamicFieldsService {
   ];
 
   constructor(
-    private _httpClient:HttpClient,
+    private httpClient:HttpClient,
+    private I18n:I18nService,
   ) {
   }
 
@@ -135,7 +140,16 @@ export class DynamicFieldsService {
   }
 
   getFormattedFieldsModel(formModel:IOPFormModel = {}):IOPFormModel {
-    const { _links: resourcesModel, _meta: metaModel, ...otherElementsModel } = formModel;
+    const { _links: resourcesModel, _meta: metaModel, ...otherElements } = formModel;
+    const otherElementsModel = Object.keys(otherElements).reduce((model, key) => {
+      const elementValue = otherElements[key];
+
+      if (this.isValue(elementValue)) {
+        model = {...model, [key]:elementValue}
+      }
+
+      return model;
+    }, {})
 
     const model = {
       ...otherElementsModel,
@@ -198,7 +212,7 @@ export class DynamicFieldsService {
 
       result = {
         ...result,
-        [resourceKey]: resourceModel,
+        ...this.isValue(resourceModel) && {[resourceKey]: resourceModel},
       };
 
       return result;
@@ -255,7 +269,7 @@ export class DynamicFieldsService {
         className: field.name,
         templateOptions: {
           ...inputConfig.templateOptions,
-          ...field.type.startsWith('[]') && {multiple: true},
+          ...this.isMultiSelectField(field) && {multiple: true},
           ...fieldType === 'User' && {showAddNewUserButton: true},
         },
       };
@@ -272,21 +286,22 @@ export class DynamicFieldsService {
     return { ...inputConfig, ...configCustomizations };
   }
 
-  private getFieldOptions(field:IOPFieldSchemaWithKey) {
+  private getFieldOptions(field:IOPFieldSchemaWithKey):Observable<IOPAllowedValue[]>|undefined {
     const allowedValues = field._embedded?.allowedValues || field._links?.allowedValues;
+    let options;
 
     if (!allowedValues) {
       return;
     }
 
     if (Array.isArray(allowedValues)) {
-      const options = allowedValues[0]?._links?.self?.title ?
+      const optionsValues = allowedValues[0]?._links?.self?.title ?
         this.formatAllowedValues(allowedValues) :
         allowedValues;
 
-      return of(options);
+      options = of(optionsValues);
     } else if (allowedValues!.href) {
-      return this._httpClient
+      options = this.httpClient
         .get(allowedValues!.href!)
         .pipe(
           map((response:api.v3.Result) => response._embedded.elements),
@@ -294,12 +309,12 @@ export class DynamicFieldsService {
         );
     }
 
-    return;
+    return options?.pipe(map(options => !field.required && !this.isMultiSelectField(field) ? [{name: '-'}, ...options] : options));
   }
 
   // ng-select needs a 'name' in order to show the label
   // We need to add it in case of the form payload (HalLinkSource)
-  private formatAllowedValues(options:IOPAllowedValue[]) {
+  private formatAllowedValues(options:IOPAllowedValue[]):IOPAllowedValue[] {
     return options.map((option:IOPFieldSchema['options']) => ({ ...option, name: option._links?.self?.title }));
   }
 
@@ -383,6 +398,14 @@ export class DynamicFieldsService {
           field.options?.parentForm?.submitted
         ));
     }
+  }
+
+  private isMultiSelectField(field:IOPFieldSchemaWithKey) {
+    return field?.type?.startsWith('[]');
+  }
+
+  private isValue(value:any) {
+    return ![null, undefined, ''].includes(value);
   }
 }
 
