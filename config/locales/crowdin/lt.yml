@@ -245,8 +245,8 @@ lt:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Jums neleidžiama ištrinti statytinio vartotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis vartotojas yra narys.
+    delete_tooltip: "Pašalinti statytinį vartotoją"
     deletion_info:
       heading: "Pašalinti statytinį vartotoją %{name}"
       data_consequences: >

@@ -285,15 +285,13 @@ ja:
           text_new_features: "新しい機能と製品の更新について紹介します。"
           learn_about: "新機能の詳細はこちら"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              このリリースには、さまざまな新機能と改善点が含まれています: <br> <ul class="%{list_styling_class}"> <li> <b>プレースホルダーユーザー</b>の新しい概念 (プレミアム機能) を使用すると、メールアドレスのない予備ユーザーを OpenProject に追加し、これらのリソースにタスクを割り当てることができます。</li> <li>ワークパッケージフィルターは、すべての直接の子を簡単に表示するための<b>親オプション</b>と、リストにこれらの正確なワークパッケージのみを含めるまたは除外するための <b>ID によって拡張されます</b>。</li> <li>ユーザー管理は<b>新しいグローバルロール</b>によって非管理者に配布され、完全な管理者権限がなくてもユーザーの管理および招待ができます。</li> <li>UI と UX のさらなる改善。つまり、コストレポートナビゲーションの調和、ワークパッケージリストの合計行とグループ行の背景色の調整、グループ表示ページを追加。</li> </ul>
-
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              このリリースには、さまざまな新機能と改善点が含まれています: <br> <ul class="%{list_styling_class}"> <li> <b>プレースホルダーユーザー</b>の新しい概念 (プレミアム機能) を使用すると、メールアドレスのない予備ユーザーを OpenProject に追加し、これらのリソースにタスクを割り当てることができます。</li> <li>ワークパッケージフィルターは、すべての直接の子を簡単に表示するための<b>親オプション</b>と、リストにこれらの正確なワークパッケージのみを含めるまたは除外するための <b>ID によって拡張されます</b>。</li> <li>ユーザー管理は<b>新しいグローバルロール</b>によって非管理者に配布され、完全な管理者権限がなくてもユーザーの管理および招待ができます。</li> <li>UI と UX のさらなる改善。つまり、コストレポートナビゲーションの調和、ワークパッケージリストの合計行とグループ行の背景色の調整、グループ表示ページを追加。</li> </ul>
-
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "有効にする"
     label_add_column_after: "後に列を追加"
     label_add_column_before: "前に列を追加"

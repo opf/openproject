@@ -284,13 +284,13 @@ zh-CN:
           text_new_features: "了解新功能和产品更新。"
           learn_about: "详细了解新功能"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              此版本包含各种新功能和改进：<br><ul class="%{list_styling_class}"><li>占位符用户<b>（高级功能）的新概念允许将没有电子邮件地址的初级用户添加到 OpenProject 并为这些资源分配任务。</li><li>工作包<b>筛选器通过父选项进行了扩展</b>，支持轻松查看所有直接子项，同时还<b>通过 ID</b> 进行了扩展，支持在列表中仅包含或排除这些确切的工作包。</li><li>通过<b>新的全局角色</b>将用户管理分配给非管理员，允许在没有完全管理员权限的情况下管理和邀请用户。</li><li>进一步的 UI 和 UX 改进，即协调成本报告导航、调整工作包列表中总和与组行的背景颜色、添加组显示页面。</li></ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              此版本包含各种新功能和改进：<br><ul class="%{list_styling_class}"><li>占位符用户<b>（高级功能）的新概念允许将没有电子邮件地址的初级用户添加到 OpenProject 并为这些资源分配任务。</li><li>工作包<b>筛选器通过父选项进行了扩展</b>，支持轻松查看所有直接子项，同时还<b>通过 ID</b> 进行了扩展，支持在列表中仅包含或排除这些确切的工作包。</li><li>通过<b>新的全局角色</b>将用户管理分配给非管理员，允许在没有完全管理员权限的情况下管理和邀请用户。</li><li>进一步的 UI 和 UX 改进，即协调成本报告导航、调整工作包列表中总和与组行的背景颜色、添加组显示页面。</li></ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"

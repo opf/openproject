@@ -248,8 +248,8 @@ ko:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      플레이스홀더 사용자를 삭제할 수 없습니다. 플레이스홀더 사용자가 멤버로 들어가 있는 모든 프로젝트의 구성원을 관리할 권한이 없습니다.
+    delete_tooltip: "플레이스홀더 사용자 삭제"
     deletion_info:
       heading: "플레이스홀더 사용자 %{name} 삭제"
       data_consequences: >
