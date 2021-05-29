@@ -4,7 +4,7 @@ import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { ComponentType } from "@angular/cdk/portal";
 import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
 import { DisabledButtonPlaceholder } from "core-app/modules/boards/board/board-list/board-list.component";
-import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
+import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
 import { FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
 import { BoardListsService } from "core-app/modules/boards/board/board-list/board-lists.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";

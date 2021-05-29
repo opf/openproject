@@ -36,7 +36,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
-import { WidgetWpCalendarComponent } from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component.ts";
+import { WidgetWpCalendarComponent } from "core-app/modules/grids/widgets/wp-calendar/wp-calendar.component";
 import { WidgetTimeEntriesCurrentUserComponent } from "core-app/modules/grids/widgets/time-entries/current-user/time-entries-current-user.component";
 import { GridWidgetsService } from "core-app/modules/grids/widgets/widgets.service";
 import { GridComponent } from "core-app/modules/grids/grid/grid.component";

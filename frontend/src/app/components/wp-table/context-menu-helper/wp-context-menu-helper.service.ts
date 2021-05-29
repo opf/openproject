@@ -189,7 +189,7 @@ export class WorkPackageContextMenuHelperService {
   private getAllowedRelationActions(workPackage:WorkPackageResource, allowSplitScreenActions:boolean) {
     const allowedActions:WorkPackageAction[] = [];
 
-    if (workPackage.addRelation && this.wpViewTimeline.isVisible) {
+    if (!!workPackage.addRelation && this.wpViewTimeline.isVisible) {
       allowedActions.push({
         key: "relation-precedes",
         text: I18n.t("js.relation_buttons.add_predecessor"),
