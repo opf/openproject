@@ -607,6 +607,10 @@ pt:
     relations_autocomplete:
       placeholder: "Digite para pesquisar"
       parent_placeholder: "Escolha o novo principal ou pressione esc para cancelar."
+    autocompleter:
+      placeholder: "Digite para pesquisar"
+      notFoundText: "No items found"
+      typeToSearchText: "Digite para pesquisar"
     repositories:
       select_tag: 'Selecionar marca'
       select_branch: 'Selecionar o branch'

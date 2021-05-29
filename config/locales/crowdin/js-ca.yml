@@ -608,6 +608,10 @@ ca:
     relations_autocomplete:
       placeholder: "Escriviu per cercar..."
       parent_placeholder: "Escull nou pare o clica escapar per cancel·lar."
+    autocompleter:
+      placeholder: "Escriviu per cercar..."
+      notFoundText: "No items found"
+      typeToSearchText: "Escriviu per cercar..."
     repositories:
       select_tag: 'Seleccionar l''etiqueta'
       select_branch: 'Seleccionar branca'
