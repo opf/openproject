@@ -11,7 +11,7 @@ import { By } from "@angular/platform-browser";
 import { OpIconComponent } from "core-app/modules/icon/icon.component";
 
 
-fdescribe('GitActionsMenuComponent', () => {
+describe('GitActionsMenuComponent', () => {
   let component:GitActionsMenuComponent;
   let fixture:ComponentFixture<GitActionsMenuComponent>;
   let element:DebugElement;
