@@ -245,7 +245,7 @@ module Pages
     end
 
     def trigger_edit_comment
-      add_comment_container.find('.inplace-editing--trigger-link').click
+      add_comment_container.find('.work-package-comment').click
     end
 
     def update_comment(comment)
@@ -255,7 +255,7 @@ module Pages
 
     def save_comment
       label = 'Comment: Save'
-      add_comment_container.find(:xpath, "//a[@title='#{label}']").click
+      add_comment_container.find(:xpath, "//button[@title='#{label}']").click
     end
 
     def save!
