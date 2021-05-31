@@ -272,7 +272,7 @@ module API
 
         def property_value_setter_for(custom_field)
           ->(fragment:, **) {
-            value = if custom_field.field_format == 'text'
+            value = if fragment && custom_field.field_format == 'text'
                       fragment['raw']
                     else
                       fragment
