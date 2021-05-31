@@ -168,6 +168,6 @@ describe('DynamicFormService', () => {
       .submit$(dynamicForm, testFormUrl)
       .subscribe();
 
-    expect(formsService.submit$).toHaveBeenCalledWith(dynamicForm, testFormUrl, undefined, undefined);
+    expect(formsService.submit$).toHaveBeenCalledWith(dynamicForm, testFormUrl, undefined, undefined, undefined);
   });
 });
