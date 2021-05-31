@@ -39,23 +39,24 @@ import { InviteUserModalComponent } from "./invite-user.component";
  */
 @Injectable()
 export class OpInviteUserModalService {
-  public close = new EventEmitter<HalResource | HalResource[]>();
+  public close = new EventEmitter<HalResource|HalResource[]>();
 
   constructor(
     protected opModalService:OpModalService,
     protected currentProjectService:CurrentProjectService,
-  ) { }
+  ) {
+  }
 
-  public open(projectId: string|null = this.currentProjectService.id) {
+  public open(projectId:string|null = this.currentProjectService.id) {
     const modal = this.opModalService.show(
       InviteUserModalComponent,
       'global',
-      { projectId }
+      { projectId },
     );
 
     modal
       .closingEvent
-      .subscribe((modal: InviteUserModalComponent) => {
+      .subscribe((modal:InviteUserModalComponent) => {
         this.close.emit(modal.data);
       });
   }

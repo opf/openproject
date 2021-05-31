@@ -53,13 +53,12 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
   }
 
   onInputChange(_event:KeyboardEvent) {
-    if (this.isEmpty()) {
-      this.datePickerInstance.clear();
-    } else if (this.inputIsValidDate()) {
-      const valueToEmit = this.parser(this.currentValue);
-      this.onControlTouch();
-      this.onControlChange(valueToEmit);
-    }
+    let valueToEmit = this.inputIsValidDate() ?
+      this.parser(this.currentValue) :
+      '';
+
+    this.onControlChange(valueToEmit);
+    this.onControlTouch();
   }
 
   closeOnOutsideClick(event:any) {

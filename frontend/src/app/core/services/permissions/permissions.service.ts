@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { CurrentProjectService } from 'core-components/projects/current-project.service';
 import { map, catchError } from 'rxjs/operators';
 import { FilterOperator } from 'core-components/api/api-v3/api-v3-filter-builder';
+import { ApiV3ListFilter } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +15,12 @@ export class PermissionsService {
     private currentProjectService:CurrentProjectService,
   ) { }
 
-  canInviteUsersToProject(projectId = this.currentProjectService.id!):Observable<boolean> {
-    // TODO: Remove/Fix this typing issue
-    const filters:[string, FilterOperator, string[]][] = [['id', '=', [projectId]]];
+  canInviteUsersToProject(projectId = this.currentProjectService.id):Observable<boolean> {
+    if (!projectId) {
+      return of(false);
+    }
+
+    const filters:ApiV3ListFilter[] = [['id', '=' as FilterOperator, [projectId]]];
 
     return this.apiV3Service
       .memberships

@@ -283,13 +283,13 @@ de:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
+              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
+              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -607,10 +607,6 @@ de:
     relations_autocomplete:
       placeholder: "Suchbegriff eintippen"
       parent_placeholder: "Wählen Sie ein neues Eltern-Arbeitspaket oder drücken Sie Escape, um abzubrechen."
-    autocompleter:
-      placeholder: "Suchbegriff eintippen"
-      notFoundText: "No items found"
-      typeToSearchText: "Suchbegriff eintippen"
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'

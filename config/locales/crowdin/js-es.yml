@@ -284,13 +284,13 @@ es:
           text_new_features: "Obtenga información sobre nuevas características y actualizaciones de productos."
           learn_about: "Más información sobre las nuevas características"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>Un nuevo concepto de <b>usuarios de marcador de posición</b> (característica premium) permite añadir usuarios preliminares sin dirección de correo electrónico a OpenProject, así como asignar tareas a estos recursos.</li> <li>Los <b>filtros de paquetes de trabajo se han ampliado mediante una opción primaria</b> para ver fácilmente todos los elementos secundarios directos, así como <b>por id.</b>, para incluir o excluir únicamente estos paquetes de trabajo específicos en la lista.</li> <li>Las funciones de administración de usuarios se pueden asignar a usuarios que no sean administradores mediante un <b>nuevo rol global</b>, que permite administrar e invitar a usuarios sin tener privilegios de administrador total.</li> <li>Otras mejoras en la interfaz y experiencia del usuario, como navegación armonizada de informes de costes, adaptación de los colores del fondo en filas de grupos y sumas en la lista de paquetes de trabajo, y la adición de una página de visualización de grupo.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>Un nuevo concepto de <b>usuarios de marcador de posición</b> (característica premium) permite añadir usuarios preliminares sin dirección de correo electrónico a OpenProject, así como asignar tareas a estos recursos.</li> <li>Los <b>filtros de paquetes de trabajo se han ampliado mediante una opción primaria</b> para ver fácilmente todos los elementos secundarios directos, así como <b>por id.</b>, para incluir o excluir únicamente estos paquetes de trabajo específicos en la lista.</li> <li>Las funciones de administración de usuarios se pueden asignar a usuarios que no sean administradores mediante un <b>nuevo rol global</b>, que permite administrar e invitar a usuarios sin tener privilegios de administrador total.</li> <li>Otras mejoras en la interfaz y experiencia del usuario, como navegación armonizada de informes de costes, adaptación de los colores del fondo en filas de grupos y sumas en la lista de paquetes de trabajo, y la adición de una página de visualización de grupo.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"
@@ -608,10 +608,6 @@ es:
     relations_autocomplete:
       placeholder: "Escriba para buscar"
       parent_placeholder: "Elija un nuevo padre ó presione escape para cancelar."
-    autocompleter:
-      placeholder: "Escriba para buscar"
-      notFoundText: "No items found"
-      typeToSearchText: "Escriba para buscar"
     repositories:
       select_tag: 'Seleccionar etiqueta'
       select_branch: 'Seleccione Sucursal'

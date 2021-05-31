@@ -56,10 +56,12 @@ module API
                  required: false
 
           schema :public,
-                 type: 'Boolean'
+                 type: 'Boolean',
+                 required: false
 
           schema :active,
-                 type: 'Boolean'
+                 type: 'Boolean',
+                 required: false
 
           schema_with_allowed_collection :status,
                                          type: 'ProjectStatus',

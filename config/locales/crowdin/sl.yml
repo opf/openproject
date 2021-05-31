@@ -246,6 +246,9 @@ sl:
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Izbriši nadomestnega uporabnika %{name}"
       data_consequences: >
@@ -255,7 +258,8 @@ sl:
       confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
     upsale:
       title: Dodeli delo ljudem, ki niso člani projekta
-      description: Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
+      description: >
+        Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
   prioritiies:
     edit:
       priority_color_text: |
@@ -615,6 +619,9 @@ sl:
           attributes:
             types:
               in_use_by_work_packages: "delovni paketi še vedno uporabljajo: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:

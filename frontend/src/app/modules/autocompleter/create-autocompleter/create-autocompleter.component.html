@@ -37,6 +37,9 @@
   </ng-template>
 
   <ng-template ng-footer-tmp *ngIf="showAddNewButton">
-    <op-invite-user-button class="op-select-footer"></op-invite-user-button>
+    <op-invite-user-button
+      [projectId]="resource.project?.id"
+      class="op-select-footer"
+    ></op-invite-user-button>
   </ng-template>
 </ng-select>

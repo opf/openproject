@@ -49,7 +49,7 @@ describe 'Projects custom fields', type: :feature, js: true do
 
       name_field.set_value 'My project name'
 
-      find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
       cf_field.expect_visible
 
@@ -79,7 +79,7 @@ describe 'Projects custom fields', type: :feature, js: true do
       visit new_project_path
 
       name_field.set_value 'My project name'
-      find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
       default_int_field.expect_value default_int_custom_field.default_value.to_s
       default_string_field.expect_value default_string_custom_field.default_value.to_s
@@ -144,7 +144,7 @@ describe 'Projects custom fields', type: :feature, js: true do
         visit new_project_path
 
         name_field.set_value 'My project name'
-        find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+        find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
         float_field.set_value '10000.55'
 
@@ -169,7 +169,7 @@ describe 'Projects custom fields', type: :feature, js: true do
         visit new_project_path
 
         name_field.set_value 'My project name'
-        find('.form--fieldset-legend a', text: 'ERWEITERTE EINSTELLUNGEN').click
+        find('.op-fieldset--toggle', text: 'ERWEITERTE EINSTELLUNGEN').click
 
         float_field.set_value '10000,55'
 
@@ -206,6 +206,47 @@ describe 'Projects custom fields', type: :feature, js: true do
 
       field = page.find(identifier)
       expect(field).to be_checked
+    end
+  end
+
+  describe 'with user CF' do
+    let!(:custom_field) do
+      FactoryBot.create(:user_project_custom_field)
+    end
+
+    # Create a second project for visible options
+    let!(:existing_project) { FactoryBot.create :project }
+
+    # Assume one user is visible
+    let!(:invisible_user) { FactoryBot.create :user, firstname: 'Invisible', lastname: 'User'  }
+    let!(:visible_user) { FactoryBot.create :user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project }
+    current_user do
+      FactoryBot.create :user,
+                        firstname: 'Itsa me',
+                        lastname: 'Mario',
+                        member_in_project: existing_project,
+                        global_permissions: %i[add_project]
+    end
+
+    let(:cf_field) { ::FormFields::SelectFormField.new custom_field }
+
+    scenario 'allows setting a visible user CF (regression #26313)' do
+      visit new_project_path
+
+      name_field.set_value 'My project name'
+
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+
+      cf_field.expect_visible
+      cf_field.expect_no_option invisible_user
+      cf_field.select_option visible_user
+
+      click_on 'Save'
+
+      expect(page).to have_current_path /\/projects\/my-project-name\/?/
+      project = Project.find_by(name: 'My project name')
+      cv = project.custom_values.find_by(custom_field_id: custom_field.id).typed_value
+      expect(cv).to eq visible_user
     end
   end
 end

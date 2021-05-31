@@ -284,13 +284,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 개념의 <b>플레이스홀더 사용자</b>(프리미엄 기능)를 통해 이메일 주소 없이 예비 사용자를 OpenProject에 추가하고 해당 리소스에 작업을 할당할 수 있습니다.</li> <li>작업 패키지 <b>필터는 부모 옵션으로 확장하여</b> 손쉽게 모든 직계 자식을 보거나 <b>ID로 확장하여</b> 목록에서 정확한 해당 작업 패키지만 포함하거나 제외할 수 있습니다.</li> <li>사용자 관리는 <b>새로운 글로벌 역할</b>로 비관리자에게 배포되므로, 전체 관리자 권한 없이 사용자를 관리하고 초대할 수 있습니다.</li> <li>추가적인 UI 및 UX 개선 사항(예: 비용 보고 탐색 조정, 작업 패키지 목록에서 합계 및 그룹 행의 배경색 조정, 그룹 표시 페이지 추가).</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 개념의 <b>플레이스홀더 사용자</b>(프리미엄 기능)를 통해 이메일 주소 없이 예비 사용자를 OpenProject에 추가하고 해당 리소스에 작업을 할당할 수 있습니다.</li> <li>작업 패키지 <b>필터는 부모 옵션으로 확장하여</b> 손쉽게 모든 직계 자식을 보거나 <b>ID로 확장하여</b> 목록에서 정확한 해당 작업 패키지만 포함하거나 제외할 수 있습니다.</li> <li>사용자 관리는 <b>새로운 글로벌 역할</b>로 비관리자에게 배포되므로, 전체 관리자 권한 없이 사용자를 관리하고 초대할 수 있습니다.</li> <li>추가적인 UI 및 UX 개선 사항(예: 비용 보고 탐색 조정, 작업 패키지 목록에서 합계 및 그룹 행의 배경색 조정, 그룹 표시 페이지 추가).</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -608,10 +608,6 @@ ko:
     relations_autocomplete:
       placeholder: "검색할 유형"
       parent_placeholder: "새로운 상위 항목은 선택하거나 Escape를 눌러 취소하십시오."
-    autocompleter:
-      placeholder: "검색할 유형"
-      notFoundText: "No items found"
-      typeToSearchText: "검색할 유형"
     repositories:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'

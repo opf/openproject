@@ -101,7 +101,7 @@ describe 'Projects', type: :feature, js: true do
 
         name_field.set_value 'Foo bar'
 
-        find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+        find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
         list_field.select_option 'A', 'B'
 
@@ -206,7 +206,7 @@ describe 'Projects', type: :feature, js: true do
       it 'hides the active field and the identifier' do
         visit new_project_path
 
-        find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+        find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
         expect(page).to have_no_content 'Active'
         expect(page).to have_no_content 'Identifier'
@@ -244,7 +244,7 @@ describe 'Projects', type: :feature, js: true do
 
         click_on 'Advanced settings'
 
-        within('.form--fieldset') do
+        within('.op-fieldset') do
           expect(page).to have_text 'Optional Foo'
           expect(page).to have_no_text 'Required Foo'
         end
@@ -312,6 +312,28 @@ describe 'Projects', type: :feature, js: true do
       cvs = project.reload.custom_value_for(list_custom_field)
       expect(cvs.count).to eq 2
       expect(cvs.map(&:typed_value)).to contain_exactly 'A', 'B'
+    end
+  end
+
+  context 'with a date custom field' do
+    let(:project) { FactoryBot.create(:project, name: 'Foo project', identifier: 'foo-project') }
+    let!(:date_custom_field) { FactoryBot.create(:date_project_custom_field, name: 'Date') }
+    let(:form_field) { ::FormFields::InputFormField.new date_custom_field }
+
+    it 'can save and remove the date (Regression #37459)' do
+      visit settings_generic_project_path(project.id)
+
+      form_field.set_value '2021-05-26'
+      form_field.send_keys :escape
+
+      click_on 'Save'
+
+      expect(page).to have_content 'Successful update.'
+
+      form_field.expect_value '2021-05-26'
+
+      cv = project.reload.custom_value_for(date_custom_field)
+      expect(cv.typed_value).to eq '2021-05-26'.to_date
     end
   end
 end
