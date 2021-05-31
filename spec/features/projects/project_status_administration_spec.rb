@@ -60,7 +60,7 @@ describe 'Projects status administration', type: :feature, js: true do
     visit new_project_path
 
     # Create the project with status
-    click_link 'Advanced settings'
+    click_button 'Advanced settings'
 
     name_field.set_value 'New project'
     status_field.select_option 'On track'

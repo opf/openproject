@@ -101,7 +101,7 @@ describe 'Projects', type: :feature, js: true do
 
         name_field.set_value 'Foo bar'
 
-        find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+        find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
         list_field.select_option 'A', 'B'
 
@@ -206,7 +206,7 @@ describe 'Projects', type: :feature, js: true do
       it 'hides the active field and the identifier' do
         visit new_project_path
 
-        find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+        find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
         expect(page).to have_no_content 'Active'
         expect(page).to have_no_content 'Identifier'
@@ -244,7 +244,7 @@ describe 'Projects', type: :feature, js: true do
 
         click_on 'Advanced settings'
 
-        within('.form--fieldset') do
+        within('.op-fieldset') do
           expect(page).to have_text 'Optional Foo'
           expect(page).to have_no_text 'Required Foo'
         end
