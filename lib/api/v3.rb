@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,37 +26,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
-    module Errors
-      class ErrorRepresenter < Roar::Decorator
-        include Roar::JSON::HAL
-        include Roar::Hypermedia
-
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
-
-        property :_type, exec_context: :decorator
-        property :error_identifier, exec_context: :decorator, render_nil: true
-        property :message, getter: ->(*) { message }, render_nil: true
-        property :details, embedded: true
-
-        collection :errors,
-                   embedded: true,
-                   class: ::API::Errors::ErrorBase,
-                   decorator: ::API::V3::Errors::ErrorRepresenter,
-                   if: ->(*) { !Array(errors).empty? }
-
-        def _type
-          'Error'
-        end
-
-        def error_identifier
-          ::API::V3::URN_ERROR_PREFIX + represented.class.identifier
-        end
-      end
-    end
+    URN_PREFIX = 'urn:openproject-org:api:v3:'.freeze
+    URN_ERROR_PREFIX = "#{URN_PREFIX}errors:".freeze
+    # For resources invisible to the user, a resource (including a payload) will contain
+    # an "undisclosed uri" instead of a url. This indicates the existence of a value
+    # without revealing anything. An example for this is the parent project which might be
+    # invisible to a user.
+    # In case a "undisclosed uri" is provided as a link, the current value is not
+    # to be altered and thus it is treated as if the value where never provided in
+    # the first place. This allows a schema/_embedded/payload -> client -> POST/PUT
+    # request/response round trip where the user knows of the existence of the value without revealing
+    # the contents. The payload remains valid in this case and the client can distinguish between
+    # keeping the value and unsetting the linked resource to null.
+    URN_UNDISCLOSED = "#{URN_PREFIX}undisclosed".freeze
   end
 end
+
