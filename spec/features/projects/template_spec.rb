@@ -95,7 +95,7 @@ describe 'Project templates', type: :feature, js: true do
       template_field.expect_selected 'My template'
 
       # Updates the identifier in advanced settings
-      page.find('.form--fieldset-legend', text: 'ADVANCED SETTINGS').click
+      page.find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
       status_field.expect_selected 'ON TRACK'
 
       # It does not show the copy meta flags
