@@ -14,7 +14,7 @@ import { HalLink } from "core-app/modules/hal/hal-link/hal-link";
 
 @Injectable()
 export class DynamicFieldsService {
-  readonly selectDefaultValue = {name:'-', _links: { self: { href: null } }};
+  readonly selectDefaultValue = { name: '-', _links: { self: { href: null } } };
   readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
@@ -146,7 +146,7 @@ export class DynamicFieldsService {
       const elementValue = otherElements[key];
 
       if (this.isValue(elementValue)) {
-        model = {...model, [key]:elementValue}
+        model = { ...model, [key]: elementValue }
       }
 
       return model;
@@ -209,7 +209,7 @@ export class DynamicFieldsService {
 
       result = {
         ...result,
-        ...this.isValue(resourceModel) && {[resourceKey]: resourceModel},
+        ...this.isValue(resourceModel) && { [resourceKey]: resourceModel },
       };
 
       return result;
@@ -266,8 +266,8 @@ export class DynamicFieldsService {
         className: field.name,
         templateOptions: {
           ...inputConfig.templateOptions,
-          ...this.isMultiSelectField(field) && {multiple: true},
-          ...fieldType === 'User' && {showAddNewUserButton: true},
+          ...this.isMultiSelectField(field) && { multiple: true },
+          ...fieldType === 'User' && { showAddNewUserButton: true },
         },
       };
     } else if (inputConfig.type === 'formattableInput') {
@@ -406,7 +406,10 @@ export class DynamicFieldsService {
     if (!currentValue?.href || options.some(option => option?._links?.self?.href === currentValue.href)) {
       return options;
     } else {
-      return [{name: currentValue.title, _links: { self: currentValue } } as unknown as IOPAllowedValue, ...options];
+      return [
+        { name: currentValue.title, _links: { self: currentValue } },
+        ...options
+      ];
     }
   }
 
@@ -414,7 +417,11 @@ export class DynamicFieldsService {
   // This way, the user can more easily deselect a value.
   // Multi seleccts do not have the same behaviour since the x next to each option is quite clear.
   private prependDefaultValue(options:IOPAllowedValue[], field:IOPFieldSchemaWithKey):IOPAllowedValue[] {
-    return !field.required && !this.isMultiSelectField(field) ? [this.selectDefaultValue, ...options] : options
+    if (field.required || this.isMultiSelectField(field)) {
+      return options;
+    } else {
+      return [this.selectDefaultValue, ...options];
+    }
   }
 
   private isMultiSelectField(field:IOPFieldSchemaWithKey) {
