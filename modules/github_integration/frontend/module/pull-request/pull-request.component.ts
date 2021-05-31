@@ -44,7 +44,7 @@ export class PullRequestComponent {
 
   public text = {
     label_created_by: this.I18n.t('js.label_created_by'),
-    label_updated_on: this.I18n.t('js.label_updated_on'),
+    label_last_updated_on: this.I18n.t('js.label_last_updated_on'),
     label_details: this.I18n.t('js.label_details'),
     label_actions: this.I18n.t('js.github_integration.github_actions'),
   };

@@ -1,4 +1,5 @@
-<a class='op-pr-link' [href]="pullRequest.htmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
+<a class='op-pr-link' [href]="pullRequest.htmlUrl" target="blank" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
+
 <div class='op-pr-title'
      [textContent]="pullRequest.title">
 </div>
@@ -19,7 +20,7 @@
   </span>
 
   <span class='op-pr-date'>
-    {{ text.label_updated_on }}
+    {{ text.label_last_updated_on }}
     <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
   </span>.
 </div>
@@ -42,7 +43,6 @@
       <span class='op-pr-check-name' [textContent]="checkRun.name"></span>
       <span class='op-pr-check-state' [textContent]="checkRunStateText(checkRun)"></span>
     </span>
-
 
     <span class='op-pr-check-details'>
       <a [href]="checkRun.detailsUrl">
