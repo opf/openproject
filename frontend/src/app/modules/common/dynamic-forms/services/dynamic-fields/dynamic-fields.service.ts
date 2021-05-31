@@ -14,7 +14,7 @@ import { HalLink } from "core-app/modules/hal/hal-link/hal-link";
 
 @Injectable()
 export class DynamicFieldsService {
-  readonly selectDefaultValue = {name:'-'};
+  readonly selectDefaultValue = {name:'-', _links: { self: { href: null } }};
   readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
