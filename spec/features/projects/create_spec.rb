@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe 'Projects', 'creation', type: :feature, js: true do
   let(:name_field) { ::FormFields::InputFormField.new :name }
-  let(:parent_field) { ::FormFields::SelectFormField.new :parent }
 
   current_user { FactoryBot.create(:admin) }
 
@@ -119,7 +118,7 @@ describe 'Projects', 'creation', type: :feature, js: true do
 
       click_on 'Advanced settings'
 
-      within('.form--fieldset') do
+      within('.op-fieldset') do
         expect(page).to have_text 'Optional Foo'
         expect(page).to have_no_text 'Required Foo'
       end
