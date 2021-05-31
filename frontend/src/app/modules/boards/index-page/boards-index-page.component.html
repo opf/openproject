@@ -91,11 +91,13 @@
             <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>
           </td>
           <td class="buttons">
-            <accessible-by-keyboard *ngIf="board.editable"
-                                    (execute)="destroyBoard(board)"
-                                    linkClass="icon icon-delete">
-              {{ text.delete }}
-            </accessible-by-keyboard>
+            <button class="op-link"
+                    type="button"
+                    (click)="destroyBoard(board)"
+                    >
+              <op-icon icon-classes="icon icon-delete"></op-icon>
+              <span [textContent]="text.delete"></span>
+            </button>
           </td>
         </tr>
         </tbody>

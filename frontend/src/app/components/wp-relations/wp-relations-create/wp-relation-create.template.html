@@ -42,12 +42,13 @@
         </wp-relations-autocomplete>
       </div>
       <div class="grid-content medium-1 collapse wp-relations-controls-section relation-row">
-        <accessible-by-keyboard
-            (execute)="toggleRelationsCreateForm()"
-            linkClass="wp-create-relation--cancel"
-            aria-hidden="false">
-          <op-icon icon-classes="icon-remove -padded" [icon-title]="text.abort"></op-icon>
-        </accessible-by-keyboard>
+        <button
+            type="button"
+            class="op-link wp-create-relation--cancel"
+            (click)="toggleRelationsCreateForm()"
+        >
+          <op-icon icon-classes="icon-remove icon-no-color -padded" [icon-title]="text.abort"></op-icon>
+        </button>
       </div>
     </div>
   </div>
