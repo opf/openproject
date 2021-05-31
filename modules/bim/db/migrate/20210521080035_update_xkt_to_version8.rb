@@ -20,7 +20,7 @@ class UpdateXktToVersion8 < ActiveRecord::Migration[6.1]
       return
     end
 
-    # migrate_all_ifc_models
+    migrate_all_ifc_models
     update_demo_xkt_models
   end
 
