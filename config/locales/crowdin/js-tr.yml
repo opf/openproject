@@ -608,10 +608,6 @@ tr:
     relations_autocomplete:
       placeholder: "Aramak için metni yazın"
       parent_placeholder: "Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna basın."
-    autocompleter:
-      placeholder: "Aramak için metni yazın"
-      notFoundText: "No items found"
-      typeToSearchText: "Aramak için metni yazın"
     repositories:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'

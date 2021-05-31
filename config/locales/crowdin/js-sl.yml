@@ -607,10 +607,6 @@ sl:
     relations_autocomplete:
       placeholder: "Iskalni niz"
       parent_placeholder: "Izberite novo nadrejeno ali pritisnite izhod za preklic."
-    autocompleter:
-      placeholder: "Iskalni niz"
-      notFoundText: "No items found"
-      typeToSearchText: "Iskalni niz"
     repositories:
       select_tag: 'Izberite oznako'
       select_branch: 'Izberite vejo'
