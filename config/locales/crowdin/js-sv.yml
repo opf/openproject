@@ -607,10 +607,6 @@ sv:
     relations_autocomplete:
       placeholder: "Skriv för att söka"
       parent_placeholder: "Välj ny förälder eller tryck på escape för att avbryta."
-    autocompleter:
-      placeholder: "Skriv för att söka"
-      notFoundText: "No items found"
-      typeToSearchText: "Skriv för att söka"
     repositories:
       select_tag: 'Välj etikett'
       select_branch: 'Välj gren'

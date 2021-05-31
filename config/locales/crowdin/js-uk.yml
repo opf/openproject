@@ -608,10 +608,6 @@ uk:
     relations_autocomplete:
       placeholder: "Введіть для пошуку"
       parent_placeholder: "Виберіть нові джерела або натисніть клавішу Escape, щоб скасувати."
-    autocompleter:
-      placeholder: "Введіть для пошуку"
-      notFoundText: "No items found"
-      typeToSearchText: "Введіть для пошуку"
     repositories:
       select_tag: 'Виберіть мітку'
       select_branch: 'Виберіть гілку'

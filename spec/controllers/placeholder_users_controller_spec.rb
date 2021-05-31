@@ -332,5 +332,36 @@ describe PlaceholderUsersController, type: :controller do
       it_behaves_like 'do not allow non-admins'
     end
   end
+
+  context 'as a user that may not delete the placeholder' do
+    current_user { FactoryBot.create :user }
+
+    before do
+      allow(PlaceholderUsers::DeleteContract)
+        .to receive(:deletion_allowed?).and_return false
+    end
+
+    describe 'GET deletion_info' do
+      before do
+        get :deletion_info, params: { id: placeholder_user.id }
+      end
+
+      it 'responds with unauthorized status' do
+        expect(response).to_not be_successful
+        expect(response.status).to eq 403
+      end
+    end
+
+    describe 'POST destroy' do
+      before do
+        delete :destroy, params: { id: placeholder_user.id }
+      end
+
+      it 'responds with unauthorized status' do
+        expect(response).to_not be_successful
+        expect(response.status).to eq 403
+      end
+    end
+  end
 end
 
