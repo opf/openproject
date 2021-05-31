@@ -49,7 +49,7 @@ describe 'Projects custom fields', type: :feature, js: true do
 
       name_field.set_value 'My project name'
 
-      find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
       cf_field.expect_visible
 
@@ -79,7 +79,7 @@ describe 'Projects custom fields', type: :feature, js: true do
       visit new_project_path
 
       name_field.set_value 'My project name'
-      find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
       default_int_field.expect_value default_int_custom_field.default_value.to_s
       default_string_field.expect_value default_string_custom_field.default_value.to_s
@@ -144,7 +144,7 @@ describe 'Projects custom fields', type: :feature, js: true do
         visit new_project_path
 
         name_field.set_value 'My project name'
-        find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+        find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
         float_field.set_value '10000.55'
 
@@ -169,7 +169,7 @@ describe 'Projects custom fields', type: :feature, js: true do
         visit new_project_path
 
         name_field.set_value 'My project name'
-        find('.form--fieldset-legend a', text: 'ERWEITERTE EINSTELLUNGEN').click
+        find('.op-fieldset--toggle', text: 'ERWEITERTE EINSTELLUNGEN').click
 
         float_field.set_value '10000,55'
 
@@ -235,7 +235,7 @@ describe 'Projects custom fields', type: :feature, js: true do
 
       name_field.set_value 'My project name'
 
-      find('.form--fieldset-legend a', text: 'ADVANCED SETTINGS').click
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
       cf_field.expect_visible
       cf_field.expect_no_option invisible_user

@@ -608,10 +608,6 @@ fi:
     relations_autocomplete:
       placeholder: "Haku"
       parent_placeholder: "Choose new parent or press escape to cancel."
-    autocompleter:
-      placeholder: "Haku"
-      notFoundText: "No items found"
-      typeToSearchText: "Haku"
     repositories:
       select_tag: 'Valitse tunniste'
       select_branch: 'Valitse haara'
