@@ -218,6 +218,15 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
           let(:title) { I18n.t(:'api_v3.undisclosed.parent') }
         end
       end
+
+      context 'without a parent' do
+        let(:parent_project) { nil }
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'parent' }
+          let(:href) { nil }
+        end
+      end
     end
 
     context 'status' do
