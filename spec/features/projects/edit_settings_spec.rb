@@ -178,8 +178,9 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   end
 
   context 'with a user not allowed to see the parent project' do
-    let(:parent_project) { FactoryBot.create(:project) }
     include_context 'ng-select-autocomplete helpers'
+
+    let(:parent_project) { FactoryBot.create(:project) }
     let(:parent_field) { ::FormFields::SelectFormField.new 'parent' }
 
     before do
@@ -191,7 +192,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
       fill_in 'Name', with: 'New project name'
 
-      parent_field.expect_selected 'UNDISCLOSED'
+      parent_field.expect_selected I18n.t(:'undisclosed.parent')
 
       click_on 'Save'
 

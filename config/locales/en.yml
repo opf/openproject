@@ -1797,7 +1797,6 @@ en:
   label_type_new: "New type"
   label_type_plural: "Types"
   label_ui: "User Interface"
-  label_undisclosed: "UNDISCLOSED"
   label_update_work_package_done_ratios: "Update work package done ratios"
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
@@ -2787,6 +2786,9 @@ en:
     help_and_support: "Help and support"
 
   total_progress: "Total progress"
+
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
 
   user:
     all: "all"

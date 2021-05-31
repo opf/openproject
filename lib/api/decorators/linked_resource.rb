@@ -186,7 +186,7 @@ module API
             if undisclosed && instance_exec(&skip_link)
               {
                 href: API::V3::URN_UNDISCLOSED,
-                title: I18n.t(:label_undisclosed)
+                title: I18n.t(:"undisclosed.#{name}")
               }
             elsif !instance_exec(&skip_link)
               ::API::Decorators::LinkObject
