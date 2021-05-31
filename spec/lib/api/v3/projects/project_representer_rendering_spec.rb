@@ -215,7 +215,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
         it_behaves_like 'has a titled link' do
           let(:link) { 'parent' }
           let(:href) { API::V3::URN_UNDISCLOSED }
-          let(:title) { I18n.t(:'undisclosed.parent') }
+          let(:title) { I18n.t(:'api_v3.undisclosed.parent') }
         end
       end
     end

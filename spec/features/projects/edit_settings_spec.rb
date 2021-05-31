@@ -192,7 +192,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
       fill_in 'Name', with: 'New project name'
 
-      parent_field.expect_selected I18n.t(:'undisclosed.parent')
+      parent_field.expect_selected I18n.t(:'api_v3.undisclosed.parent')
 
       click_on 'Save'
 
