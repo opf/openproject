@@ -109,7 +109,7 @@ module OpenProject
       elsif !version_matches?(130000)
         message = "The next major release of OpenProject (v12) will require PostgreSQL 13 or later.\n" \
                   "You can anticipate this upgrade by updating your database installation by following the guide at " \
-                  "https://TODO"
+                  "https://docs.openproject.org/installation-and-operations/misc/migration-to-postgresql13/"
         raise DeprecatedVersionWarning.new message
       end
     end
