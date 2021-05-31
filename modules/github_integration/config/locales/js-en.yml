@@ -32,7 +32,7 @@ en:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Pull requests"
         copy_menu:
           label: Git snippets
           description: Copy git snippets to clipboard
