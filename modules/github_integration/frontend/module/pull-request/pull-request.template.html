@@ -35,7 +35,8 @@
 <ul [attr.aria-label]="text.label_actions" class='op-pr-checks' *ngIf="pullRequest.checkRuns?.length">
   <li class='op-pr-check' *ngFor="let checkRun of pullRequest.checkRuns">
     <span class='op-pr-check-state-icon' [ngClass]="'op-pr-check-state-icon_' + checkRunState(checkRun)">
-      <op-icon icon-classes="icon-{{ checkRunStateIcon(checkRun) }}"></op-icon>
+      <op-icon icon-classes="icon-{{ checkRunStateIcon(checkRun) }}"
+               [icon-title]="checkRunStateText(checkRun)"></op-icon>
     </span>
     <span class='op-pr-check-avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
 
