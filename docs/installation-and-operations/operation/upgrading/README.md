@@ -61,7 +61,7 @@ Note that this still takes previous values into consideration. Values that shoul
 </div>
 
 
-## Docker-based installation
+## Compose-based installation
 
 When using the Compose-based docker installation, you can simply do the following:
 
