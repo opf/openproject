@@ -9,14 +9,13 @@ keywords: github integration
 # GitHub integration
 
 OpenProject offers an integration for GitHub pull requests.
-You create a pull request in GitHub and link to an OpenProject work package.
+You create a pull request in GitHub and link it to an OpenProject work package.
 
 ![New pull request linking to an OpenProject work package](github-pr-workpackage-reference.png)
 
 Rather than inserting a link to the work package you can also reference it just by adding "OP#87" to the pull request's description where 87 is the ID of the work package.
 
-OpenProject will add comments to work package about the pull request when
-the pull request is
+OpenProject will add comments to work packages about the pull request when the pull request is
 
 * first referenced (usually when opened)
 * merged
@@ -31,6 +30,29 @@ Given the right permissions on the project, a "GitHub" tab is shown for work pac
 You will have to configure both OpenProject and GitHub for the integration to work.
 
 ### OpenProject
+
+In *Project settings* and *Modules* you will need to activate the GitHub module.
+
+![Github-module](Github-module.png)
+
+Then you will have a GitHub tab appearing in your work package view where you will see all information pulling through from GitHub.
+
+![Github integration tab](Github integration tab.png)
+
+In your OpenProject work package, the new GitHub integration supports you to create a branch straight from the work package and consequently the matching pull request.
+
+
+![Github integration create branch](Github integration create branch.png)
+
+If you already have an existing pull request in GitHub, you can link it using the code OP#5999 (5999 being the ID of the work package) in the GitHub pull request description.
+
+
+
+![Github integration PR overview](Github integration PR overview.png)
+
+
+
+![Github integration actions](Github integration actions.png)
 
 First you will need to create a user in OpenProject that will make the comments.
 The user will have to be added to each project with a role that allows them
