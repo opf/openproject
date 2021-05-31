@@ -284,13 +284,13 @@ tr:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class = "%{list_styling_class}"> <li> Yeni bir <b> yer tutucu kullanıcılar </b> kavramı (premium özellik), e-posta olmadan ön kullanıcıların eklenmesine olanak tanır OpenProject adresine ve bu kaynaklara görev atamak için. </li> <li> İş paketi <b> filtreleri bir üst seçenek tarafından genişletilir </b>, tüm doğrudan alt öğeleri ve <b> ID'ye göre < / b> listeye yalnızca bu tam iş paketlerini dahil etmek veya hariç tutmak için. </li> <li> Kullanıcı yönetimi, yönetici olmayanlara <b> yeni bir genel rol </b> ile dağıtılır ve yönetme ve davet etme tam yönetici ayrıcalıklarına sahip olmayan kullanıcılar. </li> <li> Diğer kullanıcı arayüzü ve kullanıcı deneyimi iyileştirmeleri, yani maliyet raporlama gezinmesini uyumlu hale getirmek, iş paketi listesinde toplam ve grup satırlarının arka plan renklerini uyarlamak, bir grup şov sayfası eklemek. </li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class = "%{list_styling_class}"> <li> Yeni bir <b> yer tutucu kullanıcılar </b> kavramı (premium özellik), e-posta olmadan ön kullanıcıların eklenmesine olanak tanır OpenProject adresine ve bu kaynaklara görev atamak için. </li> <li> İş paketi <b> filtreleri bir üst seçenek tarafından genişletilir </b>, tüm doğrudan alt öğeleri ve <b> ID'ye göre < / b> listeye yalnızca bu tam iş paketlerini dahil etmek veya hariç tutmak için. </li> <li> Kullanıcı yönetimi, yönetici olmayanlara <b> yeni bir genel rol </b> ile dağıtılır ve yönetme ve davet etme tam yönetici ayrıcalıklarına sahip olmayan kullanıcılar. </li> <li> Diğer kullanıcı arayüzü ve kullanıcı deneyimi iyileştirmeleri, yani maliyet raporlama gezinmesini uyumlu hale getirmek, iş paketi listesinde toplam ve grup satırlarının arka plan renklerini uyarlamak, bir grup şov sayfası eklemek. </li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -608,6 +608,10 @@ tr:
     relations_autocomplete:
       placeholder: "Aramak için metni yazın"
       parent_placeholder: "Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna basın."
+    autocompleter:
+      placeholder: "Aramak için metni yazın"
+      notFoundText: "No items found"
+      typeToSearchText: "Aramak için metni yazın"
     repositories:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'

@@ -283,13 +283,13 @@ sl:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Izdaja vsebuje več novih funkcij in izboljšav: <br> <ul class="%{list_styling_class}"> <li>Nov koncept <b>nadomestnih uporabnikov</b> (premium funkcija) dovoljuje dodajanje predhodnih uporabnikov brez e-mail naslova v OpenProject in dodeljevanje nalog tem virom.</li> <li>FIltri delovne naloge <b>so podaljšani s strani starševske opcije</b>za lažji pogled nad vsemi otroki, prav tako <b>preko ID-ja</b> za vključitev ali izključitev določenih delovnih pakteov iz seznama.</li> 
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Izdaja vsebuje več novih funkcij in izboljšav: <br> <ul class="%{list_styling_class}"> <li>Nov koncept <b>nadomestnih uporabnikov</b> (premium funkcija) dovoljuje dodajanje predhodnih uporabnikov brez e-mail naslova v OpenProject in dodeljevanje nalog tem virom.</li> <li>FIltri delovne naloge <b>so podaljšani s strani starševske opcije</b>za lažji pogled nad vsemi otroki, prav tako <b>preko ID-ja</b> za vključitev ali izključitev določenih delovnih pakteov iz seznama.</li> 
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -607,6 +607,10 @@ sl:
     relations_autocomplete:
       placeholder: "Iskalni niz"
       parent_placeholder: "Izberite novo nadrejeno ali pritisnite izhod za preklic."
+    autocompleter:
+      placeholder: "Iskalni niz"
+      notFoundText: "No items found"
+      typeToSearchText: "Iskalni niz"
     repositories:
       select_tag: 'Izberite oznako'
       select_branch: 'Izberite vejo'
