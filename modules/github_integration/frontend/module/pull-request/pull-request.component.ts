@@ -34,9 +34,12 @@ import { IGithubPullRequestResource } from "../../../../../../../../modules/gith
 
 @Component({
   selector: 'github-pull-request',
-  templateUrl: './pull-request.template.html',
-  styleUrls: ['./pull-request.component.sass'],
-  host: { class: 'op-pr-pull-request' }
+  templateUrl: './pull-request.component.html',
+  styleUrls: [
+    './pull-request.component.sass',
+    './pr-check.component.sass',
+  ],
+  host: { class: 'op-pull-request' }
 })
 
 export class PullRequestComponent {
