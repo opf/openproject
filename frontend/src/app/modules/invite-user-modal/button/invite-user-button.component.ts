@@ -1,8 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { PermissionsService } from "core-app/core/services/permissions/permissions.service";
 import { OpInviteUserModalService } from "core-app/modules/invite-user-modal/invite-user-modal.service";
+import { Observable } from "rxjs";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
 
 @Component({
   selector: 'op-invite-user-button',
@@ -10,6 +13,8 @@ import { OpInviteUserModalService } from "core-app/modules/invite-user-modal/inv
   styleUrls: ['./invite-user-button.component.sass']
 })
 export class InviteUserButtonComponent implements OnInit {
+  @Input() projectId:string|null;
+
   /** This component does not provide an output, because both primary usecases were in places where the button was
    * destroyed before the modal closed, causing the data from the modal to never arrive at the parent.
    * If you want to do something with the output from the modal that is opened, use the OpInviteUserModalService
@@ -18,28 +23,29 @@ export class InviteUserButtonComponent implements OnInit {
   text = {
     button: this.I18n.t('js.invite_user_modal.invite'),
   };
-  canInviteUsersToProject:boolean;
+
+  canInviteUsersToProject$:Observable<boolean>;
 
   constructor(
     readonly I18n:I18nService,
     readonly opInviteUserModalService:OpInviteUserModalService,
-    readonly permissionsService:PermissionsService,
+    readonly currentProjectService:CurrentProjectService,
+    readonly currentUserService:CurrentUserService,
     readonly ngSelectComponent:NgSelectComponent,
     readonly changeDetectorRef:ChangeDetectorRef,
   ) {}
 
-  ngOnInit():void {
-    this.permissionsService
-      .canInviteUsersToProject()
-      .subscribe(canInviteUsersToProject => {
-        this.canInviteUsersToProject = canInviteUsersToProject;
-        this.changeDetectorRef.detectChanges();
-      });
+  public ngOnInit():void {
+    this.projectId = this.projectId || this.currentProjectService.id;
+    this.canInviteUsersToProject$ = this.currentUserService.hasCapabilities$(
+      'memberships/create',
+      this.projectId || undefined
+    );
   }
 
-  onAddNewClick($event:Event) {
+  public onAddNewClick($event:Event):void {
     $event.stopPropagation();
-    this.opInviteUserModalService.open();
+    this.opInviteUserModalService.open(this.projectId);
     this.ngSelectComponent.close();
   }
 }

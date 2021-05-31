@@ -89,8 +89,12 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   closeOnOutsideClick(event:any) {
     if (!(event.relatedTarget &&
       this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
-      this.datePickerInstance.hide();
+      this.close();
     }
+  }
+
+  close() {
+    this.datePickerInstance.hide();
   }
 
   protected isEmpty():boolean {

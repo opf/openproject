@@ -8,6 +8,7 @@
   [required]="required"
   [disabled]="disabled"
   (click)="openOnClick()"
+  (keydown.escape)="close()"
   (blur)="closeOnOutsideClick($event)"
   (input)="onInputChange($event)"
   type="text"
