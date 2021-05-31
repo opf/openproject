@@ -607,6 +607,10 @@ ro:
     relations_autocomplete:
       placeholder: "Introduceți textul de căutat"
       parent_placeholder: "Alegeți un nou părinte sau apăsați Escape pentru a anula."
+    autocompleter:
+      placeholder: "Introduceți textul de căutat"
+      notFoundText: "No items found"
+      typeToSearchText: "Introduceți textul de căutat"
     repositories:
       select_tag: 'Selectare etichetă'
       select_branch: 'Selectare ramură'

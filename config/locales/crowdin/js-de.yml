@@ -607,6 +607,10 @@ de:
     relations_autocomplete:
       placeholder: "Suchbegriff eintippen"
       parent_placeholder: "Wählen Sie ein neues Eltern-Arbeitspaket oder drücken Sie Escape, um abzubrechen."
+    autocompleter:
+      placeholder: "Suchbegriff eintippen"
+      notFoundText: "No items found"
+      typeToSearchText: "Suchbegriff eintippen"
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'

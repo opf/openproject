@@ -608,6 +608,10 @@ ko:
     relations_autocomplete:
       placeholder: "검색할 유형"
       parent_placeholder: "새로운 상위 항목은 선택하거나 Escape를 눌러 취소하십시오."
+    autocompleter:
+      placeholder: "검색할 유형"
+      notFoundText: "No items found"
+      typeToSearchText: "검색할 유형"
     repositories:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'

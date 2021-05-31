@@ -608,6 +608,10 @@ it:
     relations_autocomplete:
       placeholder: "Tipo di ricerca"
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
+    autocompleter:
+      placeholder: "Tipo di ricerca"
+      notFoundText: "No items found"
+      typeToSearchText: "Tipo di ricerca"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'

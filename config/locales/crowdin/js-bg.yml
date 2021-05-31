@@ -608,6 +608,10 @@ bg:
     relations_autocomplete:
       placeholder: "Type to search"
       parent_placeholder: "Choose new parent or press escape to cancel."
+    autocompleter:
+      placeholder: "Type to search"
+      notFoundText: "No items found"
+      typeToSearchText: "Type to search"
     repositories:
       select_tag: 'Изберете етикет'
       select_branch: 'Изберете клон'

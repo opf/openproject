@@ -608,6 +608,10 @@ es:
     relations_autocomplete:
       placeholder: "Escriba para buscar"
       parent_placeholder: "Elija un nuevo padre ó presione escape para cancelar."
+    autocompleter:
+      placeholder: "Escriba para buscar"
+      notFoundText: "No items found"
+      typeToSearchText: "Escriba para buscar"
     repositories:
       select_tag: 'Seleccionar etiqueta'
       select_branch: 'Seleccione Sucursal'
