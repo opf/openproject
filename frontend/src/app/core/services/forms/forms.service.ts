@@ -38,8 +38,8 @@ export class FormsService {
       );
   }
 
-  validateForm$(form:FormGroup, resourceEndpoint:string):Observable<any> {
-    const modelToSubmit = this.formatModelToSubmit(form.value);
+  validateForm$(form:FormGroup, resourceEndpoint:string, formSchema?:IOPFormSchema):Observable<any> {
+    const modelToSubmit = this.formatModelToSubmit(form.value, formSchema);
 
     return this._httpClient
       .post(
@@ -56,8 +56,8 @@ export class FormsService {
       );
   }
 
-  getFormBackendValidationError$(formValue: {[key:string]: any}, resourceEndpoint:string, limitValidationToKeys?:string | string[]) {
-    const modelToSubmit = this.formatModelToSubmit(formValue);
+  getFormBackendValidationError$(formValue: {[key:string]: any}, resourceEndpoint:string, limitValidationToKeys?:string | string[], formSchema?:IOPFormSchema) {
+    const modelToSubmit = this.formatModelToSubmit(formValue, formSchema);
 
     return this._httpClient
       .post(

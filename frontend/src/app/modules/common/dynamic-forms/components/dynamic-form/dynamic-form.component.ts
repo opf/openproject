@@ -19,7 +19,6 @@ import { NotificationsService } from "core-app/modules/common/notifications/noti
 import { DynamicFieldsService } from "core-app/modules/common/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
 import { FormGroup } from "@angular/forms";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
-import { FormsService } from "core-app/core/services/forms/forms.service";
 import { HttpErrorResponse } from "@angular/common/http";
 
 /**
@@ -143,7 +142,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Input() set model(payload:IOPFormModel) {
     if (!this.innerModel && !payload) { return; }
 
-    const formattedModel = this._formsService.formatModelToEdit(payload);
+    const formattedModel = this._dynamicFormService.formatModelToEdit(payload);
 
     this.form.patchValue(formattedModel);
   }
@@ -192,7 +191,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
-    private _formsService:FormsService,
     private _changeDetectorRef:ChangeDetectorRef,
   ) {
     super();
@@ -260,7 +258,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       throw new Error(this.noPathToSubmitToError);
     }
 
-    return this._formsService.validateForm$(this.form, this.formEndpoint);
+    return this._dynamicFormService.validateForm$(this.form, this.formEndpoint);
   }
 
   private initializeDynamicForm(

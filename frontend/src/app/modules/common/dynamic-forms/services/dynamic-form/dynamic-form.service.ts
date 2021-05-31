@@ -57,6 +57,14 @@ export class DynamicFormService {
     return dynamicForm;
   }
 
+  formatModelToEdit(formModel:IOPFormModel):IOPFormModel {
+    return this._formsService.formatModelToEdit(formModel);
+  }
+
+  validateForm$(form:FormGroup, resourceEndpoint:string) {
+    return this._formsService.validateForm$(form, resourceEndpoint, this.formSchema);
+  };
+
   submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch') {
     return this._formsService.submit$(form, resourceEndpoint, resourceId, formHttpMethod, this.formSchema);
   }
