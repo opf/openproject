@@ -1,55 +1,53 @@
-<div class='op-pr-pull-request'>
-  <a class='op-pr-link' [href]="pullRequest.htmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
-  <div class='op-pr-title'
-       [textContent]="pullRequest.title">
-  </div>
+<a class='op-pr-link' [href]="pullRequest.htmlUrl" [textContent]="pullRequest.repository + '#' + pullRequest.number"></a>
+<div class='op-pr-title'
+     [textContent]="pullRequest.title">
+</div>
 
-  <div class="op-pr-info">
-    {{ text.label_created_by }}
-    <img alt='PR author avatar'
-         class='op-avatar op-avatar_mini'
-         [src]="pullRequest.githubUser.avatarUrl"
-         *ngIf="pullRequest.githubUser"
-    />
-    <span class='op-pr-user'>
-      <a [href]="pullRequest.githubUser.htmlUrl"
-         [textContent]="pullRequest.githubUser.login"
-         *ngIf="pullRequest.githubUser"
-      >
-      </a>.
-    </span>
-
-    <span class='op-pr-date'>
-      {{ text.label_updated_on }}
-      <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
-    </span>.
-  </div>
-
-  <span class='op-pr-state' [ngClass]="'op-pr-state_' + state">
-    <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
-    {{state}}
+<div class="op-pr-info">
+  {{ text.label_created_by }}
+  <img alt='PR author avatar'
+       class='op-avatar op-avatar_mini'
+       [src]="pullRequest.githubUser.avatarUrl"
+       *ngIf="pullRequest.githubUser"
+  />
+  <span class='op-pr-user'>
+    <a [href]="pullRequest.githubUser.htmlUrl"
+       [textContent]="pullRequest.githubUser.login"
+       *ngIf="pullRequest.githubUser"
+    >
+    </a>.
   </span>
 
-  <span class="op-pr-checks-label"  *ngIf="pullRequest.checkRuns?.length">{{ text.label_actions }}</span>
-
-  <ul [attr.aria-label]="text.label_actions" class='op-pr-checks' *ngIf="pullRequest.checkRuns?.length">
-    <li class='op-pr-check' *ngFor="let checkRun of pullRequest.checkRuns">
-      <span class='op-pr-check-state-icon' [ngClass]="'op-pr-check-state-icon_' + checkRunState(checkRun)">
-        <op-icon icon-classes="icon-{{ checkRunStateIcon(checkRun) }}"></op-icon>
-      </span>
-      <span class='op-pr-check-avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
-
-      <span class='op-pr-check-info'>
-        <span class='op-pr-check-name' [textContent]="checkRun.name"></span>
-        <span class='op-pr-check-state' [textContent]="checkRunStateText(checkRun)"></span>
-      </span>
-
-
-      <span class='op-pr-check-details'>
-        <a [href]="checkRun.detailsUrl">
-          {{ text.label_details }}
-        </a>
-      </span>
-    </li>
-  </ul>
+  <span class='op-pr-date'>
+    {{ text.label_updated_on }}
+    <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
+  </span>.
 </div>
+
+<span class='op-pr-state' [ngClass]="'op-pr-state_' + state">
+  <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
+  {{state}}
+</span>
+
+<span class="op-pr-checks-label"  *ngIf="pullRequest.checkRuns?.length">{{ text.label_actions }}</span>
+
+<ul [attr.aria-label]="text.label_actions" class='op-pr-checks' *ngIf="pullRequest.checkRuns?.length">
+  <li class='op-pr-check' *ngFor="let checkRun of pullRequest.checkRuns">
+    <span class='op-pr-check-state-icon' [ngClass]="'op-pr-check-state-icon_' + checkRunState(checkRun)">
+      <op-icon icon-classes="icon-{{ checkRunStateIcon(checkRun) }}"></op-icon>
+    </span>
+    <span class='op-pr-check-avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
+
+    <span class='op-pr-check-info'>
+      <span class='op-pr-check-name' [textContent]="checkRun.name"></span>
+      <span class='op-pr-check-state' [textContent]="checkRunStateText(checkRun)"></span>
+    </span>
+
+
+    <span class='op-pr-check-details'>
+      <a [href]="checkRun.detailsUrl">
+        {{ text.label_details }}
+      </a>
+    </span>
+  </li>
+</ul>

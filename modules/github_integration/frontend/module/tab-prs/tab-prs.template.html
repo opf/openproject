@@ -2,6 +2,4 @@
   <p [innerHTML]="getEmptyText()"></p>
 </ng-container>
 
-<div *ngFor="let pullRequest of pullRequests">
-  <github-pull-request [pullRequest]="pullRequest"></github-pull-request>
-</div>
+<github-pull-request [pullRequest]="pullRequest" *ngFor="let pullRequest of pullRequests"></github-pull-request>

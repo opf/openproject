@@ -28,6 +28,7 @@
 
 @import "helpers"
 
+:host,
 .op-pr-pull-request
   display: grid
   grid-template-columns: auto 1fr auto auto
@@ -35,6 +36,10 @@
   margin-bottom: 11px
   padding-bottom: 11px
   border-bottom: 1px solid #dddddd
+
+  &:last-child
+    border-bottom: none
+
 
 .op-pr-title
   @include text-shortener
