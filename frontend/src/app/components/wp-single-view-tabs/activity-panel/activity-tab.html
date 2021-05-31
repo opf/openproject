@@ -10,7 +10,7 @@
             <span class="activity-date--label" [textContent]="inf.date"></span>
             <button
                 *ngIf="first && showToggler"
-                role="button"
+                type="button"
                 class="activity-comments--toggler button -small -transparent -with-icon icon-filter icon-small hide-when-print"
                 [textContent]="togglerText"
                 (click)="toggleComments()"

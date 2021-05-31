@@ -50,7 +50,7 @@
     <div class="grid-content medium-2 collapse wp-relations-controls-section"
          ng-class="{'-expanded': userInputs.showRelationInfo }">
       <button
-          role="button"
+          type="button"
           class="op-link wp-relations--description-btn"
           [ngClass]="{'-visible': showDescriptionInfo }"
           [title]="text.description_label"
@@ -61,7 +61,7 @@
       </button>
       <button
           *ngIf="!!relation.delete"
-          role="button"
+          type="button"
           class="op-link relation-row--remove-btn"
           [ngClass]="{'-visible': showDescriptionInfo }"
           [title]="text.removeButton"

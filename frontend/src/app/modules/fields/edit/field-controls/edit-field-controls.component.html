@@ -1,7 +1,7 @@
 <div class="inplace-edit--dashboard">
   <div class="inplace-edit--controls">
     <button
-        role="button"
+        type="button"
         class="inplace-edit--control inplace-edit--control--save"
         [disabled]="(field.required && field.isEmpty()) || undefined"
         [title]="saveTitle"
@@ -10,7 +10,7 @@
       <op-icon icon-classes="icon-checkmark icon-no-color" [icon-title]="saveTitle"></op-icon>
     </button>
     <button
-        role="button"
+        type="button"
         class="inplace-edit--control inplace-edit--control--cancel"
         [title]="cancelTitle"
         (click)="cancel()"

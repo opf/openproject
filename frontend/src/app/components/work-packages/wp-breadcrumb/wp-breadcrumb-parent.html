@@ -8,7 +8,7 @@
   </a>
   <button
       *ngIf="canModifyParent()"
-      role="button"
+      type="button"
       class="op-link wp-relation--parent-change -no-decoration hide-when-print"
       [title]="parent ? text.edit_parent : text.set_parent"
       (click)="open()"
@@ -18,7 +18,7 @@
   </button>
   <button
       *ngIf="canModifyParent() && parent"
-      role="button"
+      type="button"
       class="op-link wp-relation--parent-remove hide-when-print -no-decoration"
       [title]="text.remove_parent"
       (click)="updateParent(null)"

@@ -24,7 +24,7 @@
       >
         <b>{{ text.inviteUser }}</b> {{ principal.name }}
         <button
-          role="button"
+          type="button"
           class="op-link"
           (click)="principalControl?.setValue(null)"
           >{{ text.changeUserSelection }}</button>
@@ -36,7 +36,7 @@
       >
         <b>{{ text.createNewPlaceholder }}</b> {{ principal.name }}
         <button
-          role="button"
+          type="button"
           class="op-link"
           (click)="principalControl?.setValue(null)"
         >{{ text.changePlaceholderSelection }}</button>
