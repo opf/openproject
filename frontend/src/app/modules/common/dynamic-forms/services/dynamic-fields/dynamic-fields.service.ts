@@ -307,8 +307,8 @@ export class DynamicFieldsService {
     }
 
     return options?.pipe(
-      map(options => this.prependCurrentValueIfMissing(options, currentValue)),
-      map(options => !field.required && !this.isMultiSelectField(field) ? [this.selectDefaultValue, ...options] : options)
+      map(options => this.prependCurrentValue(options, currentValue)),
+      map(options => this.prependDefaultValue(options, field))
     );
   }
 
@@ -400,22 +400,29 @@ export class DynamicFieldsService {
     }
   }
 
+  // Invalid values, ones that are not in the list of allowedValues (Array or backend fetched) do occur, e.g.
+  // if constraints change or in case a value is undisclosed as for a project's parent.
+  private prependCurrentValue(options:IOPAllowedValue[], currentValue:HalLink|null):IOPAllowedValue[] {
+    if (!currentValue?.href || options.some(option => option?._links?.self?.href === currentValue.href)) {
+      return options;
+    } else {
+      return [{name: currentValue.title, _links: { self: currentValue } } as unknown as IOPAllowedValue, ...options];
+    }
+  }
+
+  // So select properties that are not required always get a default ('-'/'none') option.
+  // This way, the user can more easily deselect a value.
+  // Multi seleccts do not have the same behaviour since the x next to each option is quite clear.
+  private prependDefaultValue(options:IOPAllowedValue[], field:IOPFieldSchemaWithKey):IOPAllowedValue[] {
+    return !field.required && !this.isMultiSelectField(field) ? [this.selectDefaultValue, ...options] : options
+  }
+
   private isMultiSelectField(field:IOPFieldSchemaWithKey) {
     return field?.type?.startsWith('[]');
   }
 
   private isValue(value:any) {
     return ![null, undefined, ''].includes(value);
-  }
-
-  // Invalid values, ones that are not in the list of allowedValues (Array or backend fetched) do occur, e.g.
-  // if constraints change or in case a value is undisclosed as for a project's parent.
-  private prependCurrentValueIfMissing(options:IOPAllowedValue[], currentValue:HalLink|null) {
-    if (!currentValue?.href || options.some(option => option?._links?.self?.href === currentValue.href)) {
-      return options;
-    } else {
-      return [{name: currentValue.title, _links: { self: currentValue } }, ...options];
-    }
   }
 }
 
