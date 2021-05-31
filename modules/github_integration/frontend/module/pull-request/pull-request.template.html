@@ -16,13 +16,13 @@
          [textContent]="pullRequest.githubUser.login"
          *ngIf="pullRequest.githubUser"
       >
-      </a>
+      </a>.
     </span>
 
     <span class='op-pr-date'>
       {{ text.label_updated_on }}
       <op-date-time [dateTimeValue]="pullRequest.githubUpdatedAt"></op-date-time>
-    </span>
+    </span>.
   </div>
 
   <span class='op-pr-state' [ngClass]="'op-pr-state_' + state">
