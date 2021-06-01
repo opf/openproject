@@ -28,46 +28,22 @@
 
 require 'spec_helper'
 
-describe 'Projects#destroy',
-         type: :feature,
-         js: true do
-  let!(:project) { FactoryBot.create(:project, name: 'foo', identifier: 'foo') }
-  let(:project_page) { Pages::Projects::Destroy.new(project) }
-  let(:danger_zone) { DangerZone.new(page) }
-
+describe 'Projects', 'work package type mgmt', type: :feature, js: true do
   current_user { FactoryBot.create(:admin) }
 
-  before do
-    # Disable background worker
-    allow(Delayed::Worker)
-      .to receive(:delay_jobs)
-      .and_return(false)
+  let(:phase_type)     { FactoryBot.create(:type, name: 'Phase', is_default: true) }
+  let(:milestone_type) { FactoryBot.create(:type, name: 'Milestone', is_default: false) }
+  let!(:project) { FactoryBot.create(:project, name: 'Foo project', types: [phase_type, milestone_type]) }
 
-    project_page.visit!
-  end
+  it "have the correct types checked for the project's types" do
+    visit projects_path
+    click_on 'Foo project'
+    click_on 'Project settings'
+    click_on 'Work package types'
 
-  it 'destroys the project' do
-    # Confirm the deletion
-    # Without confirmation, the button is disabled
-    expect(danger_zone)
-      .to be_disabled
-
-    # With wrong confirmation, the button is disabled
-    danger_zone.confirm_with("#{project.identifier}_wrong")
-
-    expect(danger_zone)
-      .to be_disabled
-
-    # With correct confirmation, the button is enabled
-    # and the project can be deleted
-    danger_zone.confirm_with(project.identifier)
-    expect(danger_zone).not_to be_disabled
-    danger_zone.danger_button.click
-
-    expect(page).to have_selector '.flash.notice', text: I18n.t('projects.delete.scheduled')
-
-    perform_enqueued_jobs
-
-    expect { project.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    field_checked = find_field('Phase', visible: false)['checked']
+    expect(field_checked).to be_truthy
+    field_checked = find_field('Milestone', visible: false)['checked']
+    expect(field_checked).to be_truthy
   end
 end
