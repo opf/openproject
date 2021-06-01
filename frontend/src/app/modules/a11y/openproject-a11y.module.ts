@@ -30,7 +30,6 @@
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { AccessibleClickDirective } from "core-app/modules/a11y/accessible-click.directive";
 import { DoubleClickOrTapDirective } from "core-app/modules/a11y/double-click-or-tap.directive";
 
 @NgModule({
@@ -39,11 +38,9 @@ import { DoubleClickOrTapDirective } from "core-app/modules/a11y/double-click-or
     CommonModule,
   ],
   exports: [
-    AccessibleClickDirective,
     DoubleClickOrTapDirective,
   ],
   declarations: [
-    AccessibleClickDirective,
     DoubleClickOrTapDirective,
   ]
 })
