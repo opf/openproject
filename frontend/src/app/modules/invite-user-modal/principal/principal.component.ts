@@ -164,7 +164,7 @@ export class PrincipalComponent implements OnInit {
     // The code below transforms the model value as it comes from the dynamic form to the value accepted by the API.
     // This is not just necessary for submit, but also so that we can reseed the initial values to the payload
     // when going back to this step after having completed it once.
-    const fieldsSchema = this.userDynamicFieldConfig.schema;
+    const fieldsSchema = this.userDynamicFieldConfig.schema || {};
     const customFields = Object.keys(fieldsSchema)
       .reduce((result, fieldKey) => {
         let fieldSchema = fieldsSchema[fieldKey];
