@@ -20,6 +20,7 @@ import { CardViewOrientation } from "core-components/wp-card-view/wp-card-view.c
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 import { WorkPackageViewFocusService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import { splitViewRoute } from "core-app/modules/work_packages/routing/split-view-routes.helper";
+import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
 
 @Component({
   selector: 'wp-single-card',
@@ -72,7 +73,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return this.cardView.classIdentifier(wp);
   }
 
-  public emitStateLinkClicked(wp:WorkPackageResource, detail?:boolean) {
+  public emitStateLinkClicked(event:MouseEvent, wp:WorkPackageResource, detail?:boolean):void {
+    if (LinkHandling.isClickedWithModifier(event)) {
+      return;
+    }
+
     const classIdentifier = this.classIdentifier(wp);
     const stateToEmit = detail ? 'split' : 'show';
 
