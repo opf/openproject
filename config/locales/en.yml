@@ -2787,9 +2787,6 @@ en:
 
   total_progress: "Total progress"
 
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
-
   user:
     all: "all"
     active: "active"
@@ -2933,6 +2930,9 @@ en:
 
     resources:
       schema: 'Schema'
+
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
 
   doorkeeper:
     pre_authorization:

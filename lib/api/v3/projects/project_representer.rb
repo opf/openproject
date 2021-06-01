@@ -158,7 +158,7 @@ module API
                             representer: ::API::V3::Projects::ProjectRepresenter,
                             uncacheable_link: true,
                             undisclosed: true,
-                            skip_render: ->(*) { !represented.parent&.visible? }
+                            skip_render: ->(*) { represented.parent && !represented.parent.visible? }
 
         property :id
         property :identifier,
