@@ -30,7 +30,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import {
   CKEditorSetupService,
   ICKEditorContext,
-  ICKEditorInstance, ICKEditorType
+  ICKEditorInstance
 } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
