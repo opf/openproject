@@ -545,7 +545,7 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    kgio (2.11.3)
+    kgio (2.11.4)
     kramdown (2.3.1)
       rexml
     kramdown-parser-gfm (1.1.0)
