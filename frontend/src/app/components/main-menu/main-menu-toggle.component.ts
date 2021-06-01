@@ -40,7 +40,7 @@ export const mainMenuToggleSelector = 'main-menu-toggle';
   selector: mainMenuToggleSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'op-app-menu',
+    class: 'op-app-menu op-main-menu-toggle',
   },
   template: `
     <button
