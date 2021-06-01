@@ -3,11 +3,11 @@
   [class]="getClassListForItem(option)"
 >
   <input
+    class="op-option-list--input"
     type="radio"
     [attr.name]="name"
     [value]="option.value"
     [(ngModel)]="selected"
-    class="op-option-list--input"
     [disabled]="option.disabled"
   />
   <div>

@@ -9,11 +9,12 @@ import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HalLink } from "core-app/modules/hal/hal-link/hal-link";
 
 
 @Injectable()
 export class DynamicFieldsService {
-  readonly selectDefaultValue = {name:'-'};
+  readonly selectDefaultValue = { name: '-', _links: { self: { href: null } } };
   readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
@@ -145,7 +146,7 @@ export class DynamicFieldsService {
       const elementValue = otherElements[key];
 
       if (this.isValue(elementValue)) {
-        model = {...model, [key]:elementValue}
+        model = { ...model, [key]: elementValue }
       }
 
       return model;
@@ -212,7 +213,7 @@ export class DynamicFieldsService {
 
       result = {
         ...result,
-        ...this.isValue(resourceModel) && {[resourceKey]: resourceModel},
+        ...this.isValue(resourceModel) && { [resourceKey]: resourceModel },
       };
 
       return result;
@@ -226,9 +227,9 @@ export class DynamicFieldsService {
       return null;
     }
     const { templateOptions, ...fieldTypeConfig } = fieldTypeConfigSearch;
-    const fieldOptions = this.getFieldOptions(fieldSchema);
     const property = this.getFieldProperty(key);
-    const payloadValue = property && formPayload[property];
+    const payloadValue = property && (formPayload[property] || formPayload['_links'] && formPayload['_links'][property]);
+    const fieldOptions = this.getFieldOptions(fieldSchema, payloadValue);
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
@@ -269,8 +270,8 @@ export class DynamicFieldsService {
         className: field.name,
         templateOptions: {
           ...inputConfig.templateOptions,
-          ...this.isMultiSelectField(field) && {multiple: true},
-          ...fieldType === 'User' && {showAddNewUserButton: true},
+          ...this.isMultiSelectField(field) && { multiple: true },
+          ...fieldType === 'User' && { showAddNewUserButton: true },
         },
       };
     } else if (inputConfig.type === 'formattableInput') {
@@ -286,7 +287,7 @@ export class DynamicFieldsService {
     return { ...inputConfig, ...configCustomizations };
   }
 
-  private getFieldOptions(field:IOPFieldSchemaWithKey):Observable<IOPAllowedValue[]>|undefined {
+  private getFieldOptions(field:IOPFieldSchemaWithKey, currentValue:HalLink|null):Observable<IOPAllowedValue[]>|undefined {
     const allowedValues = field._embedded?.allowedValues || field._links?.allowedValues;
     let options;
 
@@ -309,7 +310,10 @@ export class DynamicFieldsService {
         );
     }
 
-    return options?.pipe(map(options => !field.required && !this.isMultiSelectField(field) ? [{name: '-'}, ...options] : options));
+    return options?.pipe(
+      map(options => this.prependCurrentValue(options, currentValue)),
+      map(options => this.prependDefaultValue(options, field))
+    );
   }
 
   // ng-select needs a 'name' in order to show the label
@@ -397,6 +401,30 @@ export class DynamicFieldsService {
           !groupField.hide &&
           field.options?.parentForm?.submitted
         ));
+    }
+  }
+
+  // Invalid values, ones that are not in the list of allowedValues (Array or backend fetched) do occur, e.g.
+  // if constraints change or in case a value is undisclosed as for a project's parent.
+  private prependCurrentValue(options:IOPAllowedValue[], currentValue:HalLink|null):IOPAllowedValue[] {
+    if (!currentValue?.href || options.some(option => option?._links?.self?.href === currentValue.href)) {
+      return options;
+    } else {
+      return [
+        { name: currentValue.title, _links: { self: currentValue } },
+        ...options
+      ];
+    }
+  }
+
+  // So select properties that are not required always get a default ('-'/'none') option.
+  // This way, the user can more easily deselect a value.
+  // Multi seleccts do not have the same behaviour since the x next to each option is quite clear.
+  private prependDefaultValue(options:IOPAllowedValue[], field:IOPFieldSchemaWithKey):IOPAllowedValue[] {
+    if (field.required || this.isMultiSelectField(field)) {
+      return options;
+    } else {
+      return [this.selectDefaultValue, ...options];
     }
   }
 

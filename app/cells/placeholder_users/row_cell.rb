@@ -32,6 +32,8 @@ module PlaceholderUsers
   class RowCell < ::RowCell
     include AvatarHelper
     include UsersHelper
+    include PlaceholderUsersHelper
+    include TooltipHelper
 
     def placeholder_user
       model
@@ -46,15 +48,12 @@ module PlaceholderUsers
     end
 
     def delete_link
-      if PlaceholderUsers::DeleteContract.deletion_allowed?(placeholder_user,
-                                                            User.current,
-                                                            table.user_allowed_service)
-
+      if can_delete_placeholder_user?(placeholder_user, User.current)
         link_to deletion_info_placeholder_user_path(placeholder_user) do
-          "<span class=\"tooltip--left\" data-tooltip=\"#{I18n.t('placeholder_users.delete_tooltip')}\"><i class=\"icon icon-delete\"></i></span>".html_safe
+          tooltip_tag I18n.t('placeholder_users.delete_tooltip'), icon: 'icon-delete'
         end
       else
-        "<span class=\"tooltip--left\" data-tooltip=\"#{I18n.t('placeholder_users.right_to_manage_members_missing')}\"><i class=\"icon icon-help2\"></i></span>".html_safe
+        tooltip_tag I18n.t('placeholder_users.right_to_manage_members_missing'), icon: 'icon-help2'
       end
     end
 

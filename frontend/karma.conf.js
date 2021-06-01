@@ -49,6 +49,10 @@ module.exports = function (config) {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
+      },
+      ChromeWithDebug: {
+        base: 'Chrome',
+        flags: ['--no-sandbox', '--debug', '--auto-open-devtools-for-tabs']
       }
     },
     singleRun: false

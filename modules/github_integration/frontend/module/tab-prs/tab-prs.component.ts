@@ -37,7 +37,8 @@ import { IGithubPullRequestResource } from "../../../../../../../../modules/gith
 
 @Component({
   selector: 'tab-prs',
-  templateUrl: './tab-prs.template.html'
+  templateUrl: './tab-prs.template.html',
+  host: { class: 'op-prs' }
 })
 export class TabPrsComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
