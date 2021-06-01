@@ -18,36 +18,33 @@ import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckedito
   ]
 })
 export class FormattableControlComponent implements OnInit {
-  @Input()
-  templateOptions:FormlyTemplateOptions;
+  @Input() templateOptions:FormlyTemplateOptions;
 
   @ViewChild(OpCkeditorComponent, { static: true }) editor:OpCkeditorComponent;
 
-  text:{[key:string]: string};
-  value:{raw:string};
+  text:{ [key:string]:string };
+  value:{ raw:string };
   disabled = false;
   touched:boolean;
   // Detect when inner component could not be initialized
   initializationError = false;
-  onChange = (_:any) => { }
-  onTouch = () => { }
+  onChange:(_any:unknown) => void = () => undefined;
+  onTouch:() => void = () => undefined;
 
   public get ckEditorContext():ICKEditorContext {
     return {
-      // TODO: Can the current editor work without resource??
-      // resource: this.change.pristineResource,
-      macros: 'none' as const,
-      // TODO: Do we need a previewContext
-      // previewContext: this.previewContext,
+      type: this.templateOptions.editorType,
+      macros: 'none',
       options: { rtl: this.templateOptions?.rtl }
     };
   }
 
   constructor(
     readonly I18n:I18nService,
-  ) { }
+  ) {
+  }
 
-  ngOnInit(): void {
+  ngOnInit():void {
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
       save: this.I18n.t('js.inplace.button_save', { attribute: this.templateOptions?.name }),
@@ -55,40 +52,38 @@ export class FormattableControlComponent implements OnInit {
     };
   }
 
-  writeValue(value:{raw:string}):void {
+  writeValue(value:{ raw:string }):void {
     this.value = value;
   }
 
-  registerOnChange(fn: (_: any) => void): void {
+  registerOnChange(fn:(_:unknown) => void):void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn:() => void):void {
     this.onTouch = fn;
   }
 
-  setDisabledState(disabled: boolean): void {
+  setDisabledState(disabled:boolean):void {
     this.disabled = disabled;
     this.editor.ckEditorInstance.isReadOnly = disabled;
   }
 
   onContentChange(value:string) {
-    const valueToEmit = {raw: value};
+    const valueToEmit = { raw: value };
 
     this.onTouch();
     this.onChange(valueToEmit);
   }
 
-  onCkeditorSetup(editor:ICKEditorInstance) {
-    this.editor.ckEditorInstance.ui.focusTracker.on( 'change:isFocused', ( evt:any, name:any, isFocused:any ) => {
-      if (!isFocused && !this.touched) {
-        this.touched = true;
-        this.onTouch();
-      }
-    } );
-    // TODO: Check if it is new without resource
-    /*if (!this.resource.isNew) {
-      setTimeout(() => editor.editing.view.focus());
-    }*/
+  onCkeditorSetup(_editor:ICKEditorInstance) {
+    this.editor.ckEditorInstance.ui.focusTracker.on(
+      'change:isFocused',
+      (evt:unknown, name:unknown, isFocused:unknown) => {
+        if (!isFocused && !this.touched) {
+          this.touched = true;
+          this.onTouch();
+        }
+      });
   }
 }

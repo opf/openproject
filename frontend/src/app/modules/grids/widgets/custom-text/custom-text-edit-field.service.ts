@@ -8,6 +8,7 @@ import { HalResourceService } from "core-app/modules/hal/services/hal-resource.s
 import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { ICKEditorContext } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
@@ -134,7 +135,12 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     const schemaHref = 'customtext-schema';
     const resourceSource = {
       text: value.options.text,
-      getEditorTypeFor: () => 'full',
+      getEditorContext: () => {
+        return {
+          type: 'full',
+          macros: 'resource',
+        } as ICKEditorContext;
+      },
       canAddAttachments: value.grid.canAddAttachments,
       uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files),
       _links: {

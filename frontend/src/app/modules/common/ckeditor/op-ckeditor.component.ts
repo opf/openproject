@@ -46,7 +46,6 @@ const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
   styleUrls: ['./op-ckeditor.sass']
 })
 export class OpCkeditorComponent implements OnInit {
-  @Input() ckEditorType:'full'|'constrained' = 'full';
   @Input() context:ICKEditorContext;
   @Input()
   public set content(newVal:string) {
@@ -110,7 +109,7 @@ export class OpCkeditorComponent implements OnInit {
    * Get the current live data from CKEditor. This may raise in cases
    * the data cannot be loaded (MS Edge!)
    */
-  public getRawData() {
+  public getRawData():string {
     if (this.manualMode) {
       return this._content = this.codeMirrorInstance!.getValue();
     } else {
@@ -175,7 +174,6 @@ export class OpCkeditorComponent implements OnInit {
 
     const editorPromise = this.ckEditorSetup
       .create(
-        this.ckEditorType,
         this.opCkeditorReplacementContainer.nativeElement,
         this.context,
         this.content

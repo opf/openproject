@@ -27,18 +27,19 @@
 //++
 
 import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { ICKEditorContext } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
 export class ProjectResource extends HalResource {
   public get state() {
     return this.states.projects.get(this.id!) as any;
   }
 
-  public getEditorTypeFor(fieldName:string):"full"|"constrained" {
+  public getEditorContext(fieldName:string):ICKEditorContext {
     if (['statusExplanation', 'description'].indexOf(fieldName) !== -1) {
-      return 'full';
+      return { type: 'full', macros: 'resource' };
     }
 
-    return 'constrained';
+    return { type: 'constrained' };
   }
 
   /**
