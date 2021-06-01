@@ -9,6 +9,8 @@ import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HalLink } from "core-app/modules/hal/hal-link/hal-link";
+import { FormsService } from "core-app/core/services/forms/forms.service";
 
 
 @Injectable()
