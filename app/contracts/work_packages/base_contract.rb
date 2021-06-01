@@ -380,7 +380,7 @@ module WorkPackages
 
     # Returns a scope of status the user is able to apply
     def new_statuses_allowed_from(status)
-      return Status.where('1=0') if status.nil?
+      return Status.none if status.nil?
 
       current_status = Status.where(id: status.id)
 

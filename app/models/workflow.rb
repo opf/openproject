@@ -56,29 +56,6 @@ class Workflow < ApplicationRecord
     result
   end
 
-  # Gets all work flows originating from the provided status
-  # that:
-  #   * are defined for the type
-  #   * are defined for any of the roles
-  #
-  # Workflows specific to author or assignee are ignored unless author and/or assignee are set to true. In
-  # such a case, those work flows are additionally returned.
-  def self.from_status(old_status_id, type_id, role_ids, author = false, assignee = false)
-    workflows = Workflow
-                .where(old_status_id: old_status_id, type_id: type_id, role_id: role_ids)
-
-    if author && assignee
-      workflows
-    elsif author || assignee
-      workflows
-        .merge(Workflow.where(author: author).or(Workflow.where(assignee: assignee)))
-    else
-      workflows
-        .where(author: author)
-        .where(assignee: assignee)
-    end
-  end
-
   # Find potential statuses the user could be allowed to switch issues to
   def self.available_statuses(project, user = User.current)
     Workflow

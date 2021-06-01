@@ -30,6 +30,7 @@
 
 class Status < ApplicationRecord
   extend Pagination::Model
+  include ::Scopes::Scoped
 
   default_scope { order_by_position }
   before_destroy :check_integrity
@@ -50,6 +51,8 @@ class Status < ApplicationRecord
   validate :default_status_must_not_be_readonly
 
   after_save :unmark_old_default_value, if: :is_default?
+
+  scopes :new_by_workflow
 
   def unmark_old_default_value
     Status.where.not(id: id).update_all(is_default: false)
