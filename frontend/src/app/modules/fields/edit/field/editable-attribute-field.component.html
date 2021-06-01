@@ -10,8 +10,7 @@
        [hidden]="!active">
   </div>
 
-  <div (accessibleClick)="activateIfEditable($event)"
-       [accessibleClickStopEvent]="false"
+  <div (click)="activateIfEditable($event)"
        [hidden]="active"
        tabindex="-1"
        #displayContainer></div>

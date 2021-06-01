@@ -2,8 +2,10 @@
        [attr.name]="name || undefined"
        [attr.id]="id || undefined"
        [value]="queryProps"/>
-<a
-  class="button--link"
-  (accessibleClick)="editQuery()"
-  [accessibleClickStopEvent]="true"
-  [textContent]="text.edit_query"></a>
+<button
+  type="button"
+  class="op-link"
+  (click)="editQuery()"
+  [textContent]="text.edit_query"
+>
+</button>
