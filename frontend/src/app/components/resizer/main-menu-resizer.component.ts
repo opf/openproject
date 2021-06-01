@@ -44,16 +44,16 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
              (start)="resizeStart()"
              (move)="resizeMove($event)">
       <div class="resizer-toggle-container">
-        <i [attr.title]="toggleTitle"
-            class="main-menu--navigation-toggler"
-            [ngClass]="{'open': toggleService.showNavigation}"
-            (accessibleClick)="toggleService.toggleNavigation($event)"></i>
-
-        <i class="icon-resizer-vertical-lines"
-           aria-hidden="true"></i>
+        <button
+          class="op-link main-menu--navigation-toggler"
+          [attr.title]="toggleTitle"
+          [class.open]="toggleService.showNavigation"
+          (click)="toggleService.toggleNavigation($event)">
+          <op-icon icon-classes="icon-resizer-vertical-lines"></op-icon>
+        </button>
       </div>
     </resizer>
-  `
+  `,
 })
 
 export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnInit {
@@ -76,7 +76,7 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
     this.toggleService.titleData$
       .pipe(
         distinctUntilChanged(),
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(setToggleTitle => {
         this.toggleTitle = setToggleTitle;
