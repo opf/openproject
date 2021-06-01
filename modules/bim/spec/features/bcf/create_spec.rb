@@ -110,6 +110,7 @@ describe 'Create BCF',
       let(:view_route) { 'split' }
       before do
         index_page.visit!
+        index_page.finished_loading
       end
 
       it_behaves_like 'bcf details creation', true
@@ -119,8 +120,8 @@ describe 'Create BCF',
       let(:view_route) { 'list' }
       before do
         index_page.visit!
-        # Used as a loading safeguard
-        index_page.expect_wp_create_button
+        index_page.finished_loading
+
         index_page.switch_view 'Cards'
         expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
       end
@@ -155,6 +156,8 @@ describe 'Create BCF',
 
     it 'has the create button disabled' do
       index_page.visit!
+      index_page.finished_loading
+
       index_page.expect_wp_create_button_disabled
     end
   end
@@ -166,6 +169,7 @@ describe 'Create BCF',
       let(:view_route) { 'split' }
       before do
         index_page.visit!
+        index_page.finished_loading
       end
 
       it_behaves_like 'bcf details creation', false
