@@ -30,7 +30,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import {
   CKEditorSetupService,
   ICKEditorContext,
-  ICKEditorInstance
+  ICKEditorInstance, ICKEditorType
 } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
@@ -46,7 +46,6 @@ const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
   styleUrls: ['./op-ckeditor.sass']
 })
 export class OpCkeditorComponent implements OnInit {
-  @Input() ckEditorType:'full'|'constrained' = 'full';
   @Input() context:ICKEditorContext;
   @Input()
   public set content(newVal:string) {
@@ -110,7 +109,7 @@ export class OpCkeditorComponent implements OnInit {
    * Get the current live data from CKEditor. This may raise in cases
    * the data cannot be loaded (MS Edge!)
    */
-  public getRawData() {
+  public getRawData():string {
     if (this.manualMode) {
       return this._content = this.codeMirrorInstance!.getValue();
     } else {
@@ -175,7 +174,6 @@ export class OpCkeditorComponent implements OnInit {
 
     const editorPromise = this.ckEditorSetup
       .create(
-        this.ckEditorType,
         this.opCkeditorReplacementContainer.nativeElement,
         this.context,
         this.content

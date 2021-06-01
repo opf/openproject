@@ -31,13 +31,16 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project description widget on dashboard', type: :feature, js: true do
+  let!(:type) { FactoryBot.create :type_task, name: 'Task' }
   let!(:project) do
-    FactoryBot.create :project
+    FactoryBot.create :project, types: [type]
   end
 
   let(:permissions) do
     %i[view_dashboards
-       manage_dashboards]
+       manage_dashboards
+       add_work_packages
+      ]
   end
 
   let(:role) do
@@ -61,6 +64,33 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   context 'for a user having edit permissions' do
     before do
       dashboard_page.visit!
+    end
+
+    it 'can use the wp create button macro within it' do
+      dashboard_page.add_widget(1, 1, :within, "Custom text")
+
+      sleep(0.1)
+
+      # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
+      custom_text_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+
+      within custom_text_widget.area do
+        find('.inplace-editing--container ').click
+      end
+
+      editor.insert_macro 'Insert create work package button'
+
+      expect(page).to have_selector('.op-modal')
+      select 'Task', from: 'selected-type'
+      find('.op-modal--submit-button').click
+
+      field.save!
+
+      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
+      within('#content') do
+        expect(page).to have_selector("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
+      end
     end
 
     it 'can add the widget set custom text and upload attachments' do
