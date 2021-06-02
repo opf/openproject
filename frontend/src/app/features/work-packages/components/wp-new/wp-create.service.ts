@@ -140,16 +140,6 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       });
   }
 
-  /**
-   * Create a copy resource from other and the new work package form
-   * @param form Work Package create form
-   */
-  private copyFrom(form:FormResource) {
-    const wp = this.initializeNewResource(form);
-
-    return this.halEditing.edit(wp, form);
-  }
-
   public getEmptyForm(projectIdentifier:string|null|undefined):Promise<FormResource> {
     if (!this.form) {
       this.form = this
