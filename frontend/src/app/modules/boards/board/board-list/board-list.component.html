@@ -58,9 +58,13 @@
     <p>
       <span [textContent]="errorMessage"></span>
       &ngsp;
-      <a role="button" (accessibleClick)="onRemove.emit()">
+      <buton
+        type="button"
+        class="op-link"
+        (click)="onRemove.emit()"
+      >
         <span [textContent]="text.click_to_remove"></span>
-      </a>
+      </buton>
     </p>
   </div>
 </div>
