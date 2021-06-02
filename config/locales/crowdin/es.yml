@@ -2650,6 +2650,8 @@ es:
     getting_started: "Primeros pasos"
     help_and_support: "Ayuda y soporte"
   total_progress: "Progreso total"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "todos"
     active: "activo"

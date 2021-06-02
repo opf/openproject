@@ -9,10 +9,13 @@
   justify-content: center
   align-items: center
   display: none
+  pointer-events: none
+
+  > *
+    pointer-events: all
 
   &_active
     display: flex
 
   &_not-full-screen
     background: transparent
-    position: relative

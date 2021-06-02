@@ -2685,6 +2685,8 @@ ru:
     getting_started: "Приступая к работе"
     help_and_support: "Помощь и поддержка"
   total_progress: "Общий прогресс"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "все"
     active: "активно"

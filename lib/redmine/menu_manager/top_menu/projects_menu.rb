@@ -42,7 +42,8 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       label: label,
       label_options: {
         id: 'projects-menu',
-        accesskey: OpenProject::AccessKeys.key_for(:project_search)
+        accesskey: OpenProject::AccessKeys.key_for(:project_search),
+        span_class: 'ellipsis'
       },
       items: project_items,
       options: {

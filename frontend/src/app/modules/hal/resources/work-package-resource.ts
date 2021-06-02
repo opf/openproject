@@ -43,6 +43,7 @@ import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs
 import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { ICKEditorContext } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -171,8 +172,8 @@ export class WorkPackageBaseResource extends HalResource {
     }
   }
 
-  public getEditorTypeFor(fieldName:string):"full"|"constrained" {
-    return fieldName === 'description' ? 'full' : 'constrained';
+  public getEditorContext(fieldName:string):ICKEditorContext {
+    return { type: fieldName === 'description' ? 'full' : 'constrained', macros: false };
   }
 
   public isParentOf(otherWorkPackage:WorkPackageResource) {

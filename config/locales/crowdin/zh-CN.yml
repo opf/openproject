@@ -2627,6 +2627,8 @@ zh-CN:
     getting_started: "入门指南"
     help_and_support: "帮助和支持"
   total_progress: "总进度"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "所有"
     active: "激活"

@@ -2686,6 +2686,8 @@ sl:
     getting_started: "Začnite"
     help_and_support: "Pomoč in podpora"
   total_progress: "Skupni napredek"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "vsi"
     active: "aktiven"

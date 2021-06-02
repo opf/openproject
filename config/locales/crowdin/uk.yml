@@ -2689,6 +2689,8 @@ uk:
     getting_started: "Починаємо"
     help_and_support: "Допомога та підтримка"
   total_progress: "Загальний прогрес"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "всі"
     active: "активний"

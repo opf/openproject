@@ -2653,6 +2653,8 @@ tr:
     getting_started: "Başlarken"
     help_and_support: "Yardım ve Destek"
   total_progress: "Toplam ilerleme"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "tüm"
     active: "etkin"

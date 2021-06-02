@@ -2683,6 +2683,8 @@ pl:
     getting_started: "Pierwsze kroki"
     help_and_support: "Pomoc i wsparcie"
   total_progress: "Całkowity postęp"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "wszystkie"
     active: "aktywne"
