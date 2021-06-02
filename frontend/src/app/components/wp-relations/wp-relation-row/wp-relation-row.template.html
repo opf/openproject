@@ -75,12 +75,15 @@
 
   <div class="grid-block hierarchy-item description-container"
        *ngIf="userInputs.showRelationInfo">
-    <div class="wp-relation--description-read-value"
-         [ngClass]="{'-placeholder': !relation.description }"
-         (accessibleClick)="startDescriptionEdit()"
-         *ngIf="!userInputs.showDescriptionEditForm"
-         [textContent]="relation.description || text.placeholder.description">
-    </div>
+    <button
+      *ngIf="!userInputs.showDescriptionEditForm"
+      type="button"
+      class="wp-relation--description-read-value"
+      [class.-placeholder]="!relation.description"
+      (click)="startDescriptionEdit()"
+      [textContent]="relation.description || text.placeholder.description"
+    >
+    </button>
     <div class="wp-relation--description-wrapper textarea-wrapper"
          *ngIf="userInputs.showDescriptionEditForm">
           <textarea
