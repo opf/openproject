@@ -10,8 +10,8 @@ import { OpAutocompleterService } from "./services/op-autocompleter.service";
 import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { OpAutocompleterFooterTemplateDirective } from "core-app/modules/autocompleter/op-autocompleter/directives/op-autocompleter-footer-template.directive";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
+import { OpAutocompleterFooterTemplateDirective } from "core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive";
 
 @Component({
   selector: 'op-autocompleter',

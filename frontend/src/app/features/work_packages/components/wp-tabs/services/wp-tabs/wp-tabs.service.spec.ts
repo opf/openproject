@@ -4,12 +4,9 @@ import { Input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { Tab, TabComponent } from '../../components/wp-tab-wrapper/tab';
-
-import { WpTabsService } from './wp-tabs.service';
-
+import { TabComponent } from '../../components/wp-tab-wrapper/tab';
 import { StateService } from "@uirouter/angular";
-import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
+import { WorkPackageTabsService } from "core-app/features/work_packages/components/wp-tabs/services/wp-tabs/wp-tabs.service";
 
 describe('WpTabsService', () => {
   let service:WorkPackageTabsService;

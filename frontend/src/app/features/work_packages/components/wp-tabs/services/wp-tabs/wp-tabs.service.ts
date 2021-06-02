@@ -5,10 +5,10 @@ import { WorkPackageRelationsTabComponent } from "core-app/features/work_package
 import { StateService } from "@uirouter/core";
 import { WorkPackageOverviewTabComponent } from "core-app/features/work_packages/components/wp-single-view-tabs/overview-tab/overview-tab.component";
 import { WorkPackageActivityTabComponent } from "core-app/features/work_packages/components/wp-single-view-tabs/activity-panel/activity-tab.component";
-import { workPackageWatchersCount } from "core-app/features/work_packages/wp-tabs/services/wp-tabs/wp-watchers-count.function";
 import { WorkPackageWatchersTabComponent } from "core-app/features/work_packages/components/wp-single-view-tabs/watchers-tab/watchers-tab.component";
-import { workPackageRelationsCount } from "core-app/features/work_packages/wp-tabs/services/wp-tabs/wp-relations-count.function";
 import { I18nService } from "core-app/core/i18n/i18n.service";
+import { workPackageWatchersCount } from "core-app/features/work_packages/components/wp-tabs/services/wp-tabs/wp-watchers-count.function";
+import { workPackageRelationsCount } from "core-app/features/work_packages/components/wp-tabs/services/wp-tabs/wp-relations-count.function";
 
 @Injectable({
   providedIn: 'root',

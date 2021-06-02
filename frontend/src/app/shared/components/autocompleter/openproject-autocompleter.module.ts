@@ -18,7 +18,7 @@ import {OpAutocompleterOptionTemplateDirective} from "core-app/shared/components
 import {OpAutocompleterLabelTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-label-template.directive";
 import {OpAutocompleterHeaderTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-header-template.directive";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
-import { OpAutocompleterFooterTemplateDirective } from "core-app/modules/autocompleter/op-autocompleter/directives/op-autocompleter-footer-template.directive";
+import { OpAutocompleterFooterTemplateDirective } from "core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive";
 
 export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   CreateAutocompleterComponent,

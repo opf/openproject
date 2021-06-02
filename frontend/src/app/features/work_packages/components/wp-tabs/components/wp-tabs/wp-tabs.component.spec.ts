@@ -2,12 +2,12 @@ import {Input} from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { Tab, TabComponent } from '../wp-tab-wrapper/tab';
+import { TabComponent } from '../wp-tab-wrapper/tab';
 import { WpTabsComponent } from './wp-tabs.component';
-import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
 import { KeepTabService } from "core-app/features/work_packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import { StateService, UIRouterGlobals } from "@uirouter/core";
 import { ScrollableTabsComponent } from "core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component";
+import { WorkPackageTabsService } from "core-app/features/work_packages/components/wp-tabs/services/wp-tabs/wp-tabs.service";
 
 describe('WpTabsComponent', () => {
   class TestComponent implements TabComponent {

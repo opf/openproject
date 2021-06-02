@@ -27,12 +27,7 @@
 //++
 
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
-import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
 import { StateService } from "@uirouter/core";
-import { BoardActionService } from "core-app/modules/boards/board/board-actions/board-action.service";
-import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
-import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
-import { ValueOption } from "core-app/modules/fields/edit/field-types/select-edit-field/select-edit-field.component";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import {
   DebouncedRequestSwitchmap,
@@ -45,6 +40,11 @@ import { HalResourceNotificationService } from "core-app/core/hal/services/hal-r
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
+import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
+import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
+import { ValueOption } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component";
+import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 
 @Component({
   templateUrl: './add-list-modal.html'
