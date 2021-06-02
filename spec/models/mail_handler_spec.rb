@@ -47,14 +47,19 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'wp_on_given_project' do
+    let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
+    let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
+    let!(:workflow) { FactoryBot.create(:workflow, new_status: status, role: role, type: project.types.first) }
+
     let(:permissions) { %i[add_work_packages assign_versions] }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let!(:user) do
       FactoryBot.create(:user,
                         mail: 'JSmith@somenet.foo',
                         firstname: 'John',
                         lastname: 'Smith',
                         member_in_project: project,
-                        member_with_permissions: permissions)
+                        member_through_role: role)
     end
     let(:submit_options) { {} }
 
@@ -64,14 +69,17 @@ describe MailHandler, type: :model do
   end
 
   shared_context 'wp_on_given_project_case_insensitive' do
+    let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
     let(:permissions) { %i[add_work_packages assign_versions] }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+    let!(:workflow) { FactoryBot.create(:workflow, new_status: status, role: role, type: project.types.first) }
     let!(:user) do
       FactoryBot.create(:user,
                         mail: 'JSmith@somenet.foo',
                         firstname: 'John',
                         lastname: 'Smith',
                         member_in_project: project,
-                        member_with_permissions: permissions)
+                        member_through_role: role)
     end
     let(:submit_options) { { allow_override: 'version' } }
 
@@ -104,13 +112,14 @@ describe MailHandler, type: :model do
 
   shared_context 'with wp create with cc' do
     let(:permissions) { %i[add_work_packages view_work_packages add_work_package_watchers] }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
     let!(:user) do
       FactoryBot.create(:user,
                         mail: 'JSmith@somenet.foo',
                         firstname: 'John',
                         lastname: 'Smith',
                         member_in_project: project,
-                        member_with_permissions: permissions)
+                        member_through_role: role)
     end
     let!(:cc_user) do
       FactoryBot.create(:user,
@@ -120,6 +129,7 @@ describe MailHandler, type: :model do
                         member_in_project: project,
                         member_with_permissions: permissions)
     end
+    let!(:workflow) { FactoryBot.create(:workflow, new_status: Status.default, role: role, type: project.types.first) }
     let(:submit_options) { { issue: { project: project.identifier } } }
 
     subject do
@@ -225,6 +235,60 @@ describe MailHandler, type: :model do
     end
   end
 
+  shared_context 'wp_by_unknown_user' do
+    let!(:workflow) { FactoryBot.create(:workflow, role: role, type: public_project.types.first, new_status: Status.default) }
+
+    let(:permissions) { %i[add_work_packages assign_versions] }
+    let!(:role) { FactoryBot.create(:anonymous_role, permissions: permissions) }
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('ticket_by_unknown_user.eml', **submit_options)
+    end
+  end
+
+  shared_context 'wp_with_category' do
+    let!(:workflow) { FactoryBot.create(:workflow, role: role, type: project.types.first, new_status: Status.default) }
+    let!(:category) { FactoryBot.create :category, project: project, name: 'Foobar' }
+    let(:permissions) { %i[add_work_packages assign_versions] }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: "john.doe@somenet.foo",
+                        member_in_project: project,
+                        member_through_role: role)
+    end
+    let(:submit_options) { {} }
+
+    subject do
+      submit_email('ticket_with_category.eml', **submit_options)
+    end
+  end
+
+  shared_context 'wp_with_japanese_keywords' do
+    let!(:type) do
+      FactoryBot.create(:type, name: '開発').tap do |type|
+        project.types << type
+      end
+    end
+    let!(:workflow) { FactoryBot.create(:workflow, role: role, type: type, new_status: Status.default) }
+    let(:permissions) { %i[add_work_packages] }
+    let(:role) { FactoryBot.create(:role, permissions: permissions) }
+
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: "jsmith@somenet.foo",
+                        member_in_project: project,
+                        member_through_role: role)
+    end
+    let(:submit_options) { { issue: { project: project.identifier }, allow_override: 'type' } }
+
+    subject do
+      submit_email('japanese_keywords_iso_2022_jp.eml', **submit_options)
+    end
+  end
+
   describe '#receive' do
     shared_examples_for 'work package created' do
       it 'creates the work package' do
@@ -248,9 +312,6 @@ describe MailHandler, type: :model do
 
     context 'when sending a mail not as a reply' do
       context 'in a given project' do
-        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
-        let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
-
         include_context 'wp_on_given_project' do
           let(:submit_options) { { allow_override: 'version' } }
         end
@@ -348,6 +409,8 @@ describe MailHandler, type: :model do
         end
 
         include_context 'wp_on_given_project' do
+          let!(:workflow) { FactoryBot.create(:workflow, new_status: status, role: role, type: default_type) }
+
           let(:submit_options) { { issue: { type: default_type.name } } }
         end
 
@@ -359,17 +422,66 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'email by unknown user' do
-        it 'adds a work_package by create user on public project' do
-          Role.non_member.update_attribute :permissions, [:add_work_packages]
-          project.update_attribute :public, true
+      context 'with a mail by unknown user with unknown_user=accept and permission check' do
+        include_context 'wp_by_unknown_user' do
+          let(:submit_options) { { issue: { project: 'onlinestore' }, unknown_user: 'accept' } }
+        end
+
+        it 'rejects' do
+          expected = <<~MSG.squish
+            MailHandler: work_package could not be created by Anonymous due to
+            #["Status is invalid because no valid transition exists from old to new status for the current user's roles.",
+            "may not be accessed.",
+            "Type was attempted to be written but is not writable.",
+            "Project was attempted to be written but is not writable.",
+            "Subject was attempted to be written but is not writable.",
+            "Description was attempted to be written but is not writable."]
+          MSG
+
+          public_project.update_attribute(:public, false)
+
+          allow(Rails.logger)
+            .to receive(:error)
+
+          expect(subject).to eq false
+
+          expect(Rails.logger)
+            .to have_received(:error)
+                  .with(expected)
+        end
+      end
+
+      context 'with a mail by unknown user with unknown_user=accept and no permission check' do
+        include_context 'wp_by_unknown_user' do
+          let(:submit_options) do
+            {
+              issue: { project: public_project.identifier },
+              unknown_user: 'accept',
+              no_permission_check: 1
+            }
+          end
+        end
+
+        it 'creates the work package with the anonymous user as author' do
+          work_package_created(subject)
+          expect(subject.author).to eq(User.anonymous)
+        end
+      end
+
+      context 'with a mail by unknown with unknown_user=create and no permission check' do
+        include_context 'wp_by_unknown_user' do
+          let!(:role) { FactoryBot.create(:non_member, permissions: permissions) }
+
+          let(:submit_options) { { issue: { project: 'onlinestore' }, unknown_user: 'create' } }
+        end
+
+        it 'adds a work_package by the one the fly created user' do
           expect do
-            work_package = submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'create')
-            work_package_created(work_package)
-            expect(work_package.author.active?).to be_truthy
-            expect(work_package.author.mail).to eq('john.doe@somenet.foo')
-            expect(work_package.author.firstname).to eq('John')
-            expect(work_package.author.lastname).to eq('Doe')
+            work_package_created(subject)
+            expect(subject.author).to be_active
+            expect(subject.author.mail).to eq('john.doe@somenet.foo')
+            expect(subject.author.firstname).to eq('John')
+            expect(subject.author.lastname).to eq('Doe')
 
             # account information
             perform_enqueued_jobs
@@ -382,47 +494,13 @@ describe MailHandler, type: :model do
 
             # Can't log in here since randomly assigned password must be changed
             found_user = User.find_by_login(login)
-            expect(work_package.author).to eq(found_user)
-            expect(found_user.check_password?(password)).to be_truthy
+            expect(subject.author).to eq(found_user)
+            expect(found_user).to be_check_password(password)
           end.to change(User, :count).by(1)
-        end
-
-        it 'rejects if unknown_user=accept and permission check is present' do
-          expected =
-            'MailHandler: work_package could not be created by Anonymous due to ' \
-            '#["may not be accessed.", ' \
-            '"Type was attempted to be written but is not writable.", ' \
-            '"Project was attempted to be written but is not writable.", ' \
-            '"Subject was attempted to be written but is not writable.", ' \
-            '"Description was attempted to be written but is not writable."]'
-
-          allow(Rails.logger)
-            .to receive(:error)
-            .with(expected)
-
-          result = submit_email 'ticket_by_unknown_user.eml',
-                                issue: { project: project.identifier },
-                                unknown_user: 'accept'
-
-          expect(result).to eq false
-
-          expect(Rails.logger)
-            .to have_received(:error)
-                  .with(expected)
-        end
-
-        it 'accepts if unknown_user=accept and no_permission_check' do
-          work_package = submit_email 'ticket_by_unknown_user.eml',
-                                      issue: { project: project.identifier },
-                                      unknown_user: 'accept',
-                                      no_permission_check: 1
-
-          work_package_created(work_package)
-          expect(work_package.author).to eq(User.anonymous)
         end
       end
 
-      context 'email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
+      context 'with email from emission address', with_settings: { mail_from: 'openproject@example.net' } do
         before do
           Role.non_member.add_permission!(:add_work_packages)
         end
@@ -449,8 +527,6 @@ describe MailHandler, type: :model do
       end
 
       context 'wp with status' do
-        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
-
         # This email contains: 'Project: onlinestore' and 'Status: Resolved'
         include_context 'wp_on_given_project'
 
@@ -463,7 +539,6 @@ describe MailHandler, type: :model do
       end
 
       context 'wp with status case insensitive' do
-        let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
         let!(:priority_low) { FactoryBot.create(:priority_low, name: 'Low', is_default: true) }
         let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
 
@@ -479,7 +554,7 @@ describe MailHandler, type: :model do
         end
       end
 
-      context 'wp with cc' do
+      context 'for a wp with cc' do
         include_context 'with wp create with cc'
 
         it_behaves_like 'work package created'
@@ -487,6 +562,26 @@ describe MailHandler, type: :model do
         it 'assigns cc and author as watcher' do
           expect(subject.watcher_users)
             .to match_array([user, cc_user])
+        end
+      end
+
+      context 'for a wp with category' do
+        include_context 'wp_with_category' do
+          let(:submit_options) { { issue: { project: 'onlinestore' }, allow_override: ['category'] } }
+        end
+
+        it 'adds a work_package with category' do
+          work_package_created(subject)
+          expect(subject.category).to eq(category)
+        end
+      end
+
+      context 'for a wp with japanese keywords' do
+        include_context 'wp_with_japanese_keywords'
+
+        it 'adds a work_package with the type' do
+          work_package_created(subject)
+          expect(subject.type).to eq(type)
         end
       end
     end
@@ -763,23 +858,6 @@ describe MailHandler, type: :model do
           expect(subject.description)
             .not_to include('This paragraph is after the delimiter')
         end
-      end
-    end
-
-    describe 'category' do
-      let!(:category) { FactoryBot.create :category, project: project, name: 'Foobar' }
-
-      it 'should add a work_package with category' do
-        allow(Setting).to receive(:default_language).and_return('en')
-        Role.non_member.update_attribute :permissions, [:add_work_packages]
-        project.update_attribute :public, true
-
-        work_package = submit_email 'ticket_with_category.eml',
-                                    issue: { project: 'onlinestore' },
-                                    allow_override: ['category'],
-                                    unknown_user: 'create'
-        work_package_created(work_package)
-        expect(work_package.category).to eq(category)
       end
     end
   end
