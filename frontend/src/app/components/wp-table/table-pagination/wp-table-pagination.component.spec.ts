@@ -142,7 +142,7 @@ describe('wpTablePagination Directive', () => {
         const element = jQuery(fixture.elementRef.nativeElement);
 
         function numberOfPageNumberLinks() {
-          return element.find('a[rel="next"]').length;
+          return element.find('button[rel="next"]').length;
         }
 
         app.pagination = new PaginationInstance(1, 1, 10);
