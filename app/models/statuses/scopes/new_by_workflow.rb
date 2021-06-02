@@ -50,12 +50,18 @@ module Statuses::Scopes
                           assignee: false,
                           author: false)
         workflows = Workflow
-                    .where(old_status: status, type: type, role: role)
+                    .where(type: type, role: role)
                     .where(assignee: assignee ? [true, false] : false)
                     .where(author: author ? [true, false] : false)
 
-        Status.where(id: workflows.select(:new_status_id))
-              .or(Status.where(id: status.id))
+        if status
+          Status.where(id: workflows.where(old_status: status).select(:new_status_id))
+            .or(Status.where(id: status.id))
+        else
+          Status
+            .where(id: workflows.select(:new_status_id))
+            .or(Status.where(id: workflows.select(:old_status_id)))
+        end
       end
     end
   end

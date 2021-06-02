@@ -67,6 +67,20 @@ describe Statuses::Scopes::NewByWorkflow, type: :model do
     end
   end
 
+  shared_examples_for 'includes old and new status of the workflow' do
+    it do
+      expect(scope)
+        .to match_array([workflow_old_status, workflow_new_status])
+    end
+  end
+
+  shared_examples_for 'includes no status' do
+    it do
+      expect(scope)
+        .to be_empty
+    end
+  end
+
   describe '.new_by_workflow' do
     subject(:scope) do
       Status.new_by_workflow(status: current_status,
@@ -80,13 +94,13 @@ describe Statuses::Scopes::NewByWorkflow, type: :model do
       workflow
     end
 
-    context 'without a workflow' do
+    context 'with a status and without a workflow' do
       let(:workflow) { nil }
 
       it_behaves_like 'includes the current status'
     end
 
-    context 'with a workflow' do
+    context 'with a status and with a workflow' do
       it_behaves_like 'includes the current and the new status by workflow'
 
       context 'with the role mismatching' do
@@ -161,6 +175,88 @@ describe Statuses::Scopes::NewByWorkflow, type: :model do
         let(:author) { true }
 
         it_behaves_like 'includes the current and the new status by workflow'
+      end
+    end
+
+    context 'without a status and without a workflow' do
+      let(:workflow) { nil }
+      let(:current_status) { nil }
+
+      it_behaves_like 'includes no status'
+    end
+
+    context 'without a status and with a workflow' do
+      let(:current_status) { nil }
+      let(:workflow_old_status) { FactoryBot.create(:status) }
+
+      it_behaves_like 'includes old and new status of the workflow'
+
+      context 'with the role mismatching' do
+        let(:workflow_role) { FactoryBot.create(:role) }
+
+        it_behaves_like 'includes no status'
+      end
+
+      context 'with the type mismatching' do
+        let(:workflow_type) { FactoryBot.create(:type) }
+
+        it_behaves_like 'includes no status'
+      end
+
+      context 'with the workflow being author specific and including neither flags' do
+        let(:workflow_author) { true }
+
+        it_behaves_like 'includes no status'
+      end
+
+      context 'with the workflow being author specific and including the author flag' do
+        let(:workflow_author) { true }
+        let(:author) { true }
+
+        it_behaves_like 'includes old and new status of the workflow'
+      end
+
+      context 'with the workflow being author specific and including the assignee flag' do
+        let(:workflow_author) { true }
+        let(:assignee) { true }
+
+        it_behaves_like 'includes no status'
+      end
+
+      context 'with the workflow being author specific and including both flags' do
+        let(:workflow_author) { true }
+        let(:assignee) { true }
+        let(:author) { true }
+
+        it_behaves_like 'includes old and new status of the workflow'
+      end
+
+      context 'with the workflow being assignee specific and including neither flags' do
+        let(:workflow_assignee) { true }
+
+        it_behaves_like 'includes no status'
+      end
+
+      context 'with the workflow being assignee specific and including the author flag' do
+        let(:workflow_assignee) { true }
+        let(:author) { true }
+
+        it_behaves_like 'includes no status'
+      end
+
+      context 'with the workflow being assignee specific and including the assignee flag' do
+        let(:workflow_assignee) { true }
+        let(:assignee) { true }
+
+        it_behaves_like 'includes old and new status of the workflow'
+      end
+
+      context 'with the workflow being assignee specific and including both flags' do
+        let(:workflow_assignee) { true }
+        let(:assignee) { true }
+        let(:author) { true }
+
+        it_behaves_like 'includes old and new status of the workflow'
       end
     end
   end
