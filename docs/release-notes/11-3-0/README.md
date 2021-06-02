@@ -121,7 +121,7 @@ Users now have the option to **create backups of their OpenProject installation*
 - Changed: Hide "Active" field from project settings \[[#37078](https://community.openproject.com/wp/37078)\]
 - Changed: Show bulb before options in project status field \[[#37079](https://community.openproject.com/wp/37079)\]
 - Changed: Use autocompleters for select fields in project form \[[#37080](https://community.openproject.com/wp/37080)\]
-- Changed: Add copy project form \[[#37091](https://community.openproject.com/wp/37091)\]
+- Changed: Add copy project form to APIv3 \[[#37091](https://community.openproject.com/wp/37091)\]
 - Changed: Attribute help text on dynamic form \[[#37092](https://community.openproject.com/wp/37092)\]
 - Changed: Improve design of checkboxes in formly forms \[[#37105](https://community.openproject.com/wp/37105)\]
 - Changed: Improve design of Github tab \[[#37108](https://community.openproject.com/wp/37108)\]
@@ -194,6 +194,7 @@ Users now have the option to **create backups of their OpenProject installation*
 - Fixed: WP delete modal: Alignment, truncation, spacing issue \[[#37503](https://community.openproject.com/wp/37503)\]
 - Fixed: Can scroll outside of WP list (white space) when date picker opened and scrolling \[[#37509](https://community.openproject.com/wp/37509)\]
 - Fixed: Copy WP does not work (404) \[[#37510](https://community.openproject.com/wp/37510)\]
+- Fixed: Quick-add menu not showing on smaller screens \[[#37539](https://community.openproject.com/wp/37539)\]
 
 ## Installation and Updates
 
@@ -204,7 +205,7 @@ Prefer to run OpenProject 11.3 in your own infrastructure?
 
 Want to upgrade from a Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition/)
 
-## Migrating to OpenProject 11.2
+## Migrating to OpenProject 11.3
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.3.
 
