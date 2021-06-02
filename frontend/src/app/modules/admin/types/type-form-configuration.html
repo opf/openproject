@@ -17,16 +17,22 @@
         </a>
         <ul class="menu-drop-down-container">
           <li>
-            <a class="form-configuration--add-group"
-               [textContent]="text.add_group"
-               (accessibleClick)="createGroup('attribute', '')">
-            </a>
+            <button
+              type="button"
+              class="menu-item form-configuration--add-group"
+              [textContent]="text.add_group"
+              (click)="createGroup('attribute', '')"
+            >
+            </button>
           </li>
           <li>
-            <a class="form-configuration--add-group"
-               [textContent]="text.add_table"
-               (accessibleClick)="addGroupAndOpenQuery()">
-            </a>
+            <button
+              type="button"
+              class="menu-item form-configuration--add-group"
+              [textContent]="text.add_table"
+              (click)="addGroupAndOpenQuery()"
+            >
+            </button>
           </li>
         </ul>
       </li>
