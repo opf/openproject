@@ -92,8 +92,11 @@ Release date: 2020-12-17
 #### Community features:
 
 - Improved styling of the WYSIWYG text editor
+
 - Direct display of user name for @notifications
+
 - Display project milestones aggregated for projects in a single row in Gantt chart
+
 - Collapse all button for groups in the work packages list
 - Extended authentication profile with an OpenID Connect provider
 
