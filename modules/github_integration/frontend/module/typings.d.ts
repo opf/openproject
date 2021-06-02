@@ -1,14 +1,12 @@
-import { HalResource } from "../../../../frontend/src/app/core/hal/resources/hal-resource";
+import { HalResourceClass } from "core-app/modules/hal/resources/hal-resource";
 
-export interface ITab {
-  label:string,
-  help:string,
-  selected:boolean,
-  lines:number,
+export interface ISnippet {
+  id: string;
+  name: string;
   textToCopy: ()=>string
 }
 
-export interface IGithubPullRequestResource extends HalResource {
+export interface IGithubPullRequestResource extends HalResourceClass {
   additionsCount?:number;
   body?:{
     format?:string;

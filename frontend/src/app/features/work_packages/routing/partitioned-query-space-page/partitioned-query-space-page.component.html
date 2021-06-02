@@ -2,10 +2,10 @@
       [ngClass]="currentPartition">
   <div class="toolbar-container -editable">
     <div class="toolbar">
-      <back-button *ngIf="backButtonCallback"
+      <op-back-button *ngIf="backButtonCallback"
                    linkClass="back-button"
                    [customBackMethod]="backButtonCallback">
-      </back-button>
+      </op-back-button>
 
       <editable-toolbar-title [title]="selectedTitle"
                               [inFlight]="toolbarDisabled"

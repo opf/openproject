@@ -1,25 +1,84 @@
-import { Injectable } from '@angular/core';
-import {HookService} from "core-app/modules/plugins/hook-service";
+import { Injectable, Injector } from '@angular/core';
 import {WorkPackageResource} from "core-app/core/hal/resources/work-package-resource";
-import {Tab} from "core-app/features/work_packages/components/wp-tabs/components/wp-tab-wrapper/tab";
+import { WpTabDefinition } from "core-app/features/work_packages/components/wp-tabs/components/wp-tab-wrapper/tab";
+import { WorkPackageRelationsTabComponent } from "core-app/features/work_packages/components/wp-single-view-tabs/relations-tab/relations-tab.component";
+import { StateService } from "@uirouter/core";
+import { WorkPackageOverviewTabComponent } from "core-app/features/work_packages/components/wp-single-view-tabs/overview-tab/overview-tab.component";
+import { WorkPackageActivityTabComponent } from "core-app/features/work_packages/components/wp-single-view-tabs/activity-panel/activity-tab.component";
+import { workPackageWatchersCount } from "core-app/features/work_packages/wp-tabs/services/wp-tabs/wp-watchers-count.function";
+import { WorkPackageWatchersTabComponent } from "core-app/features/work_packages/components/wp-single-view-tabs/watchers-tab/watchers-tab.component";
+import { workPackageRelationsCount } from "core-app/features/work_packages/wp-tabs/services/wp-tabs/wp-relations-count.function";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class WpTabsService {
-  get tabs() {
-    return this.hookService.getWorkPackageTabs();
-  }
+export class WorkPackageTabsService {
+  private registeredTabs:WpTabDefinition[];
 
   constructor(
-    private hookService:HookService,
-  ) { }
-
-  getDisplayableTabs(workPackage:WorkPackageResource):Tab[] {
-    return this.tabs.filter(tab => tab.displayable(workPackage));
+    private $state:StateService,
+    private I18n:I18nService,
+    private injector:Injector,
+  ) {
+    this.registeredTabs = this.buildDefaultTabs();
   }
 
-  getTab(tabId:string, workPackage:WorkPackageResource):Tab | undefined {
-    return this.getDisplayableTabs(workPackage).find(({identifier:id}) => id === tabId);
+  get tabs():WpTabDefinition[] {
+    return [...this.registeredTabs];
+  }
+
+  register(...tabs:WpTabDefinition[]) {
+    this.registeredTabs = [
+      ...this.registeredTabs,
+      ...tabs,
+    ];
+  }
+
+  getDisplayableTabs(workPackage:WorkPackageResource):WpTabDefinition[] {
+    return this
+      .tabs
+      .filter(
+        tab => !tab.displayable || tab.displayable(workPackage, this.$state),
+      )
+      .map(
+        tab => ({
+          ...tab,
+          ...!!tab.count && { counter: tab.count(workPackage, this.injector) },
+        }),
+      );
+  }
+
+  getTab(tabId:string, workPackage:WorkPackageResource):WpTabDefinition|undefined {
+    return this.getDisplayableTabs(workPackage).find(({ id: id }) => id === tabId);
+  }
+
+  private buildDefaultTabs():WpTabDefinition[] {
+    return [
+      {
+        component: WorkPackageOverviewTabComponent,
+        name: this.I18n.t('js.work_packages.tabs.overview'),
+        id: 'overview',
+        displayable: (_, $state) => $state.includes('**.details.*'),
+      },
+      {
+        id: 'activity',
+        component: WorkPackageActivityTabComponent,
+        name: I18n.t('js.work_packages.tabs.activity'),
+      },
+      {
+        id: 'relations',
+        component: WorkPackageRelationsTabComponent,
+        name: I18n.t('js.work_packages.tabs.relations'),
+        count: workPackageRelationsCount,
+      },
+      {
+        id: 'watchers',
+        component: WorkPackageWatchersTabComponent,
+        name: I18n.t('js.work_packages.tabs.watchers'),
+        displayable: (workPackage) => !!workPackage.watchers,
+        count: workPackageWatchersCount,
+      },
+    ];
   }
 }

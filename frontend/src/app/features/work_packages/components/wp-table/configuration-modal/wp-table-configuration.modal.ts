@@ -24,7 +24,6 @@ import {
 } from 'core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work_packages/components/wp-list/wp-states-initialization.service';
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
-import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
@@ -106,8 +105,9 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
     this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then(() => {
-        const initialTab = this.locals['initialTab'] || this.availableTabs[0].name;
-        this.switchTo(initialTab);
+        const initialTabName = this.locals['initialTab'];
+        const initialTab = this.availableTabs.find(el => el.id === initialTabName);
+        this.switchTo(initialTab || this.availableTabs[0]);
       });
   }
 
@@ -124,8 +124,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(name:string) {
-    this.tabPortalHost.switchTo(name);
+  public switchTo(tab:TabInterface) {
+    this.tabPortalHost.switchTo(tab);
   }
 
   public saveChanges():void {

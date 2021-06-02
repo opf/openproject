@@ -79,6 +79,6 @@ export class Field extends UntilDestroyedMixin {
   }
 
   public get unknownAttribute():boolean {
-    return this.isEmpty && !this.schema;
+    return this.isEmpty() && !this.schema;
   }
 }

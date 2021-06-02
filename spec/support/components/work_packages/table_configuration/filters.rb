@@ -55,7 +55,7 @@ module Components
 
         def expect_open
           modal.expect_open
-          expect(page).to have_selector('.tab-show.selected', text: 'FILTERS')
+          expect(page).to have_selector('.op-tab-row--link_selected', text: 'FILTERS')
         end
 
         def expect_closed

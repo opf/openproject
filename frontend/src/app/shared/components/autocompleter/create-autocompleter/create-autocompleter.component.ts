@@ -48,6 +48,7 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { Subject } from 'rxjs';
 import { PrincipalHelper } from "core-app/shared/components/principal/principal-helper";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
+import { filter } from "rxjs/operators";
 
 export interface CreateAutocompleterValueOption {
   name:string;
@@ -57,11 +58,12 @@ export interface CreateAutocompleterValueOption {
 @Component({
   templateUrl: './create-autocompleter.component.html',
   selector: 'create-autocompleter',
-  styleUrls: ['./create-autocompleter.component.sass']
+  styleUrls: ['./create-autocompleter.component.sass'],
 })
 export class CreateAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
   @Input() public appendTo:string;
+  @Input() public resource:HalResource;
   @Input() public model:any;
   @Input() public required = false;
   @Input() public disabled = false;
@@ -103,8 +105,11 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
     this.onAfterViewInit.emit(this);
     if (this.opInviteUserModalService) {
       this.opInviteUserModalService.close
-        .pipe(this.untilDestroyed())
-        .subscribe((user: HalResource) => {
+        .pipe(
+          this.untilDestroyed(),
+          filter(user => !!user)
+        )
+        .subscribe((user:HalResource) => {
           this.onChange.emit(user);
         });
     }

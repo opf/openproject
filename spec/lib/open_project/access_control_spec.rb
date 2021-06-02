@@ -58,6 +58,10 @@ describe OpenProject::AccessControl do
         mod.permission :proj3, { dont: :care }
         mod.permission :global2, { dont: :care }, global: true, contract_actions: { baz: %i[destroy] }
       end
+
+      map.project_module :dependent_module, dependencies: :project_module do |mod|
+        mod.permission :proj4, { dont: :care }
+      end
     end
   end
 
@@ -177,6 +181,23 @@ describe OpenProject::AccessControl do
     end
   end
 
+  describe '.modules' do
+    before do
+      stash_access_control_permissions
+
+      setup_global_permissions
+    end
+
+    after do
+      restore_access_control_permissions
+    end
+
+    it 'can store dependencies' do
+      expect(OpenProject::AccessControl.modules.detect { |m| m[:name] == :dependent_module }[:dependencies])
+        .to match_array(%i[project_module])
+    end
+  end
+
   describe '#global_permissions' do
     before do
       stash_access_control_permissions
@@ -194,7 +215,7 @@ describe OpenProject::AccessControl do
     it { expect(OpenProject::AccessControl.global_permissions.collect(&:name)).to include(:global2) }
   end
 
-  describe '#available_project_modules' do
+  describe '.available_project_modules' do
     before do
       stash_access_control_permissions
 

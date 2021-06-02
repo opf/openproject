@@ -169,8 +169,6 @@ export function bootstrapModule(injector:Injector) {
 
     NoResultsComponent,
 
-    ScrollableTabsComponent,
-
     EditableToolbarTitleComponent,
 
     // Enterprise Edition
@@ -218,9 +216,6 @@ export function bootstrapModule(injector:Injector) {
 
     NoResultsComponent,
 
-    ScrollableTabsComponent,
-    ContentTabsComponent,
-
     EditableToolbarTitleComponent,
 
     PersistentToggleComponent,
@@ -247,7 +242,6 @@ export function bootstrapModule(injector:Injector) {
 export class OPSharedModule {
   constructor(injector:Injector) {
     bootstrapModule(injector);
-
-
   }
 }
+

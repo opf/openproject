@@ -35,17 +35,14 @@ import { OpTitleService } from "core-app/core/html/op-title.service";
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { States } from 'core-app/core/states/states.service';
 import { KeepTabService } from 'core-app/features/work_packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageNotificationService } from 'core-app/features/work_packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Tab } from 'core-app/features/work_packages/components/wp-tabs/components/wp-tab-wrapper/tab';
 import { HookService } from 'core-app/modules/plugins/hook-service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
-
   @InjectField() states:States;
   @InjectField() I18n!:I18nService;
   @InjectField() keepTab:KeepTabService;
@@ -90,11 +87,11 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         this.untilDestroyed()
       )
       .subscribe((wp:WorkPackageResource) => {
-        this.workPackage = wp;
-        this.init();
-        this.cdRef.detectChanges();
-      },
-      (error) => this.notificationService.handleRawError(error)
+          this.workPackage = wp;
+          this.init();
+          this.cdRef.detectChanges();
+        },
+        (error) => this.notificationService.handleRawError(error)
       );
   }
 
@@ -142,13 +139,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       });
   }
 
-  public tabs():Tab[] {
-    return _.filter(
-      this.hooks.getWorkPackageTabs(),
-      (tab) => tab.displayable(this.workPackage)
-    );
-  }
-
   /**
    * Recompute the current tab focus label
    */
@@ -160,9 +150,5 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     });
 
     return this.focusAnchorLabel = tabLabel;
-  }
-
-  public canViewWorkPackageWatchers() {
-    return !!(this.workPackage && this.workPackage.watchers);
   }
 }

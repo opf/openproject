@@ -27,11 +27,11 @@
 //++
 
 
-import { Inject, Injectable, Injector, EventEmitter } from "@angular/core";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { Injectable, EventEmitter } from "@angular/core";
 import { InviteUserModalComponent } from "./invite-user.component";
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 
 /**
  * This service triggers user-invite modals to clicks on elements
@@ -39,23 +39,24 @@ import { InviteUserModalComponent } from "./invite-user.component";
  */
 @Injectable()
 export class OpInviteUserModalService {
-  public close = new EventEmitter<HalResource | HalResource[]>();
+  public close = new EventEmitter<HalResource|HalResource[]>();
 
   constructor(
     protected opModalService:OpModalService,
     protected currentProjectService:CurrentProjectService,
-  ) { }
+  ) {
+  }
 
-  public open(projectId: string|null = this.currentProjectService.id) {
+  public open(projectId:string|null = this.currentProjectService.id) {
     const modal = this.opModalService.show(
       InviteUserModalComponent,
       'global',
-      { projectId }
+      { projectId },
     );
 
     modal
       .closingEvent
-      .subscribe((modal: InviteUserModalComponent) => {
+      .subscribe((modal:InviteUserModalComponent) => {
         this.close.emit(modal.data);
       });
   }

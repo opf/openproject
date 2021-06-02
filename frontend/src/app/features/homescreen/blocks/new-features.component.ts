@@ -27,11 +27,11 @@
 //++
 
 import { Component } from '@angular/core';
-import { I18nService } from "core-app/core/i18n/i18n.service";
 import { DomSanitizer } from "@angular/platform-browser";
-import { BcfRestApi } from "core-app/features/bim/bcf/bcf-constants.const";
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import imagePath = ImageHelpers.imagePath;
+import { BcfRestApi } from "core-app/features/bim/bcf/bcf-constants.const";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
 
@@ -60,7 +60,7 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
  */
 export class HomescreenNewFeaturesBlockComponent {
   public isStandardEdition:boolean;
-  new_features_image = ImageHelpers.imagePath('new_features.png');
+  new_features_image = ImageHelpers.imagePath('11_3_features.png');
   public text = {
     newFeatures: this.i18n.t('js.label_new_features'),
     descriptionNewFeatures: this.i18n.t('js.homescreen.blocks.new_features.text_new_features'),

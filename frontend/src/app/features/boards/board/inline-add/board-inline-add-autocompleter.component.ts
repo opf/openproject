@@ -38,9 +38,8 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { Observable, of, Subject } from "rxjs";
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from "rxjs/operators";
-import { NgSelectComponent } from "@ng-select/ng-select";
+import { Observable, of } from "rxjs";
+import { catchError, map, tap } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
@@ -51,6 +50,7 @@ import { WorkPackageNotificationService } from "core-app/features/work_packages/
 import { UrlParamsHelperService } from "core-app/features/work_packages/components/wp-query/url-params-helper";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
 
 @Component({
   selector: 'board-inline-add-autocompleter',
@@ -60,84 +60,18 @@ import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./board-inline-add-autocompleter.sass']
 })
+
 export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
+
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
   };
 
-  @Input() appendToContainer = 'body';
-  @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
-
-  @Output() onCancel = new EventEmitter<undefined>();
-  @Output() onReferenced = new EventEmitter<WorkPackageResource>();
-
   // Whether we're currently loading
   public isLoading = false;
 
-  // Search input from ng-select
-  public searchInput$ = new Subject<string>();
-
-  // Search results mapped to input
-  public results$:Observable<WorkPackageResource[]> = this.searchInput$.pipe(
-    debounceTime(250),
-    distinctUntilChanged(),
-    tap(() => this.isLoading = true),
-    switchMap(queryString => this.autocompleteWorkPackages(queryString))
-  );
-
-  constructor(private readonly querySpace:IsolatedQuerySpace,
-              private readonly pathHelper:PathHelperService,
-              private readonly apiV3Service:APIV3Service,
-              private readonly urlParamsHelper:UrlParamsHelperService,
-              private readonly notificationService:WorkPackageNotificationService,
-              private readonly CurrentProject:CurrentProjectService,
-              private readonly halResourceService:HalResourceService,
-              private readonly schemaCacheService:SchemaCacheService,
-              private readonly cdRef:ChangeDetectorRef,
-              private readonly I18n:I18nService,
-              private readonly wpCardDragDrop:WorkPackageCardDragAndDropService) {
-  }
-
-  ngAfterViewInit():void {
-    if (!this.ngSelectComponent) {
-      return;
-    }
-    this.ngSelectComponent.open();
-
-    setTimeout(() => {
-      this.ngSelectComponent.focus();
-    }, 25);
-
-    this.wpCardDragDrop.removeReferenceWorkPackageForm();
-  }
-
-  cancel() {
-    this.onCancel.emit();
-  }
-
-  public addWorkPackageToQuery(workPackage?:WorkPackageResource) {
-    if (workPackage) {
-      this.schemaCacheService
-        .ensureLoaded(workPackage)
-        .then(() => {
-          this.onReferenced.emit(workPackage);
-          this.ngSelectComponent.close();
-        });
-    }
-  }
-
-  public opened() {
-    // Force reposition as a workaround for BUG
-    // https://github.com/ng-select/ng-select/issues/1259
-    setTimeout(() => {
-      const component = this.ngSelectComponent as any;
-      if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
-    }, 25);
-  }
-
-  private autocompleteWorkPackages(searchString:string):Observable<WorkPackageResource[]> {
+  getAutocompleterData = (searchString:string):Observable<WorkPackageResource[]> =>
+  {
     // Return when the search string is empty
     if (searchString.length === 0) {
       this.isLoading = false;
@@ -152,7 +86,6 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     if (results && results.elements.length > 0) {
       filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
-
     // Add the subproject filter, if any
     const query = this.querySpace.query.value;
     if (query?.filters) {
@@ -174,5 +107,55 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
         }),
         tap(() => this.isLoading = false)
       );
+  }
+
+  public autocompleterOptions = {
+    resource:'work_packages',
+    getOptionsFn: this.getAutocompleterData
+  }
+
+  @Input() appendToContainer = 'body';
+  @ViewChild(OpAutocompleterComponent) public ngSelectComponent:OpAutocompleterComponent;
+
+  @Output() onCancel = new EventEmitter<undefined>();
+  @Output() onReferenced = new EventEmitter<WorkPackageResource>();
+
+
+  constructor(private readonly querySpace:IsolatedQuerySpace,
+              private readonly pathHelper:PathHelperService,
+              private readonly apiV3Service:APIV3Service,
+              private readonly urlParamsHelper:UrlParamsHelperService,
+              private readonly notificationService:WorkPackageNotificationService,
+              private readonly CurrentProject:CurrentProjectService,
+              private readonly halResourceService:HalResourceService,
+              private readonly schemaCacheService:SchemaCacheService,
+              private readonly cdRef:ChangeDetectorRef,
+              private readonly I18n:I18nService,
+              private readonly wpCardDragDrop:WorkPackageCardDragAndDropService) {
+  }
+
+  ngAfterViewInit():void {
+    if (!this.ngSelectComponent.ngSelectInstance) {
+      return;
+    }
+    this.ngSelectComponent.openSelect();
+    this.ngSelectComponent.focusSelect();
+    this.wpCardDragDrop.removeReferenceWorkPackageForm();
+  }
+
+  cancel() {
+    this.onCancel.emit();
+  }
+
+  public addWorkPackageToQuery(workPackage?:WorkPackageResource) {
+
+    if (workPackage) {
+      this.schemaCacheService
+        .ensureLoaded(workPackage)
+        .then(() => {
+          this.onReferenced.emit(workPackage);
+          this.ngSelectComponent.closeSelect();
+        });
+    }
   }
 }

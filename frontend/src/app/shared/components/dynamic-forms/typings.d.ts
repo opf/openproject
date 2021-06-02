@@ -10,6 +10,7 @@ export interface IOPDynamicFormSettings {
 export interface IOPFormlyFieldSettings extends FormlyFieldConfig {
   key?:string;
   type?:OPInputType;
+  fieldGroup?: IOPFormlyFieldSettings[];
   templateOptions?:IOPFormlyTemplateOptions;
   [key:string]:any;
 }

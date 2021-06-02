@@ -96,15 +96,6 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
       });
   }
 
-
-  public close() {
-    this.$state.go(this.baseRoute, this.$state.params);
-  }
-
-  public switchToFullscreen() {
-    this.$state.go(this.keepTab.currentShowState, this.$state.params);
-  }
-
   public get shouldFocus() {
     return this.$state.params.focus === true;
   }
@@ -115,11 +106,5 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
   public backToList() {
     this.backRouting.goToBaseState();
-  }
-
-  protected initializeTexts() {
-    super.initializeTexts();
-    this.text.closeDetailsView = this.I18n.t('js.button_close_details');
-    this.text.goTofullScreen = this.I18n.t('js.work_packages.message_successful_show_in_fullscreen');
   }
 }

@@ -8,7 +8,7 @@ import { WorkPackageResource } from "core-app/core/hal/resources/work-package-re
 import { SubprojectBoardHeaderComponent } from "core-app/features/boards/board/board-actions/subproject/subproject-board-header.component";
 import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
-import { buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Injectable()
 export class BoardSubprojectActionService extends CachedBoardActionService {
@@ -46,10 +46,13 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
     return this
       .apiV3Service
       .projects
-      .filtered(buildApiV3Filter('ancestor', '=', [currentProjectId]))
+      .filtered(
+        new ApiV3FilterBuilder()
+          .add('ancestor', '=', [currentProjectId])
+          .add('active', '=', true)
+      )
       .get()
       .toPromise()
       .then((collection:CollectionResource<UserResource>) => collection.elements);
   }
-
 }

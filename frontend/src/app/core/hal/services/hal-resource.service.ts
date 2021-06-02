@@ -35,15 +35,16 @@ import { CollectionResource } from 'core-app/core/hal/resources/collection-resou
 import { HalLink, HalLinkInterface } from 'core-app/core/hal/hal-link/hal-link';
 import { URLParamsEncoder } from 'core-app/core/hal/services/url-params-encoder';
 import { ErrorResource } from "core-app/core/hal/resources/error-resource";
-import * as Pako from 'pako';
+import * as Pako  from 'pako';
+import * as base64 from "byte-base64";
+import { initializeHalProperties } from "../helpers/hal-resource-builder";
+import { whenDebugging } from "core-app/shared/helpers/debug_output";
 import {
   HTTPClientHeaders,
   HTTPClientOptions,
   HTTPClientParamMap,
-  HTTPSupportedMethods
+  HTTPSupportedMethods,
 } from "core-app/core/hal/http/http.interfaces";
-import { whenDebugging } from "core-app/shared/helpers/debug_output";
-import { initializeHalProperties } from "../helpers/hal-resource-builder";
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -78,7 +79,7 @@ export class HalResourceService {
       body: data || {},
       headers: headers,
       withCredentials: true,
-      responseType: 'json'
+      responseType: 'json',
     };
 
     return this._request(method, href, config);
@@ -93,7 +94,7 @@ export class HalResourceService {
           const resource = this.createHalResource<ErrorResource>(error.error);
           resource.httpError = error;
           return throwError(resource);
-        })
+        }),
       ) as any;
   }
 
@@ -110,7 +111,7 @@ export class HalResourceService {
       headers: headers,
       params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: params }),
       withCredentials: true,
-      responseType: 'json'
+      responseType: 'json',
     };
 
     return this._request('get', href, config);
@@ -318,9 +319,9 @@ export class HalResourceService {
     return types[attribute];
   }
 
-  protected toEprops(params:{}):{} {
-    const deflated = Pako.deflate(JSON.stringify(params), { to: 'string' });
-    const compressed = btoa(deflated);
+  protected toEprops(params:unknown):{ eprops:string } {
+    const deflatedArray = Pako.deflate(JSON.stringify(params));
+    const compressed = base64.bytesToBase64(deflatedArray)
 
     return { eprops: compressed };
   }

@@ -33,27 +33,26 @@ import {
   ElementRef,
   HostListener,
   OnDestroy,
-  OnInit,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  NgZone, AfterViewInit
 } from '@angular/core';
-import { ContainHelpers } from 'core-app/shared/directives/focus/contain-helpers';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
-import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { DeviceService } from "core-app/core/browser/device.service";
-import { NgSelectComponent } from "@ng-select/ng-select";
 import { Observable, of } from "rxjs";
-import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
-import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
-import { filter, map, take, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { APIV3Service } from "../../apiv3/api-v3.service";
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
+import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { DeviceService } from "core-app/core/browser/device.service";
+import { ContainHelpers } from "core-app/shared/directives/focus/contain-helpers";
+import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -80,25 +79,28 @@ interface SearchOptionItem {
   // Necessary because of ng-select
   encapsulation: ViewEncapsulation.None
 })
-export class GlobalSearchInputComponent implements OnInit, OnDestroy {
+export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   @ViewChild('btn', { static: true }) btn:ElementRef;
-  @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
+  @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
   public expanded = false;
   public markable = false;
+  public isLoading = false;
 
-  /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, SearchResultItem|SearchOptionItem>(
-    (searchTerm:string) => this.autocompleteWorkPackages(searchTerm).pipe(
-      tap(() => {
-        setTimeout(() => this.setMarkedOption(), 50);
-      })
-    ),
-    errorNotificationHandler(this.halNotification)
-  );
+  getAutocompleterData = (query:string):Observable<any[]> => {
+    return this.autocompleteWorkPackages(query);
+  };
+
+  public autocompleterOptions = {
+    filters:[],
+    resource:'work_packages',
+    searchKey:'subjectOrId',
+    getOptionsFn: this.getAutocompleterData
+  };
 
   /** Remember the current value */
   public currentValue = '';
+  public isFocusedDirectly = (this.globalSearchService.searchTerm.length > 0);
 
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
@@ -107,6 +109,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   private unregisterGlobalListener:Function|undefined;
 
+  private isInitialized :boolean = false;
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     current_project: this.I18n.t('js.global_search.current_project'),
@@ -125,17 +128,18 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
               readonly currentProjectService:CurrentProjectService,
               readonly deviceService:DeviceService,
               readonly cdRef:ChangeDetectorRef,
-              readonly halNotification:HalResourceNotificationService) {
+              readonly halNotification:HalResourceNotificationService,
+              readonly ngZone:NgZone) {
   }
 
-  ngOnInit() {
+  ngAfterViewInit():void {
     // check searchterm on init, expand / collapse search bar and set correct classes
-    this.ngSelectComponent.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
-    this.expanded = (this.ngSelectComponent.searchTerm.length > 0);
+    this.ngSelectComponent.ngSelectInstance.searchTerm = this.currentValue = this.globalSearchService.searchTerm;
+    this.expanded = (this.ngSelectComponent.ngSelectInstance.searchTerm.length > 0);
     this.toggleTopMenuClass();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.unregister();
   }
 
@@ -151,8 +155,8 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         this.toggleMobileSearch();
         // open ng-select menu on default
         jQuery('.ng-input input').focus();
-      } else if (this.ngSelectComponent.searchTerm.length === 0) {
-        this.ngSelectComponent.focus();
+      } else if (this.ngSelectComponent.ngSelectInstance.searchTerm.length === 0) {
+        this.ngSelectComponent.ngSelectInstance.focus();
       } else {
         this.submitNonEmptySearch();
       }
@@ -181,13 +185,14 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public search($event:any) {
-    this.currentValue = this.ngSelectComponent.searchTerm;
+    this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm;
     this.openCloseMenu($event.term);
   }
 
   // close menu when input field is empty
   public openCloseMenu(searchedTerm:string) {
-    this.ngSelectComponent.isOpen = (searchedTerm.trim().length > 0);
+
+    this.ngSelectComponent.ngSelectInstance.isOpen = (searchedTerm.trim().length > 0);
   }
 
   public onFocus() {
@@ -198,14 +203,15 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
   public onFocusOut() {
     if (!this.deviceService.isMobile) {
-      this.expanded = (this.ngSelectComponent.searchTerm.length > 0);
-      this.ngSelectComponent.isOpen = false;
+      this.expanded = (this.ngSelectComponent.ngSelectInstance.searchTerm !== null && this.ngSelectComponent.ngSelectInstance.searchTerm.length > 0);
+      this.ngSelectComponent.ngSelectInstance.isOpen = false;
+      this.selectedItem =null;
       this.toggleTopMenuClass();
     }
   }
 
   public clearSearch() {
-    this.currentValue = this.ngSelectComponent.searchTerm = '';
+    this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm = '';
     this.openCloseMenu(this.currentValue);
   }
 
@@ -213,17 +219,11 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   // in and then decide what to do. If a direct hit is present, follow that. Otherwise,
   // go to the search in the current scope.
   public onEnterBeforeResultsLoaded() {
-    this.requests.loading$.pipe(
-      filter(value => value === false),
-      take(1)
-    )
-      .subscribe(() => {
-        if (this.selectedItem) {
-          this.followSelectedItem();
-        } else {
-          this.searchInScope(this.currentScope);
-        }
-      });
+    if (this.selectedItem) {
+      this.followSelectedItem();
+    } else {
+      this.searchInScope(this.currentScope);
+    }
   }
 
   public statusHighlighting(statusId:string) {
@@ -269,13 +269,18 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
 
     const hashFreeQuery = this.queryWithoutHash(query);
 
+
+    this.isLoading = true
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
       .get()
       .pipe(
         map((collection) => {
           return this.searchResultsToOptions(collection.elements, hashFreeQuery);
-        })
+        }),
+        tap(() => {
+          this.isLoading = false;
+          this.setMarkedOption();})
       );
   }
 
@@ -304,9 +309,9 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
         statusId: wp.status.idFromLink,
         href: wp.href,
         project: wp.project.name,
-        author: wp.author
+        author: wp.author,
+        type: wp.type
       } as SearchResultItem;
-
       // If we have a direct hit, we choose it to be the selected element.
       if (query === wp.id!.toString()) {
         this.selectedItem = item;
@@ -371,47 +376,47 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
    */
   private setMarkedOption() {
     this.markable = true;
-    this.ngSelectComponent.itemsList.markItem(this.ngSelectComponent.itemsList.selectedItems[0]);
+    this.ngSelectComponent.ngSelectInstance.itemsList.markItem(this.ngSelectComponent.ngSelectInstance.itemsList.selectedItems[0]);
 
     this.cdRef.detectChanges();
   }
 
   private searchInScope(scope:string) {
     switch (scope) {
-    case 'all_projects': {
-      let forcePageLoad = false;
-      if (this.globalSearchService.projectScope !== 'all') {
-        forcePageLoad = true;
-        this.globalSearchService.resultsHidden = true;
+      case 'all_projects': {
+        let forcePageLoad = false;
+        if (this.globalSearchService.projectScope !== 'all') {
+          forcePageLoad = true;
+          this.globalSearchService.resultsHidden = true;
+        }
+        this.globalSearchService.projectScope = 'all';
+        this.submitNonEmptySearch(forcePageLoad);
+        break;
       }
-      this.globalSearchService.projectScope = 'all';
-      this.submitNonEmptySearch(forcePageLoad);
-      break;
-    }
-    case 'current_project': {
-      this.globalSearchService.projectScope = 'current_project';
-      this.submitNonEmptySearch();
-      break;
-    }
-    case 'current_project_and_all_descendants': {
-      this.globalSearchService.projectScope = '';
-      this.submitNonEmptySearch();
-      break;
-    }
+      case 'current_project': {
+        this.globalSearchService.projectScope = 'current_project';
+        this.submitNonEmptySearch();
+        break;
+      }
+      case 'current_project_and_all_descendants': {
+        this.globalSearchService.projectScope = '';
+        this.submitNonEmptySearch();
+        break;
+      }
     }
   }
 
   public submitNonEmptySearch(forcePageLoad = false) {
     this.globalSearchService.searchTerm = this.currentValue;
     if (this.currentValue.length > 0) {
-      this.ngSelectComponent.close();
+      this.ngSelectComponent.ngSelectInstance.close();
       // Work package results can update without page reload.
       if (!forcePageLoad &&
         this.globalSearchService.isAfterSearch() &&
         this.globalSearchService.currentTab === 'work_packages') {
         window.history
           .replaceState({},
-            `${I18n.t('global_search.search')}: ${this.ngSelectComponent.searchTerm}`,
+            `${I18n.t('global_search.search')}: ${this.ngSelectComponent.ngSelectInstance.searchTerm}`,
             this.globalSearchService.searchPath());
 
         return;
@@ -421,7 +426,7 @@ export class GlobalSearchInputComponent implements OnInit, OnDestroy {
   }
 
   public blur() {
-    this.ngSelectComponent.searchTerm = '';
+    this.ngSelectComponent.ngSelectInstance.searchTerm = '';
     (<HTMLInputElement>document.activeElement).blur();
   }
 

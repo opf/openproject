@@ -40,7 +40,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
 
-  let(:relations_tab) { find('.tabrow li.selected', text: 'RELATIONS') }
+  let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }
 
   let(:visit) { true }
 
@@ -242,11 +242,11 @@ describe 'Work package relations tab', js: true, selenium: true do
         textarea.set 'my description!'
 
         # Save description
-        created_row.find('.inplace-edit--control--save a').click
+        created_row.find('.inplace-edit--control--save').click
 
         loading_indicator_saveguard
 
-        # Wait for the relations table to be present
+        # Wait for the relations table to be presen
         sleep 2
         expect(page).to have_selector('.wp-relations--subject-field')
 
@@ -264,7 +264,7 @@ describe 'Work package relations tab', js: true, selenium: true do
                          text: 'my description!').click
 
         # Cancel edition
-        created_row.find('.inplace-edit--control--cancel a').click
+        created_row.find('.inplace-edit--control--cancel').click
         created_row.find('.wp-relation--description-read-value',
                          text: 'my description!').click
 

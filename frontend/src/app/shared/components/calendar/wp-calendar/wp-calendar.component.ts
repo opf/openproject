@@ -1,6 +1,4 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -26,7 +24,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions, EventApi, EventInput } from '@fullcalendar/core';
 import { Subject } from "rxjs";
 import { take, debounceTime } from 'rxjs/operators';
-import { ToolbarInput } from '@fullcalendar/common';
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
@@ -106,7 +103,10 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   ngOnInit() {
     this.resizeSubject
-      .pipe(debounceTime(50))
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(50)
+      )
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();
       });
@@ -119,8 +119,8 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
-    successCallback:(events:EventInput[]) => void,
-    failureCallback:(error:any) => void):void|PromiseLike<EventInput[]> {
+                                successCallback:(events:EventInput[]) => void,
+                                failureCallback:(error:any) => void):void|PromiseLike<EventInput[]> {
     if (this.alreadyLoaded) {
       this.alreadyLoaded = false;
       const events = this.updateResults(this.querySpace.results.value!);

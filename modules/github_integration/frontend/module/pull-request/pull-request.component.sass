@@ -28,82 +28,76 @@
 
 @import "helpers"
 
-.op-pr-pull-request
+:host,
+.op-pull-request
   display: grid
   grid-template-columns: auto 1fr auto auto
-  grid-template-areas: "title title title state" "avatar user link link" "avatar date link link" "avatar checks checks checks"
-  margin-bottom: 24px
+  grid-template-areas: "link link link link" "title title title state" "info info info info" "checks-label checks-label checks-label checks-label" "checks checks checks checks"
+  margin-bottom: 11px
+  padding-bottom: 11px
+  border-bottom: 1px solid #dddddd
 
-.op-pr-title
-  @include text-shortener
-  font-weight: bold
-  grid-area: title
-  // have the same line height as the status "button" next to it
-  line-height: 34px
-  margin-right: 20px
+  &:last-child
+    border-bottom: none
 
-.op-avatar
-  grid-area: avatar
+  &--title
+    @include text-shortener
+    font-weight: bold
+    grid-area: title
+    // have the same line height as the status "button" next to it
+    line-height: 32px
+    margin-right: 20px
 
-.op-pr-user
-  display: block
-  font-weight: bold
-  line-height: 16px
-  margin-bottom: 3px
-  grid-area: user
+  &--avatar
+    grid-area: info
 
-.op-pr-date
-  display: block
-  font-size: 0.8rem
-  color: var(--gray-dark)
-  grid-area: date
+  &--info
+    display: block
+    grid-area: info
+    margin-bottom: 3px
+    font-size: 0.9rem
+    grid-area: info
+    color: var(--gray-dark)
+    // The mini avatar is much higher than the text line. Compensate it.
+    margin-top: -4px
 
-.op-pr-link
-  grid-area: link
-  margin-top: 6px
+  &--date
+    grid-area: info
 
-.op-pr-state
-  grid-area: state
-  display: inline-block
-  padding: 8px
-  border-radius: 6px
-  border: 1px solid #fff
-  color: #fff
-.op-pr-state_draft
-  background-color: #6a737d
-.op-pr-state_open
-  background-color: #28a745
-.op-pr-state_merged
-  background-color: #6f42c1
-.op-pr-state_closed
-  background-color: #d73a49
+  &--link
+    grid-area: link
+    margin-top: 6px
+    font-size: 0.9rem
 
-.op-pr-checks
-  margin-top: 12px
-  grid-area: checks
-  margin-left: 0
+  &--state
+    grid-area: state
+    display: inline-block
+    padding: 8px 11px
+    border-radius: 16px
+    border: 1px solid #fff
+    color: #fff
+    font-size: 0.9rem
+    text-transform: capitalize
 
-  &:before
-    content: attr(aria-label)
+    &_draft
+      background-color: #6a737d
 
-.op-pr-check
-  list-style-type: none
-  padding-top: 8px
-  margin-left: 5px
+    &_open
+      background-color: #28a745
 
-.op-pr-check-avatar img
-  width: 1.4em
-  height: 1.4em
-  margin-right: 5px
-  border-radius: var(--user-avatar-border-radius)
+    &_merged
+      background-color: #6f42c1
 
-.op-pr-check-state
-  margin-left: 1em
-  color: var(--gray-dark)
-  font-style: italic
+    &_closed
+      background-color: #d73a49
 
-.op-pr-check-details
-  float: right
-  top: 10px
-  line-height: 16px
-  text-align: right
+  &--checks-label
+    grid-area: checks-label
+    margin-top: 12px
+    font-size: 0.9rem
+    font-weight: bold
+
+  &--checks
+    margin-top: 12px
+    margin-left: 0
+    grid-area: checks

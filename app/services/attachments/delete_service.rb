@@ -27,6 +27,8 @@
 #++
 
 class Attachments::DeleteService < ::BaseServices::Delete
+  include Attachments::TouchContainer
+
   def call(params = nil)
     in_context(model.container || model) do
       perform(params)
@@ -36,10 +38,8 @@ class Attachments::DeleteService < ::BaseServices::Delete
   private
 
   def destroy(attachment)
-    if attachment.container
-      attachment.container.attachments.delete(attachment)
-    else
-      super
+    super.tap do
+      touch(attachment.container) if attachment.container
     end
   end
 end

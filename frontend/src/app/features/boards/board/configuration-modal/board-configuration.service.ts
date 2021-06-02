@@ -8,8 +8,8 @@ export class BoardConfigurationService {
 
   protected _tabs:TabInterface[] = [
     {
-      name: 'highlighting',
-      title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
+      id: 'highlighting',
+      name: this.I18n.t('js.work_packages.table_configuration.highlighting'),
       componentClass: BoardHighlightingTabComponent,
     }
   ];

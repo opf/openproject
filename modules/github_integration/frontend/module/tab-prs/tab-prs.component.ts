@@ -37,7 +37,8 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   selector: 'tab-prs',
-  templateUrl: './tab-prs.template.html'
+  templateUrl: './tab-prs.template.html',
+  host: { class: 'op-prs' }
 })
 export class TabPrsComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;

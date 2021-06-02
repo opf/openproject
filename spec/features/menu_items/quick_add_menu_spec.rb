@@ -52,7 +52,7 @@ feature 'Quick-add menu', js: true, selenium: true do
       current_user do
         FactoryBot.create :user,
                           member_in_project: project,
-                          member_with_permissions: %i[add_project view_project add_subprojects]
+                          member_with_permissions: %i[add_subprojects]
       end
 
       let(:field) { ::FormFields::SelectFormField.new :parent }

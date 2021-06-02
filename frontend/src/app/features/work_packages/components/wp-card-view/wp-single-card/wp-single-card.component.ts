@@ -19,7 +19,6 @@ import { CardHighlightingMode } from "core-app/features/work_packages/components
 import { CardViewOrientation } from "core-app/features/work_packages/components/wp-card-view/wp-card-view.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { WorkPackageViewFocusService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { splitViewRoute } from "core-app/features/work_packages/routing/split-view-routes.helper";
 
 @Component({
   selector: 'wp-single-card',
@@ -74,7 +73,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public emitStateLinkClicked(wp:WorkPackageResource, detail?:boolean) {
     const classIdentifier = this.classIdentifier(wp);
-    const stateToEmit = detail ? splitViewRoute(this.$state) : 'work-packages.show';
+    const stateToEmit = detail ? 'split' : 'show';
 
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.wpTableFocus.updateFocus(wp.id!);

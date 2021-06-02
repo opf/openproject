@@ -56,7 +56,9 @@ export class BackRoutingService {
     if (preferListOverSplit) {
       this.goToOtherState(baseRoute, this.backRoute.params);
     } else {
-      this.goToOtherState(baseRoute + this.keepTab.currentDetailsSubState, this.backRoute.params);
+      const state = baseRoute + '.details.tabs';
+      const params = { ...this.backRoute.params, tabIdentifier: this.keepTab.currentDetailsTab };
+      this.goToOtherState(state, params);
     }
   }
 

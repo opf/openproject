@@ -14,12 +14,13 @@
       <span class="job-status--modal-main-message" [textContent]="message"></span>
       <span [hidden]="!downloadHref">
         {{ text.download_starts }}
-        <a #downloadLink
-           download
-           target="_blank"
-           [textContent]="text.click_to_download"
-           [attr.href]="downloadHref">
-        </a>
+        <a
+          #downloadLink
+          download
+          target="_blank"
+          [textContent]="text.click_to_download"
+          [attr.href]="downloadHref"
+        ></a>
       </span>
       <ng-container *ngIf="payload?.errors">
         <h3 class="job-status--modal-additional-errors" [textContent]="text.errors"></h3>

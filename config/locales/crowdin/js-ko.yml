@@ -34,18 +34,18 @@ ko:
       remove: "%{name} 삭제"
       active: "%{label} %{name} 활성화"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: 첨부 파일이 전체 용량 제한을 초과하므로 포함되지 않을 수 있습니다. 이는 구성을 통하여 변경할 수 있습니다 (서버 재시작 필요).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        여기서 백업을 트리거할 수 있습니다. 이 과정은 보유한 데이터 (특히 첨부파일)의 양에 따라 다소 시간이 걸릴 수 있습니다. 준비가 되면 이메일이 올 것입니다.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        새 백업은 이전의 것을 덮어쓸 것입니다. 일일 백업 요청 횟수는 제한되어 있습니다.
+      last_backup: 최근 백업
+      last_backup_from: 최근 백업 일자
+      title: OpenProject 백업
       options: 옵션
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: 첨부파일 포함
+      download_backup: 백업 다운로드
+      request_backup: 백업 요청
     close_popup_title: "팝업 닫기"
     close_filter_title: "필터 닫기"
     close_form_title: "폼 닫기"
@@ -220,7 +220,7 @@ ko:
         upsale:
           become_hero: "영웅이 되세요!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Enterprise on-premises Edition의 장점은 무엇입니까?"
             high_security: "보안 기능"
             high_security_text: "SSO(SAML, OpenID Connect, CAS), 2단계 인증 및 LDAP 그룹의 자동 동기화."
             installation: "설치 지원"
@@ -284,13 +284,13 @@ ko:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 개념의 <b>플레이스홀더 사용자</b>(프리미엄 기능)를 통해 이메일 주소 없이 예비 사용자를 OpenProject에 추가하고 해당 리소스에 작업을 할당할 수 있습니다.</li> <li>작업 패키지 <b>필터는 부모 옵션으로 확장하여</b> 손쉽게 모든 직계 자식을 보거나 <b>ID로 확장하여</b> 목록에서 정확한 해당 작업 패키지만 포함하거나 제외할 수 있습니다.</li> <li>사용자 관리는 <b>새로운 글로벌 역할</b>로 비관리자에게 배포되므로, 전체 관리자 권한 없이 사용자를 관리하고 초대할 수 있습니다.</li> <li>추가적인 UI 및 UX 개선 사항(예: 비용 보고 탐색 조정, 작업 패키지 목록에서 합계 및 그룹 행의 배경색 조정, 그룹 표시 페이지 추가).</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 개념의 <b>플레이스홀더 사용자</b>(프리미엄 기능)를 통해 이메일 주소 없이 예비 사용자를 OpenProject에 추가하고 해당 리소스에 작업을 할당할 수 있습니다.</li> <li>작업 패키지 <b>필터는 부모 옵션으로 확장하여</b> 손쉽게 모든 직계 자식을 보거나 <b>ID로 확장하여</b> 목록에서 정확한 해당 작업 패키지만 포함하거나 제외할 수 있습니다.</li> <li>사용자 관리는 <b>새로운 글로벌 역할</b>로 비관리자에게 배포되므로, 전체 관리자 권한 없이 사용자를 관리하고 초대할 수 있습니다.</li> <li>추가적인 UI 및 UX 개선 사항(예: 비용 보고 탐색 조정, 작업 패키지 목록에서 합계 및 그룹 행의 배경색 조정, 그룹 표시 페이지 추가).</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -479,7 +479,7 @@ ko:
         help_menu: '<b>도움말</b> 메뉴에서 사용자 가이드 및 추가 도움말 리소스를 찾아볼 수 있습니다. <br> OpenProject에서 즐겁게 작업하세요!'
         members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
         project_selection: '시작하려면 유용한 데모 데이터가 포함된 프로젝트 중 하나를 클릭하십시오. <br> <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: '새 프로젝트를 만들거나 동료를 초대하십시오.'
         sidebar_arrow: "화살표를 사용하여 프로젝트의 <b>기본 메뉴</b>로 다시 돌아갈 수 있습니다."
         welcome: '3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다. 언제든지 투어를 다시 시작할 수 있습니다.'
         wiki: '<b>Wiki</b>에서 문서화하고 팀과 함께 지식을 공유할 수 있습니다.'
@@ -522,9 +522,9 @@ ko:
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
       confirm_template_load: '템플릿을 전환하면 페이지가 다시 로드되고 이 양식에 대한 모든 입력이 손실됩니다. 계속하시겠습니까?'
       use_template: "템플릿 사용"
-      no_template_selected: "(None)"
+      no_template_selected: "(없음)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "복사 설정"
       autocompleter:
         label: '프로젝트 자동완성'
     text_are_you_sure: "계속하시겠습니까?"
@@ -535,7 +535,7 @@ ko:
         reset_title: "구성 양식 초기화"
         confirm_reset: >
           경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 모든 사용자 지정 필드가 비활성화됩니다.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
+        upgrade_to_ee: "Enterprise on-premises Edition으로 업그레이드"
         upgrade_to_ee_text: "와우! 만약 이 기능이 필요하다면 당신은 진짜 프로입니다! Enterprise Edition 고객이 되어서 OpenSource 개발자들을 지원할 생각이 있나요?"
         more_information: "더보기"
         nevermind: "신경쓰지 마세요"
@@ -608,6 +608,10 @@ ko:
     relations_autocomplete:
       placeholder: "검색할 유형"
       parent_placeholder: "새로운 상위 항목은 선택하거나 Escape를 눌러 취소하십시오."
+    autocompleter:
+      placeholder: "검색할 유형"
+      notFoundText: "No items found"
+      typeToSearchText: "검색할 유형"
     repositories:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'
@@ -925,6 +929,7 @@ ko:
     notice_successful_create: "생성에 성공했습니다."
     notice_successful_delete: "삭제에 성공했습니다."
     notice_successful_update: "업데이트에 성공했습니다."
+    notice_job_started: "작업이 시작되었습니다."
     notice_bad_request: "잘못된 요청입니다."
     relations:
       empty: 관계가 없습니다.
@@ -978,74 +983,76 @@ ko:
       timeline: 'Gantt'
     invite_user_modal:
       back: '뒤로'
-      invite: 'Invite'
+      invite: '초대'
       title:
         invite: '사용자 초대'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite_to_project: '%{type}을(를) %{project}에 초대'
+        User: '사용자'
+        Group: '그룹'
+        PlaceholderUser: '플레이스홀더 사용자'
+        invite_principal_to_project: '%{principal}을(를) %{project}에 초대'
       project:
         label: '프로젝트'
-        required: 'Please select a project'
+        required: '프로젝트를 선택하십시오'
+        lacking_permission: '현재 선택한 프로젝트에는 사용자를 할당할 권한이 없으므로 다른 프로젝트를 선택하십시오.'
+        lacking_permission_info: '현재 프로젝트에 사용자를 할당할 권한이 없습니다. 다른 프로젝트를 선택해야 합니다.'
         next_button: '다음'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_results: '프로젝트가 없습니다'
+        no_invite_rights: '이 프로젝트에 멤버를 초대할 권한이 없습니다'
       type:
-        required: 'Please select the type to be invited'
+        required: '초대 유형을 선택해주십시오'
         user:
           title: '사용자'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: '선택한 프로젝트 내 할당된 역할을 토대로 하는 권한'
         group:
           title: '그룹'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: '선택한 프로젝트 내 할당된 역할을 토대로 하는 권한'
         placeholder:
           title: '플레이스홀더 사용자'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title_no_ee: '플레이스홀더 사용자 (Enterprise Edition 전용 기능)'
+          description: '프로젝트에 대한 접근 권한이 없으며 이메일이 보내지지 않았습니다.'
+          description_no_ee: '프로젝트에 대한 접근 권한이 없으며 이메일이 보내지지 않았습니다.<br><a href="%{eeHref}" target="_blank">Enterprise Edition</a>에 대해 알아 보십시오'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: '이름 또는 이메일 주소'
           name: '이름'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
-        no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
+        already_member_message: '이미 %{project}의 멤버입니다'
+        no_results_user: '사용자가 없습니다.'
+        invite_user: '초대:'
+        change_user_selection: '이메일 주소를 바꾸거나 현재 사용자를 선택하십시오'
+        no_results_placeholder: '플레이스홀더가 없습니다'
+        change_placeholder_selection: '이름을 바꾸거나 현재 플레이스홀더를 선택하십시오'
+        create_new_placeholder: '새 플레이스홀더 생성:'
+        no_results_group: '그룹이 없습니다'
+        change_group_selection: '이름을 바꾸거나 현재 그룹을 선택하십시오'
         next_button: '다음'
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: '사용자를 선택하십시오'
+          placeholder: '플레이스홀더를 선택하십시오'
+          group: '그룹을 선택하십시오'
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        label: '%{project} 내 역할'
+        no_roles_found: '역할이 없습니다'
+        description: '%{principal}이(가) 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 지정합니다. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">역할과 권한에 대해 더 알아보기</a>'
+        required: '역할을 선택하십시오'
         next_button: '다음'
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        label: '초대 메시지'
+        description: '곧 %{principal} 측으로 이메일을 전송할 것입니다. 여기에 개인 메시지를 추가할 수도 있습니다. 초대에 관한 유용한 설명을 넣거나, 프로젝트를 시작할 때 도움이 되는 정보를 넣어 보십시오.'
+        next_button: '초대 검토'
       summary:
         next_button: '초대장 보내기'
       success:
-        title: '%{principal} was invited!'
+        title: '%{principal} 초대 완료!'
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: '사용자는 로그인하여 %{project}에 접근할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
+          placeholder: '이제 %{project}에서 이 플레이스홀더를 사용할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
+          group: '이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
         next_button: '계속'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: '양식을 성공적으로 제출했습니다'
+      load_error_message: '양식을 불러오는 중 오류가 발생했습니다'
+      validation_error_message: '양식 내 오류를 수정하십시오'
       advanced_settings: '고급 설정'
 
 

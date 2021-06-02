@@ -25,17 +25,25 @@
     </activity-link>
     <div class="comments-icons"
          [hidden]="shouldHideIcons()">
-      <accessible-by-keyboard *ngIf="userCanQuote"
-                              (execute)="quoteComment()"
-                              [linkTitle]="text.quote_comment">
-        <op-icon icon-classes="action-icon icon-quote" [icon-title]="text.quote_comment"></op-icon>
-      </accessible-by-keyboard>
-      <accessible-by-keyboard *ngIf="userCanEdit"
-                              (execute)="activate()"
-                              [linkTitle]="text.edit_comment"
-                              class="edit-activity--{{activityNo}}">
-        <op-icon icon-classes="action-icon icon-edit" [icon-title]="text.edit_comment"></op-icon>
-      </accessible-by-keyboard>
+      <button
+          type="button"
+          *ngIf="userCanQuote"
+          class="op-link"
+          [title]="text.quote_comment"
+          (click)="quoteComment()"
+      >
+        <op-icon icon-classes="action-icon icon-quote"></op-icon>
+      </button>
+      <button
+          *ngIf="userCanEdit"
+          type="button"
+          class="op-link"
+          [ngClass]="'edit-activity--' + activityNo"
+          [title]="text.edit_comment"
+          (click)="activate()"
+      >
+        <op-icon icon-classes="action-icon icon-edit"></op-icon>
+      </button>
     </div>
   </div>
   <img *ngIf="bcfSnapshotUrl"

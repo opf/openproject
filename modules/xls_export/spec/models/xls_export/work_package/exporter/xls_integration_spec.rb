@@ -348,4 +348,23 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       expect(estimated_cell).to eq '(15.0)'
     end
   end
+
+  describe 'with derived estimated hours and estimated_hours set to zero' do
+    let(:work_package) do
+      FactoryBot.create(:work_package,
+                        project: project,
+                        derived_estimated_hours: 15.0,
+                        estimated_hours: 0.0,
+                        type: project.types.first)
+    end
+    let(:work_packages) { [work_package] }
+
+    let(:column_names) { %w[subject status updated_at estimated_hours] }
+
+    it 'it outputs both values' do
+      work_package.reload
+      estimated_cell = sheet.rows.last.to_a.last
+      expect(estimated_cell).to eq '0.0 (15.0)'
+    end
+  end
 end

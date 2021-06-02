@@ -78,6 +78,7 @@ import { ProjectMenuAutocompleteComponent } from "core-app/shared/components/aut
 import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 import { MainMenuResizerComponent } from "core-app/shared/components/resizer/resizer/main-menu-resizer.component";
 import { CommentService } from "core-app/features/work_packages/components/wp-activity/comment-service";
+import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
 
 @NgModule({
   imports: [
@@ -148,6 +149,9 @@ import { CommentService } from "core-app/features/work_packages/components/wp-ac
 
     // Autocompleters
     OpenprojectAutocompleterModule,
+
+    // Tabs
+    OpenprojectTabsModule,
   ],
   providers: [
     { provide: States, useValue: new States() },

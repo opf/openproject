@@ -1,13 +1,11 @@
-import { ComponentFixture, fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { OpAutocompleterComponent } from "./op-autocompleter.component";
 import { OpAutocompleterService } from "./services/op-autocompleter.service";
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { of } from "rxjs";
 import { NgSelectComponent} from '@ng-select/ng-select';
 import { NgSelectModule } from "@ng-select/ng-select";
-import {HalResource} from 'core-app/core/hal/resources/hal-resource';
 import { By } from '@angular/platform-browser';
 
 function triggerKeyDownEvent(element:DebugElement, which:number, key = ''):void {
@@ -90,7 +88,6 @@ describe('autocompleter', () => {
     fixture.componentInstance.appendTo = 'body';
     fixture.componentInstance.multiple = false;
     fixture.componentInstance.closeOnSelect = true;
-    fixture.componentInstance.hasDefaultContent = true;
     fixture.componentInstance.virtualScroll = true;
     fixture.componentInstance.classes = 'wp-inline-create--reference-autocompleter';
     fixture.componentInstance.defaulData = true;
@@ -124,11 +121,11 @@ describe('autocompleter', () => {
     tick(1000);
     fixture.detectChanges();
     tick(1000);
-    
-  expect(opAutocompleterServiceSpy.loadData).toHaveBeenCalledWith('a', 
-  fixture.componentInstance.resource, fixture.componentInstance.filters, fixture.componentInstance.searchKey);
-  
-  expect(fixture.componentInstance.ngSelectInstance.itemsList.items.length).toEqual(2);
+
+    expect(opAutocompleterServiceSpy.loadData).toHaveBeenCalledWith('a',
+      fixture.componentInstance.resource, fixture.componentInstance.filters, fixture.componentInstance.searchKey);
+
+    expect(fixture.componentInstance.ngSelectInstance.itemsList.items.length).toEqual(2);
 
   }));
 });

@@ -78,14 +78,12 @@ describe 'Wysiwyg work package user mentions',
     expect(page)
       .to have_selector('a.mention', text: '@Foo Bar')
 
-    retry_block do
-      comment_field.submit_by_click if comment_field.active?
+    comment_field.submit_by_click if comment_field.active?
 
-      wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
+    wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
 
-      expect(page)
-        .to have_selector('a.user-mention', text: 'Foo Bar')
-    end
+    expect(page)
+      .to have_selector('a.user-mention', text: 'Foo Bar')
 
     # Mentioning a group works
     comment_field.activate!
@@ -99,21 +97,19 @@ describe 'Wysiwyg work package user mentions',
     expect(page)
       .to have_selector('a.mention', text: '@Foogroup')
 
-    retry_block do
-      comment_field.submit_by_click if comment_field.active?
+    comment_field.submit_by_click if comment_field.active?
 
-      wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
+    wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
 
-      expect(page)
-        .to have_selector('a.user-mention', text: 'Foogroup')
-    end
+    expect(page)
+      .to have_selector('a.user-mention', text: 'Foogroup')
 
     # The mention is still displayed as such when reentering the comment field
-    find('#activity-1')
+    find('#activity-1 .op-user-activity')
       .hover
 
     within('#activity-1') do
-      click_link("Edit this comment")
+      click_button("Edit this comment")
     end
 
     expect(page)

@@ -6,19 +6,25 @@
     class="wp-breadcrumb-parent breadcrumb-project-title nocut">
     <span [textContent]="parent.name"></span>
   </a>
-  <accessible-by-keyboard
-    (execute)="open()"
-    *ngIf="canModifyParent()"
-    [linkTitle]="parent ? text.edit_parent : text.set_parent"
-    linkClass="wp-relation--parent-change -no-decoration hide-when-print icon-small {{ parent ? 'icon-edit icon5' : 'icon-add icon4' }}">
+  <button
+      *ngIf="canModifyParent()"
+      type="button"
+      class="op-link wp-relation--parent-change -no-decoration hide-when-print"
+      [title]="parent ? text.edit_parent : text.set_parent"
+      (click)="open()"
+  >
     <span *ngIf="!parent" [textContent]="text.set_parent"></span>
-  </accessible-by-keyboard>
-  <accessible-by-keyboard
-      (execute)="updateParent(null)"
+    <op-icon icon-classes="icon-small {{ parent ? 'icon-edit icon5 icon-no-color' : 'icon-add icon4' }}"></op-icon>
+  </button>
+  <button
       *ngIf="canModifyParent() && parent"
-      [linkTitle]="text.remove_parent"
-      linkClass="wp-relation--parent-remove hide-when-print -no-decoration icon-small icon-remove icon4">
-  </accessible-by-keyboard>
+      type="button"
+      class="op-link wp-relation--parent-remove hide-when-print -no-decoration"
+      [title]="text.remove_parent"
+      (click)="updateParent(null)"
+  >
+    <op-icon icon-classes="icon-small icon-no-color icon-remove icon4"></op-icon>
+  </button>
 </ng-container>
 
 <wp-relations-autocomplete

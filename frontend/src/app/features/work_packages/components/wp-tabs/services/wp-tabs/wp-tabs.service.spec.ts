@@ -2,70 +2,64 @@ import { HttpClientModule } from '@angular/common/http';
 import { Injector } from '@angular/core';
 import { Input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
-import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
-import { States } from 'core-app/components/states.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { HookService } from 'core-app/modules/plugins/hook-service';
 import { Tab, TabComponent } from '../../components/wp-tab-wrapper/tab';
 
 import { WpTabsService } from './wp-tabs.service';
 
+import { StateService } from "@uirouter/angular";
+import { WorkPackageTabsService } from "core-components/wp-tabs/services/wp-tabs/wp-tabs.service";
+
 describe('WpTabsService', () => {
-  let service: WpTabsService;
-  let workPackage:WorkPackageResource;
+  let service:WorkPackageTabsService;
+  let workPackage:any = { id: 1234 };
   let injector:Injector;
   let halResourceService:HalResourceService;
-
-  let source = {
-    _type: 'WorkPackage',
-    id: '1234',
-    _links: {}
-  };
 
   class TestComponent implements TabComponent {
     @Input() public workPackage:WorkPackageResource;
   }
 
-  const displayableTab = new Tab(TestComponent, 'Displayable TestTab', 'displayable-test-tab', (_) => true)
-  const nonDisplayableTab = new Tab(TestComponent, 'NotDisplayable TestTab', 'non-displayable-test-tab', (_) => false)
+  const displayableTab = {
+    component: TestComponent,
+    name: 'Displayable TestTab',
+    id: 'displayable-test-tab',
+    displayable: () => true,
+  };
 
-  const HookServiceStub = {
-    getWorkPackageTabs: () => [displayableTab, nonDisplayableTab]
+  const notDisplayableTab = {
+    component: TestComponent,
+    name: 'NotDisplayable TestTab',
+    id: 'not-displayable-test-tab',
+    displayable: () => false,
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule
+        HttpClientModule,
       ],
       providers: [
-        { provide: HookService, useValue: HookServiceStub },
-        OpenProjectFileUploadService,
-        OpenProjectDirectFileUploadService,
-        HalResourceService,
-        HalResourceNotificationService,
-        States
+        { provide: StateService, useValue: { includes: () => false } }
       ]
     });
-    service = TestBed.inject(WpTabsService);
+    service = TestBed.inject(WorkPackageTabsService);
+    (service as any).registeredTabs = [];
+    service.register(displayableTab, notDisplayableTab);
 
     injector = TestBed.inject(Injector);
-    halResourceService = injector.get(HalResourceService);
-    workPackage = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true);
   });
 
-  describe('displayableTabs()', () =>{
+  describe('displayableTabs()', () => {
     it('returns just the displayable tab', () => {
       expect(service.getDisplayableTabs(workPackage)).toEqual([displayableTab]);
     });
   });
 
-  describe('getTab()', () =>{
+  describe('getTab()', () => {
     it('returns the displayable tab whith the correct identifier', () => {
-      expect(service.getTab('displayable-test-tab', workPackage)).toEqual(displayableTab);
+      expect(service.getTab('displayable-test-tab', workPackage)?.id).toEqual('displayable-test-tab');
       expect(service.getTab('non-existing-tab', workPackage)).toEqual(undefined);
       expect(service.getTab('non-displayable-test-tab', workPackage)).toEqual(undefined);
     });

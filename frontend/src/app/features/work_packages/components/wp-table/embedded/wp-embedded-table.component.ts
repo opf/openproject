@@ -65,16 +65,16 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         this.untilDestroyed(),
         withLatestFrom(this.querySpace.query.values$())
       ).subscribe(([_, query]) => {
-        const pagination = this.wpTablePagination.paginationObject;
-        const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
+      const pagination = this.wpTablePagination.paginationObject;
+      const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
 
-        this.loadingIndicator =
+      this.loadingIndicator =
         this
           .wpListService
           .loadQueryFromExisting(query, params, this.queryProjectScope)
           .toPromise()
           .then((query) => this.initializeStates(query));
-      });
+    });
   }
 
   public openConfigurationModal(onUpdated:() => void) {
@@ -194,10 +194,16 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     }
   }
 
-  openStateLink(event:{ workPackageId:string; requestedState:string }) {
-    this.$state.go(
-      (this.keepTab as any)[event.requestedState] || event.requestedState,
-      { workPackageId: event.workPackageId, focus: true }
-    );
+  openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }) {
+    const params = {
+      workPackageId: event.workPackageId,
+      focus: true,
+    };
+
+    if (event.requestedState === 'split') {
+      this.keepTab.goCurrentDetailsState(params);
+    } else {
+      this.keepTab.goCurrentShowState(params);
+    }
   }
 }

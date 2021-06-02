@@ -57,7 +57,8 @@ export class CollapsibleSectionComponent implements OnInit {
     target.removeAttribute('hidden');
   }
 
-  public toggle() {
+  public toggle(event:Event) {
     this.expanded = !this.expanded;
+    event.preventDefault();
   }
 }

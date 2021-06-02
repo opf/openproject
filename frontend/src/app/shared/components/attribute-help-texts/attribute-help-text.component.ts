@@ -93,10 +93,12 @@ export class AttributeHelpTextComponent implements OnInit {
     }
   }
 
-  public handleClick() {
+  public handleClick(event:Event):void {
     this.load().then((resource) => {
       this.opModalService.show(AttributeHelpTextModal, this.injector, { helpText: resource });
     });
+
+    event.preventDefault();
   }
 
   private load() {

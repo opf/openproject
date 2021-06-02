@@ -1,5 +1,5 @@
 <div
-  class="op-modal attribute-help-text--modal loading-indicator--location"
+  class="op-modal op-modal_autoheight attribute-help-text--modal loading-indicator--location"
   data-indicator-name="modal"
 >
   <op-modal-header (close)="closeMe($event)">
@@ -13,16 +13,19 @@
       [innerHtml]="helpText.helpText.html"
     ></div>
 
-    <attachments [resource]="helpText"
-                 data-allow-uploading="false">
-    </attachments>
+    <attachments
+      [resource]="helpText"
+      data-allow-uploading="false"
+    ></attachments>
   </div>
 
   <div class="op-modal--footer">
-    <a class="help-text--edit-button button"
-       *ngIf="helpText.editText"
-       [attr.href]="helpTextLink"
-       [attr.title]="text.edit">
+    <a
+      class="help-text--edit-button button"
+      *ngIf="helpText.editText"
+      [attr.href]="helpTextLink"
+      [attr.title]="text.edit"
+    >
       <op-icon icon-classes="button--icon icon-edit"></op-icon>
       <span class="button--text" [textContent]="text.edit"></span>
     </a>

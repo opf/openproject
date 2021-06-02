@@ -247,6 +247,9 @@ tr:
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "%{name} yer tutucu kullanıcısını sil."
       data_consequences: >
@@ -256,7 +259,8 @@ tr:
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
     upsale:
       title: Projenin üyesi olmayan kişilere iş atayın.
-      description: Projenizin üyesi olmayan kişilere iş atamak istediğiniz birden çok senaryo vardır. Basitçe, iş için hala doğru kişiyi işe almanız gerekebilir. Ya da sadece o kişiye projenin bilgilerine erişim vermek istemezsiniz, ancak yine de o kişiye atanan görevleri izlemek istersiniz.
+      description: >
+        Projenizin üyesi olmayan kişilere iş atamak istediğiniz birden çok senaryo vardır. Basitçe, iş için hala doğru kişiyi işe almanız gerekebilir. Ya da sadece o kişiye projenin bilgilerine erişim vermek istemezsiniz, ancak yine de o kişiye atanan görevleri izlemek istersiniz.
   prioritiies:
     edit:
       priority_color_text: |
@@ -615,6 +619,9 @@ tr:
           attributes:
             types:
               in_use_by_work_packages: "hala iş paketleri tarafından kullanılmaktadır:%{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2339,8 +2346,8 @@ tr:
     session: "Oturum"
     brute_force_prevention: "Otomatik kullanıcı engelleme"
     display:
-      first_date_of_week_and_year_present: >
-        "Haftanın ilk tarihi" veya "Yılın ilk haftası şunu içerir" seçeneklerinden biri ayarlanmışsa, diğerinin de ön uçta tutarsızlıklardan kaçınmak için ayarlanması gerekir.
+      first_date_of_week_and_year_set: >
+        Eğer %{day_of_week_setting_name} veya %{first_week_setting_name} seçeneklerinden biri ayarlanmışsa, ön uçta tutarsızlık yaşanmaması için diğer seçeneğin de ayarlanması gerekir.
       first_week_of_year_text: >
         Yılın ilk haftasında yer alan Ocak tarihini seçin. Haftanın ilk günü ile birlikte bu değer, bir yıldaki toplam hafta sayısını belirler.
     projects:

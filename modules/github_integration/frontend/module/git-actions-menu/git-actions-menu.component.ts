@@ -27,10 +27,10 @@
 //++
 
 import copy from 'copy-text-to-clipboard';
-import {Component, Inject, Input} from '@angular/core';
-import {WorkPackageResource} from 'core-app/core/hal/resources/work-package-resource';
-import { GitActionsService} from '../git-actions/git-actions.service';
-import { ITab } from "core-app/modules/plugins/linked/openproject-github_integration/typings";
+import { Component, Inject, Input } from '@angular/core';
+import { GitActionsService } from '../git-actions/git-actions.service';
+import { ISnippet} from "core-app/modules/plugins/linked/openproject-github_integration/typings";
+import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { OPContextMenuComponent } from "core-app/shared/components/op-context-menu/op-context-menu.component";
 import {
   OpContextMenuLocalsMap,
@@ -40,7 +40,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 
 
 @Component({
-  selector: 'git-actions-menu',
+  selector: 'op-git-actions-menu',
   templateUrl: './git-actions-menu.template.html',
   styleUrls: [
     './styles/git-actions-menu.sass'
@@ -60,27 +60,22 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
 
   public lastCopyResult:string = this.text.copyResult.success;
   public showCopyResult:boolean = false;
+  public copiedSnippetId:string = '';
 
-  public tabs:ITab[] = [
+  public snippets:ISnippet[] = [
     {
-      label: this.I18n.t('js.github_integration.tab_header.git_actions.branch'),
-      help: this.I18n.t('js.github_integration.tab_header.git_actions.branch_help'),
-      selected: true,
-      lines: 1,
+      id: 'branch',
+      name: this.I18n.t('js.github_integration.tab_header.git_actions.branch_name'),
       textToCopy: () => this.gitActions.branchName(this.workPackage)
     },
     {
-      label: this.I18n.t('js.github_integration.tab_header.git_actions.message'),
-      help: this.I18n.t('js.github_integration.tab_header.git_actions.message_help'),
-      selected: false,
-      lines: 6,
+      id: 'message',
+      name: this.I18n.t('js.github_integration.tab_header.git_actions.commit_message'),
       textToCopy: () => this.gitActions.commitMessage(this.workPackage)
     },
     {
-      label: this.I18n.t('js.github_integration.tab_header.git_actions.cmd'),
-      help: this.I18n.t('js.github_integration.tab_header.git_actions.cmd_help'),
-      selected: false,
-      lines: 6,
+      id: 'command',
+      name: this.I18n.t('js.github_integration.tab_header.git_actions.cmd'),
       textToCopy: () => this.gitActions.gitCommand(this.workPackage)
     },
   ];
@@ -93,29 +88,18 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
     this.workPackage = this.locals.workPackage;
   }
 
-  public selectedTab():ITab {
-    const selectedTabs = this.tabs.filter((tab)=>tab.selected);
-    return(selectedTabs[0] || this.tabs[0]);
-  }
-
-  public selectTab(tab:ITab) {
-    this.tabs.forEach(tab => tab.selected = false);
-    tab.selected = true;
-  }
-
-  public onCopyButtonClick() {
-    const success = this.copySelectedTabText();
+  public onCopyButtonClick(snippet:ISnippet):void {
+    const success = copy(snippet.textToCopy());
 
     if (success) {
       this.lastCopyResult = this.text.copyResult.success;
     } else {
       this.lastCopyResult = this.text.copyResult.error;
     }
+    this.copiedSnippetId = snippet.id;
     this.showCopyResult = true;
-    window.setTimeout(() => { this.showCopyResult = false;}, 2000);
-  }
-
-  public copySelectedTabText() {
-    return copy(this.selectedTab().textToCopy());
+    window.setTimeout(() => {
+      this.showCopyResult = false;
+    }, 2000);
   }
 }

@@ -245,6 +245,9 @@ ja:
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "プレースホルダー ユーザー %{name} を削除"
       data_consequences: >
@@ -254,7 +257,8 @@ ja:
       confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
       title: プロジェクトのメンバーではないユーザーに作業を割り当てる
-      description: プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
+      description: >
+        プロジェクトのメンバーではない人に作業を割り当てたいと思うことは多々あります。それは単に、その仕事に適した人を雇う必要があるということかもしれません。あるいは、その人にプロジェクトの情報へのアクセスを許可したくないが、その人に割り当てられたタスクを追跡したいという場合もあります。
   prioritiies:
     edit:
       priority_color_text: |
@@ -610,6 +614,9 @@ ja:
           attributes:
             types:
               in_use_by_work_packages: "まだワークパッケージによって使用されています: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2318,8 +2325,8 @@ ja:
     session: "セッション"
     brute_force_prevention: "自動的にユーザをロック"
     display:
-      first_date_of_week_and_year_present: >
-        「週の開始」または「年の最初の週に含む」のいずれかのオプションが設定されている場合は、フロントエンドで不整合を避けるために、もう一方のオプションも設定する必要があります。
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         その年の最初の週に含まれる1月の日付を選択します。 この値と週の開始の日によって、1年の合計週数が決定されます。
     projects:

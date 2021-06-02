@@ -29,6 +29,7 @@
 #++
 
 class Admin::BackupsController < ApplicationController
+  include PasswordConfirmation
   include ActionView::Helpers::TagHelper
   include BackupHelper
 
@@ -36,6 +37,8 @@ class Admin::BackupsController < ApplicationController
 
   before_action :check_enabled
   before_action :require_admin
+
+  before_action :check_password_confirmation, only: %i[perform_token_reset]
 
   menu_item :backups
 
@@ -45,7 +48,7 @@ class Admin::BackupsController < ApplicationController
 
     if last_backup
       @job_status_id = last_backup.job_status.job_id
-      @last_backup_date = I18n.localize(last_backup.updated_at)
+      @last_backup_date = format_time(last_backup.updated_at)
       @last_backup_attachment_id = last_backup.attachments.first&.id
     end
 
@@ -54,6 +57,7 @@ class Admin::BackupsController < ApplicationController
 
   def reset_token
     @backup_token = Token::Backup.find_by user: current_user
+    @user = current_user
   end
 
   def perform_token_reset

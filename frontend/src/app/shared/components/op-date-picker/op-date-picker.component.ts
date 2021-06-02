@@ -27,13 +27,13 @@
 //++
 
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker";
-import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
 import { Instance } from "flatpickr/dist/types/instance";
+import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
+import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker";
 
 @Component({
   selector: 'op-date-picker',
@@ -44,7 +44,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   @Output() public onCancel = new EventEmitter<string>();
 
   @Input() public initialDate = '';
-  @Input() public appendTo?:HTMLElement = document.body;
+  @Input() public appendTo?:HTMLElement;
   @Input() public classes = '';
   @Input() public id = '';
   @Input() public name = '';
@@ -89,8 +89,12 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   closeOnOutsideClick(event:any) {
     if (!(event.relatedTarget &&
       this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
-      this.datePickerInstance.hide();
+      this.close();
     }
+  }
+
+  close() {
+    this.datePickerInstance.hide();
   }
 
   protected isEmpty():boolean {
@@ -131,7 +135,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     };
 
     let initialValue;
-    if (this.isEmpty && this.initialDate) {
+    if (this.isEmpty() && this.initialDate) {
       initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
     } else {
       initialValue = this.currentValue;

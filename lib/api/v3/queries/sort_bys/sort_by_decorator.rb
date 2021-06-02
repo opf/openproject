@@ -65,7 +65,7 @@ module API
           end
 
           def direction_uri
-            "urn:openproject-org:api:v3:queries:directions:#{direction}"
+            "#{API::V3::URN_PREFIX}queries:directions:#{direction}"
           end
 
           def direction_l10n

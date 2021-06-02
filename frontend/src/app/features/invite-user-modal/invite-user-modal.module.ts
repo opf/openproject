@@ -1,13 +1,8 @@
 import { APP_INITIALIZER, Injector, NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import { TextFieldModule } from '@angular/cdk/text-field'; 
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { NgSelectModule } from "@ng-select/ng-select";
-import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
-import { OPSharedModule } from "core-app/shared/shared.module";
-import { DynamicFormsModule } from "core-app/shared/components/dynamic-forms/dynamic-forms.module";
-import { OpInviteUserModalAugmentService } from "core-app/features/invite-user-modal/invite-user-modal-augment.service";
-import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
 import { InviteUserModalComponent } from "./invite-user.component";
 import { ProjectSelectionComponent } from "./project-selection/project-selection.component";
 import { ProjectSearchComponent } from "./project-selection/project-search.component";
@@ -18,7 +13,13 @@ import { RoleSearchComponent } from "./role/role-search.component";
 import { MessageComponent } from "./message/message.component";
 import { SummaryComponent } from "./summary/summary.component";
 import { SuccessComponent } from "./success/success.component";
+import { CurrentUserModule } from "core-app/core/current-user/current-user.module";
+import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { InviteUserButtonModule } from "core-app/features/invite-user-modal/button/invite-user-button.module";
+import { DynamicFormsModule } from "core-app/shared/components/dynamic-forms/dynamic-forms.module";
+import { OpInviteUserModalAugmentService } from "core-app/features/invite-user-modal/invite-user-modal-augment.service";
+import { OPSharedModule } from "core-app/shared/shared.module";
+import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
 
 export function initializeServices(injector:Injector) {
   return function () {
@@ -37,6 +38,7 @@ export function initializeServices(injector:Injector) {
     TextFieldModule,
     DynamicFormsModule,
     InviteUserButtonModule,
+    CurrentUserModule,
   ],
   exports: [
     InviteUserButtonModule,

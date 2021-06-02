@@ -37,6 +37,7 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
       debounceTime(100),
       switchMap((searchTerm:string) => {
         const filters = new ApiV3FilterBuilder();
+        filters.add('active', '=', true);
         if (searchTerm) {
           filters.add('name_and_identifier', '~', [searchTerm]);
         }
@@ -50,19 +51,19 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
       map(capabilities => capabilities.filter(c => c.action.href.endsWith('/memberships/create')))
     ),
   ])
-  .pipe(
-    this.untilDestroyed(),
-    map(([ projects, projectInviteCapabilities ]) => {
-      const mapped = projects.map((project: ProjectResource) => ({
+    .pipe(
+      this.untilDestroyed(),
+      map(([ projects, projectInviteCapabilities ]) => {
+        const mapped = projects.map((project: ProjectResource) => ({
           project,
           disabled: !projectInviteCapabilities.find(cap => cap.context.id === project.id),
         }));
-      mapped.sort(
-        (a: NgSelectProjectOption, b: NgSelectProjectOption) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
-      );
-      return mapped;
-    })
-  );
+        mapped.sort(
+          (a: NgSelectProjectOption, b: NgSelectProjectOption) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
+        );
+        return mapped;
+      })
+    );
 
   constructor(
     readonly I18n:I18nService,

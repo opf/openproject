@@ -149,11 +149,9 @@ import { WorkPackageTypeStatusComponent } from "core-app/features/work_packages/
 import { TimeEntryChangeset } from "core-app/features/work_packages/time-entries/time-entry-changeset";
 import { WorkPackageIsolatedQuerySpaceDirective } from "core-app/features/work_packages/directives/query-space/wp-isolated-query-space.directive";
 import { WorkPackageBreadcrumbParentComponent } from "core-app/features/work_packages/components/wp-breadcrumb/wp-breadcrumb-parent.component";
-import { WorkPackageRelationsCountComponent } from "core-app/features/work_packages/components/wp-relations-count/wp-relations-count.component";
 import { WorkPackageSubjectComponent } from "core-app/features/work_packages/components/wp-subject/wp-subject.component";
 import { WorkPackageBreadcrumbComponent } from "core-app/features/work_packages/components/wp-breadcrumb/wp-breadcrumb.component";
 import { UserLinkComponent } from "core-app/shared/components/user-link/user-link.component";
-import { WorkPackageWatchersCountComponent } from "core-app/features/work_packages/components/wp-relations-count/wp-watchers-count.component";
 import { WorkPackageCommentComponent } from "core-app/features/work_packages/components/work-package-comment/work-package-comment.component";
 import { WorkPackageWatcherButtonComponent } from "core-app/features/work_packages/components/wp-watcher-button/wp-watcher-button.component";
 import { WorkPackageCommentFieldComponent } from "core-app/features/work_packages/components/work-package-comment/wp-comment-field.component";
@@ -172,6 +170,7 @@ import { ActivityLinkComponent } from "core-app/features/work_packages/component
 import { UserActivityComponent } from "core-app/features/work_packages/components/wp-activity/user/user-activity.component";
 import { WorkPackageSplitViewToolbarComponent } from "core-app/features/work_packages/components/wp-details/wp-details-toolbar.component";
 import { WorkPackageCopyFullViewComponent } from "core-app/features/work_packages/components/wp-copy/wp-copy-full-view.component";
+import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
 
 
 @NgModule({
@@ -196,6 +195,7 @@ import { WorkPackageCopyFullViewComponent } from "core-app/features/work_package
     OpWpTabsModule,
 
     EditFieldControlsModule,
+    OpenprojectTabsModule,
   ],
   providers: [
     // Notification service
@@ -351,8 +351,6 @@ import { WorkPackageCopyFullViewComponent } from "core-app/features/work_package
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
-    WorkPackageRelationsCountComponent,
-    WorkPackageWatchersCountComponent,
     WorkPackageBreadcrumbComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
@@ -412,8 +410,6 @@ import { WorkPackageCopyFullViewComponent } from "core-app/features/work_package
     WorkPackageBreadcrumbParentComponent,
     WorkPackageSplitViewToolbarComponent,
     WorkPackageSubjectComponent,
-    WorkPackageWatchersCountComponent,
-    WorkPackageRelationsCountComponent,
     WorkPackagesGridComponent,
 
     // Modals
@@ -471,12 +467,12 @@ export class OpenprojectWorkPackagesModule {
     /** Return specialized work package changeset for editing service */
     hookService.register('halResourceChangesetClass', (resource:HalResource) => {
       switch (resource._type) {
-      case 'WorkPackage':
-        return WorkPackageChangeset;
-      case 'TimeEntry':
-        return TimeEntryChangeset;
-      default:
-        return null;
+        case 'WorkPackage':
+          return WorkPackageChangeset;
+        case 'TimeEntry':
+          return TimeEntryChangeset;
+        default:
+          return null;
       }
     });
   }

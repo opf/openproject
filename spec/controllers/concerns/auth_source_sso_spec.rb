@@ -45,7 +45,7 @@ describe MyController, type: :controller do
   let(:secret) { "42" }
 
   let!(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
-  let!(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id }
+  let!(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
   let(:login) { "h.wurst" }
 
   shared_examples "auth source sso failure" do
@@ -106,6 +106,7 @@ describe MyController, type: :controller do
 
       it "should log in given user" do
         expect(response.body.squish).to have_content("Username   h.wurst")
+        expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.now)
       end
     end
 

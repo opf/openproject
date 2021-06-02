@@ -244,6 +244,9 @@ pl:
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Usuń użytkownika zastępczego %{name}"
       data_consequences: >
@@ -253,7 +256,8 @@ pl:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Przypisz pracę osobom, które nie są członkami projektu.
-      description: Istnieje wiele scenariuszy, w których chcesz przypisać pracę osobom, które nie są członkami projektu. Może się po prostu zdarzyć, że nadal musisz zatrudnić odpowiednią osobę do danej pracy. Lub też po prostu nie chcesz udzielać tej osobie dostępu do informacji o projekcie, ale nadal chcesz śledzić zadania przypisane do tej osoby.
+      description: >
+        Istnieje wiele scenariuszy, w których chcesz przypisać pracę osobom, które nie są członkami projektu. Może się po prostu zdarzyć, że nadal musisz zatrudnić odpowiednią osobę do danej pracy. Lub też po prostu nie chcesz udzielać tej osobie dostępu do informacji o projekcie, ale nadal chcesz śledzić zadania przypisane do tej osoby.
   prioritiies:
     edit:
       priority_color_text: |
@@ -614,6 +618,9 @@ pl:
           attributes:
             types:
               in_use_by_work_packages: "nadal w użyciu przez Zestawy zadań: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2367,8 +2374,8 @@ pl:
     session: "Sesja"
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
     display:
-      first_date_of_week_and_year_present: >
-        If either options "First date of week" or "First week of year contains" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:

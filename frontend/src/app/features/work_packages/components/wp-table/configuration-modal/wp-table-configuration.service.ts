@@ -13,33 +13,33 @@ export class WpTableConfigurationService {
 
   protected _tabs:TabInterface[] = [
     {
-      name: 'columns',
-      title: this.I18n.t('js.label_columns'),
+      id: 'columns',
+      name: this.I18n.t('js.label_columns'),
       componentClass: WpTableConfigurationColumnsTab,
     },
     {
-      name: 'filters',
-      title: this.I18n.t('js.work_packages.query.filters'),
+      id: 'filters',
+      name: this.I18n.t('js.work_packages.query.filters'),
       componentClass: WpTableConfigurationFiltersTab,
     },
     {
-      name: 'sort-by',
-      title: this.I18n.t('js.label_sort_by'),
+      id: 'sort-by',
+      name: this.I18n.t('js.label_sort_by'),
       componentClass: WpTableConfigurationSortByTab,
     },
     {
-      name: 'display-settings',
-      title: this.I18n.t('js.work_packages.table_configuration.display_settings'),
+      id: 'display-settings',
+      name: this.I18n.t('js.work_packages.table_configuration.display_settings'),
       componentClass: WpTableConfigurationDisplaySettingsTab,
     },
     {
-      name: 'highlighting',
-      title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
+      id: 'highlighting',
+      name: this.I18n.t('js.work_packages.table_configuration.highlighting'),
       componentClass: WpTableConfigurationHighlightingTab,
     },
     {
-      name: 'timelines',
-      title: this.I18n.t('js.timelines.gantt_chart'),
+      id: 'timelines',
+      name: this.I18n.t('js.timelines.gantt_chart'),
       componentClass: WpTableConfigurationTimelinesTab
     }
   ];

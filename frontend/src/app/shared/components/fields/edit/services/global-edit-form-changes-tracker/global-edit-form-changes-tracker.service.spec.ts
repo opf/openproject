@@ -77,6 +77,8 @@ describe('GlobalEditFormChangesTrackerService', () => {
   it('should call thereAreFormsWithUnsavedChangesSpy on beforeunload', () => {
     const thereAreFormsWithUnsavedChangesSpy = spyOnProperty(service, 'thereAreFormsWithUnsavedChanges', 'get');
 
+    window.onbeforeunload = jasmine.createSpy();
+
     window.dispatchEvent(new Event('beforeunload'));
 
     expect(thereAreFormsWithUnsavedChangesSpy).toHaveBeenCalled();

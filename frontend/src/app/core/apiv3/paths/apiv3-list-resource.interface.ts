@@ -30,8 +30,10 @@ import { CollectionResource } from "core-app/core/hal/resources/collection-resou
 import { Observable } from "rxjs";
 import { ApiV3FilterBuilder, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
+export type ApiV3ListFilter = [string, FilterOperator, string[]];
+
 export interface Apiv3ListParameters {
-  filters?:[string, FilterOperator, string[]][];
+  filters?:ApiV3ListFilter[];
   sortBy?:[string, string][];
   pageSize?:number;
   offset?:number;

@@ -1,15 +1,21 @@
 <div class="inplace-edit--dashboard">
   <div class="inplace-edit--controls">
-    <accessible-by-keyboard (execute)="save()"
-                            [attr.disabled]="(field.required && field.isEmpty()) || undefined"
-                            [linkTitle]="saveTitle"
-                            class="inplace-edit--control inplace-edit--control--save">
-      <op-icon icon-classes="icon-checkmark" [icon-title]="saveTitle"></op-icon>
-    </accessible-by-keyboard>
-    <accessible-by-keyboard (execute)="cancel()"
-                            [linkTitle]="cancelTitle"
-                            class="inplace-edit--control inplace-edit--control--cancel">
-      <op-icon icon-classes="icon-close" [icon-title]="cancelTitle"></op-icon>
-    </accessible-by-keyboard>
+    <button
+        type="button"
+        class="inplace-edit--control inplace-edit--control--save"
+        [disabled]="(field.required && field.isEmpty()) || undefined"
+        [title]="saveTitle"
+        (click)="save()"
+    >
+      <op-icon icon-classes="icon-checkmark icon-no-color" [icon-title]="saveTitle"></op-icon>
+    </button>
+    <button
+        type="button"
+        class="inplace-edit--control inplace-edit--control--cancel"
+        [title]="cancelTitle"
+        (click)="cancel()"
+    >
+      <op-icon icon-classes="icon-close icon-no-color" [icon-title]="cancelTitle"></op-icon>
+    </button>
 </div>
 </div>

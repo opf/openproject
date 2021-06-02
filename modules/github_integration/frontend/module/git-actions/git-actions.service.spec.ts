@@ -71,25 +71,17 @@ describe('GitActionsService', function() {
     expect(service.branchName(wp)).toEqual('user-story/42-find-the-question');
     expect(service.commitMessage(wp)).toEqual(`[#42] Find the question
 
-I recently found the answer is 42. We need to compute the correct
-question.
-
 http://localhost:9876/work_packages/42
 `);
     expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-find-the-question' && git commit --allow-empty -m '[#42] Find the question
-
-I recently found the answer is 42. We need to compute the correct
-question.
 
 http://localhost:9876/work_packages/42
 '`);
   });
 
   it('shell-escapes output for the git-command', () => {
-    const wp = createWorkPackage({description: { raw: "' && rm -rf / #"}});
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-find-the-question' && git commit --allow-empty -m '[#42] Find the question
-
-'\\'' && rm -rf / #
+    const wp = createWorkPackage({ subject: "' && rm -rf / #" });
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m '[#42] '\\'' && Rm -rf / #
 
 http://localhost:9876/work_packages/42
 '`);

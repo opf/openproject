@@ -4,7 +4,7 @@ import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { TabInterface } from "core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { Injectable } from '@angular/core';
 import { WpGraphConfigurationFiltersTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component";
-import { ChartType } from 'chart.js';
+import { ChartOptions, ChartType } from 'chart.js';
 import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
 import {
   WpGraphConfiguration,
@@ -13,6 +13,7 @@ import {
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { WorkPackageEmbeddedGraphDataset } from "core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component";
 
 @Injectable()
 export class WpGraphConfigurationService {
@@ -27,13 +28,13 @@ export class WpGraphConfigurationService {
               readonly currentProject:CurrentProjectService) {
   }
 
-  public persistAndReload() {
+  public persistAndReload():Promise<unknown> {
     return this
       .persistChanges()
       .then(() => this.reloadQueries());
   }
 
-  public persistChanges() {
+  public persistChanges():Promise<unknown> {
     const promises = this.queries.map(query => {
       return this.saveQuery(query);
     });
@@ -41,7 +42,7 @@ export class WpGraphConfigurationService {
     return Promise.all(promises);
   }
 
-  public get datasets() {
+  public get datasets():WorkPackageEmbeddedGraphDataset[] {
     return this.queries.map(query => {
       return {
         groups: query.results.groups,
@@ -51,13 +52,13 @@ export class WpGraphConfigurationService {
     });
   }
 
-  public reloadQueries() {
+  public reloadQueries():Promise<unknown> {
     this.configuration.queries.length = 0;
 
     return this.loadQueries();
   }
 
-  public ensureQueryAndLoad() {
+  public ensureQueryAndLoad():Promise<unknown> {
     if (this.queryParams.length === 0) {
       return this.createInitial()
         .then((query) => {
@@ -138,7 +139,7 @@ export class WpGraphConfigurationService {
     this._formsPromise = null;
   }
 
-  public async formFor(query:QueryResource) {
+  public async formFor(query:QueryResource):Promise<QueryFormResource> {
     return this
       .loadForms()
       .then(() => {
@@ -146,19 +147,19 @@ export class WpGraphConfigurationService {
       });
   }
 
-  public get tabs() {
+  public get tabs():TabInterface[] {
     const tabs:TabInterface[] = [
       {
-        name: 'graph-settings',
-        title: this.I18n.t('js.chart.tabs.graph_settings'),
+        id: 'graph-settings',
+        name: this.I18n.t('js.chart.tabs.graph_settings'),
         componentClass: WpGraphConfigurationSettingsTab,
       }
     ];
 
     const queryTabs = this.configuration.queries.map((query) => {
       return {
-        name: query.id as string,
-        title: this.I18n.t('js.work_packages.query.filters'),
+        id: query.id as string,
+        name: this.I18n.t('js.work_packages.query.filters'),
         componentClass: WpGraphConfigurationFiltersTab
       };
     });
@@ -166,7 +167,7 @@ export class WpGraphConfigurationService {
     return tabs.concat(queryTabs);
   }
 
-  public loadForms() {
+  public loadForms():Promise<unknown> {
     if (!this._formsPromise) {
       const formPromises = this.configuration.queries.map((query) => {
         return this
@@ -187,7 +188,7 @@ export class WpGraphConfigurationService {
     return this._formsPromise;
   }
 
-  public get chartType() {
+  public get chartType():ChartType {
     return this._configuration.chartType;
   }
 
@@ -195,15 +196,15 @@ export class WpGraphConfigurationService {
     this._configuration.chartType = type;
   }
 
-  public get queries() {
+  public get queries():QueryResource[] {
     return this._configuration.queries;
   }
 
-  public get chartOptions() {
+  public get chartOptions():ChartOptions {
     return this._configuration.chartOptions;
   }
 
-  public get queryParams() {
+  public get queryParams():WpGraphQueryParams[] {
     return this._configuration.queryParams;
   }
 }

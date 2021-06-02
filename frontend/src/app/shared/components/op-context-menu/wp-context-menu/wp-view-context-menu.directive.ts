@@ -64,29 +64,29 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     const link = action.link;
 
     switch (action.key) {
-    case 'delete':
-      this.deleteSelectedWorkPackages();
-      break;
+      case 'delete':
+        this.deleteSelectedWorkPackages();
+        break;
 
-    case 'edit':
-      this.editSelectedWorkPackages(link!);
-      break;
+      case 'edit':
+        this.editSelectedWorkPackages(link!);
+        break;
 
-    case 'copy':
-      this.copySelectedWorkPackages(link!);
-      break;
+      case 'copy':
+        this.copySelectedWorkPackages(link!);
+        break;
 
-    case 'relation-new-child':
-      this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
-      break;
+      case 'relation-new-child':
+        this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
+        break;
 
-    case 'log_time':
-      this.logTimeForSelectedWorkPackage();
-      break;
+      case 'log_time':
+        this.logTimeForSelectedWorkPackage();
+        break;
 
-    default:
-      window.location.href = link!;
-      break;
+      default:
+        window.location.href = link!;
+        break;
     }
   }
 
@@ -187,8 +187,8 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
           href: this.$state.href(
-            splitViewRoute(this.$state) + '.overview',
-            { workPackageId: this.workPackageId }),
+            splitViewRoute(this.$state) + '.tabs',
+            { workPackageId: this.workPackageId, tabIdentifier: 'overview' }),
           linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQuery.TriggeredEvent) => {
             if (LinkHandling.isClickedWithModifier($event)) {
@@ -196,8 +196,8 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             }
 
             this.$state.go(
-              splitViewRoute(this.$state) + '.overview',
-              { workPackageId: this.workPackageId }
+              splitViewRoute(this.$state) + '.tabs',
+              { workPackageId: this.workPackageId, tabIdentifier: 'overview' }
             );
             return true;
           }

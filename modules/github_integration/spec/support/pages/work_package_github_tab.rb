@@ -46,8 +46,8 @@ module Pages
       find('.github-git-copy:not([disabled])', text: 'Git')
     end
 
-    def git_actions_copy_button
-      find('.git-actions-menu .copy-button:not([disabled])')
+    def git_actions_copy_branch_name_button
+      find('.git-actions-menu .copy-button:not([disabled])', match: :first)
     end
 
     def paste_clipboard_content
@@ -56,7 +56,7 @@ module Pages
     end
 
     def expect_tab_not_present
-      expect(page).not_to have_selector('.tabrow li', text: 'GITHUB')
+      expect(page).not_to have_selector('.op-tab-row--link', text: 'GITHUB')
     end
 
     private

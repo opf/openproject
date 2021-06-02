@@ -53,7 +53,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
   @InjectField() halNotification:HalResourceNotificationService;
   @InjectField() halSorting:HalResourceSortingService;
-  @InjectField() permissionsService:PermissionsService;
   @InjectField() $state:StateService;
   @InjectField(EditFormComponent, null, InjectFlags.Optional) editFormComponent:EditFormComponent;
 

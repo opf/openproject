@@ -88,6 +88,13 @@ You can now log out, and see that the login form displays a badge for authentica
 
 Congratulations, your users can now authenticate using your Azure Active Directory!
 
+#### Tenant configuration
+
+Sometimes you may need to configure the `tenant` option for the AzureAD connection.
+Currently this is not possible through the user interface.
+
+But you can do it via the console as described [here](/installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
+
 ## Troubleshooting
 
 Q: After clicking on a provider badge, I am redirected to a signup form that says a user already exists with that login.

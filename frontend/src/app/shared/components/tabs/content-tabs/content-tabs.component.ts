@@ -29,46 +29,44 @@
 import {
   Component,
   ElementRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy, ChangeDetectorRef,
 } from '@angular/core';
 import { GonService } from "core-app/core/gon/gon.service";
 import { StateService } from '@uirouter/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ScrollableTabsComponent } from "core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component";
+import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";
 
 
 export const contentTabsSelector = 'content-tabs';
 
-interface GonTab {
-  name:string;
+interface GonTab extends TabDefinition {
   partial:string;
-  path:string;
   label:string;
 }
 
 @Component({
-  selector: 'content-tabs',
+  selector: 'op-content-tabs',
   templateUrl: '../scrollable-tabs/scrollable-tabs.component.html',
+  styleUrls: ['./content-tabs.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ContentTabsComponent extends ScrollableTabsComponent {
-  public gonTabs:GonTab[];
-  public currentTab:GonTab;
-
   public classes:string[] = ['content--tabs', 'scrollable-tabs'];
 
   constructor(readonly elementRef:ElementRef,
               readonly $state:StateService,
               readonly gon:GonService,
+              cdRef:ChangeDetectorRef,
               readonly I18n:I18nService) {
-    super();
+    super(cdRef);
 
-    this.gonTabs = JSON.parse((this.gon.get('contentTabs') as any).tabs);
-    this.currentTab = JSON.parse((this.gon.get('contentTabs') as any).selected);
+    const gonTabs = JSON.parse((this.gon.get('contentTabs') as any).tabs);
+    const currentTab = JSON.parse((this.gon.get('contentTabs') as any).selected);
 
     // parse tabs from backend and map them to scrollable tabs structure
-    this.tabs = this.gonTabs.map((tab:GonTab) => {
+    this.tabs = gonTabs.map((tab:GonTab) => {
       return {
         id: tab.name,
         name: this.I18n.t('js.' + tab.label, { defaultValue: tab.label }),
@@ -77,6 +75,6 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
     });
 
     // highlight current tab
-    this.currentTabId = this.currentTab.name;
+    this.currentTabId = currentTab.name;
   }
 }
