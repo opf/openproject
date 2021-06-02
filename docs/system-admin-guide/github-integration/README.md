@@ -37,22 +37,66 @@ In *Project settings* and *Modules* you will need to activate the GitHub module.
 
 Then you will have a GitHub tab appearing in your work package view where you will see all information pulling through from GitHub.
 
-![Github integration tab](Github integration tab.png)
+![GitHub-tab](GitHub-tab.png)
 
-In your OpenProject work package, the new GitHub integration supports you to create a branch straight from the work package and consequently the matching pull request.
+In your OpenProject work package, the GitHub integration supports you to create a branch straight from the work package and consequently the matching pull request.
 
 
-![Github integration create branch](Github integration create branch.png)
-
-If you already have an existing pull request in GitHub, you can link it using the code OP#5999 (5999 being the ID of the work package) in the GitHub pull request description.
+![GitHub-create-branch](GitHub-create-branch.png)
 
 
 
-![Github integration PR overview](Github integration PR overview.png)
+Copy Branch name
+
+Then open new branch in GitHub desktop
+
+Then go to Typora and make changes
+
+Save
+
+Changes in GitHub desktop
+
+in OP use commit message
+
+Publish branch
 
 
 
-![Github integration actions](Github integration actions.png)
+
+
+create PR
+
+add info in comment
+
+create PR green button
+
+click link to OP WP
+
+comment in activity that PR is created
+
+commit messaage mit OP Verweis auf das AP
+
+
+
+see GitHub action in GitHub tab
+
+
+
+If PR is merged, it will appear in OP
+
+
+
+If you already have an existing pull request in GitHub, you can link it using the code OP#0000 (0000 being the ID of the work package) in the GitHub pull request description.
+
+
+
+![GitHub-actions](GitHub-actions.png)
+
+![GitHub-pull-request-status](GitHub-pull-request-status.png)
+
+
+
+
 
 First you will need to create a user in OpenProject that will make the comments.
 The user will have to be added to each project with a role that allows them
