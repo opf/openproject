@@ -46,9 +46,15 @@ In your OpenProject work package, the GitHub integration supports you to create 
 
 
 
-Copy Branch name
+In order to create a new branch, open the GitHub tab in your OpenProject work package detail view. Click on Git snippets to extend the menu. 
 
-Then open new branch in GitHub desktop
+First, copy the branch name.
+
+![GitHub-copy-branch-name](GitHub-copy-branch-name.png)
+
+Then, open your desktop client, e.g. GitHub desktop. There, you create your branch with the name you copied from your OpenProject work package.
+
+![GitHub-desktop-new-branch](GitHub-desktop-new-branch.png)
 
 Then go to Typora and make changes
 
