@@ -20,6 +20,7 @@ $search-input-height: 30px
     display: none
 
   &--button
+    @include unset-button-styles
     position: absolute
     right: 2px
     font-size: var(--header-item-font-size)
@@ -167,7 +168,7 @@ $search-input-height: 30px
     grid-template-areas: "project idlink status"
     font-size: 0.8rem
     padding: 5px 0 5px 0px
-   
+
   &--wp-project
     grid-area: project
 
