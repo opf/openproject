@@ -1,10 +1,10 @@
 <widget-header
-    [name]="widgetName"
-    (onRenamed)="renameWidget($event)">
+  [name]="widgetName"
+  (onRenamed)="renameWidget($event)">
 
   <widget-menu
-      slot="menu"
-      [resource]="resource">
+    slot="menu"
+    [resource]="resource">
   </widget-menu>
 </widget-header>
 
@@ -12,11 +12,11 @@
   <span #displayContainer
         class="inline-edit--formattable-display-text -default">
     <div class="op-uc-container"
-        *ngIf="!textEmpty"
-        [innerHTML]="customText"></div>
+         *ngIf="!textEmpty"
+         [innerHTML]="customText"></div>
     <div
-        *ngIf="textEmpty"
-        [innerHTML]="placeholderText"></div>
+      *ngIf="textEmpty"
+      [innerHTML]="placeholderText"></div>
   </span>
 </ng-template>
 
@@ -35,13 +35,14 @@
     <div *ngIf="!active"
          class="inplace-edit--read wiki -no-label"
          [ngClass]="{'inline-edit--container': isTextEditable}">
-      <div *ngIf="isTextEditable"
-           (accessibleClick)="activate($event)"
-           [accessibleClickStopEvent]="false"
-           [ngClass]="inplaceEditClasses">
-
+      <button
+        type="button"
+        *ngIf="isTextEditable"
+        (click)="activate($event)"
+        [ngClass]="inplaceEditClasses"
+      >
         <ng-container *ngTemplateOutlet="text"></ng-container>
-      </div>
+      </button>
 
       <ng-container *ngIf="!isTextEditable">
         <ng-container *ngTemplateOutlet="text"></ng-container>
