@@ -2649,6 +2649,8 @@ da:
     getting_started: "Getting started"
     help_and_support: "Help and support"
   total_progress: "Samlet fremgang"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "alle"
     active: "aktiv"

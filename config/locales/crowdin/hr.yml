@@ -2671,6 +2671,8 @@ hr:
     getting_started: "Getting started"
     help_and_support: "Help and support"
   total_progress: "Ukupni progres"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "sve"
     active: "aktivno"

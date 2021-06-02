@@ -2634,6 +2634,8 @@ zh-TW:
     getting_started: "開始"
     help_and_support: "説明和支援"
   total_progress: "總進度"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "所有"
     active: "啟用"

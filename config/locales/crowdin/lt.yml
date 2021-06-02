@@ -2683,6 +2683,8 @@ lt:
     getting_started: "Darbo pradžia"
     help_and_support: "Pagalba ir palaikymas"
   total_progress: "Visas progresas"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "visi"
     active: "aktyvus"

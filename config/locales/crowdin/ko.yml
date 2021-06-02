@@ -2632,6 +2632,8 @@ ko:
     getting_started: "시작하기"
     help_and_support: "도움말과 지원"
   total_progress: "총 진행률"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "모두"
     active: "활성"

@@ -2688,6 +2688,8 @@ cs:
     getting_started: "Začínáme"
     help_and_support: "Pomoc a podpora"
   total_progress: "Celkový průběh"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "vše"
     active: "aktivní"
