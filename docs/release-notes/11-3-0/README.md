@@ -3,7 +3,7 @@ title: OpenProject 11.3.0
 sidebar_navigation:
     title: 11.3.0
 release_version: 11.3.0
-release_date: 2021-06-01
+release_date: 2021-06-03
 ---
 
 # OpenProject 11.3.0
@@ -26,22 +26,20 @@ In the header navigation we have introduced a **new button to create a project, 
 ### New user invite modal
 
 A new user invite process has been introduced. A modal window allows **much easier creation of new users, groups or placeholder users**, assigning roles and adding them to a project.
-Add a personal invitation message, e.g. an explanation for the invitation or a bit of information regarding the project, which will be sent to the user to help them get started.
+Add a personal invitation message, e.g. an explanation for the invitation or a bit of information regarding the project, which will be sent to the users to help them get started.
 
 ![Intive-user](Intive-user.png)
 
 The invite process can be started directly from the new "+" create button in the header navigation.
 
 ### Invite new users from work packages drop-down
-**
-
- The new invite modal for users, groups, and placeholder users can now be opened directly from the user type drop-down menu in a work package, e.g. to assign a user to a work package who is not yet a member of the project. This way, there is no need anymore to leave the work package to assign a user who is not yet a member of the project. The creation of users and adding them to a project is now much more intuitive.
+The **new invite modal for users, groups, and placeholder users** can now be opened directly from the user type drop-down menu in a work package, e.g. to assign a user to a work package who is not yet a member of the project. This way, there is no need anymore to leave the work package to assign a user who is not yet a member of the project. The creation of users and adding them to a project is now much more intuitive.
 
 ![invite-user-type-drop-down](invite-user-type-drop-down.png)
 
 ## GitHub integration
 
-With OpenProject 11.3 we released a new integration between GitHub and OpenProject. This integration facilitates the collaboration of developers by connecting the two applications. The new GitHub integration in OpenProject is an individual module that, once activated, will be displayed to you as a tab in the work package details view. All activities taking place on GitHub that are related to the work package, are listed on this new GitHub tab. Find out more about the OpenProject GitHub integration.
+With OpenProject 11.3 we released a new **integration between GitHub and OpenProject**. This integration facilitates the collaboration of developers by connecting the two applications. The new GitHub integration in OpenProject is an individual module that, once activated, will be displayed to you as a tab in the work package details view. All activities taking place on GitHub that are related to the work package, are listed on this new GitHub tab. [Find out more about the OpenProject GitHub integration](../system-admin-guide/github-integration/).
 
 ![github-integration](github-integration.PNG)
 
@@ -49,7 +47,7 @@ With OpenProject 11.3 we released a new integration between GitHub and OpenProje
 
 ### API v3 endpoints for groups
 
-We have made extensions to our API v3 to create, read, update and delete groups through the API, e.g. to allow adding users to a group via API. The following tasks can be performed via the API:
+We have made **extensions to our API v3** to create, read, update and delete groups through the API, e.g. to allow adding users to a group via API. The following tasks can be performed via the API:
 
 - Create a group
 - Delete a group
@@ -72,7 +70,7 @@ The API v3 already supports the ability to create a new project. It is now enhan
 
 ## Sending notification on adding a user to a project or updating the role
 
-Newly added users to a project will now receive a notification that they have been added to a project. The user will receive an email with a the information about the role in the project and a link to it. Also, if a role is changed in a project, the user will receive a notification about the newly added role. Also, the API endpoints for creating and updating memberships are enhanced by this notifications**.** The notifications can be turned off in the administration (Administration -> Email -> Email notifications).
+Newly **added users to a project will now receive a notification** that they have been added to a project. The user will receive an email with a the information about the role in the project and a link to it. Also, if a role is changed in a project, the user will receive a notification about the newly added role. Also, the API endpoints for creating and updating memberships are enhanced by this notifications**.** The notifications can be turned off in the administration (Administration -> Email -> Email notifications).
 
 ## Multi-selection for project custom fields of type list
 
@@ -82,7 +80,7 @@ For work packages, fields can already be configured as multiple selections for a
 
 ## Create backup from web interface
 
-Users now have the option to create backups of their OpenProject installation directly via the web interface. the backup can be triggered via Administration -> Backup. They will receive an email notification with the link to download the backup files with an additional authentication (username/password + 2FA).
+Users now have the option to **create backups of their OpenProject installation** directly via the web interface. the backup can be triggered via Administration -> Backup. They will receive an email notification with the link to download the backup files with an additional authentication (username/password + 2FA).
 
 
 
