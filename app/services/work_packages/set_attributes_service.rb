@@ -201,7 +201,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
 
     return if available_types.include?(work_package.type) && work_package.type
 
-    work_package.type = available_types.detect(&:is_default) || available_types.first
+    work_package.type = available_types.first
 
     reassign_status assignable_statuses
   end

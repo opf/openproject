@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-  title: OpenProject FAQ
-  priority: 999
+  title: Development FAQ
+  priority: 001
 description: Frequently asked questions for OpenProject (FAQ)
 robots: index, follow
 keywords: FAQ, introduction, tutorial, project management software, frequently asked questions, help

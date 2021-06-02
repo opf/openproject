@@ -86,7 +86,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public minTermLength ? = 0;
   @Input() public editableSearchTerm?:boolean = false;
   @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
-  @Input() public hasDefaultContent:boolean;
   @Input() public typeahead?:Subject<string>;
   // a function for setting the options of ng-select
   @Input() public getOptionsFn: (searchTerm:string) => any;
@@ -141,7 +140,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
       return;
     }
 
-    this.typeToSearchText = this.typeToSearchText ? this.typeToSearchText : this.placeholder;
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
 
@@ -164,8 +162,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         : (this.getOptionsFn(''));
       }
       if(this.openDirectly) {
+        this.ngSelectInstance.open();
         this.ngSelectInstance.focus();
-        this.repositionDropdown();
       }
       else if (this.focusDirectly) {
         this.ngSelectInstance.focus();

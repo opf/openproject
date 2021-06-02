@@ -90,7 +90,6 @@ describe('autocompleter', () => {
     fixture.componentInstance.appendTo = 'body';
     fixture.componentInstance.multiple = false;
     fixture.componentInstance.closeOnSelect = true;
-    fixture.componentInstance.hasDefaultContent = true;
     fixture.componentInstance.virtualScroll = true;
     fixture.componentInstance.classes = 'wp-inline-create--reference-autocompleter';
     fixture.componentInstance.defaulData = true;

@@ -41,6 +41,9 @@ class PlaceholderUsersController < ApplicationController
                                                  deletion_info
                                                  destroy]
 
+  before_action :authorize_deletion, only: %i[deletion_info destroy]
+
+
   def index
     @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.query params
 
@@ -148,6 +151,12 @@ class PlaceholderUsersController < ApplicationController
   end
 
   protected
+
+  def authorize_deletion
+    unless helpers.can_delete_placeholder_user?(@placeholder_user, current_user)
+      render_403 message: I18n.t('placeholder_users.right_to_manage_members_missing')
+    end
+  end
 
   def default_breadcrumb
     if action_name == 'index'

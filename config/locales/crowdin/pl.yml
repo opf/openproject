@@ -244,6 +244,9 @@ pl:
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Usuń użytkownika zastępczego %{name}"
       data_consequences: >
@@ -253,7 +256,8 @@ pl:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Przypisz pracę osobom, które nie są członkami projektu.
-      description: Istnieje wiele scenariuszy, w których chcesz przypisać pracę osobom, które nie są członkami projektu. Może się po prostu zdarzyć, że nadal musisz zatrudnić odpowiednią osobę do danej pracy. Lub też po prostu nie chcesz udzielać tej osobie dostępu do informacji o projekcie, ale nadal chcesz śledzić zadania przypisane do tej osoby.
+      description: >
+        Istnieje wiele scenariuszy, w których chcesz przypisać pracę osobom, które nie są członkami projektu. Może się po prostu zdarzyć, że nadal musisz zatrudnić odpowiednią osobę do danej pracy. Lub też po prostu nie chcesz udzielać tej osobie dostępu do informacji o projekcie, ale nadal chcesz śledzić zadania przypisane do tej osoby.
   prioritiies:
     edit:
       priority_color_text: |
@@ -614,6 +618,9 @@ pl:
           attributes:
             types:
               in_use_by_work_packages: "nadal w użyciu przez Zestawy zadań: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2676,6 +2683,8 @@ pl:
     getting_started: "Pierwsze kroki"
     help_and_support: "Pomoc i wsparcie"
   total_progress: "Całkowity postęp"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "wszystkie"
     active: "aktywne"
@@ -2801,6 +2810,8 @@ pl:
         invalid_json: "jest nieprawidłowym plikiem json: %{message}"
     resources:
       schema: 'Schemat'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autoryzacja'

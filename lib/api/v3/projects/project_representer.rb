@@ -157,19 +157,8 @@ module API
                             v3_path: :project,
                             representer: ::API::V3::Projects::ProjectRepresenter,
                             uncacheable_link: true,
-                            link: ->(*) {
-                              if represented.parent&.visible?
-                                {
-                                  href: api_v3_paths.project(represented.parent.id),
-                                  title: represented.parent.name
-                                }
-                              else
-                                {
-                                  href: nil,
-                                  title: nil
-                                }
-                              end
-                            }
+                            undisclosed: true,
+                            skip_render: ->(*) { represented.parent && !represented.parent.visible? }
 
         property :id
         property :identifier,

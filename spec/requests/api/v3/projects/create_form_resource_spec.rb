@@ -81,21 +81,10 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
     end
 
     context 'with empty parameters' do
-      it 'has 2 validation errors' do
-        expect(subject.body).to have_json_size(2).at_path('_embedded/validationErrors')
-      end
-
-      it 'has a validation error on name' do
+      it 'has one validation error for name', :aggregate_failures do
+        expect(subject.body).to have_json_size(1).at_path('_embedded/validationErrors')
         expect(subject.body).to have_json_path('_embedded/validationErrors/name')
-      end
-
-      it 'has a validation error on identifier' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/identifier')
-      end
-
-      it 'has no commit link' do
-        expect(subject.body)
-          .not_to have_json_path('_links/commit')
+        expect(subject.body).not_to have_json_path('_links/commit')
       end
     end
 

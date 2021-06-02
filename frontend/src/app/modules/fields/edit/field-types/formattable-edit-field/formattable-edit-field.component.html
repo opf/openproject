@@ -5,7 +5,7 @@
                  (onContentChange)="onContentChange($event)"
                  (onInitializationFailed)="initializationError = true"
                  (onInitialized)="onCkeditorSetup($event)"
-                 [ckEditorType]="editorType">
+                 >
     </op-ckeditor>
   </div>
   <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"

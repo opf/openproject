@@ -70,12 +70,13 @@ export class OpModalService {
    * @param injector The injector to pass into the component. Ensure this is the hierarchical injector if needed.
    *                 Can be passed 'global' to take the default (global!) injector of this service.
    * @param locals A map to be injected via token into the component.
+   * @param notFullScreen Whether the modal is treated as non-overlay
    */
   public show<T extends OpModalComponent>(
     modal:ComponentType<T>,
     injector:Injector|'global',
-    locals:any = {},
-    notFullScreen = false, // TODO: Remove this option once `WpPreviewModal` is not a modal anymore
+    locals:Record<string, unknown> = {},
+    notFullScreen = false,
   ):T {
     this.close();
 
@@ -136,7 +137,7 @@ export class OpModalService {
    * This allows callers to pass data into the newly created modal.
    *
    */
-  private injectorFor(injector:Injector, data:any) {
+  private injectorFor(injector:Injector, data:Record<string, unknown>) {
     const injectorTokens = new WeakMap();
     // Pass the service because otherwise we're getting a cyclic dependency between the portal
     // host service and the bound portal

@@ -42,9 +42,15 @@ describe Projects::UpdateService, 'integration', type: :model do
     %i(edit_project)
   end
 
-  let!(:project) { FactoryBot.create(:project, "custom_field_#{custom_field.id}" => 1) }
+  let!(:project) do
+    FactoryBot.create(:project,
+                      "custom_field_#{custom_field.id}" => 1,
+                      status: project_status)
+  end
   let(:instance) { described_class.new(user: user, model: project) }
   let(:custom_field) { FactoryBot.create(:int_project_custom_field) }
+  let(:project_status) { nil }
+
   let(:attributes) { {} }
   let(:service_result) do
     instance
@@ -85,6 +91,34 @@ describe Projects::UpdateService, 'integration', type: :model do
 
         expect(former_updated_at)
           .not_to eql later_updated_at
+      end
+    end
+
+    context 'when saving the status as well as the parent' do
+      let(:parent_project) { FactoryBot.create(:project, members: { user => parent_role }) }
+      let(:parent_role) { FactoryBot.create :role, permissions: %i(add_subprojects) }
+      let(:project_status) { FactoryBot.create(:project_status, code: 'on_track') }
+      let(:attributes) do
+        {
+          parent_id: parent_project.id,
+          status: {
+            code: 'off_track'
+          }
+        }
+      end
+
+      it 'updates both the status as well as the parent' do
+        # This is made difficult by awesome_nested_set reloading the project after saving.
+        # Because of the reloading, unpersisted changes to status get lost.
+        service_result
+
+        project.reload
+
+        expect(project.parent)
+          .to eql parent_project
+
+        expect(project.status)
+          .to be_off_track
       end
     end
   end

@@ -247,6 +247,9 @@ zh-TW:
     memberships:
       no_results_title_text: 這個使用者目前不是任何專案的成員
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -256,7 +259,8 @@ zh-TW:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -614,6 +618,9 @@ zh-TW:
           attributes:
             types:
               in_use_by_work_packages: "%{types} 仍在被工作項目使用中"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2627,6 +2634,8 @@ zh-TW:
     getting_started: "開始"
     help_and_support: "説明和支援"
   total_progress: "總進度"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "所有"
     active: "啟用"
@@ -2749,6 +2758,8 @@ zh-TW:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: '架構'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '提前授權'

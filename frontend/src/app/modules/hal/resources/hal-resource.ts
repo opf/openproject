@@ -32,6 +32,7 @@ import { Injector } from '@angular/core';
 import { States } from 'core-components/states.service';
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { ICKEditorContext } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
   new(injector:Injector,
@@ -242,8 +243,8 @@ export class HalResource {
     return undefined;
   }
 
-  public getEditorTypeFor(_fieldName:string):'full'|'constrained' {
-    return 'constrained';
+  public getEditorContext(fieldName:string):ICKEditorContext {
+    return { type: 'constrained' };
   }
 
   public $load(force = false):Promise<this> {

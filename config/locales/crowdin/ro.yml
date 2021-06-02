@@ -247,6 +247,9 @@ ro:
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Ștergeți utilizatorul de tip placeholder %{name}"
       data_consequences: >
@@ -256,7 +259,8 @@ ro:
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
       title: Atribuiți munca unor persoane care nu sunt membri ai proiectului.
-      description: Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
+      description: >
+        Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
   prioritiies:
     edit:
       priority_color_text: |
@@ -616,6 +620,9 @@ ro:
           attributes:
             types:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "Mesaj"
         query:
           attributes:
             project:
@@ -2663,6 +2670,8 @@ ro:
     getting_started: "Noţiuni de bază"
     help_and_support: "Asistenţă şi suport"
   total_progress: "Progres total"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "toate"
     active: "activ"
@@ -2787,6 +2796,8 @@ ro:
         invalid_json: "este invalid json: %{message}"
     resources:
       schema: 'Schemă'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Autorizare prealabilă'

@@ -64,21 +64,10 @@ describe('GitActionsMenuComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should select tab', () => {
-    const tabToSelect = component.tabs[0];
-    component.selectedTab = tabToSelect;
-
-    fixture.detectChanges();
-
-    expect(component.selectedTab).toBe(tabToSelect);
-  });
-
-  it('should select tab', () => {
-    const tabToSelect = component.tabs[0];
-    const copyButton = fixture.debugElement.query(By.css('button')).nativeElement;
+  it('should generate the branch name on copy button click', () => {
+    const copyButton = fixture.debugElement.query(By.css('.copy-button')).nativeElement;
 
     gitActionsService.branchName.and.returnValue('test branch');
-    component.selectedTab = tabToSelect;
     copyButton.click();
 
     fixture.detectChanges();

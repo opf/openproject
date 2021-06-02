@@ -44,12 +44,18 @@ module Projects
       ret
     end
 
+    def persist(service_result)
+      # Needs to take place before awesome_nested_set reloads the model (in case the parent changes)
+      persist_status
+
+      super
+    end
+
     def after_perform(service_call)
       touch_on_custom_values_update
       notify_on_identifier_renamed
       send_update_notification
       update_wp_versions_on_parent_change
-      persist_status
       handle_archiving
 
       service_call

@@ -1,7 +1,8 @@
-<accessible-by-keyboard
-    (execute)="openTableConfigurationModal()"
-    linkClass="wp-table--columns-selection"
-    [linkTitle]="text.configureTable"
-    [linkAriaLabel]="text.configureTable">
-  <op-icon icon-classes="icon-button icon-small icon-settings"></op-icon>
-</accessible-by-keyboard>
+<button
+    type="button"
+    class="op-link wp-table--columns-selection"
+    [title]="text.configureTable"
+    (click)="openTableConfigurationModal()"
+>
+  <op-icon icon-classes="icon-button icon-small icon-no-color icon-settings"></op-icon>
+</button>

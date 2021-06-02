@@ -247,6 +247,9 @@ id:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -256,7 +259,8 @@ id:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Tetapkan pekerjaan ke seseorang yang bukan anggota proyek.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -613,6 +617,9 @@ id:
           attributes:
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2625,6 +2632,8 @@ id:
     getting_started: "Getting started"
     help_and_support: "Help and support"
   total_progress: "Total progress"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "semua"
     active: "aktif"
@@ -2747,6 +2756,8 @@ id:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

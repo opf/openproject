@@ -64,7 +64,7 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to url,
                    class: 'op-app-menu--item-action',
                    title: I18n.t(:label_login) do
-      concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
+      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
       concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
@@ -78,7 +78,7 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to signin_path,
                    class: 'op-app-menu--item-action login',
                    title: I18n.t(:label_login) do
-      concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
+      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
 

@@ -88,7 +88,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 *
 * - fieldsSettingsPipe:
 *   Allows to modify the dynamicFormFields settings before the form is rendered.
- *
+*
 *   ```
 *   <op-dynamic-form [formUrl]="formUrl"
 *                    [formHttpMethod]="formHttpMethod"
@@ -106,11 +106,11 @@ import { HttpErrorResponse } from "@angular/common/http";
 *    const fieldGroups = [{
 *      name: 'Advanced settings',
 *      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!),
- *     settings: {
- *       templateOptions: {
- *         collapsibleFieldGroupsCollapsed: false
- *       }
- *     }
+*      settings: {
+*        templateOptions: {
+*          collapsibleFieldGroupsCollapsed: false
+*        }
+*      }
 *    }];
 *   ```
 */

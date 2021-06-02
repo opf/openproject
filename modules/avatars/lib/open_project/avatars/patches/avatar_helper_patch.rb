@@ -89,7 +89,7 @@ AvatarHelper.class_eval do
                   data: {
                     'principal-id': user.id,
                     'principal-name': user.name,
-                    'principal-type': user.type.underscore,
+                    'principal-type': API::V3::Principals::PrincipalType.for(user),
                     'size': tag_options[:size],
                     'hide-name': tag_options[:hide_name]
                   }

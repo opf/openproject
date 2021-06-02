@@ -71,7 +71,7 @@ describe 'Open the GitHub tab', type: :feature, js: true do
       work_package_page.switch_to_tab(tab: 'github')
 
       github_tab.git_actions_menu_button.click
-      github_tab.git_actions_copy_button.click
+      github_tab.git_actions_copy_branch_name_button.click
       expect(page).to have_text('Copied!')
       expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
 

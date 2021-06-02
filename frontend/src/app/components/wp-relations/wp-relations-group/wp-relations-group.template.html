@@ -7,13 +7,15 @@
     </div>
     <div class="attributes-group--header-toggle"
          *ngIf="firstGroup">
-      <accessible-by-keyboard id="wp-relation-group-by-toggle"
-                              #wpRelationGroupByToggler
-                              (execute)="toggleButton()"
-                              linkClass="button -small -transparent -with-icon icon-group-by icon-small hide-when-print"
-                              [linkAriaLabel]="togglerText">
+      <button
+          #wpRelationGroupByToggler
+          id="wp-relation-group-by-toggle"
+          type="button"
+          class="button -small -transparent -with-icon icon-group-by icon-small hide-when-print"
+          (click)="toggleButton()"
+      >
         <span [textContent]="togglerText"></span>
-      </accessible-by-keyboard>
+      </button>
     </div>
   </div>
 

@@ -124,7 +124,8 @@ class Project < ApplicationRecord
             presence: true,
             uniqueness: { case_sensitive: true },
             length: { maximum: IDENTIFIER_MAX_LENGTH },
-            exclusion: RESERVED_IDENTIFIERS
+            exclusion: RESERVED_IDENTIFIERS,
+            if: ->(p) { p.persisted? || p.identifier.present? }
 
   validates_associated :repository, :wiki
   # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards

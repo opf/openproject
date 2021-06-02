@@ -115,11 +115,12 @@ module Redmine::MenuManager::MenuHelper
     options[:title] ||= selected ? t(:description_current_position) + label : label
     options[:aria] = { haspopup: 'true' }
     options[:class] = "op-app-menu--item-action #{options[:class]} #{selected ? 'selected' : ''}"
+    options[:span_class] = "op-app-menu--item-title #{options[:span_class]}"
 
     link_to('#', options) do
       concat(op_icon(options[:icon])) if options[:icon]
       concat(you_are_here_info(selected).html_safe)
-      concat(content_tag(:span, label, class: 'button--dropdown-text'))
+      concat(content_tag(:span, label, class: options[:span_class]))
       concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator"></i>'.html_safe) unless options.key?(:icon)
     end
   end

@@ -39,8 +39,8 @@ import { Apiv3TimeEntriesPaths } from "core-app/modules/apiv3/endpoints/time-ent
 import { Apiv3CapabilitiesPaths } from "core-app/modules/apiv3/endpoints/capabilities/apiv3-capabilities-paths";
 import { Apiv3MembershipsPaths } from "core-app/modules/apiv3/endpoints/memberships/apiv3-memberships-paths";
 import { Apiv3UsersPaths } from "core-app/modules/apiv3/endpoints/users/apiv3-users-paths";
-import { Apiv3PlaceholderUsersPaths } from 'core-app/modules/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths.ts';
-import { Apiv3GroupsPaths } from 'core-app/modules/apiv3/endpoints/groups/apiv3-groups-paths.ts';
+import { Apiv3PlaceholderUsersPaths } from 'core-app/modules/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths';
+import { Apiv3GroupsPaths } from 'core-app/modules/apiv3/endpoints/groups/apiv3-groups-paths';
 import { APIv3TypesPaths } from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
 import { APIv3QueriesPaths } from "core-app/modules/apiv3/endpoints/queries/apiv3-queries-paths";
 import { APIV3WorkPackagesPaths } from "core-app/modules/apiv3/endpoints/work_packages/api-v3-work-packages-paths";

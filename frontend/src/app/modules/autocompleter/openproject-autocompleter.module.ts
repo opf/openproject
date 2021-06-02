@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
-import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component.ts";
+import { CreateAutocompleterComponent } from "core-app/modules/autocompleter/create-autocompleter/create-autocompleter.component";
 import { DraggableAutocompleteComponent } from "core-app/modules/common/draggable-autocomplete/draggable-autocomplete.component";
 import { DynamicModule } from "ng-dynamic-component";
 import { ColorsAutocompleter } from "core-app/modules/common/colors/colors-autocompleter.component";

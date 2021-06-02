@@ -74,21 +74,35 @@ describe 'backup', type: :feature, js: true do
     end
   end
 
-  it "allows the backup token to be reset" do
-    visit "/admin/backups"
-    click_on I18n.t("backup.label_reset_token")
+  describe "token reset" do
+    let(:dialog) { ::Components::PasswordConfirmationDialog.new }
 
-    expect(page).to have_content /#{I18n.t('backup.reset_token.heading_reset')}/i
+    before do
+      visit "/admin/backups"
+      click_on I18n.t("backup.label_reset_token")
 
-    fill_in "login_verification", with: "reset"
-    click_on "Reset"
-    fill_in "request_for_confirmation_password", with: user_password
-    click_on "Confirm"
+      expect(page).to have_content /#{I18n.t('backup.reset_token.heading_reset')}/i
 
-    new_token = Token::Backup.find_by(user: current_user)
+      fill_in "login_verification", with: "reset"
+      click_on "Reset"
+    end
 
-    expect(new_token.plain_value).not_to eq backup_token.plain_value
-    expect(page).to have_content new_token.plain_value
+    it 'works given the correct password' do
+      dialog.confirm_flow_with(user_password)
+      
+      new_token = Token::Backup.find_by(user: current_user)
+
+      expect(new_token.plain_value).not_to eq backup_token.plain_value
+      expect(page).to have_content new_token.plain_value
+    end
+
+    it 'declines the change when an invalid password is given' do
+      dialog.confirm_flow_with(user_password + 'INVALID', should_fail: true)
+
+      new_token = Token::Backup.find_by_plaintext_value backup_token.plain_value
+
+      expect(new_token).to eq backup_token
+    end
   end
 
   it "allows the backup token to be deleted" do

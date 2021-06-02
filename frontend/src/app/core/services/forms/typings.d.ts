@@ -80,7 +80,7 @@ interface IOPApiCall {
 }
 
 interface IOPApiOption {
-  href:string;
+  href:string|null;
   title?:string;
 }
 
@@ -95,12 +95,12 @@ interface IOPAttributeGroup {
 }
 
 interface IOPAllowedValue {
-  id:string;
+  id?:string;
   name:string;
   [key:string]:unknown;
-  _links:{
-    self:HalSource | IOPApiOption;
-    [key:string]:HalSource;
+  _links?:{
+    self:HalSourceLink | IOPApiOption;
+    [key:string]:HalSourceLink;
   };
 }
 

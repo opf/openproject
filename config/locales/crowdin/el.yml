@@ -243,6 +243,9 @@ el:
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Διαγραφή του placeholder χρήστη %{name}"
       data_consequences: >
@@ -252,7 +255,8 @@ el:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Ανάθεση εργασίας σε άτομα που δεν είναι μέλη του έργου.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -610,6 +614,9 @@ el:
           attributes:
             types:
               in_use_by_work_packages: "χρησιμοποιείται ακόμη από τα πακέτα εργασίας: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2641,6 +2648,8 @@ el:
     getting_started: "Ξεκινώντας"
     help_and_support: "Βοήθεια και υποστήριξη"
   total_progress: "Συνολική πρόοδος"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "όλα"
     active: "ενεργό"
@@ -2763,6 +2772,8 @@ el:
         invalid_json: "είναι μη έγκυρο json: %{message}"
     resources:
       schema: 'Σχήμα'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Πριν την εξουσιοδότηση'

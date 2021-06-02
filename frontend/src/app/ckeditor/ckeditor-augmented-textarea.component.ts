@@ -35,7 +35,11 @@ import { States } from 'core-components/states.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { ICKEditorContext, ICKEditorInstance } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import {
+  ICKEditorContext,
+  ICKEditorInstance,
+  ICKEditorType
+} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
 import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
@@ -65,7 +69,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   public resource?:HalResource;
   public context:ICKEditorContext;
   public macros:boolean;
-  public editorType:string;
 
   // Reference to the actual ckeditor instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
@@ -90,7 +93,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.textareaSelector = this.$element.attr('textarea-selector')!;
     this.previewContext = this.$element.attr('preview-context')!;
     this.macros = this.$element.attr('macros') !== 'false';
-    this.editorType = this.$element.attr('editor-type') || 'full';
+    const editorType = (this.$element.attr('editor-type') || 'full') as ICKEditorType;
 
     // Parse the resource if any exists
     const source = this.$element.data('resource');
@@ -104,7 +107,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.initialContent = this.wrappedTextArea.val() as string;
 
     this.$attachmentsElement = this.formElement.find('#attachments_fields');
-    this.context = { resource: this.resource, previewContext: this.previewContext };
+    this.context = {
+      type: editorType,
+      resource: this.resource,
+      previewContext: this.previewContext
+    };
     if (!this.macros) {
       this.context['macros'] = 'none';
     }

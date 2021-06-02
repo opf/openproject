@@ -244,6 +244,9 @@ de:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Platzhalter-Benutzer %{name} löschen"
       data_consequences: >
@@ -253,7 +256,8 @@ de:
       confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
     upsale:
       title: Weisen Sie Arbeit Personen zu, die nicht Mitglieder des Projekts sind
-      description: Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
+      description: >
+        Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
   prioritiies:
     edit:
       priority_color_text: |
@@ -610,6 +614,9 @@ de:
           attributes:
             types:
               in_use_by_work_packages: "wird noch genutzt von folgenden Arbeitspaketen: %{types}"
+            enabled_modules:
+              dependency_missing: "Das Modul \"%{dependency}\" muss ebenfalls aktiviert sein, da das Modul \"%{module}\" dieses benötigt."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2335,7 +2342,7 @@ de:
     brute_force_prevention: "Automatisches Sperren von Benutzern"
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Wenn beide Optionen "%{day_of_week_setting_name}" oder "%{first_week_setting_name}" gesetzt sind der andere muss ebenfalls gesetzt werden, um Ungereimtheiten im Frontend zu vermeiden.
       first_week_of_year_text: >
         Wählen Sie das Datum vom Januar, das in der ersten Woche des Jahres enthalten ist. Dieser Wert zusammen mit dem ersten Wochentag bestimmt die Gesamtzahl der Wochen in einem Jahr.
     projects:
@@ -2641,6 +2648,8 @@ de:
     getting_started: "Erste Schritte"
     help_and_support: "Hilfe und Support"
   total_progress: "Gesamtfortschritt"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "alle"
     active: "aktiv"
@@ -2763,6 +2772,8 @@ de:
         invalid_json: "ist ungültiges JSON: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Vorab-Autorisierung'

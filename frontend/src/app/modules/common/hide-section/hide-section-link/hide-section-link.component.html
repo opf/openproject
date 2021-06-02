@@ -1,6 +1,8 @@
-<accessible-by-keyboard
-    (execute)="hideSection()"
-    linkTitle="Remove"
-    linkAriaLabel="Remove">
-  <op-icon icon-classes="icon-close icon-small" icon-title="Remove"></op-icon>
-</accessible-by-keyboard>
+<button
+    type="button"
+    class="op-link"
+    [title]="text.remove"
+    (click)="hideSection()"
+>
+  <op-icon icon-classes="icon-close icon-small"></op-icon>
+</button>

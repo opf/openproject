@@ -55,11 +55,12 @@
   text-align: center
   // Align controls via flex
   display: flex
+  justify-content: space-evenly
+  align-items: center
   float: right
 
 // Disabled submit styles when not applicable
-.inplace-edit--control--save[disabled] a,
-.inplace-edit--control--send[disabled] a
+.inplace-edit--control[disabled]
   background-color: var(--inplace-edit--bg-color--disabled)
   color: var(--inplace-edit--color--disabled)
   cursor: not-allowed
@@ -67,19 +68,19 @@
 // A single save/cancel control
 .inplace-edit--control
   font-size: 0.9rem
-  flex: 1
-  padding: 5px
-  a
-    // Center save/cancel links
-    width: 100%
-    line-height: 27px
-    border: 1px solid transparent
-    display: inline-block
-    color: var(--body-font-color)
-    text-decoration: none
+  width: 29px
+  height: 29px
+  background: none
 
-    &:hover, &:active
-      border-color: var(--inplace-edit--border-color)
+  // Center save/cancel links
+  line-height: 27px
+  border: 1px solid transparent
+  display: inline-block
+  color: var(--body-font-color)
+  text-decoration: none
+
+  &:hover, &:active
+    border-color: var(--inplace-edit--border-color)
 
   .icon-context:before
     padding: 0

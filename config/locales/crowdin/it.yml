@@ -244,6 +244,9 @@ it:
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Elimina l'utente segnaposto %{name}"
       data_consequences: >
@@ -253,7 +256,8 @@ it:
       confirmation: "Inserisci il nome utente del segnaposto %{name} per confermare l'eliminazione."
     upsale:
       title: Assegna lavoro alle persone che non sono membri del progetto.
-      description: Ci sono diversi scenari in cui vuoi assegnare lavoro a persone che non sono membri del tuo progetto. Potrebbe semplicemente essere che devi ancora assumere le persone adatte al lavoro. O che non vuoi dare accesso a quella persona alle informazioni del progetto ma vuoi comunque monitorare le mansioni che gli hai assegnato.
+      description: >
+        Ci sono diversi scenari in cui vuoi assegnare lavoro a persone che non sono membri del tuo progetto. Potrebbe semplicemente essere che devi ancora assumere le persone adatte al lavoro. O che non vuoi dare accesso a quella persona alle informazioni del progetto ma vuoi comunque monitorare le mansioni che gli hai assegnato.
   prioritiies:
     edit:
       priority_color_text: |
@@ -611,6 +615,9 @@ it:
           attributes:
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -2642,6 +2649,8 @@ it:
     getting_started: "Per cominciare"
     help_and_support: "Guida e Assistenza"
   total_progress: "Progresso totale"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "tutti"
     active: "attivo"
@@ -2765,6 +2774,8 @@ it:
         invalid_json: "json non valido: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorizzazione'

@@ -72,6 +72,31 @@ describe 'delete placeholder user', type: :feature, js: true do
     it_behaves_like 'placeholders delete flow'
   end
 
+  context 'as user with global permission, but placeholder in an invisble project' do
+    current_user { FactoryBot.create :user, global_permission: %i[manage_placeholder_user] }
+
+    let!(:project) { FactoryBot.create :project }
+    let!(:member) do
+      FactoryBot.create :member,
+                        principal: placeholder_user,
+                        project: project,
+                        roles: [FactoryBot.create(:role)]
+    end
+
+    it 'returns an error when trying to delete and disables the button' do
+      visit deletion_info_placeholder_user_path(placeholder_user)
+      expect(page).to have_content I18n.t('placeholder_users.right_to_manage_members_missing').strip
+
+      visit placeholder_user_path(placeholder_user)
+
+      expect(page).to have_selector '.button.-disabled', text: 'Delete'
+
+      visit edit_placeholder_user_path(placeholder_user)
+
+      expect(page).to have_selector '.button.-disabled', text: 'Delete'
+    end
+  end
+
   context 'as user without global permission' do
     current_user { FactoryBot.create :user }
 

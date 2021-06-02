@@ -89,8 +89,12 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   closeOnOutsideClick(event:any) {
     if (!(event.relatedTarget &&
       this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
-      this.datePickerInstance.hide();
+      this.close();
     }
+  }
+
+  close() {
+    this.datePickerInstance.hide();
   }
 
   protected isEmpty():boolean {
@@ -131,7 +135,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     };
 
     let initialValue;
-    if (this.isEmpty && this.initialDate) {
+    if (this.isEmpty() && this.initialDate) {
       initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
     } else {
       initialValue = this.currentValue;
