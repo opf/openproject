@@ -140,7 +140,9 @@ module WorkPackages
       # Do not allow skipping statuses without intermediately saving the work package.
       # We therefore take the original status of the work_package, while preserving all
       # other changes to it (e.g. type, assignee, etc.)
-      status = if model.persisted? && model.status_id_changed?
+      status = if model.new_record?
+                 nil
+               elsif model.status_id_changed?
                  Status.find_by(id: model.status_id_was)
                else
                  model.status
@@ -257,7 +259,7 @@ module WorkPackages
     end
 
     def validate_status_transition
-      if status_changed? && status_exists? && !(model.type_id_changed? || status_transition_exists?)
+      if (model.new_record? || status_changed? && !model.type_id_changed?) && status_exists? && !status_transition_exists?
         errors.add :status_id, :status_transition_invalid
       end
     end
@@ -380,14 +382,9 @@ module WorkPackages
 
     # Returns a scope of status the user is able to apply
     def new_statuses_allowed_from(status)
-      return Status.none if status.nil?
-
-      current_status = Status.where(id: status.id)
-
-      return current_status if closed_version_and_status?(status)
+      return Status.where(id: status.id) if closed_version_and_status?(status)
 
       statuses = new_statuses_by_workflow(status)
-                   .or(current_status)
 
       statuses = statuses.where(is_closed: false) if model.blocked?
 
@@ -399,14 +396,12 @@ module WorkPackages
     end
 
     def new_statuses_by_workflow(status)
-      workflows = Workflow
-                  .from_status(status.id,
-                               model.type_id,
-                               users_roles_in_project.map(&:id),
-                               user_is_author?,
-                               user_was_or_is_assignee?)
-
-      Status.where(id: workflows.select(:new_status_id))
+      Status
+        .new_by_workflow(status: status,
+                         type: model.type_id,
+                         role: users_roles_in_project,
+                         author: user_is_author?,
+                         assignee: user_was_or_is_assignee?)
     end
 
     def user_was_or_is_assignee?

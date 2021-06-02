@@ -278,6 +278,16 @@ describe WorkPackages::BaseContract do
         end
       end
 
+      context 'invalid transition on a new record' do
+        let(:valid_transition_result) { false }
+        let(:work_package) { WorkPackage.new }
+
+        it 'is invalid' do
+          expect(subject.errors.symbols_for(:status_id))
+            .to match_array [:status_transition_invalid]
+        end
+      end
+
       context 'status is nil' do
         let(:status_change) { work_package.status = nil }
 
@@ -852,12 +862,7 @@ describe WorkPackages::BaseContract do
 
     shared_examples_for 'new_statuses_allowed_to' do
       let(:base_scope) do
-        from_workflows = Workflow
-                        .from_status(current_status.id, type.id, [role.id], author, assignee)
-                        .select(:new_status_id)
-
-        Status.where(id: from_workflows)
-          .or(Status.where(id: current_status.id))
+        Status.new_by_workflow(status: current_status, type: type, role: role, author: author, assignee: assignee)
       end
 
       it 'returns a scope that returns current_status and those available by workflow' do
