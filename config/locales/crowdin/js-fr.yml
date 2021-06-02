@@ -395,6 +395,7 @@ fr:
     label_quote_comment: "Citer ce commentaire"
     label_recent: "Récent"
     label_reset: "Réinitialiser"
+    label_remove: "Supprimer"
     label_remove_column: "Supprimer la colonne"
     label_remove_columns: "Enlever les colonnes sélectionnées"
     label_remove_row: "Supprimer la ligne"

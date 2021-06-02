@@ -2756,6 +2756,8 @@ zh-TW:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: '架構'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '提前授權'

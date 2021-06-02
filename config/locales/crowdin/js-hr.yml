@@ -395,6 +395,7 @@ hr:
     label_quote_comment: "Citirajte komentar"
     label_recent: "Recent"
     label_reset: "Resetiraj"
+    label_remove: "Ukloni"
     label_remove_column: "Remove column"
     label_remove_columns: "Izbriši odabrene stupce"
     label_remove_row: "Remove row"

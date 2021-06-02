@@ -2758,6 +2758,8 @@ vi:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Xác thực'

@@ -2748,6 +2748,8 @@ zh-CN:
         invalid_json: "是无效的 json：%{message}"
     resources:
       schema: '方案'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '预授权'

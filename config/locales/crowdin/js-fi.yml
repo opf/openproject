@@ -395,6 +395,7 @@ fi:
     label_quote_comment: "Lainaa tämä kommentti"
     label_recent: "Viimeisin"
     label_reset: "Nollaus"
+    label_remove: "Poista"
     label_remove_column: "Poista sarake"
     label_remove_columns: "Poista valitut sarakkeet"
     label_remove_row: "Poista rivi"

@@ -2808,6 +2808,8 @@ pl:
         invalid_json: "jest nieprawidłowym plikiem json: %{message}"
     resources:
       schema: 'Schemat'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autoryzacja'

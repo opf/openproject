@@ -2770,6 +2770,8 @@ el:
         invalid_json: "είναι μη έγκυρο json: %{message}"
     resources:
       schema: 'Σχήμα'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Πριν την εξουσιοδότηση'

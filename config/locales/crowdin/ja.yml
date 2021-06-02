@@ -2753,6 +2753,8 @@ ja:
         invalid_json: "無効なjsonです: %{message}"
     resources:
       schema: 'スキーマ'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '事前承認'

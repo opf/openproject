@@ -394,6 +394,7 @@ el:
     label_quote_comment: "Παραθέστε αυτό το σχόλιο"
     label_recent: "Πρόσφατα"
     label_reset: "Επαναφορά"
+    label_remove: "Αφαίρεση"
     label_remove_column: "Κατάργηση στήλης"
     label_remove_columns: "Αφαιρέστε τις επιλεγμένες στήλες"
     label_remove_row: "Κατάργηση γραμμής"

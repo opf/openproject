@@ -395,6 +395,7 @@ bg:
     label_quote_comment: "Цитиране на този коментар"
     label_recent: "Recent"
     label_reset: "Нулиране"
+    label_remove: "Премахване"
     label_remove_column: "Remove column"
     label_remove_columns: "Премахване на избраните колони"
     label_remove_row: "Remove row"

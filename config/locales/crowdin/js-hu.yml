@@ -394,6 +394,7 @@ hu:
     label_quote_comment: "Hozzászólás idézése"
     label_recent: "Friss"
     label_reset: "Visszaállít, reset"
+    label_remove: "Eltávolítás"
     label_remove_column: "Oszlop eltávolítása"
     label_remove_columns: "Eltávolítja a kijelölt oszlopokat"
     label_remove_row: "Sor eltávolítása"

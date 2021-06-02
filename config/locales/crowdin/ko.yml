@@ -2754,6 +2754,8 @@ ko:
         invalid_json: "- 잘못된 json입니다: %{message}"
     resources:
       schema: '스키마'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '사전 권한 부여'

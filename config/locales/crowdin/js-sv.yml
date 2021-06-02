@@ -394,6 +394,7 @@ sv:
     label_quote_comment: "Citera denna kommentar"
     label_recent: "Recent"
     label_reset: "Återställ"
+    label_remove: "Ta bort"
     label_remove_column: "Ta bort kolumn"
     label_remove_columns: "Ta bort markerade kolumner"
     label_remove_row: "Ta bort rad"

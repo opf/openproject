@@ -394,6 +394,7 @@ ru:
     label_quote_comment: "Цитировать этот комментарий"
     label_recent: "Недавние"
     label_reset: "Сброс"
+    label_remove: "Удалить"
     label_remove_column: "Удалить столбец"
     label_remove_columns: "Удалить выбранные столбцы"
     label_remove_row: "Удалить строку"

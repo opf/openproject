@@ -395,6 +395,7 @@ ar:
     label_quote_comment: "أقتبس هذا التعليق"
     label_recent: "Recent"
     label_reset: "إعادة تعيين"
+    label_remove: "إزالة"
     label_remove_column: "Remove column"
     label_remove_columns: "إزالة الأعمدة المختارة"
     label_remove_row: "Remove row"

@@ -25,19 +25,15 @@ ja:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "プルリクエスト"
+        title: "Pull requests"
         copy_menu:
-          label: Git
-          description: 重要な git コンテンツをクリップボードにコピーする
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
-          branch: 分岐
-          branch_help: デフォルトのブランチ名をコピーする。
-          message: メッセージ
-          message_help: デフォルトのコミットメッセージをコピーする。
-          cmd: コマンド
-          cmd_help: 新しいブランチを作成し、デフォルトのブランチ名とコミットメッセージを使用して空のコミットを行うシェルコマンドをコピーします。
-          title: クリップポードへコピー
-          copy_button_help: クリップボードにコピー
+          branch_name: Branch name
+          commit_message: Commit message
+          cmd: Create branch with empty commit
+          title: Quick snippets for Git
           copy_success: '✅ コピーしました！'
           copy_error: '❌ コピーに失敗しました！'
       tab_prs:

@@ -396,6 +396,7 @@ ja:
     label_quote_comment: "このコメントを引用"
     label_recent: "最新"
     label_reset: "リセット"
+    label_remove: "削除"
     label_remove_column: "列を削除"
     label_remove_columns: "選択した列を削除"
     label_remove_row: "行を削除"

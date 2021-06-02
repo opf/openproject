@@ -394,6 +394,7 @@ zh-TW:
     label_quote_comment: "引述這個評論"
     label_recent: "最近"
     label_reset: "重置"
+    label_remove: "刪除"
     label_remove_column: "移除欄"
     label_remove_columns: "移除所選欄"
     label_remove_row: "移除列"

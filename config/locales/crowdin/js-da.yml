@@ -394,6 +394,7 @@ da:
     label_quote_comment: "Citér denne kommentar"
     label_recent: "Recent"
     label_reset: "Nulstil"
+    label_remove: "Fjern"
     label_remove_column: "Remove column"
     label_remove_columns: "Fjern valgte kolonner"
     label_remove_row: "Remove row"

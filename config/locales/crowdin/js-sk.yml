@@ -395,6 +395,7 @@ sk:
     label_quote_comment: "Citovať tento komentár"
     label_recent: "Nedávne"
     label_reset: "Vynulovať"
+    label_remove: "Vymazať"
     label_remove_column: "Odstrániť stĺpec"
     label_remove_columns: "Odstrániť vybraté stĺpce"
     label_remove_row: "Odstrániť riadok"

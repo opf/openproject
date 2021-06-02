@@ -2812,6 +2812,8 @@ cs:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schéma'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Předběžná autorizace'

@@ -395,6 +395,7 @@ zh-CN:
     label_quote_comment: "引用这个评论"
     label_recent: "最近"
     label_reset: "重置"
+    label_remove: "移除"
     label_remove_column: "删除列"
     label_remove_columns: "删除选定的列"
     label_remove_row: "删除行"

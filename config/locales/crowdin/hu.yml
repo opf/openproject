@@ -2772,6 +2772,8 @@ hu:
         invalid_json: "érvénytelen json: %{message}"
     resources:
       schema: 'Séma'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

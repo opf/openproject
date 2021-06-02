@@ -2809,6 +2809,8 @@ ru:
         invalid_json: "недопустимый json: %{message}"
     resources:
       schema: 'Схема'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Предавторизация'

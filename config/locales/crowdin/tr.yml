@@ -2775,6 +2775,8 @@ tr:
         invalid_json: "geçersiz json: %{message}"
     resources:
       schema: 'Şema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Ön yetkilendirme'
