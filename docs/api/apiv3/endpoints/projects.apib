@@ -8,7 +8,7 @@ As containers, they also control behaviour of the elements within them. One of t
 
 | Link                         | Description                                                          | Condition                         |
 |:--------------------------:  |----------------------------------------------------------------------| --------------------------------- |
-| update                       | Form endpoint that aids in updating this projet                      | **Permission**: edit project      |
+| update                       | Form endpoint that aids in updating this project                     | **Permission**: edit project      |
 | updateImmediately            | Directly update this project                                         | **Permission**: edit project      |
 | delete                       | Delete this project                                                  | **Permission**: admin             |
 | createWorkPackage            | Form endpoint that aids in preparing and creating a work package     | **Permission**: add work packages |
@@ -119,9 +119,9 @@ Depending on custom fields defined for projects, additional properties might exi
 ## View project [GET]
 
 + Parameters
-    
+
   + id (required, integer, `1`) ... Project id
-    
+
 + Response 200 (application/hal+json)
 
     [View project][]
@@ -234,9 +234,9 @@ You can use the form and schema to be retrieve the valid attribute values and by
 Updates the given project by applying the attributes provided in the body.
 
 + Parameters
-    
+
   + id (required, integer, `1`) ... Project id
-    
+
 + Request Update project
 
     + Body
@@ -329,9 +329,9 @@ So the project might exist well after the request has returned successfully. To 
 the project scheduled for deletion, it is archived at once.
 
 + Parameters
-    
+
   + id (required, integer, `1`) ... Project id
-    
+
 + Response 204 (application/hal+json)
 
     Returned if the project was successfully deleted. There is currently no end point to query for the actual deletion status.
@@ -1882,7 +1882,7 @@ The copy endpoint has a `_meta` property that allows defining which associations
   + id (required, integer, `1`) ... Project id
 
 
-+ Request Create copy project 
++ Request Create copy project
 
   + Body
 
@@ -1897,12 +1897,12 @@ The copy endpoint has a `_meta` property that allows defining which associations
         }
 
 + Response 302 (application/hal+json)
-   
+
   Returned if the request is successful. It will redirect to the job statuses API with the backend job that got created. You can query that endpoint to check the status of the copy, and eventually get the created project.
-  
+
   + Body
-  
-      
+
+
 
 + Response 400 (application/hal+json)
 
@@ -2165,9 +2165,9 @@ The projects returned depend on the sharing settings of the given version,
 but are also limited to the projects that the current user is allowed to see.
 
 + Parameters
-    
+
   + id (required, integer, `1`) ... Version id
-    
+
 + Response 200 (application/hal+json)
 
     [List projects by version][]

@@ -17,9 +17,9 @@ each of them can contain its own `_links` and `_embedded` section.
 
 | Property            | Description                                                                        | Type             |
 | :-----------------: | ---------------------------------------------------------------------------------- | ---------------- |
-| _dependencies       | A list of dependencies between one propertie's value and another property          | SchemaDependency |
+| _dependencies       | A list of dependencies between one property's value and another property           | SchemaDependency |
 
-The `_dependencies` property contains the list of dependencies that exist between the value selected for one of the properites of the described resource and the resoure's structure. Depending on the value, additional properties might exist or properties might have other values allowed to be assigned. See [SchemaDependency](#schema-dependencies) for more information.
+The `_dependencies` property contains the list of dependencies that exist between the value selected for one of the properties of the described resource and the resource's structure. Depending on the value, additional properties might exist or properties might have other values allowed to be assigned. See [SchemaDependency](#schema-dependencies) for more information.
 
 # Field schema
 
@@ -88,7 +88,7 @@ A SchemaDependency does not have any links.
 | on                  | The name of the property on which the dependency exists                            | string           |
 | dependencies        | The additions to a schema grouped by the value of the depending property           | object           |
 
-The following excerpt examplifies the objects that can be found as a value of the `dependencies` property:
+The following excerpt exemplifies the objects that can be found as a value of the `dependencies` property:
 
 ```
 {

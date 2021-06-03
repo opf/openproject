@@ -68,7 +68,7 @@ In OpenProject you can now manage multiple building models in IFC format in para
 
 ![OpenProject-BIM-manage-IFC-models](OpenProject-BIM-manage-IFC-models.png)
 
-![OpenPoject-BIM_structural](OpenPoject-BIM_structural.png)
+![OpenProject-BIM_structural](OpenPoject-BIM_structural.png)
 
 
 
@@ -84,7 +84,7 @@ View full 3D objects in OpenProject in IFC format. Select and display the model 
 
 You can change between a 3D view or 2D view of the building model in OpenProject.
 
-![OpenPoject-BIM_2D](OpenPoject-BIM_2D.png)
+![OpenProject-BIM_2D](OpenPoject-BIM_2D.png)
 
 ### Slice objects to get exact view
 
@@ -154,7 +154,7 @@ You can slice 3D objects in all dimensions to get a view on the exact thing you 
 - Fixed: Wrong header in time entries form "Edit time entry" -> "Time entry" \[[#32147](https://community.openproject.com/wp/32147)\]
 - Fixed: Redundant close button in the time entry modal \[[#32148](https://community.openproject.com/wp/32148)\]
 - Fixed: Inconsistent/redundant naming in time entry creation modal \[[#32150](https://community.openproject.com/wp/32150)\]
-- Fixed: "Get startet for free" broken \[[#32161](https://community.openproject.com/wp/32161)\]
+- Fixed: "Get started for free" broken \[[#32161](https://community.openproject.com/wp/32161)\]
 - Fixed: WP list does not update after updating a WP of that query \[[#32168](https://community.openproject.com/wp/32168)\]
 - Fixed: Recaptcha should not target admin accounts \[[#32177](https://community.openproject.com/wp/32177)\]
 - Fixed: Deleting work package will not refresh the list \[[#32179](https://community.openproject.com/wp/32179)\]
@@ -180,7 +180,7 @@ You can slice 3D objects in all dimensions to get a view on the exact thing you 
 - Fixed: Error on WP count on roadmap \[[#32236](https://community.openproject.com/wp/32236)\]
 - Fixed: Console error when switching from card to gantt view \[[#32254](https://community.openproject.com/wp/32254)\]
 - Fixed: Remove hover effect of action column in children table \[[#32255](https://community.openproject.com/wp/32255)\]
-- Fixed: Alignmend WP filters incorrect \[[#32256](https://community.openproject.com/wp/32256)\]
+- Fixed: Alignment WP filters incorrect \[[#32256](https://community.openproject.com/wp/32256)\]
 - Fixed: Group counts only factor in the current page \[[#32259](https://community.openproject.com/wp/32259)\]
 - Fixed: Missing warning message when deleting time entry (on My page) \[[#32268](https://community.openproject.com/wp/32268)\]
 - Fixed: Unclear which assigned role an admin has in a project \[[#32274](https://community.openproject.com/wp/32274)\]

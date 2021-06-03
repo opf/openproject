@@ -2,7 +2,7 @@
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a Mac OS Xinstallation installation with administrative rights.
+This guide assumes that you have a Mac OS X installation with administrative rights.
 OpenProject will be installed with a PostgreSQL database.
 
 **Please note**: This guide is NOT suitable for a production setup, but only for developing with it!

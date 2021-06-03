@@ -183,7 +183,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
       end
 
       context 'work_packages' do
-        it "has the querie's work_package results set" do
+        it "has the query's work_package results set" do
           expect(subject.work_packages)
             .to match_array([work_package])
         end

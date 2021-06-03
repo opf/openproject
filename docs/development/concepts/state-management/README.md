@@ -14,7 +14,7 @@ State management in complex frontend applications is a topic that has been heavi
 
 ## Key takeaways
 
-*State managent in OpenProject frontend...*
+*State management in OpenProject frontend...*
 
 - is mainly controlled by `RxJs` and the reactivestates library
 - `State` and `InputState` are mostly syntactic sugar over RXJS `Subject` and `BehaviorSubject`

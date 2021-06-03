@@ -146,4 +146,4 @@ The service doesn't care for what's inside the links but just looks for their pr
 
 The fact that permissions are implicitly checked through links has the advantage that the frontend doesn't need to care about whether a functionality has been disabled in the project (i.e., the project module is not enabled there) or if the user has no permission to access it.
 
-The downside to this approach is that it is impossible to check a multitiude of permissions upfront without loading the necessary requests. In some cases, we thus load requests just for the sake of permission testing, even though we do not depend on the API response itself.
+The downside to this approach is that it is impossible to check a multitude of permissions upfront without loading the necessary requests. In some cases, we thus load requests just for the sake of permission testing, even though we do not depend on the API response itself.

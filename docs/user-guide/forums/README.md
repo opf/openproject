@@ -109,7 +109,7 @@ To unwatch a forum in order to not be informed via e-mail about new messages and
 
 ### Unwatch a message
 
-The same applies to **unwatch a message**. Just select the message first which you do not want to watch any longerand click the **Unwatch** button.
+The same applies to **unwatch a message**. Just select the message first which you do not want to watch any longer and click the **Unwatch** button.
 
 ## Edit a forum message
 

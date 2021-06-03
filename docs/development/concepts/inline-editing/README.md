@@ -114,7 +114,7 @@ export class ExampleComponent implements OnInit {
 
 
 
-The third parameter of the `render` method is to provide a changeset. This allows to render the value notfrom the  pristine work package, but from a temporary changeset of the work package:
+The third parameter of the `render` method is to provide a changeset. This allows to render the value not from the pristine work package, but from a temporary changeset of the work package:
 
 ```typescript
 // Assuming we changed the subject property

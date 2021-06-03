@@ -79,7 +79,7 @@ To configure further project information, see the documentation for [project set
 
 To view all your projects in which you are a member, click on the **View all projects** link in the **Select a project** drop-down menu.
 
-![view all proejcts](1569490429831.png)
+![view all projects](1569490429831.png)
 
 You will see a list with all your projects and their details.
 

@@ -47,7 +47,7 @@
   - Auto-completion for work packages
   - Quick selection for custom queries
   - Responsible added to work package summary
-  - Responible can be assigned via context menu and bulk edit
+  - Responsible can be assigned via context menu and bulk edit
   - Easier navigation to work packages through shorter URL
 
 ## Add work package queries as menu items to sidebar
