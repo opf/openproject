@@ -18,7 +18,7 @@ A failing status will look like the following on your pull request. You may need
 
 Here you'll see that the *Github Actions* check has reported an error, which likely means that your pull request contains errors. It might also result from a temporary error running the test suite, or from a test that was broken in the `dev` branch.
 
-If you expand the view  by clicking on details, you will see the individual *jobs* that Github executes. The test suite is run in parallel to save time.  The overall run time of the test suite is around *3 - 4 hours* on Github, but with parallel test execution, this time is reduced to around 30 - 40 minutes waiting time.
+If you expand the view  by clicking on details, you will see the individual *jobs* that Github executes. The test suite is run in parallel to save time.  The overall run time of the test suite is around *15 minutes* on Github. Due to parallel test runs and beefier custom worker machines, the run time is significantly lower than on our previous test CI.
 
 [Here's a link to an exemplary failed test run on GitHub](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). In this case, one of the feature jobs has reported an error.
 
