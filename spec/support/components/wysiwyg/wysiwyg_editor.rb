@@ -26,7 +26,7 @@ module Components
     end
 
     def set_markdown(text)
-      textarea = container.find('.op-ckeditor-augmented-textarea-source-element', visible: :all)
+      textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
         'jQuery(arguments[0]).trigger("op:ckeditor-augmented-textarea:setData", arguments[1])',
         textarea.native,
@@ -35,7 +35,7 @@ module Components
     end
 
     def clear
-      textarea = container.find('.op-ckeditor-augmented-textarea-source-element', visible: :all)
+      textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
         'jQuery(arguments[0]).trigger("op:ckeditor-augmented-textarea:clear")',
         textarea.native
