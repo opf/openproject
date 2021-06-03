@@ -39,6 +39,7 @@ import { WorkPackageEmbeddedGraphComponent } from "core-app/shared/components/wo
 import { WorkPackageOverviewGraphComponent } from "core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component";
 import { ChartsModule } from 'ng2-charts';
 import * as ChartDataLabels from 'chartjs-plugin-datalabels';
+import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import * as ChartDataLabels from 'chartjs-plugin-datalabels';
     OpenprojectWorkPackagesModule,
 
     ChartsModule,
+    OpenprojectTabsModule,
   ],
   declarations: [
     // Modals
