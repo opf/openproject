@@ -395,6 +395,7 @@ uk:
     label_quote_comment: "Цитувати цей коментар"
     label_recent: "Recent"
     label_reset: "Скинути"
+    label_remove: "Видалити"
     label_remove_column: "Видалити стовпець"
     label_remove_columns: "Видалити вибрані стовпці"
     label_remove_row: "Видалити рядок"

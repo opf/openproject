@@ -25,19 +25,15 @@ it:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Richieste Pull"
+        title: "Pull requests"
         copy_menu:
-          label: Git
-          description: Copia contenuto git importante negli appunti
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
-          branch: Ramo
-          branch_help: Copia il nome predefinito del ramo.
-          message: Messaggio	
-          message_help: Copia il messaggio predefinito di commit.
-          cmd: Comando
-          cmd_help: Copia un comando della shell che crea un nuovo ramo e un commit vuoto usando il nome predefinito del ramo e il messaggio di commit.
-          title: Copia negli Appunti
-          copy_button_help: Copia negli appunti
+          branch_name: Branch name
+          commit_message: Commit message
+          cmd: Create branch with empty commit
+          title: Quick snippets for Git
           copy_success: '✅ Copiato!'
           copy_error: '❌ Copia fallita!'
       tab_prs:

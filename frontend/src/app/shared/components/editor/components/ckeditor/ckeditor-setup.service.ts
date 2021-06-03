@@ -3,11 +3,11 @@ import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Injectable } from "@angular/core";
 
 export interface ICKEditorInstance {
-  getData(obtions:{ trim:boolean }):string;
+  getData(options:{ trim:boolean }):string;
 
   setData(content:string):void;
 
-  on(event:string, callback:Function):void;
+  on(event:string, callback:() => unknown):void;
 
   model:any;
   editing:any;
@@ -23,12 +23,18 @@ export interface ICKEditorStatic {
   createCustomized(el:string|HTMLElement, config?:any):Promise<ICKEditorInstance>;
 }
 
+export type ICKEditorType = 'full'|'constrained';
+export type ICKEditorMacroType = 'none'|'resource'|'full'|boolean|string[];
+
 export interface ICKEditorContext {
+  // Editor type to setup
+  type:ICKEditorType;
+  // Hal Resource to pass into ckeditor
   resource?:HalResource;
   // Specific removing of plugins
   removePlugins?:string[];
   // Set of enabled macro plugins or false to disable all
-  macros?:'none'|'wp'|'full'|boolean|string[];
+  macros?:ICKEditorMacroType;
   // Additional options like the text orientation of the editors content
   options?:{
     rtl?:boolean;
@@ -54,15 +60,15 @@ export class CKEditorSetupService {
    * Pass a ICKEditorContext object that will be used to decide active plugins.
    *
    *
-   * @param {"full" | "constrained"} type
    * @param {HTMLElement} wrapper
    * @param {ICKEditorContext} context
    * @returns {Promise<ICKEditorInstance>}
    */
-  public async create(type:'full'|'constrained', wrapper:HTMLElement, context:ICKEditorContext, initialData:string|null = null) {
+  public async create(wrapper:HTMLElement, context:ICKEditorContext, initialData:string|null = null) {
     // Load the bundle
     await this.load();
 
+    const type = context.type;
     const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
@@ -85,26 +91,26 @@ export class CKEditorSetupService {
 
     // Allow custom events on wrapper to set/get data for debugging
     jQuery(wrapper)
-      .on('op:ckeditor-augmented-textarea:setData', (event:any, data:string) => editor.setData(data))
-      .on('op:ckeditor-augmented-textarea:clear', (event:any) => editor.setData(' '))
-      .on('op:ckeditor-augmented-textarea:getData', (event:any, cb:any) => cb(editor.getData({ trim: false })));
+      .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))
+      .on('op:ckeditor:clear', (event:any) => editor.setData(' '))
+      .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData({ trim: false })));
 
     return editor;
   }
 
   /**
-   * Load the ckeditor-augmented-textarea asset
+   * Load the ckeditor asset
    */
   private load():Promise<unknown> {
     // untyped module cannot be dynamically imported
     // @ts-ignore
-    return import(/* webpackChunkName: "ckeditor-augmented-textarea" */ 'core-vendor/ckeditor/ckeditor.js');
+    return import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
   }
 
   private createConfig(context:ICKEditorContext):any {
     if (context.macros === 'none') {
       context.macros = false;
-    } else if (context.macros === 'wp') {
+    } else if (context.macros === 'resource') {
       context.macros = [
         'OPMacroToc',
         'OPMacroEmbeddedTable',

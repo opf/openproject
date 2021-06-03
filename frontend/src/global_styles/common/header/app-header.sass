@@ -1,6 +1,6 @@
 .op-app-header
   display: grid
-  grid-template-columns: 1fr auto 1fr
+  grid-template-columns: minmax(0, 1fr) auto 1fr
   grid-template-rows: auto
   grid-template-areas: "start center end"
   background-color: var(--header-bg-color)
@@ -44,10 +44,6 @@
     border: 1px solid var(--header-item-font-color)
 
   &_search-open
-    @include breakpoint(850px down)
-      .op-logo
-        display: none
-
     @include breakpoint(680px down)
       display: flex
 
@@ -58,10 +54,13 @@
       .op-app-header--end
         flex-grow: 1
 
+      .op-app-search
+        flex-grow: 1
+
       .top-menu-search
         margin: 0
 
-        .top-menu-search--button
+        &--button
           display: none
           color: var(--header-item-font-color)
 

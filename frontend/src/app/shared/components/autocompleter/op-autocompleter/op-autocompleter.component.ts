@@ -32,6 +32,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public searchKey?:string = '';
   @Input() public defaulData?:boolean = false;
   @Input() public focusDirectly?:boolean = true;
+  @Input() public fetchDataDirectly?:boolean = false;
   @Input() public labelRequired?:boolean = true;
   @Input() public name?:string;
   @Input() public required?:boolean = false;
@@ -150,7 +151,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
           distinctUntilChanged(),
           switchMap(queryString => this.getOptionsFn(queryString))
         ));
-
+        if (this.fetchDataDirectly) {
+          this.results$ = this.defaulData
+            ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
+            : (this.getOptionsFn(''));
+        }
         if(this.openDirectly) {
           this.ngSelectInstance.open();
           this.ngSelectInstance.focus();

@@ -2685,6 +2685,8 @@ ru:
     getting_started: "Приступая к работе"
     help_and_support: "Помощь и поддержка"
   total_progress: "Общий прогресс"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "все"
     active: "активно"
@@ -2809,6 +2811,8 @@ ru:
         invalid_json: "недопустимый json: %{message}"
     resources:
       schema: 'Схема'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Предавторизация'

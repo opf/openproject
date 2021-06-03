@@ -395,6 +395,7 @@ nl:
     label_quote_comment: "Citeer dit commentaar"
     label_recent: "Recent"
     label_reset: "Herstel"
+    label_remove: "Verwijder"
     label_remove_column: "Kolom verwijderen"
     label_remove_columns: "Verwijder geselecteerde kolommen"
     label_remove_row: "Rij verwijderen"

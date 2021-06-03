@@ -395,6 +395,7 @@ it:
     label_quote_comment: "Annota questo commento"
     label_recent: "Recenti"
     label_reset: "Reimposta"
+    label_remove: "Rimuovi"
     label_remove_column: "Rimuovi colonna"
     label_remove_columns: "Rimuovi le colonne selezionate"
     label_remove_row: "Rimuovi riga"

@@ -395,6 +395,7 @@ lt:
     label_quote_comment: "Cituoti šį komentarą"
     label_recent: "Paskutiniai"
     label_reset: "Nustatyti iš naujo"
+    label_remove: "Pašalinti"
     label_remove_column: "Išimti stulpelį"
     label_remove_columns: "Pašalinti pažymėtus stulpelius"
     label_remove_row: "Išimti eilutę"

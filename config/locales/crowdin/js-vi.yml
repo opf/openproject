@@ -394,6 +394,7 @@ vi:
     label_quote_comment: "Trích bình luận này"
     label_recent: "Gần đây"
     label_reset: "Reset"
+    label_remove: "Xoá"
     label_remove_column: "Xóa cột"
     label_remove_columns: "Loại bỏ cột được chọn"
     label_remove_row: "Xóa hàng"

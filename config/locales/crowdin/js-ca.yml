@@ -395,6 +395,7 @@ ca:
     label_quote_comment: "Citar aquest comentari"
     label_recent: "Recent"
     label_reset: "Restablir"
+    label_remove: "Suprimir"
     label_remove_column: "Eliminar columna"
     label_remove_columns: "Treure les columnes seleccionades"
     label_remove_row: "Eliminar fila"

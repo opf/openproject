@@ -69,7 +69,7 @@ describe 'project menu', type: :feature do
         it 'leads to cost reports' do
           click_on 'Time and costs'
 
-          expect(page).to have_selector('.button--dropdown-text', text: 'Ponyo')
+          expect(page).to have_selector('.op-app-menu--item-title', text: 'Ponyo')
         end
       end
 

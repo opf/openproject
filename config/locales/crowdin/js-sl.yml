@@ -394,6 +394,7 @@ sl:
     label_quote_comment: "Citiraj ta komentar"
     label_recent: "Nedavno"
     label_reset: "Ponastavi"
+    label_remove: "Odstrani"
     label_remove_column: "Odstrani stolpec"
     label_remove_columns: "Odstranite izbrane stolpce"
     label_remove_row: "Odstrani vrstico"

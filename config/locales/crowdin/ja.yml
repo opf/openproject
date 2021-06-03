@@ -2632,6 +2632,8 @@ ja:
     getting_started: "はじめに"
     help_and_support: "ヘルプとサポート"
   total_progress: "全体の進行状況"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "全て"
     active: "アクティブ"
@@ -2753,6 +2755,8 @@ ja:
         invalid_json: "無効なjsonです: %{message}"
     resources:
       schema: 'スキーマ'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '事前承認'

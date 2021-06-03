@@ -43,6 +43,7 @@ import { WorkPackageNotificationService } from "core-app/features/work_packages/
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
+import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -171,8 +172,8 @@ export class WorkPackageBaseResource extends HalResource {
     }
   }
 
-  public getEditorTypeFor(fieldName:string):"full"|"constrained" {
-    return fieldName === 'description' ? 'full' : 'constrained';
+  public getEditorContext(fieldName:string):ICKEditorContext {
+    return { type: fieldName === 'description' ? 'full' : 'constrained', macros: false };
   }
 
   public isParentOf(otherWorkPackage:WorkPackageResource) {

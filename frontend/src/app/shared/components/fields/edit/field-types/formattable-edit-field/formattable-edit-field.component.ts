@@ -49,12 +49,19 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   // Values used in template
   public isPreview = false;
   public previewHtml = '';
-  public text:any = {};
+  public text:Record<string, string> = {};
   public initialContent:string;
 
-  public editorType = this.resource.getEditorTypeFor(this.field.name);
+  public ckEditorContext:ICKEditorContext = {
+    resource: this.change.pristineResource,
+    macros: 'none' as const,
+    previewContext: this.previewContext,
+    options: { rtl: this.schema.options && this.schema.options.rtl },
+    type: 'constrained',
+    ...this.resource.getEditorContext(this.field.name)
+  };
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     this.handler.registerOnSubmit(() => this.getCurrentValue());
@@ -65,7 +72,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     };
   }
 
-  public onCkeditorSetup(editor:ICKEditorInstance) {
+  public onCkeditorSetup(editor:ICKEditorInstance):void {
     if (!this.resource.isNew) {
       setTimeout(() => editor.editing.view.focus());
     }
@@ -79,7 +86,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       });
   }
 
-  public onContentChange(value:string) {
+  public onContentChange(value:string):void {
     // Have the guard clause to avoid the text being set
     // in the changeset when no actual change has taken place.
     if (this.rawValue !== value) {
@@ -87,7 +94,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     }
   }
 
-  public handleUserSubmit() {
+  public handleUserSubmit():boolean {
     this.getCurrentValue()
       .then(() => {
         this.handler.handleUserSubmit();
@@ -96,20 +103,11 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     return false;
   }
 
-  public get ckEditorContext():ICKEditorContext {
-    return {
-      resource: this.change.pristineResource,
-      macros: 'none' as const,
-      previewContext: this.previewContext,
-      options: { rtl: this.schema.options && this.schema.options.rtl }
-    };
-  }
-
   private get previewContext() {
     return this.handler.previewContext(this.resource);
   }
 
-  public reset() {
+  public reset():void {
     if (this.editor && this.editor.initialized) {
       this.editor.content = this.rawValue;
 
@@ -117,7 +115,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     }
   }
 
-  public get rawValue() {
+  public get rawValue():string {
     if (this.value && this.value.raw) {
       return this.value.raw;
     } else {
@@ -133,7 +131,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     return !(this.value && this.value.raw);
   }
 
-  protected initialize() {
+  protected initialize():void {
     this.initialContent = this.rawValue;
 
     if (this.resource.isNew && this.editor) {

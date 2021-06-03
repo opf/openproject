@@ -395,6 +395,7 @@ ko:
     label_quote_comment: "코멘트 인용"
     label_recent: "최근"
     label_reset: "재설정"
+    label_remove: "제거"
     label_remove_column: "열 제거"
     label_remove_columns: "선택된 열 제거"
     label_remove_row: "행 제거"

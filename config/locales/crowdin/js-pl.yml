@@ -395,6 +395,7 @@ pl:
     label_quote_comment: "Cytuj komentarz"
     label_recent: "Najnowsze"
     label_reset: "Reset"
+    label_remove: "Usuń"
     label_remove_column: "Usuń kolumnę"
     label_remove_columns: "Usuń zaznaczone kolumny"
     label_remove_row: "Usuń wiersz"

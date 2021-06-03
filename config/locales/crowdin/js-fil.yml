@@ -395,6 +395,7 @@ fil:
     label_quote_comment: "I-quote ang komentong ito"
     label_recent: "Recent"
     label_reset: "I-reset"
+    label_remove: "Tanggalin"
     label_remove_column: "Remove column"
     label_remove_columns: "Tanggalin ang mga napiling hanay"
     label_remove_row: "Remove row"

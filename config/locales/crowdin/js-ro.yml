@@ -394,6 +394,7 @@ ro:
     label_quote_comment: "Citare comentariu"
     label_recent: "Recente"
     label_reset: "Resetare"
+    label_remove: "Eliminare"
     label_remove_column: "Elimina colana"
     label_remove_columns: "Eliminare coloane selectate"
     label_remove_row: "Elimina rand"

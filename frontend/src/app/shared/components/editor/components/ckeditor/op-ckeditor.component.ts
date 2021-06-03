@@ -38,7 +38,7 @@ import { ConfigurationService } from "core-app/core/config/configuration.service
 
 declare module 'codemirror';
 
-const manualModeLocalStorageKey = 'op-ckeditor-augmented-textarea-uses-manual-mode';
+const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
 
 @Component({
   selector: 'op-ckeditor',
@@ -46,7 +46,6 @@ const manualModeLocalStorageKey = 'op-ckeditor-augmented-textarea-uses-manual-mo
   styleUrls: ['./op-ckeditor.sass']
 })
 export class OpCkeditorComponent implements OnInit {
-  @Input() ckEditorType:'full'|'constrained' = 'full';
   @Input() context:ICKEditorContext;
   @Input()
   public set content(newVal:string) {
@@ -110,7 +109,7 @@ export class OpCkeditorComponent implements OnInit {
    * Get the current live data from CKEditor. This may raise in cases
    * the data cannot be loaded (MS Edge!)
    */
-  public getRawData() {
+  public getRawData():string {
     if (this.manualMode) {
       return this._content = this.codeMirrorInstance!.getValue();
     } else {
@@ -175,7 +174,6 @@ export class OpCkeditorComponent implements OnInit {
 
     const editorPromise = this.ckEditorSetup
       .create(
-        this.ckEditorType,
         this.opCkeditorReplacementContainer.nativeElement,
         this.context,
         this.content
@@ -207,7 +205,7 @@ export class OpCkeditorComponent implements OnInit {
   private disableManualMode() {
     const current = this.getRawData();
 
-    // Apply content to ckeditor-augmented-textarea
+    // Apply content to ckeditor
     this.ckEditorInstance.setData(current);
     this.codeMirrorInstance = null;
     this.manualMode = false;

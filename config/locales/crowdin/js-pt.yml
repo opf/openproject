@@ -394,6 +394,7 @@ pt:
     label_quote_comment: "Citar este comentário"
     label_recent: "Recente"
     label_reset: "Reiniciar"
+    label_remove: "Remover"
     label_remove_column: "Remover coluna"
     label_remove_columns: "Remover colunas selecionadas"
     label_remove_row: "Remover linha"

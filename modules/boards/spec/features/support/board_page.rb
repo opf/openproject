@@ -191,7 +191,7 @@ module Pages
         expect(page).to have_selector('.board-list--container', count: count + 1)
       else
         open_and_fill_add_list_modal query
-        page.find('.ng-option-label', text: option, wait: 10).click
+        page.find('.ng-option', text: option, wait: 10).click
         click_on 'Add'
       end
     end
@@ -199,7 +199,7 @@ module Pages
     def add_list_with_new_value(name)
       open_and_fill_add_list_modal name
 
-      page.find('.ng-option', text: 'Create: ' + name).click
+      page.find('.op-select-footer--label', text: 'Create ' + name).click
     end
 
     def save
@@ -216,7 +216,7 @@ module Pages
     end
 
     def expect_list(name)
-      expect(page).to have_selector('.board-list--header', text: name)
+      expect(page).to have_selector('.board-list--header', text: name, wait: 10)
     end
 
     def expect_no_list(name)
@@ -253,9 +253,9 @@ module Pages
       open_and_fill_add_list_modal name
 
       if present
-        expect(page).to have_selector('.ng-option-label', text: name)
+        expect(page).to have_selector('.ng-option', text: name)
       else
-        expect(page).not_to have_selector('.ng-option-label', text: name)
+        expect(page).not_to have_selector('.ng-option', text: name)
       end
       find('body').send_keys [:escape]
     end

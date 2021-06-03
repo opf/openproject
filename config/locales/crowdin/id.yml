@@ -2632,6 +2632,8 @@ id:
     getting_started: "Getting started"
     help_and_support: "Help and support"
   total_progress: "Total progress"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "semua"
     active: "aktif"
@@ -2754,6 +2756,8 @@ id:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

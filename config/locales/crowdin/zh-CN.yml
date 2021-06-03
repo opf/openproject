@@ -2627,6 +2627,8 @@ zh-CN:
     getting_started: "入门指南"
     help_and_support: "帮助和支持"
   total_progress: "总进度"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "所有"
     active: "激活"
@@ -2748,6 +2750,8 @@ zh-CN:
         invalid_json: "是无效的 json：%{message}"
     resources:
       schema: '方案'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '预授权'

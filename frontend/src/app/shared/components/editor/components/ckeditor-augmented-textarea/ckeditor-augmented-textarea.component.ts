@@ -35,7 +35,11 @@ import { States } from 'core-app/core/states/states.service';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ICKEditorContext, ICKEditorInstance } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
+import {
+  ICKEditorContext,
+  ICKEditorInstance,
+  ICKEditorType,
+} from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
@@ -65,9 +69,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   public resource?:HalResource;
   public context:ICKEditorContext;
   public macros:boolean;
-  public editorType:string;
 
-  // Reference to the actual ckeditor-augmented-textarea instance component
+  // Reference to the actual ckeditor instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
 
   private attachments:HalResource[];
@@ -90,7 +93,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.textareaSelector = this.$element.attr('textarea-selector')!;
     this.previewContext = this.$element.attr('preview-context')!;
     this.macros = this.$element.attr('macros') !== 'false';
-    this.editorType = this.$element.attr('editor-type') || 'full';
+    const editorType = (this.$element.attr('editor-type') || 'full') as ICKEditorType;
 
     // Parse the resource if any exists
     const source = this.$element.data('resource');
@@ -104,7 +107,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.initialContent = this.wrappedTextArea.val() as string;
 
     this.$attachmentsElement = this.formElement.find('#attachments_fields');
-    this.context = { resource: this.resource, previewContext: this.previewContext };
+    this.context = {
+      type: editorType,
+      resource: this.resource,
+      previewContext: this.previewContext
+    };
     if (!this.macros) {
       this.context['macros'] = 'none';
     }
@@ -112,7 +119,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.formElement.off('submit.ckeditor-augmented-textarea');
+    this.formElement.off('submit.ckeditor');
   }
 
   public markEdited() {
@@ -130,7 +137,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     // Listen for form submission to set textarea content
-    this.formElement.on('submit.ckeditor-augmented-textarea change.ckeditor-augmented-textarea', () => {
+    this.formElement.on('submit.ckeditor change.ckeditor', () => {
       try {
         this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
       } catch (e) {
@@ -166,18 +173,18 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         takeUntil(componentDestroyed(this)),
         filter(resource => !!resource)
       ).subscribe(resource => {
-        const missingAttachments = _.differenceBy(this.attachments,
+      const missingAttachments = _.differenceBy(this.attachments,
         resource!.attachments.elements,
         (attachment:HalResource) => attachment.id);
 
-        const removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.href);
+      const removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.href);
 
-        if (removedUrls.length) {
-          editor.model.fire('op:attachment-removed', removedUrls);
-        }
+      if (removedUrls.length) {
+        editor.model.fire('op:attachment-removed', removedUrls);
+      }
 
-        this.attachments = _.clone(resource!.attachments.elements);
-      });
+      this.attachments = _.clone(resource!.attachments.elements);
+    });
   }
 
   private setLabel() {

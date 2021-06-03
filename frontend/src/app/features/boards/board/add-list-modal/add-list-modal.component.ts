@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
@@ -38,21 +38,31 @@ import { BoardActionsRegistryService } from "core-app/features/boards/board/boar
 import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component.js";
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
-import { ValueOption } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { tap } from "rxjs/operators";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { Observable } from "rxjs";
+import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
 
 @Component({
   templateUrl: './add-list-modal.html'
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
-  /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
-    (searchTerm:string) => this.actionService.loadAvailable(this.board, this.active, searchTerm),
-    errorNotificationHandler(this.halNotification),
-    true
-  );
+
+  @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
+
+  getAutocompleterData = (searchTerm:string):Observable<HalResource[]> => {
+
+    // Remove prefix # from search
+    searchTerm = searchTerm.replace(/^#/, '');
+    return this.actionService.loadAvailable(this.board, this.active, searchTerm).pipe(tap((values) => this.warnIfNoOptions(values)));
+  };
+
+  public autocompleterOptions = {
+    resource:"",
+    getOptionsFn: this.getAutocompleterData
+  };
 
   public showClose:boolean;
 
@@ -83,6 +93,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   public text:any = {
     title: this.I18n.t('js.boards.add_list'),
     button_add: this.I18n.t('js.button_add'),
+    button_create: this.I18n.t('js.button_create'),
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
 
@@ -95,16 +106,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
-  public referenceOutputs = {
-    onCreate: (value:HalResource) => this.onNewActionCreated(value),
-    onOpen: () => this.requests.input$.next(''),
-    onChange: (value:HalResource) => this.onModelChange(value),
-    onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField()
-  };
-
-  /** The loaded available values */
-  availableValues:any;
-
   /** Whether the no results warning is displayed */
   showWarning = false;
 
@@ -115,48 +116,19 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
               readonly halNotification:HalResourceNotificationService,
               readonly state:StateService,
               readonly boardService:BoardService,
-              readonly I18n:I18nService) {
+              readonly I18n:I18nService,
+              readonly apiV3Service:APIV3Service,
+              readonly currentProject:CurrentProjectService) {
 
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
     super.ngOnInit();
-
     this.board = this.locals.board;
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
-
-
-    this
-      .requests
-      .output$
-      .pipe(
-        this.untilDestroyed()
-      )
-      .subscribe((values:unknown[]) => {
-        let hasMember = false;
-        if (values.length === 0) {
-          if (this.requests.lastRequestedValue !== undefined && this.requests.lastRequestedValue !== '') {
-            hasMember = true;
-          } else {
-            hasMember = false;
-          }
-        } else {
-          hasMember = false;
-        }
-        this.actionService
-          .warningTextWhenNoOptionsAvailable(hasMember)
-          .then((text) => {
-            this.warningText = text;
-          });
-        this.availableValues = values;
-        this.showWarning = this.requests.lastRequestedValue !== undefined && (values.length === 0);
-        this.cdRef.detectChanges();
-      });
-
-    // Request an empty value to load warning early on
-    this.requests.input$.next('');
+    this.autocompleterOptions.resource=this.actionService.localizedName.toLowerCase();
   }
 
   onModelChange(element:HalResource) {
@@ -176,13 +148,50 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .catch(() => this.inFlight = false);
   }
 
-  onNewActionCreated(newValue:HalResource) {
-    this.selectedAttribute = newValue;
-    this.create();
+  onNewActionCreated() {
+    this
+      .apiV3Service
+      .versions
+      .post(this.getVersionPayload(this.ngSelectComponent.ngSelectInstance.searchTerm))
+      .subscribe(
+        version => { this.selectedAttribute = version;
+          this.create();},
+        error => {
+          this.ngSelectComponent.closeSelect();
+          this.halNotification.handleRawError(error);
+        });
+
+  }
+  private getVersionPayload(name:string) {
+    const payload:any = {};
+    payload['name'] = name;
+    payload['_links'] = {
+      definingProject: {
+        href: this.apiV3Service.projects.id(this.currentProject.id!).path
+      }
+    };
+
+    return payload;
   }
 
-  autocompleterComponent() {
-    return this.actionService.autocompleterComponent();
+  private warnIfNoOptions(values:unknown[]) {
+    let hasMember = false;
+    if (values.length === 0) {
+      if (this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && this.ngSelectComponent.ngSelectInstance.searchTerm !== '') {
+        hasMember = true;
+      } else {
+        hasMember = false;
+      }
+    } else {
+      hasMember = false;
+    }
+    this.actionService
+      .warningTextWhenNoOptionsAvailable(hasMember)
+      .then((text) => {
+        this.warningText = text;
+      });
+    this.showWarning = this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && (values.length === 0);
+    this.cdRef.detectChanges();
   }
 }
 

@@ -2650,6 +2650,8 @@ pt:
     getting_started: "Guia de introdução"
     help_and_support: "Ajuda e suporte"
   total_progress: "Progresso total"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "todos"
     active: "ativo"
@@ -2772,6 +2774,8 @@ pt:
         invalid_json: "é json inválido: %{message}"
     resources:
       schema: 'Esquema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pré-autorização'

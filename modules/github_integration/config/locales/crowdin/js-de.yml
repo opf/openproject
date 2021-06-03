@@ -25,19 +25,15 @@ de:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull-Request"
+        title: "Pull requests"
         copy_menu:
-          label: Git
-          description: Wichtige Git-Inhalte in die Zwischenablage kopieren
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
-          branch: Zweig
-          branch_help: Den Standard-Branchennamen kopieren.
-          message: Nachricht
-          message_help: Die Standard-Commit-Nachricht kopieren.
-          cmd: Command (Automatic Copy)
-          cmd_help: Kopieren Sie einen Shell-Befehl, der einen neuen Zweig und einen leeren Commit mit dem Standard-Branch-Namen und Commit erzeugt.
-          title: In Zwischenablage kopieren
-          copy_button_help: In Zwischenablage kopieren
+          branch_name: Branch name
+          commit_message: Commit message
+          cmd: Create branch with empty commit
+          title: Quick snippets for Git
           copy_success: '✅ kopiert!'
           copy_error: Kopieren fehlgeschlagen!
       tab_prs:

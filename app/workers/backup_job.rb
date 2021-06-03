@@ -186,11 +186,15 @@ class BackupJob < ::ApplicationJob
   end
 
   def dump_database!(path)
-    _out, err, st = Open3.capture3 pg_env, "pg_dump -x -O -f '#{path}'"
+    _out, err, st = Open3.capture3 pg_env, dump_command(path)
 
     failure! error: err unless st.success?
 
     st.success?
+  end
+
+  def dump_command(output_file_path)
+    "pg_dump -x -O -f '#{output_file_path}'"
   end
 
   def success!

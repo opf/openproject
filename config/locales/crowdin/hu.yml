@@ -2649,6 +2649,8 @@ hu:
     getting_started: "Kezdés"
     help_and_support: "Súgó és támogatás"
   total_progress: "Teljes folyamat"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "mind"
     active: "aktív"
@@ -2772,6 +2774,8 @@ hu:
         invalid_json: "érvénytelen json: %{message}"
     resources:
       schema: 'Séma'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

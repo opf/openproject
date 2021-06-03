@@ -395,6 +395,7 @@ tr:
     label_quote_comment: "Yorumu alıntıla"
     label_recent: "son günlerdeki"
     label_reset: "Sıfırla"
+    label_remove: "Kaldır"
     label_remove_column: "Sütunu kaldır"
     label_remove_columns: "Seçili sütunları sil"
     label_remove_row: "Satırı kaldır"

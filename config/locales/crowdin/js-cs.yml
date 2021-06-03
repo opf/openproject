@@ -395,6 +395,7 @@ cs:
     label_quote_comment: "Citovat tento komentář"
     label_recent: "Recent"
     label_reset: "Obnovit"
+    label_remove: "Odstranit"
     label_remove_column: "Odstranit sloupec"
     label_remove_columns: "Odstranit vybrané sloupce"
     label_remove_row: "Odstranit řádek"

@@ -1,11 +1,11 @@
 <form
-  class="op-modal loading-indicator--location"
+  class="op-modal op-modal_autoheight loading-indicator--location"
   (submit)="applyAndClose($event)"
   data-indicator-name="modal"
 >
   <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
-  <div class="op-modal--modal-body form">
+  <div class="op-modal--body form">
     <fieldset class="form--fieldset">
       <legend [textContent]="text.selected_type"></legend>
       <div class="form--field">

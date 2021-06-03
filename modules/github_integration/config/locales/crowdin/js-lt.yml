@@ -25,19 +25,15 @@ lt:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Įtraukimo užklausos"
+        title: "Pull requests"
         copy_menu:
-          label: Git
-          description: Nukopijuoti svarbų git turinį į iškarpinę
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
-          branch: Šaka
-          branch_help: Nukopijuoti numatytosios šakos pavadinimą.
-          message: Pranešimas
-          message_help: Nukopijuoti numatytąjį commit pranešimą.
-          cmd: Komanda
-          cmd_help: Nukopijuokite komandą, kuri sukuria naują šaką ir tuščią commit naudodama numatytąjį šakos pavadinimą ir commit pranešimą.
-          title: Kopijuoti į Iškarpinę
-          copy_button_help: Kopijuoti į iškarpinę
+          branch_name: Branch name
+          commit_message: Commit message
+          cmd: Create branch with empty commit
+          title: Quick snippets for Git
           copy_success: '✅ Nukopijuota!'
           copy_error: '❌ Kopijavimas nepavyko!'
       tab_prs:
