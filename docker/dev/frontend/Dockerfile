@@ -1,10 +1,12 @@
-FROM node:14.16
+FROM node:14.17
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
 ARG DEV_GID=1001
 
 ENV USER=dev
+
+RUN npm i -g npm
 
 RUN usermod -l $USER -d /home/$USER -m node
 RUN usermod -u $DEV_UID $USER
