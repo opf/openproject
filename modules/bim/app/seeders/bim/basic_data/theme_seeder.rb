@@ -39,6 +39,10 @@ module Bim
           .new(theme)
           .call
       end
+
+      def applicable?
+        DesignColor.all.empty?
+      end
     end
   end
 end

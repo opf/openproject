@@ -1,14 +1,14 @@
 ---
 sidebar_navigation:
   title: Users & Permissions
-  priority: 999
+  priority: 997
 description: Manage users and permissions.
 robots: index, follow
 keywords: users, permissions, roles, groups, avatars
 ---
 # Users & Permissions
 
-Manage users and permissions in OpenProject.
+Manage users, placeholder users and permissions in OpenProject.
 
 ## Overview
 

@@ -8,7 +8,7 @@ keywords: authentication settings
 ---
 # Authentication settings
 
-To adapt general system **authentication settings**, navigate to -> *Administration* -> *Authentication* and choose -> *Settings*.
+To adapt general system **authentication settings**, navigate to *Administration -> Authentication* and choose -> *Settings*.
 
 You can adapt the following under the authentication settings:
 

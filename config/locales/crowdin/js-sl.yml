@@ -297,7 +297,7 @@ sl:
     label_avatar: "Avatar"
     label_between: "med"
     label_board: "Board"
-    label_board_locked: "Zaklenjen"
+    label_board_locked: "Zaklenjeno"
     label_board_plural: "Boardi"
     label_board_sticky: "Lepljivo"
     label_create: "Ustvari"

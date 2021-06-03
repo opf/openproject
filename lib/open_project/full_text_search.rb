@@ -33,10 +33,10 @@ module OpenProject
   module FullTextSearch
     DISALLOWED_CHARACTERS = /['?\\:()&|!*<>]/
 
-    def self.tsv_where(table_name, column_name, value, options = { concatenation: :and, normalization: :text })
+    def self.tsv_where(table_name, column_name, value, concatenation: :and, normalization: :text)
       if OpenProject::Database.allows_tsv?
-        column = '"' + table_name.to_s + '"."' + column_name.to_s + '_tsv"'
-        query = tokenize(value, options[:concatenation], options[:normalization])
+        column = "\"#{table_name.to_s}\".\"#{column_name.to_s}_tsv\""
+        query = tokenize(value, concatenation, normalization)
         language = OpenProject::Configuration.main_content_language
 
         ActiveRecord::Base.send(
@@ -56,7 +56,7 @@ module OpenProject
         terms.join ' & '
       when :and_not
         # all terms must not hit.
-        '! ' + terms.join(' & ! ')
+        "! #{terms.join(' & ! ')}"
       end
     end
 

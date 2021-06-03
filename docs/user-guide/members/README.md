@@ -53,4 +53,5 @@ To assign work packages to a project member, the respective user's or placeholde
 
 ## Groups
 
-Users can be added to groups. A group can be added to a project. With this, all users within a group will have the corresponding role in this project. Find out how to create and manage groups in OpenProject [here](../../system-admin-guide/users-permissions/groups).
+Users can be added to groups. A group can be added to a project. With this, all users within a group will have the corresponding role in this project. 
+Find out how to create and manage groups in OpenProject [here](../../system-admin-guide/users-permissions/groups).
