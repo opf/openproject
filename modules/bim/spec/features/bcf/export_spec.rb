@@ -81,8 +81,8 @@ describe 'bcf export',
     page.find('.export-bcf-button').click
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'),
-                                 wait: 10
+    expect(page).to have_content(I18n.t('js.job_status.generic_messages.in_queue'),
+                                 wait: 10)
 
     perform_enqueued_jobs
     expect(page).to have_text("completed successfully")
@@ -102,28 +102,28 @@ describe 'bcf export',
 
   it 'can export the open and closed BCF issues (Regression #30953)' do
     model_page.visit!
-    wp_cards.expect_work_package_listed open_work_package
-    wp_cards.expect_work_package_not_listed closed_work_package
-    filters.expect_filter_count 1
+    wp_cards.expect_work_package_listed(open_work_package)
+    wp_cards.expect_work_package_not_listed(closed_work_package)
+    filters.expect_filter_count(1)
 
     # Expect only the open issue
     extractor_list = export_into_bcf_extractor
-    expect(extractor_list.length).to eq 1
-    expect(extractor_list.first[:title]).to eq 'Open WP'
+    expect(extractor_list.length).to eq(1)
+    expect(extractor_list.first[:title]).to eq('Open WP')
 
     model_page.visit!
     # Change the query to show all statuses
     filters.open
-    filters.remove_filter 'status'
-    filters.expect_filter_count 0
+    filters.remove_filter('status')
+    filters.expect_filter_count(0)
 
-    wp_cards.expect_work_package_listed open_work_package, closed_work_package
+    wp_cards.expect_work_package_listed(open_work_package, closed_work_package)
 
     # Download again
     extractor_list = export_into_bcf_extractor
-    expect(extractor_list.length).to eq 2
+    expect(extractor_list.length).to eq(2)
 
     titles = extractor_list.map { |hash| hash[:title] }
-    expect(titles).to contain_exactly 'Open WP', 'Closed WP'
+    expect(titles).to contain_exactly('Open WP', 'Closed WP')
   end
 end
