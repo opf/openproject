@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from '@angular/core';
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {AbstractFieldService, IFieldType} from "core-app/modules/fields/field.service";
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
+import { Injectable, Injector } from '@angular/core';
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { AbstractFieldService, IFieldType } from "core-app/modules/fields/field.service";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
 
 export interface IDisplayFieldType extends IFieldType<DisplayField> {
   new(resource:HalResource, attributeType:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField;
@@ -66,7 +66,7 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
    */
   public getField(resource:HalResource, fieldName:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField {
     const fieldClass = this.getSpecificClassFor(resource._type, fieldName, schema.type);
-    let instance = new fieldClass(fieldName, context);
+    const instance = new fieldClass(fieldName, context);
     instance.apply(resource, schema);
     return instance;
   }

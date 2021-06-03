@@ -41,12 +41,14 @@ describe Messages::CreateContract do
                   author: message_author,
                   last_reply: message_last_reply,
                   locked: message_locked,
-                  sticky: message_sticky)
+                  sticky: message_sticky).tap do |m|
+        m.extend(OpenProject::ChangedBySystem)
+        m.changed_by_system("author_id" => [nil, message_author.id])
+      end
     end
-    let(:changed_by_system) { %w(author_id) }
 
     subject(:contract) do
-      described_class.new(message, current_user, options: { changed_by_system: changed_by_system })
+      described_class.new(message, current_user)
     end
   end
 end

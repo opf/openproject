@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe 'Projects status administration', type: :feature, js: true do
+  include_context 'ng-select-autocomplete helpers'
+
   let(:current_user) do
     FactoryBot.create(:user).tap do |u|
       FactoryBot.create(:global_member,
@@ -45,8 +47,10 @@ describe 'Projects status administration', type: :feature, js: true do
         .and_return(r.id.to_s)
     end
   end
-  let(:create_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(5)') }
-  let(:edit_status_description) { Components::WysiwygEditor.new('.form--field:nth-of-type(6)') }
+  let(:status_description) { Components::WysiwygEditor.new('[data-qa-field-name="statusExplanation"]') }
+
+  let(:name_field) { ::FormFields::InputFormField.new :name }
+  let(:status_field) { ::FormFields::SelectFormField.new :status }
 
   before do
     login_as current_user
@@ -56,44 +60,30 @@ describe 'Projects status administration', type: :feature, js: true do
     visit new_project_path
 
     # Create the project with status
-    click_link 'Advanced settings'
+    click_button 'Advanced settings'
 
-    fill_in 'Name', with: 'New project'
-    select 'On track', from: 'Status'
-    create_status_description.set_markdown 'Everything is fine at the start'
-    create_status_description.expect_supports_no_macros
+    name_field.set_value 'New project'
+    status_field.select_option 'On track'
 
-    click_button 'Create'
+    status_description.set_markdown 'Everything is fine at the start'
+    status_description.expect_supports_no_macros
 
-    expect(page)
-      .to have_content('Successful creation.')
+    click_button 'Save'
+
+    expect(page).to have_current_path /projects\/new-project\/?/
 
     # Check that the status has been set correctly
-    visit settings_generic_project_path(Project.last)
+    visit settings_generic_project_path(id: 'new-project')
 
-    expect(page)
-      .to have_select('Status', selected: 'On track')
+    status_field.expect_selected 'ON TRACK'
+    status_description.expect_value 'Everything is fine at the start'
 
-    edit_status_description.expect_value 'Everything is fine at the start'
-
-    select '', from: 'Status'
-    edit_status_description.set_markdown 'Now we do not know'
+    status_field.select_option 'Off track'
+    status_description.set_markdown 'Oh no'
 
     click_button 'Save'
 
-    expect(page)
-      .to have_select('Status', selected: '')
-
-    edit_status_description.expect_value 'Now we do not know'
-
-    select 'Off track', from: 'Status'
-    edit_status_description.set_markdown 'Oh no'
-
-    click_button 'Save'
-
-    expect(page)
-      .to have_select('Status', selected: 'Off track')
-
-    edit_status_description.expect_value 'Oh no'
+    status_field.expect_selected 'OFF TRACK'
+    status_description.expect_value 'Oh no'
   end
 end

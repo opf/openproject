@@ -1,17 +1,17 @@
-import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {Injector} from "@angular/core";
-import {TypedJSON} from "typedjson";
-import {Constructor} from "@angular/cdk/table";
-import {Observable, throwError} from "rxjs";
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
+import { Injector } from "@angular/core";
+import { TypedJSON } from "typedjson";
+import { Constructor } from "@angular/cdk/table";
+import { Observable, throwError } from "rxjs";
 import {
   HTTPClientHeaders,
   HTTPClientOptions,
   HTTPClientParamMap,
   HTTPSupportedMethods
 } from "core-app/modules/hal/http/http.interfaces";
-import {URLParamsEncoder} from "core-app/modules/hal/services/url-params-encoder";
-import {catchError, map} from "rxjs/operators";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { URLParamsEncoder } from "core-app/modules/hal/services/url-params-encoder";
+import { catchError, map } from "rxjs/operators";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class BcfApiRequestService<T> {
   @InjectField() http:HttpClient;

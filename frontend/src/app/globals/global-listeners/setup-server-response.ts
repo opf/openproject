@@ -123,8 +123,8 @@ function addClickEventToAllErrorMessages() {
 }
 
 function initMainMenuExpandStatus() {
-  let wrapper = jQuery('#wrapper');
-  let upToggle = jQuery('ul.menu_root.closed li.open a.arrow-left-to-project');
+  const wrapper = jQuery('#wrapper');
+  const upToggle = jQuery('ul.menu_root.closed li.open a.arrow-left-to-project');
 
   if (upToggle.length === 1 && wrapper.hasClass('hidden-navigation')) {
     upToggle.trigger('click');
@@ -132,7 +132,7 @@ function initMainMenuExpandStatus() {
 }
 
 function activateFlash(selector:any) {
-  let flashMessages = jQuery(selector);
+  const flashMessages = jQuery(selector);
 
   flashMessages.each(function (ix, e) {
     const flashMessage = jQuery(e);

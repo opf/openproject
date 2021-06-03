@@ -37,7 +37,7 @@ FactoryBot.define do
     end
   end
 
-  factory :legacy_sha1_password, class: UserPassword::SHA1 do
+  factory :legacy_sha1_password, class: 'UserPassword::SHA1' do
     association :user
     type { 'UserPassword::SHA1' }
     plain_password { 'mylegacypassword!' }

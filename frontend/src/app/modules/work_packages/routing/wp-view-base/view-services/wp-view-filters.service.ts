@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageQueryStateService} from './wp-view-base.service';
-import {Injectable} from '@angular/core';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {combine, input, InputState} from 'reactivestates';
-import {cloneHalResourceCollection} from 'core-app/modules/hal/helpers/hal-resource-builder';
-import {QueryFilterResource} from "core-app/modules/hal/resources/query-filter-resource";
-import {QueryFilterInstanceSchemaResource} from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
-import {States} from "core-components/states.service";
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {mapTo, take} from "rxjs/operators";
+import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { Injectable } from '@angular/core';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { QuerySchemaResource } from 'core-app/modules/hal/resources/query-schema-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { combine, input, InputState } from 'reactivestates';
+import { cloneHalResourceCollection } from 'core-app/modules/hal/helpers/hal-resource-builder';
+import { QueryFilterResource } from "core-app/modules/hal/resources/query-filter-resource";
+import { QueryFilterInstanceSchemaResource } from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
+import { States } from "core-components/states.service";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { mapTo, take } from "rxjs/operators";
 
 @Injectable()
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
@@ -77,7 +77,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * @param schema
    */
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
-    let filters = cloneHalResourceCollection<QueryFilterInstanceResource>(query.filters);
+    const filters = cloneHalResourceCollection<QueryFilterInstanceResource>(query.filters);
 
     this.availableState.putValue(schema.filtersSchemas.elements);
     this.pristineState.putValue(filters);
@@ -114,9 +114,9 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * Replace a filter, or add a new one
    */
   public replace(id:string, modifier:(filter:QueryFilterInstanceResource) => void):void {
-    let filter:QueryFilterInstanceResource = this.instantiate(id);
+    const filter:QueryFilterInstanceResource = this.instantiate(id);
 
-    let newFilters = [...this.rawFilters];
+    const newFilters = [...this.rawFilters];
     modifier(filter);
 
     const index = this.findIndex(id);
@@ -142,7 +142,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
       return false;
     }
 
-    let filters = [...this.rawFilters];
+    const filters = [...this.rawFilters];
     modifier(filters[index]!);
     this.update(filters);
 
@@ -154,9 +154,9 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * @param filterOrId The query filter or id to instantiate
    */
   public instantiate(filterOrId:QueryFilterResource|string):QueryFilterInstanceResource {
-    let id = (filterOrId instanceof QueryFilterResource) ? filterOrId.id : filterOrId;
+    const id = (filterOrId instanceof QueryFilterResource) ? filterOrId.id : filterOrId;
 
-    let schema = _.find(
+    const schema = _.find(
       this.availableSchemas,
       schema => (schema.filter.allowedValues as HalResource)[0].id === id
     )!;
@@ -169,8 +169,8 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * @param filters Filters to be removed
    */
   public remove(...filters:(QueryFilterInstanceResource|string)[]) {
-    let mapper = (f:QueryFilterInstanceResource|string) => (f instanceof QueryFilterInstanceResource) ? f.id : f;
-    let set = new Set<string>(filters.map(mapper));
+    const mapper = (f:QueryFilterInstanceResource|string) => (f instanceof QueryFilterInstanceResource) ? f.id : f;
+    const set = new Set<string>(filters.map(mapper));
 
     this.update(
       this.rawFilters.filter(f => !set.has(mapper(f)))

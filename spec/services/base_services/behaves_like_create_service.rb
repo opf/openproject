@@ -35,6 +35,7 @@ shared_examples 'BaseServices create service' do
   let(:namespace) { service_class.to_s.deconstantize }
   let(:model_class) { namespace.singularize.constantize }
   let(:contract_class) { "#{namespace}::CreateContract".constantize }
+  let(:contract_options) { {} }
   let(:factory) { namespace.singularize.underscore }
 
   let(:set_attributes_class) { "#{namespace}::SetAttributesService".constantize }
@@ -64,7 +65,7 @@ shared_examples 'BaseServices create service' do
       .with(user: user,
             model: model_instance,
             contract_class: contract_class,
-            contract_options: {})
+            contract_options: contract_options)
       .and_return(service)
 
     allow(service)
@@ -95,7 +96,7 @@ shared_examples 'BaseServices create service' do
   end
 
   describe '#call' do
-    context 'if contract validates and the user saves' do
+    context 'if contract validates and the model saves' do
       it 'is successful' do
         expect(subject).to be_success
       end
@@ -104,7 +105,7 @@ shared_examples 'BaseServices create service' do
         expect(subject.errors).to eq(set_attributes_errors)
       end
 
-      it 'returns the user as a result' do
+      it 'returns the model as a result' do
         result = subject.result
         expect(result).to be_a model_class
       end
@@ -126,7 +127,7 @@ shared_examples 'BaseServices create service' do
         expect(subject).to_not be_success
       end
 
-      it "returns the user's errors" do
+      it "returns the model's errors" do
         allow(model_instance)
           .to(receive(:errors))
           .and_return errors

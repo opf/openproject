@@ -66,12 +66,16 @@ module API
       end
 
       def href=(value)
-        if value
-          id = ::API::Utilities::ResourceLinkParser.parse_id value,
+        # Ignore linked resources that are hidden to the client
+        # See lib/api/v3.rb for more details.
+        return if value == API::V3::URN_UNDISCLOSED
+
+        id = if value
+               ::API::Utilities::ResourceLinkParser.parse_id value,
                                                              property: @property_name,
                                                              expected_version: '3',
                                                              expected_namespace: @namespace
-        end
+             end
 
         represented.send(@setter, id)
       end

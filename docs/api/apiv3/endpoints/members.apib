@@ -2,7 +2,9 @@
 
 Users and groups can become members of a project. Such a membership will also have one or more roles assigned to it. By that, memberships control the permissions a user has within a project.
 
-There are also memberships that do not govern the permissions within a certain project but rather govern global permissions. Currently, this is only relevant for the "Create project" permission. Those memberships do not have a project associated.
+There are also memberships that do not govern the permissions within a certain project but rather govern global permissions. Among the permissions that can be granted like this are the permissions to "Create project" and "Manage users". Those memberships do not have a project associated.
+
+When creating and updating memberships, a custom message can be sent to users of new and updated memberships. This message can be provided within the `_meta` group.
 
 ## Linked Properties
 |  Link               | Description                                                   | Type             | Constraints                                                    | Supported operations |
@@ -18,6 +20,12 @@ There are also memberships that do not govern the permissions within a certain p
 | id          | Membership id                                 | Integer     | x > 0                                              | READ                 |
 | createdAt   | Time of creation                              | DateTime    | not null                                           | READ                 |
 | updatedAt   | Time of latest update                         | DateTime    | not null                                           | READ                 |
+
+## Meta parameters
+
+| Meta property              | Description                                                                          | Type         | Constraints | Supported operations |Condition |
+| :------------------------: | ---------------------------------------------------                                  | ----         | ----------- | -------------------- |----------|
+| notificationMessage        | The message included in the email(s) send to the users of new or updated memberships | Formattable  |             | READ/WRITE           |          |
 
 ## View membership [/api/v3/memberships/{id}]
 
@@ -108,6 +116,9 @@ Creates a new membership applying the attributes provided in the body.
 
 You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
 
+By providing a `notificationMessage` within the `_meta` block of the payload, the client can include a customized message to the user
+of the newly created membership. In case of a group, the message will be sent to every user belonging to the group.
+
 + Request Create memberships
 
     + Body
@@ -128,6 +139,12 @@ You can use the form and schema to be retrieve the valid attribute values and by
                         "href": "/api/v3/roles/8"
                       }
                     ]
+                },
+                "_meta": {
+                  "notificationMessage": {
+                    "raw" {
+                      "Welcome to our team, Alice."
+                    }
                 }
             }
 
@@ -186,6 +203,9 @@ You can use the form and schema to be retrieve the valid attribute values and by
 
 Updates the given membership by applying the attributes provided in the body.
 
+By providing a `notificationMessage` within the `_meta` block of the payload, the client can include a customized message to the user
+of the updated membership. In case of a group, the message will be sent to every user belonging to the group.
+
 + Parameters
     + id (required, integer, `1`) ... Membership id
 
@@ -203,6 +223,11 @@ Updates the given membership by applying the attributes provided in the body.
                         "href": "/api/v3/roles/8"
                       }
                     ]
+                },
+                "_meta": {
+                  "notificationMessage": {
+                     "raw": "Alice, you can now also create work packages."
+                   }
                 }
             }
 
@@ -320,7 +345,7 @@ Deletes the membership.
                 "message": "The requested resource could not be found."
             }
 
-## List memberships [/api/v3/memberships{?filters}]
+## List memberships [/api/v3/memberships{?filters,sortBy}]
 
 + Model
     + Body
@@ -414,6 +439,15 @@ Returns a collection of memberships. The client can choose to filter the members
       + created_at: filters memberships based on the time the membership was created.
       + updated_at: filters memberships based on the time the membership was updated last.
 
+    + sortBy = ["id", "asc"] (optional, string, `[["id", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      + id: Sort by primary key
+      + name: Sort by the name of the principal. Note that this depends on the setting for how the name is to be displayed at least for users.
+      + email: Sort by the email address of the principal. Groups and principal users, which do not have an email, are sorted last.
+      + status: Sort by the status of the principal. Groups and principal users, which do not have a status, are sorted together with the active users.
+      + created_at: Sort by membership creation datetime
+      + updated_at: Sort by the time the membership was updated last
+
 + Response 200 (application/hal+json)
 
     [List memberships][]
@@ -448,12 +482,22 @@ Returns a collection of memberships. The client can choose to filter the members
                     "hasDefault": false,
                     "writable": false
                 },
+                "notificationMessage": {
+                    "type": "Formattable",
+                    "name": "Message",
+                    "required": false,
+                    "hasDefault": false,
+                    "writable": true,
+                    "options": {},
+                    "location": "_meta"
+                },
                 "project": {
                     "type": "Project",
                     "name": "Project",
                     "required": false,
                     "hasDefault": false,
                     "writable": true,
+                    "location": "_links",
                     "_links": {}
                 },
                 "principal": {
@@ -462,6 +506,7 @@ Returns a collection of memberships. The client can choose to filter the members
                     "required": true,
                     "hasDefault": false,
                     "writable": true,
+                    "location": "_links",
                     "_links": {}
                 },
                 "roles": {
@@ -470,6 +515,7 @@ Returns a collection of memberships. The client can choose to filter the members
                     "required": true,
                     "hasDefault": false,
                     "writable": true,
+                    "location": "_links",
                     "_links": {}
                 },
                 "_links": {
@@ -513,17 +559,25 @@ For more details and all possible responses see the general specification of [Fo
     + Body
 
             {
-                "project": {
-                    "href": "/api/v3/projects/1"
+                "_links": {
+                  "project": {
+                      "href": "/api/v3/projects/1"
+                  },
+                  "principal": {
+                      "href": "/api/v3/users/5"
+                  },
+                  "roles": [
+                      {
+                          "href": "/api/v3/roles/2"
+                      }
+                  ]
                 },
-                "principal": {
-                    "href": "/api/v3/users/5"
-                },
-                "roles": [
-                    {
-                        "href": "/api/v3/roles/2"
+                "_meta": {
+                  "notificationMessage": {
+                    "raw": "Welcome to our team, Alice."
+                    
                     }
-                ]
+                }
             }
 
 + Response 200 (application/hal+json)
@@ -549,6 +603,11 @@ For more details and all possible responses see the general specification of [Fo
                                     "title": "Manager"
                                 }
                             ]
+                        },
+                        "_meta": {
+                          "notificationMessage": {
+                            "raw": "Welcome to our team, Alice."
+                            }
                         }
                     },
                     "schema": {
@@ -575,12 +634,22 @@ For more details and all possible responses see the general specification of [Fo
                             "hasDefault": false,
                             "writable": false
                         },
+                        "notificationMessage": {
+                            "type": "Formattable",
+                            "name": "Message",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "options": {},
+                            "location": "_meta"
+                        },
                         "project": {
                             "type": "Project",
                             "name": "Project",
                             "required": false,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "_links": {
                                 "allowedValues": {
                                     "href": "/api/v3/memberships/available_projects?filters=%5B%7B%22principal%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%225%22%5D%7D%7D%5D"
@@ -593,6 +662,7 @@ For more details and all possible responses see the general specification of [Fo
                             "required": true,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "_links": {
                                 "allowedValues": {
                                     "href": "/api/v3/principals?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%220%22%2C%223%22%5D%7D%7D%2C%7B%22member%22%3A%7B%22operator%22%3A%22%21%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D"
@@ -605,6 +675,7 @@ For more details and all possible responses see the general specification of [Fo
                             "required": true,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "_links": {
                                 "allowedValues": {
                                     "href": "/api/v3/roles
@@ -671,6 +742,9 @@ The returned payload part of the form will be contain a merge between the alread
 
 For more details and all possible responses see the general specification of [Forms](/api/forms).
 
++ Parameters
+    + id (required, integer, `1`) ... Membership id
+
 ## Membership update form [POST]
 
 + Request Update membership form
@@ -678,11 +752,18 @@ For more details and all possible responses see the general specification of [Fo
     + Body
 
             {
-                "_links": [
-                  {
-                    "href": "/api/v3/roles/4"
-                  }
-                ]
+                "_links": {
+                  "roles": [
+                    {
+                      "href": "/api/v3/roles/4"
+                    }
+                  ]
+                },
+                "_meta": {
+                  "notificationMessage": {
+                    "raw": "Alice, you can now also create work packages."
+                    }
+                }
             }
 
 + Response 200 (application/hal+json)
@@ -700,6 +781,11 @@ For more details and all possible responses see the general specification of [Fo
                                     "title": "A role"
                                 }
                             ]
+                        },
+                        "_meta": {
+                          "notificationMessage": {
+                            "raw": "Alice, you can now also create work packages."
+                            }
                         }
                     },
                     "schema": {
@@ -726,6 +812,15 @@ For more details and all possible responses see the general specification of [Fo
                             "hasDefault": false,
                             "writable": false
                         },
+                        "notificationMessage": {
+                            "type": "Formattable",
+                            "name": "Message",
+                            "required": false,
+                            "hasDefault": false,
+                            "writable": true,
+                            "options": {},
+                            "location": "_meta"
+                        },
                         "project": {
                             "type": "Project",
                             "name": "Project",
@@ -748,6 +843,7 @@ For more details and all possible responses see the general specification of [Fo
                             "required": true,
                             "hasDefault": false,
                             "writable": true,
+                            "location": "_links",
                             "_links": {
                                 "allowedValues": {
                                     "href": "/api/v3/roles?filters=%5B%7B%22unit%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22project%22%5D%7D%7D%5D"

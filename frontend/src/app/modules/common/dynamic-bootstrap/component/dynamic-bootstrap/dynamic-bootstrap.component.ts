@@ -9,9 +9,9 @@
  * @module
  * @public
  */
-import {ApplicationRef, Component, ElementRef, Input} from '@angular/core';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-import {DynamicBootstrapper} from 'core-app/globals/dynamic-bootstrapper';
+import { ApplicationRef, Component, ElementRef, Input } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DynamicBootstrapper } from 'core-app/globals/dynamic-bootstrapper';
 
 @Component({
   selector: 'op-dynamic-bootstrap',

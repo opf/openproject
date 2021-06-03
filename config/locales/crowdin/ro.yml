@@ -175,6 +175,8 @@ ro:
       no_results_content_text: Creare câmp personalizat nou
   concatenation:
     single: 'sau'
+  documentation:
+    see_more_link: Pentru mai multe informații, vă rugăm să consultați documentația noastră pe această temă.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -205,6 +207,7 @@ ro:
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
     settings:
+      change_identifier: Schimbă identificatorul
       activities:
         no_results_title_text: În acest moment nu există activități disponibile.
       forums:
@@ -220,10 +223,13 @@ ro:
       versions:
         no_results_title_text: În acest moment nu există versiuni pentru acest proiect.
         no_results_content_text: Creare versiune nouă
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: În acest moment nu există niciun participant la acest proiect.
       no_results_content_text: Adăugare participant la proiect
+    invite_by_mail: "Trimiteți invitația la %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Resetarea tokenului de acces nu a reușit: %{error}"
@@ -241,6 +247,9 @@ ro:
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Ștergeți utilizatorul de tip placeholder %{name}"
       data_consequences: >
@@ -250,7 +259,8 @@ ro:
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
       title: Atribuiți munca unor persoane care nu sunt membri ai proiectului.
-      description: Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
+      description: >
+        Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
   prioritiies:
     edit:
       priority_color_text: |
@@ -565,6 +575,12 @@ ro:
         unremovable: "nu poate fi îndepărtată."
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
+        capability:
+          context:
+            global: 'Global'
+          query:
+            filters:
+              minimum: "trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul \"=\"."
         custom_field:
           at_least_one_custom_option: "Cel puțin o opțiune trebuie să fie disponibilă."
         custom_actions:
@@ -604,6 +620,9 @@ ro:
           attributes:
             types:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "Mesaj"
         query:
           attributes:
             project:
@@ -788,7 +807,7 @@ ro:
     firstname: "Prenume"
     group: "Grup"
     groups: "Grupuri"
-    groupname: "Nume grup"
+    name: "Nume"
     id: "ID"
     is_default: "Valoare implicită"
     is_for_all: "Pentru toate proiectele"
@@ -798,7 +817,6 @@ ro:
     lastname: "Nume"
     login: "Utilizator"
     mail: "E-mail"
-    name: "Nume"
     password: "Parolă"
     priority: "Prioritate"
     project: "Proiect"
@@ -818,6 +836,33 @@ ro:
     user: "Utilizator"
     version: "Versiune"
     work_package: "Pachet de lucru"
+  backup:
+    label_backup_token: "Token backup"
+    label_create_token: "Creează token backup"
+    label_delete_token: "Șterge token backup"
+    label_reset_token: "Resetează token backup"
+    label_token_users: "Următorii utilizatori au tokeni de backup activi"
+    reset_token:
+      action_create: Creare
+      action_reset: Resetare
+      heading_reset: "Resetează token backup"
+      heading_create: "Creează token backup"
+      implications: >
+        Activarea backup-urilor va permite oricărui utilizator cu permisiunile necesare și acestui token de backup să descarce o copie de rezervă care conține toate datele acestei instalări OpenProject. Acestea includ datele tuturor celorlalți utilizatori.
+      info: >
+        Va trebui să generezi un token de backup pentru a putea crea o copie de rezervă. De fiecare dată când doriţi să solicitaţi o copie de rezervă va trebui să furnizaţi acest token. Puteți șterge token-ul de backup pentru a dezactiva copiile de rezervă ale acestui utilizator.
+      verification: >
+        Introdu %{word} pentru a confirma că vrei să %{action} token-ul de backup.
+      verification_word_reset: resetezi
+      verification_word_create: creezi
+      warning: >
+        Când creați un token nou, veți putea solicita o copie de rezervă abia după 24 de ore. Aceasta este o măsură de siguranţă. După aceea puteţi solicita o copie de rezervă în orice moment folosind acel token.
+    text_token_deleted: Token-ul de backup a fost șters. Copiile de rezervă sunt acum dezactivate.
+    error:
+      invalid_token: Token de backup invalid sau lipsă
+      token_cooldown: Token-ul de backup va fi valabil în %{hours} ore.
+      backup_pending: Deja există un backup în procesare.
+      limit_reached: Puteţi face doar %{limit} copii de rezervă pe zi.
   button_add: "Adăugare"
   button_add_comment: "Adăugare comentariu"
   button_add_member: Adăugare participant
@@ -897,12 +942,17 @@ ro:
     text_update_consent_time: Bifați această casetă pentru a forța utilizatorii să consimtă din nou. Activați când ați modificat aspectul juridic al informațiilor privind consimțământul de mai sus.
     update_consent_last_time: "Ultima actualizare a consimțământului: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "A început copierea proiectului \"%{source_project_name}\" în \"%{target_project_name}\". Veţi fi informat prin mail de îndată ce \"%{target_project_name}\" este disponibil."
     failed: "Proiectul %{source_project_name} nu poate fi copiat"
     failed_internal: "Copierea a eșuat din cauza unei erori interne."
     succeeded: "Proiectul %{target_project_name} a fost creat"
     errors: "Eroare"
     project_custom_fields: 'Câmpuri personalizate pentru proiect'
+    x_objects_of_this_type:
+      zero: 'Nu există obiecte de acest tip'
+      one: 'Un obiect de acest tip'
+      other: '%{count} obiecte de acest tip'
     text:
       failed: "Proiectul \"%{source_project_name}\" nu a putut fi copiat în proiectul \"%{target_project_name}\"."
       succeeded: "Proiectul \"%{source_project_name}\" a fost copiat în proiectul \"%{target_project_name}\"."
@@ -1060,7 +1110,7 @@ ro:
   default_role_anonymous: "Anonim"
   default_role_developer: "Programator"
   default_role_project_admin: "Admin proiect"
-  default_role_project_creator: "Creatorul proiectului"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Non-membru"
   default_role_reader: "Cititor"
   default_role_member: "Membru"
@@ -1238,6 +1288,9 @@ ro:
   instructions_after_registration: "Vă puteţi autentifica de îndată ce contul a fost activat dând click pe %{signin}."
   instructions_after_logout: "Vă puteţi autentifica din nou dând click pe %{signin}."
   instructions_after_error: "Puteţi încerca să vă autentificați din nou dând click pe %{signin}. Dacă eroarea persistă, cereți ajutorul administratorului."
+  menus:
+    quick_add:
+      label: "Deschideți meniul de adăugare rapidă"
   my_account:
     access_tokens:
       no_results:
@@ -1297,6 +1350,7 @@ ro:
   label_available_project_versions: 'Versiuni disponibile'
   label_available_project_repositories: 'Arhive disponibile'
   label_api_documentation: "Documentație API"
+  label_backup: "Backup"
   label_between: "între"
   label_blocked_by: "blocat de"
   label_blocks: "blochează"
@@ -1499,6 +1553,8 @@ ro:
   label_member_new: "Membru nou"
   label_member_all_admin: "(Toate rolurile datorită statutului de administrator)"
   label_member_plural: "Membri"
+  lable_membership_added: 'Membru adăugat'
+  lable_membership_updated: 'Membru actualizat'
   label_menu_item_name: "Numele meniului"
   label_message: "Mesaj"
   label_message_last: "Ultimul mesaj"
@@ -1820,6 +1876,12 @@ ro:
   mail_body_account_activation_request: "A fost înregistrat un nou user (%{value}). Activarea este în așteptarea aprobării:"
   mail_body_account_information: "Informații despre contul dumneavoastră"
   mail_body_account_information_external: "Puteți utiliza contul %{value} pentru autentificare."
+  mail_body_backup_ready: "Backup-ul solicitat este gata. Îl puteți descărca aici:"
+  mail_body_backup_token_reset_admin_info: Token-ul de backup pentru utilizatorul '%{user}' a fost resetat.
+  mail_body_backup_token_reset_user_info: Token-ul backup a fost resetat.
+  mail_body_backup_token_info: Token-ul anterior nu mai este valid.
+  mail_body_backup_waiting_period: Noul token va fi activat în %{hours} ore.
+  mail_body_backup_token_warning: Dacă nu ați fost dvs., conectați-vă la OpenProject imediat și resetați-l din nou.
   mail_body_lost_password: "Pentru a vă modifica parola, dați click pe următorul link:"
   mail_body_register: "Bine ați venit la OpenProject. Vă rugăm să vă activați contul făcând clic pe acest link:"
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
@@ -1836,12 +1898,35 @@ ro:
   mail_body_wiki_content_added: "Pagina de wiki '%{id}' a fost adăugată de %{author}."
   mail_body_wiki_content_updated: "Pagina wiki '%{id}' a fost actualizată de %{author}."
   mail_subject_account_activation_request: "cererea de activare a contului %{value}"
+  mail_subject_backup_ready: "Backup-ul tău este gata"
+  mail_subject_backup_token_reset: "Token-ul tău de backup a fost resetat"
   mail_subject_lost_password: "Parola dumneavoastră pentru %{value}"
   mail_subject_register: "Activarea contului dumneavoastră %{value}"
   mail_subject_reminder: "%{count} pachete de lucru trebuie rezolvate în următoarele %{days} zile"
   mail_subject_group_reminder: "Pentru grupul \"%{group}\" %{count} pachet(e) de lucru care trebuie să fie depus(e) în următoarele %{days} zile"
   mail_subject_wiki_content_added: "Pagina de wiki '%{id}' a fost adăugată"
   mail_subject_wiki_content_updated: "Pagina wiki '%{id}' a fost actualizată"
+  mail_member_added_project:
+    subject: "%{project} - Ați fost adăugat ca membru"
+    body:
+      added_by:
+        without_message: "%{user} te-a adăugat ca membru în proiectul \"%{project}\"."
+        with_message: "%{user} te-a adăugat ca membru în proiectul '%{project}':"
+      roles: "Aveți următoarele roluri:"
+  mail_member_updated_project:
+    subject: "%{project} - Rolurile dvs. au fost actualizate"
+    body:
+      updated_by:
+        without_message: "%{user} a actualizat rolurile pe care le aveți în proiectul \"%{project}\"."
+        with_message: "%{user} a actualizat rolurile pe care le aveți în scrierea proiectului '%{project}':"
+      roles: "Acum aveți următoarele roluri:"
+  mail_member_updated_global:
+    subject: "Permisiunile dvs. globale au fost actualizate"
+    body:
+      updated_by:
+        without_message: "%{user} a actualizat rolurile pe care le aveți la nivel global."
+        with_message: "%{user} a actualizat rolurile pe care le-ați scris la nivel global:"
+      roles: "Acum aveți următoarele roluri:"
   mail_user_activation_limit_reached:
     subject: Limita numărului de utilizatori activi a fost atinsă
     message: |
@@ -2195,6 +2280,7 @@ ro:
   setting_consent_required: "Consimțământ necesar"
   setting_consent_decline_mail: "Consimțământ adresa de e-mail de contact"
   setting_cross_project_work_package_relations: "Permiteți legături între pachetele de lucru din proiecte diferite"
+  setting_first_week_of_year: "Prima săptămână din an conține"
   setting_date_format: "Format dată"
   setting_default_language: "Limbă implicită"
   setting_default_notification_option: "Opțiune implicită de notificare"
@@ -2252,7 +2338,6 @@ ro:
   setting_repository_truncate_at: "Număr maxim de fișiere este afișat în exploratorul de repozitoriu"
   setting_rest_api_enabled: "Activare serviciu web REST"
   setting_self_registration: "Înregistrare individuală"
-  setting_sequential_project_identifiers: "Generare identificatori secvențiali pentru proiecte"
   setting_session_ttl: "Durata de inactivitate pentru expirarea sesiunii"
   setting_session_ttl_hint: "O valoare sub 5 dezactivează expirarea sesiunii"
   setting_session_ttl_enabled: "Sesiunea expiră"
@@ -2276,6 +2361,11 @@ ro:
     passwords: "Parole"
     session: "Sesiune"
     brute_force_prevention: "Blocare automată a utilizatorilor"
+    display:
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Selectați data din ianuarie care se află în prima săptămână a anului. Această valoare, împreună cu prima zi a săptămânii, determină numărul total de săptămâni dintr-un an.
     projects:
       section_new_projects: "Setări pentru proiecte noi"
       section_project_overview: "Setări pentru lista de prezentare generală a proiectului"
@@ -2580,6 +2670,8 @@ ro:
     getting_started: "Noţiuni de bază"
     help_and_support: "Asistenţă şi suport"
   total_progress: "Progres total"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "toate"
     active: "activ"
@@ -2668,6 +2760,7 @@ ro:
       code_403: "Nu sunteți autorizat să accesați această resursă."
       code_404: "Resursa solicitată nu a fost găsită."
       code_409: "Nu s-a putut actualiza resursa din cauza unor modificări conflictuale."
+      code_429: "Prea multe solicitări. Vă rugăm încercați mai târziu."
       code_500: "A apărut o eroare internă."
       expected:
         date: "AAAA-MM-ZZ (doar formate ISO 8601)"
@@ -2677,6 +2770,9 @@ ro:
       invalid_json: "Cererea nu poate fi procesată ca JSON."
       invalid_relation: "Relația este invalidă."
       invalid_resource: "Pentru proprietatea '%{property}' este așteptat un link gen '%{expected}', dar am primit '%{actual}'."
+      invalid_signal:
+        embed: "Încorporarea solicitată pentru %{invalid} nu este acceptată. Încorporările acceptate sunt %{supported}."
+        select: "Selecția solicitată de %{invalid} nu este acceptată. Selecțiile acceptate sunt %{supported}."
       invalid_user_status_transition: "Starea contului pentru utilizatorul curent nu permite această operațiune."
       missing_content_type: "nespecificat"
       missing_request_body: "Cererea nu are conținut."
@@ -2784,3 +2880,4 @@ ro:
     authorization_error: "A apărut o eroare internă."
     revoke_my_application_confirmation: "Chiar doriți să eliminați această aplicație? Acest lucru va anula %{token_count} active pentru aceasta."
     my_registered_applications: "Aplicații OAuth înregistrate"
+  you: tu

@@ -38,27 +38,27 @@ module SettingsHelper
     [
       {
         name: 'general',
-        action: { controller: '/settings/general', action: 'show' },
+        controller: '/admin/settings/general_settings',
         label: :label_general
       },
       {
         name: 'display',
-        action: { controller: '/settings/display', action: 'show' },
+        controller: '/admin/settings/display_settings',
         label: :label_display
       },
       {
         name: 'projects',
-        action: { controller: '/settings/projects', action: 'show' },
+        controller: '/admin/settings/projects_settings',
         label: :label_project_plural
       },
       {
         name: 'api',
-        action: { controller: '/settings/api', action: 'show' },
+        controller: '/admin/settings/api_settings',
         label: :label_api_access_key_type
       },
       {
         name: 'repositories',
-        action: { controller: '/settings/repositories', action: 'show' },
+        controller:'/admin/settings/repositories_settings',
         label: :label_repository_plural
       }
     ]
@@ -83,10 +83,12 @@ module SettingsHelper
           choices.map do |choice|
             text, value, choice_options = (choice.is_a?(Array) ? choice : [choice, choice])
             choice_options = (choice_options || {}).merge(options.except(:id))
+            choice_options[:id] = "#{setting}_#{value}"
 
             content_tag(:label, class: 'form--label-with-check-box') do
               styled_check_box_tag("settings[#{setting}][]", value,
                                    Setting.send(setting).include?(value), choice_options) + text.to_s
+
             end
           end.join.html_safe
       end
@@ -100,6 +102,18 @@ module SettingsHelper
   end
 
   def setting_text_field(setting, options = {})
+    setting_field_wrapper(setting, options) do
+      styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options)
+    end
+  end
+
+  def setting_number_field(setting, options = {})
+    setting_field_wrapper(setting, options) do
+      styled_number_field_tag("settings[#{setting}]", Setting.send(setting), options)
+    end
+  end
+
+  def setting_field_wrapper(setting, options)
     unit = options.delete(:unit)
     unit_html = ''
 
@@ -115,8 +129,7 @@ module SettingsHelper
 
     setting_label(setting, options) +
       wrap_field_outer(options) do
-        styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options) +
-          unit_html
+        yield + unit_html
       end
   end
 
@@ -162,7 +175,7 @@ module SettingsHelper
     setting_label(setting, options) + wrap_field_outer(options, &block)
   end
 
-  # Renders a notification field for a Redmine::Notifiable option
+  # Renders a notification field for an OpenProject::Notifiable option
   def notification_field(notifiable, options = {})
     content_tag(:label, class: 'form--label-with-check-box' + (notifiable.parent.present? ? ' parent' : '')) do
       styled_check_box_tag('settings[notified_events][]',

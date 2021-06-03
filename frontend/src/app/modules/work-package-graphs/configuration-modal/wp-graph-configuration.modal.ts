@@ -1,5 +1,6 @@
 import {
   ApplicationRef,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
@@ -12,27 +13,28 @@ import {
   Optional,
   ViewChild
 } from '@angular/core';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
+import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
 import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {ComponentType} from "@angular/cdk/portal";
-import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
-import {WpGraphConfiguration} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { ComponentType } from "@angular/cdk/portal";
+import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
+import { WpGraphConfiguration } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
   templateUrl: '../../../components/wp-table/configuration-modal/wp-table-configuration.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
 
@@ -74,7 +76,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     super(locals, cdRef, elementRef);
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     this.loadingIndicator.indicator('modal').promise = this.graphConfiguration.loadForms()
@@ -87,12 +89,14 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
           this.injector
         );
 
-        const initialTab = this.locals['initialTab'] || this.availableTabs[0].name;
-        this.switchTo(initialTab);
+        const initialTabName = this.locals['initialTab'];
+        const initialTab = this.availableTabs.find(el => el.id === initialTabName);
+        this.cdRef.markForCheck();
+        this.switchTo(initialTab || this.availableTabs[0]);
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
     this.tabPortalHost.dispose();
   }
 
@@ -104,8 +108,8 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(name:string) {
-    this.tabPortalHost.switchTo(name);
+  public switchTo(tab:TabInterface):void {
+    this.tabPortalHost.switchTo(tab);
   }
 
   public saveChanges():void {

@@ -34,7 +34,7 @@ describe UserJob do
   let(:test_job) do
     Class.new(::UserJob) do
       def execute(foo:)
-        user.admin?
+        [user.id, User.current.id, user.admin]
       end
     end
   end
@@ -45,19 +45,23 @@ describe UserJob do
 
   describe 'with system user' do
     let(:user) { User.system }
-    it 'sets admin privileges' do
-      expect(subject).to eq true
 
-      # But does not retain admin privileges
-      expect(user).not_to be_admin
+    it 'uses that user' do
+      given_user, current_user, admin = subject
+      expect(given_user).to eq current_user
+      expect(given_user).to eq user.id
+      expect(admin).to eq true
     end
   end
 
   describe 'with a regular user' do
     let(:user) { FactoryBot.build_stubbed :user }
-    it 'just uses that' do
-      expect(subject).to eq false
-      expect(user).not_to be_admin
+
+    it 'uses that user' do
+      given_user, current_user, admin = subject
+      expect(given_user).to eq current_user
+      expect(given_user).to eq user.id
+      expect(admin).to eq false
     end
   end
 end

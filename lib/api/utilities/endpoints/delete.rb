@@ -52,8 +52,7 @@ module API
           delete = self
 
           -> do
-            call = delete.process(current_user,
-                                  instance_exec(params, &delete.instance_generator))
+            call = delete.process(self)
 
             delete.render(call) do
               status delete.success_status
@@ -61,10 +60,10 @@ module API
           end
         end
 
-        def process(current_user, instance)
+        def process(request)
           process_service
-            .new(user: current_user,
-                 model: instance)
+            .new(user: request.current_user,
+                 model: request.instance_exec(request.params, &instance_generator))
             .call
         end
 

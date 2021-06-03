@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from "@angular/core";
-import {MembersAutocompleterComponent} from "core-app/modules/members/members-autocompleter.component";
-import {NgSelectModule} from "@ng-select/ng-select";
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
+import { NgModule } from "@angular/core";
+import { MembersAutocompleterComponent } from "core-app/modules/members/members-autocompleter.component";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
 
 @NgModule({
   imports: [

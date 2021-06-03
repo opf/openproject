@@ -103,7 +103,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'DateTime' }
-        let(:name) { Version.human_attribute_name('created_at') }
+        let(:name) { Member.human_attribute_name('created_at') }
         let(:required) { true }
         let(:writable) { false }
       end
@@ -114,9 +114,21 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'DateTime' }
-        let(:name) { Version.human_attribute_name('updated_at') }
+        let(:name) { Member.human_attribute_name('updated_at') }
         let(:required) { true }
         let(:writable) { false }
+      end
+    end
+
+    describe 'notificationMessage' do
+      let(:path) { 'notificationMessage' }
+
+      it_behaves_like 'has basic schema properties' do
+        let(:type) { 'Formattable' }
+        let(:name) { I18n.t('label_message') }
+        let(:required) { false }
+        let(:writable) { true }
+        let(:location) { :_meta }
       end
     end
 
@@ -129,6 +141,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           let(:name) { Member.human_attribute_name('project') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -170,6 +183,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           let(:name) { Version.human_attribute_name('project') }
           let(:required) { false }
           let(:writable) { false }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -189,6 +203,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           let(:name) { Version.human_attribute_name('principal') }
           let(:required) { true }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -237,6 +252,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
           let(:name) { Version.human_attribute_name('principal') }
           let(:required) { true }
           let(:writable) { false }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -255,6 +271,7 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
         let(:name) { Version.human_attribute_name('role') }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       context 'if embedding' do

@@ -31,7 +31,14 @@ require 'spec_helper'
 describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) do
+    FactoryBot.build_stubbed(:user).tap do |user|
+      allow(user)
+        .to receive(:allowed_to_globally?) do |permission|
+        global_permissions.include?(permission)
+      end
+    end
+  end
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }
@@ -75,6 +82,9 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     contract
   end
+
+  let(:global_permissions) { %i[add_project] }
+
   let(:representer) do
     described_class.create(contract,
                            self_link: self_link,
@@ -125,6 +135,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:type) { 'String' }
         let(:name) { I18n.t('activerecord.attributes.project.identifier') }
         let(:required) { true }
+        let(:has_default) { true }
         let(:writable) { true }
       end
 
@@ -151,7 +162,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Boolean' }
         let(:name) { I18n.t('attributes.public') }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { true }
       end
     end
@@ -162,7 +173,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Boolean' }
         let(:name) { I18n.t('attributes.active') }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { true }
       end
     end
@@ -186,18 +197,11 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
         let(:name) { I18n.t('activerecord.attributes.projects/status.code') }
         let(:required) { false }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
-      it 'contains no link to the allowed values' do
-        is_expected
-          .not_to have_json_path("#{path}/_links/allowedValues")
-      end
-
-      it 'embeds no values' do
-        allowed_path = "#{path}/_embedded/allowedValues"
-
-        is_expected
-          .not_to have_json_path(allowed_path)
+      it_behaves_like 'links to allowed values directly' do
+        let(:hrefs) { Projects::Status.codes.keys.map { |code| api_v3_paths.project_status code } }
       end
     end
 
@@ -237,15 +241,16 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
     describe 'parent' do
       let(:path) { 'parent' }
 
-      context 'if having a new record' do
+      context 'when having a new record' do
         it_behaves_like 'has basic schema properties' do
           let(:type) { 'Project' }
           let(:name) { Project.human_attribute_name('parent') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
-        context 'if embedding' do
+        context 'when embedding' do
           let(:embedded) { true }
 
           it_behaves_like 'links to allowed values via collection link' do
@@ -255,10 +260,23 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           end
         end
 
-        context 'if not embedding' do
+        context 'when not embedding' do
           let(:embedded) { false }
 
           it_behaves_like 'does not link to allowed values'
+        end
+
+        context 'when only having the add_subprojects permissions' do
+          let(:global_permissions) { %i[add_subprojects] }
+
+          it_behaves_like 'has basic schema properties' do
+            let(:type) { 'Project' }
+            let(:name) { Project.human_attribute_name('parent') }
+            # Required is different when the add_project permisison is lacking
+            let(:required) { true }
+            let(:writable) { true }
+            let(:location) { '_links' }
+          end
         end
       end
 
@@ -270,6 +288,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
           let(:name) { Project.human_attribute_name('parent') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do

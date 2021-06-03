@@ -1,5 +1,5 @@
 module OpenProject::XlsExport::Hooks
-  class WorkPackageHook < Redmine::Hook::ViewListener
+  class WorkPackageHook < OpenProject::Hook::ViewListener
     def link_to_xls(context, label, options = {})
       url = {
         project_id: context[:project],

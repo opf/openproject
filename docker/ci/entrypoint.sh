@@ -2,6 +2,7 @@
 set -e
 
 export PGBIN="$(pg_config --bindir)"
+export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
 
@@ -30,10 +31,15 @@ execute() {
 	fi
 }
 
+cleanup() {
+        rm -rf tmp/cache/parallel*
+}
+
 if [ "$1" == "setup-tests" ]; then
 	echo "Preparing environment for running tests..."
 	shift
 
+	execute "mkdir -p tmp"
 	execute "cp docker/ci/database.yml config/"
 
 	for i in $(seq 0 $JOBS); do
@@ -45,7 +51,7 @@ if [ "$1" == "setup-tests" ]; then
 	done
 
 	execute "time bundle install -j$JOBS"
-	execute "TEST_ENV_NUMBER=0 time bundle exec rake db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update"
+	execute "TEST_ENV_NUMBER=0 time bundle exec rake db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
 	execute "time bundle exec rake parallel:create parallel:load_schema"
 fi
 
@@ -53,22 +59,28 @@ if [ "$1" == "run-units" ]; then
 	shift
 	execute "cd frontend && npm install && npm run test"
 	execute "time bundle exec rspec -I spec_legacy spec_legacy"
-	execute "time bundle exec rake parallel:units"
-	if [ ! $? -eq 0 ]; then
-		execute "cat tmp/parallel_runtime_rspec.log | grep -Ev 'passed|unknown|pending'"
+	if ! execute "time bundle exec rake parallel:units" ; then
+		execute "cat tmp/parallel_summary.log"
+		cleanup
 		exit 1
+	else
+		cleanup
+		exit 0
 	fi
 fi
 
 if [ "$1" == "run-features" ]; then
 	shift
 	execute "cd frontend; npm install ; cd -"
-	execute "bundle exec rake assets:precompile assets:clean"
+	execute "bundle exec rake assets:precompile"
 	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	execute "time bundle exec rake parallel:features"
-	if [ ! $? -eq 0 ]; then
-		execute "cat tmp/parallel_runtime_rspec.log | grep -Ev 'passed|unknown|pending'"
+	if ! execute "time bundle exec rake parallel:features" ; then
+		execute "cat tmp/parallel_summary.log"
+		cleanup
 		exit 1
+	else
+		cleanup
+		exit 0
 	fi
 fi
 

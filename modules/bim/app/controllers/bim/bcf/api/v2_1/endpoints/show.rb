@@ -30,9 +30,9 @@
 
 module Bim::Bcf::API::V2_1::Endpoints
   class Show < API::Utilities::Endpoints::Show
-    def render(instance)
+    def render(request)
       render_representer
-        .new(instance)
+        .new(request.instance_exec(request.params, &instance_generator))
     end
 
     private

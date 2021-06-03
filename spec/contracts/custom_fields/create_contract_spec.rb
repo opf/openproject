@@ -36,7 +36,7 @@ describe CustomFields::CreateContract do
 
   let(:cf) { FactoryBot.build :project_custom_field }
   let(:contract) do
-    described_class.new(cf, current_user, options: { changed_by_system: [] })
+    described_class.new(cf, current_user, options: {})
   end
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'

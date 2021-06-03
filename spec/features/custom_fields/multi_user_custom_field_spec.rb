@@ -46,7 +46,7 @@ describe "multi select custom values", js: true do
 
     let!(:group) do
       FactoryBot.create :group,
-                        groupname: 'groupfoo',
+                        name: 'groupfoo',
                         member_in_project: project,
                         member_through_role: role
     end

@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3ProjectPaths} from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import { APIv3ProjectPaths } from "core-app/modules/apiv3/endpoints/projects/apiv3-project-paths";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
-import {Observable} from "rxjs";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {CachableAPIV3Collection} from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {ProjectCache} from "core-app/modules/apiv3/endpoints/projects/project.cache";
+import { Observable } from "rxjs";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { CachableAPIV3Collection } from "core-app/modules/apiv3/cache/cachable-apiv3-collection";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { ProjectCache } from "core-app/modules/apiv3/endpoints/projects/project.cache";
 
 export class APIv3ProjectsPaths
   extends CachableAPIV3Collection<ProjectResource, APIv3ProjectPaths>

@@ -29,28 +29,31 @@
 #++
 
 module Queries::Projects
-  register = ::Queries::Register
   filters = ::Queries::Projects::Filters
   orders = ::Queries::Projects::Orders
   query = ::Queries::Projects::ProjectQuery
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::TypeFilter
-  register.filter query, filters::ActiveFilter
-  register.filter query, filters::TemplatedFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedAtFilter
-  register.filter query, filters::LatestActivityAtFilter
-  register.filter query, filters::PrincipalFilter
-  register.filter query, filters::ParentFilter
-  register.filter query, filters::IdFilter
-  register.filter query, filters::ProjectStatusFilter
+  ::Queries::Register.register do
+    filter query, filters::AncestorFilter
+    filter query, filters::TypeFilter
+    filter query, filters::ActiveFilter
+    filter query, filters::TemplatedFilter
+    filter query, filters::PublicFilter
+    filter query, filters::NameAndIdentifierFilter
+    filter query, filters::CustomFieldFilter
+    filter query, filters::CreatedAtFilter
+    filter query, filters::LatestActivityAtFilter
+    filter query, filters::PrincipalFilter
+    filter query, filters::ParentFilter
+    filter query, filters::IdFilter
+    filter query, filters::ProjectStatusFilter
+    filter query, filters::UserActionFilter
 
-  register.order query, orders::DefaultOrder
-  register.order query, orders::LatestActivityAtOrder
-  register.order query, orders::RequiredDiskSpaceOrder
-  register.order query, orders::CustomFieldOrder
-  register.order query, orders::ProjectStatusOrder
-  register.order query, orders::NameOrder
+    order query, orders::DefaultOrder
+    order query, orders::LatestActivityAtOrder
+    order query, orders::RequiredDiskSpaceOrder
+    order query, orders::CustomFieldOrder
+    order query, orders::ProjectStatusOrder
+    order query, orders::NameOrder
+  end
 end

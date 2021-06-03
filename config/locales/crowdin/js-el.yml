@@ -33,6 +33,19 @@ el:
         single: "Επιλογή \"%{name}\""
       remove: "Διαγραφή %{name}"
       active: "Ενεργό %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Επιλογές
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Κλείσιμο αναδυόμενου"
     close_filter_title: "Κλείσιμο φίλτρου"
     close_form_title: "Κλείσιμο φόρμας"
@@ -270,13 +283,13 @@ el:
           text_new_features: "Διαβάστε για τις νέες λειτουργίες και τις ενημερώσεις προϊόντων."
           learn_about: "Μάθετε περισσότερα για τις νέες λειτουργίες"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Ενεργοποίηση"
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
@@ -465,6 +478,7 @@ el:
         help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε τη δουλειά σας με το OpenProject!'
         members: 'Προσκαλέστε καινούργια <b>Μέλη</b> για να συμμετάσχουν στο έργο σας.'
         project_selection: 'Παρακαλούμε κάντε κλικ σε ένα από τα έργα με χρήσιμα demo δεδομένα για ξεκινήσετε. <br> Το <b>Demo έργο</b> ταιριάζει καλύτερα στη κλασική διαχείριση έργου, ενώ το <b>Scrum έργο</b> είναι καλύτερο για Agile διαχείριση έργου.'
+        quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "Με τα βέλη μπορείτε να πλοηγηθείτε πίσω στο <b>Κύριο μενού</b> του έργου."
         welcome: 'Κάντε μια τρίλεπτη εισαγωγική περιήγηση για να μάθετε τα πιο <b>σημαντικά χαρακτηριστικά</b>. <br> Προτείνουμε να ολοκληρώσετε τα βήματα μέχρι το τέλος. Μπορείτε να επανεκκινήσετε την περιήγηση ανά πάσα στιγμή.'
         wiki: 'Μέσα στο <b>Wiki</b> μπορείτε να καταγράψετε και να μοιραστείτε γνώση μαζί με την ομάδα σας.'
@@ -506,6 +520,10 @@ el:
       work_package_belongs_to: 'Αυτό το πακέτο εργασίας ανήκει στο έργο %{projectname}.'
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
       confirm_template_load: 'Η αλλαγή του προτύπου θα επαναφορτώσει τη σελίδα και θα χάσετε όλα τα στοιχεία εισόδου σε αυτή τη φόρμα. Συνέχεια?'
+      use_template: "Χρήση προτύπου"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
     text_are_you_sure: "Είστε σίγουρος/η;"
@@ -906,6 +924,7 @@ el:
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
     notice_successful_update: "Επιτυχής ενημέρωση."
+    notice_job_started: "job started."
     notice_bad_request: "Εσφαλμένο Αίτημα."
     relations:
       empty: Δεν υπάρχει συσχέτιση
@@ -959,3 +978,78 @@ el:
       card: 'Κάρτες'
       list: 'Πίνακας'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Επιστροφή'
+      invite: 'Πρόσκληση'
+      title:
+        invite: 'Προσκαλέστε χρήστη'
+        invite_to_project: 'Προσκαλέστε %{type} στο %{project}'
+        User: 'χρήστης'
+        Group: 'ομάδα'
+        PlaceholderUser: 'placeholder χρήστης'
+        invite_principal_to_project: 'Πρόσκληση %{principal} στο %{project}'
+      project:
+        label: 'Έργο'
+        required: 'Παρακαλώ επιλέξτε ένα έργο'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        next_button: 'Επόμενο'
+        no_results: 'Δεν βρέθηκαν έργα'
+        no_invite_rights: 'You are not allowed to invite members to this project'
+      type:
+        required: 'Παρακαλώ επιλέξτε τον τύπο που θα προσκληθεί'
+        user:
+          title: 'Χρήστης'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'Ομάδα'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Placeholder χρήστης'
+          title_no_ee: 'Placeholder χρήστης (χαρακτηριστικό μόνο της Έκδοσης Επιχειρήσεων)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Όνομα ή διεύθυνση email'
+          name: 'Όνομα'
+        already_member_message: 'Ήδη ένα μέλος του %{project}'
+        no_results_user: 'Δεν βρέθηκαν χρήστες'
+        invite_user: 'Πρόσκληση:'
+        change_user_selection: 'Αλλάξτε διεύθυνση ηλεκτρονικού ταχυδρομείου ή επιλέξτε έναν υπάρχοντα χρήστη'
+        no_results_placeholder: 'Δεν βρέθηκαν placeholders'
+        change_placeholder_selection: 'Αλλαγή ονόματος ή επιλογή ενός υπάρχοντος placeholder'
+        create_new_placeholder: 'Δημιουργία νέου placeholder:'
+        no_results_group: 'Δεν βρέθηκαν ομάδες'
+        change_group_selection: 'Αλλαγή ονόματος ή επιλογή μιας υπάρχουσας ομάδας'
+        next_button: 'Επόμενο'
+        required:
+          user: 'Παρακαλώ επιλέξτε ένα χρήστη'
+          placeholder: 'Παρακαλώ επιλέξτε ένα placeholder'
+          group: 'Παρακαλούμε επιλέξτε μια ομάδα'
+      role:
+        label: 'Ρόλος στο %{project}'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Παρακαλούμε επιλέξτε ένα ρόλο'
+        next_button: 'Επόμενο'
+      message:
+        label: 'Μήνυμα πρόσκλησης'
+        description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια εξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
+        next_button: 'Review invitation'
+      summary:
+        next_button: 'Αποστολή πρόσκλησης'
+      success:
+        title: '%{principal} προσκλήθηκε!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'Η ομάδα είναι τώρα μέρος του %{project}. Εν τω μεταξύ, μπορείτε να προγραμματίσετε ήδη με αυτή την ομάδα και να αντιστοιχίσετε πακέτα εργασίας.'
+        next_button: 'Συνέχεια'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Προηγμένες ρυθμίσεις'
+
+

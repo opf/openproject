@@ -34,6 +34,10 @@ module Projects::Copy
       I18n.t(:label_query_plural)
     end
 
+    def source_count
+      source.queries.count
+    end
+
     protected
 
     # Copies queries from +project+

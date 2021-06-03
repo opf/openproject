@@ -1,9 +1,9 @@
-import {multiInput} from "reactivestates";
-import {BcfExtensionResource} from "core-app/modules/bim/bcf/api/extensions/bcf-extension.resource";
-import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
-import {Observable} from "rxjs";
-import {map, take} from "rxjs/operators";
-import {Injectable} from "@angular/core";
+import { multiInput } from "reactivestates";
+import { BcfExtensionResource } from "core-app/modules/bim/bcf/api/extensions/bcf-extension.resource";
+import { BcfApiService } from "core-app/modules/bim/bcf/api/bcf-api.service";
+import { Observable } from "rxjs";
+import { map, take } from "rxjs/operators";
+import { Injectable } from "@angular/core";
 
 export type AllowedExtensionKey = keyof BcfExtensionResource;
 

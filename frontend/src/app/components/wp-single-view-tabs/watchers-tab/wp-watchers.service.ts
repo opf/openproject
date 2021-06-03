@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {WorkPackageLinkedResourceCache} from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
+import { Injectable } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { WorkPackageLinkedResourceCache } from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
 
 @Injectable()
 export class WorkPackageWatchersService extends WorkPackageLinkedResourceCache<HalResource[]> {
@@ -39,6 +39,6 @@ export class WorkPackageWatchersService extends WorkPackageLinkedResourceCache<H
     return workPackage.watchers.$update()
       .then((collection:CollectionResource<HalResource>) => {
         return collection.elements;
-    });
+      });
   }
 }

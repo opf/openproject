@@ -29,5 +29,7 @@
 #++
 
 class GroupUser < ApplicationRecord
-  self.table_name = "#{table_name_prefix}group_users#{table_name_suffix}"
+  belongs_to :group,
+             touch: true
+  belongs_to :user
 end

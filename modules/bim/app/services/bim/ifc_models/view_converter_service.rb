@@ -150,7 +150,7 @@ module Bim
         Rails.logger.debug { "Converting #{ifc_model.inspect} to GLTF" }
 
         convert!(dae_filepath, 'gltf') do |target_file|
-          Open3.capture2e('COLLADA2GLTF', '-i', dae_filepath, '-o', target_file)
+          Open3.capture2e('COLLADA2GLTF', '--materialsCommon', '-i', dae_filepath, '-o', target_file)
         end
       end
 

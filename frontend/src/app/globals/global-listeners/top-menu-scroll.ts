@@ -34,7 +34,7 @@ export function scrollHeaderOnMobile() {
 
   window.addEventListener('scroll', function() {
     // Condition needed for safari browser to avoid negative positions
-    let currentScrollPos = window.scrollY < 0 ? 0 :  window.scrollY;
+    const currentScrollPos = window.scrollY < 0 ? 0 :  window.scrollY;
     // Only if sidebar is not opened or search bar is opened
     if (!(jQuery('#main').hasClass('hidden-navigation')) ||
         jQuery('#top-menu').hasClass('-global-search-expanded') ||

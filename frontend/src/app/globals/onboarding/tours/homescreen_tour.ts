@@ -1,9 +1,9 @@
-import {demoProjectName, preventClickHandler, scrumDemoProjectName} from "core-app/globals/onboarding/helpers";
+import { demoProjectName, preventClickHandler, scrumDemoProjectName } from "core-app/globals/onboarding/helpers";
 
 export function homescreenOnboardingTourSteps() {
   return [
     {
-      'next #top-menu': I18n.t('js.onboarding.steps.welcome'),
+      'next .op-app-header': I18n.t('js.onboarding.steps.welcome'),
       'skipButton': { className: 'enjoyhint_btn-transparent', text: I18n.t('js.onboarding.buttons.skip') },
       'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
       'containerClass': '-hidden-arrow',

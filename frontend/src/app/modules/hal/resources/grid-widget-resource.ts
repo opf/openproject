@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
 
 export class GridWidgetResource extends HalResource {
   @InjectField() protected halResource:HalResourceService;
@@ -53,6 +53,6 @@ export class GridWidgetResource extends HalResource {
   public grid:GridResource;
 
   public get schema():SchemaResource {
-    return this.halResource.createHalResource({'_type': 'Schema' }, true);
+    return this.halResource.createHalResource({ '_type': 'Schema' }, true);
   }
 }

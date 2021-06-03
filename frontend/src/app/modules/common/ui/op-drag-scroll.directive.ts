@@ -25,7 +25,7 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {Directive, ElementRef, OnInit} from "@angular/core";
+import { Directive, ElementRef, OnInit } from "@angular/core";
 
 @Directive({
   selector: 'op-drag-scroll',

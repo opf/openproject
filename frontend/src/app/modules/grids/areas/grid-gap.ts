@@ -1,4 +1,4 @@
-import {GridArea} from "core-app/modules/grids/areas/grid-area";
+import { GridArea } from "core-app/modules/grids/areas/grid-area";
 
 export class GridGap extends GridArea {
   private type:'row'|'column';

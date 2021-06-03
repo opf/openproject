@@ -38,7 +38,7 @@ class MenuItems::WikiMenuItem < MenuItem
   }
 
   def slug
-    name.to_url
+    WikiPage.slug(name)
   end
 
   def item_class

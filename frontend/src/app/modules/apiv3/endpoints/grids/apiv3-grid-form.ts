@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
+import { APIv3FormResource } from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { HalPayloadHelper } from "core-app/modules/hal/schemas/hal-payload.helper";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
 
 export class Apiv3GridForm extends APIv3FormResource {
 
@@ -43,8 +43,8 @@ export class Apiv3GridForm extends APIv3FormResource {
    */
   public static extractPayload(resource:HalResource|Object, schema:SchemaResource|null = null):Object {
     if (resource instanceof HalResource && schema) {
-      let grid = resource as HalResource;
-      let payload = HalPayloadHelper.extractPayloadFromSchema(grid, schema);
+      const grid = resource as HalResource;
+      const payload = HalPayloadHelper.extractPayloadFromSchema(grid, schema);
 
       // The widget only states the type of the widget resource but does not explain
       // the widget itself. We therefore have to do that by hand.

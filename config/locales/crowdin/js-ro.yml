@@ -33,6 +33,19 @@ ro:
         single: "Selectaţi \"%{name}\""
       remove: "Elminaţi \"%{name}\""
       active: "Activ %{label} %{name}"
+    backup:
+      attachments_disabled: Atașamentele nu pot fi incluse deoarece depășesc dimensiunea maximă permisă. Puteți schimba acest lucru prin configurare (necesită o repornire a serverului).
+      info: >
+        Poți declanșa un backup de aici. Procesul poate dura ceva timp în funcție mărimea datelor (mai ales atașamentele) pe care le ai. Vei primi un e-mail de îndată ce este gata.
+      note: >
+        Un backup nou va înlocui orice backup anterior. Se poate solicita doar un număr limitat de backup-uri pe zi.
+      last_backup: Ultimul backup
+      last_backup_from: 'Ultimul backup: '
+      title: Backup OpenProject
+      options: Opțiuni
+      include_attachments: Include atașamente
+      download_backup: Descarcă un backup
+      request_backup: Solicită backup
     close_popup_title: "Închidere pop-up"
     close_filter_title: "Închide filtrul"
     close_form_title: "Închide formularul"
@@ -270,13 +283,13 @@ ro:
           text_new_features: "Citiți despre noile caracteristici și actualizări de produse."
           learn_about: "Aflați mai multe despre noile caracteristici"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Versiunea conține diverse caracteristici noi și îmbunătățiri <br> <ul class="%{list_styling_class}"> <li>Un nou concept de <b>utilizatori "placeholder"</b> (caracteristică premium) permite adăugarea de utilizatori preliminari fără adresă de e-mail în OpenProject și atribuirea de sarcini acestor resurse.</li> <li> <b>Filtrele </b>pachetelor de lucru <b>sunt extinse printr-o opțiune părinte </b>pentru a vedea cu ușurință toți copiii direcți, precum și <b>prin ID</b> pentru a include sau exclude doar aceste pachete de lucru exacte din listă.</li> <li>Administrarea utilizatorilor este distribuită celor care nu sunt administratori prin intermediul unui <b>nou rol global</b>, care permite gestionarea și invitarea utilizatorilor fără a avea privilegii complete de administrator.</li> <li>Îmbunătățiri suplimentare ale interfeței de utilizare și ale UX, și anume armonizarea navigării pentru raportarea costurilor, culori de fundal adaptate ale rândurilor de sumă și de grup din lista pachetelor de lucru, adăugarea unei pagini de prezentare a grupurilor.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Versiunea conține diverse caracteristici noi și îmbunătățiri <br> <ul class="%{list_styling_class}"> <li>Un nou concept de <b>utilizatori "placeholder"</b> (caracteristică premium) permite adăugarea de utilizatori preliminari fără adresă de e-mail în OpenProject și atribuirea de sarcini acestor resurse.</li> <li> <b>Filtrele </b>pachetelor de lucru <b>sunt extinse printr-o opțiune părinte </b>pentru a vedea cu ușurință toți copiii direcți, precum și <b>prin ID</b> pentru a include sau exclude doar aceste pachete de lucru exacte din listă.</li> <li>Administrarea utilizatorilor este distribuită celor care nu sunt administratori prin intermediul unui <b>nou rol global</b>, care permite gestionarea și invitarea utilizatorilor fără a avea privilegii complete de administrator.</li> <li>Îmbunătățiri suplimentare ale interfeței de utilizare și ale UX, și anume armonizarea navigării pentru raportarea costurilor, culori de fundal adaptate ale rândurilor de sumă și de grup din lista pachetelor de lucru, adăugarea unei pagini de prezentare a grupurilor.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Activare"
     label_add_column_after: "Adauga o coloana dupa"
     label_add_column_before: "Adauga o coloana inainte"
@@ -465,6 +478,7 @@ ro:
         help_menu: 'În meniul <b>Help (Ajutor</b> ) veți găsi un ghid de utilizare și resurse suplimentare de ajutor. <br> Bucurați-vă de munca dumneavoastră cu OpenProject!</br> '
         members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
         project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele cu date demonstrative utile pentru a începe. <br> <b>Proiectul Demo</b> se potrivește cel mai bine pentru gestionarea clasică a proiectelor, în timp ce <b>proiectul Scrum</b></br> este mai potrivit pentru gestionarea agilă a proiectelor.'
+        quick_add_button: 'Creați un nou proiect sau invitați colegi de muncă.'
         sidebar_arrow: "Cu ajutorul săgeții puteți naviga înapoi la <b>meniul principal</b> al proiectului."
         welcome: 'Faceți un tur introductiv de trei minute pentru a afla cele mai <b>importante caracteristici</b>. <br> Vă recomandăm să parcurgeți pașii până la sfârșit. Puteți relua turul în orice moment.</br> '
         wiki: 'În cadrul <b>Wiki</b> puteți documenta și împărtăși cunoștințe împreună cu echipa dumneavoastră.'
@@ -506,6 +520,10 @@ ro:
       work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
       confirm_template_load: 'Schimbarea șablonului va reîncărca pagina și veți pierde toate datele introduse în acest formular. Continuați?'
+      use_template: "Utilizează șablon"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Completarea automată a proiectului'
     text_are_you_sure: "Sunteți sigur?"
@@ -906,6 +924,7 @@ ro:
     notice_successful_create: "Creare reuşită."
     notice_successful_delete: "Ştergere reuşită."
     notice_successful_update: "Actualizare reușită."
+    notice_job_started: "job started."
     notice_bad_request: "Cerere invalidă."
     relations:
       empty: Nu există relații
@@ -961,3 +980,78 @@ ro:
       card: 'Carduri'
       list: 'Tabel'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Înapoi'
+      invite: 'Invită'
+      title:
+        invite: 'Invitare utilizator'
+        invite_to_project: 'Invitați %{type} la %{project}'
+        User: 'utilizator'
+        Group: 'grup'
+        PlaceholderUser: 'utilizator placeholder'
+        invite_principal_to_project: 'Invitați %{principal} la %{project}'
+      project:
+        label: 'Proiect'
+        required: 'Vă rugăm să selectați un proiect'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        next_button: 'Înainte'
+        no_results: 'Nu au fost găsite proiecte'
+        no_invite_rights: 'Nu aveți voie să invitați membri în acest proiect'
+      type:
+        required: 'Vă rugăm să selectați tipul de invitat'
+        user:
+          title: 'Utilizator'
+          description: 'Permisiuni bazate pe rolul atribuit în proiectul selectat'
+        group:
+          title: 'Grup'
+          description: 'Permisiuni bazate pe rolul atribuit în proiectul selectat'
+        placeholder:
+          title: 'Utilizator Placeholder'
+          title_no_ee: 'Utilizator de tip "Placeholder" (caracteristică doar pentru Enterprise Edition)'
+          description: 'Nu are acces la proiect și nu se trimite niciun e-mail.'
+          description_no_ee: 'Nu are acces la proiect și nu se trimite niciun e-mail. <br>Consultați <a href="%{eeHref}" target="_blank">ediția Enterprise</a></br>Edition'
+      principal:
+        label:
+          name_or_email: 'Numele și adresa dvs. de e-mail.'
+          name: 'Nume'
+        already_member_message: 'Deja membru al %{project}'
+        no_results_user: 'Nu au fost găsiți utilizatori'
+        invite_user: 'Invită'
+        change_user_selection: 'Modificarea adresei de e-mail sau selectarea unui utilizator existent'
+        no_results_placeholder: 'Nu au fost găsiți spații libere'
+        change_placeholder_selection: 'Schimbați numele sau selectați un marcaj existent'
+        create_new_placeholder: 'Creați un nou spațiu rezervat:'
+        no_results_group: 'Nu au fost găsite grupuri'
+        change_group_selection: 'Modificați numele sau selectați un grup existent'
+        next_button: 'Înainte'
+        required:
+          user: 'Vă rugăm să selectați un utilizator'
+          placeholder: 'Vă rugăm să selectați limba dvs'
+          group: 'Vă rugăm să selectați limba dvs'
+      role:
+        label: 'Rolul în %{project}'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Vă rugăm să selectați un rol'
+        next_button: 'Înainte'
+      message:
+        label: 'Mesaj invitație'
+        description: 'Vom trimite un e-mail către %{principal}, la care puteți adăuga un mesaj personal aici. Ar putea fi utilă o explicație pentru invitație sau poate câteva informații despre proiect pentru a-i ajuta să înceapă.'
+        next_button: 'Invitație de revizuire'
+      summary:
+        next_button: 'Trimite invitație'
+      success:
+        title: '%{principal} a fost invitat!'
+        description:
+          user: 'Utilizatorul se poate autentifica acum pentru a accesa %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu.'
+          placeholder: 'Marca de poziție poate fi utilizată acum în %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu.'
+          group: 'Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu.'
+        next_button: 'Continuaţi'
+    forms:
+      submit_success_message: 'Formularul a fost trimis cu succes'
+      load_error_message: 'A apărut o eroare la încărcarea formularului'
+      validation_error_message: 'Vă rugăm să remediaţi erorile existente în formular'
+      advanced_settings: 'Setări avansate'
+
+

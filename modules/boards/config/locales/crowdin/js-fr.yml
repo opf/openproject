@@ -9,7 +9,7 @@ fr:
         teaser_text: 'Améliorez votre gestion de projet agile avec cette vue des tableaux flexible. Créez autant de tableaux que vous voulez pour tout ce que vous souhaitez conserver.'
         upgrade_to_ee_text: 'Les tableaux sont une fonctionnalité du plan Enterprise. Veuillez passer à un forfait payant.'
         upgrade: 'Passer au plan supérieur'
-        personal_demo: 'Obtenir une démo personnelle'
+        personal_demo: 'Contactez-nous pour une démo'
       lists:
         delete: 'Supprimer la liste'
       version:

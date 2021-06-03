@@ -32,7 +32,6 @@ module API
   module V3
     module Types
       class TypeCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Types::TypeRepresenter
       end
     end
   end

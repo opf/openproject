@@ -1,0 +1,24 @@
+.op-form
+  &--submit
+    margin: 0
+    margin-bottom: 1.5rem
+    display: flex
+
+  &,
+  &--fieldset
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+
+    > *
+      max-width: 100%
+      width: 50rem
+
+    > .op-form--fieldset,
+    > .op-form--field,
+    > .op-form-field,
+    > .op-option-list,
+    > .op-highlighted-input,
+    > .button
+      &:not(:last-child)
+        margin-bottom: 1rem

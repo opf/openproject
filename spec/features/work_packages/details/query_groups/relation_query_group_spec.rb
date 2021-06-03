@@ -61,7 +61,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
   let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
-  let(:relations_tab) { find('.tabrow li', text: 'RELATIONS') }
+  let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(first('wp-single-view .work-packages-embedded-view--container')) }
 
   let(:visit) { true }
@@ -241,7 +241,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
 
       # Check that deletion of relations still work after a page reload
       full_wp.visit!
-      relations_tab = find('.tabrow li', text: 'RELATIONS')
+      relations_tab = find('.op-tab-row--link', text: 'RELATIONS')
       relations = Components::WorkPackages::Relations.new(work_package)
       embedded_table = Pages::EmbeddedWorkPackagesTable.new(first('wp-single-view .work-packages-embedded-view--container'))
 

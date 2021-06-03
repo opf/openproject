@@ -30,14 +30,6 @@
 //
 // dependencies required by classic (Rails) and Angular application.
 
-// Angular 4 deps. Must be loaded early!
-// require('reflect-metadata');
-// require('zone.js');
-// require('@angular/core');
-
-// ES6 Promise polyfill
-require('expose-loader?Promise!es6-promise');
-
 // Lodash
 require('expose-loader?_!lodash');
 

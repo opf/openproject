@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Inject} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {WorkPackageInlineCreateComponent} from "core-components/wp-inline-create/wp-inline-create.component";
-import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
-import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {RelationResource} from "core-app/modules/hal/resources/relation-resource";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, Inject } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
+import { WorkPackageInlineCreateComponent } from "core-components/wp-inline-create/wp-inline-create.component";
+import { WorkPackageRelationsService } from "core-components/wp-relations/wp-relations.service";
+import { WpRelationInlineCreateServiceInterface } from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
+import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
+import { RelationResource } from "core-app/modules/hal/resources/relation-resource";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'
@@ -125,8 +125,8 @@ export class WpRelationInlineAddExistingComponent {
     }
 
     const relationTypes = RelationResource.RELATION_TYPES(true);
-    let filters = query.filters.filter(filter => {
-      let id = this.urlParamsHelper.buildV3GetFilterIdFromFilter(filter);
+    const filters = query.filters.filter(filter => {
+      const id = this.urlParamsHelper.buildV3GetFilterIdFromFilter(filter);
       return relationTypes.indexOf(id) === -1;
     });
 

@@ -115,7 +115,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       # duplicates rows for each relation
       c2id = child_2.id
       expect(sheet.column(2).drop(2))
-        .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id]
+        .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id].map(&:to_s)
 
       # marks Parent as parent of Child 1 and 2
       expect(sheet.row(PARENT)[RELATION]).to eq 'parent of'
@@ -151,22 +151,22 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       # exports the correct data (examples)
       expect(sheet.row(PARENT))
         .to eq [
-          nil, parent.type.name, parent.id, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
+          nil, parent.type.name, parent.id.to_s, parent.subject, parent.status.name, parent.assigned_to, parent.priority.name,
           nil, 'parent of', nil, nil,
-          child_1.type.name, child_1.id, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
+          child_1.type.name, child_1.id.to_s, child_1.subject, child_1.status.name, child_1.assigned_to, child_1.priority.name
         ] # delay nil as this is a parent-child relation not represented by an actual Relation record
 
       expect(sheet.row(SINGLE))
         .to eq [
-          nil, single.type.name, single.id, single.subject, single.status.name, single.assigned_to, single.priority.name
+          nil, single.type.name, single.id.to_s, single.subject, single.status.name, single.assigned_to, single.priority.name
         ]
 
       expect(sheet.row(FOLLOWED))
         .to eq [
           nil,
-          followed.type.name, followed.id, followed.subject, followed.status.name, followed.assigned_to, followed.priority.name,
+          followed.type.name, followed.id.to_s, followed.subject, followed.status.name, followed.assigned_to, followed.priority.name,
           nil, 'Precedes', 0, relation.description,
-          child_2.type.name, child_2.id, child_2.subject, child_2.status.name, child_2.assigned_to, child_2.priority.name
+          child_2.type.name, child_2.id.to_s, child_2.subject, child_2.status.name, child_2.assigned_to, child_2.priority.name
         ]
     end
 
@@ -218,14 +218,6 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     let(:column_names) { ['subject', 'status', 'estimated_hours', "cf_#{custom_field.id}"] }
 
     before do
-      allow(OpenProject::XlsExport::Formatters::TimeFormatter).to receive(:apply?) do |column|
-        column.caption =~ /time/i
-      end
-
-      allow(OpenProject::XlsExport::Formatters::CostFormatter).to receive(:apply?) do |column|
-        column.caption =~ /cost/i
-      end
-
       allow(Setting)
         .to receive(:plugin_costs)
         .and_return('costs_currency' => 'EUR', 'costs_currency_format' => '%n %u')
@@ -322,18 +314,57 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
     let(:column_names) { %w[subject status updated_at] }
 
+    let(:i18n_helper) do
+      Class.new do
+        include Redmine::I18n
+      end
+    end
+
     before do
       allow(current_user).to receive(:time_zone).and_return(zone)
-
-      allow(OpenProject::XlsExport::Formatters::TimeFormatter).to receive(:apply?) do |column|
-        column.caption =~ /time/i
-      end
     end
 
     it 'should adapt the datetime fields to the user time zone' do
       work_package.reload
       updated_at_cell = sheet.rows.last.to_a.last
-      expect(updated_at_cell.to_s(:number)).to eq(work_package.updated_at.in_time_zone(zone).to_s(:number))
+      expect(updated_at_cell).to eq(i18n_helper.format_time(work_package.updated_at).to_s)
+    end
+  end
+
+  describe 'with derived estimated hours' do
+    let(:work_package) do
+      FactoryBot.create(:work_package,
+                        project: project,
+                        derived_estimated_hours: 15.0,
+                        type: project.types.first)
+    end
+    let(:work_packages) { [work_package] }
+
+    let(:column_names) { %w[subject status updated_at estimated_hours] }
+
+    it 'should adapt the datetime fields to the user time zone' do
+      work_package.reload
+      estimated_cell = sheet.rows.last.to_a.last
+      expect(estimated_cell).to eq '(15.0)'
+    end
+  end
+
+  describe 'with derived estimated hours and estimated_hours set to zero' do
+    let(:work_package) do
+      FactoryBot.create(:work_package,
+                        project: project,
+                        derived_estimated_hours: 15.0,
+                        estimated_hours: 0.0,
+                        type: project.types.first)
+    end
+    let(:work_packages) { [work_package] }
+
+    let(:column_names) { %w[subject status updated_at estimated_hours] }
+
+    it 'it outputs both values' do
+      work_package.reload
+      estimated_cell = sheet.rows.last.to_a.last
+      expect(estimated_cell).to eq '0.0 (15.0)'
     end
   end
 end

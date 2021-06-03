@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryColumn} from 'core-components/wp-query/query-column';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { QueryColumn } from 'core-components/wp-query/query-column';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
-export const QUERY_SORT_BY_ASC = "urn:openproject-org:api:v3:queries:directions:asc"
-export const QUERY_SORT_BY_DESC = "urn:openproject-org:api:v3:queries:directions:desc"
+export const QUERY_SORT_BY_ASC = "urn:openproject-org:api:v3:queries:directions:asc";
+export const QUERY_SORT_BY_DESC = "urn:openproject-org:api:v3:queries:directions:desc";
 
 export interface QuerySortByResourceEmbedded {
   column:QueryColumn;
@@ -48,6 +48,6 @@ export class QuerySortByResource extends HalResource {
  */
 export class QuerySortByDirection extends HalResource {
   public get id():string {
-    return this.$href!.split('/').pop()!;
+    return this.href!.split('/').pop()!;
   }
 }

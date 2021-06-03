@@ -40,7 +40,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   end
   let(:work_package) do
     wp = FactoryBot.build_stubbed(:work_package, project: project)
-    wp.type = FactoryBot.build_stubbed(:type)
+    wp.type = initial_type
     wp.send(:clear_changes_information)
 
     wp
@@ -48,6 +48,7 @@ describe WorkPackages::SetAttributesService, type: :model do
   let(:new_work_package) do
     WorkPackage.new
   end
+  let(:initial_type) { FactoryBot.build_stubbed(:type) }
   let(:statuses) { [] }
   let(:contract_class) { WorkPackages::UpdateContract }
   let(:mock_contract) do
@@ -222,8 +223,8 @@ describe WorkPackages::SetAttributesService, type: :model do
           it 'notes the author to be system changed' do
             subject
 
-            expect(instance.changed_by_system)
-              .to include('author_id')
+            expect(work_package.changed_by_system['author_id'])
+              .to eql [0, user.id]
           end
         end
       end
@@ -756,8 +757,8 @@ describe WorkPackages::SetAttributesService, type: :model do
             it 'adds change to system changes' do
               subject
 
-              expect(instance.changed_by_system)
-                .to include('category_id')
+              expect(work_package.changed_by_system['category_id'])
+                .to eql [nil, new_category.id]
             end
           end
         end
@@ -775,25 +776,7 @@ describe WorkPackages::SetAttributesService, type: :model do
           context 'a default type exists in new project' do
             let(:new_types) { [other_type, default_type] }
 
-            it 'uses the default type' do
-              subject
-
-              expect(work_package.type)
-                .to eql default_type
-            end
-
-            it 'adds change to system changes' do
-              subject
-
-              expect(instance.changed_by_system)
-                .to include('type_id')
-            end
-          end
-
-          context 'no default type exists in new project' do
-            let(:new_types) { [other_type, yet_another_type] }
-
-            it 'uses the first type' do
+            it 'uses the first type (by position)' do
               subject
 
               expect(work_package.type)
@@ -803,8 +786,26 @@ describe WorkPackages::SetAttributesService, type: :model do
             it 'adds change to system changes' do
               subject
 
-              expect(instance.changed_by_system)
-                .to include('type_id')
+              expect(work_package.changed_by_system['type_id'])
+                .to eql [initial_type.id, other_type.id]
+            end
+          end
+
+          context 'no default type exists in new project' do
+            let(:new_types) { [other_type, yet_another_type] }
+
+            it 'uses the first type (by position)' do
+              subject
+
+              expect(work_package.type)
+                .to eql other_type
+            end
+
+            it 'adds change to system changes' do
+              subject
+
+              expect(work_package.changed_by_system['type_id'])
+                .to eql [initial_type.id, other_type.id]
             end
           end
 
@@ -821,7 +822,7 @@ describe WorkPackages::SetAttributesService, type: :model do
             it 'does not set the change to system changes' do
               subject
 
-              expect(instance.changed_by_system)
+              expect(work_package.changed_by_system)
                 .not_to include('type_id')
             end
           end

@@ -1,4 +1,4 @@
-import {EventEmitter, InjectionToken, Injector} from '@angular/core';
+import { EventEmitter, InjectionToken, Injector } from '@angular/core';
 
 export interface WorkPackageViewEventHandler<T> {
   /** Event name to register **/
@@ -39,8 +39,8 @@ export abstract class WorkPackageViewHandlerRegistry<T> {
 
   attachTo(viewRef:T) {
     this.eventHandlers.map(factory => {
-      let handler = factory(viewRef);
-      let target = handler.eventScope(viewRef);
+      const handler = factory(viewRef);
+      const target = handler.eventScope(viewRef);
 
       target.on(handler.EVENT, handler.SELECTOR, (evt:JQuery.TriggeredEvent) => {
         handler.handleEvent(viewRef, evt);

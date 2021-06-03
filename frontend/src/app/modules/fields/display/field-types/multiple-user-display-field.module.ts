@@ -29,11 +29,11 @@
 import {ResourcesDisplayField} from "./resources-display-field.module";
 import {UserResource} from "core-app/modules/hal/resources/user-resource";
 import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {UserAvatarRendererService} from "core-components/user/user-avatar/user-avatar-renderer.service";
+import {PrincipalRendererService} from "core-app/modules/principal/principal-renderer.service";
 import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
 
 export class MultipleUserFieldModule extends ResourcesDisplayField {
-  @InjectField() avatarRenderer:UserAvatarRendererService;
+  @InjectField() principalRenderer:PrincipalRendererService;
 
   public render(element:HTMLElement, displayText:string):void {
     const names = this.value;
@@ -74,6 +74,12 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
 
   public renderAbridgedValues(element:HTMLElement, values:UserResource[]) {
     const valueForDisplay = _.take(values, 2);
-    this.avatarRenderer.renderMultiple(element, valueForDisplay);
+    this.principalRenderer.renderMultiple(
+      element,
+      valueForDisplay,
+      { hide: false, link: false },
+      { hide: false, size: 'medium' },
+      false,
+    );
   }
 }

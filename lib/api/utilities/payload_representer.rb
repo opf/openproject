@@ -35,6 +35,8 @@ module API
         base.extend(ClassMethods)
 
         base.representable_attrs.each do |property|
+          next if property.name == 'meta'
+
           if property.name == 'links'
             add_filter(property, LinkRenderBlock)
             next

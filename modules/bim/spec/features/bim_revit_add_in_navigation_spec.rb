@@ -82,7 +82,7 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     it 'the user menu has an option to go to the add-in settings' do
-      within '.top-menu-items-right' do
+      within '.op-app-header' do
         page.find("a[title='#{user.name}']").click
 
         expect(page).to have_selector('li', text: I18n.t('js.revit.revit_add_in_settings'))

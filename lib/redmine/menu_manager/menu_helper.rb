@@ -80,13 +80,14 @@ module Redmine::MenuManager::MenuHelper
   # Render a dropdown menu item with the given MenuItem children.
   # Caller may add additional items through the optional block.
   # Remaining options are passed through to +render_menu_dropdown+.
-  def render_menu_dropdown_with_items(label:, label_options:, items:, options: {})
+  def render_menu_dropdown_with_items(label:, label_options:, items:, options: {}, project: nil)
     selected = any_item_selected?(items)
     label_node = render_drop_down_label_node(label, selected, label_options)
 
+    options[:drop_down_class] = 'op-menu ' + options.fetch(:drop_down_class, '')
     render_menu_dropdown(label_node, options) do
       items.each do |item|
-        concat render_menu_node(item)
+        concat render_menu_node(item, project)
       end
 
       concat(yield) if block_given?
@@ -100,12 +101,12 @@ module Redmine::MenuManager::MenuHelper
   # menu_item_class: Additional classes for the menu item li wrapper
   # drop_down_class: Additional classes for the hidden drop down
   def render_menu_dropdown(label_node, options = {}, &block)
-    content_tag :li, class: "#{options[:menu_item_class]} drop-down" do
+    content_tag :li, class: "op-app-menu--item op-app-menu--item_has-dropdown #{options[:menu_item_class]}" do
       concat(label_node)
       concat(content_tag(:ul,
                          style: 'display:none',
                          id: options[:drop_down_id],
-                         class: 'menu-drop-down-container ' + options.fetch(:drop_down_class, ''),
+                         class: 'op-app-menu--dropdown ' + options.fetch(:drop_down_class, ''),
                          &block))
     end
   end
@@ -113,13 +114,14 @@ module Redmine::MenuManager::MenuHelper
   def render_drop_down_label_node(label, selected, options = {})
     options[:title] ||= selected ? t(:description_current_position) + label : label
     options[:aria] = { haspopup: 'true' }
-    options[:class] = "#{options[:class]} #{selected ? 'selected' : ''}"
+    options[:class] = "op-app-menu--item-action #{options[:class]} #{selected ? 'selected' : ''}"
+    options[:span_class] = "op-app-menu--item-title #{options[:span_class]}"
 
-    link_to('', options) do
+    link_to('#', options) do
       concat(op_icon(options[:icon])) if options[:icon]
       concat(you_are_here_info(selected).html_safe)
-      concat(content_tag(:span, label, class: 'button--dropdown-text'))
-      concat('<i class="button--dropdown-indicator"></i>'.html_safe) unless options[:icon]
+      concat(content_tag(:span, label, class: options[:span_class]))
+      concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator"></i>'.html_safe) unless options.key?(:icon)
     end
   end
 
@@ -163,19 +165,20 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def render_single_menu_node(item, project = nil)
+  def render_single_menu_node(item, project = nil, menu_class = 'op-menu')
     caption, url, selected = extract_node_details(item, project)
 
     link_text = ''.html_safe
     link_text << op_icon(item.icon(project)) if item.icon(project).present?
     link_text << content_tag(:span,
-                             class: "menu-item--title ellipsis #{item.badge(project).present? ? '-has-badge' : ''}",
+                             class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
                              lang: menu_item_locale(item)) do
       ''.html_safe + caption + badge_for(item)
     end
     link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
+    html_options[:class] = "#{html_options[:class]}  #{menu_class}--item-action"
 
     link_to link_text, url, html_options
   end
@@ -270,6 +273,8 @@ module Redmine::MenuManager::MenuHelper
     engine = node_engine(node)
 
     case node.url(project)
+    when NilClass
+      '#'
     when Hash
       engine.url_for(project.nil? ? node.url(project) : { node.param => project }.merge(node.url(project)))
     when Symbol
@@ -326,7 +331,10 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def node_action_allowed?(node, project, user)
-    user&.allowed_to?(node.url(project), project)
+    url = node.url(project)
+    return true unless url
+
+    user&.allowed_to?(url, project)
   end
 
   def visible_node?(menu, node)

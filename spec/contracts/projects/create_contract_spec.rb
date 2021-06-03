@@ -49,5 +49,13 @@ describe Projects::CreateContract do
     end
 
     subject(:contract) { described_class.new(project, current_user) }
+
+    context 'if the identifier is nil' do
+      let(:project_identifier) { nil }
+
+      it 'is replaced for new project' do
+        expect_valid(true)
+      end
+    end
   end
 end

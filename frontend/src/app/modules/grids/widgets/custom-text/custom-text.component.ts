@@ -1,4 +1,4 @@
-import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
+import { AbstractWidgetComponent } from "core-app/modules/grids/widgets/abstract-widget.component";
 import {
   ApplicationRef,
   ChangeDetectionStrategy,
@@ -12,13 +12,13 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {CustomTextEditFieldService} from "core-app/modules/grids/widgets/custom-text/custom-text-edit-field.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {filter} from 'rxjs/operators';
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
-import {DynamicBootstrapper} from "core-app/globals/dynamic-bootstrapper";
+import { CustomTextEditFieldService } from "core-app/modules/grids/widgets/custom-text/custom-text-edit-field.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { filter } from 'rxjs/operators';
+import { GridAreaService } from "core-app/modules/grids/grid/area.service";
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DynamicBootstrapper } from "core-app/globals/dynamic-bootstrapper";
 
 @Component({
   templateUrl: './custom-text.component.html',
@@ -53,9 +53,9 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
         this.untilDestroyed(),
         filter(value => value !== this.resource.options['text'])
       ).subscribe(newText => {
-      let changeset = this.setChangesetOptions({ text: { raw: newText } });
-      this.resourceChanged.emit(changeset);
-    });
+        const changeset = this.setChangesetOptions({ text: { raw: newText } });
+        this.resourceChanged.emit(changeset);
+      });
   }
 
   ngOnChanges(changes:SimpleChanges):void {

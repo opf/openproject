@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class TimeEntryResource extends HalResource {
   public get state() {

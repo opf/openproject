@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, HostBinding} from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 
 @Component({
   templateUrl: './no-results.component.html',

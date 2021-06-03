@@ -1,4 +1,4 @@
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 import { TimeEntryResource } from 'core-app/modules/hal/resources/time-entry-resource';
 
 export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
@@ -13,7 +13,7 @@ export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
   }
 
   protected buildPayloadFromChanges() {
-    let payload = super.buildPayloadFromChanges();
+    const payload = super.buildPayloadFromChanges();
 
     // we ignore the project and instead rely completely on the work package.
     delete payload['_links']['project'];

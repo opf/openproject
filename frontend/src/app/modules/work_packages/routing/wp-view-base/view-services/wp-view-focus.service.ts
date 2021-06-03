@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {Observable} from 'rxjs';
-import {distinctUntilChanged, map} from 'rxjs/operators';
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {WorkPackageViewBaseService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import { Injectable } from '@angular/core';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewBaseService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
 
 export interface WPFocusState {
   workPackageId:string;
@@ -86,7 +86,7 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
       );
   }
 
-  public updateFocus(workPackageId:string, setFocusAfterRender:boolean = false) {
+  public updateFocus(workPackageId:string, setFocusAfterRender = false) {
     // Set the selection to this row, if nothing else is selected.
     if (this.wpTableSelection.isEmpty) {
       this.wpTableSelection.setRowState(workPackageId, true);

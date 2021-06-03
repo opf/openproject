@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, EventEmitter, Output} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageRelationsHierarchyService} from 'core-app/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageRelationsHierarchyService } from 'core-app/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
 
 @Component({
   templateUrl: './wp-breadcrumb-parent.html',
@@ -54,7 +54,7 @@ export class WorkPackageBreadcrumbParentComponent {
     protected readonly I18n:I18nService,
     protected readonly wpRelationsHierarchy:WorkPackageRelationsHierarchyService,
     protected readonly notificationService:WorkPackageNotificationService
-    ) {
+  ) {
   }
 
   public canModifyParent():boolean {
@@ -79,7 +79,7 @@ export class WorkPackageBreadcrumbParentComponent {
 
   public updateParent(newParent:WorkPackageResource|null) {
     this.close();
-    let newParentId = newParent ? newParent.id : null;
+    const newParentId = newParent ? newParent.id : null;
     if (_.get(this.parent, 'id', null) === newParentId) {
       return;
     }

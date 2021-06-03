@@ -33,6 +33,19 @@ vi:
         single: "Chọn \"%{name}\""
       remove: "Xoá %{name}"
       active: "Kích hoạt %{label} %{name}"
+    backup:
+      attachments_disabled: Các tệp đính kèm có thể không được thêm vào vì chúng vượt quá kích thước tối đa được phép. Bạn có thể thay đổi điều này thông qua cấu hình (yêu cầu khởi động lại máy chủ).
+      info: >
+        Bạn có thể kích hoạt một bản sao lưu ở đây. Quá trình có thể mất một chút thời gian tùy thuộc vào lượng dữ liệu (đặc biệt là tệp đính kèm) bạn có. Bạn sẽ nhận được một email sau khi nó sẵn sàng.
+      note: >
+        Một bản sao lưu mới sẽ ghi đè cái trước đó. Số lượng bản sao lưu mỗi ngày là bị hạn chế.
+      last_backup: Sao lưu gần đây
+      last_backup_from: Sao lưu gần đây nhất từ
+      title: Sao lưu OpenProject
+      options: Tuỳ chọn
+      include_attachments: Bao gồm các tệp đính kèm
+      download_backup: Tải xuống bản sao lưu
+      request_backup: Yêu cầu sao lưu
     close_popup_title: "Đóng"
     close_filter_title: "Đóng bộ lọc"
     close_form_title: "Đóng biểu mẫu"
@@ -206,7 +219,7 @@ vi:
         upsale:
           become_hero: "Become a hero!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Những lợi ích của phiên bản doanh nghiệp là gì?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
@@ -270,13 +283,13 @@ vi:
           text_new_features: "Read about new features and product updates."
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>A new concept of <b>placeholder users</b> (premium feature) allows to add preliminary users without email address to OpenProject and to assign tasks to these resources.</li> <li>The work package <b>filters are extended by a parent option </b>to easily see all direct children as well as <b>by ID</b> to include or exclude only these exact work packages in the list.</li> <li>The user administration is distributed to non-admins by a <b>new global role</b>, allowing to manage and invite users without having full admin privileges.</li> <li>Further UI and UX improvements, i.e. harmonizing cost reporting navigation, adapted background colors of sum and group rows in the work package list, adding a group show page.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Activate"
     label_add_column_after: "Thêm cột phía sau"
     label_add_column_before: "Thêm cột phía trước"
@@ -465,6 +478,7 @@ vi:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Tạo một dự án mới hoặc mời đồng nghiệp.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
         welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
         wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
@@ -506,6 +520,10 @@ vi:
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Tùy chọn sao chép"
       autocompleter:
         label: 'Project autocompletion'
     text_are_you_sure: "Are you sure?"
@@ -516,7 +534,7 @@ vi:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Chú ý: Bạn có chắc bạn muốn đặt lại cấu hình dạng? Điều này sẽ thiết lập lại các thuộc tính của nhóm mặc định và vô hiệu hóa tất cả các trường tùy chỉnh.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
+        upgrade_to_ee: "Nâng cấp lên phiên bản doanh nghiệp"
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
         nevermind: "Nevermind"
@@ -906,6 +924,7 @@ vi:
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
+    notice_job_started: "job started."
     notice_bad_request: "Bad Request."
     relations:
       empty: Không tồn tại mối quan hệ
@@ -957,3 +976,78 @@ vi:
       card: 'Thẻ'
       list: 'Bảng'
       timeline: 'Biểu đồ sự kiện'
+    invite_user_modal:
+      back: 'Quay lại'
+      invite: 'Mời'
+      title:
+        invite: 'Invite user'
+        invite_to_project: 'Mời %{type} tới %{project}'
+        User: 'tài khoản'
+        Group: 'nhóm'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Mời %{principal} tới %{project}'
+      project:
+        label: 'Dự án'
+        required: 'Vui lòng chọn một dự án'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        next_button: 'Tiếp'
+        no_results: 'Không tìm thấy dự án nào'
+        no_invite_rights: 'Bạn không được phép mời các thành viên tới dự án này'
+      type:
+        required: 'Vui lòng chọn mục được mời'
+        user:
+          title: 'Người dùng'
+          description: 'Quyền dựa trên vai trò được giao trong dự án đã chọn'
+        group:
+          title: 'Nhóm'
+          description: 'Quyền dựa trên vai trò được giao trong dự án đã chọn'
+        placeholder:
+          title: 'Placeholder user'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Không có quyền truy cập vào dự án và không có email nào được gửi đi.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Tên hoặc địa chỉ email'
+          name: 'Tên'
+        already_member_message: 'Đã là thành viên của %{project}'
+        no_results_user: 'Không tìm thấy người dùng'
+        invite_user: 'Mời:'
+        change_user_selection: 'Thay đổi địa chỉ e-mail hoặc chọn một người dùng hiện có'
+        no_results_placeholder: 'No placeholders were found'
+        change_placeholder_selection: 'Change name or select an existing placeholder'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'Không tìm thấy nhóm nào'
+        change_group_selection: 'Thay đổi tên hoặc chọn một nhóm hiện có'
+        next_button: 'Tiếp'
+        required:
+          user: 'Vui lòng chọn người dùng'
+          placeholder: 'Please select a placeholder'
+          group: 'Vui lòng chọn một nhóm'
+      role:
+        label: 'Vai trò trong %{project}'
+        no_roles_found: 'Không tìm thấy vai trò nào'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Vui lòng chọn một vai trò'
+        next_button: 'Tiếp'
+      message:
+        label: 'Lời mời'
+        description: 'Chúng tôi sẽ gửi email đến %{principal}, bạn có thể thêm một tin nhắn cá nhân ở đây. Một lời giải thích cho lời mời có thể hữu ích, hoặc có lẽ một chút thông tin liên quan đến dự án để giúp họ hiểu thêm.'
+        next_button: 'Xem lại lời mời'
+      summary:
+        next_button: 'Gửi lời mời'
+      success:
+        title: '%{principal} đã được mời!'
+        description:
+          user: 'Bây giờ người dùng có thể đăng nhập để truy cập vào %{project}. Trong khi đó, bạn có thể lên kế hoạch cho người dùng đó và chỉ định các gói công việc.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'Nhóm này hiện là một phần của %{project}. Trong khi đó, bạn có thể lên kế hoạch cho nhóm đó và chỉ định các gói làm việc cho từng trường hợp.'
+        next_button: 'Tiếp tục'
+    forms:
+      submit_success_message: 'Form đã được gửi thành công'
+      load_error_message: 'Đã có lỗi trong khi tải form'
+      validation_error_message: 'Vui lòng sửa lỗi có trong mẫu'
+      advanced_settings: 'Advanced settings'
+
+

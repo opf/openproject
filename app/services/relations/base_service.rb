@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Relations::BaseService
+class Relations::BaseService < ::BaseServices::BaseCallable
   include Contracted
   include Shared::ServiceContext
 

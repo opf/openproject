@@ -37,6 +37,8 @@ class PlaceholderUser < Principal
 
   include ::Associations::Groupable
 
+  scopes :visible
+
   def to_s
     lastname
   end

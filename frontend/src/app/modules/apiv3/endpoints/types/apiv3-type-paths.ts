@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {TypeResource} from "core-app/modules/hal/resources/type-resource";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {APIv3TypesPaths} from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
+import { TypeResource } from "core-app/modules/hal/resources/type-resource";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { APIv3TypesPaths } from "core-app/modules/apiv3/endpoints/types/apiv3-types-paths";
 
 export class APIv3TypePaths extends CachableAPIV3Resource<TypeResource> {
 

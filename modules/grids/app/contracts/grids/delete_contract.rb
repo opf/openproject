@@ -31,22 +31,7 @@
 require 'grids/base_contract'
 
 module Grids
-  class DeleteContract < BaseContract
-    validate :validate_delete_allowed
-
-    ##
-    # Check whether this grid can be deleted.
-    # The base contract already checks whether we can manage it.
-    def validate_delete_allowed
-      unless model.user_deletable?
-        errors.add(:scope, :unremovable)
-      end
-    end
-
-    protected
-
-    def validate_model?
-      false
-    end
+  class DeleteContract < ::DeleteContract
+    delete_permission -> { model.user_deletable? && Grids::Configuration.writable?(model, user) }
   end
 end

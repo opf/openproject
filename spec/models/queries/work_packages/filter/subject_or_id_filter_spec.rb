@@ -33,7 +33,7 @@ describe Queries::WorkPackages::Filter::SubjectOrIdFilter, type: :model do
   let(:operator) { '**' }
   let(:subject) { 'Some subject' }
   let(:work_package) { FactoryBot.create(:work_package, subject: subject) }
-  let(:current_user) { FactoryBot.build(:user, member_in_project: work_package.project) }
+  let(:current_user) { FactoryBot.create(:user, member_in_project: work_package.project) }
   let(:query) { FactoryBot.build_stubbed(:global_query, user: current_user) }
   let(:instance) do
     described_class.create!(name: :search, context: query, operator: operator, values: [value])

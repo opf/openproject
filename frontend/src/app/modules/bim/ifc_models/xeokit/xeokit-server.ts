@@ -1,7 +1,7 @@
 // @ts-ignore
-import {utils} from "@xeokit/xeokit-sdk/src/viewer/scene/utils";
-import {PathHelperService} from "../../../common/path-helper/path-helper.service";
-import {IFCGonDefinition} from "../pages/viewer/ifc-models-data.service";
+import { utils } from "@xeokit/xeokit-sdk/src/viewer/scene/utils";
+import { PathHelperService } from "../../../common/path-helper/path-helper.service";
+import { IFCGonDefinition } from "../pages/viewer/ifc-models-data.service";
 
 /**
  * Default server client which loads content via HTTP from the file system.
@@ -40,9 +40,7 @@ export class XeokitServer {
       viewerContent: {
         modelsLoaded: this.ifcModels.shown_models
       },
-      viewerConfigs: {
-        saoEnabled: true // Needs to be enabled by default if we want to use it selectively on the available models.
-      }
+      viewerConfigs: {}
     };
 
     done(manifestData);

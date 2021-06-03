@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :user, parent: :principal, class: User do
+  factory :user, parent: :principal, class: 'User' do
     firstname { 'Bob' }
     lastname { 'Bobbit' }
     sequence(:login) { |n| "bob#{n}" }
@@ -35,12 +35,35 @@ FactoryBot.define do
     password { 'adminADMIN!' }
     password_confirmation { 'adminADMIN!' }
 
+    transient do
+      preferences { {} }
+    end
+
     mail_notification { OpenProject::VERSION::MAJOR > 0 ? 'all' : true }
 
     language { 'en' }
     status { User.statuses[:active] }
     admin { false }
     first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
+
+    transient do
+      global_permissions { [] }
+    end
+
+    callback(:after_build) do |user, evaluator|
+      evaluator.preferences.each do |key, val|
+        user.pref[key] = val
+      end
+    end
+
+    callback(:after_create) do |user, factory|
+      user.pref.save unless factory.preferences&.empty?
+
+      if factory.global_permissions.present?
+        global_role = FactoryBot.create :global_role, permissions: factory.global_permissions
+        FactoryBot.create :global_member, principal: user, roles: [global_role]
+      end
+    end
 
     factory :admin do
       firstname { 'OpenProject' }
@@ -51,7 +74,7 @@ FactoryBot.define do
       first_login { false if User.table_exists? and User.columns.map(&:name).include? 'first_login' }
     end
 
-    factory :deleted_user, class: DeletedUser
+    factory :deleted_user, class: 'DeletedUser'
 
     factory :locked_user do
       firstname { 'Locked' }
@@ -68,11 +91,11 @@ FactoryBot.define do
     end
   end
 
-  factory :anonymous, class: AnonymousUser do
+  factory :anonymous, class: 'AnonymousUser' do
     initialize_with { User.anonymous }
   end
 
-  factory :system, class: SystemUser do
+  factory :system, class: 'SystemUser' do
     initialize_with { User.system }
   end
 end

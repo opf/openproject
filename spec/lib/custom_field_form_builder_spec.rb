@@ -34,7 +34,13 @@ describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
   let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, @controller) }
-  let(:builder) { described_class.new(:user, resource, helper, {}) }
+  let(:builder) { described_class.new(:user, resource, helper, builder_options) }
+  let(:builder_options) do
+    {
+      custom_value: custom_value,
+      custom_field: custom_field
+    }
+  end
 
   describe '#custom_field' do
     let(:options) { { class: 'custom-class' } }
@@ -42,12 +48,25 @@ describe CustomFieldFormBuilder do
     let(:custom_field) do
       FactoryBot.build_stubbed(:custom_field)
     end
+    let(:custom_value) do
+      FactoryBot.build_stubbed(:custom_value, customized: resource, custom_field: custom_field)
+    end
+    let(:typed_value) do
+      custom_value.typed_value
+    end
+
     let(:resource) do
-      FactoryBot.build_stubbed(:custom_value, custom_field: custom_field)
+      FactoryBot.build_stubbed(:user)
+    end
+
+    before do
+      allow(resource)
+        .to receive(custom_field.accessor_name)
+              .and_return(typed_value)
     end
 
     subject(:output) do
-      builder.custom_field options
+      builder.cf_form_field options
     end
 
     it_behaves_like 'labelled by default'
@@ -63,8 +82,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--check-box"
-                 id="user#{resource.custom_field_id}"
-                 name="user[#{resource.custom_field_id}]"
+                 id="user#{custom_field.id}"
+                 name="user[#{custom_field.id}]"
                  type="checkbox"
                  value="1" />
         }).at_path('input:nth-of-type(2)')
@@ -73,7 +92,7 @@ describe CustomFieldFormBuilder do
 
     context 'for a date custom field' do
       before do
-        resource.custom_field.field_format = 'date'
+        custom_field.field_format = 'date'
       end
 
       it_behaves_like 'wrapped in container', 'text-field-container' do
@@ -83,8 +102,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class -augmented-datepicker form--text-field"
-                 id="user#{resource.custom_field_id}"
-                 name="user[#{resource.custom_field_id}]"
+                 id="user#{custom_field.id}"
+                 name="user[#{custom_field.id}]"
                  type="text" />
         }).at_path('input')
       end
@@ -92,7 +111,7 @@ describe CustomFieldFormBuilder do
 
     context 'for a text custom field' do
       before do
-        resource.custom_field.field_format = 'text'
+        custom_field.field_format = 'text'
       end
 
       it_behaves_like 'wrapped in container', 'text-area-container' do
@@ -102,8 +121,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <textarea class="custom-class form--text-area"
-                    id="user#{resource.custom_field_id}"
-                    name="user[#{resource.custom_field_id}]"
+                    id="user#{custom_field.id}"
+                    name="user[#{custom_field.id}]"
                     with_text_formatting="true"
                     editor_type="constrained"
                     macros="false">
@@ -114,7 +133,7 @@ describe CustomFieldFormBuilder do
 
     context 'for a string custom field' do
       before do
-        resource.custom_field.field_format = 'string'
+        custom_field.field_format = 'string'
       end
 
       it_behaves_like 'wrapped in container', 'text-field-container' do
@@ -124,8 +143,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
-                 id="user#{resource.custom_field_id}"
-                 name="user[#{resource.custom_field_id}]"
+                 id="user#{custom_field.id}"
+                 name="user[#{custom_field.id}]"
                  type="text" />
         }).at_path('input')
       end
@@ -133,7 +152,7 @@ describe CustomFieldFormBuilder do
 
     context 'for an int custom field' do
       before do
-        resource.custom_field.field_format = 'int'
+        custom_field.field_format = 'int'
       end
 
       it_behaves_like 'wrapped in container', 'text-field-container' do
@@ -143,8 +162,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
-                 id="user#{resource.custom_field_id}"
-                 name="user[#{resource.custom_field_id}]"
+                 id="user#{custom_field.id}"
+                 name="user[#{custom_field.id}]"
                  type="text" />
         }).at_path('input')
       end
@@ -152,7 +171,7 @@ describe CustomFieldFormBuilder do
 
     context 'for a float custom field' do
       before do
-        resource.custom_field.field_format = 'float'
+        custom_field.field_format = 'float'
       end
 
       it_behaves_like 'wrapped in container', 'text-field-container' do
@@ -162,8 +181,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
-                 id="user#{resource.custom_field_id}"
-                 name="user[#{resource.custom_field_id}]"
+                 id="user#{custom_field.id}"
+                 name="user[#{custom_field.id}]"
                  type="text" />
         }).at_path('input')
       end
@@ -233,9 +252,15 @@ describe CustomFieldFormBuilder do
       let(:user1) { FactoryBot.build_stubbed(:user) }
       let(:user2) { FactoryBot.build_stubbed(:user) }
 
+      let(:resource) { project }
+
       before do
-        resource.custom_field.field_format = 'user'
-        resource.customized = project
+        custom_field.field_format = 'user'
+
+        allow(project)
+          .to receive(custom_field.accessor_name)
+          .and_return typed_value
+
         allow(project)
           .to(receive(:principals))
           .and_return([user1, user2])
@@ -248,8 +273,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
-                  id="user#{resource.custom_field_id}"
-                  name="user[#{resource.custom_field_id}]"
+                  id="user#{custom_field.id}"
+                  name="user[#{custom_field.id}]"
                   no_label="true">
             <option value=\"\" label=\" \"></option>
             <option value="#{user1.id}">#{user1.name}</option>
@@ -260,14 +285,14 @@ describe CustomFieldFormBuilder do
 
       context 'which is required and has no default value' do
         before do
-          resource.custom_field.is_required = true
+          custom_field.is_required = true
         end
 
         it 'should output element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
-                    id="user#{resource.custom_field_id}"
-                    name="user[#{resource.custom_field_id}]"
+                    id="user#{custom_field.id}"
+                    name="user[#{custom_field.id}]"
                     no_label="true">
               <option value=\"\">--- Please select ---</option>
               <option value="#{user1.id}">#{user1.name}</option>
@@ -283,9 +308,14 @@ describe CustomFieldFormBuilder do
       let(:version1) { FactoryBot.build_stubbed(:version) }
       let(:version2) { FactoryBot.build_stubbed(:version) }
 
+      let(:resource) { project }
+
       before do
-        resource.custom_field.field_format = 'version'
-        resource.customized = project
+        custom_field.field_format = 'version'
+        allow(project)
+          .to receive(custom_field.accessor_name)
+                .and_return typed_value
+
         allow(project)
           .to receive(:shared_versions)
                 .and_return([version1, version2])
@@ -298,8 +328,8 @@ describe CustomFieldFormBuilder do
       it 'should output element' do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
-                  id="user#{resource.custom_field_id}"
-                  name="user[#{resource.custom_field_id}]"
+                  id="user#{custom_field.id}"
+                  name="user[#{custom_field.id}]"
                   no_label="true">
             <option value=\"\" label=\" \"></option>
             <option value="#{version1.id}">#{version1.name}</option>
@@ -310,14 +340,14 @@ describe CustomFieldFormBuilder do
 
       context 'which is required and has no default value' do
         before do
-          resource.custom_field.is_required = true
+          custom_field.is_required = true
         end
 
         it 'should output element' do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
-                    id="user#{resource.custom_field_id}"
-                    name="user[#{resource.custom_field_id}]"
+                    id="user#{custom_field.id}"
+                    name="user[#{custom_field.id}]"
                     no_label="true">
               <option value=\"\">--- Please select ---</option>
               <option value="#{version1.id}">#{version1.name}</option>

@@ -32,7 +32,11 @@ require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::CreateContract do
-  let(:work_package) { WorkPackage.new project: work_package_project }
+  let(:work_package) do
+    WorkPackage.new(project: work_package_project).tap do |wp|
+      wp.extend(OpenProject::ChangedBySystem)
+    end
+  end
   let(:work_package_project) { project }
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { FactoryBot.build_stubbed(:user) }
@@ -122,10 +126,12 @@ describe WorkPackages::CreateContract do
     end
 
     context 'if the user is set by the system and the user is the user the contract is evaluated for' do
-      subject(:contract) { described_class.new(work_package, user, options: { changed_by_system: ['author_id'] }) }
+      subject(:contract) { described_class.new(work_package, user) }
 
       it 'is valid' do
-        work_package.author = user
+        work_package.change_by_system do
+          work_package.author = user
+        end
 
         expect(validated_contract.errors[:author_id]).to be_empty
       end

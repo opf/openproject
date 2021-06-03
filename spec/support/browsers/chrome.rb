@@ -1,32 +1,29 @@
 # Force the latest version of chromedriver using the webdriver gem
 require 'webdrivers/chromedriver'
 
-::Webdrivers.logger.level = :DEBUG
-
 def register_chrome(language, name: :"chrome_#{language}")
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
 
     if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
       # Maximize the window however large the available space is
-      options.add_argument('start-maximized')
-      # options.add_argument('window-size=1920,1080')
+      options.add_argument('--start-maximized')
       # Open dev tools for quick access
       if ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'])
-        options.add_argument('auto-open-devtools-for-tabs')
+        options.add_argument('--auto-open-devtools-for-tabs')
       end
     else
-      options.add_argument('window-size=1920,1080')
-      options.add_argument('headless')
+      options.add_argument('--window-size=1920,1080')
+      options.add_argument('--headless')
     end
 
-    options.add_argument('no-sandbox')
-    options.add_argument('disable-gpu')
-    options.add_argument('disable-popup-blocking')
-    options.add_argument("lang=#{language}")
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--disable-popup-blocking')
+    options.add_argument("--lang=#{language}")
     # This is REQUIRED for running in a docker container
     # https://github.com/grosser/parallel_tests/issues/658
-    options.add_argument('disable-dev-shm-usage')
+    options.add_argument('--disable-dev-shm-usage')
 
     options.add_preference(:download,
                            directory_upgrade: true,

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {TimezoneService} from 'core-components/datetime/timezone.service';
+import { TimezoneService } from 'core-components/datetime/timezone.service';
 
 export class ActivityEntryInfo {
 
@@ -37,7 +37,7 @@ export class ActivityEntryInfo {
               public index:number) {
   }
 
-  public number(forceReverse:boolean = false) {
+  public number(forceReverse = false) {
     return this.orderedIndex(this.index, forceReverse);
   }
 
@@ -67,7 +67,7 @@ export class ActivityEntryInfo {
     return this.date !== this.dateOfPrevious;
   }
 
-  public isInitial(forceReverse:boolean = false) {
+  public isInitial(forceReverse = false) {
     var activityNo = this.number(forceReverse);
 
     if (this.activity._type.indexOf('Activity') !== 0) {
@@ -94,7 +94,7 @@ export class ActivityEntryInfo {
     return moment(activity.createdAt).format('LL');
   }
 
-  protected orderedIndex(activityNo:number, forceReverse:boolean = false) {
+  protected orderedIndex(activityNo:number, forceReverse = false) {
     if (forceReverse || this.isReversed) {
       return this.activities.length - activityNo;
     }

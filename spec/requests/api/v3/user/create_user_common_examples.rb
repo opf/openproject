@@ -70,7 +70,7 @@ shared_examples 'create user request flow' do
 
       expect(errors.count).to eq(5)
       expect(errors.collect { |el| el['_embedded']['details']['attribute'] })
-        .to contain_exactly('password', 'login', 'firstname', 'lastname', 'email')
+        .to contain_exactly('password', 'login', 'firstName', 'lastName', 'email')
 
       expect(last_response.body)
         .to be_json_eql('urn:openproject-org:api:v3:errors:MultipleErrors'.to_json)
@@ -131,7 +131,7 @@ shared_examples 'create user request flow' do
         expect(errors.count).to eq 4
 
         attributes = errors.map { |error| error.dig('_embedded', 'details', 'attribute') }
-        expect(attributes).to contain_exactly('login', 'firstname', 'lastname', 'email')
+        expect(attributes).to contain_exactly('login', 'firstName', 'lastName', 'email')
       end
     end
   end

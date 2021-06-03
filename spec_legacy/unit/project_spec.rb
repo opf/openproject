@@ -39,9 +39,6 @@ describe Project, type: :model do
   end
 
   it { is_expected.to validate_presence_of :name }
-  it { is_expected.to validate_presence_of :identifier }
-
-  it { is_expected.to validate_uniqueness_of :identifier }
 
   context 'associations' do
     it { is_expected.to have_many :members                                       }
@@ -270,17 +267,6 @@ describe Project, type: :model do
     end
 
     assert !versions.map(&:id).include?(6)
-  end
-
-  it 'should next identifier' do
-    ProjectCustomField.delete_all
-    Project.create!(name: 'last', identifier: 'p2008040')
-    assert_equal 'p2008041', Project.next_identifier
-  end
-
-  it 'should next identifier first project' do
-    Project.delete_all
-    assert_nil Project.next_identifier
   end
 
   context 'with modules',

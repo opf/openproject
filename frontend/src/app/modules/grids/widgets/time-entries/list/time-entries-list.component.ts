@@ -1,14 +1,14 @@
 import { ChangeDetectorRef, Injector, OnInit, Directive } from "@angular/core";
-import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {TimezoneService} from "core-components/datetime/timezone.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
-import {ConfirmDialogService} from "core-components/modals/confirm-dialog/confirm-dialog.service";
-import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
-import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { AbstractWidgetComponent } from "core-app/modules/grids/widgets/abstract-widget.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { TimezoneService } from "core-components/datetime/timezone.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { ConfirmDialogService } from "core-components/modals/confirm-dialog/confirm-dialog.service";
+import { FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
+import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
@@ -55,7 +55,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public get total() {
-    let duration = this.entries.reduce((current, entry) => {
+    const duration = this.entries.reduce((current, entry) => {
       return current + this.timezone.toHours(entry.hours);
     }, 0);
 
@@ -105,19 +105,19 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       .id(entry.id!)
       .get()
       .subscribe((loadedEntry) => {
-      this.timeEntryEditService
-        .edit(loadedEntry)
-        .then((changedEntry) => {
-          let oldEntryIndex:number = this.entries.findIndex(el => el.id === changedEntry.entry.id);
-          let newEntries = this.entries;
-          newEntries[oldEntryIndex] = changedEntry.entry;
+        this.timeEntryEditService
+          .edit(loadedEntry)
+          .then((changedEntry) => {
+            const oldEntryIndex:number = this.entries.findIndex(el => el.id === changedEntry.entry.id);
+            const newEntries = this.entries;
+            newEntries[oldEntryIndex] = changedEntry.entry;
 
-          this.buildEntries(newEntries);
-        })
-        .catch(() => {
+            this.buildEntries(newEntries);
+          })
+          .catch(() => {
           // User canceled the modal
-        });
-    });
+          });
+      });
   }
 
   public deleteIfConfirmed(event:Event, entry:TimeEntryResource) {
@@ -136,7 +136,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       dangerHighlighting: true
     }).then(() => {
       entry.delete().then(() => {
-        let newEntries = this.entries.filter((anEntry) => {
+        const newEntries = this.entries.filter((anEntry) => {
           return entry.id !== anEntry.id;
         });
 
@@ -152,10 +152,10 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   private buildEntries(entries:TimeEntryResource[]) {
     this.entries = entries;
-    let sumsByDateSpent:{[key:string]:number} = {};
+    const sumsByDateSpent:{[key:string]:number} = {};
 
     entries.forEach((entry) => {
-      let date = entry.spentOn;
+      const date = entry.spentOn;
 
       if (!sumsByDateSpent[date]) {
         sumsByDateSpent[date] = 0;
@@ -164,7 +164,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       sumsByDateSpent[date] = sumsByDateSpent[date] + this.timezone.toHours(entry.hours);
     });
 
-    let sortedEntries = entries.sort((a, b) => {
+    const sortedEntries = entries.sort((a, b) => {
       return b.spentOn.localeCompare(a.spentOn);
     });
 
@@ -173,10 +173,10 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     sortedEntries.forEach((entry) => {
       if (entry.spentOn !== currentDate) {
         currentDate = entry.spentOn;
-        this.rows.push({date: this.timezone.formattedDate(currentDate!), sum: this.formatNumber(sumsByDateSpent[currentDate!])});
+        this.rows.push({ date: this.timezone.formattedDate(currentDate!), sum: this.formatNumber(sumsByDateSpent[currentDate!]) });
       }
 
-      this.rows.push({date: currentDate!, entry: entry});
+      this.rows.push({ date: currentDate!, entry: entry });
     });
     //entries
   }

@@ -79,7 +79,7 @@
             <label class="option-label" *ngFor="let availableDirection of availableDirections">
               <input type="radio"
                      [(ngModel)]="sort.direction"
-                     [value]="availableDirection.$href"
+                     [value]="availableDirection.href"
                      [textContent]="availableDirection.name"
                      name="modal-sorting-attribute-{{index}}--sort-direction">
               {{ availableDirection.name }}

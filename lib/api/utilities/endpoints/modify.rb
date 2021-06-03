@@ -38,7 +38,7 @@ module API
 
         private
 
-        def present_success(_current_user, _call)
+        def present_success(_request, _call)
           raise NotImplementedError
         end
 

@@ -9,7 +9,7 @@ pt:
         teaser_text: 'Melhore seu gerenciamento de projetos ágil com esta visão flexível de quadros. Crie tantos quadros quanto quiser, para qualquer coisa que você gostaria de manter o controle.'
         upgrade_to_ee_text: 'Quadros são um recurso Enterprise. Por favor, atualize para um plano pago.'
         upgrade: 'Atualizar agora'
-        personal_demo: 'Obter uma demonstração pessoal'
+        personal_demo: 'Contate-nos para uma demonstração'
       lists:
         delete: 'Excluir lista'
       version:

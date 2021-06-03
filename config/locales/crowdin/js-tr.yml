@@ -33,6 +33,19 @@ tr:
         single: "\"%{name}\" Seç"
       remove: "%{name} kaldır"
       active: "Etkin %{label} %{name}"
+    backup:
+      attachments_disabled: Ekler, izin verilen maksimum toplam boyutu aştıkları için dahil edilmeyebilir. Bunu yapılandırma yoluyla değiştirebilirsiniz (sunucunun yeniden başlatılması gerekir).
+      info: >
+        Burada bir yedeklemeyi tetikleyebilirsiniz. İşlem, sahip olduğunuz veri miktarına (özellikle ekler) bağlı olarak biraz zaman alabilir. Hazır olduğunda bir e-posta alacaksınız.
+      note: >
+        Yeni bir yedekleme, herhangi bir öncekini geçersiz kılacaktır. Günde yalnızca sınırlı sayıda yedekleme talep edilebilir.
+      last_backup: Son yedekleme
+      last_backup_from: Adlı kişiden son yedekleme
+      title: OpenProject Yedekleme
+      options: Ayarlar
+      include_attachments: Ekleri dahil et
+      download_backup: Yedeği indir
+      request_backup: Yedek talep et
     close_popup_title: "Pencereyi kapat"
     close_filter_title: "Filtreyi kapat"
     close_form_title: "Formu kapat"
@@ -271,13 +284,13 @@ tr:
           text_new_features: "Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin."
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class = "%{list_styling_class}"> <li> Yeni bir <b> yer tutucu kullanıcılar </b> kavramı (premium özellik), e-posta olmadan ön kullanıcıların eklenmesine olanak tanır OpenProject adresine ve bu kaynaklara görev atamak için. </li> <li> İş paketi <b> filtreleri bir üst seçenek tarafından genişletilir </b>, tüm doğrudan alt öğeleri ve <b> ID'ye göre < / b> listeye yalnızca bu tam iş paketlerini dahil etmek veya hariç tutmak için. </li> <li> Kullanıcı yönetimi, yönetici olmayanlara <b> yeni bir genel rol </b> ile dağıtılır ve yönetme ve davet etme tam yönetici ayrıcalıklarına sahip olmayan kullanıcılar. </li> <li> Diğer kullanıcı arayüzü ve kullanıcı deneyimi iyileştirmeleri, yani maliyet raporlama gezinmesini uyumlu hale getirmek, iş paketi listesinde toplam ve grup satırlarının arka plan renklerini uyarlamak, bir grup şov sayfası eklemek. </li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Sürüm, çeşitli yeni özellikler ve iyileştirmeler içerir: <br> <ul class = "%{list_styling_class}"> <li> Yeni bir <b> yer tutucu kullanıcılar </b> kavramı (premium özellik), e-posta olmadan ön kullanıcıların eklenmesine olanak tanır OpenProject adresine ve bu kaynaklara görev atamak için. </li> <li> İş paketi <b> filtreleri bir üst seçenek tarafından genişletilir </b>, tüm doğrudan alt öğeleri ve <b> ID'ye göre < / b> listeye yalnızca bu tam iş paketlerini dahil etmek veya hariç tutmak için. </li> <li> Kullanıcı yönetimi, yönetici olmayanlara <b> yeni bir genel rol </b> ile dağıtılır ve yönetme ve davet etme tam yönetici ayrıcalıklarına sahip olmayan kullanıcılar. </li> <li> Diğer kullanıcı arayüzü ve kullanıcı deneyimi iyileştirmeleri, yani maliyet raporlama gezinmesini uyumlu hale getirmek, iş paketi listesinde toplam ve grup satırlarının arka plan renklerini uyarlamak, bir grup şov sayfası eklemek. </li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Etkinleştir"
     label_add_column_after: "Sonrasına sütun ekle"
     label_add_column_before: "Öncesine sütun ekle"
@@ -466,6 +479,7 @@ tr:
         help_menu: '<b> Yardım </b> menüsünde bir kullanım kılavuzu ve ek yardım kaynakları bulacaksınız. <br> OpenProject ile çalışmanın tadını çıkarın!'
         members: 'Projenize katılmak için yeni <b> Üyeler </b> davet edin.'
         project_selection: 'Başlamak için lütfen faydalı demo verileri olan projelerden birine tıklayın. <br> <b> Demo proje </b> klasik proje yönetimi için en iyisidir, <b> Scrum projesi </b> Çevik proje yönetimi için daha iyidir.'
+        quick_add_button: 'Yeni bir proje oluşturun veya iş arkadaşlarınızı davet edin.'
         sidebar_arrow: "Ok işereti ile projenin <b> Ana menüsüne </b> geri dönebilirsiniz."
         welcome: 'En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz zaman yeniden başlatabilirsiniz.'
         wiki: '<b> Wiki </b> içerisinde bilgileri ekibinizle birlikte belgeleyebilir ve paylaşabilirsiniz.'
@@ -507,6 +521,10 @@ tr:
       work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
       click_to_switch_context: 'Bu iş paketini o projede aç.'
       confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
+      use_template: "Şablon kullan"
+      no_template_selected: "(Yok)"
+      copy:
+        copy_options: "Ayarları kopyala"
       autocompleter:
         label: 'Proje otomatik tamamlama'
     text_are_you_sure: "Emin misiniz?"
@@ -907,6 +925,7 @@ tr:
     notice_successful_create: "Oluşturma başarılı."
     notice_successful_delete: "Silme başarılı."
     notice_successful_update: "Güncelleme başarılı."
+    notice_job_started: "görev başlatıldı."
     notice_bad_request: "Hatalı istek."
     relations:
       empty: İlişki bulunmuyor
@@ -960,3 +979,78 @@ tr:
       card: 'Kartlar'
       list: 'tablo'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Geri'
+      invite: 'Davet et'
+      title:
+        invite: 'Kullanıcı davet et'
+        invite_to_project: '%{type} ''ı %{project} projesine davet edin'
+        User: 'Kullanıcılar'
+        Group: 'Grup'
+        PlaceholderUser: 'Yer tutucu kullanıcılar'
+        invite_principal_to_project: "%{principal} 'i %{project} projesine davet edin\n"
+      project:
+        label: 'Proje'
+        required: 'Lütfen bir proje seçin'
+        lacking_permission: 'Şu anda seçili olan projeye kişiler atama izniniz olmadığından lütfen başka bir proje seçin.'
+        lacking_permission_info: 'Şu anda içinde olduğunuz projeye kullanıcılar atama izniniz yok. Başka bir tane seçmeniz gerekli.'
+        next_button: 'Sonraki'
+        no_results: 'Hiç proje bulunamadı'
+        no_invite_rights: 'Bu projeye üye davet etme izniniz yok'
+      type:
+        required: 'Lütfen davet edilecek türü seçin'
+        user:
+          title: 'Kullanıcı'
+          description: 'Seçilen projede atanan role dayalı izinler'
+        group:
+          title: 'Grup'
+          description: 'Seçilen projede atanan role dayalı izinler'
+        placeholder:
+          title: 'Yer tutucu kullanıcı'
+          title_no_ee: 'Yer tutucu kullanıcı (yalnızca Enterprise Edition özelliği)'
+          description: 'Projeye erişimi yoktur ve e-posta gönderilmez.'
+          description_no_ee: 'Projeye erişimi yoktur ve e-posta gönderilmez. <br> <a href="%{eeHref}" target="_blank"> Enterprise Edition </a> ''a göz atın'
+      principal:
+        label:
+          name_or_email: 'İsim veya e-posta adresi'
+          name: 'İsim'
+        already_member_message: 'Zaten %{project} üyesi'
+        no_results_user: 'Hiçbir kullanıcı bulunamadı'
+        invite_user: 'Davet et'
+        change_user_selection: 'E-posta adresini değiştirin veya mevcut bir kullanıcıyı seçin'
+        no_results_placeholder: 'Hiçbir yer bulunamadı.'
+        change_placeholder_selection: 'Adı değiştirin veya mevcut bir yer tutucuyu seçin'
+        create_new_placeholder: 'Yeni yer tutucu oluşturun:'
+        no_results_group: 'Hiç grup bulunamadı.'
+        change_group_selection: 'Adı değiştirin veya mevcut bir grubu seçin'
+        next_button: 'Sonraki'
+        required:
+          user: 'Lütfen bir kullanıcı seçin'
+          placeholder: 'Lütfen bir yer tutucu seçin'
+          group: 'Lütfen bir grup seçin'
+      role:
+        label: 'rol %{project}'
+        no_roles_found: 'Hiç rol bulunamadı.'
+        description: 'Bu, %{principal} projenize katıldığı zaman alacağı roldür. Bu rol hangi eylemleri gerçekleştirebileceklerini ve hangi bilgileri görebileceklerini belirler. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">Roller ve izinler hakkında daha fazla bilgi edinin. </a>'
+        required: 'Lütfen bir rol seçin.'
+        next_button: 'Sonraki'
+      message:
+        label: 'Davet Mesajı'
+        description: '%{principal} adresine burada kişisel bir mesaj ekleyebileceğiniz bir e-posta göndereceğiz. Davet için bir açıklama yararlı olabilir ya da başlamalarına yardımcı olmak için projeyle ilgili biraz bilgi olabilir.'
+        next_button: 'Daveti incele'
+      summary:
+        next_button: 'Davet gönder'
+      success:
+        title: '%{principal} davet edildi!'
+        description:
+          user: 'Kullanıcı artık %{project} ''e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
+          placeholder: 'Kullanıcı artık %{project} ''e erişmek için oturum açabilir. Bu arada, o kullanıcıyla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
+          group: 'Grup artık %{project} ''nin bir parçası. Bu arada, bu grupla zaten plan yapabilir ve örneğin iş paketleri atayabilirsiniz.'
+        next_button: 'Devam et'
+    forms:
+      submit_success_message: 'Form başarıyla gönderildi'
+      load_error_message: 'Form yüklenirken bir hata oluştu'
+      validation_error_message: 'ütfen formda bulunan hataları düzeltin'
+      advanced_settings: 'Gelişmiş ayarlar'
+
+

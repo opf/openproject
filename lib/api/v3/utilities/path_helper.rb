@@ -49,32 +49,29 @@ module API
           private_class_method :index
 
           def self.show(name)
-            define_singleton_method(name) do |id|
-              "#{send(name.to_s.pluralize)}/#{id}"
-            end
+            define_singleton_method(name) { |id| build_path(name, id) }
           end
           private_class_method :show
 
           def self.create_form(name)
-            define_singleton_method(:"create_#{name}_form") do
-              "#{send(name.to_s.pluralize)}/form"
-            end
+            define_singleton_method(:"create_#{name}_form") { build_path(name, "form") }
           end
           private_class_method :create_form
 
           def self.update_form(name)
-            define_singleton_method(:"#{name}_form") do |id|
-              "#{send(name, id)}/form"
-            end
+            define_singleton_method(:"#{name}_form") { |id| build_path(name, id, "form") }
           end
           private_class_method :update_form
 
           def self.schema(name)
-            define_singleton_method(:"#{name}_schema") do
-              "#{send(name.to_s.pluralize)}/schema"
-            end
+            define_singleton_method(:"#{name}_schema") { build_path(name, "schema") }
           end
           private_class_method :schema
+
+          def self.build_path(name, *kwargs)
+            [root, name.to_s.pluralize, *kwargs].compact.join("/")
+          end
+          private_class_method :build_path
 
           def self.resources(name,
                              except: [],
@@ -97,9 +94,11 @@ module API
             "#{root_path}api/v3"
           end
 
-          def self.activity(id)
-            "#{root}/activities/#{id}"
-          end
+          index :action
+          show :action
+
+          index :activity
+          show :activity
 
           index :attachment
           show :attachment
@@ -162,6 +161,15 @@ module API
           def self.available_relation_candidates(work_package_id)
             "#{work_package(work_package_id)}/available_relation_candidates"
           end
+
+          index :capability
+          show :capability
+
+          def self.capabilities_contexts_global
+            "#{capabilities}/contexts/global"
+          end
+
+          index :backup
 
           index :category
           show :category
@@ -230,12 +238,22 @@ module API
 
           resources :project
 
+          show :project_status
+
           def self.projects_available_parents
             "#{projects}/available_parent_projects"
           end
 
           def self.projects_schema
             "#{projects}/schema"
+          end
+
+          def self.project_copy(id)
+            "#{project(id)}/copy"
+          end
+
+          def self.project_copy_form(id)
+            "#{project(id)}/copy/form"
           end
 
           resources :query
@@ -367,20 +385,14 @@ module API
             "#{project(project_id)}/types"
           end
 
-          index :user
-          show :user
-
-          class << self
-            alias :groups :users
-          end
+          resources :user
 
           def self.user_lock(id)
             "#{user(id)}/lock"
           end
 
-          def self.group(id)
-            "#{root}/groups/#{id}"
-          end
+          index :group
+          show :group
 
           resources :version
 

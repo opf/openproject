@@ -1,9 +1,9 @@
-import {Injector} from '@angular/core';
-import {TableEventComponent, TableEventHandler} from '../table-handler-registry';
-import {IsolatedQuerySpace} from 'core-app/modules/work_packages/query-space/isolated-query-space';
-import {rowGroupClassName} from 'core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
-import {InjectField} from 'core-app/helpers/angular/inject-field.decorator';
-import {WorkPackageViewCollapsedGroupsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import { Injector } from '@angular/core';
+import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
+import { rowGroupClassName } from 'core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
+import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
+import { WorkPackageViewCollapsedGroupsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 
 export class GroupRowHandler implements TableEventHandler {
 
@@ -30,8 +30,8 @@ export class GroupRowHandler implements TableEventHandler {
     evt.preventDefault();
     evt.stopPropagation();
 
-    let groupHeader = jQuery(evt.target).parents(`.${rowGroupClassName}`);
-    let groupIdentifier = groupHeader.data('groupIdentifier');
+    const groupHeader = jQuery(evt.target).parents(`.${rowGroupClassName}`);
+    const groupIdentifier = groupHeader.data('groupIdentifier');
 
     this.workPackageViewCollapsedGroupsService.toggleGroupCollapseState(groupIdentifier);
   }
