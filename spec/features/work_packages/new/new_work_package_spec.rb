@@ -227,6 +227,18 @@ describe 'new work package', js: true do
       let(:create_method) { method(:create_work_package) }
     end
 
+    it 'allows to go to the full page through the notification (Regression #37555)' do
+      create_work_package(type_task, project.name)
+      save_work_package!
+
+      wp_page.expect_notification message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      page.find('.notification-box--target-link', text: 'Click here to open this work package in fullscreen view.').click
+
+      full_page = Pages::FullWorkPackage.new(WorkPackage.last)
+      full_page.ensure_page_loaded
+      full_page.expect_subject
+    end
+
     it 'reloads the table and selects the new work package' do
       expect(page).to have_no_selector('.wp--row')
 
