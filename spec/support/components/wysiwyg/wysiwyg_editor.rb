@@ -28,17 +28,17 @@ module Components
     def set_markdown(text)
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
-        'jQuery(arguments[0]).trigger("op:ckeditor-augmented-textarea:setData", arguments[1])',
-        textarea.native,
-        text
+          'jQuery(arguments[0]).trigger("op:ckeditor:setData", arguments[1])',
+          textarea.native,
+          text
       )
     end
 
     def clear
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
-        'jQuery(arguments[0]).trigger("op:ckeditor-augmented-textarea:clear")',
-        textarea.native
+          'jQuery(arguments[0]).trigger("op:ckeditor:clear")',
+          textarea.native
       )
     end
 
@@ -56,7 +56,7 @@ module Components
 
     def expect_supports_no_macros
       expect(container)
-        .to have_no_selector('.ck-button', visible: :all, text: 'Macros')
+          .to have_no_selector('.ck-button', visible: :all, text: 'Macros')
     end
 
     def within_enabled_preview
@@ -79,7 +79,7 @@ module Components
         attachments.drag_and_drop_file(editable, image_fixture)
 
         expect(page)
-          .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
+            .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
         expect(page).not_to have_selector('notification-upload-progress')
         sleep 0.5
@@ -154,8 +154,8 @@ module Components
     def align_table_by_label(editor, table, label)
       # Style first td in table
       table
-        .find('.op-uc-table--row:first-of-type .op-uc-table--cell:first-of-type')
-        .click
+          .find('.op-uc-table--row:first-of-type .op-uc-table--cell:first-of-type')
+          .click
 
       # Click table toolbar
       editor.click_hover_toolbar_button 'Table properties'
