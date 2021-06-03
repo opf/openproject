@@ -54,7 +54,7 @@ sl:
   label_meeting_agenda: "Dnevni red"
   label_meeting_minutes: "Zapisnik"
   label_meeting_close: "Zapri"
-  label_meeting_open: "Odprto"
+  label_meeting_open: "Odpri"
   label_meeting_agenda_close: "Zaprite dnevni red za začetek zapisnika sestanka"
   label_meeting_date_time: "Datum/čas"
   label_meeting_diff: "Razlikovanje"

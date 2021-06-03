@@ -60,7 +60,7 @@ da:
   label_budget_plural: "Budgetter"
   label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'f.eks. %{decimal}'
   label_view_all_budgets: "Se alle budgetter"
   label_yes: "Ja"
   notice_budget_conflict: "Arbejdspakker skal være fra samme projekt."
