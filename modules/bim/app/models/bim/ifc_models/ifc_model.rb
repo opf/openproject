@@ -18,9 +18,8 @@ module Bim
 
         define_method "#{name}_attachment=" do |file|
           if name == :ifc
-            # Also delete xkt and metadata
+            # Also delete xkt
             delete_attachment :xkt
-            delete_attachment :metadata
           end
 
           delete_attachment name
@@ -29,7 +28,7 @@ module Bim
       end
 
       def converted?
-        xkt_attachment.present? && metadata_attachment.present?
+        xkt_attachment.present?
       end
 
       private
