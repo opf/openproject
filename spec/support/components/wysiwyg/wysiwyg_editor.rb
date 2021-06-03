@@ -10,7 +10,7 @@ module Components
     end
 
     def container
-      page.find("#{context_selector} .op-ckeditor-augmented-textarea--wrapper", wait: 10)
+      page.find("#{context_selector} .op-ckeditor--wrapper", wait: 10)
     end
 
     def editor_element
