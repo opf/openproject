@@ -98,7 +98,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
         SeleniumHubWaiter.wait
         find('td.response_body a', text: 'Show').click
 
-        page.within('.webhooks--response-body-modal') do
+        page.within('.op-modal') do
           expect(page).to have_selector('.webhooks--response-headers strong', text: 'test')
           expect(page).to have_selector('.webhooks--response-body', text: log.response_body)
         end

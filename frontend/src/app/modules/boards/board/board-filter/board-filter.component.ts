@@ -1,18 +1,18 @@
-import {AfterViewInit, Component, Input} from "@angular/core";
-import {Board} from "core-app/modules/boards/board/board";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {WorkPackageStatesInitializationService} from "core-components/wp-list/wp-states-initialization.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {WorkPackageViewFiltersService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import {QueryFilterInstanceResource} from "core-app/modules/hal/resources/query-filter-instance-resource";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {StateService} from "@uirouter/core";
-import {debounceTime, skip, take} from "rxjs/operators";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {Observable} from "rxjs";
-import {BoardFiltersService} from "core-app/modules/boards/board/board-filter/board-filters.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { AfterViewInit, Component, Input } from "@angular/core";
+import { Board } from "core-app/modules/boards/board/board";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { WorkPackageStatesInitializationService } from "core-components/wp-list/wp-states-initialization.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { WorkPackageViewFiltersService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { QueryFilterInstanceResource } from "core-app/modules/hal/resources/query-filter-instance-resource";
+import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
+import { StateService } from "@uirouter/core";
+import { debounceTime, skip, take } from "rxjs/operators";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { Observable } from "rxjs";
+import { BoardFiltersService } from "core-app/modules/boards/board/board-filter/board-filters.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'board-filter',
@@ -68,8 +68,8 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
       .subscribe(() => {
 
         const filters:QueryFilterInstanceResource[] = this.wpTableFilters.current;
-        let filterHash = this.urlParamsHelper.buildV3GetFilters(filters);
-        let query_props = JSON.stringify(filterHash);
+        const filterHash = this.urlParamsHelper.buildV3GetFilters(filters);
+        const query_props = JSON.stringify(filterHash);
 
         this.boardFilters.filters.putValue(filterHash);
 

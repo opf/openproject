@@ -161,6 +161,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:required) { true }
           let(:writable) { false }
           let(:has_default) { true }
+          let(:location) { '_links' }
         end
       end
 
@@ -172,6 +173,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:name) { Query.human_attribute_name('project') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'does not link to allowed values'
@@ -329,6 +331,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:required) { false }
           let(:writable) { true }
           let(:has_default) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'does not link to allowed values'
@@ -375,6 +378,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:required) { false }
           let(:writable) { true }
           let(:has_default) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'does not link to allowed values'
@@ -441,6 +445,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:name) { Query.human_attribute_name('group_by') }
           let(:required) { false }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'does not link to allowed values'
@@ -473,6 +478,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:required) { false }
           let(:writable) { true }
           let(:has_default) { true }
+          let(:location) { '_links' }
         end
 
         it_behaves_like 'does not link to allowed values'

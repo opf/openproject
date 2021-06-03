@@ -9,7 +9,7 @@ zh-CN:
         teaser_text: '通过此灵活的面板视图改进您的敏捷项目管理。为您想要跟踪的一切创建任意数量的面板。'
         upgrade_to_ee_text: '面板是企业版功能。请升级到付费计划。'
         upgrade: '立即升级'
-        personal_demo: '获取个人演示'
+        personal_demo: 'Contact us for a demo'
       lists:
         delete: '删除列表'
       version:

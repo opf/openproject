@@ -26,16 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, OnDestroy} from '@angular/core';
-import {GlobalSearchService} from "core-app/modules/global_search/services/global-search.service";
-import {Subscription} from "rxjs";
-import {ScrollableTabsComponent} from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { GlobalSearchService } from "core-app/modules/global_search/services/global-search.service";
+import { Subscription } from "rxjs";
+import { ScrollableTabsComponent } from "core-app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component";
+import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
 
 export const globalSearchTabsSelector = 'global-search-tabs';
 
 @Component({
   selector: globalSearchTabsSelector,
-  templateUrl: '/app/modules/common/tabs/scrollable-tabs/scrollable-tabs.component.html'
+  templateUrl: '../../common/tabs/scrollable-tabs/scrollable-tabs.component.html'
 })
 
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {
@@ -44,8 +45,9 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
 
   public classes:string[] = ['global-search--tabs', 'scrollable-tabs'];
 
-  constructor(readonly globalSearchService:GlobalSearchService) {
-    super();
+  constructor(readonly globalSearchService:GlobalSearchService,
+              cdRef:ChangeDetectorRef) {
+    super(cdRef);
   }
 
   ngOnInit() {
@@ -63,10 +65,10 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
       });
   }
 
-  public clickTab(tab:string) {
-    super.clickTab(tab);
+  public clickTab(tab:TabDefinition, event:Event) {
+    super.clickTab(tab, event);
 
-    this.globalSearchService.currentTab = tab;
+    this.globalSearchService.currentTab = tab.id;
     this.globalSearchService.submitSearch();
   }
 

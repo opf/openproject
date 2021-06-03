@@ -1,15 +1,15 @@
-import {ChangeDetectionStrategy, Component, Injector} from '@angular/core';
-import {AbstractWidgetComponent} from "core-app/modules/grids/widgets/abstract-widget.component";
-import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
-import {Observable} from 'rxjs';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {StateService} from '@uirouter/core';
-import {finalize, publish, skip} from 'rxjs/operators';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { AbstractWidgetComponent } from "core-app/modules/grids/widgets/abstract-widget.component";
+import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { WorkPackageTableConfiguration } from "core-components/wp-table/wp-table-configuration";
+import { Observable } from 'rxjs';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { StateService } from '@uirouter/core';
+import { finalize, publish, skip } from 'rxjs/operators';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'widget-wp-table',
@@ -43,7 +43,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
     if (!this.resource.options.queryId) {
       this.createInitial()
         .then((query) => {
-          let changeset = this.setChangesetOptions({ queryId: query.id });
+          const changeset = this.setChangesetOptions({ queryId: query.id });
 
           this.resourceChanged.emit(changeset);
 
@@ -64,8 +64,8 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
         skip(2),
         this.untilDestroyed()
       ).subscribe((query) => {
-      this.ensureFormAndSaveQuery(query);
-    });
+        this.ensureFormAndSaveQuery(query);
+      });
   }
 
   public get widgetName() {
@@ -108,8 +108,8 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
 
   private createInitial():Promise<QueryResource> {
     const projectIdentifier = this.state.params['projectPath'];
-    let initializationProps = this.resource.options.queryProps;
-    let queryProps = Object.assign({ pageSize: 0 }, initializationProps);
+    const initializationProps = this.resource.options.queryProps;
+    const queryProps = Object.assign({ pageSize: 0 }, initializationProps);
 
     return this
       .apiV3Service

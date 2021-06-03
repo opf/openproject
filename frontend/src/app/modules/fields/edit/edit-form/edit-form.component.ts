@@ -26,25 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Optional, Output} from '@angular/core';
-import {StateService, Transition, TransitionService} from '@uirouter/core';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {EditableAttributeFieldComponent} from 'core-app/modules/fields/edit/field/editable-attribute-field.component';
-import {input} from 'reactivestates';
-import {filter, map, take} from 'rxjs/operators';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Optional, Output } from '@angular/core';
+import { StateService, Transition, TransitionService } from '@uirouter/core';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { EditableAttributeFieldComponent } from 'core-app/modules/fields/edit/field/editable-attribute-field.component';
+import { input } from 'reactivestates';
+import { filter, map, take } from 'rxjs/operators';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import {
   activeFieldClassName,
   activeFieldContainerClassName,
   EditForm
 } from "core-app/modules/fields/edit/edit-form/edit-form";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {EditFieldHandler} from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
-import {EditingPortalService} from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
-import {EditFormRoutingService} from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
-import {ResourceChangesetCommit} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {GlobalEditFormChangesTrackerService} from "core-app/modules/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { EditFieldHandler } from "core-app/modules/fields/edit/editing-portal/edit-field-handler";
+import { EditingPortalService } from "core-app/modules/fields/edit/editing-portal/editing-portal-service";
+import { EditFormRoutingService } from "core-app/modules/fields/edit/edit-form/edit-form-routing.service";
+import { ResourceChangesetCommit } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { GlobalEditFormChangesTrackerService } from "core-app/modules/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service";
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -52,7 +52,7 @@ import {GlobalEditFormChangesTrackerService} from "core-app/modules/fields/edit/
 })
 export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
   @Input('resource') resource:HalResource;
-  @Input('inEditMode') initializeEditMode:boolean = false;
+  @Input('inEditMode') initializeEditMode = false;
   @Input('skippedFields') skippedFields:string[] = [];
 
   @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
@@ -123,7 +123,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     });
   }
 
-  public async reset(fieldName:string, focus:boolean = false) {
+  public async reset(fieldName:string, focus = false) {
     const ctrl = await this.waitForField(fieldName);
     ctrl.reset();
     ctrl.deactivate(focus);
@@ -131,10 +131,10 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public onSaved(commit:ResourceChangesetCommit) {
     this.cancel(false);
-    this.onSavedEmitter.emit({savedResource: commit.resource, isInitial: commit.wasNew });
+    this.onSavedEmitter.emit({ savedResource: commit.resource, isInitial: commit.wasNew });
   }
 
-  public cancel(reset:boolean = false) {
+  public cancel(reset = false) {
     this.editMode = false;
     this.closeEditFields('all', reset);
 

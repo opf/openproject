@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :webhook_log, class: Webhooks::Log do
+  factory :webhook_log, class: 'Webhooks::Log' do
     webhook factory: :webhook
     url { "http://example.net/webhook_receiver/42" }
     event_name { 'foobar' }

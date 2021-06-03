@@ -52,7 +52,7 @@ class Notifications::JournalWpMailService
       author = User.find_by(id: journal.user_id) || DeletedUser.first
 
       notification_receivers(journal.journable, journal).each do |recipient|
-        DeliverWorkPackageNotificationJob.perform_later(journal.id, recipient.id, author.id)
+        Mails::WorkPackageJob.perform_later(journal.id, recipient.id, author.id)
       end
     end
 

@@ -16,7 +16,6 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client:{
@@ -40,6 +39,10 @@ module.exports = function (config) {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
+      },
+      ChromeWithDebug: {
+        base: 'Chrome',
+        flags: ['--no-sandbox', '--debug', '--auto-open-devtools-for-tabs']
       }
     },
     singleRun: false

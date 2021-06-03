@@ -33,6 +33,19 @@ ru:
         single: "Выбрать «%{name}»"
       remove: "Удалить %{name}"
       active: "Активировать %{label} %{name}"
+    backup:
+      attachments_disabled: Вложения не могут быть включены, так как они превышают максимальный общий размер. Вы можете изменить это через конфигурацию (требуется перезапуск сервера).
+      info: >
+        Здесь вы можете запустить резервное копирование. Процесс может занять некоторое время в зависимости от объема данных (особенно вложений). Как только копия будет готова, вы получите письмо.
+      note: >
+        Новая резервная копия перезапишет любую предыдущию. Может быть запрошено ограниченное количество резервных копий в день.
+      last_backup: Последняя резервная копия
+      last_backup_from: Последняя резервная копия от
+      title: Резервное копирование OpenProject
+      options: Параметры
+      include_attachments: Включить вложения
+      download_backup: Скачать резервную копию
+      request_backup: Запросить резервную копию
     close_popup_title: "Закрыть всплывающее"
     close_filter_title: "Закрыть фильтр"
     close_form_title: "Закрыть форму"
@@ -270,13 +283,13 @@ ru:
           text_new_features: "Читайте о новых возможностях и обновлениях продуктов."
           learn_about: "Подробнее о новых функциях"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая концепция <b>замещающих пользователей</b> (премиум-функция) позволяет добавлять предварительных пользователей без адреса электронной почты в OpenProject и назначать задачи для этих ресурсов.</li> <li>Пакет работ <b>фильтров продлевается родительским параметром </b>для того, чтобы легко увидеть всех прямых дочерних процессов, а также <b>по ID</b> для включения или исключения только этих точных пакетов работ в списке.</li> <li>Администрация пользователя распределена среди неадминов <b>новой глобальной ролью</b>, позволяет управлять и приглашать пользователей без полных прав администратора.</li> <li>Дальнейшие улучшения пользовательского интерфейса и интерфейса UX, т.е. согласование ценовой отчетности, адаптированные фоновые цвета суммарных и групповых строк в списке пакетов работ, добавление групповой страницы.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая концепция <b>замещающих пользователей</b> (премиум-функция) позволяет добавлять предварительных пользователей без адреса электронной почты в OpenProject и назначать задачи для этих ресурсов.</li> <li>Пакет работ <b>фильтров продлевается родительским параметром </b>для того, чтобы легко увидеть всех прямых дочерних процессов, а также <b>по ID</b> для включения или исключения только этих точных пакетов работ в списке.</li> <li>Администрация пользователя распределена среди неадминов <b>новой глобальной ролью</b>, позволяет управлять и приглашать пользователей без полных прав администратора.</li> <li>Дальнейшие улучшения пользовательского интерфейса и интерфейса UX, т.е. согласование ценовой отчетности, адаптированные фоновые цвета суммарных и групповых строк в списке пакетов работ, добавление групповой страницы.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -465,6 +478,7 @@ ru:
         help_menu: 'В меню <b>Справка</b> руководство пользователя и дополнительные справочные материалы. <br>Приятной работы с OpenProject!'
         members: 'Предложите новому <b>участнику</b> присоединиться к вашему проекту.'
         project_selection: 'Пожалуйста, кликните по проекту с полезными демонстрационными данными. <br> <b>Демонстрационный проект</b> подходит лучше всего для классического проекта управления, пока <b>проект Scrum</b> лучший в Agile-управлении проектами.'
+        quick_add_button: 'Создайте новый проект или пригласите коллег.'
         sidebar_arrow: "Стрелка возвращает к <b>главному меню</b> проекта."
         welcome: 'Совершите вводный трехминутный тур для знакомства с наиболее <b>важными особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Пройти вводный тур повторно можно в любое время.'
         wiki: 'В пределах <b>вики</b> возможно документирование и обмен знаниями в вашей команде.'
@@ -506,6 +520,10 @@ ru:
       work_package_belongs_to: 'Этот пакет работ относится к проекту %{projectname}.'
       click_to_switch_context: 'Открыть пакет работ в этом проекте.'
       confirm_template_load: 'При смене шаблона будет перезагружена страница, и вы потеряете все входные данные в этой форме. Продолжить?'
+      use_template: "Применить шаблон"
+      no_template_selected: "(Нет)"
+      copy:
+        copy_options: "Скопировать параметры"
       autocompleter:
         label: 'Автоматическое завершение проекта'
     text_are_you_sure: "Вы уверены?"
@@ -906,6 +924,7 @@ ru:
     notice_successful_create: "Создание выполнено."
     notice_successful_delete: "Удаление выполнено."
     notice_successful_update: "Обновление выполнено."
+    notice_job_started: "задание начато."
     notice_bad_request: "Неправильный запрос."
     relations:
       empty: Не существует отношения
@@ -963,3 +982,78 @@ ru:
       card: 'Карточки'
       list: 'Таблица'
       timeline: 'Гант'
+    invite_user_modal:
+      back: 'Назад'
+      invite: 'Пригласить'
+      title:
+        invite: 'Пригласить пользователя'
+        invite_to_project: 'Пригласить %{type} в %{project}'
+        User: 'пользователь'
+        Group: 'группа'
+        PlaceholderUser: 'пользователь плейсхолдера'
+        invite_principal_to_project: 'Пригласить %{principal} в %{project}'
+      project:
+        label: 'Проект'
+        required: 'Пожалуйста, выберите проект'
+        lacking_permission: 'Пожалуйста, выберите другой проект, так у вас нет прав для назначения пользователей к выбранному в данный момент проекту.'
+        lacking_permission_info: 'У вас недостаточно прав для назначения пользователей в текущий проект. Вам нужно выбрать другой проект.'
+        next_button: 'Следующие'
+        no_results: 'Проекты не найдены'
+        no_invite_rights: 'Вы не можете пригласить участников в этот проект'
+      type:
+        required: 'Пожалуйста, выберите тип для приглашения'
+        user:
+          title: 'Пользователь'
+          description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
+        group:
+          title: 'Группа'
+          description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
+        placeholder:
+          title: 'Пользователь-заполнитель'
+          title_no_ee: 'Пользователь-заполнитель (только для корпоративной версии)'
+          description: 'Нет доступа к проекту и письма не отправляются.'
+          description_no_ee: 'Нет доступа к проекту и письма не отправляются. <br>Проверьте <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Имя или email адрес'
+          name: 'Имя'
+        already_member_message: 'Уже член %{project}'
+        no_results_user: 'Пользователи не найдены.'
+        invite_user: 'Приглашение:'
+        change_user_selection: 'Изменить адрес электронной почты или выбрать существующего пользователя'
+        no_results_placeholder: 'Заполнители не найдены'
+        change_placeholder_selection: 'Изменить имя или выбрать существующий плейсхолдер'
+        create_new_placeholder: 'Создать новый плейсхолдер:'
+        no_results_group: 'Группы не найдены'
+        change_group_selection: 'Изменить имя или выбрать существующую группу'
+        next_button: 'Следующие'
+        required:
+          user: 'Пожалуйста, выберите пользователя'
+          placeholder: 'Пожалуйста, выберите заполнитель'
+          group: 'Пожалуйста, выберите группу'
+      role:
+        label: 'Роль в %{project}'
+        no_roles_found: 'Роли не найдены'
+        description: 'Эту роль %{principal} получит после присоединения к вашему проекту. Роль определяет, разрешаемые действия и доступ к просмотру информации участника проекта. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Узнайте больше о ролях и разрешениях. </a>'
+        required: 'Пожалуйста, выберите роль'
+        next_button: 'Следующие'
+      message:
+        label: 'Сообщение о приглашении'
+        description: 'Мы отправим письмо на адрес %{principal}, в которое вы можете добавить личное сообщение здесь. Может быть полезным объяснить причину приглашения или, возможно, добавить немного информации о проекте, чтобы помочь им начать работу.'
+        next_button: 'Просмотреть приглашение'
+      summary:
+        next_button: 'Отправить приглашение'
+      success:
+        title: '%{principal} был приглашен!'
+        description:
+          user: 'Теперь пользователь может войти в систему и получить доступ к %{project}. Тем временем вы уже можете планировать работу с этим пользователем и назначать пакеты работ.'
+          placeholder: 'Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты.'
+          group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
+        next_button: 'Далее'
+    forms:
+      submit_success_message: 'Форма успешно отправлена'
+      load_error_message: 'Произошла ошибка при загрузке формы'
+      validation_error_message: 'Пожалуйста, исправьте ошибки в форме'
+      advanced_settings: 'Расширенные настройки'
+
+

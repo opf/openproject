@@ -1,14 +1,14 @@
-import {Injectable, Injector} from '@angular/core';
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {BcfApiService} from "core-app/modules/bim/bcf/api/bcf-api.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {BcfViewpointPaths} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
-import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import {switchMap, map, tap} from 'rxjs/operators';
-import {of, forkJoin, Observable} from 'rxjs';
-import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import {BcfTopicResource} from "core-app/modules/bim/bcf/api/topics/bcf-topic.resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Injectable, Injector } from '@angular/core';
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { BcfApiService } from "core-app/modules/bim/bcf/api/bcf-api.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { BcfViewpointPaths } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
+import { ViewerBridgeService } from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import { switchMap, map, tap } from 'rxjs/operators';
+import { of, forkJoin, Observable } from 'rxjs';
+import { BcfViewpointInterface } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
+import { BcfTopicResource } from "core-app/modules/bim/bcf/api/topics/bcf-topic.resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 
 @Injectable()
@@ -37,11 +37,11 @@ export class ViewpointsService {
     const viewpointResource = this.getViewPointResource(workPackage, index);
 
     return viewpointResource
-            .delete()
-            .pipe(
-              // Update the work package to reload the viewpoints
-              tap(() => this.apiV3Service.work_packages.id(workPackage).requireAndStream(true))
-            );
+      .delete()
+      .pipe(
+        // Update the work package to reload the viewpoints
+        tap(() => this.apiV3Service.work_packages.id(workPackage).requireAndStream(true))
+      );
   }
 
   public saveViewpoint$(workPackage:WorkPackageResource, viewpoint?:BcfViewpointInterface):Observable<BcfViewpointInterface> {
@@ -49,26 +49,26 @@ export class ViewpointsService {
     const topicUUID$ = this.setBcfTopic$(workPackage);
     // Default to the current viewer's viewpoint
     const viewpoint$ = viewpoint ?
-                        of(viewpoint) :
+      of(viewpoint) :
                         this.viewerBridge!.getViewpoint$();
 
     return forkJoin({
-              topicUUID: topicUUID$,
-              viewpoint: viewpoint$,
-            })
-            .pipe(
-              switchMap(results => {
-                return this.bcfApi
-                              .projects.id(wpProjectId)
-                              .topics.id(results.topicUUID as (string | number))
-                              .viewpoints
-                              .post(results.viewpoint);
-               }
-              ),
-              // Update the work package to reload the viewpoints
-              tap((results) =>
-                this.apiV3Service.work_packages.id(workPackage).requireAndStream(true))
-            );
+      topicUUID: topicUUID$,
+      viewpoint: viewpoint$,
+    })
+      .pipe(
+        switchMap(results => {
+          return this.bcfApi
+            .projects.id(wpProjectId)
+            .topics.id(results.topicUUID as (string | number))
+            .viewpoints
+            .post(results.viewpoint);
+        }
+        ),
+        // Update the work package to reload the viewpoints
+        tap((results) =>
+          this.apiV3Service.work_packages.id(workPackage).requireAndStream(true))
+      );
   }
 
   public setBcfTopic$(workPackage:WorkPackageResource) {
@@ -77,8 +77,8 @@ export class ViewpointsService {
     } else {
       const topicHref = workPackage.bcfTopic?.href;
       const topicUUID$ = topicHref ?
-                          of(this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id) :
-                          this.createBcfTopic$(workPackage);
+        of(this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id) :
+        this.createBcfTopic$(workPackage);
 
       return topicUUID$.pipe(map(topicUUID => this.topicUUID = topicUUID));
     }
@@ -89,14 +89,14 @@ export class ViewpointsService {
     const wpPayload = workPackage.convertBCF.payload;
 
     return this.bcfApi
-                  .projects.id(wpProjectId)
-                  .topics
-                  .post(wpPayload)
-                  .pipe(
-                    map((resource:BcfTopicResource) => {
-                      this.topicUUID = resource.guid;
-                      return this.topicUUID;
-                    })
-                  );
+      .projects.id(wpProjectId)
+      .topics
+      .post(wpPayload)
+      .pipe(
+        map((resource:BcfTopicResource) => {
+          this.topicUUID = resource.guid;
+          return this.topicUUID;
+        })
+      );
   }
 }

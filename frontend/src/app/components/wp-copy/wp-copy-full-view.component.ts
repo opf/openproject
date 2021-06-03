@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {WorkPackageCopyController} from 'core-components/wp-copy/wp-copy.controller';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { WorkPackageCopyController } from 'core-components/wp-copy/wp-copy.controller';
 
 @Component({
   selector: 'wp-copy-full-view',

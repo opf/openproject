@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Transition} from "@uirouter/core";
-import {Injectable} from "@angular/core";
+import { Transition } from "@uirouter/core";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class EditFormRoutingService {

@@ -1,4 +1,4 @@
-import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
+import { BcfViewpointInterface } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 
 export interface BcfViewpointItem {
   /** The URL of the viewpoint, if persisted */

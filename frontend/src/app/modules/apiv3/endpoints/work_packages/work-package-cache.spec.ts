@@ -26,25 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injector} from '@angular/core';
-import {TestBed} from '@angular/core/testing';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {OpenprojectHalModule} from 'core-app/modules/hal/openproject-hal.module';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {OpenProjectFileUploadService} from 'core-components/api/op-file-upload/op-file-upload.service';
-import {OpenProjectDirectFileUploadService} from "core-components/api/op-file-upload/op-direct-file-upload.service";
-import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
-import {States} from 'core-components/states.service';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {take, takeWhile} from 'rxjs/operators';
-import {WorkPackagesActivityService} from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import {TimezoneService} from "core-components/datetime/timezone.service";
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {WorkPackageCache} from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
+import { Injector } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { OpenprojectHalModule } from 'core-app/modules/hal/openproject-hal.module';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { OpenProjectFileUploadService } from 'core-components/api/op-file-upload/op-file-upload.service';
+import { OpenProjectDirectFileUploadService } from "core-components/api/op-file-upload/op-direct-file-upload.service";
+import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
+import { States } from 'core-components/states.service';
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { take, takeWhile } from 'rxjs/operators';
+import { WorkPackagesActivityService } from "core-components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import { TimezoneService } from "core-components/datetime/timezone.service";
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { WorkPackageCache } from "core-app/modules/apiv3/endpoints/work_packages/work-package.cache";
 
 describe('WorkPackageCache', () => {
   let injector:Injector;
@@ -65,14 +65,14 @@ describe('WorkPackageCache', () => {
         WorkPackagesActivityService,
         SchemaCacheService,
         PathHelperService,
-        {provide: ConfigurationService, useValue: {}},
-        {provide: I18nService, useValue: {t: (...args:any[]) => 'translation'}},
-        {provide: WorkPackageResource, useValue: {}},
-        {provide: NotificationsService, useValue: {}},
-        {provide: HalResourceNotificationService, useValue: {handleRawError: () => false}},
-        {provide: WorkPackageNotificationService, useValue: {}},
-        {provide: OpenProjectFileUploadService, useValue: {}},
-        {provide: OpenProjectDirectFileUploadService, useValue: {}},
+        { provide: ConfigurationService, useValue: {} },
+        { provide: I18nService, useValue: { t: (...args:any[]) => 'translation' } },
+        { provide: WorkPackageResource, useValue: {} },
+        { provide: NotificationsService, useValue: {} },
+        { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
+        { provide: WorkPackageNotificationService, useValue: {} },
+        { provide: OpenProjectFileUploadService, useValue: {} },
+        { provide: OpenProjectDirectFileUploadService, useValue: {} },
       ]
     });
 

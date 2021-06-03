@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
-import {projectStatusCodeCssClass, projectStatusI18n} from "core-app/modules/fields/helpers/project-status-helper";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
+import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/modules/fields/helpers/project-status-helper";
 
 
 export class ProjectStatusDisplayField extends DisplayField {
   public render(element:HTMLElement, displayText:string):void {
-    const code = this.value;
+    const code = this.value && this.value.id;
 
     const bulb = document.createElement('span');
     bulb.classList.add('project-status--bulb', projectStatusCodeCssClass(code));

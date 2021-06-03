@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Directive, ViewChild} from "@angular/core";
-import {WorkPackageEmbeddedTableComponent} from "core-components/wp-table/embedded/wp-embedded-table.component";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {UrlParamsHelperService} from "core-components/wp-query/url-params-helper";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { Directive, ViewChild } from "@angular/core";
+import { WorkPackageEmbeddedTableComponent } from "core-components/wp-table/embedded/wp-embedded-table.component";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { UrlParamsHelperService } from "core-components/wp-query/url-params-helper";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Directive()
 export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
@@ -44,7 +44,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
   public queryProps:Object;
 
   /** Whether this section should be hidden completely (due to missing permissions e.g.) */
-  public hidden:boolean = false;
+  public hidden = false;
 
   /** Reference to the embedded table instance */
   @ViewChild('embeddedTable') protected embeddedTable:WorkPackageEmbeddedTableComponent;

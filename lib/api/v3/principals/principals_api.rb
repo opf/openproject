@@ -39,7 +39,7 @@ module API
             if query.valid?
               principals = query
                            .results
-                           .where(id: Principal.in_visible_project_or_me(current_user))
+                           .where(id: Principal.visible(current_user))
                            .includes(:preference)
 
               ::API::V3::Users::PaginatedUserCollectionRepresenter.new(principals,

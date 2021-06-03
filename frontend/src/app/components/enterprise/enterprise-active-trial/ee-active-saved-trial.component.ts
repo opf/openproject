@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef} from "@angular/core";
-import {I18nService} from "app/modules/common/i18n/i18n.service";
-import {EEActiveTrialBase} from "core-components/enterprise/enterprise-active-trial/ee-active-trial.base";
+import { Component, ElementRef } from "@angular/core";
+import { I18nService } from "app/modules/common/i18n/i18n.service";
+import { EEActiveTrialBase } from "core-components/enterprise/enterprise-active-trial/ee-active-trial.base";
 
 export const enterpriseActiveSavedTrialSelector = 'enterprise-active-saved-trial';
 

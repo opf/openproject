@@ -175,6 +175,8 @@ ar:
       no_results_content_text: إنشاء ملف زبون جديد
   concatenation:
     single: 'أو'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -205,6 +207,7 @@ ar:
       no_results_title_text: لا يوجد حالياً مشاريع
       no_results_content_text: إنشاء مشروع جديد
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: لا يوجد حالياً أنشطة متاحة.
       forums:
@@ -220,10 +223,13 @@ ar:
       versions:
         no_results_title_text: لا يوجد حالياً أية إصدارات للمشروع.
         no_results_content_text: إنشاء إصدار جديد
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: لا يوجد حالياً قسم للأعضاء في هذا المشروع.
       no_results_content_text: أضف عضواً إلى المشروع
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -241,6 +247,9 @@ ar:
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -250,7 +259,8 @@ ar:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -568,6 +578,12 @@ ar:
         unremovable: "cannot be removed."
         wrong_length: "هو طول خاطئ (يجب أن تكون الأحرف %{count})."
       models:
+        capability:
+          context:
+            global: 'عالمي'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -607,6 +623,9 @@ ar:
           attributes:
             types:
               in_use_by_work_packages: "لا يزال قيد الاستخدام من قبل مجموعات العمل: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -800,7 +819,7 @@ ar:
     firstname: "الاسم الأول"
     group: "مجموعة"
     groups: "المجموعات"
-    groupname: "اسم المجموعة"
+    name: "الاسم"
     id: "الهوية المُعَرِّفة"
     is_default: "القيمة الافتراضية"
     is_for_all: "لكافة المشاريع"
@@ -810,7 +829,6 @@ ar:
     lastname: "الاسم الأخير"
     login: "Username"
     mail: "البريد الإكتروني"
-    name: "الاسم"
     password: "كلمة المرور"
     priority: "الأولوية"
     project: "مشروع"
@@ -830,6 +848,33 @@ ar:
     user: "المستخدم"
     version: "الإصدار"
     work_package: "مجموعة العمل"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: إنشاء
+      action_reset: إعادة تعيين
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "أَضِفْ"
   button_add_comment: "أضِف تعليقًا"
   button_add_member: أضف عضو
@@ -909,12 +954,17 @@ ar:
     text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
     update_consent_last_time: "Last update of consent: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "بدأ بنسخ المشروع \"%{source_project_name}\" إلى \"%{target_project_name}\". سيتم إبلاغك بالبريد الإلكتروني حالما يتوفر \"%{target_project_name}\"."
     failed: "لا يمكن نسخ المشروع %{source_project_name}"
     failed_internal: "Copying failed due to an internal error."
     succeeded: "المشروع الذي تم إنشاؤه %{target_project_name}"
     errors: "خطأ"
     project_custom_fields: 'Custom fields on project'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "تعذّر نسخ مشروع \"%{source_project_name}\" لمشروع \"%{target_project_name}\"."
       succeeded: "تمّ نسخ مشروع \"%{source_project_name}\" إلى \"%{target_project_name}\"."
@@ -1108,7 +1158,7 @@ ar:
   default_role_anonymous: "مجهول"
   default_role_developer: "مطوِّر"
   default_role_project_admin: "مدير المشروع"
-  default_role_project_creator: "Project creator"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "من غير الأعضاء"
   default_role_reader: "القارئ"
   default_role_member: "عضو"
@@ -1286,6 +1336,9 @@ ar:
   instructions_after_registration: "يمكنك تسجيل الدخول بمجرد أن تم تنشيط الحساب الخاص بك عن طريق النقر فوق %{signin}."
   instructions_after_logout: "يمكنك تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}."
   instructions_after_error: "يمكنك محاولة تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}. إذا استمر الخطأ، اسأل المسؤول الخاص بك للحصول على تعليمات."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1345,6 +1398,7 @@ ar:
   label_available_project_versions: 'الإصدارات المتوفرة'
   label_available_project_repositories: 'مستودعات البيانات المتوفرة'
   label_api_documentation: "توثيق API"
+  label_backup: "Backup"
   label_between: "بين"
   label_blocked_by: "محجوب من قبل"
   label_blocks: "حجوبات"
@@ -1547,6 +1601,8 @@ ar:
   label_member_new: "عضو جديد"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "أعضاء"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "اسم عنصر من القائمة"
   label_message: "رسالة"
   label_message_last: "الرسالة الأخيرة"
@@ -1868,6 +1924,12 @@ ar:
   mail_body_account_activation_request: "وقد سجل مستخدم جديد (%{value}). الحساب انتظار الموافقة الخاصة بك:"
   mail_body_account_information: "معلومات الحساب الخاص بك"
   mail_body_account_information_external: "يمكنك استخدام حساب %{value} الخاص بك لتسجيل الدخول."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "لتغيير كلمة المرور الخاصة بك، انقر فوق الارتباط التالي:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -1884,12 +1946,35 @@ ar:
   mail_body_wiki_content_added: "تم إضافة صفحة wiki '%{id}' من %{author}."
   mail_body_wiki_content_updated: "تم تحديث صفحة wiki '%{id}' من %{author}."
   mail_subject_account_activation_request: "طلب تنشيط حساب %{value}"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "كلمة المرور %{value}"
   mail_subject_register: "تنشيط الحساب الخاص بك %{value}"
   mail_subject_reminder: "الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}"
   mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "تم إضافة صفحة wiki '%{id}'"
   mail_subject_wiki_content_updated: "تم تحديث صفحة wiki '%{id}'"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: User activation limit reached
     message: |
@@ -2000,7 +2085,7 @@ ar:
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "إنشاء مشروع"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "إنشاء مشاريع فرعية"
   permission_add_work_package_watchers: "إضافة مراقب"
   permission_assign_versions: "Assign versions"
@@ -2245,6 +2330,7 @@ ar:
   setting_consent_required: "Consent required"
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "السماح بعلاقات عبر-المشروع مجموعة العمل"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "صيغة التاريخ"
   setting_default_language: "اللغة الافتراضية"
   setting_default_notification_option: "خيار الشعار  الافتراضي"
@@ -2302,7 +2388,6 @@ ar:
   setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
   setting_rest_api_enabled: "تمكين خدمة ويب REST"
   setting_self_registration: "التسجيل الذاتي"
-  setting_sequential_project_identifiers: "إنشاء معرفات المشروع متسلسلة"
   setting_session_ttl: "وقت انتهاء الدورة بعد الخمول"
   setting_session_ttl_hint: "قيمة أدناه يعمل 5 مثل ا"
   setting_session_ttl_enabled: "انتهت الجلسة"
@@ -2326,6 +2411,11 @@ ar:
     passwords: "كلمات المرور"
     session: "الجلسة"
     brute_force_prevention: "حجب المستخدم الآلي"
+    display:
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2633,6 +2723,8 @@ ar:
     getting_started: "الشروع في البدء"
     help_and_support: "المساعدة والدعم"
   total_progress: "التقدم الإجمالي"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "الكل"
     active: "نشِط"
@@ -2724,6 +2816,7 @@ ar:
       code_403: "غير مسموح لك بدخول هذا المورد."
       code_404: "تعذر العثور على المورد المطلوب."
       code_409: "Could not update the resource because of conflicting modifications."
+      code_429: "Too many requests. Please try again later."
       code_500: "حدث خطأ داخلي."
       expected:
         date: "YYYY-MM-DD (ISO 8601 التاريخ فقط)"
@@ -2733,6 +2826,9 @@ ar:
       invalid_json: "تعذر تحليل الطلب ك JSON."
       invalid_relation: "العلاقة غير صالحة."
       invalid_resource: "للخاصية '%{property}' ربط المتوقع متوقع أن يكون'%{expected}' ، ولكن حصلت على '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "حالة حساب المستخدم الحالي لا تسمح بهذه العملية."
       missing_content_type: "غير محدّد"
       missing_request_body: "لا توجد أي هيئة الطلب."
@@ -2843,3 +2939,4 @@ ar:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  you: you

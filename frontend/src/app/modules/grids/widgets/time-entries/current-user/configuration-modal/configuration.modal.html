@@ -24,14 +24,16 @@
 
     <div class="tab-content"></div>
     <div class="modal--form-actions">
-      <button class="button -highlight"
-              [textContent]="text.applyButton"
-              (click)="saveChanges()">
-      </button>
-      <button class="button"
-              [textContent]="text.cancelButton"
-              (click)="closeMe($event)">
-      </button>
+      <button
+        class="button"
+        [textContent]="text.cancelButton"
+        (click)="closeMe($event)"
+      ></button>
+      <button
+        class="button -highlight"
+        [textContent]="text.applyButton"
+        (click)="saveChanges()"
+      ></button>
     </div>
   </div>
 </div>

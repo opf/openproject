@@ -41,7 +41,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
                       field_format: 'int',
                       is_for_all: true
   end
-  let(:relations_tab) { find('.tabrow li', text: 'RELATIONS') }
+  let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
 
   before do
     login_as user
@@ -71,7 +71,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
 
     # Expect CF value to be still visible
     wp_page.expect_and_dismiss_notification(message: 'Successful creation.')
-    expect(wp_page).to have_selector('wp-relations-count', text: 1)
+    expect(wp_page).to have_selector('op-tab-count', text: 1)
     wp_page.expect_attributes "customField#{custom_field.id}": '42'
   end
 end

@@ -55,7 +55,7 @@ module API
 
         def self.create_link_lambda(name, getter: "#{name}_id")
           ->(*) {
-            v3_path = API::V3::Principals::PrincipalRepresenterFactory.v3_path(represented.send(name))
+            v3_path = API::V3::Principals::PrincipalType.for(represented.send(name))
 
             instance_exec(&self.class.associated_resource_default_link(name,
                                                                        v3_path: v3_path,
@@ -87,23 +87,6 @@ module API
             ::API::V3::Principals::PrincipalRepresenterFactory
               .create(represented.send(name), current_user: current_user)
           }
-        end
-
-        def self.v3_path(instance)
-          case instance
-          when User
-            :user
-          when Group
-            :group
-          when PlaceholderUser
-            :placeholder_user
-          when NilClass
-            # Fall back to user for unknown principal
-            # since we do not have a principal route.
-            :user
-          else
-            raise "undefined subclass for #{instance}"
-          end
         end
       end
     end

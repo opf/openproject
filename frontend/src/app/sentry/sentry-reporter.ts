@@ -26,13 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Scope} from "@sentry/hub";
-import {Severity} from "@sentry/types";
-import {Event as SentryEvent} from "@sentry/types";
-import {environment} from "../../environments/environment";
+import { Hub, Severity, Scope, Event as SentryEvent } from "@sentry/types";
+import { environment } from "../../environments/environment";
 
 export type ScopeCallback = (scope:Scope) => void;
-
+export type MessageSeverity = 'fatal'|'error'|'warning'|'log'|'info'|'debug';
 
 export interface CaptureInterface {
   /** Capture a message */
@@ -44,6 +42,7 @@ export interface CaptureInterface {
 
 export interface SentryClient extends CaptureInterface {
   configureScope(scope:ScopeCallback):void;
+
   withScope(scope:ScopeCallback):void;
 }
 
@@ -51,8 +50,6 @@ export interface ErrorReporter extends CaptureInterface {
   /** Register a context callback handler */
   addContext(...callbacks:ScopeCallback[]):void;
 }
-
-export type MessageSeverity = 'fatal'|'error'|'warning'|'log'|'info'|'debug';
 
 interface QueuedMessage {
   type:'captureMessage'|'captureException';
@@ -67,33 +64,51 @@ export class SentryReporter implements ErrorReporter {
 
   private readonly sentryConfigured:boolean = true;
 
-  private client:any;
+  private client:Hub;
 
   constructor() {
     const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement|null;
-    if (sentryElement) {
-      import('@sentry/browser').then((Sentry) => {
-        Sentry.init({
-          dsn: sentryElement.dataset.dsn!,
-          debug: !environment.production,
-          ignoreErrors: [
-            // Transition movements,
-            'The transition has been superseded by a different transition',
-            // Uncaught promise rejections
-            'Uncaught (in promise)'
-          ],
-          beforeSend: (event) => this.filterEvent(event)
-        });
-
-        this.sentryLoaded(Sentry);
-      });
+    if (sentryElement !== null) {
+      this.loadSentry(sentryElement);
     } else {
       this.sentryConfigured = false;
       this.messageStack = [];
     }
   }
 
-  public sentryLoaded(client:any) {
+  private loadSentry(sentryElement:HTMLElement) {
+    const dsn = sentryElement.dataset.dsn || '';
+    const version = sentryElement.dataset.version || 'unknown';
+    const traceRate = parseFloat(sentryElement.dataset.tracesSampleRate || '0.1');
+
+    import('./sentry-dependency').then((imported) => {
+      const sentry = imported.Sentry;
+      sentry.init({
+        dsn: dsn,
+        debug: !environment.production,
+        release: 'op-frontend@' + version,
+        environment: environment.production ? 'production' : 'development',
+
+        // Integrations
+        integrations: [new imported.Integrations.BrowserTracing()],
+
+        // Tracing rate for performance
+        tracesSampleRate: traceRate,
+
+        ignoreErrors: [
+          // Transition movements,
+          'The transition has been superseded by a different transition',
+          // Uncaught promise rejections
+          'Uncaught (in promise)',
+        ],
+        beforeSend: (event) => this.filterEvent(event),
+      });
+
+      this.sentryLoaded(sentry as any);
+    });
+  }
+
+  public sentryLoaded(client:Hub):void {
     this.client = client;
     client.configureScope(this.setupContext.bind(this));
 
@@ -103,9 +118,9 @@ export class SentryReporter implements ErrorReporter {
     });
   }
 
-  public captureMessage(msg:string, severity:MessageSeverity = 'info') {
+  public captureMessage(msg:string, severity:MessageSeverity = 'info'):void {
     if (!this.client) {
-      return this.handleOfflineMessage('captureMessage', Array.from(arguments));
+      return this.handleOfflineMessage('captureMessage', [msg, severity]);
     }
 
     this.client.withScope((scope:Scope) => {
@@ -114,9 +129,9 @@ export class SentryReporter implements ErrorReporter {
     });
   }
 
-  public captureException(err:Error|string) {
+  public captureException(err:Error|string):void {
     if (!this.client || !err) {
-      this.handleOfflineMessage('captureException', Array.from(arguments));
+      this.handleOfflineMessage('captureException', [err]);
       throw err;
     }
 
@@ -157,7 +172,7 @@ export class SentryReporter implements ErrorReporter {
    * @param scope
    */
   private setupContext(scope:Scope) {
-    scope.setTag('locale', I18n.locale);
+    scope.setTag('locale', window.I18n.locale);
     scope.setTag('domain', window.location.hostname);
     scope.setTag('url_path', window.location.pathname);
     scope.setExtra('url_query', window.location.search);

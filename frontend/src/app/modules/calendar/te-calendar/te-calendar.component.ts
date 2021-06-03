@@ -11,29 +11,29 @@ import {
   ViewChild,
   ViewEncapsulation
 } from "@angular/core";
-import {FullCalendarComponent} from '@fullcalendar/angular';
-import {States} from "core-components/states.service";
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { States } from "core-components/states.service";
 import * as moment from "moment";
-import {Moment} from "moment";
-import {StateService} from "@uirouter/core";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {DomSanitizer} from "@angular/platform-browser";
+import { Moment } from "moment";
+import { StateService } from "@uirouter/core";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { DomSanitizer } from "@angular/platform-browser";
 import timeGrid from '@fullcalendar/timegrid';
-import {CalendarOptions, Duration, EventApi, EventInput} from '@fullcalendar/core';
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
-import {FilterOperator} from "core-components/api/api-v3/api-v3-filter-builder";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {TimezoneService} from "core-components/datetime/timezone.service";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
+import { CalendarOptions, Duration, EventApi, EventInput } from '@fullcalendar/core';
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { FilterOperator } from "core-components/api/api-v3/api-v3-filter-builder";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { TimezoneService } from "core-components/datetime/timezone.service";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
 import interactionPlugin from '@fullcalendar/interaction';
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {TimeEntryEditService} from "core-app/modules/time_entries/edit/edit.service";
-import {TimeEntryCreateService} from "core-app/modules/time_entries/create/create.service";
-import {ColorsService} from "core-app/modules/common/colors/colors.service";
-import {BrowserDetector} from "core-app/modules/common/browser/browser-detector.service";
-import {HalResourceNotificationService} from 'core-app/modules/hal/services/hal-resource-notification.service';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { TimeEntryEditService } from "core-app/modules/time_entries/edit/edit.service";
+import { TimeEntryCreateService } from "core-app/modules/time_entries/create/create.service";
+import { ColorsService } from "core-app/modules/common/colors/colors.service";
+import { BrowserDetector } from "core-app/modules/common/browser/browser-detector.service";
+import { HalResourceNotificationService } from 'core-app/modules/hal/services/hal-resource-notification.service';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -72,7 +72,7 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 export class TimeEntryCalendarComponent implements AfterViewInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
   @Input() projectIdentifier:string;
-  @Input() static:boolean = false;
+  @Input() static = false;
 
   @Input() set displayedDays(days:DisplayedDays) {
     this.setHiddenDays(days);
@@ -88,7 +88,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
   public calendarEvents:Function;
   protected memoizedTimeEntries:{ start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>> };
-  public memoizedCreateAllowed:boolean = false;
+  public memoizedCreateAllowed = false;
   public hiddenDays:number[] = [];
 
   public text = {
@@ -156,8 +156,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
-                                successCallback:(events:EventInput[]) => void,
-                                failureCallback:(error:unknown) => void):void|PromiseLike<EventInput[]> {
+    successCallback:(events:EventInput[]) => void,
+    failureCallback:(error:unknown) => void):void|PromiseLike<EventInput[]> {
 
     this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
       .then((collection) => {
@@ -171,7 +171,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     if (!this.memoizedTimeEntries ||
       this.memoizedTimeEntries.start.getTime() !== start.getTime() ||
       this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
-      let promise = this
+      const promise = this
         .apiV3Service
         .time_entries
         .list({ filters: this.dmFilters(start, end), pageSize: 500 })
@@ -196,11 +196,11 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private setRatio(entries:TimeEntryResource[]) {
-    let dateSums = this.calculateDateSums(entries);
+    const dateSums = this.calculateDateSums(entries);
 
-    let maxHours = Math.max(...Object.values(dateSums), 0);
+    const maxHours = Math.max(...Object.values(dateSums), 0);
 
-    let oldRatio = this.scaleRatio;
+    const oldRatio = this.scaleRatio;
 
     if (maxHours > this.maxHour - this.minHour) {
       this.scaleRatio = this.smallerSuitableRatio((this.maxHour - this.minHour) / maxHours);
@@ -214,19 +214,19 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       // But it will trigger repainting the calendar.
       // Weirdly, this.ucCalendar.getApi().rerender() does not.
       this.ucCalendar.getApi().setOption('slotLabelFormat', (info:any) => {
-        let val = (this.maxHour - info.date.hour) / this.scaleRatio;
+        const val = (this.maxHour - info.date.hour) / this.scaleRatio;
         return val.toString();
       });
     }
   }
 
   private buildTimeEntryEntries(entries:TimeEntryResource[]) {
-    let hoursDistribution:{ [key:string]:Moment } = {};
+    const hoursDistribution:{ [key:string]:Moment } = {};
 
     return entries.map((entry) => {
       let start:Moment;
       let end:Moment;
-      let hours = this.timezone.toHours(entry.hours) * this.scaleRatio;
+      const hours = this.timezone.toHours(entry.hours) * this.scaleRatio;
 
       if (hoursDistribution[entry.spentOn]) {
         start = hoursDistribution[entry.spentOn].clone().subtract(hours, 'h');
@@ -245,12 +245,12 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private buildAuxEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }) {
-    let dateSums = this.calculateDateSums(entries);
+    const dateSums = this.calculateDateSums(entries);
 
-    let calendarEntries:EventInput[] = [];
+    const calendarEntries:EventInput[] = [];
 
     for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
-      let duration = dateSums[m.format('YYYY-MM-DD')] || 0;
+      const duration = dateSums[m.format('YYYY-MM-DD')] || 0;
 
       calendarEntries.push(this.sumEntry(m, duration));
 
@@ -263,10 +263,10 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private calculateDateSums(entries:TimeEntryResource[]) {
-    let dateSums:{ [key:string]:number } = {};
+    const dateSums:{ [key:string]:number } = {};
 
     entries.forEach((entry) => {
-      let hours = this.timezone.toHours(entry.hours);
+      const hours = this.timezone.toHours(entry.hours);
 
       if (dateSums[entry.spentOn]) {
         dateSums[entry.spentOn] += hours;
@@ -281,9 +281,9 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   protected timeEntry(entry:TimeEntryResource, hours:number, start:Moment, end:Moment) {
     const color = this.colors.toHsl(this.entryName(entry));
 
-    let classNames = [TIME_ENTRY_CLASS_NAME];
+    const classNames = [TIME_ENTRY_CLASS_NAME];
 
-    let span = end.diff(start, 'm');
+    const span = end.diff(start, 'm');
 
     if (span < 40) {
       classNames.push('-no-fadeout');
@@ -306,14 +306,14 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       start: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 0.5) - 0.5, 'h').format(),
       end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), 'h').format(),
       classNames: DAY_SUM_CLASS_NAME,
-      rendering: 'background' as 'background',
+      rendering: 'background' as const,
       startEditable: false,
       sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) })
     };
   }
 
   protected addEntry(date:Moment, duration:number) {
-    let classNames = [ADD_ENTRY_CLASS_NAME];
+    const classNames = [ADD_ENTRY_CLASS_NAME];
 
     if (duration >= 24) {
       classNames.push(ADD_ENTRY_PROHIBITED_CLASS_NAME);
@@ -328,8 +328,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   protected dmFilters(start:Date, end:Date):Array<[string, FilterOperator, string[]]> {
-    let startDate = moment(start).format('YYYY-MM-DD');
-    let endDate = moment(end).subtract(1, 'd').format('YYYY-MM-DD');
+    const startDate = moment(start).format('YYYY-MM-DD');
+    const endDate = moment(end).subtract(1, 'd').format('YYYY-MM-DD');
     return [['spentOn', '<>d', [startDate, endDate]] as [string, FilterOperator, string[]],
       ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
   }
@@ -355,7 +355,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private moveEvent(event:CalendarMoveEvent) {
-    let entry = event.event.extendedProps.entry;
+    const entry = event.event.extendedProps.entry;
 
     // Use end instead of start as when dragging, the event might be too long and would thus be start
     // on the day before by fullcalendar.
@@ -402,24 +402,24 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
   private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create') {
     this.memoizedTimeEntries.entries.then(collection => {
-      let foundIndex = collection.elements.findIndex(x => x.id === event.id);
+      const foundIndex = collection.elements.findIndex(x => x.id === event.id);
 
       switch (action) {
-        case 'update':
-          collection.elements[foundIndex] = event;
-          break;
-        case 'destroy':
-          collection.elements.splice(foundIndex, 1);
-          break;
-        case 'create':
-          this
-            .apiV3Service
-            .time_entries
-            .cache
-            .updateFor(event);
+      case 'update':
+        collection.elements[foundIndex] = event;
+        break;
+      case 'destroy':
+        collection.elements.splice(foundIndex, 1);
+        break;
+      case 'create':
+        this
+          .apiV3Service
+          .time_entries
+          .cache
+          .updateFor(event);
 
-          collection.elements.push(event);
-          break;
+        collection.elements.push(event);
+        break;
       }
 
       this.ucCalendar.getApi().refetchEvents();
@@ -444,7 +444,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       return;
     }
 
-    let addIcon = document.createElement('div');
+    const addIcon = document.createElement('div');
     addIcon.classList.add(ADD_ICON_CLASS_NAME);
     addIcon.innerText = '+';
     event.el.append(addIcon);
@@ -476,13 +476,13 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private prependDuration(event:CalendarViewEvent) {
-    let timeEntry = event.event.extendedProps.entry;
+    const timeEntry = event.event.extendedProps.entry;
 
     if (this.timezone.toHours(timeEntry.hours) < 0.5) {
       return;
     }
 
-    let formattedDuration = this.timezone.formattedDuration(timeEntry.hours);
+    const formattedDuration = this.timezone.formattedDuration(timeEntry.hours);
 
     jQuery(event.el)
       .find('.fc-event-title')
@@ -499,17 +499,17 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   * need to deactivate the fc-fadeout.
    */
   private appendFadeout(event:CalendarViewEvent) {
-    let timeEntry = event.event.extendedProps.entry;
+    const timeEntry = event.event.extendedProps.entry;
 
     if (this.timezone.toHours(timeEntry.hours) < 0.5) {
       return;
     }
 
-    let $element = jQuery(event.el);
-    let fadeout = jQuery(`<div class="fc-fadeout"></div>`);
+    const $element = jQuery(event.el);
+    const fadeout = jQuery(`<div class="fc-fadeout"></div>`);
 
-    let hslaStart = this.colors.toHsla(this.entryName(timeEntry), 0);
-    let hslaEnd = this.colors.toHsla(this.entryName(timeEntry), 100);
+    const hslaStart = this.colors.toHsla(this.entryName(timeEntry), 0);
+    const hslaEnd = this.colors.toHsla(this.entryName(timeEntry), 100);
 
     fadeout.css('background', `-webkit-linear-gradient(${hslaStart} 0%, ${hslaEnd} 100%`);
 
@@ -578,7 +578,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
   private smallerSuitableRatio(value:number):number {
     for (let divisor = this.labelIntervalHours + 1; divisor < 100; divisor++) {
-      let candidate = this.labelIntervalHours / divisor;
+      const candidate = this.labelIntervalHours / divisor;
 
       if (value >= candidate) {
         return candidate;
@@ -589,7 +589,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   protected setHiddenDays(displayedDays:DisplayedDays) {
-    let hiddenDays:number[] = Array
+    const hiddenDays:number[] = Array
       .from(displayedDays, (value, index) => {
         if (!value) {
           return (index + 1) % 7;

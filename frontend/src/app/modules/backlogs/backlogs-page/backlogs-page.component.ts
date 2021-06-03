@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 
 export const backlogsPageComponentSelector = 'op-backlogs-page';
 

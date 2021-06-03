@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import {WorkPackageInlineCreateService} from "core-components/wp-inline-create/wp-inline-create.service";
-import {WpRelationInlineCreateServiceInterface} from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
-import {WpRelationInlineAddExistingComponent} from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { Injectable, Injector } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { WorkPackageInlineCreateService } from "core-components/wp-inline-create/wp-inline-create.service";
+import { WpRelationInlineCreateServiceInterface } from "core-components/wp-relations/embedded/wp-relation-inline-create.service.interface";
+import { WpRelationInlineAddExistingComponent } from "core-components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 @Injectable()
 export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface {
@@ -51,7 +51,7 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
   /**
    * Define the reference type
    */
-  public relationType:string = 'children';
+  public relationType = 'children';
 
   /**
    * Add a new relation of the above type

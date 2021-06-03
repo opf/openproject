@@ -28,14 +28,14 @@
 
 /*jshint expr: true*/
 
-import {CurrentProjectService} from './current-project.service';
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import { CurrentProjectService } from './current-project.service';
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 
 describe('currentProject service', function() {
   let element:JQuery;
   let currentProject:CurrentProjectService;
 
-  let apiV3Stub:any = {
+  const apiV3Stub:any = {
     projects: {
       id: (id:string) => {
         return { toString: () => '/api/v3/projects/' + id };
@@ -59,7 +59,7 @@ describe('currentProject service', function() {
 
   describe('with a meta value present', () => {
     beforeEach(() => {
-      let html = `
+      const html = `
           <meta name="current_project" data-project-name="Foo 1234" data-project-id="1" data-project-identifier="foobar"/>
         `;
 

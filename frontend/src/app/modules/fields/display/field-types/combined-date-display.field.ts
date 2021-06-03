@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DateDisplayField} from "core-app/modules/fields/display/field-types/date-display-field.module";
+import { DateDisplayField } from "core-app/modules/fields/display/field-types/date-display-field.module";
 
 export class CombinedDateDisplayField extends DateDisplayField {
   text = {
@@ -39,10 +39,10 @@ export class CombinedDateDisplayField extends DateDisplayField {
   public render(element:HTMLElement, displayText:string):void {
     element.innerHTML = '';
 
-    let startDateElement = this.createDateDisplayField('startDate');
-    let dueDateElement = this.createDateDisplayField('dueDate');
+    const startDateElement = this.createDateDisplayField('startDate');
+    const dueDateElement = this.createDateDisplayField('dueDate');
 
-    let separator = document.createElement('span');
+    const separator = document.createElement('span');
     separator.textContent = ' - ';
 
     element.appendChild(startDateElement);
@@ -51,9 +51,9 @@ export class CombinedDateDisplayField extends DateDisplayField {
   }
 
   private createDateDisplayField(date:'dueDate'|'startDate'):HTMLElement {
-    let dateElement = document.createElement('span');
-    let dateDisplayField = new DateDisplayField(date, this.context);
-    let text = this.resource[date] ?
+    const dateElement = document.createElement('span');
+    const dateDisplayField = new DateDisplayField(date, this.context);
+    const text = this.resource[date] ?
       this.timezoneService.formattedDate(this.resource[date]) :
       this.text.placeholder[date];
 

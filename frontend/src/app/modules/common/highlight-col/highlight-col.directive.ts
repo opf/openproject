@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit, OnDestroy} from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'col[highlight-col]',

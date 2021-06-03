@@ -71,11 +71,15 @@ module API
                            cache_if: -> { current_user_is_admin_or_self }
 
         def current_user_is_admin_or_self
-          current_user_is_admin || represented.id == current_user.id
+          current_user_is_admin? || current_user_is_self?
         end
 
-        def current_user_is_admin
+        def current_user_is_admin?
           current_user.admin?
+        end
+
+        def current_user_is_self?
+          represented.id == current_user.id
         end
 
         def current_user_allowed_to_see_members?

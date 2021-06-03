@@ -1,12 +1,12 @@
-import {Component, Injector} from "@angular/core";
-import {BoardConfigurationService} from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
-import {BoardActionsRegistryService} from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
-import {BoardStatusActionService} from "core-app/modules/boards/board/board-actions/status/status-action.service";
-import {BoardVersionActionService} from "core-app/modules/boards/board/board-actions/version/version-action.service";
-import {QueryUpdatedService} from "core-app/modules/boards/board/query-updated/query-updated.service";
-import {BoardAssigneeActionService} from "core-app/modules/boards/board/board-actions/assignee/assignee-action.service";
-import {BoardSubprojectActionService} from "core-app/modules/boards/board/board-actions/subproject/subproject-action.service";
-import {BoardSubtasksActionService} from "core-app/modules/boards/board/board-actions/subtasks/board-subtasks-action.service";
+import { Component, Injector } from "@angular/core";
+import { BoardConfigurationService } from "core-app/modules/boards/board/configuration-modal/board-configuration.service";
+import { BoardActionsRegistryService } from "core-app/modules/boards/board/board-actions/board-actions-registry.service";
+import { BoardStatusActionService } from "core-app/modules/boards/board/board-actions/status/status-action.service";
+import { BoardVersionActionService } from "core-app/modules/boards/board/board-actions/version/version-action.service";
+import { QueryUpdatedService } from "core-app/modules/boards/board/query-updated/query-updated.service";
+import { BoardAssigneeActionService } from "core-app/modules/boards/board/board-actions/assignee/assignee-action.service";
+import { BoardSubprojectActionService } from "core-app/modules/boards/board/board-actions/subproject/subproject-action.service";
+import { BoardSubtasksActionService } from "core-app/modules/boards/board/board-actions/subtasks/board-subtasks-action.service";
 
 @Component({
   selector: 'boards-entry',

@@ -241,8 +241,8 @@ class Changeset < ApplicationRecord
     unless Setting.commit_fix_done_ratio.blank?
       work_package.done_ratio = Setting.commit_fix_done_ratio.to_i
     end
-    Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
-                            changeset: self, issue: work_package)
+    OpenProject::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
+                                changeset: self, issue: work_package)
     if !work_package.save(validate: false) && logger
       logger.warn("Work package ##{work_package.id} could not be saved by changeset #{id}: #{work_package.errors.full_messages}")
     end

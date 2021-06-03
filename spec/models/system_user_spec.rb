@@ -31,64 +31,15 @@ require 'spec_helper'
 describe SystemUser, type: :model do
   let(:system_user) { User.system }
 
-  describe '#grant_privileges' do
-    before do
-      expect(system_user.admin).to be_falsey
-      expect(system_user).to be_active
-      system_user.grant_privileges
-    end
-
-    it 'grant admin rights' do
-      expect(system_user.admin).to be_truthy
-    end
-  end
-
-  describe '#remove_privileges' do
-    before do
-      system_user.admin = true
-      system_user.save
-      system_user.remove_privileges
-    end
-
-    it 'removes admin rights' do
-      expect(system_user.admin).to be_falsey
-    end
-  end
-
   describe '#run_given' do
-    let(:project) { FactoryBot.create(:project_with_types, public: false) }
-    let(:user) { FactoryBot.build(:user) }
-    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-    let(:member) do
-      FactoryBot.build(:member, project: project,
-                                roles: [role],
-                                principal: user)
-    end
-    let(:status) { FactoryBot.create(:status) }
-    let(:issue) do
-      FactoryBot.build(:work_package, type: project.types.first,
-                                      author: user,
-                                      project: project,
-                                      status: status)
-    end
-
-    before do
-      issue.save!
-      @u = system_user
-    end
-
     it 'runs block with SystemUser' do
-      expect(@u.admin?).to be_falsey
       before_user = User.current
 
-      @u.run_given do
-        issue.done_ratio = 50
-        issue.save
+      system_user.run_given do
+        expect(User.current).to eq system_user
+        expect(User.current).to be_admin
       end
-      expect(issue.done_ratio).to eq(50)
-      expect(issue.journals.last.user).to eq(@u)
 
-      expect(@u.admin?).to be_falsey
       expect(User.current).to eq(before_user)
     end
   end

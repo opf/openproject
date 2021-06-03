@@ -29,7 +29,7 @@
 FactoryBot.define do
   ##
   # Yields fixture files.
-  factory :file, class: File do
+  factory :file do
     # Skip the create callback to be able to use non-AR models. Otherwise FactoryBot will
     # try to call #save! on any created object.
     skip_create
@@ -41,7 +41,7 @@ FactoryBot.define do
     end
   end
 
-  factory :uploaded_file, class: Rack::Multipart::UploadedFile do
+  factory :uploaded_file, class: 'Rack::Multipart::UploadedFile' do
     skip_create
 
     name { 'test.txt' }

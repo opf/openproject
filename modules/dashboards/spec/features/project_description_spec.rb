@@ -116,4 +116,38 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
       end
     end
   end
+
+  context 'with editing and wp add permissions' do
+    let!(:type) { FactoryBot.create :type_task, name: 'Task' }
+    let!(:project) do
+      FactoryBot.create :project, types: [type]
+    end
+
+    let(:current_user) do
+      FactoryBot.create(:user, member_in_project: project, member_with_permissions: editing_permissions + %i[add_work_packages])
+    end
+    let(:editor) { ::Components::WysiwygEditor.new 'body' }
+
+    it 'can create a button macro for work packages' do
+      # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
+      description_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+
+      field = TextEditorField.new dashboard_page, 'description'
+      field.activate!
+
+      editor.insert_macro 'Insert create work package button'
+
+      expect(page).to have_selector('.op-modal')
+      select 'Task', from: 'selected-type'
+      find('.op-modal--submit-button').click
+
+      field.save!
+
+      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+
+      within('#content') do
+        expect(page).to have_selector("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
+      end
+    end
+  end
 end

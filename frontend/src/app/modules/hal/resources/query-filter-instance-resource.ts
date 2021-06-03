@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
-import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
-import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
+import { QueryFilterInstanceSchemaResource } from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
+import { QueryOperatorResource } from 'core-app/modules/hal/resources/query-operator-resource';
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;
@@ -71,7 +71,7 @@ export class QueryFilterInstanceResource extends HalResource {
       return null;
     }
 
-    let key = this.operator.href!.toString();
+    const key = this.operator.href!.toString();
 
     if (this.memoizedCurrentSchemas[key] === undefined) {
       try {

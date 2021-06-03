@@ -26,16 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {StateDeclaration, StateService, Transition, TransitionService, UIRouter} from '@uirouter/core';
-import {INotification, NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {Injector} from "@angular/core";
-import {FirstRouteService} from "core-app/modules/router/first-route-service";
-import {Ng2StateDeclaration, StatesModule} from "@uirouter/angular";
-import {appBaseSelector, ApplicationBaseComponent} from "core-app/modules/router/base/application-base.component";
-import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
+import { StateDeclaration, StateService, Transition, TransitionService, UIRouter } from '@uirouter/core';
+import { INotification, NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { Injector } from "@angular/core";
+import { FirstRouteService } from "core-app/modules/router/first-route-service";
+import { Ng2StateDeclaration, StatesModule } from "@uirouter/angular";
+import { appBaseSelector, ApplicationBaseComponent } from "core-app/modules/router/base/application-base.component";
+import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
+  {
+    name: 'new_project.**',
+    url: '/projects/new',
+    loadChildren: () => import('../projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+  },
   {
     name: 'root',
     url: '/{projects}/{projectPath}',
@@ -87,6 +92,18 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     url: '/job_statuses',
     loadChildren: () => import('../job-status/openproject-job-status.module').then(m => m.OpenProjectJobStatusModule)
   },
+  {
+    name: 'project_settings.**',
+    parent: 'root',
+    url: '/settings/generic',
+    loadChildren: () => import('../projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+  },
+  {
+    name: 'project_copy.**',
+    parent: 'root',
+    url: '/copy',
+    loadChildren: () => import('../projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+  },
 ];
 
 /**
@@ -112,7 +129,7 @@ export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'rem
     return;
   }
 
-  let menuItem = jQuery('#main-menu .' + menuItemClass)[0];
+  const menuItem = jQuery('#main-menu .' + menuItemClass)[0];
 
   if (!menuItem) {
     return;
@@ -159,7 +176,7 @@ export function initializeUiRouterListeners(injector:Injector) {
 
   // Check whether we are running within our complete app, or only within some other bootstrapped
   // component
-  let wpBase = document.querySelector(appBaseSelector);
+  const wpBase = document.querySelector(appBaseSelector);
 
   // Uncomment to trace route changes
   // const uiRouter = injector.get(UIRouter);

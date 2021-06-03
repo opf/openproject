@@ -26,14 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
 
 export class ResourceDisplayField extends DisplayField {
   public get value() {
     if (this.schema) {
       return this.attribute && this.attribute.name;
-    }
-    else {
+    } else {
       return null;
     }
   }

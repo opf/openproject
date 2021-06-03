@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Nextcloud integration
-  priority: 001
+  priority: 600
 description: Nextcloud and OpenProject integration
 robots: index, follow
 keywords: integrations, apps, Nextcloud

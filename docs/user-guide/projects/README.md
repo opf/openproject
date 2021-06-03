@@ -99,8 +99,8 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
-
 - Click the blue **Create** button in order to save your new project. Or click the blue **Save** button to save your changes.
+- If you like, use the autocompleter to fill in the project attributes.
 
 ![project-settings](image-20210204170357754.png)
 

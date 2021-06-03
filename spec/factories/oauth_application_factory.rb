@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :oauth_application, class: ::Doorkeeper::Application do
+  factory :oauth_application, class: '::Doorkeeper::Application' do
     name { 'My API application' }
     confidential { true }
     owner factory: :admin

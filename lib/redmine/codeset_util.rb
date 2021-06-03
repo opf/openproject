@@ -68,6 +68,7 @@ module Redmine
 
     def self.from_utf8(str, encoding)
       str ||= ''
+      str = str.dup if str.frozen?
       str.force_encoding('UTF-8')
       if encoding.upcase != 'UTF-8'
         str.encode(encoding,

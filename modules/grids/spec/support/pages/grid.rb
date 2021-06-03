@@ -83,7 +83,7 @@ module Pages
       area.hover
       area.find('.grid--widget-add', visible: :all).click
 
-      within '.op-modal--portal', &block
+      within '.op-modal', &block
     end
 
     def expect_widget_adding_prohibited_generally(row_number = 1, column_number = 1)

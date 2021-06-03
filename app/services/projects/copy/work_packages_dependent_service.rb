@@ -30,10 +30,12 @@
 
 module Projects::Copy
   class WorkPackagesDependentService < Dependency
-    include ::Copy::Concerns::CopyAttachments
-
     def self.human_name
       I18n.t(:label_work_package_plural)
+    end
+
+    def source_count
+      source.work_packages.count
     end
 
     protected
@@ -65,11 +67,6 @@ module Projects::Copy
       to_copy.each do |wp|
         new_wp_id = work_packages_map[wp.id]
         next unless new_wp_id
-
-        # Attachments
-        if should_copy?(params, :work_package_attachments)
-          copy_attachments(wp, new_wp_id)
-        end
 
         copy_relations(wp, new_wp_id, work_packages_map)
       end

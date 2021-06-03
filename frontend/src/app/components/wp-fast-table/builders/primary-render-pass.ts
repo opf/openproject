@@ -1,18 +1,18 @@
-import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {timeOutput} from '../../../helpers/debug_output';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from '../../states.service';
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { timeOutput } from '../../../helpers/debug_output';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { States } from '../../states.service';
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageTable} from '../wp-fast-table';
-import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-render-pass';
-import {SingleRowBuilder} from './rows/single-row-builder';
-import {TimelineRenderPass} from './timeline/timeline-render-pass';
-import {HighlightingRenderPass} from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
-import {DragDropHandleRenderPass} from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
-import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { WorkPackageTable } from '../wp-fast-table';
+import { RelationRenderInfo, RelationsRenderPass } from './relations/relations-render-pass';
+import { SingleRowBuilder } from './rows/single-row-builder';
+import { TimelineRenderPass } from './timeline/timeline-render-pass';
+import { HighlightingRenderPass } from "core-components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
+import { DragDropHandleRenderPass } from "core-components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
+import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export type RenderedRowType = 'primary'|'relations';
 
@@ -109,15 +109,15 @@ export abstract class PrimaryRenderPass {
    * @param row
    */
   public refresh(row:RowRenderInfo, workPackage:WorkPackageResource, body:HTMLElement) {
-    let oldRow = jQuery(body).find(`.${row.classIdentifier}`);
+    const oldRow = jQuery(body).find(`.${row.classIdentifier}`);
     let replacement:JQuery|null = null;
 
     switch (row.renderType) {
-      case 'primary':
-        replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
-        break;
-      case 'relations':
-        replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
+    case 'primary':
+      replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
+      break;
+    case 'relations':
+      replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
     }
 
     if (replacement !== null && oldRow.length) {
@@ -186,9 +186,9 @@ export abstract class PrimaryRenderPass {
    * @param hidden whether the row was rendered hidden
    */
   protected appendRow(workPackage:WorkPackageResource,
-                      row:HTMLTableRowElement,
-                      additionalClasses:string[] = [],
-                      hidden:boolean = false) {
+    row:HTMLTableRowElement,
+    additionalClasses:string[] = [],
+    hidden = false) {
 
     this.tableBody.appendChild(row);
 
@@ -209,9 +209,9 @@ export abstract class PrimaryRenderPass {
    * @param hidden whether the row was rendered hidden
    */
   protected appendNonWorkPackageRow(row:HTMLTableRowElement,
-                                    classIdentifer:string,
-                                    additionalClasses:string[] = [],
-                                    hidden:boolean = false) {
+    classIdentifer:string,
+    additionalClasses:string[] = [],
+    hidden = false) {
     row.classList.add(classIdentifer);
     this.tableBody.appendChild(row);
 

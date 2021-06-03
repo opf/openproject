@@ -1,8 +1,8 @@
-import {APIv3ResourcePath} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {Observable} from "rxjs";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
+import { APIv3ResourcePath } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { Observable } from "rxjs";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { HalPayloadHelper } from "core-app/modules/hal/schemas/hal-payload.helper";
 
 export class APIv3FormResource<T extends FormResource = FormResource> extends APIv3ResourcePath<T> {
   /**

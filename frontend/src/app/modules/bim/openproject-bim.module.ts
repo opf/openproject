@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {OpenprojectBcfModule} from "core-app/modules/bim/bcf/openproject-bcf.module";
-import {OpenprojectIFCModelsModule} from "core-app/modules/bim/ifc_models/openproject-ifc-models.module";
+import { NgModule } from '@angular/core';
+import { OpenprojectBcfModule } from "core-app/modules/bim/bcf/openproject-bcf.module";
+import { OpenprojectIFCModelsModule } from "core-app/modules/bim/ifc_models/openproject-ifc-models.module";
 
 @NgModule({
   imports: [

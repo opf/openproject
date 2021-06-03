@@ -8,27 +8,66 @@ keywords: github integration
 ---
 # GitHub integration
 
-OpenProject offers are very basic GitHub integration for pull requests.
-You create a pull request in GitHub and link to an OpenProject work package.
+OpenProject offers an integration for GitHub pull requests to integrate software development closely with planning and specification.
 
-![New pull request linking to an OpenProject work package](github-pr-workpackage-reference.png)
+OpenProject work packages will directly display information from GitHub in a separate tab.
 
-Rather than inserting a link to the work package you can also reference it just by adding "OP#87" to the pull request's description where 87 is the ID of the work package.
+![GitHub-tab](GitHub-tab.png)
 
-OpenProject will add comments to work package about the pull request when
-the pull request is
+In your OpenProject work package, the GitHub integration supports you to create a branch straight from the work package and consequently the matching pull request.
 
-* first referenced (usually when opened)
-* merged
-* closed
 
-![Github comments on work package](workpackage-github-comments.png)
+![GitHub-create-branch](GitHub-create-branch.png)
 
-Mind that editing an existing pull request's description to add a work package link will
-not add a comment in OpenProject. GitHub does not send webhook events for that.
+In order to create a new branch, open the GitHub tab in your OpenProject work package detail view. Click on Git snippets to extend the menu. First, copy the branch name.
 
-If you still want a comment in OpenProject you will have to reference the
-work package in a comment on the pull request in GitHub.
+![GitHub-copy-branch-name](GitHub-copy-branch-name.png)
+
+Then, open your desktop client, e.g. GitHub desktop. There, you create your branch with the name you copied from your OpenProject work package.
+
+![GitHub-desktop-new-branch](GitHub-desktop-new-branch.png)
+
+Then go to Typora (or any other editor) and create content or make changes.
+
+![GitHub-test-copy](GitHub-test-copy.png)
+
+Save and the changes will appear in GitHub desktop or the client you are using.
+
+![GitHub-changes](GitHub-changes.png)
+
+In order to commit these changes, go to OpenProject to copy the commit message.
+
+![GitHub_OpenProject-commit-message](GitHub_OpenProject-commit-message.png)
+
+And use it in the GitHub desktop commmit message field. Make sure you use the reference for the OpenProject work package (in this case #6006) in the title.
+
+![GitHub-commit](GitHub-commit-2645308.png)
+
+After having committed, publish your branch.
+
+![GitHub-publish-branch](GitHub-publish-branch.png)
+
+Subsequently, you can create your pull request. Title and comment with the link to the respective OpenProject work package will be prefilled. If you want, you can add some additional information.
+
+![GitHub-open-pull-request](GitHub-open-pull-request-2645707.png)
+
+Click on **Create pull request** and your pull request will be opened.
+
+![GitHub-pull-request-opened](GitHub-pull-request-opened-2646257.png)
+
+When you click on the link in the comment, it will take you to the OpenProject work package, where you will see in the Activity tab of the work package that the pull request was created.
+
+![GitHub-work-package-activity](GitHub-work-package-activity-2646492.png)
+
+In the GitHub tab of that work package, the status of the pull request as well as the GitHub Action will be displayed.
+
+![GitHub-action](GitHub-action.png)
+
+If the status of a pull request changes, it will accordingly appear in its OpenProject work package. Please see the example below.
+
+![GitHub-pull-request-status](GitHub-pull-request-status.png)
+
+
 
 ## Configuration
 
@@ -54,7 +93,11 @@ to use later on the GitHub side of things. For this you have to:
 3. Go to Access Token
 4. Click on generate in the API row
 
-Copy the generated key. You can now configure the necessary webhook in GitHub.
+Copy the generated key. You can then configure the necessary webhook in GitHub.
+
+In addition, in *Project settings* and *Modules* you will need to activate the GitHub module so that all information pulling through from GitHub will be shown in the work packages.
+
+![Github-module](Github-module-2647262.png)
 
 ### GitHub
 

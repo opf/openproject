@@ -36,14 +36,16 @@ describe Bim::IfcModels::CreateContract do
     let(:ifc_model) do
       ::Bim::IfcModels::IfcModel.new(project: model_project,
                                      title: model_title,
-                                     uploader: model_user)
+                                     uploader: model_user).tap do |m|
+        m.extend(OpenProject::ChangedBySystem)
+        m.changed_by_system("uploader_id" => [nil, model_user.id])
+      end
     end
     let(:permissions) { %i(manage_ifc_models) }
     let(:other_user) { FactoryBot.build_stubbed(:user) }
-    let(:changed_by_system) { %w(uploader_id) }
 
     subject(:contract) do
-      described_class.new(ifc_model, current_user, options: { changed_by_system: changed_by_system })
+      described_class.new(ifc_model, current_user, options: {})
     end
   end
 end

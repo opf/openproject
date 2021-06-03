@@ -26,17 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export interface CustomActionResourceLinks {
   self():Promise<CustomActionResource>;
   executeImmediately(payload:any):Promise<WorkPackageResource>;
 }
 
-export class CustomActionResource extends HalResource {
-  public description:string;
+export interface CustomActionResourceEmbedded {
+  description:string;
 }
 
-export interface CustomActionResource extends CustomActionResourceLinks {
+export class CustomActionResource extends HalResource {
 }
+
+export interface CustomActionResource extends CustomActionResourceLinks, CustomActionResourceEmbedded {}

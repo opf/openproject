@@ -24,14 +24,14 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 
-import {Injector, NgModule} from '@angular/core';
-import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
-import {CostsByTypeDisplayField} from './wp-display/costs-by-type-display-field.module';
-import {CurrencyDisplayField} from './wp-display/currency-display-field.module';
+import { Injector, NgModule } from '@angular/core';
+import { OpenProjectPluginContext } from 'core-app/modules/plugins/plugin-context';
+import { CostsByTypeDisplayField } from './wp-display/costs-by-type-display-field.module';
+import { CurrencyDisplayField } from './wp-display/currency-display-field.module';
 
 export function initializeCostsPlugin(injector:Injector) {
   window.OpenProject.getPluginContext().then((pluginContext:OpenProjectPluginContext) => {
-    let displayFieldService = pluginContext.services.displayField;
+    const displayFieldService = pluginContext.services.displayField;
     displayFieldService.addFieldType(CostsByTypeDisplayField, 'costs', ['costsByType']);
     displayFieldService.addFieldType(CurrencyDisplayField, 'currency', ['laborCosts', 'materialCosts', 'overallCosts']);
 
@@ -40,7 +40,7 @@ export function initializeCostsPlugin(injector:Injector) {
         key: 'log_costs',
         icon: 'icon-projects',
         indexBy: function (actions:any) {
-          let index = _.findIndex(actions, {key: 'log_time'});
+          const index = _.findIndex(actions, { key: 'log_time' });
           return index !== -1 ? index + 1 : actions.length;
         },
         resource: 'workPackage',
@@ -54,7 +54,7 @@ export function initializeCostsPlugin(injector:Injector) {
         icon: 'icon-projects',
         link: 'logCosts',
         indexBy: function (actions:any) {
-          let index = _.findIndex(actions, {link: 'logTime'});
+          const index = _.findIndex(actions, { link: 'logTime' });
           return index !== -1 ? index + 1 : actions.length;
         },
         text: I18n.t('js.button_log_costs'),

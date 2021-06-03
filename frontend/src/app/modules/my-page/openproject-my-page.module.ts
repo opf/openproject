@@ -26,11 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {OpenprojectCommonModule} from "core-app/modules/common/openproject-common.module";
-import {Ng2StateDeclaration, UIRouterModule} from "@uirouter/angular";
-import {OpenprojectGridsModule} from "core-app/modules/grids/openproject-grids.module";
-import {MyPageComponent} from "core-app/modules/my-page/my-page.component";
+import { NgModule } from '@angular/core';
+import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
+import { OpenprojectCommonModule } from "core-app/modules/common/openproject-common.module";
+import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpenprojectGridsModule } from "core-app/modules/grids/openproject-grids.module";
+import { MyPageComponent } from "core-app/modules/my-page/my-page.component";
 
 export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -47,8 +48,8 @@ export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
 @NgModule({
   imports: [
     OpenprojectCommonModule,
-
     OpenprojectGridsModule,
+    OpenprojectModalModule,
 
     // Routes for my_page
     UIRouterModule.forChild({ states: MY_PAGE_ROUTES }),

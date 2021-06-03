@@ -25,17 +25,17 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {MultiInputState, State} from 'reactivestates';
-import {States} from '../states.service';
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {Injectable} from '@angular/core';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {ISchemaProxy, SchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
-import {WorkPackageSchemaProxy} from "core-app/modules/hal/schemas/work-package-schema-proxy";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {Observable} from "rxjs";
-import {take} from "rxjs/operators";
+import { MultiInputState, State } from 'reactivestates';
+import { States } from '../states.service';
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { Injectable } from '@angular/core';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { ISchemaProxy, SchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
+import { WorkPackageSchemaProxy } from "core-app/modules/hal/schemas/work-package-schema-proxy";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { Observable } from "rxjs";
+import { take } from "rxjs/operators";
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {
@@ -57,7 +57,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @return The schema for the HalResource
    */
   of(resource:HalResource):ISchemaProxy {
-    let schema = this.state(resource).value;
+    const schema = this.state(resource).value;
 
     if (!schema) {
       throw `Schema for resource ${resource} was expected to be loaded but isn't.`;
@@ -71,7 +71,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   }
 
   public getSchemaHref(resource:HalResource):string {
-    let href = resource.$links.schema?.href;
+    const href = resource.$links.schema?.href;
 
     if (!href) {
       throw new Error(`Resource ${resource} has no schema to load.`);
@@ -86,7 +86,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @return A promise with the loaded schema.
    */
   ensureLoaded(resource:HalResource|string):Promise<SchemaResource> {
-    let href = resource instanceof HalResource ? this.getSchemaHref(resource) : resource;
+    const href = resource instanceof HalResource ? this.getSchemaHref(resource) : resource;
 
     return this
       .requireAndStream(href)
@@ -105,7 +105,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @param id The state to require
    * @param force Load the value anyway.
    */
-  public requireAndStream(href:string, force:boolean = false):Observable<SchemaResource> {
+  public requireAndStream(href:string, force = false):Observable<SchemaResource> {
     // Refresh when stale or being forced
     if (this.stale(href) || force) {
       this.clearAndLoad(

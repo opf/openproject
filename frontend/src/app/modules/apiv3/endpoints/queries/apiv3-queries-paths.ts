@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {APIv3QueryPaths} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-paths";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Apiv3QueryForm} from "core-app/modules/apiv3/endpoints/queries/apiv3-query-form";
-import {Observable} from "rxjs";
-import {QueryFormResource} from "core-app/modules/hal/resources/query-form-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {Apiv3ListParameters, listParamsString} from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
-import {QueryFiltersService} from "core-components/wp-query/query-filters.service";
-import {HalPayloadHelper} from "core-app/modules/hal/schemas/hal-payload.helper";
+import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { APIv3QueryPaths } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-paths";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { Apiv3QueryForm } from "core-app/modules/apiv3/endpoints/queries/apiv3-query-form";
+import { Observable } from "rxjs";
+import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { Apiv3ListParameters, listParamsString } from "core-app/modules/apiv3/paths/apiv3-list-resource.interface";
+import { QueryFiltersService } from "core-components/wp-query/query-filters.service";
+import { HalPayloadHelper } from "core-app/modules/hal/schemas/hal-payload.helper";
 
 export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, APIv3QueryPaths> {
   @InjectField() private queryFilters:QueryFiltersService;
@@ -141,7 +141,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
    * @param projectIdentifier
    */
   public filterNonHidden(projectIdentifier?:string|null):Observable<CollectionResource<QueryResource>> {
-    let listParams:Apiv3ListParameters = {
+    const listParams:Apiv3ListParameters = {
       filters: [['hidden', '=', ['f']]]
     };
 

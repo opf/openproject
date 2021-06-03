@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewEncapsulation} from "@angular/core";
-import {registerTableSorter} from "core-app/modules/reporting/reporting-page/functionality/tablesorter";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { registerTableSorter } from "core-app/modules/reporting/reporting-page/functionality/tablesorter";
 
 export const reportingPageComponentSelector = 'op-reporting-page';
 

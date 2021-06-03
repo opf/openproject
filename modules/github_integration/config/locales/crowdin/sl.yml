@@ -20,6 +20,8 @@
 #See docs/COPYRIGHT.rdoc for more details.
 #++
 sl:
+  project_module_github: "GitHub"
+  permission_show_github_content: "Pokaži GitHub vsebino"
   github_integration:
     pull_request_opened_comment: >
       ** PR odprt: ** Pull zahtevo  %{pr_number} [%{pr_title}] (%{pr_url}) za [%{repository}] (%{repository_url}) je odprl [%{github_user}] (%{github_user_url}).
@@ -29,3 +31,5 @@ sl:
       ** PR združeno: ** Pull zahtevo %{pr_number} [%{pr_title}] (%{pr_url}) za [%{repository}] (%{repository_url}) je združil [%{github_user}] (%{github_user_url}).
     pull_request_referenced_comment: >
       ** Navedeno v PR: ** [%{github_user}] (%{github_user_url}) je ta delovni paket navedel v pull zahtevi%{pr_number} [%{pr_title}] (%{pr_url}) v [%{repository}] (%{repository_url}).
+    pull_request_ready_for_review_comment: >
+      ** PR združeno: ** Pull zahtevo %{pr_number} [%{pr_title}] (%{pr_url}) za [%{repository}] (%{repository_url}) je označil kot pripravljeno za pregled [%{github_user}] (%{github_user_url}).

@@ -4,7 +4,7 @@
   <% @news.each do |news| %>
     <li class="-widget-box--arrow-multiline">
       <div>
-        <%= avatar(news.author, {class: 'avatar news-author-avatar hidden-for-mobile'}) %>
+        <%= avatar(news.author, class: 'news-author-avatar hidden-for-mobile') %>
         <div class="news-project">
           <%= link_to_project(news.project) + ': ' %>
           <%= link_to h(news.title), news_path(news) %>

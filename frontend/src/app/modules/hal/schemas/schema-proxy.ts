@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
 
 export interface ISchemaProxy extends SchemaResource {
   ofProperty(property:string):IFieldSchema;
@@ -50,21 +50,21 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
 
   get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
     switch (property) {
-      case 'ofProperty': {
-        return this.proxyMethod(this.ofProperty);
-      }
-      case 'isAttributeEditable': {
-        return this.proxyMethod(this.isAttributeEditable);
-      }
-      case 'mappedName': {
-        return this.proxyMethod(this.mappedName);
-      }
-      case 'isEditable': {
-        return this.isEditable;
-      }
-      default: {
-        return Reflect.get(schema, property, receiver);
-      }
+    case 'ofProperty': {
+      return this.proxyMethod(this.ofProperty);
+    }
+    case 'isAttributeEditable': {
+      return this.proxyMethod(this.isAttributeEditable);
+    }
+    case 'mappedName': {
+      return this.proxyMethod(this.mappedName);
+    }
+    case 'isEditable': {
+      return this.isEditable;
+    }
+    default: {
+      return Reflect.get(schema, property, receiver);
+    }
     }
   }
 
@@ -79,7 +79,7 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
    * @param property the schema part is desired for
    */
   public ofProperty(property:string):IFieldSchema|null {
-    let propertySchema = this.schema[this.mappedName(property)];
+    const propertySchema = this.schema[this.mappedName(property)];
 
     if (propertySchema) {
       return Object.assign({}, propertySchema, { writable: this.isEditable && propertySchema && propertySchema.writable });
@@ -97,7 +97,7 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
    * @param property
    */
   public isAttributeEditable(property:string):boolean {
-    let propertySchema = this.ofProperty(property);
+    const propertySchema = this.ofProperty(property);
 
     return !!propertySchema && propertySchema.writable;
   }

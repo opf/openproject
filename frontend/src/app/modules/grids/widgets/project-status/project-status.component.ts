@@ -35,15 +35,15 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {Observable} from "rxjs";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { AbstractWidgetComponent } from "app/modules/grids/widgets/abstract-widget.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { WorkPackageViewHighlightingService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { Observable } from "rxjs";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './project-status.component.html',
@@ -58,8 +58,8 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
 
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
 
-  public currentStatusCode:string = 'not set';
-  public explanation:String = '';
+  public currentStatusCode = 'not set';
+  public explanation = '';
   public project$:Observable<ProjectResource>;
 
   constructor(protected readonly i18n:I18nService,

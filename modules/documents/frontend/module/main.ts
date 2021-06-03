@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {OpenProjectPluginContext} from "core-app/modules/plugins/plugin-context";
-import {DocumentResource} from './hal/resources/document-resource';
-import {multiInput} from 'reactivestates';
+import { NgModule } from '@angular/core';
+import { OpenProjectPluginContext } from "core-app/modules/plugins/plugin-context";
+import { DocumentResource } from './hal/resources/document-resource';
+import { multiInput } from 'reactivestates';
 
 export function initializeDocumentPlugin() {
   window.OpenProject.getPluginContext()
     .then((pluginContext:OpenProjectPluginContext) => {
-      let halResourceService = pluginContext.services.halResource;
-      halResourceService.registerResource('Document', {cls: DocumentResource});
+      const halResourceService = pluginContext.services.halResource;
+      halResourceService.registerResource('Document', { cls: DocumentResource });
 
-      let states = pluginContext.services.states;
+      const states = pluginContext.services.states;
       states.add('documents', multiInput<DocumentResource>());
     });
 }

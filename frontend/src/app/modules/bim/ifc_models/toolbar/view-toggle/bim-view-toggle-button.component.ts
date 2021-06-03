@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {BimViewService} from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { BimViewService } from "core-app/modules/bim/ifc_models/pages/viewer/bim-view.service";
 
 
 @Component({

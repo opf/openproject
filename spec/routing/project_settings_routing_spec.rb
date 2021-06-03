@@ -82,7 +82,7 @@ describe ProjectSettingsController, type: :routing do
   describe 'miscellaneous' do
     it do
       expect(get('/projects/123/settings')).to route_to(
-        controller: 'project_settings/generic', action: 'show', id: '123'
+        controller: 'projects', action: 'settings', id: '123'
       )
     end
   end

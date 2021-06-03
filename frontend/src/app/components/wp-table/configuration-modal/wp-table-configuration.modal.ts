@@ -13,26 +13,26 @@ import {
   Optional,
   ViewChild
 } from '@angular/core';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
-import {WpTableConfigurationService} from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { WorkPackageViewColumnsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WpTableConfigurationService } from 'core-components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
   TabPortalOutlet
 } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
-import {WorkPackageStatesInitializationService} from 'core-components/wp-list/wp-states-initialization.service';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {QueryFormResource} from 'core-app/modules/hal/resources/query-form-resource';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {ComponentType} from "@angular/cdk/portal";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { WorkPackageStatesInitializationService } from 'core-components/wp-list/wp-states-initialization.service';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { QueryFormResource } from 'core-app/modules/hal/resources/query-form-resource';
+import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { ComponentType } from "@angular/cdk/portal";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -106,8 +106,9 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
 
     this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then(() => {
-        const initialTab = this.locals['initialTab'] || this.availableTabs[0].name;
-        this.switchTo(initialTab);
+        const initialTabName = this.locals['initialTab'];
+        const initialTab = this.availableTabs.find(el => el.id === initialTabName);
+        this.switchTo(initialTab || this.availableTabs[0]);
       });
   }
 
@@ -124,8 +125,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     return this.tabPortalHost.currentTab;
   }
 
-  public switchTo(name:string) {
-    this.tabPortalHost.switchTo(name);
+  public switchTo(tab:TabInterface) {
+    this.tabPortalHost.switchTo(tab);
   }
 
   public saveChanges():void {
@@ -160,10 +161,10 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       .load(query)
       .toPromise()
       .then(([form, _]) => {
-          this.wpStatesInitialization.updateStatesFromForm(query, form);
+        this.wpStatesInitialization.updateStatesFromForm(query, form);
 
-          return form;
-        })
+        return form;
+      })
       .catch((error) => this.notificationService.handleRawError(error));
   }
 }

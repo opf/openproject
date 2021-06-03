@@ -1,0 +1,69 @@
+<div
+  class="op-modal"
+  *ngIf="loading"
+></div>
+<op-ium-project-selection
+  *ngIf="!loading && step === Steps.ProjectSelection"
+  class="op-modal"
+  [project]="project"
+  [type]="type"
+  (save)="onProjectSelectionSave($event)"
+  (close)="closeMe()"
+></op-ium-project-selection>
+
+<op-ium-principal
+  *ngIf="!loading && step === Steps.Principal"
+  class="op-modal"
+  [project]="project"
+  [principalData]="principalData"
+  [type]="type"
+  (save)="onPrincipalSave($event)"
+  (back)="goTo(Steps.ProjectSelection)"
+  (close)="closeMe()"
+></op-ium-principal>
+
+<op-ium-role
+  *ngIf="!loading && step === Steps.Role"
+  class="op-modal"
+  [role]="role"
+  [principal]="principalData.principal"
+  [project]="project"
+  [type]="type"
+  (save)="onRoleSave($event)"
+  (back)="goTo(Steps.Principal)"
+  (close)="closeMe()"
+></op-ium-role>
+
+<op-ium-message
+  *ngIf="!loading && step === Steps.Message"
+  class="op-modal"
+  [message]="message"
+  [principal]="principalData.principal"
+  [project]="project"
+  (save)="onMessageSave($event)"
+  (back)="goTo(Steps.Role)"
+  (close)="closeMe()"
+></op-ium-message>
+
+<op-ium-summary
+  *ngIf="!loading && step === Steps.Summary"
+  class="op-modal"
+  [project]="project"
+  [principalData]="principalData"
+  [type]="type"
+  [role]="role"
+  [message]="message"
+  (save)="onSuccessfulSubmission($event)"
+  (back)="goTo(this.type === 'placeholder' ? Steps.Role : Steps.Message)"
+  (close)="closeMe()"
+></op-ium-summary>
+
+<op-ium-success
+  [principal]="principalData.principal"
+  [project]="project"
+  [type]="type"
+  [createdNewPrincipal]="createdNewPrincipal"
+  *ngIf="!loading && step === Steps.Success"
+  class="op-modal"
+  (close)="closeWithPrincipal()"
+></op-ium-success>

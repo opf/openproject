@@ -1,11 +1,11 @@
-import {Injectable, Injector} from '@angular/core';
-import {Observable, Subject, BehaviorSubject} from "rxjs";
-import {distinctUntilChanged, filter, first, map, mapTo} from "rxjs/operators";
-import {BcfViewpointInterface} from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import {ViewerBridgeService} from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {ViewpointsService} from "core-app/modules/bim/bcf/helper/viewpoints.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injectable, Injector } from '@angular/core';
+import { Observable, Subject, BehaviorSubject } from "rxjs";
+import { distinctUntilChanged, filter, first, map, mapTo } from "rxjs/operators";
+import { BcfViewpointInterface } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
+import { ViewerBridgeService } from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { ViewpointsService } from "core-app/modules/bim/bcf/helper/viewpoints.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 
 declare global {
@@ -47,29 +47,29 @@ export class RevitBridgeService extends ViewerBridgeService {
     this.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
 
     return this.revitMessageReceived$
-                  .pipe(
-                    distinctUntilChanged(),
-                    filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
-                    first()
-                  )
-                  .pipe(
-                    map((message) => {
-                      let viewpointJson = message.messagePayload;
+      .pipe(
+        distinctUntilChanged(),
+        filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
+        first()
+      )
+      .pipe(
+        map((message) => {
+          const viewpointJson = message.messagePayload;
 
-                      viewpointJson.snapshot = {
-                        snapshot_type: 'png',
-                        snapshot_data: viewpointJson.snapshot,
-                      };
+          viewpointJson.snapshot = {
+            snapshot_type: 'png',
+            snapshot_data: viewpointJson.snapshot,
+          };
 
-                      return viewpointJson;
-                    })
-                  );
+          return viewpointJson;
+        })
+      );
   }
 
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
-     this.viewpointsService
-              .getViewPoint$(workPackage, index)
-              .subscribe((viewpoint:BcfViewpointInterface) =>  this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
+    this.viewpointsService
+      .getViewPoint$(workPackage, index)
+      .subscribe((viewpoint:BcfViewpointInterface) =>  this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
   }
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {

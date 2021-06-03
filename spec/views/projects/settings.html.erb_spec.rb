@@ -72,8 +72,8 @@ describe 'project_settings/generic', type: :view do
     end
 
     it 'show delete and archive buttons' do
-      expect(rendered).to have_selector('li.toolbar-item span.button--text', text: 'Archive project')
-      expect(rendered).to have_selector('li.toolbar-item span.button--text', text: 'Delete project')
+      expect(rendered).to have_selector('li.toolbar-item span.button--text', text: 'Archive')
+      expect(rendered).to have_selector('li.toolbar-item span.button--text', text: 'Delete')
     end
   end
 

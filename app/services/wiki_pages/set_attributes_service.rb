@@ -53,8 +53,11 @@ class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def set_default_attributes(_params)
-    change_by_system do
-      model.build_content author: user
+    model.build_content
+    model.content.extend(OpenProject::ChangedBySystem)
+
+    model.content.change_by_system do
+      model.content.author = user
     end
   end
 
@@ -64,9 +67,5 @@ class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
 
   def split_page_and_content_params(params)
     params.partition { |p, _| WikiContent.column_names.include?(p) }.map(&:to_h)
-  end
-
-  def changed_attributes
-    super + (model.content&.changed || [])
   end
 end

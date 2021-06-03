@@ -7,4 +7,4 @@ fi
 
 $APP_PATH/docker/prod/migration_status # abort if there are pending migrations
 
-exec bundle exec rake jobs:work
+QUIET=true bundle exec rake jobs:work

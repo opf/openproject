@@ -39,7 +39,7 @@ describe 'API localization', type: :request do
   let(:project) { FactoryBot.create(:project) }
   let(:type) { FactoryBot.create(:type) }
   let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
-  let(:current_user) { FactoryBot.build(:user, member_in_project: project, language: :fr) }
+  let(:current_user) { FactoryBot.create(:user, member_in_project: project, language: :fr) }
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
     before do

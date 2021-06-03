@@ -57,7 +57,7 @@ describe WorkPackage, 'derived dates', type: :model do
                      permissions: %i[view_work_packages])
   end
   let(:user) do
-    FactoryBot.build(:user,
+    FactoryBot.create(:user,
                      member_in_project: work_package.project,
                      member_through_role: role)
   end

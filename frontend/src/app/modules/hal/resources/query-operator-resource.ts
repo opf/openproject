@@ -27,7 +27,7 @@
 //++
 
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export class QueryOperatorResource extends HalResource {
   public get id():string {
@@ -35,8 +35,8 @@ export class QueryOperatorResource extends HalResource {
   }
 
   public get idFromLink():string {
-    if (this.$href) {
-      const idPart = HalResource.idFromLink(this.$href);
+    if (this.href) {
+      const idPart = HalResource.idFromLink(this.href);
       return decodeURIComponent(idPart);
     }
 

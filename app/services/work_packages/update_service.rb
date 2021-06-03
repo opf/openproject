@@ -29,7 +29,7 @@
 #++
 
 # TODO: use default update base class
-class WorkPackages::UpdateService
+class WorkPackages::UpdateService < ::BaseServices::BaseCallable
   include ::WorkPackages::Shared::UpdateAncestors
   include ::Shared::ServiceContext
 
@@ -43,7 +43,7 @@ class WorkPackages::UpdateService
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: true, **attributes)
+  def perform(send_notifications: true, **attributes)
     in_context(model, send_notifications) do
       update(attributes)
     end

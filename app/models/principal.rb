@@ -65,6 +65,7 @@ class Principal < ApplicationRecord
          :possible_member,
          :user,
          :ordered_by_name,
+         :visible,
          :status
 
   scope :in_project, ->(project) {

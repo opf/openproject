@@ -33,6 +33,8 @@ module API
     module Users
       class UserPayloadRepresenter < UserRepresenter
         include ::API::Utilities::PayloadRepresenter
+
+        cached_representer disabled: true
       end
     end
   end

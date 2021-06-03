@@ -57,34 +57,6 @@ describe ProjectsController, type: :routing do
     end
   end
 
-  describe 'create' do
-    it do
-      expect(post('/projects')).to route_to(
-        controller: 'projects', action: 'create'
-      )
-    end
-
-    it do
-      expect(post('/projects.xml')).to route_to(
-        controller: 'projects', action: 'create', format: 'xml'
-      )
-    end
-  end
-
-  describe 'update' do
-    it do
-      expect(put('/projects/123')).to route_to(
-        controller: 'projects', action: 'update', id: '123'
-      )
-    end
-
-    it do
-      expect(put('/projects/123.xml')).to route_to(
-        controller: 'projects', action: 'update', id: '123', format: 'xml'
-      )
-    end
-  end
-
   describe 'destroy_info' do
     it do
       expect(get('/projects/123/destroy_info')).to route_to(
@@ -133,27 +105,8 @@ describe ProjectsController, type: :routing do
     end
 
     it do
-      expect(get('projects/123/copy_project_from_settings')).to route_to(
-        controller: 'copy_projects', action: 'copy_project', id: '123',
-        coming_from: 'settings'
-      )
-    end
-
-    it do
-      expect(post('projects/123/copy_from_settings')).to route_to(
-        controller: 'copy_projects',
-        action: 'copy',
-        id: '123',
-        coming_from: 'settings'
-      )
-    end
-
-    it do
-      expect(post('projects/123/copy_from_admin')).to route_to(
-        controller: 'copy_projects',
-        action: 'copy',
-        id: '123',
-        coming_from: 'admin'
+      expect(get('projects/123/copy')).to route_to(
+        controller: 'projects', action: 'copy', id: '123'
       )
     end
   end

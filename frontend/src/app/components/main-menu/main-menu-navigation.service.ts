@@ -1,6 +1,6 @@
-import {BehaviorSubject} from "rxjs";
-import {filter, take} from "rxjs/operators";
-import {Injectable} from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { filter, take } from "rxjs/operators";
+import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
 export class MainMenuNavigationService {
@@ -17,27 +17,26 @@ export class MainMenuNavigationService {
   }
 
   private recreateToggler() {
-    let that = this;
+    const that = this;
     // rejigger the main-menu sub-menu functionality.
     jQuery("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
 
     var toggler = jQuery('<a class="toggler" href="#"><i class="icon6 icon-toggler icon-arrow-right3" aria-hidden="true"></i><span class="hidden-for-sighted"></span></a>')
       .on('click', function() {
-        let target = jQuery(this);
+        const target = jQuery(this);
         if (target.hasClass('toggler')) {
 
           // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it.
           jQuery('#sidebar').toggleClass('-hidden', true);
 
-          jQuery(".menu_root li").removeClass('open')
+          jQuery(".menu_root li").removeClass('open');
           jQuery(".menu_root").removeClass('open').addClass('closed');
 
-          let targetLi = target.closest('li')
+          const targetLi = target.closest('li');
           targetLi
             .addClass('open')
             .find('li > a:first, .tree-menu--title:first').first().focus();
 
-          console.log("Activating " + targetLi.data('name'));
           that.navigationEvents$.next(targetLi.data('name'));
         }
         return false;
@@ -54,11 +53,11 @@ export class MainMenuNavigationService {
       var item = mainItems[index];
       var elementId = item.id;
 
-      var wrapperElement = jQuery('<div class="main-item-wrapper"/>')
+      var wrapperElement = jQuery('<div class="main-item-wrapper"/>');
 
       // inherit element id
       if (elementId) {
-        wrapperElement.attr('id', elementId + '-wrapper')
+        wrapperElement.attr('id', elementId + '-wrapper');
       }
 
       return wrapperElement;
@@ -70,19 +69,18 @@ export class MainMenuNavigationService {
     // Wrap main item
     this.wrapMainItem();
 
-    // Scroll to the active item
-    const selected = jQuery('.main-item-wrapper a.selected');
-    if (selected.length > 0) {
-      selected[0].scrollIntoView();
-    }
+    // Scroll to the active item or if none found, the active menu wrapper
+    const selected = document.querySelector('.tree-menu--item.-selected') ||
+      document.querySelector('.main-item-wrapper a.selected');
 
+    selected?.scrollIntoView();
 
     // Recreate toggler
     const toggler = this.recreateToggler();
 
     // Emit first active
-    let active = jQuery('#main-menu .menu_root > li.open').data('name');
-    let activeRoot = jQuery('#main-menu .menu_root.open > li').data('name');
+    const active = jQuery('#main-menu .menu_root > li.open').data('name');
+    const activeRoot = jQuery('#main-menu .menu_root.open > li').data('name');
     if (active || activeRoot) {
       this.navigationEvents$.next(active || activeRoot);
     }
@@ -108,7 +106,7 @@ export class MainMenuNavigationService {
     }
 
     jQuery('#main-menu ul.main-menu--children').each(function(_i, child) {
-      var title = jQuery(child).parents('li').find('.main-item-wrapper .menu-item--title').contents()[0].textContent;
+      var title = jQuery(child).parents('li').find('.main-item-wrapper .op-menu--item-title').contents()[0].textContent;
       var parentURL = jQuery(child).parents('li').find('.main-item-wrapper > a').attr('href');
       var header = jQuery('<div class="main-menu--children-menu-header"></div>');
       var upLink = jQuery('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');

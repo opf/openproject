@@ -29,11 +29,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Meeting, type: :model do
-  it { is_expected.to belong_to :project }
-  it { is_expected.to belong_to :author }
-  it { is_expected.to validate_presence_of :title }
-
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { FactoryBot.create(:project, members: project_members) }
   let(:user1) { FactoryBot.create(:user) }
   let(:user2) { FactoryBot.create(:user) }
   let(:meeting) { FactoryBot.create(:meeting, project: project, author: user1) }
@@ -41,8 +37,13 @@ describe Meeting, type: :model do
     meeting.create_agenda text: 'Meeting Agenda text'
     meeting.reload_agenda # avoiding stale object errors
   end
+  let(:project_members) { {} }
 
   let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
+
+  it { is_expected.to belong_to :project }
+  it { is_expected.to belong_to :author }
+  it { is_expected.to validate_presence_of :title }
 
   before do
     @m = FactoryBot.build :meeting, title: 'dingens'
@@ -110,10 +111,7 @@ describe Meeting, type: :model do
 
   describe 'all_changeable_participants' do
     describe 'WITH a user having the view_meetings permission' do
-      before do
-        project.add_member user1, [role]
-        project.save!
-      end
+      let(:project_members) { { user1 => role } }
 
       it 'should contain the user' do
         expect(meeting.all_changeable_participants).to eq([user1])
@@ -122,14 +120,7 @@ describe Meeting, type: :model do
 
     describe 'WITH a user not having the view_meetings permission' do
       let(:role2) { FactoryBot.create(:role, permissions: []) }
-
-      before do
-        # adding both users so that the author is valid
-        project.add_member user1, [role]
-        project.add_member user2, [role2]
-
-        project.save!
-      end
+      let(:project_members) { { user1 => role, user2 => role2 } }
 
       it 'should not contain the user' do
         expect(meeting.all_changeable_participants.include?(user2)).to be_falsey
@@ -149,12 +140,9 @@ describe Meeting, type: :model do
   end
 
   describe 'participants and author as watchers' do
+    let(:project_members) { { user1 => role, user2 => role } }
+
     before do
-      project.add_member user1, [role]
-      project.add_member user2, [role]
-
-      project.save!
-
       meeting.participants.build(user: user2)
       meeting.save!
     end
@@ -206,12 +194,9 @@ describe Meeting, type: :model do
   end
 
   describe 'Copied meetings' do
+    let(:project_members) { { user1 => role, user2 => role } }
+
     before do
-      project.add_member user1, [role]
-      project.add_member user2, [role]
-
-      project.save!
-
       meeting.start_date = '2013-03-27'
       meeting.start_time_hour = '15:35'
       meeting.participants.build(user: user2)

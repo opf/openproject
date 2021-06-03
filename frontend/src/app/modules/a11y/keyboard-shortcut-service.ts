@@ -26,10 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
-import {PathHelperService} from "../common/path-helper/path-helper.service";
-import {CurrentProjectService} from "../../components/projects/current-project.service";
-import {FocusHelperService} from "../common/focus/focus-helper";
+import { Injectable } from "@angular/core";
+import { FocusHelperService } from "core-app/modules/focus/focus-helper";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
+import { CurrentProjectService } from "core-app/components/projects/current-project.service";
+
 
 const accessKeys = {
   preview: 1,
@@ -122,18 +123,12 @@ export class KeyboardShortcutService {
   }
 
   clickLink(link:any) {
-    var cancelled = false;
-
-    if (!!document.createEvent) {
-      var event = new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      });
-      cancelled = !link.dispatchEvent(event);
-    } else if (link.fireEvent) {
-      cancelled = !link.fireEvent('onclick');
-    }
+    const event = new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true
+    });
+    const cancelled = !link.dispatchEvent(event);
 
     if (!cancelled) {
       window.location.href = link.href;

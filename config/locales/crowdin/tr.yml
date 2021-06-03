@@ -175,6 +175,8 @@ tr:
       no_results_content_text: Yeni bir özel alan oluştur
   concatenation:
     single: 'ya da'
+  documentation:
+    see_more_link: Daha fazla bilgi için lütfen bu konuyla ilgili belgelerimize bakın.
   global_search:
     overwritten_tabs:
       wiki_pages: "Viki"
@@ -205,6 +207,7 @@ tr:
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
     settings:
+      change_identifier: Dil Tanımlayıcı değiştir
       activities:
         no_results_title_text: Şu anda hiç bir etkinlik mevcut değil.
       forums:
@@ -220,10 +223,13 @@ tr:
       versions:
         no_results_title_text: Şu anda proje için versiyon mevcut değil.
         no_results_content_text: Yeni bir versiyon oluştur
+      storage:
+        no_results_title_text: Bu proje tarafından tüketilen ek kayıtlı disk alanı yoktur.
   members:
     index:
       no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
       no_results_content_text: Projeye üye ekle
+    invite_by_mail: "Davet gönder %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Erişim anahtarı sıfırlaması başarısız oldu: %{error}"
@@ -241,6 +247,9 @@ tr:
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "%{name} yer tutucu kullanıcısını sil."
       data_consequences: >
@@ -250,7 +259,8 @@ tr:
       confirmation: "Silme işlemini onaylamak için yer tutucu %{name} ismini girin."
     upsale:
       title: Projenin üyesi olmayan kişilere iş atayın.
-      description: Projenizin üyesi olmayan kişilere iş atamak istediğiniz birden çok senaryo vardır. Basitçe, iş için hala doğru kişiyi işe almanız gerekebilir. Ya da sadece o kişiye projenin bilgilerine erişim vermek istemezsiniz, ancak yine de o kişiye atanan görevleri izlemek istersiniz.
+      description: >
+        Projenizin üyesi olmayan kişilere iş atamak istediğiniz birden çok senaryo vardır. Basitçe, iş için hala doğru kişiyi işe almanız gerekebilir. Ya da sadece o kişiye projenin bilgilerine erişim vermek istemezsiniz, ancak yine de o kişiye atanan görevleri izlemek istersiniz.
   prioritiies:
     edit:
       priority_color_text: |
@@ -564,6 +574,12 @@ tr:
         unremovable: "kaldırılamadı."
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
+        capability:
+          context:
+            global: 'Küresel'
+          query:
+            filters:
+              minimum: "'=' operatörüyle asıl, bağlam veya kimlik için en az bir filtre içermesi gerekir."
         custom_field:
           at_least_one_custom_option: "En az bir seçeneğin uygun olması gerekir."
         custom_actions:
@@ -603,6 +619,9 @@ tr:
           attributes:
             types:
               in_use_by_work_packages: "hala iş paketleri tarafından kullanılmaktadır:%{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -784,7 +803,7 @@ tr:
     firstname: "İsim"
     group: "Grup"
     groups: "Gruplar"
-    groupname: "Grup adı"
+    name: "İsim"
     id: "ID"
     is_default: "Varsayılan değer"
     is_for_all: "Tüm projeler için"
@@ -794,7 +813,6 @@ tr:
     lastname: "Soyisim"
     login: "Kullanıcı adı"
     mail: "Eposta"
-    name: "İsim"
     password: "Parola"
     priority: "Öncelik"
     project: "Proje"
@@ -814,6 +832,33 @@ tr:
     user: "Kullanıcı"
     version: "Sürüm"
     work_package: "İş paketi"
+  backup:
+    label_backup_token: "Yedek jeton"
+    label_create_token: "Yedek jeton oluşturun"
+    label_delete_token: "Yedek jetonu silin"
+    label_reset_token: "Yedekleme jetonunu sıfırlayın"
+    label_token_users: "Aşağıdaki kullanıcıların aktif yedekleme jetonları var"
+    reset_token:
+      action_create: Oluştur
+      action_reset: Sıfırla
+      heading_reset: "Yedekleme jetonunu sıfırlayın"
+      heading_create: "Yedek jeton oluşturun"
+      implications: >
+        Yedeklemeleri etkinleştirmek, gerekli izinlere ve bu yedekleme jetonuna sahip herhangi bir kullanıcının bu OpenProject kurulumunun tüm verilerini içeren bir yedeği indirmesine izin verecektir. Bu, diğer tüm kullanıcıların verilerini içerir.
+      info: >
+        Yedek oluşturabilmek için bir yedekleme belirteci oluşturmanız gerekecektir. Her yedekleme talebinde bulunduğunuzda, bu belirteci sağlamanız gerekecektir. Bu kullanıcı için yedeklemeleri devre dışı bırakmak için yedekleme jetonunu silebilirsiniz.
+      verification: >
+        Yedek jetonu %{action} istediğinizi onaylamak için %{word} girin.
+      verification_word_reset: Sıfırla
+      verification_word_create: oluşturuldu
+      warning: >
+        Yeni bir belirteç oluşturduğunuzda, yalnızca 24 saat sonra bir yedekleme isteğinde bulunmanıza izin verilir. Bu bir güvenlik önlemidir. Bundan sonra, bu belirteci kullanarak istediğiniz zaman bir yedekleme talep edebilirsiniz.
+    text_token_deleted: Yedek jeton silindi. Yedeklemeler artık devre dışı bırakıldı.
+    error:
+      invalid_token: Geçersiz veya eksik yedekleme jetonu
+      token_cooldown: Yedek jeton %{hours} saat içinde geçerli olacaktır.
+      backup_pending: Zaten bekleyen bir yedek var.
+      limit_reached: Günde yalnızca %{limit} yedekleme yapabilirsiniz.
   button_add: "Ekle"
   button_add_comment: "Yorum ekle"
   button_add_member: Üye ekle
@@ -893,12 +938,17 @@ tr:
     text_update_consent_time: Kullanıcıları tekrar onaylamaya zorlamak için bu kutuyu işaretleyin. Yukarıdaki izin bilgilerinin yasal yönünü değiştirdiğinizde etkinleştirin.
     update_consent_last_time: "Rıza son güncelleme: %{update_time}"
   copy_project:
+    title: '%{source_project_name} projesini kopyala'
     started: "\"%{source_project_name}\" adlı proje \"%{target_project_name}\" adlı yeni bir projeye kopyalanmaya başladı. \"%{target_project_name}\" projesi hazır olduğunda e-posta ile bilgilendirileceksiniz."
     failed: "%{source_project_name} project kopyalanamadı"
     failed_internal: "Dahili bir hata nedeniyle kopyalama başarısız oldu."
     succeeded: "%{target_project_name} project oluşturuldu"
     errors: "Hata"
     project_custom_fields: 'Projedeki özel alanlar'
+    x_objects_of_this_type:
+      zero: 'Bu türden nesne yok'
+      one: 'Bu türden bir nesne'
+      other: '%{count} bu tür nesneler'
     text:
       failed: "\"%{source_project_name}\" project \"%{target_project_name}\" projesine kopyalanamadı."
       succeeded: "\"%{source_project_name}\" projesini \"%{target_project_name}\" dosyasına kopyaladı."
@@ -1044,7 +1094,7 @@ tr:
   default_role_anonymous: "Anonim"
   default_role_developer: "Geliştirici"
   default_role_project_admin: "Proje yöneticisi"
-  default_role_project_creator: "Proje yaratıcısı"
+  default_role_project_creator_and_staff_manager: "Personel ve proje yöneticisi"
   default_role_non_member: "Üye Değil"
   default_role_reader: "Okuyucu"
   default_role_member: "Üye"
@@ -1222,6 +1272,9 @@ tr:
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde hemen oturum açabilirsiniz."
   instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."
   instructions_after_error: "%{signin} düğmesini tıklayarak tekrar oturum açmayı deneyebilirsiniz. Hata devam ederse, yöneticinizden yardım isteyin."
+  menus:
+    quick_add:
+      label: "Hızlı ekle menüsünü aç"
   my_account:
     access_tokens:
       no_results:
@@ -1281,6 +1334,7 @@ tr:
   label_available_project_versions: 'Uygun sürümler'
   label_available_project_repositories: 'Uygun depolar'
   label_api_documentation: "API belgelendirmesi"
+  label_backup: "Destek olmak"
   label_between: "arasında"
   label_blocked_by: "bağlı"
   label_blocks: "engeller"
@@ -1483,6 +1537,8 @@ tr:
   label_member_new: "Yeni Üye"
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
   label_member_plural: "Üyeler"
+  lable_membership_added: 'Üye eklendi'
+  lable_membership_updated: 'Üye güncellendi'
   label_menu_item_name: "Menü öğesinin ismi"
   label_message: "İleti"
   label_message_last: "Son mesaj"
@@ -1804,6 +1860,12 @@ tr:
   mail_body_account_activation_request: "Yeni bir kullanıcı ( %{value}) kaydoldu. Hesap onayınızı bekliyor:"
   mail_body_account_information: "Hesap bilgilerinizi giriniz"
   mail_body_account_information_external: "Giriş yapmak için %{value} hesabınızı kullanabilirsiniz."
+  mail_body_backup_ready: "İstediğiniz yedekleme hazır. Buradan indirebilirsiniz:"
+  mail_body_backup_token_reset_admin_info: '''%{user}'' kullanıcısının yedek simgesi sıfırlandı.'
+  mail_body_backup_token_reset_user_info: Yedek jetonunuz sıfırlandı.
+  mail_body_backup_token_info: Önceki jeton artık geçerli değil.
+  mail_body_backup_waiting_period: Yeni jeton %{hours} saat içinde etkinleştirilecek.
+  mail_body_backup_token_warning: Bu siz değildiyseniz, hemen OpenProject'te oturum açın ve yeniden sıfırlayın.
   mail_body_lost_password: "Parolanızı değiştirmek için aşağıdaki bağlantıyı tıklayın:"
   mail_body_register: "OpenProject'e hoş geldiniz. Lütfen bu bağlantıyı tıklayarak hesabınızı etkinleştirin:"
   mail_body_register_header_title: "Proje üyesi davet e-postası"
@@ -1820,12 +1882,35 @@ tr:
   mail_body_wiki_content_added: "' %{id} ' wiki sayfası %{author} tarafından eklendi."
   mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
   mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
+  mail_subject_backup_ready: "Yedeklemeniz hazır"
+  mail_subject_backup_token_reset: "Yedek jetonunuz sıfırlandı"
   mail_subject_lost_password: "Sizin %{value} parola"
   mail_subject_register: "İşletme %{value} hesap etkinleştirme"
   mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
   mail_subject_group_reminder: "Bir sonraki %{days} günden itibaren \"%{group}\" %{count} iş paketi / grupları için"
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
   mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
+  mail_member_added_project:
+    subject: "%{project} - Üye olarak eklendiniz"
+    body:
+      added_by:
+        without_message: "%{user} sizi '%{project}' projesine üye olarak ekledi."
+        with_message: "%{user} sizi '%{project}' projesine üye olarak ekledi."
+      roles: "Aşağıdaki rollere sahipsiniz:"
+  mail_member_updated_project:
+    subject: "%{project} - Rolleriniz güncellendi"
+    body:
+      updated_by:
+        without_message: "%{user} projesinde sahip olduğunuz rolleri güncelledi '%{project}'."
+        with_message: "%{user} projesinde sahip olduğunuz rolleri '%{project}'  güncelledi:"
+      roles: "Aşağıdaki rollere sahipsiniz:"
+  mail_member_updated_global:
+    subject: "Genel izinleriniz güncellendi"
+    body:
+      updated_by:
+        without_message: "%{user} sahip olduğunuz rolleri küresel olarak güncelledi."
+        with_message: "%{user} küresel olarak yazdığınız rolleri güncelledi:"
+      roles: "Aşağıdaki rollere sahipsiniz:"
   mail_user_activation_limit_reached:
     subject: Kullanıcı etkinleştirme sınırına ulaşıldı
     message: |
@@ -1932,7 +2017,7 @@ tr:
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturmak"
   permission_manage_user: "Kullanıcılar oluştur ve düzenle"
-  permission_manage_placeholder_user: "Yer tutucu kullanıcılar oluştur, düzenle ve sil."
+  permission_manage_placeholder_user: "Yer tutucu kullanıcıları oluşturun, düzenleyin ve silin"
   permission_add_subprojects: "Alt proje oluşturmak"
   permission_add_work_package_watchers: "Takipçi ekle"
   permission_assign_versions: "Sürüm ata"
@@ -2179,6 +2264,7 @@ tr:
   setting_consent_required: "Onay gerekli"
   setting_consent_decline_mail: "Onay iletişim posta adresi"
   setting_cross_project_work_package_relations: "Projeler arası iş paketi ilişkilerine izin ver"
+  setting_first_week_of_year: "Yılın ilk haftası"
   setting_date_format: "Tarih formatı"
   setting_default_language: "Varsayılan dil"
   setting_default_notification_option: "Varsayılan bildirim seçeneği"
@@ -2236,7 +2322,6 @@ tr:
   setting_repository_truncate_at: "Depo tarayıcıda görüntülenen dosya sayısı üst sınırı"
   setting_rest_api_enabled: "REST web hizmetini etkinleştir"
   setting_self_registration: "Kendi kendine kayıt"
-  setting_sequential_project_identifiers: "Sıralı proje tanımlayıcıları oluştur"
   setting_session_ttl: "Hareketsizlikten sonra oturum son kullanma süresi"
   setting_session_ttl_hint: "5'in altındaki değer, devre dışı gibi"
   setting_session_ttl_enabled: "Oturum sona eriyor"
@@ -2260,6 +2345,11 @@ tr:
     passwords: "Parolalar"
     session: "Oturum"
     brute_force_prevention: "Otomatik kullanıcı engelleme"
+    display:
+      first_date_of_week_and_year_set: >
+        Eğer %{day_of_week_setting_name} veya %{first_week_setting_name} seçeneklerinden biri ayarlanmışsa, ön uçta tutarsızlık yaşanmaması için diğer seçeneğin de ayarlanması gerekir.
+      first_week_of_year_text: >
+        Yılın ilk haftasında yer alan Ocak tarihini seçin. Haftanın ilk günü ile birlikte bu değer, bir yıldaki toplam hafta sayısını belirler.
     projects:
       section_new_projects: "Yeni projeler için ayarlar"
       section_project_overview: "Projeye genel bakış listesi ayarları"
@@ -2563,6 +2653,8 @@ tr:
     getting_started: "Başlarken"
     help_and_support: "Yardım ve Destek"
   total_progress: "Toplam ilerleme"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "tüm"
     active: "etkin"
@@ -2649,6 +2741,7 @@ tr:
       code_403: "Bu kaynağa erişim için yetkiniz yoktur."
       code_404: "İstenen kaynak bulunamadı."
       code_409: "Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir."
+      code_429: "Çok fazla istek. Lütfen daha sonra tekrar deneyiniz."
       code_500: "İç hata oluştu."
       expected:
         date: "YYYY-AA-GG (ISO 8601 sadece tarih)"
@@ -2658,6 +2751,9 @@ tr:
       invalid_json: "İstek JSON olarak ayrıştırılamadı."
       invalid_relation: "İlişki geçersiz."
       invalid_resource: "Özellik ' %{property} ' için ' %{expected} ' gibi bir bağlantı bekleniyor, ancak ' %{actual} ' var."
+      invalid_signal:
+        embed: "%{invalid} için istenen gömme desteklenmiyor. Desteklenen yerleştirmeler %{supported}"
+        select: "İstenen %{invalid} seçimi desteklenmiyor. Desteklenen seçimler %{supported}"
       invalid_user_status_transition: "Geçerli kullanıcı hesabı durumu bu işleme izin vermiyor."
       missing_content_type: "belirtilmemiş"
       missing_request_body: "İstek gövdesi yoktu."
@@ -2764,3 +2860,4 @@ tr:
     authorization_error: "Bir yetkilendirme hatası oluştu."
     revoke_my_application_confirmation: "Bu uygulamayı gerçekten kaldırmak istiyor musunuz? Bu, %{token_count} aktif olanını iptal edecektir."
     my_registered_applications: "OAuth uygulamalarını kayıtedin"
+  you: sen

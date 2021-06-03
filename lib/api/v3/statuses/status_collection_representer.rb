@@ -32,7 +32,6 @@ module API
   module V3
     module Statuses
       class StatusCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Statuses::StatusRepresenter
       end
     end
   end

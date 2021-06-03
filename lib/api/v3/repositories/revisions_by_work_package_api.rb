@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/repositories/revisions_collection_representer'
+require 'api/v3/repositories/revision_collection_representer'
 
 module API
   module V3
@@ -41,7 +41,7 @@ module API
             self_path = api_v3_paths.work_package_revisions(work_package.id)
 
             revisions = work_package.changesets.visible
-            RevisionsCollectionRepresenter.new(revisions, self_link: self_path, current_user: current_user)
+            RevisionCollectionRepresenter.new(revisions, self_link: self_path, current_user: current_user)
           end
         end
       end

@@ -27,8 +27,8 @@
 //++
 
 
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
 
 @Component({
   selector: 'wp-replacement-label',

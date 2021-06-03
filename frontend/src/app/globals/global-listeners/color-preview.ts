@@ -34,10 +34,10 @@
  */
 export function makeColorPreviews() {
   jQuery('.color--preview').each(function () {
-    let preview = jQuery(this);
+    const preview = jQuery(this);
     let input:any;
     let func:any;
-    let target = preview.data('target');
+    const target = preview.data('target');
 
     if (target) {
       input = jQuery(target);
@@ -56,7 +56,7 @@ export function makeColorPreviews() {
         previewColor = input.val();
       } else if (input.attr('placeholder') &&
         input.attr('placeholder').length > 0) {
-        previewColor = input.attr('placeholder')
+        previewColor = input.attr('placeholder');
       }
 
       preview.css('background-color', previewColor);

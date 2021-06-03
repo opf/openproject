@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {States} from 'core-components/states.service';
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {SelectionHelpers} from '../../../../helpers/selection-helpers';
-import {debugLog} from '../../../../helpers/debug_output';
+import { States } from 'core-components/states.service';
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { SelectionHelpers } from '../../../../helpers/selection-helpers';
+import { debugLog } from '../../../../helpers/debug_output';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -41,16 +41,16 @@ import {
   OnInit, Optional,
   ViewChild
 } from '@angular/core';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {ClickPositionMapper} from "core-app/modules/common/set-click-position/set-click-position";
-import {EditFormComponent} from "core-app/modules/fields/edit/edit-form/edit-form.component";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {ISchemaProxy} from "core-app/modules/hal/schemas/schema-proxy";
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { ClickPositionMapper } from "core-app/modules/common/set-click-position/set-click-position";
+import { EditFormComponent } from "core-app/modules/fields/edit/edit-form/edit-form.component";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { ISchemaProxy } from "core-app/modules/hal/schemas/schema-proxy";
 import {
   displayClassName,
   DisplayFieldRenderer,
@@ -78,7 +78,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   public active = false;
   private $element:JQuery;
 
-  public destroyed:boolean = false;
+  public destroyed = false;
 
   constructor(protected states:States,
               protected injector:Injector,
@@ -95,7 +95,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     super();
   }
 
-  public setActive(active:boolean = true) {
+  public setActive(active = true) {
     this.active = active;
     if (!this.componentDestroyed) {
       this.cdRef.detectChanges();
@@ -138,7 +138,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     this.displayContainer.nativeElement.appendChild(el);
   }
 
-  public deactivate(focus:boolean = false) {
+  public deactivate(focus = false) {
     this.editContainer.nativeElement.innerHTML = '';
     this.editContainer.nativeElement.hidden = true;
     this.setActive(false);
@@ -176,7 +176,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     return false;
   }
 
-  public activateOnForm(noWarnings:boolean = false) {
+  public activateOnForm(noWarnings = false) {
     // Activate the field
     this.setActive(true);
 

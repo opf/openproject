@@ -1,6 +1,6 @@
-import {OPContextMenuService} from 'core-components/op-context-menu/op-context-menu.service';
-import {OpContextMenuItem} from 'core-components/op-context-menu/op-context-menu.types';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { OPContextMenuService } from 'core-components/op-context-menu/op-context-menu.service';
+import { OpContextMenuItem } from 'core-components/op-context-menu/op-context-menu.types';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 /**
  * Interface passed to CM service to open a particular context menu.
@@ -18,11 +18,11 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    * Called when the service closes this context menu
    */
   public onClose() {
-    this.afterFocusOn.focus();
+    this.afterFocusOn.trigger('focus');
   }
 
   public onOpen(menu:JQuery) {
-    menu.find('.menu-item').first().focus();
+    menu.find('.menu-item').first().trigger('focus');
   }
 
   /**

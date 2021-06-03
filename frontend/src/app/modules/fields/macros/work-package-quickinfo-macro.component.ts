@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++    Ng1FieldControlsWrapper,
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector} from "@angular/core";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Observable} from "rxjs";
-import {tap} from "rxjs/operators";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {DateDisplayField} from "core-app/modules/fields/display/field-types/date-display-field.module";
-import {CombinedDateDisplayField} from "core-app/modules/fields/display/field-types/combined-date-display.field";
-import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector } from "@angular/core";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { DateDisplayField } from "core-app/modules/fields/display/field-types/date-display-field.module";
+import { CombinedDateDisplayField } from "core-app/modules/fields/display/field-types/combined-date-display.field";
+import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 
 export const quickInfoMacroSelector = 'macro.macro--wp-quickinfo';
 
@@ -65,7 +65,7 @@ export class WorkPackageQuickinfoMacroComponent {
   workPackage$:Observable<WorkPackageResource>;
   dateDisplayField = CombinedDateDisplayField;
   workPackageLink:string;
-  detailed:boolean = false;
+  detailed = false;
 
   constructor(readonly elementRef:ElementRef,
               readonly injector:Injector,

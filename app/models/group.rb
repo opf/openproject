@@ -29,17 +29,22 @@
 #++
 
 class Group < Principal
-  has_and_belongs_to_many :users,
-                          join_table: "#{table_name_prefix}group_users#{table_name_suffix}",
-                          before_add: :fail_add,
-                          after_remove: :user_removed
+  include ::Scopes::Scoped
+
+  has_many :group_users,
+           autosave: true,
+           dependent: :destroy
+
+  has_many :users,
+           through: :group_users,
+           before_add: :fail_add
 
   acts_as_customizable
 
-  alias_attribute(:groupname, :lastname)
-  validates_presence_of :groupname
-  validate :uniqueness_of_groupname
-  validates_length_of :groupname, maximum: 256
+  alias_attribute(:name, :lastname)
+  validates_presence_of :name
+  validate :uniqueness_of_name
+  validates_length_of :name, maximum: 256
 
   # HACK: We want to have the :preference association on the Principal to allow
   # for eager loading preferences.
@@ -53,49 +58,18 @@ class Group < Principal
                :create_preference,
                :create_preference!
 
-  include Destroy
+  scopes :visible
 
   def to_s
-    lastname.to_s
-  end
-
-  alias :name :to_s
-
-  def user_removed(user)
-    member_roles = MemberRole
-                   .includes(member: :member_roles)
-                   .where(inherited_from: members.joins(:member_roles).select('member_roles.id'))
-                   .where(members: { user_id: user.id })
-
-    project_ids = member_roles.map { |mr| mr.member.project_id }
-
-    member_roles.each do |member_role|
-      member_role.member.remove_member_role_and_destroy_member_if_last(member_role,
-                                                                       prune_watchers: false)
-    end
-
-    Watcher.prune(user: user, project_id: project_ids)
-  end
-
-  # adds group members
-  # meaning users that are members of the group
-  def add_members!(users)
-    user_ids = Array(users).map { |user_or_id| user_or_id.is_a?(Integer) ? user_or_id : user_or_id.id }
-
-    ::Groups::AddUsersService
-      .new(self, current_user: User.current)
-      .call(ids: user_ids)
-      .tap do |result|
-      raise "Failed to add to group #{result.message}" if result.failure?
-    end
+    lastname
   end
 
   private
 
-  def uniqueness_of_groupname
-    groups_with_name = Group.where('lastname = ? AND id <> ?', groupname, id || 0).count
+  def uniqueness_of_name
+    groups_with_name = Group.where('lastname = ? AND id <> ?', name, id || 0).count
     if groups_with_name > 0
-      errors.add :groupname, :taken
+      errors.add :name, :taken
     end
   end
 

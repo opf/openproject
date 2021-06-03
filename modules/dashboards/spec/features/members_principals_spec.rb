@@ -51,7 +51,7 @@ describe 'Dashboard page members', type: :feature, js: true, with_mail: false do
 
   shared_let(:group) do
     FactoryBot.create(:group,
-                      groupname: 'DEV Team',
+                      name: 'DEV Team',
                       member_in_project: project,
                       member_with_permissions: permissions)
   end

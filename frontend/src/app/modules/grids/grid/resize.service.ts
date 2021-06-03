@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
-import {GridArea} from "core-app/modules/grids/areas/grid-area";
-import {ResizeDelta} from "core-app/modules/common/resizer/resizer.component";
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
-import {GridMoveService} from "core-app/modules/grids/grid/move.service";
-import {GridDragAndDropService} from "core-app/modules/grids/grid/drag-and-drop.service";
+import { Injectable } from '@angular/core';
+import { GridWidgetArea } from "core-app/modules/grids/areas/grid-widget-area";
+import { GridArea } from "core-app/modules/grids/areas/grid-area";
+import { ResizeDelta } from "core-app/modules/common/resizer/resizer.component";
+import { GridAreaService } from "core-app/modules/grids/grid/area.service";
+import { GridMoveService } from "core-app/modules/grids/grid/move.service";
+import { GridDragAndDropService } from "core-app/modules/grids/grid/drag-and-drop.service";
 
 @Injectable()
 export class GridResizeService {
@@ -43,15 +43,15 @@ export class GridResizeService {
   public start(resizedArea:GridWidgetArea) {
     this.resizedArea = resizedArea;
 
-    let resizeTargets = this.layout.gridAreas.filter((area) => {
+    const resizeTargets = this.layout.gridAreas.filter((area) => {
       // All areas on the same row which are after the current column are valid targets.
-      let sameRow = area.startRow === this.resizedArea!.startRow &&
+      const sameRow = area.startRow === this.resizedArea!.startRow &&
                      area.startColumn >= this.resizedArea!.startColumn;
 
       // Areas that are on higher (number, they are printed below) rows
       // are allowed as long as there is guaranteed to always be one widget
       // before or after the resized to area.
-      let higherRow = area.startRow > this.resizedArea!.startRow &&
+      const higherRow = area.startRow > this.resizedArea!.startRow &&
                       area.startColumn >= this.resizedArea!.startColumn &&
                       this.layout.widgetAreas.some((fixedArea) => {
                         return fixedArea.startRow === area.startRow &&
@@ -60,11 +60,11 @@ export class GridResizeService {
                           // after
                           fixedArea.startColumn >= area.endColumn);
                       });
-       return sameRow || higherRow;
+      return sameRow || higherRow;
     });
 
     this.targetIds = resizeTargets
-                     .map(area => area.guid);
+      .map(area => area.guid);
   }
 
   public moving(deltas:ResizeDelta) {
@@ -83,7 +83,7 @@ export class GridResizeService {
   }
 
   public isTarget(area:GridArea) {
-    let areaId = area.guid;
+    const areaId = area.guid;
 
     return this.resizedArea && this.targetIds.includes(areaId);
   }

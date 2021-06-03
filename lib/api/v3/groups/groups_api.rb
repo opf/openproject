@@ -30,29 +30,33 @@ module API
   module V3
     module Groups
       class GroupsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
-
         resources :groups do
+          after_validation do
+            authorize_any %i[view_members manage_members], global: true
+          end
+
+          get &::API::V3::Utilities::Endpoints::Index
+                 .new(model: Group)
+                 .mount
+          post &::API::V3::Utilities::Endpoints::Create
+                  .new(model: Group)
+                  .mount
+
           route_param :id, type: Integer, desc: 'Group ID' do
-            helpers do
-              def group_scope
-                if current_user.allowed_to_globally?(:manage_members)
-                  Group.all
-                else
-                  Group
-                    .in_project(Project.allowed_to(current_user, :view_members))
-                end
-              end
-
-              def requested_user
-                group_scope.find(params[:id])
-              end
+            after_validation do
+              @group = Group.visible(current_user).find(params[:id])
             end
 
-            get do
-              GroupRepresenter
-                .new(requested_user, current_user: current_user)
-            end
+            get &::API::V3::Utilities::Endpoints::Show
+                   .new(model: Group)
+                   .mount
+            patch &::API::V3::Utilities::Endpoints::Update
+                     .new(model: Group)
+                     .mount
+            delete &::API::V3::Utilities::Endpoints::Delete
+                     .new(model: Group,
+                          success_status: 202)
+                     .mount
           end
         end
       end

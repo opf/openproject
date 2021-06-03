@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {AbstractWorkPackageButtonComponent, ButtonControllerText} from '../wp-buttons.module';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { AbstractWorkPackageButtonComponent, ButtonControllerText } from '../wp-buttons.module';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
+import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
@@ -45,8 +45,8 @@ export interface TimelineButtonText extends ButtonControllerText {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
-  public buttonId:string = 'work-packages-timeline-toggle-button';
-  public iconClass:string = 'icon-view-timeline';
+  public buttonId = 'work-packages-timeline-toggle-button';
+  public iconClass = 'icon-view-timeline';
 
   private activateLabel:string;
   private deactivateLabel:string;
@@ -58,8 +58,8 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   public isAutoZoom = false;
 
-  public isMaxLevel:boolean = false;
-  public isMinLevel:boolean = false;
+  public isMaxLevel = false;
+  public isMinLevel = false;
 
   constructor(readonly I18n:I18nService,
               readonly cdRef:ChangeDetectorRef,

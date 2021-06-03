@@ -26,19 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {ModalWrapperAugmentService} from "core-app/modules/augmenting/services/modal-wrapper.augment.service";
-import {PathScriptAugmentService} from "core-app/modules/augmenting/services/path-script.augment.service";
+import { NgModule } from '@angular/core';
+import { OpenprojectModalModule } from "core-app/modules/modal/modal.module";
+import { OpModalWrapperAugmentService } from "core-app/modules/modal/modal-wrapper-augment.service";
+import { PathScriptAugmentService } from "core-app/modules/augmenting/services/path-script.augment.service";
 
 @NgModule({
-  providers: [
-    ModalWrapperAugmentService,
-    PathScriptAugmentService
-  ],
+  imports: [ OpenprojectModalModule ],
+  providers: [ PathScriptAugmentService ],
 })
 export class OpenprojectAugmentingModule {
-  constructor(modalWrapper:ModalWrapperAugmentService,
-              pathScript:PathScriptAugmentService) {
+  constructor(modalWrapper:OpModalWrapperAugmentService,
+    pathScript:PathScriptAugmentService) {
     // Setup augmenting services
     modalWrapper.setupListener();
     pathScript.loadRequiredScripts();

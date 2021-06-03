@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup} from 'reactivestates';
-import {filter, map} from 'rxjs/operators';
-import {Injectable, Injector} from '@angular/core';
-import {Subject} from "rxjs";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {ChangeMap} from "core-app/modules/fields/changeset/changeset";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {HookService} from "core-app/modules/plugins/hook-service";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import { combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup } from 'reactivestates';
+import { filter, map } from 'rxjs/operators';
+import { Injectable, Injector } from '@angular/core';
+import { Subject } from "rxjs";
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { ChangeMap } from "core-app/modules/fields/changeset/changeset";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { HookService } from "core-app/modules/plugins/hook-service";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';
@@ -183,7 +183,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     if (fallback.state) {
       resource = fallback.state.getValueOr(fallback);
     }
-    let changeset = state.value;
+    const changeset = state.value;
 
     // If there is no changeset, or
     // If there is an empty one for a older work package reference

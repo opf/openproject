@@ -1,61 +1,101 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from "@angular/core";
-
-export interface Tab {
-  id:string;
-  name:string;
-  path?:string;
-}
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input, OnChanges,
+  Output, SimpleChanges,
+  ViewChild,
+  ViewEncapsulation,
+} from "@angular/core";
+import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
+import { AngularTrackingHelpers } from "core-components/angular/tracking-functions";
 
 @Component({
-  templateUrl: 'scrollable-tabs.component.html'
+  templateUrl: 'scrollable-tabs.component.html',
+  selector: 'op-scrollable-tabs',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class ScrollableTabsComponent implements AfterViewInit {
+export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
   @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
   @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
   @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef;
   @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef;
 
-  public currentTabId:string = '';
-  public tabs:Tab[] = [];
-  public classes:string[] = ['scrollable-tabs'];
-  public hideLeftButton:boolean = true;
-  public hideRightButton:boolean = true;
+  @Input() public currentTabId:string|null = null;
+  @Input() public tabs:TabDefinition[] = [];
+  @Input() public classes:string[] = [];
+  @Input() public hideLeftButton = true;
+  @Input() public hideRightButton = true;
+
+  @Output() public tabSelected = new EventEmitter<TabDefinition>();
+
+  trackById = AngularTrackingHelpers.trackByProperty('id');
 
   private container:Element;
   private pane:Element;
 
-  ngAfterViewInit() {
+  constructor(private cdRef:ChangeDetectorRef) {
+  }
+
+  ngAfterViewInit():void {
     this.container = this.scrollContainer.nativeElement;
     this.pane = this.scrollPane.nativeElement;
 
+    this.updateScrollableArea();
+  }
+
+  ngOnChanges(changes:SimpleChanges):void {
+    if (this.pane) {
+      this.updateScrollableArea();
+    }
+  }
+
+  private updateScrollableArea() {
     this.determineScrollButtonVisibility();
-    this.scrollIntoVisibleArea(this.currentTabId);
+    if (this.currentTabId != null) {
+      this.scrollIntoVisibleArea(this.currentTabId);
+    }
   }
 
-  public clickTab(tab:string) {
-    this.currentTabId = tab;
+  public clickTab(tab:TabDefinition, event:Event):void {
+    this.currentTabId = tab.id;
+    this.tabSelected.emit(tab);
+
+    // If the tab does not provide its own link,
+    // avoid propagation
+    if (!tab.path) {
+      event.preventDefault();
+    }
   }
 
-  public onScroll(event:any) {
+  public onScroll(event:any):void {
     this.determineScrollButtonVisibility();
   }
 
   private determineScrollButtonVisibility() {
     this.hideLeftButton = (this.pane.scrollLeft <= 0);
     this.hideRightButton = (this.pane.scrollWidth - this.pane.scrollLeft <= this.container.clientWidth);
+
+    this.cdRef.detectChanges();
   }
 
-  public scrollRight() {
+  public scrollRight():void {
     this.pane.scrollLeft += this.container.clientWidth;
   }
 
-  public scrollLeft() {
+  public scrollLeft():void {
     this.pane.scrollLeft -= this.container.clientWidth;
   }
 
+  public tabTitle(tab:TabDefinition):string {
+    return (typeof tab.disable === 'string') ? tab.disable : tab.name;
+  }
+
   private scrollIntoVisibleArea(tabId:string) {
-    const tab:JQuery<Element> = jQuery(this.pane).find(`[tab-id=${tabId}]`);
+    const tab:JQuery<Element> = jQuery(this.pane).find(`[data-tab-id=${tabId}]`);
     const position:JQueryCoordinates = tab.position();
 
     const tabRightBorderAt:number = position.left + Number(tab.outerWidth());

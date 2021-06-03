@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 export interface ITileViewEntry {
     text:string;
@@ -14,9 +14,9 @@ export interface ITileViewEntry {
     templateUrl: './tile-view.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
   })
-  export class TileViewComponent {
+export class TileViewComponent {
     @Input() public tiles:ITileViewEntry[];
-    @Input() public disable:boolean = false;
+    @Input() public disable = false;
 
     @Output() public create = new EventEmitter<string>();
 

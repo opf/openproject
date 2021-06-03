@@ -111,9 +111,9 @@ describe WorkPackages::CreateService, 'integration', type: :model do
       expect(new_work_package.status)
         .to eql(default_status)
 
-      # assign the default type
+      # assign the first type in the project (not related to is_default)
       expect(new_work_package.type)
-        .to eql(default_type)
+        .to eql(type)
 
       # assign the default priority
       expect(new_work_package.priority)

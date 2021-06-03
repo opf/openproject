@@ -174,6 +174,8 @@ sl:
       no_results_content_text: Ustvarite novo uporabniško lastnost
   concatenation:
     single: 'ali'
+  documentation:
+    see_more_link: Za več informacij si poglejte našo dokumentacijo na to temo.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -204,6 +206,7 @@ sl:
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
     settings:
+      change_identifier: Zamenjaj identifikator
       activities:
         no_results_title_text: Trenutno ni na voljo nobenih aktivnosti.
       forums:
@@ -219,10 +222,13 @@ sl:
       versions:
         no_results_title_text: Trenutno ni nobene različice za projekt.
         no_results_content_text: Ustvari novo različico
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Trenutno ni nobenega člana tega projekta.
       no_results_content_text: Dodaj člana v projekt
+    invite_by_mail: "Pošlji vabilo %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Neuspešna poenostavitev \"dostopnega simbola\": %{error}"
@@ -240,6 +246,9 @@ sl:
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Izbriši nadomestnega uporabnika %{name}"
       data_consequences: >
@@ -249,7 +258,8 @@ sl:
       confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
     upsale:
       title: Dodeli delo ljudem, ki niso člani projekta
-      description: Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
+      description: >
+        Obstaja več scenarijev, kjer želite dodeliti delo ljudem, ki niso člani vašega projekta. Mogoče morate samo zaposliti pravo osebo za to delo. Ali pa nočete tej osebi dati dostopa do informacij o projektu, a še vseeno želite slediti nalogam, ki so dodeljene tej osebi.
   prioritiies:
     edit:
       priority_color_text: |
@@ -564,6 +574,12 @@ sl:
         unremovable: "ne more biti odstranjeno."
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
+        capability:
+          context:
+            global: 'Globalno'
+          query:
+            filters:
+              minimum: "treba je vključiti vsaj en filter za to načelo, kontekst ali id z '=' operatorjem."
         custom_field:
           at_least_one_custom_option: "Na voljo mora biti vsaj ena možnost."
         custom_actions:
@@ -603,6 +619,9 @@ sl:
           attributes:
             types:
               in_use_by_work_packages: "delovni paketi še vedno uporabljajo: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -790,7 +809,7 @@ sl:
     firstname: "Ime"
     group: "Skupina"
     groups: "Skupine"
-    groupname: "Ime skupine"
+    name: "Ime"
     id: "ID / identiteta"
     is_default: "Privzeta vrednost"
     is_for_all: "Za vse projekte"
@@ -800,7 +819,6 @@ sl:
     lastname: "Priimek"
     login: "Uporabniško ime"
     mail: "E-pošta"
-    name: "Ime"
     password: "Geslo"
     priority: "Prioriteta"
     project: "Projekt"
@@ -820,6 +838,33 @@ sl:
     user: "Uporabnik"
     version: "Različica"
     work_package: "Zahtevek"
+  backup:
+    label_backup_token: "Žeton za varnostno kopiranje"
+    label_create_token: "Ustvari žeton za varnostno kopiranje"
+    label_delete_token: "Izbriši žeton za varnostno kopiranje"
+    label_reset_token: "Ponastavi žeton za varnostno kopiranje"
+    label_token_users: "Sledeči uporabniki imajo aktivne žetone za var. kopiranje"
+    reset_token:
+      action_create: Ustvari
+      action_reset: Ponastavi
+      heading_reset: "Ponastavi žeton za varnostno kopiranje"
+      heading_create: "Ustvari žeton za varnostno kopiranje"
+      implications: >
+        Aktiviranje varnostnih kopij bo kateremu koli uporabniku z zahtevanimi dovoljenji in tem žetonom omogočilo prenos var. kopije, ki vsebuje vse podatke te OpenProject instalacije. To vključuje tudi podatke vseh drugih uporabnikov
+      info: >
+        Za kreiranje varnostne kopije morate najprej ustvariti žeton za varnostno kopiranje. Vsakič, ko želite kreirati var. kopijo, morate podati ta žeton. Žeton lahko izbrišete, če želite onemogočiti kreiranje var. kopij za tega uporabnika.
+      verification: >
+        Vnesite %{word} za potrditev %{action} žetona za varnostno kopiranje.
+      verification_word_reset: ponastavi
+      verification_word_create: ustvari
+      warning: >
+        Ob kreiranju novega žetona boste šele po 24 urah lahko zaprosili za kreiranje varnostne kopije. To je varnostni ukrep. Po tem lahko kadarkoli zahtevate za kreiranje var. kopije s tem žetonom.
+    text_token_deleted: Žeton za varnostno kopiranje izbrisan. Var. kopije so zdaj onemogočene.
+    error:
+      invalid_token: Neveljaven ali neobstoječ žeton za varnostno kopiranje
+      token_cooldown: Žeton za varnostno kopiranje bo veljaven v %{hours} urah.
+      backup_pending: Ena varnostna kopija je že na čakanju.
+      limit_reached: Na dan lahko ustvarite samo %{limit}  varnostnih kopij.
   button_add: "Dodaj"
   button_add_comment: "Dodaj komentar"
   button_add_member: Dodaj člana
@@ -899,12 +944,17 @@ sl:
     text_update_consent_time: Potrdite to polje, da uporabnike prisilite, da ponovno soglašajo. Omogočite, če spremenite pravni vidik zgornjih informacij o soglasju.
     update_consent_last_time: "Zadnja posodobitev privolitve: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Začelo je kopirati projekt \"%{source_project_name}\" v \"%{target_project_name}\". Takoj boste obveščeni po pošti, ko bo na voljo \"%{target_project_name}\"."
     failed: "Projekta %{source_project_name} ni mogoče kopirati"
     failed_internal: "Kopiranje ni uspelo zaradi notranje napake."
     succeeded: "Projekt %{target_project_name} ustvarjen"
     errors: "Napaka"
     project_custom_fields: 'Polja po meri na projektu '
+    x_objects_of_this_type:
+      zero: 'Ni objektov tega tipa'
+      one: 'En objekt tega tipa'
+      other: '%{count} objekte tega tipa'
     text:
       failed: "Projekta \"%{source_project_name}\" ni mogoče kopirati v projekt \"%{target_project_name}\"."
       succeeded: "Kopiran projekt \"%{source_project_name}\" v \"%{target_project_name}\"."
@@ -1074,7 +1124,7 @@ sl:
   default_role_anonymous: "Anonimno"
   default_role_developer: "Razvijalec"
   default_role_project_admin: "Skrbnik projekta"
-  default_role_project_creator: "Avtor projekta"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Nečlan"
   default_role_reader: "Bralec"
   default_role_member: "Član"
@@ -1252,6 +1302,9 @@ sl:
   instructions_after_registration: "Prijavite se lahko takoj, ko je račun aktiviran, tako da kliknete %{signin}."
   instructions_after_logout: "Ponovno se lahko prijavite s klikom na %{signin}."
   instructions_after_error: "Lahko se poskusite znova prijaviti s klikom na %{signin}. Če napaka še vedno traja, za pomoč prosite svojega skrbnika."
+  menus:
+    quick_add:
+      label: "Odpri meni za hitro dodajanje"
   my_account:
     access_tokens:
       no_results:
@@ -1311,6 +1364,7 @@ sl:
   label_available_project_versions: 'Razpoložljiva različica'
   label_available_project_repositories: 'Razpoložljiva odlagališča'
   label_api_documentation: "API dokumentacija"
+  label_backup: "Varnostna kopija"
   label_between: "med"
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
@@ -1513,6 +1567,8 @@ sl:
   label_member_new: "Nov član"
   label_member_all_admin: "(Vse vloge zaradi statusa skrbnika)"
   label_member_plural: "Člani"
+  lable_membership_added: 'Član dodan'
+  lable_membership_updated: 'Član posodobljen'
   label_menu_item_name: "Ime postavke menija"
   label_message: "Sporočilo"
   label_message_last: "Zadnje sporočilo"
@@ -1834,6 +1890,12 @@ sl:
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
+  mail_body_backup_ready: "Zahtevana varnostna kopija je pripravljena. Tukaj si jo lahko prenesete:"
+  mail_body_backup_token_reset_admin_info: Žeton za uporabnika '%{user}' je ponastavljen.
+  mail_body_backup_token_reset_user_info: Vaš žeton je ponastavljen.
+  mail_body_backup_token_info: Prejšnji žeton ni več veljaven.
+  mail_body_backup_waiting_period: Novi žeton bo omogočen v %{hours} urah.
+  mail_body_backup_token_warning: Če to niste bili vi, se takoj prijavite v OpenProject in ponovno ponastavite.
   mail_body_lost_password: "Za spremembo glesla kliknite na naslednjo povezavo:"
   mail_body_register: "Dobrodošli v OpenProject. Aktivirajte svoj uporabniški račun s klikom na povezavo:"
   mail_body_register_header_title: "E-pošta člana projekta za vabilo"
@@ -1850,12 +1912,35 @@ sl:
   mail_body_wiki_content_added: "%{author} je dodal '%{id}' stran wiki."
   mail_body_wiki_content_updated: "%{author} je posodobil '%{id}' stran wiki."
   mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo računa"
+  mail_subject_backup_ready: "Vaša varnostna kopija je pripravljena"
+  mail_subject_backup_token_reset: "Vaš žeton za varnostno kopiranje je ponastavljen"
   mail_subject_lost_password: "Vaše %{value} geslo"
   mail_subject_register: "Aktivacija %{value} vašega računa"
   mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
   mail_subject_group_reminder: "Za skupino \"%{group}\"  delovni paketi %{count} zapadejo v naslednjih %{days} dnevih"
   mail_subject_wiki_content_added: "'%{id}' je bil dodan strani wiki"
   mail_subject_wiki_content_updated: "'%{id}' strani wiki je bil posodobljen"
+  mail_member_added_project:
+    subject: "%{project} - Dodani ste bili kot član"
+    body:
+      added_by:
+        without_message: "%{user} vas je dodal kot člana na projektu '%{project}'."
+        with_message: "%{user} vas je dodal kot člana na projektu '%{project}' in ob tem napisal/a:"
+      roles: "Imate sledeče vloge:"
+  mail_member_updated_project:
+    subject: "%{project} - Vaše vloge so ponastavljene"
+    body:
+      updated_by:
+        without_message: "%{user} je posodobil vaše vloge na projektu '%{project}'."
+        with_message: "%{user} je posodobil vaše vloge na projektu '%{project}' in ob tem napisal/a:"
+      roles: "Zdaj imate sledeče vloge:"
+  mail_member_updated_global:
+    subject: "Vaša globalna dovoljenja so bila ponastavljena"
+    body:
+      updated_by:
+        without_message: "%{user} je ponastavil vaše globalne vloge."
+        with_message: "%{user} je ponastavil vaše globalne vloge in ob tem napisal/a:"
+      roles: "Zdaj imate sledeče vloge:"
   mail_user_activation_limit_reached:
     subject: Aktivacijski limit uporabnika je bil dosežen
     message: |
@@ -2210,6 +2295,7 @@ sl:
   setting_consent_required: "Soglasje potrebno"
   setting_consent_decline_mail: "Kontaktni naslov elektronske pošte"
   setting_cross_project_work_package_relations: "Dovoli povezave delovnih paketov od različnih projektov"
+  setting_first_week_of_year: "Prvi teden v letu vsebuje"
   setting_date_format: "Format datuma"
   setting_default_language: "Privzeti jezik"
   setting_default_notification_option: "Privzeta možnost obveščanja"
@@ -2267,7 +2353,6 @@ sl:
   setting_repository_truncate_at: "Največje število datotek prikazanih v brskalniku za odlagališče"
   setting_rest_api_enabled: "Omogoči REST spletno storitev"
   setting_self_registration: "Samostojna registracija"
-  setting_sequential_project_identifiers: "Generiraj sekvenčne identifikatorje projekta"
   setting_session_ttl: "Čas poteka seje po neaktivnosti"
   setting_session_ttl_hint: "Vrednost pod 5 deluje kot onemogočena"
   setting_session_ttl_enabled: "Seja je potekla"
@@ -2291,6 +2376,11 @@ sl:
     passwords: "Gesla"
     session: "Seja"
     brute_force_prevention: "Avtomatično blokiranje uporabnika"
+    display:
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Izberi datum v januarju, ki je v prvem tednu leta. Ta vrednost skupaj s prvim dnevom tedna določi skupno število tednov v letu.
     projects:
       section_new_projects: "Nastavitve za nove projekte"
       section_project_overview: "Nastavitve za seznam pregleda projekta."
@@ -2596,6 +2686,8 @@ sl:
     getting_started: "Začnite"
     help_and_support: "Pomoč in podpora"
   total_progress: "Skupni napredek"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "vsi"
     active: "aktiven"
@@ -2685,6 +2777,7 @@ sl:
       code_403: "Nimate pooblastila za dostop do tega vira."
       code_404: "Zahtevanega vira ni moč najti."
       code_409: "Vira ni bilo mogoče posodobiti zaradi nasprotujočih si sprememb."
+      code_429: "Preveč zahtev. Prosimo, poskusite kasneje."
       code_500: "Prišlo je do notranje napake."
       expected:
         date: "LLLL-MM-DD (ISO 8601 le datum)"
@@ -2694,6 +2787,9 @@ sl:
       invalid_json: "Zahteve ni bilo mogoče razčleniti kot JSON."
       invalid_relation: "Relacija ni veljavna."
       invalid_resource: "Za lastnost '%{property}' se pričakuje povezava, kot je '%{expected}, vendar je dobila '%{actual}'."
+      invalid_signal:
+        embed: "Zahtevana vdelava %{invalid} ni podprta. Podprte vdelave so %{supported}."
+        select: "Zahtevani izbor %{invalid} ni podprt. Podprti izbori so %{supported}."
       invalid_user_status_transition: "Trenutno stanje uporabniškega računa ne omogoča te operacije.\n"
       missing_content_type: "Ni določeno"
       missing_request_body: "Ni bilo organa zahteve."
@@ -2804,3 +2900,4 @@ sl:
     authorization_error: "Prišlo je do napake v avtorizaciji."
     revoke_my_application_confirmation: "Ali res želite odstraniti to aplikacijo? To bo preklicalo %{token_count} aktivno."
     my_registered_applications: "Registrirane aplikacije OAuth"
+  you: vi

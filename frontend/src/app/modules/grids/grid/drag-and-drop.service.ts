@@ -1,8 +1,8 @@
-import {Injectable, OnDestroy} from '@angular/core';
-import {GridWidgetArea} from "core-app/modules/grids/areas/grid-widget-area";
-import {GridArea} from "core-app/modules/grids/areas/grid-area";
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
-import {GridMoveService} from "core-app/modules/grids/grid/move.service";
+import { Injectable, OnDestroy } from '@angular/core';
+import { GridWidgetArea } from "core-app/modules/grids/areas/grid-widget-area";
+import { GridArea } from "core-app/modules/grids/areas/grid-area";
+import { GridAreaService } from "core-app/modules/grids/grid/area.service";
+import { GridMoveService } from "core-app/modules/grids/grid/move.service";
 import { Subscription } from 'rxjs';
 import { filter, distinctUntilChanged, throttleTime } from 'rxjs/operators';
 
@@ -48,7 +48,7 @@ export class GridDragAndDropService implements OnDestroy {
     if (!this.placeholderArea) {
       return;
     }
-    let widgetArea = this.draggedArea!;
+    const widgetArea = this.draggedArea!;
 
     // Set the draggedArea's startRow/startColumn properties
     // to the drop zone ones.
@@ -99,7 +99,7 @@ export class GridDragAndDropService implements OnDestroy {
       return;
     }
 
-    this.placeholderArea!.copyDimensionsTo(this.draggedArea!)
+    this.placeholderArea!.copyDimensionsTo(this.draggedArea!);
 
     if (!this.draggedArea!.unchangedSize) {
       this.layout.writeAreaChangesToWidgets();

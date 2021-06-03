@@ -42,7 +42,8 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
   describe 'where filter results' do
     let(:work_package) { FactoryBot.create(:work_package, assigned_to: assignee) }
     let(:assignee) { FactoryBot.create(:user) }
-    let(:group) { FactoryBot.create(:group) }
+    let(:group) { FactoryBot.create(:group, members: group_members) }
+    let(:group_members) { [] }
 
     subject { WorkPackage.where(instance.where) }
 
@@ -97,12 +98,7 @@ describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
 
     context 'for a group value with a group member being assignee' do
       let(:values) { [group.id.to_s] }
-
-      before do
-        User.system.run_given do
-          group.add_members!(assignee)
-        end
-      end
+      let(:group_members) { [assignee] }
 
       it 'returns the work package' do
         is_expected

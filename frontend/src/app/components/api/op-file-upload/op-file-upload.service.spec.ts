@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenProjectFileUploadService, UploadFile, UploadResult} from './op-file-upload.service';
-import {OpenProjectDirectFileUploadService} from "core-components/api/op-file-upload/op-direct-file-upload.service";
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {getTestBed, TestBed} from "@angular/core/testing";
-import {HalResourceService} from "core-app/modules/hal/services/hal-resource.service";
-import {States} from "core-components/states.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { OpenProjectFileUploadService, UploadFile, UploadResult } from './op-file-upload.service';
+import { OpenProjectDirectFileUploadService } from "core-components/api/op-file-upload/op-direct-file-upload.service";
+import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { getTestBed, TestBed } from "@angular/core/testing";
+import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
+import { States } from "core-components/states.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 describe('opFileUpload service', () => {
   let injector:TestBed;
@@ -43,7 +43,7 @@ describe('opFileUpload service', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        {provide: States, useValue: new States()},
+        { provide: States, useValue: new States() },
         I18nService,
         OpenProjectFileUploadService,
         OpenProjectDirectFileUploadService,
@@ -63,9 +63,9 @@ describe('opFileUpload service', () => {
   describe('when uploading multiple files', () => {
     var result:UploadResult;
     const file:UploadFile = new File([ JSON.stringify({
-        name: 'name',
-        description: 'description'
-      })], 'name');
+      name: 'name',
+      description: 'description'
+    })], 'name');
 
     beforeEach(() => {
       result = service.upload('/my/api/path', [file, file]);

@@ -1,8 +1,8 @@
-import {Directive, EventEmitter, HostBinding, Injector, Input, Output} from "@angular/core";
-import {GridWidgetResource} from "app/modules/hal/resources/grid-widget-resource";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { Directive, EventEmitter, HostBinding, Injector, Input, Output } from "@angular/core";
+import { GridWidgetResource } from "app/modules/hal/resources/grid-widget-resource";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WidgetChangeset } from "core-app/modules/grids/widgets/widget-changeset";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 @Directive()
 export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
@@ -16,8 +16,8 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
   @Output() resourceChanged = new EventEmitter<WidgetChangeset>();
 
   public get widgetName():string {
-    let editableName = this.resource?.options.name as string;
-    let widgetIdentifier = this.resource?.identifier;
+    const editableName = this.resource?.options.name as string;
+    const widgetIdentifier = this.resource?.identifier;
 
     if (this.isEditable) {
       return editableName;
@@ -30,7 +30,7 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
   }
 
   public renameWidget(name:string) {
-    let changeset = this.setChangesetOptions({ name: name });
+    const changeset = this.setChangesetOptions({ name: name });
 
     this.resourceChanged.emit(changeset);
   }
@@ -50,7 +50,7 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
   }
 
   protected setChangesetOptions(values:{ [key:string]:unknown; }) {
-    let changeset = new WidgetChangeset(this.resource);
+    const changeset = new WidgetChangeset(this.resource);
 
     changeset.setValue('options', Object.assign({}, this.resource.options, values));
 

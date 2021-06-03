@@ -40,20 +40,31 @@ Only one of the links (`allowedValues`, `allowedValuesSchemas`) will exist for a
 
 ## Local Properties
 
-| Property          | Description                                                                        | Type     | Default |
-|:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
-| name              | Human readable name of the property as it could be displayed in a UI               | String   |         |
-| type              | The data type of the properties values                                             | MetaType |         |
-| minLength         | The value of the property must at least contain the specified amount of characters | Integer  | 0       |
-| maxLength         | The value of the property must at most contain the specified amount of characters  | Integer  | ∞       |
-| regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
-| required          | If true this property is not nullable                                              | Boolean  | true    |
-| writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
+| Property          | Description                                                                        | Type         | Default |
+|:-----------------:| ---------------------------------------------------------------------------------- | ------------ | ------- |
+| name              | Human readable name of the property as it could be displayed in a UI               | String       |         |
+| type              | The data type of the properties values                                             | MetaType     |         |
+| minLength         | The value of the property must at least contain the specified amount of characters | Integer      | 0       |
+| maxLength         | The value of the property must at most contain the specified amount of characters  | Integer      | ∞       |
+| regularExpression | The value of the property must match the given regular expression (if not null)    | String       | null    |
+| required          | If true this property is not nullable                                              | Boolean      | true    |
+| writable          | If false it is not allowed to **change** the properties value                      | Boolean      | true    |
+| location          | If present, contains a reference to the location of the property in the JSON       | String       |         |
+| description       | If present, contains a formattable, human readable description                     | Formattable  |         |
 
 All of the above properties that do not have a default value *must* be present in the schema.
 For properties that have a default value, the client can assume the default value, if the property is missing.
 
 Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.2.6/Regexp.html).
+
+
+### Location property
+
+The location property gives a hint as to where to find the property if it is not contained in the set of local attributes.
+For example, for linked properties, the location attribute of the schema will contain `_links`. The property will then be found in the resource
+under the path `_links.propertyName`.
+
+For the default attributes to be added on the top level of the resource, the location attribute will not be set.
 
 # Schema Dependencies
 
@@ -91,6 +102,12 @@ The following excerpt examplifies the objects that can be found as a value of th
         "required": true,
         "hasDefault": false,
         "writable": true,
+        "location": "_links",
+        "description": {
+            "format": "markdown",
+            "raw": "A description for field Lorem ipsum. This may contain [links](https://example.com).",
+            "html": "<p>A description for field Lorem ipsum. This may contain <a href=\"https://exampel.com\">links</a>.</p>"
+        };
         "_links": {
           "allowedValues": {
             "href": "/api/v3/some/path/to/users"
@@ -105,6 +122,7 @@ The following excerpt examplifies the objects that can be found as a value of th
         "required": true,
         "hasDefault": false,
         "writable": true,
+        "location": "_links",
         "_links": {
           "allowedValues": {
             "href": "/api/v3/a/totally/different/path/to/other/users"
@@ -118,7 +136,8 @@ The following excerpt examplifies the objects that can be found as a value of th
         "name": "Lorem ipsum",
         "required": true,
         "hasDefault": false,
-        "writable": false
+        "writable": false,
+        "location": "_links",
       }
     },
     "4": {}
@@ -126,9 +145,13 @@ The following excerpt examplifies the objects that can be found as a value of th
 }
 ```
 
-Given the example above, the client has to add the property `loremIpsum` to the schema if the depending property is `1`, `2` or `3`. If it is `4` the property does not exist. The property will not be writable if the value is `3`. The values allowed to be set differ between having `1` or `2` selected for the depending property.
+Given the example above, the client has to add the property `loremIpsum` to the schema if the depending property is `1`, `2` or `3`.
+If it is `4` the property does not exist.
+The property will not be writable if the value is `3`.
+The values allowed to be set differ between having `1` or `2` selected for the depending property.
 
-Because of the limitation of JSON objects, all keys will be strings, even when the depending value is actually something different (e.g. Integer, Date). This is also true for resources in which case the url of the resource is used as the key.
+Because of the limitation of JSON objects, all keys will be strings, even when the depending value is actually something different (e.g. Integer, Date).
+This is also true for resources in which case the url of the resource is used as the key.
 
 ## Example Schema [/api/v3/example/schema]
 
@@ -163,6 +186,7 @@ Because of the limitation of JSON objects, all keys will be strings, even when t
 
                     "name": "Status",
                     "type": "Status",
+                    "location": "_links",
 
                     "_embedded": {
                         "allowedValues": [
@@ -202,4 +226,3 @@ This is an example of how a schema might look like. Note that this endpoint does
 + Response 200 (application/hal+json)
 
     [Example Schema][]
-
