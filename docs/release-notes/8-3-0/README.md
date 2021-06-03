@@ -118,7 +118,7 @@ Administration \> OAuth applications.
   - Fixed: Dependencies for fulltext search in work package attachments
     not installed with packager installation
     \[[\#29085](https://community.openproject.com/wp/29085)\]
-  - Fixed: Sorting doesn’t work with 8.1 when also using Hierachy
+  - Fixed: Sorting doesn’t work with 8.1 when also using Hierarchy
     \[[\#29122](https://community.openproject.com/wp/29122)\]
   - Fixed: Very large custom field is killing web browser
     \[[\#29136](https://community.openproject.com/wp/29136)\]

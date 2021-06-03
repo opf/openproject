@@ -1,7 +1,7 @@
 // @ts-ignore
 import { utils } from "@xeokit/xeokit-sdk/src/viewer/scene/utils";
-import { PathHelperService } from "../../../../core/path-helper/path-helper.service";
 import { IFCGonDefinition } from "../pages/viewer/ifc-models-data.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 /**
  * Default server client which loads content via HTTP from the file system.
@@ -44,19 +44,6 @@ export class XeokitServer {
     };
 
     done(manifestData);
-  }
-
-  /**
-   * Gets metadata for a model within a project.
-   * @param projectId
-   * @param modelId
-   * @param done
-   * @param error
-   */
-  getMetadata(_projectId:string, modelId:number, done:Function, error:Function) {
-    const attachmentId = this.ifcModels.metadata_attachment_ids[modelId];
-    console.log(`Loading model metadata for: ${attachmentId}`);
-    utils.loadJSON(this.pathHelper.attachmentContentPath(attachmentId), done, error);
   }
 
   /**

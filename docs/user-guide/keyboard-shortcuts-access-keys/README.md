@@ -60,7 +60,7 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 ### Windows
 
-- Internet Exlorer: Alt + <access key number>
+- Internet Explorer: Alt + <access key number>
 - Firefox: Alt + Shift + <access key number>
 - Google Chrome: Alt + <access key number>
 - Safari: Alt + <access key number>

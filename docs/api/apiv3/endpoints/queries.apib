@@ -24,7 +24,7 @@ A query defines how work packages can be filtered and displayed. Clients can def
 | groupBy                | The WorkPackage property results of this query are grouped by                                                                     | String                |                                             | READ                 |
 | results                | The list of work packages returned by applying the filters, sorting and grouping defined in the query                             | WorkPackageCollection |                                             | READ                 |
 | schema                 | This query's schema                                                                                                               | Schema                |                                             | READ                 |
- 
+
 Please note, that all the properties listed above will also be embedded when individual queries are returned but will not be embedded when a list of queries is returned. Whether the properties are embedded or not may be subject to change in the future.
 
 ## Local Properties
@@ -269,10 +269,10 @@ Retrieve an individual query as identified by the id parameter. Then end point a
     All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
     + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
-    + columns = `['type', 'priority']` (optional, object, `[]`) ... Selected columns for the table view. 
-    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
-    + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
-    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
+    + columns = `['type', 'priority']` (optional, object, `[]`) ... Selected columns for the table view.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the query's result collection of work packages overriding the query's persisted sort criteria.
+    + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the query's result collection of work packages overriding the query's persisted group criteria.
+    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the query's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
     + timelineLabels = `{}` (optional, object, `{}`) ... Overridden labels in the timeline view
     + highlightingMode = `inline` (optional, object, `inline`) ... Highlighting mode for the table view.
@@ -560,9 +560,9 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
     All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
     + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
-    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
-    + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
-    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the query's result collection of work packages overriding the query's persisted sort criteria.
+    + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the query's result collection of work packages overriding the query's persisted group criteria.
+    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the query's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
     + timelineZoomLevel = `days` (optional, string, `days`) ... Indicates in what zoom level the timeline should be shown. Valid values are  `days`, `weeks`, `months`, `quarters`, and `years`.
     + showHierarchies = `true` (optional, boolean, `true`) ... Indicates whether the hierarchy mode should be enabled.
@@ -725,9 +725,9 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
     All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
     + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
     + pageSize = `DEPENDING ON CONFIGURATION` (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
-    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
-    + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
-    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
+    + sortBy = ["id", "asc"] (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the query's result collection of work packages overriding the query's persisted sort criteria.
+    + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the query's result collection of work packages overriding the query's persisted group criteria.
+    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the query's result collection of work packages overriding the query's persisted sums property.
     + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
     + showHierarchies = `true` (optional, boolean, `true`) ... Indicates whether the hierarchy mode should be enabled.
 
@@ -2308,7 +2308,7 @@ As of now, no actions are defined.
 
 | Property         | Description                                            | Type        | Constraints                      | Supported operations |
 | :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
-| id               | Query oprator id                                       | String      | not null                         | READ                 |
+| id               | Query operator id                                      | String      | not null                         | READ                 |
 | name             | Query operator name                                    | String      | not null                         | READ                 |
 
 ## Query Operator [/api/v3/queries/operators/{id}]

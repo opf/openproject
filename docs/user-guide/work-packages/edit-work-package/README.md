@@ -101,7 +101,7 @@ Please see [this separate guide](../exporting) for more information on exporting
 
 ## Bulk edit work packages
 
-To make a bulk update and edit several work packages at once, nagivate to the work packages list view.
+To make a bulk update and edit several work packages at once, navigate to the work packages list view.
 Highlight all work packages which you want to edit.
 Tip: **keep the Ctrl. button pressed** in order to select and edit several work packages at once.
 

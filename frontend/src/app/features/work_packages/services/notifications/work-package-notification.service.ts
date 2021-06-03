@@ -71,7 +71,8 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     // Don't show the 'Show in full screen' link  if we're there already
     if (!this.$state.includes('work-packages.show')) {
       message.link = {
-        target: () => this.$state.go('work-packages.show.activity', { workPackageId: resource.id }),
+        target: () =>
+          this.$state.go('work-packages.show.tabs', { tabIdentifier: 'activity', workPackageId: resource.id }),
         text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
       };
     }

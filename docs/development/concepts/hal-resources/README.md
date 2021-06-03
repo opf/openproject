@@ -43,7 +43,7 @@ The following is an example HAL JSON for a work package as it is retrieved by th
 
    The other type of links are the action links such as `update` or `updateImmediately` which are annotated with the HTTP method to use for these actions. 
 
-3. The `_embedded` section. It contains `_links` that were embedded, i.e., have their own full JSON response included into the resource. This prevents additional requests, but increaeses the JSON payload and rendering complexity.
+3. The `_embedded` section. It contains `_links` that were embedded, i.e., have their own full JSON response included into the resource. This prevents additional requests, but increases the JSON payload and rendering complexity.
 
    The frontend cannot decide which resources to embed, this is controlled by the backend and depends on the endpoint used. For example, resource collection endpoints will usually not embed links.
 

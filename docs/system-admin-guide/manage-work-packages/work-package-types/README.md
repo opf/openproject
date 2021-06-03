@@ -28,7 +28,7 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 1. Give the new work package type a **name** that easily identifies what kind of work should be tracked.
 2. Choose whether the type should be displayed in the [roadmap](../../../user-guide/roadmap/) by default.
-3. Choose a **color** from the drow-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../colors).
+3. Choose a **color** from the drop-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../colors).
 4. Select if the work package type should be **active in new projects by default**. This way work package types will not need to be [activated in the project settings](../../../user-guide/projects/project-settings/work-package-types/) but will be available for every project.
 5. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.
 6. You can **copy a [workflow](../work-package-workflows)** from an existing type.

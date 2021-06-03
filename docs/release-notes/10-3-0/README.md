@@ -14,7 +14,7 @@ Read below to get a detailed overview of what is new in OpenProject 10.3.
 
 ## Improved mobile support
 
-The work package view now displayes a tile view of your tasks when accessed on a mobile device.
+The work package view now displays a tile view of your tasks when accessed on a mobile device.
 This provides a clearer structure and overview. The most important information (such as subject, assignee and status) is visible right away.
 
 ![Improved mobile support](OptimizedMobileView.png)

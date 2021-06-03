@@ -13,7 +13,6 @@ export interface IFCGonDefinition {
   shown_models:number[];
   projects:IfcProjectDefinition[];
   xkt_attachment_ids:{ [id:number]:number };
-  metadata_attachment_ids:{ [id:number]:number };
   permissions:IFCPermissionMap;
 }
 

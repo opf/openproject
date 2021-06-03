@@ -91,7 +91,7 @@ Copy and paste all data accordingly from your existing Excel list to this sheet.
 
 
 
-**Download workpackages**: intitially downloads all work packages from the selected project (and query).
+**Download workpackages**: initially downloads all work packages from the selected project (and query).
  **Upload / update work packages**: makes changes to the  work packages, e.g. adding new work packages or changing any information. This option needs to be chosen in order to initially import and  existing Excel list.
  **Show chosen project**: Opens the settings to adapt URL, API key, project or query ID.
 
