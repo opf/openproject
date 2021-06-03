@@ -227,7 +227,7 @@ class MembersController < ApplicationController
     user_ids.map do |id|
       if id.to_i == 0 && id.present? # we've got an email - invite that user
         # Only users with the manage_member permission can add users.
-        if current_user.allowed_to_globally?(:manage_user) && enterprise_allow_new_users?
+        if current_user.allowed_to_globally?(:manage_user)
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
