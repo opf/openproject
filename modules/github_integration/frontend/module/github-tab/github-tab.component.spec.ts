@@ -3,12 +3,12 @@ import {
   TestBed,
 } from '@angular/core/testing';
 import { DebugElement }  from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
 import { GitHubTabComponent } from "core-app/modules/plugins/linked/openproject-github_integration/github-tab/github-tab.component";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { TabPrsComponent } from "core-app/modules/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component";
 import { TabHeaderComponent } from "core-app/modules/plugins/linked/openproject-github_integration/tab-header/tab-header.component";
 import { By } from "@angular/platform-browser";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 
 describe('GitHubTabComponent.', () => {

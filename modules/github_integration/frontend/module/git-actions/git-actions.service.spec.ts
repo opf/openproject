@@ -30,8 +30,8 @@
 
 import { GitActionsService } from './git-actions.service';
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 describe('GitActionsService', function() {
   let service:GitActionsService;

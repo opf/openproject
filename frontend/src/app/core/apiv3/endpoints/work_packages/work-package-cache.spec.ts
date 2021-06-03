@@ -39,12 +39,12 @@ import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { take, takeWhile } from 'rxjs/operators';
 import { WorkPackagesActivityService } from "core-app/features/work_packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { TimezoneService } from "core-components/../../../datetime/timezone.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
 import { WorkPackageCache } from "core-app/core/apiv3/endpoints/work_packages/work-package.cache";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
+import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 describe('WorkPackageCache', () => {
   let injector:Injector;
