@@ -45,7 +45,7 @@ import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 
-export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea-augmented-textarea';
+export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
 @Component({
   selector: ckeditorAugmentedTextareaSelector,

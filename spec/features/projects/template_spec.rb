@@ -69,7 +69,7 @@ describe 'Project templates', type: :feature, js: true do
       FactoryBot.create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects add_project])
     end
     let!(:current_user) { FactoryBot.create(:user, member_in_projects: [template, other_project], member_through_role: role) }
-    let(:status_field_selector) { 'ckeditor-augmented-textarea-augmented-textarea[textarea-selector="#project_status_explanation"]' }
+    let(:status_field_selector) { 'ckeditor-augmented-textarea[textarea-selector="#project_status_explanation"]' }
     let(:status_description) { ::Components::WysiwygEditor.new status_field_selector }
 
     let(:name_field) { ::FormFields::InputFormField.new :name }
