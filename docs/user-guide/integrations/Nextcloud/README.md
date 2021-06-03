@@ -9,7 +9,7 @@ keywords: integrations, apps, Nextcloud
 
 # OpenProject and Nextcloud integration 
 
-The OpenProject and Nextcloud integration will improve the productivity of their enterprise users. It combines the strenghts of the market leading content collaboration platform Nextcloud and the leading open source project management software OpenProject.
+The OpenProject and Nextcloud integration will improve the productivity of their enterprise users. It combines the strengths of the market leading content collaboration platform Nextcloud and the leading open source project management software OpenProject.
 
 The integration is available starting with Nextcloud 20. It enables users to keep an eye on ongoing project activities directly in their Nextcloud instance.
 
@@ -41,13 +41,13 @@ Enter the URL of your OpenProject instance and your access token which you can f
 
 **Display of OpenProject in the Nextcloud dashboard**
 
-On the Nextcloud dashboard you can add an OpenProject widget. Display the latest changes to your project's work packages to keep an eye on your ongoing project activites directly from your Nextcloud instance.
+On the Nextcloud dashboard you can add an OpenProject widget. Display the latest changes to your project's work packages to keep an eye on your ongoing project activities directly from your Nextcloud instance.
 
-![Add_OpenPorject_widget](../faq/Add_OpenPorject_widget.png)
+![Add_OpenProject_widget](../faq/Add_OpenPorject_widget.png)
 
 ![Nextcloud_dashboard](../faq/Nextcloud_dashboard.png)
 
-In your personal settings in Connected accounts, please remember to also activate the Enable navigation link to display a link to your OpenProject instance in the header havigation.
+In your personal settings in Connected accounts, please remember to also activate the Enable navigation link to display a link to your OpenProject instance in the header navigation.
 
 ![Nextcloud_connected_account](../faq/Nextcloud_connected_account.png)
 

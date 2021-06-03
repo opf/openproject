@@ -11,7 +11,7 @@ This page summarizes the options for getting OpenProject, some hosted and some o
 
 * **Enterprise cloud edition** - Hosted by OpenProject in an EU Data Center, with premium features and professional support . See more on the [website](https://www.openproject.org/hosting/), where you can apply for a free trial, or in the [documentation](../cloud-edition-guide/).
 
-* **Univention App Center** - Download the free Community edition as a pre-installed virtual environment and upgrade to the Enterprise edition with premium features and support. See the [documention](installation/univention/) for details.
+* **Univention App Center** - Download the free Community edition as a pre-installed virtual environment and upgrade to the Enterprise edition with premium features and support. See the [documentation](installation/univention/) for details.
 
 
 

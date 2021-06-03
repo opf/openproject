@@ -42,7 +42,7 @@ The following guides are related:
 
 Schemas in the backend are regular Grape endpoints. For example, the schema of all projects is rendered through the [`::API::V3::Projects::Schemas::ProjectsSchemaAPI`](https://github.com/opf/openproject/blob/dev/lib/api/v3/projects/schemas/project_schema_api.rb). This in turn renders the associated [`::API::V3::Projects::Schemas::ProjectsSchemaRepresenter`](https://github.com/opf/openproject/blob/dev/lib/api/v3/projects/schemas/project_schema_representer.rb), which contains the set of schema properties to be rendered.
 
-The work packages' schemas are significanatly more complex. Each work package type will define its own schema due to the dynamics of the [form configuration](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration). With it, the order and grouping of work package attributes can be defined per type, resulting in different attributes to be displayed. In addition, custom fields can be individually enable per project for even more flexibility.
+The work packages' schemas are significantly more complex. Each work package type will define its own schema due to the dynamics of the [form configuration](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration). With it, the order and grouping of work package attributes can be defined per type, resulting in different attributes to be displayed. In addition, custom fields can be individually enable per project for even more flexibility.
 
 This results in not a single schema for all work packages, but one schema for each project - type combination. 
 
@@ -74,7 +74,7 @@ This section describes some of the existing schemas.
 
 **Projects**
 
-For projects, there is a single APIv3 endpoint for their schemas: `/api/v3/projects/schema`. This schema is identitcal for all projects. You can simply request the OpenProject Community schema for projects here: https://community.openproject.com/api/v3/projects/schema. It contains a set of static properties (name, identifier, status, etc.), as well as all project-level custom fields.
+For projects, there is a single APIv3 endpoint for their schemas: `/api/v3/projects/schema`. This schema is identical for all projects. You can simply request the OpenProject Community schema for projects here: https://community.openproject.com/api/v3/projects/schema. It contains a set of static properties (name, identifier, status, etc.), as well as all project-level custom fields.
 
 
 

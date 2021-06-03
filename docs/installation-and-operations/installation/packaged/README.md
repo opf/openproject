@@ -304,7 +304,7 @@ The dialog allows you to choose from three options:
 
 ### Install a new PostgreSQL server and database locally (default)
 
-Choose this option if you want OpenProject to set up and configure a local database server manually. This is the best choice if you are unfamiliar with adminstering databases, or do not have a separate PostgreSQL database server installed that you want to connect to.
+Choose this option if you want OpenProject to set up and configure a local database server manually. This is the best choice if you are unfamiliar with administering databases, or do not have a separate PostgreSQL database server installed that you want to connect to.
 
 ### Use an existing PostgreSQL database
 

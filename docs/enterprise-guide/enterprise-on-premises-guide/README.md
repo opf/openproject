@@ -15,7 +15,7 @@ Here you find support for the [OpenProject Enterprise on-premises edition](https
 The Enterprise on-premises edition builds on top of the free Community edition. An upgrade is possible at any time. Please have a look at the detailed [feature comparison](https://www.openproject.org/pricing/#features) between the different versions of OpenProject.
 
 <div class="alert alert-info" role="alert">
-**Note**: This guide only describes the administrational part of the OpenProject Enterprise on-premises edition. The feature descriptions for the premium features are included in the respective parts of the OpenProject [user guide](../user-guide/#readme).
+**Note**: This guide only describes the administration part of the OpenProject Enterprise on-premises edition. The feature descriptions for the premium features are included in the respective parts of the OpenProject [user guide](../user-guide/#readme).
 </div>
 
 ## Overview

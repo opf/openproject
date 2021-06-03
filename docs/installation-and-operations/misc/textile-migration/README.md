@@ -52,7 +52,7 @@ or in a packaged installation:
 
 ## Markdown and WYSIWYG features
 
-With the migration of Markdown, we have introduced a quasi-WYSIWYG powerd by CKEditor5  that will make editing in all formattable fields of OpenProject much easier. The output format of that editor is still Markdown.
+With the migration of Markdown, we have introduced a quasi-WYSIWYG powered by CKEditor5 that will make editing in all formattable fields of OpenProject much easier. The output format of that editor is still Markdown.
 
 
 

@@ -102,7 +102,7 @@ When the response is successful, it must at least return a `url` property that c
 *Note* that for Git repositories, OpenProject currently can only read them locally (i.e, through an NFS mount), so a path is mandatory here.
 For Subversion, you can either return a `file:///<path>` URL, or a local path.
 
-Our main use-cases for this feature is to elimnate the complexity associated with permission issues around Subversion mainly in packager, for which a simple Apache wrapper script is used in `extra/Apache/OpenProjectRepoman.pm`.
+Our main use-cases for this feature is to eliminate the complexity associated with permission issues around Subversion mainly in packager, for which a simple Apache wrapper script is used in `extra/Apache/OpenProjectRepoman.pm`.
 This functionality is very limited but may be extended when other use cases arise.
 It supports notifications for creating repositories (action `create`), moving repositories (action `relocate`, when a project's identifier has changed), and deleting repositories (action `delete`).
 

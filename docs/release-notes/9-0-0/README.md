@@ -19,7 +19,7 @@ Read below to get a detailed overview of what is new in OpenProject 9.
 
 ## Board view (Enterprise / Cloud Edition)
 
-The board view is a new module for OpenProject and allows Scrum and Kanban-style agile project mangement. You can display display a board view with the different statuses shown as columns (similarly to a Kanban board) and quickly update the status. Alternatively, you can define a basic board with custom names or display versions as columns (e.g. to plan your roadmap).
+The board view is a new module for OpenProject and allows Scrum and Kanban-style agile project management. You can display display a board view with the different statuses shown as columns (similarly to a Kanban board) and quickly update the status. Alternatively, you can define a basic board with custom names or display versions as columns (e.g. to plan your roadmap).
 
 Since boards display work packages - just like the work packages list - you can easily combine traditional and agile project management. Simply schedule your tasks in the Gantt chart and work on them from the boards view.
 
@@ -59,7 +59,7 @@ Assignees are now directly displayed as avatars in the work package page. Additi
 
 OpenProject is even more user-friendly: You can add attachments (e.g. images) directly to meetings (agenda / minutes).
 
-Creating work packages on the global work package list is now easier as well: When you select a type, only the projects in which the types are ativated can be selected in the project menu.
+Creating work packages on the global work package list is now easier as well: When you select a type, only the projects in which the types are activated can be selected in the project menu.
 
 Filters and work package attributes are improved and support auto-completion.
 

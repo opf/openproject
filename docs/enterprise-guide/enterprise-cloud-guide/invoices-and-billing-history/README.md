@@ -36,7 +36,7 @@ In the overlay window, click on the link **Billing History**.
 
 Here, you will get an overview about all your past payments for the Enterprise cloud edition. 
 
-With the **Download link** you can download the inovices.
+With the **Download link** you can download the invoices.
 
 The **Load more link** will open more positions on the list.
 

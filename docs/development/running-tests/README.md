@@ -217,7 +217,7 @@ You can find the driver for your Chrome version here: https://chromedriver.chrom
 
 **2) Add the driver to your `PATH`**
 
-Either save the driver under `C:\Windows\system32` to make it available or add its alternative location to the `PATH` using the system environment variable settings ([ress the WIN key and search for 'system env').
+Either save the driver under `C:\Windows\system32` to make it available or add its alternative location to the `PATH` using the system environment variable settings ([press the WIN key and search for 'system env').
 
 **3) Find out your WSL ethernet adapter IP**
 
@@ -228,7 +228,7 @@ It will be called something like "Ethernet adapter vEthernet (WSL)".
 
 Download version 3.141.59 (at the time of writing) here: https://www.selenium.dev/downloads/
 
-The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Envrionment in at least version 8 to be able to run it.
+The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Environment in at least version 8 to be able to run it.
 
 **5) Run the Selenium Server**
 
