@@ -47,19 +47,6 @@ export class XeokitServer {
   }
 
   /**
-   * Gets metadata for a model within a project.
-   * @param projectId
-   * @param modelId
-   * @param done
-   * @param error
-   */
-  getMetadata(_projectId:string, modelId:number, done:Function, error:Function) {
-    const attachmentId = this.ifcModels.metadata_attachment_ids[modelId];
-    console.log(`Loading model metadata for: ${attachmentId}`);
-    utils.loadJSON(this.pathHelper.attachmentContentPath(attachmentId), done, error);
-  }
-
-  /**
    * Gets geometry for a model within a project.
    * @param projectId
    * @param modelId
