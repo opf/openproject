@@ -124,6 +124,7 @@ describe 'Version action board', type: :feature, js: true do
 
       # Add item
       board_page.add_list option: 'Shared version'
+      board_page.expect_list 'Shared version'
       board_page.add_card 'Open version', 'Task 1'
       sleep 2
 
