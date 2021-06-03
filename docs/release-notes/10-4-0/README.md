@@ -68,7 +68,7 @@ In OpenProject you can now manage multiple building models in IFC format in para
 
 ![OpenProject-BIM-manage-IFC-models](OpenProject-BIM-manage-IFC-models.png)
 
-![OpenProject-BIM_structural](OpenPoject-BIM_structural.png)
+![OpenProject-BIM_structural](OpenProject-BIM_structural.png)
 
 
 
@@ -84,7 +84,7 @@ View full 3D objects in OpenProject in IFC format. Select and display the model 
 
 You can change between a 3D view or 2D view of the building model in OpenProject.
 
-![OpenProject-BIM_2D](OpenPoject-BIM_2D.png)
+![OpenProject-BIM_2D](OpenProject-BIM_2D.png)
 
 ### Slice objects to get exact view
 
