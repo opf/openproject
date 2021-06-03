@@ -25,6 +25,11 @@ No, that's not possible, as all tenants (customers) use the same code on the sha
 
 Please have a look at [these instructions](../../installation-and-operations/operation/monitoring).
 
+## I'm seeing HTTP timeouts (408 Request Timeout) upon uploading larger files
+
+The OpenProject installations do not configure a default timeout for the outer Apache2 web server. Please increase the Apache `Timeout` directive. Please see the Apache web server documentation for more information: [http://httpd.apache.org/docs/2.4/mod/core.html#timeout](http://httpd.apache.org/docs/2.4/mod/core.html#timeout)
+
+
 ## Further information
 
 More FAQ can be found in the respective sections of this System admin guide.
