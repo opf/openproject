@@ -34,7 +34,7 @@ describe Stories::CreateService, type: :model do
     project = FactoryBot.create(:project, types: [type_feature])
 
     FactoryBot.create(:member,
-                      principal: user,
+                      principal: current_user,
                       project: project,
                       roles: [role])
     project
@@ -43,14 +43,11 @@ describe Stories::CreateService, type: :model do
   let(:permissions) { %i(add_work_packages manage_subtasks assign_versions) }
   let(:status) { FactoryBot.create(:status) }
   let(:type_feature) { FactoryBot.create(:type_feature) }
-
-  let(:user) do
-    FactoryBot.create(:user)
-  end
+  let(:workflow) { FactoryBot.create(:workflow, type: type_feature, old_status: status, role: role) }
 
   let(:instance) do
     Stories::CreateService
-      .new(user: user)
+      .new(user: current_user)
   end
 
   let(:attributes) do
@@ -78,8 +75,12 @@ describe Stories::CreateService, type: :model do
                       priority: priority)
   end
 
+  current_user do
+    FactoryBot.create(:user)
+  end
+
   before do
-    allow(User).to receive(:current).and_return(user)
+    workflow
   end
 
   subject { instance.call(attributes: attributes) }

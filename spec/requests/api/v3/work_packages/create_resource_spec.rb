@@ -49,6 +49,7 @@ describe 'API v3 Work package resource',
     let(:other_user) { nil }
     let(:status) { FactoryBot.build(:status, is_default: true) }
     let(:priority) { FactoryBot.build(:priority, is_default: true) }
+    let(:workflow) { FactoryBot.build(:workflow, type: type, role: role, old_status: status) }
     let(:type) { project.types.first }
     let(:parameters) do
       {
@@ -68,6 +69,7 @@ describe 'API v3 Work package resource',
       status.save!
       priority.save!
       other_user
+      workflow.save!
 
       perform_enqueued_jobs do
         post path, parameters.to_json

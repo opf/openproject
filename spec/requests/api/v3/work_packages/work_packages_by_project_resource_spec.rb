@@ -295,6 +295,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     let(:status) { FactoryBot.build(:status, is_default: true) }
     let(:priority) { FactoryBot.build(:priority, is_default: true) }
     let(:other_user) { nil }
+    let(:workflow) { FactoryBot.build(:workflow, type: project.types.first, role: role, old_status: status) }
     let(:parameters) do
       {
         subject: 'new work packages',
@@ -310,6 +311,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
       status.save!
       priority.save!
       other_user
+      workflow.save!
 
       perform_enqueued_jobs do
         post path, parameters.to_json
