@@ -247,8 +247,8 @@ pt:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Você não pode excluir o usuário do espaço reservado. Você não possui direito de gerenciar membros para todos os projetos que o usuário do espaço reserva é membro.
+    delete_tooltip: "Excluir usuário de espaço reserva"
     deletion_info:
       heading: "Excluir usuário do espaço reservado %{name}"
       data_consequences: >
@@ -618,7 +618,7 @@ pt:
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              dependency_missing: "O módulo '%{dependency}' precisa ser habilitado, pois o módulo '%{module}' depende dele."
               format: "%{message}"
         query:
           attributes:
@@ -2344,7 +2344,7 @@ pt:
     brute_force_prevention: "Bloqueio automatizado de usuário"
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
       first_week_of_year_text: >
         Selecione a data de janeiro que está contida na primeira semana do ano. Este valor, juntamente com o primeiro dia da semana, determina o número total de semanas num ano.
     projects:
@@ -2650,8 +2650,6 @@ pt:
     getting_started: "Guia de introdução"
     help_and_support: "Ajuda e suporte"
   total_progress: "Progresso total"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "todos"
     active: "ativo"
@@ -2774,6 +2772,8 @@ pt:
         invalid_json: "é json inválido: %{message}"
     resources:
       schema: 'Esquema'
+    undisclosed:
+      parent: Não revelado - O primário selecionado está invisível devido à falta de permissões.
   doorkeeper:
     pre_authorization:
       status: 'Pré-autorização'

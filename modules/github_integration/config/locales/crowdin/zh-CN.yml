@@ -21,7 +21,7 @@
 #++
 zh-CN:
   project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
+  permission_show_github_content: "显示 GitHub 内容"
   github_integration:
     pull_request_opened_comment: >
       **拉取请求已打开：** [%{repository}](%{repository_url}) 的拉取请求 %{pr_number} [%{pr_title}](%{pr_url}) 已由 [%{github_user}](%{github_user_url}) 打开。
@@ -32,4 +32,4 @@ zh-CN:
     pull_request_referenced_comment: >
       **已在拉取请求中引用：** [%{github_user}](%{github_user_url}) 在 [%{repository}](%{repository_url}) 上的拉取请求 %{pr_number} [%{pr_title}](%{pr_url}) 中引用了此工作包。
     pull_request_ready_for_review_comment: >
-      **PR Ready for Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) was marked as ready for review by [%{github_user}](%{github_user_url}).
+      **拉取请求可供审阅**：对 [%{repository}](%{repository_url}) 的拉取请求 %{pr_number} [%{pr_title}](%{pr_url}) 已由 [%{github_user}](%{github_user_url}) 标记为可供审阅。
