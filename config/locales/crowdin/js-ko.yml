@@ -87,6 +87,7 @@ ko:
     button_update: "업데이트"
     button_export-pdf: "PDF 다운로드"
     button_export-atom: "Atom 다운로드"
+    button_create: "만들기"
     calendar:
       title: '달력'
       too_many: '총 %{count}개 작업 패키지가 있지만, %{max}개만 표시할 수 있습니다.'
@@ -611,7 +612,7 @@ ko:
       parent_placeholder: "새로운 상위 항목은 선택하거나 Escape를 눌러 취소하십시오."
     autocompleter:
       placeholder: "검색할 유형"
-      notFoundText: "No items found"
+      notFoundText: "항목 없음"
       typeToSearchText: "검색할 유형"
     repositories:
       select_tag: '태그 선택'

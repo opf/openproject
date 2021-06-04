@@ -25,17 +25,17 @@ pt:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Solicitações de pull"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Trechos de código Git
+          description: Copiar trechos de código git para área de transferência
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Nome da ramificação
+          commit_message: Mensagem de confirmação
+          cmd: Criar ramificação com a confirmação vazia
+          title: Trechos de código rápido para Git
+          copy_success: '✅ Copiado!'
+          copy_error: '❌ Falha ao copiar!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Ainda não há solicitações de pull vinculadas. Vincule uma PR existente usando código <code>OP#%{wp_id}</code> na descrição de PR ou crie uma nova PR.'
       github_actions: Ações

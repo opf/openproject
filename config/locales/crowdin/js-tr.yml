@@ -87,6 +87,7 @@ tr:
     button_update: "Güncelle"
     button_export-pdf: "PDF indir"
     button_export-atom: "Atom indir"
+    button_create: "Oluştur"
     calendar:
       title: 'Takvim'
       too_many: 'Toplamda %{count} iş paketi var, ancak sadece  %{max} gösterilebilir.'

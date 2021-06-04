@@ -253,7 +253,7 @@ pl:
         Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”.
         Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
       irreversible: "To działanie jest nieodwracalne."
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Wprowadź nazwę użytkownika zastępczego %{name}, aby potwierdzić usunięcie."
     upsale:
       title: Przypisz pracę osobom, które nie są członkami projektu.
       description: >
@@ -2683,8 +2683,6 @@ pl:
     getting_started: "Pierwsze kroki"
     help_and_support: "Pomoc i wsparcie"
   total_progress: "Całkowity postęp"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "wszystkie"
     active: "aktywne"

@@ -87,6 +87,7 @@ uk:
     button_update: "Оновити"
     button_export-pdf: "Завантажити PDF"
     button_export-atom: "Завантажити Atom"
+    button_create: "Створити"
     calendar:
       title: 'Календар'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'

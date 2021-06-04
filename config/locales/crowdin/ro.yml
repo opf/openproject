@@ -2670,8 +2670,6 @@ ro:
     getting_started: "Noţiuni de bază"
     help_and_support: "Asistenţă şi suport"
   total_progress: "Progres total"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "toate"
     active: "activ"

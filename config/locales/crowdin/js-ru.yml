@@ -87,6 +87,7 @@ ru:
     button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
+    button_create: "Создать"
     calendar:
       title: 'Календарь'
       too_many: 'В общей сложности пакетов работ: %{count}. Отображено только: %{max}.'

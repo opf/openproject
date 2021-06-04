@@ -87,6 +87,7 @@ ca:
     button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
+    button_create: "Crear"
     calendar:
       title: 'Calendari'
       too_many: 'Hi ha %{count} paquets de treball en total, però només %{max} es poden mostrar'

@@ -87,6 +87,7 @@ es:
     button_update: "Actualizar"
     button_export-pdf: "Descargar PDF"
     button_export-atom: "Descargar Atom"
+    button_create: "Crear"
     calendar:
       title: 'Calendario'
       too_many: 'Hay %{count} paquetes de trabajo en total, pero solo pueden mostrarse %{max}.'

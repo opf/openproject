@@ -87,6 +87,7 @@ ro:
     button_update: "Actualizare"
     button_export-pdf: "Descărcare PDF"
     button_export-atom: "Descărcare Atom"
+    button_create: "Creare"
     calendar:
       title: 'Calendar'
       too_many: 'Există %{count} pachete de lucru în total, dar numai %{max} poate fi afișat.'

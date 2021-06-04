@@ -2652,8 +2652,6 @@ nl:
     getting_started: "Aan de slag"
     help_and_support: "Hulp en ondersteuning"
   total_progress: "Totaal vorderingen"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "alle"
     active: "actief"

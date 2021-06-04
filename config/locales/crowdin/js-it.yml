@@ -87,6 +87,7 @@ it:
     button_update: "Aggiorna"
     button_export-pdf: "Scarica PDF"
     button_export-atom: "Scarica Atom"
+    button_create: "Crea"
     calendar:
       title: 'Calendario'
       too_many: 'Ci sono %{count} macro-attività in totale, ma solo %{max} può essere mostrata.'
@@ -286,11 +287,11 @@ it:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Il rilascio contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Nuovo pulsante nella navigazione dell'intestazione per creare progetti, utenti e macro attività.</li> <li>Un nuovo invito per utenti, gruppi e utenti segnaposto che permette di aggiungere o invitare facilmente nuovi utenti e assegnarli a macro attività.</li> <li>Integrazione di GitHub in OpenProject.</li> <li>Estensioni API v3 per gruppi e altro, come creare, leggere, aggiornare ed eliminare i gruppi e i membri del gruppo attraverso le API.</li> <li>Selezione multipla di campi personalizzati di progetto di per il tipo lista.</li> <li>Creazione di backup dall'interfaccia web.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              La release contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>BIM: Migliore performance del visualizzatore del modello IFC.</li> <li>BIM: Il visualizzatore IFC ora supporta modelli di doppia precisione, che è ottimo per grandi cantieri come ponti, strade ecc.</li> <li>BIM: Tasto per il passaggio da modalità in prospettiva a modalità ortogonale.</li> <li>BIM: Un menu per modificare, eliminare o capovolgere piani di sezione.</li> <li>Nuovo pulsante nella navigazione dell'intestazione per creare progetti, utenti e macro attività.</li> <li>Un nuovo invito per utenti, gruppi e utenti segnaposto che permette di aggiungere o invitare facilmente nuovi utenti e assegnarli a macro attività.</li> <li>Integrazione di GitHub in OpenProject.</li> <li>Estensioni API v3 per gruppi e altro, come creare, leggere, aggiornare ed eliminare i gruppi e i membri del gruppo attraverso le API.</li> <li>Selezione multipla di campi personalizzati di progetto di per il tipo lista.</li> <li>Creazione di backup dall'interfaccia web.</li> </ul>
     label_activate: "Attiva"
     label_add_column_after: "Aggiungi colonna dopo"
     label_add_column_before: "Aggiungi colonna prima"
@@ -611,7 +612,7 @@ it:
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
     autocompleter:
       placeholder: "Tipo di ricerca"
-      notFoundText: "No items found"
+      notFoundText: "Nessun elemento trovato"
       typeToSearchText: "Tipo di ricerca"
     repositories:
       select_tag: 'Selezionare tag'
@@ -930,7 +931,7 @@ it:
     notice_successful_create: "Creato con successo."
     notice_successful_delete: "Cancellato con successo."
     notice_successful_update: "Aggiornato con successo."
-    notice_job_started: "job started."
+    notice_job_started: "job partito."
     notice_bad_request: "Richiesta non valida."
     relations:
       empty: Non esiste alcuna relazione
@@ -997,8 +998,8 @@ it:
       project:
         label: 'Progetto'
         required: 'Sei pregato di selezionare un progetto'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission: 'Seleziona un progetto diverso poiché non hai i permessi per assegnare gli utenti a quello attualmente selezionato.'
+        lacking_permission_info: 'Non hai il permesso di assegnare gli utenti al progetto in cui ti trovi. Devi selezionarne un altro.'
         next_button: 'Prossimo'
         no_results: 'Nessun progetto è stato trovato'
         no_invite_rights: 'Non puoi invitare i membri a questo progetto'
@@ -1036,7 +1037,7 @@ it:
       role:
         label: 'Ruolo in %{project}'
         no_roles_found: 'Nessun ruolo è stato trovato'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Questo è il ruolo che %{principal} riceverà una volta unitosi al progetto. Il ruolo definisce che azioni possono intraprendere e che informazioni possono vedere. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">Scopri di più sui ruoli e sulle autorizzazioni. </a>'
         required: 'Sei pregato di selezionare un ruolo'
         next_button: 'Prossimo'
       message:

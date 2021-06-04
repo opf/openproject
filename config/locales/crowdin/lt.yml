@@ -2683,8 +2683,6 @@ lt:
     getting_started: "Darbo pradžia"
     help_and_support: "Pagalba ir palaikymas"
   total_progress: "Visas progresas"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "visi"
     active: "aktyvus"
@@ -2810,7 +2808,7 @@ lt:
     resources:
       schema: 'Schema'
     undisclosed:
-      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      parent: Nerodomas -- pasirinktas tėvinis projektas yra nematomas nes trūksta teisių.
   doorkeeper:
     pre_authorization:
       status: 'Išankstinė autorizacija'

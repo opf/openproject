@@ -87,6 +87,7 @@ hr:
     button_update: "Ažuriraj"
     button_export-pdf: "Preuzmi PDF"
     button_export-atom: "Preuzmite Atom"
+    button_create: "Stvori"
     calendar:
       title: 'Kalendar'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'

@@ -253,11 +253,11 @@ zh-CN:
         出现的所有占位符用户（例如，作为被分派人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。
         由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
       irreversible: "此操作不可逆"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "输入占位符用户名 %{name} 以确认删除。"
     upsale:
       title: 将工作分配给非项目成员。
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        您会在多种情况下希望将工作分配给项目成员以外的其他人员。这可能只因您仍需为该工作雇用合适的人员。或者您只是不想让该人员访问项目信息，而又希望跟踪为其分配的任务。
   prioritiies:
     edit:
       priority_color_text: |
@@ -574,7 +574,7 @@ zh-CN:
             global: '全局'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "需要包含至少一个采用“=”运算符的主体、上下文或 ID 筛选器。"
         custom_field:
           at_least_one_custom_option: "至少有需要一个可用选项。"
         custom_actions:
@@ -669,7 +669,7 @@ zh-CN:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "无法从标题“%{title}”推导出。"
         work_package:
           is_not_a_valid_target_for_time_entries: "工作包 #%{id} 不是重新分配时间条目的有效目标。"
           attributes:
@@ -829,28 +829,28 @@ zh-CN:
     label_create_token: "创建备份令牌"
     label_delete_token: "删除备份令牌"
     label_reset_token: "重置备份令牌"
-    label_token_users: "The following users have active backup tokens"
+    label_token_users: "以下用户具有活动的备份令牌"
     reset_token:
       action_create: 创建
       action_reset: 重置
       heading_reset: "重置备份令牌"
       heading_create: "创建备份令牌"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        启用备份将允许具有所需权限和此备份令牌的任何用户下载包含此 OpenProject 安装的所有数据的备份。这包括所有其他用户的数据。
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        您需要生成备份令牌才能创建备份。每次您要请求备份时，都必须提供此令牌。您可以删除备份令牌以禁用此用户的备份。
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
+        输入 %{word} 以确认您要%{action}备份令牌。
+      verification_word_reset: 重置
       verification_word_create: 创建
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        创建新令牌时，您只有在 24 小时之后才能请求备份。这是一项安全措施。之后，您可以随时使用该令牌请求备份。
+    text_token_deleted: 备份令牌已删除。备份现已禁用。
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: 无效或缺少备份令牌
+      token_cooldown: 备份令牌将在 %{hours} 小时后有效。
+      backup_pending: 已有备份待处理。
+      limit_reached: 您每天只能进行 %{limit} 次备份。
   button_add: "添加"
   button_add_comment: "添加评论"
   button_add_member: 添加成员
@@ -930,7 +930,7 @@ zh-CN:
     text_update_consent_time: 选中此框可强制用户再次同意。在更改上述同意信息的法律方面时启用。
     update_consent_last_time: "同意的最后更新: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: '复制项目“%{source_project_name}”'
     started: "开始将项目“%{source_project_name}”复制到“%{target_project_name}“。“%{target_project_name}”可用后您将会立即收到电子邮件通知。"
     failed: "无法复制项目 %{source_project_name}"
     failed_internal: "由于内部错误，复制失败。"
@@ -938,9 +938,9 @@ zh-CN:
     errors: "错误"
     project_custom_fields: '项目上的自定义字段'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: '没有此类型的对象'
+      one: '有一个此类型的对象'
+      other: '有 %{count} 个此类型的对象'
     text:
       failed: "无法将项目\"%{source_project_name}\"复制到项目\"%{target_project_name}\"。"
       succeeded: "已复制项目\"%{source_project_name}\"到\"%{target_project_name}\"。"
@@ -1074,7 +1074,7 @@ zh-CN:
   default_role_anonymous: "匿名"
   default_role_developer: "开发者"
   default_role_project_admin: "项目管理员"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "员工和项目经理"
   default_role_non_member: "非成员"
   default_role_reader: "只读"
   default_role_member: "成员"
@@ -2627,8 +2627,6 @@ zh-CN:
     getting_started: "入门指南"
     help_and_support: "帮助和支持"
   total_progress: "总进度"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "所有"
     active: "激活"

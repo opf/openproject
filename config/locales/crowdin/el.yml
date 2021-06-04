@@ -2648,8 +2648,6 @@ el:
     getting_started: "Ξεκινώντας"
     help_and_support: "Βοήθεια και υποστήριξη"
   total_progress: "Συνολική πρόοδος"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "όλα"
     active: "ενεργό"

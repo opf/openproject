@@ -87,6 +87,7 @@ zh-CN:
     button_update: "更新"
     button_export-pdf: "下载 PDF"
     button_export-atom: "下载原子"
+    button_create: "创建"
     calendar:
       title: '日历'
       too_many: '总共有 %{count} 个工作包，但只能显示 %{max} 个。'

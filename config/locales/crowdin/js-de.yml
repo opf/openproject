@@ -87,6 +87,7 @@ de:
     button_update: "Aktualisieren"
     button_export-pdf: "PDF-Download"
     button_export-atom: "Atom-Download"
+    button_create: "Anlegen"
     calendar:
       title: 'Kalender'
       too_many: 'Es gibt insgesamt %{count} Arbeitspakete, aber nur %{max} können angezeigt werden.'
@@ -610,7 +611,7 @@ de:
       parent_placeholder: "Wählen Sie ein neues Eltern-Arbeitspaket oder drücken Sie Escape, um abzubrechen."
     autocompleter:
       placeholder: "Suchbegriff eintippen"
-      notFoundText: "No items found"
+      notFoundText: "Keine Elemente gefunden"
       typeToSearchText: "Suchbegriff eintippen"
     repositories:
       select_tag: 'Tag auswählen'
