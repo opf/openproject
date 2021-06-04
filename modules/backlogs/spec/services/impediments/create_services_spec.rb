@@ -56,9 +56,14 @@ describe Impediments::CreateService do
     project
   end
 
-  let(:status1) { FactoryBot.create(:status, name: 'status 1', is_default: true) }
+  let(:status1) { FactoryBot.create(:status, is_default: true) }
+  let(:workflows) do
+    FactoryBot.create(:workflow, old_status: status1, type: type_task, role: role)
+  end
+  let(:impediment_subject) { 'Impediment A' }
 
   before(:each) do
+    workflows
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
                                                                        'wiki_template' => '',
                                                                        'card_spec' => 'Sattleford VM-5040',
@@ -67,8 +72,6 @@ describe Impediments::CreateService do
 
     login_as user
   end
-
-  let(:impediment_subject) { 'Impediment A' }
 
   shared_examples_for 'impediment creation' do
     it { expect(subject.subject).to eql impediment_subject }

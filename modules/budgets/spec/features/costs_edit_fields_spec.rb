@@ -33,14 +33,17 @@ describe 'Work Package budget fields', type: :feature, js: true do
   let!(:status) { FactoryBot.create(:status, is_default: true) }
   let!(:priority) { FactoryBot.create(:priority, is_default: true) }
   let!(:project) { FactoryBot.create(:project, types: [type_task]) }
-  let(:user) { FactoryBot.create :admin }
-  let!(:budget) { FactoryBot.create :budget, author: user, project: project }
+  let(:role) { FactoryBot.create(:role, permissions: %i[add_work_packages view_work_packages view_budgets]) }
+  let!(:budget) { FactoryBot.create :budget, author: current_user, project: project }
+  let!(:workflow) { FactoryBot.create(:workflow, type: type_task, old_status: status, role: role) }
 
   let(:create_page) { ::Pages::FullWorkPackageCreate.new(project: project) }
   let(:view_page) { ::Pages::FullWorkPackage.new(project: project) }
 
-  before do
-    login_as(user)
+  current_user do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role
   end
 
   it 'does not show read-only fields and allows setting the budget' do

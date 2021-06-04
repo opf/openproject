@@ -280,7 +280,7 @@ describe WorkPackages::BaseContract do
 
       context 'invalid transition on a new record' do
         let(:valid_transition_result) { false }
-        let(:work_package) { WorkPackage.new }
+        let(:work_package) { WorkPackage.new type: type }
 
         it 'is invalid' do
           expect(subject.errors.symbols_for(:status_id))

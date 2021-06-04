@@ -31,7 +31,19 @@ require 'spec_helper'
 describe 'Work package with relation query group', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { FactoryBot.create :admin }
+  current_user do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role
+  end
+  let(:role) do
+    FactoryBot.create(:role,
+                      permissions: %i[add_work_packages
+                                      manage_work_package_relations
+                                      view_work_packages
+                                      manage_subtasks
+                                      edit_work_packages])
+  end
   let(:project) { FactoryBot.create :project, types: [type] }
   let(:relation_type) { :parent }
   let(:relation_target) { work_package }
@@ -40,20 +52,26 @@ describe 'Work package with relation query group', js: true, selenium: true do
     rel[relation_type] = relation_target
     rel
   end
+  let(:status) do
+    FactoryBot.create(:default_status)
+  end
   let(:type) do
     FactoryBot.create :type_with_relation_query_group,
                       relation_filter: relation_type
   end
+  let!(:workflow) { FactoryBot.create(:workflow, type: type, old_status: status, role: role) }
   let!(:work_package) do
     FactoryBot.create :work_package,
                       project: project,
-                      type: type
+                      type: type,
+                      status: status
   end
   let!(:related_work_package) do
     FactoryBot.create :work_package,
                       new_relation.merge(
                         project: project,
-                        type: type
+                        type: type,
+                        status: status
                       )
   end
 
@@ -68,12 +86,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
 
   before do
     # inline create needs defaults
-    status = work_package.status
-    status.update_attribute :is_default, true
     priority = work_package.priority
     priority.update_attribute :is_default, true
-
-    login_as user
 
     if visit
       full_wp.visit!
@@ -134,15 +148,16 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     context 'with a user who has permission in one project' do
-      let(:role) { FactoryBot.create(:role, permissions: permissions) }
-      let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
-      let(:user) do
+      current_user do
         FactoryBot.create(:user,
                           member_in_project: project,
                           member_through_role: role)
       end
+
+      let(:role) { FactoryBot.create(:role, permissions: permissions) }
+      let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
       let!(:project2_member) do
-        member = FactoryBot.build(:member, user: user, project: project2)
+        member = FactoryBot.build(:member, user: current_user, project: project2)
         member.roles = [role]
         member.save!
       end
@@ -165,13 +180,13 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     context 'with a user who has no permission in any project' do
-      let(:role) { FactoryBot.create(:role, permissions: permissions) }
-      let(:permissions) { [:view_work_packages] }
-      let(:user) do
+      current_user do
         FactoryBot.create(:user,
                           member_in_project: project,
                           member_through_role: role)
       end
+      let(:role) { FactoryBot.create(:role, permissions: permissions) }
+      let(:permissions) { [:view_work_packages] }
 
       it 'hides that group automatically without showing an error' do
         full_wp.visit!

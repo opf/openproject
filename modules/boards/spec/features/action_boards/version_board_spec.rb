@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './../support//board_index_page'
+require_relative './../support/board_index_page'
 require_relative './../support/board_page'
 
 describe 'Version action board', type: :feature, js: true do
@@ -46,6 +46,7 @@ describe 'Version action board', type: :feature, js: true do
   let!(:priority) { FactoryBot.create :default_priority }
   let!(:status) { FactoryBot.create :default_status }
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let!(:workflow) { FactoryBot.create(:workflow, type: type, old_status: status, role: role) }
   let(:role_board_manager) { FactoryBot.create(:role, permissions: permissions_board_manager) }
 
   let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
@@ -88,7 +89,6 @@ describe 'Version action board', type: :feature, js: true do
 
   before do
     with_enterprise_token :board_view
-    project
   end
 
   context 'with full boards permissions' do
