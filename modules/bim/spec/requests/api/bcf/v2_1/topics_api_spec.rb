@@ -489,12 +489,22 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
     let(:current_user) { edit_member_user }
     let(:type) do
-      FactoryBot.create(:type).tap do |t|
+      FactoryBot.create(:type, name: 'A type').tap do |t|
         project.types << t
       end
     end
     let(:status) do
-      FactoryBot.create(:status)
+      FactoryBot.create(:status) do |s|
+        member = current_user.members.detect { |m| m.project_id == project.id }
+
+        if member
+          FactoryBot.create(:workflow,
+                            old_status: default_status,
+                            new_status: s,
+                            type: type,
+                            role: member.roles.first)
+        end
+      end
     end
     let!(:default_status) do
       FactoryBot.create(:default_status)
@@ -516,7 +526,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       FactoryBot.create(:type, is_default: true)
     end
     let!(:standard_type) do
-      FactoryBot.create(:type_standard)
+      FactoryBot.create(:type_standard, name: 'Standard type')
     end
     let!(:priority) do
       FactoryBot.create(:priority)
@@ -590,6 +600,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       assigned_to: nil,
       due_date: nil,
       description: nil,
+      topic_statuses: nil,
       base: nil
     )
       work_package = base || issue.work_package
@@ -614,7 +625,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
         modified_date: work_package&.updated_at&.iso8601,
         description: description || base&.description,
         "authorization": {
-          "topic_status": [(base && base.status.name) || default_status.name],
+          "topic_status": topic_statuses || [(base && base.status.name) || default_status.name],
           "topic_actions": %w[update updateRelatedTopics updateFiles createViewpoint]
         }
       }
@@ -634,7 +645,8 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
             Bim::Bcf::Issue.last.reload,
             title: params[:title],
             creation_author_mail: edit_member_user.mail,
-            modified_author_mail: edit_member_user.mail
+            modified_author_mail: edit_member_user.mail,
+            topic_statuses: [default_status.name, status.name]
           )
         end
       end

@@ -259,7 +259,10 @@ module WorkPackages
     end
 
     def validate_status_transition
-      if (model.new_record? || status_changed? && !model.type_id_changed?) && status_exists? && !status_transition_exists?
+      if (model.new_record? || status_changed? && !model.type_id_changed?) &&
+        status_exists? &&
+        type_exists? &&
+        !status_transition_exists?
         errors.add :status_id, :status_transition_invalid
       end
     end
@@ -347,6 +350,10 @@ module WorkPackages
 
     def status_exists?
       model.status_id && model.status && !model.status.is_a?(Status::InexistentStatus)
+    end
+
+    def type_exists?
+      model.type_id && model.type && !model.type.is_a?(Type::InexistentType)
     end
 
     def status_transition_exists?
