@@ -65,7 +65,7 @@ class UpdateXktToVersion8 < ActiveRecord::Migration[6.1]
       )
 
       old_attachment.destroy
-      attachment.save!
+      attachment.save! validate: false
     end
   end
 
