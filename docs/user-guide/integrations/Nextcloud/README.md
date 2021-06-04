@@ -43,7 +43,7 @@ Enter the URL of your OpenProject instance and your access token which you can f
 
 On the Nextcloud dashboard you can add an OpenProject widget. Display the latest changes to your project's work packages to keep an eye on your ongoing project activites directly from your Nextcloud instance.
 
-![Add_OpenPorject_widget](Add_OpenPorject_widget.png)
+![Add_OpenProject_widget](Add_OpenProject_widget.png)
 
 
 
