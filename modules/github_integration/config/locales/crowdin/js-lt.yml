@@ -25,15 +25,15 @@ lt:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Įtraukimo užklausos"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git fragmentai
+          description: Nukopijuoti git fragmentus į iškarpinę
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          branch_name: Šakos pavadinimas
+          commit_message: Commit pranešimas
+          cmd: Sukurti šaką su tuščiu commit pranešimu
+          title: Greiti Git fragmentai
           copy_success: '✅ Nukopijuota!'
           copy_error: '❌ Kopijavimas nepavyko!'
       tab_prs:

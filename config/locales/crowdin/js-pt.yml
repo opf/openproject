@@ -525,7 +525,7 @@ pt:
       use_template: "Usar modelo"
       no_template_selected: "(Nenhum)"
       copy:
-        copy_options: "Copiar opções"
+        copy_options: "Opções de cópia"
       autocompleter:
         label: 'Autocompletar projeto'
     text_are_you_sure: "Você tem certeza?"

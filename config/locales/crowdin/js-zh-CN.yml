@@ -34,18 +34,18 @@ zh-CN:
       remove: "移除%{name}"
       active: "活跃的%{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: 可能无法包含附件，因为它们超出了允许的最大总文件大小。您可以通过配置更改此设置（需要重新启动服务器）。
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        您可以在此处触发备份。该过程可能需要一些时间，具体取决于您的数据量（尤其是附件）。准备就绪后，您将收到一封电子邮件。
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        新备份将覆盖任何之前的备份。每天只能请求有限次数的备份。
+      last_backup: 上次备份
+      last_backup_from: 上次备份自
+      title: 备份 OpenProject
       options: 选项
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: 包含附件
+      download_backup: 下载备份
+      request_backup: 请求备份
     close_popup_title: "关闭弹出窗口"
     close_filter_title: "关闭过滤器"
     close_form_title: "关闭表单"
@@ -221,7 +221,7 @@ zh-CN:
         upsale:
           become_hero: "成为英雄！"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "本地部署的 Enterprise Edition 具有哪些优势？"
             high_security: "安全功能"
             high_security_text: "单点登录（SAML、OpenID Connect、CAS）、双重身份验证和 LDAP 组自动同步。"
             installation: "安装支持"
@@ -287,11 +287,11 @@ zh-CN:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>标题导航中提供了用于创建项目、用户和工作包的新按钮。</li> <li>新的用户、群组和占位符用户邀请模式，可轻松添加或邀请新用户并将其分配至工作包。</li> <li>GitHub 集成到 OpenProject 中。</li> <li>适用于群组等内容的 API v3 扩展，即通过 API 创建、读取、更新和删除群组和群组成员。</li> <li>项目自定义字段类型列表支持多选。</li> <li>从网页界面创建备份。</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>BIM：改进了 IFC 模型查看器的性能。</li> <li>BIM：IFC 查看器现已支持双精度模型，非常适合桥梁、道路等大型施工场地。</li> <li>BIM：用于在透视和正交模式之间切换的切换按钮。</li> <li>BIM：用于编辑 、删除或翻转剖面的菜单。</li> <li>标题导航中提供了用于创建项目、用户和工作包的新按钮。</li> <li>新的用户、群组和占位符用户邀请模式，可轻松添加或邀请新用户并将其分配至工作包。</li> <li>适用于群组等内容的 API v3 扩展，即通过 API 创建、读取、更新和删除群组和群组成员。</li> <li>项目自定义字段类型列表支持多选。</li> <li>从网页界面创建备份。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -481,7 +481,7 @@ zh-CN:
         help_menu: '在<b>帮助</b>菜单中，您可以找到用户指南和其他帮助资源。<br>使用 OpenProject 享受您的工作！'
         members: '邀请新<b>成员</b>加入您的项目。'
         project_selection: '请点击其中一个包含有用演示数据的项目以开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>更适合敏捷项目管理。'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: '创建新项目或邀请同事。'
         sidebar_arrow: "使用箭头可以导航回项目的<b>主菜单</b>。"
         welcome: '通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。'
         wiki: '在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。'
@@ -524,9 +524,9 @@ zh-CN:
       click_to_switch_context: '在该项目中打开此工作包。'
       confirm_template_load: '切换模板将重新加载页面，您将丢失此表单上的所有输入。是否继续？'
       use_template: "使用模板"
-      no_template_selected: "(None)"
+      no_template_selected: "（无）"
       copy:
-        copy_options: "Copy options"
+        copy_options: "复制选项"
       autocompleter:
         label: '项目自动补全'
     text_are_you_sure: "是否确定？"
@@ -537,7 +537,7 @@ zh-CN:
         reset_title: "重置表单配置"
         confirm_reset: >
           警告：确定想要重置表单配置吗？这会将属性重置为它们的默认组，并禁用所有自定义字段。
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
+        upgrade_to_ee: "升级到本地部署的 Enterprise Edition"
         upgrade_to_ee_text: "哇！如果您需要使用此功能，说明您非常专业！您是否愿意成为企业版客户来支持 OpenSource 开发人员？"
         more_information: "更多信息"
         nevermind: "我愿意"
@@ -612,7 +612,7 @@ zh-CN:
       parent_placeholder: "选择新父级，或按 Escape 键来取消。"
     autocompleter:
       placeholder: "键入内容进行搜索"
-      notFoundText: "No items found"
+      notFoundText: "没有找到条目"
       typeToSearchText: "键入内容进行搜索"
     repositories:
       select_tag: '选择标签'
@@ -931,7 +931,7 @@ zh-CN:
     notice_successful_create: "成功创建。"
     notice_successful_delete: "成功删除。"
     notice_successful_update: "成功更新。"
-    notice_job_started: "job started."
+    notice_job_started: "作业已开始。"
     notice_bad_request: "错误的请求。"
     relations:
       empty: 不存在关联
@@ -985,76 +985,76 @@ zh-CN:
       timeline: '甘特图'
     invite_user_modal:
       back: '返回'
-      invite: 'Invite'
+      invite: '邀请'
       title:
         invite: '邀请用户'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite_to_project: '邀请%{type}加入 %{project}'
+        User: '用户'
+        Group: '群组'
+        PlaceholderUser: '占位符用户'
+        invite_principal_to_project: '邀请 %{principal} 加入 %{project}'
       project:
         label: '项目'
-        required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        required: '请选择一个项目'
+        lacking_permission: '请选择其他项目，因为您缺少将用户分配至当前选定项目的权限。'
+        lacking_permission_info: '您缺少将用户分配至您当前所在项目的权限。您需要选择其他项目。'
         next_button: '下一个'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_results: '没有找到项目'
+        no_invite_rights: '您无权邀请成员加入此项目'
       type:
-        required: 'Please select the type to be invited'
+        required: '请选择要邀请的类型'
         user:
           title: '用户'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: '基于所选项目中所分配角色的权限'
         group:
           title: '组'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: '基于所选项目中所分配角色的权限'
         placeholder:
           title: '占位符用户'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title_no_ee: '占位符用户（Enterprise Edition 特定功能）'
+          description: '无法访问该项目并且未发送电子邮件。'
+          description_no_ee: '无法访问该项目并且未发送电子邮件。<br>请参见 <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: '用户名或电子邮件地址'
           name: '名称'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
-        no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
+        already_member_message: '已经是 %{project} 的成员'
+        no_results_user: '没有找到用户'
+        invite_user: '邀请：'
+        change_user_selection: '更改电子邮件地址或选择现有用户'
+        no_results_placeholder: '没有找到占位符'
+        change_placeholder_selection: '更改名称或选择现有占位符'
+        create_new_placeholder: '创建新的占位符：'
+        no_results_group: '没有找到群组'
+        change_group_selection: '更改名称或选择现有群组'
         next_button: '下一个'
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: '请选择一个用户'
+          placeholder: '请选择一个占位符'
+          group: '请选择一个群组'
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        label: '%{project} 中的角色'
+        no_roles_found: '没有找到角色'
+        description: '这是 %{principal} 在加入您的项目时将获得的角色。角色定义了允许其执行哪些操作以及允许其查看哪些信息。<a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">详细了解角色和权限</a>。'
+        required: '请选择一个角色'
         next_button: '下一个'
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        label: '邀请消息'
+        description: '我们将向 %{principal} 发送一封电子邮件，您可以在此处添加要向其发送的个人消息。提供邀请说明可能会很有用，您也可以添加一些有关该项目的信息以帮助他们入门。'
+        next_button: '检查邀请'
       summary:
         next_button: '发送邀请'
       success:
-        title: '%{principal} was invited!'
+        title: '%{principal} 已被邀请！'
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: '该用户现在可以登录以访问 %{project}。同时，您已经可以与该用户一起制定计划并分配工作包等。'
+          placeholder: '现在可以在 %{project} 中使用占位符。同时，您已经可以与该用户一起制定计划并分配工作包等。'
+          group: '该群组现已加入 %{project}。同时，您已经可以与该群组一起制定计划并分配工作包等。'
         next_button: '继续'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: '表单已成功提交'
+      load_error_message: '加载表单时出错'
+      validation_error_message: '请修正表单中存在的错误'
       advanced_settings: '高级设置'
 
 

@@ -247,8 +247,8 @@ ru:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Вы не можете удалить пользователя-заполнителя. Вы не имеете права управлять участниками проектов, в которых состоит заполнитель.
+    delete_tooltip: "Удалить пользователя-заполнителя"
     deletion_info:
       heading: "Удалить плейсхолдер пользователя %{name}"
       data_consequences: >
@@ -621,7 +621,7 @@ ru:
             types:
               in_use_by_work_packages: "всё ещё используются в пакетах работ: %{types}"
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              dependency_missing: "Модуль '%{dependency}' ' должен быть включен, так как модуль '%{module}' зависит от него."
               format: "%{message}"
         query:
           attributes:
@@ -2810,7 +2810,7 @@ ru:
     resources:
       schema: 'Схема'
     undisclosed:
-      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      parent: Неизвестные - выбранный родитель невидим из-за отсутствия разрешений.
   doorkeeper:
     pre_authorization:
       status: 'Предавторизация'

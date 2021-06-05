@@ -9,7 +9,7 @@ pl:
         teaser_text: 'Usprawnij swoje zwinne zarządzanie projektami dzięki temu elastycznemu widokowi Tablice. Twórz tyle tablic, ile chcesz, dla czegokolwiek, co zechcesz śledzić.'
         upgrade_to_ee_text: 'Tablice to funkcja wersji Enterprise. Przejdź na plan płatny.'
         upgrade: 'Zmień plan teraz'
-        personal_demo: 'Contact us for a demo'
+        personal_demo: 'Skontaktuj się z nami, aby uzyskać demo'
       lists:
         delete: 'Usuń listę'
       version:
