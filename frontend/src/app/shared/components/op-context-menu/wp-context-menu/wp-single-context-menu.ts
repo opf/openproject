@@ -4,7 +4,7 @@ import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handlin
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HookService } from 'core-app/modules/plugins/hook-service';
+import { HookService } from 'core-app/features/plugins/hook-service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';

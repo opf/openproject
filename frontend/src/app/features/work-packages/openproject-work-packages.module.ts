@@ -30,7 +30,7 @@ import { Injector, NgModule } from '@angular/core';
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
-import { HookService } from 'core-app/modules/plugins/hook-service';
+import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageEmbeddedTableComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component';
 import { WorkPackageEmbeddedTableEntryComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table-entry.component';
 import { WorkPackageTablePaginationComponent } from 'core-app/features/work-packages/components/wp-table/table-pagination/wp-table-pagination.component';

@@ -39,7 +39,7 @@ import { BcfImportButtonComponent } from "core-app/features/bim/ifc_models/toolb
 import { BcfExportButtonComponent } from "core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
 import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { HookService } from "core-app/modules/plugins/hook-service";
+import { HookService } from "core-app/features/plugins/hook-service";
 import { BcfWpAttributeGroupComponent } from "core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component";
 import { BcfNewWpAttributeGroupComponent } from "core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-new-wp-attribute-group.component";
 import { RevitBridgeService } from "core-app/features/bim/revit_add_in/revit-bridge.service";

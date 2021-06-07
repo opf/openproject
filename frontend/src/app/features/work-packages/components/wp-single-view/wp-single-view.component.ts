@@ -43,7 +43,7 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { HookService } from 'core-app/modules/plugins/hook-service';
+import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import { Subject } from "rxjs";
 import { randomString } from "core-app/shared/helpers/random-string";

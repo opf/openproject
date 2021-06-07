@@ -33,10 +33,7 @@ import { States } from 'core-app/core/states/states.service';
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpDragScrollDirective } from "core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive";
-import { OpenprojectPluginsModule } from "core-app/modules/plugins/openproject-plugins.module";
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
-import { LinkedPluginsModule } from "core-app/modules/plugins/linked-plugins.module";
-import { HookService } from "core-app/modules/plugins/hook-service";
 import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
@@ -77,8 +74,11 @@ import { MainMenuResizerComponent } from "core-app/shared/components/resizer/res
 import { CommentService } from "core-app/features/work-packages/components/wp-activity/comment-service";
 import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
 import { OpenprojectAdminModule } from "core-app/features/admin/openproject-admin.module";
-import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
 import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
+import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
+import { HookService } from "core-app/features/plugins/hook-service";
+import { OpenprojectPluginsModule } from "core-app/features/plugins/openproject-plugins.module";
+import { LinkedPluginsModule } from "core-app/features/plugins/linked-plugins.module";
 
 @NgModule({
   imports: [

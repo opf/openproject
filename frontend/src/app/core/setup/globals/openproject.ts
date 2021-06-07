@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpenProjectPluginContext } from 'core-app/modules/plugins/plugin-context';
+import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { input, InputState } from 'reactivestates';
 import { take } from 'rxjs/operators';
 import { GlobalHelpers } from "core-app/core/setup/globals/global-helpers";

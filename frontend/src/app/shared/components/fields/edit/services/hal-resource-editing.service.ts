@@ -34,7 +34,7 @@ import { FormResource } from "core-app/features/hal/resources/form-resource";
 import { ChangeMap } from "core-app/shared/components/fields/changeset/changeset";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HookService } from "core-app/modules/plugins/hook-service";
+import { HookService } from "core-app/features/plugins/hook-service";
 import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 

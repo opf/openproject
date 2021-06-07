@@ -29,7 +29,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HookService } from 'core-app/modules/plugins/hook-service';
+import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageFilterValues } from "core-app/features/work-packages/components/wp-edit-form/work-package-filter-values";
 import {
   HalResourceEditingService,

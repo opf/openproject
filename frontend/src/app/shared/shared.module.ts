@@ -35,12 +35,10 @@ import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {DragulaModule} from 'ng2-dragula';
 import {DynamicModule} from 'ng-dynamic-component';
 import {StateService, UIRouterModule} from '@uirouter/angular';
-import {HookService} from '../modules/plugins/hook-service';
 import {OpenprojectAccessibilityModule} from 'core-app/shared/directives/a11y/openproject-a11y.module';
 import {CurrentUserModule} from 'core-app/core/current-user/current-user.module';
 import {IconModule} from 'core-app/shared/components/icon/icon.module';
 import {AttributeHelpTextModule} from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
-
 import {IconTriggeredContextMenuComponent} from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-app/core/current-project/current-project.service';
 import {SortHeaderDirective} from 'core-app/features/work-packages/components/wp-table/sort-header/sort-header.directive';
@@ -57,8 +55,6 @@ import {UploadProgressComponent} from './components/notifications/upload-progres
 import {ResizerComponent} from './components/resizer/resizer.component';
 import {CollapsibleSectionComponent} from './components/collapsible-section/collapsible-section.component';
 import {NoResultsComponent} from './components/no-results/no-results.component';
-import {ScrollableTabsComponent} from './components/tabs/scrollable-tabs/scrollable-tabs.component';
-import {ContentTabsComponent} from './components/tabs/content-tabs/content-tabs.component';
 import {EditableToolbarTitleComponent} from './components/editable-toolbar-title/editable-toolbar-title.component';
 import {PersistentToggleComponent} from './components/persistent-toggle/persistent-toggle.component';
 import {AddSectionDropdownComponent} from './components/hide-section/add-section-dropdown/add-section-dropdown.component';
@@ -78,6 +74,7 @@ import { EnterpriseBannerComponent } from "core-app/shared/components/enterprise
 import { EnterpriseBannerBootstrapComponent } from "core-app/shared/components/enterprise-banner/enterprise-banner-bootstrap.component";
 import { HomescreenNewFeaturesBlockComponent } from "core-app/features/homescreen/blocks/new-features.component";
 import { TablePaginationComponent } from "core-app/shared/components/table-pagination/table-pagination.component";
+import { HookService } from "core-app/features/plugins/hook-service";
 
 
 export function bootstrapModule(injector:Injector) {

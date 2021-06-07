@@ -29,7 +29,7 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { Injectable } from "@angular/core";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { HookService } from "core-app/modules/plugins/hook-service";
+import { HookService } from "core-app/features/plugins/hook-service";
 import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
 import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";

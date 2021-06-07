@@ -28,7 +28,7 @@
 
 import { Injector, NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
-import { HookService } from "core-app/modules/plugins/hook-service";
+import { HookService } from "core-app/features/plugins/hook-service";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";

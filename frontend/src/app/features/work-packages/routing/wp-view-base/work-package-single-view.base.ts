@@ -40,7 +40,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HookService } from 'core-app/modules/plugins/hook-service';
+import { HookService } from 'core-app/features/plugins/hook-service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;

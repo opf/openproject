@@ -46,7 +46,7 @@ import { ConfigurationService } from "core-app/core/config/configuration.service
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { UIRouterModule } from "@uirouter/angular";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
-import { HookService } from "core-app/modules/plugins/hook-service";
+import { HookService } from "core-app/features/plugins/hook-service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
