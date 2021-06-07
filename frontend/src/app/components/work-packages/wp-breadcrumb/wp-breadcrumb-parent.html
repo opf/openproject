@@ -1,7 +1,7 @@
 <ng-container *ngIf="!active">
   <a *ngIf="parent"
     [attr.title]="parent.name"
-    uiSref="work-packages.show.activity"
+    uiSref="work-packages.show"
     [uiParams]="{workPackageId: parent.id}"
     class="wp-breadcrumb-parent breadcrumb-project-title nocut">
     <span [textContent]="parent.name"></span>
