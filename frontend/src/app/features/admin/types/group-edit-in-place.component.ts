@@ -35,7 +35,8 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { TypeBannerService } from 'core-app/core/admin/types/type-banner.service';
+import { TypeBannerService } from "core-app/features/admin/types/type-banner.service";
+
 
 @Component({
   selector: 'group-edit-in-place',

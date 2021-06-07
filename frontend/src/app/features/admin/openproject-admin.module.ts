@@ -28,13 +28,13 @@
 
 import { NgModule } from '@angular/core';
 import { OPSharedModule } from "core-app/shared/shared.module";
-import { TypeFormConfigurationComponent } from 'core-app/core/admin/types/type-form-configuration.component';
-import { GroupEditInPlaceComponent } from 'core-app/core/admin/types/group-edit-in-place.component';
-import { TypeFormAttributeGroupComponent } from 'core-app/core/admin/types/attribute-group.component';
 import { DragulaModule } from 'ng2-dragula';
-import { TypeFormQueryGroupComponent } from "core-app/core/admin/types/query-group.component";
+import { TypeFormAttributeGroupComponent } from "core-app/features/admin/types/attribute-group.component";
+import { TypeFormConfigurationComponent } from "core-app/features/admin/types/type-form-configuration.component";
+import { TypeFormQueryGroupComponent } from "core-app/features/admin/types/query-group.component";
+import { GroupEditInPlaceComponent } from "core-app/features/admin/types/group-edit-in-place.component";
 import { OpenprojectAccessibilityModule } from "core-app/shared/directives/a11y/openproject-a11y.module";
-import { EditableQueryPropsComponent } from "core-app/core/admin/editable-query-props/editable-query-props.component";
+import { EditableQueryPropsComponent } from "core-app/features/admin/editable-query-props/editable-query-props.component";
 
 @NgModule({
   imports: [

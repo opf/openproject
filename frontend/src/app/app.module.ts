@@ -48,7 +48,6 @@ import { OpenprojectWorkPackageRoutesModule } from "core-app/features/work-packa
 import { BrowserModule } from "@angular/platform-browser";
 import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";
 import { OpenprojectGlobalSearchModule } from "core-app/core/global_search/openproject-global-search.module";
-import { OpenprojectAdminModule } from "core-app/core/admin/openproject-admin.module";
 import { OpenprojectDashboardsModule } from "core-app/features/dashboards/openproject-dashboards.module";
 import { OpenprojectWorkPackageGraphsModule } from "core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module";
 import { PreviewTriggerService } from "core-app/core/setup/globals/global-listeners/preview-trigger.service";
@@ -56,7 +55,6 @@ import { OpenprojectOverviewModule } from "core-app/features/overview/openprojec
 import { OpenprojectMyPageModule } from "core-app/features/my-page/openproject-my-page.module";
 import { OpenprojectProjectsModule } from "core-app/features/projects/openproject-projects.module";
 import { KeyboardShortcutService } from "core-app/shared/directives/a11y/keyboard-shortcut-service";
-import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
 import { OpenprojectMembersModule } from "core-app/shared/components/autocompleter/members-autocompleter/members.module";
 import { OpenprojectAugmentingModule } from "core-app/core/augmenting/openproject-augmenting.module";
 import { OpenprojectInviteUserModalModule } from "core-app/features/invite-user-modal/invite-user-modal.module";
@@ -79,6 +77,8 @@ import { PaginationService } from "core-app/shared/components/table-pagination/p
 import { MainMenuResizerComponent } from "core-app/shared/components/resizer/resizer/main-menu-resizer.component";
 import { CommentService } from "core-app/features/work-packages/components/wp-activity/comment-service";
 import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
+import { OpenprojectAdminModule } from "core-app/features/admin/openproject-admin.module";
+import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
 
 @NgModule({
   imports: [

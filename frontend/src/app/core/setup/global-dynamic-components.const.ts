@@ -35,10 +35,6 @@ import {
   notificationsContainerSelector
 } from "core-app/shared/components/notifications/notifications-container.component";
 import {
-  adminTypeFormConfigurationSelector,
-  TypeFormConfigurationComponent
-} from "core-app/core/admin/types/type-form-configuration.component";
-import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector
 } from "core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component";
@@ -131,10 +127,6 @@ import {
   quickInfoMacroSelector,
   WorkPackageQuickinfoMacroComponent
 } from "core-app/shared/components/fields/macros/work-package-quickinfo-macro.component";
-import {
-  EditableQueryPropsComponent,
-  editableQueryPropsSelector
-} from "core-app/core/admin/editable-query-props/editable-query-props.component";
 import { SlideToggleComponent, slideToggleSelector } from "core-app/shared/components/slide-toggle/slide-toggle.component";
 import { BackupComponent, backupSelector } from "core-app/core/setup/globals/components/admin/backup.component";
 import {
@@ -162,6 +154,14 @@ import {
   MainMenuResizerComponent,
   mainMenuResizerSelector,
 } from "core-app/shared/components/resizer/resizer/main-menu-resizer.component";
+import {
+  adminTypeFormConfigurationSelector,
+  TypeFormConfigurationComponent,
+} from "core-app/features/admin/types/type-form-configuration.component";
+import {
+  EditableQueryPropsComponent,
+  editableQueryPropsSelector,
+} from "core-app/features/admin/editable-query-props/editable-query-props.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },

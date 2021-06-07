@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
-import { TypeBannerService } from 'core-app/core/admin/types/type-banner.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
@@ -10,6 +9,7 @@ import { GonService } from "core-app/core/gon/gon.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { install_menu_logic } from "core-app/core/setup/globals/global-listeners/action-menu";
 import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
+import { TypeBannerService } from "core-app/features/admin/types/type-banner.service";
 
 export type TypeGroupType = 'attribute'|'query';
 
