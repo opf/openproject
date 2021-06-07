@@ -146,7 +146,6 @@ import { SaveQueryModal } from "core-app/shared/components/modals/save-modal/sav
 import { QuerySharingForm } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
 import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
 import { WorkPackageTypeStatusComponent } from "core-app/features/work-packages/components/wp-type-status/wp-type-status.component";
-import { TimeEntryChangeset } from "core-app/features/work-packages/time-entries/time-entry-changeset";
 import { WorkPackageIsolatedQuerySpaceDirective } from "core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive";
 import { WorkPackageBreadcrumbParentComponent } from "core-app/features/work-packages/components/wp-breadcrumb/wp-breadcrumb-parent.component";
 import { WorkPackageSubjectComponent } from "core-app/features/work-packages/components/wp-subject/wp-subject.component";
@@ -171,6 +170,7 @@ import { UserActivityComponent } from "core-app/features/work-packages/component
 import { WorkPackageSplitViewToolbarComponent } from "core-app/features/work-packages/components/wp-details/wp-details-toolbar.component";
 import { WorkPackageCopyFullViewComponent } from "core-app/features/work-packages/components/wp-copy/wp-copy-full-view.component";
 import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
+import { TimeEntryChangeset } from "core-app/features/work-packages/helpers/time-entries/time-entry-changeset";
 
 
 @NgModule({
