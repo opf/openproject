@@ -31,7 +31,6 @@ import { Directive, ElementRef } from "@angular/core";
 import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { StateService } from "@uirouter/core";
-import { WorkPackageFiltersService } from "core-app/features/work-packages/filters/wp-filters/wp-filters.service";
 import {
   bimListViewIdentifier, bimSplitViewListIdentifier, bimSplitViewCardsIdentifier, bimTableViewIdentifier,
   bimViewerViewIdentifier,
@@ -40,9 +39,8 @@ import {
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import {
   WorkPackageViewDisplayRepresentationService,
-  wpDisplayCardRepresentation,
-  wpDisplayListRepresentation,
 } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 
 @Directive({
   selector: '[bimViewDropdown]'

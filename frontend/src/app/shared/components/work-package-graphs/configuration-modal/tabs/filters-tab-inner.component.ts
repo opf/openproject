@@ -6,7 +6,7 @@ import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-f
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
 import { QuerySpacedTabComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/abstract-query-spaced-tab.component";
-import { WorkPackageFiltersService } from "core-app/features/work-packages/filters/wp-filters/wp-filters.service";
+import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 
 @Component({
   selector: 'filters-tab-inner',

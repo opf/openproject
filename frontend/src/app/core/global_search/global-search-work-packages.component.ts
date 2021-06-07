@@ -31,7 +31,6 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
-import { WorkPackageFiltersService } from "core-app/features/work-packages/filters/wp-filters/wp-filters.service";
 import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
 import { WorkPackageTableConfigurationObject } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -39,6 +38,7 @@ import { WorkPackageViewFiltersService } from "core-app/features/work-packages/r
 import { debounceTime, distinctUntilChanged, skip } from "rxjs/operators";
 import { combineLatest } from "rxjs";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 
 export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 

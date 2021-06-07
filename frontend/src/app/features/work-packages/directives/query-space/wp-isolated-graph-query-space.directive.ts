@@ -47,7 +47,7 @@ import { WorkPackageViewFocusService } from "core-app/features/work-packages/rou
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
 import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { WorkPackageFiltersService } from "core-app/features/work-packages/filters/wp-filters/wp-filters.service";
+import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 import { WorkPackageContextMenuHelperService } from "core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
 import { WpChildrenInlineCreateService } from "core-app/features/work-packages/components/wp-relations/embedded/children/wp-children-inline-create.service";

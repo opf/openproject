@@ -37,12 +37,12 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { WorkPackageFiltersService } from 'core-app/features/work-packages/filters/wp-filters/wp-filters.service';
 import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { Observable } from "rxjs";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 
 @Component({
   templateUrl: './filter-container.directive.html',

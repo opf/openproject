@@ -126,19 +126,6 @@ import { OpenprojectAutocompleterModule } from "core-app/shared/components/autoc
 import { OpWpTabsModule } from "core-app/features/work-packages/components/wp-tabs/wp-tabs.module";
 import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/field-controls/edit-field-controls.module";
 import { DatePickerModal } from "core-app/shared/components/datepicker/datepicker.modal";
-import { QueryFiltersComponent } from "core-app/features/work-packages/filters/query-filters/query-filters.component";
-import { QueryFilterComponent } from "core-app/features/work-packages/filters/query-filter/query-filter.component";
-import { FilterDateTimesValueComponent } from "core-app/features/work-packages/filters/filter-date-times-value/filter-date-times-value.component";
-import { FilterSearchableMultiselectValueComponent } from "core-app/features/work-packages/filters/filter-searchable-multiselect-value/filter-searchable-multiselect-value.component";
-import { FilterDatesValueComponent } from "core-app/features/work-packages/filters/filter-dates-value/filter-dates-value.component";
-import { FilterStringValueComponent } from "core-app/features/work-packages/filters/filter-string-value/filter-string-value.component";
-import { FilterDateValueComponent } from "core-app/features/work-packages/filters/filter-date-value/filter-date-value.component";
-import { FilterDateTimeValueComponent } from "core-app/features/work-packages/filters/filter-date-time-value/filter-date-time-value.component";
-import { FilterToggledMultiselectValueComponent } from "core-app/features/work-packages/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component";
-import { WorkPackageFilterByTextInputComponent } from "core-app/features/work-packages/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
-import { FilterIntegerValueComponent } from "core-app/features/work-packages/filters/filter-integer-value/filter-integer-value.component";
-import { WorkPackageFilterContainerComponent } from "core-app/features/work-packages/filters/filter-container/filter-container.directive";
-import { FilterBooleanValueComponent } from "core-app/features/work-packages/filters/filter-boolean-value/filter-boolean-value.component";
 import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
 import { WpButtonMacroModal } from "core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
 import { QuerySharingModal } from "core-app/shared/components/modals/share-modal/query-sharing.modal";
@@ -171,6 +158,19 @@ import { WorkPackageSplitViewToolbarComponent } from "core-app/features/work-pac
 import { WorkPackageCopyFullViewComponent } from "core-app/features/work-packages/components/wp-copy/wp-copy-full-view.component";
 import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
 import { TimeEntryChangeset } from "core-app/features/work-packages/helpers/time-entries/time-entry-changeset";
+import { QueryFiltersComponent } from "core-app/features/work-packages/components/filters/query-filters/query-filters.component";
+import { FilterDateTimesValueComponent } from "core-app/features/work-packages/components/filters/filter-date-times-value/filter-date-times-value.component";
+import { FilterSearchableMultiselectValueComponent } from "core-app/features/work-packages/components/filters/filter-searchable-multiselect-value/filter-searchable-multiselect-value.component";
+import { QueryFilterComponent } from "core-app/features/work-packages/components/filters/query-filter/query-filter.component";
+import { FilterDatesValueComponent } from "core-app/features/work-packages/components/filters/filter-dates-value/filter-dates-value.component";
+import { FilterStringValueComponent } from "core-app/features/work-packages/components/filters/filter-string-value/filter-string-value.component";
+import { FilterDateValueComponent } from "core-app/features/work-packages/components/filters/filter-date-value/filter-date-value.component";
+import { FilterDateTimeValueComponent } from "core-app/features/work-packages/components/filters/filter-date-time-value/filter-date-time-value.component";
+import { FilterToggledMultiselectValueComponent } from "core-app/features/work-packages/components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component";
+import { WorkPackageFilterByTextInputComponent } from "core-app/features/work-packages/components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
+import { FilterIntegerValueComponent } from "core-app/features/work-packages/components/filters/filter-integer-value/filter-integer-value.component";
+import { WorkPackageFilterContainerComponent } from "core-app/features/work-packages/components/filters/filter-container/filter-container.directive";
+import { FilterBooleanValueComponent } from "core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component";
 
 
 @NgModule({
