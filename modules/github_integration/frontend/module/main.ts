@@ -34,7 +34,7 @@ import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
 import { PullRequestComponent } from './pull-request/pull-request.component';
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
-import { WorkPackageTabsService } from "core-app/features/work_packages/components/wp-tabs/services/wp-tabs/wp-tabs.service";
+import { WorkPackageTabsService } from "core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service";
 
 export function initializeGithubIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);

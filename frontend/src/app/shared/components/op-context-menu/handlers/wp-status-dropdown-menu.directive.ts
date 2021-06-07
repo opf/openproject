@@ -35,11 +35,11 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { HalResource } from 'core-app/core/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
-import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 
 @Directive({
   selector: '[wpStatusDropdown]'

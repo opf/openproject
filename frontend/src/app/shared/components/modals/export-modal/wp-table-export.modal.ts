@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { WorkPackageViewColumnsService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
 import { HalLink } from "core-app/core/hal/hal-link/hal-link";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -10,7 +10,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 
 

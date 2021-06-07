@@ -31,7 +31,7 @@ import { NgModule } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { WorkPackagesCalendarEntryComponent } from "core-app/shared/components/calendar/wp-calendar-entry/wp-calendar-entry.component";
 import { WorkPackagesCalendarController } from "core-app/shared/components/calendar/wp-calendar/wp-calendar.component";
-import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
+import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";
 import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
 import { TimeEntryCalendarComponent } from "core-app/shared/components/calendar/te-calendar/te-calendar.component";
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";

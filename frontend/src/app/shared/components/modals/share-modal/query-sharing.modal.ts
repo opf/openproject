@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackagesListService } from 'core-app/features/work_packages/components/wp-list/wp-list.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
@@ -37,7 +37,7 @@ import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
 import { QuerySharingChange } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 
 @Component({
   templateUrl: './query-sharing.modal.html'

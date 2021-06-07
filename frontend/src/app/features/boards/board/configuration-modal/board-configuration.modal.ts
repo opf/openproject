@@ -18,7 +18,7 @@ import {
   TabComponent,
   TabInterface,
   TabPortalOutlet
-} from 'core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet';
+} from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardConfigurationService } from "core-app/features/boards/board/configuration-modal/board-configuration.service";
 import { BoardService } from "core-app/features/boards/board/board.service";

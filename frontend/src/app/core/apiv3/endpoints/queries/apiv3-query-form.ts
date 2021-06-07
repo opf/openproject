@@ -33,7 +33,7 @@ import { Observable } from "rxjs";
 import * as URI from "urijs";
 import { map, tap } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { QueryFiltersService } from "core-app/features/work_packages/components/wp-query/query-filters.service";
+import { QueryFiltersService } from "core-app/features/work-packages/components/wp-query/query-filters.service";
 
 export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
   @InjectField() private queryFilters:QueryFiltersService;

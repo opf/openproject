@@ -1,6 +1,6 @@
 import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
 import { GridResource } from "core-app/core/hal/resources/grid-resource";
-import { CardHighlightingMode } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { CardHighlightingMode } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 export type BoardType = 'free'|'action';

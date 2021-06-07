@@ -22,19 +22,19 @@ import {
   TabComponent,
   TabInterface,
   TabPortalOutlet
-} from 'core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet';
+} from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ComponentType } from "@angular/cdk/portal";
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import { WpGraphConfiguration } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
-  templateUrl: '../../../../features/work_packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html',
+  templateUrl: '../../../../features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {

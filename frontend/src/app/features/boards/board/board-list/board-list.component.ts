@@ -16,18 +16,18 @@ import {
   withLoadingIndicator
 } from "core-app/core/loading-indicator/loading-indicator.service";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
-import { WorkPackageInlineCreateService } from "core-app/features/work_packages/components/wp-inline-create/wp-inline-create.service";
+import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
 import { BoardInlineCreateService } from "core-app/features/boards/board/board-list/board-inline-create.service";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { IsolatedQuerySpace } from "core-app/features/work_packages/directives/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { Board } from "core-app/features/boards/board/board";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { WorkPackageCardViewComponent } from "core-app/features/work_packages/components/wp-card-view/wp-card-view.component";
-import { WorkPackageStatesInitializationService } from "core-app/features/work_packages/components/wp-list/wp-states-initialization.service";
+import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { WorkPackageCardViewComponent } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
+import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
@@ -38,13 +38,13 @@ import { ComponentType } from "@angular/cdk/portal";
 import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
 import { BoardListMenuComponent } from "core-app/features/boards/board/board-list/board-list-menu.component";
 import { debugLog } from "core-app/shared/helpers/debug_output";
-import { WorkPackageCardDragAndDropService } from "core-app/features/work_packages/components/wp-card-view/services/wp-card-drag-and-drop.service";
-import { WorkPackageChangeset } from "core-app/features/work_packages/components/wp-edit/work-package-changeset";
+import { WorkPackageCardDragAndDropService } from "core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service";
+import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { BoardFiltersService } from "core-app/features/boards/board/board-filter/board-filters.service";
 import { StateService, TransitionService } from "@uirouter/core";
-import { WorkPackageViewFocusService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { BoardListCrossSelectionService } from "core-app/features/boards/board/board-list/board-list-cross-selection.service";
 import { debounceTime, filter, map, retry } from "rxjs/operators";
 import { HalEvent, HalEventsService } from "core-app/core/hal/services/hal-events.service";
@@ -52,7 +52,7 @@ import { ChangeItem } from "core-app/shared/components/fields/changeset/changese
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { KeepTabService } from "core-app/features/work_packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 export interface DisabledButtonPlaceholder {
   text:string;

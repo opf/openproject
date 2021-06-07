@@ -39,12 +39,12 @@ import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct
 import { LinkedPluginsModule } from "core-app/modules/plugins/linked-plugins.module";
 import { HookService } from "core-app/modules/plugins/hook-service";
 import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
-import { OpenprojectWorkPackagesModule } from 'core-app/features/work_packages/openproject-work-packages.module';
+import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
 import { OpenprojectRouterModule } from "core-app/core/routing/openproject-router.module";
-import { OpenprojectWorkPackageRoutesModule } from "core-app/features/work_packages/openproject-work-package-routes.module";
+import { OpenprojectWorkPackageRoutesModule } from "core-app/features/work-packages/openproject-work-package-routes.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";
 import { OpenprojectGlobalSearchModule } from "core-app/core/global_search/openproject-global-search.module";
@@ -77,7 +77,7 @@ import { ConfirmFormSubmitController } from "core-app/shared/components/modals/c
 import { ProjectMenuAutocompleteComponent } from "core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component";
 import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 import { MainMenuResizerComponent } from "core-app/shared/components/resizer/resizer/main-menu-resizer.component";
-import { CommentService } from "core-app/features/work_packages/components/wp-activity/comment-service";
+import { CommentService } from "core-app/features/work-packages/components/wp-activity/comment-service";
 import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
 
 @NgModule({

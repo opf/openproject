@@ -34,8 +34,8 @@ import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
   wpDisplayListRepresentation
-} from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageViewTimelineService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 @Directive({
   selector: '[wpViewDropdown]'

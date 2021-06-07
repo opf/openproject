@@ -14,10 +14,10 @@ import { Subject } from "rxjs";
 import { QuerySortByResource } from "core-app/core/hal/resources/query-sort-by-resource";
 import { QueryGroupByResource } from "core-app/core/hal/resources/query-group-by-resource";
 import { VersionResource } from "core-app/core/hal/resources/version-resource";
-import { WorkPackageDisplayRepresentationValue } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { WorkPackageDisplayRepresentationValue } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
 import { CapabilityResource } from "core-app/core/hal/resources/capability-resource";
-import { QueryColumn } from "core-app/features/work_packages/components/wp-query/query-column";
+import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
 
 export class States extends StatesGroup {
   name = 'MainStore';

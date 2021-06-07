@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HighlightableDisplayField } from "core-app/shared/components/fields/display/field-types/highlightable-display-field.module";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 

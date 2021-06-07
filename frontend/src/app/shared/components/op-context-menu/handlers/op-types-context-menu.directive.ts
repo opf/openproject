@@ -34,8 +34,8 @@ import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handlin
 import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import { TypeResource } from 'core-app/core/hal/resources/type-resource';
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { WorkPackageCreateService } from 'core-app/features/work_packages/components/wp-new/wp-create.service';
-import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
+import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 @Directive({
   selector: '[opTypesCreateDropdown]'

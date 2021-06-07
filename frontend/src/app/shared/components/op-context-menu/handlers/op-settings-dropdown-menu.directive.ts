@@ -32,12 +32,12 @@ import { AuthorisationService } from 'core-app/core/model-auth/model-auth.servic
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { States } from 'core-app/core/states/states.service';
-import { WorkPackagesListService } from 'core-app/features/work_packages/components/wp-list/wp-list.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
 import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WpTableConfigurationModalComponent } from 'core-app/features/work_packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
+import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
   selectableTitleIdentifier,
   triggerEditingEvent

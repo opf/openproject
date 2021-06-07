@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackagesListService } from 'core-app/features/work_packages/components/wp-list/wp-list.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { States } from 'core-app/core/states/states.service';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { WorkPackageViewFocusService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { BackRoutingService } from "core-app/features/work_packages/components/back-routing/back-routing.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
-import { WorkPackageService } from "core-app/features/work_packages/services/work-package.service";
+import { BackRoutingService } from "core-app/features/work-packages/components/back-routing/back-routing.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
+import { WorkPackageService } from "core-app/features/work-packages/services/work-package.service";
 
 @Component({
   templateUrl: './wp-destroy.modal.html'

@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { WorkPackageTableConfiguration } from 'core-app/features/work_packages/components/wp-table/wp-table-configuration';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { GroupObject } from 'core-app/core/hal/resources/wp-collection-resource';
 import { ChartOptions, ChartType } from 'chart.js';
 import { I18nService } from "core-app/core/i18n/i18n.service";

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageCreateComponent } from 'core-app/features/work_packages/components/wp-new/wp-create.component';
+import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
 import { Component } from '@angular/core';
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

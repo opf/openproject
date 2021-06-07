@@ -43,8 +43,8 @@ import {AttributeHelpTextModule} from 'core-app/shared/components/attribute-help
 
 import {IconTriggeredContextMenuComponent} from 'core-app/shared/components/op-context-menu/icon-triggered-context-menu/icon-triggered-context-menu.component';
 import {CurrentProjectService} from 'core-app/core/current-project/current-project.service';
-import {SortHeaderDirective} from 'core-app/features/work_packages/components/wp-table/sort-header/sort-header.directive';
-import {ZenModeButtonComponent} from 'core-app/features/work_packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
+import {SortHeaderDirective} from 'core-app/features/work-packages/components/wp-table/sort-header/sort-header.directive';
+import {ZenModeButtonComponent} from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import {OPContextMenuComponent} from 'core-app/shared/components/op-context-menu/op-context-menu.component';
 import {BoardVideoTeaserModalComponent} from 'core-app/features/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
 import {highlightColBootstrap} from './directives/highlight-col/highlight-col.directive';

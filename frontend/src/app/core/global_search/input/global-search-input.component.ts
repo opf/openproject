@@ -43,7 +43,7 @@ import { APIV3Service } from "../../apiv3/api-v3.service";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
-import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { DeviceService } from "core-app/core/browser/device.service";
 import { ContainHelpers } from "core-app/shared/directives/focus/contain-helpers";
 import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";

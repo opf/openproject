@@ -1,12 +1,12 @@
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageViewGroupByService } from 'core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
 import { Component } from "@angular/core";
 import { ChartType } from 'chart.js';
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
-import { WorkPackageStatesInitializationService } from "core-app/features/work_packages/components/wp-list/wp-states-initialization.service";
-import { TabComponent } from "core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet";
+import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
+import { TabComponent } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { QuerySpacedTabComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/abstract-query-spaced-tab.component";
 
 interface OpChartType {

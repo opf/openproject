@@ -29,7 +29,7 @@
 import { NgModule } from '@angular/core';
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
-import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
+import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";
 import { WpGraphConfigurationModalComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
 import { WpGraphConfigurationFiltersTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component";
 import { WpGraphConfigurationSettingsTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component";

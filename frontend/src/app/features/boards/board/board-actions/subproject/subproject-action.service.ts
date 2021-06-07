@@ -3,7 +3,7 @@ import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { UserResource } from 'core-app/core/hal/resources/user-resource';
 import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
-import { WorkPackageChangeset } from "core-app/features/work_packages/components/wp-edit/work-package-changeset";
+import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { SubprojectBoardHeaderComponent } from "core-app/features/boards/board/board-actions/subproject/subproject-board-header.component";
 import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";

@@ -7,7 +7,7 @@ import { OpAutocompleterOptionTemplateDirective } from "./directives/op-autocomp
 import { OpAutocompleterLabelTemplateDirective } from "./directives/op-autocompleter-label-template.directive";
 import { OpAutocompleterHeaderTemplateDirective } from "./directives/op-autocompleter-header-template.directive";
 import { OpAutocompleterService } from "./services/op-autocompleter.service";
-import { Highlighting } from "core-app/features/work_packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";

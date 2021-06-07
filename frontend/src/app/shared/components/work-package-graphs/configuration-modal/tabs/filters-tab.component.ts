@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { TabComponent } from 'core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet';
+import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 
 @Component({
   templateUrl: './filters-tab.component.html'

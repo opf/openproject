@@ -36,7 +36,7 @@ import { QueryFormResource } from "core-app/core/hal/resources/query-form-resour
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
 import { Apiv3ListParameters, listParamsString } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { QueryFiltersService } from "core-app/features/work_packages/components/wp-query/query-filters.service";
+import { QueryFiltersService } from "core-app/features/work-packages/components/wp-query/query-filters.service";
 import { HalPayloadHelper } from "core-app/core/hal/schemas/hal-payload.helper";
 
 export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, APIv3QueryPaths> {

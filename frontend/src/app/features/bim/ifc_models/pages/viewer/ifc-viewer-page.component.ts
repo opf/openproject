@@ -3,9 +3,9 @@ import { GonService } from "core-app/core/gon/gon.service";
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition
-} from "core-app/features/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
-import { WorkPackageFilterButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-filter-button/wp-filter-button.component";
-import { ZenModeButtonComponent } from "core-app/features/work_packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+} from "core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
+import { WorkPackageFilterButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component";
+import { ZenModeButtonComponent } from "core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {
   bimListViewIdentifier,
   bimViewerViewIdentifier,
@@ -13,10 +13,10 @@ import {
 } from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
 import { BimViewToggleButtonComponent } from "core-app/features/bim/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
 import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
-import { QueryParamListenerService } from "core-app/features/work_packages/components/wp-query/query-param-listener.service";
+import { QueryParamListenerService } from "core-app/features/work-packages/components/wp-query/query-param-listener.service";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { BimManageIfcModelsButtonComponent } from "core-app/features/bim/ifc_models/toolbar/manage-ifc-models-button/bim-manage-ifc-models-button.component";
-import { WorkPackageCreateButtonComponent } from "core-app/features/work_packages/components/wp-buttons/wp-create-button/wp-create-button.component";
+import { WorkPackageCreateButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component";
 import { StateService, TransitionService } from "@uirouter/core";
 import { BehaviorSubject } from "rxjs";
 import { BcfImportButtonComponent } from "core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
@@ -25,9 +25,9 @@ import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
-  templateUrl: '../../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: '../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
-    '../../../../work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
+    '../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
     './styles/generic.sass'
   ],
   encapsulation: ViewEncapsulation.None,

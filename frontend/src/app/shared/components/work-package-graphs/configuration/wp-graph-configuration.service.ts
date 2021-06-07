@@ -1,7 +1,7 @@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WpGraphConfigurationSettingsTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component";
 import { QueryResource } from "core-app/core/hal/resources/query-resource";
-import { TabInterface } from "core-app/features/work_packages/components/wp-table/configuration-modal/tab-portal-outlet";
+import { TabInterface } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { Injectable } from '@angular/core';
 import { WpGraphConfigurationFiltersTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component";
 import { ChartOptions, ChartType } from 'chart.js';
@@ -11,7 +11,7 @@ import {
   WpGraphQueryParams
 } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { WorkPackageEmbeddedGraphDataset } from "core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component";
 

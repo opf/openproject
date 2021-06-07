@@ -28,7 +28,7 @@
 
 import { NgModule } from '@angular/core';
 import { OPSharedModule } from "core-app/shared/shared.module";
-import { OpenprojectWorkPackagesModule } from "core-app/features/work_packages/openproject-work-packages.module";
+import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { UIRouterModule } from "@uirouter/angular";
 import { BoardListComponent } from "core-app/features/boards/board/board-list/board-list.component";

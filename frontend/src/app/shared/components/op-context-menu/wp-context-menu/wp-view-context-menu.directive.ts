@@ -2,10 +2,10 @@ import { Injector } from "@angular/core";
 import {
   WorkPackageAction,
   WorkPackageContextMenuHelperService
-} from "core-app/features/work_packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service";
+} from "core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import { States } from "core-app/core/states/states.service";
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work_packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { WorkPackageViewSelectionService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { OpContextMenuHandler } from "core-app/shared/components/op-context-menu/op-context-menu-handler";
 import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
@@ -15,7 +15,7 @@ import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { StateService } from "@uirouter/core";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
-import { splitViewRoute } from "core-app/features/work_packages/routing/split-view-routes.helper";
+import { splitViewRoute } from "core-app/features/work-packages/routing/split-view-routes.helper";
 import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {

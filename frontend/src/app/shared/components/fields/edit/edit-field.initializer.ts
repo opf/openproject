@@ -44,7 +44,7 @@ import { TimeEntryWorkPackageEditFieldComponent } from "core-app/shared/componen
 import { CombinedDateEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/combined-date-edit-field.component";
 import { VersionAutocompleterComponent } from "core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component";
 import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
-import { WorkPackageCommentFieldComponent } from "core-app/features/work_packages/components/work-package-comment/wp-comment-field.component";
+import { WorkPackageCommentFieldComponent } from "core-app/features/work-packages/components/work-package-comment/wp-comment-field.component";
 
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {

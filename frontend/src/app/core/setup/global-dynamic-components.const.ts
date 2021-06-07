@@ -3,7 +3,7 @@ import { appBaseSelector, ApplicationBaseComponent } from "core-app/core/routing
 import {
   EmbeddedTablesMacroComponent,
   wpEmbeddedTableMacroSelector
-} from "core-app/features/work_packages/components/wp-table/embedded/embedded-tables-macro.component";
+} from "core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component";
 import {
   ColorsAutocompleter,
   colorsAutocompleterSelector
@@ -11,7 +11,7 @@ import {
 import {
   ZenModeButtonComponent,
   zenModeComponentSelector
-} from "core-app/features/work_packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
+} from "core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import { AttachmentsComponent, attachmentsSelector } from "core-app/shared/components/attachments/attachments.component";
 import {
   UserAutocompleterComponent,
@@ -24,7 +24,7 @@ import {
 import {
   CustomDateActionAdminComponent,
   customDateActionAdminSelector
-} from "core-app/features/work_packages/components/wp-custom-actions/date-action/custom-date-action-admin.component";
+} from "core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component";
 import { BoardsMenuComponent, boardsMenuSelector } from "core-app/features/boards/boards-sidebar/boards-menu.component";
 import {
   GlobalSearchWorkPackagesEntryComponent,
@@ -94,7 +94,7 @@ import {
 import {
   WorkPackageQuerySelectDropdownComponent,
   wpQuerySelectSelector
-} from "core-app/features/work_packages/components/wp-query-select/wp-query-select-dropdown.component";
+} from "core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component";
 import {
   GlobalSearchTitleComponent,
   globalSearchTitleSelector

@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, Input } from "@angular/core";
 import { Board } from "core-app/features/boards/board/board";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { WorkPackageStatesInitializationService } from "core-app/features/work_packages/components/wp-list/wp-states-initialization.service";
-import { IsolatedQuerySpace } from 'core-app/features/work_packages/directives/query-space/isolated-query-space';
+import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
-import { WorkPackageViewFiltersService } from "core-app/features/work_packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
-import { UrlParamsHelperService } from "core-app/features/work_packages/components/wp-query/url-params-helper";
+import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
 import { StateService } from "@uirouter/core";
 import { debounceTime, skip, take } from "rxjs/operators";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

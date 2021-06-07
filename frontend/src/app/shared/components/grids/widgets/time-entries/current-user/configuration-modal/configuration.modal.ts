@@ -13,7 +13,7 @@ import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.servi
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageNotificationService } from "core-app/features/work_packages/services/notifications/work-package-notification.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { TimeEntriesCurrentUserConfigurationModalService } from "core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/services/configuration-modal/configuration-modal.service";
 
 @Component({
