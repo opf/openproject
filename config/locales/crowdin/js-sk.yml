@@ -87,6 +87,7 @@ sk:
     button_update: "Aktualizovať"
     button_export-pdf: "Stiahnuť PDF"
     button_export-atom: "Stiahnuť Atom"
+    button_create: "Vytvoriť"
     calendar:
       title: 'Kalendár'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'

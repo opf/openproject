@@ -4,7 +4,6 @@
   [addTag]="showAddTag ? createNewFromInput.bind(this) : false"
   [typeahead]="input$"
   [items]="items$ | async"
-  [virtualScroll]="true"
   [clearable]="true"
   [clearOnBackspace]="false"
   [clearSearchOnAdd]="false"
@@ -51,7 +50,7 @@
 
     <!--Create a new placeholder by name-->
     <div *ngIf="canCreateNewPlaceholder$ | async">
-      <op-icon icon-classes="icon-mail1 icon-context"></op-icon>
+      <op-icon icon-classes="icon-add icon-context"></op-icon>
       <b>{{ text.createNewPlaceholder }}</b>
       {{ input }}
     </div>

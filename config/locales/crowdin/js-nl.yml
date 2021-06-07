@@ -87,6 +87,7 @@ nl:
     button_update: "Bijwerken"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
+    button_create: "Maken"
     calendar:
       title: 'Kalender'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'

@@ -87,6 +87,7 @@ zh-TW:
     button_update: "更新"
     button_export-pdf: "下載 PDF"
     button_export-atom: "下載 Atom"
+    button_create: "建立"
     calendar:
       title: '行事曆'
       too_many: '總共有 %{count} 個工作項目，但只有 %{max} 個可以顯示。'

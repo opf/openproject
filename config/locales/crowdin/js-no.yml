@@ -87,6 +87,7 @@
     button_update: "Oppdatèr"
     button_export-pdf: "Last ned PDF"
     button_export-atom: "Download Atom"
+    button_create: "Opprett"
     calendar:
       title: 'Kalender'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'

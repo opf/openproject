@@ -87,6 +87,7 @@ ru:
     button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
+    button_create: "Создать"
     calendar:
       title: 'Календарь'
       too_many: 'В общей сложности пакетов работ: %{count}. Отображено только: %{max}.'
@@ -285,7 +286,7 @@ ru:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая кнопка навигации в заголовке для создания проектов, пользователей и пакетов работ.</li> <li>Новый способ приглашения пользователей, групп и заполнителей позволяет легко добавлять или приглашать новых пользователей и прикреплять их к рабочим пакетам.</li> <li>Интеграция GitHub в OpenProject.</li> <li>Расширения API v3 для групп и более, в т.ч. создание, чтение, обновление и удаление групп и членов групп через API.</li> <li>Множественный выбор пользовательских для настраиваемых полей типового списка.</li> <li>Создание резервной копии из веб-интерфейса.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
@@ -610,7 +611,7 @@ ru:
       parent_placeholder: "Выберите нового родителя или нажмите кнопку \"Отменить\"."
     autocompleter:
       placeholder: "Введите текст для поиска"
-      notFoundText: "No items found"
+      notFoundText: "Элементов не найдено"
       typeToSearchText: "Введите текст для поиска"
     repositories:
       select_tag: 'Выберите тег'

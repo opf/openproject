@@ -34,18 +34,18 @@ fr:
       remove: "Supprimer %{name}"
       active: "Activer %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Les pièces jointes peuvent ne pas être incluses car elles dépassent la taille globale maximale autorisée. Vous pouvez modifier cela via la configuration (nécessite un redémarrage du serveur).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Vous pouvez déclencher une sauvegarde ici. Le processus peut prendre un certain temps en fonction de la quantité de données (en particulier les pièces jointes) que vous avez. Vous recevrez un e-mail dès qu'elle sera prête.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        Une nouvelle sauvegarde remplacera toute sauvegarde précédente. Il n'est possible de demander qu'un nombre limité de sauvegardes par jour.
+      last_backup: Dernière sauvegarde
+      last_backup_from: Dernière sauvegarde du
+      title: Sauvegarder OpenProject
       options: Options
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Inclure les pièces jointes
+      download_backup: Télécharger la sauvegarde
+      request_backup: Demander une sauvegarde
     close_popup_title: "Fermer popup"
     close_filter_title: "Fermer le filtre"
     close_form_title: "Fermer le formulaire"
@@ -87,6 +87,7 @@ fr:
     button_update: "Mettre à jour"
     button_export-pdf: "Télécharger le PDF"
     button_export-atom: "Télécharger Atom"
+    button_create: "Créer"
     calendar:
       title: 'Calendrier'
       too_many: 'Il y a %{count} de paquets de travail au total, mais seulement %{max} peut être affiché.'
@@ -286,11 +287,11 @@ fr:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Nouveau bouton dans la navigation d'en-tête pour créer des projets, des utilisateurs et des paquets de travail.</li> <li>Une nouvelle modale d'invitation pour les utilisateurs, les groupes et les utilisateurs fictifs permet d'ajouter ou d'inviter facilement de nouveaux utilisateurs et de les affecter à des lots de travaux.</li> <li>Intégration de GitHub dans OpenProject. </li> <li>Extensions de l'API v3 pour les groupes et plus encore pour créer, lire, mettre à jour et supprimer des groupes et des membres de groupes par le biais de l'API, entre autres.</li> <li>Sélection multiple pour les champs personnalisés du projet de liste de type.</li> <li>Création de sauvegardes à partir de l'interface web.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>BIM : Amélioration des performances de la visionneuse de modèles IFC.</li> <li>BIM : La visionneuse IFC prend désormais en charge les modèles de double précision, ce qui est idéal pour les grands chantiers tels que les ponts, les routes, etc.</li> <li>BIM : interrupteur pour basculer entre le mode perspective et le mode orthogonal.</li> <li>BIM : Un menu pour modifier, supprimer ou retourner les plans de section.</li> <li>Nouveau bouton dans la navigation d'en-tête pour créer des projets, des utilisateurs et des lots de travaux. </li> <li>Une nouvelle modale d'invitation pour les utilisateurs, les groupes et les utilisateurs fictifs permet d'ajouter ou d'inviter facilement de nouveaux utilisateurs et de les affecter à des lots de travaux.</li> <li>Extensions de l'API v3 pour les groupes et plus encore pour créer, lire, mettre à jour et supprimer des groupes et des membres de groupes par le biais de l'API, entre autres.</li> <li>Sélection pour les champs personnalisés de projet de liste de type.</li> <li>Création de sauvegardes à partir de l'interface web.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -523,9 +524,9 @@ fr:
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
       confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
       use_template: "Utiliser le modèle"
-      no_template_selected: "(None)"
+      no_template_selected: "(aucun)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Options de copie"
       autocompleter:
         label: 'Remplissage automatique du projet'
     text_are_you_sure: "Êtes-vous sûr ?"
@@ -611,7 +612,7 @@ fr:
       parent_placeholder: "Choisissez un nouveau parent ou appuyez sur Echap pour annuler."
     autocompleter:
       placeholder: "Taper pour rechercher"
-      notFoundText: "No items found"
+      notFoundText: "Aucun élément trouvé"
       typeToSearchText: "Taper pour rechercher"
     repositories:
       select_tag: 'Sélectionner une étiquette'
@@ -930,7 +931,7 @@ fr:
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."
     notice_successful_update: "Mise à jour réussie."
-    notice_job_started: "job started."
+    notice_job_started: "tâche démarrée."
     notice_bad_request: "Mauvaise requête."
     relations:
       empty: Aucune relation n'existe
@@ -997,11 +998,11 @@ fr:
       project:
         label: 'Projet'
         required: 'Veuillez sélectionner un projet'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission: 'Veuillez sélectionner un projet différent car vous n''avez pas les autorisations nécessaires pour assigner des utilisateurs au projet actuellement sélectionné.'
+        lacking_permission_info: 'Vous n''avez pas la permission d''affecter des utilisateurs au projet dans lequel vous vous trouvez. Vous devez en sélectionner un autre.'
         next_button: 'Suivante'
         no_results: 'Aucun projet trouvé'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_invite_rights: 'Vous n''êtes pas autorisé à inviter des membres à ce projet'
       type:
         required: 'Veuillez sélectionner le type d''invité'
         user:
@@ -1035,14 +1036,14 @@ fr:
           group: 'Veuillez sélectionner un groupe'
       role:
         label: 'Rôle dans %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        no_roles_found: 'Aucun rôle trouvé.'
+        description: 'C''est le rôle que %{principal} recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>'
         required: 'Veuillez sélectionner un rôle'
         next_button: 'Suivante'
       message:
         label: 'Message d''invitation'
         description: 'Nous enverrons un e-mail à %{principal}, auquel vous pourrez ajouter un message personnel ici. Une explication à l''invitation pourrait être utile, ou peut-être un peu d''informations concernant le projet pour les aider à démarrer.'
-        next_button: 'Review invitation'
+        next_button: 'Vérifier l''invitation'
       summary:
         next_button: 'Envoyer une invitation'
       success:
@@ -1053,9 +1054,9 @@ fr:
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: 'Le formulaire a bien été envoyé'
+      load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'
+      validation_error_message: 'Veuillez corriger les erreurs présentes dans le formulaire'
       advanced_settings: 'Paramètres avancés'
 
 

@@ -6,7 +6,7 @@
 
   <div class="op-modal--body op-form">
     <op-form-field
-      [label]="text.label[type]"
+      [label]="textLabel"
       required
     >
       <op-ium-principal-search
@@ -27,7 +27,7 @@
           type="button"
           class="op-link"
           (click)="principalControl?.setValue(null)"
-          >{{ text.changeUserSelection }}</button>
+          >{{ text.change }}</button>
       </p>
 
       <p
@@ -39,7 +39,7 @@
           type="button"
           class="op-link"
           (click)="principalControl?.setValue(null)"
-        >{{ text.changePlaceholderSelection }}</button>
+        >{{ text.change }}</button>
       </p>
 
       <div

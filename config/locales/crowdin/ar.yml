@@ -2723,8 +2723,6 @@ ar:
     getting_started: "الشروع في البدء"
     help_and_support: "المساعدة والدعم"
   total_progress: "التقدم الإجمالي"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "الكل"
     active: "نشِط"

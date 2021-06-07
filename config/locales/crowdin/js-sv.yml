@@ -87,6 +87,7 @@ sv:
     button_update: "Uppdatera"
     button_export-pdf: "Ladda ner PDF"
     button_export-atom: "Ladda ner Atom"
+    button_create: "Skapa"
     calendar:
       title: 'Kalender'
       too_many: 'Det finns totalt %{count} arbetspaket, men bara %{max} kan visas.'

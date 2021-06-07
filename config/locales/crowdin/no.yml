@@ -2653,8 +2653,6 @@
     getting_started: "Komme i gang"
     help_and_support: "Hjelp og support"
   total_progress: "Total fremdrift"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "alle"
     active: "aktiv"

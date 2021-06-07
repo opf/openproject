@@ -25,17 +25,17 @@ es:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Solicitudes de incorporación de cambios"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Fragmentos de código de Git
+          description: Copiar fragmentos de código de Git en el Portapapeles
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Nombre de rama
+          commit_message: Mensaje de confirmación
+          cmd: Crear rama con confirmación vacía
+          title: Fragmentos de código rápido para Git
+          copy_success: '✅ Copiado'
+          copy_error: '❌ Error al copiar'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Aún no hay solicitudes de incorporación de cambios vinculadas. Vincule una solicitud de incorporación de cambios existente con el código <code>OP#%{wp_id}</code> en la descripción, o bien cree una nueva solicitud de incorporación de cambios.'
       github_actions: Comportamiento

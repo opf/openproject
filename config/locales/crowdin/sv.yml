@@ -2650,8 +2650,6 @@ sv:
     getting_started: "Komma igång"
     help_and_support: "Hjälp och support"
   total_progress: "Totalt klart"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "alla"
     active: "aktiv"

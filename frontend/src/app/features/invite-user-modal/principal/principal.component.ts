@@ -62,10 +62,9 @@ export class PrincipalComponent implements OnInit {
       User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
       PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
       Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      Email: this.I18n.t('js.label_email')
     },
-    changeUserSelection: this.I18n.t('js.invite_user_modal.principal.change_user_selection'),
-    changePlaceholderSelection: this.I18n.t('js.invite_user_modal.principal.change_placeholder_selection'),
-    changeGroupSelection: this.I18n.t('js.invite_user_modal.principal.change_group_selection'),
+    change: this.I18n.t('js.label_change'),
     inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
     createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
     required: {
@@ -108,6 +107,14 @@ export class PrincipalComponent implements OnInit {
 
   get hasPrincipalSelected() {
     return !!this.principal;
+  }
+
+  get textLabel() {
+    if (this.type === PrincipalType.User && this.isNewPrincipal) {
+      return this.text.label.Email;
+    } else {
+      return this.text.label[this.type];
+    }
   }
 
   get isNewPrincipal() {

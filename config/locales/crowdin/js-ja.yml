@@ -88,6 +88,7 @@ ja:
     button_update: "更新"
     button_export-pdf: "PDFファイルをダウンロード"
     button_export-atom: "Atomをダウンロード"
+    button_create: "作成"
     calendar:
       title: 'カレンダー'
       too_many: '合計 %{count} のワークパッケージがありますが %{max} のみ表示されます。'

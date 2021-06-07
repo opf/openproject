@@ -26,6 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+
 import { Component, ElementRef } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -70,7 +71,7 @@ export class EETrialFormComponent {
     label_company: this.I18n.t('js.admin.enterprise.trial.form.label_company'),
     label_first_name: this.I18n.t('js.admin.enterprise.trial.form.label_first_name'),
     label_last_name: this.I18n.t('js.admin.enterprise.trial.form.label_last_name'),
-    label_email: this.I18n.t('js.admin.enterprise.trial.form.label_email'),
+    label_email: this.I18n.t('js.label_email'),
     label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
     privacy_policy: this.I18n.t('js.admin.enterprise.trial.form.privacy_policy'),
     receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter', { link: newsletterURL }),
@@ -96,4 +97,3 @@ export class EETrialFormComponent {
     }
   }
 }
-

@@ -87,6 +87,7 @@ bg:
     button_update: "Обнови"
     button_export-pdf: "Свали PDF"
     button_export-atom: "Свали Atom"
+    button_create: "Създаване"
     calendar:
       title: 'Календар'
       too_many: 'Общо има %{count} работни пакети, но могат да бъдат показани само %{max}.'

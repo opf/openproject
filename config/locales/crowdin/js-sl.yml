@@ -87,6 +87,7 @@ sl:
     button_update: "Posodobi"
     button_export-pdf: "Prenesi PDF"
     button_export-atom: "Prenesi Atom"
+    button_create: "Ustvari"
     calendar:
       title: 'Koledar'
       too_many: 'Obstaja %{count} delovnih paketov, vendar je lahko prikazanih samo %{max}.'

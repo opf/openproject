@@ -6,7 +6,7 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
   template: `
     <a id ="{{ activityHtmlId }}-link"
        [textContent]="activityLabel"
-       uiSref="work-packages.show.activity"
+       uiSref="work-packages.show"
        [uiParams]="{workPackageId: workPackage.id!, '#': activityHtmlId }">
     </a>
   `

@@ -87,6 +87,7 @@ fil:
     button_update: "I-update"
     button_export-pdf: "I-download ang PDF"
     button_export-atom: "I-download ang atom"
+    button_create: "Lumikha"
     calendar:
       title: 'Kalendaryo'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'

@@ -87,6 +87,7 @@ ar:
     button_update: "التحديث"
     button_export-pdf: "تنزيل PDF"
     button_export-atom: "تحميل Atom"
+    button_create: "إنشاء"
     calendar:
       title: 'التقويم'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
