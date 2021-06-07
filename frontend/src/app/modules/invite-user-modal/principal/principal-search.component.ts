@@ -44,6 +44,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     switchMap(this.loadPrincipalData.bind(this)),
     share(),
   );
+  private emailRegExp:RegExp = /^\S+@\S+\.\S+$/;
     
   public canInviteByEmail$ = combineLatest(
     this.items$,
@@ -53,7 +54,8 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     map(([elements, input, canCreateUsers]) => {
       return canCreateUsers
       && this.type === PrincipalType.User
-      && input?.includes('@')
+      && !!input
+      && this.emailRegExp.test(input)
       && !elements.find((el) => (el.principal as UserResource).email === input);
     }),
   );
