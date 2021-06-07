@@ -32,7 +32,6 @@ import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { WorkPackageTablePaginationComponent } from 'core-app/features/work-packages/components/wp-table/table-pagination/wp-table-pagination.component';
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpenProject } from "core-app/core/setup/globals/openproject";
@@ -41,6 +40,7 @@ import { ConfigurationService } from "core-app/core/config/configuration.service
 import { OpIconComponent } from "core-app/shared/components/icon/icon.component";
 import { IPaginationOptions, PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 import { PaginationInstance } from "core-app/shared/components/table-pagination/pagination-instance";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
 function setupMocks(paginationService:PaginationService) {
   const options:IPaginationOptions = {

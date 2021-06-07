@@ -31,7 +31,6 @@ import { TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -45,6 +44,7 @@ import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-
 import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
 
 describe('WorkPackageCache', () => {
   let injector:Injector;

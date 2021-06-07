@@ -30,8 +30,8 @@ import { UserLinkComponent } from './user-link.component';
 
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UserResource } from '../../../core/hal/resources/user-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UserResource } from "core-app/features/hal/resources/user-resource";
 
 describe('UserLinkComponent component test', () => {
   const PathHelperStub = {

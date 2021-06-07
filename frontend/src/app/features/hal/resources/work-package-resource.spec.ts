@@ -27,16 +27,13 @@
 //++
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { AttachmentCollectionResource } from 'core-app/core/hal/resources/attachment-collection-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -48,6 +45,9 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { AttachmentCollectionResource } from "core-app/features/hal/resources/attachment-collection-resource";
+import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
