@@ -118,6 +118,10 @@ class Project < ApplicationRecord
               only_when_blank: true, # Only generate when identifier not set
               limit: IDENTIFIER_MAX_LENGTH,
               blacklist: RESERVED_IDENTIFIERS,
+              custom_rule: -> {
+                # remove leading numbers and hypens as they would clash with the identifier's validations later on.
+                base_url.sub(/^[-\d]*|-*$/, '')
+              },
               adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
 
   validates :identifier,
