@@ -227,42 +227,34 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    */
   protected createNewWithDefaults(projectIdentifier:string|null|undefined, defaults?:HalSource) {
     return this
-      .withFiltersPayload(projectIdentifier, defaults)
-      .then((filterDefaults) => {
-        return this
-          .createNewWorkPackage(projectIdentifier, filterDefaults)
-          .then((change:WorkPackageChangeset) => {
-            if (!change) {
-              throw new Error('No new work package was created');
-            }
+      .newWithFilters(projectIdentifier, defaults)
+      .then(([change, except]) => {
+        if (!change) {
+          throw new Error('No new work package was created');
+        }
 
-            // We need to apply the defaults again (after them being applied in the form requests)
-            // here as the initial form requests might have led to some default
-            // values not being carried over. This can happen when custom fields not available in one type are filter values.
-            this.defaultsFromFilters(change, filterDefaults);
+        // We need to apply the defaults again (after them being applied in the form requests)
+        // here as the initial form requests might have led to some default
+        // values not being carried over. This can happen when custom fields not available in one type are filter values.
+        this.defaultsFromFilters(change, except);
 
-            return change;
-          });
+        return change;
       });
   }
 
   /**
    * Fetches all values of filters applicable to work as default values (e.g. assignee = 123).
-   * If defaults already contain the type, that filter is ignored.
-   *
-   * The ignoring functionality could be generalized.
+   * Filters whose attribute is included in the except list are not applied, e.g. 'type'.
    *
    * @params object
-   * @param defaults
+   * @param except
    */
-  private defaultsFromFilters(object:HalSource|WorkPackageChangeset, defaults?:HalSource) {
+  private defaultsFromFilters(object:HalSource|WorkPackageChangeset, except:Array<string>) {
     // Not using WorkPackageViewFiltersService here as the embedded table does not load the form
     // which will result in that service having empty current filters.
     const query = this.querySpace.query.value;
 
     if (query) {
-      const except:string[] = defaults?._links && defaults._links.type ? ['type'] : [];
-
       new WorkPackageFilterValues(this.injector, query.filters, except)
         .applyDefaultsFromFilters(object);
     }
@@ -276,68 +268,79 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * a valid payload in the sense that all properties are at their correct place and are in the right format. That means
    * HalResources are in the _links section and follow the { href: some_link } format while simple properties stay on the
    * top level.
-    */
-  private withFiltersPayload(projectIdentifier:string|null|undefined, defaults?:HalSource):Promise<HalSource> {
-    let fromFilter:HalSource = { _links: {} };
-    this.defaultsFromFilters(fromFilter, defaults);
-    this.toApiPayload(fromFilter);
-    fromFilter = _.merge(fromFilter, defaults)
+   */
+  protected newWithFilters(projectIdentifier:string|null|undefined, defaults?:HalSource):Promise<[WorkPackageChangeset, Array<string>]> {
+    const fromFilter:HalSource = { _links: {} };
+    const except:Array<string> = defaults?._links && defaults._links['type'] ? ['type'] : [];
+    this.defaultsFromFilters(fromFilter, except);
 
-    const filtersApplied = Object.keys(fromFilter).length > 1 || Object.keys(fromFilter._links).length > 0;
-
-    if (filtersApplied) {
+    if (Object.keys(fromFilter).length > 1 || Object.keys(fromFilter._links).length > 0) {
+      // Fetch the form in order to get the schema
       return this
-        .apiV3Service
-        .withOptionalProject(projectIdentifier)
-        .work_packages
-        .form
-        .forPayload(fromFilter)
-        .toPromise()
-        .then((form:FormResource) => {
-          const errors = form.getErrors()?.errors;
+        .formForPayload(projectIdentifier, defaults)
+        .then((form) => {
+          // Fetch the form in order to get the invalid values and drop them
+          this.toApiPayload(fromFilter, form.schema);
+          const payload = _.merge({}, defaults, fromFilter)
 
-          (errors || []).forEach((error:ErrorResource) => {
-            const attribute = error.details.attribute;
-
-            if (fromFilter[attribute]) {
-              delete (fromFilter[attribute])
-            } else if (fromFilter._links[attribute]) {
-              delete (fromFilter._links[attribute])
-            }
-          });
-
-          return fromFilter;
+          return this
+            .formForPayload(projectIdentifier, payload)
+            .then((form:FormResource) => {
+              return this.newWithoutErrors(form, projectIdentifier, except, payload);
+            });
+        });
+    } else {
+      return this
+        .createNewWorkPackage(projectIdentifier, defaults || { _links: {} })
+        .then((change) => {
+          return [change, except];
         });
     }
-    return Promise.resolve(fromFilter);
   }
 
-  private toApiPayload(payload:HalSource, schema?:SchemaResource) {
+  private newWithoutErrors(form:FormResource, projectIdentifier:string|null|undefined, except:Array<string>, payload:HalSource):Promise<[WorkPackageChangeset, Array<string>]> {
+    const errors = form.getErrors()?.errors || [];
+
+    if (errors.length > 0) {
+      (errors).forEach((error:ErrorResource) => {
+        const attribute = error.details.attribute;
+
+        except.push(attribute);
+
+        if (payload[attribute]) {
+          delete (payload[attribute])
+        } else if (payload._links[attribute]) {
+          delete (payload._links[attribute])
+        }
+      });
+
+      return this
+        .createNewWorkPackage(projectIdentifier, payload)
+        .then(change => {
+          return [change, except];
+        })
+    } else {
+      return Promise.resolve([this.fromCreateForm(form), except]);
+    }
+  }
+
+  private toApiPayload(payload:HalSource, schema:SchemaResource) {
     const links:string[] = [];
 
-    // TODO: is the schema chase still needed?
-    if (schema) {
-      Object.keys(schema.$source).forEach((attribute) => {
-        if (!['Integer',
-          'Float',
-          'Date',
-          'DateTime',
-          'Duration',
-          'Formattable',
-          'Boolean',
-          'String',
-          'Text',
-          undefined].includes(schema.$source[attribute].type)) {
-          links.push(attribute);
-        }
-      });
-    } else {
-      Object.keys(payload).forEach(attribute => {
-        if (payload[attribute] instanceof HalResource) {
-          links.push(attribute);
-        }
-      });
-    }
+    Object.keys(schema.$source).forEach(attribute => {
+      if (!['Integer',
+        'Float',
+        'Date',
+        'DateTime',
+        'Duration',
+        'Formattable',
+        'Boolean',
+        'String',
+        'Text',
+        undefined].includes(schema.$source[attribute].type)) {
+        links.push(attribute);
+      }
+    });
 
     links.forEach((attribute) => {
       const value = payload[attribute];
@@ -352,6 +355,16 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       }
       delete payload[attribute];
     });
+  }
+
+  private formForPayload(projectIdentifier:string|null|undefined, payload:any) {
+    return this
+      .apiV3Service
+      .withOptionalProject(projectIdentifier)
+      .work_packages
+      .form
+      .forPayload(payload)
+      .toPromise()
   }
 
   /**

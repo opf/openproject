@@ -32,9 +32,8 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   let(:type_bug) { FactoryBot.create(:type_bug) }
   let(:type_task) { FactoryBot.create(:type_task) }
   let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
-  let(:status) { FactoryBot.create(:default_status) }
 
-  let!(:status) { FactoryBot.create(:default_status) }
+  let!(:status) { FactoryBot.create(:default_status, name: 'DEFAULT') }
   let!(:priority) { FactoryBot.create :priority, is_default: true }
   let!(:workflows) do
     FactoryBot.create(:workflow, type: type_task, old_status: status, role: role)
