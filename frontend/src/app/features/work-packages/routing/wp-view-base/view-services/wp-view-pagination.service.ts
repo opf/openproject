@@ -27,8 +27,8 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { WorkPackageViewPagination } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination";
 import { WorkPackageViewBaseService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service";

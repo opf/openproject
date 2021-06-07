@@ -1,6 +1,6 @@
 import { BcfResourceCollectionPath } from "core-app/features/bim/bcf/api/bcf-path-resources";
 import { BcfApiRequestService } from "core-app/features/bim/bcf/api/bcf-api-request.service";
-import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/core/hal/http/http.interfaces";
+import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/features/hal/http/http.interfaces";
 import { Observable } from "rxjs";
 import { BcfTopicPaths } from "core-app/features/bim/bcf/api/topics/bcf-topic.paths";
 import { Injector } from "@angular/core";

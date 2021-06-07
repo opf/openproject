@@ -28,7 +28,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { take } from 'rxjs/operators';

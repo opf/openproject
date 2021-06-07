@@ -1,10 +1,10 @@
 import { Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { forkJoin, Observable, of, Subscription } from "rxjs";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { BoardListComponent } from "core-app/features/boards/board/board-list/board-list.component";
 import { StateService } from "@uirouter/core";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
@@ -14,7 +14,7 @@ import { QueryUpdatedService } from "core-app/features/boards/board/query-update
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { Board, BoardWidgetOption } from "core-app/features/boards/board/board";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
+import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
 import { BoardPartitionedPageComponent } from "core-app/features/boards/board/board-partitioned-page/board-partitioned-page.component";
 import { AddListModalComponent } from "core-app/features/boards/board/add-list-modal/add-list-modal.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";

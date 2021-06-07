@@ -31,7 +31,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
 import { StateService } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

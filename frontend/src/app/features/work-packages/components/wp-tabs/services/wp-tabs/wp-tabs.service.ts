@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import {WorkPackageResource} from "core-app/core/hal/resources/work-package-resource";
+import {WorkPackageResource} from "core-app/features/hal/resources/work-package-resource";
 import { WpTabDefinition } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab";
 import { WorkPackageRelationsTabComponent } from "core-app/features/work-packages/components/wp-single-view-tabs/relations-tab/relations-tab.component";
 import { StateService } from "@uirouter/core";

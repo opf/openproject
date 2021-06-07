@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { StateService, TransitionPromise } from '@uirouter/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { Injectable } from '@angular/core';
 import { WorkPackageViewPagination } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 
 @Injectable()
 export class WorkPackagesListChecksumService {

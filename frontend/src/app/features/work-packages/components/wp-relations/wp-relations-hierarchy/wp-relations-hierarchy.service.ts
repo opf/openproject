@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { States } from "core-app/core/states/states.service";
 import { StateService } from '@uirouter/core';
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {

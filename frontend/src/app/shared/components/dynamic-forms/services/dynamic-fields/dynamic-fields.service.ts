@@ -8,7 +8,7 @@ import { FormlyFieldConfig } from "@ngx-formly/core";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
-import { HalLink } from "core-app/core/hal/hal-link/hal-link";
+import { HalLink } from "core-app/features/hal/hal-link/hal-link";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 

@@ -41,7 +41,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

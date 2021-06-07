@@ -29,8 +29,8 @@
 import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { from, Observable } from "rxjs";
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
-import { RelationResource } from "core-app/core/hal/resources/relation-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 import { map } from "rxjs/operators";
 import { buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

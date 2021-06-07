@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldType } from "@ngx-formly/core";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Component({
   selector: 'op-select-input',

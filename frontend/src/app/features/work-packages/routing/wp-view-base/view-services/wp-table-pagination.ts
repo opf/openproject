@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
 import { PaginationInstance } from "core-app/shared/components/table-pagination/pagination-instance";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
 
 export class WorkPackageViewPagination {
   public current:PaginationInstance;

@@ -33,8 +33,7 @@ import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
-import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -45,6 +44,7 @@ import {
 import { QuerySharingModal } from "core-app/shared/components/modals/share-modal/query-sharing.modal";
 import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
 import { SaveQueryModal } from "core-app/shared/components/modals/save-modal/save-query.modal";
+import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
 
 @Directive({
   selector: '[opSettingsContextMenu]'

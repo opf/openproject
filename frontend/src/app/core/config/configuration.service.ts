@@ -27,7 +27,7 @@
 //++
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ConfigurationResource } from "core-app/core/hal/resources/configuration-resource";
+import { ConfigurationResource } from "core-app/features/hal/resources/configuration-resource";
 import * as moment from "moment";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

@@ -1,4 +1,3 @@
-import { TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 //-- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,8 +28,9 @@ import { TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 import * as moment from 'moment';
 import { InputState, MultiInputState } from 'reactivestates';
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import Moment = moment.Moment;
+import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 export const timelineElementCssClass = 'timeline-element';
 export const timelineBackgroundElementClass = 'timeline-element--bg';

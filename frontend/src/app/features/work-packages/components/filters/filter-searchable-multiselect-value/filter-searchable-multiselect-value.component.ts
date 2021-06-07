@@ -1,23 +1,23 @@
 
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
-import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
-import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { HalResourceSortingService } from 'core-app/core/hal/services/hal-resource-sorting.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { Observable } from 'rxjs';
-import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { map } from 'rxjs/operators';
 import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { HalResourceSortingService } from "core-app/features/hal/services/hal-resource-sorting.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 
 @Component({
   selector: 'filter-searchable-multiselect-value',

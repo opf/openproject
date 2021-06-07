@@ -28,17 +28,17 @@
 
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { Injectable } from '@angular/core';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { QuerySchemaResource } from 'core-app/core/hal/resources/query-schema-resource';
-import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { combine, input, InputState } from 'reactivestates';
-import { cloneHalResourceCollection } from 'core-app/core/hal/helpers/hal-resource-builder';
-import { QueryFilterResource } from "core-app/core/hal/resources/query-filter-resource";
-import { QueryFilterInstanceSchemaResource } from "core-app/core/hal/resources/query-filter-instance-schema-resource";
 import { States } from "core-app/core/states/states.service";
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { mapTo, take } from "rxjs/operators";
+import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { cloneHalResourceCollection } from "core-app/features/hal/helpers/hal-resource-builder";
+import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
+import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
 
 @Injectable()
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {

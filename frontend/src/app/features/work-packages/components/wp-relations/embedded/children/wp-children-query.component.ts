@@ -29,7 +29,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { OpUnlinkTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action';
@@ -38,8 +38,8 @@ import { WorkPackageInlineCreateService } from "core-app/features/work-packages/
 import { WorkPackageRelationQueryBase } from "core-app/features/work-packages/components/wp-relations/embedded/wp-relation-query.base";
 import { WpChildrenInlineCreateService } from "core-app/features/work-packages/components/wp-relations/embedded/children/wp-children-inline-create.service";
 import { filter } from "rxjs/operators";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { GroupDescriptor } from "core-app/features/work-packages/components/wp-single-view/wp-single-view.component";
 

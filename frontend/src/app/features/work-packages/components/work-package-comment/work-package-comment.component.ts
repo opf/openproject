@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import {
   ChangeDetectionStrategy,
@@ -48,8 +47,9 @@ import { WorkPackageNotificationService } from "core-app/features/work-packages/
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { WorkPackageCommentFieldHandler } from "core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler";
 import { CommentService } from "core-app/features/work-packages/components/wp-activity/comment-service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { ErrorResource } from "core-app/features/hal/resources/error-resource";
 
 @Component({
   selector: 'work-package-comment',

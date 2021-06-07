@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { Board } from "core-app/features/boards/board/board";
-import { GridWidgetResource } from "core-app/core/hal/resources/grid-widget-resource";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
 
 @Injectable({ providedIn: 'root' })
 export class BoardListsService {

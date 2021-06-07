@@ -30,7 +30,7 @@ import { Field, IFieldSchema } from "core-app/shared/components/fields/field.bas
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { DisplayFieldContext } from "core-app/shared/components/fields/display/display-field.service";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export const cssClassCustomOption = 'custom-option';

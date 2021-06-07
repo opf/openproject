@@ -1,4 +1,4 @@
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { Injectable } from '@angular/core';
 import { WorkPackageViewHierarchies } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies";

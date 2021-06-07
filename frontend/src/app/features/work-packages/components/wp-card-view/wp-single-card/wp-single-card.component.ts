@@ -7,7 +7,6 @@ import {
   OnInit,
   Output
 } from "@angular/core";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { checkedClassName, uiStateLinkClass } from "core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
@@ -19,6 +18,7 @@ import { CardHighlightingMode } from "core-app/features/work-packages/components
 import { CardViewOrientation } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 
 @Component({
   selector: 'wp-single-card',

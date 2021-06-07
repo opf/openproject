@@ -27,19 +27,18 @@
 //++
 
 import { Component, InjectFlags, OnInit } from '@angular/core';
-import { HalResourceSortingService } from 'core-app/core/hal/services/hal-resource-sorting.service';
-import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { EditFieldComponent } from '../../edit-field.component';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
 import { from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { PermissionsService } from 'core-app/core/permissions/permissions.service';
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
 import { StateService } from "@uirouter/core";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { HalResourceSortingService } from "core-app/features/hal/services/hal-resource-sorting.service";
 
 export interface ValueOption {
   name:string;

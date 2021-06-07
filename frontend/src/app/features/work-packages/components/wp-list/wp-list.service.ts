@@ -26,10 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { States } from "core-app/core/states/states.service";
-import { ErrorResource } from 'core-app/core/hal/resources/error-resource';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
@@ -51,6 +49,8 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";
 import { APIv3QueryPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-query-paths";
 import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
+import { ErrorResource } from "core-app/features/hal/resources/error-resource";
+import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };

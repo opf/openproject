@@ -43,7 +43,7 @@ import {
   wpDisplayCardRepresentation
 } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { WorkPackageTableConfigurationObject } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
@@ -51,7 +51,7 @@ import { DeviceService } from "core-app/core/browser/device.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { StateService } from "@uirouter/core";
 import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
 

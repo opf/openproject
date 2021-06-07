@@ -1,6 +1,5 @@
 import { Injector } from '@angular/core';
-import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
 import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
@@ -12,6 +11,7 @@ import {
   WorkPackageViewRelationColumnsService
 } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{

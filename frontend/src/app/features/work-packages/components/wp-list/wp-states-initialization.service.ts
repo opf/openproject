@@ -1,13 +1,9 @@
 import { States } from "core-app/core/states/states.service";
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
-import { SchemaResource } from 'core-app/core/hal/resources/schema-resource';
-import { QueryFormResource } from 'core-app/core/hal/resources/query-form-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { WorkPackagesListChecksumService } from './wp-list-checksum.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
-import { QuerySchemaResource } from 'core-app/core/hal/resources/query-schema-resource';
 import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import { take } from "rxjs/operators";
 import { WorkPackageViewOrderService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service";
@@ -24,6 +20,10 @@ import { WorkPackageViewFiltersService } from "core-app/features/work-packages/r
 import { WorkPackageViewRelationColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
+import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
+import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
 
 @Injectable()
 export class WorkPackageStatesInitializationService {

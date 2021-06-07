@@ -90,7 +90,7 @@ import { WorkPackagesListInvalidQueryService } from 'core-app/features/work-pack
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageChildrenQueryComponent } from "core-app/features/work-packages/components/wp-relations/embedded/children/wp-children-query.component";
 import { WpRelationInlineAddExistingComponent } from "core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
 import { WorkPackageRelationQueryComponent } from "core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-query.component";
@@ -108,11 +108,11 @@ import { CustomDateActionAdminComponent } from 'core-app/features/work-packages/
 import { WorkPackagesTableConfigMenu } from "core-app/features/work-packages/components/wp-table/config-menu/config-menu.component";
 import { WorkPackageViewToggleButton } from "core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
 import { WorkPackageViewDropdownMenuDirective } from "core-app/shared/components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { OpenprojectProjectsModule } from "core-app/features/projects/openproject-projects.module";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { WorkPackageEditActionsBarComponent } from "core-app/features/work-packages/components/edit-actions-bar/wp-edit-actions-bar.component";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import { WorkPackageSingleCardComponent } from "core-app/features/work-packages/components/wp-card-view/wp-single-card/wp-single-card.component";
 import { WorkPackageListViewComponent } from "core-app/features/work-packages/routing/wp-list-view/wp-list-view.component";

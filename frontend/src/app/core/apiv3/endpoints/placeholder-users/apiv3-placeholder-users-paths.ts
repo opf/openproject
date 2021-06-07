@@ -28,7 +28,7 @@
 
 import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
 import { Apiv3PlaceholderUserPaths } from "core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-user-paths";
-import { PlaceholderUserResource } from "core-app/core/hal/resources/placeholder-user-resource";
+import { PlaceholderUserResource } from "core-app/features/hal/resources/placeholder-user-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Observable } from "rxjs";
 import {
@@ -36,7 +36,7 @@ import {
   Apiv3ListResourceInterface,
   listParamsString
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 
 export class Apiv3PlaceholderUsersPaths
   extends APIv3ResourceCollection<PlaceholderUserResource, Apiv3PlaceholderUserPaths>

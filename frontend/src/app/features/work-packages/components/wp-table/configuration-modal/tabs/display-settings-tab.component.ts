@@ -2,10 +2,10 @@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import { Component, Injector } from "@angular/core";
+import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
 
 @Component({
   templateUrl: './display-settings-tab.component.html'

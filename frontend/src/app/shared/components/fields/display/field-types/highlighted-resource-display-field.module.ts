@@ -28,7 +28,7 @@
 
 import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { HighlightableDisplayField } from "core-app/shared/components/fields/display/field-types/highlightable-display-field.module";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export class HighlightedResourceDisplayField extends HighlightableDisplayField {
 

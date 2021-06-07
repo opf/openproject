@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalLink } from "core-app/core/hal/hal-link/hal-link";
+import { HalLink } from "core-app/features/hal/hal-link/hal-link";
 
 @Injectable()
 export class BcfPathHelperService {

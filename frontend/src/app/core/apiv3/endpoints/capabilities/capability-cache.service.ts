@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { CapabilityResource } from "core-app/core/hal/resources/capability-resource";
+import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { States } from "core-app/core/states/states.service";

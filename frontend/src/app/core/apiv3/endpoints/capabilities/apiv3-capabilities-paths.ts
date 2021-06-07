@@ -28,10 +28,10 @@
 
 
 import { Apiv3CapabilityPaths } from "core-app/core/apiv3/endpoints/capabilities/apiv3-capability-paths";
-import { CapabilityResource } from "core-app/core/hal/resources/capability-resource";
+import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Observable } from "rxjs";
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
 import { MultiInputState } from "reactivestates";
 import {

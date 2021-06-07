@@ -30,8 +30,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inje
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { HelpTextResource } from 'core-app/core/hal/resources/help-text-resource';
 import { I18nService } from "core-app/core/i18n/i18n.service";
+import { HelpTextResource } from "core-app/features/hal/resources/help-text-resource";
 
 @Component({
   templateUrl: './help-text.modal.html',

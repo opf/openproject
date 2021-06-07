@@ -28,7 +28,6 @@
 
 import { APP_INITIALIZER, ApplicationRef, Injector, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { OpenprojectHalModule } from 'core-app/core/hal/openproject-hal.module';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-app/core/states/states.service';
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
@@ -79,6 +78,7 @@ import { CommentService } from "core-app/features/work-packages/components/wp-ac
 import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
 import { OpenprojectAdminModule } from "core-app/features/admin/openproject-admin.module";
 import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-components.const";
+import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
 
 @NgModule({
   imports: [

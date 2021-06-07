@@ -27,7 +27,6 @@
 //++
 
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import * as moment from 'moment';
 import {
@@ -40,6 +39,7 @@ import {
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import Moment = moment.Moment;
+import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 @Component({
   selector: timelineHeaderSelector,

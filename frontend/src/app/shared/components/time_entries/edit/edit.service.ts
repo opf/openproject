@@ -1,13 +1,13 @@
 import { Injectable, Injector } from "@angular/core";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { TimeEntryResource } from 'core-app/core/hal/resources/time-entry-resource';
 import { TimeEntryEditModal } from './edit.modal';
 import { take } from 'rxjs/operators';
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
 
 @Injectable()
 export class TimeEntryEditService {

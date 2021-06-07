@@ -1,4 +1,4 @@
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { TableDragActionService } from "core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service";
 import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 
@@ -6,8 +6,8 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
 import { rowGroupClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import { locatePredecessorBySelector } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers";
 import { groupIdentifier } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 

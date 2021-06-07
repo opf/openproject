@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 
 /**
  * The service is intended to store all the updates caused to a query by a user.

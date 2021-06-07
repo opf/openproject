@@ -25,7 +25,7 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { States } from "core-app/core/states/states.service";
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { RenderInfo } from '../wp-timeline';
@@ -36,7 +36,7 @@ import { Injector } from '@angular/core';
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";

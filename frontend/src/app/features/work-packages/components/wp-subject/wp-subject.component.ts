@@ -28,7 +28,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { randomString } from "core-app/shared/helpers/random-string";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

@@ -27,10 +27,10 @@
 //++
 
 import {APIv3FormResource} from "core-app/core/apiv3/forms/apiv3-form-resource";
-import {SchemaResource} from "core-app/core/hal/resources/schema-resource";
-import {HalPayloadHelper} from "core-app/core/hal/schemas/hal-payload.helper";
-import {HalResource} from "core-app/core/hal/resources/hal-resource";
-import {MembershipResource, MembershipResourceEmbedded} from "core-app/core/hal/resources/membership-resource";
+import {SchemaResource} from "core-app/features/hal/resources/schema-resource";
+import {HalPayloadHelper} from "core-app/features/hal/schemas/hal-payload.helper";
+import {HalResource} from "core-app/features/hal/resources/hal-resource";
+import {MembershipResource, MembershipResourceEmbedded} from "core-app/features/hal/resources/membership-resource";
 
 export class Apiv3MembershipsForm extends APIv3FormResource {
 

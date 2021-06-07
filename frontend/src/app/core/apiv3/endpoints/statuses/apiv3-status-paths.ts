@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StatusResource } from "core-app/core/hal/resources/status-resource";
+import { StatusResource } from "core-app/features/hal/resources/status-resource";
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 

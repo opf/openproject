@@ -27,7 +27,7 @@
 //++
 
 import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { GroupResource } from "core-app/core/hal/resources/group-resource";
+import { GroupResource } from "core-app/features/hal/resources/group-resource";
 import { Observable } from "rxjs";
 
 export class Apiv3GroupPaths extends APIv3GettableResource<GroupResource> {

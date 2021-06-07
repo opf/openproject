@@ -40,19 +40,19 @@ import {
 import { Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { APIV3Service } from "../../apiv3/api-v3.service";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { DeviceService } from "core-app/core/browser/device.service";
 import { ContainHelpers } from "core-app/shared/directives/focus/contain-helpers";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export const globalSearchSelector = 'global-search-input';
 

@@ -29,7 +29,7 @@
 import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";
 import { APIv3TypesPaths } from "core-app/core/apiv3/endpoints/types/apiv3-types-paths";
 import { APIV3WorkPackagesPaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import { ProjectResource } from "core-app/core/hal/resources/project-resource";
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 import { APIv3VersionsPaths } from "core-app/core/apiv3/endpoints/versions/apiv3-versions-paths";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";

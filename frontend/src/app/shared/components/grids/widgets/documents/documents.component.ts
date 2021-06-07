@@ -2,8 +2,8 @@ import { AbstractWidgetComponent } from "core-app/shared/components/grids/widget
 import { Component, OnInit, SecurityContext, ChangeDetectionStrategy, ChangeDetectorRef, Injector } from '@angular/core';
 import { DocumentResource } from "../../../../../../../../modules/documents/frontend/module/hal/resources/document-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { DomSanitizer } from '@angular/platform-browser';
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";

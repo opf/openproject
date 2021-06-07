@@ -1,13 +1,13 @@
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageRelationsService } from '../wp-relations.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 
 
 @Component({

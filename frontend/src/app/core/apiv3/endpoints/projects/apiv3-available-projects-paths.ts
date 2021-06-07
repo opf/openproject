@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ProjectResource } from "core-app/core/hal/resources/project-resource";
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import {

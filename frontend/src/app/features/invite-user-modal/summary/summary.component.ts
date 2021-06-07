@@ -9,11 +9,11 @@ import {Observable, of} from "rxjs";
 import {mapTo, switchMap} from "rxjs/operators";
 import {I18nService} from "core-app/core/i18n/i18n.service";
 import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
-import {RoleResource} from "core-app/core/hal/resources/role-resource";
+import {RoleResource} from "core-app/features/hal/resources/role-resource";
 import {PrincipalData, PrincipalLike} from "core-app/shared/components/principal/principal-types";
-import {HalResource} from "core-app/core/hal/resources/hal-resource";
-import {ProjectResource} from 'core-app/core/hal/resources/project-resource';
+import {HalResource} from "core-app/features/hal/resources/hal-resource";
 import {PrincipalType} from '../invite-user.component';
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 
 @Component({
   selector: 'op-ium-summary',

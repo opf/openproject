@@ -1,7 +1,7 @@
 import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
-import { FormResource } from "core-app/core/hal/resources/form-resource";
+import { FormResource } from "core-app/features/hal/resources/form-resource";
 import { Observable } from "rxjs";
-import { HalSource } from "core-app/core/hal/resources/hal-resource";
+import { HalSource } from "core-app/features/hal/resources/hal-resource";
 
 export class APIv3WorkPackageForm extends APIv3FormResource {
   /**

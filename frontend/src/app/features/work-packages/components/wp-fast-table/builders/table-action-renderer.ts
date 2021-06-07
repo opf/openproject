@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { tdClassName } from './cell-builder';
 import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { contextMenuSpanClassName, contextMenuTdClassName } from "core-app/features/work-packages/components/wp-table/table-actions/table-action";
 import { internalContextMenuColumn } from "core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

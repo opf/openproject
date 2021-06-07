@@ -27,7 +27,7 @@
 //++
 
 import {ResourcesDisplayField} from "./resources-display-field.module";
-import {UserResource} from "core-app/core/hal/resources/user-resource";
+import {UserResource} from "core-app/features/hal/resources/user-resource";
 import {InjectField} from "core-app/shared/helpers/angular/inject-field.decorator";
 import {PrincipalRendererService} from "core-app/shared/components/principal/principal-renderer.service";
 

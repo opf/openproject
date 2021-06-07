@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { BcfViewpointPaths } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { switchMap, map, tap } from 'rxjs/operators';

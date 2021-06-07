@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inje
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
-import { HalLink } from "core-app/core/hal/hal-link/hal-link";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { HalLink } from "core-app/features/hal/hal-link/hal-link";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import * as URI from 'urijs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';

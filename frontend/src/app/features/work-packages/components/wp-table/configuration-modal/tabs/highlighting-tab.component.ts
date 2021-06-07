@@ -3,7 +3,7 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabl
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HighlightingMode } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { BannersService } from "core-app/core/enterprise/banners.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { NgSelectComponent } from "@ng-select/ng-select";

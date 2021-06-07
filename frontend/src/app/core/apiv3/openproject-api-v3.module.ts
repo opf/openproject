@@ -28,7 +28,7 @@
 
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { NgModule } from '@angular/core';
-import { OpenprojectHalModule } from "core-app/core/hal/openproject-hal.module";
+import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
 
 @NgModule({
   imports: [

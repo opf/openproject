@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { SubtasksBoardHeaderComponent } from "core-app/features/boards/board/board-actions/subtasks/subtasks-board-header.component";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Injectable()
 export class BoardSubtasksActionService extends BoardActionService {

@@ -28,10 +28,10 @@
 
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from "@angular/common/http";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Observable } from "rxjs";
 import { filter, map, share } from "rxjs/operators";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export interface UploadFile extends File {
   description?:string;

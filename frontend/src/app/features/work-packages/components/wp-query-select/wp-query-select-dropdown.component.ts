@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { States } from "core-app/core/states/states.service";
 import { StateService, TransitionService } from '@uirouter/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
@@ -34,7 +33,7 @@ import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
@@ -42,6 +41,7 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { MainMenuNavigationService } from "core-app/core/main-menu/main-menu-navigation.service";
 import { MainMenuToggleService } from "core-app/core/main-menu/main-menu-toggle.service";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 
 export type QueryCategory = 'starred'|'public'|'private'|'default';
 

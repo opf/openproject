@@ -9,9 +9,9 @@ import {
   ViewChild
 } from "@angular/core";
 import { StateService } from "@uirouter/core";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { NgxGalleryComponent, NgxGalleryOptions } from '@kolkov/ngx-gallery';
-import { HalLink } from "core-app/core/hal/hal-link/hal-link";
+import { HalLink } from "core-app/features/hal/hal-link/hal-link";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";

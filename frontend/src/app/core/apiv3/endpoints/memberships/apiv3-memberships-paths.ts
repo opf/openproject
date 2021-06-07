@@ -34,9 +34,9 @@ import {
   Apiv3ListResourceInterface, listParamsString
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import {Observable} from "rxjs";
-import {CollectionResource} from "core-app/core/hal/resources/collection-resource";
-import {MembershipResource, MembershipResourceEmbedded} from "core-app/core/hal/resources/membership-resource";
 import {Apiv3MembershipsForm} from "core-app/core/apiv3/endpoints/memberships/apiv3-memberships-form";
+import { MembershipResource, MembershipResourceEmbedded } from "core-app/features/hal/resources/membership-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 
 
 export class Apiv3MembershipsPaths

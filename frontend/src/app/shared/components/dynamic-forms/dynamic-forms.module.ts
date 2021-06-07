@@ -6,7 +6,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { DynamicFieldGroupWrapperComponent } from "./components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
 import { DynamicFormComponent } from "./components/dynamic-form/dynamic-form.component";
-import { OpenProjectHeaderInterceptor } from "core-app/core/hal/http/openproject-header-interceptor";
+import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openproject-header-interceptor";
 import { TextInputComponent } from './components/dynamic-inputs/text-input/text-input.component';
 import { IntegerInputComponent } from './components/dynamic-inputs/integer-input/integer-input.component';
 import { SelectInputComponent } from './components/dynamic-inputs/select-input/select-input.component';

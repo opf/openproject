@@ -28,11 +28,11 @@
 
 import { DurationDisplayField } from './duration-display-field.module';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { ProjectResource } from "core-app/core/hal/resources/project-resource";
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {

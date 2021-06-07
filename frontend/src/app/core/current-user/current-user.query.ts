@@ -7,7 +7,7 @@ import {
   CurrentUserState,
   CurrentUser,
 } from './current-user.store';
-import { CapabilityResource } from "core-app/core/hal/resources/capability-resource";
+import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
 
 @Injectable()
 export class CurrentUserQuery extends Query<CurrentUserState> {

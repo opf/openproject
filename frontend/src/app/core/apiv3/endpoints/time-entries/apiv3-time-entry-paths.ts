@@ -26,17 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
+import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { MultiInputState } from "reactivestates";
 import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
-import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { Apiv3TimeEntriesPaths } from "core-app/core/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
-import { HalPayloadHelper } from "core-app/core/hal/schemas/hal-payload.helper";
+import { HalPayloadHelper } from "core-app/features/hal/schemas/hal-payload.helper";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource> {
   // Static paths

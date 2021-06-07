@@ -28,9 +28,7 @@
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { Observable, zip } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { RelatedWorkPackagesGroup } from './wp-relations.interfaces';
@@ -38,6 +36,7 @@ import { RelationsStateValue, WorkPackageRelationsService } from './wp-relations
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 
 
 @Component({

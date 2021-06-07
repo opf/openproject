@@ -26,10 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import { Component, Input, OnInit } from "@angular/core";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 

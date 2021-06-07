@@ -36,19 +36,19 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { from, Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Component({
   selector: 'wp-relations-autocomplete',

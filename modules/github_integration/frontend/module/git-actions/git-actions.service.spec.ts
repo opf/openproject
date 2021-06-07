@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 import { GitActionsService } from './git-actions.service';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 

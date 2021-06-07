@@ -29,8 +29,8 @@
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Component, ElementRef, Input, ViewChild , OnInit } from '@angular/core';
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
-import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { UploadFile } from "core-app/core/file-upload/op-file-upload.service";
 

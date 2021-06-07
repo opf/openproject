@@ -34,7 +34,7 @@ import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { DateDisplayField } from "core-app/shared/components/fields/display/field-types/date-display-field.module";
 import { CombinedDateDisplayField } from "core-app/shared/components/fields/display/field-types/combined-date-display.field";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";

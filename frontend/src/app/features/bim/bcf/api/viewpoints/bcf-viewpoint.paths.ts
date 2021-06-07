@@ -1,4 +1,4 @@
-import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/core/hal/http/http.interfaces";
+import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/features/hal/http/http.interfaces";
 import { BcfResourcePath } from "core-app/features/bim/bcf/api/bcf-path-resources";
 import { BcfApiRequestService } from "core-app/features/bim/bcf/api/bcf-api-request.service";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";

@@ -52,12 +52,12 @@ import { Apiv3NewsPaths } from "core-app/core/apiv3/endpoints/news/apiv3-news-pa
 import { Apiv3HelpTextsPaths } from "core-app/core/apiv3/endpoints/help_texts/apiv3-help-texts-paths";
 import { Apiv3ConfigurationPath } from "core-app/core/apiv3/endpoints/configuration/apiv3-configuration-path";
 import { Apiv3BoardsPaths } from "core-app/core/apiv3/virtual/apiv3-boards-paths";
-import { RootResource } from "core-app/core/hal/resources/root-resource";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { RootResource } from "core-app/features/hal/resources/root-resource";
 import * as ts from "typescript/lib/tsserverlibrary";
 import Project = ts.server.Project;
 import { Apiv3PlaceholderUsersPaths } from "core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths";
 import { Apiv3GroupsPaths } from "core-app/core/apiv3/endpoints/groups/apiv3-groups-paths";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {

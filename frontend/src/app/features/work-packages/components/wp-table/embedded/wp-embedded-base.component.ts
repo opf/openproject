@@ -9,7 +9,7 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { WorkPackagesViewBase } from "core-app/features/work-packages/routing/wp-view-base/work-packages-view.base";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";

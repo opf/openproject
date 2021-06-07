@@ -3,7 +3,7 @@ import { WorkPackageTable } from '../../wp-fast-table';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { take, takeUntil } from "rxjs/operators";
 import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { TableDragActionsRegistryService } from "core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
 import { TableDragActionService } from "core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service";

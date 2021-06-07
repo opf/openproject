@@ -28,13 +28,13 @@
 
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
-import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { Moment } from 'moment';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
 
 @Component({
   selector: 'filter-date-time-value',

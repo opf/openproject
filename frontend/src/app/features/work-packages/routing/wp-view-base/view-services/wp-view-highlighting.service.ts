@@ -1,12 +1,12 @@
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { BannersService } from "core-app/core/enterprise/banners.service";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
-import { QuerySchemaResource } from "core-app/core/hal/resources/query-schema-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
 import { WorkPackageViewHighlight } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-highlight";
 
 @Injectable()

@@ -29,7 +29,7 @@
 import { AfterViewInit, Component, ElementRef, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -53,7 +53,6 @@ import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packag
 import { WorkPackageTimelineCell } from 'core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cell';
 import { selectorTimelineSide } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
 import { debugLog, timeOutput } from 'core-app/shared/helpers/debug_output';
-import { HalEventsService } from 'core-app/core/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { combineLatest, Observable } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -64,6 +63,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 
 
 @Component({

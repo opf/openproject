@@ -27,9 +27,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { QueryFilterResource } from 'core-app/core/hal/resources/query-filter-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { BannersService } from "core-app/core/enterprise/banners.service";
@@ -38,6 +36,8 @@ import { WorkPackageViewFiltersService } from "core-app/features/work-packages/r
 import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
 
 const ADD_FILTER_SELECT_INDEX = -1;
 

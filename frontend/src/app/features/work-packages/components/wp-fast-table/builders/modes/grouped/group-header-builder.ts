@@ -1,9 +1,9 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { groupName } from './grouped-rows-helpers';
-import { GroupObject } from 'core-app/core/hal/resources/wp-collection-resource';
 import { rowGroupClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
 
 export function groupClassNameFor(group:GroupObject) {
   return `group-${group.identifier}`;

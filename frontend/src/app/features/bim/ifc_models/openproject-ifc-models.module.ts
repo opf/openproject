@@ -40,10 +40,10 @@ import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/if
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { BCFNewSplitComponent } from "core-app/features/bim/ifc_models/bcf/new-split/bcf-new-split.component";
 import { BcfListContainerComponent } from "core-app/features/bim/ifc_models/bcf/list-container/bcf-list-container.component";
-import { OpenprojectHalModule } from "core-app/core/hal/openproject-hal.module";
 import { BimViewService } from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
 import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
 import { OpenprojectBcfModule } from "core-app/features/bim/bcf/openproject-bcf.module";
+import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
 
 @NgModule({
   imports: [

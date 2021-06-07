@@ -1,5 +1,5 @@
 import { Injectable, Injector, Optional } from '@angular/core';
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageViewOrderService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { States } from "core-app/core/states/states.service";
 import { WorkPackageCreateService } from "core-app/features/work-packages/components/wp-new/wp-create.service";

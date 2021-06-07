@@ -1,12 +1,12 @@
 import { Component, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
-  QuerySortByResource
-} from 'core-app/core/hal/resources/query-sort-by-resource';
-import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
+  QuerySortByResource,
+} from "core-app/features/hal/resources/query-sort-by-resource";
 
 export class SortModalObject {
   constructor(public column:SortColumn,

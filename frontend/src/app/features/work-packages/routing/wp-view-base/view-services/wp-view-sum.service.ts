@@ -27,7 +27,7 @@
 //++
 
 import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 

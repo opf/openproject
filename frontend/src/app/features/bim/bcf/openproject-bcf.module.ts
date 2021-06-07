@@ -32,7 +32,6 @@ import { NgxGalleryModule } from "@kolkov/ngx-gallery";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { BcfThumbnailDisplayField } from "core-app/features/bim/bcf/fields/display/bcf-thumbnail-field.module";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { OpenProjectHeaderInterceptor } from "core-app/core/hal/http/openproject-header-interceptor";
 import { BcfDetectorService } from "core-app/features/bim/bcf/helper/bcf-detector.service";
 import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
 import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
@@ -41,10 +40,11 @@ import { BcfExportButtonComponent } from "core-app/features/bim/ifc_models/toolb
 import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { HookService } from "core-app/modules/plugins/hook-service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { BcfWpAttributeGroupComponent } from "core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component";
 import { BcfNewWpAttributeGroupComponent } from "core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-new-wp-attribute-group.component";
 import { RevitBridgeService } from "core-app/features/bim/revit_add_in/revit-bridge.service";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openproject-header-interceptor";
 
 /**
  * Determines based on the current user agent whether

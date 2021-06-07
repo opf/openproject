@@ -2,10 +2,10 @@ import { Component, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { TimelineLabels, TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { zoomLevelOrder } from "core-app/features/work-packages/components/wp-table/timeline/wp-timeline";
+import { TimelineLabels, TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 @Component({
   templateUrl: './timelines-tab.component.html'

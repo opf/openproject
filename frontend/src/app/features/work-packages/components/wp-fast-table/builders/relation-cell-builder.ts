@@ -1,12 +1,12 @@
 import { Injector } from '@angular/core';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { tdClassName } from './cell-builder';
-import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { QueryColumn } from '../../wp-query/query-column';
 import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
 import { WorkPackageViewRelationColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { States } from "core-app/core/states/states.service";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';

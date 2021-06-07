@@ -1,6 +1,6 @@
 import { Injector, NgModule } from "@angular/core";
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
-import { CapabilityResource } from "core-app/core/hal/resources/capability-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
 
 import { CurrentUserService } from "./current-user.service";
 import { CurrentUserStore } from "./current-user.store";

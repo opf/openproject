@@ -2,13 +2,13 @@ import {AbstractWidgetComponent} from "core-app/shared/components/grids/widgets/
 import {Component, OnInit, ChangeDetectorRef, Injector, ChangeDetectionStrategy} from '@angular/core';
 import {I18nService} from "core-app/core/i18n/i18n.service";
 import {PathHelperService} from "core-app/core/path-helper/path-helper.service";
-import {UserResource} from "core-app/core/hal/resources/user-resource";
+import {UserResource} from "core-app/features/hal/resources/user-resource";
 import {CurrentProjectService} from "core-app/core/current-project/current-project.service";
-import {MembershipResource} from "core-app/core/hal/resources/membership-resource";
-import {RoleResource} from "core-app/core/hal/resources/role-resource";
+import {MembershipResource} from "core-app/features/hal/resources/membership-resource";
+import {RoleResource} from "core-app/features/hal/resources/role-resource";
 import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
 import {Apiv3ListParameters} from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import {HalResource} from "core-app/core/hal/resources/hal-resource";
+import {HalResource} from "core-app/features/hal/resources/hal-resource";
 
 const DISPLAYED_MEMBERS_LIMIT = 100;
 

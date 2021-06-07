@@ -28,8 +28,7 @@
 
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HookService } from 'core-app/modules/plugins/hook-service';
 import { WorkPackageFilterValues } from "core-app/features/work-packages/components/wp-edit-form/work-package-filter-values";
 import {
@@ -39,14 +38,15 @@ import {
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import { filter } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { FormResource } from "core-app/core/hal/resources/form-resource";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { FormResource } from "core-app/features/hal/resources/form-resource";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { HalResource, HalSource, HalSourceLink } from "core-app/core/hal/resources/hal-resource";
-import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
+import { HalResource, HalSource, HalSourceLink } from "core-app/features/hal/resources/hal-resource";
+import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';

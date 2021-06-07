@@ -28,7 +28,7 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { take } from "rxjs/operators";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { QueryParamListenerService } from "core-app/features/work-packages/components/wp-query/query-param-listener.service";
 import {

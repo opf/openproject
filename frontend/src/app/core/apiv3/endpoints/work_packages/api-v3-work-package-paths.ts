@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { Apiv3RelationsPaths } from "core-app/core/apiv3/endpoints/relations/apiv3-relations-paths";
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 import { APIV3WorkPackagesPaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths";

@@ -29,7 +29,6 @@
 import { MultiInputState, State } from 'reactivestates';
 import { Observable } from "rxjs";
 import { auditTime, map, share, startWith, take } from "rxjs/operators";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
 
 export interface HasId {
   id:string|null;

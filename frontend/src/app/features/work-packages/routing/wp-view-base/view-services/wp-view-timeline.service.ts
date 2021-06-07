@@ -27,13 +27,13 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { QueryResource, TimelineLabels, TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { input } from 'reactivestates';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { WorkPackageTimelineState } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline";
 import { zoomLevelOrder } from "core-app/features/work-packages/components/wp-table/timeline/wp-timeline";
+import { QueryResource, TimelineLabels, TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 @Injectable()
 export class WorkPackageViewTimelineService extends WorkPackageQueryStateService<WorkPackageTimelineState> {

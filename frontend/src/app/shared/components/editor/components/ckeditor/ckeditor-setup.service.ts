@@ -1,5 +1,5 @@
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { Injectable } from "@angular/core";
 
 export interface ICKEditorInstance {

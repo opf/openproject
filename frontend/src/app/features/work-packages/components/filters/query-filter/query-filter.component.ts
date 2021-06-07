@@ -28,13 +28,13 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { QueryFilterResource } from 'core-app/core/hal/resources/query-filter-resource';
 import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
-import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
 import { BannersService } from "core-app/core/enterprise/banners.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
 
 @Component({
   selector: '[query-filter]',

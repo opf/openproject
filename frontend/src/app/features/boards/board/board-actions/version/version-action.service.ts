@@ -1,19 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Board } from "core-app/features/boards/board/board";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { VersionResource } from "core-app/core/hal/resources/version-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { VersionResource } from "core-app/features/hal/resources/version-resource";
 import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { StateService } from "@uirouter/core";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { VersionBoardHeaderComponent } from "core-app/features/boards/board/board-actions/version/version-board-header.component";
-import { FormResource } from "core-app/core/hal/resources/form-resource";
+import { FormResource } from "core-app/features/hal/resources/form-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import { VersionAutocompleterComponent } from "core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {

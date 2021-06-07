@@ -35,8 +35,6 @@ import {
 } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { Board } from "core-app/features/boards/board/board";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
@@ -45,6 +43,8 @@ import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { ValueOption } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 
 @Component({
   templateUrl: './add-list-modal.html'

@@ -26,12 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
 import { WorkPackageViewBaseService } from './wp-view-base.service';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { WorkPackageViewRelationColumns } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-relation-columns";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { RelationsStateValue, WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
@@ -43,6 +41,8 @@ import {
   TypeRelationQueryColumn
 } from "core-app/features/work-packages/components/wp-query/query-column";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
 export type RelationColumnType = 'toType'|'ofType';
 

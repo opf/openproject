@@ -1,6 +1,6 @@
-import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
-import { FormResource } from "core-app/core/hal/resources/form-resource";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { FormResource } from "core-app/features/hal/resources/form-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { ChangeItem, ChangeMap, Changeset } from "core-app/shared/components/fields/changeset/changeset";
 import { input, InputState } from "reactivestates";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
@@ -8,7 +8,7 @@ import { debugLog } from "core-app/shared/helpers/debug_output";
 import { take } from "rxjs/operators";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { Injector } from '@angular/core';
-import { SchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
+import { SchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 

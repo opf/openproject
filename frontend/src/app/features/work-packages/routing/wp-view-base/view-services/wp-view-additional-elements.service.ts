@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
-import { RelationResource } from 'core-app/core/hal/resources/relation-resource';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
-import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
 import { RelationsStateValue, WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {

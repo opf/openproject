@@ -30,12 +30,12 @@ import { combine, deriveRaw, InputState, multiInput, MultiInputState, State, Sta
 import { filter, map } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { Subject } from "rxjs";
-import { FormResource } from "core-app/core/hal/resources/form-resource";
+import { FormResource } from "core-app/features/hal/resources/form-resource";
 import { ChangeMap } from "core-app/shared/components/fields/changeset/changeset";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { HookService } from "core-app/modules/plugins/hook-service";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 
 class ChangesetStates extends StatesGroup {

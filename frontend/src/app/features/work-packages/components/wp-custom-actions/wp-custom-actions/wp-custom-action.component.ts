@@ -28,16 +28,15 @@
 
 
 import { Component, HostListener, Input } from '@angular/core';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
-import { CustomActionResource } from 'core-app/core/hal/resources/custom-action-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
-
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { CustomActionResource } from "core-app/features/hal/resources/custom-action-resource";
 
 @Component({
   selector: 'wp-custom-action',

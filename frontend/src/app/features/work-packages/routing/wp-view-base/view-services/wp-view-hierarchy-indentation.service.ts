@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";

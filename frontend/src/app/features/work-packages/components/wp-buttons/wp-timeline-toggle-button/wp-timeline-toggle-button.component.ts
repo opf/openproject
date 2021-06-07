@@ -29,8 +29,8 @@
 import { AbstractWorkPackageButtonComponent, ButtonControllerText } from '../wp-buttons.module';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { TimelineZoomLevel } from 'core-app/core/hal/resources/query-resource';
 import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;

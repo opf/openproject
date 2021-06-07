@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
 import { input } from "reactivestates";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 import { Board } from "core-app/features/boards/board/board";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Injectable()
 export abstract class CachedBoardActionService extends BoardActionService {

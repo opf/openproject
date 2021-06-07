@@ -1,4 +1,4 @@
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";

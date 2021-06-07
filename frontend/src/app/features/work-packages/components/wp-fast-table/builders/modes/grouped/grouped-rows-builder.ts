@@ -6,7 +6,6 @@ import { RowsBuilder } from '../rows-builder';
 import { GroupHeaderBuilder } from './group-header-builder';
 import { GroupedRenderPass } from './grouped-render-pass';
 import { groupedRowClassName, groupIdentifier } from './grouped-rows-helpers';
-import { GroupObject } from 'core-app/core/hal/resources/wp-collection-resource';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import {
   collapsedRowClass,
@@ -15,6 +14,7 @@ import {
 import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { States } from "core-app/core/states/states.service";
+import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
 
 export class GroupedRowsBuilder extends RowsBuilder {
 

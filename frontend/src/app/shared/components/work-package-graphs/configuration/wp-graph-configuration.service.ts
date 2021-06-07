@@ -1,11 +1,11 @@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WpGraphConfigurationSettingsTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { TabInterface } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { Injectable } from '@angular/core';
 import { WpGraphConfigurationFiltersTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component";
 import { ChartOptions, ChartType } from 'chart.js';
-import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
+import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
 import {
   WpGraphConfiguration,
   WpGraphQueryParams

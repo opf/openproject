@@ -28,16 +28,16 @@
 
 import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
 import { APIv3QueryPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-query-paths";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Apiv3QueryForm } from "core-app/core/apiv3/endpoints/queries/apiv3-query-form";
 import { Observable } from "rxjs";
-import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
+import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { Apiv3ListParameters, listParamsString } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import { QueryFiltersService } from "core-app/features/work-packages/components/wp-query/query-filters.service";
-import { HalPayloadHelper } from "core-app/core/hal/schemas/hal-payload.helper";
+import { HalPayloadHelper } from "core-app/features/hal/schemas/hal-payload.helper";
 
 export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, APIv3QueryPaths> {
   @InjectField() private queryFilters:QueryFiltersService;

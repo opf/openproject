@@ -39,7 +39,7 @@ import { CellBuilder, editCellContainer, tdClassName } from "core-app/features/w
 import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
 import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
 import { editModeClassName } from "core-app/shared/components/fields/edit/edit-field.component";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

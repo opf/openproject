@@ -1,6 +1,6 @@
 import { Component, Injector, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
-import { TimeEntryResource } from 'core-app/core/hal/resources/time-entry-resource';
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
+import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";

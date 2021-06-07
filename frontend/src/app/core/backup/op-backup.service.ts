@@ -28,9 +28,9 @@
 
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {HalResource} from "core-app/core/hal/resources/hal-resource";
+import {HalResource} from "core-app/features/hal/resources/hal-resource";
 import {Observable} from "rxjs";
-import {HalResourceService} from "core-app/core/hal/services/hal-resource.service";
+import {HalResourceService} from "core-app/features/hal/services/hal-resource.service";
 
 @Injectable({ providedIn: 'root' })
 export class OpenProjectBackupService {

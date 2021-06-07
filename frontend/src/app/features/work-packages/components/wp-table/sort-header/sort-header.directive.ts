@@ -30,7 +30,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input } from '
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { RelationQueryColumn, TypeRelationQueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/core/hal/resources/query-sort-by-resource';
+import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from "core-app/features/hal/resources/query-sort-by-resource";
 import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";

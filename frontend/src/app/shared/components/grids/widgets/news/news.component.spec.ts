@@ -3,7 +3,7 @@ import { WidgetNewsComponent } from './news.component';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { States } from 'core-app/core/states/states.service';
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { HttpClientModule } from "@angular/common/http";
 import { By } from '@angular/platform-browser';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";

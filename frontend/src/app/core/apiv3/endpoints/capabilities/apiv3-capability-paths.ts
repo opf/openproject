@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { CapabilityResource } from "core-app/core/hal/resources/capability-resource";
+import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
 import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Apiv3CapabilitiesPaths } from "core-app/core/apiv3/endpoints/capabilities/apiv3-capabilities-paths";

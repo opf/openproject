@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import {
   calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,

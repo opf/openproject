@@ -37,8 +37,7 @@ import {
   OnInit, Output,
   ViewEncapsulation
 } from '@angular/core';
-import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TableEventComponent, TableHandlerRegistry } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -46,7 +45,7 @@ import { combineLatest } from 'rxjs';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
 import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
 import { createScrollSync } from "core-app/features/work-packages/components/wp-table/wp-table-scroll-sync";
@@ -61,6 +60,7 @@ import {
   WorkPackageTableConfigurationObject,
 } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
 import { States } from "core-app/core/states/states.service";
+import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */

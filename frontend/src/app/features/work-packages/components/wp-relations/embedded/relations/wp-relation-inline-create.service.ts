@@ -27,7 +27,7 @@
 //++
 
 import { Injectable, Injector, OnDestroy } from '@angular/core';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
 import { WpRelationInlineAddExistingComponent } from "core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
 import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";

@@ -2,10 +2,10 @@ import { derive, input, InputState, State, StatesGroup } from 'reactivestates';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { GroupObject, WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
-import { QueryFormResource } from "core-app/core/hal/resources/query-form-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
 import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
+import { GroupObject, WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
@@ -22,7 +22,7 @@ export class IsolatedQuerySpace extends StatesGroup {
   // the query form associated with the table
   queryForm = input<QueryFormResource>();
 
-  // the results associated with the table
+  // the results associated with the table/time-entry-changeset
   results = input<WorkPackageCollectionResource>();
   // all groups returned as results
   groups = input<GroupObject[]>();

@@ -10,7 +10,7 @@ import { debounceTime, map, switchMap } from "rxjs/operators";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { ProjectResource } from "core-app/core/hal/resources/project-resource";
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 

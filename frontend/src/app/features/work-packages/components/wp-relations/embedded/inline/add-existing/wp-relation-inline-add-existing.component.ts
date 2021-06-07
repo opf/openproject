@@ -32,10 +32,10 @@ import { WorkPackageInlineCreateService } from "core-app/features/work-packages/
 import { WorkPackageInlineCreateComponent } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component";
 import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
 import { WpRelationInlineCreateServiceInterface } from "core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { RelationResource } from "core-app/core/hal/resources/relation-resource";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";

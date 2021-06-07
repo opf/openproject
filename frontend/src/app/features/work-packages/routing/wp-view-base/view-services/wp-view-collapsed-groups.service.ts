@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { WorkPackageViewBaseService } from './wp-view-base.service';
 import { Injectable } from '@angular/core';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { take } from 'rxjs/operators';
-import { GroupObject, WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
-import { QuerySchemaResource } from 'core-app/core/hal/resources/query-schema-resource';
-import { QueryGroupByResource } from 'core-app/core/hal/resources/query-group-by-resource';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
+import { GroupObject, WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {

@@ -33,7 +33,7 @@ import { WorkPackageViewPagination } from "core-app/features/work-packages/routi
 import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { combineLatest } from 'rxjs';
-import { WorkPackageCollectionResource } from "core-app/core/hal/resources/wp-collection-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
 import { TablePaginationComponent } from "core-app/shared/components/table-pagination/table-pagination.component";
 import { IPaginationOptions, PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 

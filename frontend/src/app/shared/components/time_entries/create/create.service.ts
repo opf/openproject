@@ -1,17 +1,17 @@
 import { Injectable, Injector } from "@angular/core";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { TimeEntryResource } from 'core-app/core/hal/resources/time-entry-resource';
 import { take } from 'rxjs/operators';
-import { FormResource } from "core-app/core/hal/resources/form-resource";
+import { FormResource } from "core-app/features/hal/resources/form-resource";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { Moment } from 'moment';
 import { TimeEntryCreateModal } from "core-app/shared/components/time_entries/create/create.modal";
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
 
 @Injectable()
 export class TimeEntryCreateService {

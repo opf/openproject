@@ -21,19 +21,19 @@ import { DomSanitizer } from "@angular/platform-browser";
 import timeGrid from '@fullcalendar/timegrid';
 import { CalendarOptions, Duration, EventApi, EventInput } from '@fullcalendar/core';
 import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { TimeEntryResource } from "core-app/core/hal/resources/time-entry-resource";
-import { CollectionResource } from "core-app/core/hal/resources/collection-resource";
+import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import interactionPlugin from '@fullcalendar/interaction';
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
 import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
 import { ColorsService } from "core-app/shared/components/colors/colors.service";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { HalResourceNotificationService } from 'core-app/core/hal/services/hal-resource-notification.service';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 
 interface CalendarViewEvent {
   el:HTMLElement;

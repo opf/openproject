@@ -27,14 +27,14 @@
 //++
 
 import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { States } from 'core-app/core/states/states.service';
 import { Injectable } from '@angular/core';
-import { cloneHalResourceCollection } from 'core-app/core/hal/helpers/hal-resource-builder';
 import { QueryColumn, queryColumnTypes } from "core-app/features/work-packages/components/wp-query/query-column";
 import { combine } from "reactivestates";
 import { mapTo, take } from "rxjs/operators";
+import { cloneHalResourceCollection } from "core-app/features/hal/helpers/hal-resource-builder";
 
 @Injectable()
 export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {

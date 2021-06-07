@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
-import { UserResource } from 'core-app/core/hal/resources/user-resource';
-import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
+import { UserResource } from "core-app/features/hal/resources/user-resource";
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { SubprojectBoardHeaderComponent } from "core-app/features/boards/board/board-actions/subproject/subproject-board-header.component";
 import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 
 @Injectable()
 export class BoardSubprojectActionService extends CachedBoardActionService {

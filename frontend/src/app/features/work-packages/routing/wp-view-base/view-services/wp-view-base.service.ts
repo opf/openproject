@@ -30,10 +30,10 @@ import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/q
 import { combine, deriveRaw, input, State } from 'reactivestates';
 import { map, mapTo, take } from 'rxjs/operators';
 import { merge, Observable } from 'rxjs';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
-import { QuerySchemaResource } from 'core-app/core/hal/resources/query-schema-resource';
-import { WorkPackageCollectionResource } from 'core-app/core/hal/resources/wp-collection-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { Injectable } from "@angular/core";
+import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
 
 @Injectable()
 export abstract class WorkPackageViewBaseService<T> {
@@ -58,7 +58,7 @@ export abstract class WorkPackageViewBaseService<T> {
    * Initialize this table state from the given query resource,
    * and possibly the associated schema.
    *
-   * @param {QueryResource} query
+   * @param {QueryResource} querywp-view-group-by.service
    * @param {QuerySchemaResource} schema
    */
   public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {

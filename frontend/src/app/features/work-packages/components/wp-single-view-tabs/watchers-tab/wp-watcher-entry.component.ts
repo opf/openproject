@@ -29,7 +29,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageWatchersTabComponent } from './watchers-tab.component';
-import { UserResource } from 'core-app/core/hal/resources/user-resource';
+import { UserResource } from "core-app/features/hal/resources/user-resource";
 
 @Component({
   templateUrl: './wp-watcher-entry.html',

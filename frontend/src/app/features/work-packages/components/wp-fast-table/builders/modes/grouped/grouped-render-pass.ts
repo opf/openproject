@@ -1,15 +1,15 @@
 import { Injector } from '@angular/core';
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageTable } from '../../../wp-fast-table';
 import { WorkPackageTableRow } from '../../../wp-table.interfaces';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { PlainRenderPass } from '../plain/plain-render-pass';
 import { groupClassNameFor, GroupHeaderBuilder } from './group-header-builder';
 import { groupByProperty, groupedRowClassName } from './grouped-rows-helpers';
-import { GroupObject } from 'core-app/core/hal/resources/wp-collection-resource';
 import { collapsedRowClass } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
 import { GroupSumsBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder";
+import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
 
 export const groupRowClass = '-group-row';
 

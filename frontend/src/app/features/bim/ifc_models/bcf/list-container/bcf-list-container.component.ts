@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, NgZone } from "@angular/core";
 import { WorkPackageListViewComponent } from "core-app/features/work-packages/routing/wp-list-view/wp-list-view.component";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
@@ -15,6 +14,7 @@ import { States } from "core-app/core/states/states.service";
 import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
 import { splitViewRoute } from "core-app/features/work-packages/routing/split-view-routes.helper";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 
 @Component({
   templateUrl: './bcf-list-container.component.html',

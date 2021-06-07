@@ -27,8 +27,8 @@
 //++
 
 import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";

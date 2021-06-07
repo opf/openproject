@@ -1,4 +1,4 @@
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { tdClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/cell-builder";
 import { Injector } from "@angular/core";
 import { TableDragActionsRegistryService } from "core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";

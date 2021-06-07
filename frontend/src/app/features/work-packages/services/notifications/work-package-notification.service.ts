@@ -28,8 +28,8 @@
 
 import { Injectable, Injector } from '@angular/core';
 import { INotification } from 'core-app/shared/components/notifications/notifications.service';
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()

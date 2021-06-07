@@ -30,8 +30,8 @@ import { ChangeDetectorRef, Directive, Injector, OnInit, ViewChild } from '@angu
 import { StateService, Transition } from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from "core-app/core/states/states.service";
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-import { RootResource } from 'core-app/core/hal/resources/root-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { RootResource } from "core-app/features/hal/resources/root-resource";
 import { WorkPackageCreateService } from './wp-create.service';
 import { takeWhile } from 'rxjs/operators';
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -44,7 +44,7 @@ import * as URI from 'urijs';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { splitViewRoute } from "core-app/features/work-packages/routing/split-view-routes.helper";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { HalSource, HalSourceLinks } from "core-app/core/hal/resources/hal-resource";
+import { HalSource, HalSourceLinks } from "core-app/features/hal/resources/hal-resource";
 import { OpTitleService } from "core-app/core/html/op-title.service";
 
 @Directive()

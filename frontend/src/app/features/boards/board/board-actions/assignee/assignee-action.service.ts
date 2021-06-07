@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
-import { UserResource } from 'core-app/core/hal/resources/user-resource';
-import { CollectionResource } from 'core-app/core/hal/resources/collection-resource';
 import { AssigneeBoardHeaderComponent } from "core-app/features/boards/board/board-actions/assignee/assignee-board-header.component";
-import { ProjectResource } from "core-app/core/hal/resources/project-resource";
 import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { Board } from "core-app/features/boards/board/board";
-import { QueryResource } from "core-app/core/hal/resources/query-resource";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { UserResource } from "core-app/features/hal/resources/user-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 
 @Injectable()
 export class BoardAssigneeActionService extends CachedBoardActionService {

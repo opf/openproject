@@ -31,8 +31,8 @@ import { OpModalComponent } from "core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken, OpModalService } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { StateService } from "@uirouter/core";
 

@@ -26,10 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  TimelineLabels,
-  TimelineZoomLevel
-} from 'core-app/core/hal/resources/query-resource';
+import { TimelineLabels, TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 export interface WorkPackageTimelineState {
   visible:boolean;

@@ -1,13 +1,13 @@
-import { HalResource } from 'core-app/core/hal/resources/hal-resource';
-import { QueryFilterInstanceResource } from 'core-app/core/hal/resources/query-filter-instance-resource';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { HalResourceService } from 'core-app/core/hal/services/hal-resource.service';
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { Injector } from '@angular/core';
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
 
 export class WorkPackageFilterValues {
 

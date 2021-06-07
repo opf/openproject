@@ -36,14 +36,14 @@ import { StateService } from "@uirouter/core";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
 import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { HalResourceNotificationService } from "core-app/core/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { tap } from "rxjs/operators";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { Observable } from "rxjs";
 import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Component({
   templateUrl: './add-list-modal.html'

@@ -6,10 +6,10 @@ import {
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { QueryFilterResource } from "core-app/core/hal/resources/query-filter-resource";
-import { QueryOperatorResource } from "core-app/core/hal/resources/query-operator-resource";
-import { QueryFilterInstanceResource } from "core-app/core/hal/resources/query-filter-instance-resource";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
+import { QueryOperatorResource } from "core-app/features/hal/resources/query-operator-resource";
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 @Component({

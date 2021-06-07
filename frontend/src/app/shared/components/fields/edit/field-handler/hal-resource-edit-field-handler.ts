@@ -38,7 +38,7 @@ import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { Subject } from 'rxjs';
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {

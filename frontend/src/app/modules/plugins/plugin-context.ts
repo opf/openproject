@@ -3,12 +3,11 @@ import { HookService } from "core-app/modules/plugins/hook-service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ExternalQueryConfigurationService } from "core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service";
-import { HalResourceService } from "core-app/core/hal/services/hal-resource.service";
 import { PasswordConfirmationModal } from "../../shared/components/modals/request-for-confirmation/password-confirmation.modal";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { DynamicContentModal } from "../../shared/components/modals/modal-wrapper/dynamic-content.modal";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { EditFieldService } from "core-app/shared/components/fields/edit/edit-field.service";
 import { HTMLSanitizeService } from "../../core/html-sanitize/html-sanitize.service";
@@ -23,6 +22,7 @@ import { ConfigurationService } from "core-app/core/config/configuration.service
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 import { EditorMacrosService } from "core-app/shared/components/modals/editor/editor-macros.service";
 import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context

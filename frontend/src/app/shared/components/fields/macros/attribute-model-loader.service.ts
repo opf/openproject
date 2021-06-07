@@ -27,15 +27,14 @@
 //++    Ng1FieldControlsWrapper,
 
 import { Injectable } from "@angular/core";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { NEVER, Observable, throwError } from "rxjs";
 import { filter, map, take, tap } from "rxjs/operators";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { multiInput } from "reactivestates";
 import { TransitionService } from "@uirouter/core";
-import { SchemaResource } from "core-app/core/hal/resources/schema-resource";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export type SupportedAttributeModels = 'project'|'workPackage';
 

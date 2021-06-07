@@ -29,12 +29,12 @@
 import { States } from 'core-app/core/states/states.service';
 import { combine } from 'reactivestates';
 import { mapTo } from 'rxjs/operators';
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { Observable } from 'rxjs';
-import { QuerySortByResource } from 'core-app/core/hal/resources/query-sort-by-resource';
+import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
 

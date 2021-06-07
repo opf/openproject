@@ -26,16 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/core/hal/resources/work-package-resource';
-
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { ISchemaProxy } from "core-app/core/hal/schemas/schema-proxy";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { ISchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
 
 @Component({
   selector: 'wp-status-button',

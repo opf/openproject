@@ -8,10 +8,10 @@ import {
   HTTPClientOptions,
   HTTPClientParamMap,
   HTTPSupportedMethods
-} from "core-app/core/hal/http/http.interfaces";
-import { URLParamsEncoder } from "core-app/core/hal/services/url-params-encoder";
+} from "core-app/features/hal/http/http.interfaces";
 import { catchError, map } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { URLParamsEncoder } from "core-app/features/hal/services/url-params-encoder";
 
 export class BcfApiRequestService<T> {
   @InjectField() http:HttpClient;

@@ -4,7 +4,7 @@ import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.servi
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { TimeEntryFormComponent } from "core-app/shared/components/time_entries/form/form.component";
-import { HalResource } from "core-app/core/hal/resources/hal-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 

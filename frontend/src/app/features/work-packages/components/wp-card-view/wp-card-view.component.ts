@@ -11,9 +11,7 @@ import {
   Output,
   ViewChild
 } from "@angular/core";
-import { QueryResource } from 'core-app/core/hal/resources/query-resource';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
 import { WorkPackageCreateService } from "core-app/features/work-packages/components/wp-new/wp-create.service";
@@ -38,8 +36,10 @@ import {
 } from "core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { HalEventsService } from "core-app/core/hal/services/hal-events.service";
 import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 

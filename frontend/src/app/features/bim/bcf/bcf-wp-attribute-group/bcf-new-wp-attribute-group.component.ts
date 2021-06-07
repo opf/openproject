@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { BcfWpAttributeGroupComponent } from "core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component";
 import { take, switchMap } from "rxjs/operators";
-import { WorkPackageResource } from "core-app/core/hal/resources/work-package-resource";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { forkJoin } from "rxjs";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { BcfViewpointItem } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface";
