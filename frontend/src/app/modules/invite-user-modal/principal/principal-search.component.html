@@ -4,7 +4,6 @@
   [addTag]="showAddTag ? createNewFromInput.bind(this) : false"
   [typeahead]="input$"
   [items]="items$ | async"
-  [virtualScroll]="true"
   [clearable]="true"
   [clearOnBackspace]="false"
   [clearSearchOnAdd]="false"
