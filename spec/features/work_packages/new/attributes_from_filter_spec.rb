@@ -199,4 +199,33 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
       expect(wp.type_id).to eq type_bug.id
     end
   end
+
+  context 'with a status for which no workflow exists' do
+    let(:other_status) { FactoryBot.create(:status) }
+
+    let(:filters) do
+      [['status_id', '=', [other_status.id]]]
+    end
+
+    it 'falls back to the first status for which a workflow exists' do
+      split_page = wp_table.create_wp_by_button type_bug
+
+      # Instead of the status selected by the filters another status is used.
+      # This is done silently. The field does not get set into edit mode.
+      expect(page)
+        .to have_selector('.inline-edit--display-field.status', text: status.name)
+
+      subject = split_page.edit_field(:subject)
+      subject.expect_active!
+      subject.set_value 'Foobar!'
+      split_page.save!
+
+      wp_table.expect_and_dismiss_notification(
+        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      )
+      wp = WorkPackage.last
+      expect(wp.status)
+        .to eql status
+    end
+  end
 end

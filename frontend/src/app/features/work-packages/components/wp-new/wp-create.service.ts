@@ -48,6 +48,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -228,20 +229,20 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this
       .withFiltersPayload(projectIdentifier, defaults)
       .then((filterDefaults) => {
-        const mergedPayload = _.merge({ _links: {} }, filterDefaults, defaults);
+        return this
+          .createNewWorkPackage(projectIdentifier, filterDefaults)
+          .then((change:WorkPackageChangeset) => {
+            if (!change) {
+              throw new Error('No new work package was created');
+            }
 
-        return this.createNewWorkPackage(projectIdentifier, mergedPayload).then((change:WorkPackageChangeset) => {
-          if (!change) {
-            throw new Error('No new work package was created');
-          }
+            // We need to apply the defaults again (after them being applied in the form requests)
+            // here as the initial form requests might have led to some default
+            // values not being carried over. This can happen when custom fields not available in one type are filter values.
+            this.defaultsFromFilters(change, filterDefaults);
 
-          // We need to apply the defaults again (after them being applied in the form requests)
-          // here as the initial form requests might have led to some default
-          // values not being carried over. This can happen when custom fields not available in one type are filter values.
-          this.defaultsFromFilters(change, defaults);
-
-          return change;
-        });
+            return change;
+          });
       });
   }
 
@@ -277,8 +278,10 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * top level.
     */
   private withFiltersPayload(projectIdentifier:string|null|undefined, defaults?:HalSource):Promise<HalSource> {
-    const fromFilter = { _links: {} };
+    let fromFilter:HalSource = { _links: {} };
     this.defaultsFromFilters(fromFilter, defaults);
+    this.toApiPayload(fromFilter);
+    fromFilter = _.merge(fromFilter, defaults)
 
     const filtersApplied = Object.keys(fromFilter).length > 1 || Object.keys(fromFilter._links).length > 0;
 
@@ -288,33 +291,53 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
         .withOptionalProject(projectIdentifier)
         .work_packages
         .form
-        .forTypePayload(defaults || { _links: {} })
+        .forPayload(fromFilter)
         .toPromise()
         .then((form:FormResource) => {
-          this.toApiPayload(fromFilter, form.schema);
+          const errors = form.getErrors()?.errors;
+
+          (errors || []).forEach((error:ErrorResource) => {
+            const attribute = error.details.attribute;
+
+            if (fromFilter[attribute]) {
+              delete (fromFilter[attribute])
+            } else if (fromFilter._links[attribute]) {
+              delete (fromFilter._links[attribute])
+            }
+          });
+
           return fromFilter;
         });
     }
     return Promise.resolve(fromFilter);
   }
 
-  private toApiPayload(payload:HalSource, schema:SchemaResource) {
+  private toApiPayload(payload:HalSource, schema?:SchemaResource) {
     const links:string[] = [];
 
-    Object.keys(schema.$source).forEach((attribute) => {
-      if (!['Integer',
-        'Float',
-        'Date',
-        'DateTime',
-        'Duration',
-        'Formattable',
-        'Boolean',
-        'String',
-        'Text',
-        undefined].includes(schema.$source[attribute].type)) {
-        links.push(attribute);
-      }
-    });
+    // TODO: is the schema chase still needed?
+    if (schema) {
+      Object.keys(schema.$source).forEach((attribute) => {
+        if (!['Integer',
+          'Float',
+          'Date',
+          'DateTime',
+          'Duration',
+          'Formattable',
+          'Boolean',
+          'String',
+          'Text',
+          undefined].includes(schema.$source[attribute].type)) {
+          links.push(attribute);
+        }
+      });
+    } else {
+      Object.keys(payload).forEach(attribute => {
+        if (payload[attribute] instanceof HalResource) {
+          links.push(attribute);
+        }
+      });
+    }
 
     links.forEach((attribute) => {
       const value = payload[attribute];
