@@ -123,6 +123,10 @@ You need to configure just two things in the webhook.
 The **Content Type** has to be `application/json`.
 The **Payload URL** must point to your OpenProject server's GitHub webhook endpoint (`/webhooks/github`).
 
+<div class="alert alert-info" role="alert">
+**Note**: For the events that should be triggered by the webhook, please select "Send me everything".
+</div>
+
 Now you need the API key you copied earlier. Append it to the *Payload URL* as a simple GET parameter named `key`. In the end the URL should look something like this:
 
 ```
