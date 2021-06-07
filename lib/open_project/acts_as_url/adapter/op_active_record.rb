@@ -60,8 +60,8 @@ module OpenProject
         def modify_base_url
           super
 
-          if settings.respond_to?(:custom_rule)
-            self.base_url = instance_exec(&settings.custom_rule)
+          if !base_url.empty? && settings.respond_to?(:custom_rule)
+            self.base_url = settings.custom_rule.call(base_url)
           end
 
           modify_base_url_custom_rules if base_url.empty?
