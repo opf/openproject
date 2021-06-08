@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { FormlyTemplateOptions } from "@ngx-formly/core";
 import { ICKEditorContext, ICKEditorInstance } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
 
 @Component({
@@ -17,7 +17,7 @@ import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckedito
     }
   ]
 })
-export class FormattableControlComponent implements OnInit {
+export class FormattableControlComponent implements ControlValueAccessor, OnInit {
   @Input() templateOptions:FormlyTemplateOptions;
 
   @ViewChild(OpCkeditorComponent, { static: true }) editor:OpCkeditorComponent;
