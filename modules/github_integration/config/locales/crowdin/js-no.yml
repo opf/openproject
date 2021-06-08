@@ -25,19 +25,15 @@
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Pull requests"
         copy_menu:
-          label: Git
-          description: Copy important git content to clipboard
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
-          branch: Gren
-          branch_help: Copy the default branch name.
-          message: Melding
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
-          copy_button_help: Kopier til utklippstavlen
+          branch_name: Branch name
+          commit_message: Commit message
+          cmd: Create branch with empty commit
+          title: Quick snippets for Git
           copy_success: '✅ Copied!'
           copy_error: '❌ Copy failed!'
       tab_prs:
