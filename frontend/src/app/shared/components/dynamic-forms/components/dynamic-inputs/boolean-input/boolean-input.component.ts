@@ -6,5 +6,5 @@ import { FieldType } from "@ngx-formly/core";
   templateUrl: './boolean-input.component.html',
   styleUrls: ['./boolean-input.component.scss']
 })
-export class BooleanInputComponent  extends FieldType {
+export class BooleanInputComponent extends FieldType {
 }

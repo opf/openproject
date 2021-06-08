@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, forwardRef, Input, NgZone } from '@angular/core';
 import * as moment from "moment";
-import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 import { OpDatePickerComponent } from "core-app/shared/components/op-date-picker/op-date-picker.component";
 
 @Component({
-  selector: 'op-date-picker-adapter',
+  selector: 'op-date-picker-control',
   templateUrl: '../../../../../../op-date-picker/op-date-picker.component.html',
   providers: [
     {
@@ -15,7 +15,7 @@ import { OpDatePickerComponent } from "core-app/shared/components/op-date-picker
     }
   ]
 })
-export class DatePickerControlComponent extends OpDatePickerComponent implements AfterViewInit {
+export class DatePickerControlComponent extends OpDatePickerComponent implements ControlValueAccessor, AfterViewInit {
   // Avoid Angular warning (It looks like you're using the disabled attribute with a reactive form directive...)
   @Input('disable') disabled:boolean;
 

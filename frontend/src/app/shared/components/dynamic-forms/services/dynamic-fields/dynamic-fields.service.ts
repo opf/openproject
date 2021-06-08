@@ -75,7 +75,6 @@ export class DynamicFieldsService {
         type: 'selectInput',
         defaultValue: this.selectDefaultValue,
         templateOptions: {
-          type: 'number',
           locale: this.I18n.locale,
           bindLabel: 'name',
           searchable: true,
@@ -101,7 +100,6 @@ export class DynamicFieldsService {
         type: 'selectProjectStatusInput',
         defaultValue: this.selectDefaultValue,
         templateOptions: {
-          type: 'number',
           locale: this.I18n.locale,
           bindLabel: 'name',
           searchable: true,
@@ -436,4 +434,5 @@ export class DynamicFieldsService {
     return ![null, undefined, ''].includes(value);
   }
 }
+
 

@@ -1,28 +1,26 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { ReactiveFormsModule } from "@angular/forms";
-import { FormlyModule } from "@ngx-formly/core";
+import { TextInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { DynamicFieldGroupWrapperComponent } from "./components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
-import { DynamicFormComponent } from "./components/dynamic-form/dynamic-form.component";
-import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openproject-header-interceptor";
-import { TextInputComponent } from './components/dynamic-inputs/text-input/text-input.component';
-import { IntegerInputComponent } from './components/dynamic-inputs/integer-input/integer-input.component';
-import { SelectInputComponent } from './components/dynamic-inputs/select-input/select-input.component';
-import { SelectProjectStatusInputComponent } from "./components/dynamic-inputs/select-project-status-input/select-project-status-input.component";
+import { IntegerInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component";
+import { FormlyModule } from "@ngx-formly/core";
+import { SelectInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component";
+import { SelectProjectStatusInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-project-status-input/select-project-status-input.component";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
-import { BooleanInputComponent } from './components/dynamic-inputs/boolean-input/boolean-input.component';
-import { DateInputComponent } from './components/dynamic-inputs/date-input/date-input.component';
-import { DatePickerAdapterComponent } from './components/dynamic-inputs/date-input/components/date-picker-adapter/date-picker-adapter.component';
-import { FormattableTextareaInputComponent } from './components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
-import { OpenprojectEditorModule } from "core-app/shared/components/editor/openproject-editor.module";
-import { FormattableControlComponent } from './components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
-import { OPSharedModule } from "core-app/shared/shared.module";
-import { FormattableEditFieldModule } from "core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module";
-import { DatePickerModule } from "core-app/shared/components/op-date-picker/date-picker.module";
-import { DynamicFieldWrapperComponent } from './components/dynamic-field-wrapper/dynamic-field-wrapper.component';
+import { NgSelectModule } from "@ng-select/ng-select";
+import { DatePickerControlModule } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/components/date-picker-control/date-picker-control.module";
+import { BooleanInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component";
+import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component";
+import { FormattableTextareaInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component";
+import { DynamicFieldWrapperComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-field-wrapper/dynamic-field-wrapper.component";
 import { InviteUserButtonModule } from "core-app/features/invite-user-modal/button/invite-user-button.module";
+import { DateInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/date-input.component";
+import { DynamicFieldGroupWrapperComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
+import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openproject-header-interceptor";
+import { ReactiveFormsModule } from "@angular/forms";
+import { FormattableControlModule } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.module";
+import { OPSharedModule } from "core-app/shared/shared.module";
+
 
 @NgModule({
   imports: [
@@ -53,27 +51,24 @@ import { InviteUserButtonModule } from "core-app/features/invite-user-modal/butt
     OPSharedModule,
 
     // Input dependencies
-    DatePickerModule,
     NgSelectModule,
     NgOptionHighlightModule,
-    FormattableEditFieldModule,
-    OpenprojectEditorModule,
     InviteUserButtonModule,
+    DatePickerControlModule,
+    FormattableControlModule,
   ],
   declarations: [
-    DynamicFieldGroupWrapperComponent,
     DynamicFormComponent,
+    DynamicFieldGroupWrapperComponent,
+    DynamicFieldWrapperComponent,
     // Input Types
     BooleanInputComponent,
     IntegerInputComponent,
     TextInputComponent,
-    DateInputComponent,
-    DatePickerAdapterComponent,
     SelectInputComponent,
     SelectProjectStatusInputComponent,
+    DateInputComponent,
     FormattableTextareaInputComponent,
-    FormattableControlComponent,
-    DynamicFieldWrapperComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
