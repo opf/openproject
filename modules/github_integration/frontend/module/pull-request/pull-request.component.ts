@@ -27,8 +27,8 @@
 //++
 
 import { Component, Input } from '@angular/core';
-import { GithubCheckRunResource } from '../hal/resources/github-check-run-resource';
-import { IGithubPullRequestResource } from "../../../../../../../../modules/github_integration/frontend/module/typings";
+import { GithubCheckRunResource } from 'core-app/features/plugins/linked/openproject-github_integration/hal/resources/github-check-run-resource';
+import { IGithubPullRequestResource } from "core-app/features/plugins/linked/openproject-github_integration/typings";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
