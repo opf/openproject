@@ -153,7 +153,7 @@ To configure the work package graph, click on the three dots in the top right co
 
 ![configure-view-widgets](configure-view-widgets.png)
 
-Select the **Axis criteria** which to be displayed on the axis of the graph, e.g. Accountable, Priority, Status, Type.
+Select the **Axis criteria** to be displayed on the axis of the graph, e.g. Accountable, Priority, Status, Type.
 
 ![axis criteria widget](image-20191112151252153.png)
 
