@@ -27,7 +27,7 @@
 //++
 
 import {Injectable} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import formatter from 'tickety-tick-formatter';
 
 // probably not providable in root when we want to cache the formatter and set custom templates

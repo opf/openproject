@@ -1,12 +1,12 @@
-import { OpenProjectModule } from 'core-app/angular4-modules';
+import { OpenProjectModule } from 'core-app/app.module';
 import { enableProdMode } from '@angular/core';
 import * as jQuery from "jquery";
 import { environment } from './environments/environment';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { SentryReporter } from "core-app/sentry/sentry-reporter";
-import { whenDebugging } from "core-app/helpers/debug_output";
+import { SentryReporter } from "core-app/core/errors/sentry/sentry-reporter";
+import { whenDebugging } from "core-app/shared/helpers/debug_output";
 import { enableReactiveStatesLogging } from "reactivestates";
-import { initializeLocale } from "core-app/init-locale";
+import { initializeLocale } from "core-app/core/setup/init-locale";
 
 (window as any).global = window;
 
@@ -24,8 +24,8 @@ __webpack_public_path__ = window.appBasePath + ASSET_BASE_PATH;
 
 window.ErrorReporter = new SentryReporter();
 
-require('core-app/init-vendors');
-require('core-app/init-globals');
+require('core-app/core/setup/init-vendors');
+require('core-app/core/setup/init-globals');
 
 if (environment.production) {
   enableProdMode();

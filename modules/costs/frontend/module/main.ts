@@ -25,7 +25,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 
 import { Injector, NgModule } from '@angular/core';
-import { OpenProjectPluginContext } from 'core-app/modules/plugins/plugin-context';
+import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { CostsByTypeDisplayField } from './wp-display/costs-by-type-display-field.module';
 import { CurrencyDisplayField } from './wp-display/currency-display-field.module';
 
