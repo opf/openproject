@@ -118,10 +118,6 @@ class Project < ApplicationRecord
               only_when_blank: true, # Only generate when identifier not set
               limit: IDENTIFIER_MAX_LENGTH,
               blacklist: RESERVED_IDENTIFIERS,
-              custom_rule: ->(base_url) {
-                # remove leading numbers and hyphens as they would clash with the identifier's validations later on.
-                base_url.sub(/^[-\d]*|-*$/, '')
-              },
               adapter: OpenProject::ActsAsUrl::Adapter::OpActiveRecord # use a custom adapter able to handle edge cases
 
   validates :identifier,
@@ -131,12 +127,12 @@ class Project < ApplicationRecord
             exclusion: RESERVED_IDENTIFIERS,
             if: ->(p) { p.persisted? || p.identifier.present? }
 
-  validates_associated :repository, :wiki
-  # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards
+  # Contains only a-z, 0-9, dashes and underscores but cannot consist of numbers only as it would clash with the id.
   validates :identifier,
-            format: { with: /\A[a-z][a-z0-9\-_]*\z/ },
+            format: { with: /\A(?!^\d+\z)[a-z0-9\-_]+\z/ },
             if: ->(p) { p.identifier_changed? && p.identifier.present? }
-  # reserved words
+
+  validates_associated :repository, :wiki
 
   friendly_id :identifier, use: :finders
 

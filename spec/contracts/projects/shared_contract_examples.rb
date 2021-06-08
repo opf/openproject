@@ -150,6 +150,58 @@ shared_examples_for 'project contract' do
     end
   end
 
+  context 'when the identifier consists of only letters' do
+    let(:project_identifier) { 'abc' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of letters followed by numbers' do
+    let(:project_identifier) { 'abc12' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of letters followed by numbers with a hyphen in between' do
+    let(:project_identifier) { 'abc-12' }
+
+    it_behaves_like 'is valid'
+  end
+  
+  context 'when the identifier consists of letters followed by numbers with an underscore in between' do
+    let(:project_identifier) { 'abc_12' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of numbers followed by letters with a hyphen in between' do
+    let(:project_identifier) { '12-abc' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of numbers followed by letters with an underscore in between' do
+    let(:project_identifier) { '12_abc' }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when the identifier consists of only numbers' do
+    let(:project_identifier) { '12' }
+
+    it 'is invalid' do
+      expect_valid(false, identifier: %i(invalid))
+    end
+  end
+
+  context 'when the identifier consists of a reserved word' do
+    let(:project_identifier) { 'new' }
+
+    it 'is invalid' do
+      expect_valid(false, identifier: %i(exclusion))
+    end
+  end
+
   context 'if the user lacks permission' do
     let(:permissions) { [] }
 
