@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { StateService, UIRouterGlobals } from "@uirouter/core";
+import { StateService } from "@uirouter/core";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 @Component({
   selector: 'app-projects',
@@ -10,23 +11,22 @@ import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
-  resourceId:string;
   projectsPath:string;
+  formMethod = 'patch';
   text:{ [key:string]:string };
   dynamicFieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
   hiddenFields = ['identifier', 'active'];
 
   constructor(
-    private _uIRouterGlobals:UIRouterGlobals,
     private _pathHelperService:PathHelperService,
     private _$state:StateService,
+    private _currentProjectService:CurrentProjectService,
   ) {
     super();
   }
 
   ngOnInit():void {
-    this.projectsPath = this._pathHelperService.projectsPath();
-    this.resourceId = this._uIRouterGlobals.params.projectPath;
+    this.projectsPath = this._currentProjectService.apiv3Path!;
     this.dynamicFieldsSettingsPipe = (dynamicFieldsSettings) => {
       return dynamicFieldsSettings
         .reduce((formattedDynamicFieldsSettings:IOPFormlyFieldSettings[], dynamicFormField) => {
@@ -39,13 +39,6 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
 
           return [...formattedDynamicFieldsSettings, dynamicFormField];
         }, []);
-    }
-  }
-
-  onSubmitted(formResource:HalSource) {
-    // TODO: Filter out if this.resourceId === 'new'?
-    if (!this.resourceId) {
-      this._$state.go('.', { ...this._$state.params, projectPath: formResource.identifier });
     }
   }
 

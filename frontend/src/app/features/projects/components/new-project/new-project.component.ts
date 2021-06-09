@@ -80,7 +80,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   ngOnInit():void {
-    this.resourcePath = this.pathHelperService.projectsPath();
+    this.resourcePath = this.apiV3Service.projects.path;
     this.fieldGroups = [{
       name: this.text.advancedSettingsLabel,
       fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!) &&
