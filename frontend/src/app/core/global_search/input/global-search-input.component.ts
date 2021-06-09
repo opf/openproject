@@ -75,7 +75,11 @@ interface SearchOptionItem {
   selector: globalSearchSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './global-search-input.component.html',
-  styleUrls: ['./global-search-input.component.sass', "./global-search-input-mobile.component.sass"],
+  styleUrls: [
+    './global-search-input.component.sass',
+    './global-search-input-mobile.component.sass',
+    './global-search.component.sass',
+  ],
   // Necessary because of ng-select
   encapsulation: ViewEncapsulation.None
 })
