@@ -53,7 +53,7 @@ The configuration uses YAML to parse overrides from ENV. Using YAML inline synta
 
 3. Pass hashes with `{key: foo, key2: bar}`.
 
-To pass symbol arrays or hashes with symbol keys, use the YAML `!ruby/symbol` notiation.
+To pass symbol arrays or hashes with symbol keys, use the YAML `!ruby/symbol` notation.
 Example: `{!ruby/symbol key: !ruby/symbol value}` will be parsed as `{ key: :value }`.
 
 Please note: The Configuration is a HashWithIndifferentAccess and thus it should be irrelevant for hashes to use symbol keys.

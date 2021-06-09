@@ -12,7 +12,7 @@ provide any official support for them.
 
 ## Server
 
-The server hardware requirements should be rougly the same for both the packaged installation and docker (both all-in-one container and compose).
+The server hardware requirements should be roughly the same for both the packaged installation and docker (both all-in-one container and compose).
 
 ### Minimum Hardware Requirements
 

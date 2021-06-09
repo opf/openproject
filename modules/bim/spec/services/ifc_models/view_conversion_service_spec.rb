@@ -120,11 +120,6 @@ describe Bim::IfcModels::ViewConverterService do
           .with(File.join(working_directory, "model.ifc"))
           .and_call_original
 
-        expect(model)
-          .to receive(:metadata_attachment=) { |file|
-            expect(file.path).to end_with(ifc_model_file_name.sub(ext_regex, ".json"))
-          }
-
         expect(model).to receive(:save).and_return(true)
 
         expect(subject.call).to be_success

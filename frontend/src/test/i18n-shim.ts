@@ -1,4 +1,4 @@
-import {GlobalI18n} from "core-app/modules/common/i18n/i18n.service";
+import {GlobalI18n} from "core-app/core/i18n/i18n.service";
 
 export class I18nShim implements GlobalI18n {
 

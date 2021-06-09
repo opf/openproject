@@ -87,6 +87,7 @@ sl:
     button_update: "Posodobi"
     button_export-pdf: "Prenesi PDF"
     button_export-atom: "Prenesi Atom"
+    button_create: "Ustvari"
     calendar:
       title: 'Koledar'
       too_many: 'Obstaja %{count} delovnih paketov, vendar je lahko prikazanih samo %{max}.'
@@ -195,7 +196,6 @@ sl:
             label_company: "Podjetje"
             label_first_name: "Ime"
             label_last_name: "Priimek"
-            label_email: "E-pošta"
             label_domain: "Domena"
             label_subscriber: "Naročnik"
             label_maximum_users: "Največje število aktivnih uporabnikov"
@@ -313,6 +313,7 @@ sl:
     label_board_locked: "Zaklenjeno"
     label_board_plural: "Boardi"
     label_board_sticky: "Lepljivo"
+    label_change: "Spremeni"
     label_create: "Ustvari"
     label_create_work_package: "Ustvari delovni paket"
     label_created_by: "Ustvaril"
@@ -335,6 +336,7 @@ sl:
     label_created_on: "Ustvarjeno dne"
     label_edit_comment: "Uredi ta komentar"
     label_edit_status: "Spremeni status tega delovnega paketa"
+    label_email: "E-pošta"
     label_equals: "je"
     label_expand: "Razširi"
     label_expanded: "Razširjen"
@@ -1025,12 +1027,9 @@ sl:
         already_member_message: 'Je že član %{project}'
         no_results_user: 'Nobenih uporabnikov ni bilo najdenih'
         invite_user: 'Povabi:'
-        change_user_selection: 'Spremeni e-mail naslov ali izberi obstoječega uporabnika'
         no_results_placeholder: 'Nobenih rezerviranih mest ni bilo najdenih'
-        change_placeholder_selection: 'Spremeni ime ali izberi obstoječe rezervirano mesto'
         create_new_placeholder: 'Ustvari novo rezervirano mesto:'
         no_results_group: 'Nobenih skupin ni bilo najdenih'
-        change_group_selection: 'Spremeni ime ali izberi obstoječo skupino'
         next_button: 'Naprej'
         required:
           user: 'Izberite uporabnika'

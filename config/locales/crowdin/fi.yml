@@ -579,7 +579,7 @@ fi:
             global: 'Yleinen'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -1883,7 +1883,7 @@ fi:
   mail_body_wiki_content_updated: "'%{id}' wiki-sivu on päivitetty %{author}."
   mail_subject_account_activation_request: "%{value} käyttäjätiedot"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Sinun %{value} salasanasi"
   mail_subject_register: "%{value} käyttäjätiedot"
   mail_subject_reminder: "%{count} tapahtuma(a) erääntyy %{days} lähipäivinä"
@@ -2653,8 +2653,6 @@ fi:
     getting_started: "Getting started"
     help_and_support: "Help and support"
   total_progress: "Total progress"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "kaikki"
     active: "aktiivinen"

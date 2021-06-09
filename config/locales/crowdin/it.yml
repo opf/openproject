@@ -66,7 +66,7 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
       replace_token: "Sostituisci il token di assistenza attuale"
-      order: "Ordina Edizione Impresa in sede"
+      order: "Ordina l'edizione Enterprise on-premises"
       paste: "Incolla il tuo token di assistenza per Enterprise Edition"
       required_for_feature: "Questa funzionalità è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
@@ -245,8 +245,8 @@ it:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Non è consentito eliminare l'utente segnaposto. Non hai il permesso per gestire i membri per tutti i progetti di cui l'utente segnaposto è membro.
+    delete_tooltip: "Elimina utente segnaposto"
     deletion_info:
       heading: "Elimina l'utente segnaposto %{name}"
       data_consequences: >
@@ -575,7 +575,7 @@ it:
             global: 'Globale'
           query:
             filters:
-              minimum: "devi includere almeno un filtro per principale, contesto o id con l'operatore '='."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Deve essere disponibile almeno un'opzione."
         custom_actions:
@@ -616,7 +616,7 @@ it:
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              dependency_missing: "Anche il modulo '%{dependency}' deve essere abilitato dal momento che il modulo '%{module}' dipende da esso."
               format: "%{message}"
         query:
           attributes:
@@ -1879,7 +1879,7 @@ it:
   mail_body_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata da %{author}."
   mail_subject_account_activation_request: "%{value} richiesta di attivazione account"
   mail_subject_backup_ready: "Il tuo backup è pronto"
-  mail_subject_backup_token_reset: "Il tuo token di backup è stato ripristinato"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
   mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
@@ -2343,7 +2343,7 @@ it:
     brute_force_prevention: "Blocco automatico degli utenti"
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.
       first_week_of_year_text: >
         Seleziona la data di Gennaio contenuta nella prima settimana dell'anno. Questo valore, con il primo giorno della settimana, determina il numero totale di settimane in un anno.
     projects:
@@ -2649,8 +2649,6 @@ it:
     getting_started: "Per cominciare"
     help_and_support: "Guida e Assistenza"
   total_progress: "Progresso totale"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "tutti"
     active: "attivo"
@@ -2775,7 +2773,7 @@ it:
     resources:
       schema: 'Schema'
     undisclosed:
-      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      parent: Non divulgato - Il genitore selezionato è invisibile a causa della mancanza dei permessi.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorizzazione'

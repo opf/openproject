@@ -3,15 +3,15 @@ import {
   TestBed,
 } from '@angular/core/testing';
 import { ChangeDetectorRef, DebugElement, Component, Input } from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import { OpIconComponent } from "core-app/modules/icon/icon.component";
-import { GitActionsMenuDirective } from "core-app/modules/plugins/linked/openproject-github_integration/git-actions-menu/git-actions-menu.directive";
-import { TabPrsComponent } from "core-app/modules/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component";
-import { HalResourceService } from "core-app/modules/hal/services/hal-resource.service";
-import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { OpIconComponent } from "core-app/shared/components/icon/icon.component";
+import { GitActionsMenuDirective } from "core-app/features/plugins/linked/openproject-github_integration/git-actions-menu/git-actions-menu.directive";
+import { TabPrsComponent } from "core-app/features/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { of } from "rxjs";
-import { PullRequestComponent } from "core-app/modules/plugins/linked/openproject-github_integration/pull-request/pull-request.component";
+import { PullRequestComponent } from "core-app/features/plugins/linked/openproject-github_integration/pull-request/pull-request.component";
 import { By } from "@angular/platform-browser";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   selector: 'op-date-time',

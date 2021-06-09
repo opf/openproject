@@ -34,18 +34,18 @@ pl:
       remove: "Usuń %{name}"
       active: "Aktywne %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Nie można dołączyć załączników, ponieważ przekraczają maksymalny dozwolony rozmiar całkowity. Można to zmienić poprzez konfigurację (wymaga ponownego uruchomienia serwera).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Tutaj możesz uruchomić tworzenie kopii zapasowej. Proces może zająć nieco czasu, w zależności od ilości danych (zwłaszcza załączników). Gdy kopia zapasowa będzie gotowa, otrzymasz wiadomość e-mail.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        Nowa kopia zapasowa zastąpi poprzednią. Można żądać tylko ograniczonej liczby kopii zapasowych dziennie.
+      last_backup: Ostatnia kopia zapasowa
+      last_backup_from: 'Ostatnia kopia zapasowa: z'
+      title: Kopia zapasowa OpenProject
       options: Opcje
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Dołącz załączniki
+      download_backup: Pobierz kopię zapasową
+      request_backup: Zażądaj kopii zapasowej
     close_popup_title: "Zamknij okno"
     close_filter_title: "Zamknij filtr"
     close_form_title: "Zamknij formularz"
@@ -87,6 +87,7 @@ pl:
     button_update: "Aktualizacja"
     button_export-pdf: "Pobierz plik PDF"
     button_export-atom: "Pobierz Atom"
+    button_create: "Utwórz"
     calendar:
       title: 'Kalendarz'
       too_many: 'Łącznie pakietów roboczych jest %{count}, ale pokazać można tylko %{max}.'
@@ -196,7 +197,6 @@ pl:
             label_company: "Firma"
             label_first_name: "Imię"
             label_last_name: "Nazwisko"
-            label_email: "Adres e-mail"
             label_domain: "Domena"
             label_subscriber: "Subskrybent"
             label_maximum_users: "Maksymalna liczba aktywnych użytkowników"
@@ -286,11 +286,11 @@ pl:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Nowy przycisk w nawigacji nagłówka, pozwalający tworzyć projekty, użytkowników i pakiety robocze.</li> <li>Nowe okno modalne zaproszenia dla użytkowników, grup i użytkowników zastępczych umożliwia łatwe dodawanie lub zapraszanie nowych użytkowników i przypisywanie ich do pakietów roboczych.</li> <li>Integracja GitHub z OpenProject.</li> <li>Rozszerzenia API v3 dla grup i więcej, np. tworzenie, odczyt, aktualizowanie i usuwanie grup i członków grup za pomocą interfejsu API.</li> <li>Wielokrotny wybór niestandardowych pól projektu z listy typów.</li> <li>Tworzenie kopii zapasowej z interfejsu przeglądarkowego.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>BIM: poprawa wydajności przeglądarki modeli IFC.</li> <li>BIM: przeglądarka IFC obsługuje obecnie modele o podwójnej precyzji, które są świetne do dużych obiektów budowlanych, takich jak mosty, drogi itp.</li> <li>BIM: przycisk przełączający między trybem perspektywy i trybem ortogonalnym.</li> <li>BIM: menu edycji, usuwania lub przerzucania płaszczyzn sekcji.</li> <li>Nowy przycisk w nawigacji nagłówka, pozwalający tworzyć projekty, użytkowników i pakiety robocze.</li> <li>Nowe okno modalne zaproszenia dla użytkowników, grup i użytkowników zastępczych, umożliwiające łatwe dodawanie lub zaproszenie nowych użytkowników i przypisywanie ich do pakietów roboczych.</li> <li>Rozszerzenia API v3 dla grup itd. np. tworzenie, odczyta, aktualizowanie i usuwanie grup i członków grup za pomocą interfejsu API.</li> <li>Wielokrotny wybór niestandardowych pól projektu z listy typów.</li> <li>Tworzenie kopii zapasowej z interfejsu przeglądarkowego.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -314,6 +314,7 @@ pl:
     label_board_locked: "Zablokowany"
     label_board_plural: "Tablice"
     label_board_sticky: "Przyklejony"
+    label_change: "Zmień"
     label_create: "Utwórz"
     label_create_work_package: "Utwórz nowy pakiet roboczy"
     label_created_by: "Utworzony przez"
@@ -336,6 +337,7 @@ pl:
     label_created_on: "utworzono"
     label_edit_comment: "Edytuj komentarz"
     label_edit_status: "Edytuj status zadania"
+    label_email: "Adres e-mail"
     label_equals: "jest"
     label_expand: "Rozwiń"
     label_expanded: "rozwinięty"
@@ -480,7 +482,7 @@ pl:
         help_menu: 'W menu <b>Pomoc</b> znajdziesz przewodnik użytkownika i dodatkowe zasoby pomocy. <br> Życzymy miłej pracy w OpenProject!'
         members: 'Zaproś nowych <b>członków</b> do swojego projektu.'
         project_selection: 'Aby rozpocząć, kliknij jeden z projektów z przydatnymi danymi demonstracyjnymi. <br> <b>Projekt Demo</b> najlepiej nadaje się do klasycznego zarządzania projektami, natomiast <b>projekt Scrum</b> jest lepszy do zwinnego zarządzania projektami.'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: 'Utwórz nowy projekt lub zaproś współpracowników.'
         sidebar_arrow: "Strzałka umożliwia powrót do <b>menu głównego</b> projektu."
         welcome: "Poświęć trzy minuty na zapoznanie się z <b>najważniejszymi funkcjami</b>. \n <br> Zalecamy wykonanie tych kroków do końca. Zwiedzanie można w każdej chwili zacząć od nowa."
         wiki: 'W <b>wiki</b> możesz dokumentować wiedzę i dzielić się nią z zespołem.'
@@ -523,9 +525,9 @@ pl:
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
       confirm_template_load: 'Przełączenie szablonu spowoduje ponowne załadowanie strony i utracisz wszystkie dane wprowadzone do tego formularza. Kontynuować?'
       use_template: "Użyj szablonu"
-      no_template_selected: "(None)"
+      no_template_selected: "(Brak)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Opcje kopiowania"
       autocompleter:
         label: 'Autouzupełnianie projektu'
     text_are_you_sure: "Jesteś pewien?"
@@ -611,7 +613,7 @@ pl:
       parent_placeholder: "Wybierz nowy element nadrzędny albo naciśnij klawisz Escape, aby anulować."
     autocompleter:
       placeholder: "Wpisz szukaną frazę"
-      notFoundText: "No items found"
+      notFoundText: "Nie znaleziono elementów"
       typeToSearchText: "Wpisz szukaną frazę"
     repositories:
       select_tag: 'Wybierz tag'
@@ -930,7 +932,7 @@ pl:
     notice_successful_create: "Tworzenie zakończone sukcesem."
     notice_successful_delete: "Usuwanie zakończone sukcesem."
     notice_successful_update: "Aktualizacja zakończona sukcesem."
-    notice_job_started: "job started."
+    notice_job_started: "zadanie rozpoczęte."
     notice_bad_request: "Nieprawidłowe żądanie."
     relations:
       empty: Brak relacji
@@ -990,76 +992,73 @@ pl:
       timeline: 'Wykres Gantta'
     invite_user_modal:
       back: 'Wstecz'
-      invite: 'Invite'
+      invite: 'Zaproś'
       title:
         invite: 'Zaproś użytkownika'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite_to_project: 'Zaproś %{type} do %{project}'
+        User: 'użytkownik'
+        Group: 'grupa'
+        PlaceholderUser: 'użytkownik zastępczy'
+        invite_principal_to_project: 'Zaproś %{principal} do %{project}'
       project:
         label: 'Projekt'
-        required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        required: 'Wybierz projekt'
+        lacking_permission: 'Nie masz uprawnień do przypisywania użytkowników do aktualnie wybranego projektu, wybierz inny.'
+        lacking_permission_info: 'Nie masz uprawnień do przypisywania użytkowników do projektu, w którym teraz jesteś. Musisz wybrać inny.'
         next_button: 'Następny'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_results: 'Nie znaleziono żadnych projektów'
+        no_invite_rights: 'Nie masz uprawnień do zapraszania członków do tego projektu'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Wybierz typ, który ma zostać zaproszony'
         user:
           title: 'Użytkownik'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Uprawnienia na podstawie przypisanej roli w wybranym projekcie'
         group:
           title: 'Grupa'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Uprawnienia na podstawie przypisanej roli w wybranym projekcie'
         placeholder:
           title: 'Użytkownik zastępczy'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title_no_ee: 'Użytkownik zastępczy (funkcja dostępna tylko w wersji Enterprise Edition)'
+          description: 'Nie ma dostępu do projektu i nie są wysyłane żadne wiadomości e-mail.'
+          description_no_ee: 'Nie ma dostępu do projektu i nie są wysyłane żadne wiadomości e-mail. <br>Sprawdź wersję <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Nazwa lub adres e-mail'
           name: 'Nazwa'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
-        no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
+        already_member_message: 'Już jest członkiem %{project}'
+        no_results_user: 'Nie znaleziono żadnych użytkowników'
+        invite_user: 'Zaproś:'
+        no_results_placeholder: 'Nie znaleziono elementów zastępczych'
+        create_new_placeholder: 'Utwórz nowy element zastępczy:'
+        no_results_group: 'Nie znaleziono żadnych grup'
         next_button: 'Następny'
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: 'Wybierz użytkownika'
+          placeholder: 'Wybierz element zastępczy'
+          group: 'Wybierz grupę'
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        label: 'Rola w %{project}'
+        no_roles_found: 'Nie znaleziono żadnych ról'
+        description: 'To jest rola, którą %{principal} otrzyma po dołączeniu do projektu. Rola określa działania, które można podjąć i widoczne informacje. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Dowiedz się więcej o rolach i uprawnieniach. </a>'
+        required: 'Wybierz rolę'
         next_button: 'Następny'
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        label: 'Wiadomość z zaproszeniem'
+        description: 'Wyślemy do %{principal} wiadomość e-mail, do której możesz tutaj dodać prywatną wiadomość. Może to być wyjaśnienie zaproszenia lub ułatwiające rozpoczęcie pracy informacje na temat projektu.'
+        next_button: 'Przejrzyj zaproszenie'
       summary:
         next_button: 'Wyślij zaproszenie'
       success:
-        title: '%{principal} was invited!'
+        title: 'Zaproszono %{principal}!'
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: 'Użytkownik może się teraz zalogować, aby uzyskać dostęp do %{project}.  Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze.'
+          placeholder: 'Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze.'
+          group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
         next_button: 'Dalej'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: 'Formularz został przesłany'
+      load_error_message: 'Podczas ładowania formularza wystąpił błąd'
+      validation_error_message: 'Napraw błędy obecne w formularzu'
       advanced_settings: 'Zaawansowane ustawienia'
 
 

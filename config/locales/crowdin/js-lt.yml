@@ -87,6 +87,7 @@ lt:
     button_update: "Atnaujinti"
     button_export-pdf: "Parsisiųsti PDF"
     button_export-atom: "Parsiųsti Atom"
+    button_create: "Sukurti"
     calendar:
       title: 'Kalendorius'
       too_many: 'Iš viso yra %{count} darbo paketų, bet tik %{max} gali būti rodomi.'
@@ -196,7 +197,6 @@ lt:
             label_company: "Kompanija"
             label_first_name: "Vardas"
             label_last_name: "Pavardė"
-            label_email: "El. paštas"
             label_domain: "Domenas"
             label_subscriber: "Prenumeruotojas"
             label_maximum_users: "Maksimalus aktyvių vartotojų skaičius"
@@ -286,11 +286,11 @@ lt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>BIM: Pagerinta IFC modelių peržiūros greitaveika.</li> <li>BIM: IFC peržiūros programa pradėjo palaikyti dvigubo tikslumo modelius, kas naudinga didelėse statybos aikštelėse, tokiose kaip tiltai, keliai ir pan.</li> <li>BIM: Perjungimo mygtukas perspektyvos ir ortogonaliam režimui perjungti.</li> <li>BIM: Meniu redagavimui, šalinimui ar sekcijos plokštumų apvertimui.</li> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -314,6 +314,7 @@ lt:
     label_board_locked: "Užrakinta"
     label_board_plural: "Lentos"
     label_board_sticky: "Lipnus"
+    label_change: "Pakeisti"
     label_create: "Sukurti"
     label_create_work_package: "Sukurti naują darbų paketą"
     label_created_by: "Sukurta"
@@ -336,6 +337,7 @@ lt:
     label_created_on: "sukurta"
     label_edit_comment: "Redaguoti šį komentarą"
     label_edit_status: "Redaguoti darbų paketo būsena"
+    label_email: "El. paštas"
     label_equals: "yra"
     label_expand: "Išskleisti"
     label_expanded: "išskleistas"
@@ -611,7 +613,7 @@ lt:
       parent_placeholder: "Pasirinkite naują tėvą arba spauskite Escape atšaukimui."
     autocompleter:
       placeholder: "Paieškai pradėkite rinkti tekstą"
-      notFoundText: "No items found"
+      notFoundText: "Nieko nerasta"
       typeToSearchText: "Paieškai pradėkite rinkti tekstą"
     repositories:
       select_tag: 'Pasirinkti žymę'
@@ -1026,12 +1028,9 @@ lt:
         already_member_message: 'Jau yra %{project} narys'
         no_results_user: 'Nerasta jokių vartotojų.'
         invite_user: 'Pakviesti:'
-        change_user_selection: 'Pakeiskite el. pašto adresą arba pasirinkite jau esamą vartotoją'
         no_results_placeholder: 'Nerasta jokių statytinių vartotojų.'
-        change_placeholder_selection: 'Pakeiskite vardą arba pasirinkite jau esamą statytinį vartotoją'
         create_new_placeholder: 'Sukurkite naują statytinį vartotoją:'
         no_results_group: 'Nerasta jokių grupių.'
-        change_group_selection: 'Pakeiskite vardą arba pasirinkite jau esamą grupę'
         next_button: 'Kitas'
         required:
           user: 'Pasirinkite naudotoją'

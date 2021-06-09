@@ -76,22 +76,6 @@ describe Project, type: :model do
     assert_equal 'eCook', @ecookbook.name
   end
 
-  it 'should validate identifier' do
-    to_test = { 'abc' => true,
-                'ab12' => true,
-                'ab-12' => true,
-                'ab_12' => true,
-                '12' => false,
-                'new' => false }
-
-    to_test.each do |identifier, valid|
-      p = Project.new
-      p.identifier = identifier
-      p.valid?
-      assert_equal valid, p.errors['identifier'].empty?
-    end
-  end
-
   it 'should members should be active users' do
     Project.all.each do |project|
       assert_nil project.members.detect { |m| !(m.principal.is_a?(User) && m.principal.active?) }

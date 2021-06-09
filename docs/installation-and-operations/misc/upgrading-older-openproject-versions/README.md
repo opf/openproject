@@ -1,6 +1,6 @@
 # Migrating from an old MySQL database
 
-If you need to migrate from any older version of OpenProject, upgrading multiple versions in order to get the newest version will be cumbersome. For example, for upgrading from OpenProject 4.3 to the stable 10.6, you will need to ugprade to OpenProject 7.2, and then to OpenProject 10.6.
+If you need to migrate from any older version of OpenProject, upgrading multiple versions in order to get the newest version will be cumbersome. For example, for upgrading from OpenProject 4.3 to the stable 10.6, you will need to upgrade to OpenProject 7.2, and then to OpenProject 10.6.
 
 If you also need to migrate from MySQL to PostgreSQL during that process, the steps will become more involved.
 

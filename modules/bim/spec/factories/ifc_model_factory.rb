@@ -51,13 +51,6 @@ FactoryBot.define do
           'application/binary'
         )
       end
-
-      metadata_attachment do
-        Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/minimal.json"),
-          'application/json'
-        )
-      end
     end
   end
 end

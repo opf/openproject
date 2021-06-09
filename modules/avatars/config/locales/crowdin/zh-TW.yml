@@ -8,7 +8,7 @@ zh-TW:
   error_image_upload: "儲存頭像時發生錯誤"
   error_image_size: "圖片太大。"
   button_change_avatar: "變更個人資料相片"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
+  are_you_sure_delete_avatar: "您確定要刪除您的頭像？"
   avatar_deleted: "頭像刪除成功"
   unable_to_delete_avatar: "頭像刪除失敗"
   wrong_file_format: "允許的格式是jpg, png以及gif"
@@ -16,14 +16,14 @@ zh-TW:
   avatars:
     label_avatar: "頭像分身"
     label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_current_avatar: '當前頭像'
+    label_local_avatar: '自定義頭像'
     text_current_avatar: |
-      The following image shows the current avatar.
+      以下圖像顯示當前圖像。
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      上傳您自己的 128 x 128 像素自定義頭像。 較大的文件將被調整大小和裁剪。
+      選擇了圖像後，在上傳之前將顯示您的頭像預覽。
+    text_change_gravatar_html: '欲為您的郵件地址更改或添加Gravatar, 請轉到%{gravatar_url}。'
     text_your_local_avatar: |
       OpenProject 允許你上傳自己定義的頭像
     text_local_avatar_over_gravatar: |

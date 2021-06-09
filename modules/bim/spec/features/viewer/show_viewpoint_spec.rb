@@ -60,10 +60,12 @@ describe 'Show viewpoint in model viewer',
     it 'loads the minimal viewpoint in the viewer' do
       model_tree.select_sidebar_tab 'Objects'
       model_tree.expand_tree
+      model_tree.expand_tree
+      model_tree.expand_tree
       retry_block do
         model_tree.expect_checked 'minimal'
         model_tree.all_checkboxes.each do |label, checkbox|
-          expect_checked = (label.text == 'minimal' || label.text == 'LUB_Segment_new:S_WHG_Ess:7243035')
+          expect_checked = ['minimal', 'IfcSite', '0hOGUplITAJP95dJaHmSyV', '4OG'].include?(label.text)
           if expect_checked != checkbox.checked?
             raise "Expected #{label.text} to be #{expect_checked ? 'checked' : 'unchecked'}, but wasn't."
           end
@@ -76,17 +78,17 @@ describe 'Show viewpoint in model viewer',
     login_as(user)
     show_model_page.visit!
     show_model_page.finished_loading
-    card_view.expect_work_package_listed work_package
+    card_view.expect_work_package_listed(work_package)
   end
 
   context 'clicking on the card' do
     before do
       # We need to wait a bit for xeokit to be initialized
       # otherwise the viewpoint selection won't go through
-      sleep 2
+      sleep(2)
 
-      card_view.select_work_package work_package
-      card_view.expect_work_package_selected work_package, true
+      card_view.select_work_package(work_package)
+      card_view.expect_work_package_selected(work_package, true)
     end
 
     it_behaves_like 'has the minimal viewpoint shown'
@@ -94,12 +96,12 @@ describe 'Show viewpoint in model viewer',
 
   context 'when in details view' do
     before do
-      card_view.open_full_screen_by_details work_package
-      bcf_details.expect_viewpoint_count 1
+      card_view.open_full_screen_by_details(work_package)
+      bcf_details.expect_viewpoint_count(1)
 
       # We need to wait a bit for xeokit to be initialized
       # otherwise the viewpoint selection won't go through
-      sleep 2
+      sleep(2)
       bcf_details.show_current_viewpoint
     end
 
@@ -112,7 +114,7 @@ describe 'Show viewpoint in model viewer',
     shared_examples "moves to the BCF page" do
       it 'moves to the bcf page' do
         wp_details.visit!
-        bcf_details.expect_viewpoint_count 1
+        bcf_details.expect_viewpoint_count(1)
         bcf_details.show_current_viewpoint
 
         path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
@@ -137,14 +139,14 @@ describe 'Show viewpoint in model viewer',
       let(:permissions) { %i[view_ifc_models view_work_packages] }
 
       let(:user) do
-        FactoryBot.create :user,
+        FactoryBot.create(:user,
                           member_in_project: project,
-                          member_with_permissions: permissions
+                          member_with_permissions: permissions)
       end
 
       it 'does not show the viewpoint' do
         wp_details.visit!
-        bcf_details.expect_viewpoint_count 0
+        bcf_details.expect_viewpoint_count(0)
         expect(page).to have_no_selector('h3.attributes-group--header-text', text: 'BCF')
       end
     end

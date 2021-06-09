@@ -88,6 +88,7 @@ ja:
     button_update: "更新"
     button_export-pdf: "PDFファイルをダウンロード"
     button_export-atom: "Atomをダウンロード"
+    button_create: "作成"
     calendar:
       title: 'カレンダー'
       too_many: '合計 %{count} のワークパッケージがありますが %{max} のみ表示されます。'
@@ -197,7 +198,6 @@ ja:
             label_company: "会社名"
             label_first_name: "名前"
             label_last_name: "苗字"
-            label_email: "電子メールアドレス"
             label_domain: "ドメイン"
             label_subscriber: "購入者"
             label_maximum_users: "アクティブなユーザーの最大数"
@@ -315,6 +315,7 @@ ja:
     label_board_locked: "ロックされている"
     label_board_plural: "ボード"
     label_board_sticky: "固定する"
+    label_change: "変更"
     label_create: "作成"
     label_create_work_package: "新しいワークパッケージを作成"
     label_created_by: "作成者："
@@ -337,6 +338,7 @@ ja:
     label_created_on: "作成日時"
     label_edit_comment: "このコメントを編集"
     label_edit_status: "ワークパッケージのステータスを編集"
+    label_email: "電子メールアドレス"
     label_equals: "等しい"
     label_expand: "展開"
     label_expanded: "展開"
@@ -1023,12 +1025,9 @@ ja:
         already_member_message: '既に %{project} のメンバーです'
         no_results_user: 'ユーザーが見つかりませんでした'
         invite_user: '招待:'
-        change_user_selection: 'メールアドレスを変更するか、既存のユーザーを選択してください'
         no_results_placeholder: 'プレースホルダが見つかりません'
-        change_placeholder_selection: '名前を変更するか、既存のプレースホルダを選択してください'
         create_new_placeholder: '新しいプレースホルダを作成:'
         no_results_group: 'グループが見つかりませんでした'
-        change_group_selection: '名前を変更するか、既存のグループを選択してください'
         next_button: '次へ'
         required:
           user: 'ユーザーを選択してください'

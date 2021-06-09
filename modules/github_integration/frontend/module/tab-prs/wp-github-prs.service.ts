@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { Injectable } from '@angular/core';
-import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
-import { WorkPackageLinkedResourceCache } from 'core-components/wp-single-view-tabs/wp-linked-resource-cache.service';
+import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { WorkPackageLinkedResourceCache } from 'core-app/features/work-packages/components/wp-single-view-tabs/wp-linked-resource-cache.service';
 
 @Injectable()
 export class WorkPackagesGithubPrsService extends WorkPackageLinkedResourceCache<HalResource[]> {

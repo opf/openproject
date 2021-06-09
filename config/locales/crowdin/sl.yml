@@ -579,7 +579,7 @@ sl:
             global: 'Globalno'
           query:
             filters:
-              minimum: "treba je vključiti vsaj en filter za to načelo, kontekst ali id z '=' operatorjem."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Na voljo mora biti vsaj ena možnost."
         custom_actions:
@@ -1913,7 +1913,7 @@ sl:
   mail_body_wiki_content_updated: "%{author} je posodobil '%{id}' stran wiki."
   mail_subject_account_activation_request: "%{value} zahtevek za aktivacijo računa"
   mail_subject_backup_ready: "Vaša varnostna kopija je pripravljena"
-  mail_subject_backup_token_reset: "Vaš žeton za varnostno kopiranje je ponastavljen"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Vaše %{value} geslo"
   mail_subject_register: "Aktivacija %{value} vašega računa"
   mail_subject_reminder: "%{count} zahtevek(zahtevki) zapadejo v naslednjih %{days} dneh"
@@ -2686,8 +2686,6 @@ sl:
     getting_started: "Začnite"
     help_and_support: "Pomoč in podpora"
   total_progress: "Skupni napredek"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "vsi"
     active: "aktiven"

@@ -87,6 +87,7 @@ nl:
     button_update: "Bijwerken"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
+    button_create: "Maken"
     calendar:
       title: 'Kalender'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
@@ -196,7 +197,6 @@ nl:
             label_company: "Company"
             label_first_name: "Voornaam"
             label_last_name: "Achternaam"
-            label_email: "E-mail"
             label_domain: "Domain"
             label_subscriber: "Abonnee"
             label_maximum_users: "Maximum aantal actieve gebruikers"
@@ -314,6 +314,7 @@ nl:
     label_board_locked: "Vergrendeld"
     label_board_plural: "Borden"
     label_board_sticky: "Sticky"
+    label_change: "Wijzigen"
     label_create: "Maken"
     label_create_work_package: "Nieuw werkpakket maken"
     label_created_by: "Gemaakt door"
@@ -336,6 +337,7 @@ nl:
     label_created_on: "gecreëerd op"
     label_edit_comment: "Deze opmerking bewerken"
     label_edit_status: "De status van het werkpakket bewerken"
+    label_email: "E-mail"
     label_equals: "is"
     label_expand: "Uitbreiden"
     label_expanded: "uitgebreid"
@@ -1022,12 +1024,9 @@ nl:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
         next_button: 'Volgende'
         required:
           user: 'Please select a user'

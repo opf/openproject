@@ -25,15 +25,15 @@ it:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Richiesta di pull"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Snippet su Git
+          description: Copia snippet su Git negli appunti
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          branch_name: Nome branch
+          commit_message: Messaggio del commit
+          cmd: Crea branch con commit vuoto
+          title: Snippet rapidi per Git
           copy_success: '✅ Copiato!'
           copy_error: '❌ Copia fallita!'
       tab_prs:

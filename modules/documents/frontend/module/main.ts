@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenProjectPluginContext } from "core-app/modules/plugins/plugin-context";
+import { OpenProjectPluginContext } from "core-app/features/plugins/plugin-context";
 import { DocumentResource } from './hal/resources/document-resource';
 import { multiInput } from 'reactivestates';
 

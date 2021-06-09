@@ -104,6 +104,7 @@ en:
     button_update: "Update"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
+    button_create: "Create"
 
     calendar:
       title: 'Calendar'
@@ -222,7 +223,6 @@ en:
             label_company: "Company"
             label_first_name: "First name"
             label_last_name: "Last name"
-            label_email: "Email"
             label_domain: "Domain"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
@@ -365,6 +365,7 @@ en:
     label_board_locked: "Locked"
     label_board_plural: "Boards"
     label_board_sticky: "Sticky"
+    label_change: "Change"
     label_create: "Create"
     label_create_work_package: "Create new work package"
     label_created_by: "Created by"
@@ -387,6 +388,7 @@ en:
     label_created_on: "created on"
     label_edit_comment: "Edit this comment"
     label_edit_status: "Edit the status of the work package"
+    label_email: "Email"
     label_equals: "is"
     label_expand: "Expand"
     label_expanded: "expanded"
@@ -1109,21 +1111,13 @@ en:
         label:
           name_or_email: 'Name or email address'
           name: 'Name'
-
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
-
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
-
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
-
         next_button: 'Next'
-
         required:
           user: 'Please select a user'
           placeholder: 'Please select a placeholder'

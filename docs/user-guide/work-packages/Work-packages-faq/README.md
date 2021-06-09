@@ -105,7 +105,7 @@ There are two reasons for this: 1. Potentially, a lot of values are displayed in
 
 ### I have a parent work package with multiple children. In the work package list I don't see all of the children below the parent. Why? How can I change this?
 
-Please increase the number of displayed work packages per page [in the administraion](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower. 
+Please increase the number of displayed work packages per page [in the administration](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower. 
 This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.com/projects/openproject/work_packages/34925/activity).
 
 

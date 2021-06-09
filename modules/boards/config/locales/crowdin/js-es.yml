@@ -9,7 +9,7 @@ es:
         teaser_text: 'Mejore su administración de proyectos ágiles con esta vista flexible de paneles. Cree tantos paneles como prefiera para cualquier elemento del que quiera realizar un seguimiento.'
         upgrade_to_ee_text: 'Los paneles son una característica de la versión Enterprise. Actualice a un plan de pago.'
         upgrade: 'Actualizar ahora'
-        personal_demo: 'Contact us for a demo'
+        personal_demo: 'Contacte con nosotros para una demostración'
       lists:
         delete: 'Eliminar lista'
       version:

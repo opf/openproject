@@ -25,12 +25,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 
 import { Injector, NgModule } from '@angular/core';
-import { OpenProjectPluginContext } from 'core-app/modules/plugins/plugin-context';
+import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { BudgetResource } from './hal/resources/budget-resource';
 import { multiInput } from 'reactivestates';
 import { CostSubformAugmentService } from "./augment/cost-subform.augment.service";
-import { PlannedCostsFormAugment } from "core-app/modules/plugins/linked/budgets/augment/planned-costs-form";
-import { CostBudgetSubformAugmentService } from "core-app/modules/plugins/linked/budgets/augment/cost-budget-subform.augment.service";
+import { PlannedCostsFormAugment } from "core-app/features/plugins/linked/budgets/augment/planned-costs-form";
+import { CostBudgetSubformAugmentService } from "core-app/features/plugins/linked/budgets/augment/cost-budget-subform.augment.service";
 
 export function initializeCostsPlugin(injector:Injector) {
   window.OpenProject.getPluginContext().then((pluginContext:OpenProjectPluginContext) => {

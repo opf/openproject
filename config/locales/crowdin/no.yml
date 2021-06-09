@@ -579,7 +579,7 @@
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -1883,7 +1883,7 @@
   mail_body_wiki_content_updated: "Wiki-siden '%{id}' har blitt oppdatert av %{author}."
   mail_subject_account_activation_request: "%{value} forespørsler om kontoaktivering"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Ditt %{value} passord"
   mail_subject_register: "Din %{value} kontoaktivering"
   mail_subject_reminder: "%{count} arbeidspakke(r) forfaller de neste %{days} dagene"
@@ -2653,8 +2653,6 @@
     getting_started: "Komme i gang"
     help_and_support: "Hjelp og support"
   total_progress: "Total fremdrift"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "alle"
     active: "aktiv"

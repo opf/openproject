@@ -1,4 +1,3 @@
-import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
 import { HalResourceClass } from "core-app/modules/hal/resources/hal-resource";
 
 export interface ISnippet {

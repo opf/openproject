@@ -20,7 +20,7 @@ You can adapt the following under the authentication settings:
 
    a) **Account activation by email** means the user receives an email and needs to confirm the activation.
 
-   b) **Manual account activatio**n means that a system administrator needs to manually activate the newly registered user.
+   b) **Manual account activation** means that a system administrator needs to manually activate the newly registered user.
 
    c) **Automatic account activation** means that a newly registered user will automatically be active.
 

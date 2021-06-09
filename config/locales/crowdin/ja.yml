@@ -574,7 +574,7 @@ ja:
             global: '全般'
           query:
             filters:
-              minimum: "'=' 演算子を使用した、プリンシパル、コンテキスト、ID に対するフィルターを少なくとも 1 つ含める必要があります。"
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "少なくとも 1 つオプションが有効である必要があります。"
         custom_actions:
@@ -1863,7 +1863,7 @@ ja:
   mail_body_wiki_content_updated: "%{author}によってWikiページ'%{id}'が更新されました。"
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
   mail_subject_backup_ready: "バックアップの準備ができました"
-  mail_subject_backup_token_reset: "バックアップトークンがリセットされました"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
   mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
@@ -2326,7 +2326,7 @@ ja:
     brute_force_prevention: "自動的にユーザをロック"
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
       first_week_of_year_text: >
         その年の最初の週に含まれる1月の日付を選択します。 この値と週の開始の日によって、1年の合計週数が決定されます。
     projects:
@@ -2632,8 +2632,6 @@ ja:
     getting_started: "はじめに"
     help_and_support: "ヘルプとサポート"
   total_progress: "全体の進行状況"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "全て"
     active: "アクティブ"

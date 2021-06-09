@@ -87,6 +87,7 @@ da:
     button_update: "Opdater"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
+    button_create: "Opret"
     calendar:
       title: 'Kalender'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
@@ -195,7 +196,6 @@ da:
             label_company: "Virksomhed"
             label_first_name: "Fornavn"
             label_last_name: "Efternavn"
-            label_email: "E-mail"
             label_domain: "Domæne"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
@@ -313,6 +313,7 @@ da:
     label_board_locked: "Låst"
     label_board_plural: "Boards"
     label_board_sticky: "Fremhævet"
+    label_change: "Ændring"
     label_create: "Opret"
     label_create_work_package: "Opret ny arbejdspakke"
     label_created_by: "Created by"
@@ -335,6 +336,7 @@ da:
     label_created_on: "oprettet d."
     label_edit_comment: "Rediger denne kommentar"
     label_edit_status: "Edit the status of the work package"
+    label_email: "E-mail"
     label_equals: "er"
     label_expand: "Udvid"
     label_expanded: "udfoldet"
@@ -1021,12 +1023,9 @@ da:
         already_member_message: 'Allerede medlem af %{project}'
         no_results_user: 'Ingen brugere blev fundet'
         invite_user: 'Invitér:'
-        change_user_selection: 'Skift e-mail-adresse eller vælg en eksisterende bruger'
         no_results_placeholder: 'Ingen pladsholdere blev fundet'
-        change_placeholder_selection: 'Skift navn eller vælg en eksisterende pladsholder'
         create_new_placeholder: 'Opret ny pladsholder:'
         no_results_group: 'Ingen grupper blev fundet'
-        change_group_selection: 'Skift navn eller vælg en eksisterende gruppe'
         next_button: 'Næste'
         required:
           user: 'Vælg venligst en bruger'

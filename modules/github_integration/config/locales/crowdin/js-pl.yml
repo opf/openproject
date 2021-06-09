@@ -25,17 +25,17 @@ pl:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Żądania Pull Request"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Fragmenty git
+          description: Skopiuj fragmenty git do schowka
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Nazwa gałęzi
+          commit_message: Wiadomość o zmianach
+          cmd: Utwórz gałąź z pustą zmianą
+          title: Szybkie fragmenty do Git
+          copy_success: '✅ Skopiowano!'
+          copy_error: '❌ Kopiowanie nie powiodło się!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Nie ma jeszcze powiązanych żądań Pull Request. Powiąż istniejące PR, używając kodu <code>OP#%{wp_id}</code> w opisie PR lub utwórz nowe PR.'
       github_actions: Akcje

@@ -25,15 +25,15 @@ ko:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "끌어오기 요청"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git 코드 조각
+          description: 클립보드에 Git 코드 조각 복사됨
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          branch_name: 브랜치 이름
+          commit_message: 커밋 메시지
+          cmd: 빈 커밋으로 브랜치 생성
+          title: Git용 빠른 코드 조각
           copy_success: '✅ 복사 완료!'
           copy_error: '❌ 복사 실패!'
       tab_prs:

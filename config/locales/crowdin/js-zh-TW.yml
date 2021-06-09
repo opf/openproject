@@ -87,6 +87,7 @@ zh-TW:
     button_update: "更新"
     button_export-pdf: "下載 PDF"
     button_export-atom: "下載 Atom"
+    button_create: "建立"
     calendar:
       title: '行事曆'
       too_many: '總共有 %{count} 個工作項目，但只有 %{max} 個可以顯示。'
@@ -195,7 +196,6 @@ zh-TW:
             label_company: "Company"
             label_first_name: "名字"
             label_last_name: "姓："
-            label_email: "電子郵件"
             label_domain: "Domain"
             label_subscriber: "訂閱者"
             label_maximum_users: "最大活動使用者數"
@@ -313,6 +313,7 @@ zh-TW:
     label_board_locked: "鎖定"
     label_board_plural: "看板"
     label_board_sticky: "附著"
+    label_change: "變更"
     label_create: "建立"
     label_create_work_package: "建立新的工作項目"
     label_created_by: "建立由"
@@ -335,6 +336,7 @@ zh-TW:
     label_created_on: "建立於"
     label_edit_comment: "編輯此評論"
     label_edit_status: "編輯工作項目的狀態"
+    label_email: "電子郵件"
     label_equals: "是"
     label_expand: "展開"
     label_expanded: "已展開"
@@ -1019,12 +1021,9 @@ zh-TW:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
         next_button: '下一個'
         required:
           user: 'Please select a user'
