@@ -25,7 +25,7 @@ export function initializeServices(injector:Injector) {
   return function () {
     const inviteUserAugmentService = injector.get(OpInviteUserModalAugmentService);
     inviteUserAugmentService.setupListener();
-  }
+  };
 }
 
 @NgModule({

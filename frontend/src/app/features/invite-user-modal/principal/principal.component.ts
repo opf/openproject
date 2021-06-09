@@ -1,27 +1,17 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-} from '@angular/forms';
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { FormControl, FormGroup, Validators, } from '@angular/forms';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { PrincipalData, PrincipalLike } from "core-app/shared/components/principal/principal-types";
 import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component"
 import { PrincipalType } from '../invite-user.component';
+import { take } from 'rxjs/internal/operators/take';
+import { map } from 'rxjs/operators';
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
-function extractCustomFieldsFromSchema(schema: IOPFormSettings['_embedded']['schema']) {
+function extractCustomFieldsFromSchema(schema:IOPFormSettings['_embedded']['schema']) {
   return Object.keys(schema)
     .reduce((fields, name) => {
       if (name.startsWith('customField') && schema[name].required) {
@@ -49,7 +39,7 @@ export class PrincipalComponent implements OnInit {
   @Output() save = new EventEmitter<{ principalData:PrincipalData, isAlreadyMember:boolean }>();
   @Output() back = new EventEmitter();
 
-  @ViewChild(DynamicFormComponent) dynamicForm: DynamicFormComponent;
+  @ViewChild(DynamicFormComponent) dynamicForm:DynamicFormComponent;
 
   public PrincipalType = PrincipalType;
 
@@ -77,13 +67,13 @@ export class PrincipalComponent implements OnInit {
   };
 
   public principalForm = new FormGroup({
-    principal: new FormControl(null, [ Validators.required ]),
+    principal: new FormControl(null, [Validators.required]),
     userDynamicFields: new FormGroup({}),
   });
 
-  public userDynamicFieldConfig: {
-    payload: IOPFormSettings['_embedded']['payload']|null,
-    schema: IOPFormSettings['_embedded']['schema']|null,
+  public userDynamicFieldConfig:{
+    payload:IOPFormSettings['_embedded']['payload']|null,
+    schema:IOPFormSettings['_embedded']['schema']|null,
   } = {
     payload: null,
     schema: null,
@@ -101,7 +91,7 @@ export class PrincipalComponent implements OnInit {
     return this.principalForm.get('userDynamicFields');
   }
 
-  get customFields():{[key:string]:any} {
+  get customFields():{ [key:string]:any } {
     return this.dynamicFieldsControl?.value;
   }
 
@@ -128,17 +118,27 @@ export class PrincipalComponent implements OnInit {
   constructor(
     readonly I18n:I18nService,
     readonly httpClient:HttpClient,
-    readonly pathHelper:PathHelperService,
-    readonly cdRef: ChangeDetectorRef,
-  ) {}
+    readonly apiV3Service:APIV3Service,
+    readonly cdRef:ChangeDetectorRef,
+  ) {
+  }
 
   ngOnInit() {
     this.principalControl?.setValue(this.principalData.principal);
 
     if (this.type === PrincipalType.User) {
       const payload = this.isNewPrincipal ? this.principalData.customFields : {};
-      this.httpClient
-        .post<IOPFormSettings>('/api/v3/users/form', payload, { withCredentials: true, responseType: 'json' })
+      this
+        .apiV3Service
+        .users
+        .form
+        .post(payload)
+        .pipe(
+          take(1),
+          // The subsequent code expects to not work with a HalResource but rather with the raw
+          // api response.
+          map(formResource => formResource.$source)
+        )
         .subscribe((formConfig) => {
           this.userDynamicFieldConfig.schema = extractCustomFieldsFromSchema(formConfig._embedded?.schema);
           this.userDynamicFieldConfig.payload = formConfig._embedded?.payload;
@@ -177,7 +177,7 @@ export class PrincipalComponent implements OnInit {
       _links: Object.keys(links).reduce((cfs, name) => ({
         ...cfs,
         [name]: Array.isArray(links[name])
-          ? links[name].map((opt: any) => opt._links ? opt._links.self : opt)
+          ? links[name].map((opt:any) => opt._links ? opt._links.self : opt)
           : (links[name]._links ? links[name]._links.self : links[name])
       }), {}),
     };
