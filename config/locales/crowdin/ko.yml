@@ -1866,7 +1866,7 @@ ko:
   mail_body_wiki_content_updated: "%{author}이(가) '%{id}' 위키 페이지를 업데이트했습니다."
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_backup_ready: "백업이 준비되었습니다"
-  mail_subject_backup_token_reset: "백업 토큰이 초기화되었습니다"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "%{value} 암호"
   mail_subject_register: "%{value} 계정 활성화"
   mail_subject_reminder: "다음 %{days}일 후 만료되는 %{count} 작업 패키지"

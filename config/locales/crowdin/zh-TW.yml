@@ -1867,7 +1867,7 @@ zh-TW:
   mail_body_wiki_content_updated: "Wiki 頁面 '%{id}' 已經被 %{author} 更新"
   mail_subject_account_activation_request: "帳號 %{value} 啟用請求"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "你的 %{value} 密碼"
   mail_subject_register: "你的帳號 %{value} 啟用"
   mail_subject_reminder: "%{count} 個工作項目將在 %{days} 天後到期"

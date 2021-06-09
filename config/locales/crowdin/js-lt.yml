@@ -196,7 +196,6 @@ lt:
             label_company: "Kompanija"
             label_first_name: "Vardas"
             label_last_name: "Pavardė"
-            label_email: "El. paštas"
             label_domain: "Domenas"
             label_subscriber: "Prenumeruotojas"
             label_maximum_users: "Maksimalus aktyvių vartotojų skaičius"
@@ -314,6 +313,7 @@ lt:
     label_board_locked: "Užrakinta"
     label_board_plural: "Lentos"
     label_board_sticky: "Lipnus"
+    label_change: "Pakeisti"
     label_create: "Sukurti"
     label_create_work_package: "Sukurti naują darbų paketą"
     label_created_by: "Sukurta"
@@ -336,6 +336,7 @@ lt:
     label_created_on: "sukurta"
     label_edit_comment: "Redaguoti šį komentarą"
     label_edit_status: "Redaguoti darbų paketo būsena"
+    label_email: "El. paštas"
     label_equals: "yra"
     label_expand: "Išskleisti"
     label_expanded: "išskleistas"
@@ -1021,12 +1022,9 @@ lt:
         already_member_message: 'Jau yra %{project} narys'
         no_results_user: 'Nerasta jokių vartotojų.'
         invite_user: 'Pakviesti:'
-        change_user_selection: 'Pakeiskite el. pašto adresą arba pasirinkite jau esamą vartotoją'
         no_results_placeholder: 'Nerasta jokių statytinių vartotojų.'
-        change_placeholder_selection: 'Pakeiskite vardą arba pasirinkite jau esamą statytinį vartotoją'
         create_new_placeholder: 'Sukurkite naują statytinį vartotoją:'
         no_results_group: 'Nerasta jokių grupių.'
-        change_group_selection: 'Pakeiskite vardą arba pasirinkite jau esamą grupę'
         next_button: 'Kitas'
         required:
           user: 'Pasirinkite naudotoją'

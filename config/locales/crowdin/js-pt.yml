@@ -195,7 +195,6 @@ pt:
             label_company: "Empresa"
             label_first_name: "Nome"
             label_last_name: "Sobrenome"
-            label_email: "E-mail"
             label_domain: "Domínio"
             label_subscriber: "Assinante"
             label_maximum_users: "Máximo de usuários ativos"
@@ -313,6 +312,7 @@ pt:
     label_board_locked: "Bloqueado"
     label_board_plural: "Quadros"
     label_board_sticky: "Afixado"
+    label_change: "Alterar"
     label_create: "Criar"
     label_create_work_package: "Criar novo pacote de trabalho"
     label_created_by: "Criado por"
@@ -335,6 +335,7 @@ pt:
     label_created_on: "criado em"
     label_edit_comment: "Editar este comentário"
     label_edit_status: "Editar a situação do pacote de trabalho"
+    label_email: "E-mail"
     label_equals: "é"
     label_expand: "Expandir"
     label_expanded: "expandido"
@@ -1016,12 +1017,9 @@ pt:
         already_member_message: 'Já é um membro de %{project}'
         no_results_user: 'nenhum usuário foi encontrado'
         invite_user: 'Convite:'
-        change_user_selection: 'Altere o endereço de e-mail ou selecione um usuário existente'
         no_results_placeholder: 'Nenhum espaço reservado encontrado'
-        change_placeholder_selection: 'Altere o nome ou selecione um espaço reservado existente'
         create_new_placeholder: 'Criar novo espaço reservado:'
         no_results_group: 'Nenhum grupo encontrado'
-        change_group_selection: 'Altere o nome ou selecione um nome existente'
         next_button: 'Próxima'
         required:
           user: 'Selecione um usuário'
