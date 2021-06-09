@@ -197,7 +197,6 @@ it:
             label_company: "Azienda"
             label_first_name: "Nome"
             label_last_name: "Cognome"
-            label_email: "Email"
             label_domain: "Dominio"
             label_subscriber: "Iscritto"
             label_maximum_users: "Numero massimo di utenti attivi"
@@ -315,6 +314,7 @@ it:
     label_board_locked: "Chiuso"
     label_board_plural: "Tabelloni"
     label_board_sticky: "In evidenza"
+    label_change: "Cambia"
     label_create: "Crea"
     label_create_work_package: "Crea una nuova macro-attività"
     label_created_by: "Creato da"
@@ -337,6 +337,7 @@ it:
     label_created_on: "creato il"
     label_edit_comment: "Modifica questo commento"
     label_edit_status: "Modifica lo stato della macro-attività"
+    label_email: "Email"
     label_equals: "è"
     label_expand: "Espandi"
     label_expanded: "espanso"
@@ -1023,12 +1024,9 @@ it:
         already_member_message: 'Già un membro di %{project}'
         no_results_user: 'Nessun utente è stato trovato'
         invite_user: 'Invito:'
-        change_user_selection: 'Cambia l''indirizzo email o seleziona un utente esistente'
         no_results_placeholder: 'Nessun segnaposto è stato trovato'
-        change_placeholder_selection: 'Cambia nome o seleziona un segnaposto esistente'
         create_new_placeholder: 'Crea nuovo segnaposto:'
         no_results_group: 'Nessun gruppo è stato trovato'
-        change_group_selection: 'Cambia nome o seleziona un gruppo esistente'
         next_button: 'Prossimo'
         required:
           user: 'Sei pregato di selezionare un utente'

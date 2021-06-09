@@ -578,7 +578,7 @@ pl:
             global: 'Globalna'
           query:
             filters:
-              minimum: "musi zawierać co najmniej jeden filtr nazwy głównej, kontekstu lub identyfikatora z operatorem „=”."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Przynajmniej jedna opcja musi być dostępna."
         custom_actions:
@@ -1912,7 +1912,7 @@ pl:
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Twoja kopia zapasowa jest gotowa"
-  mail_subject_backup_token_reset: "Twój token kopii zapasowej został zresetowany"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "Termin wykonania %{count} pakietów roboczych kończy się w ciągu %{days} dni"

@@ -196,7 +196,6 @@ vi:
             label_company: "Company"
             label_first_name: "Tên"
             label_last_name: "Họ"
-            label_email: "Thư điện tử"
             label_domain: "Domain"
             label_subscriber: "Người đăng ký"
             label_maximum_users: "Số người dùng hoạt động tối đa"
@@ -314,6 +313,7 @@ vi:
     label_board_locked: "Đã khóa"
     label_board_plural: "Bảng"
     label_board_sticky: "Chú ý"
+    label_change: "Thay đổi"
     label_create: "Tạo mới"
     label_create_work_package: "Create new work package"
     label_created_by: "Được tạo bởi"
@@ -336,6 +336,7 @@ vi:
     label_created_on: "tạo ngày"
     label_edit_comment: "Chỉnh sửa chú thích này"
     label_edit_status: "Trạng thái chỉnh sửa của nhóm công việc"
+    label_email: "Thư điện tử"
     label_equals: "là"
     label_expand: "Mở rộng"
     label_expanded: "đã mở rộng"
@@ -1020,12 +1021,9 @@ vi:
         already_member_message: 'Đã là thành viên của %{project}'
         no_results_user: 'Không tìm thấy người dùng'
         invite_user: 'Mời:'
-        change_user_selection: 'Thay đổi địa chỉ e-mail hoặc chọn một người dùng hiện có'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'Không tìm thấy nhóm nào'
-        change_group_selection: 'Thay đổi tên hoặc chọn một nhóm hiện có'
         next_button: 'Tiếp'
         required:
           user: 'Vui lòng chọn người dùng'

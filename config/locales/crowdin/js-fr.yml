@@ -197,7 +197,6 @@ fr:
             label_company: "Société"
             label_first_name: "Prénom"
             label_last_name: "Nom de famille"
-            label_email: "Courriel"
             label_domain: "Domaine"
             label_subscriber: "Abonné"
             label_maximum_users: "Nombre maximal d’utilisateurs actif"
@@ -315,6 +314,7 @@ fr:
     label_board_locked: "Verrouillé"
     label_board_plural: "Tableaux"
     label_board_sticky: "Epinglé"
+    label_change: "Changer"
     label_create: "Créer"
     label_create_work_package: "Créer un nouveau lot de travaux"
     label_created_by: "Créé par"
@@ -337,6 +337,7 @@ fr:
     label_created_on: "créé le"
     label_edit_comment: "Éditer ce commentaire"
     label_edit_status: "Modifier le statut du lot de travaux"
+    label_email: "Courriel"
     label_equals: "est"
     label_expand: "développer"
     label_expanded: "étendu"
@@ -1023,12 +1024,9 @@ fr:
         already_member_message: 'Déjà membre de %{project}'
         no_results_user: 'Aucun utilisateur n''a été trouvé'
         invite_user: 'Invité :'
-        change_user_selection: 'Changer l''adresse e-mail ou sélectionner un utilisateur existant'
         no_results_placeholder: 'Aucuns utilisateurs fictifs n''a été trouvé'
-        change_placeholder_selection: 'Modifier le nom ou sélectionner un espace réservé existant'
         create_new_placeholder: 'Créer un nouveau utilisateur fictif :'
         no_results_group: 'Aucun groupe n''a été trouvé'
-        change_group_selection: 'Changer de nom ou sélectionner un groupe existant'
         next_button: 'Suivante'
         required:
           user: 'Veuillez sélectionner un utilisateur'

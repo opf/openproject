@@ -197,7 +197,6 @@ ko:
             label_company: "회사"
             label_first_name: "이름"
             label_last_name: "성"
-            label_email: "이메일"
             label_domain: "도메인"
             label_subscriber: "구독자"
             label_maximum_users: "최대 활성 사용자"
@@ -315,6 +314,7 @@ ko:
     label_board_locked: "잠김"
     label_board_plural: "보드"
     label_board_sticky: "스티커형"
+    label_change: "변경"
     label_create: "만들기"
     label_create_work_package: "새 작업 패키지 만들기"
     label_created_by: "작성자"
@@ -337,6 +337,7 @@ ko:
     label_created_on: "생성"
     label_edit_comment: "코멘트 편집"
     label_edit_status: "작업 패키지 상태 편집"
+    label_email: "이메일"
     label_equals: "일치함"
     label_expand: "확장"
     label_expanded: "확장됨"
@@ -1021,12 +1022,9 @@ ko:
         already_member_message: '이미 %{project}의 멤버입니다'
         no_results_user: '사용자가 없습니다.'
         invite_user: '초대:'
-        change_user_selection: '이메일 주소를 바꾸거나 현재 사용자를 선택하십시오'
         no_results_placeholder: '플레이스홀더가 없습니다'
-        change_placeholder_selection: '이름을 바꾸거나 현재 플레이스홀더를 선택하십시오'
         create_new_placeholder: '새 플레이스홀더 생성:'
         no_results_group: '그룹이 없습니다'
-        change_group_selection: '이름을 바꾸거나 현재 그룹을 선택하십시오'
         next_button: '다음'
         required:
           user: '사용자를 선택하십시오'

@@ -581,7 +581,7 @@ uk:
             global: 'Глобальний'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Необхідно мати принаймні один варіант."
         custom_actions:
@@ -1915,7 +1915,7 @@ uk:
   mail_body_wiki_content_updated: "%{author} оновив(ла) wiki-сторінку %{id}."
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_subject_register: "Активація облікового запису %{value}"
   mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі %{days} дні"

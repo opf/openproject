@@ -580,7 +580,7 @@ ru:
             global: 'Глобальная'
           query:
             filters:
-              minimum: "необходимо включить хотя бы один фильтр для основного, контекста или id с оператором '='."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "По крайней мере один параметр должен быть доступен."
         custom_actions:
@@ -1914,7 +1914,7 @@ ru:
   mail_body_wiki_content_updated: "%{author} обновил wiki-страницу '%{id}'."
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_backup_ready: "Ваша резервная копия готова"
-  mail_subject_backup_token_reset: "Резервный маркер вашей резервной копии был сброшен"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
   mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"

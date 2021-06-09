@@ -197,7 +197,6 @@ ca:
             label_company: "Company"
             label_first_name: "Nom"
             label_last_name: "Cognom"
-            label_email: "Correu electrònic"
             label_domain: "Domain"
             label_subscriber: "Subscriber"
             label_maximum_users: "Màxim nombre d'usuaris actius"
@@ -315,6 +314,7 @@ ca:
     label_board_locked: "Bloquejat"
     label_board_plural: "Taulells"
     label_board_sticky: "Fixa't"
+    label_change: "Canvia"
     label_create: "Crear"
     label_create_work_package: "Crear paquet de treball nou"
     label_created_by: "Creat per"
@@ -337,6 +337,7 @@ ca:
     label_created_on: "creat el"
     label_edit_comment: "Editar aquest comentari"
     label_edit_status: "Editar l'estat del paquet de treball"
+    label_email: "Correu electrònic"
     label_equals: "és"
     label_expand: "Expandir"
     label_expanded: "expandit"
@@ -1023,12 +1024,9 @@ ca:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
         next_button: 'Següent'
         required:
           user: 'Please select a user'

@@ -580,7 +580,7 @@ ro:
             global: 'Global'
           query:
             filters:
-              minimum: "trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul \"=\"."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Cel puțin o opțiune trebuie să fie disponibilă."
         custom_actions:
@@ -1899,7 +1899,7 @@ ro:
   mail_body_wiki_content_updated: "Pagina wiki '%{id}' a fost actualizată de %{author}."
   mail_subject_account_activation_request: "cererea de activare a contului %{value}"
   mail_subject_backup_ready: "Backup-ul tău este gata"
-  mail_subject_backup_token_reset: "Token-ul tău de backup a fost resetat"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Parola dumneavoastră pentru %{value}"
   mail_subject_register: "Activarea contului dumneavoastră %{value}"
   mail_subject_reminder: "%{count} pachete de lucru trebuie rezolvate în următoarele %{days} zile"

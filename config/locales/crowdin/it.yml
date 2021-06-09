@@ -575,7 +575,7 @@ it:
             global: 'Globale'
           query:
             filters:
-              minimum: "devi includere almeno un filtro per principale, contesto o id con l'operatore '='."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Deve essere disponibile almeno un'opzione."
         custom_actions:
@@ -1879,7 +1879,7 @@ it:
   mail_body_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata da %{author}."
   mail_subject_account_activation_request: "%{value} richiesta di attivazione account"
   mail_subject_backup_ready: "Il tuo backup è pronto"
-  mail_subject_backup_token_reset: "Il tuo token di backup è stato ripristinato"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
   mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"

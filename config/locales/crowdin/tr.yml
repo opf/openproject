@@ -579,7 +579,7 @@ tr:
             global: 'Küresel'
           query:
             filters:
-              minimum: "'=' operatörüyle asıl, bağlam veya kimlik için en az bir filtre içermesi gerekir."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "En az bir seçeneğin uygun olması gerekir."
         custom_actions:
@@ -1883,7 +1883,7 @@ tr:
   mail_body_wiki_content_updated: "'%{id}' wiki sayfası, %{author} tarafından güncellendi."
   mail_subject_account_activation_request: "%{value} hesap etkinleştirme isteği"
   mail_subject_backup_ready: "Yedeklemeniz hazır"
-  mail_subject_backup_token_reset: "Yedek jetonunuz sıfırlandı"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Sizin %{value} parola"
   mail_subject_register: "İşletme %{value} hesap etkinleştirme"
   mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
