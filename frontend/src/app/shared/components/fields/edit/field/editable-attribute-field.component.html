@@ -11,6 +11,7 @@
   </div>
 
   <div (click)="activateIfEditable($event)"
+       (keydown.enter)="activateIfEditable($event)"
        [hidden]="active"
        tabindex="-1"
        #displayContainer></div>
