@@ -13,8 +13,8 @@ export class FormsService {
     private _httpClient:HttpClient,
   ) { }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch'):Observable<any> {
-    const modelToSubmit = this.formatModelToSubmit(form.getRawValue());
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch', formSchema?:IOPFormSchema):Observable<any> {
+    const modelToSubmit = this.formatModelToSubmit(form.getRawValue(), formSchema);
     const httpMethod = resourceId ? 'patch' : (formHttpMethod || 'post');
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
 
@@ -38,8 +38,8 @@ export class FormsService {
       );
   }
 
-  validateForm$(form:FormGroup, resourceEndpoint:string):Observable<any> {
-    const modelToSubmit = this.formatModelToSubmit(form.value);
+  validateForm$(form:FormGroup, resourceEndpoint:string, formSchema?:IOPFormSchema):Observable<any> {
+    const modelToSubmit = this.formatModelToSubmit(form.value, formSchema);
 
     return this._httpClient
       .post(
@@ -56,8 +56,8 @@ export class FormsService {
       );
   }
 
-  getFormBackendValidationError$(formValue: {[key:string]: any}, resourceEndpoint:string, limitValidationToKeys?:string | string[]) {
-    const modelToSubmit = this.formatModelToSubmit(formValue);
+  getFormBackendValidationError$(formValue: {[key:string]: any}, resourceEndpoint:string, limitValidationToKeys?:string | string[], formSchema?:IOPFormSchema) {
+    const modelToSubmit = this.formatModelToSubmit(formValue, formSchema);
 
     return this._httpClient
       .post(
@@ -76,29 +76,65 @@ export class FormsService {
       );
   }
 
-  private formatModelToSubmit(formModel:IOPFormModel):IOPFormModel {
-    const resources = formModel?._links || {};
+  /** HAL resources formatting
+   * The backend form model/payload contains HAL resources nested in the '_links' property.
+   * In order to simplify its use, the model is flatted and HAL resources are placed at
+   * the first level of the model with the 'formatModelToEdit' method.
+   * 'formatModelToSubmit' places HAL resources model back to the '_links' property and formats them
+   * in the shape of '{href:hrefValue}' in order to fit the backend expectations.
+   * */
+  private formatModelToSubmit(formModel:IOPFormModel, formSchema:IOPFormSchema = {}):IOPFormModel {
+    let {_links:linksModel, ...mainModel} = formModel;
+    const resourcesModel = linksModel || Object.keys(formSchema)
+      .filter(formSchemaKey => !!formSchema[formSchemaKey]?.type && formSchema[formSchemaKey]?.location === '_links')
+      .reduce((result, formSchemaKey) => {
+        const {[formSchemaKey]:keyToRemove, ...mainModelWithoutResource} = mainModel;
+        mainModel = mainModelWithoutResource;
 
-    const formattedResources = Object
-      .keys(resources)
+        return {...result, [formSchemaKey]: formModel[formSchemaKey]};
+      }, {});
+
+    const formattedResourcesModel = Object
+      .keys(resourcesModel)
       .reduce((result, resourceKey) => {
-        const resource = resources[resourceKey];
+        const resourceModel = resourcesModel[resourceKey];
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface
-        const resourceValue = Array.isArray(resource) ?
-          resource.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href })) :
-          { href: resource?.href || resource?._links?.self?.href };
+        const formattedResourceModel = Array.isArray(resourceModel) ?
+          resourceModel.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href || null })) :
+          { href: resourceModel?.href || resourceModel?._links?.self?.href || null };
 
         return {
           ...result,
-          [resourceKey]: resourceValue,
+          [resourceKey]: formattedResourceModel,
         };
       }, {});
 
     return {
-      ...formModel,
-      _links: formattedResources,
+      ...mainModel,
+      _links: formattedResourcesModel,
     }
+  }
+
+  /** HAL resources formatting
+   * The backend form model/payload contains HAL resources nested in the '_links' property.
+   * In order to simplify its use, the model is flatted and HAL resources are placed at
+   * the first level of the model. 'NonValue' values are also removed from the model so
+   * default values from the DynamicForm are set.
+   */
+  formatModelToEdit(formModel:IOPFormModel = {}):IOPFormModel {
+    const { _links: resourcesModel, _meta: metaModel, ...otherElements } = formModel;
+    const otherElementsModel = Object.keys(otherElements)
+      .filter(key => this.isValue(otherElements[key]))
+      .reduce((model, key) => ({...model, [key]:otherElements[key]}), {});
+
+    const model = {
+      ...otherElementsModel,
+      _meta: metaModel,
+      ...this.getFormattedResourcesModel(resourcesModel),
+    };
+
+    return model;
   }
 
   private handleBackendFormValidationErrors(error:HttpErrorResponse, form:FormGroup):void {
@@ -145,5 +181,27 @@ export class FormsService {
     }));
 
     return formattedErrors;
+  }
+
+  private getFormattedResourcesModel(resourcesModel:IOPFormModel['_links'] = {}):IOPFormModel['_links'] {
+    return Object.keys(resourcesModel).reduce((result, resourceKey) => {
+      const resource = resourcesModel[resourceKey];
+      // ng-select needs a 'name' in order to show the label
+      // We need to add it in case of the form payload (HalLinkSource)
+      const resourceModel = Array.isArray(resource) ?
+        resource.map(resourceElement => ({...resourceElement, name: resourceElement?.name || resourceElement?.title})) :
+        {...resource, name: resource?.name || resource?.title};
+
+      result = {
+        ...result,
+        ...this.isValue(resourceModel) && {[resourceKey]: resourceModel},
+      };
+
+      return result;
+    }, {});
+  }
+
+  private isValue(value:any) {
+    return ![null, undefined, ''].includes(value);
   }
 }
