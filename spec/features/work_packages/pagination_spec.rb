@@ -56,7 +56,7 @@ RSpec.feature 'Work package pagination', js: true do
       end
 
       within('.pagination--pages') do
-        find('.pagination--item a', text: '2').click
+        find('.pagination--item button', text: '2').click
       end
 
       within('.work-packages-partitioned-query-space--container') do
@@ -65,7 +65,7 @@ RSpec.feature 'Work package pagination', js: true do
       end
 
       within('.pagination--options') do
-        find('.pagination--item a', text: '50').click
+        find('.pagination--item button', text: '50').click
       end
 
       within('.work-packages-partitioned-query-space--container') do

@@ -182,7 +182,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
       expect(page)
         .not_to have_selector('.subject', text: assigned_work_package_2.subject)
 
-      page.find('.pagination--item a', text: '2').click
+      page.find('.pagination--item button', text: '2').click
 
       expect(page)
         .not_to have_selector('.subject', text: assigned_work_package.subject)
