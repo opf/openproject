@@ -131,7 +131,7 @@ pt:
         manual: 'Alternar para fonte Markdown'
         wysiwyg: 'Alternar para editor WYSIWYG'
       macro:
-        error: 'Não é possível expandir o macro: %{message}'
+        error: 'Não é possível expandir a macro: %{message}'
         attribute_reference:
           macro_help_tooltip: 'Esse segmento de texto está sendo dinamicamente renderizado por um macro.'
           not_found: 'Não foi possível encontrar o recurso solicitado'
@@ -416,7 +416,7 @@ pt:
     label_public_query: "Público"
     label_sum: "Soma"
     label_sum_for: "Soma para"
-    label_total_sum: "Soma Total"
+    label_total_sum: "Soma total"
     label_subject: "Assunto"
     label_this_week: "esta semana"
     label_today: "Hoje"
@@ -520,7 +520,7 @@ pt:
       context: 'Contexto do projeto'
       work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
-      confirm_template_load: 'Mudar o template irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
+      confirm_template_load: 'Mudar o modelo irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
       use_template: "Usar modelo"
       no_template_selected: "(Nenhum)"
       copy:
