@@ -11,7 +11,7 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { Component, OnInit } from "@angular/core";
-import { StateService } from "@uirouter/core/lib/state/stateService";
+import { StateService } from "@uirouter/core";
 
 @Component({
   selector: 'op-copy-project',
