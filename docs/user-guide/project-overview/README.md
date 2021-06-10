@@ -15,6 +15,7 @@ The **Project overview** page is a dashboard with important information about th
 | ------------------------------------------------------------ | ------------------------------------------------------- |
 | [What is the project overview?](#what-is-the-project-overview) | What can I do with the project overview page?           |
 | [Add a widget to the project overview](#add-a-widget-to-the-project-overview) | How can I add a new widget to the project overview?     |
+| [Project status](#project-status) | Set your project status     |
 | [Available project overview widgets](#available-project-overview-widgets) | What kind of widgets can I add to the project overview? |
 | [Re-size and re-order widgets](#re-size-and-re-order-widgets) | How can I re-order or re-size the widgets?              |
 | [Remove widget](#remove-widget-from-project-overview-page)   | How can I remove widget from project overview page?     |
@@ -46,6 +47,12 @@ To add a widget to the project overview, click on the **+ button** on the top ri
 Choose one of the possible widgets to add from the list.
 
 ![add widget](image-20191112142303373.png)
+
+
+
+## Project status
+
+On the project overview page, you can set your project status and give a detailed description. The project status is a widget that you add to your project overview. Find the description [below](#project-status-widget).
 
 
 

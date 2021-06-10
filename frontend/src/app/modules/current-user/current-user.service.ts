@@ -153,7 +153,7 @@ export class CurrentUserService {
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => actions.reduce(
         (acc, action) => {
-          return acc && !!capabilities.find(cap => cap.action.href === `/api/v3/actions/${action}`);
+          return acc && !!capabilities.find(cap => cap.action.href.endsWith(`/api/v3/actions/${action}`));
         },
         capabilities.length > 0,
       )),
@@ -168,7 +168,7 @@ export class CurrentUserService {
     const actionsToFilter = _.castArray(actions);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => capabilities.reduce(
-        (acc, cap) => acc || !!actionsToFilter.find(action => cap.action.href === `/api/v3/actions/${action}`),
+        (acc, cap) => acc || !!actionsToFilter.find(action => cap.action.href.endsWith(`/api/v3/actions/${action}`)),
         false,
       )),
       distinctUntilChanged(),

@@ -195,7 +195,6 @@ ro:
             label_company: "Companie"
             label_first_name: "Prenume"
             label_last_name: "Nume"
-            label_email: "E-mail"
             label_domain: "domeniu"
             label_subscriber: "Abonat"
             label_maximum_users: "Număr maxim de utilizatori activi"
@@ -313,6 +312,7 @@ ro:
     label_board_locked: "Închis"
     label_board_plural: "Panouri"
     label_board_sticky: "Lipicios"
+    label_change: "Modificare"
     label_create: "Creare"
     label_create_work_package: "Creare pachet de lucru nou"
     label_created_by: "Creat de"
@@ -335,6 +335,7 @@ ro:
     label_created_on: "creat la data de"
     label_edit_comment: "Editare comentariu"
     label_edit_status: "Editați starea pachetului de lucru"
+    label_email: "E-mail"
     label_equals: "este"
     label_expand: "Extindere"
     label_expanded: "extins"
@@ -1018,12 +1019,9 @@ ro:
         already_member_message: 'Deja membru al %{project}'
         no_results_user: 'Nu au fost găsiți utilizatori'
         invite_user: 'Invită'
-        change_user_selection: 'Modificarea adresei de e-mail sau selectarea unui utilizator existent'
         no_results_placeholder: 'Nu au fost găsiți spații libere'
-        change_placeholder_selection: 'Schimbați numele sau selectați un marcaj existent'
         create_new_placeholder: 'Creați un nou spațiu rezervat:'
         no_results_group: 'Nu au fost găsite grupuri'
-        change_group_selection: 'Modificați numele sau selectați un grup existent'
         next_button: 'Înainte'
         required:
           user: 'Vă rugăm să selectați un utilizator'

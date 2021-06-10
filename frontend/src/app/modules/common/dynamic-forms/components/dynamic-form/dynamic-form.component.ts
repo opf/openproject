@@ -295,7 +295,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     if (resourcePath) {
-      return `${this._pathHelperService.api.v3.apiV3Base}${resourcePath}`;
+      return resourcePath;
     }
 
     return;
@@ -349,7 +349,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
       submit_message = `${title || ''} ${this.text.job_started}`;
     } else {
-      submit_message = this.resourceId ? this.text.successful_update : this.text.successful_create;
+      submit_message = this.formHttpMethod === 'patch' ? this.text.successful_update : this.text.successful_create;
     }
 
     this._notificationsService.addSuccess(submit_message);

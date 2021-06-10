@@ -131,7 +131,7 @@ pt:
         manual: 'Alternar para fonte Markdown'
         wysiwyg: 'Alternar para editor WYSIWYG'
       macro:
-        error: 'Não é possível expandir o macro: %{message}'
+        error: 'Não é possível expandir a macro: %{message}'
         attribute_reference:
           macro_help_tooltip: 'Esse segmento de texto está sendo dinamicamente renderizado por um macro.'
           not_found: 'Não foi possível encontrar o recurso solicitado'
@@ -195,7 +195,6 @@ pt:
             label_company: "Empresa"
             label_first_name: "Nome"
             label_last_name: "Sobrenome"
-            label_email: "E-mail"
             label_domain: "Domínio"
             label_subscriber: "Assinante"
             label_maximum_users: "Máximo de usuários ativos"
@@ -313,6 +312,7 @@ pt:
     label_board_locked: "Bloqueado"
     label_board_plural: "Quadros"
     label_board_sticky: "Afixado"
+    label_change: "Alterar"
     label_create: "Criar"
     label_create_work_package: "Criar novo pacote de trabalho"
     label_created_by: "Criado por"
@@ -335,6 +335,7 @@ pt:
     label_created_on: "criado em"
     label_edit_comment: "Editar este comentário"
     label_edit_status: "Editar a situação do pacote de trabalho"
+    label_email: "E-mail"
     label_equals: "é"
     label_expand: "Expandir"
     label_expanded: "expandido"
@@ -415,7 +416,7 @@ pt:
     label_public_query: "Público"
     label_sum: "Soma"
     label_sum_for: "Soma para"
-    label_total_sum: "Soma Total"
+    label_total_sum: "Soma total"
     label_subject: "Assunto"
     label_this_week: "esta semana"
     label_today: "Hoje"
@@ -519,7 +520,7 @@ pt:
       context: 'Contexto do projeto'
       work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
-      confirm_template_load: 'Mudar o template irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
+      confirm_template_load: 'Mudar o modelo irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
       use_template: "Usar modelo"
       no_template_selected: "(Nenhum)"
       copy:
@@ -1016,12 +1017,9 @@ pt:
         already_member_message: 'Já é um membro de %{project}'
         no_results_user: 'nenhum usuário foi encontrado'
         invite_user: 'Convite:'
-        change_user_selection: 'Altere o endereço de e-mail ou selecione um usuário existente'
         no_results_placeholder: 'Nenhum espaço reservado encontrado'
-        change_placeholder_selection: 'Altere o nome ou selecione um espaço reservado existente'
         create_new_placeholder: 'Criar novo espaço reservado:'
         no_results_group: 'Nenhum grupo encontrado'
-        change_group_selection: 'Altere o nome ou selecione um nome existente'
         next_button: 'Próxima'
         required:
           user: 'Selecione um usuário'

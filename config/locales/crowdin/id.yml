@@ -1866,7 +1866,7 @@ id:
   mail_body_wiki_content_updated: "Halaman Wiki '%{id}' telah diupdate oleh %{author}."
   mail_subject_account_activation_request: "Permintaan aktivasi akun %{value}"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Password Anda %{value}"
   mail_subject_register: "Kode aktivasi Akun Anda %{value}"
   mail_subject_reminder: "%{count} Paket-Penugasan akan berakhir %{days} hari lagi"
