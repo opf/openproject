@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { StateService } from "@uirouter/core";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalSource } from "core-app/features/hal/resources/hal-resource";
 import {
   IDynamicFieldGroupConfig,
   IOPFormlyFieldSettings,
   IOPFormlyTemplateOptions,
 } from "core-app/shared/components/dynamic-forms/typings";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { Component, OnInit } from "@angular/core";
+import { StateService } from "@uirouter/core/lib/state/stateService";
 
 @Component({
   selector: 'op-copy-project',

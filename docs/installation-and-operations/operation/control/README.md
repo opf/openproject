@@ -76,7 +76,7 @@ sudo openproject restart web
 
 
 
-## Docker-based installation
+## All-in-one Docker-based installation
 
 #### Run commands like rake tasks or rails console
 
@@ -124,3 +124,15 @@ Launch an interactive console to directly interact with the underlying Ruby on R
 docker exec -it $CIT bash -c "RAILS_ENV=production rails console"
 ```
 
+## docker-compose based installation
+
+#### Spawn a rails console
+
+You can spawn an interactive shell in your docker-compose setup container to run commands in the OpenProject environment.
+
+
+The following command will spawn a Rails console in the container:
+
+```bash
+docker-compose run web bash -c "RAILS_ENV=production bundle exec rails console"
+```

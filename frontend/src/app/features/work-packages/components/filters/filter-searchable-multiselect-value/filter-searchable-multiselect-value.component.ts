@@ -1,8 +1,3 @@
-
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
@@ -18,6 +13,12 @@ import { QueryFilterInstanceResource } from "core-app/features/hal/resources/que
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { HalResourceSortingService } from "core-app/features/hal/services/hal-resource-sorting.service";
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   selector: 'filter-searchable-multiselect-value',
@@ -65,7 +66,8 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
               readonly cdRef:ChangeDetectorRef,
               readonly I18n:I18nService,
               protected currentProject:CurrentProjectService,
-              readonly halNotification:HalResourceNotificationService) {
+              readonly halNotification:HalResourceNotificationService,
+              readonly ngZone:NgZone) {
     super();
   }
 
@@ -127,7 +129,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     if (this.ngSelectInstance) {
       const component = (this.ngSelectInstance) as any;
       if (component && component.dropdownPanel) {
+        this.ngZone.runOutsideAngular(() => {
+          setTimeout(() => {
         component.dropdownPanel._updatePosition();
+          }, 25);
+         
+        });
+        
       }
     }
   }
