@@ -62,6 +62,7 @@ namespace 'openproject' do
       OpenProject::Database::check!
     rescue OpenProject::Database::UnsupportedDatabaseError => e
       warn <<~MESSAGE
+
         ---------------------------------------------------
         DATABASE UNSUPPORTED ERROR
 
@@ -74,6 +75,7 @@ namespace 'openproject' do
       Kernel.exit(1)
     rescue OpenProject::Database::InsufficientVersionError => e
       warn <<~MESSAGE
+
         ---------------------------------------------------
         DATABASE INCOMPATIBILITY ERROR
 
@@ -84,6 +86,15 @@ namespace 'openproject' do
         ---------------------------------------------------
       MESSAGE
       Kernel.exit(1)
+    rescue OpenProject::Database::DeprecatedVersionWarning => e
+      warn <<~MESSAGE
+
+        ---------------------------------------------------
+        DATABASE DEPRECATION WARNING
+
+        #{e.message}
+        ---------------------------------------------------
+      MESSAGE
     rescue ActiveRecord::ActiveRecordError => e
       warn "Failed to perform postgres version check: #{e} - #{e.message}. #{override_msg}"
       raise e
