@@ -7,11 +7,11 @@ APACHE_PIDFILE=/run/apache2/apache2.pid
 
 # handle legacy configs
 if [ -f "/var/lib/postgresql/9.6/main/PG_VERSION" ]; then
-	echo "WARN: You are using a legacy volume path for your postgres data. You should mount your postgres volumes at $PGDATA instead of /var/lib/postgresql/9.6/main"
+	echo "ERROR: You are using a legacy volume path for your postgres data. You should mount your postgres volumes at $PGDATA instead of /var/lib/postgresql/9.6/main"
 	exit 2
 fi
 if [ -d "/var/db/openproject" ]; then
-	echo "WARN: You are using a legacy volume path for your openproject data. You should mount your openproject volume at $APP_DATA_PATH instead of /var/db/openproject"
+	echo "ERROR: You are using a legacy volume path for your openproject data. You should mount your openproject volume at $APP_DATA_PATH instead of /var/db/openproject"
 	exit 2
 fi
 
