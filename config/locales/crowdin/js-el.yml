@@ -44,7 +44,7 @@ el:
       title: Backup OpenProject
       options: Επιλογές
       include_attachments: Include attachments
-      download_backup: Download backup
+      download_backup: Λήψη αντιγράφου ασφαλείας
       request_backup: Request backup
     close_popup_title: "Κλείσιμο αναδυόμενου"
     close_filter_title: "Κλείσιμο φίλτρου"
@@ -522,9 +522,9 @@ el:
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
       confirm_template_load: 'Η αλλαγή του προτύπου θα επαναφορτώσει τη σελίδα και θα χάσετε όλα τα στοιχεία εισόδου σε αυτή τη φόρμα. Συνέχεια?'
       use_template: "Χρήση προτύπου"
-      no_template_selected: "(None)"
+      no_template_selected: "(Κανένα)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Επιλογές αντιγραφής"
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
     text_are_you_sure: "Είστε σίγουρος/η;"
@@ -1027,14 +1027,14 @@ el:
           group: 'Παρακαλούμε επιλέξτε μια ομάδα'
       role:
         label: 'Ρόλος στο %{project}'
-        no_roles_found: 'No roles were found'
+        no_roles_found: 'Δεν βρέθηκε κανένας ρόλος'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Παρακαλούμε επιλέξτε ένα ρόλο'
         next_button: 'Επόμενο'
       message:
         label: 'Μήνυμα πρόσκλησης'
         description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια εξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
-        next_button: 'Review invitation'
+        next_button: 'Προεπισκόπηση πρόσκλησης'
       summary:
         next_button: 'Αποστολή πρόσκλησης'
       success:
