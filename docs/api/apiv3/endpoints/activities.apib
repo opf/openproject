@@ -1,5 +1,13 @@
 # Group Activities
 
+Activities are changes by users made on some resource in the OpenProject instance. This includes but is not limited to:
+
+* Updating a work package
+* Inviting a user to become a member in the project
+* Creating a wiki page.
+
+Because it is the byproduct of a users action on a resource, an activity cannot be created explicitly.
+
 ## Local Properties
 | Property    | Description      | Type                 | Constraints | Supported operations |
 | :---------: | -------------    | ----                 | ----------- | -------------------- |
@@ -11,7 +19,7 @@
 
 Activity can be either _type Activity or _type Activity::Comment.
 
-## Activity [/api/v3/activities/{id}]
+## View activity [/api/v3/activities/{id}]
 
 + Model
     + Body
@@ -56,11 +64,14 @@ Activity can be either _type Activity or _type Activity::Comment.
 
 + Response 200 (application/hal+json)
 
-    [Activity][]
+    [View activity][]
+
+## Update activity [/api/v3/activities/{id}]
 
 ## Update activity [PATCH]
 
-Updates an activity's comment and, on success, returns the updated activity.
+Updates an activity's comment and, on success, returns the updated activity. The other properties of the activity
+cannot be altered.
 
 + Parameters
     + id (required, integer, `1`) ... Activity id
@@ -73,7 +84,7 @@ Updates an activity's comment and, on success, returns the updated activity.
 
 + Response 200 (application/hal+json)
 
-    [Activity][]
+    [View activity][]
 
 + Response 400 (application/hal+json)
 
