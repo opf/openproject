@@ -196,7 +196,6 @@ pl:
             label_company: "Firma"
             label_first_name: "Imię"
             label_last_name: "Nazwisko"
-            label_email: "Adres e-mail"
             label_domain: "Domena"
             label_subscriber: "Subskrybent"
             label_maximum_users: "Maksymalna liczba aktywnych użytkowników"
@@ -314,6 +313,7 @@ pl:
     label_board_locked: "Zablokowany"
     label_board_plural: "Tablice"
     label_board_sticky: "Przyklejony"
+    label_change: "Zmień"
     label_create: "Utwórz"
     label_create_work_package: "Utwórz nowy pakiet roboczy"
     label_created_by: "Utworzony przez"
@@ -336,6 +336,7 @@ pl:
     label_created_on: "utworzono"
     label_edit_comment: "Edytuj komentarz"
     label_edit_status: "Edytuj status zadania"
+    label_email: "Adres e-mail"
     label_equals: "jest"
     label_expand: "Rozwiń"
     label_expanded: "rozwinięty"
@@ -1021,12 +1022,9 @@ pl:
         already_member_message: 'Już jest członkiem %{project}'
         no_results_user: 'Nie znaleziono żadnych użytkowników'
         invite_user: 'Zaproś:'
-        change_user_selection: 'Zmień adres e-mail lub wybierz istniejącego użytkownika'
         no_results_placeholder: 'Nie znaleziono elementów zastępczych'
-        change_placeholder_selection: 'Zmień nazwę lub wybierz istniejący element zastępczy'
         create_new_placeholder: 'Utwórz nowy element zastępczy:'
         no_results_group: 'Nie znaleziono żadnych grup'
-        change_group_selection: 'Zmień nazwę lub wybierz istniejącą grupę'
         next_button: 'Następny'
         required:
           user: 'Wybierz użytkownika'

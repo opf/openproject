@@ -196,7 +196,6 @@ fil:
             label_company: "Company"
             label_first_name: "Unang pangalan"
             label_last_name: "Huling pangalan"
-            label_email: "Email"
             label_domain: "Domain"
             label_subscriber: "Taga -subaybay"
             label_maximum_users: "Maximum active users"
@@ -314,6 +313,7 @@ fil:
     label_board_locked: "Naka-lock"
     label_board_plural: "Boards"
     label_board_sticky: "Malagkit"
+    label_change: "Baguhin"
     label_create: "Lumikha"
     label_create_work_package: "Lumikha ng bagong work package"
     label_created_by: "Nilikha ni"
@@ -336,6 +336,7 @@ fil:
     label_created_on: "nilikha sa"
     label_edit_comment: "I-edit ang komentong ito"
     label_edit_status: "I-edit ang estado ng work package"
+    label_email: "Email"
     label_equals: "ay"
     label_expand: "Palawakin"
     label_expanded: "pinalawak"
@@ -1017,12 +1018,9 @@ fil:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
         next_button: 'Susunod'
         required:
           user: 'Please select a user'

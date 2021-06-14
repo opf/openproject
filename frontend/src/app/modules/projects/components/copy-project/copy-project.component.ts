@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {StateService, UIRouterGlobals} from "@uirouter/core";
+import {StateService} from "@uirouter/core";
 import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
 import {PathHelperService} from "core-app/modules/common/path-helper/path-helper.service";
 import {HalSource} from "core-app/modules/hal/resources/hal-resource";
@@ -12,6 +12,7 @@ import {I18nService} from "core-app/modules/common/i18n/i18n.service";
 import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
 import {JobStatusModal} from "core-app/modules/job-status/job-status-modal/job-status.modal";
 import {OpModalService} from "core-app/modules/modal/modal.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
 
 @Component({
   selector: 'op-copy-project',
@@ -35,7 +36,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
 
   constructor(
     private apiV3Service:APIV3Service,
-    private uIRouterGlobals:UIRouterGlobals,
+    private currentProjectService:CurrentProjectService,
     private pathHelperService:PathHelperService,
     private modalService:OpModalService,
     private $state:StateService,
@@ -45,7 +46,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   ngOnInit():void {
-    this.formUrl = this.apiV3Service.projects.id(this.uIRouterGlobals.params.projectPath).copy.form.path;
+    this.formUrl = this.apiV3Service.projects.id(this.currentProjectService.id!).copy.form.path;
     this.fieldGroups = [
       {
         name: this.text.advancedSettingsLabel,

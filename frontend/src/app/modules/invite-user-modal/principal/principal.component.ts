@@ -13,13 +13,15 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
 import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { HalResource } from "core-app/modules/hal/resources/hal-resource";
 import { PrincipalData, PrincipalLike } from "core-app/modules/principal/principal-types";
 import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 import { DynamicFormComponent } from "core-app/modules/common/dynamic-forms/components/dynamic-form/dynamic-form.component"
 import { PrincipalType } from '../invite-user.component';
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { take } from 'rxjs/internal/operators/take';
+import { map } from 'rxjs/operators';
 
 function extractCustomFieldsFromSchema(schema: IOPFormSettings['_embedded']['schema']) {
   return Object.keys(schema)
@@ -128,7 +130,7 @@ export class PrincipalComponent implements OnInit {
   constructor(
     readonly I18n:I18nService,
     readonly httpClient:HttpClient,
-    readonly pathHelper:PathHelperService,
+    readonly apiV3Service:APIV3Service,
     readonly cdRef: ChangeDetectorRef,
   ) {}
 
@@ -137,8 +139,17 @@ export class PrincipalComponent implements OnInit {
 
     if (this.type === PrincipalType.User) {
       const payload = this.isNewPrincipal ? this.principalData.customFields : {};
-      this.httpClient
-        .post<IOPFormSettings>('/api/v3/users/form', payload, { withCredentials: true, responseType: 'json' })
+      this
+        .apiV3Service
+        .users
+        .form
+        .post(payload)
+        .pipe(
+          take(1),
+          // The subsequent code expects to not work with a HalResource but rather with the raw
+          // api response.
+          map(formResource => formResource.$source)
+        )
         .subscribe((formConfig) => {
           this.userDynamicFieldConfig.schema = extractCustomFieldsFromSchema(formConfig._embedded?.schema);
           this.userDynamicFieldConfig.payload = formConfig._embedded?.payload;
