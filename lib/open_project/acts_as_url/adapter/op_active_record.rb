@@ -31,7 +31,10 @@
 # Improves handling of some edge cases when to_url is called. The method is provided by
 # stringex but some edge cases have not been handled properly by that gem.
 #
-# Currently, this is limited to the string '.' which would lead to an empty string otherwise.
+# This includes
+#   * the strings '.' and '!' which would lead to an empty string otherwise
+#   * the ability to add a custom_rule lambda that is able to postprocess the identifier. It will run
+#     after the default transformation was executed.
 
 module OpenProject
   module ActsAsUrl
@@ -56,6 +59,10 @@ module OpenProject
 
         def modify_base_url
           super
+
+          if !base_url.empty? && settings.respond_to?(:custom_rule)
+            self.base_url = settings.custom_rule.call(base_url)
+          end
 
           modify_base_url_custom_rules if base_url.empty?
         end

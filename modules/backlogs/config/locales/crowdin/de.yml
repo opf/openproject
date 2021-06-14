@@ -147,7 +147,7 @@ de:
   rb_label_copy_tasks: "Arbeitspakete kopieren"
   rb_label_copy_tasks_all: "Alle"
   rb_label_copy_tasks_none: "Kein Planungsvergleich"
-  rb_label_copy_tasks_open: "Offene"
+  rb_label_copy_tasks_open: "Öffnen"
   rb_label_link_to_original: "Link zur Original-Story einfügen"
   remaining_hours: "Verbleibende Stunden"
   required_burn_rate_hours: "benötigte Burn-Rate (Stunden)"

@@ -6,11 +6,10 @@ describe ::Bim::IfcModels::IfcModel, type: :model do
 
   describe 'converted?' do
     let(:attachment) { FactoryBot.build :attachment }
-    it 'is converted when xkt and metadata attachments are present' do
+    it 'is converted when the xkt attachment is present' do
       expect(subject).not_to be_converted
 
       allow(subject).to receive(:xkt_attachment).and_return(attachment)
-      allow(subject).to receive(:metadata_attachment).and_return(attachment)
 
       expect(subject).to be_converted
     end
@@ -26,7 +25,6 @@ describe ::Bim::IfcModels::IfcModel, type: :model do
     it 'replaces the previous attachment' do
       expect(ifc_attachment).to be_present
       expect(subject.xkt_attachment).to be_present
-      expect(subject.metadata_attachment).to be_present
       expect(subject).to be_converted
 
       subject.ifc_attachment = new_attachment

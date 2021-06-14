@@ -245,8 +245,8 @@ de:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Sie sind nicht berechtigt, diesen Platzhalter zu löschen. Sie haben nicht das Recht, Mitglieder für alle Projekte zu verwalten, in denen der Platzhalter Mitglied ist.
+    delete_tooltip: "Platzhalter löschen"
     deletion_info:
       heading: "Platzhalter-Benutzer %{name} löschen"
       data_consequences: >
@@ -2648,8 +2648,6 @@ de:
     getting_started: "Erste Schritte"
     help_and_support: "Hilfe und Support"
   total_progress: "Gesamtfortschritt"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "alle"
     active: "aktiv"
@@ -2772,6 +2770,8 @@ de:
         invalid_json: "ist ungültiges JSON: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Unbekannt - Das ausgewählte Elternelement ist wegen fehlender Berechtigungen nicht sichtbar.
   doorkeeper:
     pre_authorization:
       status: 'Vorab-Autorisierung'

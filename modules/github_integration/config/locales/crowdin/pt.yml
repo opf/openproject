@@ -21,7 +21,7 @@
 #++
 pt:
   project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
+  permission_show_github_content: "Exibir conteúdo GitHub"
   github_integration:
     pull_request_opened_comment: >
       **PR Aberto:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) para [%{repository}](%{repository_url}) foi aberto por [%{github_user}](%{github_user_url}).
@@ -32,4 +32,4 @@ pt:
     pull_request_referenced_comment: >
       **Referenciado em PR:** [%{github_user}](%{github_user_url}) referenciou este pacote de trabalho no Pull request %{pr_number} [%{pr_title}](%{pr_url}) em [%{repository}](%{repository_url}).
     pull_request_ready_for_review_comment: >
-      **PR Ready for Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) was marked as ready for review by [%{github_user}](%{github_user_url}).
+      **PR pronto para revisão:** Solicitação de pull %{pr_number} [%{pr_title}](%{pr_url}) para [%{repository}](%{repository_url}) foi marcada como pronto para revisão por [%{github_user}](%{github_user_url}).

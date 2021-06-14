@@ -212,7 +212,7 @@ module OpenProject::Bim::BcfXml
     def comment_node(xml, uuid, journal)
       xml.Comment "Guid" => uuid do
         xml.Date to_bcf_datetime(journal.created_at)
-        xml.Author journal.user.mail if journal.user_id
+        xml.Author(journal.user.mail) if journal.user_id && journal&.user&.mail.present?
         xml.Comment journal.notes
       end
     end
