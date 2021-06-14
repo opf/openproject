@@ -8,6 +8,15 @@ Activities are changes by users made on some resource in the OpenProject instanc
 
 Because it is the byproduct of a users action on a resource, an activity cannot be created explicitly.
 
+However, not every activity is necessarily a change on a resource. Sometimes, a user simply comments on a resource. This is also tracked as an activity.
+
+## Linked Properties
+|  Link                              | Description                                                         | Type                        | Constraints       | Supported operations |
+|:-------------------:               |-----------------------------------------                            | -------------               | ----------------- | -------------------- |
+| self                               | This activity                                                       | Activity                    | not null          | READ                 |
+| user                               | The user who made the change                                        | User                        | not null          | READ                 |
+| workPackage (to be generalized )   | The resource (e.g. work package) on which the change was performed  | Resource (e.g. WorkPackage) | not null          | READ                 |
+
 ## Local Properties
 | Property    | Description      | Type                 | Constraints | Supported operations |
 | :---------: | -------------    | ----                 | ----------- | -------------------- |
@@ -124,3 +133,77 @@ cannot be altered.
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyIsReadOnly",
                 "message": "The ID of an activity can't be changed."
             }
+
+## List activities [/api/v3/activities{?filters,sortBy}]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/activities" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Activity::Comment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/activity/1",
+                                    "title": "Priority changed from High to Low"
+                                },
+                                "workPackage": {
+                                    "href": "/api/v3/work_packages/1",
+                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                },
+                                "user": {
+                                    "href": "/api/v3/users/1",
+                                    "title": "John Sheppard - admin"
+                                }
+                            },
+                            "id": 1,
+                            "details": [
+                                {
+                                    "format": "markdown",
+                                    "raw": "Lorem ipsum dolor sit amet.",
+                                    "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                                }
+                            ],
+                            "comment": {
+                                "format": "markdown",
+                                "raw": "Lorem ipsum dolor sit amet.",
+                                "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                            },
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "version": 31
+                        },
+                        <-- omitted for brevity -->
+                    ]
+                }
+            }
+
+## List activities [GET]
+
+Returns a collection of activities. The client can choose to filter the activities similar to how work packages are filtered.
+In addition to the provided filters, the server will reduce the result set to only contain activities, for which the requesting client has sufficient permissions.
+The required permissions depend on the resource the activity is associated with.
+E.g. in case of a work package, the client needs the view_work_packages permission in the project of the altered work package.
+
++ Parameters
+    + filters (optional, string, `[{ "created_at": { "operator": "<>d", "values": ["2021-06-08T02:00:00+02:00"] }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + created_at: filters activities based on creation time.
+
+    + sortBy = ["id", "asc"] (optional, string, `[["id", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      + id: Sort by primary key
+      + created_at: Sort by activity creation datetime
+
++ Response 200 (application/hal+json)
+
+    [List activities][]
