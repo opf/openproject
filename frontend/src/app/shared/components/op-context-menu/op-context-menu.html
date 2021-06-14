@@ -10,10 +10,9 @@
         <a
           *ngIf="item.href"
           class="menu-item"
-          tabindex="0"
           [ngClass]="item.class"
           [class.inacive]="item.disabled"
-          [attr.href]="item.href || ''"
+          [attr.href]="item.href"
           [attr.aria-disabled]="item.disabled"
           [attr.aria-label]="item.ariaLabel || item.linkText"
           (click)="handleClick(item, $event)"

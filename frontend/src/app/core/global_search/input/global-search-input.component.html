@@ -74,12 +74,7 @@
               >
               </span>
 
-              <a
-                  class="global-search--wp-id"
-                  [ngClass]="uiStateLinkClass"
-              >
-                #{{item.id}}
-              </a>
+              #{{item.id}}
               <span
                   [textContent]="item.status"
                   [ngClass]="statusHighlighting(item.statusId)"
