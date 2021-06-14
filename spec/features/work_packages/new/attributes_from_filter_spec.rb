@@ -29,22 +29,25 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package create uses attributes from filters', js: true, selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
   let(:type_bug) { FactoryBot.create(:type_bug) }
   let(:type_task) { FactoryBot.create(:type_task) }
   let(:project) { FactoryBot.create(:project, types: [type_task, type_bug]) }
-  let(:status) { FactoryBot.create(:default_status) }
 
-  let!(:status) { FactoryBot.create(:default_status) }
+  let!(:status) { FactoryBot.create(:default_status, name: 'DEFAULT') }
   let!(:priority) { FactoryBot.create :priority, is_default: true }
+  let!(:workflows) do
+    FactoryBot.create(:workflow, type: type_task, old_status: status, role: role)
+    FactoryBot.create(:workflow, type: type_bug, old_status: status, role: role)
+  end
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
 
-  let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
+  let(:role) { FactoryBot.create(:role, permissions: %i[add_work_packages view_work_packages]) }
+  let(:assignee_role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
 
   let!(:query) do
-    FactoryBot.build(:query, project: project, user: user).tap do |query|
+    FactoryBot.build(:query, project: project, user: current_user).tap do |query|
       query.filters.clear
 
       filters.each do |filter|
@@ -60,8 +63,13 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
     [['type_id', '=', [type_task.id]]]
   end
 
+  current_user do
+    FactoryBot.create(:admin,
+                      member_in_project: project,
+                      member_through_role: role)
+  end
+
   before do
-    login_as(user)
     wp_table.visit_query query
     wp_table.expect_no_work_package_listed
   end
@@ -70,7 +78,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
     let(:type_task) { FactoryBot.create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
       FactoryBot.create :project,
-                        types: [type_task],
+                        types: [type_task, type_bug],
                         work_package_custom_fields: [custom_field]
     end
 
@@ -91,8 +99,19 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
        ["cf_#{custom_field.id}", '=', [custom_field.custom_options.detect { |o| o.value == 'A' }.id]]]
     end
 
-    it 'allows to save with a single value (Regression test #27833)' do
-      split_page = wp_table.create_wp_by_button type_task
+    it 'allows to save with a single value (Regression test #27833) and keeps the value when switching type' do
+      # Creating a type that does not fit the filter and that does not have the custom field configured
+      split_page = wp_table.create_wp_by_button type_bug
+
+      expect(page)
+        .not_to have_selector(".customField#{custom_field.id}")
+
+      # After switching the type to one with the custom field configured, the value is already filled in
+      type = split_page.edit_field(:type)
+      type.activate!
+      type.set_value type_task.name
+
+      split_page.expect_attributes "customField#{custom_field.id}" => 'A'
 
       subject = split_page.edit_field(:subject)
       subject.expect_active!
@@ -115,7 +134,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
                         firstname: 'An',
                         lastname: 'assignee',
                         member_in_project: project,
-                        member_through_role: role)
+                        member_through_role: assignee_role)
     end
 
     let(:filters) do
@@ -177,6 +196,35 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
       expect(wp.subject).to eq 'Split Foobar!'
       expect(wp.assigned_to_id).to eq assignee.id
       expect(wp.type_id).to eq type_bug.id
+    end
+  end
+
+  context 'with a status for which no workflow exists' do
+    let(:other_status) { FactoryBot.create(:status) }
+
+    let(:filters) do
+      [['status_id', '=', [other_status.id]]]
+    end
+
+    it 'falls back to the first status for which a workflow exists' do
+      split_page = wp_table.create_wp_by_button type_bug
+
+      # Instead of the status selected by the filters another status is used.
+      # This is done silently. The field does not get set into edit mode.
+      expect(page)
+        .to have_selector('.inline-edit--display-field.status', text: status.name)
+
+      subject = split_page.edit_field(:subject)
+      subject.expect_active!
+      subject.set_value 'Foobar!'
+      split_page.save!
+
+      wp_table.expect_and_dismiss_notification(
+        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      )
+      wp = WorkPackage.last
+      expect(wp.status)
+        .to eql status
     end
   end
 end

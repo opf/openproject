@@ -65,7 +65,7 @@ export class WorkPackageFilterValues {
   }
 
   /**
-   * Set a value no null for a none type filter (!*)
+   * Set a value to null for a none type filter (!*)
    *
    * @param filter A none '!*' filter
    * @private

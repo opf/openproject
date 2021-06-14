@@ -38,7 +38,8 @@ describe 'date inplace editor',
          js: true, selenium: true do
   let(:project) { FactoryBot.create :project_with_types, public: true }
   let(:work_package) { FactoryBot.create :work_package, project: project, start_date: '2016-01-01' }
-  let(:user) { FactoryBot.create :admin }
+  let(:role) { FactoryBot.create(:role, permissions: %w[add_work_packages edit_work_packages view_work_packages]) }
+  let(:user) { FactoryBot.create :user, member_in_project: project, member_through_role: role }
   let(:work_packages_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -133,6 +134,7 @@ describe 'date inplace editor',
     let!(:project) { FactoryBot.create :project, types: [type] }
     let!(:priority) { FactoryBot.create :default_priority }
     let!(:status) { FactoryBot.create :default_status }
+    let!(:workflow) { FactoryBot.create(:workflow, type: type, old_status: status, role: role) }
 
     let!(:date_cf) do
       FactoryBot.create(

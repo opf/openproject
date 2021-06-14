@@ -246,6 +246,7 @@ describe WorkPackages::CopyService, 'integration', type: :model do
 
         context 'cross project relations activated' do
           before do
+            FactoryBot.create(:workflow, type: target_type, old_status: child.status, role: target_role)
             allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
           end
 

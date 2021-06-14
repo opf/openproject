@@ -8,16 +8,22 @@ describe 'new work package', js: true do
   let(:type_bug) { FactoryBot.create(:type_bug) }
   let(:types) { [type_task, type_bug] }
   let!(:status) { FactoryBot.create(:status, is_default: true) }
+  let!(:workflows) do
+    types.each do |type|
+      FactoryBot.create(:workflow, type: type, role: role, old_status: status)
+    end
+  end
   let!(:priority) { FactoryBot.create(:priority, is_default: true) }
   let!(:project) do
     FactoryBot.create(:project, types: types)
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages] }
+  let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:user) do
     FactoryBot.create(:user,
                       member_in_project: project,
-                      member_with_permissions: permissions)
+                      member_through_role: role)
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }

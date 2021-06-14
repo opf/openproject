@@ -1227,6 +1227,7 @@ describe 'API v3 Work package resource',
     let(:path) { api_v3_paths.work_packages }
     let(:permissions) { %i[add_work_packages view_project] }
     let(:status) { FactoryBot.build(:status, is_default: true) }
+    let(:workflow) { FactoryBot.build(:workflow, type: type, role: role, old_status: status) }
     let(:priority) { FactoryBot.build(:priority, is_default: true) }
     let(:type) { project.types.first }
     let(:parameters) do
@@ -1245,6 +1246,7 @@ describe 'API v3 Work package resource',
 
     before do
       status.save!
+      workflow.save!
       priority.save!
 
       FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })

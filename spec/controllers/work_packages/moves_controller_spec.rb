@@ -55,7 +55,8 @@ describe WorkPackages::MovesController, type: :controller do
                       project_id: project.id,
                       type: type,
                       author: user,
-                      priority: priority)
+                      priority: priority,
+                      status: status)
   end
 
   let(:current_user) { FactoryBot.create(:user) }
@@ -280,6 +281,9 @@ describe WorkPackages::MovesController, type: :controller do
 
       describe '&copy' do
         context 'follows to another project' do
+          let!(:workflow) do
+            FactoryBot.create(:workflow, type: target_project.types.first, old_status: work_package.status, role: role)
+          end
           before do
             post :create,
                  params: {
@@ -343,6 +347,9 @@ describe WorkPackages::MovesController, type: :controller do
                               roles: [role])
 
             user
+          end
+          let!(:workflow) do
+            FactoryBot.create(:workflow, type: target_project.types.first, old_status: target_status, role: role)
           end
 
           before do
@@ -412,6 +419,9 @@ describe WorkPackages::MovesController, type: :controller do
 
         context 'with given note' do
           let(:note) { 'Copying a work package' }
+          let!(:workflow) do
+            FactoryBot.create(:workflow, type: work_package.type, old_status: work_package.status, role: role)
+          end
 
           before do
             post :create,
@@ -439,6 +449,10 @@ describe WorkPackages::MovesController, type: :controller do
 
           before do
             allow(User).to receive(:current).and_return(current_user)
+          end
+          let!(:workflow) do
+            FactoryBot.create(:workflow, type: work_package.type, old_status: work_package.status, role: role)
+            FactoryBot.create(:workflow, type: child_wp.type, old_status: child_wp.status, role: role)
           end
 
           context 'on new' do
@@ -497,6 +511,9 @@ describe WorkPackages::MovesController, type: :controller do
                               type: type,
                               project: project,
                               parent: work_package)
+          end
+          let!(:workflow) do
+            FactoryBot.create(:workflow, type: to_project.types.first, old_status: child_wp.status, role: role)
           end
 
           shared_examples_for 'successful move' do

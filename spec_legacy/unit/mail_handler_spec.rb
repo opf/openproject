@@ -142,45 +142,11 @@ describe MailHandler, type: :model do
     end
   end
 
-  it 'should add work package by anonymous user' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' }, unknown_user: 'accept')
-      assert issue.is_a?(WorkPackage)
-      assert issue.author.anonymous?
-    end
-  end
-
-  it 'should add work package by anonymous user with no from address' do
-    Role.anonymous.add_permission!(:add_work_packages)
-    assert_no_difference 'User.count' do
-      issue = submit_email('ticket_by_empty_user.eml', issue: { project: 'ecookbook' }, unknown_user: 'accept')
-      assert issue.is_a?(WorkPackage)
-      assert issue.author.anonymous?
-    end
-  end
-
   it 'should add work package by anonymous user on private project' do
     Role.anonymous.add_permission!(:add_work_packages)
     assert_no_difference 'User.count' do
       assert_no_difference 'WorkPackage.count' do
         assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'onlinestore' }, unknown_user: 'accept')
-      end
-    end
-  end
-
-  it 'should add work package by anonymous user on private project without permission check' do
-    assert_no_difference 'User.count' do
-      assert_difference 'WorkPackage.count' do
-        issue = submit_email('ticket_by_unknown_user.eml',
-                             issue: { project: 'onlinestore' },
-                             no_permission_check: '1',
-                             unknown_user: 'accept')
-        assert issue.is_a?(WorkPackage)
-        assert issue.author.anonymous?
-        assert !issue.project.public?
-        assert issue.root?
-        assert issue.leaf?
       end
     end
   end
@@ -219,14 +185,6 @@ describe MailHandler, type: :model do
     assert_equal 'Stock management', issue.category.to_s
     assert_equal 'Urgent', issue.priority.to_s
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
-  end
-
-  it 'should add work package with japanese keywords' do
-    type = ::Type.create!(name: '開発')
-    Project.find(1).types << type
-    issue = submit_email('japanese_keywords_iso_2022_jp.eml', issue: { project: 'ecookbook' }, allow_override: 'type')
-    assert_kind_of WorkPackage, issue
-    assert_equal type, issue.type
   end
 
   it 'should add from apple mail' do

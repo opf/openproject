@@ -30,14 +30,17 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::WorkPackages::CreateProjectFormAPI do
+describe ::API::V3::WorkPackages::CreateFormAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:status) { FactoryBot.create(:default_status) }
-  shared_let(:priority) { FactoryBot.create(:default_priority) }
-  shared_let(:user) { FactoryBot.create(:admin) }
-  shared_let(:project) { FactoryBot.create(:project_with_types) }
+  let!(:status) { FactoryBot.create(:default_status) }
+  let!(:priority) { FactoryBot.create(:default_priority) }
+  let!(:role) { FactoryBot.create(:role, permissions: %i[add_work_packages]) }
+  let!(:member) { FactoryBot.create(:member, project: project, roles: [role], principal: user) }
+  let!(:user) { FactoryBot.create(:user) }
+  let!(:project) { FactoryBot.create(:project_with_types) }
+  let!(:workflow) { FactoryBot.create(:workflow, type: project.types.first, old_status: status, role: role) }
 
   let(:path) { api_v3_paths.create_work_package_form }
   let(:parameters) { {} }

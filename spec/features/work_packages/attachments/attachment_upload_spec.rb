@@ -28,7 +28,7 @@ describe 'Upload attachment to work package', js: true do
   end
 
   describe 'wysiwyg editor' do
-    context 'on an existing page' do
+    context 'for an existing work package' do
       before do
         wp_page.visit!
         wp_page.ensure_page_loaded
@@ -76,11 +76,12 @@ describe 'Upload attachment to work package', js: true do
       end
     end
 
-    context 'on a new page' do
+    context 'for a new work package' do
       shared_examples 'it supports image uploads via drag & drop' do
         let!(:new_page) { Pages::FullWorkPackageCreate.new }
         let!(:type) { FactoryBot.create(:type_task) }
         let!(:status) { FactoryBot.create(:status, is_default: true) }
+        let!(:workflow) { FactoryBot.create(:workflow, type: type, old_status: status, role: role) }
         let!(:priority) { FactoryBot.create(:priority, is_default: true) }
         let!(:project) do
           FactoryBot.create(:project, types: [type])

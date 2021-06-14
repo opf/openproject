@@ -294,6 +294,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     let(:permissions) { %i[add_work_packages view_project] }
     let(:status) { FactoryBot.build(:status, is_default: true) }
     let(:priority) { FactoryBot.build(:priority, is_default: true) }
+    let(:workflow) { FactoryBot.build(:workflow, type: project.types.first, role: role, old_status: status) }
     let(:parameters) do
       {
         subject: 'new work packages',
@@ -308,6 +309,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     before do
       status.save!
       priority.save!
+      workflow.save!
 
       FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
       post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'

@@ -62,6 +62,9 @@ describe WorkPackages::CreateService, 'integration', type: :model do
   let(:default_status) { FactoryBot.create(:default_status) }
   let(:priority) { FactoryBot.create(:priority) }
   let(:default_priority) { FactoryBot.create(:default_priority) }
+  let(:workflows) do
+    FactoryBot.create(:workflow, old_status: default_status, type: type, role: role)
+  end
   let(:attributes) { {} }
   let(:new_work_package) do
     service_result
@@ -79,6 +82,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
     default_priority
     type
     default_type
+    workflows
     login_as(user)
   end
 
