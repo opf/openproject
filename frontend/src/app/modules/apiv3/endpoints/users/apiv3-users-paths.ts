@@ -31,6 +31,7 @@ import { APIv3UserPaths } from "core-app/modules/apiv3/endpoints/users/apiv3-use
 import { Observable } from "rxjs";
 import { UserResource } from "core-app/modules/hal/resources/user-resource";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { APIv3UsersForm } from "core-app/modules/apiv3/endpoints/users/apiv3-users-form";
 
 export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
   constructor(protected apiRoot:APIV3Service,
@@ -42,6 +43,9 @@ export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3
 
   // /api/v3/users/me
   public readonly me = this.path + '/me';
+
+  // /api/v3/users/form
+  public readonly form:APIv3UsersForm = this.subResource('form', APIv3UsersForm);
 
   /**
    * Create a new UserResource

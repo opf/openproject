@@ -1862,7 +1862,7 @@ zh-CN:
   mail_body_wiki_content_updated: "'%{id}' wiki页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
   mail_subject_backup_ready: "您的备份已就绪"
-  mail_subject_backup_token_reset: "您的备份令牌已重置"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "你的 %{value} 密码"
   mail_subject_register: "您的%{value}帐户激活"
   mail_subject_reminder: "%{count} 个工作包在 %{days} 天内到期"
