@@ -20,7 +20,7 @@ For further documentation, please visit our [user guide for work packages](../..
 | [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package? |
 | [Activity of work packages](#activity-of-work-packages)      | See all changes in a work package.                        |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## What is a work package?
 

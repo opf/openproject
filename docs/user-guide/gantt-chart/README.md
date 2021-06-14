@@ -24,7 +24,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
 
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Activate the Gantt chart
 
