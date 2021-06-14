@@ -176,7 +176,7 @@ There is no native iOS or Android app for OpenProject, but OpenProject is respon
 
 ### Is it possible to connect MS Project and OpenProject or to migrate from MS Project to OpenProject?
 
-Yes, please use the free [Excel synchronization](../user-guide/integrations/Excel Synchronization/) for this.
+Yes, please use the free [Excel synchronization](../user-guide/integrations/excel-synchronization/) for this.
 
 ### Are there plan/actual comparisons in OpenProject?
 
@@ -188,7 +188,7 @@ No, it's not possible to use OpenProject without Internet access (Enterprise clo
 
 ### Can I import tasks from spreadsheets like Excel or LibreOffice?
 
-Yes, that’s possible. Please have a look at our [Excel sync](../user-guide/integrations/Excel%20Synchronization).
+Yes, that’s possible. Please have a look at our [Excel sync](../user-guide/integrations/excel-synchronization).
 
 ### Does OpenProject have guest accounts?
 
@@ -273,7 +273,7 @@ To migrate from Bitnami **to Enterprise on premises** please use [this instructi
 At the moment there are these ways to migrate:
 
 - our [API](../api/)
-- our [Excel sync](../user-guide/integrations/Excel%20Synchronization)
+- our [Excel sync](../user-guide/integrations/excel-synchronization)
 - Using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence?hosting=cloud&tab=overview) you can export pages from Confluence and paste them (via copy & paste) into OpenProject in e.g. the wiki. This should preserve at least most of the layout. Attachments would then have to be added manually.
 
 For more information please contact us.
