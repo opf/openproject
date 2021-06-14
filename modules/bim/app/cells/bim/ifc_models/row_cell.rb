@@ -38,7 +38,7 @@ module Bim
       end
 
       def still_processing?
-        model.xkt_attachment.nil? || model.metadata_attachment.nil?
+        model.xkt_attachment.nil?
       end
 
       ###

@@ -66,7 +66,7 @@ pl:
       upgrade_to_ee: "Uaktualnij do wersji Enterprise"
       add_token: "Wyślij swój token wsparcia edycji Enterprise"
       replace_token: "Wymień swój obecny token wsparcia"
-      order: "Zamów rozwiązanie lokalne w wersji Enterprise"
+      order: "Zamów wersję Enterprise on-premises Edition"
       paste: "Wklej swój token wsparcia edycji Enterprise"
       required_for_feature: "Ta funkcja jest dostępna tylko z aktywnym tokenem wsparcia wersji Enterprise."
       enterprise_link: "Aby uzyskać więcej informacji, kliknij tutaj."
@@ -173,7 +173,7 @@ pl:
   concatenation:
     single: 'lub'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: Więcej informacji można znaleźć w naszej dokumentacji na ten temat.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -204,7 +204,7 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
     settings:
-      change_identifier: Change identifier
+      change_identifier: Identyfikator zmiany
       activities:
         no_results_title_text: Nie ma dostępnych żadnych aktywności.
       forums:
@@ -221,12 +221,12 @@ pl:
         no_results_title_text: Nie ma innych wersji tego projektu.
         no_results_content_text: Utwórz nową wersję projektu
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: Nie ma dodatkowego zarejestrowanego miejsca na dysku zużytego przez ten projekt.
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
       no_results_content_text: Dodaj członka projektu
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Wyślij zaproszenie do %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
@@ -245,15 +245,15 @@ pl:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Nie masz uprawnień do usunięcia użytkownika zastępczego. Nie masz uprawnień do zarządzania członkami niektórych projektów, których użytkownik zastępczy jest członkiem.
+    delete_tooltip: "Usuń użytkownika zastępczego"
     deletion_info:
       heading: "Usuń użytkownika zastępczego %{name}"
       data_consequences: >
         Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”.
         Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
       irreversible: "To działanie jest nieodwracalne."
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Wprowadź nazwę użytkownika zastępczego %{name}, aby potwierdzić usunięcie."
     upsale:
       title: Przypisz pracę osobom, które nie są członkami projektu.
       description: >
@@ -578,7 +578,7 @@ pl:
             global: 'Globalna'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "musi zawierać co najmniej jeden filtr nazwy głównej, kontekstu lub identyfikatora z operatorem „=”."
         custom_field:
           at_least_one_custom_option: "Przynajmniej jedna opcja musi być dostępna."
         custom_actions:
@@ -619,7 +619,7 @@ pl:
             types:
               in_use_by_work_packages: "nadal w użyciu przez Zestawy zadań: %{types}"
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              dependency_missing: "Moduł „%{dependency}” musi również zostać włączony, ponieważ zależny jest od niego moduł „%{module}”."
               format: "%{message}"
         query:
           attributes:
@@ -673,7 +673,7 @@ pl:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "nie można odjąć od tytułu „%{title}”."
         work_package:
           is_not_a_valid_target_for_time_entries: "Zadanie #%{id} jest niepoprawnym celem do ponownego rozpisania czasu."
           attributes:
@@ -838,32 +838,32 @@ pl:
     version: "Wersja"
     work_package: "Zadanie"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "Token kopii zapasowej"
+    label_create_token: "Utwórz token kopii zapasowej"
+    label_delete_token: "Usuń token kopii zapasowej"
+    label_reset_token: "Resetuj token kopii zapasowej"
+    label_token_users: "Następujący użytkownicy mają aktywne tokeny kopii zapasowej"
     reset_token:
       action_create: Utwórz
       action_reset: Reset
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Resetuj token kopii zapasowej"
+      heading_create: "Utwórz token kopii zapasowej"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        Włączenie kopii zapasowych pozwoli każdemu użytkownikowi mającemu wymagane uprawnienia i ten token kopii zapasowej pobrać kopię zapasową zawierającą wszystkie dane tej instalacji OpenProject. Obejmuje to dane wszystkich pozostałych użytkowników.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Aby móc utworzyć kopię zapasową, musisz wygenerować token kopii zapasowej. Za każdym razem, gdy chcesz zażądać kopii zapasowej, musisz podać ten token. Możesz usunąć token kopii zapasowej, aby wyłączyć kopie zapasowe tego użytkownika.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+        Wprowadź %{word}, aby potwierdzić %{action} tokenu kopii zapasowej.
+      verification_word_reset: zresetowanie
+      verification_word_create: utworzenie
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        Po utworzeniu nowego tokenu można zażądać kopii zapasowej dopiero po 24 godzinach. Jest to środek bezpieczeństwa. Następnie możesz w każdej chwili zażądać kopii zapasowej, używając tego tokenu.
+    text_token_deleted: Token kopii zapasowej został usunięty. Kopie zapasowe są teraz wyłączone.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: Nieprawidłowy lub brakujący token kopii zapasowej
+      token_cooldown: Token kopii zapasowej będzie ważny za %{hours} godz.
+      backup_pending: Jest już oczekująca kopia zapasowa.
+      limit_reached: Możesz utworzyć tylko ograniczoną do %{limit} liczbę kopii zapasowych dziennie.
   button_add: "Dodaj"
   button_add_comment: "Dodaj komentarz"
   button_add_member: Dodaj członka projektu
@@ -943,7 +943,7 @@ pl:
     text_update_consent_time: Zaznacz to pole, aby zmusić użytkowników do ponownego wyrażenia zgody. Włącz, gdy zmieniłeś aspekt prawny powyższych informacji o udzieleniu zgody.
     update_consent_last_time: "Ostatnia aktualizacja: zgody: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Skopiuj projekt „%{source_project_name}”'
     started: "Rozpoczęto kopiowanie projektu \"%{source_project_name}\" do \"%{target_project_name}\". Poinformujemy Cię przez e-mail tak szybko jak \"%{target_project_name}\" będzie dostępny."
     failed: "Nie można skopiować projektu %{source_project_name}"
     failed_internal: "Kopiowanie nie powiodło się z powodu błędu wewnętrznego."
@@ -951,9 +951,9 @@ pl:
     errors: "Błąd"
     project_custom_fields: 'Niestandardowe pola projektu'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Brak obiektów tego typu'
+      one: 'Jeden obiekt tego typu'
+      other: 'Liczba obiektów tego typu: %{count}'
     text:
       failed: "Nie można skopiować projektu \"%{source_project_name}\" do \"%{target_project_name}\"."
       succeeded: "Skopiowano projekt \"%{source_project_name}\" do \"%{target_project_name}\"."
@@ -1123,7 +1123,7 @@ pl:
   default_role_anonymous: "Anonimowy"
   default_role_developer: "Deweloper"
   default_role_project_admin: "Administrator projektu"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "Kierownik personelu i projektów"
   default_role_non_member: "nie jest członkiem"
   default_role_reader: "Czytnik"
   default_role_member: "Członek"
@@ -1303,7 +1303,7 @@ pl:
   instructions_after_error: "Można spróbować się zalogować ponownie klikając %{signin}. Jeśli ten błąd będzie się powtarzał, poproś swojego admina o pomoc."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Otwórz menu szybkiego dodawania"
   my_account:
     access_tokens:
       no_results:
@@ -1363,7 +1363,7 @@ pl:
   label_available_project_versions: 'Dostępne wersje'
   label_available_project_repositories: 'Dostępne repozytoria'
   label_api_documentation: "Dokumentacja API"
-  label_backup: "Backup"
+  label_backup: "Kopia zapasowa"
   label_between: "pomiędzy"
   label_blocked_by: "Zablokowane przez"
   label_blocks: "Bloki"
@@ -1566,8 +1566,8 @@ pl:
   label_member_new: "Nowy członek"
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_plural: "Członkowie"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Dodano członka'
+  lable_membership_updated: 'Zaktualizowano członka'
   label_menu_item_name: "Nazwa elementu menu"
   label_message: "Wiadomość"
   label_message_last: "Ostatnia wiadomość"
@@ -1889,12 +1889,12 @@ pl:
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Informacje o koncie"
   mail_body_account_information_external: "You can use your %{value} account to log in."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_ready: "Żądana kopia zapasowa jest gotowa. Możesz ją pobrać tutaj:"
+  mail_body_backup_token_reset_admin_info: Token kopii zapasowej użytkownika „%{user}” został zresetowany.
+  mail_body_backup_token_reset_user_info: Twój token kopii zapasowej został zresetowany.
+  mail_body_backup_token_info: Poprzedni token jest już nieprawidłowy.
+  mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
+  mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
   mail_body_register: "Witamy w OpenProject. Aktywuj swoje konto, klikając ten link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
@@ -1911,8 +1911,8 @@ pl:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_ready: "Twoja kopia zapasowa jest gotowa"
+  mail_subject_backup_token_reset: "Twój token kopii zapasowej został zresetowany"
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "Termin wykonania %{count} pakietów roboczych kończy się w ciągu %{days} dni"
@@ -1920,26 +1920,26 @@ pl:
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} — dodano Cię jako członka"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} dodał(a) Cię jako członka projektu „%{project}”."
+        with_message: "%{user} dodał(a) Cię jako członka do projektu „%{project}”, pisząc:"
+      roles: "Masz następujące role:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} — Twoje role zostały zaktualizowane"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} zaktualizował(a) role, które masz w projekcie „%{project}”."
+        with_message: "%{user} zaktualizował(a) role, które masz w projekcie „%{project}”, pisząc:"
+      roles: "Masz teraz następujące role:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Twoje globalne uprawnienia zostały zaktualizowane"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} zaktualizował(a) role które masz globalnie."
+        with_message: "%{user} zaktualizował(a) role które masz globalnie, pisząc."
+      roles: "Masz teraz następujące role:"
   mail_user_activation_limit_reached:
     subject: Osiągnięto limit aktywacji użytkownika
     message: |
@@ -2047,7 +2047,7 @@ pl:
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Tworzenie projektu"
   permission_manage_user: "Tworzenie i edycja użytkowników"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Twórz, edytuj i usuwaj użytkowników zastępczych"
   permission_add_subprojects: "Tworzenie podprojektów"
   permission_add_work_package_watchers: "Dodawanie obserwatorów"
   permission_assign_versions: "Przypisz wersje"
@@ -2292,7 +2292,7 @@ pl:
   setting_consent_required: "Wymagana zgoda"
   setting_consent_decline_mail: "Adres kontaktowy zgody"
   setting_cross_project_work_package_relations: "Zezwól na powiązania pakietów roboczych pomiędzy projektami"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "Pierwszy tydzień w roku zawiera"
   setting_date_format: "Format daty"
   setting_default_language: "Język domyślny"
   setting_default_notification_option: "Domyślna opcja powiadomienia"
@@ -2375,9 +2375,9 @@ pl:
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Jeśli ustawiona jest opcja „%{day_of_week_setting_name}” albo „%{first_week_setting_name}”, druga musi zostać ustawiona w taki sposób, aby uniknąć niespójności we frontendzie.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Wybierz styczniową datę z pierwszego tygodnia roku. Wartość ta wraz z pierwszym dniem tygodnia określa łączną liczbę tygodni w roku.
     projects:
       section_new_projects: "Ustawienia nowych projektów"
       section_project_overview: "Ustawienia listy przeglądu projektu"
@@ -2683,8 +2683,6 @@ pl:
     getting_started: "Pierwsze kroki"
     help_and_support: "Pomoc i wsparcie"
   total_progress: "Całkowity postęp"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "wszystkie"
     active: "aktywne"
@@ -2774,7 +2772,7 @@ pl:
       code_403: "Nie masz uprawnień do tego zasobu."
       code_404: "Nie można odnaleźć żądanego zasobu."
       code_409: "Nie można zaktualizować zasobu ze względu na modyfikacje powodujące konflikt."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Zbyt wiele prób. Spróbuj ponownie później."
       code_500: "Wystąpił błąd wewnętrzny."
       expected:
         date: "RRRR-MM-DD (tylko data ISO 8601)"
@@ -2785,8 +2783,8 @@ pl:
       invalid_relation: "Powiązanie jest nieprawidłowe."
       invalid_resource: "Dla właściwości '%{property}' wymagany jest link taki jak '%{expected}', dostarczono '%{actual}'."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "Żądane osadzanie %{invalid} nie jest obsługiwane. Obsługiwane osadzenia to %{supported}."
+        select: "Żądany wybór %{invalid} nie jest obsługiwany. Obsługiwane wybory to %{supported}."
       invalid_user_status_transition: "Aktualny stan konta użytkownika nie zezwala na wykonanie tej operacji."
       missing_content_type: "nie określono"
       missing_request_body: "There was no request body."
@@ -2810,6 +2808,8 @@ pl:
         invalid_json: "jest nieprawidłowym plikiem json: %{message}"
     resources:
       schema: 'Schemat'
+    undisclosed:
+      parent: Nie ujawniono — wybrany element nadrzędny jest niewidoczny ze względu na brak uprawnień.
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autoryzacja'
@@ -2895,4 +2895,4 @@ pl:
     authorization_error: "Wystąpił błąd autoryzacji."
     revoke_my_application_confirmation: "Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej aktywne tokeny (%{token_count})."
     my_registered_applications: "Zarejestrowane aplikacje OAuth"
-  you: you
+  you: Ty

@@ -55,39 +55,45 @@ describe 'Create viewpoint from BCF details page',
     it do
       show_model_page.visit!
       show_model_page.finished_loading
-      card_view.expect_work_package_listed work_package
-      card_view.open_full_screen_by_details work_package
+      card_view.expect_work_package_listed(work_package)
+      card_view.open_full_screen_by_details(work_package)
 
       # Expect no viewpoint
       bcf_details.ensure_page_loaded
-      bcf_details.expect_viewpoint_count 0
+      bcf_details.expect_viewpoint_count(0)
 
-      # Uncheck the second checkbox for testing
-      model_tree.select_sidebar_tab 'Objects'
-      model_tree.expect_checked 'minimal'
+      model_tree.select_sidebar_tab('Objects')
+      model_tree.expect_checked('minimal')
+
+      # Expand all nodes until the storeys get listed.
+      model_tree.expand_tree
+      model_tree.expand_tree
       model_tree.expand_tree
 
-      item, checkbox = model_tree.all_checkboxes.second
+      # Uncheck the "4OG"
+      item, checkbox = model_tree.all_checkboxes.last
       text = item.text
       checkbox.uncheck
 
       bcf_details.add_viewpoint
-      bcf_details.expect_viewpoint_count 1
+      bcf_details.expect_viewpoint_count(1)
 
       page.driver.browser.navigate.refresh
 
       bcf_details.ensure_page_loaded
-      bcf_details.expect_viewpoint_count 1
+      bcf_details.expect_viewpoint_count(1)
       bcf_details.show_current_viewpoint
 
       sleep 1
 
       # Uncheck the second checkbox for testing
-      model_tree.select_sidebar_tab 'Objects'
-      model_tree.expect_checked 'minimal'
+      model_tree.select_sidebar_tab('Objects')
+      model_tree.expect_checked('minimal')
       model_tree.expand_tree
-
-      model_tree.expect_unchecked text
+      model_tree.expand_tree
+      model_tree.expand_tree
+      # With the applied viewpoint the "4OG" shall be invisible
+      model_tree.expect_unchecked(text)
     end
   end
 
