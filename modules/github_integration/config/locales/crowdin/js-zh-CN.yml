@@ -25,21 +25,17 @@ zh-CN:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "拉取请求"
         copy_menu:
-          label: Git
-          description: Copy important git content to clipboard
+          label: Git 代码段
+          description: 将 Git 代码段复制到剪贴板
         git_actions:
-          branch: 分支
-          branch_help: Copy the default branch name.
-          message: 消息
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
-          copy_button_help: 复制到剪贴板
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: 分支名称
+          commit_message: 提交消息
+          cmd: 使用空提交创建分支
+          title: Git 快速代码段
+          copy_success: '✅ 已复制！'
+          copy_error: '❌ 复制失败！'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: '尚未链接任何拉取请求。请使用拉取请求描述中的代码 <code>OP#%{wp_id}</code> 链接现有拉取请求，或者创建新的拉取请求。'
       github_actions: 操作

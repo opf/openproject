@@ -54,20 +54,18 @@ module Bim
         user = User.admin.first
 
         xkt_data = get_file model[:file], '.xkt'
-        meta_data = get_file model[:file], '.json'
 
-        if xkt_data.nil? || meta_data.nil?
+        if xkt_data.nil?
           print_status "\n    ↳ Missing converted data for ifc model"
         else
-          create_model(model, user, xkt_data, meta_data)
+          create_model(model, user, xkt_data)
         end
       end
 
-      def create_model(model, user, xkt_data, meta_data)
+      def create_model(model, user, xkt_data)
         model_container = create_model_container project, user, model[:name], model[:default]
 
         add_ifc_model_attachment model_container, user, xkt_data, 'xkt'
-        add_ifc_model_attachment model_container, user, meta_data, 'metadata'
       end
 
       def create_model_container(project, user, title, default)

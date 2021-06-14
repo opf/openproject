@@ -25,19 +25,15 @@ ro:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Cereri de tragere"
+        title: "Pull requests"
         copy_menu:
-          label: Git
-          description: Copiați conținutul important al git în clipboard
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
-          branch: Ramură
-          branch_help: Copiați numele implicit al ramurii.
-          message: Mesaj
-          message_help: Copiați mesajul implicit de confirmare.
-          cmd: Comanda
-          cmd_help: Copiați o comandă shell care creează o nouă ramură și o confirmare goală, utilizând numele ramurii și mesajul de confirmare implicite.
-          title: Copiați în Clipboard
-          copy_button_help: Copiere în clipboard
+          branch_name: Branch name
+          commit_message: Commit message
+          cmd: Create branch with empty commit
+          title: Quick snippets for Git
           copy_success: Copiat
           copy_error: Copiere eşuată
       tab_prs:

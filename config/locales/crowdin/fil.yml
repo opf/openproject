@@ -2651,8 +2651,6 @@ fil:
     getting_started: "Pagsisimula"
     help_and_support: "Tulong at supora"
   total_progress: "Kabuuang progreso"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "lahat"
     active: "aktibo"
@@ -2776,6 +2774,8 @@ fil:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Iskema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

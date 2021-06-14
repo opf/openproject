@@ -25,19 +25,15 @@ tr:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Çekme Talepleri"
+        title: "Pull requests"
         copy_menu:
-          label: Git
-          description: Önemli git içeriğini panoya kopyalayın
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
-          branch: Dal
-          branch_help: Varsayılan şube adını kopyalayın.
-          message: İleti
-          message_help: Varsayılan kaydetme mesajını kopyalayın.
-          cmd: Komut
-          cmd_help: Varsayılan şube adını ve commit mesajını kullanarak yeni bir dal ve boş bir commit oluşturan bir kabuk komutunu kopyalayın.
-          title: Panoya kopyala
-          copy_button_help: Panoya kopyala
+          branch_name: Branch name
+          commit_message: Commit message
+          cmd: Create branch with empty commit
+          title: Quick snippets for Git
           copy_success: '✅ Kopyalandı!'
           copy_error: '❌ Kopyalanamadı!'
       tab_prs:

@@ -2670,8 +2670,6 @@ ro:
     getting_started: "Noţiuni de bază"
     help_and_support: "Asistenţă şi suport"
   total_progress: "Progres total"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "toate"
     active: "activ"
@@ -2796,6 +2794,8 @@ ro:
         invalid_json: "este invalid json: %{message}"
     resources:
       schema: 'Schemă'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Autorizare prealabilă'

@@ -2651,8 +2651,6 @@ ca:
     getting_started: "Primers passos"
     help_and_support: "Ajuda i suport"
   total_progress: "Progrés total"
-  undisclosed:
-    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "tot"
     active: "actiu"
@@ -2776,6 +2774,8 @@ ca:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Esquema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

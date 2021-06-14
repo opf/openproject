@@ -207,7 +207,7 @@ Want to upgrade from a Community version to try out the Enterprise premium featu
 
 ## Migrating to OpenProject 11.3
 
-Follow the [upgrade guide for the packaged installation or Docker installation](../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.3.
+Follow the [upgrade guide for the packaged installation or Docker installation](https://docs.openproject.org/installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.3.
 
 We update hosted OpenProject environments (Enterprise cloud) automatically.
 
@@ -222,6 +222,7 @@ A big thanks to community members for reporting bugs and helping us identifying 
 Special thanks for contributions go to
 
 - Philipp Tessenow, Max Mutzge, Jan Niklas Grieb, Kris M, Frank Long, Johannes G, Björn Schümann, Alexander Seitz, Sebastian Schoeller, Charles Steiger
+- AMG/Daimler for sponsoring feature development
 - City of Cologne for sponsoring feature development
 - Every dedicated user who has [reported bugs](https://docs.openproject.org/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

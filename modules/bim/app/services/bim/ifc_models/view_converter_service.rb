@@ -73,25 +73,23 @@ module Bim
 
       def perform_conversion!
         # Step 0: avoid file name issues (e.g. umlauts) in the pipeline
-        tmp_ifc_path = link_to_ifc_file!
+        tmp_ifc_path = link_to_ifc_file
 
         tmp_ifc_path
           .then { |ifc_path| convert_to_collada ifc_path } # Step 1: IfcConvert
           .then { |collada_path| convert_to_gltf collada_path } # Step 2: Collada2GLTF
-          .then { |gltf_path| convert_to_xkt gltf_path } # Step 3: Convert to XKT
+          .then { |gltf_path| convert_to_xkt gltf_path } # Step 3: Create XKT from extracted metadata JSON and GLTF
           .then { |xkt_path| save_xkt xkt_path }
-
-        tmp_ifc_path
-          .then { |ifc_path| convert_metadata ifc_path }
-          .then { |metadata_path| save_metadata metadata_path }
       end
 
-      def link_to_ifc_file!
-        tmp_ifc_path = File.join working_directory, "model.ifc"
+      def link_to_ifc_file
+        return @tmp_ifc_path if @tmp_ifc_path
 
-        FileUtils.symlink ifc_model_path.to_s, tmp_ifc_path
+        @tmp_ifc_path = File.join working_directory, "model.ifc"
 
-        tmp_ifc_path
+        FileUtils.symlink ifc_model_path.to_s, @tmp_ifc_path
+
+        @tmp_ifc_path
       end
 
       def ifc_model_path
@@ -107,13 +105,6 @@ module Bim
         FileUtils.mv xkt_path, final_xkt_path.to_s unless xkt_path.to_s == final_xkt_path.to_s
 
         ifc_model.xkt_attachment = File.new final_xkt_path.to_s
-      end
-
-      def save_metadata(metadata_path)
-        final_metadata_path = change_basename metadata_path, ifc_model_path, ".json"
-        FileUtils.mv metadata_path, final_metadata_path.to_s unless metadata_path.to_s == final_metadata_path.to_s
-
-        ifc_model.metadata_attachment = File.new final_metadata_path.to_s
       end
 
       ##
@@ -161,8 +152,10 @@ module Bim
       def convert_to_xkt(gltf_filepath)
         Rails.logger.debug { "Converting #{ifc_model.inspect} to XKT" }
 
+        metadata_file = convert_metadata(link_to_ifc_file)
+
         convert!(gltf_filepath, 'xkt') do |target_file|
-          Open3.capture2e('gltf2xkt', '-s', gltf_filepath, '-o', target_file)
+          Open3.capture2e('gltf2xkt', '-s', gltf_filepath, '-m', metadata_file, '-o', target_file)
         end
       end
 
