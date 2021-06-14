@@ -143,5 +143,5 @@ version 1.0.0, available at
 ## Contributors license agreement
 
 Contributors have to sign a CLA before contributing to OpenProject.
-The [CLA can be found here](https://www.openproject.org/wp-content/uploads/2015/08/Contributor-License-Agreement.pdf)
+The [CLA can be found here](https://www.openproject.org/contributor-license-agreement/)
 and has to be filled out and sent to info@openproject.org.
