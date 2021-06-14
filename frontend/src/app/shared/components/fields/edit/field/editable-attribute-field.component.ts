@@ -56,6 +56,7 @@ import {
   editFieldContainerClass
 } from "core-app/shared/components/fields/display/display-field-renderer";
 import { States } from "core-app/core/states/states.service";
+import ClickEvent = JQuery.ClickEvent;
 
 @Component({
   selector: 'editable-attribute-field',
@@ -152,15 +153,15 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     return this.editForm && this.schema.isAttributeEditable(this.fieldName);
   }
 
-  public activateIfEditable(event:JQuery.TriggeredEvent) {
+  public activateIfEditable(event:MouseEvent|KeyboardEvent) {
     // Ignore selections
-    if (SelectionHelpers.hasSelectionWithin(event.target)) {
+    if (SelectionHelpers.hasSelectionWithin(event.target as HTMLElement)) {
       debugLog(`Not activating ${this.fieldName} because of active selection within`);
       return true;
     }
 
     // Skip activation if the user clicked on a link or within a macro
-    const target = jQuery(event.target);
+    const target = jQuery(event.target as HTMLElement);
     if (target.closest('a,macro', this.displayContainer.nativeElement).length > 0) {
       return true;
     }
@@ -185,10 +186,10 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       .catch(() => this.deactivate(true));
   }
 
-  public handleUserActivate(evt:JQuery.TriggeredEvent|null) {
+  public handleUserActivate(evt:MouseEvent|KeyboardEvent|null) {
     let positionOffset = 0;
 
-    if (evt) {
+    if (evt?.type === 'click') {
       // Get the position where the user clicked.
       positionOffset = ClickPositionMapper.getPosition(evt);
     }

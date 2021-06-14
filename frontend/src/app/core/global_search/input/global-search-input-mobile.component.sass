@@ -4,7 +4,7 @@ $search-input-height-mobile: 36px
 
 @media only screen and (max-width: 679px)
   .top-menu-search
-    #global-search-input
+    &--input
       display: none
       &.-expanded
         display: block
@@ -33,6 +33,7 @@ $search-input-height-mobile: 36px
           height: 36px
 
     .top-menu-search--back-button
+      @include unset-button-styles
       display: initial
       width: 50px
       text-align: center

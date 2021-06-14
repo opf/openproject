@@ -20,6 +20,7 @@ $search-input-height: 30px
     display: none
 
   &--button
+    @include unset-button-styles
     position: absolute
     right: 2px
     font-size: var(--header-item-font-size)
@@ -48,7 +49,7 @@ $search-input-height: 30px
     height: 46px                // ng-option height + 1px border
     z-index: 1051
 
-  #global-search-input
+  &--input
     width: $search-input-width
     font-size: 0.9rem
     -webkit-transition: width 0.2s ease-in-out

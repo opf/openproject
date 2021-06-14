@@ -37,7 +37,7 @@ class WorkPackageStatusField < EditField
   end
 
   def set_value(content)
-    input_element.find('a', text: content).click
+    input_element.find('button', text: content).click
   end
 
   def active?

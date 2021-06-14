@@ -1,5 +1,5 @@
 <div class="top-menu-search">
-  <a
+  <button
     *ngIf="expanded"
     (click)="toggleMobileSearch()"
     class="top-menu-search--back-button"
@@ -7,7 +7,7 @@
     title="{{text.close_search}}"
   >
     <i class="icon-arrow-left1" aria-hidden="true"></i>
-  </a>
+  </button>
    
   <op-autocompleter
     #select
@@ -62,10 +62,7 @@
 
             <div class="global-search--wp-content">
               <span [textContent]="item.project" class="global-search--wp-project"></span>
-              <a
-                class="global-search--wp-id"
-                [ngClass]="uiStateLinkClass"
-              >#{{item.id}}</a>
+              #{{item.id}}
               <span
                 [textContent]="item.status"
                 [ngClass]="statusHighlighting(item.statusId)"
@@ -78,16 +75,16 @@
     </ng-template>
   </op-autocompleter>
 
-  <a
-    #btn
-    id="top-menu-search-button"
-    class="top-menu-search--button search-form-normal"
-    title="{{text.search}}"
-    tabindex="0"
-    role="button"
-    [class.-input-focused]="expanded"
-    (accessibleClick)="handleClick($event)"
+  <button
+      role="button"
+      #btn
+      id="top-menu-search-button"
+      class="top-menu-search--button search-form-normal"
+      title="{{text.search}}"
+      [class.-input-focused]="expanded"
+      (click)="handleClick($event)"
+
   >
     <op-icon icon-classes="icon5 icon-search ellipsis"></op-icon>
-  </a>
+  </button>
 </div>

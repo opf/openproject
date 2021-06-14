@@ -242,7 +242,7 @@ module Pages
         page.find('.board-list--menu a').click
       end
 
-      page.find('.dropdown-menu a', text: action).click
+      page.find('.dropdown-menu button', text: action).click
     end
 
     def card_for(work_package)

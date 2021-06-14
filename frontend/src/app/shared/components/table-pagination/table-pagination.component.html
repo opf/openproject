@@ -3,22 +3,26 @@
     <ul class="pagination--items">
 
       <li [hidden]="pagination.page == 1 || !showPageSelections" class="pagination--item">
-        <a (accessibleClick)="showPage(pagination.page - 1)"
-           rel="prev start"
-           [attr.aria-label]="text.label_previous"
-           id= "pagination--prev-link"
-           role="link"
-           href>&#60;</a>
+        <button
+          type="button"
+          (click)="showPage(pagination.page - 1)"
+          rel="prev start"
+          [attr.aria-label]="text.label_previous"
+          id="pagination--prev-link"
+        >
+          &#60;
+        </button>
       </li>
 
       <ng-container *ngIf="prePageNumbers.length > 0">
         <li *ngFor="let pageNumber of prePageNumbers"
-          class="pagination--item">
-          <a (accessibleClick)="showPage(pageNumber)"
-             rel="next"
-             role="link"
-             [textContent]="pageNumber"
-             href></a>
+            class="pagination--item">
+          <button
+            type="button"
+            (click)="showPage(pageNumber)"
+            rel="next"
+            [textContent]="pageNumber"
+          ></button>
         </li>
         <li class="pagination--space">…</li>
       </ng-container>
@@ -28,12 +32,13 @@
             [ngClass]="{ '-current': pageNumber == pagination.page }"
             class="pagination--item pagination-number">
           <em *ngIf="pageNumber == pagination.page">{{ pageNumber }}</em>
-          <a *ngIf="pageNumber != pagination.page"
-            (accessibleClick)="showPage(pageNumber)"
+          <button
+            type="button"
+            *ngIf="pageNumber != pagination.page"
+            (click)="showPage(pageNumber)"
             rel="next"
-            role="link"
             [textContent]="pageNumber"
-            href></a>
+          ></button>
         </li>
 
         <li *ngIf="postPageNumbers.length" class="pagination--space">…</li>
@@ -41,23 +46,27 @@
 
       <ng-container *ngIf="postPageNumbers.length">
         <li *ngFor="let pageNumber of postPageNumbers" class="pagination--item pagination-number">
-          <a (accessibleClick)="showPage(pageNumber)"
-             rel="next"
-             role="link"
-             [textContent]="pageNumber"
-             href></a>
+          <button
+            type="button"
+            (click)="showPage(pageNumber)"
+            rel="next"
+            [textContent]="pageNumber"
+          ></button>
         </li>
       </ng-container>
 
       <li [hidden]="!(pagination.total && pagination.page < pageNumbers[pageNumbers.length - 1])"
-        class="pagination--item">
-        <a (accessibleClick)="showPage(pagination.page + 1)"
-           rel="next"
-           class="pagination--next-link"
-           [attr.aria-label]="text.label_next"
-           id="pagination--next-link"
-           role="link"
-           href>&#62;</a>
+          class="pagination--item">
+        <button
+          type="button"
+          (click)="showPage(pagination.page + 1)"
+          rel="next"
+          class="pagination--next-link"
+          [attr.aria-label]="text.label_next"
+          id="pagination--next-link"
+        >
+          &#62;
+        </button>
       </li>
 
       <li class="pagination--range">
@@ -89,13 +98,14 @@
           class="pagination--item">
 
        <span *ngIf="perPageOption != pagination.perPage">
-         <a (accessibleClick)="selectPerPage(perPageOption)"
-            role="link"
-            [textContent]="perPageOption"
-            href></a>
+         <button
+           type="button"
+           (click)="selectPerPage(perPageOption)"
+           [textContent]="perPageOption"
+         ></button>
        </span>
 
-       <span *ngIf="perPageOption == pagination.perPage">{{ perPageOption }}</span>
+        <span *ngIf="perPageOption == pagination.perPage">{{ perPageOption }}</span>
       </li>
     </ul>
   </div>

@@ -349,7 +349,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       expect(page).to have_no_selector('.-group-row .timeline-element')
 
       click_button('wp-fold-toggle-button')
-      click_link(I18n.t('js.button_collapse_all'))
+      click_button(I18n.t('js.button_collapse_all'))
 
       # Will again fold all rows so the milestone elements should again be present
       expect(page).to have_selector('.-group-row .timeline-element.milestone')

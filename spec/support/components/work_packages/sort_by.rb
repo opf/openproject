@@ -40,7 +40,7 @@ module Components
         SeleniumHubWaiter.wait
 
         within_column_context_menu do
-          click_link text
+          click_button text
         end
       end
 

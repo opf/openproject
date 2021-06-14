@@ -17,15 +17,15 @@ export class OPContextMenuComponent {
     this.service = this.locals.service;
   }
 
-  public handleClick(item:OpContextMenuItem, $event:JQuery.TriggeredEvent) {
+  public handleClick(item:OpContextMenuItem, event:MouseEvent) {
     if (item.disabled || item.divider) {
       return false;
     }
 
-    if (item.onClick!($event)) {
+    if (item.onClick!(event)) {
       this.locals.service.close();
-      $event.preventDefault();
-      $event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
       return false;
     }
 

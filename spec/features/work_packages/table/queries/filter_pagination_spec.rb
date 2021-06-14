@@ -63,7 +63,7 @@ describe 'Filter updates pagination', type: :feature, js: true do
 
     # Go to second page
     within('.pagination--pages') do
-      find('.pagination--item a', text: '2').click
+      find('.pagination--item button', text: '2').click
     end
 
     wp_table.expect_work_package_listed work_package_2
