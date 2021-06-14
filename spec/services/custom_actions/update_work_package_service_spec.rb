@@ -94,7 +94,7 @@ describe CustomActions::UpdateWorkPackageService do
 
     allow(WorkPackages::UpdateContract)
       .to receive(:new)
-      .with(work_package, user, options: { changed_by_system: [] })
+      .with(work_package, user, options: {})
       .and_return(contract)
 
     allow(contract)

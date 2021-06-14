@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit} from '@angular/core';
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {HttpClient} from '@angular/common/http';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { HttpClient } from '@angular/common/http';
 
 export const remoteFieldUpdaterSelector = 'remote-field-updater';
 
@@ -64,7 +64,7 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       // tabbing back with shift (16) and
       // special cases where the tab code is not correctly recognized (undefined).
       // Thus the focus is kept on the first element of the result list.
-      let keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
+      const keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
       if (event.type === 'change' || (event.which && keyCodesArray.indexOf(event.which) === -1)) {
         this.updater();
       }
@@ -94,7 +94,7 @@ export class RemoteFieldUpdaterComponent implements OnInit {
   }
 
   private updater() {
-    let params:any = {};
+    const params:any = {};
 
     // Gather request keys
     this.inputs.each((i, el:HTMLInputElement) => {
@@ -104,21 +104,21 @@ export class RemoteFieldUpdaterComponent implements OnInit {
     this
       .request(params)
       .subscribe((response:any) => {
-      if (this.htmlMode) {
+        if (this.htmlMode) {
         // Replace the given target
-        this.target.html(response);
-      } else {
-        _.each(response, (val:string, selector:string) => {
-          let element = document.getElementById(selector) as HTMLElement|HTMLInputElement;
+          this.target.html(response);
+        } else {
+          _.each(response, (val:string, selector:string) => {
+            const element = document.getElementById(selector) as HTMLElement|HTMLInputElement;
 
-          if (element instanceof HTMLInputElement) {
-            element.value = val;
-          } else if (element) {
-            element.textContent = val;
-          }
-        });
-      }
-    });
+            if (element instanceof HTMLInputElement) {
+              element.value = val;
+            } else if (element) {
+              element.textContent = val;
+            }
+          });
+        }
+      });
   }
 }
 

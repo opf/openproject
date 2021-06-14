@@ -33,7 +33,7 @@ import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/modules/time_entries/create/create.service';
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {

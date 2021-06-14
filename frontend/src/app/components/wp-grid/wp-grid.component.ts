@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output} from "@angular/core";
-import {WorkPackageViewHighlightingService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import {CardViewOrientation} from "core-components/wp-card-view/wp-card-view.component";
-import {WorkPackageViewSortByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import {distinctUntilChanged, takeUntil} from "rxjs/operators";
-import {HighlightingMode} from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {DragAndDropService} from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
-import {WorkPackageCardDragAndDropService} from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
-import {WorkPackagesListService} from "core-components/wp-list/wp-list.service";
-import {WorkPackageTableConfiguration} from "core-components/wp-table/wp-table-configuration";
-import {WorkPackageViewOutputs} from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
+import { WorkPackageViewHighlightingService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
+import { CardViewOrientation } from "core-components/wp-card-view/wp-card-view.component";
+import { WorkPackageViewSortByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { distinctUntilChanged, takeUntil } from "rxjs/operators";
+import { HighlightingMode } from "core-components/wp-fast-table/builders/highlighting/highlighting-mode.const";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { DragAndDropService } from "core-app/modules/common/drag-and-drop/drag-and-drop.service";
+import { WorkPackageCardDragAndDropService } from "core-components/wp-card-view/services/wp-card-drag-and-drop.service";
+import { WorkPackagesListService } from "core-components/wp-list/wp-list.service";
+import { WorkPackageTableConfiguration } from "core-components/wp-table/wp-table-configuration";
+import { WorkPackageViewOutputs } from "core-app/modules/work_packages/routing/wp-view-base/event-handling/event-handler-registry";
 
 @Component({
   selector: 'wp-grid',
@@ -71,9 +71,9 @@ import {WorkPackageViewOutputs} from "core-app/modules/work_packages/routing/wp-
 })
 export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
   @Input() public configuration:WorkPackageTableConfiguration;
-  @Input() public showResizer:boolean = false;
-  @Input() public resizerClass:string = '';
-  @Input() public resizerStorageKey:string = '';
+  @Input() public showResizer = false;
+  @Input() public resizerClass = '';
+  @Input() public resizerStorageKey = '';
 
   @Output() selectionChanged = new EventEmitter<string[]>();
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
@@ -111,7 +111,7 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
   }
 
   public switchToManualSorting() {
-    let query = this.querySpace.query.value;
+    const query = this.querySpace.query.value;
     if (query && this.wpTableSortBy.switchToManualSorting(query)) {
       this.wpList.save(query);
     }

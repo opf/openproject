@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {ConfigurationResource} from "core-app/modules/hal/resources/configuration-resource";
+import { Injectable } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { ConfigurationResource } from "core-app/modules/hal/resources/configuration-resource";
 import * as moment from "moment";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
@@ -38,7 +38,7 @@ export class ConfigurationService {
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
   private configuration:ConfigurationResource;
-  public initialized:Promise<Boolean>;
+  public initialized:Promise<boolean>;
 
   public constructor(readonly I18n:I18nService,
                      readonly apiV3Service:APIV3Service) {

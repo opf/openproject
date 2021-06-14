@@ -35,8 +35,9 @@ module Redmine::MenuManager::TopMenu::HelpMenu
 
     OpenProject::Cache.fetch(cache_key) do
       if OpenProject::Static::Links.help_link_overridden?
-        render_menu_node(item)
-        content_tag('li', render_single_menu_node(item), class: 'help-menu--overridden-link')
+        content_tag('li',
+                    render_single_menu_node(item, nil, 'op-app-menu'),
+                    class: 'op-app-menu--item op-app-help op-app-help_overridden')
       else
         render_help_dropdown
       end
@@ -44,17 +45,17 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_help_dropdown
-    link_to_help_pop_up = link_to '',
+    link_to_help_pop_up = link_to '#',
                                   title: I18n.t(:label_help),
-                                  class: 'menu-item--help',
+                                  class: 'op-app-menu--item-action',
                                   aria: { haspopup: 'true' } do
-      op_icon('icon-help')
+      op_icon('icon-help op-app-help--icon')
     end
 
     render_menu_dropdown(
       link_to_help_pop_up,
-      menu_item_class: 'hidden-for-mobile',
-      drop_down_class: 'drop-down--help'
+      menu_item_class: 'op-app-help hidden-for-mobile',
+      drop_down_class: 'op-menu'
     ) do
       result = ''.html_safe
       render_onboarding result
@@ -68,13 +69,13 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   private
 
   def render_onboarding(result)
-    result << content_tag(:li) do
+    result << content_tag(:li, class: 'op-menu--item') do
       content_tag(:span, I18n.t('top_menu.getting_started'),
-                  class: 'drop-down--help-headline',
+                  class: 'op-menu--headline',
                   title: I18n.t('top_menu.getting_started'))
     end
     result << render_onboarding_menu_item
-    result << content_tag(:hr, '', class: 'form--separator')
+    result << content_tag(:hr, '', class: 'op-menu--separator')
   end
 
   def render_onboarding_menu_item
@@ -82,29 +83,30 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_help_and_support(result)
-    result << content_tag(:li) do
+    result << content_tag(:li, class: 'op-menu--item') do
       content_tag :span, I18n.t('top_menu.help_and_support'),
-                  class: 'drop-down--help-headline',
+                  class: 'op-menu--headline',
                   title: I18n.t('top_menu.help_and_support')
     end
     result << static_link_item(:user_guides)
-    result << content_tag(:li) do
+    result << content_tag(:li, class: 'op-menu--item') do
       link_to I18n.t('label_videos'),
               OpenProject::Configuration.youtube_channel,
               title: I18n.t('label_videos'),
+              class: 'op-menu--item-action',
               target: '_blank'
     end
     result << static_link_item(:shortcuts)
     result << static_link_item(:forums)
     result << static_link_item(:professional_support)
-    result << content_tag(:hr, '', class: 'form--separator')
+    result << content_tag(:hr, '', class: 'op-menu--separator')
   end
 
   def render_additional_resources(result)
-    result << content_tag(:li) do
+    result << content_tag(:li, class: 'op-menu--item') do
       content_tag :span,
                   I18n.t('top_menu.additional_resources'),
-                  class: 'drop-down--help-headline',
+                  class: 'op-menu--headline',
                   title: I18n.t('top_menu.additional_resources')
     end
 
@@ -132,8 +134,12 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   def static_link_item(key, options = {})
     link = OpenProject::Static::Links.links[key]
     label = I18n.t(link[:label])
-    content_tag(:li) do
-      link_to label, "#{link[:href]}#{options[:href_suffix]}", title: label, target: '_blank'
+    content_tag(:li, class: 'op-menu--item') do
+      link_to label,
+              "#{link[:href]}#{options[:href_suffix]}",
+              title: label,
+              target: '_blank',
+              class: 'op-menu--item-action'
     end
   end
 end

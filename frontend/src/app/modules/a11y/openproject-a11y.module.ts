@@ -27,12 +27,12 @@
 //++    Ng1FieldControlsWrapper,
 
 
-import {FormsModule} from "@angular/forms";
-import {NgModule} from "@angular/core";
-import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
-import {AccessibleByKeyboardComponent} from "core-app/modules/a11y/accessible-by-keyboard.component";
-import {CommonModule} from "@angular/common";
-import {DoubleClickOrTapDirective} from "core-app/modules/a11y/double-click-or-tap.directive";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { AccessibleClickDirective } from "core-app/modules/a11y/accessible-click.directive";
+import { AccessibleByKeyboardComponent } from "core-app/modules/a11y/accessible-by-keyboard.component";
+import { DoubleClickOrTapDirective } from "core-app/modules/a11y/double-click-or-tap.directive";
 
 @NgModule({
   imports: [
@@ -46,8 +46,8 @@ import {DoubleClickOrTapDirective} from "core-app/modules/a11y/double-click-or-t
   ],
   declarations: [
     AccessibleClickDirective,
-    AccessibleByKeyboardComponent,
     DoubleClickOrTapDirective,
+    AccessibleByKeyboardComponent,
   ]
 })
 export class OpenprojectAccessibilityModule {

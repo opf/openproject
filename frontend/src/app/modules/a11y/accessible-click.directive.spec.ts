@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, DebugElement} from "@angular/core";
+import { Component, DebugElement } from "@angular/core";
 
-import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {By} from "@angular/platform-browser";
-import {AccessibleClickDirective} from "core-app/modules/a11y/accessible-click.directive";
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { By } from "@angular/platform-browser";
+import { AccessibleClickDirective } from "core-app/modules/a11y/accessible-click.directive";
 
 @Component({
   template: `<div (accessibleClick)="onClick()">Click me</div>`

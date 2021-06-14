@@ -36,6 +36,7 @@ module BaseServices
     attr_reader :user
 
     def initialize(user:, contract_class: nil, contract_options: {})
+      super()
       @user = user
       self.contract_class = contract_class || default_contract_class
       self.contract_options = contract_options

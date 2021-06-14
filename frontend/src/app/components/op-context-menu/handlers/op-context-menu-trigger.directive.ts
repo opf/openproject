@@ -1,7 +1,7 @@
-import {AfterViewInit, Directive, ElementRef} from "@angular/core";
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {OpContextMenuHandler} from "core-components/op-context-menu/op-context-menu-handler";
-import {OpContextMenuItem} from "core-components/op-context-menu/op-context-menu.types";
+import { AfterViewInit, Directive, ElementRef } from "@angular/core";
+import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { OpContextMenuHandler } from "core-components/op-context-menu/op-context-menu-handler";
+import { OpContextMenuItem } from "core-components/op-context-menu/op-context-menu.types";
 
 @Directive({
   selector: '[opContextMenuTrigger]'

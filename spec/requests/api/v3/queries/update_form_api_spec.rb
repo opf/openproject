@@ -38,7 +38,7 @@ describe "POST /api/v3/queries/form", type: :request do
   let(:role) { FactoryBot.create :existing_role, permissions: permissions }
   let(:permissions) { %i(view_work_packages manage_public_queries) }
 
-  let!(:project) { FactoryBot.create(:project_with_types) }
+  let!(:project) { FactoryBot.create(:project_with_types, members: { user => role }) }
 
   let(:query) do
     FactoryBot.create(
@@ -55,11 +55,9 @@ describe "POST /api/v3/queries/form", type: :request do
   let(:override_params) { {} }
   let(:form) { JSON.parse last_response.body }
 
+  current_user { user }
+
   before do
-    project.add_member! user, role
-
-    login_as(user)
-
     additional_setup
 
     header 'CONTENT_TYPE', 'application/json'

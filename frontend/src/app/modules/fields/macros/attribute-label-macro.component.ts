@@ -35,20 +35,20 @@ import {
   Injector,
   ViewChild
 } from "@angular/core";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {NEVER, Observable} from "rxjs";
-import {filter, map, take, tap} from "rxjs/operators";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {DisplayFieldService} from "core-app/modules/fields/display/display-field.service";
-import {IFieldSchema} from "core-app/modules/fields/field.base";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { NEVER, Observable } from "rxjs";
+import { filter, map, take, tap } from "rxjs/operators";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { DisplayFieldService } from "core-app/modules/fields/display/display-field.service";
+import { IFieldSchema } from "core-app/modules/fields/field.base";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import {
   AttributeModelLoaderService,
   SupportedAttributeModels
 } from "core-app/modules/fields/macros/attribute-model-loader.service";
-import {StringHelpers} from "core-app/helpers/string-helpers";
+import { StringHelpers } from "core-app/helpers/string-helpers";
 
 export const attributeLabelMacro = 'macro.macro--attribute-label';
 

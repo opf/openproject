@@ -32,25 +32,11 @@ class UserJob < ApplicationJob
   def perform(user:, **args)
     @user = user
 
-    as_user do
+    User.execute_as(user) do
       execute(**args)
     end
   rescue StandardError => e
     Rails.logger.error "Failed to execute job #{self.class.name} for #{user}: #{e}"
     raise e
-  end
-
-  private
-
-  ##
-  # Returns the user for using in delayed job
-  # If a system user was passed, assume that it receives
-  # admin privileges.
-  def as_user(&block)
-    if user.is_a?(SystemUser)
-      user.run_given(&block)
-    else
-      User.execute_as(user, &block)
-    end
   end
 end

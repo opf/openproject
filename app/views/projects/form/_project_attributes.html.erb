@@ -39,7 +39,7 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= render partial: "customizable/form",
            locals: { form: form, help_text: { 'attribute-scope': :Project }, all_fields: all_fields, only_required: render_advanced } %>
 <% if render_advanced %>
-<fieldset id="advanced-settings" class="form--fieldset -collapsible collapsed">
+<fieldset id="advanced-project-settings" class="form--fieldset -collapsible collapsed">
   <legend class="form--fieldset-legend" title="<%=t(:label_show_hide)%>" >
     <a href="#"><%= t(:label_advanced_settings) %></a>
   </legend>
@@ -49,8 +49,6 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= render partial: "projects/form/attributes/parent_id",
                locals: { form: form } %>
     <%= render partial: "projects/form/attributes/description",
-               locals: { form: form } %>
-    <%= render partial: "projects/form/attributes/identifier",
                locals: { form: form } %>
     <%= render partial: "projects/form/attributes/public",
                locals: { form: form } %>
@@ -67,6 +65,6 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <% unless form.object.errors[:identifier].blank? %>
   <%= nonced_javascript_tag do %>
-    jQuery('#advanced-settings > .advanced-settings-inner').show();
+    jQuery('#advanced-project-settings > .advanced-settings-inner').show();
   <% end %>
 <% end %>

@@ -1,15 +1,15 @@
-import {wpOnboardingTourSteps} from "core-app/globals/onboarding/tours/work_package_tour";
+import { wpOnboardingTourSteps } from "core-app/globals/onboarding/tours/work_package_tour";
 import {
   demoProjectsLinks, OnboardingTourNames,
   onboardingTourStorageKey,
   preventClickHandler,
   waitForElement
 } from "core-app/globals/onboarding/helpers";
-import {boardTourSteps} from "core-app/globals/onboarding/tours/boards_tour";
-import {menuTourSteps} from "core-app/globals/onboarding/tours/menu_tour";
-import {homescreenOnboardingTourSteps} from "core-app/globals/onboarding/tours/homescreen_tour";
-import {scrumBacklogsTourSteps, scrumTaskBoardTourSteps} from "core-app/globals/onboarding/tours/backlogs_tour";
-import {Injector} from "@angular/core";
+import { boardTourSteps } from "core-app/globals/onboarding/tours/boards_tour";
+import { menuTourSteps } from "core-app/globals/onboarding/tours/menu_tour";
+import { homescreenOnboardingTourSteps } from "core-app/globals/onboarding/tours/homescreen_tour";
+import { scrumBacklogsTourSteps, scrumTaskBoardTourSteps } from "core-app/globals/onboarding/tours/backlogs_tour";
+import { Injector } from "@angular/core";
 
 require('core-vendor/enjoyhint');
 
@@ -23,22 +23,23 @@ declare global {
 
 
 export function start(name:OnboardingTourNames) {
+  console.log('star tour', name);
   switch (name) {
-    case 'backlogs':
-      initializeTour('startTaskBoardTour');
-      startTour(scrumBacklogsTourSteps());
-      break;
-    case 'taskboard':
-      initializeTour('startMainTourFromBacklogs');
-      startTour(scrumTaskBoardTourSteps());
-      break;
-    case 'homescreen':
-      initializeTour('startProjectTour', '.widget-box--blocks--buttons a', true);
-      startTour(homescreenOnboardingTourSteps());
-      break;
-    case 'main':
-      mainTour();
-      break;
+  case 'backlogs':
+    initializeTour('startTaskBoardTour');
+    startTour(scrumBacklogsTourSteps());
+    break;
+  case 'taskboard':
+    initializeTour('startMainTourFromBacklogs');
+    startTour(scrumTaskBoardTourSteps());
+    break;
+  case 'homescreen':
+    initializeTour('startProjectTour', '.widget-box--blocks--buttons a', true);
+    startTour(homescreenOnboardingTourSteps());
+    break;
+  case 'main':
+    mainTour();
+    break;
 
   }
 }
@@ -68,6 +69,7 @@ function initializeTour(storageValue:any, disabledElements?:any, projectSelectio
 }
 
 function startTour(steps:any) {
+  console.log('startTour', steps);
   window.onboardingTourInstance.set(steps);
   window.onboardingTourInstance.run();
 }

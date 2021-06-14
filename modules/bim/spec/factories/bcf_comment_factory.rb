@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :bcf_comment, class: ::Bim::Bcf::Comment do
+  factory :bcf_comment, class: '::Bim::Bcf::Comment' do
     after(:create) do |bcf_comment|
       bcf_comment.journal = create(:work_package_journal)
       bcf_comment.journal.update_attribute(:notes, 'Some BCF comment.')

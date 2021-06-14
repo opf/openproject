@@ -1,14 +1,14 @@
-import {Injectable} from "@angular/core";
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {AssigneeBoardHeaderComponent} from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {CachedBoardActionService} from "core-app/modules/boards/board/board-actions/cached-board-action.service";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {Board} from "core-app/modules/boards/board/board";
-import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import { Injectable } from "@angular/core";
+import { UserResource } from 'core-app/modules/hal/resources/user-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { AssigneeBoardHeaderComponent } from "core-app/modules/boards/board/board-actions/assignee/assignee-board-header.component";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { CachedBoardActionService } from "core-app/modules/boards/board/board-actions/cached-board-action.service";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { Board } from "core-app/modules/boards/board/board";
+import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { ImageHelpers } from "core-app/helpers/images/path-helper";
 import imagePath = ImageHelpers.imagePath;
 
 @Injectable()
@@ -35,7 +35,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
    * Add a single action query
    */
   addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
-    let params:any = {
+    const params:any = {
       name: value.name,
     };
 
@@ -84,8 +84,8 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   public warningTextWhenNoOptionsAvailable(hasMember?:boolean) {
     let text = hasMember ?
-    this.I18n.t('js.boards.add_list_modal.warning.assignee'):
-    this.I18n.t('js.boards.add_list_modal.warning.no_member');
+      this.I18n.t('js.boards.add_list_modal.warning.assignee'):
+      this.I18n.t('js.boards.add_list_modal.warning.no_member');
 
     return this
       .apiV3Service

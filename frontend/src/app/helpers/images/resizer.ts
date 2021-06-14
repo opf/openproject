@@ -1,4 +1,4 @@
-import {UploadBlob} from "core-components/api/op-file-upload/op-file-upload.service";
+import { UploadBlob } from "core-components/api/op-file-upload/op-file-upload.service";
 
 export namespace ImageHelpers {
 
@@ -11,7 +11,7 @@ export namespace ImageHelpers {
   export function resizeFile(maxSize:number, file:File):Promise<[string, UploadBlob]> {
     return new Promise((resolve, _) => {
       const reader = new FileReader();
-      reader.onload = (readerEvent: any) => {
+      reader.onload = (readerEvent:any) => {
         const image = new Image();
         image.onload = () => resolve(resizeImage(maxSize, image));
         image.src = readerEvent.target.result;
@@ -49,7 +49,7 @@ export namespace ImageHelpers {
     canvas.width = width;
     canvas.height = height;
     ctx.drawImage(image, 0, 0, width, height);
-    let dataUrl = canvas.toDataURL('image/jpeg');
+    const dataUrl = canvas.toDataURL('image/jpeg');
     return [dataUrl, dataURItoBlob(dataUrl)];
   }
 
@@ -60,7 +60,9 @@ export namespace ImageHelpers {
     const mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
     const max = bytes.length;
     const ia = new Uint8Array(max);
-    for (var i = 0; i < max; i++) ia[i] = bytes.charCodeAt(i);
-    return new Blob([ia], {type: mime});
+    for (var i = 0; i < max; i++) {
+      ia[i] = bytes.charCodeAt(i);
+    }
+    return new Blob([ia], { type: mime });
   }
 }

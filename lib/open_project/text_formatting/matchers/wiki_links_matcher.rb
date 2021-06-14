@@ -138,7 +138,7 @@ module OpenProject::TextFormatting
               when :anchor
                 "##{title}" # used for single-file wiki export
               else
-                wiki_page_id = wiki_page.nil? ? page.to_url : wiki_page.slug
+                wiki_page_id = wiki_page.nil? ? WikiPage.slug(page) : wiki_page.slug
                 url_for only_path: context[:only_path],
                         controller: '/wiki',
                         action: 'show',

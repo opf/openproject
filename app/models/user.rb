@@ -648,7 +648,7 @@ class User < Principal
         lastname: "System",
         login: "",
         mail: "",
-        admin: false,
+        admin: true,
         status: User.statuses[:active],
         first_login: false
       )

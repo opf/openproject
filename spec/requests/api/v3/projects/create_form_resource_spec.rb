@@ -34,13 +34,16 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
+  subject(:response) { last_response }
+
+  current_user do
     FactoryBot.create(:user).tap do |u|
       FactoryBot.create(:global_member,
                         principal: u,
                         roles: [global_role])
     end
   end
+
   let(:global_role) do
     FactoryBot.create(:global_role, permissions: permissions)
   end
@@ -58,12 +61,8 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
   end
 
   before do
-    login_as(current_user)
-
     post path, params.to_json
   end
-
-  subject(:response) { last_response }
 
   describe '#POST /api/v3/projects/form' do
     it 'returns 200 OK' do
@@ -82,21 +81,10 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
     end
 
     context 'with empty parameters' do
-      it 'has 2 validation errors' do
-        expect(subject.body).to have_json_size(2).at_path('_embedded/validationErrors')
-      end
-
-      it 'has a validation error on name' do
+      it 'has one validation error for name', :aggregate_failures do
+        expect(subject.body).to have_json_size(1).at_path('_embedded/validationErrors')
         expect(subject.body).to have_json_path('_embedded/validationErrors/name')
-      end
-
-      it 'has a validation error on identifier' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/identifier')
-      end
-
-      it 'has no commit link' do
-        expect(subject.body)
-          .not_to have_json_path('_links/commit')
+        expect(subject.body).not_to have_json_path('_links/commit')
       end
     end
 
@@ -108,11 +96,13 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
           "customField#{text_custom_field.id}": {
             "raw": "CF text"
           },
-          status: 'on track',
           statusExplanation: { raw: "A magic dwells in each beginning." },
           "_links": {
             "customField#{list_custom_field.id}": {
               "href": api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
+            },
+            "status": {
+              "href": api_v3_paths.project_status('on_track')
             }
           }
         }
@@ -142,8 +132,8 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
           .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/href")
 
         expect(body)
-          .to be_json_eql('on track'.to_json)
-          .at_path('_embedded/payload/status')
+          .to be_json_eql(api_v3_paths.project_status('on_track').to_json)
+          .at_path('_embedded/payload/_links/status/href')
 
         expect(body)
           .to be_json_eql(
@@ -167,7 +157,11 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
         {
           identifier: 'new_project_identifier',
           name: 'Project name',
-          status: "bogus"
+          _links: {
+            status: {
+              href: api_v3_paths.project_status("bogus")
+            }
+          }
         }
       end
 
@@ -182,6 +176,36 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
       it 'has no commit link' do
         expect(subject.body)
           .not_to have_json_path('_links/commit')
+      end
+    end
+
+    context 'with only add_subprojects permission' do
+      current_user do
+        FactoryBot.create(:user,
+                          member_in_project: parent_project,
+                          member_with_permissions: %i[add_subprojects])
+      end
+
+      let(:parent_project) { FactoryBot.create(:project) }
+
+      let(:params) do
+        {
+          "_links": {
+            "parent": {
+              "href": api_v3_paths.project(parent_project.id)
+            }
+          }
+        }
+      end
+
+      it 'returns 200 OK' do
+        expect(response.status).to eq(200)
+      end
+
+      it 'returns the schema with a required parent field' do
+        expect(response.body)
+          .to be_json_eql(true)
+                .at_path('_embedded/schema/parent/required')
       end
     end
 

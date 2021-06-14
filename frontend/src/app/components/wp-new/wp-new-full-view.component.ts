@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageCreateComponent} from 'core-components/wp-new/wp-create.component';
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import { WorkPackageCreateComponent } from 'core-components/wp-new/wp-create.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'wp-new-full-view',
@@ -36,5 +36,5 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
-  public successState:string = 'work-packages.show';
+  public successState = 'work-packages.show';
 }

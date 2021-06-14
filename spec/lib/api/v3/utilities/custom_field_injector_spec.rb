@@ -152,6 +152,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'links to allowed values directly' do
@@ -192,6 +193,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'links to and embeds allowed values directly' do
@@ -217,6 +219,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it_behaves_like 'links to allowed values via collection link' do
@@ -226,6 +229,36 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
             { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
             { type: { operator: '=', values: %w[User Group PlaceholderUser] } },
             { member: { operator: '=', values: [schema.project_id.to_s] } }
+          ]
+
+          query = CGI.escape(::JSON.dump(params))
+
+          "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+        end
+      end
+    end
+
+    describe 'user custom field on new project' do
+      let(:schema) do
+        double('ProjectSchema',
+               id: nil,
+               model: Project.new,
+               defines_assignable_values?: true,
+               available_custom_fields: [custom_field])
+      end
+      let(:custom_field) do
+        FactoryBot.build(:custom_field,
+                         field_format: 'user',
+                         is_required: true)
+      end
+
+      it_behaves_like 'links to allowed values via collection link' do
+        let(:path) { cf_path }
+        let(:href) do
+          params = [
+            { status: { operator: '!', values: [Principal.statuses[:locked].to_s] } },
+            { type: { operator: '=', values: %w[User Group PlaceholderUser] } },
+            { member: { operator: '*', values: [] } }
           ]
 
           query = CGI.escape(::JSON.dump(params))

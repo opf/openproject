@@ -1,8 +1,8 @@
-import {Injectable, Injector} from "@angular/core";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import {HierarchyDragActionService} from "core-components/wp-table/drag-and-drop/actions/hierarchy-drag-action.service";
-import {GroupByDragActionService} from "core-components/wp-table/drag-and-drop/actions/group-by-drag-action.service";
+import { Injectable, Injector } from "@angular/core";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { TableDragActionService } from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
+import { HierarchyDragActionService } from "core-components/wp-table/drag-and-drop/actions/hierarchy-drag-action.service";
+import { GroupByDragActionService } from "core-components/wp-table/drag-and-drop/actions/group-by-drag-action.service";
 
 interface ITableDragActionService {
   new(querySpace:IsolatedQuerySpace, injector:Injector):TableDragActionService;

@@ -59,7 +59,7 @@ describe 'user self registration', type: :feature, js: true do
       home_page.visit!
 
       # registration as an anonymous user
-      within '.top-menu-items-right .menu_root' do
+      within '.op-app-header' do
         click_link 'Sign in'
 
         SeleniumHubWaiter.wait
@@ -121,7 +121,7 @@ describe 'user self registration', type: :feature, js: true do
       # Test logging in as newly created and activated user
       login_with 'heidi', 'test123=321test'
 
-      within '.top-menu-items-right .menu_root' do
+      within '.op-app-header' do
         expect(page)
           .to have_selector("a[title='#{registered_user.name}']")
       end

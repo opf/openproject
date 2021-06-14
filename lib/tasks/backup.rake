@@ -126,4 +126,13 @@ namespace :backup do
       filename.gsub(/[^0-9A-Za-z.-]/, '_')
     end
   end
+
+  desc 'Allows user-initiated backups right away, skipping the cooldown period after a new token was created.'
+  task allow_now: :environment do
+    date = DateTime.now - OpenProject::Configuration.backup_initial_waiting_period
+
+    Token::Backup.where("created_at > ?", date).each do |token|
+      token.update_column :created_at, date
+    end
+  end
 end

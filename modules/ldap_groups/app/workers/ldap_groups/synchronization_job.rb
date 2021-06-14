@@ -36,9 +36,7 @@ module LdapGroups
     def perform
       return if skipped?
 
-      User.system.run_given do
-        ::LdapGroups::SynchronizationService.synchronize!
-      end
+      ::LdapGroups::SynchronizationService.synchronize!
     end
 
     def skipped?

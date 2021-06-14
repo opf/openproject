@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 @Component({
   selector: 'type-form-query-group',

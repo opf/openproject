@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
-import {input} from "reactivestates";
-import {Observable} from "rxjs";
-import {takeUntil} from "rxjs/operators";
+import { Injectable } from "@angular/core";
+import { input } from "reactivestates";
+import { Observable } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Injectable()
 export class WorkPackageFiltersService {

@@ -33,14 +33,14 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let!(:current_user) do
+  current_user do
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions).tap do |u|
       FactoryBot.create(:global_member,
                         principal: u,
                         roles: [FactoryBot.create(:global_role, permissions: global_permissions)])
     end
   end
-  let!(:project_with_add_suproject_permission) do
+  let(:project_with_add_subproject_permission) do
     FactoryBot.create(:project).tap do |p|
       FactoryBot.create(:member,
                         user: current_user,
@@ -48,7 +48,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
                         roles: [FactoryBot.create(:role, permissions: [:add_subprojects])])
     end
   end
-  let!(:child_project_with_add_suproject_permission) do
+  let(:child_project_with_add_subproject_permission) do
     FactoryBot.create(:project, parent: project).tap do |p|
       FactoryBot.create(:member,
                         user: current_user,
@@ -56,7 +56,7 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
                         roles: [FactoryBot.create(:role, permissions: [:add_subprojects])])
     end
   end
-  let!(:project_without_add_suproject_permission) do
+  let(:project_without_add_subproject_permission) do
     FactoryBot.create(:project).tap do |p|
       FactoryBot.create(:member,
                         user: current_user,
@@ -70,13 +70,16 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
   let(:permissions) { %i[edit_project add_subprojects] }
   let(:global_permissions) { %i[add_project] }
   let(:path) { api_v3_paths.path_for(:projects_available_parents, sort_by: [%i[id asc]]) }
+  let(:other_projects) do
+    [project_with_add_subproject_permission,
+     child_project_with_add_subproject_permission,
+     project_without_add_subproject_permission]
+  end
 
   describe 'GET /api/v3/projects/available_parent_projects' do
-    before do
-      login_as current_user
-    end
-
     subject(:response) do
+      other_projects
+
       get path
 
       last_response
@@ -98,11 +101,11 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
           .at_path('_embedded/elements/0/id')
 
         expect(subject.body)
-          .to be_json_eql(project_with_add_suproject_permission.id.to_json)
+          .to be_json_eql(project_with_add_subproject_permission.id.to_json)
           .at_path('_embedded/elements/1/id')
 
         expect(subject.body)
-          .to be_json_eql(child_project_with_add_suproject_permission.id.to_json)
+          .to be_json_eql(child_project_with_add_subproject_permission.id.to_json)
           .at_path('_embedded/elements/2/id')
       end
     end
@@ -122,14 +125,17 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
                 .at_path('_embedded/elements')
 
         expect(subject.body)
-          .to be_json_eql(project_with_add_suproject_permission.id.to_json)
+          .to be_json_eql(project_with_add_subproject_permission.id.to_json)
           .at_path('_embedded/elements/0/id')
       end
     end
 
-    context 'if lacking edit and add permission' do
-      let(:permissions) { %i[add_subprojects] }
+    context 'when lacking edit and add permission' do
+      let(:permissions) { %i[] }
       let(:global_permissions) { %i[] }
+      let(:other_projects) do
+        [project_without_add_subproject_permission]
+      end
 
       it 'returns 403' do
         expect(subject.status)
@@ -137,8 +143,8 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
       end
     end
 
-    context 'if having only edit permission' do
-      let(:permissions) { %i[edit_project add_subprojects] }
+    context 'when having only add_subprojects permission' do
+      let(:permissions) { %i[add_subprojects] }
       let(:global_permissions) { %i[] }
 
       it 'returns 200' do
@@ -147,8 +153,18 @@ describe 'API v3 Project available parents resource', type: :request, content_ty
       end
     end
 
-    context 'if having only add permission' do
-      let(:permissions) { %i[add_subprojects] }
+    context 'when having only edit permission' do
+      let(:permissions) { %i[edit_project] }
+      let(:global_permissions) { %i[] }
+
+      it 'returns 200' do
+        expect(subject.status)
+          .to eql 200
+      end
+    end
+
+    context 'when having only add_project permission' do
+      let(:permissions) { %i[] }
       let(:global_permissions) { %i[add_project] }
 
       it 'returns 200' do

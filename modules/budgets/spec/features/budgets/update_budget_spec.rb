@@ -29,7 +29,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
 describe 'updating a budget', type: :feature, js: true do
-  let(:project) { FactoryBot.create :project_with_types, enabled_module_names: %i[budgets costs] }
+  let(:project) do
+    FactoryBot.create :project_with_types,
+                      enabled_module_names: %i[budgets costs],
+                      members: { user => FactoryBot.create(:role) }
+  end
   let(:user) { FactoryBot.create :admin }
   let(:budget) { FactoryBot.create :budget, author: user, project: project }
 
@@ -45,8 +49,6 @@ describe 'updating a budget', type: :feature, js: true do
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      project.add_member! user, FactoryBot.create(:role)
-
       FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0
       FactoryBot.create :default_hourly_rate, user: user, rate: 25.0
     end
@@ -94,8 +96,6 @@ describe 'updating a budget', type: :feature, js: true do
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      project.add_member! user, FactoryBot.create(:role)
-
       FactoryBot.create :cost_rate, cost_type: cost_type, rate: 50.0
       FactoryBot.create :default_hourly_rate, user: user, rate: 25.0
 

@@ -46,6 +46,8 @@ module API
 
           schema :identifier,
                  type: 'String',
+                 required: true,
+                 has_default: true,
                  min_length: 1,
                  max_length: 100
 
@@ -54,16 +56,28 @@ module API
                  required: false
 
           schema :public,
-                 type: 'Boolean'
+                 type: 'Boolean',
+                 required: false
 
           schema :active,
-                 type: 'Boolean'
+                 type: 'Boolean',
+                 required: false
 
-          schema :status,
-                 type: 'ProjectStatus',
-                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
-                 required: false,
-                 writable: ->(*) { represented.writable?(:status) }
+          schema_with_allowed_collection :status,
+                                         type: 'ProjectStatus',
+                                         name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
+                                         required: false,
+                                         writable: ->(*) { represented.writable?(:status) },
+                                         values_callback: ->(*) {
+                                           ::Projects::Status.codes.keys
+                                         },
+                                         value_representer: ::API::V3::Projects::Statuses::StatusRepresenter,
+                                         link_factory: ->(value) {
+                                           {
+                                             href: api_v3_paths.project_status(value),
+                                             title: I18n.t(:"activerecord.attributes.projects/status.codes.#{value}")
+                                           }
+                                         }
 
           schema :status_explanation,
                  type: 'Formattable',
@@ -73,7 +87,12 @@ module API
 
           schema_with_allowed_link :parent,
                                    type: 'Project',
-                                   required: false,
+                                   required: ->(*) {
+                                     # Users only having the add_subprojects permission need to provide
+                                     # a parent when creating a new project.
+                                     represented.model.new_record? &&
+                                       !current_user.allowed_to_globally?(:add_project)
+                                   },
                                    href_callback: ->(*) {
                                      query_props = if represented.model.new_record?
                                                      ''

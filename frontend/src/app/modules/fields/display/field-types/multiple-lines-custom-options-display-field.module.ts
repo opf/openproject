@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ResourcesDisplayField} from "./resources-display-field.module";
-import {cssClassCustomOption} from "core-app/modules/fields/display/display-field.module";
+import { ResourcesDisplayField } from "./resources-display-field.module";
+import { cssClassCustomOption } from "core-app/modules/fields/display/display-field.module";
 
 export class MultipleLinesCustomOptionsDisplayField extends ResourcesDisplayField {
 

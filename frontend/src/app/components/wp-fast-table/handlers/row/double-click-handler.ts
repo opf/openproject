@@ -1,17 +1,17 @@
-import {Injector} from '@angular/core';
-import {StateService} from '@uirouter/core';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {debugLog} from '../../../../helpers/debug_output';
-import {States} from '../../../states.service';
-import {tdClassName} from '../../builders/cell-builder';
-import {tableRowClassName} from '../../builders/rows/single-row-builder';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {TableEventComponent, TableEventHandler} from '../table-handler-registry';
-import {LinkHandling} from "core-app/modules/common/link-handling/link-handling";
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {displayClassName} from "core-app/modules/fields/display/display-field-renderer";
-import {activeFieldClassName} from "core-app/modules/fields/edit/edit-form/edit-form";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { debugLog } from '../../../../helpers/debug_output';
+import { States } from '../../../states.service';
+import { tdClassName } from '../../builders/cell-builder';
+import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { LinkHandling } from "core-app/modules/common/link-handling/link-handling";
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { displayClassName } from "core-app/modules/fields/display/display-field-renderer";
+import { activeFieldClassName } from "core-app/modules/fields/edit/edit-form/edit-form";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class RowDoubleClickHandler implements TableEventHandler {
 
@@ -37,7 +37,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
   }
 
   public handleEvent(view:TableEventComponent, evt:JQuery.TriggeredEvent) {
-    let target = jQuery(evt.target);
+    const target = jQuery(evt.target);
 
     // Skip clicks with modifiers
     if (LinkHandling.isClickedWithModifier(evt)) {
@@ -52,8 +52,8 @@ export class RowDoubleClickHandler implements TableEventHandler {
     }
 
     // Locate the row from event
-    let element = target.closest(this.SELECTOR).closest(`.${tableRowClassName}`);
-    let wpId = element.data('workPackageId');
+    const element = target.closest(this.SELECTOR).closest(`.${tableRowClassName}`);
+    const wpId = element.data('workPackageId');
 
     // Ignore links
     if (target.is('a') || target.parent().is('a')) {

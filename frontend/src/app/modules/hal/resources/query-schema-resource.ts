@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
-import {QueryColumn} from 'core-components/wp-query/query-column';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
-import {QuerySortByResource} from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
+import { QueryColumn } from 'core-components/wp-query/query-column';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { QueryFilterInstanceSchemaResource } from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
+import { QuerySortByResource } from 'core-app/modules/hal/resources/query-sort-by-resource';
+import { QueryGroupByResource } from 'core-app/modules/hal/resources/query-group-by-resource';
 
 export class QuerySchemaResource extends SchemaResource {
   columns:{ allowedValues:QueryColumn[] };

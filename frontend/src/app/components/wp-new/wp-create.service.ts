@@ -26,27 +26,27 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {HookService} from 'core-app/modules/plugins/hook-service';
-import {WorkPackageFilterValues} from "core-components/wp-edit-form/work-package-filter-values";
+import { Injectable, Injector } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { HookService } from 'core-app/modules/plugins/hook-service';
+import { WorkPackageFilterValues } from "core-components/wp-edit-form/work-package-filter-values";
 import {
   HalResourceEditingService,
   ResourceChangesetCommit
 } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {filter} from "rxjs/operators";
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {AuthorisationService} from "core-app/modules/common/model-auth/model-auth.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {HalResource, HalSource, HalSourceLink} from "core-app/modules/hal/resources/hal-resource";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { filter } from "rxjs/operators";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { AuthorisationService } from "core-app/modules/common/model-auth/model-auth.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { HalResource, HalSource, HalSourceLink } from "core-app/modules/hal/resources/hal-resource";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -112,7 +112,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   }
 
   public fromCreateForm(form:FormResource):WorkPackageChangeset {
-    let wp = this.initializeNewResource(form);
+    const wp = this.initializeNewResource(form);
 
     const change = this.halEditing.edit<WorkPackageResource, WorkPackageChangeset>(wp, form);
 
@@ -123,7 +123,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   }
 
   public copyWorkPackage(copyFrom:WorkPackageChangeset) {
-    let request = copyFrom.pristineResource.$source;
+    const request = copyFrom.pristineResource.$source;
 
     // Ideally we would make an empty request before to get the create schema (cannot use the update schema of the source changeset)
     // to get all the writable attributes and only send those.
@@ -135,10 +135,10 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .post(request)
       .toPromise()
       .then((form:FormResource) => {
-      let changeset = this.fromCreateForm(form);
+        const changeset = this.fromCreateForm(form);
 
-      return changeset;
-    });
+        return changeset;
+      });
   }
 
   /**
@@ -146,7 +146,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * @param form Work Package create form
    */
   private copyFrom(form:FormResource) {
-    let wp = this.initializeNewResource(form);
+    const wp = this.initializeNewResource(form);
 
     return this.halEditing.edit(wp, form);
   }
@@ -254,7 +254,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
           return change;
         });
-    });
+      });
   }
 
   /**
@@ -269,13 +269,13 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   private defaultsFromFilters(object:HalSource|WorkPackageChangeset, defaults?:HalSource) {
     // Not using WorkPackageViewFiltersService here as the embedded table does not load the form
     // which will result in that service having empty current filters.
-    let query = this.querySpace.query.value;
+    const query = this.querySpace.query.value;
 
     if (query) {
       const except:string[] = defaults?._links && defaults._links['type'] ? ['type'] : [];
 
       new WorkPackageFilterValues(this.injector, query.filters, except)
-          .applyDefaultsFromFilters(object);
+        .applyDefaultsFromFilters(object);
     }
   }
 
@@ -312,19 +312,19 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   }
 
   private toApiPayload(payload:HalSource, schema:SchemaResource) {
-    let links:string[] = [];
+    const links:string[] = [];
 
     Object.keys(schema.$source).forEach(attribute => {
       if (!['Integer',
-            'Float',
-            'Date',
-            'DateTime',
-            'Duration',
-            'Formattable',
-            'Boolean',
-            'String',
-            'Text',
-            undefined].includes(schema.$source[attribute].type)) {
+        'Float',
+        'Date',
+        'DateTime',
+        'Duration',
+        'Formattable',
+        'Boolean',
+        'String',
+        'Text',
+        undefined].includes(schema.$source[attribute].type)) {
         links.push(attribute);
       }
     });
@@ -349,12 +349,12 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * @param form
    */
   private initializeNewResource(form:FormResource) {
-    let payload = form.payload.$plain();
+    const payload = form.payload.$plain();
 
     // maintain the reference to the schema
     payload['_links']['schema'] = { href: 'new' };
 
-    let wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', payload);
+    const wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', payload);
 
     wp.$source.id = 'new';
 

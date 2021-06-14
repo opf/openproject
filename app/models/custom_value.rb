@@ -58,6 +58,13 @@ class CustomValue < ApplicationRecord
     super(parsed_value)
   end
 
+  def strategy
+    @strategy ||= begin
+                    format = custom_field&.field_format || 'empty'
+                    OpenProject::CustomFieldFormat.find_by_name(format).formatter.new(self)
+                  end
+  end
+
   protected
 
   def validate_presence_of_required_value
@@ -97,12 +104,5 @@ class CustomValue < ApplicationRecord
 
   def validate_max_length_of_value
     errors.add(:value, :too_long, count: max_length) if max_length > 0 && value.length > max_length
-  end
-
-  def strategy
-    @strategy ||= begin
-      format = custom_field&.field_format || 'empty'
-      OpenProject::CustomFieldFormat.find_by_name(format).formatter.new(self)
-    end
   end
 end

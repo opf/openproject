@@ -62,7 +62,7 @@ if [ -d "/etc/${APP_NAME}" ]; then
   dst="${TARGET}/conf-${timestamp}.tar.gz"
   touch "$dst" && chmod 0640 "$dst"
   echo -n "* Saving configuration..." >&2
-  if tar czf "$dst" -C /etc/${APP_NAME} . ; then
+  if tar czf "$dst" -C /etc/${APP_NAME} installer.dat conf.d ; then
     echo " done" >&2
     echo "$dst"
   else

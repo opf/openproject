@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {GridWidgetArea} from "app/modules/grids/areas/grid-widget-area";
-import {GridAreaService} from "core-app/modules/grids/grid/area.service";
+import { Injectable } from '@angular/core';
+import { GridWidgetArea } from "app/modules/grids/areas/grid-widget-area";
+import { GridAreaService } from "core-app/modules/grids/grid/area.service";
 
 
 @Injectable()
@@ -8,7 +8,7 @@ export class GridMoveService {
   constructor(private layout:GridAreaService) {}
 
   public down(movedArea:GridWidgetArea|null, ignoreArea:GridWidgetArea) {
-    let movedAreas:GridWidgetArea[] = [];
+    const movedAreas:GridWidgetArea[] = [];
     let remainingAreas:GridWidgetArea[] = this.layout.widgetAreas.slice(0);
 
     if (ignoreArea) {
@@ -33,13 +33,13 @@ export class GridMoveService {
   }
 
   private moveOneDown(anchorAreas:GridWidgetArea[], movableAreas:GridWidgetArea[]) {
-    let moveSpecification = this.firstAreaToMove(anchorAreas, movableAreas);
+    const moveSpecification = this.firstAreaToMove(anchorAreas, movableAreas);
 
     if (moveSpecification) {
-      let toMoveArea = moveSpecification[0] as GridWidgetArea;
-      let anchorArea = moveSpecification[1] as GridWidgetArea;
+      const toMoveArea = moveSpecification[0] as GridWidgetArea;
+      const anchorArea = moveSpecification[1] as GridWidgetArea;
 
-      let areaHeight = toMoveArea.widget.height;
+      const areaHeight = toMoveArea.widget.height;
 
       toMoveArea.startRow = anchorArea.endRow;
       toMoveArea.endRow = toMoveArea.startRow + areaHeight;

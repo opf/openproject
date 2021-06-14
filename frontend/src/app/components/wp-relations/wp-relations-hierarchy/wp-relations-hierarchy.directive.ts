@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {WorkPackageRelationsHierarchyService} from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
-import {take} from 'rxjs/operators';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { WorkPackageRelationsHierarchyService } from 'core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { take } from 'rxjs/operators';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'wp-relations-hierarchy',
@@ -43,7 +43,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
   @Input() public workPackage:WorkPackageResource;
   @Input() public relationType:string;
 
-  public showEditForm:boolean = false;
+  public showEditForm = false;
   public workPackagePath:string;
   public canHaveChildren:boolean;
   public canModifyHierarchy:boolean;
@@ -85,7 +85,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
 
-        let parentId = this.workPackage.parent?.id?.toString();
+        const parentId = this.workPackage.parent?.id?.toString();
 
         if (parentId) {
           this

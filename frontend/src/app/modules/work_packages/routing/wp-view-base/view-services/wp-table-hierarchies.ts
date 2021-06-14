@@ -27,7 +27,7 @@
 //++
 
 export class WorkPackageViewHierarchies {
-  public isVisible:boolean = false;
+  public isVisible = false;
   public last:string|null = null;
   public collapsed:{[workPackageId:string]:boolean} = {};
 

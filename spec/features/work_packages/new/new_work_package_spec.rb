@@ -142,7 +142,7 @@ describe 'new work package', js: true do
         description_field.set_value description
 
         save_work_package!
-        expect(page).to have_selector('#tabs')
+        expect(page).to have_selector('.op-work-package-tabs')
 
         subject_field.expect_state_text(subject)
         description_field = wp_page.edit_field :description

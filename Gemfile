@@ -33,19 +33,15 @@ ruby '~> 2.7.3'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.0.2'
-gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 6.1.0'
+gem 'activerecord-session_store', '~> 2.0.0'
+gem 'rails', '~> 6.1.3'
 gem 'responders', '~> 3.0'
-
-# Keep mimemagic at older version until rails provides its own
-# solution without adding a system dependency. We are GPL ourselves so this is fine.
-gem 'mimemagic', git: 'https://github.com/opf/mimemagic', ref: 'bf8d7c2'
 
 gem 'rdoc', '>= 2.4.2'
 
+gem 'doorkeeper', '~> 5.5.0'
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
-gem 'doorkeeper', '~> 5.4.0'
 gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
 gem 'request_store', '~> 1.5.0'
 
@@ -58,7 +54,7 @@ gem 'friendly_id', '~> 5.4.0'
 
 gem 'acts_as_list', '~> 1.0.1'
 gem 'acts_as_tree', '~> 2.9.0'
-gem 'awesome_nested_set', '~> 3.3.0'
+gem 'awesome_nested_set', '~> 3.4.0'
 gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
@@ -99,7 +95,7 @@ gem 'semantic', '~> 1.6.1'
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.2.0'
 
-gem 'date_validator', '~> 0.10.0'
+gem 'date_validator', '~> 0.11.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -123,7 +119,7 @@ gem 'rack-protection', '~> 2.1.0'
 # It allows whitelisting, blacklisting, throttling, and tracking based
 # on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack', '~> 6.4.0'
+gem 'rack-attack', '~> 6.5.0'
 
 # CSP headers
 gem 'secure_headers', '~> 6.3.0'
@@ -181,7 +177,7 @@ gem 'fog-aws'
 
 gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
-gem 'aws-sdk-s3', '~> 1.87'
+gem 'aws-sdk-s3', '~> 1.91'
 
 gem 'openproject-token', '~> 2.1.1'
 
@@ -193,6 +189,13 @@ gem 'ruby-progressbar', '~> 1.11.0', require: false
 
 gem 'mini_magick', '~> 4.11.0', require: false
 
+# Sentry error reporting, loaded on demand
+group :sentry do
+  gem "sentry-delayed_job", '~> 4.4.0', require: false
+  gem "sentry-rails", '~> 4.4.0', require: false
+  gem "sentry-ruby", '~> 4.4.1',  require: false
+end
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 1.1.0'
@@ -202,11 +205,11 @@ group :test do
   # and other niceties
   gem 'test-prof', '~> 1.0.0'
 
-  gem 'database_cleaner', '~> 1.8'
+  gem 'database_cleaner', '~> 2.0'
   gem 'rack_session_access'
   gem 'rspec', '~> 3.10.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 4.0.0', group: :development
+  gem 'rspec-rails', '~> 5.0.0', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
@@ -221,13 +224,13 @@ group :test do
   gem 'capybara', '~> 3.35.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.5.0'
+  gem 'webdrivers', '~> 4.6.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
 
   # Mock backend requests (for ruby tests)
-  gem 'webmock', '~> 3.11', require: false
+  gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem 'puffing-billy', '~> 2.4.0'
@@ -245,7 +248,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.4.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.5.1' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
@@ -264,9 +267,9 @@ end
 
 group :development, :test do
   # Require factory_bot for usage with openproject plugins testing
-  gem 'factory_bot', '~> 6.1.0'
+  gem 'factory_bot', '~> 6.2.0'
   # require factory_bot_rails for convenience in core development
-  gem 'factory_bot_rails', '~> 6.1.0'
+  gem 'factory_bot_rails', '~> 6.2.0'
 
   # Tracing and profiling gems
   gem 'flamegraph', require: false
@@ -287,7 +290,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.6.0', require: false
+gem 'bootsnap', '~> 1.7.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'

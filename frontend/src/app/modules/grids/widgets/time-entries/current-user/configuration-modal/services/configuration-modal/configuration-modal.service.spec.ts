@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { TimeEntriesCurrentUserConfigurationModalService } from './configuration-modal.service';
 
-describe('TimeEntriesCurrentUserConfigurationModalService', () => {
-  let service:TimeEntriesCurrentUserConfigurationModalService;
+describe('TimeEntriesCurrentUserTimeEntriesCurrentUserConfigurationModalService', () => {
+  let service: TimeEntriesCurrentUserConfigurationModalService;
   let daysCheckedValues:boolean[];
 
   beforeEach(() => {

@@ -51,14 +51,14 @@ module API
           show = self
 
           -> do
-            show.render(instance_exec(params, &show.instance_generator))
+            show.render(self)
           end
         end
 
-        def render(instance)
+        def render(request)
           render_representer
-            .create(instance,
-                    current_user: User.current,
+            .create(request.instance_exec(request.params, &instance_generator),
+                    current_user: request.current_user,
                     embed_links: true)
         end
 

@@ -30,6 +30,10 @@
 
 module Projects::Copy
   class OverviewDependentService < Dependency
+    def self.human_name
+      I18n.t(:'overviews.label')
+    end
+
     protected
 
     # Copies the overview from +project+

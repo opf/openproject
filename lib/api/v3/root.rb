@@ -42,8 +42,11 @@ module API
         transform_eprops
       end
 
+      mount ::API::V3::Actions::ActionsAPI
       mount ::API::V3::Activities::ActivitiesAPI
       mount ::API::V3::Attachments::AttachmentsAPI
+      mount ::API::V3::Capabilities::CapabilitiesAPI
+      mount ::API::V3::Backups::BackupsAPI
       mount ::API::V3::Categories::CategoriesAPI
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
@@ -55,6 +58,7 @@ module API
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI
+      mount ::API::V3::Projects::Statuses::StatusesAPI
       mount ::API::V3::Queries::QueriesAPI
       mount ::API::V3::Render::RenderAPI
       mount ::API::V3::Relations::RelationsAPI
@@ -64,6 +68,7 @@ module API
       mount ::API::V3::StringObjects::StringObjectsAPI
       mount ::API::V3::Types::TypesAPI
       mount ::API::V3::Users::UsersAPI
+      mount ::API::V3::PlaceholderUsers::PlaceholderUsersAPI
       mount ::API::V3::UserPreferences::UserPreferencesAPI
       mount ::API::V3::Groups::GroupsAPI
       mount ::API::V3::Versions::VersionsAPI

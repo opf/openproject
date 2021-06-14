@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {GridPageComponent} from "core-app/modules/grids/grid/page/grid-page.component";
-import {GRID_PROVIDERS} from "core-app/modules/grids/grid/grid.component";
+import { Component } from '@angular/core';
+import { GridPageComponent } from "core-app/modules/grids/grid/page/grid-page.component";
+import { GRID_PROVIDERS } from "core-app/modules/grids/grid/grid.component";
 
 @Component({
   selector: 'overview',

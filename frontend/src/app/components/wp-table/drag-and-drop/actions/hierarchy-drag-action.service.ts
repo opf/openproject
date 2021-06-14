@@ -1,14 +1,14 @@
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import {WorkPackageRelationsHierarchyService} from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { TableDragActionService } from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
+import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageRelationsHierarchyService } from "core-components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {
   hierarchyGroupClass,
   hierarchyRootClass
 } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
-import {relationRowClass, isInsideCollapsedGroup} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { relationRowClass, isInsideCollapsedGroup } from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 export class HierarchyDragActionService extends TableDragActionService {
 
@@ -39,7 +39,7 @@ export class HierarchyDragActionService extends TableDragActionService {
    */
   private determineParent(el:Element):Promise<string|null> {
     let previous = el.previousElementSibling;
-    let next = el.nextElementSibling;
+    const next = el.nextElementSibling;
     let parent = null;
 
     if (previous !== null && this.droppedIntoGroup(el, previous, next)) {
@@ -48,14 +48,14 @@ export class HierarchyDragActionService extends TableDragActionService {
       const isRelationRow = previous.className.indexOf(relationRowClass()) >= 0;
 
       if (isRelationRow) {
-        let relationRoot = this.findRelationRowRoot(previous);
+        const relationRoot = this.findRelationRowRoot(previous);
         if (relationRoot == null) {
           return Promise.resolve(null);
         }
         previous = relationRoot;
       }
 
-      let previousWpId = (previous as HTMLElement).dataset.workPackageId!;
+      const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
 
       if (this.isHiearchyRoot(previous, previousWpId)) {
         const droppedIntoCollapsedGroup = isInsideCollapsedGroup(next);

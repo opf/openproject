@@ -48,6 +48,16 @@ The work package will the be displayed in the list view:
 
 ![list-view-work-package](1569611758166.png)
 
+Another option to create a work package is to do it from the header menu. The [work package types](../../user-guide/projects/proejct-settings/work-package-types/#work-pacakge-types) that are activated, will be shown and you can select the relevant work package type to be created.
+
+![create-work-package-header](create-work-package-header.png)
+
+Once you click on the work package type that you want to create, the work package detail view opens and you have to **select the project** that you want to create the work package for. 
+
+![create-work-package-define-project](create-work-package-define-project.png)
+
+Then you follow the same steps as mentioned above to fill in the your work package attributes and save it.
+
 ## Open and edit a work package
 
 To open and edit an existing work package from the list, select the work package in the list which you want to edit and click on the **open details view** icon in the work package list or on top of the list to open the split screen view. Other ways to open it would be to double-click on the work package or to click on the work package ID.

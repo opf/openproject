@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from "@angular/core";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 
 

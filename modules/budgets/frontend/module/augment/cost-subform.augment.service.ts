@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class CostSubformAugmentService {
 
   constructor() {
     jQuery('costs-subform').each((i, match) => {
-      let el = jQuery(match);
+      const el = jQuery(match);
 
       const container = el.find('.subform-container');
 
@@ -50,7 +50,7 @@ export class CostSubformAugmentService {
       // Add new row handler
       el.find('.add-row-button,.wp-inline-create--add-link').click((evt:any) => {
         evt.preventDefault();
-        let row = jQuery(template.replace(/INDEX/g, rowIndex.toString()));
+        const row = jQuery(template.replace(/INDEX/g, rowIndex.toString()));
         row.show();
         row.removeClass('subform-row-template');
         row.find('input.costs-date-picker').prop('required', true);

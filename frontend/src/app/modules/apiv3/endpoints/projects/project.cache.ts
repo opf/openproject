@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {MultiInputState} from 'reactivestates';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {Injectable, Injector} from '@angular/core';
-import {debugLog} from "core-app/helpers/debug_output";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
+import { MultiInputState } from 'reactivestates';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { Injectable, Injector } from '@angular/core';
+import { debugLog } from "core-app/helpers/debug_output";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
 
 @Injectable()
 export class ProjectCache extends StateCacheService<ProjectResource> {
   @InjectField() private schemaCacheService:SchemaCacheService;
 
   constructor(readonly injector:Injector,
-              state:MultiInputState<ProjectResource>) {
+    state:MultiInputState<ProjectResource>) {
     super(state);
   }
 

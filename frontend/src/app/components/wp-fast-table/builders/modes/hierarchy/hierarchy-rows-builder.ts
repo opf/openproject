@@ -1,12 +1,12 @@
-import {Injector} from '@angular/core';
-import {States} from '../../../../states.service';
-import {WorkPackageTable} from '../../../wp-fast-table';
-import {RowsBuilder} from '../rows-builder';
-import {HierarchyRenderPass} from './hierarchy-render-pass';
-import {SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
-import {WorkPackageViewHierarchiesService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import {WorkPackageViewColumnsService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { States } from '../../../../states.service';
+import { WorkPackageTable } from '../../../wp-fast-table';
+import { RowsBuilder } from '../rows-builder';
+import { HierarchyRenderPass } from './hierarchy-render-pass';
+import { SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
+import { WorkPackageViewHierarchiesService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageViewColumnsService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 export class HierarchyRowsBuilder extends RowsBuilder {
 

@@ -108,56 +108,22 @@ describe User, type: :model do
     end
   end
 
-  describe 'login whitespace' do
-    before do
-      user.login = login
-    end
-
-    context 'simple spaces' do
-      let(:login) { 'a b  c' }
-
-      it 'is valid' do
-        expect(user).to be_valid
-      end
-
-      it 'may be stored in the database' do
-        expect(user.save).to be_truthy
-      end
-    end
-
-    context 'line breaks' do
-      let(:login) { 'ab\nc' }
-
-      it 'is invalid' do
-        expect(user).not_to be_valid
-      end
-
-      it 'may not be stored in the database' do
-        expect(user.save).to be_falsey
-      end
-    end
-
-    context 'tabs' do
-      let(:login) { 'ab\tc' }
-
-      it 'is invalid' do
-        expect(user).not_to be_valid
-      end
-
-      it 'may not be stored in the database' do
-        expect(user.save).to be_falsey
-      end
+  describe '#mail' do
+    it 'is stripped' do
+      user.mail = ' foo@bar.com  '
+      expect(user.mail)
+        .to eql 'foo@bar.com'
     end
   end
 
-  describe 'login symbols' do
-    before do
-      user.login = login
-    end
+  describe '#login' do
+    context 'with whitespace' do
+      before do
+        user.login = login
+      end
 
-    %w[+ _ . - @].each do |symbol|
-      context symbol do
-        let(:login) { "foo#{symbol}bar" }
+      context 'simple spaces' do
+        let(:login) { 'a b  c' }
 
         it 'is valid' do
           expect(user).to be_valid
@@ -167,29 +133,73 @@ describe User, type: :model do
           expect(user.save).to be_truthy
         end
       end
+
+      context 'line breaks' do
+        let(:login) { 'ab\nc' }
+
+        it 'is invalid' do
+          expect(user).not_to be_valid
+        end
+
+        it 'may not be stored in the database' do
+          expect(user.save).to be_falsey
+        end
+      end
+
+      context 'tabs' do
+        let(:login) { 'ab\tc' }
+
+        it 'is invalid' do
+          expect(user).not_to be_valid
+        end
+
+        it 'may not be stored in the database' do
+          expect(user.save).to be_falsey
+        end
+      end
     end
 
-    context 'combination thereof' do
-      let(:login) { 'the+boss-is@the_house.' }
-
-      it 'is valid' do
-        expect(user).to be_valid
+    context 'with symbols' do
+      before do
+        user.login = login
       end
 
-      it 'may be stored in the database' do
-        expect(user.save).to be_truthy
+      %w[+ _ . - @].each do |symbol|
+        context symbol do
+          let(:login) { "foo#{symbol}bar" }
+
+          it 'is valid' do
+            expect(user).to be_valid
+          end
+
+          it 'may be stored in the database' do
+            expect(user.save).to be_truthy
+          end
+        end
       end
-    end
 
-    context 'with invalid symbol' do
-      let(:login) { 'invalid!name' }
+      context 'combination thereof' do
+        let(:login) { 'the+boss-is@the_house.' }
 
-      it 'is invalid' do
-        expect(user).not_to be_valid
+        it 'is valid' do
+          expect(user).to be_valid
+        end
+
+        it 'may be stored in the database' do
+          expect(user.save).to be_truthy
+        end
       end
 
-      it 'may not be stored in the database' do
-        expect(user.save).to be_falsey
+      context 'with invalid symbol' do
+        let(:login) { 'invalid!name' }
+
+        it 'is invalid' do
+          expect(user).not_to be_valid
+        end
+
+        it 'may not be stored in the database' do
+          expect(user.save).to be_falsey
+        end
       end
     end
   end
@@ -554,9 +564,6 @@ describe User, type: :model do
 
       it "is false for a user with :only_my_events who has no relation to the work package" do
         user = FactoryBot.build_stubbed(:user, mail_notification: 'only_my_events')
-        (Member.new.tap do |m|
-          m.attributes = { principal: user, project: project, role_ids: [role.id] }
-        end)
         expect(user.notify_about?(work_package)).to be_falsey
       end
 
@@ -610,11 +617,8 @@ describe User, type: :model do
         expect(responsible.notify_about?(work_package)).to be_truthy
       end
 
-      it "is false for a user with :only_my_events who has no relation to the work package" do
+      it "is false for a user with :selected who has no relation to the work package" do
         user = FactoryBot.build(:user, mail_notification: 'selected')
-        (Member.new.tap do |m|
-          m.attributes = { principal: user, project: project, role_ids: [role.id] }
-        end)
         expect(user.notify_about?(work_package)).to be_falsey
       end
     end

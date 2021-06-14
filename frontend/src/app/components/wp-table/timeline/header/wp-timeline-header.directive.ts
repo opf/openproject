@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit} from '@angular/core';
-import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
+import { WorkPackageTimelineTableController } from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import * as moment from 'moment';
 import {
   calculatePositionValueForDayCount,
@@ -37,8 +37,8 @@ import {
   timelineHeaderSelector,
   TimelineViewParameters
 } from '../wp-timeline';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import Moment = moment.Moment;
 
 @Component({
@@ -80,16 +80,16 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     this.innerHeader.attr('data-current-zoom-level', this.wpTimelineService.zoomLevel);
 
     switch (vp.settings.zoomLevel) {
-      case 'days':
-        return this.renderLabelsDays(vp);
-      case 'weeks':
-        return this.renderLabelsWeeks(vp);
-      case 'months':
-        return this.renderLabelsMonths(vp);
-      case 'quarters':
-        return this.renderLabelsQuarters(vp);
-      case 'years':
-        return this.renderLabelsYears(vp);
+    case 'days':
+      return this.renderLabelsDays(vp);
+    case 'weeks':
+      return this.renderLabelsWeeks(vp);
+    case 'months':
+      return this.renderLabelsMonths(vp);
+    case 'quarters':
+      return this.renderLabelsQuarters(vp);
+    case 'years':
+      return this.renderLabelsYears(vp);
     }
 
     this.activeZoomLevel = vp.settings.zoomLevel;
@@ -196,15 +196,15 @@ export class WorkPackageTimelineHeaderController implements OnInit {
   }
 
   private renderTimeSlices(vp:TimelineViewParameters,
-                           unit:moment.unitOfTime.DurationConstructor,
-                           marginTop:number,
-                           startView:Moment,
-                           endView:Moment,
-                           cellCallback:(start:Moment, cell:HTMLElement) => void) {
+    unit:moment.unitOfTime.DurationConstructor,
+    marginTop:number,
+    startView:Moment,
+    endView:Moment,
+    cellCallback:(start:Moment, cell:HTMLElement) => void) {
 
-    const {inViewportAndBoundaries, rest} = getTimeSlicesForHeader(vp, unit, startView, endView);
+    const { inViewportAndBoundaries, rest } = getTimeSlicesForHeader(vp, unit, startView, endView);
 
-    for (let [start, end] of inViewportAndBoundaries) {
+    for (const [start, end] of inViewportAndBoundaries) {
       const cell = this.addLabelCell();
       cell.style.top = marginTop + 'px';
       cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
@@ -212,7 +212,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
       cellCallback(start, cell);
     }
     setTimeout(() => {
-      for (let [start, end] of rest) {
+      for (const [start, end] of rest) {
         const cell = this.addLabelCell();
         cell.style.top = marginTop + 'px';
         cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));

@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, Component, Injector, OnInit} from '@angular/core';
-import {StateService} from '@uirouter/core';
-import {WorkPackageViewFocusService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import {States} from "core-components/states.service";
-import {FirstRouteService} from "core-app/modules/router/first-route-service";
-import {KeepTabService} from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import {WorkPackageSingleViewBase} from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {BackRoutingService} from "core-app/modules/common/back-routing/back-routing.service";
+import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { WorkPackageViewFocusService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { States } from "core-components/states.service";
+import { FirstRouteService } from "core-app/modules/router/first-route-service";
+import { KeepTabService } from "core-components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageSingleViewBase } from "core-app/modules/work_packages/routing/wp-view-base/work-package-single-view.base";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { BackRoutingService } from "core-app/modules/common/back-routing/back-routing.service";
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -65,8 +65,8 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   ngOnInit():void {
     this.observeWorkPackage();
 
-    let wpId = this.$state.params['workPackageId'];
-    let focusedWP = this.wpTableFocus.focusedWorkPackage;
+    const wpId = this.$state.params['workPackageId'];
+    const focusedWP = this.wpTableFocus.focusedWorkPackage;
 
     if (!focusedWP) {
       // Focus on the work package if we're the first route
@@ -96,15 +96,6 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
       });
   }
 
-
-  public close() {
-    this.$state.go(this.baseRoute, this.$state.params);
-  }
-
-  public switchToFullscreen() {
-    this.$state.go(this.keepTab.currentShowState, this.$state.params);
-  }
-
   public get shouldFocus() {
     return this.$state.params.focus === true;
   }
@@ -115,11 +106,5 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
   public backToList() {
     this.backRouting.goToBaseState();
-  }
-
-  protected initializeTexts() {
-    super.initializeTexts();
-    this.text.closeDetailsView = this.I18n.t('js.button_close_details');
-    this.text.goTofullScreen = this.I18n.t('js.work_packages.message_successful_show_in_fullscreen');
   }
 }

@@ -286,11 +286,13 @@ describe ::API::V3::Users::UserRepresenter do
 
       describe '#json_cache_key' do
         let(:auth_source) { FactoryBot.build_stubbed(:auth_source) }
+        let(:former_cache_key) { representer.json_cache_key }
 
         before do
           user.auth_source = auth_source
+
+          former_cache_key
         end
-        let!(:former_cache_key) { representer.json_cache_key }
 
         it 'includes the name of the representer class' do
           expect(representer.json_cache_key)
@@ -306,6 +308,33 @@ describe ::API::V3::Users::UserRepresenter do
 
         it 'changes when the user is updated' do
           user.updated_at = Time.now + 20.seconds
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when user format setting changes' do
+          allow(Setting)
+            .to receive(:user_format)
+                  .and_return 'something else'
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the avatars plugin settings change' do
+          allow(Setting)
+            .to receive(:plugin_openproject_avatars)
+                  .and_return 'something else'
+
+          expect(representer.json_cache_key)
+            .not_to eql former_cache_key
+        end
+
+        it 'changes when the protocol settings change' do
+          allow(Setting)
+            .to receive(:protocol)
+                  .and_return 'something else'
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

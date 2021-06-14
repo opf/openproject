@@ -33,6 +33,19 @@ lt:
         single: "Pasirinkti „%{name}“"
       remove: "Pašalinti %{name}"
       active: "Aktyvus %{label} %{name}"
+    backup:
+      attachments_disabled: Prisegti failai negalėjo būti įtraukti, nes jie viršija maksimalių bendrą leidžiamą dydį. Jūs galite tai pakeisti konfigūracijoje (reikia perstartuoti serverį).
+      info: >
+        Jūs čia galite pradėti atsarginės kopijos darymą. Šis procesas gali užtrukti šiek tiek laiko priklausomai nuo jūsų turimų duomenų kiekio (ypač priedų). Kai jis bus baigtas, gausite el. pašto laišką.
+      note: >
+        Nauja atsarginė kopija perrašys senąją. Per dieną galima prašyti tik riboto kiekio atsarginių kopijų.
+      last_backup: 'Paskutinė atsarginė kopija:'
+      last_backup_from: Paskutinė atsarginė kopija nuo
+      title: OpenProject atsarginė kopija
+      options: Nustatymai
+      include_attachments: Įtraukti priedus
+      download_backup: Atsiųsti atsarginę kopiją
+      request_backup: Prašyti atsarginės kppijos
     close_popup_title: "Užverti iškylantį langą"
     close_filter_title: "Užverti filtrą"
     close_form_title: "Užverti formą"
@@ -271,13 +284,13 @@ lt:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
           learn_about: "Sužinokite apie naujas galimybes"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Šioje laidoje yra naujų galimybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Naujas konceptas -- <b>statytiniai vartotojai (placeholder users)</b> (premium galimybė) leidžia iš anksto prideti prie OpenProject vartotojus be el.pašto adreso ir priskirti jiems užduotis.</li> <li>Darbo paketų <b>filtrai papildyti tėvinės užduoties galimybe</b> lengviau pamatyti visus užduoties tiesioginius vaikus ir <b>pagal ID</b> leidžianti įtraukti arba išmesti iš sąrašo konkrečias užduotis.</li> <li>Vartotojų administravimas yra paskirstytas ne-administratoriams įvedant <b>naują globalią rolę</b>, leidžiančią valdyti ir kviesti vartotojus neturint pilnų administratoriaus teisių.</li> <li>Tolimesni UI ir UX patobulinimai, t.y. harmonizuota išlaidų raportų navigacija, grupės ir sumos eilutėms darbo paketų sąraše priskirtos spalvos, pridėtas grupės rodymo puslapis.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Šioje laidoje yra naujų galimybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Naujas konceptas -- <b>statytiniai vartotojai (placeholder users)</b> (premium galimybė) leidžia iš anksto prideti prie OpenProject vartotojus be el.pašto adreso ir priskirti jiems užduotis.</li> <li>Darbo paketų <b>filtrai papildyti tėvinės užduoties galimybe</b> lengviau pamatyti visus užduoties tiesioginius vaikus ir <b>pagal ID</b> leidžianti įtraukti arba išmesti iš sąrašo konkrečias užduotis.</li> <li>Vartotojų administravimas yra paskirstytas ne-administratoriams įvedant <b>naują globalią rolę</b>, leidžiančią valdyti ir kviesti vartotojus neturint pilnų administratoriaus teisių.</li> <li>Tolimesni UI ir UX patobulinimai, t.y. harmonizuota išlaidų raportų navigacija, grupės ir sumos eilutėms darbo paketų sąraše priskirtos spalvos, pridėtas grupės rodymo puslapis.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -466,6 +479,7 @@ lt:
         help_menu: 'Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos šaltinius. <br>Mėgaukitės darbu su OpenProject!'
         members: 'Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.'
         project_selection: 'Prašome paspausti ant vieno iš projektų su įdėtais naudingais demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
+        quick_add_button: 'Sukurkite naują projektą arba pakvieskite bendradarbius.'
         sidebar_arrow: "Rodykle galite pereiti atgal į projekto <b>Pagrindinį meniu</b>."
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
@@ -507,6 +521,10 @@ lt:
       work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvesta informaciją. Tęsti?'
+      use_template: "Naudoti šabloną"
+      no_template_selected: "(Nėra)"
+      copy:
+        copy_options: "Kopijos nustatymai"
       autocompleter:
         label: 'Projekto autoužpildymas'
     text_are_you_sure: "Ar esate įsitikinę?"
@@ -907,6 +925,7 @@ lt:
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingas atnaujinimas."
+    notice_job_started: "užduoties vykdymas pradėtas."
     notice_bad_request: "Netinkama užklausa."
     relations:
       empty: Nėra jokių ryšių
@@ -964,3 +983,78 @@ lt:
       card: 'Kortelės'
       list: 'Stalas'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Atgal'
+      invite: 'Pakviesti'
+      title:
+        invite: 'Pakviesti vartotoją'
+        invite_to_project: 'Pakviesti %{type} į %{project}'
+        User: 'vartotojas'
+        Group: 'grupė'
+        PlaceholderUser: 'statytinis vartotojas'
+        invite_principal_to_project: 'Pakviesti %{principal} į %{project}'
+      project:
+        label: 'Projektas'
+        required: 'Pasirinkite projektą'
+        lacking_permission: 'Prašome pasirinkti kitą projektą, nes dabar pasirinktame jūs neturite teisių priskirti vartotojus.'
+        lacking_permission_info: 'Jums trūksta teisių priskirti vartotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą.'
+        next_button: 'Kitas'
+        no_results: 'Nerasta jokių projektų'
+        no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
+      type:
+        required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
+        user:
+          title: 'Vartotojas'
+          description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
+        group:
+          title: 'Grupė'
+          description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
+        placeholder:
+          title: 'Statytinis vartotojas'
+          title_no_ee: 'Statytiniai vartotojai (galimybė pasiekiama tik Enterprise Edition)'
+          description: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti.'
+          description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Patikrinkite <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Vardas arba elektroninio pašto adresas'
+          name: 'Vardas'
+        already_member_message: 'Jau yra %{project} narys'
+        no_results_user: 'Nerasta jokių vartotojų.'
+        invite_user: 'Pakviesti:'
+        change_user_selection: 'Pakeiskite el. pašto adresą arba pasirinkite jau esamą vartotoją'
+        no_results_placeholder: 'Nerasta jokių statytinių vartotojų.'
+        change_placeholder_selection: 'Pakeiskite vardą arba pasirinkite jau esamą statytinį vartotoją'
+        create_new_placeholder: 'Sukurkite naują statytinį vartotoją:'
+        no_results_group: 'Nerasta jokių grupių.'
+        change_group_selection: 'Pakeiskite vardą arba pasirinkite jau esamą grupę'
+        next_button: 'Kitas'
+        required:
+          user: 'Pasirinkite naudotoją'
+          placeholder: 'Prašome pasirinkti statytinį vartotoją'
+          group: 'Prašome pasirinkti grupę'
+      role:
+        label: 'Rolė projekte %{project}'
+        no_roles_found: 'Nerasta jokių rolių'
+        description: 'Tai yra rolė, kurią %{principal} gaus, kai prisijungs prie projekto. Ši rolė nurodo, kokius veiksmus galės atlikti ir kokią informaciją matyti. <a href="<a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">" target="_blank">Sužinokite daugiau apie roles ir teises. </a>'
+        required: 'Prašome pasirinkti rolę'
+        next_button: 'Kitas'
+      message:
+        label: 'Kvietimo pranešimas'
+        description: 'Mes siųsime el. pašto laišką %{principal}, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas galėtų būti naudingas gavėjui. Arba šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
+        next_button: 'Peržiūrėti kvietimą'
+      summary:
+        next_button: 'Siųsti pakvietimą'
+      success:
+        title: '%{principal} buvo pakviestas!'
+        description:
+          user: 'Vartotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo vartotoju ir pavyzdžiui priskirti jam darbo užduotis.'
+          placeholder: 'Statytinis vartotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo vartotoju ir pavyzdžiui priskirti jam darbo užduotis.'
+          group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
+        next_button: 'Tęsti'
+    forms:
+      submit_success_message: 'Forma buvo sėkmingai nusiųsta'
+      load_error_message: 'Įkeliant formą įvyko klaida'
+      validation_error_message: 'Prašome ištaisyti klaidas formoje'
+      advanced_settings: 'Išplėstiniai nustatymai'
+
+

@@ -31,30 +31,28 @@ module API
     module Utilities
       module Endpoints
         class Index < API::Utilities::Endpoints::Index
-          include ::API::Utilities::PageSizeHelper
-
           def mount
             index = self
 
             -> do
-              query = index.parse(params)
+              query = index.parse(self)
 
-              self_path = api_v3_paths.send(index.self_path)
-              base_scope = index.scope ? instance_exec(&index.scope) : index.model
-
-              index.render(query, params, self_path, base_scope)
+              index.render(self, query)
             end
           end
 
-          def parse(params)
+          def parse(request)
             ParamsToQueryService
-              .new(model, User.current)
-              .call(params)
+              .new(model, request.current_user)
+              .call(request.params)
           end
 
-          def render(query, params, self_path, base_scope)
+          def render(request, query)
             if query.valid?
-              render_success(query, params, self_path, base_scope)
+              render_success(query,
+                             request.params,
+                             request.api_v3_paths.send(self_path),
+                             scope ? request.instance_exec(&scope) : model)
             else
               render_error(query)
             end
@@ -75,18 +73,21 @@ module API
             results = merge_scopes(base_scope, query.results)
 
             if paginated_representer?
-              render_paginated_success(results, params, self_path)
+              render_paginated_success(results, query, params, self_path)
             else
               render_unpaginated_success(results, self_path)
             end
           end
 
-          def render_paginated_success(results, params, self_path)
+          def render_paginated_success(results, query, params, self_path)
+            resulting_params = calculate_resulting_params(query, params)
+
             render_representer
               .new(results,
                    self_link: self_path,
-                   page: to_i_or_nil(params[:offset]),
-                   per_page: resolve_page_size(params[:pageSize]),
+                   query: resulting_params,
+                   page: resulting_params[:offset],
+                   per_page: resulting_params[:pageSize],
                    current_user: User.current)
           end
 
@@ -95,6 +96,19 @@ module API
               .new(results,
                    self_link: self_path,
                    current_user: User.current)
+          end
+
+          def calculate_resulting_params(query, provided_params)
+            calculate_default_params(query).merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
+              params[:offset] = to_i_or_nil(params[:offset])
+              params[:pageSize] = to_i_or_nil(params[:pageSize])
+            end
+          end
+
+          def calculate_default_params(query)
+            ::API::Decorators::QueryParamsRepresenter
+              .new(query)
+              .to_h
           end
 
           def paginated_representer?

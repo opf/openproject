@@ -31,24 +31,31 @@ require 'spec_helper'
 describe 'filter me value', js: true do
   let(:status) { FactoryBot.create :default_status }
   let!(:priority) { FactoryBot.create :default_priority }
-  let(:project) { FactoryBot.create :project, public: true }
+  let(:project) do
+    FactoryBot.create :project,
+                      public: true,
+                      members: project_members
+  end
   let(:role) { FactoryBot.create :existing_role, permissions: [:view_work_packages] }
   let(:admin) { FactoryBot.create :admin }
   let(:user) { FactoryBot.create :user }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
-
-  before do
-    login_as admin
-    project.add_member! admin, role
-    project.add_member! user, role
+  let(:project_members) do
+    {
+      admin => role,
+      user => role
+    }
   end
+  let!(:role_anonymous) { FactoryBot.create(:anonymous_role, permissions: [:view_work_packages]) }
 
   describe 'assignee' do
     let(:wp_admin) { FactoryBot.create :work_package, status: status, project: project, assigned_to: admin }
     let(:wp_user) { FactoryBot.create :work_package, status: status, project: project, assigned_to: user }
 
     context 'as anonymous', with_settings: { login_required?: false } do
+      current_user { User.anonymous }
+
       let(:assignee_query) do
         query = FactoryBot.create(:query,
                                   name: 'Assignee Query',
@@ -69,11 +76,11 @@ describe 'filter me value', js: true do
     end
 
     context 'logged in' do
+      current_user { admin }
+
       before do
         wp_admin
         wp_user
-
-        login_as(admin)
       end
 
       it 'shows the one work package filtering for myself' do
@@ -132,7 +139,9 @@ describe 'filter me value', js: true do
     let(:project) do
       FactoryBot.create(:project,
                         types: [type_task],
-                        work_package_custom_fields: [custom_field])
+                        public: true,
+                        work_package_custom_fields: [custom_field],
+                        members: project_members)
     end
 
     let(:cf_accessor) { "cf_#{custom_field.id}" }
@@ -163,6 +172,7 @@ describe 'filter me value', js: true do
 
         query
       end
+      current_user { User.anonymous }
 
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query
@@ -172,11 +182,11 @@ describe 'filter me value', js: true do
     end
 
     context 'logged in' do
+      current_user { admin }
+
       before do
         wp_admin
         wp_user
-
-        login_as(admin)
       end
 
       it 'shows the one work package filtering for myself' do

@@ -1,7 +1,7 @@
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {OpenprojectHalModuleHelpers} from 'core-app/modules/hal/helpers/lazy-accessor';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {HalLink} from 'core-app/modules/hal/hal-link/hal-link';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { OpenprojectHalModuleHelpers } from 'core-app/modules/hal/helpers/lazy-accessor';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { HalLink } from 'core-app/modules/hal/hal-link/hal-link';
 
 import * as ObservableArray from 'observable-array';
 
@@ -46,7 +46,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     }
   }
 
-  function asHalResource(value?:HalSource, loaded:boolean = true):HalResource|HalSource|undefined|null {
+  function asHalResource(value?:HalSource, loaded = true):HalResource|HalSource|undefined|null {
     if (_.isNil(value)) {
       return value;
     }

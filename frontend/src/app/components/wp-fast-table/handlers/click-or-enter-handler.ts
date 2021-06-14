@@ -1,6 +1,6 @@
-import {keyCodes} from 'core-app/modules/common/keyCodes.enum';
-import {WorkPackageTable} from "../wp-fast-table";
-import {TableEventComponent} from "core-components/wp-fast-table/handlers/table-handler-registry";
+import { keyCodes } from 'core-app/modules/common/keyCodes.enum';
+import { WorkPackageTable } from "../wp-fast-table";
+import { TableEventComponent } from "core-components/wp-fast-table/handlers/table-handler-registry";
 
 
 /**

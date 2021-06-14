@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
 
 export namespace OpenprojectHalModuleHelpers {
   export function lazy(obj:HalResource,
-                       property:string,
-                       getter:{ ():any },
-                       setter?:{ (value:any):void }):void {
+    property:string,
+    getter:{ ():any },
+    setter?:{ (value:any):void }):void {
 
     if (_.isObject(obj)) {
       let done = false;
       let value:any;
-      let config:any = {
+      const config:any = {
         get() {
           if (!done) {
             value = getter();

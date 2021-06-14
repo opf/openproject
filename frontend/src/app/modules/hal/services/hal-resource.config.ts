@@ -26,43 +26,43 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
-import {SchemaResource} from 'core-app/modules/hal/resources/schema-resource';
-import {TypeResource} from 'core-app/modules/hal/resources/type-resource';
-import {SchemaDependencyResource} from 'core-app/modules/hal/resources/schema-dependency-resource';
-import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {UserResource} from 'core-app/modules/hal/resources/user-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {FormResource} from 'core-app/modules/hal/resources/form-resource';
-import {QueryFilterInstanceResource} from 'core-app/modules/hal/resources/query-filter-instance-resource';
-import {QueryFilterInstanceSchemaResource} from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
-import {QueryFilterResource} from 'core-app/modules/hal/resources/query-filter-resource';
-import {RootResource} from 'core-app/modules/hal/resources/root-resource';
-import {QueryOperatorResource} from 'core-app/modules/hal/resources/query-operator-resource';
-import {HelpTextResource} from 'core-app/modules/hal/resources/help-text-resource';
-import {CustomActionResource} from 'core-app/modules/hal/resources/custom-action-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
+import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
+import { TypeResource } from 'core-app/modules/hal/resources/type-resource';
+import { SchemaDependencyResource } from 'core-app/modules/hal/resources/schema-dependency-resource';
+import { ErrorResource } from 'core-app/modules/hal/resources/error-resource';
+import { UserResource } from 'core-app/modules/hal/resources/user-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { WorkPackageCollectionResource } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { FormResource } from 'core-app/modules/hal/resources/form-resource';
+import { QueryFilterInstanceResource } from 'core-app/modules/hal/resources/query-filter-instance-resource';
+import { QueryFilterInstanceSchemaResource } from 'core-app/modules/hal/resources/query-filter-instance-schema-resource';
+import { QueryFilterResource } from 'core-app/modules/hal/resources/query-filter-resource';
+import { RootResource } from 'core-app/modules/hal/resources/root-resource';
+import { QueryOperatorResource } from 'core-app/modules/hal/resources/query-operator-resource';
+import { HelpTextResource } from 'core-app/modules/hal/resources/help-text-resource';
+import { CustomActionResource } from 'core-app/modules/hal/resources/custom-action-resource';
 import {
   HalResourceFactoryConfigInterface,
   HalResourceService
 } from 'core-app/modules/hal/services/hal-resource.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {WikiPageResource} from "core-app/modules/hal/resources/wiki-page-resource";
-import {MeetingContentResource} from "core-app/modules/hal/resources/meeting-content-resource";
-import {PostResource} from "core-app/modules/hal/resources/post-resource";
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
-import {AttachmentCollectionResource} from "core-app/modules/hal/resources/attachment-collection-resource";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {NewsResource} from "core-app/modules/hal/resources/news-resource";
-import {VersionResource} from "core-app/modules/hal/resources/version-resource";
-import {MembershipResource} from "core-app/modules/hal/resources/membership-resource";
-import {RoleResource} from "core-app/modules/hal/resources/role-resource";
-import {ProjectResource} from "core-app/modules/hal/resources/project-resource";
-import {GroupResource} from "core-app/modules/hal/resources/group-resource";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { WikiPageResource } from "core-app/modules/hal/resources/wiki-page-resource";
+import { MeetingContentResource } from "core-app/modules/hal/resources/meeting-content-resource";
+import { PostResource } from "core-app/modules/hal/resources/post-resource";
+import { StatusResource } from "core-app/modules/hal/resources/status-resource";
+import { AttachmentCollectionResource } from "core-app/modules/hal/resources/attachment-collection-resource";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { NewsResource } from "core-app/modules/hal/resources/news-resource";
+import { VersionResource } from "core-app/modules/hal/resources/version-resource";
+import { MembershipResource } from "core-app/modules/hal/resources/membership-resource";
+import { RoleResource } from "core-app/modules/hal/resources/role-resource";
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { GroupResource } from "core-app/modules/hal/resources/group-resource";
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {

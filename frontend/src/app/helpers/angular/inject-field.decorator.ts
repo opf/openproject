@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import {InjectFlags, Injector} from "@angular/core";
-import {debugLog} from "core-app/helpers/debug_output";
+import { InjectFlags,Injector } from "@angular/core";
+import { debugLog } from "core-app/helpers/debug_output";
 
 export interface InjectableClass {
   injector:Injector;
@@ -24,4 +24,4 @@ export function InjectField(token?:any, defaultValue:any = null, flags?:InjectFl
       });
     }
   };
-};
+}

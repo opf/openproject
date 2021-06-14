@@ -33,7 +33,7 @@ feature 'Top menu items', js: true, selenium: true do
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
-    within '#top-menu' do
+    within '.op-app-header' do
       labels.each do |l|
         expect(page).to have_link(l)
       end
@@ -47,7 +47,7 @@ feature 'Top menu items', js: true, selenium: true do
     # if the menu is not completely expanded (e.g. if the frontend thread is too fast),
     # the click might be ignored
 
-    within '.drop-down.open ul[aria-expanded=true]' do
+    within '.op-app-menu--dropdown[aria-expanded=true]' do
       expect(page).not_to have_selector('[style~=overflow]')
 
       page.find_link(title).find('span').click
@@ -111,20 +111,13 @@ feature 'Top menu items', js: true, selenium: true do
   describe 'Projects' do
     let(:top_menu) { find(:css, '#projects-menu') }
 
-    let(:new_project) { I18n.t(:label_project_new) }
     let(:all_projects) { I18n.t(:label_project_view_all) }
-    let(:all_items) { [new_project, all_projects] }
+    let(:all_items) { [all_projects] }
 
     context 'as an admin' do
       let(:user) { FactoryBot.create :admin }
       it 'displays all items' do
-        has_menu_items?(new_project, all_projects)
-      end
-
-      it 'visits the work package page' do
-        click_link_in_open_menu(new_project)
-
-        expect(page).to have_current_path(new_project_path)
+        has_menu_items?(all_projects)
       end
 
       it 'visits the projects page' do

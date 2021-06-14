@@ -26,9 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {ApiV3FilterBuilder} from "core-components/api/api-v3/api-v3-filter-builder";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
+import { Injectable } from '@angular/core';
+import { ApiV3FilterBuilder } from "core-components/api/api-v3/api-v3-filter-builder";
 
 class Apiv3Paths {
   readonly apiV3Base:string;
@@ -46,7 +45,7 @@ class Apiv3Paths {
    * @param context
    */
   public previewMarkup(context:string) {
-    let base = `${this.apiV3Base}/render/markdown`;
+    const base = `${this.apiV3Base}/render/markdown`;
 
     if (context) {
       return `${base}?context=${context}`;
@@ -63,7 +62,7 @@ class Apiv3Paths {
    *
    */
   public principals(projectId:string|number, term:string|null) {
-    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+    const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     // Only real and activated users:
     filters.add('status', '!', ['3']);
     // that are members of that project:
@@ -96,7 +95,7 @@ export class PathHelperService {
   }
 
   public attachmentDownloadPath(attachmentIdentifier:string, slug:string|undefined) {
-    let path = `${this.staticBase}/attachments/${attachmentIdentifier}`;
+    const path = `${this.staticBase}/attachments/${attachmentIdentifier}`;
 
     if (slug) {
       return `${path}/${slug}`;
@@ -111,6 +110,18 @@ export class PathHelperService {
 
   public ifcModelsPath(projectIdentifier:string) {
     return `${this.staticBase}/projects/${projectIdentifier}/ifc_models`;
+  }
+
+  public ifcModelsNewPath(projectIdentifier:string) {
+    return `${this.ifcModelsPath(projectIdentifier)}/new`;
+  }
+
+  public ifcModelsEditPath(projectIdentifier:string, modelId:number|string) {
+    return `${this.ifcModelsPath(projectIdentifier)}/${modelId}/edit`;
+  }
+
+  public ifcModelsDeletePath(projectIdentifier:string, modelId:number|string) {
+    return `${this.ifcModelsPath(projectIdentifier)}/${modelId}`;
   }
 
   public bimDetailsPath(projectIdentifier:string, workPackageId:string, viewpoint:number|string|null = null) {
@@ -212,7 +223,7 @@ export class PathHelperService {
   }
 
   public timeEntriesPath(workPackageId:string|number) {
-    let suffix = '/time_entries';
+    const suffix = '/time_entries';
 
     if (workPackageId) {
       return this.workPackagePath(workPackageId) + suffix;
@@ -243,6 +254,14 @@ export class PathHelperService {
 
   public groupPath(id:string|number) {
     return `${this.groupsPath()}/${id}`;
+  }
+
+  public rolesPath() {
+    return `${this.staticBase}/roles`;
+  }
+
+  public rolePath(id:string|number) {
+    return `${this.rolesPath()}/${id}`;
   }
 
   public versionsPath() {

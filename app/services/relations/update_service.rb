@@ -37,7 +37,7 @@ class Relations::UpdateService < Relations::BaseService
     self.contract_class = Relations::UpdateContract
   end
 
-  def call(attributes)
+  def perform(attributes)
     in_context(attributes[:send_notifications]) do
       update_relation model, attributes
     end

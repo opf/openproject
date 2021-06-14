@@ -111,7 +111,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
       name = deduplicate(child.name, @children_hash.keys.map(&:to_s))
       child.caption = "#{child.caption} (#{I18n.t(:label_duplicate)})"
 
-      child.name = name.to_url
+      child.name = WikiPage.slug(name)
     else
       child.name
     end

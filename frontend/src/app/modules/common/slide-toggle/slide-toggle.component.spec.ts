@@ -1,7 +1,7 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {ChangeDetectionStrategy, DebugElement} from '@angular/core';
-import {SlideToggleComponent} from './slide-toggle.component';
-import {FormsModule} from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
+import { SlideToggleComponent } from './slide-toggle.component';
+import { FormsModule } from '@angular/forms';
 
 describe('slide toggler', () => {
   let app:SlideToggleComponent;
@@ -27,7 +27,7 @@ describe('slide toggler', () => {
     app.active = false;
     fixture.detectChanges();
 
-    let container = document.querySelector('.slide-toggle')!;
+    const container = document.querySelector('.slide-toggle')!;
     expect(container.classList.contains('-active')).toBeFalse();
     expect(document.contains(container)).toBeTruthy();
   }));

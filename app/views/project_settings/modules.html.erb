@@ -31,6 +31,8 @@ See docs/COPYRIGHT.rdoc for more details.
   <%= render partial: 'projects/form/toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
 <% end %>
 
+<%= error_messages_for_contract(@project, @errors) %>
+
 <%= labelled_tabular_form_for @project,
                               url: modules_project_path(@project),
                               method: :put do |form| %>

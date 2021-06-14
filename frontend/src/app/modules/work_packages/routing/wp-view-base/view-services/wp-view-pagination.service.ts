@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from '@angular/core';
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {PaginationObject, PaginationService} from 'core-components/table-pagination/pagination-service';
-import {WorkPackageViewPagination} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
-import {WorkPackageViewBaseService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
+import { Injectable } from '@angular/core';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { WorkPackageCollectionResource } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { PaginationObject, PaginationService } from 'core-components/table-pagination/pagination-service';
+import { WorkPackageViewPagination } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-pagination";
+import { WorkPackageViewBaseService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
 
 export interface PaginationUpdateObject {
   page?:number;
@@ -68,7 +68,7 @@ export class WorkPackageViewPaginationService extends WorkPackageViewBaseService
   }
 
   public updateFromObject(object:PaginationUpdateObject) {
-    let currentState = this.current;
+    const currentState = this.current;
 
     if (object.page) {
       currentState.page = object.page;
@@ -84,7 +84,7 @@ export class WorkPackageViewPaginationService extends WorkPackageViewBaseService
   }
 
   public updateFromResults(results:WorkPackageCollectionResource) {
-    let update = {
+    const update = {
       page: results.offset,
       perPage: results.pageSize,
       total: results.total,

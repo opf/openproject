@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {DeviceService} from "app/modules/common/browser/device.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injectable, Injector } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { DeviceService } from "app/modules/common/browser/device.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 @Injectable({ providedIn: 'root' })
 export class MainMenuToggleService {
@@ -63,7 +63,9 @@ export class MainMenuToggleService {
   }
 
   public initializeMenu():void {
-    if (!this.mainMenu) { return; }
+    if (!this.mainMenu) {
+      return;
+    }
 
     this.elementWidth = parseInt(window.OpenProject.guardedLocalStorage(this.localStorageKey) as string);
     const menuCollapsed = window.OpenProject.guardedLocalStorage(this.localStorageStateKey) as string;
@@ -72,12 +74,11 @@ export class MainMenuToggleService {
       this.saveWidth(this.mainMenu.offsetWidth);
     } else if (menuCollapsed && JSON.parse(menuCollapsed)) {
       this.closeMenu();
-    }
-    else {
+    } else {
       this.setWidth();
     }
 
-    let currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
+    const currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
     if (jQuery(document.body).hasClass('controller-my') && this.elementWidth === 0 || currentProject.id === null) {
       this.saveWidth(this.defaultWidth);
     }
@@ -135,7 +136,7 @@ export class MainMenuToggleService {
   public setWidth(width?:any):void {
     if (width !== undefined) {
       // Leave a minimum amount of space for space fot the content
-      let maxMenuWidth = this.deviceService.isMobile ? window.innerWidth - 120 : window.innerWidth - 520;
+      const maxMenuWidth = this.deviceService.isMobile ? window.innerWidth - 120 : window.innerWidth - 520;
       if (width > maxMenuWidth) {
         this.elementWidth = maxMenuWidth;
       } else {
@@ -152,7 +153,7 @@ export class MainMenuToggleService {
 
     // Send change event when size of menu is changing (menu toggled or resized)
     // Event should only be fired, when transition is finished
-    let changeEvent = jQuery.Event("change");
+    const changeEvent = jQuery.Event("change");
     jQuery('#content-wrapper').on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', () => {
       this.changeData.next(changeEvent);
     });

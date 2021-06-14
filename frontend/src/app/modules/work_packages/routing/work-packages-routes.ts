@@ -26,18 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageActivityTabComponent} from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
-import {WorkPackageRelationsTabComponent} from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
-import {WorkPackageWatchersTabComponent} from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
-import {WorkPackageNewFullViewComponent} from 'core-components/wp-new/wp-new-full-view.component';
-import {WorkPackageCopyFullViewComponent} from 'core-components/wp-copy/wp-copy-full-view.component';
-import {WorkPackagesFullViewComponent} from "core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component";
-import {WorkPackageSplitViewComponent} from "core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component";
-import {Ng2StateDeclaration} from "@uirouter/angular";
-import {WorkPackagesBaseComponent} from "core-app/modules/work_packages/routing/wp-base/wp--base.component";
-import {WorkPackageListViewComponent} from "core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component";
-import {WorkPackageViewPageComponent} from "core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component";
-import {makeSplitViewRoutes} from "core-app/modules/work_packages/routing/split-view-routes.template";
+import { WorkPackageActivityTabComponent } from 'core-components/wp-single-view-tabs/activity-panel/activity-tab.component';
+import { WorkPackageRelationsTabComponent } from 'core-components/wp-single-view-tabs/relations-tab/relations-tab.component';
+import { WpTabWrapperComponent } from 'core-components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
+import { WorkPackageWatchersTabComponent } from 'core-components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
+import { WorkPackageNewFullViewComponent } from 'core-components/wp-new/wp-new-full-view.component';
+import { WorkPackageCopyFullViewComponent } from 'core-components/wp-copy/wp-copy-full-view.component';
+import { WorkPackagesFullViewComponent } from 'core-app/modules/work_packages/routing/wp-full-view/wp-full-view.component';
+import { WorkPackageSplitViewComponent } from 'core-app/modules/work_packages/routing/wp-split-view/wp-split-view.component';
+import { Ng2StateDeclaration } from '@uirouter/angular';
+import { WorkPackagesBaseComponent } from 'core-app/modules/work_packages/routing/wp-base/wp--base.component';
+import { WorkPackageListViewComponent } from 'core-app/modules/work_packages/routing/wp-list-view/wp-list-view.component';
+import { WorkPackageViewPageComponent } from 'core-app/modules/work_packages/routing/wp-view-page/wp-view-page.component';
+import { makeSplitViewRoutes } from 'core-app/modules/work_packages/routing/split-view-routes.template';
 
 export const menuItemClass = 'work-packages-menu-item';
 
@@ -88,7 +89,13 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     name: 'work-packages.show',
     url: '/{workPackageId:[0-9]+}',
     // Redirect to 'activity' by default.
-    redirectTo: 'work-packages.show.activity',
+    redirectTo: (trans) => {
+      const params = trans.params('to');
+      return {
+        state: 'work-packages.show.tabs',
+        params: { ...params, tabIdentifier: 'activity' }
+      };
+    },
     component: WorkPackagesFullViewComponent,
     data: {
       baseRoute: 'work-packages',
@@ -98,39 +105,12 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     }
   },
   {
-    name: 'work-packages.show.activity',
-    url: '/activity',
-    component: WorkPackageActivityTabComponent,
+    name: 'work-packages.show.tabs',
+    url: "/:tabIdentifier",
+    component: WpTabWrapperComponent,
     data: {
       parent: 'work-packages.show',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.show.activity.details',
-    url: '/activity/details/#{activity_no:\d+}',
-    component: WorkPackageActivityTabComponent,
-    data: {
-      parent: 'work-packages.show',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.show.relations',
-    url: '/relations',
-    component: WorkPackageRelationsTabComponent,
-    data: {
-      parent: 'work-packages.show',
-      menuItem: menuItemClass
-    }
-  },
-  {
-    name: 'work-packages.show.watchers',
-    url: '/watchers',
-    component: WorkPackageWatchersTabComponent,
-    data: {
-      parent: 'work-packages.show',
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
     }
   },
   {

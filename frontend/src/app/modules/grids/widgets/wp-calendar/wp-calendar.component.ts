@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Injector} from '@angular/core';
-import {AbstractWidgetComponent} from "app/modules/grids/widgets/abstract-widget.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {CurrentProjectService} from "core-components/projects/current-project.service";
+import { Component, Injector } from '@angular/core';
+import { AbstractWidgetComponent } from "app/modules/grids/widgets/abstract-widget.component";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { CurrentProjectService } from "core-components/projects/current-project.service";
 
 @Component({
   templateUrl: './wp-calendar.component.html',

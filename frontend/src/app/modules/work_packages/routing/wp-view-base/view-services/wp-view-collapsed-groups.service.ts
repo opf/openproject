@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageViewBaseService} from './wp-view-base.service';
-import {Injectable} from '@angular/core';
-import {WorkPackageViewGroupByService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import {IsolatedQuerySpace} from 'core-app/modules/work_packages/query-space/isolated-query-space';
-import {take} from 'rxjs/operators';
-import {GroupObject, WorkPackageCollectionResource} from 'core-app/modules/hal/resources/wp-collection-resource';
-import {QuerySchemaResource} from 'core-app/modules/hal/resources/query-schema-resource';
-import {QueryGroupByResource} from 'core-app/modules/hal/resources/query-group-by-resource';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {SchemaCacheService} from 'core-components/schemas/schema-cache.service';
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { WorkPackageViewBaseService } from './wp-view-base.service';
+import { Injectable } from '@angular/core';
+import { WorkPackageViewGroupByService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { IsolatedQuerySpace } from 'core-app/modules/work_packages/query-space/isolated-query-space';
+import { take } from 'rxjs/operators';
+import { GroupObject, WorkPackageCollectionResource } from 'core-app/modules/hal/resources/wp-collection-resource';
+import { QuerySchemaResource } from 'core-app/modules/hal/resources/query-schema-resource';
+import { QueryGroupByResource } from 'core-app/modules/hal/resources/query-group-by-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { SchemaCacheService } from 'core-components/schemas/schema-cache.service';
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {
@@ -48,7 +48,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
   }
 
   get currentGroups():GroupObject[] {
-   return this.querySpace.groups.value!;
+    return this.querySpace.groups.value!;
   }
 
   get allGroupsAreCollapsed():boolean {
@@ -85,7 +85,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
 
   isMilestone = (workPackage:WorkPackageResource):boolean => {
     return this.schemaCacheService.of(workPackage)?.isMilestone;
-  }
+  };
 
   toggleGroupCollapseState(groupIdentifier:string):void {
     const newCollapsedState = !this.config.state[groupIdentifier];
@@ -141,7 +141,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
       allGroupsAreExpanded = allGroupsHaveTheSameCollapseState && !firstGroupCollapsedState;
     }
 
-    return {allGroupsAreCollapsed, allGroupsAreExpanded};
+    return { allGroupsAreCollapsed, allGroupsAreExpanded };
   }
 
   initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
@@ -155,5 +155,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     return this.getDefaultState();
   }
 
-  applyToQuery(query:QueryResource) { return; }
+  applyToQuery(query:QueryResource) {
+    return;
+  }
 }

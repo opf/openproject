@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {CurrentProjectService} from "core-components/projects/current-project.service";
-import {BcfPathHelperService} from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
+import { Component } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { CurrentProjectService } from "core-components/projects/current-project.service";
+import { BcfPathHelperService } from "core-app/modules/bim/bcf/helper/bcf-path-helper.service";
 
 @Component({
   template: `

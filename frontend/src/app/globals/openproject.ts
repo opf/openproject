@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenProjectPluginContext} from 'core-app/modules/plugins/plugin-context';
-import {input, InputState} from 'reactivestates';
-import {take} from 'rxjs/operators';
-import {GlobalHelpers} from "core-app/globals/global-helpers";
+import { OpenProjectPluginContext } from 'core-app/modules/plugins/plugin-context';
+import { input, InputState } from 'reactivestates';
+import { take } from 'rxjs/operators';
+import { GlobalHelpers } from "core-app/globals/global-helpers";
 
 /**
  * OpenProject instance methods
@@ -41,10 +41,10 @@ export class OpenProject {
   public helpers = new GlobalHelpers();
 
   /** Globally setable variable whether the page was edited */
-  public pageWasEdited:boolean = false;
+  public pageWasEdited = false;
   /** Globally setable variable whether the page form is submitted.
    * Necessary to avoid a data loss warning on beforeunload */
-  public pageIsSubmitted:boolean = false;
+  public pageIsSubmitted = false;
   /** Globally setable variable whether any of the EditFormComponent
    * contain changes.
    * Necessary to show a data loss warning on beforeunload when clicking

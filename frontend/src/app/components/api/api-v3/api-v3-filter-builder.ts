@@ -77,7 +77,7 @@ export class ApiV3FilterBuilder {
    * @return A map { foo: { operator: '=', val: ['bar'] } , ... }
    */
   public toFilterObject(filters:ApiV3Filter[]):ApiV3FilterObject {
-    let map:ApiV3FilterObject = {};
+    const map:ApiV3FilterObject = {};
 
     filters.forEach((item:ApiV3Filter) => {
       _.each(item, (val:ApiV3FilterValue, filter:string) => {
@@ -108,7 +108,7 @@ export class ApiV3FilterBuilder {
   }
 
   public get filters():ApiV3Filter[] {
-    let filters:ApiV3Filter[] = [];
+    const filters:ApiV3Filter[] = [];
     _.each(this.filterMap, (val:ApiV3FilterValue, filter:string) => {
       filters.push({ [filter]: val });
     });
@@ -127,12 +127,12 @@ export class ApiV3FilterBuilder {
       return this.serializeFilter(filter);
     });
 
-    let params = { filters: `[${transformedFilters.join(",")}]`, ...mergeParams };
+    const params = { filters: `[${transformedFilters.join(",")}]`, ...mergeParams };
     return new URLSearchParams(params).toString();
   }
 
   public clone() {
-    let newFilters = new ApiV3FilterBuilder();
+    const newFilters = new ApiV3FilterBuilder();
 
     this.filters.forEach(filter => {
       Object.keys(filter).forEach(name => {
@@ -149,8 +149,8 @@ export class ApiV3FilterBuilder {
 
     keys = Object.keys(filter);
 
-    let typeName = keys[0];
-    let operatorAndValues:any = filter[typeName];
+    const typeName = keys[0];
+    const operatorAndValues:any = filter[typeName];
 
     transformedFilter = `{"${typeName}":{"operator":"${operatorAndValues['operator']}","values":[${operatorAndValues['values']
       .map((val:any) => this.serializeFilterValue(val))

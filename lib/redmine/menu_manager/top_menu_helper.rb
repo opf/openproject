@@ -29,16 +29,18 @@
 module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::HelpMenu
   include Redmine::MenuManager::TopMenu::ProjectsMenu
+  include Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def render_top_menu_left
-    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav' do
+    content_tag :ul, class: 'op-app-menu op-app-menu_drop-left' do
       [render_main_top_menu_nodes,
-       render_projects_top_menu_node].join.html_safe
+       render_projects_top_menu_node,
+       render_quick_add_menu].join.html_safe
     end
   end
 
   def render_top_menu_right
-    content_tag :ul, id: 'account-nav-right', class: 'menu_root account-nav' do
+    content_tag :ul, class: 'op-app-menu' do
       [render_module_top_menu_node,
        render_help_top_menu_node,
        render_user_top_menu_node].join.html_safe
@@ -60,33 +62,33 @@ module Redmine::MenuManager::TopMenuHelper
   def render_login_drop_down
     url = { controller: '/account', action: 'login' }
     link = link_to url,
-                   class: 'login',
+                   class: 'op-app-menu--item-action',
                    title: I18n.t(:label_login) do
-      concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
-      concat('<i class="button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
+      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
+      concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
 
-    render_menu_dropdown(link, menu_item_class: 'drop-down last-child top-menu--login') do
+    render_menu_dropdown(link, menu_item_class: '') do
       render_login_partial
     end
   end
 
   def render_direct_login
     link = link_to signin_path,
-                   class: 'login',
+                   class: 'op-app-menu--item-action login',
                    title: I18n.t(:label_login) do
-      concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
+      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
 
-    content_tag :li, class: "last-child top-menu--login" do
+    content_tag :li, class: "" do
       concat link
     end
   end
 
   def render_user_drop_down(items)
-    avatar = avatar(User.current)
+    avatar = avatar User.current
     render_menu_dropdown_with_items(
       label: avatar.presence || '',
       label_options: {

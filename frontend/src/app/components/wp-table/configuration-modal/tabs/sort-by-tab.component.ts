@@ -1,12 +1,12 @@
-import {Component, Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { Component, Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
   QuerySortByResource
 } from 'core-app/modules/hal/resources/query-sort-by-resource';
-import {WorkPackageViewSortByService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import {TabComponent} from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
+import { WorkPackageViewSortByService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { TabComponent } from 'core-components/wp-table/configuration-modal/tab-portal-outlet';
 
 export class SortModalObject {
   constructor(public column:SortColumn,
@@ -41,14 +41,14 @@ export class WpTableConfigurationSortByTab implements TabComponent {
   };
 
   readonly availableDirections = [
-    {$href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending')},
-    {$href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending')}
+    { href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending') },
+    { href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') }
   ];
 
   public availableColumns:SortColumn[] = [];
   public allColumns:SortColumn[] = [];
   public sortationObjects:SortModalObject[] = [];
-  public emptyColumn:SortColumn = {name: this.text.placeholder, href: null};
+  public emptyColumn:SortColumn = { name: this.text.placeholder, href: null };
 
   public sortingMode:SortingMode = 'automatic';
   public manualSortColumn:SortColumn;
@@ -75,13 +75,13 @@ export class WpTableConfigurationSortByTab implements TabComponent {
     this.wpTableSortBy
       .onReadyWithAvailable()
       .subscribe(() => {
-        let allColumns:SortColumn[] = this.wpTableSortBy.available.filter(
+        const allColumns:SortColumn[] = this.wpTableSortBy.available.filter(
           (sort:QuerySortByResource) => {
-            return !sort.column.$href!.endsWith('/parent');
+            return !sort.column.href!.endsWith('/parent');
           }
         ).map(
           (sort:QuerySortByResource) => {
-            return {name: sort.column.name, href: sort.column.$href};
+            return { name: sort.column.name, href: sort.column.href };
           }
         );
 
@@ -92,10 +92,10 @@ export class WpTableConfigurationSortByTab implements TabComponent {
         this.getManualSortingOption();
 
         _.each(this.wpTableSortBy.current, sort => {
-          if (!sort.column.$href!.endsWith('/parent')) {
+          if (!sort.column.href!.endsWith('/parent')) {
             this.sortationObjects.push(
-              new SortModalObject({name: sort.column.name, href: sort.column.$href},
-                sort.direction.$href!)
+              new SortModalObject({ name: sort.column.name, href: sort.column.href },
+                sort.direction.href!)
             );
             if (sort.column.href === this.manualSortColumn.href) {
               this.updateSortingMode('manual');
@@ -114,7 +114,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
   }
 
   public updateUsedColumns() {
-    let usedColumns = this.sortationObjects
+    const usedColumns = this.sortationObjects
       .filter(o => o.column !== null)
       .map((object:SortModalObject) => object.column);
 
@@ -127,7 +127,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
 
   private getMatchingSort(column:string, direction:string) {
     return _.find(this.wpTableSortBy.available, sort => {
-      return sort.column.$href === column && sort.direction.$href === direction;
+      return sort.column.href === column && sort.direction.href === direction;
     });
   }
 

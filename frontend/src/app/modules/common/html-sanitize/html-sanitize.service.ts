@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, SecurityContext} from "@angular/core";
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import { Injectable, SecurityContext } from "@angular/core";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Injectable({ providedIn: 'root' })
 export class HTMLSanitizeService {

@@ -43,14 +43,6 @@ module Costs
       super_value work_package
     end
 
-    def xls_formatter
-      :cost
-    end
-
-    def xls_value(work_package)
-      super_value work_package
-    end
-
     class_attribute :currency_columns
 
     self.currency_columns = {

@@ -26,11 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
+import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class HookService {
-  private hooks:{[hook:string]:Function[]} = {};
+  private hooks:{ [hook:string]:Function[] } = {};
 
   public register(id:string, callback:Function) {
     if (!callback) {
@@ -45,11 +47,11 @@ export class HookService {
   }
 
   public call(id:string, ...params:any[]):any[] {
-    let results = [];
+    const results = [];
 
     if (this.hooks[id]) {
       for (let x = 0; x < this.hooks[id].length; x++) {
-        let result = this.hooks[id][x](...params);
+        const result = this.hooks[id][x](...params);
 
         if (result) {
           results.push(result);

@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit} from '@angular/core';
-import {Highlighting} from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { Highlighting } from "core-components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 
 export const colorsAutocompleterSelector = 'colors-autocompleter';
 
@@ -55,7 +55,7 @@ export const colorsAutocompleterSelector = 'colors-autocompleter';
 export class ColorsAutocompleter implements OnInit {
   public options:any[];
   public selectedOption:any;
-  private highlightTextInline:boolean = false;
+  private highlightTextInline = false;
   private updateInputField:HTMLInputElement|undefined;
   private selectedColorId:string;
 
@@ -78,7 +78,7 @@ export class ColorsAutocompleter implements OnInit {
 
   private setColorOptions() {
     this.options = JSON.parse(this.elementRef.nativeElement.dataset.colors);
-    this.options.unshift({name: this.I18n.t('js.label_no_color'), value: ''});
+    this.options.unshift({ name: this.I18n.t('js.label_no_color'), value: '' });
 
     this.selectedOption = this.options.find((item) => item.selected === true);
 
@@ -92,7 +92,9 @@ export class ColorsAutocompleter implements OnInit {
   }
 
   private highlightColor(item:any) {
-    if (item.value === '') { return; }
+    if (item.value === '') {
+      return;
+    }
 
     let highlightingClass;
     if (this.highlightTextInline) {

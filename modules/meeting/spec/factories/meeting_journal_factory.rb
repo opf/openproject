@@ -29,9 +29,9 @@
 FactoryBot.define do
   factory :meeting_journal do
     created_at { Time.now }
-    sequence(:version) { |n| n }
+    sequence(:version)
 
-    factory :meeting_content_journal, class: Journal do
+    factory :meeting_content_journal, class: 'Journal' do
       journable_type { 'MeetingContent' }
       activity_type { 'meetings' }
     end

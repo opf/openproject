@@ -1,7 +1,7 @@
-import {QueryResource} from 'core-app/modules/hal/resources/query-resource';
-import {WorkPackageQueryStateService} from './wp-view-base.service';
-import {Injectable} from '@angular/core';
-import {WorkPackageViewHierarchies} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
+import { QueryResource } from 'core-app/modules/hal/resources/query-resource';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { Injectable } from '@angular/core';
+import { WorkPackageViewHierarchies } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-table-hierarchies";
 
 @Injectable()
 export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateService<WorkPackageViewHierarchies> {
@@ -37,7 +37,7 @@ export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateServ
     return !!(this.current && this.current.isVisible);
   }
 
-  public setEnabled(active:boolean = true) {
+  public setEnabled(active = true) {
     const state = { ...this.current, isVisible: active, last: null };
     this.update(state);
   }

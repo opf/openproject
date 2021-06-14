@@ -1,6 +1,6 @@
-import {OnDestroyMixin, untilComponentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {Directive, OnDestroy} from "@angular/core";
-import {Observable} from "rxjs";
+import { OnDestroyMixin, untilComponentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { Directive, OnDestroy } from "@angular/core";
+import { Observable } from "rxjs";
 
 /**
  * Mixin function to provide access to observable and flags

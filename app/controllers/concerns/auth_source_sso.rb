@@ -143,7 +143,7 @@ module AuthSourceSSO
   end
 
   def handle_sso_success(user)
-    session[:user_id] = user.id
+    login_user(user)
     session[:user_from_auth_header] = true
 
     user

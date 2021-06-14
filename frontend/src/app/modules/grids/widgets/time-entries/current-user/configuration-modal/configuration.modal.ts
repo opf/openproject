@@ -7,20 +7,20 @@ import {
   Injector,
   OnInit,
 } from '@angular/core';
-import {OpModalLocalsMap} from 'core-components/op-modals/op-modal.types';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {OpModalComponent} from 'core-components/op-modals/op-modal.component';
-import {LoadingIndicatorService} from 'core-app/modules/common/loading-indicator/loading-indicator.service';
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {OpModalLocalsToken} from "core-components/op-modals/op-modal.service";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {TimeEntriesCurrentUserConfigurationModalService} from "core-app/modules/grids/widgets/time-entries/current-user/configuration-modal/services/configuration-modal/configuration-modal.service";
+import { OpModalLocalsMap } from 'core-app/modules/modal/modal.types';
+import { OpModalComponent } from 'core-app/modules/modal/modal.component';
+import { OpModalLocalsToken } from "core-app/modules/modal/modal.service";
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { LoadingIndicatorService } from 'core-app/modules/common/loading-indicator/loading-indicator.service';
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { TimeEntriesCurrentUserConfigurationModalService } from "core-app/modules/grids/widgets/time-entries/current-user/configuration-modal/services/configuration-modal/configuration-modal.service";
 
 @Component({
   templateUrl: './configuration.modal.html',
   providers: [TimeEntriesCurrentUserConfigurationModalService],
 })
-export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalComponent implements OnInit {
+export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalComponent implements OnInit  {
 
   /* Close on escape? */
   public closeOnEscape = true;
@@ -58,12 +58,12 @@ export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalCo
   }
 
   ngOnInit() {
-    this.daysOriginalCheckedValues = this.locals.options.days || Array.from({ length: 7 }, () => true);
+    this.daysOriginalCheckedValues = this.locals.options.days || Array.from({ length: 7 }, () => true );
     this.days = this.timeEntriesCurrentUserConfigurationModalService.getOrderedDaysData(this.daysOriginalCheckedValues);
   }
 
   public saveChanges():void {
-    const checkedValuesInOriginalOrder = this.timeEntriesCurrentUserConfigurationModalService.getCheckedValuesInOriginalOrder(this.days);
+    const checkedValuesInOriginalOrder= this.timeEntriesCurrentUserConfigurationModalService.getCheckedValuesInOriginalOrder(this.days);
 
     this.options = { days: checkedValuesInOriginalOrder };
     this.service.close();

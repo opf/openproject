@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable} from "@angular/core";
-import {HttpClient} from '@angular/common/http';
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
+import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
 
 @Injectable()
 export class CostBudgetSubformAugmentService {
@@ -39,7 +39,7 @@ export class CostBudgetSubformAugmentService {
 
   listen() {
     jQuery('costs-budget-subform').each((i, match) => {
-      let el = jQuery(match);
+      const el = jQuery(match);
 
       const container = el.find('.budget-item-container');
       const templateEl = el.find('.budget-row-template');
@@ -49,7 +49,7 @@ export class CostBudgetSubformAugmentService {
 
       // Refresh row on changes
       el.on('change', '.budget-item-value', (evt) => {
-        let row = jQuery(evt.target).closest('.cost_entry');
+        const row = jQuery(evt.target).closest('.cost_entry');
         this.refreshRow(el, row.attr('id') as string);
       });
 
@@ -62,7 +62,7 @@ export class CostBudgetSubformAugmentService {
       // Add new row handler
       el.find('.budget-add-row').click((evt) => {
         evt.preventDefault();
-        let row = jQuery(template.replace(/INDEX/g, rowIndex.toString()));
+        const row = jQuery(template.replace(/INDEX/g, rowIndex.toString()));
         row.show();
         row.removeClass('budget-row-template');
         container.append(row);
@@ -76,8 +76,8 @@ export class CostBudgetSubformAugmentService {
    * Refreshes the given row after updating values
    */
   public refreshRow(el:JQuery, row_identifier:string) {
-    let row = el.find('#' + row_identifier);
-    let request = this.buildRefreshRequest(row, row_identifier);
+    const row = el.find('#' + row_identifier);
+    const request = this.buildRefreshRequest(row, row_identifier);
 
     this.http
       .post(
@@ -90,7 +90,7 @@ export class CostBudgetSubformAugmentService {
       .subscribe(
         (data:any) => {
           _.each(data, (val:string, selector:string) => {
-            let element = document.getElementById(selector) as HTMLElement|HTMLInputElement|undefined;
+            const element = document.getElementById(selector) as HTMLElement|HTMLInputElement|undefined;
             if (element instanceof HTMLInputElement) {
               element.value = val;
             } else if (element) {
@@ -106,14 +106,14 @@ export class CostBudgetSubformAugmentService {
    * Returns the params for the update request
    */
   private buildRefreshRequest(row:JQuery, row_identifier:string) {
-    let request:any = {
+    const request:any = {
       element_id: row_identifier,
       fixed_date: jQuery('#budget_fixed_date').val()
     };
 
     // Augment common values with specific values for this type
     row.find('.budget-item-value').each((_i:number, el:any) => {
-      let field = jQuery(el);
+      const field = jQuery(el);
       request[field.data('requestKey')] = field.val() || '0';
     });
 

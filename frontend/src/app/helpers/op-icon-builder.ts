@@ -3,7 +3,7 @@
  * and aria-hidden=true set.
  */
 export function opIconElement(...classes:string[]) {
-  let icon = document.createElement('i');
+  const icon = document.createElement('i');
   icon.setAttribute('aria-hidden', 'true');
   icon.classList.add(...classes);
 

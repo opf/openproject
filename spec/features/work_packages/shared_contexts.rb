@@ -37,7 +37,7 @@ shared_context 'ensure wp details pane update done' do
 
     # safeguard to ensure all backend queries
     # have been answered before starting a new spec
-    expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+    expect(page).to have_selector('.op-user-activity--user-name',
                                   text: update_user.name)
   end
 end

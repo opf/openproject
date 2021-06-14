@@ -26,14 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from "core-app/modules/fields/display/display-field.module";
+import { DisplayField } from "core-app/modules/fields/display/display-field.module";
 
 export class ProgressDisplayField extends DisplayField {
   public get value() {
     if (this.schema) {
       return this.resource[this.name] || 0;
-    }
-    else {
+    } else {
       return null;
     }
   }
