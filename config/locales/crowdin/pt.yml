@@ -66,7 +66,7 @@ pt:
       upgrade_to_ee: "Atualizar para a Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
       replace_token: "Substitua seu token atual de suporte"
-      order: "Ordem empresarial na edição local"
+      order: "Encomendar a Edição Enterprise on-premises"
       paste: "Cole seu token de suporte Enterprise Edition"
       required_for_feature: "Esse recurso só está disponível com um token de suporte Enterprise Edition ativo."
       enterprise_link: "Para mais informações, clique aqui."
@@ -200,7 +200,7 @@ pt:
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
     index:
-      open_as_gantt: 'Abrir como uma exibição Gantt'
+      open_as_gantt: 'Abrir como visualização Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
       open_as_gantt_title_admin: "Você pode modificar as configurações de exibição (tais como tipos de pacotes de trabalho selecionados) em administração, nas configurações de projeto."
       no_results_title_text: Atualmente, não existem projetos
@@ -223,7 +223,7 @@ pt:
         no_results_title_text: Atualmente, não há versões para o projeto.
         no_results_content_text: Criar uma nova versão
       storage:
-        no_results_title_text: Não há espaço em disco gravado adicional consumido por este projeto.
+        no_results_title_text: Não há espaço adicional gravado em disco que seja consumido por este projeto.
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -255,7 +255,7 @@ pt:
         Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído".
         Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
       irreversible: "Esta ação é irreversível"
-      confirmation: "Digite o nome de usuário placeholder %{name} para confirmar a exclusão."
+      confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
     upsale:
       title: Atribuir trabalho a pessoas que não são membros do projeto.
       description: >
@@ -577,7 +577,7 @@ pt:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+              minimum: "precisa incluir pelo menos um filtro para principal, contexto ou id com o operador '='."
         custom_field:
           at_least_one_custom_option: "Pelo menos uma opção precisa estar disponível."
         custom_actions:
@@ -833,7 +833,7 @@ pt:
   backup:
     label_backup_token: "Token de backup"
     label_create_token: "Criar token de backup"
-    label_delete_token: "Excluir token do backup"
+    label_delete_token: "Excluir token de backup"
     label_reset_token: "Redefinir token de backup"
     label_token_users: "Os seguintes usuários têm tokens de backup ativos"
     reset_token:
@@ -842,7 +842,7 @@ pt:
       heading_reset: "Redefinir token de backup"
       heading_create: "Criar token de backup"
       implications: >
-        Habilitar backups permitirá que qualquer usuário com as permissões necessárias e este token de backup, biaxe um backup contendo todos os dados desta instalação do Open Project. Isso inclui os dados de todos os outros usuários.
+        Habilitar backups permitirá que qualquer usuário com as permissões necessárias e este token de backup baixe um backup contendo todos os dados desta instalação do OpenProject. Isso inclui os dados de todos os outros usuários.
       info: >
         Você precisará gerar um token de backup para poder criar um backup. Cada vez que você solicitar um backup você terá que fornecer esse token. Você pode excluir o token de backup para desabilitar backups deste usuário.
       verification: >
@@ -850,7 +850,7 @@ pt:
       verification_word_reset: redefinir
       verification_word_create: criar
       warning: >
-        Quando você criar um novo token, só será permitido a solicitação de um backup após 24 horas. Esta é uma medida de segurança. Depois disso, você poderá solicitar um backup a qualquer momento usando esse token.
+        Quando você criar um novo token, somente será permitida a solicitação de um backup após 24 horas. Esta é uma medida de segurança. Depois disso, você poderá solicitar um backup a qualquer momento usando esse token.
     text_token_deleted: Token de backup excluído. Os backups agora estão desativados.
     error:
       invalid_token: Token de backup inválido ou ausente
@@ -974,7 +974,7 @@ pt:
       - "Out"
       - "Nov"
       - "Dez"
-    abbr_week: 'Sem.'
+    abbr_week: 'Sem'
     day_names:
       - "Domingo"
       - "Segunda"
@@ -1810,7 +1810,7 @@ pt:
   label_workflow_summary: "Sumário"
   label_x_closed_work_packages_abbr:
     one: "1 fechado"
-    other: "%{count} fechado"
+    other: "%{count} fechados"
     zero: "0 fechado"
   label_x_comments:
     one: "1 comentário"
@@ -1818,7 +1818,7 @@ pt:
     zero: "sem comentários"
   label_x_open_work_packages_abbr:
     one: "1 aberto"
-    other: "%{count} aberto"
+    other: "%{count} abertos"
     zero: "0 aberto"
   label_x_projects:
     one: "1 projeto"
@@ -1859,7 +1859,7 @@ pt:
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
   mail_body_backup_ready: "Seu backup solicitado está pronto. Você pode baixá-lo aqui:"
-  mail_body_backup_token_reset_admin_info: O token de backup para usuário %{user} foi redefinido.
+  mail_body_backup_token_reset_admin_info: O token de backup para o usuário %{user} foi redefinido.
   mail_body_backup_token_reset_user_info: Seu token de backup foi redefinido.
   mail_body_backup_token_info: O token anterior não é mais válido.
   mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
@@ -1867,7 +1867,7 @@ pt:
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Bem-vindo ao OpenProject. Por favor, ative sua conta clicando neste link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_user: "Prezado(a) %{name},"
   mail_body_register_links_html: |
     Por favor, fique à vontade para navegar em nosso canal do youtube (%{youtube_link}), onde fornecemos um webinar (%{webinar_link}) e vídeos de "Como começar" (%{get_started_link}) para aprender seus primeiros passos no OpenProject da maneira mais simples possível.
     <br />
@@ -1880,7 +1880,7 @@ pt:
   mail_body_wiki_content_updated: "A página wiki '%{id}' foi atualizada por %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_backup_ready: "Seu backup está pronto"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_token_reset: "Redefinir token de backup"
   mail_subject_lost_password: "Sua senha %{value}"
   mail_subject_register: "Sua ativação de conta: %{value}"
   mail_subject_reminder: "%{count} pacote(s) de trabalho finalizam nos próximos %{days} dias:"
@@ -1892,22 +1892,22 @@ pt:
     body:
       added_by:
         without_message: "%{user} adicionou você como membro do projeto '%{project}'."
-        with_message: "%{user} adicionou você como membro do projeto '%{project}' escrevendo:"
-      roles: "Você tem as seguintes funções:"
+        with_message: "%{user} adicionou você como membro do projeto '%{project}' com a seguinte mensagem:"
+      roles: "Você tem os seguintes papéis:"
   mail_member_updated_project:
-    subject: "%{project} - Suas funções foram atualizadas"
+    subject: "%{project} - Seus papéis foram atualizados"
     body:
       updated_by:
-        without_message: "%{user} atualizou as funções que você tem no projeto '%{project}'."
-        with_message: "%{user} atualizou as funções que você tem no projeto '%{project}' escrevendo:"
-      roles: "Agora você tem as seguintes funções:"
+        without_message: "%{user} atualizou os papéis que você tem no projeto '%{project}'."
+        with_message: "%{user} atualizou os papéis que você tem no projeto '%{project}' com a seguinte mensagem:"
+      roles: "Agora você tem os seguintes papéis:"
   mail_member_updated_global:
     subject: "Suas permissões globais foram atualizadas"
     body:
       updated_by:
-        without_message: "%{user} atualizou as funções que você tem globalmente."
-        with_message: "%{user} atualizou os papéis que você tem globalmente escrevendo:"
-      roles: "Agora você tem as seguintes funções:"
+        without_message: "%{user} atualizou os papéis que você tem globalmente."
+        with_message: "%{user} atualizou as funções que você tem globalmente com a seguinte mensagem:"
+      roles: "Agora você tem os seguintes papéis:"
   mail_user_activation_limit_reached:
     subject: Limite de ativação de usuários atingido
     message: |
@@ -2014,7 +2014,7 @@ pt:
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
   permission_manage_user: "Criar e editar usuários"
-  permission_manage_placeholder_user: "Criar, editar e excluir usuários do placeholder"
+  permission_manage_placeholder_user: "Criar, editar e excluir usuários do espaço reservado"
   permission_add_subprojects: "Criar subprojetos"
   permission_add_work_package_watchers: "Adicionar observadores"
   permission_assign_versions: "Atribuir versões"
@@ -2225,7 +2225,7 @@ pt:
     deactivated: 'desativado'
   search_input_placeholder: "Pesquisar..."
   setting_apiv3_cors_enabled: "Habilitar CORS"
-  setting_apiv3_cors_origins: "Origens permitidas à API V3 Cross-Origin Resource Sharing (CORS)"
+  setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
   setting_email_delivery_method: "Método de entrega de e-mail"
@@ -2304,7 +2304,7 @@ pt:
   setting_per_page_options: "Opções de objetos por página"
   setting_plain_text_mail: "Mensagens de texto simples (sem HTML)"
   setting_protocol: "Protocolo"
-  setting_project_gantt_query: "Exibição Gantt do portfólio do projeto"
+  setting_project_gantt_query: "Visualização Gantt do portfólio de projetos"
   setting_project_gantt_query_text: "Você pode modificar a consulta que é usada para exibir o gráfico Gantt da página de visão geral do projeto."
   setting_security_badge_displayed: "Exibir distintivo de segurança"
   setting_registration_footer: "Rodapé de registro"
@@ -2748,7 +2748,7 @@ pt:
       invalid_resource: "Para a propriedade '%{property}' é esperado um link como '%{expected}' mas foi encontrado '%{actual}'."
       invalid_signal:
         embed: "A incorporação solicitada de %{invalid} não é suportada. As incorporações suportadas são %{supported}."
-        select: "A seleção solicitada de %{invalid} não é suportada. As seleções suportadas são %{supported}."
+        select: "A seleção requisitada de %{invalid} não é suportada. As seleções suportadas são %{supported}."
       invalid_user_status_transition: "A situação da conta do usuário atual não permite esta operação."
       missing_content_type: "não especificado"
       missing_request_body: "Não havia corpo da requisição."

@@ -25,15 +25,15 @@ ru:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "Запросы на слияние"
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git-сниппеты
+          description: Копировать сниппеты git в буфер обмена
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          branch_name: Имя ветки
+          commit_message: Описание коммита
+          cmd: Создать ветку с пустым коммитом
+          title: Быстрые сниппеты для Git
           copy_success: '✅ Скопировано!'
           copy_error: '❌ Сбой копирования!'
       tab_prs:

@@ -63,17 +63,17 @@ After [adding lists to your board](#add-lists-to-your-board) they will automatic
 
 There are several **types of Action boards** available:
 
-**Status board:** Each list represents a status. That means that e.g. all work packages with the status "New" will be automatically displayed in the column "New". 
+#### Status board: Each list represents a status. That means that e.g. all work packages with the status "New" will be automatically displayed in the column "New". 
 When creating a new Status board a list with all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually.
 Please note: You can't move work packages from or to every status. Please find out more about the work-flow logics restricting this here: [Allowed transitions between status](../../system-admin-guide/manage-work-packages/work-package-workflows/)
 
-**Assignee board:** Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees.
+#### Assignee board: Every list represents one assignee. You can choose regular users, [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) and groups as assignees.
 
-**Version board:** Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually.
+#### Version board: Every list represents a version. This board is ideal for product development or planning software releases. When creating a new Version board a list with all work packages in the version(s) belonging to the current project will be added automatically, while additional lists need to be added manually.
 
-**Subproject board:** Every list represents a subproject. Within the list you will find the subproject's work packages. 
+#### Subproject board: Every list represents a subproject. Within the list you will find the subproject's work packages. 
 
-**Parent-Child board:** Every list represents a parent work package. Within the list you will find the work package's children. 
+#### Parent-Child board: Every list represents a parent work package. Within the list you will find the work package's children. 
 Only work packages from the current project can be selected as a list, i.e. can be chosen as the name of the list.
 The Parent-Child board is ideal for depicting a **work breakdown structure (WBS)**.
 Please note: This will only display one hierarchy level below the displayed work package, i.e. only immediate children and no grandchildren.

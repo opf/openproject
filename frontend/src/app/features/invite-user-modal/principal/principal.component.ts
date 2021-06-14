@@ -1,15 +1,19 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { FormControl, FormGroup, Validators, } from '@angular/forms';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { PrincipalData, PrincipalLike } from "core-app/shared/components/principal/principal-types";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component"
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { PrincipalType } from '../invite-user.component';
 import { take } from 'rxjs/internal/operators/take';
 import { map } from 'rxjs/operators';
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component";
+import { PrincipalData, PrincipalLike } from "core-app/shared/components/principal/principal-types";
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 function extractCustomFieldsFromSchema(schema:IOPFormSettings['_embedded']['schema']) {
   return Object.keys(schema)
@@ -120,8 +124,7 @@ export class PrincipalComponent implements OnInit {
     readonly httpClient:HttpClient,
     readonly apiV3Service:APIV3Service,
     readonly cdRef:ChangeDetectorRef,
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.principalControl?.setValue(this.principalData.principal);

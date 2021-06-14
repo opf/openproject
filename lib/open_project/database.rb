@@ -43,6 +43,8 @@ module OpenProject
 
     class UnsupportedDatabaseError < StandardError; end
 
+    class DeprecatedVersionWarning < StandardError; end
+
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
@@ -104,13 +106,18 @@ module OpenProject
                   "but current version is #{current}"
 
         raise InsufficientVersionError.new message
+      elsif !version_matches?(130000)
+        message = "The next major release of OpenProject (v12) will require PostgreSQL 13 or later.\n" \
+                  "You can anticipate this upgrade by updating your database installation by following the guide at " \
+                  "https://docs.openproject.org/installation-and-operations/misc/migration-to-postgresql13/"
+        raise DeprecatedVersionWarning.new message
       end
     end
 
     ##
     # Return +true+ if the required version is matched by the current connection.
-    def self.version_matches?
-      numeric_version >= required_version[:numeric]
+    def self.version_matches?(required_numeric_version = nil)
+      numeric_version >= (required_numeric_version || required_version[:numeric])
     end
 
     # Get the raw name of the currently used database adapter.

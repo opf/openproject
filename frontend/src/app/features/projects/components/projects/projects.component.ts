@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService } from "@uirouter/core";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 @Component({
   selector: 'app-projects',
