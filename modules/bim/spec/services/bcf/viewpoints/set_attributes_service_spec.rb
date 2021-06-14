@@ -37,7 +37,7 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
 
     allow(contract)
       .to receive(:new)
-      .with(viewpoint, user, options: { changed_by_system: [] })
+      .with(viewpoint, user, options: {})
       .and_return(contract_instance)
 
     contract

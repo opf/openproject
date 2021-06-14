@@ -126,7 +126,7 @@ describe 'user deletion: ', type: :feature, js: true do
       Setting.users_deletable_by_admins = 0
       Setting.users_deletable_by_self = 0
 
-      visit users_settings_path
+      visit admin_settings_users_path
 
       find(:css, "#settings_users_deletable_by_admins").set(true)
       find(:css, "#settings_users_deletable_by_self").set(true)

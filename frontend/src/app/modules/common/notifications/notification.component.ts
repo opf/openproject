@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import {
   INotification,
   NotificationsService,
@@ -95,6 +95,6 @@ export class NotificationComponent implements OnInit {
 
   public get uploadText() {
     return this.I18n.t('js.label_upload_counter',
-      { done: this.uploadCount, count: this.data.length});
+      { done: this.uploadCount, count: this.data.length });
   }
 }

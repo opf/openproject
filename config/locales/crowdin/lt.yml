@@ -172,6 +172,8 @@ lt:
       no_results_content_text: Sukurti naują pasirinktinį lauką
   concatenation:
     single: 'arba'
+  documentation:
+    see_more_link: Daugiau informacijos galima rasti dokumentacijoje šia tema.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -202,6 +204,7 @@ lt:
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     settings:
+      change_identifier: Pokyčio identifikatorius
       activities:
         no_results_title_text: Kolkas neprieinama jokia veikla.
       forums:
@@ -217,10 +220,13 @@ lt:
       versions:
         no_results_title_text: Projektas neturi jokių laidų.
         no_results_content_text: Sukurti naują versiją
+      storage:
+        no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
       no_results_content_text: Įtraukti narį į projektą
+    invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -238,6 +244,9 @@ lt:
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
   placeholder_users:
+    right_to_manage_members_missing: >
+      Jums neleidžiama ištrinti statytinio vartotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis vartotojas yra narys.
+    delete_tooltip: "Pašalinti statytinį vartotoją"
     deletion_info:
       heading: "Pašalinti statytinį vartotoją %{name}"
       data_consequences: >
@@ -247,7 +256,8 @@ lt:
       confirmation: "Naikinimo patvirtinimui įveskite statytinio vartotojo vardą %{name}."
     upsale:
       title: Priskirkite darbus žmonėms, kurie nėra projekto nariai.
-      description: Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
+      description: >
+        Gali būti keletas scenarijų kuriuose jūs norite priskirti darbus žmogui, kuris nėra projekto narys. Paprasčiausiai, žmogus gali dar nebūti priimtas į darbą. Arba jūs nenorite duoti žmogui prieigos prie projekto informacijos, tačiau norite sekti šiam žmogui priskirtas užduotis.
   prioritiies:
     edit:
       priority_color_text: |
@@ -562,6 +572,12 @@ lt:
         unremovable: "negali būti pašalintas."
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
+        capability:
+          context:
+            global: 'Globali'
+          query:
+            filters:
+              minimum: "turite įtraukti bent vieną nario, konteksto ar id filtrą su '=' operatoriumi."
         custom_field:
           at_least_one_custom_option: "Turi būti prieinama bent viena savybė."
         custom_actions:
@@ -601,6 +617,9 @@ lt:
           attributes:
             types:
               in_use_by_work_packages: "vis dar naudojama darbų paketuose: %{types}"
+            enabled_modules:
+              dependency_missing: "Reikia taip pat įjungti ir modulį '%{dependency}' nes modulis '%{module}' priklauso nuo jo."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -788,7 +807,7 @@ lt:
     firstname: "Vardas"
     group: "Grupė"
     groups: "Grupės"
-    groupname: "Grupės pavadinimas"
+    name: "Vardas"
     id: "ID"
     is_default: "Numatytoji vertė"
     is_for_all: "Visiems projektams"
@@ -798,7 +817,6 @@ lt:
     lastname: "Pavardė"
     login: "Naudotojas"
     mail: "El. paštas"
-    name: "Vardas"
     password: "Slaptažodis"
     priority: "Pirmenybė"
     project: "Projektas"
@@ -818,6 +836,33 @@ lt:
     user: "Vartotojas"
     version: "Versija"
     work_package: "Darbų paketas"
+  backup:
+    label_backup_token: "Atsarginės kopijos žetonas"
+    label_create_token: "Sukurti atsarginės kopijos žetoną"
+    label_delete_token: "Pašalinti atsarginės kopijos žetoną"
+    label_reset_token: "Atstatyti atsarginės kopijos žetoną"
+    label_token_users: "Šie vartotojai turi atsarginės kopijos žetonus"
+    reset_token:
+      action_create: Sukurti
+      action_reset: Nustatyti iš naujo
+      heading_reset: "Atstatyti atsarginės kopijos žetoną"
+      heading_create: "Sukurti atsarginės kopijos žetoną"
+      implications: >
+        Atsarginių kopijų įgalinimas leis bet kuriam vartotojui su priskirtomis teisėmis iš šiuo atsarginės kopijos žetonu parsisiųsti atsarginę kopiją turinčią visus šios OpenProject instaliacijos duomenis. Juos bus ir visų kitų vartotojų duomenys.
+      info: >
+        Jums reikės sugeneruoti atsarginės kopijos žetoną norint sukurti atsarginę kopiją. Kaskart, kai jūs norėsite sukurti atsarginę kopiją turėsite pateikti šį žetoną. Jūs galite ištrinti žetoną ir taip atimsite iš vartotojo teisę daryti atsargines kopijas.
+      verification: >
+        Įveskite %{word} norėdami patvirtinti veiksmą su atsarginės kopijos žetonu: %{action}.
+      verification_word_reset: atstatyti
+      verification_word_create: sukurti
+      warning: >
+        Kai jūs sukuriate atsarginės kopijos žetoną, daryti atsargines kopijas jums bus leista po 24 valandų. Tai apsauga. Po šio laiko galėsite užsakyti atsarginę kopiją bet kuriuo metu panaudoję šį žetoną.
+    text_token_deleted: Atsarginės kopijos žetonas ištrintas. Atsarginės kopijos dabar atjungtos.
+    error:
+      invalid_token: Nepateiktas arba neteisingas žetonas.
+      token_cooldown: Atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
+      backup_pending: Atsarginės kopijos darymas jau paleistas.
+      limit_reached: Jūs galite daryti tik %{limit} atsarginės kopijas per dieną.
   button_add: "Pridėti"
   button_add_comment: "Pridėti komentarą"
   button_add_member: Pridėti narį
@@ -897,12 +942,17 @@ lt:
     text_update_consent_time: Įjunkite šią varnelę jei norite, kad naudotojai būtų priversti iš naujo sutikti. Įjunkite, kai pakeitėte teisinius aukščiau esančio sutikimo aspektus.
     update_consent_last_time: "Paskutinis sutikimo atnaujinimas: %{update_time}"
   copy_project:
+    title: 'Kopijuoti projektą „%{source_project_name}“'
     started: "Pradėtas kopijuoti „%{source_project_name}“ projektas į „%{target_project_name}“. Jums bus pranešta laišku, kai tik „%{target_project_name}“ projektas taps pasiekiamas."
     failed: "Negalima kopijuoti „%{source_project_name}“ projekto"
     failed_internal: "Kopijavimas nepavyko dėl vidinės klaidos."
     succeeded: "Sukurtas projektas pavadinimu „%{target_project_name}“"
     errors: "Klaida"
     project_custom_fields: 'Vartotojo laukai projektui'
+    x_objects_of_this_type:
+      zero: 'Nėra šio tipo objektų'
+      one: 'Vienas šio tipo objektas'
+      other: '%{count} šio tipo objektų'
     text:
       failed: "Nepavyko nukopijuoti „%{source_project_name}“ projekto į „%{target_project_name}“ projektą."
       succeeded: "Projektas „%{source_project_name}“ sėkmingai nukopijuotas į „%{target_project_name}“."
@@ -1072,7 +1122,7 @@ lt:
   default_role_anonymous: "Anonimas"
   default_role_developer: "Kūrėjas"
   default_role_project_admin: "Projekto administratorius"
-  default_role_project_creator: "Projekto autorius"
+  default_role_project_creator_and_staff_manager: "Personalo ir projektų vadovas"
   default_role_non_member: "Nėra narys"
   default_role_reader: "Skaitytojas"
   default_role_member: "Narys"
@@ -1250,6 +1300,9 @@ lt:
   instructions_after_registration: "Galėsite prisijungti, kai tik jūsų paskyra bus aktyvuota paspaudžiant %{signin}."
   instructions_after_logout: "Galite vėl prisijungti paspausdami %{signin}."
   instructions_after_error: "Bandykite prisijungti dar kartą spustelėdami %{signin}. Jei klaida kartosis, kreipkitės į administratorių."
+  menus:
+    quick_add:
+      label: "Atidaryti greitą pridėjimo meniu"
   my_account:
     access_tokens:
       no_results:
@@ -1309,6 +1362,7 @@ lt:
   label_available_project_versions: 'Galimos versijos'
   label_available_project_repositories: 'Galimos saugyklos'
   label_api_documentation: "API dokumentacija"
+  label_backup: "Atsarginė kopija"
   label_between: "tarp"
   label_blocked_by: "blokuojamas"
   label_blocks: "blokai"
@@ -1511,6 +1565,8 @@ lt:
   label_member_new: "Naujas narys"
   label_member_all_admin: "(Visos rolės, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
+  lable_membership_added: 'Narys pridėtas'
+  lable_membership_updated: 'Narys atnaujintas'
   label_menu_item_name: "Meniu punkto pavadinimas"
   label_message: "Pranešimas"
   label_message_last: "Paskutinis pranešimas"
@@ -1832,6 +1888,12 @@ lt:
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
+  mail_body_backup_ready: "Jūsų prašyta atsarginė kopija yra paruošta. Ją galite parsisiųsti čia:"
+  mail_body_backup_token_reset_admin_info: Atsarginės kopijos žetonas vartotojui '%{user}' buvo atstatytas.
+  mail_body_backup_token_reset_user_info: Jūsų atsarginės kopijos žetonas buvo atstatytas.
+  mail_body_backup_token_info: Ankstesnis žetonas nebegalioja.
+  mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
+  mail_body_backup_token_warning: Jei tai buvote ne jūs, nedelsiant prisijunkite prie OpenProject ir atšaukite jį dar kartą.
   mail_body_lost_password: "Norėdami pakeisti slaptažodį, spauskite nuorodą:"
   mail_body_register: "Sveikinimai nuo OpenProject. Prašome aktyvuoti savo paskyrą. Tam paspauskite šią nuorodą:"
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
@@ -1848,12 +1910,35 @@ lt:
   mail_body_wiki_content_added: "%{author} pridėjo '%{id}' wiki puslapį."
   mail_body_wiki_content_updated: "%{author} atnaujino '%{id}' wiki puslapį."
   mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
+  mail_subject_backup_ready: "Jūsų atsarginė kopija paruošta"
+  mail_subject_backup_token_reset: "Jūsų atsarginės kopijos žetonas buvo atstatytas"
   mail_subject_lost_password: "Jūsų slaptažodis %{value}"
   mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
   mail_subject_reminder: "%{count} darbų paketas(-ai, -ų) baigiasi per ateinančias %{days} dienas(-ai, -ų)"
   mail_subject_group_reminder: "Grupės „%{group}“ %{count} darbo paketas(ai) turi būti baigti per kitas %{days} dienas"
   mail_subject_wiki_content_added: "Wiki puslapis '%{id}' buvo pridėtas"
   mail_subject_wiki_content_updated: "Wiki puslapis '%{id}' buvo atnaujintas"
+  mail_member_added_project:
+    subject: "%{project} - Jūs buvote pridėtas kaip narys"
+    body:
+      added_by:
+        without_message: "%{user} pridėjo jus kaip narį į projektą '%{project}'."
+        with_message: "%{user} pridėjo jus kaip narį į projektą '%{project}' su prierašu:"
+      roles: "Jūs turite tokias roles"
+  mail_member_updated_project:
+    subject: "%{project} - Jūsų rolės buvo atnaujintos"
+    body:
+      updated_by:
+        without_message: "%{user} atnaujino roles, kurias jūs turite projekte '%{project}'."
+        with_message: "%{user} atnaujino jūsų roles projekte '%{project}' su prierašu:"
+      roles: "Jūs dabar turite tokias roles:"
+  mail_member_updated_global:
+    subject: "Jūsų globalios teisės buvo atnaujintos"
+    body:
+      updated_by:
+        without_message: "%{user} atnaujino teises, kurias jūs turite globaliai."
+        with_message: "%{user} atnaujino jūsų globaliai turimas roles su prierašu:"
+      roles: "Jūs dabar turite tokias roles:"
   mail_user_activation_limit_reached:
     subject: Pasiekta vartotojų aktyvinimo riba
     message: |
@@ -2207,6 +2292,7 @@ lt:
   setting_consent_required: "Reikia sutikimo"
   setting_consent_decline_mail: "Sutikimo kontaktinis pašto adresas"
   setting_cross_project_work_package_relations: "Leisti tarp-projektinius darbų paketo ryšius"
+  setting_first_week_of_year: "Pirma metų savaitė turi"
   setting_date_format: "Datos formatas"
   setting_default_language: "Numatytoji kalba"
   setting_default_notification_option: "Numatytoji pranešimų nuostata"
@@ -2264,7 +2350,6 @@ lt:
   setting_repository_truncate_at: "Maksimalus failų skaičius, kuris rodomas repozitorijos naršyklėje"
   setting_rest_api_enabled: "Įjungti REST tinklo tarnybą"
   setting_self_registration: "Registracija savarankiškai"
-  setting_sequential_project_identifiers: "Generuoti nuoseklius projekto identifikatorius"
   setting_session_ttl: "Seanso galiojimo laikas po neaktyvumo"
   setting_session_ttl_hint: "Vertė, mažesnė už 5, išjungia"
   setting_session_ttl_enabled: "Sesija baigiasi"
@@ -2288,6 +2373,11 @@ lt:
     passwords: "Slaptažodžiai"
     session: "Sesija"
     brute_force_prevention: "Automatinis vartotojų blokavimas"
+    display:
+      first_date_of_week_and_year_set: >
+        Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų vartotojo sąsajoje.
+      first_week_of_year_text: >
+        Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
     projects:
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų peržiūros sąrašui"
@@ -2593,6 +2683,8 @@ lt:
     getting_started: "Darbo pradžia"
     help_and_support: "Pagalba ir palaikymas"
   total_progress: "Visas progresas"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "visi"
     active: "aktyvus"
@@ -2681,6 +2773,7 @@ lt:
       code_403: "Jūs nesate autorizuotas šiam resursui pasiekti."
       code_404: "Reikalaujamas resursas nerastas."
       code_409: "Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų."
+      code_429: "Per daug užklausų. Pabandykite vėliau."
       code_500: "Įvyko vidinė klaida."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
@@ -2690,6 +2783,9 @@ lt:
       invalid_json: "Užklausos nepavyko atpažinti kaip JSON."
       invalid_relation: "Ryšys yra netinkamas."
       invalid_resource: "Ypatybei '%{property}' sąsajai kaip '%{expected}' yra laukiama, bet gauta '%{actual}'."
+      invalid_signal:
+        embed: "Prašomas %{invalid} įterpinys yra nepalaikomas. Palaikomi įterpiniai yra %{supported}."
+        select: "Prašomas %{invalid} pasirinkimas yra nepalaikomas. Palaikomi pasirinkimai yra %{supported}."
       invalid_user_status_transition: "Esama vartotojo paskyros būsena neleidžia šios operacijos."
       missing_content_type: "nenurodyta"
       missing_request_body: "Nėra užklausos turinio."
@@ -2798,3 +2894,4 @@ lt:
     authorization_error: "Įvyko autorizacijos klaida."
     revoke_my_application_confirmation: "Ar tikrai norite išimti šią aplikaciją? Tai atšauks %{token_count} aktyvių žetonų."
     my_registered_applications: "Registruotos OAuth aplikacijos"
+  you: jūs

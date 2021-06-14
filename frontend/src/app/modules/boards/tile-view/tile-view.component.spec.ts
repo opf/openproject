@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {DebugElement} from '@angular/core';
-import {By} from '@angular/platform-browser';
-import {TileViewComponent} from './tile-view.component';
-import {ImageHelpers} from "core-app/helpers/images/path-helper";
+import { DebugElement } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { TileViewComponent } from './tile-view.component';
+import { ImageHelpers } from "core-app/helpers/images/path-helper";
 import imagePath = ImageHelpers.imagePath;
 
 describe('shows tiles', () => {
@@ -10,7 +10,7 @@ describe('shows tiles', () => {
   let fixture:ComponentFixture<TileViewComponent>;
   let element:DebugElement;
 
-  let tilesStub = [{
+  const tilesStub = [{
     attribute: 'basic',
     text: 'Basic board',
     icon: 'icon-boards',
@@ -35,20 +35,20 @@ describe('shows tiles', () => {
 
   it('should render the componenet successfully', () => {
     fixture.detectChanges();
-    let tile = document.querySelector('.tile-blocks--container');
+    const tile = document.querySelector('.tile-blocks--container');
     expect(document.contains(tile)).toBeTruthy();
   });
 
   it('should show each tile', () => {
     fixture.detectChanges();
-    let tile:HTMLElement = element.query(By.css('.tile-block')).nativeElement;
+    const tile:HTMLElement = element.query(By.css('.tile-block')).nativeElement;
     expect(tile.textContent).toContain('Basic');
 
   });
 
   it('should show the image', () => {
     fixture.detectChanges();
-    let tile = document.querySelector('.tile-block-image');
+    const tile = document.querySelector('.tile-block-image');
     expect(document.contains(tile)).toBeTruthy();
 
   });

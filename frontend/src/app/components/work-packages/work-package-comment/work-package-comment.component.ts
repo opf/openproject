@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {ErrorResource} from 'core-app/modules/hal/resources/error-resource';
-import {WorkPackagesActivityService} from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import {LoadingIndicatorService} from "core-app/modules/common/loading-indicator/loading-indicator.service";
-import {CommentService} from "core-components/wp-activity/comment-service";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { ErrorResource } from 'core-app/modules/hal/resources/error-resource';
+import { WorkPackagesActivityService } from 'core-components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { LoadingIndicatorService } from "core-app/modules/common/loading-indicator/loading-indicator.service";
+import { CommentService } from "core-components/wp-activity/comment-service";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -44,13 +44,13 @@ import {
   TemplateRef,
   ViewChild
 } from "@angular/core";
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {WorkPackageCommentFieldHandler} from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
-import {WorkPackageNotificationService} from "core-app/modules/work_packages/notifications/work-package-notification.service";
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { WorkPackageCommentFieldHandler } from "core-components/work-packages/work-package-comment/work-package-comment-field-handler";
+import { WorkPackageNotificationService } from "core-app/modules/work_packages/notifications/work-package-notification.service";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 
 @Component({
   selector: 'work-package-comment',
@@ -142,7 +142,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
     this.inFlight = true;
     await this.onSubmit();
-    let indicator = this.loadingIndicator.wpDetails;
+    const indicator = this.loadingIndicator.wpDetails;
     return indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
       .then(() => {
         this.active = false;

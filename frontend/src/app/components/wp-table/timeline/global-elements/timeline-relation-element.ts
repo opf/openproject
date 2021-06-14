@@ -1,4 +1,4 @@
-import {RelationResource} from 'core-app/modules/hal/resources/relation-resource';
+import { RelationResource } from 'core-app/modules/hal/resources/relation-resource';
 
 export function workPackagePrefix(workPackageId:string) {
   return `__tl-relation-${workPackageId}`;

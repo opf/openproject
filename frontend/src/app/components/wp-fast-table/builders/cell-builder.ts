@@ -1,12 +1,12 @@
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import {
   DisplayFieldRenderer,
   editFieldContainerClass
 } from "core-app/modules/fields/display/display-field-renderer";
-import {Injector} from '@angular/core';
-import {QueryColumn} from "core-components/wp-query/query-column";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { QueryColumn } from "core-components/wp-query/query-column";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
 

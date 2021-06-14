@@ -2,7 +2,7 @@
  * A PortalOutlet that lets multiple components live for the lifetime of the outlet,
  * allowing faster switching and persistent data.
  */
-import {ComponentPortal} from '@angular/cdk/portal';
+import { ComponentPortal } from '@angular/cdk/portal';
 import {
   ApplicationRef,
   ComponentFactoryResolver,
@@ -10,11 +10,9 @@ import {
   EmbeddedViewRef,
   Injector
 } from '@angular/core';
+import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
 
-export interface TabInterface {
-  name:string;
-  title:string;
-  disableBecause?:string;
+export interface TabInterface extends TabDefinition {
   componentClass:{ new(...args:any[]):TabComponent };
 }
 
@@ -22,8 +20,7 @@ export interface TabComponent {
   onSave:() => void;
 }
 
-export interface ActiveTabInterface {
-  name:string;
+export interface ActiveTabInterface extends TabDefinition {
   portal:ComponentPortal<TabComponent>;
   componentRef:ComponentRef<TabComponent>;
   dispose:() => void;
@@ -50,15 +47,9 @@ export class TabPortalOutlet {
     return tabs.map((tab:ActiveTabInterface) => tab.componentRef.instance);
   }
 
-  public switchTo(name:string) {
-    const tab = _.find(this.availableTabs, tab => tab.name === name);
-
-    if (!tab) {
-      throw(`Trying to switch to unknown tab ${name}.`);
-    }
-
-    if (tab.disableBecause != null) {
-      return false;
+  public switchTo(tab:TabInterface):void {
+    if (tab.disable !== undefined) {
+      return;
     }
 
     // Detach any current instance
@@ -71,10 +62,10 @@ export class TabPortalOutlet {
     // where we want it to be rendered.
     this.outletElement.innerHTML = '';
     this.outletElement.appendChild(this._getComponentRootNode(instance.componentRef));
-    this.outletElement.dataset.tabName = tab.title;
+    this.outletElement.dataset.tabName = tab.name;
     this.currentTab = instance;
 
-    return false;
+    return;
   }
 
   public detach():void {
@@ -115,7 +106,7 @@ export class TabPortalOutlet {
     this.appRef.attachView(componentRef.hostView);
 
     return {
-      name: tab.name,
+      ...tab,
       portal: portal,
       componentRef: componentRef,
       dispose: () => {

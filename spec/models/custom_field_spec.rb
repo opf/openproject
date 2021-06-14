@@ -365,6 +365,80 @@ describe CustomField, type: :model do
     end
   end
 
+  describe '#multi_value_possible?' do
+    context 'with a wp list cf' do
+      let(:field) { FactoryBot.build_stubbed :list_wp_custom_field }
+
+      it 'is true' do
+        expect(field)
+          .to be_multi_value_possible
+      end
+    end
+
+    context 'with a wp user cf' do
+      let(:field) { FactoryBot.build_stubbed :user_wp_custom_field }
+
+      it 'is true' do
+        expect(field)
+          .to be_multi_value_possible
+      end
+    end
+
+    context 'with a wp int cf' do
+      let(:field) { FactoryBot.build_stubbed :int_wp_custom_field }
+
+      it 'is true' do
+        expect(field)
+          .not_to be_multi_value_possible
+      end
+    end
+
+    context 'with a project list cf' do
+      let(:field) { FactoryBot.build_stubbed :list_project_custom_field }
+
+      it 'is true' do
+        expect(field)
+          .to be_multi_value_possible
+      end
+    end
+
+    context 'with a project user cf' do
+      let(:field) { FactoryBot.build_stubbed :user_project_custom_field }
+
+      it 'is true' do
+        expect(field)
+          .to be_multi_value_possible
+      end
+    end
+
+    context 'with a project int cf' do
+      let(:field) { FactoryBot.build_stubbed :int_project_custom_field }
+
+      it 'is true' do
+        expect(field)
+          .not_to be_multi_value_possible
+      end
+    end
+
+    context 'with a time_entry user cf' do
+      let(:field) { FactoryBot.build_stubbed :time_entry_custom_field, field_format: 'user' }
+
+      it 'is true' do
+        expect(field)
+          .not_to be_multi_value_possible
+      end
+    end
+
+    context 'with a time_entry list cf' do
+      let(:field) { FactoryBot.build_stubbed :time_entry_custom_field, field_format: 'list' }
+
+      it 'is true' do
+        expect(field)
+          .not_to be_multi_value_possible
+      end
+    end
+  end
+
   describe '#destroy' do
     it 'removes the cf' do
       field.save!

@@ -26,33 +26,33 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, Injector, OnInit} from '@angular/core';
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {State} from 'reactivestates';
-import {combineLatest} from 'rxjs';
-import {filter, map, take} from 'rxjs/operators';
-import {States} from '../../../states.service';
-import {RelationsStateValue, WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
-import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
-import {WorkPackageViewTimelineService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { Component, ElementRef, Injector, OnInit } from '@angular/core';
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { State } from 'reactivestates';
+import { combineLatest } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import { States } from '../../../states.service';
+import { RelationsStateValue, WorkPackageRelationsService } from '../../../wp-relations/wp-relations.service';
+import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
+import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
+import { timelineElementCssClass, TimelineViewParameters } from '../wp-timeline';
+import { TimelineRelationElement, workPackagePrefix } from './timeline-relation-element';
+import { WorkPackageViewTimelineService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
 export const timelineGlobalElementCssClassname = 'relation-line';
 
 function newSegment(vp:TimelineViewParameters,
-                    classNames:string[],
-                    yPosition:number,
-                    top:number,
-                    left:number,
-                    width:number,
-                    height:number,
-                    color?:string):HTMLElement {
+  classNames:string[],
+  yPosition:number,
+  top:number,
+  left:number,
+  width:number,
+  height:number,
+  color?:string):HTMLElement {
 
   const segment = document.createElement('div');
   segment.classList.add(
@@ -231,11 +231,11 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   }
 
   private renderRelation(vp:TimelineViewParameters,
-                         e:TimelineRelationElement,
-                         idxFrom:number,
-                         idxTo:number,
-                         startCell:WorkPackageTimelineCell,
-                         endCell:WorkPackageTimelineCell) {
+    e:TimelineRelationElement,
+    idxFrom:number,
+    idxTo:number,
+    startCell:WorkPackageTimelineCell,
+    endCell:WorkPackageTimelineCell) {
 
     const rowFrom = this.workPackageIdOrder[idxFrom];
     const rowTo = this.workPackageIdOrder[idxTo];
@@ -272,7 +272,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
     const startLineWith = endCell.getPaddingLeftForIncomingRelationLines()
       + (paddingRight > 0 ? paddingRight : 0);
     this.container.append(newSegment(vp, e.classNames, idxFrom, 19, startX, startLineWith, 1, 'red'));
-    let lastX = startX + startLineWith;
+    const lastX = startX + startLineWith;
     // lastX += hookLength;
 
     // Draw vertical line between rows

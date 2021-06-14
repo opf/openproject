@@ -70,5 +70,5 @@ end
 if errors.empty?
   warn "No rspec errors found :-/"
 else
-  puts errors.flatten.join(" ")
+  puts errors.flatten.uniq.join(" ")
 end

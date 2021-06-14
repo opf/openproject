@@ -105,16 +105,8 @@ class Sprint < Version
   def wiki_page
     return '' unless project.wiki
 
+    create_wiki_page(name) unless project.wiki.find_page(name)
     update_attribute(:wiki_page_title, name) if wiki_page_title.blank?
-
-    page = project.wiki.find_page(wiki_page_title)
-    template = project.wiki.find_page(Setting.plugin_openproject_backlogs['wiki_template'])
-
-    if template and not page
-      page = project.wiki.pages.build(title: wiki_page_title)
-      page.build_content(text: "h1. #{name}\n\n#{template.text}")
-      page.save!
-    end
 
     wiki_page_title
   end
@@ -162,5 +154,20 @@ class Sprint < Version
     # for reasons beyond me,
     # the default_scope needs to be explicitly applied.
     Impediment.default_scope.where(version_id: self, project_id: project)
+  end
+
+  private
+
+  def create_wiki_page(page_title)
+    template = project.wiki.find_page(Setting.plugin_openproject_backlogs['wiki_template'])
+    page_text = if template
+                  "h1. #{name}\n\n#{template.text}"
+                else
+                  "h1. #{name}"
+                end
+
+    page = project.wiki.pages.build(title: page_title)
+    page.build_content(text: page_text)
+    page.save!
   end
 end

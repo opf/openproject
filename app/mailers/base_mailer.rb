@@ -29,6 +29,8 @@
 #++
 
 class BaseMailer < ActionMailer::Base
+  layout 'mailer'
+
   helper :application, # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
@@ -36,7 +38,7 @@ class BaseMailer < ActionMailer::Base
   include OpenProject::LocaleHelper
 
   # Send all delayed mails with the following job
-  self.delivery_job = ::MailerJob
+  self.delivery_job = ::Mails::MailerJob
 
   # wrap in a lambda to allow changing at run-time
   default from: Proc.new { Setting.mail_from }
@@ -95,7 +97,7 @@ class BaseMailer < ActionMailer::Base
 
     def default_url_options
       options = super.merge host: host, protocol: protocol
-      unless OpenProject::Configuration.rails_relative_url_root.blank?
+      if OpenProject::Configuration.rails_relative_url_root.present?
         options[:script_name] = OpenProject::Configuration.rails_relative_url_root
       end
 

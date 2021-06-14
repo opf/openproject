@@ -46,6 +46,12 @@ module OpenProject
       'autologin_cookie_name' => 'autologin',
       'autologin_cookie_path' => '/',
       'autologin_cookie_secure' => false,
+      # Allow users with the required permissions to create backups via the web interface or API.
+      'backup_enabled' => true,
+      'backup_daily_limit' => 3,
+      'backup_initial_waiting_period' => 24.hours,
+      'backup_include_attachments' => true,
+      'backup_attachment_size_max_sum_mb' => 1024,
       'database_cipher_key' => nil,
       # only applicable in conjunction with fog (effectively S3) attachments
       # which will be uploaded directly to the cloud storage rather than via OpenProject's
@@ -65,7 +71,7 @@ module OpenProject
       # use dalli defaults for memcache
       'cache_memcache_server' => nil,
       # where to store session data
-      'session_store' => :cache_store,
+      'session_store' => :active_record_store,
       'session_cookie_name' => '_open_project_session',
       # Destroy all sessions for current_user on logout
       'drop_old_sessions_on_logout' => true,
@@ -175,7 +181,9 @@ module OpenProject
       'sentry_dsn' => nil,
       # Allow separate error reporting for frontend errors
       'sentry_frontend_dsn' => nil,
-      'sentry_host' => 'https://sentry.com',
+      'sentry_host' => nil,
+      # Sample rate for performance monitoring
+      'sentry_traces_sample_rate' => 0.1,
 
       # Allow connection to Augur
       'enterprise_trial_creation_host' => '',

@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :ifc_model, class: ::Bim::IfcModels::IfcModel do
+  factory :ifc_model, class: '::Bim::IfcModels::IfcModel' do
     sequence(:title) { |n| "Unconverted IFC model #{n}" }
     project factory: :project
     uploader factory: :user

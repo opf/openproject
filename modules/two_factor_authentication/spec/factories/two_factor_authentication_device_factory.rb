@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :two_factor_authentication_device_sms, class: ::TwoFactorAuthentication::Device::Sms do
+  factory :two_factor_authentication_device_sms, class: '::TwoFactorAuthentication::Device::Sms' do
     user
     channel { :sms }
     active { true }
@@ -18,7 +18,7 @@ FactoryBot.define do
 end
 
 FactoryBot.define do
-  factory :two_factor_authentication_device_totp, class: ::TwoFactorAuthentication::Device::Totp do
+  factory :two_factor_authentication_device_totp, class: '::TwoFactorAuthentication::Device::Totp' do
     user
     channel { :totp }
     active { true }

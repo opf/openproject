@@ -26,19 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ConfigurationService} from 'core-app/modules/common/config/configuration.service';
-import {PathHelperService} from 'core-app/modules/common/path-helper/path-helper.service';
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {States} from 'core-components/states.service';
-import {filter, takeUntil} from 'rxjs/operators';
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ICKEditorContext, ICKEditorInstance} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {OpCkeditorComponent} from "core-app/modules/common/ckeditor/op-ckeditor.component";
-import {componentDestroyed} from "@w11k/ngx-componentdestroyed";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ConfigurationService } from 'core-app/modules/common/config/configuration.service';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { States } from 'core-components/states.service';
+import { filter, takeUntil } from 'rxjs/operators';
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import {
+  ICKEditorContext,
+  ICKEditorInstance,
+  ICKEditorType
+} from "core-app/modules/common/ckeditor/ckeditor-setup.service";
+import { OpCkeditorComponent } from "core-app/modules/common/ckeditor/op-ckeditor.component";
+import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
 
 
 export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
@@ -58,14 +62,13 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   public $attachmentsElement:JQuery;
 
   // Remember if the user changed
-  public changed:boolean = false;
-  public inFlight:boolean = false;
+  public changed = false;
+  public inFlight = false;
 
   public initialContent:string;
   public resource?:HalResource;
   public context:ICKEditorContext;
   public macros:boolean;
-  public editorType:string;
 
   // Reference to the actual ckeditor instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
@@ -90,7 +93,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.textareaSelector = this.$element.attr('textarea-selector')!;
     this.previewContext = this.$element.attr('preview-context')!;
     this.macros = this.$element.attr('macros') !== 'false';
-    this.editorType = this.$element.attr('editor-type') || 'full';
+    const editorType = (this.$element.attr('editor-type') || 'full') as ICKEditorType;
 
     // Parse the resource if any exists
     const source = this.$element.data('resource');
@@ -104,7 +107,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.initialContent = this.wrappedTextArea.val() as string;
 
     this.$attachmentsElement = this.formElement.find('#attachments_fields');
-    this.context = { resource: this.resource, previewContext: this.previewContext };
+    this.context = {
+      type: editorType,
+      resource: this.resource,
+      previewContext: this.previewContext
+    };
     if (!this.macros) {
       this.context['macros'] = 'none';
     }
@@ -166,25 +173,25 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         takeUntil(componentDestroyed(this)),
         filter(resource => !!resource)
       ).subscribe(resource => {
-      let missingAttachments = _.differenceBy(this.attachments,
+        const missingAttachments = _.differenceBy(this.attachments,
         resource!.attachments.elements,
         (attachment:HalResource) => attachment.id);
 
-      let removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.$href);
+        const removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.href);
 
-      if (removedUrls.length) {
-        editor.model.fire('op:attachment-removed', removedUrls);
-      }
+        if (removedUrls.length) {
+          editor.model.fire('op:attachment-removed', removedUrls);
+        }
 
-      this.attachments = _.clone(resource!.attachments.elements);
-    });
+        this.attachments = _.clone(resource!.attachments.elements);
+      });
   }
 
   private setLabel() {
-    let textareaId = this.textareaSelector.substring(1);
-    let label = jQuery(`label[for=${textareaId}]`);
+    const textareaId = this.textareaSelector.substring(1);
+    const label = jQuery(`label[for=${textareaId}]`);
 
-    let ckContent = this.$element.find('.ck-content');
+    const ckContent = this.$element.find('.ck-content');
 
     ckContent.attr('aria-label', null);
     ckContent.attr('aria-labelledby', textareaId);
@@ -200,7 +207,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     const takenIds = this.$attachmentsElement.find('input[type=\'file\']').map((index, input) => {
-      let match = (input.getAttribute('name') || '').match(/attachments\[(\d+)\]\[(?:file|id)\]/);
+      const match = (input.getAttribute('name') || '').match(/attachments\[(\d+)\]\[(?:file|id)\]/);
 
       if (match) {
         return parseInt(match[1]);
@@ -211,7 +218,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
     const maxValue:number = takenIds.toArray().sort().pop() || 0;
 
-    let addedAttachments = this.resource.attachments.elements || [];
+    const addedAttachments = this.resource.attachments.elements || [];
 
     jQuery.each(addedAttachments, (index:number, attachment:HalResource) => {
       this.$attachmentsElement.append(`<input type="hidden" name="attachments[${maxValue + index + 1}][id]" value="${attachment.id}">`);

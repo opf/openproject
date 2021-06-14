@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {cssClassCustomOption, DisplayField} from "core-app/modules/fields/display/display-field.module";
+import { cssClassCustomOption, DisplayField } from "core-app/modules/fields/display/display-field.module";
 
 export class ResourcesDisplayField extends DisplayField {
   public isEmpty():boolean {
@@ -34,7 +34,7 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   public get value() {
-    let cf = this.resource[this.name];
+    const cf = this.resource[this.name];
     if (this.schema && cf) {
 
       if (cf.elements) {

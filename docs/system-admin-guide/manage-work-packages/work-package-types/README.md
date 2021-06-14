@@ -16,7 +16,8 @@ In the *-> Administration -> Work packages -> Types* you can add or edit the wor
 You will see a list of all work package types in the system.
 
 1. Click the work package type name to **edit an existing work package type**.
-2. Click the arrows (up or down) to change the order how work package types should be displayed, e.g. in the list when creating new work packages or when changing the type.
+2. Click the arrows (up or down) to change the order how work package types should be displayed, e.g. in the list when creating new work packages or when changing the type. 
+   The work package type you moved to the top of the list is the current default type and will be selected when you create a new work package.
 3. Delete work package types.
 
 ![System-admin-work-packages-types](System-admin-work-packages-types.png)

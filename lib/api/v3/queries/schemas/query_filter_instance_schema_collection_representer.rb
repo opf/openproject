@@ -34,7 +34,6 @@ module API
       module Schemas
         class QueryFilterInstanceSchemaCollectionRepresenter <
           ::API::V3::Schemas::SchemaCollectionRepresenter
-          element_decorator ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter
 
           def model_self_link(model)
             converted_name = API::Utilities::PropertyNameConverter.from_ar_name(model.name)

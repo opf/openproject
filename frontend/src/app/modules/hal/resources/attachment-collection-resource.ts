@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
 
 export class AttachmentCollectionResource extends CollectionResource {
   public $initialize(source:any) {

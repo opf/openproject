@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {GridWidgetArea} from "app/modules/grids/areas/grid-widget-area";
-import {GridArea} from "core-app/modules/grids/areas/grid-area";
-import {GridGap} from "core-app/modules/grids/areas/grid-gap";
-import {GridResource} from "core-app/modules/hal/resources/grid-resource";
-import {GridWidgetResource} from "core-app/modules/hal/resources/grid-widget-resource";
-import {SchemaResource} from "core-app/modules/hal/resources/schema-resource";
-import {WidgetChangeset} from "core-app/modules/grids/widgets/widget-changeset";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { Injectable } from '@angular/core';
+import { GridWidgetArea } from "app/modules/grids/areas/grid-widget-area";
+import { GridArea } from "core-app/modules/grids/areas/grid-area";
+import { GridGap } from "core-app/modules/grids/areas/grid-gap";
+import { GridResource } from "core-app/modules/hal/resources/grid-resource";
+import { GridWidgetResource } from "core-app/modules/hal/resources/grid-widget-resource";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { WidgetChangeset } from "core-app/modules/grids/widgets/widget-changeset";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import { BehaviorSubject } from 'rxjs';
-import {APIV3Service} from "core-app/modules/apiv3/api-v3.service";
-import {Apiv3GridForm} from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-form";
-import {map} from "rxjs/operators";
+import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
+import { Apiv3GridForm } from "core-app/modules/apiv3/endpoints/grids/apiv3-grid-form";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class GridAreaService {
@@ -19,8 +19,8 @@ export class GridAreaService {
   private resource:GridResource;
   public schema:SchemaResource;
 
-  public numColumns:number = 0;
-  public numRows:number = 0;
+  public numColumns = 0;
+  public numRows = 0;
   public gridAreas:GridArea[];
   public gridGaps:GridArea[];
   public widgetAreas:GridWidgetArea[];
@@ -104,9 +104,9 @@ export class GridAreaService {
   }
 
   public saveWidgetChangeset(changeset:WidgetChangeset) {
-    let payload:any = Apiv3GridForm.extractPayload(this.resource, this.schema);
+    const payload:any = Apiv3GridForm.extractPayload(this.resource, this.schema);
 
-    let payloadWidget = payload.widgets.find((w:any) => w.id === changeset.pristineResource.id);
+    const payloadWidget = payload.widgets.find((w:any) => w.id === changeset.pristineResource.id);
     Object.assign(payloadWidget, changeset.changes);
 
     // Adding the id so that the url can be deduced
@@ -136,7 +136,7 @@ export class GridAreaService {
   // But as scrollIntoView will always readjust the viewport, the result would be an unbearable flicker
   // which causes e.g. dragging to be impossible.
   public scrollPlaceholderIntoView() {
-    let placeholder = jQuery('.grid--area.-placeholder');
+    const placeholder = jQuery('.grid--area.-placeholder');
 
     if ((placeholder[0] as any).scrollIntoViewIfNeeded) {
       setTimeout(() => (placeholder[0] as any).scrollIntoViewIfNeeded());
@@ -158,7 +158,7 @@ export class GridAreaService {
   private assignAreasWidget(newGrid:GridResource) {
     this.resource.widgets = newGrid.widgets;
 
-    let takenIds = this.widgetAreas.map(a => a.widget.id);
+    const takenIds = this.widgetAreas.map(a => a.widget.id);
     this.widgetAreas.forEach(area => {
       let newWidget:GridWidgetResource;
 
@@ -176,7 +176,7 @@ export class GridAreaService {
   }
 
   private buildGridAreas() {
-    let cells:GridArea[] = [];
+    const cells:GridArea[] = [];
 
     // the one extra row is added in case the user wants to drag a widget to the very bottom
     for (let row = 1; row <= this.numRows + 1; row++) {
@@ -187,7 +187,7 @@ export class GridAreaService {
   }
 
   private buildGridGaps() {
-    let cells:GridArea[] = [];
+    const cells:GridArea[] = [];
 
     // special case where we want no gaps
     if (this.isSingleCell) {
@@ -202,10 +202,10 @@ export class GridAreaService {
   }
 
   private buildGridAreasRow(row:number) {
-    let cells:GridArea[] = [];
+    const cells:GridArea[] = [];
 
     for (let column = 1; column <= this.numColumns; column++) {
-      let cell = new GridArea(row,
+      const cell = new GridArea(row,
         row + 1,
         column,
         column + 1);
@@ -217,14 +217,14 @@ export class GridAreaService {
   }
 
   private buildGridGapRow(row:number) {
-    let cells:GridGap[] = [];
+    const cells:GridGap[] = [];
 
     for (let column = 1; column <= this.numColumns; column++) {
       cells.push(new GridGap(row,
-                                  row + 1,
-                             column,
-                                  column + 1,
-                                  'row'));
+        row + 1,
+        column,
+        column + 1,
+        'row'));
     }
 
     if (row <= this.numRows) {
@@ -257,17 +257,17 @@ export class GridAreaService {
   public addColumn(column:number, excludeRow:number) {
     this.numColumns++;
 
-    let movedWidgets:GridWidgetArea[] = [];
+    const movedWidgets:GridWidgetArea[] = [];
 
     for (let row = 1; row <= this.numRows; row++) {
       if (row === excludeRow) {
         continue;
       }
 
-      let widget = this
-                   .rowWidgets(row)
-                   .sort((a, b) => a.startColumn - b.startColumn)
-                   .find(widget => !(widget.startRow < excludeRow && widget.endRow > excludeRow) &&
+      const widget = this
+        .rowWidgets(row)
+        .sort((a, b) => a.startColumn - b.startColumn)
+        .find(widget => !(widget.startRow < excludeRow && widget.endRow > excludeRow) &&
                      (widget.startColumn === column + 1 ||
                       widget.endColumn === column + 1 ||
                       widget.startColumn <= column && widget.endColumn > column));
@@ -279,23 +279,23 @@ export class GridAreaService {
     }
 
     this.moveSubsequentRowWidgets(this.widgetAreas.filter(widget => !movedWidgets.includes(widget)),
-                                  column);
+      column);
   }
 
   public addRow(row:number, excludeColumn:number) {
     this.numRows++;
 
-    let movedWidgets:GridWidgetArea[] = [];
+    const movedWidgets:GridWidgetArea[] = [];
 
     for (let column = 1; column <= this.numColumns; column++) {
       if (column === excludeColumn) {
         continue;
       }
 
-      let widget = this
-                   .columnWidgets(column)
-                   .sort((a, b) => a.startRow - b.startRow)
-                   .find(widget => !(widget.startColumn < excludeColumn && widget.endColumn > excludeColumn) &&
+      const widget = this
+        .columnWidgets(column)
+        .sort((a, b) => a.startRow - b.startRow)
+        .find(widget => !(widget.startColumn < excludeColumn && widget.endColumn > excludeColumn) &&
                      (widget.startRow === row + 1 ||
                        widget.endRow === row + 1 ||
                        widget.startRow <= row && widget.endRow > row));
@@ -307,7 +307,7 @@ export class GridAreaService {
     }
 
     this.moveSubsequentColumnWidgets(this.widgetAreas.filter(widget => !movedWidgets.includes(widget)),
-                                     row);
+      row);
   }
 
   public removeColumn(column:number) {

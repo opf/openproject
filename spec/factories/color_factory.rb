@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory(:color, class: Color) do
+  factory(:color, class: 'Color') do
     sequence(:name) { |n| "Color No. #{n}" }
     hexcode { ('#%0.6x' % rand(0xFFFFFF)).upcase }
   end

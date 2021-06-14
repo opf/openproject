@@ -47,9 +47,15 @@
     float: none
     display: inline-block
 
+#nav-login-content
+  padding: 1rem
+
+#login-pulldown
+  margin-right: 0
+
 // use id selectors to be specific enough to override general content and top-menu definitions
-#content .login-auth-providers, #top-menu #nav-login-content .login-auth-providers,
-.modal-wrapper .login-auth-providers
+#content .login-auth-providers,
+#nav-login-content .login-auth-providers
   width: 471px
   margin-top: 25px
 
@@ -110,10 +116,7 @@
       line-height: normal
       white-space: normal
 
-.modal-wrapper .login-auth-providers h3 span
-  background: var(--header-drop-down-bg-color)
-
-#top-menu #nav-login-content .login-auth-providers
+#nav-login-content .login-auth-providers
   h3
     &:before
       width: 100%
@@ -123,7 +126,7 @@
     margin-top: -15px
     margin-bottom: 10px
 
-#top-menu #nav-login-content .login-auth-providers.no-pwd
+#nav-login-content .login-auth-providers.no-pwd
   margin-top: 0
 
 .registration-footer

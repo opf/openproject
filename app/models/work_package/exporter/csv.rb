@@ -107,33 +107,7 @@ class WorkPackage::Exporter::CSV < WorkPackage::Exporter::Base
   end
 
   def csv_format_value(work_package, column)
-    if column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
-      csv_format_custom_value(work_package, column)
-    else
-      value = work_package.send(column.name)
-
-      case value
-      when Date
-        format_date(value)
-      when Time
-        format_time(value)
-      when nil
-        # ruby >=2.7.1 will return a frozen string for nil.to_s which will cause an error when e.g. trying to
-        # force an encoding
-        ''
-      else
-        value
-      end
-    end.to_s
-  end
-
-  def csv_format_custom_value(work_package, column)
-    cv = work_package
-         .custom_values
-         .select { |v| v.custom_field_id == column.custom_field.id }
-
-    cv
-      .map { |v| show_value(v) }
-      .join('; ')
+    formatter = ::WorkPackage::Exporter::Formatters.for_column(column)
+    formatter.format(work_package, column, array_separator: '; ')
   end
 end

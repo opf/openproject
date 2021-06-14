@@ -32,7 +32,6 @@ module API
   module V3
     module Roles
       class RoleCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Roles::RoleRepresenter
       end
     end
   end

@@ -175,6 +175,8 @@ cs:
       no_results_content_text: Vytvořit nové vlastní pole
   concatenation:
     single: 'nebo'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -205,6 +207,7 @@ cs:
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     settings:
+      change_identifier: Change identifier
       activities:
         no_results_title_text: V současné době nejsou k dispozici žádné aktivity.
       forums:
@@ -220,10 +223,13 @@ cs:
       versions:
         no_results_title_text: V současné době neexistují žádné verze pro projekt.
         no_results_content_text: Vytvořit novou verzi
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
       no_results_content_text: Přidání člena do projektu
+    invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"
@@ -241,6 +247,9 @@ cs:
     memberships:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -250,7 +259,8 @@ cs:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -566,6 +576,12 @@ cs:
         unremovable: "nelze odstranit."
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:
+        capability:
+          context:
+            global: 'Globální'
+          query:
+            filters:
+              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Alespoň jedna možnost musí být k dispozici."
         custom_actions:
@@ -605,6 +621,9 @@ cs:
           attributes:
             types:
               in_use_by_work_packages: "stále používáno pracovními balíčky: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -792,7 +811,7 @@ cs:
     firstname: "Křestní jméno"
     group: "Skupina"
     groups: "Skupiny"
-    groupname: "Název skupiny"
+    name: "Jméno"
     id: "ID"
     is_default: "Výchozí hodnota"
     is_for_all: "Pro všechny projekty"
@@ -802,7 +821,6 @@ cs:
     lastname: "Příjmení"
     login: "Uživatelské jméno"
     mail: "E-mail"
-    name: "Jméno"
     password: "Heslo"
     priority: "Priorita"
     project: "Projekt"
@@ -822,6 +840,33 @@ cs:
     user: "Uživatel"
     version: "Verze"
     work_package: "Pracovní balíček"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Vytvořit
+      action_reset: Obnovit
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
   button_add: "Přidat"
   button_add_comment: "Přidat komentář"
   button_add_member: Přidat člena
@@ -901,12 +946,17 @@ cs:
     text_update_consent_time: Zaškrtněte toto políčko k vynucení nového souhlasu uživatele. Povolte v případě, že jste změnili právní aspekt souhlasu uvedeného výše.
     update_consent_last_time: "Poslední aktualizace souhlasu: %{update_time}"
   copy_project:
+    title: 'Copy project "%{source_project_name}"'
     started: "Začalo kopírovat projekt \"%{source_project_name}\" do \"%{target_project_name}\". Budete informováni e-mailem, jakmile bude k dispozici \"%{target_project_name}\"."
     failed: "Nebylo možné zkopírovat projekt \"%{source_project_name}\""
     failed_internal: "Kopírování se nezdařilo kvůli interní chybě."
     succeeded: "Projekt \"%{target_project_name}\" vytvořen"
     errors: "Chyba"
     project_custom_fields: 'Vlastní pole projektu'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
     text:
       failed: "Nebylo možné zkopírovat projekt \"%{source_project_name}\" do \"%{target_project_name}\"."
       succeeded: "Projekt \"%{source_project_name}\" zkopírován do \"%{target_project_name}\"."
@@ -1076,7 +1126,7 @@ cs:
   default_role_anonymous: "Anonymní"
   default_role_developer: "Vývojář"
   default_role_project_admin: "Projekt admin"
-  default_role_project_creator: "Tvůrce projektu"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
   default_role_non_member: "Není člen"
   default_role_reader: "Čtenář"
   default_role_member: "Člen"
@@ -1254,6 +1304,9 @@ cs:
   instructions_after_registration: "Můžete se přihlásit hned poté, co bude váš účet aktivovaný kliknutím na %{signin}."
   instructions_after_logout: "Můžete se znovu přihlásit kliknutím na tlačítko %{signin}."
   instructions_after_error: "Zkuste se znovu přihlásit kliknutím na %{signin}. Pokud chyba přetrvává, požádejte správce o pomoc."
+  menus:
+    quick_add:
+      label: "Open quick add menu"
   my_account:
     access_tokens:
       no_results:
@@ -1313,6 +1366,7 @@ cs:
   label_available_project_versions: 'Dostupné verze'
   label_available_project_repositories: 'Dostupné repozitáře'
   label_api_documentation: "API dokumentace"
+  label_backup: "Backup"
   label_between: "mezi"
   label_blocked_by: "zablokoval"
   label_blocks: "bloky"
@@ -1515,6 +1569,8 @@ cs:
   label_member_new: "Nový člen"
   label_member_all_admin: "(Všechny role z důvodu stavu správce)"
   label_member_plural: "Členové"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
   label_menu_item_name: "Název položky menu"
   label_message: "Zpráva"
   label_message_last: "Poslední zpráva"
@@ -1836,6 +1892,12 @@ cs:
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"
   mail_body_account_information: "Informace o vašem účtu"
   mail_body_account_information_external: "Můžete použít váš %{value} účet pro přihlášení."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "Pro změnu vašeho hesla klikněte na následující odkaz:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
@@ -1852,12 +1914,35 @@ cs:
   mail_body_wiki_content_added: "Wiki stránka '%{id}' byla přidána uživatelem %{author}."
   mail_body_wiki_content_updated: "Wiki stránka '%{id}' byla aktualizována uživatelem %{author}."
   mail_subject_account_activation_request: "Žádost o aktivaci účtu %{value}"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Your backup token has been reset"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivace vašeho účtu %{value}"
   mail_subject_reminder: "%{count} pracovních balíčků s termínem do dalších %{days} dnů"
   mail_subject_group_reminder: "Pro skupinu \"%{group}\" %{count} pracovních balíčků splatných během následujících %{days} dnů"
   mail_subject_wiki_content_added: "'%{id}' wiki stránka byla přidána"
   mail_subject_wiki_content_updated: "'%{id}' wiki stránka byla aktualizována"
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
+      roles: "You now have the following roles:"
   mail_user_activation_limit_reached:
     subject: Dosažen limit aktivace uživatelů
     message: |
@@ -1965,7 +2050,7 @@ cs:
   permission_add_messages: "Odesílat zprávy"
   permission_add_project: "Vytvořit projekt"
   permission_manage_user: "Create and edit users"
-  permission_manage_placeholder_user: "Create, edit and delete placeholder users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Vytvořit podprojekty"
   permission_add_work_package_watchers: "Přidat sledující"
   permission_assign_versions: "Přiřadit verze"
@@ -2212,6 +2297,7 @@ cs:
   setting_consent_required: "Souhlas vyžadován"
   setting_consent_decline_mail: "Kontaktní e-mailová adresa pro souhlas"
   setting_cross_project_work_package_relations: "Povolit vztahy mezi projekty a pracovními balíčky"
+  setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Formát data"
   setting_default_language: "Výchozí jazyk"
   setting_default_notification_option: "Výchozí nastavení oznámení"
@@ -2269,7 +2355,6 @@ cs:
   setting_repository_truncate_at: "Maximální počet souborů zobrazených v prohlížeči repozitáře"
   setting_rest_api_enabled: "Povolit webové služby REST"
   setting_self_registration: "Povolit automatickou registraci"
-  setting_sequential_project_identifiers: "Generovat sekvenční identifikátory projektů"
   setting_session_ttl: "Čas vypršení sezení při neaktivitě"
   setting_session_ttl_hint: "Hodnota menší než 5 funguje jako zakázáno"
   setting_session_ttl_enabled: "Platnost relace vyprší"
@@ -2293,6 +2378,11 @@ cs:
     passwords: "Hesla"
     session: "Relace"
     brute_force_prevention: "Automatizované blokování uživatelů"
+    display:
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2598,6 +2688,8 @@ cs:
     getting_started: "Začínáme"
     help_and_support: "Pomoc a podpora"
   total_progress: "Celkový průběh"
+  undisclosed:
+    parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   user:
     all: "vše"
     active: "aktivní"
@@ -2686,6 +2778,7 @@ cs:
       code_403: "Nemáte oprávnění k přístupu k tomuto zdroji."
       code_404: "Požadovaný zdroj nebyl nalezen."
       code_409: "Zdroj nelze aktualizovat kvůli konfliktním změnám."
+      code_429: "Too many requests. Please try again later."
       code_500: "Došlo k vnitřní chybě."
       expected:
         date: "RRRR-MM-DD (pouze ISO 8601 datum)"
@@ -2695,6 +2788,9 @@ cs:
       invalid_json: "Požadavek nelze analyzovat jako JSON."
       invalid_relation: "Vztah je neplatný."
       invalid_resource: "Pro vlastnost '%{property}' se očekává odkaz '%{expected}', ale dostal '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "Stav aktuálního uživatelského účtu tuto operaci nepovoluje."
       missing_content_type: "není specifikováno"
       missing_request_body: "Nebylo nalezeno žádné tělo požadavku."
@@ -2803,3 +2899,4 @@ cs:
     authorization_error: "Došlo k chybě autorizace."
     revoke_my_application_confirmation: "Opravdu chcete odstranit tuto aplikaci? Tato akce zruší %{token_count} aktivních aplikací."
     my_registered_applications: "Registrované OAuth aplikace"
+  you: you

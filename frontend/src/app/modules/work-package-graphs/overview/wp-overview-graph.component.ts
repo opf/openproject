@@ -1,11 +1,11 @@
-import {Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset
 } from "core-app/modules/work-package-graphs/embedded/wp-embedded-graph.component";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ChartOptions} from 'chart.js';
-import {WpGraphConfigurationService} from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { ChartOptions } from 'chart.js';
+import { WpGraphConfigurationService } from "core-app/modules/work-package-graphs/configuration/wp-graph-configuration.service";
 import {
   WpGraphConfiguration,
   WpGraphQueryParams
@@ -27,7 +27,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   @Input() additionalFilter:any;
   @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
   @ViewChild('wpEmbeddedGraphSingle') private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
-  @Input() groupBy:string = 'status';
+  @Input() groupBy = 'status';
   @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
   public displayModeSingle = true;
@@ -39,12 +39,12 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
               readonly graphConfigurationService:WpGraphConfigurationService,
               protected readonly cdr:ChangeDetectorRef) {
 
-    this.availableGroupBy = [{label: I18n.t('js.work_packages.properties.category'), key: 'category'},
-                             {label: I18n.t('js.work_packages.properties.type'), key: 'type'},
-                             {label: I18n.t('js.work_packages.properties.status'), key: 'status'},
-                             {label: I18n.t('js.work_packages.properties.priority'), key: 'priority'},
-                             {label: I18n.t('js.work_packages.properties.author'), key: 'author'},
-                             {label: I18n.t('js.work_packages.properties.assignee'), key: 'assignee'}];
+    this.availableGroupBy = [{ label: I18n.t('js.work_packages.properties.category'), key: 'category' },
+      { label: I18n.t('js.work_packages.properties.type'), key: 'type' },
+      { label: I18n.t('js.work_packages.properties.status'), key: 'status' },
+      { label: I18n.t('js.work_packages.properties.priority'), key: 'priority' },
+      { label: I18n.t('js.work_packages.properties.author'), key: 'author' },
+      { label: I18n.t('js.work_packages.properties.assignee'), key: 'assignee' }];
   }
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   public setQueryProps() {
     this.datasets = [];
 
-    let params = this.graphParams;
+    const params = this.graphParams;
 
     this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, 'horizontalBar');
 
@@ -78,7 +78,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   public get graphParams() {
-    let params = [];
+    const params = [];
 
     if (this.groupBy === 'status') {
       this.displayModeSingle = true;
@@ -95,7 +95,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   public sortedDatasets(datasets:WorkPackageEmbeddedGraphDataset[], params:WpGraphQueryParams[]) {
-    let sortingArray = params.map((x) => x.name );
+    const sortingArray = params.map((x) => x.name );
 
     return datasets.slice().sort((a, b) => {
       return sortingArray.indexOf(a.label) - sortingArray.indexOf(b.label);
@@ -108,15 +108,15 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   public get propsOpen() {
-    return this.baseProps({status: { operator: 'o', values: []}});
+    return this.baseProps({ status: { operator: 'o', values: [] } });
   }
 
   public get propsClosed() {
-    return this.baseProps({status: { operator: 'c', values: []}});
+    return this.baseProps({ status: { operator: 'c', values: [] } });
   }
 
   private baseProps(filter?:any) {
-    let filters = [{subprojectId: {operator: '*', values: []}}];
+    const filters = [{ subprojectId: { operator: '*', values: [] } }];
 
     if (filter) {
       filters.push(filter);

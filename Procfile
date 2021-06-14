@@ -1,4 +1,4 @@
 web: ./packaging/scripts/web
-worker: bundle exec rake jobs:work
+worker: ./packaging/scripts/worker
 backup: ./packaging/scripts/backup
 check: ./packaging/scripts/check

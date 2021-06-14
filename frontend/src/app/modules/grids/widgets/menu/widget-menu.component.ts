@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component} from '@angular/core';
-import {WidgetAbstractMenuComponent} from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
+import { Component } from '@angular/core';
+import { WidgetAbstractMenuComponent } from "core-app/modules/grids/widgets/menu/widget-abstract-menu.component";
 
 @Component({
   selector: 'widget-menu',

@@ -44,11 +44,12 @@ FactoryBot.define do
       RequestStore.clear!
     end
 
-    factory :project_custom_field, class: ProjectCustomField do
+    factory :project_custom_field, class: 'ProjectCustomField' do
       sequence(:name) { |n| "Project custom field #{n}" }
 
       factory :list_project_custom_field do
         sequence(:name) { |n| "List project custom field #{n}" }
+        multi_value { false }
         field_format { 'list' }
         possible_values { ['A', 'B', 'C', 'D', 'E', 'F', 'G'] }
       end
@@ -94,7 +95,7 @@ FactoryBot.define do
       end
     end
 
-    factory :user_custom_field, class: UserCustomField do
+    factory :user_custom_field, class: 'UserCustomField' do
       sequence(:name) { |n| "User Custom Field #{n}" }
       type { 'UserCustomField' }
 
@@ -135,7 +136,7 @@ FactoryBot.define do
       end
     end
 
-    factory :wp_custom_field, class: WorkPackageCustomField do
+    factory :wp_custom_field, class: 'WorkPackageCustomField' do
       sequence(:name) { |n| "Work package custom field #{n}" }
       type { 'WorkPackageCustomField' }
 
@@ -186,7 +187,7 @@ FactoryBot.define do
       end
     end
 
-    factory :issue_custom_field, class: WorkPackageCustomField do
+    factory :issue_custom_field, class: 'WorkPackageCustomField' do
       sequence(:name) { |n| "Issue Custom Field #{n}" }
 
       factory :user_issue_custom_field do
@@ -205,12 +206,12 @@ FactoryBot.define do
       end
     end
 
-    factory :time_entry_custom_field, class: TimeEntryCustomField do
+    factory :time_entry_custom_field, class: 'TimeEntryCustomField' do
       field_format { 'text' }
       sequence(:name) { |n| "TimeEntryCustomField #{n}" }
     end
 
-    factory :version_custom_field, class: VersionCustomField do
+    factory :version_custom_field, class: 'VersionCustomField' do
       field_format { 'text' }
       sequence(:name) { |n| "Version Custom Field #{n}" }
 

@@ -16,7 +16,7 @@ describe 'Watcher tab', js: true, selenium: true do
   end
 
   let(:watch_button) { find '#watch-button' }
-  let(:watchers_tab) { find('.tabrow li.selected', text: 'WATCHERS') }
+  let(:watchers_tab) { find('.op-tab-row--link_selected', text: 'WATCHERS') }
 
   def expect_button_is_watching
     title = I18n.t('js.label_unwatch_work_package')
@@ -53,7 +53,7 @@ describe 'Watcher tab', js: true, selenium: true do
       login_as(user)
       wp_page.visit_tab! :watchers
       expect_angular_frontend_initialized
-      expect(page).to have_selector('.tabrow li.selected', text: 'WATCHERS')
+      expect(page).to have_selector('.op-tab-row--link_selected', text: 'WATCHERS')
     end
 
     it 'modifying the watcher list modifies the watch button' do
@@ -133,7 +133,7 @@ describe 'Watcher tab', js: true, selenium: true do
 
     it 'should show the number of watchers [#33685]' do
       wp_table.open_full_screen_by_doubleclick(work_package)
-      expect(page).to have_selector('.wp-tabs-count', text: 1)
+      expect(page).to have_selector('.op-tab-count', text: 1)
     end
   end
 

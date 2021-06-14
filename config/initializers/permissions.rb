@@ -45,9 +45,16 @@ end
 OpenProject::AccessControl.map do |map|
   map.project_module nil, order: 100 do
     map.permission :add_project,
-                   { projects: %i[new create] },
+                   { projects: %i[new] },
                    require: :loggedin,
-                   global: true
+                   global: true,
+                   contract_actions: { projects: %i[create] }
+
+    map.permission Backup.permission,
+                   { backups: %i[index] },
+                   require: :loggedin,
+                   global: true,
+                   enabled: -> { OpenProject::Configuration.backup_enabled? }
 
     map.permission :manage_user,
                    {
@@ -56,7 +63,8 @@ OpenProject::AccessControl.map do |map|
                      admin: %i[index]
                    },
                    require: :loggedin,
-                   global: true
+                   global: true,
+                   contract_actions: { users: %i[create read update] }
 
     map.permission :manage_placeholder_user,
                    {
@@ -65,7 +73,8 @@ OpenProject::AccessControl.map do |map|
                      admin: %i[index]
                    },
                    require: :loggedin,
-                   global: true
+                   global: true,
+                   contract_actions: { placeholder_users: %i[create read update] }
 
     map.permission :view_project,
                    { projects: [:show],
@@ -78,19 +87,23 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :edit_project,
                    edit_project_hash,
-                   require: :member
+                   require: :member,
+                   contract_actions: { projects: %i[update] }
 
     map.permission :select_project_modules,
                    { projects: :modules },
-                   require: :member
+                   require: :member,
+                   dependencies: :edit_project
 
     map.permission :manage_members,
                    { members: %i[index new create update destroy autocomplete_for_member] },
                    require: :member,
-                   dependencies: :view_members
+                   dependencies: :view_members,
+                   contract_actions: { members: %i[create update destroy] }
 
     map.permission :view_members,
-                   { members: [:index] }
+                   { members: [:index] },
+                   contract_actions: { members: %i[read] }
 
     map.permission :manage_versions,
                    {
@@ -104,24 +117,27 @@ OpenProject::AccessControl.map do |map|
                    require: :member
 
     map.permission :add_subprojects,
-                   { projects: %i[new create] },
+                   { projects: %i[new] },
                    require: :member
 
     map.permission :copy_projects,
                    {
-                     copy_projects: %i[copy copy_project]
+                     projects: %i[copy]
                    },
-                   require: :member
+                   require: :member,
+                   contract_actions: { projects: %i[copy] }
   end
 
   map.project_module :work_package_tracking, order: 90 do |wpt|
-    # Issues
     wpt.permission :view_work_packages,
-                   versions: %i[index show status_by],
-                   journals: %i[index diff],
-                   work_packages: %i[show index],
-                   work_packages_api: [:get],
-                   'work_packages/reports': %i[report report_details]
+                   {
+                     versions: %i[index show status_by],
+                     journals: %i[index diff],
+                     work_packages: %i[show index],
+                     work_packages_api: [:get],
+                     'work_packages/reports': %i[report report_details]
+                   },
+                   contract_actions: { work_packages: %i[read] }
 
     wpt.permission :add_work_packages,
                    {}
@@ -323,7 +339,7 @@ OpenProject::AccessControl.map do |map|
                      require: :loggedin
   end
 
-  map.project_module :calendar do |cal|
+  map.project_module :calendar, dependencies: :work_package_tracking do |cal|
     cal.permission :view_calendar,
                    'work_packages/calendars': [:index]
   end

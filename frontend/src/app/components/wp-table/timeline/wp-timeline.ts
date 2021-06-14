@@ -1,4 +1,4 @@
-import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
+import { TimelineZoomLevel } from 'core-app/modules/hal/resources/query-resource';
 //-- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,10 +27,10 @@ import {TimelineZoomLevel} from 'core-app/modules/hal/resources/query-resource';
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import * as moment from 'moment';
-import {InputState, MultiInputState} from 'reactivestates';
-import {WorkPackageChangeset} from "core-components/wp-edit/work-package-changeset";
-import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
+import { InputState, MultiInputState } from 'reactivestates';
+import { WorkPackageChangeset } from "core-components/wp-edit/work-package-changeset";
+import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
 import Moment = moment.Moment;
 
 export const timelineElementCssClass = 'timeline-element';
@@ -56,16 +56,16 @@ export const zoomLevelOrder:TimelineZoomLevel[] = [
 
 export function getPixelPerDayForZoomLevel(zoomLevel:TimelineZoomLevel) {
   switch (zoomLevel) {
-    case 'days':
-      return 30;
-    case 'weeks':
-      return 15;
-    case 'months':
-      return 6;
-    case 'quarters':
-      return 2;
-    case 'years':
-      return 0.5;
+  case 'days':
+    return 30;
+  case 'weeks':
+    return 15;
+  case 'months':
+    return 6;
+  case 'quarters':
+    return 2;
+  case 'years':
+    return 0.5;
   }
   throw new Error('invalid zoom level: ' + zoomLevel);
 }
@@ -80,9 +80,9 @@ export const requiredPixelMarginLeft = 120;
  */
 export class TimelineViewParameters {
 
-  readonly now:Moment = moment({hour: 0, minute: 0, seconds: 0});
+  readonly now:Moment = moment({ hour: 0, minute: 0, seconds: 0 });
 
-  dateDisplayStart:Moment = moment({hour: 0, minute: 0, seconds: 0});
+  dateDisplayStart:Moment = moment({ hour: 0, minute: 0, seconds: 0 });
 
   dateDisplayEnd:Moment = this.dateDisplayStart.clone().add(1, 'day');
 
@@ -143,9 +143,9 @@ export function calculatePositionValueForDayCount(viewParams:TimelineViewParamet
 }
 
 export function getTimeSlicesForHeader(vp:TimelineViewParameters,
-                                       unit:moment.unitOfTime.DurationConstructor,
-                                       startView:Moment,
-                                       endView:Moment) {
+  unit:moment.unitOfTime.DurationConstructor,
+  startView:Moment,
+  endView:Moment) {
 
   const inViewport:[Moment, Moment][] = [];
   const rest:[Moment, Moment][] = [];
@@ -184,8 +184,8 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
 }
 
 export function calculateDaySpan(visibleWorkPackages:RenderedWorkPackage[],
-                                 loadedWorkPackages:MultiInputState<WorkPackageResource>,
-                                 viewParameters:TimelineViewParameters):number {
+  loadedWorkPackages:MultiInputState<WorkPackageResource>,
+  viewParameters:TimelineViewParameters):number {
   let earliest:Moment = moment();
   let latest:Moment = moment();
 

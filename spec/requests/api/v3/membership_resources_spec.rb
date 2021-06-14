@@ -67,6 +67,23 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
   subject(:response) { last_response }
 
+  shared_examples_for 'sends mails' do
+    let(:expected_receivers) { defined?(receivers) ? receivers : [principal] }
+
+    it 'sends a mail to the principal of the member' do
+      expect(ActionMailer::Base.deliveries.size)
+        .to eql expected_receivers.length
+
+      expect(ActionMailer::Base.deliveries.map(&:to).flatten)
+        .to match_array expected_receivers.map(&:mail)
+
+      if defined?(custom_message)
+        expect(ActionMailer::Base.deliveries.map { |mail| mail.body.encoded })
+          .to all include(OpenProject::TextFormatting::Renderer.format_text(custom_message))
+      end
+    end
+  end
+
   describe 'GET api/v3/memberships' do
     let(:members) { [own_member, other_member, invisible_member, global_member] }
 
@@ -357,19 +374,27 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     let(:path) { api_v3_paths.memberships }
     let(:principal) { other_user }
     let(:principal_path) { api_v3_paths.user(principal.id) }
+    let(:custom_message) { 'Wish you where **here**.' }
     let(:body) do
       {
-        project: {
-          href: api_v3_paths.project(project.id)
+        _links: {
+          project: {
+            href: api_v3_paths.project(project.id)
+          },
+          principal: {
+            href: principal_path
+          },
+          roles: [
+            {
+              href: api_v3_paths.role(other_role.id)
+            }
+          ]
         },
-        principal: {
-          href: principal_path
-        },
-        roles: [
-          {
-            href: api_v3_paths.role(other_role.id)
+        _meta: {
+          notificationMessage: {
+            raw: custom_message
           }
-        ]
+        }
       }.to_json
     end
 
@@ -377,7 +402,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       own_member
       login_as current_user
 
-      post path, body
+      perform_enqueued_jobs do
+        post path, body
+      end
     end
 
     shared_examples_for 'successful member creation' do
@@ -419,15 +446,19 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
     context 'for a user' do
       it_behaves_like 'successful member creation'
+      it_behaves_like 'sends mails'
     end
 
     context 'for a group' do
-      it_behaves_like 'successful member creation' do
-        let(:group) { FactoryBot.create(:group) }
-        let(:principal) { group }
-        let(:principal_path) { api_v3_paths.group(group.id) }
-        let(:body) do
-          {
+      let(:group) do
+        FactoryBot.create(:group, members: users)
+      end
+      let(:principal) { group }
+      let(:users) { [FactoryBot.create(:user), FactoryBot.create(:user)] }
+      let(:principal_path) { api_v3_paths.group(group.id) }
+      let(:body) do
+        {
+          _links: {
             project: {
               href: api_v3_paths.project(project.id)
             },
@@ -439,18 +470,35 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
                 href: api_v3_paths.role(other_role.id)
               }
             ]
-          }.to_json
+          },
+          _meta: {
+            notificationMessage: {
+              raw: custom_message
+            }
+          }
+        }.to_json
+      end
+
+      it_behaves_like 'successful member creation'
+      it_behaves_like 'sends mails' do
+        let(:receivers) { users }
+      end
+
+      it 'creates the memberships for the group members' do
+        users.each do |user|
+          expect(Member.find_by(user_id: user.id, project: project))
+            .to be_present
         end
       end
     end
 
     context 'for a placeholder user' do
-      it_behaves_like 'successful member creation' do
-        let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
-        let(:principal) { placeholder_user }
-        let(:principal_path) { api_v3_paths.placeholder_user(placeholder_user.id) }
-        let(:body) do
-          {
+      let(:placeholder_user) { FactoryBot.create(:placeholder_user) }
+      let(:principal) { placeholder_user }
+      let(:principal_path) { api_v3_paths.placeholder_user(placeholder_user.id) }
+      let(:body) do
+        {
+          _links: {
             project: {
               href: api_v3_paths.project(project.id)
             },
@@ -462,8 +510,19 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
                 href: api_v3_paths.role(other_role.id)
               }
             ]
-          }.to_json
-        end
+          },
+          _meta: {
+            notificationMessage: {
+              raw: custom_message
+            }
+          }
+        }.to_json
+      end
+
+      it_behaves_like 'successful member creation'
+
+      it_behaves_like 'sends mails' do
+        let(:receivers) { [] }
       end
     end
 
@@ -471,17 +530,24 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:expected_role) { global_role }
       let(:body) do
         {
-          project: {
-            href: nil
+          _links: {
+            project: {
+              href: nil
+            },
+            principal: {
+              href: principal_path
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(global_role.id)
+              }
+            ]
           },
-          principal: {
-            href: principal_path
-          },
-          roles: [
-            {
-              href: api_v3_paths.role(global_role.id)
+          _meta: {
+            notificationMessage: {
+              raw: custom_message
             }
-          ]
+          }
         }.to_json
       end
       let(:project) { nil }
@@ -490,6 +556,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         let(:current_user) { admin }
 
         it_behaves_like 'successful member creation'
+        it_behaves_like 'sends mails'
       end
 
       context 'as a non admin' do
@@ -506,18 +573,20 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'if providing an already taken user' do
       let(:body) do
         {
-          project: {
-            href: api_v3_paths.project(project.id)
-          },
-          principal: {
-            # invalid as the current_user is already member
-            href: api_v3_paths.user(current_user.id)
-          },
-          roles: [
-            {
-              href: api_v3_paths.role(other_role.id)
-            }
-          ]
+          _links: {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              # invalid as the current_user is already member
+              href: api_v3_paths.user(current_user.id)
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(other_role.id)
+              }
+            ]
+          }
         }.to_json
       end
 
@@ -533,18 +602,20 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'if providing erroneous hrefs' do
       let(:body) do
         {
-          project: {
-            href: api_v3_paths.project(project.id)
-          },
-          principal: {
-            # role path instead of user
-            href: api_v3_paths.role(other_user.id)
-          },
-          roles: [
-            {
-              href: api_v3_paths.role(other_role.id)
-            }
-          ]
+          _links: {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              # role path instead of user
+              href: api_v3_paths.role(other_user.id)
+            },
+            roles: [
+              {
+                href: api_v3_paths.role(other_role.id)
+              }
+            ]
+          }
         }.to_json
       end
 
@@ -563,13 +634,15 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'if providing no roles' do
       let(:body) do
         {
-          project: {
-            href: api_v3_paths.project(project.id)
-          },
-          principal: {
-            href: principal_path
-          },
-          roles: []
+          _links: {
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            principal: {
+              href: principal_path
+            },
+            roles: []
+          }
         }.to_json
       end
 
@@ -641,6 +714,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
   describe 'PATCH api/v3/memberships/:id' do
     let(:path) { api_v3_paths.membership(other_member.id) }
     let(:another_role) { FactoryBot.create(:role) }
+    let(:custom_message) { 'Wish you where **here**.' }
     let(:body) do
       {
         _links: {
@@ -649,6 +723,11 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
               href: api_v3_paths.role(another_role.id)
             }
           ]
+        },
+        _meta: {
+          notificationMessage: {
+            raw: custom_message
+          }
         }
       }.to_json
     end
@@ -661,41 +740,128 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       login_as current_user
 
-      patch path, body
+      perform_enqueued_jobs do
+        patch path, body
+      end
     end
 
-    it 'responds with 200' do
-      expect(last_response.status).to eq(200)
+    context 'for a user' do
+      it 'responds with 200' do
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'updates the member' do
+        other_member.reload
+
+        expect(other_member.roles)
+          .to match_array [another_role]
+
+        # Assigning a new role also updates the member
+        expect(other_member.updated_at > other_member_updated_at)
+          .to be_truthy
+      end
+
+      it 'returns the updated membership' do
+        expect(last_response.body)
+          .to be_json_eql('Membership'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql([{ href: api_v3_paths.role(another_role.id), title: another_role.name }].to_json)
+          .at_path('_links/roles')
+
+        # unchanged
+        expect(last_response.body)
+          .to be_json_eql(project.name.to_json)
+          .at_path('_links/project/title')
+
+        expect(last_response.body)
+          .to be_json_eql(other_user.name.to_json)
+          .at_path('_links/principal/title')
+      end
+
+      it_behaves_like 'sends mails' do
+        let(:receivers) { [other_member.principal] }
+      end
     end
 
-    it 'updates the member' do
-      other_member.reload
+    context 'with a group' do
+      let(:group) do
+        FactoryBot.create(:group, member_in_project: project, member_through_role: other_role, members: users)
+      end
+      let(:principal) { group }
+      let(:users) { [FactoryBot.create(:user), FactoryBot.create(:user)] }
+      let(:other_member) do
+        Member.find_by(principal: group).tap do |m|
+          # Behaves as if the user had that role before the role's membership was created.
+          # Because the user had the role independent of the group, it is not to be removed.
+          user_member = Member.find_by(principal: users.first)
 
-      expect(other_member.roles)
-        .to match_array [another_role]
+          MemberRole
+            .where(member_id: user_member.id)
+            .update_all(inherited_from: nil)
 
-      # Assigning a new role also updates the member
-      expect(other_member.updated_at > other_member_updated_at)
-        .to be_truthy
-    end
+          # The user also had the newly assigned role before. The membership should therefore remain unchanged.
+          user_member.member_roles.create(role_id: another_role.id)
 
-    it 'returns the updated membership' do
-      expect(last_response.body)
-        .to be_json_eql('Membership'.to_json)
-        .at_path('_type')
+          first_user_member_updated_at
+          last_user_member_updated_at
+        end
+      end
+      let(:first_user_member_updated_at) { Member.find_by(principal: users.first).updated_at }
+      let(:last_user_member_updated_at) { Member.find_by(principal: users.last).updated_at }
 
-      expect(last_response.body)
-        .to be_json_eql([{ href: api_v3_paths.role(another_role.id), title: another_role.name }].to_json)
-        .at_path('_links/roles')
+      it 'responds with 200' do
+        expect(last_response.status).to eq(200)
+      end
 
-      # unchanged
-      expect(last_response.body)
-        .to be_json_eql(project.name.to_json)
-        .at_path('_links/project/title')
+      it 'updates the member and all inherited members but does not update memberships users have already had' do
+        expect(other_member.reload.roles)
+          .to match_array [another_role]
 
-      expect(last_response.body)
-        .to be_json_eql(other_user.name.to_json)
-        .at_path('_links/principal/title')
+        expect(other_member.updated_at > other_member_updated_at)
+          .to be_truthy
+
+        last_user_member = Member.find_by(principal: users.last)
+
+        expect(last_user_member.roles)
+          .to match_array [another_role]
+
+        expect(last_user_member.updated_at > last_user_member_updated_at)
+          .to be_truthy
+
+        first_user_member = Member.find_by(principal: users.first)
+
+        expect(first_user_member.roles.uniq)
+          .to match_array [other_role, another_role]
+
+        expect(first_user_member.updated_at)
+          .to eql first_user_member_updated_at
+      end
+
+      it 'returns the updated membership' do
+        expect(last_response.body)
+          .to be_json_eql('Membership'.to_json)
+          .at_path('_type')
+
+        expect(last_response.body)
+          .to be_json_eql([{ href: api_v3_paths.role(another_role.id), title: another_role.name }].to_json)
+          .at_path('_links/roles')
+
+        # unchanged
+        expect(last_response.body)
+          .to be_json_eql(project.name.to_json)
+          .at_path('_links/project/title')
+
+        expect(last_response.body)
+          .to be_json_eql(group.name.to_json)
+          .at_path('_links/principal/title')
+      end
+
+      it_behaves_like 'sends mails' do
+        # Only sends to the second user since the first user's membership is unchanged
+        let(:receivers) { [users.last] }
+      end
     end
 
     context 'if attempting to empty the roles' do
@@ -741,7 +907,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       end
     end
 
-    context 'if attempting to switch the project' do
+    context 'when attempting to switch the project' do
       let(:other_project) do
         FactoryBot.create(:project).tap do |p|
           FactoryBot.create(:member,
@@ -808,7 +974,9 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       members
       login_as current_user
 
-      delete path
+      perform_enqueued_jobs do
+        delete path
+      end
     end
 
     subject { last_response }
@@ -829,6 +997,50 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
           let(:id) { 1337 }
           let(:type) { 'Membership' }
         end
+      end
+    end
+
+    context 'with a group' do
+      let(:group) do
+        FactoryBot.create(:group, member_in_project: project, member_through_role: other_role, members: users)
+      end
+      let(:principal) { group }
+      let(:users) { [FactoryBot.create(:user), FactoryBot.create(:user)] }
+      let(:another_role) { FactoryBot.create(:role) }
+      let(:other_member) do
+        Member.find_by(principal: group).tap do
+          # Behaves as if the user had a role before the role's membership was created.
+          # Because the user had the role independent of the group, it is not to be removed.
+          user_member = Member.find_by(principal: users.first)
+
+          # The user also had the newly assigned role before. The membership should therefore remain unchanged.
+          user_member.member_roles.create(role_id: another_role.id)
+
+          first_user_member_updated_at
+        end
+      end
+      let(:first_user_member_updated_at) { Member.find_by(principal: users.first).updated_at }
+
+      it 'responds with HTTP No Content' do
+        expect(subject.status).to eq 204
+      end
+
+      it 'deletes the member but does not remove the previously assigned role' do
+        expect(Member.exists?(other_member.id)).to be_falsey
+        expect(Member.where(principal: users.last)).not_to be_exists
+
+        first_user_member = Member.find_by(principal: users.first)
+
+        expect(first_user_member.roles)
+          .to match_array [another_role]
+
+        expect(first_user_member.updated_at > first_user_member_updated_at)
+          .to be_truthy
+      end
+
+      it_behaves_like 'sends mails' do
+        # Only sends to the user who's membership only got updated, not removed
+        let(:receivers) { [users.first] }
       end
     end
 

@@ -34,6 +34,13 @@ module Pages
       '/custom_fields'
     end
 
+    def visit_tab(name)
+      visit!
+      within('content-tabs') do
+        click_link name.to_s
+      end
+    end
+
     def select_format(label)
       select label, from: "custom_field_field_format"
     end

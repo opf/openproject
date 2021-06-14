@@ -49,7 +49,7 @@ describe Group, type: :model do
 
   describe 'with long but allowed attributes' do
     it 'is valid' do
-      group.groupname = 'a' * 256
+      group.name = 'a' * 256
       expect(group).to be_valid
       expect(group.save).to be_truthy
     end
@@ -57,7 +57,7 @@ describe Group, type: :model do
 
   describe 'with a name too long' do
     it 'is invalid' do
-      group.groupname = 'a' * 257
+      group.name = 'a' * 257
       expect(group).not_to be_valid
       expect(group.save).to be_falsey
     end
@@ -71,39 +71,27 @@ describe Group, type: :model do
     end
   end
 
-  describe 'from legacy specs' do
-    let!(:roles) { FactoryBot.create_list :role, 2 }
-    let!(:role_ids) { roles.map(&:id).sort }
-    let!(:member) { FactoryBot.create :member, project: project, principal: group, role_ids: role_ids }
-    let!(:group) { FactoryBot.create(:group, members: user) }
+  describe '#group_users' do
+    context 'when adding a user' do
+      it 'updates the timestamp' do
+        updated_at = group.updated_at
+        group.group_users.create(user: user)
 
-    it 'should roles removed when removing group membership' do
-      expect(user).to be_member_of project
-      Principals::DeleteJob.perform_now group
-      user.reload
-      project.reload
-      expect(user).not_to be_member_of project
+        expect(updated_at < group.reload.updated_at)
+          .to be_truthy
+      end
     end
 
-    it 'should roles updated' do
-      group = FactoryBot.create :group, members: user
-      member = FactoryBot.build :member
-      roles = FactoryBot.create_list :role, 2
-      role_ids = roles.map(&:id)
-      member.attributes = { principal: group, role_ids: role_ids }
-      member.save!
+    context 'when removing a user' do
+      it 'updates the timestamp' do
+        group.group_users.create(user: user)
+        updated_at = group.reload.updated_at
 
-      member.role_ids = [role_ids.first]
-      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.first])
+        group.group_users.destroy_all
 
-      member.role_ids = role_ids
-      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq(role_ids)
-
-      member.role_ids = [role_ids.last]
-      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.last])
-
-      member.role_ids = [role_ids.first]
-      expect(user.reload.roles_for_project(member.project).map(&:id).sort).to eq([role_ids.first])
+        expect(updated_at < group.reload.updated_at)
+          .to be_truthy
+      end
     end
   end
 
@@ -118,7 +106,7 @@ describe Group, type: :model do
           group.valid?
         end
 
-        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname') }
+        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.name') }
       end
     end
   end
@@ -135,8 +123,8 @@ describe Group, type: :model do
     end
   end
 
-  describe '#groupname' do
-    it { expect(group).to validate_presence_of :groupname }
-    it { expect(group).to validate_uniqueness_of :groupname }
+  describe '#name' do
+    it { expect(group).to validate_presence_of :name }
+    it { expect(group).to validate_uniqueness_of :name }
   end
 end

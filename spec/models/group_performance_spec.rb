@@ -72,13 +72,17 @@ describe Group, type: :model do
       let(:deleted_user) { DeletedUser.first }
 
       before do
-        expect(::OpenProject::Notifications)
-          .to receive(:send).with(:member_removed, any_args)
-          .exactly(projects.size).times
+        allow(::OpenProject::Notifications)
+          .to receive(:send)
 
         puts "Destroying group ..."
         start = Time.now.to_i
-        Principals::DeleteJob.perform_now group
+
+        Groups::DeleteService
+          .new(user: nil, contract_class: EmptyContract, model: group)
+          .call
+        perform_enqueued_jobs
+
         @seconds = Time.now.to_i - start
 
         puts "Destroyed group in #{@seconds} seconds"
@@ -87,6 +91,11 @@ describe Group, type: :model do
       end
 
       it 'should reassign the work package to nobody and clean up the journals' do
+        expect(::OpenProject::Notifications)
+          .to have_received(:send)
+          .with(OpenProject::Events::MEMBER_DESTROYED, any_args)
+          .exactly(projects.size).times
+
         work_packages.each do |wp|
           wp.reload
 

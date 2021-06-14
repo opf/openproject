@@ -4,18 +4,17 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 ## Get in touch
 
-Please get in touch with us using our [develompment forum](https://community.openproject.com/projects/openproject/boards/7) or send us an email to info@openproject.org.
+Please get in touch with us using our [develompment forum](https://community.openproject.com/projects/openproject/boards/7) or send us an email to info@openproject.com.
 
 ## Issue tracking and coordination
 
 We eat our own ice cream so we use OpenProject for roadmap planning and team collaboration. Please have a look at the following pages:
 
-- [Development timeline](https://community.openproject.com/projects/openproject/timelines/36)
-- [Product roadmap and release planning](https://community.openproject.com/projects/openproject/roadmap)
-- [Wish list](https://community.openproject.com/versions/26)
-- [Bug backlog](https://community.openproject.com/versions/136)
-- [Report a bug](https://www.openproject.org/development/report-a-bug/)
-- [Submit a feature idea](https://www.openproject.org/development/submit-feature-idea/)
+- [Product roadmap](https://community.openproject.org/projects/openproject/work_packages?query_id=1993)
+- [Wish list](https://community.openproject.org/projects/openproject/work_packages?query_id=180)
+- [Bug backlog board](https://community.openproject.org/projects/openproject/boards/2905)
+- [Report a bug](https://docs.openproject.org/development/report-a-bug/)
+- [Submit a feature idea](https://docs.openproject.org/development/submit-feature-idea/)
 
 
 ## Branching model

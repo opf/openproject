@@ -28,19 +28,19 @@
 
 FactoryBot.define do
   factory :type do
-    sequence(:position) { |p| p }
+    sequence(:position)
     name { |a| "Type No. #{a.position}" }
     description { nil }
     created_at { Time.now }
     updated_at { Time.now }
 
-    factory :type_with_workflow, class: Type do
+    factory :type_with_workflow, class: 'Type' do
       callback(:after_build) do |t|
         t.workflows = [FactoryBot.build(:workflow_with_default_status)]
       end
     end
 
-    factory :type_with_relation_query_group, class: Type do
+    factory :type_with_relation_query_group, class: 'Type' do
       transient do
         relation_filter { 'parent' }
       end
@@ -55,7 +55,7 @@ FactoryBot.define do
     end
   end
 
-  factory :type_standard, class: ::Type do
+  factory :type_standard, class: '::Type' do
     name { 'None' }
     is_standard { true }
     is_default { true }
@@ -63,7 +63,7 @@ FactoryBot.define do
     updated_at { Time.now }
   end
 
-  factory :type_bug, class: ::Type do
+  factory :type_bug, class: '::Type' do
     name { 'Bug' }
     position { 1 }
     created_at { Time.now }

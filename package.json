@@ -10,6 +10,6 @@
   },
   "private": true,
   "engines": {
-    "node": "~12.18.3"
+    "node": "~14.16.0"
   }
 }

@@ -191,11 +191,14 @@ module OpenProject
             security_badge_documentation: {
               href: 'https://docs.openproject.org/system-admin-guide/information/#security-badge'
             },
+            display_settings_documentation: {
+              href: 'https://docs.openproject.org/system-admin-guide/system-settings/display-settings/'
+            },
             chargebee: {
               href: 'https://js.chargebee.com/v2/chargebee.js'
             },
             webinar_videos: {
-              href: 'https://www.youtube.com/watch?v=ebc3lcSmncA&t=8s'
+              href: 'https://www.youtube.com/watch?v=un6zCm8_FT4'
             },
             get_started_videos: {
               href: 'https://www.youtube.com/playlist?list=PLGzJ4gG7hPb8WWOWmeXqlfMfhdXReu-RJ'

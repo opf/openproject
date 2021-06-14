@@ -34,6 +34,10 @@ module Projects::Copy
       I18n.t(:label_work_package_category_plural)
     end
 
+    def source_count
+      source.categories.count
+    end
+
     protected
 
     def copy_dependency(params:)

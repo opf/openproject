@@ -93,6 +93,10 @@ class Queries::BaseQuery
     available_filters.detect { |f| f.name == name }
   end
 
+  def ordered?
+    orders.any?
+  end
+
   protected
 
   attr_accessor :user

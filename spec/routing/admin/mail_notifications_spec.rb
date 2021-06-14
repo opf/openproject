@@ -30,10 +30,12 @@ require 'spec_helper'
 
 describe 'admin mail_notifications routes', type: :routing do
   it do
-    expect(get('admin/mail_notifications')).to route_to('admin/mail_notifications#show')
+    expect(get('admin/settings/mail_notifications'))
+      .to route_to('admin/settings/mail_notifications_settings#show')
   end
 
   it do
-    expect(patch('admin/mail_notifications')).to route_to('admin/mail_notifications#update')
+    expect(patch('admin/settings/mail_notifications'))
+      .to route_to('admin/settings/mail_notifications_settings#update')
   end
 end

@@ -170,7 +170,7 @@ describe 'edit work package', js: true do
     wp_page.visit!
 
     # Another (empty) journal should exist now
-    expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+    expect(page).to have_selector('.op-user-activity--user-name',
                                   text: work_package.journals.last.user.name,
                                   wait: 10,
                                   count: 2)

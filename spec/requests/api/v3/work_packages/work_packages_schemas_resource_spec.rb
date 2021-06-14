@@ -37,7 +37,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
   let(:type) { FactoryBot.create(:type) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    FactoryBot.build(:user, member_in_project: project, member_through_role: role)
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'GET /api/v3/work_packages/schemas/filters=...' do

@@ -254,8 +254,17 @@ class CustomField < ApplicationRecord
     field_format == "text"
   end
 
+  def boolean?
+    field_format == "bool"
+  end
+
   def multi_value?
     multi_value
+  end
+
+  def multi_value_possible?
+    %w[user list].include?(field_format) &&
+      [ProjectCustomField, WorkPackageCustomField].include?(self.class)
   end
 
   ##
@@ -264,7 +273,7 @@ class CustomField < ApplicationRecord
   def cache_key
     tag = multi_value? ? "mv" : "sv"
 
-    super + '/' + tag
+    "#{super}/#{tag}"
   end
 
   private

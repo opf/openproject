@@ -32,7 +32,6 @@ module API
   module V3
     module Activities
       class ActivityCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Activities::ActivityRepresenter
       end
     end
   end

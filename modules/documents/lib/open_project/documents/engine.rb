@@ -50,7 +50,7 @@ module OpenProject::Documents
         }, require: :loggedin
       end
 
-      Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
+      OpenProject::Notifiable.all << OpenProject::Notifiable.new('document_added')
 
       Redmine::Search.register :documents
     end

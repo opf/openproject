@@ -33,6 +33,19 @@ de:
         single: "Auswählen \"%{name}\""
       remove: "Entferne %{name}"
       active: "Aktive %{label} %{name}"
+    backup:
+      attachments_disabled: Anhänge können ggf. nicht mit eingebunden werden, da sie die maximal zulässige Gesamtgröße überschreiten. Sie können dies über die Konfiguration ändern (erfordert einen Neustart des Servers).
+      info: >
+        Sie können hier ein Backup auslösen. Der Prozess kann je nach Datenmenge (insbesondere bei Anhängen) einige Zeit in Anspruch nehmen. Sie erhalten eine E-Mail, sobald das Backup verfügbar ist.
+      note: >
+        Ein neues Backup wird alle vorherigen überschreiben. Es kann nur eine begrenzte Anzahl von Backups pro Tag angefordert werden.
+      last_backup: Letztes Backup
+      last_backup_from: Letztes Backup von
+      title: Backup für OpenProject erstellen
+      options: Optionen
+      include_attachments: Anhänge einschließen
+      download_backup: Backup herunterladen
+      request_backup: Backup anfordern
     close_popup_title: "Dialog schließen"
     close_filter_title: "Filter schließen"
     close_form_title: "Formular schließen"
@@ -270,13 +283,13 @@ de:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
+              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
+              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -465,6 +478,7 @@ de:
         help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere Hilfematerialien. <br> Viel Spaß mit OpenProject!'
         members: 'Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.'
         project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
+        quick_add_button: 'Erstellen Sie ein neues Projekt oder laden Sie Mitarbeiter ein.'
         sidebar_arrow: "Mit dem Pfeil gelangen Sie zurück zum <b>Hauptmenü</b> des Projektes."
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese jeder Zeit wieder neu starten.'
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
@@ -506,6 +520,10 @@ de:
       work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
+      use_template: "Projektvorlage verwenden"
+      no_template_selected: "(Keine)"
+      copy:
+        copy_options: "Kopieroptionen"
       autocompleter:
         label: 'Projekt Auto-Vervollständigung'
     text_are_you_sure: "Sind Sie sicher?"
@@ -906,6 +924,7 @@ de:
     notice_successful_create: "Erfolgreich angelegt."
     notice_successful_delete: "Erfolgreich gelöscht."
     notice_successful_update: "Erfolgreich aktualisiert."
+    notice_job_started: "Vorgang gestartet."
     notice_bad_request: "Fehlerhafte Anfrage."
     relations:
       empty: Keine bestehenden Beziehungen
@@ -959,3 +978,78 @@ de:
       card: 'Karten'
       list: 'Tabelle'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Zurück'
+      invite: 'Einladen'
+      title:
+        invite: 'Nutzer einladen'
+        invite_to_project: '%{type} zu %{project} einladen'
+        User: 'Benutzer'
+        Group: 'Gruppe'
+        PlaceholderUser: 'Platzhalter-Benutzer'
+        invite_principal_to_project: '%{principal} zu %{project} einladen'
+      project:
+        label: 'Projekt'
+        required: 'Bitte wählen Sie ein Projekt'
+        lacking_permission: 'Bitte wählen Sie ein anderes Projekt, da Ihnen die Berechtigungen fehlen, Nutzer zu dem aktuell ausgewählten Projekt zuzuweisen.'
+        lacking_permission_info: 'Ihnen fehlt die Berechtigung, Benutzer dem Projekt zuzuweisen, in dem Sie sich gerade befinden. Sie müssen ein anderes auswählen.'
+        next_button: 'Weiter'
+        no_results: 'Keine Projekte gefunden'
+        no_invite_rights: 'Sie dürfen keine Mitglieder zu diesem Projekt hinzufügen'
+      type:
+        required: 'Bitte wählen Sie die Typen aus, die eingeladen werden sollen'
+        user:
+          title: 'Benutzer'
+          description: 'Berechtigungen basierend auf der zugewiesenen Rolle im ausgewählten Projekt'
+        group:
+          title: 'Gruppe'
+          description: 'Berechtigungen basierend auf der zugewiesenen Rolle im ausgewählten Projekt'
+        placeholder:
+          title: 'Platzhalter-Benutzer'
+          title_no_ee: 'Platzhalter-Benutzer (nur Enterprise Edition)'
+          description: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails verschickt.'
+          description_no_ee: 'Hat keinen Zugriff auf das Projekt und es werden keine E-Mails versendet. <br>Schau dir die <a href="%{eeHref}" target="_blank">Enterprise Edition an</a>'
+      principal:
+        label:
+          name_or_email: 'Name oder E-Mail-Adresse'
+          name: 'Name'
+        already_member_message: 'Bereits ein Mitglied von %{project}'
+        no_results_user: 'Keine Benutzer gefunden'
+        invite_user: 'Einladen:'
+        change_user_selection: 'E-Mail-Adresse ändern oder einen bestehenden Benutzer auswählen'
+        no_results_placeholder: 'Keine Platzhalter-Benutzer gefunden.'
+        change_placeholder_selection: 'Name ändern oder Platzhalter auswählen'
+        create_new_placeholder: 'Erstelle neuen Platzhalter:'
+        no_results_group: 'Es wurden keine Gruppen gefunden.'
+        change_group_selection: 'Name ändern oder Platzhalter auswählen'
+        next_button: 'Weiter'
+        required:
+          user: 'Bitte einen Benutzer auswählen'
+          placeholder: 'Bitte einen Platzhalter auswählen'
+          group: 'Bitte wählen Sie eine Gruppe'
+      role:
+        label: 'Rolle in %{project}'
+        no_roles_found: 'Keine Rollen gefunden'
+        description: 'Dies ist die Rolle, die %{principal} erhalten wird, wenn sie Ihrem Projekt beitreten. Die Rolle legt fest, welche Maßnahmen sie ergreifen dürfen und welche Informationen ihnen erlaubt sind. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Erfahren Sie mehr über Rollen und Berechtigungen. </a>'
+        required: 'Bitte eine Rolle auswählen'
+        next_button: 'Weiter'
+      message:
+        label: 'Einladungsnachricht'
+        description: 'Wir werden eine E-Mail an %{principal} senden, zu der Sie hier eine persönliche Nachricht hinzufügen können. Eine Erklärung für die Einladung könnte nützlich sein oder vielleicht ein paar Informationen über das Projekt, um den Start zu erleichtern.'
+        next_button: 'Einladung überprüfen'
+      summary:
+        next_button: 'Einladung senden'
+      success:
+        title: '%{principal} wurde eingeladen!'
+        description:
+          user: 'Der Benutzer kann sich jetzt anmelden, um auf %{project} zuzugreifen. In der Zwischenzeit können Sie bereits mit diesem Benutzer planen und beispielsweise Arbeitspakete zuweisen.'
+          placeholder: 'Der Platzhalter kann jetzt in %{project} verwendet werden. In der Zwischenzeit können Sie bereits mit diesem Benutzer planen und beispielsweise Arbeitspakete zuweisen.'
+          group: 'Die Gruppe ist nun %{project} zugewiesen. In der Zwischenzeit können Sie bereits mit dieser Gruppe planen und ihr zum Beispiel Arbeitspakete zuweisen.'
+        next_button: 'Fortfahren'
+    forms:
+      submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
+      load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'
+      validation_error_message: 'Bitte die Fehler im Formular beheben'
+      advanced_settings: 'Erweiterte Einstellungen'
+
+

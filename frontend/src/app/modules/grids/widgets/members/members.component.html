@@ -21,10 +21,9 @@
       <div class="attributes-map--value">
           <ng-container *ngFor="let principal of usersByRole.users; let last = last">
             <op-principal
-                [principal]="principal"
-                avatarClasses="avatar avatar-mini -spaced"
-                >
-            </op-principal>
+              [principal]="principal"
+              size="mini"
+            ></op-principal>
             <ng-container *ngIf="!last">, </ng-container>
           </ng-container>
       </div>

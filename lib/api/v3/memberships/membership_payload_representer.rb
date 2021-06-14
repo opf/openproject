@@ -33,6 +33,11 @@ module API
     module Memberships
       class MembershipPayloadRepresenter < MembershipRepresenter
         include ::API::Utilities::PayloadRepresenter
+        include ::API::Utilities::MetaProperty
+
+        def meta_representer_class
+          MembershipMetaRepresenter
+        end
       end
     end
   end

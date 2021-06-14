@@ -1,6 +1,6 @@
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {TimeEntryResource} from "core-app/modules/hal/resources/time-entry-resource";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,10 +13,10 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {EditFormComponent} from 'core-app/modules/fields/edit/edit-form/edit-form.component';
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-changeset";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { EditFormComponent } from 'core-app/modules/fields/edit/edit-form/edit-form.component';
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { ResourceChangeset } from "core-app/modules/fields/changeset/resource-changeset";
 
 @Component({
   templateUrl: './form.component.html',
@@ -26,7 +26,7 @@ import {ResourceChangeset} from "core-app/modules/fields/changeset/resource-chan
 })
 export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() changeset:ResourceChangeset<TimeEntryResource>;
-  @Input() showWorkPackageField:boolean = true;
+  @Input() showWorkPackageField = true;
 
   @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
 
@@ -43,7 +43,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
     wpRequired: this.i18n.t('js.time_entry.work_package_required')
   };
 
-  public workPackageSelected:boolean = false;
+  public workPackageSelected = false;
   public customFields:{ key:string, label:string }[] = [];
 
   constructor(readonly halEditing:HalResourceEditingService,

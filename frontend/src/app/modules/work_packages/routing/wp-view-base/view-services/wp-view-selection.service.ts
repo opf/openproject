@@ -1,12 +1,12 @@
-import {IsolatedQuerySpace} from "core-app/modules/work_packages/query-space/isolated-query-space";
-import {Injectable, OnDestroy} from '@angular/core';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {States} from 'core-components/states.service';
-import {OPContextMenuService} from "core-components/op-context-menu/op-context-menu.service";
-import {RenderedWorkPackage} from "core-app/modules/work_packages/render-info/rendered-work-package.type";
-import {WorkPackageViewBaseService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
-import {QueryResource} from "core-app/modules/hal/resources/query-resource";
-import {WorkPackageCollectionResource} from "core-app/modules/hal/resources/wp-collection-resource";
+import { IsolatedQuerySpace } from "core-app/modules/work_packages/query-space/isolated-query-space";
+import { Injectable, OnDestroy } from '@angular/core';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { States } from 'core-components/states.service';
+import { OPContextMenuService } from "core-components/op-context-menu/op-context-menu.service";
+import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import { WorkPackageViewBaseService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-base.service";
+import { QueryResource } from "core-app/modules/hal/resources/query-resource";
+import { WorkPackageCollectionResource } from "core-app/modules/hal/resources/wp-collection-resource";
 
 export interface WorkPackageViewSelectionState {
   // Map of selected rows
@@ -32,7 +32,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   }
 
   public initializeSelection(selectedWorkPackageIds:string[]) {
-    let state:WorkPackageViewSelectionState = {
+    const state:WorkPackageViewSelectionState = {
       selected: {},
       activeRowIndex: null
     };
@@ -66,12 +66,12 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
    * Get the current work package resource form the selection state.
    */
   public getSelectedWorkPackages():WorkPackageResource[] {
-    let wpState = this.states.workPackages;
+    const wpState = this.states.workPackages;
     return this.getSelectedWorkPackageIds().map(id => wpState.get(id).value!);
   }
 
   public getSelectedWorkPackageIds():string[] {
-    let selected:string[] = [];
+    const selected:string[] = [];
 
     _.each(this.current?.selected, (isSelected:boolean, wpId:string) => {
       if (isSelected) {
@@ -105,7 +105,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
    * @param workPackageId
    */
   public toggleRow(workPackageId:string) {
-    let isSelected = this.current?.selected[workPackageId];
+    const isSelected = this.current?.selected[workPackageId];
     this.setRowState(workPackageId, !isSelected);
   }
 
@@ -115,7 +115,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
    * @param newState
    */
   public setRowState(workPackageId:string, newState:boolean) {
-    let state = this.current || this._emptyState;
+    const state = this.current || this._emptyState;
     state.selected[workPackageId] = newState;
     this.update(state);
   }
@@ -137,15 +137,15 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
    * (aka shift click expansion)
    */
   public setMultiSelectionFrom(rows:RenderedWorkPackage[], wpId:string, position:number) {
-    let state = this.current || this._emptyState;
+    const state = this.current || this._emptyState;
 
     // If there are no other selections, it does not matter what the index is
     if (this.selectionCount === 0 || state.activeRowIndex === null) {
       state.selected[wpId] = true;
       state.activeRowIndex = position;
     } else {
-      let start = Math.min(position, state.activeRowIndex);
-      let end = Math.max(position, state.activeRowIndex);
+      const start = Math.min(position, state.activeRowIndex);
+      const end = Math.max(position, state.activeRowIndex);
 
       rows.forEach((row, i) => {
         if (row.workPackageId) {

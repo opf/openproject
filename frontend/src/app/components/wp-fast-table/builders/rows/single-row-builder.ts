@@ -1,21 +1,21 @@
-import {Injector} from '@angular/core';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {locateTableRowByIdentifier} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
-import {debugLog} from '../../../../helpers/debug_output';
-import {WorkPackageResource} from 'core-app/modules/hal/resources/work-package-resource';
-import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
-import {WorkPackageViewColumnsService} from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {CellBuilder, tdClassName} from '../cell-builder';
-import {RelationCellbuilder} from '../relation-cell-builder';
-import {checkedClassName} from '../ui-state-link-builder';
-import {TableActionRenderer} from 'core-components/wp-fast-table/builders/table-action-renderer';
-import {WorkPackageViewSelectionService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { locateTableRowByIdentifier } from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
+import { debugLog } from '../../../../helpers/debug_output';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
+import { WorkPackageViewColumnsService } from 'core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { CellBuilder, tdClassName } from '../cell-builder';
+import { RelationCellbuilder } from '../relation-cell-builder';
+import { checkedClassName } from '../ui-state-link-builder';
+import { TableActionRenderer } from 'core-components/wp-fast-table/builders/table-action-renderer';
+import { WorkPackageViewSelectionService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import {
   internalContextMenuColumn,
   internalSortColumn
 } from "core-components/wp-fast-table/builders/internal-sort-columns";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -56,7 +56,7 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   private buildAugmentedColumns():QueryColumn[] {
-    let columns = [...this.columns, internalContextMenuColumn];
+    const columns = [...this.columns, internalContextMenuColumn];
 
     if (this.workPackageTable.configuration.dragAndDropEnabled) {
       columns.unshift(internalSortColumn);
@@ -73,18 +73,18 @@ export class SingleRowBuilder {
 
     // Handle property types
     switch (column.id) {
-      case internalContextMenuColumn.id:
-        if (this.workPackageTable.configuration.actionsColumnEnabled) {
-          return this.contextLinkBuilder.build(workPackage);
-        } else if (this.workPackageTable.configuration.columnMenuEnabled) {
-          let td = document.createElement('td');
-          td.classList.add('hide-when-print');
-          return td;
-        } else {
-          return null;
-        }
-      default:
-        return this.cellBuilder.build(workPackage, column);
+    case internalContextMenuColumn.id:
+      if (this.workPackageTable.configuration.actionsColumnEnabled) {
+        return this.contextLinkBuilder.build(workPackage);
+      } else if (this.workPackageTable.configuration.columnMenuEnabled) {
+        const td = document.createElement('td');
+        td.classList.add('hide-when-print');
+        return td;
+      } else {
+        return null;
+      }
+    default:
+      return this.cellBuilder.build(workPackage, column);
     }
   }
 
@@ -92,7 +92,7 @@ export class SingleRowBuilder {
    * Build the columns on the given empty row
    */
   public buildEmpty(workPackage:WorkPackageResource):[HTMLTableRowElement, boolean] {
-    let row = this.createEmptyRow(workPackage);
+    const row = this.createEmptyRow(workPackage);
     return this.buildEmptyRow(workPackage, row);
   }
 
@@ -103,7 +103,7 @@ export class SingleRowBuilder {
    */
   public createEmptyRow(workPackage:WorkPackageResource) {
     const identifier = this.classIdentifier(workPackage);
-    let tr = document.createElement('tr');
+    const tr = document.createElement('tr');
     tr.setAttribute('tabindex', '0');
     tr.dataset['workPackageId'] = workPackage.id!;
     tr.dataset['classIdentifier'] = identifier;
@@ -180,7 +180,7 @@ export class SingleRowBuilder {
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
     const change = this.workPackageTable.editing.change(workPackage);
-    let cells:{ [attribute:string]:JQuery } = {};
+    const cells:{ [attribute:string]:JQuery } = {};
 
     if (change && !change.isEmpty()) {
       // Try to find an old instance of this row
@@ -193,7 +193,7 @@ export class SingleRowBuilder {
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
       let cell:Element|null;
-      let oldCell:JQuery|undefined = cells[column.id];
+      const oldCell:JQuery|undefined = cells[column.id];
 
       if (oldCell && oldCell.length) {
         debugLog(`Rendering previous open column ${column.id} on ${workPackage.id}`);

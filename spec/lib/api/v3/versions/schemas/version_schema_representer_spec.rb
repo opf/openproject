@@ -191,6 +191,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
           let(:name) { Version.human_attribute_name('project') }
           let(:required) { true }
           let(:writable) { true }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -218,6 +219,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
           let(:name) { Version.human_attribute_name('project') }
           let(:required) { true }
           let(:writable) { false }
+          let(:location) { '_links' }
         end
 
         context 'if embedding' do
@@ -236,6 +238,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:name) { Version.human_attribute_name('status') }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it 'contains no link to the allowed values' do
@@ -260,6 +263,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
         let(:name) { Version.human_attribute_name('sharing') }
         let(:required) { true }
         let(:writable) { true }
+        let(:location) { '_links' }
       end
 
       it 'contains no link to the allowed values' do

@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {InputState} from 'reactivestates';
-import {IFieldSchema} from "core-app/modules/fields/field.base";
+import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { InputState } from 'reactivestates';
+import { IFieldSchema } from "core-app/modules/fields/field.base";
 
 export class SchemaResource extends HalResource {
 
@@ -45,8 +45,8 @@ export class SchemaResource extends HalResource {
   public attributeFromLocalizedName(name:string):string|null {
     let match:string|null = null;
 
-    for (let attribute of this.availableAttributes) {
-      let fieldSchema = this[attribute];
+    for (const attribute of this.availableAttributes) {
+      const fieldSchema = this[attribute];
       if (fieldSchema?.name === name) {
         match = attribute;
         break;

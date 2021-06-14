@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APIv3GettableResource, APIv3ResourceCollection} from "core-app/modules/apiv3/paths/apiv3-resource";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {States} from "core-components/states.service";
-import {HasId, StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
-import {Observable} from "rxjs";
-import {HalResource} from "core-app/modules/hal/resources/hal-resource";
-import {CollectionResource} from "core-app/modules/hal/resources/collection-resource";
-import {tap} from "rxjs/operators";
+import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/modules/apiv3/paths/apiv3-resource";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { States } from "core-components/states.service";
+import { HasId, StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
+import { Observable } from "rxjs";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+import { CollectionResource } from "core-app/modules/hal/resources/collection-resource";
+import { tap } from "rxjs/operators";
 
 export abstract class CachableAPIV3Collection<
   T extends HasId = HalResource,

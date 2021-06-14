@@ -33,6 +33,19 @@ fr:
         single: "Sélectionner «%{name} »"
       remove: "Supprimer %{name}"
       active: "Activer %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Options
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Fermer popup"
     close_filter_title: "Fermer le filtre"
     close_form_title: "Fermer le formulaire"
@@ -271,13 +284,13 @@ fr:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un nouveau concept d'<b>utilisateurs de remplacement</b> (fonctionnalité premium) permet d'ajouter des utilisateurs préliminaires sans adresse e-mail à OpenProject et d'affecter des tâches à ces ressources.</li> <li>Les filtres de lot de travaux <b>sont étendus par une option parent </b>pour facilement voir tous les enfants directs ainsi que <b>par ID</b> pour inclure ou exclure uniquement ces lots de travaux précis dans la liste.</li> <li>L'administration utilisateur est distribuée aux non-administrateurs par un <b>nouveau rôle global</b>, permettant de gérer et d'inviter des utilisateurs sans avoir les privilèges d'administration complets.</li> <li>Améliorations supplémentaires de l'interface utilisateur et de l'UX, par ex l'harmonisation la navigation des rapports de coûts, l'adaptation des couleurs de fond des lignes de la somme et des groupes dans la liste des lots de travaux ou l'ajout d'une page d'affichage de groupe.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un nouveau concept d'<b>utilisateurs de remplacement</b> (fonctionnalité premium) permet d'ajouter des utilisateurs préliminaires sans adresse e-mail à OpenProject et d'affecter des tâches à ces ressources.</li> <li>Les filtres de lot de travaux <b>sont étendus par une option parent </b>pour facilement voir tous les enfants directs ainsi que <b>par ID</b> pour inclure ou exclure uniquement ces lots de travaux précis dans la liste.</li> <li>L'administration utilisateur est distribuée aux non-administrateurs par un <b>nouveau rôle global</b>, permettant de gérer et d'inviter des utilisateurs sans avoir les privilèges d'administration complets.</li> <li>Améliorations supplémentaires de l'interface utilisateur et de l'UX, par ex l'harmonisation la navigation des rapports de coûts, l'adaptation des couleurs de fond des lignes de la somme et des groupes dans la liste des lots de travaux ou l'ajout d'une page d'affichage de groupe.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -466,6 +479,7 @@ fr:
         help_menu: 'Dans le menu <b> Help </b>, vous trouverez un guide de l''utilisateur et des ressources d''aide supplémentaires. <br> profiter de votre travail avec OpenProject!'
         members: 'Inviter des nouveaux<b>membres</b> à participer à votre projet.'
         project_selection: 'Veuillez cliquer sur l''un des projets avec des données de démonstration utile pour commencer. <br> Le <b>projet de démo</b> convient le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b> est meilleur pour la gestion de projet Agile.'
+        quick_add_button: 'Créez un nouveau projet ou invitez des collègues.'
         sidebar_arrow: "Avec la flèche, vous pouvez naviguer vers le <b>Menu Principal</b> du projet."
         welcome: 'Faites une visite d’introduction de trois minutes d’apprendre le plus de caractéristiques importantes de <b></b>. <br> il est recommandé d’avoir effectué les étapes jusqu''à la fin. Vous pouvez redémarrer la tournée à tout moment.'
         wiki: 'Dans le <b>Wiki</b> vous pouvez documenter et partager vos connaissances avec votre équipe.'
@@ -507,6 +521,10 @@ fr:
       work_package_belongs_to: 'Ce lot de travaux appartient au projet %{projectname}.'
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
       confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
+      use_template: "Utiliser le modèle"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Remplissage automatique du projet'
     text_are_you_sure: "Êtes-vous sûr ?"
@@ -907,6 +925,7 @@ fr:
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."
     notice_successful_update: "Mise à jour réussie."
+    notice_job_started: "job started."
     notice_bad_request: "Mauvaise requête."
     relations:
       empty: Aucune relation n'existe
@@ -960,3 +979,78 @@ fr:
       card: 'Cartes'
       list: 'Tableau'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Retour'
+      invite: 'invite'
+      title:
+        invite: 'Inviter utilisateur'
+        invite_to_project: 'Inviter %{type} à %{project}'
+        User: 'utilisateur'
+        Group: 'groupe'
+        PlaceholderUser: 'utilisateur fictif'
+        invite_principal_to_project: 'Inviter %{principal} à %{project}'
+      project:
+        label: 'Projet'
+        required: 'Veuillez sélectionner un projet'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        next_button: 'Suivante'
+        no_results: 'Aucun projet trouvé'
+        no_invite_rights: 'You are not allowed to invite members to this project'
+      type:
+        required: 'Veuillez sélectionner le type d''invité'
+        user:
+          title: 'Utilisateur'
+          description: 'Permissions basées sur le rôle attribué dans le projet sélectionné'
+        group:
+          title: 'Groupe'
+          description: 'Permissions basées sur le rôle attribué dans le projet sélectionné'
+        placeholder:
+          title: 'Utilisateur de remplacement'
+          title_no_ee: 'Utilisateur fictif (fonctionnalité de l''édition Entreprise uniquement)'
+          description: 'N''a pas d''accès au projet et aucun e-mail n''est envoyé.'
+          description_no_ee: 'N''a pas accès au projet et aucun courriel n''est envoyé. <br>Consultez la <a href="%{eeHref}" target="_blank">Édition Entreprise</a>.'
+      principal:
+        label:
+          name_or_email: 'Nom ou adresse e-mail'
+          name: 'Nom'
+        already_member_message: 'Déjà membre de %{project}'
+        no_results_user: 'Aucun utilisateur n''a été trouvé'
+        invite_user: 'Invité :'
+        change_user_selection: 'Changer l''adresse e-mail ou sélectionner un utilisateur existant'
+        no_results_placeholder: 'Aucuns utilisateurs fictifs n''a été trouvé'
+        change_placeholder_selection: 'Modifier le nom ou sélectionner un espace réservé existant'
+        create_new_placeholder: 'Créer un nouveau utilisateur fictif :'
+        no_results_group: 'Aucun groupe n''a été trouvé'
+        change_group_selection: 'Changer de nom ou sélectionner un groupe existant'
+        next_button: 'Suivante'
+        required:
+          user: 'Veuillez sélectionner un utilisateur'
+          placeholder: 'Veuillez sélectionner un utilisateur fictif'
+          group: 'Veuillez sélectionner un groupe'
+      role:
+        label: 'Rôle dans %{project}'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Veuillez sélectionner un rôle'
+        next_button: 'Suivante'
+      message:
+        label: 'Message d''invitation'
+        description: 'Nous enverrons un e-mail à %{principal}, auquel vous pourrez ajouter un message personnel ici. Une explication à l''invitation pourrait être utile, ou peut-être un peu d''informations concernant le projet pour les aider à démarrer.'
+        next_button: 'Review invitation'
+      summary:
+        next_button: 'Envoyer une invitation'
+      success:
+        title: '%{principal} a été invité !'
+        description:
+          user: 'L''utilisateur peut maintenant se connecter pour accéder à %{project}. En attendant, vous pouvez déjà planifier avec cet utilisateur et assigner des lots de travaux par exemple.'
+          placeholder: 'Le utilisateur fictif peut maintenant être utilisé dans %{project}. En attendant, vous pouvez déjà planifier des taches avec cet utilisateur et l''assigner à des lots de travaux par exemple.'
+          group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
+        next_button: 'Continuer'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Paramètres avancés'
+
+

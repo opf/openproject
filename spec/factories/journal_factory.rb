@@ -30,7 +30,7 @@ FactoryBot.define do
   factory :journal do
     user factory: :user
     created_at { Time.now }
-    sequence(:version) { |n| n + 1 }
+    sequence(:version, 1)
 
     callback(:after_create) do |journal, evaluator|
       data = evaluator.data
@@ -38,7 +38,7 @@ FactoryBot.define do
       data.save
     end
 
-    factory :work_package_journal, class: Journal do
+    factory :work_package_journal, class: 'Journal' do
       journable_type { 'WorkPackage' }
       activity_type { 'work_packages' }
       transient do
@@ -50,7 +50,7 @@ FactoryBot.define do
       end
     end
 
-    factory :wiki_content_journal, class: Journal do
+    factory :wiki_content_journal, class: 'Journal' do
       journable_type { 'WikiContent' }
       activity_type { 'wiki_edits' }
 
@@ -59,7 +59,7 @@ FactoryBot.define do
       end
     end
 
-    factory :message_journal, class: Journal do
+    factory :message_journal, class: 'Journal' do
       journable_type { 'Message' }
       activity_type { 'messages' }
 

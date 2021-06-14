@@ -4,7 +4,7 @@
     <%= t 'avatars.text_your_current_gravatar' %>
   </p>
   <div class="avatars--current-gravatar">
-    <%= build_gravatar_image_tag @user %>
+    <%= avatar @user %>
   </div>
 
   <% if @user == current_user %>

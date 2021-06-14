@@ -37,8 +37,6 @@ module API
   module V3
     module Versions
       class VersionCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Versions::VersionRepresenter
-
         link :createVersionImmediately do
           next unless current_user.allowed_to_globally?(:manage_versions)
 

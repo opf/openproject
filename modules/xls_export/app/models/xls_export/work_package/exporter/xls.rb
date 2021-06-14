@@ -82,12 +82,16 @@ module XlsExport::WorkPackage::Exporter
     end
 
     def format_column_value(column, work_package)
-      formatters[column].format work_package, column
+      ::WorkPackage::Exporter::Formatters
+        .for_column(column)
+        .format(work_package, column)
     end
 
     def set_column_format_options!(spreadsheet)
       columns.each_with_index do |column, i|
-        options = formatters[column].format_options column
+        options = ::WorkPackage::Exporter::Formatters
+          .for_column(column)
+          .format_options column
 
         spreadsheet.add_format_option_to_column i, options
       end
@@ -95,10 +99,6 @@ module XlsExport::WorkPackage::Exporter
 
     def columns
       @columns ||= valid_export_columns
-    end
-
-    def formatters
-      @formatters ||= OpenProject::XlsExport::Formatters.for_columns(columns)
     end
 
     def spreadsheet_builder
@@ -112,7 +112,7 @@ module XlsExport::WorkPackage::Exporter
     def xls_export_filename
       sane_filename(
         "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} \
-         #{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"
+        #{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"
       )
     end
   end
@@ -142,8 +142,8 @@ module XlsExport::WorkPackage::Exporter
   module WithRelations
     def add_headers!(spreadsheet)
       headers_0 = [I18n.t(:label_work_package_plural)] +
-                  columns.size.times.map { |_| "" } +
-                  [I18n.t("js.work_packages.tabs.relations")]
+        columns.size.times.map { |_| "" } +
+        [I18n.t("js.work_packages.tabs.relations")]
 
       spreadsheet.add_headers headers_0, 0
       spreadsheet.add_headers headers, 1
@@ -186,9 +186,9 @@ module XlsExport::WorkPackage::Exporter
     #               parent or a child.
     def related_work_packages(work_package)
       family = ([work_package.parent].compact +
-                work_package.children.order(:subject))
-               .select { |wp| wp.visible? current_user }
-               .map { |wp| [wp, nil] }
+        work_package.children.order(:subject))
+        .select { |wp| wp.visible? current_user }
+        .map { |wp| [wp, nil] }
 
       family + relation_work_packages(work_package)
     end

@@ -1,7 +1,7 @@
-import {Injector} from '@angular/core';
-import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
-import {TimelineRowBuilder} from './timeline-row-builder';
-import {WorkPackageTable} from '../../wp-fast-table';
+import { Injector } from '@angular/core';
+import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
+import { TimelineRowBuilder } from './timeline-row-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
 
 export class TimelineRenderPass {
 

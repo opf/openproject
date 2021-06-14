@@ -1,0 +1,45 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+da:
+  js:
+    github_integration:
+      work_packages:
+        tab_name: "GitHub"
+      tab_header:
+        title: "Pull-anmodning"
+        copy_menu:
+          label: Git
+          description: Kopiér vigtigt git indhold til udklipsholder
+        git_actions:
+          branch: Gren
+          branch_help: Kopier standard branch navn.
+          message: Message
+          message_help: Kopiér standard- commit beskeden.
+          cmd: Kommando
+          cmd_help: Kopiér en shell kommando som laver en ny branch og en tom commit ved brug af standard branch navn og commit besked.
+          title: Kopiér til Udklipsholder
+          copy_button_help: Kopiér til Udklipsholder
+          copy_success: '✅ Kopieret!'
+          copy_error: '❌ Kopiering mislykkedes!'
+      tab_prs:
+        empty: 'Der er endnu ingen pull requests linket. Link en eksisterende PR ved at bruge koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opret en ny PR.'
+      github_actions: Handlinger

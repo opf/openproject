@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Injectable, Injector} from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
-import {Observable, throwError} from 'rxjs';
-import {HalResource, HalResourceClass} from 'core-app/modules/hal/resources/hal-resource';
-import {CollectionResource} from 'core-app/modules/hal/resources/collection-resource';
-import {HalLink, HalLinkInterface} from 'core-app/modules/hal/hal-link/hal-link';
-import {URLParamsEncoder} from 'core-app/modules/hal/services/url-params-encoder';
-import {ErrorResource} from "core-app/modules/hal/resources/error-resource";
+import { Injectable, Injector } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { HalResource, HalResourceClass } from 'core-app/modules/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/modules/hal/resources/collection-resource';
+import { HalLink, HalLinkInterface } from 'core-app/modules/hal/hal-link/hal-link';
+import { URLParamsEncoder } from 'core-app/modules/hal/services/url-params-encoder';
+import { ErrorResource } from "core-app/modules/hal/resources/error-resource";
 import * as Pako from 'pako';
 import {
   HTTPClientHeaders,
@@ -42,8 +42,8 @@ import {
   HTTPClientParamMap,
   HTTPSupportedMethods
 } from "core-app/modules/hal/http/http.interfaces";
-import {whenDebugging} from "core-app/helpers/debug_output";
-import {initializeHalProperties} from "../helpers/hal-resource-builder";
+import { whenDebugging } from "core-app/helpers/debug_output";
+import { initializeHalProperties } from "../helpers/hal-resource-builder";
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -217,7 +217,7 @@ export class HalResourceService {
    * @returns {HalResource}
    */
   public get defaultClass():HalResourceClass<HalResource> {
-    let defaultCls:HalResourceClass = HalResource;
+    const defaultCls:HalResourceClass = HalResource;
     return defaultCls;
   }
 
@@ -230,7 +230,7 @@ export class HalResourceService {
    * @param source
    * @returns {HalResource}
    */
-  public createHalResource<T extends HalResource = HalResource>(source:any, loaded:boolean = true):T {
+  public createHalResource<T extends HalResource = HalResource>(source:any, loaded = true):T {
     if (_.isNil(source)) {
       source = HalResource.getEmptyResource();
     }
@@ -239,10 +239,10 @@ export class HalResourceService {
     return this.createHalResourceOfType<T>(type, source, loaded);
   }
 
-  public createHalResourceOfType<T extends HalResource = HalResource>(type:string, source:any, loaded:boolean = false) {
+  public createHalResourceOfType<T extends HalResource = HalResource>(type:string, source:any, loaded = false) {
     const resourceClass:HalResourceClass<T> = this.getResourceClassOfType(type);
     const initializer = (halResource:T) => initializeHalProperties(this, halResource);
-    let resource = new resourceClass(this.injector, source, loaded, initializer, type);
+    const resource = new resourceClass(this.injector, source, loaded, initializer, type);
 
     return resource;
   }
@@ -253,10 +253,10 @@ export class HalResourceService {
    * @param source
    * @param loaded
    */
-  public createHalResourceOfClass<T extends HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded:boolean = false) {
+  public createHalResourceOfClass<T extends HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded = false) {
     const initializer = (halResource:T) => initializeHalProperties(this, halResource);
     const type = source._type || 'HalResource';
-    let resource = new resourceClass(this.injector, source, loaded, initializer, type);
+    const resource = new resourceClass(this.injector, source, loaded, initializer, type);
 
     return resource;
   }
@@ -319,8 +319,8 @@ export class HalResourceService {
   }
 
   protected toEprops(params:{}):{} {
-    let deflated = Pako.deflate(JSON.stringify(params), { to: 'string' });
-    let compressed = btoa(deflated);
+    const deflated = Pako.deflate(JSON.stringify(params), { to: 'string' });
+    const compressed = btoa(deflated);
 
     return { eprops: compressed };
   }

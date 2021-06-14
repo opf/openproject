@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {NgModule} from '@angular/core';
-import {UIRouterModule} from "@uirouter/angular";
-import {WORK_PACKAGES_ROUTES} from "core-app/modules/work_packages/routing/work-packages-routes";
-import {OpenprojectWorkPackagesModule} from "core-app/modules/work_packages/openproject-work-packages.module";
+import { NgModule } from '@angular/core';
+import { UIRouterModule } from "@uirouter/angular";
+import { WORK_PACKAGES_ROUTES } from "core-app/modules/work_packages/routing/work-packages-routes";
+import { OpenprojectWorkPackagesModule } from "core-app/modules/work_packages/openproject-work-packages.module";
 
 /**
  * Separate module for work package routes because WP modules

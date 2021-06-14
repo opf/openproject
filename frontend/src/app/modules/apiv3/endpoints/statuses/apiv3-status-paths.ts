@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {StatusResource} from "core-app/modules/hal/resources/status-resource";
-import {CachableAPIV3Resource} from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
-import {StateCacheService} from "core-app/modules/apiv3/cache/state-cache.service";
+import { StatusResource } from "core-app/modules/hal/resources/status-resource";
+import { CachableAPIV3Resource } from "core-app/modules/apiv3/cache/cachable-apiv3-resource";
+import { StateCacheService } from "core-app/modules/apiv3/cache/state-cache.service";
 
 export class APIv3StatusPaths extends CachableAPIV3Resource<StatusResource> {
 

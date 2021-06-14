@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
   CKEditorSetupService,
   ICKEditorContext,
   ICKEditorInstance
 } from "core-app/modules/common/ckeditor/ckeditor-setup.service";
-import {NotificationsService} from "core-app/modules/common/notifications/notifications.service";
-import {I18nService} from "core-app/modules/common/i18n/i18n.service";
-import {ConfigurationService} from "core-app/modules/common/config/configuration.service";
+import { NotificationsService } from "core-app/modules/common/notifications/notifications.service";
+import { I18nService } from "core-app/modules/common/i18n/i18n.service";
+import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
 
 declare module 'codemirror';
 
@@ -46,9 +46,15 @@ const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
   styleUrls: ['./op-ckeditor.sass']
 })
 export class OpCkeditorComponent implements OnInit {
-  @Input() ckEditorType:'full'|'constrained' = 'full';
   @Input() context:ICKEditorContext;
-  @Input('content') _content:string;
+  @Input()
+  public set content(newVal:string) {
+    this._content = newVal;
+
+    if (this.initialized) {
+      this.ckEditorInstance!.setData(newVal);
+    }
+  }
 
   // Output notification once ready
   @Output() onInitialized = new EventEmitter<ICKEditorInstance>();
@@ -68,6 +74,7 @@ export class OpCkeditorComponent implements OnInit {
   public error:string|null = null;
   public allowManualMode = false;
   public manualMode = false;
+  private _content:string;
 
   public text = {
     errorTitle: this.I18n.t('js.editor.error_initialization_failed')
@@ -102,7 +109,7 @@ export class OpCkeditorComponent implements OnInit {
    * Get the current live data from CKEditor. This may raise in cases
    * the data cannot be loaded (MS Edge!)
    */
-  public getRawData() {
+  public getRawData():string {
     if (this.manualMode) {
       return this._content = this.codeMirrorInstance!.getValue();
     } else {
@@ -124,7 +131,7 @@ export class OpCkeditorComponent implements OnInit {
         resolve(this.getRawData());
       } catch (e) {
         console.error(`Failed to save CKEditor content: ${e}.`);
-        let error = this.I18n.t(
+        const error = this.I18n.t(
           'js.editor.error_saving_failed',
           { error: e || this.I18n.t('js.error.internal') }
         );
@@ -136,15 +143,6 @@ export class OpCkeditorComponent implements OnInit {
         reject(error);
       }
     });
-  }
-
-  public set content(newVal:string) {
-    if (!this.initialized) {
-      throw "Tried to access CKEditor instance before initialization.";
-    }
-
-    this._content = newVal;
-    this.ckEditorInstance!.setData(newVal);
   }
 
   /**
@@ -176,7 +174,6 @@ export class OpCkeditorComponent implements OnInit {
 
     const editorPromise = this.ckEditorSetup
       .create(
-        this.ckEditorType,
         this.opCkeditorReplacementContainer.nativeElement,
         this.context,
         this.content

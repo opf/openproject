@@ -33,6 +33,19 @@ sl:
         single: "Izberi \"%{name}\""
       remove: "Odstrani \"%{name}\""
       active: "Aktivno %{label}%{name}"
+    backup:
+      attachments_disabled: Priloge morda ne bodo vključene, saj presegajo maksimalno dovoljeno velikost. To lahko spremenite s konfiguracijo (kar zahteva restart strežnika).
+      info: >
+        Tukaj lahko sprožite kreiranje rezerve. Proces lahko nekaj časa traja, odvisno od količine podatkov (sploh prilog), ki jih imate. Ko bo rezerva pripravljena, boste prejeli email.
+      note: >
+        Nova varnostna kopija bo povozila prejšnjo. Samo omejeno število var. kopij lahko v enem dnevu zahtevate.
+      last_backup: Zadnja varnostna kopija
+      last_backup_from: Zadnja varnostna kopija od
+      title: Varnostno kopiranje OpenProject-a
+      options: Možnosti
+      include_attachments: Vključite priloge
+      download_backup: Prenos varnostne kopije
+      request_backup: Zahteva za varnostno kopijo
     close_popup_title: "Zapri pojavna okna"
     close_filter_title: "Zapri filter"
     close_form_title: "Zapri obliko"
@@ -270,13 +283,13 @@ sl:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Izdaja vsebuje več novih funkcij in izboljšav: <br> <ul class="%{list_styling_class}"> <li>Nov koncept <b>nadomestnih uporabnikov</b> (premium funkcija) dovoljuje dodajanje predhodnih uporabnikov brez e-mail naslova v OpenProject in dodeljevanje nalog tem virom.</li> <li>FIltri delovne naloge <b>so podaljšani s strani starševske opcije</b>za lažji pogled nad vsemi otroki, prav tako <b>preko ID-ja</b> za vključitev ali izključitev določenih delovnih pakteov iz seznama.</li> 
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Izdaja vsebuje več novih funkcij in izboljšav: <br> <ul class="%{list_styling_class}"> <li>Nov koncept <b>nadomestnih uporabnikov</b> (premium funkcija) dovoljuje dodajanje predhodnih uporabnikov brez e-mail naslova v OpenProject in dodeljevanje nalog tem virom.</li> <li>FIltri delovne naloge <b>so podaljšani s strani starševske opcije</b>za lažji pogled nad vsemi otroki, prav tako <b>preko ID-ja</b> za vključitev ali izključitev določenih delovnih pakteov iz seznama.</li> 
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -465,6 +478,7 @@ sl:
         help_menu: 'V <b>Pomoč</b> meniju boste našli uporabniški priročnik in dodatne vire pomoči. <br> Uživajte svoje delo z programsko rešitvijo OpenProject!'
         members: 'Povabite nove <b>Člane</b> k projektu. '
         project_selection: 'Prosimo kliknite na katerega od projektov z uporabnimi demo podatki za začetek. <br> Ta <b>Demo projekt</b> je najbolj primeren za klasično projektno vodenje, medtem ko je <b>Scrum project</b> boljši za agilno projektno vodenje. '
+        quick_add_button: 'Kreiraj nov projekt ali povabi sodelavce'
         sidebar_arrow: "S puščico hako navigirate nazaj na projektni <b>Glavni meni</b>."
         welcome: 'Poglejte si tri minutni ogled, da se naučite čim več <b>pomembne lastnosti</b>. <br> Priporočamo, da ogled dokončat. Ogled lahko ponovno začnete kadar koli. '
         wiki: 'V <b>Wiki</b> lahko dokumentirate in delite znanje z vašo ekipo. '
@@ -506,6 +520,10 @@ sl:
       work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
       confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
+      use_template: "Uporabi predlogo"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Samodejno dokončanje projekta'
     text_are_you_sure: "Ste prepričani?"
@@ -906,6 +924,7 @@ sl:
     notice_successful_create: "Ustvarjanje uspelo."
     notice_successful_delete: "Uspešen izbris."
     notice_successful_update: "Posodobitev uspela."
+    notice_job_started: "job started."
     notice_bad_request: "Napačen zahtevek."
     relations:
       empty: Ni relacij
@@ -963,3 +982,78 @@ sl:
       card: 'Kartice'
       list: 'Tabela'
       timeline: 'Gant'
+    invite_user_modal:
+      back: 'Nazaj'
+      invite: 'Povabi'
+      title:
+        invite: 'Povabi uporabnika'
+        invite_to_project: 'Povabi %{type} na %{project}'
+        User: 'uporabnik'
+        Group: 'skupina'
+        PlaceholderUser: 'nadomestni uporabnik'
+        invite_principal_to_project: 'Povabi %{principal} na %{project}'
+      project:
+        label: 'Projekt'
+        required: 'Prosim izberi projekt'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        next_button: 'Naprej'
+        no_results: 'Nobeni projekti niso bili najdeni'
+        no_invite_rights: 'Nimate dovoljenja za vabljenje članov v ta projekt'
+      type:
+        required: 'Prosim izberi tip za povabilo'
+        user:
+          title: 'Uporabnik'
+          description: 'Dovoljenja glede na dodeljeno vlogo v izbranem projektu'
+        group:
+          title: 'Skupina'
+          description: 'Dovoljenja glede na dodeljeno vlogo v izbranem projektu'
+        placeholder:
+          title: 'Nadomestni uporabnik'
+          title_no_ee: 'Nadomestni uporabnik (funkcija samo v verziji Enterprise)'
+          description: 'Nima dostopa do projekta in nobenih e-mailov ni bilo poslanih.'
+          description_no_ee: 'Nima dostopa do projekta in nobenih e-mailov ni bilo poslanih. <br>Oglej si <a href="%{eeHref}" target="_blank">verzijo Enterprise</a>'
+      principal:
+        label:
+          name_or_email: 'Ime ali e-mail naslov'
+          name: 'Ime'
+        already_member_message: 'Je že član %{project}'
+        no_results_user: 'Nobenih uporabnikov ni bilo najdenih'
+        invite_user: 'Povabi:'
+        change_user_selection: 'Spremeni e-mail naslov ali izberi obstoječega uporabnika'
+        no_results_placeholder: 'Nobenih rezerviranih mest ni bilo najdenih'
+        change_placeholder_selection: 'Spremeni ime ali izberi obstoječe rezervirano mesto'
+        create_new_placeholder: 'Ustvari novo rezervirano mesto:'
+        no_results_group: 'Nobenih skupin ni bilo najdenih'
+        change_group_selection: 'Spremeni ime ali izberi obstoječo skupino'
+        next_button: 'Naprej'
+        required:
+          user: 'Izberite uporabnika'
+          placeholder: 'Izberite rezervirano mesto'
+          group: 'Izberite skupino.'
+      role:
+        label: 'Vloge v %{project}'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Izberite vlogo'
+        next_button: 'Naprej'
+      message:
+        label: 'Sporočilo s povabilom'
+        description: 'Poslali bomo e-mail %{principal}, kateremu tukaj lahko dodate osebno sporočilo. Razlaga za povabilo bi lahko bila uporabna, ali pa vsaj nekaj informacij o projektu za lažji začetek.'
+        next_button: 'Preglej povabilo'
+      summary:
+        next_button: 'Pošlji povabilo'
+      success:
+        title: '%{principal} je bil povabljen!'
+        description:
+          user: 'Uporabnik se lahko zdaj prijavi za dostop do %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
+          placeholder: 'Rezervirano mesto se zdaj lahko uporabi v %{project}. Medtem lahko planirate s tem uporabnikom in mu dodelite delovne naloge.'
+          group: 'Skupina je zdaj del %{project}. Medtem lahko planirate s to skupino in ji dodelite delovne naloge.'
+        next_button: 'Nadaljuj'
+    forms:
+      submit_success_message: 'Obrazev je bil uspešno oddan'
+      load_error_message: 'Pri nalaganju obrazca je prišlo do napake'
+      validation_error_message: 'Prosimo popravite napake v obrazcu'
+      advanced_settings: 'Napredne nastavitve'
+
+

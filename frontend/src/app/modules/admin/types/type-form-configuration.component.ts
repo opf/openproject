@@ -1,15 +1,15 @@
-import {AfterViewInit, Component, ElementRef, OnInit} from '@angular/core';
-import {TypeBannerService} from 'core-app/modules/admin/types/type-banner.service';
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import {NotificationsService} from 'core-app/modules/common/notifications/notifications.service';
-import {ExternalRelationQueryConfigurationService} from 'core-components/wp-table/external-configuration/external-relation-query-configuration.service';
-import {DomAutoscrollService} from 'core-app/modules/common/drag-and-drop/dom-autoscroll.service';
-import {DragulaService, DrakeWithModels} from 'ng2-dragula';
-import {ConfirmDialogService} from 'core-components/modals/confirm-dialog/confirm-dialog.service';
-import {Drake} from 'dragula';
-import {GonService} from "core-app/modules/common/gon/gon.service";
-import {UntilDestroyedMixin} from "core-app/helpers/angular/until-destroyed.mixin";
-import {install_menu_logic} from "core-app/globals/global-listeners/action-menu";
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { TypeBannerService } from 'core-app/modules/admin/types/type-banner.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { NotificationsService } from 'core-app/modules/common/notifications/notifications.service';
+import { ExternalRelationQueryConfigurationService } from 'core-components/wp-table/external-configuration/external-relation-query-configuration.service';
+import { DomAutoscrollService } from 'core-app/modules/common/drag-and-drop/dom-autoscroll.service';
+import { DragulaService, DrakeWithModels } from 'ng2-dragula';
+import { ConfirmDialogService } from 'core-components/modals/confirm-dialog/confirm-dialog.service';
+import { Drake } from 'dragula';
+import { GonService } from "core-app/modules/common/gon/gon.service";
+import { UntilDestroyedMixin } from "core-app/helpers/angular/until-destroyed.mixin";
+import { install_menu_logic } from "core-app/globals/global-listeners/action-menu";
 
 export type TypeGroupType = 'attribute'|'query';
 
@@ -158,7 +158,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
   }
 
   public addGroupAndOpenQuery():void {
-    let newGroup = this.createGroup('query');
+    const newGroup = this.createGroup('query');
     this.editQuery(newGroup);
   }
 
@@ -186,8 +186,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     return group;
   }
 
-  public createGroup(type:TypeGroupType, groupName:string = '') {
-    let group:TypeGroup = {
+  public createGroup(type:TypeGroupType, groupName = '') {
+    const group:TypeGroup = {
       type: type,
       name: '',
       key: null,

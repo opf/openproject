@@ -38,8 +38,6 @@ module API
         include Roar::JSON::HAL
         include Roar::Hypermedia
 
-        ERROR_PREFIX = 'urn:openproject-org:api:v3:errors:'.freeze
-
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
@@ -58,7 +56,7 @@ module API
         end
 
         def error_identifier
-          ERROR_PREFIX + represented.class.identifier
+          ::API::V3::URN_ERROR_PREFIX + represented.class.identifier
         end
       end
     end

@@ -30,7 +30,12 @@ require File.expand_path('../config/environment', __dir__)
 require 'factory_bot_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'
+
+# Require test_prof helpers for better performance around factories/specs
+# see https://test-prof.evilmartians.io for all options.
 require 'test_prof/recipes/rspec/before_all'
+require 'test_prof/recipes/rspec/let_it_be'
+require "test_prof/recipes/rspec/factory_default"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -54,10 +59,10 @@ require 'test_prof/recipes/rspec/before_all'
 require_relative "./support/parallel_helper"
 require_relative "./support/download_list"
 require_relative "./support/capybara"
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
-Dir[Rails.root.join('spec/features/support/**/*.rb')].each { |f| require f }
-Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].each { |f| require f }
-Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require_relative f }
+Dir[Rails.root.join('spec/features/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/requests/api/v3/support/**/*.rb')].sort.each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.

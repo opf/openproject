@@ -85,6 +85,8 @@ module Pages
       subject.set card_title
       subject.send_keys :enter
 
+      sleep 1
+
       expect_card(list_name, card_title)
     end
 
@@ -352,7 +354,7 @@ module Pages
     def open_and_fill_add_list_modal(name)
       open_add_list_modal
       sleep(0.1)
-      page.find('.op-modal--modal-container .new-list--action-select input').set(name)
+      page.find('.op-modal .new-list--action-select input').set(name)
     end
 
     def open_add_list_modal
@@ -361,7 +363,7 @@ module Pages
     end
 
     def add_list_modal_shows_warning(value, with_link: false)
-      within page.find('.op-modal--modal-container') do
+      within page.find('.op-modal') do
         warning = '.notification-box.-warning'
         link = '.notification-box--content a'
 

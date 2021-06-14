@@ -1,15 +1,15 @@
-import {WorkPackageResource} from "core-app/modules/hal/resources/work-package-resource";
-import {TableDragActionService} from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import {WorkPackageViewGroupByService} from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { TableDragActionService } from "core-components/wp-table/drag-and-drop/actions/table-drag-action.service";
+import { WorkPackageViewGroupByService } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 
-import {HalResourceEditingService} from "core-app/modules/fields/edit/services/hal-resource-editing.service";
-import {rowGroupClassName} from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import {locatePredecessorBySelector} from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
-import {groupIdentifier} from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {HalEventsService} from "core-app/modules/hal/services/hal-events.service";
-import {InjectField} from "core-app/helpers/angular/inject-field.decorator";
-import {SchemaCacheService} from "core-components/schemas/schema-cache.service";
+import { HalResourceEditingService } from "core-app/modules/fields/edit/services/hal-resource-editing.service";
+import { rowGroupClassName } from "core-components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
+import { locatePredecessorBySelector } from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
+import { groupIdentifier } from "core-components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { HalEventsService } from "core-app/modules/hal/services/hal-events.service";
+import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-components/schemas/schema-cache.service";
 
 export class GroupByDragActionService extends TableDragActionService {
 
@@ -38,7 +38,7 @@ export class GroupByDragActionService extends TableDragActionService {
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.halEditing
       .save(changeset)
-      .then((saved) => this.halEvents.push(saved.resource, {eventType: 'updated'}))
+      .then((saved) => this.halEvents.push(saved.resource, { eventType: 'updated' }))
       .catch(e => this.halNotification.handleRawError(e, workPackage));
   }
 

@@ -13,20 +13,37 @@ $search-input-height: 30px
   line-height: var(--header-height)
   margin: 0 15px
 
-  .top-menu-search--back-button
+  @media screen and (max-width: 680px)
+    margin: 0
+
+  &--back-button
     display: none
 
-  .top-menu-search--button
+  &--button
     position: absolute
     right: 2px
     font-size: var(--header-item-font-size)
     color: var(--header-item-font-color)
+
     &:hover
       text-decoration: none
+
+    // TODO: This should be using  @include breakpoint(680px down)
+    // Which is hard to do since we don't have access here and it'll
+    // probably require a larger sass import refactoring
+    @media screen and (max-width: 680px)
+      position: relative
+      padding: 0 8px
+
+      &:hover
+        background: var(--header-item-bg-hover-color)
+        color: var(--header-item-font-hover-color)
+        border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color)
+
     &.-input-focused
       color: var(--header-search-field-font-color)
 
-  .top-menu-search--loading
+  &--loading
     top: var(--header-height) - 11px  // display directly under ng-input field
     height: 46px                // ng-option height + 1px border
     z-index: 1051
@@ -106,72 +123,68 @@ $search-input-height: 30px
         &.ng-option-selected
           background-color: var(--drop-down-selected-bg-color)
 
-.global-search--wp-id
-  color: var(--gray-dark)
-  font-size: 13px
-  white-space: nowrap
+  &--input
+    // Fix position of the spinner
+    .ng-spinner-loader
+      position: relative
+      right: 14px
 
+.global-search
+  &--wp-id
+    color: var(--gray-dark)
+    font-size: 13px
+    white-space: nowrap
 
-.top-menu-search--input
-  // Fix position of the spinner
-  .ng-spinner-loader
-    position: relative
-    right: 14px
+  &--option-wrapper
+    padding: 5px 5px
+    line-height: 15px
+    min-height: 25px  // line-height + padding
+    word-break: break-word
 
-.global-search--option-wrapper
-  padding: 5px 5px
-  line-height: 15px
-  min-height: 25px  // line-height + padding
-  word-break: break-word
+  &--option,
+  &--option:hover
+    color: var(--body-font-color)
+    text-decoration: none
 
-.global-search--option,
-.global-search--option:hover
-  color: var(--body-font-color)
-  text-decoration: none
+  &--project-scope
+    position: absolute
+    right: 7px
+    border: 1px solid var(--button--border-color)
+    font-size: 13px
+    background: var(--button--background-color)
+    border-radius: 2px
+    padding: 0 4px
+    color: var(--body-font-color)
 
-.global-search--project-scope
-  position: absolute
-  right: 7px
-  border: 1px solid var(--button--border-color)
-  font-size: 13px
-  background: var(--button--background-color)
-  border-radius: 2px
-  padding: 0 4px
-  color: var(--body-font-color)
+  &--option-wrapper
+    .op-avatar
+      margin-right: 5px
+      float: left
 
-
-.global-search-author-avatar
-  margin-right: 5px
-  float: left
-
-
-
-.global-search--wp-content
-  display: grid
-  grid-template-columns: 50% 1fr auto
-  grid-template-areas: "project idlink status"
-  font-size: 0.8rem
-  padding: 5px 0 5px 0px
- 
-
-  .global-search--wp-project
+  &--wp-content
+    display: grid
+    grid-template-columns: 50% 1fr auto
+    grid-template-areas: "project idlink status"
+    font-size: 0.8rem
+    padding: 5px 0 5px 0px
+   
+  &--wp-project
     grid-area: project
 
-  .global-search--wp-id
+  &--wp-id
     grid-area: idlink
     place-self: right 
     font-style: italic
 
-  .global-search--wp-status
+  &--wp-status
     grid-area: status
     overflow: hidden
     font-style: italic
 
-
-.global-search--wp-subject
-  font-weight: bold
-  display: inline-block
-  width: 85%
-  overflow: hidden
-  white-space: nowrap
-  text-overflow: ellipsis
+  &--wp-subject
+    font-weight: bold
+    display: inline-block
+    width: 85%
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis

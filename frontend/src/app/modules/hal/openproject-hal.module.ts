@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {initializeHalResourceConfig} from 'core-app/modules/hal/services/hal-resource.config';
-import {HalResourceService} from 'core-app/modules/hal/services/hal-resource.service';
-import {OpenProjectHeaderInterceptor} from 'core-app/modules/hal/http/openproject-header-interceptor';
-import {CommonModule} from "@angular/common";
-import {HalResourceNotificationService} from "core-app/modules/hal/services/hal-resource-notification.service";
-import {HalAwareErrorHandler} from "core-app/modules/hal/services/hal-aware-error-handler";
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { initializeHalResourceConfig } from 'core-app/modules/hal/services/hal-resource.config';
+import { HalResourceService } from 'core-app/modules/hal/services/hal-resource.service';
+import { OpenProjectHeaderInterceptor } from 'core-app/modules/hal/http/openproject-header-interceptor';
+import { CommonModule } from "@angular/common";
+import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { HalAwareErrorHandler } from "core-app/modules/hal/services/hal-aware-error-handler";
 
 @NgModule({
   imports: [

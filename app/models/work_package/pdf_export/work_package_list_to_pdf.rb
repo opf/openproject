@@ -290,15 +290,9 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   end
 
   def make_column_value(work_package, column)
-    if column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
-      make_custom_field_value work_package, column
-    else
-      make_field_value work_package, column.name
-    end
-  end
+    formatter = ::WorkPackage::Exporter::Formatters.for_column(column)
 
-  def make_field_value(work_package, column_name)
-    pdf.make_cell field_value(work_package, column_name),
+    pdf.make_cell formatter.format(work_package, column),
                   padding: cell_padding
   end
 
@@ -310,15 +304,6 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
     else
       group.to_s
     end
-  end
-
-  def make_custom_field_value(work_package, column)
-    values = work_package
-      .custom_values
-      .select { |v| v.custom_field_id == column.custom_field.id }
-
-    pdf.make_cell values.map(&:formatted_value).join(', '),
-                  padding: cell_padding
   end
 
   def batch_supported?

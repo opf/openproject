@@ -1,5 +1,5 @@
-import {ApiV3Filter} from "core-components/api/api-v3/api-v3-filter-builder";
-import {input} from "reactivestates";
+import { ApiV3Filter } from "core-components/api/api-v3/api-v3-filter-builder";
+import { input } from "reactivestates";
 import { Injectable } from "@angular/core";
 
 @Injectable()

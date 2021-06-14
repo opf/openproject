@@ -43,6 +43,14 @@ describe Users::CreateService do
         end
       end
 
+      context 'and the user has no names set' do
+        let(:model_instance) { FactoryBot.build :invited_user, firstname: nil, lastname: nil, mail: 'foo@example.com' }
+        it 'will call UserInvitation' do
+          expect(::UserInvitation).to receive(:invite_user!).with(model_instance).and_return(model_instance)
+          expect(subject).to be_success
+        end
+      end
+
       context 'and the mail is empty' do
         let(:model_instance) { FactoryBot.build :invited_user, mail: nil }
         it 'will call not call UserInvitation' do

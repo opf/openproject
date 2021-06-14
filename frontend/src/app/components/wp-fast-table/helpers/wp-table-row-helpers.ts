@@ -1,7 +1,7 @@
 /**
  * Return the row html id attribute for the given work package ID.
  */
-import {collapsedGroupClass} from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
+import { collapsedGroupClass } from "core-components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 
 export function rowId(workPackageId:string):string {
   return `wp-row-${workPackageId}-table`;
@@ -51,11 +51,11 @@ export function scrollTableRowIntoView(workPackageId:string):void {
     const elemTop = element[0].offsetTop;
     const elemBottom = elemTop + element.height()!;
 
-     if (elemTop < containerTop) {
-       container[0].scrollTop = elemTop;
-     } else if (elemBottom > containerBottom) {
-       container[0].scrollTop = elemBottom - container.height()!;
-     }
+    if (elemTop < containerTop) {
+      container[0].scrollTop = elemTop;
+    } else if (elemBottom > containerBottom) {
+      container[0].scrollTop = elemBottom - container.height()!;
+    }
   } catch (e) {
     console.warn("Can't scroll row element into view: " + e);
   }

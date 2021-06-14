@@ -33,6 +33,19 @@ da:
         single: "Vælg \"%{name}\""
       remove: "Fjern %{name};"
       active: "Aktiv %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: Muligheder
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
     close_popup_title: "Luk popup"
     close_filter_title: "Luk filter"
     close_form_title: "Luk formular"
@@ -270,13 +283,13 @@ da:
           text_new_features: "Read about new features and product updates."
           learn_about: "Learn more about the new features"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Udgivelsen indeholder forskellige nye funktioner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Et nyt koncept med <b>pladsholderbrugere</b> (premium-funktion) gør det muligt at tilføje foreløbige brugere uden e-mail-adresse til OpenProject og tildele opgaver til disse ressourcer.</li> <li>Arbejdspakken <b>filtre udvides med en overordnet indstilling </b>for nemt at se alle direkte underpakker samt <b>ved ID</b> for kun at inkludere eller udelukke disse eksakte arbejdspakker på listen.</li> <li>Brugeradministrationen distribueres til ikke-administratorer af en <b>ny global rolle</b>, giver mulighed for at administrere og invitere brugere uden at have fulde administratorrettigheder.</li> <li>Yderligere UI og UX forbedringer, dvs. harmonisering af omkostningsrapportering navigation, tilpassede baggrundsfarver af sum og gruppe rækker i arbejdspakken listen, tilføje en gruppe show side.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Udgivelsen indeholder forskellige nye funktioner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Et nyt koncept med <b>pladsholderbrugere</b> (premium-funktion) gør det muligt at tilføje foreløbige brugere uden e-mail-adresse til OpenProject og tildele opgaver til disse ressourcer.</li> <li>Arbejdspakken <b>filtre udvides med en overordnet indstilling </b>for nemt at se alle direkte underpakker samt <b>ved ID</b> for kun at inkludere eller udelukke disse eksakte arbejdspakker på listen.</li> <li>Brugeradministrationen distribueres til ikke-administratorer af en <b>ny global rolle</b>, giver mulighed for at administrere og invitere brugere uden at have fulde administratorrettigheder.</li> <li>Yderligere UI og UX forbedringer, dvs. harmonisering af omkostningsrapportering navigation, tilpassede baggrundsfarver af sum og gruppe rækker i arbejdspakken listen, tilføje en gruppe show side.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
     label_activate: "Aktivér"
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
@@ -465,6 +478,7 @@ da:
         help_menu: 'In the <b>Help</b> menu you will find a user guide and additional help resources. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>Members</b> to join your project.'
         project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        quick_add_button: 'Opret et nyt projekt eller inviter kolleger.'
         sidebar_arrow: "With the arrow you can navigate back to the project's <b>Main menu</b>."
         welcome: 'Tag en tre minutters introduktionsturné for at lære de mest <b> vigtige funktioner </b>. <br> Vi anbefaler at du gennemfører trinende til slutningen. Du kan når som helst genstarte turen.'
         wiki: 'Within the <b>Wiki</b> you can document and share knowledge together with your team.'
@@ -506,6 +520,10 @@ da:
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Copy options"
       autocompleter:
         label: 'Project autocompletion'
     text_are_you_sure: "Er du sikker?"
@@ -906,6 +924,7 @@ da:
     notice_successful_create: "Oprettelse gennemført."
     notice_successful_delete: "Sletning gennemført."
     notice_successful_update: "Opdatering gennemført."
+    notice_job_started: "job started."
     notice_bad_request: "Uanvendelig anmodning."
     relations:
       empty: Ingen relationer findes
@@ -959,3 +978,78 @@ da:
       card: 'Cards'
       list: 'Table'
       timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Tilbage'
+      invite: 'Invitér'
+      title:
+        invite: 'Invitér bruger'
+        invite_to_project: 'Inviter %{type} til %{project}'
+        User: 'bruger'
+        Group: 'gruppe'
+        PlaceholderUser: 'pladsholder bruger'
+        invite_principal_to_project: 'Inviter %{principal} til %{project}'
+      project:
+        label: 'Prjoekt'
+        required: 'Vælg et projekt'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        next_button: 'Næste'
+        no_results: 'Ingen projekter blev fundet'
+        no_invite_rights: 'Du har ikke tilladelse til at invitere medlemmer til dette projekt'
+      type:
+        required: 'Vælg venligst den type, der skal inviteres'
+        user:
+          title: 'Bruger'
+          description: 'Tilladelser baseret på den tildelte rolle i det valgte projekt'
+        group:
+          title: 'Gruppe'
+          description: 'Tilladelser baseret på den tildelte rolle i det valgte projekt'
+        placeholder:
+          title: 'Pladsholder bruger'
+          title_no_ee: 'Pladsholder bruger (Enterprise Edition kun funktion)'
+          description: 'Har ikke adgang til projektet, og ingen e-mails er sendt ud.'
+          description_no_ee: 'Har ikke adgang til projektet, og der sendes ingen e-mails. <br>Tjek <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Navn eller e-mailadresse'
+          name: 'Navn'
+        already_member_message: 'Allerede medlem af %{project}'
+        no_results_user: 'Ingen brugere blev fundet'
+        invite_user: 'Invitér:'
+        change_user_selection: 'Skift e-mail-adresse eller vælg en eksisterende bruger'
+        no_results_placeholder: 'Ingen pladsholdere blev fundet'
+        change_placeholder_selection: 'Skift navn eller vælg en eksisterende pladsholder'
+        create_new_placeholder: 'Opret ny pladsholder:'
+        no_results_group: 'Ingen grupper blev fundet'
+        change_group_selection: 'Skift navn eller vælg en eksisterende gruppe'
+        next_button: 'Næste'
+        required:
+          user: 'Vælg venligst en bruger'
+          placeholder: 'Vælg venligst en pladsholder'
+          group: 'Vælg venligst en gruppe'
+      role:
+        label: 'Rolle i %{project}'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Vælg venligst en rolle'
+        next_button: 'Næste'
+      message:
+        label: 'Invitations besked'
+        description: 'Vi sender en e-mail til %{principal}, som du kan tilføje en personlig besked til her. En forklaring på invitationen kunne være nyttig eller måske lidt information om projektet for at hjælpe dem med at komme i gang.'
+        next_button: 'Gennemse invitation'
+      summary:
+        next_button: 'Send invitation'
+      success:
+        title: '%{principal} blev inviteret!'
+        description:
+          user: 'Brugeren kan nu logge ind for at få adgang til %{project}. I mellemtiden kan du allerede planlægge med den pågældende bruger og tildele arbejdspakker for eksempel.'
+          placeholder: 'Pladsholderen kan nu bruges i %{project}. I mellemtiden kan du allerede planlægge med den pågældende bruger og tildele arbejdspakker for eksempel.'
+          group: 'Gruppen er nu en del af %{project}. I mellemtiden kan du allerede planlægge med denne gruppe og tildele arbejdspakker for eksempel.'
+        next_button: 'Fortsæt'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'Avancerede indstillinger'
+
+

@@ -34,26 +34,30 @@ require 'services/base_services/behaves_like_create_service'
 describe Projects::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:new_project_role) { FactoryBot.build_stubbed(:role) }
+    let(:create_member_instance) { instance_double(Members::CreateService) }
 
-    it 'adds the current user to the project' do
+    before do
       allow(Role)
         .to(receive(:in_new_project))
         .and_return(new_project_role)
 
-      create_member_instance = double('Members::CreateService instance')
-
-      expect(Members::CreateService)
+      allow(Members::CreateService)
         .to(receive(:new))
         .with(user: user, contract_class: EmptyContract)
         .and_return(create_member_instance)
 
-      expect(create_member_instance)
+      allow(create_member_instance)
         .to(receive(:call))
+    end
+
+    it 'adds the current user to the project' do
+      subject
+
+      expect(create_member_instance)
+        .to have_received(:call)
         .with(principal: user,
               project: model_instance,
               roles: [new_project_role])
-
-      subject
     end
 
     context 'current user is admin' do
@@ -62,10 +66,10 @@ describe Projects::CreateService, type: :model do
           .to(receive(:admin?))
           .and_return(true)
 
-        expect(model_instance)
-          .not_to(receive(:add_member!))
-
         subject
+
+        expect(create_member_instance)
+          .not_to(have_received(:call))
       end
     end
   end

@@ -1,7 +1,7 @@
-import {APIv3FormResource} from "core-app/modules/apiv3/forms/apiv3-form-resource";
-import {FormResource} from "core-app/modules/hal/resources/form-resource";
-import {Observable} from "rxjs";
-import {HalSource} from "core-app/modules/hal/resources/hal-resource";
+import { APIv3FormResource } from "core-app/modules/apiv3/forms/apiv3-form-resource";
+import { FormResource } from "core-app/modules/hal/resources/form-resource";
+import { Observable } from "rxjs";
+import { HalSource } from "core-app/modules/hal/resources/hal-resource";
 
 export class APIv3WorkPackageForm extends APIv3FormResource {
   /**
@@ -12,7 +12,7 @@ export class APIv3WorkPackageForm extends APIv3FormResource {
    * @returns A work package form resource prefilled with the provided payload.
    */
   public forTypePayload(payload:HalSource):Observable<FormResource> {
-    let typePayload = payload._links['type'] ? { _links: { type: payload['_links']['type'] } } : { _links: {} } ;
+    const typePayload = payload._links['type'] ? { _links: { type: payload['_links']['type'] } } : { _links: {} } ;
 
     return this.post(payload);
   }

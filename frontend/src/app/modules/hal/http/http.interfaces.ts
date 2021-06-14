@@ -1,4 +1,4 @@
-import {HttpHeaders, HttpParams} from "@angular/common/http";
+import { HttpHeaders, HttpParams } from "@angular/common/http";
 
 export type HTTPSupportedMethods = 'get'|'post'|'put'|'patch'|'delete';
 

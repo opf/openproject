@@ -25,12 +25,12 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {Component, ElementRef, OnInit} from '@angular/core';
-import {States} from '../../../states.service';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {TimelineViewParameters} from '../wp-timeline';
-import {TimelineStaticElement, timelineStaticElementCssClassname} from './timeline-static-element';
-import {TodayLineElement} from './wp-timeline.today-line';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { States } from '../../../states.service';
+import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
+import { TimelineViewParameters } from '../wp-timeline';
+import { TimelineStaticElement, timelineStaticElementCssClassname } from './timeline-static-element';
+import { TodayLineElement } from './wp-timeline.today-line';
 
 @Component({
   selector: 'wp-timeline-static-elements',

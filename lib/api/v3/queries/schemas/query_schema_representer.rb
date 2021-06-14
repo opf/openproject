@@ -77,6 +77,7 @@ module API
 
           schema :user,
                  type: 'User',
+                 location: :link,
                  has_default: true
 
           schema_with_allowed_link :project,
