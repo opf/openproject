@@ -1,38 +1,43 @@
 <div class="top-menu-search">
-  <a *ngIf="expanded"
-     (click)="toggleMobileSearch()"
-     class="top-menu-search--back-button"
-     href="#"
-     title="{{text.close_search}}">
+  <button
+      *ngIf="expanded"
+      type="button"
+      (click)="toggleMobileSearch()"
+      class="top-menu-search--back-button"
+      title="{{text.close_search}}"
+  >
     <i class="icon-arrow-left1" aria-hidden="true"></i>
-  </a>
+  </button>
 
   <op-autocompleter
-    #select
-    [defaulData]="false"
-    [name]="'global-search-input'"
-    [id]="'global-search-input'"
-    [placeholder]="text.search_dots"
-    [classes]="{'top-menu-search--input': true, '-markable': markable, '-expanded': expanded }"
-    [openOnEnter]="false"
-    [labelRequired]="false"
-    [focusDirectly]="isFocusedDirectly"
-    [model]="selectedItem"
-    [searchFn]="customSearchFn"
-    [loading]="isLoading"
-    (focus)="onFocus()"
-    (blur)="onFocusOut()"
-    (search)="search($event)"
-    (open)="openCloseMenu(currentValue)"
-    (close)="select.searchTerm = currentValue"
-    (change)="followSelectedItem()"
-    (keydown.enter)="onEnterBeforeResultsLoaded()"
-    (keydown.escape)="blur()"
-    (clear)="clearSearch()"
-    [filters]="autocompleterOptions.filters"
-    [resource]="autocompleterOptions.resource"
-    [searchKey]="autocompleterOptions.searchKey"
-    [getOptionsFn]="autocompleterOptions.getOptionsFn">
+      #select
+      [defaulData]="false"
+      name="global-search-input"
+      id="global-search-input"
+      class="top-menu-search--input"
+      [class.-expanded]="expanded"
+      [class.-markable]="markable"
+      [placeholder]="text.search_dots"
+      [openOnEnter]="false"
+      [labelRequired]="false"
+      [focusDirectly]="isFocusedDirectly"
+      [model]="selectedItem"
+      [searchFn]="customSearchFn"
+      [loading]="isLoading"
+      (focus)="onFocus()"
+      (blur)="onFocusOut()"
+      (search)="search($event)"
+      (open)="openCloseMenu(currentValue)"
+      (close)="select.searchTerm = currentValue"
+      (change)="followSelectedItem()"
+      (keydown.enter)="onEnterBeforeResultsLoaded()"
+      (keydown.escape)="blur()"
+      (clear)="clearSearch()"
+      [filters]="autocompleterOptions.filters"
+      [resource]="autocompleterOptions.resource"
+      [searchKey]="autocompleterOptions.searchKey"
+      [getOptionsFn]="autocompleterOptions.getOptionsFn"
+  >
 
     <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="searchTerm">
       <div *ngIf="!item.id; else workPackageItemTemplate">
@@ -44,16 +49,18 @@
         </div>
       </div>
       <ng-template #workPackageItemTemplate>
-        <a tabindex="-1"
-           class="global-search--option"
-           [href]="wpPath(item.id)"
-           (click)="redirectToWp(item.id, $event)"
-           style="line-height: 1">
+        <a
+            tabindex="-1"
+            class="global-search--option"
+            [href]="wpPath(item.id)"
+            (click)="redirectToWp(item.id, $event)"
+            style="line-height: 1"
+        >
           <div class="global-search--option-wrapper">
             <op-principal
-              [hide-name]="true"
-              [principal]="item.author"
-              class="hidden-for-mobile"
+                [hide-name]="true"
+                [principal]="item.author"
+                class="hidden-for-mobile"
             ></op-principal>
 
             <span class="global-search--wp-subject"> 
@@ -61,17 +68,23 @@
             </span>
 
             <div class="global-search--wp-content">
-              <span [textContent]="item.project"
-                    class="global-search--wp-project">
+              <span
+                  [textContent]="item.project"
+                  class="global-search--wp-project"
+              >
               </span>
 
-              <a class="global-search--wp-id"
-                 [ngClass]="uiStateLinkClass">
+              <a
+                  class="global-search--wp-id"
+                  [ngClass]="uiStateLinkClass"
+              >
                 #{{item.id}}
               </a>
-              <span [textContent]="item.status"
-                    [ngClass]="statusHighlighting(item.statusId)"
-                    class="global-search--wp-status">
+              <span
+                  [textContent]="item.status"
+                  [ngClass]="statusHighlighting(item.statusId)"
+                  class="global-search--wp-status"
+              >
               </span>
 
             </div>
@@ -83,13 +96,14 @@
 
 
   <button
-    role="button"
-    #btn
-    id="top-menu-search-button"
-    class="top-menu-search--button search-form-normal"
-    title="{{text.search}}"
-    [class.-input-focused]="expanded"
-    (click)="handleClick($event)">
+      role="button"
+      #btn
+      id="top-menu-search-button"
+      class="top-menu-search--button search-form-normal"
+      title="{{text.search}}"
+      [class.-input-focused]="expanded"
+      (click)="handleClick($event)"
+  >
     <op-icon icon-classes="icon5 icon-search ellipsis"></op-icon>
   </button>
 </div>
