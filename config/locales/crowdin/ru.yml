@@ -1914,7 +1914,7 @@ ru:
   mail_body_wiki_content_updated: "%{author} обновил wiki-страницу '%{id}'."
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_backup_ready: "Ваша резервная копия готова"
-  mail_subject_backup_token_reset: "Резервный маркер вашей резервной копии был сброшен"
+  mail_subject_backup_token_reset: "Сброс маркера резервного копирования"
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
   mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"

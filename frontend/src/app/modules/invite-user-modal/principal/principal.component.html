@@ -53,7 +53,7 @@
       *ngIf="isNewPrincipal && type === PrincipalType.User && userDynamicFieldConfig.schema"
       [dynamicFormGroup]="dynamicFieldsControl"
       [settings]="userDynamicFieldConfig"
-      [resourcePath]="pathHelper.usersPath()"
+      [formUrl]="apiV3Service.users.form.path"
       [handleSubmit]="false"
     ></op-dynamic-form>
   </div>

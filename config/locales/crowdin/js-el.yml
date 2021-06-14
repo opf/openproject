@@ -195,7 +195,6 @@ el:
             label_company: "Εταιρεία"
             label_first_name: "Όνομα"
             label_last_name: "Επώνυμο"
-            label_email: "Email"
             label_domain: "Τομέας"
             label_subscriber: "Συνδρομητής"
             label_maximum_users: "Μέγιστοι ενεργοί χρήστες"
@@ -313,6 +312,7 @@ el:
     label_board_locked: "Κλειδωμένο"
     label_board_plural: "Πινακες"
     label_board_sticky: "Sticky"
+    label_change: "Τροποποίηση"
     label_create: "Δημιουργία"
     label_create_work_package: "Δημιουργήστε νέο πακέτο εργασίας"
     label_created_by: "Δημιουργήθηκε από"
@@ -335,6 +335,7 @@ el:
     label_created_on: "δημιουργήθηκε στις"
     label_edit_comment: "Επεξεργαστείτε αυτό το σχόλιο"
     label_edit_status: "Επεξεργαστείτε την κατάσταση του πακέτου εργασίας"
+    label_email: "Email"
     label_equals: "είναι"
     label_expand: "Επέκταση"
     label_expanded: "επεκταμένη"
@@ -1016,12 +1017,9 @@ el:
         already_member_message: 'Ήδη ένα μέλος του %{project}'
         no_results_user: 'Δεν βρέθηκαν χρήστες'
         invite_user: 'Πρόσκληση:'
-        change_user_selection: 'Αλλάξτε διεύθυνση ηλεκτρονικού ταχυδρομείου ή επιλέξτε έναν υπάρχοντα χρήστη'
         no_results_placeholder: 'Δεν βρέθηκαν placeholders'
-        change_placeholder_selection: 'Αλλαγή ονόματος ή επιλογή ενός υπάρχοντος placeholder'
         create_new_placeholder: 'Δημιουργία νέου placeholder:'
         no_results_group: 'Δεν βρέθηκαν ομάδες'
-        change_group_selection: 'Αλλαγή ονόματος ή επιλογή μιας υπάρχουσας ομάδας'
         next_button: 'Επόμενο'
         required:
           user: 'Παρακαλώ επιλέξτε ένα χρήστη'

@@ -196,7 +196,6 @@ zh-CN:
             label_company: "公司"
             label_first_name: "名字"
             label_last_name: "姓氏"
-            label_email: "电子邮件"
             label_domain: "域"
             label_subscriber: "订阅者"
             label_maximum_users: "最大活动用户数"
@@ -314,6 +313,7 @@ zh-CN:
     label_board_locked: "锁定"
     label_board_plural: "面板"
     label_board_sticky: "置顶"
+    label_change: "更改"
     label_create: "创建"
     label_create_work_package: "创建新的工作包"
     label_created_by: "创建者"
@@ -336,6 +336,7 @@ zh-CN:
     label_created_on: "创建"
     label_edit_comment: "编辑此注释"
     label_edit_status: "编辑工作包的状态"
+    label_email: "电子邮件"
     label_equals: "是"
     label_expand: "展开"
     label_expanded: "展开"
@@ -1015,12 +1016,9 @@ zh-CN:
         already_member_message: '已经是 %{project} 的成员'
         no_results_user: '没有找到用户'
         invite_user: '邀请：'
-        change_user_selection: '更改电子邮件地址或选择现有用户'
         no_results_placeholder: '没有找到占位符'
-        change_placeholder_selection: '更改名称或选择现有占位符'
         create_new_placeholder: '创建新的占位符：'
         no_results_group: '没有找到群组'
-        change_group_selection: '更改名称或选择现有群组'
         next_button: '下一个'
         required:
           user: '请选择一个用户'

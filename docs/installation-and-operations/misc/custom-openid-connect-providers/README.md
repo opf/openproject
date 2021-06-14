@@ -49,7 +49,7 @@ You can copy that into the console to get the URL you need.
 Finally you can the write the actual setting like this:
 
 ```ruby
-Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_openid_connect).deep_merge({
+Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_openid_connect || {}).deep_merge({
   "providers" => {
     "okta" => options
   }

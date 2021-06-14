@@ -195,7 +195,6 @@ ru:
             label_company: "Компания"
             label_first_name: "Имя"
             label_last_name: "Фамилия"
-            label_email: "Электронная почта"
             label_domain: "Домен"
             label_subscriber: "Подписчик"
             label_maximum_users: "Максимальное число активных пользователей"
@@ -289,7 +288,7 @@ ru:
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>BIM: Улучшенная производительность просмотра моделей IFC.</li> <li>BIM: Средство просмотра IFC теперь поддерживает двойную точность моделей, что отлично подходит для больших участков строительства, таких как мосты, дороги и т.д.</li> <li>BIM: Переключить кнопку для переключения между перспективным и ортогональным режимом.</li> <li>BIM: Меню для редактирования, удаления или отражения плоскостей разделов.</li> <li>Новая кнопка в навигации по заголовкам для создания проектов, пользователей и пакетов работ.</li> <li>Новое приглашение для пользователей, группы и заполнители позволяют легко добавлять или приглашать новых пользователей и назначать их к рабочим пакетам.</li> <li>расширения API v3 для групп и более, то есть создание, чтение, обновление и удаление групп и членов групп через API.</li> <li>Мульти-выбор пользовательских полей проекта списка типов.</li> <li>Создание резервной копии из веб-интерфейса.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -313,6 +312,7 @@ ru:
     label_board_locked: "Заперто"
     label_board_plural: "Доски"
     label_board_sticky: "Стикер"
+    label_change: "Изменить"
     label_create: "Создать"
     label_create_work_package: "Создать новый пакет работ"
     label_created_by: "Автор"
@@ -335,6 +335,7 @@ ru:
     label_created_on: "Создано"
     label_edit_comment: "Редактировать этот комментарий"
     label_edit_status: "Изменить статус пакета работ"
+    label_email: "Электронная почта"
     label_equals: "—"
     label_expand: "Развернуть"
     label_expanded: "развернуто"
@@ -1020,12 +1021,9 @@ ru:
         already_member_message: 'Уже член %{project}'
         no_results_user: 'Пользователи не найдены.'
         invite_user: 'Приглашение:'
-        change_user_selection: 'Изменить адрес электронной почты или выбрать существующего пользователя'
         no_results_placeholder: 'Заполнители не найдены'
-        change_placeholder_selection: 'Изменить имя или выбрать существующий плейсхолдер'
         create_new_placeholder: 'Создать новый плейсхолдер:'
         no_results_group: 'Группы не найдены'
-        change_group_selection: 'Изменить имя или выбрать существующую группу'
         next_button: 'Следующие'
         required:
           user: 'Пожалуйста, выберите пользователя'
