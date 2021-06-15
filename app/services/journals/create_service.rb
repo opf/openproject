@@ -20,6 +20,8 @@ module Journals
     end
 
     def call(notes: '')
+      notes = destroy_predecessor(notes)
+
       journal = create_journal(notes)
 
       return ServiceResult.new success: true unless journal
@@ -31,6 +33,23 @@ module Journals
     end
 
     private
+
+    def destroy_predecessor(notes)
+      predecessor = journable.journals.last
+
+      if predecessor.present? &&
+         Setting.journal_aggregation_time_minutes.to_i > 0 &&
+         predecessor.created_at < Time.now.utc + Setting.journal_aggregation_time_minutes.to_i.minutes &&
+         predecessor.user_id == user.id &&
+         (predecessor.notes.empty? || notes.empty?)
+
+        notes = notes.empty? ? predecessor.notes : notes
+
+        predecessor.destroy
+      end
+
+      notes
+    end
 
     def create_journal(notes)
       Rails.logger.debug "Inserting new journal for #{journable_type} ##{journable.id}"
