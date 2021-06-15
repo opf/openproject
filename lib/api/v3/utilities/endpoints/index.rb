@@ -62,11 +62,6 @@ module API
             api_name.underscore.pluralize
           end
 
-          attr_accessor :model,
-                        :api_name,
-                        :scope,
-                        :render_representer
-
           private
 
           def render_success(query, params, self_path, base_scope)
@@ -125,14 +120,6 @@ module API
 
           def deduce_api_namespace
             api_name.pluralize
-          end
-
-          def model_class(scope)
-            if scope.is_a? Class
-              scope
-            else
-              scope.model
-            end
           end
 
           def merge_scopes(scope_a, scope_b)

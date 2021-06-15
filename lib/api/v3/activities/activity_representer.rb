@@ -39,7 +39,7 @@ module API
         include API::Decorators::FormattableProperty
 
         self_link path: :activity,
-                  id_attribute: :notes_id,
+                  id_attribute: ->(*) { represented_id },
                   title_getter: ->(*) { nil }
 
         link :workPackage do
@@ -59,13 +59,14 @@ module API
           next unless current_user_allowed_to_edit?
 
           {
-            href: api_v3_paths.activity(represented.notes_id),
+            href: api_v3_paths.activity(represented_id),
             method: :patch
           }
         end
 
-        property :id,
-                 getter: ->(*) { notes_id },
+        property :represented_id,
+                 as: :id,
+                 exec_context: :decorator,
                  render_nil: true
 
         formattable_property :notes,
@@ -103,6 +104,10 @@ module API
           else
             'Activity'
           end
+        end
+
+        def represented_id
+          represented.respond_to?(:notes_id) ? represented.notes_id : represented.id
         end
 
         private

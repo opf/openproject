@@ -33,6 +33,10 @@ module API
     module Activities
       class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
+          get &::API::V3::Utilities::Endpoints::Index.new(model: ::Journal,
+                                                          api_name: 'Activity')
+                                                     .mount
+
           route_param :id, type: Integer, desc: 'Activity ID' do
             after_validation do
               @activity = Journal.find(declared_params[:id])

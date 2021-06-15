@@ -33,6 +33,8 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  subject(:response) { last_response }
+
   let(:current_user) do
     FactoryBot.create(:user,
                       member_in_project: project,
@@ -47,8 +49,6 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
   let(:comment) { 'This is a new test comment!' }
 
   shared_examples_for 'valid activity request' do |type|
-    subject { last_response }
-
     it 'returns an activity of the correct type' do
       expect(subject.body).to be_json_eql(type.to_json).at_path('_type')
       expect(subject.body).to be_json_eql(activity.id.to_json).at_path('id')
@@ -66,6 +66,27 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
 
     it 'changes the comment' do
       expect(activity.reload.notes).to eql comment
+    end
+  end
+
+  describe 'GET /api/v3/activities' do
+    let(:path) { api_v3_paths.activities }
+
+    before do
+      work_package
+      login_as(current_user)
+
+      get path
+    end
+
+    it 'responds 200 OK' do
+      expect(subject.status).to eq(200)
+    end
+
+    it 'returns work package activities the user is allowed to see' do
+      expect(subject.body)
+        .to be_json_eql(1.to_json)
+              .at_path('total')
     end
   end
 
@@ -140,7 +161,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
     end
   end
 
-  describe '#get api' do
+  describe 'GET /api/v3/activities/:id' do
     let(:get_path) { api_v3_paths.activity activity.id }
 
     before do
@@ -166,7 +187,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
         it_behaves_like 'valid activity request', 'Activity::Comment'
       end
 
-      context 'for an aggregated journal when requesting by the notes_id (which is not the aggregated journal`s id)`' do
+      context 'for an aggregated journal when requesting by the notes_id (which is not the aggregated journal`s id)' do
         let(:activity) do
           work_package.journals.first.tap do |journal|
             journal.update_column(:notes, comment)

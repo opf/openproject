@@ -120,7 +120,7 @@ class Journal::AggregatedJournal
                                 .group_by(&:journal_id)
                               end
 
-      attachable_journals = if includes.include?(:customizable_journals)
+      attachable_journals = if includes.include?(:attachable_journals)
                               Journal::AttachableJournal
                               .where(journal_id: journal_ids)
                               .all
