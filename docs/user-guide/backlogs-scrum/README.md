@@ -23,4 +23,4 @@ Please note that this user guide does not represent an introduction into scrum m
 | [Manage sprints](manage-sprints)            | How to set up the product backlog, bug backlog, and create a new sprint in the backlogs view? |
 | [Task board view](taskboard)                | How to work with the taskboard?                              |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Agile-and-Scrum-Backlogs.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Agile-and-Scrum-Backlogs.mp4" type="video/mp4" controls="" style="width:100%"></video>

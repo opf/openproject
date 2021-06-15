@@ -30,7 +30,7 @@ Agile boards is only one of OpenProject's features. Find a comprehensive compari
 | [What is a Board?](#what-is-a-board?)                       | Find out what a Board in OpenProject is.   |
 | [Manage your work in a Board](#manage-your-work-in-a-board) | How to manage your work in an agile Board? |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/11/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Agile-Boards.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## What is a Board?
 

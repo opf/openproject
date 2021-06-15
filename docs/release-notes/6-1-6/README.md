@@ -12,7 +12,7 @@
 The release contains an important security fix regarding session expiry.
 
 For details on the security fix, take a look at the [release
-news](https://www.openproject.org/openproject-6-1-6-released-security-fix/).
+news](https://www.openproject.org/blog/openproject-6-1-6-released-security-fix/).
 
 We recommend the update to the current version.
 

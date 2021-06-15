@@ -75,7 +75,7 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Ubuntu 18.04
 
