@@ -244,6 +244,16 @@ module Journals
                                               journable_class_name: journable.class.name)
     end
 
+    def delete_predecessor_sql
+      #sql = <<~SQL
+      #  DELETE FROM
+      #SQL
+
+      ::OpenProject::SqlSanitization.sanitize(sql,
+                                              journable_id: journable.id,
+                                              journable_class_name: journable.class.name)
+    end
+
     def select_max_journal_sql
       max_journal_sql = <<~SQL
         SELECT

@@ -48,9 +48,6 @@ describe ::API::V3::Activities::ActivityRepresenter do
   let(:journal) do
     FactoryBot.build_stubbed(:work_package_journal).tap do |journal|
       allow(journal)
-        .to receive(:notes_id)
-        .and_return(journal.id)
-      allow(journal)
         .to receive(:get_changes)
         .and_return(changes)
       allow(journal)

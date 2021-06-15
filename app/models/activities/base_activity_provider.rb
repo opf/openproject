@@ -63,23 +63,17 @@ class Activities::BaseActivityProvider
   end
 
   def self.activity_provider_for(options = {})
-    options.assert_valid_keys(:type, :permission, :activities, :aggregated)
+    options.assert_valid_keys(:type, :permission, :activities)
 
     self.activity_provider_options = {
       type: name.underscore.pluralize,
       activities: [:activity],
-      aggregated: false,
       permission: "view_#{name.underscore.pluralize}".to_sym
     }.merge(options)
   end
 
   def find_events(user, from, to, options)
-    query = if aggregated?
-              aggregated_event_selection_query(user, from, to, options)
-            else
-              event_selection_query(user, from, to, options)
-            end
-
+    query = event_selection_query(user, from, to, options)
     query = apply_order(query)
     query = apply_limit(query, options)
     query = apply_event_projection(query)
@@ -140,7 +134,7 @@ class Activities::BaseActivityProvider
 
   def event_selection_query(user, from, to, options)
     query = journals_with_data_query
-    query = extend_event_query(query) unless aggregated?
+    query = extend_event_query(query)
     query = filter_for_event_datetime(query, from, to)
     query = restrict_user(query, options)
     restrict_projects(query, user, options)
@@ -151,18 +145,6 @@ class Activities::BaseActivityProvider
     projection << event_query_projection if respond_to?(:event_query_projection)
 
     query.project(projection)
-  end
-
-  # When aggregating, we add the query that actually fetches the journals,
-  # restricted by from, to, user permission, etc. as a CTE. That way,
-  # that query has only to be executed once inside the aggregated journal query which
-  # considerably reduces execution time.
-  def aggregated_event_selection_query(user, from, to, options)
-    query = aggregated_journal_query
-    query = add_event_selection_query_as_cte(query, user, from, to, options)
-    query = join_activity_journals_table(query)
-    query = extend_event_query(query)
-    join_with_projects_table(query)
   end
 
   def apply_limit(query, options)
@@ -247,24 +229,7 @@ class Activities::BaseActivityProvider
     query.where(projects_table[:id].in(Project.allowed_to(user, perm).select(:id).arel))
   end
 
-  def aggregated_journal_query
-    # As AggregatedJournal wraps the provided sql statement inside brackets we
-    # need to provide a fully valid statement and not only the alias string.
-    Journal.aggregated_journal(sql: "SELECT * FROM #{aggregated_journals_alias}").arel
-  end
-
-  def add_event_selection_query_as_cte(query, user, from, to, options)
-    cte_query = event_selection_query(user, from, to, options).project('journals.*')
-    cte = Arel::Nodes::As.new(Arel::Table.new(aggregated_journals_alias), cte_query)
-
-    query.with(cte)
-  end
-
   attr_accessor :activity
-
-  def aggregated?
-    activity_provider_options[:aggregated]
-  end
 
   def journals_with_data_query
     join_activity_journals_table(journals_table)
@@ -306,10 +271,6 @@ class Activities::BaseActivityProvider
 
   def event_name(event)
     I18n.t(event_type(event).underscore, scope: 'events')
-  end
-
-  def aggregated_journals_alias
-    :relevant_journals
   end
 
   def url_helpers

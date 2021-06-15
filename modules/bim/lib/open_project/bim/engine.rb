@@ -104,7 +104,6 @@ module OpenProject::Bim
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
     patch_with_namespace :Journal, :AggregatedJournal
-    patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers
     patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
 
     patch_with_namespace :DemoData, :QueryBuilder

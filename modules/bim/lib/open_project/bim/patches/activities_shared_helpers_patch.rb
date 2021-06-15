@@ -27,6 +27,7 @@
 #++
 
 module OpenProject::Bim::Patches::ActivitiesSharedHelpersPatch
+  # TODO: remove
   def self.included(base) # :nodoc:
     base.prepend ModuleMethods
   end
