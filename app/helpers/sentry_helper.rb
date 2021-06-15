@@ -14,7 +14,7 @@ module SentryHelper
         data: {
           dsn: OpenProject::Configuration.sentry_frontend_dsn,
           version: OpenProject::VERSION.to_s,
-          tracing_rate: OpenProject::Configuration.sentry_traces_sample_rate
+          tracing_factor: OpenProject::Configuration.sentry_frontend_trace_factor
         }
   end
 
