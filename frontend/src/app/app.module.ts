@@ -79,6 +79,7 @@ import { globalDynamicComponents } from "core-app/core/setup/global-dynamic-comp
 import { HookService } from "core-app/features/plugins/hook-service";
 import { OpenprojectPluginsModule } from "core-app/features/plugins/openproject-plugins.module";
 import { LinkedPluginsModule } from "core-app/features/plugins/linked-plugins.module";
+import { OpenProjectInAppNotificationsModule } from "core-app/features/in-app-notifications/in-app-notifications.module";
 
 @NgModule({
   imports: [
@@ -152,6 +153,9 @@ import { LinkedPluginsModule } from "core-app/features/plugins/linked-plugins.mo
 
     // Tabs
     OpenprojectTabsModule,
+
+    // Notifications
+    OpenProjectInAppNotificationsModule,
   ],
   providers: [
     { provide: States, useValue: new States() },

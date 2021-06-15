@@ -162,6 +162,10 @@ import {
   EditableQueryPropsComponent,
   editableQueryPropsSelector,
 } from "core-app/features/admin/editable-query-props/editable-query-props.component";
+import {
+  InAppNotificationBellComponent,
+  opInAppNotificationBellSelector
+} from "core-app/features/in-app-notifications/bell/in-app-notification-bell.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -209,7 +213,8 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: quickInfoMacroSelector, cls: WorkPackageQuickinfoMacroComponent, embeddable: true },
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: slideToggleSelector, cls: SlideToggleComponent },
-  { selector: backupSelector, cls: BackupComponent }
+  { selector: backupSelector, cls: BackupComponent },
+  { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
 ];
 
 
