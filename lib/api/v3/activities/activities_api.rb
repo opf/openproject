@@ -34,7 +34,8 @@ module API
       class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
           get &::API::V3::Utilities::Endpoints::Index.new(model: ::Journal,
-                                                          api_name: 'Activity')
+                                                          api_name: 'Activity',
+                                                          render_representer: ::API::V3::Activities::PaginatedActivityCollectionRepresenter)
                                                      .mount
 
           route_param :id, type: Integer, desc: 'Activity ID' do

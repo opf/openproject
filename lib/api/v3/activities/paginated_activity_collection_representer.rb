@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,12 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Journals::JournalQuery < Queries::BaseQuery
-  def self.model
-    Journal
-  end
-
-  def default_scope
-    super.where(journable_type: WorkPackage.name)
+module API
+  module V3
+    module Activities
+      class PaginatedActivityCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        def element_decorator
+          ActivityRepresenter
+        end
+      end
+    end
   end
 end
