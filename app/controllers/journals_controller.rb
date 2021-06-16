@@ -61,22 +61,21 @@ class JournalsController < ApplicationController
   end
 
   def diff
-    journal = Journal::AggregatedJournal.containing_journal(@journal)
     field = params[:field].parameterize.underscore.to_sym
 
     unless valid_diff?
       return render_404
     end
 
-    unless journal.details[field].is_a?(Array)
+    unless @journal.details[field].is_a?(Array)
       return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field)
     end
 
-    from = journal.details[field][0]
-    to = journal.details[field][1]
+    from = @journal.details[field][0]
+    to = @journal.details[field][1]
 
     @diff = Redmine::Helpers::Diff.new(to, from)
-    @journable = journal.journable
+    @journable = @journal.journable
     respond_to do |format|
       format.html
       format.js do
