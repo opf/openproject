@@ -37,10 +37,51 @@ if OpenProject::Logging::SentryLogger.enabled?
     # Sample rate for performance
     # 0.0 = disabled
     # 1.0 = all samples are traced
-    config.traces_sample_rate = OpenProject::Configuration.sentry_traces_sample_rate
-    config.traces_sampler = lambda do |sampling_context|
-      # ignore health checks transactions
-      !["/health_checks"].include?(sampling_context[:transaction_context][:name])
+    sample_factor = OpenProject::Configuration.sentry_trace_factor.to_f
+
+    # Define a tracing sample handler
+    trace_sampler = lambda do |sampling_context|
+      # if this is the continuation of a trace, just use that decision (rate controlled by the caller)
+      next sampling_context[:parent_sampled] unless sampling_context[:parent_sampled].nil?
+
+      # transaction_context is the transaction object in hash form
+      # keep in mind that sampling happens right after the transaction is initialized
+      # for example, at the beginning of the request
+      transaction_context = sampling_context[:transaction_context]
+
+      # transaction_context helps you sample transactions with more sophistication
+      # for example, you can provide different sample rates based on the operation or name
+      op = transaction_context[:op]
+      transaction_name = transaction_context[:name]
+
+      rate = case op
+             when /request/
+               case transaction_name
+               when /health_check/
+                 0.0
+               else
+                 [0.1 * sample_factor, 1.0].min
+               end
+             when /delayed_job/
+               [0.01 * sample_factor, 1.0].min
+             else
+               0.0 # ignore all other transactions
+             end
+
+      Rails.logger.debug { "[SENTRY TRACE SAMPLER] Decided on sampling rate #{rate} for #{op}: #{transaction_name} " }
+
+      rate
+    end
+
+    # Assign the sampler conditionally to avoid running the lambda
+    # when we don't trace anyway
+    if sample_factor.zero?
+      Rails.logger.debug { "[SENTRY TRACE SAMPLER] Requested factor is zero, skipping performance tracing" }
+      config.traces_sample_rate = 0
+      config.traces_sampler = nil
+    else
+      Rails.logger.debug { "[SENTRY TRACE SAMPLER] Requested factor is #{sample_factor}, setting up performance tracing" }
+      config.traces_sampler = trace_sampler
     end
 
     # Set release info
