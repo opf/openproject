@@ -198,6 +198,9 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          index :event
+          show :event
+
           index :help_text
           show :help_text
 

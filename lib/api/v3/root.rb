@@ -51,6 +51,7 @@ module API
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
+      mount ::API::V3::Events::EventsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
       mount ::API::V3::Memberships::MembershipsAPI
       mount ::API::V3::News::NewsAPI
