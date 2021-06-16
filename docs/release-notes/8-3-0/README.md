@@ -29,7 +29,7 @@ page</span></span>*. Additional pages will be converted to this grid in
 the future, and additional common widgets will be
 created.
 
-![Grit-MyPage](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Grit-MyPage-1-1024x522.png)
+![Grit-MyPage](Grit-MyPage-1-1024x522.png)
 
 **Improved search functionality**
 
@@ -38,7 +38,7 @@ auto-suggest work package results and provides improved action buttons
 to search globally or in the current project.
 
 ![OpenProject
-Search](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Search-1024x626.png)
+Search](Search-1024x626.png)
 
 **Autocompletion of work package attributes**
 
@@ -46,7 +46,7 @@ List-style attributes of work packages (including custom field lists)
 have been modified to provide a filterable
 autocompleter.
 
-![Auto-complete](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Auto-complete-1024x634.png)
+![Auto-complete](Auto-complete-1024x634.png)
 
 **Improved error reporting for work package bulk editing**
 

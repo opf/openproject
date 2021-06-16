@@ -107,7 +107,7 @@ To add or edit a new parent-child relation, you have two possibilities:
 
 **A)** You can add a child to a work package when you  enter 4 empty spaces (press 4x Shift) before typing the subject of the  child work package.
 
-![insert-children](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/01/Insert-children-1024x605.png)
+![insert-children](Insert-children-1024x605.png)
 
 **Expert tip**: it does not have to be empty spaces  (default 4 empty spaces) to separate the next hierarchy. You can also  take a „-“ and for the next hierarchy „—“. But the disadvantage is that  the hyphen will also be displayed in the work package subject. Therefore we recommend the spaces, because they will not appear in OpenProject.
 
