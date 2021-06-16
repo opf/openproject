@@ -19,6 +19,10 @@ export class InAppNotificationsService {
         date: '5 minutes ago',
         message: 'The following work package was assigned to you: Task #1234: Deploy new website',
         reason: 'assigned',
+        details: [
+          'Assignee set to Oliver Günther',
+          'Due date changed from 2021-08-01 to 2021-06-16'
+        ],
         _links: {
           project: { href: '/api/v3/projects/1', title: 'My website project' },
           resource: { href: '/api/v3/work_packages/1234', title: 'Task #1234: Deploy new website' }
@@ -32,8 +36,7 @@ export class InAppNotificationsService {
         date: '3 minutes ago',
         reason: 'mentioned',
         details: [
-          'Assignee set to Oliver Günther',
-          'Due date changed from 2021-08-01 to 2021-06-16'
+          'Wieland Lindenthal wrote: Hi @Oliver Günther, can you please take a look at this one?',
         ],
         _links: {
           project: { href: '/api/v3/projects/1', title: 'My website project' },

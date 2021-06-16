@@ -1,9 +1,16 @@
+@import "src/assets/sass/helpers"
+
 .op-ian-item
-  display: flex
-  align-items: center
   background: #F9F9F9
   margin: 10px 0
   padding: 5px 10px
+  font-size: 1.2rem
+
+  &--row
+    @include unset-button-styles
+    width: 100%
+    display: flex
+    align-items: center
 
   &--indicator
     width: 10px
@@ -20,7 +27,7 @@
     flex: 1
     display: flex
     flex-direction: column
-    line-height: 0.9rem
+    line-height: 1.1rem
 
   &--project
     font-size: 0.8rem

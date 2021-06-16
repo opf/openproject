@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { InAppNotification } from "core-app/features/in-app-notifications/store/in-app-notification.model";
+import { Subject } from "rxjs";
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -10,9 +11,15 @@ import { InAppNotification } from "core-app/features/in-app-notifications/store/
 export class InAppNotificationEntryComponent implements OnInit {
   @Input() notification:InAppNotification;
 
+  expanded = false;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  toggleDetails() {
+    this.expanded = !this.expanded;
+    this.notification = { ...this.notification, read: true };
+  }
 }

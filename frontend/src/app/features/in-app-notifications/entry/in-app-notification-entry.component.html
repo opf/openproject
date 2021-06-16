@@ -1,24 +1,44 @@
 <div class="op-ian-item">
-  <span
-      class="op-ian-item--indicator"
-      [class.op-ian-item--indicator_read]="!!notification.read"
-  ></span>
-  <div class="op-ian-item--message">
-    <a
-        class="op-ian-item--project"
-        [href]="notification._links.project.href"
-        [textContent]="notification._links.project.title"
-        target="_blank"
-    ></a>
+  <button
+      type="button"
+      class="op-ian-item--row"
+      (click)="toggleDetails()"
+    >
     <span
-        class="op-ian-item--title"
-        [textContent]="notification.message"
+        class="op-ian-item--indicator"
+        [class.op-ian-item--indicator_read]="!!notification.read"
     ></span>
+    <div class="op-ian-item--message">
+      <a
+          class="op-ian-item--project"
+          [href]="notification._links.project.href"
+          [textContent]="notification._links.project.title"
+          target="_blank"
+      ></a>
+      <span
+          class="op-ian-item--title"
+          [textContent]="notification.message"
+      ></span>
+    </div>
+    <div
+        class="op-ian-item--reason"
+        [textContent]="notification.reason"
+    ></div>
+    <div
+        class="op-ian-item--date"
+        [textContent]="notification.date"
+    ></div>
+  </button>
+  <div
+      *ngIf="expanded"
+      class="op-ian-item--details"
+  >
+    <ul *ngIf="notification.details">
+      <li
+          *ngFor="let detail of notification.details"
+          [textContent]="detail"
+      >
+      </li>
+    </ul>
   </div>
-  <div class="op-ian-item--reason"
-       [textContent]="notification.reason"
-  ></div>
-  <div class="op-ian-item--date"
-       [textContent]="notification.date"
-  ></div>
 </div>
