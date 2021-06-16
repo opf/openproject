@@ -20,35 +20,35 @@ module Journals
     end
 
     def call(notes: '')
-      notes = destroy_predecessor(notes)
+      Journal.transaction do
+        journal = create_journal(notes)
 
-      journal = create_journal(notes)
+        return ServiceResult.new success: true unless journal
 
-      return ServiceResult.new success: true unless journal
+        destroy_predecessor(journal)
 
-      reload_journals
-      touch_journable(journal)
+        journal
 
-      ServiceResult.new success: true, result: journal
+        reload_journals
+        touch_journable(journal)
+
+        ServiceResult.new success: true, result: journal
+      end
     end
 
     private
 
-    def destroy_predecessor(notes)
-      predecessor = journable.journals.last
+    def destroy_predecessor(journal)
+      predecessor = journal.previous
 
-      if predecessor.present? &&
-         Setting.journal_aggregation_time_minutes.to_i > 0 &&
-         predecessor.created_at < Time.now.utc + Setting.journal_aggregation_time_minutes.to_i.minutes &&
-         predecessor.user_id == user.id &&
-         (predecessor.notes.empty? || notes.empty?)
-
-        notes = notes.empty? ? predecessor.notes : notes
-
+      if aggregatable?(predecessor, journal)
         predecessor.destroy
+        if predecessor.notes.present?
+          journal.update_columns(notes: predecessor.notes, version: predecessor.version)
+        else
+          journal.update_columns(version: predecessor.version)
+        end
       end
-
-      notes
     end
 
     def create_journal(notes)
@@ -240,16 +240,6 @@ module Journals
       SQL
 
       ::OpenProject::SqlSanitization.sanitize(customizable_sql,
-                                              journable_id: journable.id,
-                                              journable_class_name: journable.class.name)
-    end
-
-    def delete_predecessor_sql
-      #sql = <<~SQL
-      #  DELETE FROM
-      #SQL
-
-      ::OpenProject::SqlSanitization.sanitize(sql,
                                               journable_id: journable.id,
                                               journable_class_name: journable.class.name)
     end
@@ -462,6 +452,14 @@ module Journals
 
       timestamps = attributes.index_with { journal.created_at }
       journable.update_columns(timestamps) if timestamps.any?
+    end
+
+    def aggregatable?(predecessor, journal)
+      predecessor.present? &&
+        Setting.journal_aggregation_time_minutes.to_i > 0 &&
+        predecessor.created_at < journal.created_at + Setting.journal_aggregation_time_minutes.to_i.minutes &&
+        predecessor.user_id == user.id &&
+        (predecessor.notes.empty? || journal.notes.empty?)
     end
   end
 end
