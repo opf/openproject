@@ -572,9 +572,8 @@ describe WorkPackage, type: :model do
       subject(:journals) { work_package.journals }
 
       before do
-        allow(Time)
-          .to receive(:now)
-                .and_return(Time.now - 5.minutes)
+        work_package.journals.last.update_columns(created_at: Time.now - 2.minutes,
+                                                  updated_at: Time.now - 2.minutes)
 
         work_package.status = FactoryBot.build(:status)
         work_package.save!

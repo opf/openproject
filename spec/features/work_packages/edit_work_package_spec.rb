@@ -55,7 +55,7 @@ describe 'edit work package', js: true do
                                      created_at: 5.days.ago.to_date.to_s(:db))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: 5.days.ago.to_date.to_s)
+    note_journal.update_column(:created_at, 5.days.ago.to_date.to_s(:db))
 
     work_package
   end

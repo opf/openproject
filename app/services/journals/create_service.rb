@@ -457,8 +457,8 @@ module Journals
     def aggregatable?(predecessor, journal)
       predecessor.present? &&
         Setting.journal_aggregation_time_minutes.to_i > 0 &&
-        predecessor.created_at < journal.created_at + Setting.journal_aggregation_time_minutes.to_i.minutes &&
-        predecessor.user_id == user.id &&
+        predecessor.created_at >= journal.created_at - Setting.journal_aggregation_time_minutes.to_i.minutes  &&
+        predecessor.user_id == journal.user_id &&
         (predecessor.notes.empty? || journal.notes.empty?)
     end
   end
