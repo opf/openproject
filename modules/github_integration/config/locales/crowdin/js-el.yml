@@ -35,7 +35,7 @@ el:
           cmd: Create branch with empty commit
           title: Quick snippets for Git
           copy_success: '✅ Αντιγράφηκε!'
-          copy_error: '❌ Copy failed!'
+          copy_error: '❌ Η αντιγραφή απέτυχε!'
       tab_prs:
         empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
       github_actions: Ενέργειες

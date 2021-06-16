@@ -832,7 +832,7 @@ el:
     label_create_token: "Δημιουργία token αντιγράφου ασφαλείας"
     label_delete_token: "Διαγραφή token αντιγράφου ασφαλείας"
     label_reset_token: "Επαναφορά token αντιγράφου ασφαλείας"
-    label_token_users: "The following users have active backup tokens"
+    label_token_users: "Οι ακόλουθοι χρήστες έχουν ενεργά token αντιγράφων ασφαλείας"
     reset_token:
       action_create: Δημιουργία
       action_reset: Επαναφορά
@@ -1877,7 +1877,7 @@ el:
   mail_body_wiki_content_added: "Η σελίδα wiki '%{id}' προστέθηκε από τον %{author}."
   mail_body_wiki_content_updated: "Η σελίδα wiki '%{id}' ενημερώθηκε από τον %{author}."
   mail_subject_account_activation_request: "Αίτηση ενεργοποίησης του λογαριασμού %{value}"
-  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_ready: "Το αντίγραφο ασφαλείας σας είναι έτοιμο"
   mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Ο %{value} κωδικός σας"
   mail_subject_register: "Ενεργοποίηση του %{value} λογαριασμού σας"

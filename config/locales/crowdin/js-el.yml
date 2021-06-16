@@ -991,7 +991,7 @@ el:
         invite_principal_to_project: 'Πρόσκληση %{principal} στο %{project}'
       project:
         label: 'Έργο'
-        required: 'Παρακαλώ επιλέξτε ένα έργο'
+        required: 'Παρακαλούμε επιλέξτε ένα έργο'
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Επόμενο'
@@ -1014,7 +1014,7 @@ el:
         label:
           name_or_email: 'Όνομα ή διεύθυνση email'
           name: 'Όνομα'
-        already_member_message: 'Ήδη ένα μέλος του %{project}'
+        already_member_message: 'Ήδη μέλος του %{project}'
         no_results_user: 'Δεν βρέθηκαν χρήστες'
         invite_user: 'Πρόσκληση:'
         no_results_placeholder: 'Δεν βρέθηκαν placeholders'
@@ -1033,7 +1033,7 @@ el:
         next_button: 'Επόμενο'
       message:
         label: 'Μήνυμα πρόσκλησης'
-        description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια εξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
+        description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια επεξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
         next_button: 'Προεπισκόπηση πρόσκλησης'
       summary:
         next_button: 'Αποστολή πρόσκλησης'
@@ -1045,7 +1045,7 @@ el:
           group: 'Η ομάδα είναι τώρα μέρος του %{project}. Εν τω μεταξύ, μπορείτε να προγραμματίσετε ήδη με αυτή την ομάδα και να αντιστοιχίσετε πακέτα εργασίας.'
         next_button: 'Συνέχεια'
     forms:
-      submit_success_message: 'The form was successfully submitted'
+      submit_success_message: 'Η φόρμα υποβλήθηκε με επιτυχία'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Προηγμένες ρυθμίσεις'

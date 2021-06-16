@@ -1863,7 +1863,7 @@ ja:
   mail_body_wiki_content_updated: "%{author}によってWikiページ'%{id}'が更新されました。"
   mail_subject_account_activation_request: "%{value} アカウントの承認要求"
   mail_subject_backup_ready: "バックアップの準備ができました"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_token_reset: "バックアップトークンのリセット"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
   mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
