@@ -116,10 +116,10 @@ module Journals
           #{select_max_journal_sql}
         ), changes AS (
           #{select_changed_sql}
+        ), insert_data AS (
+          #{insert_data_sql(notes)}
         ), inserted_journal AS (
           #{insert_journal_sql(notes)}
-        ), insert_data AS (
-          #{insert_data_sql}
         ), insert_attachable AS (
           #{insert_attachable_sql}
         ), insert_customizable AS (
@@ -131,12 +131,6 @@ module Journals
     end
 
     def insert_journal_sql(notes)
-      condition = if notes.blank?
-                    "WHERE EXISTS (SELECT * FROM changes)"
-                  else
-                    ""
-                  end
-
       journal_sql = <<~SQL
         INSERT INTO
           journals (
@@ -147,7 +141,9 @@ module Journals
             user_id,
             notes,
             created_at,
-            updated_at
+            updated_at,
+            data_id,
+            data_type
           )
         SELECT
           :journable_id,
@@ -157,9 +153,10 @@ module Journals
           :user_id,
           :notes,
           #{journal_timestamp_sql(notes, ':created_at')},
-          #{journal_timestamp_sql(notes, ':updated_at')}
-        FROM max_journals
-        #{condition}
+          #{journal_timestamp_sql(notes, ':updated_at')},
+          insert_data.id,
+          :data_type
+        FROM max_journals, insert_data
         RETURNING *
       SQL
 
@@ -170,24 +167,30 @@ module Journals
                                               journable_type: journable_type,
                                               user_id: user.id,
                                               created_at: journable_timestamp,
-                                              updated_at: journable_timestamp)
+                                              updated_at: journable_timestamp,
+                                              data_type: journable.class.journal_class.name)
     end
 
-    def insert_data_sql
+    def insert_data_sql(notes)
+      condition = if notes.blank?
+                    "AND EXISTS (SELECT * FROM changes)"
+                  else
+                    ""
+                  end
+
       data_sql = <<~SQL
         INSERT INTO
           #{data_table_name} (
-            journal_id,
             #{data_sink_columns}
           )
         SELECT
-          #{id_from_inserted_journal_sql},
           #{data_source_columns}
         FROM #{journable_table_name}
         #{journable_data_sql_addition}
         WHERE
-          #{only_if_created_sql}
-          AND #{journable_table_name}.id = :journable_id
+          #{journable_table_name}.id = :journable_id
+          #{condition}
+        RETURNING *
       SQL
 
       ::OpenProject::SqlSanitization.sanitize(data_sql,
@@ -250,7 +253,8 @@ module Journals
           :journable_id journable_id,
           :journable_type journable_type,
           COALESCE(journals.version, fallback.version) AS version,
-          COALESCE(journals.id, 0) id
+          COALESCE(journals.id, 0) id,
+          COALESCE(journals.data_id, 0) data_id
         FROM
           journals
         RIGHT OUTER JOIN
@@ -348,7 +352,7 @@ module Journals
            JOIN
              #{data_table_name}
            ON
-             #{data_table_name}.journal_id = max_journals.id) #{data_table_name}
+             #{data_table_name}.id = max_journals.data_id) #{data_table_name}
         ON
           #{journable_table_name}.id = #{data_table_name}.journable_id
         WHERE

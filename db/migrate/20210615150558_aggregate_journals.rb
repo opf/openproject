@@ -7,7 +7,12 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
      Message,
      News,
      WikiContent,
-     WorkPackage].each do |klass|
+     WorkPackage,
+     Budget,
+     TimeEntry,
+     Document,
+     Meeting,
+     MeetingContent].each do |klass|
       say_with_time "Aggregating journals for #{klass}" do
         aggregate_journals(klass)
       end

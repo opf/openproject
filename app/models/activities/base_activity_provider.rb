@@ -238,7 +238,9 @@ class Activities::BaseActivityProvider
 
   def join_activity_journals_table(query)
     query
-      .join(activity_journals_table).on(journals_table[:id].eq(activity_journals_table[:journal_id]))
+      .join(activity_journals_table)
+      .on(journals_table[:data_id].eq(activity_journals_table[:id])
+                                  .and(journals_table[:data_type]).eq(activitied_type.journal_class.name))
   end
 
   def journals_table

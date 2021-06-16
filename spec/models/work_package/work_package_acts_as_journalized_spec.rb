@@ -631,7 +631,7 @@ describe WorkPackage, type: :model do
     end
 
     it 'removes the journal data' do
-      expect(Journal::WorkPackageJournal.find_by(journal_id: journal.id))
+      expect(Journal::WorkPackageJournal.find_by(id: journal.data_id))
         .to be_nil
     end
 
