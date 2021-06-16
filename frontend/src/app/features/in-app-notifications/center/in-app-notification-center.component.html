@@ -4,6 +4,30 @@
   <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
 
   <div class="op-modal--body op-ian-center">
+    <div class="toolbar-container">
+      <div class="toolbar">
+        <div class="title-container">
+        </div>
+        <ul class="toolbar-items">
+          <li class="toolbar-item">
+            <button
+                type="button"
+                class="button"
+                (click)="markAllRead()"
+            >
+              <op-icon icon-classes="button--icon icon-add">
+              </op-icon>
+              <span
+                  class="button--text"
+                  [textContent]="text.mark_all_read"
+              >
+              </span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <ul class="op-ian-center--entries">
       <op-in-app-notification-entry
           *ngFor="let item of unreadItems$ | async"

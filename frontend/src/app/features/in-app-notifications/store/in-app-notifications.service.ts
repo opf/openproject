@@ -68,4 +68,8 @@ export class InAppNotificationsService {
   remove(id:ID):void {
     this.store.remove(id);
   }
+
+  markAllRead() {
+    this.store.update(null, { read: true });
+  }
 }

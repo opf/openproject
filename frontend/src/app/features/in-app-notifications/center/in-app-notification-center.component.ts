@@ -18,6 +18,7 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
 
   text = {
     title: 'Notifications',
+    mark_all_read: 'Mark all as read',
     button_close: this.I18n.t('js.button_close'),
   };
 
@@ -34,5 +35,9 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
 
   ngOnInit():void {
     this.ianService.get();
+  }
+
+  markAllRead() {
+    this.ianService.markAllRead();
   }
 }
