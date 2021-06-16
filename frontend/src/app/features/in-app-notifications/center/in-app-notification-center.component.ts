@@ -5,6 +5,7 @@ import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/store/in-app-notifications.query";
 import { InAppNotificationsService } from "core-app/features/in-app-notifications/store/in-app-notifications.service";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -13,13 +14,14 @@ import { InAppNotificationsService } from "core-app/features/in-app-notification
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InAppNotificationCenterComponent extends OpModalComponent implements OnInit {
-
+  hasUnreadItems$ = this.ianQuery.hasUnread$;
   unreadItems$ = this.ianQuery.unread$;
 
   text = {
     title: 'Notifications',
     mark_all_read: 'Mark all as read',
     button_close: this.I18n.t('js.button_close'),
+    no_results: this.I18n.t('js.notice_no_results_to_display'),
   };
 
   constructor(

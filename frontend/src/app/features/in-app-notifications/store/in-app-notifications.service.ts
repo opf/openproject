@@ -13,7 +13,7 @@ export class InAppNotificationsService {
   }
 
   get():void {
-    timer(5000)
+    timer(2000)
       .subscribe(() => this.add({
         id: 1,
         date: '5 minutes ago',
@@ -29,7 +29,7 @@ export class InAppNotificationsService {
         }
       }));
 
-    timer(10000)
+    timer(50000)
       .subscribe(() => this.add({
         id: 2,
         message: 'You have been mentioned in work package Task #1234: Deploy new website',
@@ -44,7 +44,7 @@ export class InAppNotificationsService {
         }
       }));
 
-    timer(20000)
+    timer(10000)
       .subscribe(() => this.add({
         id: 3,
         date: '1 minute ago',

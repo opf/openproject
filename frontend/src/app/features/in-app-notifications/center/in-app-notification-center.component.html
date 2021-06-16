@@ -28,13 +28,27 @@
       </div>
     </div>
 
-    <ul class="op-ian-center--entries">
+    <ul
+        *ngIf="hasUnreadItems$ | async; else noResults"
+        class="op-ian-center--entries"
+    >
       <op-in-app-notification-entry
           *ngFor="let item of unreadItems$ | async"
           class="op-ian-center--entry"
           [notification]="item"
       ></op-in-app-notification-entry>
     </ul>
+
+    <ng-template #noResults>
+      <div class="generic-table--no-results-container">
+        <span
+            class="generic-table--no-results-title"
+        >
+          <op-icon icon-classes="icon-info1"></op-icon>
+          {{ text.no_results }}
+        </span>
+      </div>
+    </ng-template>
   </div>
   <div class="op-modal--footer">
     <button

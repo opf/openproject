@@ -1,6 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { InAppNotification } from "core-app/features/in-app-notifications/store/in-app-notification.model";
-import { Subject } from "rxjs";
 
 @Component({
   selector: 'op-in-app-notification-entry',
