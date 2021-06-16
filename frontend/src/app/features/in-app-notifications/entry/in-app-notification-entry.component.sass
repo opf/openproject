@@ -1,0 +1,33 @@
+.op-ian-item
+  display: flex
+  align-items: center
+  background: #F9F9F9
+  margin: 10px 0
+  padding: 5px 10px
+
+  &--indicator
+    width: 10px
+    height: 10px
+    margin-right: 0.5rem
+    display: block
+    background: var(--primary-color)
+    border-radius: 50%
+
+    &_read
+      background: #AFAFAF
+
+  &--message
+    flex: 1
+    display: flex
+    flex-direction: column
+    line-height: 0.9rem
+
+  &--project
+    font-size: 0.8rem
+    color: var(--gray-dark)
+
+  &--reason,
+  &--date
+    width: 20%
+    flex-grow: 0
+    text-align: right
