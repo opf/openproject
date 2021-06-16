@@ -51,19 +51,59 @@ class Notifications::JournalWpMailService
 
       author = User.find_by(id: journal.user_id) || DeletedUser.first
 
-      notification_receivers(journal.journable, journal).each do |recipient|
-        Mails::WorkPackageJob.perform_later(journal.id, recipient.id, author.id)
+      notification_receivers(journal.journable, journal) do |recipient_id, reason|
+        create_event(journal, recipient_id, reason)
+
+        Mails::WorkPackageJob
+          .set(wait_until: 1.minute.from_now)
+          .perform_later(journal.id, recipient_id, author.id)
       end
     end
 
+    def create_event(journal, recipient_id, reason)
+      return unless %i[assigned mentioned].include?(reason)
+
+      work_package = journal.journable
+      subject = I18n.t("events.work_packages.subject.#{reason}", work_package: work_package.to_s)
+
+      binding.pry
+      Event.create recipient_id: recipient_id,
+                   reason: reason,
+                   resource: journal,
+                   subject: subject,
+                   context: work_package.project
+    end
+
     def notification_receivers(work_package, journal)
-      (work_package.recipients + work_package.watcher_recipients + mentioned(work_package, journal)).uniq
+      seen = Set.new
+      mentioned(work_package, journal).each do |user_id|
+        next if seen.include?(user_id)
+
+        yield(user_id, :mentioned)
+        seen << user_id
+      end
+
+      work_package.recipients.each do |user|
+        next if seen.include?(user.id)
+
+        reason = user.is_or_belongs_to?(work_package.assigned_to) ? :assigned : :notified
+        yield(user.id, reason)
+        seen << user.id
+      end
+
+      work_package.watcher_recipients.each do |user|
+        next if seen.include?(user.id)
+
+        yield(user.id, :watched)
+        seen << user.id
+      end
     end
 
     def mentioned(work_package, journal)
       mentioned_ids(journal)
         .where(id: User.allowed(:view_work_packages, work_package.project))
         .where.not(mail_notification: User::USER_MAIL_OPTION_NON.first)
+        .pluck(:id)
     end
 
     def text_for_mentions(journal)
