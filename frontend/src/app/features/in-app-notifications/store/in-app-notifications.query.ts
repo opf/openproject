@@ -10,7 +10,7 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
 
   /** Get the unread items */
   unread$ = this.selectAll({
-    filterBy: ({ read }) => !!read
+    filterBy: ({ read }) => !read
   });
 
   constructor(protected store:InAppNotificationsStore) {

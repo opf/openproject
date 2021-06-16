@@ -1,0 +1,24 @@
+<div
+    class="op-modal op-modal_fullscreen"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+
+  <div class="op-modal--body op-ian-center">
+    <ul class="op-ian-center--entries">
+      <op-in-app-notification-entry
+          *ngFor="let item of unreadItems$ | async"
+          class="op-ian-center--entry"
+          [notification]="item"
+      ></op-in-app-notification-entry>
+    </ul>
+  </div>
+  <div class="op-modal--footer">
+    <button
+        type="button"
+        class="button"
+        (click)="closeMe($event)"
+        [textContent]="text.button_close"
+        [attr.title]="text.button_close"
+    ></button>
+  </div>
+</div>

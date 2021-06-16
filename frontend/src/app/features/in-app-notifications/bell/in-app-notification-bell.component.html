@@ -1,10 +1,15 @@
 <button
   type="button"
-  class="op-in-app-notification-bell op-app-menu--item-action"
+  class="op-ian-bell op-app-menu--item-action"
+  (click)="openCenter($event)"
   >
   <op-icon icon-classes="icon-bell">
   </op-icon>
-  <span class="op-in-app-notification-bell--indicator">
-    2
+  <ng-container *ngIf="(inAppQuery.unreadCount$ | async) as unreadCount">
+  <span
+      *ngIf="unreadCount > 0"
+      class="op-ian-bell--indicator"
+      [textContent]="unreadCount">
   </span>
+  </ng-container>
 </button>

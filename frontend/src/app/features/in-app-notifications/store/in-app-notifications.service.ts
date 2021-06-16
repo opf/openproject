@@ -13,10 +13,13 @@ export class InAppNotificationsService {
   }
 
   get():void {
+    timer(5000)
+      .subscribe(() => this.add({ id: 3, message: 'A new ticket was assigned to you!' }));
+
     timer(10000)
       .subscribe(() => this.add({ id: 1, message: 'A new ticket was assigned to you!' }));
 
-    timer(30000)
+    timer(20000)
       .subscribe(() => this.add({ id: 2, message: 'You were mentioned in the following ticket: #1234' }));
   }
 

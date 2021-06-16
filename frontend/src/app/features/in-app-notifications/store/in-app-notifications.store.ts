@@ -7,4 +7,7 @@ export interface InAppNotificationsState extends EntityState<InAppNotification> 
 @Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'in-app-notifications' })
 export class InAppNotificationsStore extends EntityStore<InAppNotificationsState> {
+  constructor() {
+    super();
+  }
 }
