@@ -481,7 +481,7 @@ de:
         help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere Hilfematerialien. <br> Viel Spaß mit OpenProject!'
         members: 'Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.'
         project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
-        quick_add_button: 'Erstellen Sie ein neues Projekt oder laden Sie Mitarbeiter ein.'
+        quick_add_button: 'Mit dem Plus (+) Knopf, können sie entweder ein <b>neues Projekt anlegen</b> oder <b>Mitarbeiter zu Ihrem Projekt einladen</b>.'
         sidebar_arrow: "Mit dem Pfeil gelangen Sie zurück zum <b>Hauptmenü</b> des Projektes."
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese jeder Zeit wieder neu starten.'
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
