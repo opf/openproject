@@ -290,7 +290,7 @@ While this doesn't take care of any labels or styling, it will already provide e
 
 The work package single view is the boss fight of inline editing. It combines all the previous concepts with the flexibility of work package attributes and type configuration.
 
-The following screenshot is [bug report #34250](http://community.openproject.com/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](https://docs.openproject.org/system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration) defined. This configuration is as follows:
+The following screenshot is [bug report #34250](http://community.openproject.com/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration) defined. This configuration is as follows:
 
 
 

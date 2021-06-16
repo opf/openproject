@@ -132,7 +132,7 @@ These following points are some known issues regarding the update to 9.0.
 
 OpenProject 9.0. is deprecating MySQL support. You can expect full MySQL support for the course of 9.0 releases, but we are likely going to be dropping MySQL completely in one of the following releases.
 
-For more information regarding motivation behind this and migration steps, please see [https://www.openproject.org/deprecating-mysql-support](https://www.openproject.org/deprecating-mysql-support)/ In this post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
+For more information regarding motivation behind this and migration steps, please see [this blog post](https://www.openproject.org/blog/deprecating-mysql-support/). In the post, you will find documentation for a mostly-automated migration script to PostgreSQL to help you get up and running with PostgreSQL.
 
 ### Package repository moved into opf/openproject
 
@@ -165,7 +165,7 @@ you will need to adjust that package source.
 
 ## Upgrade notes for OpenProject 7.x to 8.x
 
-These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](https://docs.openproject.org/release-notes/8-0-0/).
+These following points are some known issues around the update to 8.0. It does not contain the entire list of changes. To see all changes, [please browse the release notes](../../../release-notes/8-0-0/).
 
 ### Upgrades in NPM may result in package inconsistencies
 

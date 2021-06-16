@@ -506,8 +506,8 @@ x-op-app: &app
     - "OPENPROJECT_DISABLED__MODULES='backlogs meetings'"
 ```
 
-Please refer to our documentation on the [configuration](https://docs.openproject.org/installation-and-operations/configuration/)
-and [environment variables](https://docs.openproject.org/installation-and-operations/configuration/environment/) for further information
+Please refer to our documentation on the [configuration](../../configuration/)
+and [environment variables](../../configuration/environment/) for further information
 on what you can configure and how.
 
 #### Launching

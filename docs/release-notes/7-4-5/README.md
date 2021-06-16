@@ -52,7 +52,7 @@ a look
 at </span>[GitHub](https://github.com/opf/openproject/tree/v7.4.5)<span style="font-size: 1.125rem;">.</span>
 
 Special thanks go to all OpenProject contributors for [reporting
-bugs](https://www.openproject.org/development/report-a-bug/) and helping
+bugs](../../development/report-a-bug/) and helping
 us to reproduce them.
 
 ### DSGVO consenting feature

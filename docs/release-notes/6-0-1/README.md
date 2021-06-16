@@ -84,7 +84,7 @@ automatically.
   - Several accessibility improvements.
 
 Thanks a lot to Guillaume Ferry and Willy Gardiol for [reporting
-bugs](https://www.openproject.org/development/report-a-bug/).
+bugs](../../development/report-a-bug/).
 
 For further information on the release, please refer to the [Changelog
 v.6.0.1](https://community.openproject.com/versions/807) or take a look

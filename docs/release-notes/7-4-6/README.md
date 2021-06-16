@@ -35,7 +35,7 @@ OpenProject 7.4.6 packaged installation introduces support for Ubuntu
     ([\#27582](https://community.openproject.com/projects/openproject/work_packages/27582))
 
 Special thanks go to all OpenProject contributors for [reporting
-bugs](https://www.openproject.org/development/report-a-bug/) and helping
+bugs](../../development/report-a-bug/) and helping
 us to reproduce them.
 
 

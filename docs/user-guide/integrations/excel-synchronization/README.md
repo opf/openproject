@@ -76,7 +76,7 @@ See how to synchronize work package hierarchies in OpenProject with MS Excel.
 
 Additionally, you can select as many other columns that should be  synchronized – always by clicking in the header and selecting the drop  down icon which appears next to the regular icon. You will have all  fields available, incl. custom fields.
 
-**Important**: make sure you have all fields that need to be synchronized from your Excel list also available in OpenProject. **Some might be [created beforehand as custom fields](https://docs.openproject.org/system-admin-guide/custom-fields/) in OpenProject.**
+**Important**: make sure you have all fields that need to be synchronized from your Excel list also available in OpenProject. **Some might be [created beforehand as custom fields](../../../system-admin-guide/custom-fields/) in OpenProject.**
  Attributes that do not exist in the selected project within OpenProject  are NOT available in the headline. They cannot be selected in the header (via the drop-down). Neither can you just create a new column with an  attribute that does not exist in OpenProject. This will generate an  error message.
 
 Copy and paste all data accordingly from your existing Excel list to this sheet.

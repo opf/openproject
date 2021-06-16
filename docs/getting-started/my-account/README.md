@@ -163,7 +163,7 @@ When someone [mentions](../../user-guide/work-packages/edit-work-package/#-notif
 
 By default you do not receive any email notifications about your own changes. If you want to receive emails for your own changes (e.g. to make sure that emails for changes you made have been sent), activate the check-box **I want to be notified of changes that I make myself**.
 
-Please read [these instructions](../../system-admin-guide/email) to learn about the global settings for email notifications and [these FAQ](../../system-admin-guide/email/faq) if you have questions.
+Please read [these instructions](../../system-admin-guide/email) to learn about the global settings for email notifications and [these FAQ](../../system-admin-guide/email/email-faq) if you have questions.
 
 
 

@@ -401,7 +401,7 @@ When installing with an existing Apache2, you can take a look at the source of o
 
 If you have selected to auto-install an Apache2 web server, you will be asked whether you want to install Git and Subversion repository support. In case you do not need it or when in doubt, choose **Skip** for both options.
 
-For more information, [see our help on repositories](https://www.openproject.org/help/repository/)
+For more information, [see our help on repositories](../../../user-guide/repository/)
 
 ![03-repos](03-repos.png)
 
@@ -425,7 +425,7 @@ Allows you to connect to a SMTP host through authentication types `NONE`,  `PLAI
 
 ### **Skip** (not recommended)
 
-Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](https://www.openproject.org/help/system-settings/email-notification-settings/).
+Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](../../../system-admin-guide/system-settings/).
 
 ## Step 6: Administrator email
 
