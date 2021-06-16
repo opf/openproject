@@ -23,7 +23,7 @@ The GitLab integration to OpenProject is still in development and you can find a
 
 Currently, there is no direct integration between OpenProject and Jira. Since OpenProject is an excellent open source alternative to Jira, we have prepared a way to import tickets from Jira to OpenProject. First, you can export your tasks from Jira into an Excel file and then import these tasks via an [Excel plugin into OpenProject](./excel-synchronization).
 
-If you would like to learn more about the features of **OpenProject vs Jira** please read [here](https://www.openproject.org/jira-alternative/).
+If you would like to learn more about the features of **OpenProject vs Jira** please read [here](https://www.openproject.org/blog/open-source-jira-alternative/).
 
 ## Microsoft Project
 
@@ -34,7 +34,7 @@ To synchronize tasks from MS Project to OpenProject, you can export your MS Proj
 
 Currently, there is no direct integration between OpenProject and Trello. To synchronize tasks from Trello to OpenProject, export your tasks from Trello into an Excel file and then import these tasks via an [Excel plugin into OpenProject](./excel-synchronization).
 
-If you would like to learn more about OpenProject's features vs Trello, please read [here](https://www.openproject.org/trello-alternative/).
+If you would like to learn more about OpenProject's features vs Trello, please read [here](https://www.openproject.org/blog/trello-alternative/).
 
 ## Toggl
 

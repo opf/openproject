@@ -92,7 +92,7 @@ To use OpenProject 11.1 right away, create an instance and [test 14 days for fre
 Prefer to run OpenProject 11.1 in your own infrastructure?
 Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
 
-Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition-upgrade-test-free/)
+Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)
 
 Navigate to the -> *Administration*-> *Enterprise Edition* and request your trial token.
 

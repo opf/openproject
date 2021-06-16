@@ -68,7 +68,7 @@ Select the item to which you want to create a dependency. The precede and follow
 
 To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](scheduling).
 
-Relations between work packages that are not predecessor/follower or parent/child relations won't be displayed in the Gantt chart. Find out more about other work package relations [here](../../work-packages/work-package-relations-hierarchies).
+Relations between work packages that are not predecessor/follower or parent/child relations won't be displayed in the Gantt chart. Find out more about other work package relations [here](../work-packages/work-package-relations-hierarchies).
 
 ## Understanding the colors and lines in the Gantt chart
 

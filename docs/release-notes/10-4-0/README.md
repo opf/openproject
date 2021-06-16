@@ -190,7 +190,7 @@ You can slice 3D objects in all dimensions to get a view on the exact thing you 
 To use OpenProject 10.4 right away, create an instance on [OpenProject.org.](https://start.openproject.com/)
 
 Prefer to run OpenProject 10.4 in your own infrastructure?
-Here you can find the [Installation guidelines](https://docs.openproject.org/installation-and-operations) for OpenProject.
+Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
 
 Want to upgrade from a Community version to try out the light or dark theme? [Get a 14 days free trial token.](https://www.openproject.org/enterprise-edition/)
 
@@ -216,7 +216,7 @@ For the upcoming BIM specific release we are focusing on more building industry 
 
 ## Migrating to OpenProject 10.4
 
-Follow the [upgrade guide for the packaged installation or Docker installation](https://docs.openproject.org/installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 10.4.
+Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 10.4.
 
 We update hosted OpenProject environments (Cloud Edition) automatically.
 
@@ -236,5 +236,5 @@ Special thanks go to all OpenProject contributors without whom this release woul
 - DBI AG for sponsoring the IFC module.
 - Lindsay Kay with the integration of his open source 3D model viewer, [xeokit](https://xeokit.io/).
 - [Georg Dangl](https://blog.dangl.me/categories/BIM) who contributes regarding BCF management.
-- Every dedicated user who has [reported bugs](https://docs.openproject.org/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has [reported bugs](../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

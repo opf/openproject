@@ -55,18 +55,18 @@ You can use those custom fields to properly display text with a right-to-left or
 
 ## Support
 
-You can find useful information in the [OpenProject help section](https://docs.openproject.org/) or you can post your questions in the [OpenProject Forum](https://community.openproject.org/projects/openproject/boards).
+You can find useful information in the [OpenProject help section](../../../) or you can post your questions in the [OpenProject Forum](https://community.openproject.org/projects/openproject/boards).
 
 ### Upgrading your installation to OpenProject 10.3.
 
 If you’re using the OpenProject Cloud Edition, you will be automatically updated to the latest version of OpenProject 10.1 in the next days. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
-[Please visit our upgrade guides for more information](https://www.openproject.org/operations/upgrading/).
+[Please visit our upgrade guides for more information](../../installation-and-operations/operation/upgrading/).
 
 ## Credits
 
 Special thanks go to all OpenProject contributors without whom this release would not have been possible:
 
 - All the developers, designers, project managers who have contributed to OpenProject.
-- Every dedicated user who has [reported bugs](https://www.openproject.org/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has [reported bugs](../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the engaged users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

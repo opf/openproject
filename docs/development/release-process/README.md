@@ -13,7 +13,7 @@ Due to the fact that the OpenProject Foundation provides releases in the form of
 
 ## Release notes
 
-You can find the release notes for major stable releases [here](https://www.openproject.org/release-notes/).
+You can find the release notes for major stable releases [here](../../release-notes/).
 
 ## Release cycles
 

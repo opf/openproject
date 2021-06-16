@@ -48,7 +48,7 @@ The work package will the be displayed in the list view:
 
 ![list-view-work-package](1569611758166.png)
 
-Another option to create a work package is to do it from the header menu. The [work package types](../../user-guide/projects/proejct-settings/work-package-types/#work-pacakge-types) that are activated, will be shown and you can select the relevant work package type to be created.
+Another option to create a work package is to do it from the header menu. The [work package types](../../user-guide/projects/project-settings/work-package-types/#work-package-types) that are activated, will be shown and you can select the relevant work package type to be created.
 
 ![create-work-package-header](create-work-package-header.png)
 

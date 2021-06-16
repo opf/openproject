@@ -111,7 +111,7 @@ Most of this kind of questions will be answered in the respective sections for e
 
 As a first step please try to [reset your password](#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
 
-If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
+If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../system-admin-guide/users-permissions/users/#manage-user-settings).
 
 If you don't know the URL of your OpenProject Enterprise cloud, you can find it on [this website](https://www.openproject.org/request-organization) on the basis of your email address.
 
@@ -119,9 +119,9 @@ If you don't know the URL of your OpenProject Enterprise cloud, you can find it 
 
 Look in your spam folder for the email. 
 
-Ask your system admin to [set a new password for you](../../system-admin-guide/users-permissions/users/#manage-user-settings).
+Ask your system admin to [set a new password for you](../system-admin-guide/users-permissions/users/#manage-user-settings).
 
-If you are the system administrator of an on-premises installation (Enterprise on-premises or Community Edition) please have a look at [this FAQ](../../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).
+If you are the system administrator of an on-premises installation (Enterprise on-premises or Community Edition) please have a look at [this FAQ](../installation-and-operations/operation/faq/#i-lost-access-to-my-admin-account-how-do-i-reset-my-password).
 
 ### How can I reverse changes?
 
@@ -136,7 +136,7 @@ You can invite new users in the system administration as long as you have enough
 For the Community Edition you can have as many users as you need for free. 
 If you are using Enterprise on-premises, please write an email to sales @ openproject.com.
 
-If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../cloud-edition-guide/manage-subscription).
+If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../enterprise-guide/enterprise-cloud-guide/manage-cloud-subscription).
 
 ### How can I change the day my week starts with, etc.?
 
@@ -264,9 +264,9 @@ To migrate from Bitnami **to Enterprise cloud** please provide these:
 - data as database dump (.sql file)
 - attachment folder
 
-You can use the first two steps of [this instruction](../installation-and-operations/faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). Please contact us to discuss your migration.
+You can use the first two steps of [this instruction](../installation-and-operations/installation-faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). Please contact us to discuss your migration.
 
-To migrate from Bitnami **to Enterprise on premises** please use [this instruction](../installation-and-operations/faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). We offer (paid) installation support to help you migrate to OpenProject (for the Enterprise on-premises edition). Please contact us to request it.
+To migrate from Bitnami **to Enterprise on premises** please use [this instruction](../installation-and-operations/installation-faq/#how-can-i-migrate-from-bitnami-to-the-official-openproject-installation-packages). We offer (paid) installation support to help you migrate to OpenProject (for the Enterprise on-premises edition). Please contact us to request it.
 
 ### How can I migrate from Jira/Confluence to OpenProject?
 
@@ -288,7 +288,7 @@ We will provide a database dump which you can upload into your Enterprise on-pre
 
 ### How can I migrate from Community Edition to Enterprise on-premises?
 
-If you [book Enterprise on-premises](../enterprise-edition-guide/activate-enterprise-edition/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-edition-guide/activate-enterprise-edition/). You can keep your data that you created in the Community Edition.
+If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-edition-guide/activate-enterprise-edition/). You can keep your data that you created in the Community Edition.
 
 ### How can I migrate from Enterprise on-premises to Community Edition?
 
@@ -304,7 +304,7 @@ Please have a look at [this section](../installation-and-operations/misc).
 
 We welcome everybody willing to help make OpenProject better. There are a lot of possibilities for helping, be it [improving the translations](../development/translate-openproject) via crowdin, answering questions in the [forums](https://community.openproject.org/projects/openproject/forums) or by fixing bugs and implementing features.
 
-If you want to code, a good starting point would be to make yourself familiar with the [basic approaches for developing](https://docs.openproject.org/development/) in OpenProject and opening a pull request on GitHub referencing an existing bug report or feature request. Find our GitHub page [here](https://github.com/opf/openproject).
+If you want to code, a good starting point would be to make yourself familiar with the [basic approaches for developing](../development/) in OpenProject and opening a pull request on GitHub referencing an existing bug report or feature request. Find our GitHub page [here](https://github.com/opf/openproject).
 
 If in doubt on how you should start, you can also just [contact us](https://www.openproject.org/contact-us/).
 
@@ -345,9 +345,9 @@ You can find the price calculator [here](https://www.openproject.org/pricing) an
 
 Here are some selected links to other FAQ pages. Please use the menu to navigate to a topic's section to find more FAQs or use the search bar in the header.
 
-- [FAQ for work packages](../user-guide/work-packages/faq)
-- [FAQ for Gantt chart](../user-guide/gantt-chart/faq)
-- [FAQ for Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/faq)
-- [FAQ for Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/faq)
-- [FAQ for system administration](../system-admin-guide/faq)
-- [FAQ for installation, operation and upgrades](../installation-and-operations/faq)
+- [FAQ for work packages](../user-guide/work-packages/work-packages-faq)
+- [FAQ for Gantt chart](../user-guide/gantt-chart/gantt-chart-faq)
+- [FAQ for Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/enterprise-on-premises-faq)
+- [FAQ for Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/enterprise-cloud-faq)
+- [FAQ for system administration](../system-admin-guide/system-admin-guide-faq)
+- [FAQ for installation, operation and upgrades](../installation-and-operations/installation-faq)

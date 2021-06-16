@@ -42,7 +42,7 @@ faster than before.
 
 Thanks a lot to the community, in particular Marc Vollmer, for
 [reporting a lot of
-bugs](https://www.openproject.org/development/report-a-bug/)\!
+bugs](../../development/report-a-bug/)\!
 
 For further information on the release, please refer to the [Changelog
 v.6.0.2](https://community.openproject.com/versions/814) or take a look

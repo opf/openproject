@@ -11,7 +11,7 @@ keywords: backlogs, scrum
 
 Working in agile project teams is becoming increasingly important.
 
-OpenProject supports your work with the Scrum methodology by providing a variety of functionalities. You can record and prioritize user stories in the sprint and product backlog, use digital task boards or burndown-charts, print story cards, and much more. For more information, please refer to the OpenProject [agile and scrum features](https://www.openproject.org/collaboration-software-features/agile-scrum-agile-project-management-openproject/) page.
+OpenProject supports your work with the Scrum methodology by providing a variety of functionalities. You can record and prioritize user stories in the sprint and product backlog, use digital task boards or burndown-charts, print story cards, and much more. For more information, please refer to the OpenProject [agile and scrum features](https://www.openproject.org/collaboration-software-features/scrum-agile-project-management/) page.
 
 <div class="glossary">A **backlog** is defined as a plugin that allows to use the backlogs feature in OpenProject. In order to use backlogs in a project, the backlogs module has to be activated in the project settings of a project.</div>
 

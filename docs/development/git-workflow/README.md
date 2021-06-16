@@ -94,7 +94,7 @@ Create a pull request against a branch of of the <opf/openproject> repository, c
 
 If your pull request **does not contain a description** for what it does and what it's intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.com/projects/openproject/work_packages), please include a link to that work package in the description, so we can track your work.
 
-The core contributor team will then review your pull request according to our [code review guideline](https://www.openproject.org/open-source/development-free-project-management-software/code-review-guideliness/). Please note that you can add commits after the pull request has been created by pushing to the branch in your fork.
+The core contributor team will then review your pull request according to our [code review guideline](../code-review-guidelines/). Please note that you can add commits after the pull request has been created by pushing to the branch in your fork.
 
 
 

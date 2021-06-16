@@ -47,7 +47,7 @@ To import your community instance into our cloud environment, please send us the
 
 For a package-based installation, you can create both as root user on your environment as follows: `openproject run backup`
 This creates the attachment and PostgreSQL-dump or MySQL-dump under /var/db/openproject/backup.
-If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found [here](../../../operations/backup/backup-guide-packaged-installation/).
+If you are still running OpenProject under MySQL, your dump will be converted to PostgreSQL before importing, we will do this for you. More information about the backup tool can be found [here](../../../installation-and-operations/operation/backing-up/).
 Please upload these documents as an attachment to a work package within your new OpenProject Enterprise cloud environment and send us the link to this work package via email.
 
 ## How can I export the documents loaded on OpenProject?
