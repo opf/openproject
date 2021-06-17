@@ -94,7 +94,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
 
       allow(Events::CreateService)
         .to receive(:new)
-              .with(sender)
+              .with(user: sender)
               .and_return(events_service)
       allow(events_service)
         .to receive(:call)

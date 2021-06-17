@@ -58,7 +58,7 @@ class Notifications::JournalWpEventService
 
     def create_event(journal, recipient_id, reason, user)
       Events::CreateService
-        .new(user)
+        .new(user: user)
         .call(recipient_id: recipient_id,
               reason: reason,
               resource: journal)
