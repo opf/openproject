@@ -25,7 +25,7 @@ export class InAppNotificationsService {
     this
       .apiV3Service
       .events
-      .list()
+      .unread()
       .subscribe(
         events => {
           this.store.set(events._embedded.elements);
