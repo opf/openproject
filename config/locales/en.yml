@@ -1261,7 +1261,7 @@ en:
     work_packages:
       subject:
         assigned: "You have been assigned to %{work_package}"
-        mentioned: "You have been assigned to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
 
   export:
     your_work_packages_export: "Your work packages export"
