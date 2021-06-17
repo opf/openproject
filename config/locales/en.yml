@@ -2374,7 +2374,7 @@ en:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  event_retention_period_days: "Event retention period"
+  setting_event_retention_period_days: "Event retention period"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
