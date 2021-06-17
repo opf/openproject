@@ -51,6 +51,8 @@ module Redmine::MenuManager::TopMenuHelper
   private
 
   def render_notification_top_menu_node
+    return ''.html_safe unless User.current.logged?
+
     content_tag('li', class: 'op-app-menu--item op-app-help op-app-help_overridden') do
       tag 'op-in-app-notification-bell'
     end
