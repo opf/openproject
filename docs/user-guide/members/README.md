@@ -17,7 +17,7 @@ keywords: members, project participants
 | [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
 | [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Add members
 

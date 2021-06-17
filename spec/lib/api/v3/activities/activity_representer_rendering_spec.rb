@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Activities::ActivityRepresenter do
+describe ::API::V3::Activities::ActivityRepresenter, 'rendering' do
+  include ::API::V3::Utilities::PathHelper
+
   let(:current_user) do
     FactoryBot.build_stubbed(:user).tap do |u|
       allow(u)
@@ -41,10 +43,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
   let(:work_package) { journal.journable }
   let(:notes) { "My notes" }
   let(:journal) do
-    FactoryBot.build_stubbed(:work_package_journal, notes: notes).tap do |journal|
-      allow(journal)
-        .to receive(:notes_id)
-        .and_return(journal.id)
+    FactoryBot.build_stubbed(:work_package_journal, notes: notes, user: other_user).tap do |journal|
       allow(journal)
         .to receive(:get_changes)
         .and_return(changes)
@@ -58,37 +57,53 @@ describe ::API::V3::Activities::ActivityRepresenter do
     login_as(current_user)
   end
 
-  context 'generation' do
-    subject(:generated) { representer.to_json }
+  subject(:generated) { representer.to_json }
 
+  describe 'properties' do
     describe 'type' do
-      it { is_expected.to be_json_eql('Activity::Comment'.to_json).at_path('_type') }
+      context 'with notes' do
+        let(:notes) { 'Some notes' }
 
-      context 'if notes are empty' do
-        let(:notes) { '' }
-
-        it { is_expected.to be_json_eql('Activity'.to_json).at_path('_type') }
+        it_behaves_like 'property', :_type do
+          let(:value) { 'Activity::Comment' }
+        end
       end
 
-      context 'if notes and changes are empty' do
+      context 'with empty notes' do
+        let(:notes) { '' }
+
+        it_behaves_like 'property', :_type do
+          let(:value) { 'Activity' }
+        end
+      end
+
+      context 'with empty notes and empty changes' do
         let(:notes) { '' }
         let(:changes) { {} }
 
-        it { is_expected.to be_json_eql('Activity::Comment'.to_json).at_path('_type') }
+        it_behaves_like 'property', :_type do
+          let(:value) { 'Activity::Comment' }
+        end
       end
     end
 
-    it { is_expected.to have_json_type(Object).at_path('_links') }
-    it 'should link to self' do
-      expect(subject).to have_json_path('_links/self/href')
+    describe 'id' do
+      it_behaves_like 'property', :id do
+        let(:value) { journal.id }
+      end
     end
 
-    it { is_expected.to have_json_path('id') }
-    it { is_expected.to have_json_path('version') }
+    describe 'createdAt' do
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { journal.created_at }
+        let(:json_path) { 'createdAt' }
+      end
+    end
 
-    it_behaves_like 'has UTC ISO 8601 date and time' do
-      let(:date) { journal.created_at }
-      let(:json_path) { 'createdAt' }
+    describe 'version' do
+      it_behaves_like 'property', :version do
+        let(:value) { journal.version }
+      end
     end
 
     describe 'comment' do
@@ -115,7 +130,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
 
       it { is_expected.to have_json_size(journal.details.count).at_path('details') }
 
-      it 'should render all details as formattable' do
+      it 'renders all details as formattable' do
         (0..journal.details.count - 1).each do |x|
           is_expected.to be_json_eql('custom'.to_json).at_path("details/#{x}/format")
           is_expected.to have_json_path("details/#{x}/raw")
@@ -123,33 +138,45 @@ describe ::API::V3::Activities::ActivityRepresenter do
         end
       end
     end
+  end
 
-    it 'should link to work package' do
-      expect(subject).to have_json_path('_links/workPackage/href')
+  describe '_links' do
+    describe 'self' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.activity journal.id }
+      end
     end
 
-    it 'should link to user' do
-      expect(subject).to have_json_path('_links/user/href')
+    describe 'workPackage' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'workPackage' }
+        let(:href) { api_v3_paths.work_package work_package.id }
+        let(:title) { work_package.subject }
+      end
     end
 
-    it 'should link to update' do
-      expect(subject).to have_json_path('_links/update/href')
+    describe 'user' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'user' }
+        let(:href) { api_v3_paths.user other_user.id }
+      end
     end
 
-    context 'for a non own journal' do
-      context 'when having edit_work_package_notes' do
-        it 'should link to update' do
-          expect(subject).to have_json_path('_links/update/href')
-        end
+    describe 'update' do
+      let(:link) { 'update' }
+      let(:href) { api_v3_paths.activity(journal.id) }
+
+      it_behaves_like 'has an untitled link'
+
+      context 'with a non own journal having edit_work_package_notes permission' do
+        it_behaves_like 'has an untitled link'
       end
 
-      context 'when only having edit_own_work_package_notes' do
+      context 'with a non own journal having only edit_own work_package_notes permission' do
         let(:permissions) { %i(edit_own_work_package_notes) }
 
-        it 'has no update link' do
-          expect(subject)
-            .not_to have_json_path('_links/update/href')
-        end
+        it_behaves_like 'has no link'
       end
     end
   end

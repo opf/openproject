@@ -23,4 +23,4 @@ With the App Appliance you can easily deploy your own OpenProject server in a vi
 2. Install OpenProject via Univention App Center
 3. Add user accounts
 
-<a href="https://www.univention.com/appid/openproject"> <img alt="Available in Univention App Center" src="https://www.univention.de/wp-content/uploads/2016/03/download_f_univention_app_center_logo.svg" width="200" height="65"/></a>
+[![Available in Univention App Center](logo_uac_final.svg)](https://www.univention.com/appid/openproject)

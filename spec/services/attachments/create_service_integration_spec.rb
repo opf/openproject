@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe Attachments::CreateService, 'integration' do
+describe Attachments::CreateService, 'integration', with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { FactoryBot.create(:user) }
   let(:description) { 'a fancy description' }
 

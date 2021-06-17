@@ -12,7 +12,7 @@ API endpoints from within the browser.
 
 ## Cross-Origin Resource Sharing (CORS)
 
-To enable CORS headers being returned by the [OpenProject APIv3](https://docs.openproject.org/api/),
+To enable CORS headers being returned by the [OpenProject APIv3](../../../api/),
 enable the check box on this page.
 
 You will then have to enter the allowed values for the Origin header that OpenProject will allow access to.

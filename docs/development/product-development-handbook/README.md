@@ -47,9 +47,9 @@ The specification phase may not be necessary for bug fixes, minor design changes
 The [OpenProject Wish List](https://community.openproject.com/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
 
 Requirements should be captured as a **Feature** or **Epic** (for larger features which we can be broken down into smaller features) and focus on describing the customer’s problem rather than jumping ahead to a solution.
-For a guideline on how to report feature requests, refer to the [Feature request guideline](https://docs.openproject.org/development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
+For a guideline on how to report feature requests, refer to the [Feature request guideline](../../development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
 
-**Bugs** should be reported separately and be assigned to the [Bug backlog](https://docs.openproject.org/development/report-a-bug/).
+**Bugs** should be reported separately and be assigned to the [Bug backlog](../../development/report-a-bug/).
 
 
 
@@ -64,7 +64,7 @@ For a guideline on how to report feature requests, refer to the [Feature request
 
 In regular intervals (e.g. once a week), PMs screen the requirements added to the Wish List and evaluate them:
 
-1. PM adjusts feature requests to a common format (see [Feature Request guideline](https://docs.openproject.org/development/submit-feature-idea/)). 
+1. PM adjusts feature requests to a common format (see [Feature Request guideline](../../development/submit-feature-idea/)). 
 2. PM rejects duplicated feature requests with a reference to the original feature requests.
 3. PM sets RICE values and a RICE score for feature requests.
 4. PM creates an Opportunity Canvas for requirements with a moderate to high level of uncertainty (> 80%) or for large requirements (effort > 1 week).

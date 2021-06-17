@@ -42,7 +42,8 @@ describe WorkPackage, type: :model do
                         project_id: project.id,
                         type: type,
                         description: 'Description',
-                        priority: priority)
+                        priority: priority,
+                        status: status)
     end
     let(:current_user) { FactoryBot.create(:user) }
 
@@ -96,7 +97,7 @@ describe WorkPackage, type: :model do
       it { expect(Journal.all.count).to eq(1) }
     end
 
-    context 'different newlines' do
+    context 'different newlines', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:description) { "Description\n\nwith newlines\n\nembedded" }
       let(:changed_description) { description.gsub("\n", "\r\n") }
       let!(:work_package_1) do
@@ -153,7 +154,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'on work package change' do
+    context 'on work package change', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:parent_work_package) do
         FactoryBot.create(:work_package,
                           project_id: project.id,
@@ -270,7 +271,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'attachments' do
+    context 'attachments', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:attachment) { FactoryBot.build :attachment }
       let(:attachment_id) { "attachments_#{attachment.id}" }
 
@@ -312,7 +313,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    context 'custom values' do
+    context 'custom values', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:custom_field) { FactoryBot.create :work_package_custom_field }
       let(:custom_value) do
         FactoryBot.build :custom_value,
@@ -456,6 +457,147 @@ describe WorkPackage, type: :model do
           .to eql(work_package.reload.updated_at)
       end
     end
+
+    context 'updated within aggregation time' do
+      subject(:journals) { work_package.journals }
+
+      let(:current_user) { user1 }
+
+      let(:notes) { nil }
+      let(:user1) { FactoryBot.create(:user) }
+      let(:user2) { FactoryBot.create(:user) }
+      let(:new_status) { FactoryBot.build(:status) }
+      let(:changes) do
+        {
+          status: new_status,
+          journal_notes: notes
+        }.compact
+      end
+
+      before do
+        login_as(new_author)
+
+        work_package.attributes = changes
+        work_package.save!
+      end
+
+      context 'by author of last change' do
+        let(:new_author) { user1 }
+
+        it 'leads to a single journal' do
+          expect(subject.count).to eql 1
+        end
+
+        it 'is the initial journal' do
+          expect(subject.first.initial?).to be_truthy
+        end
+
+        it 'contains the changes of both updates with the later overwriting the former' do
+          expect(subject.first.data.status_id)
+            .to eql changes[:status].id
+
+          expect(subject.first.data.type_id)
+            .to eql work_package.type_id
+        end
+
+        context 'with a comment' do
+          let(:notes) { 'This is why I changed it.' }
+
+          it 'leads to a single journal with the comment' do
+            expect(subject.count).to eql 1
+            expect(subject.first.notes)
+              .to eql notes
+          end
+
+          context 'when adding a second comment' do
+            let(:second_notes) { 'Another comment, unrelated to the first one.' }
+
+            before do
+              work_package.add_journal(new_author, second_notes)
+              work_package.save!
+            end
+
+            it 'returns two journals' do
+              expect(subject.count).to eql 2
+              expect(subject.first.notes).to eql notes
+              expect(subject.second.notes).to eql second_notes
+            end
+
+            it 'has one initial journal and one non-initial journal' do
+              expect(subject.first.initial?).to be_truthy
+              expect(subject.second.initial?).to be_falsey
+            end
+          end
+
+          context 'when adding another change without comment' do
+            before do
+              work_package.reload # need to update the lock_version, avoiding StaleObjectError
+              changes = { subject: 'foo' }
+
+              work_package.attributes = changes
+              work_package.save!
+            end
+
+            it 'leads to a single journal with the comment of the replaced journal and the state of the second' do
+              expect(subject.count).to eql 1
+
+              expect(subject.first.notes)
+                .to eql notes
+
+              expect(subject.first.data.subject)
+                .to eql 'foo'
+            end
+          end
+        end
+      end
+
+      context 'by a different author' do
+        let(:new_author) { user2 }
+
+        it 'leads to two journals' do
+          expect(subject.count).to eql 2
+          expect(subject.first.user)
+            .to eql current_user
+
+          expect(subject.second.user)
+            .to eql new_author
+
+          expect(subject.second.get_changes)
+            .to eql("status_id" => [status.id, new_status.id])
+        end
+      end
+    end
+
+    context 'updated after aggregation timeout expired', with_settings: { journal_aggregation_time_minutes: 1 } do
+      subject(:journals) { work_package.journals }
+
+      before do
+        work_package.journals.last.update_columns(created_at: Time.now - 2.minutes,
+                                                  updated_at: Time.now - 2.minutes)
+
+        work_package.status = FactoryBot.build(:status)
+        work_package.save!
+      end
+
+      it 'creates a new journal' do
+        expect(journals.count).to eql 2
+      end
+    end
+
+    context 'updating with aggregation disabled', with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:journals) { work_package.journals }
+
+      context 'WP updated within milliseconds' do
+        before do
+          work_package.status = FactoryBot.build(:status)
+          work_package.save!
+        end
+
+        it 'creates a new journal' do
+          expect(journals.count).to eql 2
+        end
+      end
+    end
   end
 
   context 'on #destroy' do
@@ -489,7 +631,7 @@ describe WorkPackage, type: :model do
     end
 
     it 'removes the journal data' do
-      expect(Journal::WorkPackageJournal.find_by(journal_id: journal.id))
+      expect(Journal::WorkPackageJournal.find_by(id: journal.data_id))
         .to be_nil
     end
 

@@ -14,7 +14,7 @@ All the script needs is docker to be installed. It will start containers as requ
 
 ### Create a backup
 
-First, you will need to create a backup to get the MySQL database dump. Please see our separate guide on [Backing up](https://docs.openproject.org/installation-and-operations/operation/backing-up/). In a packaged installation, the following command will output a full backup to `/var/db/openproject/backup`:
+First, you will need to create a backup to get the MySQL database dump. Please see our separate guide on [Backing up](../../operation/backing-up/). In a packaged installation, the following command will output a full backup to `/var/db/openproject/backup`:
 
 ```bash
 openproject run backup
@@ -55,7 +55,7 @@ To upgrade OpenProject and use this dump, you have two options:
 
 ### Upgrading your existing installation
 
-You can simply upgrade your package first and then switch to a PostgreSQL database. You will basically have to follow our [Upgrading guide](https://docs.openproject.org/installation-and-operations/operation/upgrading/).
+You can simply upgrade your package first and then switch to a PostgreSQL database. You will basically have to follow our [Upgrading guide](../../operation/upgrading/).
 
 1. Upgrade the package according to the upgrade guide. Switch to the current stable package repository, and let your package manager upgrade the openproject package
 
@@ -75,15 +75,15 @@ You can simply upgrade your package first and then switch to a PostgreSQL databa
 
 The alternative option is to remove your current installation, upgrade the newest package and configure a PostgreSQL database. This will ensure the package wizard will install and maintain a PostgreSQL database for you.
 
-Remove your OpenProject installation, follow our ["Migrate to a different environment"](https://docs.openproject.org/installation-and-operations/misc/migration/) guide to install OpenProject on a new server and then restore the backup you made earlier, replacing the old database backup with the migrated PostgreSQL dump file.
+Remove your OpenProject installation, follow our ["Migrate to a different environment"](../../misc/migration/) guide to install OpenProject on a new server and then restore the backup you made earlier, replacing the old database backup with the migrated PostgreSQL dump file.
 
 The steps for this option is as follows:
 
 1. Remove OpenProject with your package manager, e.g., `sudo apt remove openproject` on Debian/Ubuntu systems.
 
-2. Use our [packaged installation guide](https://docs.openproject.org/installation-and-operations/installation/packaged/) for your distribution to install the newest version
+2. Use our [packaged installation guide](../../installation/packaged/) for your distribution to install the newest version
 
-3. From your backup, restore the configuration and attachment files ([See our restoring guide](https://docs.openproject.org/installation-and-operations/operation/restoring/) for more information):
+3. From your backup, restore the configuration and attachment files ([See our restoring guide](../../operation/restoring/) for more information):
 
    ​	`tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/`
 

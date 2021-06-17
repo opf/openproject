@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe Attachments::DeleteService, 'integration' do
+describe Attachments::DeleteService, 'integration', with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:call) { described_class.new(model: attachment, user: user).call }
 
   let(:user) do

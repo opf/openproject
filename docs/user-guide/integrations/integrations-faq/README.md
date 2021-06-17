@@ -25,4 +25,4 @@ For Enterprise cloud please contact support to have it activated in your instanc
 
 ## Can I migrate or synchronize boards from e.g. MS Project to OpenProject?
 
-You can synchronize the work packages in your board using the [Excel synchronization](../Excel Synchronization). However, the boards themselves (the structure you built) can't be synced.
+You can synchronize the work packages in your board using the [Excel synchronization](../excel-synchronization). However, the boards themselves (the structure you built) can't be synced.

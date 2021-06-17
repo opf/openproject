@@ -110,5 +110,5 @@ i.e. `https://example.com`)
 By default, the OpenProject API is _not_ responding with any CORS headers.
 If you want to allow cross-domain AJAX calls against your OpenProject instance, you need to enable CORS headers being returned.
 
-Please see [our API settings documentation](https://docs.openproject.org/system-admin-guide/system-settings/api-settings/) on
+Please see [our API settings documentation](../../../system-admin-guide/system-settings/api-settings/) on
 how to selectively enable CORS.

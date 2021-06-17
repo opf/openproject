@@ -14,19 +14,19 @@ keywords: Excel
 
 See how to set up the synchronization between OpenProject work packages and MS Excel.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Excel-synchronization-1.-download-and-upload.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Excel-synchronization-1.-download-and-upload.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Synchronize custom queries (views)
 
 See how to synchronize custom work package queries from OpenProject in MS Excel.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Excel-Synchronization-2.-custom-queries.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Excel-Synchronization-2.-custom-queries.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Synchronize hierarchies
 
 See how to synchronize work package hierarchies in OpenProject with MS Excel.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Excel-synchronization-3.-hierarchies.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Excel-synchronization-3.-hierarchies.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 
 ## Step-by-step guide
@@ -76,7 +76,7 @@ See how to synchronize work package hierarchies in OpenProject with MS Excel.
 
 Additionally, you can select as many other columns that should be  synchronized – always by clicking in the header and selecting the drop  down icon which appears next to the regular icon. You will have all  fields available, incl. custom fields.
 
-**Important**: make sure you have all fields that need to be synchronized from your Excel list also available in OpenProject. **Some might be [created beforehand as custom fields](https://docs.openproject.org/system-admin-guide/custom-fields/) in OpenProject.**
+**Important**: make sure you have all fields that need to be synchronized from your Excel list also available in OpenProject. **Some might be [created beforehand as custom fields](../../../system-admin-guide/custom-fields/) in OpenProject.**
  Attributes that do not exist in the selected project within OpenProject  are NOT available in the headline. They cannot be selected in the header (via the drop-down). Neither can you just create a new column with an  attribute that does not exist in OpenProject. This will generate an  error message.
 
 Copy and paste all data accordingly from your existing Excel list to this sheet.
@@ -107,7 +107,7 @@ To add or edit a new parent-child relation, you have two possibilities:
 
 **A)** You can add a child to a work package when you  enter 4 empty spaces (press 4x Shift) before typing the subject of the  child work package.
 
-![insert-children](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2019/01/Insert-children-1024x605.png)
+![insert-children](Insert-children-1024x605.png)
 
 **Expert tip**: it does not have to be empty spaces  (default 4 empty spaces) to separate the next hierarchy. You can also  take a „-“ and for the next hierarchy „—“. But the disadvantage is that  the hyphen will also be displayed in the work package subject. Therefore we recommend the spaces, because they will not appear in OpenProject.
 

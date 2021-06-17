@@ -26,7 +26,7 @@ With RBAC, the application defines a set of roles that users and groups can be i
 
 ## Definition of roles
 
-Roles in OpenProject can be defined in the global administration. If you would read about roles from a user experience, please see the [Roles & Permissions guide](https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions)
+Roles in OpenProject can be defined in the global administration. If you would read about roles from a user experience, please see the [Roles & Permissions guide](../../../system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions)
 
 In the backend, roles are a Rails model  [`Role`](https://github.com/opf/openproject/tree/dev/app/models/role.rb) that holds a set of permissions associated in a `RolePermission` lookup table.
 

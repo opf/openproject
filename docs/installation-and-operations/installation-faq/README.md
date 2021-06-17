@@ -60,7 +60,7 @@ Alternatively, you could install OpenProject on a virtual machine with Internet 
 
 OpenProject has traditionally supported both MySQL and PostgreSQL, but in order to optimize for performance and SQL functionality, it is unfeasible to support both DBMS that are becoming more and more disjunct when trying to use more modern SQL features. This shift has started some years ago when full-text search was added for PostgreSQL, but at the time MySQL did not yet support it - and as of yet many distributions still do not support MySQL 8 natively.
 
-This led us to the path of removing support in the upcoming stable releases of OpenProject in order to focus on these goals. [Please see our blog post on the matter for additional notes](https://www.openproject.org/deprecating-mysql-support/).
+This led us to the path of removing support in the upcoming stable releases of OpenProject in order to focus on these goals. [Please see our blog post on the matter for additional notes](https://www.openproject.org/blog/deprecating-mysql-support/).
 
 ### How can I migrate my existing MySQL database to PostgreSQL ?
 
@@ -83,7 +83,7 @@ Please follow these steps:
 
 The Community Edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
 The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
-If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-edition-guide/activate-enterprise-edition/#order-the-enterprise-on-premises-edition).
+If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
 
 ### How do I get SSL certificates (in case of installation support by OpenProject employee)? Do we have to purchase them?
 

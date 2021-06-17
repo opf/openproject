@@ -262,7 +262,7 @@ class WikiController < ApplicationController
     # don't load text
     @versions = @page
                 .content
-                .versions
+                .journals
                 .select(:id, :user_id, :notes, :created_at, :version)
                 .order(Arel.sql('version DESC'))
                 .page(page_param)

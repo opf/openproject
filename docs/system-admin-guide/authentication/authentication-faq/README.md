@@ -8,7 +8,7 @@ keywords: authentication FAQ, LDAP, SAML, SSO
 ---
 
 # Frequently asked questions (FAQ) for authentication
-Additional information regarding the use of LDAP from a user management perspective can be found [in this FAQ section](../../users-permissions/faq).
+Additional information regarding the use of LDAP from a user management perspective can be found [in this FAQ section](../../users-permissions/users-permissions-faq).
 
 ## How do I set up OAuth / Google authentication in the Enterprise cloud?
 

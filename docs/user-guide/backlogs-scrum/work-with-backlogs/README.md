@@ -114,7 +114,7 @@ The task burndown is calculated from the estimated number of hours necessary to 
 
 The remaining story points per sprint are displayed in the chart. Optionally, the ideal burn-down can be displayed for reference. The ideal burndown assumes a linear completion of story points from the beginning to the end of a sprint.
 
-![Burndown chart graph](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2014/10/17_BurndownChart2.png)
+![Burndown chart graph](17_BurndownChart2.png)
 
 ​    
 

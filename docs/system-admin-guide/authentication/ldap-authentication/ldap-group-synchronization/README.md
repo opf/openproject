@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: LDAP group synchronization
-  Priority:002
+  priority: 002
 description: Synchronize LDAP groups.
 robots: index, follow
 keywords: synchronize ldap groups

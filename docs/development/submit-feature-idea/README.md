@@ -66,4 +66,4 @@ keywords: feature requests, ideas, open feature request
 
 ## Example of a feature request
 
-![Feature Request](https://openproject.org/wp-content/uploads/2016/10/FeatureRequest.png "Feature Request")
+![Feature Request](FeatureRequest.png "Feature Request")

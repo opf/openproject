@@ -8,7 +8,7 @@ You will likely start working with the OpenProject test suite through our contin
 
 # Continuous testing with Github Actions
 
-As part of the [development flow at OpenProject](https://docs.openproject.org/development/#development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on Github Actions. You will see the results as a status on your pull request. Successful test suite runs are one requirement to see your changes merged.
+As part of the [development flow at OpenProject](../../development/#development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on Github Actions. You will see the results as a status on your pull request. Successful test suite runs are one requirement to see your changes merged.
 
 A failing status will look like the following on your pull request. You may need to click *Show all checks* to expand all checks to see the details link.
 

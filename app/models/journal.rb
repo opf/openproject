@@ -34,7 +34,6 @@ class Journal < ApplicationRecord
   include ::JournalChanges
   include ::JournalFormatter
   include ::Acts::Journalized::FormatHooks
-  include ::Journal::Scopes::AggregatedJournal
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
@@ -46,11 +45,10 @@ class Journal < ApplicationRecord
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
+  belongs_to :data, polymorphic: true, dependent: :destroy
 
   has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
   has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
-
-  before_destroy :destroy_data
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
@@ -99,10 +97,6 @@ class Journal < ApplicationRecord
     details[prop].first if details.keys.include? prop
   end
 
-  def data
-    @data ||= "Journal::#{journable_type}Journal".constantize.find_by(journal_id: id)
-  end
-
   def previous
     predecessor
   end
@@ -112,10 +106,6 @@ class Journal < ApplicationRecord
   end
 
   private
-
-  def destroy_data
-    data&.destroy
-  end
 
   def predecessor
     @predecessor ||= self.class

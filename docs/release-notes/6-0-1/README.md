@@ -21,7 +21,7 @@ Still, linking to these pages was possible with either the original
 title (e.g., ‘\[\[Title with spaces\]\]’), or the processed title (e.g.,
 ‘\[\[title\_with\_spaces\]\]’).  
 Starting
-with [OpenProject 6.0.0](https://www.openproject.org/openproject-6-0-released/), titles
+with [OpenProject 6.0.0](https://www.openproject.org/blog/openproject-6-0-released/), titles
 were allowed to contain arbitrary characters and were linked to using
 escaped links.
 ([\#20151](https://community.openproject.com/work_packages/20151/activity)).  
@@ -84,7 +84,7 @@ automatically.
   - Several accessibility improvements.
 
 Thanks a lot to Guillaume Ferry and Willy Gardiol for [reporting
-bugs](https://www.openproject.org/development/report-a-bug/).
+bugs](../../development/report-a-bug/).
 
 For further information on the release, please refer to the [Changelog
 v.6.0.1](https://community.openproject.com/versions/807) or take a look

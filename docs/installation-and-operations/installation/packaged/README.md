@@ -75,7 +75,7 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Ubuntu 18.04
 
@@ -279,7 +279,7 @@ OpenProject comes in two editions:
 
 * the BIM edition, which is specifically target at the construction industry.
 
-![select-edition](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/select-edition.png)
+![select-edition](select-edition.png)
 
 You can find more about the BIM edition on [this page](https://www.openproject.org/bim-project-management/).
 
@@ -298,7 +298,7 @@ On older distributions, this wizard step won't be displayed, and the installatio
 
 OpenProject requires a PostgreSQL database to store your data. This wizard step allows you to choose an option for the PostgreSQL database connection: 
 
-![01-postgres](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/01-postgres.png)
+![01-postgres](01-postgres.png)
 
 The dialog allows you to choose from three options:
 
@@ -328,7 +328,7 @@ OpenProject comes with an internal ruby application server, but this server only
 
 This wizard step allows you to auto-install an Apache2 web server to function as that proxy.
 
-![02a-apache](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02a-apache.png)
+![02a-apache](02a-apache.png)
 
 The available options are:
 
@@ -342,13 +342,13 @@ In case you select to auto-install Apache2, multiple dialogs will request the pa
 
 Enter the fully qualified domain where your OpenProject installation will be reached at. This will become the `ServerName` of your apache VirtualHost and is also used to generate full links from OpenProject, such as in emails.
 
-![02b-hostname](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02b-hostname.png)
+![02b-hostname](02b-hostname.png)
 
 **Server path prefix**
 
 If you wish to install OpenProject under a server path prefix, such as `yourdomain.example.com/openproject`, please specify that prefix here with a leading slash. For example: `/openproject`. If OpenProject should respond to `http(s)://yourdomain.example.com` as specified in the previous dialog, simply leave this dialog empty and confirm by pressing `ENTER`.
 
-![02c-prefix](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02c-prefix.png)
+![02c-prefix](02c-prefix.png)
 
 **SSL/TLS configuration**
 
@@ -360,7 +360,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 2. The absolute SSL private key path
 3. The path to the Certificate Authority bundle for the certificate (optional, leave empty unless needed)
 
-![02d-ssl](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02d-ssl.png)
+![02d-ssl](02d-ssl.png)
 
 
 
@@ -401,15 +401,15 @@ When installing with an existing Apache2, you can take a look at the source of o
 
 If you have selected to auto-install an Apache2 web server, you will be asked whether you want to install Git and Subversion repository support. In case you do not need it or when in doubt, choose **Skip** for both options.
 
-For more information, [see our help on repositories](https://www.openproject.org/help/repository/)
+For more information, [see our help on repositories](../../../user-guide/repository/)
 
-![03-repos](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/03-repos.png)
+![03-repos](03-repos.png)
 
 ## Step 5: Outgoing email configuration
 
 OpenProject requires a setup for sending outgoing emails for notifications, such as updates on work packages, password resets, or other notifications you and your users receive.
 
-![04-mail](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/04-mail.png)
+![04-mail](04-mail.png)
 
 The wizard supports the following options:
 
@@ -425,19 +425,19 @@ Allows you to connect to a SMTP host through authentication types `NONE`,  `PLAI
 
 ### **Skip** (not recommended)
 
-Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](https://www.openproject.org/help/system-settings/email-notification-settings/).
+Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](../../../system-admin-guide/system-settings/).
 
 ## Step 6: Administrator email
 
 The wizard will ask you for an administrative email address so that it can create the administrator account with that email for the initial login. Enter your email address to have it tied to the admin account.
 
-![05-admin](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/05-admin.png)
+![05-admin](05-admin.png)
 
 ## Step 7: Memcached server
 
 OpenProject heavily relies on caching, which is why the wizard suggests you to install a local memcached server the OpenProject instances can connect to. You should always set this to `install` unless you have a reason to configure another caching mechanism - for example when configuring multiple shared instances of OpenProject.
 
-![06-cache](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/06-cache.png)
+![06-cache](06-cache.png)
 
 ## Result
 
