@@ -2,59 +2,51 @@ import { Injectable } from '@angular/core';
 import { ID } from '@datorama/akita';
 import { InAppNotification } from './in-app-notification.model';
 import { InAppNotificationsStore } from './in-app-notifications.store';
-import { timer } from "rxjs";
+import { forkJoin, Observable, timer } from "rxjs";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { map, switchMap } from "rxjs/operators";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
+import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/store/in-app-notifications.query";
+import { take } from "rxjs/internal/operators/take";
 
 @Injectable({ providedIn: 'root' })
 export class InAppNotificationsService {
 
   constructor(
-    private store:InAppNotificationsStore
+    private store:InAppNotificationsStore,
+    private query:InAppNotificationsQuery,
+    private apiV3Service:APIV3Service,
+    private notifications:NotificationsService,
   ) {
   }
 
   get():void {
-    timer(2000)
-      .subscribe(() => this.add({
-        id: 1,
-        date: '5 minutes ago',
-        message: 'The following work package was assigned to you: Task #1234: Deploy new website',
-        reason: 'assigned',
-        details: [
-          'Assignee set to Oliver Günther',
-          'Due date changed from 2021-08-01 to 2021-06-16'
-        ],
-        _links: {
-          project: { href: '/api/v3/projects/1', title: 'My website project' },
-          resource: { href: '/api/v3/work_packages/1234', title: 'Task #1234: Deploy new website' }
-        }
-      }));
+    this.store.setLoading(true);
+    this
+      .apiV3Service
+      .events
+      .list()
+      .subscribe(
+        events => {
+          this.store.set(events._embedded.elements);
+        },
+        error => {
+          this.notifications.addError(error);
+        },
+      )
+      .add(
+        () => this.store.setLoading(false)
+      );
+  }
 
-    timer(50000)
-      .subscribe(() => this.add({
-        id: 2,
-        message: 'You have been mentioned in work package Task #1234: Deploy new website',
-        date: '3 minutes ago',
-        reason: 'mentioned',
-        details: [
-          'Wieland Lindenthal wrote: Hi @Oliver Günther, can you please take a look at this one?',
-        ],
-        _links: {
-          project: { href: '/api/v3/projects/1', title: 'My website project' },
-          resource: { href: '/api/v3/work_packages/1234', title: 'Task #1234: Deploy new website' }
-        }
-      }));
-
-    timer(10000)
-      .subscribe(() => this.add({
-        id: 3,
-        date: '1 minute ago',
-        message: 'The following work package was assigned to you: Bug #5432: Fix styling issues new website',
-        reason: 'assigned',
-        _links: {
-          project: { href: '/api/v3/projects/1', title: 'My website project' },
-          resource: { href: '/api/v3/work_packages/1234', title: 'Bug #5432: Fix styling issues new website' }
-        }
-      }));
+  count$():Observable<number> {
+    return this
+      .apiV3Service
+      .events
+      .unread({ pageSize: 0 })
+      .pipe(
+        map(events => events.total)
+      );
   }
 
   add(inAppNotification:InAppNotification):void {
@@ -69,7 +61,19 @@ export class InAppNotificationsService {
     this.store.remove(id);
   }
 
-  markAllRead() {
-    this.store.update(null, { read: true });
+  markAllRead():void {
+    this.query
+      .unread$
+      .pipe(
+        take(1),
+        switchMap(events =>
+          forkJoin(
+            events.map(event => this.apiV3Service.events.id(event.id).markRead())
+          )
+        )
+      )
+      .subscribe(() => {
+        this.store.update(null, { read: true });
+      });
   }
 }

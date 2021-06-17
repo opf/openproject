@@ -7,7 +7,7 @@ export interface HalResourceLink {
 
 export interface InAppNotification {
   id:ID;
-  message:string;
+  subject:string;
   date:string;
   reason:string;
   read?:boolean;

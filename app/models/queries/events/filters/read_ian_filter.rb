@@ -28,6 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Events::Filters::RecipientFilter < Queries::Events::Filters::EventFilter
-  include Queries::Filters::Shared::UserStatusFilter
+class Queries::Events::Filters::ReadIanFilter < Queries::Events::Filters::EventFilter
+  include Queries::Filters::Shared::BooleanFilter
+
+  def self.key
+    :read_ian
+  end
 end

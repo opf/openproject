@@ -7,15 +7,12 @@ import { InAppNotification } from "core-app/features/in-app-notifications/store/
   styleUrls: ['./in-app-notification-entry.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InAppNotificationEntryComponent implements OnInit {
+export class InAppNotificationEntryComponent {
   @Input() notification:InAppNotification;
 
   expanded = false;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   toggleDetails() {
     this.expanded = !this.expanded;

@@ -30,7 +30,7 @@ import { CollectionResource } from "core-app/features/hal/resources/collection-r
 import { Observable } from "rxjs";
 import { ApiV3FilterBuilder, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
-export type ApiV3ListFilter = [string, FilterOperator, string[]];
+export type ApiV3ListFilter = [string, FilterOperator, boolean|string[]];
 
 export interface Apiv3ListParameters {
   filters?:ApiV3ListFilter[];

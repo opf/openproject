@@ -3,8 +3,13 @@ import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/
 import { InAppNotificationsService } from "core-app/features/in-app-notifications/store/in-app-notifications.service";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { InAppNotificationCenterComponent } from "core-app/features/in-app-notifications/center/in-app-notification-center.component";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { interval } from "rxjs";
+import { filter, startWith, switchMap } from "rxjs/operators";
+import { ActiveWindowService } from "core-app/core/active-window/active-window.service";
 
 export const opInAppNotificationBellSelector = 'op-in-app-notification-bell';
+const POLLING_INTERVAL = 10000;
 
 @Component({
   selector: opInAppNotificationBellSelector,
@@ -12,14 +17,19 @@ export const opInAppNotificationBellSelector = 'op-in-app-notification-bell';
   styleUrls: ['./in-app-notification-bell.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationBellComponent implements OnInit {
+export class InAppNotificationBellComponent {
+  unreadCount$ = interval(POLLING_INTERVAL)
+    .pipe(
+      startWith(0),
+      filter(() => this.activeWindow.isActive),
+      switchMap(() => this.inAppService.count$()),
+      filter(count => count > 0)
+    );
+
   constructor(readonly inAppQuery:InAppNotificationsQuery,
               readonly inAppService:InAppNotificationsService,
+              readonly activeWindow:ActiveWindowService,
               readonly modalService:OpModalService) {
-  }
-
-  ngOnInit():void {
-    this.inAppService.get();
   }
 
   openCenter(event:MouseEvent) {

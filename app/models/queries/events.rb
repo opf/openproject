@@ -30,7 +30,7 @@
 
 module Queries::Events
   Queries::Register.filter Queries::Events::EventQuery,
-                           Queries::Events::Filters::RecipientFilter
+                           Queries::Events::Filters::ReadIanFilter
 
   Queries::Register.order Queries::Events::EventQuery,
                           Queries::Events::Orders::DefaultOrder
