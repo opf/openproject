@@ -29,7 +29,7 @@
 #++
 require 'spec_helper'
 
-describe Notifications::JournalWpMailService do
+describe Notifications::JournalWpMailService, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:author) do

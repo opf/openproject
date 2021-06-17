@@ -37,13 +37,7 @@ class Mails::WorkPackageJob < Mails::DeliverJob
   end
 
   def render_mail(recipient:, sender:)
-    return nil unless raw_journal # abort, assuming that the underlying WP was deleted
-
-    journal = Journal::AggregatedJournal.with_version(raw_journal)
-
-    # The caller should have ensured that the journal can't outdate anymore
-    # before queuing a notification
-    raise 'aggregated journal got outdated' unless journal
+    return nil unless journal # abort, assuming that the underlying WP was deleted
 
     if journal.initial?
       UserMailer.work_package_added(recipient, journal, sender)
@@ -54,11 +48,11 @@ class Mails::WorkPackageJob < Mails::DeliverJob
 
   private
 
-  def raw_journal
-    @raw_journal ||= Journal.find_by(id: @journal_id)
+  def journal
+    @journal ||= Journal.find_by(id: @journal_id)
   end
 
   def work_package
-    @work_package ||= raw_journal.journable
+    @work_package ||= journal.journable
   end
 end

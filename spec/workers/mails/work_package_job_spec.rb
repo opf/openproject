@@ -55,7 +55,7 @@ describe Mails::WorkPackageJob, type: :model do
   it 'sends a mail' do
     expect(UserMailer)
       .to receive(:work_package_added)
-      .with(recipient, an_instance_of(Journal::AggregatedJournal), author)
+      .with(recipient, an_instance_of(Journal), author)
     subject
   end
 
@@ -114,8 +114,8 @@ describe Mails::WorkPackageJob, type: :model do
       subject
     end
 
-    it 'sends a mail for the aggregated journal' do
-      expected = Journal::AggregatedJournal.aggregated_journals(journable: work_package).last
+    it 'sends a mail for the journal' do
+      expected = Journal.last
       expect(UserMailer).to receive(:work_package_updated) do |_recipient, journal, _author|
         expect(journal.id).to eq expected.id
         expect(journal.notes_id).to eq expected.notes_id

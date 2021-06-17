@@ -43,10 +43,6 @@ module API
             end
 
             helpers do
-              def aggregated_activity(activity)
-                Journal::AggregatedJournal.containing_journal(activity)
-              end
-
               def save_activity(activity)
                 unless activity.save
                   fail ::API::Errors::ErrorBase.create_and_merge_errors(activity.errors)
@@ -60,7 +56,7 @@ module API
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: ::Journal,
                                                            api_name: 'Activity',
-                                                           instance_generator: ->(*) { aggregated_activity(@activity) })
+                                                           instance_generator: ->(*) { @activity })
                                                       .mount
 
             params do
@@ -73,7 +69,7 @@ module API
               @activity.notes = declared_params[:comment]
               save_activity(@activity)
 
-              ActivityRepresenter.new(aggregated_activity(@activity), current_user: current_user)
+              ActivityRepresenter.new(@activity, current_user: current_user)
             end
           end
         end

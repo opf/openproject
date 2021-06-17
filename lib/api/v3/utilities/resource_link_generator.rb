@@ -55,7 +55,7 @@ module API
               :priority
             when AnonymousUser, DeletedUser, SystemUser
               :user
-            when Journal, Journal::AggregatedJournal
+            when Journal
               :activity
             when Changeset
               :revision
