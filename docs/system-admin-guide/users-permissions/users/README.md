@@ -49,7 +49,7 @@ At the top of the user list is a filter box. Filter by status or name, then clic
 
 Handling locking and unlocking of users is also done from the user list. To disable a user's access click the **Lock permanently** link next to a user. Use the **Unlock** link to restore the user's access.
 
-If you are using [Enterprise cloud](../../../cloud-edition-guide) or [Enterprise on-premises](../../../enterprise-edition-guide) locking a user will make a new user available to add to the system within your booked plan.
+If you are using [Enterprise cloud](../../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../../enterprise-guide/enterprise-on-premises-guide) locking a user will make a new user available to add to the system within your booked plan.
 
 <div class="alert alert-info" role="alert">
 **Note**: The previous activities from a locked user will still be displayed in the system.

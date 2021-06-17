@@ -16,7 +16,7 @@ This way you will reduce wrong entries for attributes. This is especially releva
 </div>
 
 <div class="alert alert-info" role="alert">
-**Note**: Attribute help texts are a Premium Feature and can only be used with [Enterprise cloud]( ../../cloud-edition-guide/) or [Enterprise on-premises](../../enterprise-edition-guide/). An upgrade from the free Community Edition is easily possible.
+**Note**: Attribute help texts are a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
 </div>
 
 

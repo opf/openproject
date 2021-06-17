@@ -12,7 +12,7 @@ keywords: sign in, login, registration
 Here you will get an overview how to sign in and register to an existing OpenProject installation.
 
 <div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../cloud-edition-guide/#create-an-openproject-trial-installation).
+**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-an-openproject-trial-installation).
 </div>
 
 
@@ -59,7 +59,7 @@ Then, you are asked to create your OpenProject Account.
 
 If you are using the OpenProject Cloud Edition, you can sign in to your installation directly from the OpenProject website.
 
-Please follow the [instructions in our Cloud Edition guide](../../cloud-edition-guide/#sign-in).
+Please follow the [instructions in our Cloud Edition guide](../../enterprise-guide/enterprise-cloud-guide/#sign-in).
 
 ## Create a new account
 
