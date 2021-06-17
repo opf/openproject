@@ -2374,6 +2374,7 @@ en:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  event_retention_period_days: "Event retention period"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2443,6 +2444,10 @@ en:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    events:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications)
+        will be kept in the system. Any events older than this time will be deleted.
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set,
