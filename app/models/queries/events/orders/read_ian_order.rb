@@ -28,10 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Events::Orders::ReadIamOrder < Queries::BaseOrder
+class Queries::Events::Orders::ReadIanOrder < Queries::BaseOrder
   self.model = Event
 
   def self.key
-    :read_iam
+    :read_ian
   end
 end

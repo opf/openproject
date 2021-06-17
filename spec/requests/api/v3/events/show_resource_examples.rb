@@ -37,7 +37,7 @@ shared_examples 'represents the event' do
       .to(be_json_eql(event.subject.to_json).at_path('subject'))
 
     expect(last_response.body)
-      .to(be_json_eql(event.read_iam.to_json).at_path('readIam'))
+      .to(be_json_eql(event.read_ian.to_json).at_path('readIAN'))
 
     expect(last_response.body)
       .to(be_json_eql(event.read_email.to_json).at_path('readEmail'))

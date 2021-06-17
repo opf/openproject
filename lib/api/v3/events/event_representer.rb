@@ -39,7 +39,8 @@ module API
         property :id
         property :subject
 
-        property :read_iam
+        property :read_ian,
+                 as: :readIAN
         property :read_email
 
         property :reason

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :event do
     subject { "MyText" }
-    read_iam { false }
+    read_ian { false }
     read_email { false }
     reason { :mentioned }
     context { nil }

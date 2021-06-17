@@ -45,6 +45,8 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Event).mount
+
+            post :readIAN
           end
         end
       end

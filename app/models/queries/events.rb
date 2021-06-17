@@ -39,5 +39,5 @@ module Queries::Events
                           Queries::Events::Orders::ReasonOrder
 
   Queries::Register.order Queries::Events::EventQuery,
-                          Queries::Events::Orders::ReadIamOrder
+                          Queries::Events::Orders::ReadIanOrder
 end
