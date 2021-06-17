@@ -42,7 +42,7 @@ At the moment you won't receive emails if the deadline for a work package approa
 
 ## I don't receive work package updates
 
-If you use Community Edition or Enterprise on-premises and your email updates do not work please have a look at [this FAQ](../../../installation-and-operations/faq/#i-dont-receive-emails-test-email-works-fine-but-not-the-one-for-work-package-updates).
+If you use Community Edition or Enterprise on-premises and your email updates do not work please have a look at [this FAQ](../../../installation-and-operations/installation-faq/#i-dont-receive-emails-test-email-works-fine-but-not-the-one-for-work-package-updates).
 
 ## Does my role in a project influence the email notifications I get?
 

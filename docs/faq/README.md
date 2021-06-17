@@ -288,7 +288,7 @@ We will provide a database dump which you can upload into your Enterprise on-pre
 
 ### How can I migrate from Community Edition to Enterprise on-premises?
 
-If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-edition-guide/activate-enterprise-edition/). You can keep your data that you created in the Community Edition.
+If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community Edition.
 
 ### How can I migrate from Enterprise on-premises to Community Edition?
 
