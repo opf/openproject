@@ -110,9 +110,9 @@ Please note that custom fields are not yet supported by the api although the bac
 ## View user [GET]
 
 + Parameters
-  
+
     + id (required, integer or `me`, `1`) ... User id. Use `me` to reference current user, if any.
-  
+
 + Response 200 (application/hal+json)
 
     [View user][]
@@ -217,7 +217,7 @@ Valid values for `status`:
             }
         }
 
-## 
+##
 
 
 
@@ -231,9 +231,9 @@ Updates the user's writable attributes.
 When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
 
 + Parameters
-  
+
     + id (required, integer, `1`) ... User id
-  
+
 + Request Update User (application/json)
 
     + Body
@@ -319,9 +319,9 @@ When calling this endpoint the client provides a single object, containing at le
 Permanently deletes the specified user account.
 
 + Parameters
-  
+
     + id (required, integer, `1`) ... User id
-  
+
 + Response 202
 
     Returned if the account was deleted successfully.
@@ -362,9 +362,9 @@ Permanently deletes the specified user account.
 ## Lock user [POST]
 
 + Parameters
-  
+
     + id (required, integer, `1`) ... User id
-  
+
 + Response 200 (application/hal+json)
 
     [View user][]
@@ -414,9 +414,9 @@ Permanently deletes the specified user account.
 ## Unlock user [DELETE]
 
 + Parameters
-  
+
     + id (required, integer, `1`) ... User id
-  
+
 + Response 200 (application/hal+json)
 
     [View user][]
@@ -723,7 +723,7 @@ The schema response use two exemplary custom fields that extend the schema respo
 
 This endpoint returns a form allowing a guided creation of new users.
 
-For more details and all possible responses see the general specification of [Forms](/api/forms).
+For more details and all possible responses see the general specification of [Forms](/docs/api/forms).
 
 ## Users create form [POST]
 
@@ -977,7 +977,7 @@ For more details and all possible responses see the general specification of [Fo
 This endpoint returns a form allowing a guided modification of existing users.
 The returned payload part of the form will be contain a merge between the already existing properties' values (as long as they are writeable) and the provided values with the later having precedence.
 
-For more details and all possible responses see the general specification of [Forms](/api/forms).
+For more details and all possible responses see the general specification of [Forms](/docs/api/forms).
 
 ## User update form [POST]
 
