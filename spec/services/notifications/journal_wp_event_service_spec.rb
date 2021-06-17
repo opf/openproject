@@ -85,11 +85,11 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     allow(Setting).to receive(:notified_events).and_return(notification_setting)
   end
 
-  shared_examples_for 'sends mail' do
+  shared_examples_for 'creates event' do
     let(:sender) { author }
     let(:event_reason) { :mentioned }
 
-    it 'sends a mail' do
+    it 'creates an event' do
       events_service = instance_double(Events::CreateService)
 
       allow(Events::CreateService)
@@ -109,8 +109,8 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     end
   end
 
-  shared_examples_for 'sends no mail' do
-    it 'sends no mail' do
+  shared_examples_for 'creates no event' do
+    it 'creates no event' do
       allow(Events::CreateService)
         .to receive(:new)
 
@@ -121,14 +121,14 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     end
   end
 
-  it_behaves_like 'sends mail' do
+  it_behaves_like 'creates event' do
     let(:event_reason) { :assigned }
   end
 
   context 'assignee is placeholder user' do
     let(:recipient) { FactoryBot.create :placeholder_user }
 
-    it_behaves_like 'sends no mail'
+    it_behaves_like 'creates no event'
   end
 
   context 'responsible is placeholder user' do
@@ -141,13 +141,13 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
                         type: project.types.first)
     end
 
-    it_behaves_like 'sends no mail'
+    it_behaves_like 'creates no event'
   end
 
   context 'notification for work_package_added disabled' do
     let(:notification_setting) { %w(work_package_updated work_package_note_added) }
 
-    it_behaves_like 'sends no mail'
+    it_behaves_like 'creates no event'
   end
 
   context 'if the journal has a note' do
@@ -156,13 +156,13 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for work_package_updated and work_package_note_added disabled' do
       let(:notification_setting) { %w(work_package_added status_updated work_package_priority_updated) }
 
-      it_behaves_like 'sends no mail'
+      it_behaves_like 'creates no event'
     end
 
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'sends mail' do
+      it_behaves_like 'creates event' do
         let(:event_reason) { :assigned }
       end
     end
@@ -170,7 +170,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for work_package_note_added enabled' do
       let(:notification_setting) { %w(work_package_note_added) }
 
-      it_behaves_like 'sends mail' do
+      it_behaves_like 'creates event' do
         let(:event_reason) { :assigned }
       end
     end
@@ -182,13 +182,13 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for work_package_updated and status_updated disabled' do
       let(:notification_setting) { %w(work_package_added work_package_note_added work_package_priority_updated) }
 
-      it_behaves_like 'sends no mail'
+      it_behaves_like 'creates no event'
     end
 
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'sends mail' do
+      it_behaves_like 'creates event' do
         let(:event_reason) { :assigned }
       end
     end
@@ -196,7 +196,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for status_updated enabled' do
       let(:notification_setting) { %w(status_updated) }
 
-      it_behaves_like 'sends mail' do
+      it_behaves_like 'creates event' do
         let(:event_reason) { :assigned }
       end
     end
@@ -208,13 +208,13 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for work_package_updated and work_package_priority_updated disabled' do
       let(:notification_setting) { %w(work_package_added work_package_note_added status_updated) }
 
-      it_behaves_like 'sends no mail'
+      it_behaves_like 'creates no event'
     end
 
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'sends mail' do
+      it_behaves_like 'creates event' do
         let(:event_reason) { :assigned }
       end
     end
@@ -222,7 +222,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for work_package_priority_updated enabled' do
       let(:notification_setting) { %w(work_package_priority_updated) }
 
-      it_behaves_like 'sends mail' do
+      it_behaves_like 'creates event' do
         let(:event_reason) { :assigned }
       end
     end
@@ -236,7 +236,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
       author.destroy
     end
 
-    it_behaves_like 'sends mail' do
+    it_behaves_like 'creates event' do
       let(:sender) { deleted_user }
       let(:event_reason) { :assigned }
     end
@@ -260,20 +260,20 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     shared_examples_for 'group mention' do
       context 'group member is allowed to view the work package' do
         context 'user wants to receive notifications' do
-          it_behaves_like 'sends mail'
+          it_behaves_like 'creates event'
         end
 
         context 'user disabled notifications' do
           let(:recipient) { FactoryBot.create(:user, mail_notification: User::USER_MAIL_OPTION_NON.first) }
 
-          it_behaves_like 'sends no mail'
+          it_behaves_like 'creates no event'
         end
       end
 
       context 'group is not allowed to view the work package' do
         let(:role) { FactoryBot.create(:role, permissions: []) }
 
-        it_behaves_like 'sends no mail'
+        it_behaves_like 'creates no event'
 
         context 'but group member is allowed individually' do
           let(:recipient) do
@@ -283,7 +283,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
                               member_with_permissions: [:view_work_packages])
           end
 
-          it_behaves_like 'sends mail'
+          it_behaves_like 'creates event'
         end
       end
     end
@@ -295,7 +295,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
             let(:note) { "Hello user:\"#{recipient.login}\"" }
 
             context "that is pretty normal word" do
-              it_behaves_like 'sends mail'
+              it_behaves_like 'creates event'
             end
 
             context "that is an email address" do
@@ -307,14 +307,14 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
                                   login: "foo@bar.com")
               end
 
-              it_behaves_like 'sends mail'
+              it_behaves_like 'creates event'
             end
           end
 
           context "The added text contains a user ID" do
             let(:note) { "Hello user##{recipient.id}" }
 
-            it_behaves_like 'sends mail'
+            it_behaves_like 'creates event'
           end
 
           context "The added text contains a user mention tag in one way" do
@@ -324,7 +324,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
               NOTE
             end
 
-            it_behaves_like 'sends mail'
+            it_behaves_like 'creates event'
           end
 
           context "The added text contains a user mention tag in the other way" do
@@ -334,7 +334,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
               NOTE
             end
 
-            it_behaves_like 'sends mail'
+            it_behaves_like 'creates event'
           end
 
           context "the recipient turned off all mail notifications" do
@@ -349,7 +349,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
               "Hello user:\"#{recipient.login}\", hey user##{recipient.id}"
             end
 
-            it_behaves_like 'sends no mail'
+            it_behaves_like 'creates no event'
           end
         end
 
@@ -363,7 +363,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
             "Hello user:#{recipient.login}, hey user##{recipient.id}"
           end
 
-          it_behaves_like 'sends no mail'
+          it_behaves_like 'creates no event'
         end
       end
 
@@ -457,7 +457,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
       end
     end
 
-    it_behaves_like 'sends no mail'
+    it_behaves_like 'creates no event'
   end
 end
 

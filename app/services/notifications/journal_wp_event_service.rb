@@ -57,8 +57,6 @@ class Notifications::JournalWpEventService
     end
 
     def create_event(journal, recipient_id, reason, user)
-      return unless %i[assigned mentioned].include?(reason)
-
       Events::CreateService
         .new(user)
         .call(recipient_id: recipient_id,

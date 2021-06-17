@@ -44,7 +44,7 @@ module Events
 
       class_name = journable.class.name.underscore
 
-      model.subject = I18n.t("events.#{class_name.pluralize}.subject.#{model  .reason}",
+      model.subject = I18n.t("events.#{class_name.pluralize}.subject.#{model.reason}",
                              **{ class_name.to_sym => journable.to_s })
     end
 
