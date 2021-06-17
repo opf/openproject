@@ -684,7 +684,7 @@ class WorkPackage < ApplicationRecord
   end
 
   def attribute_users
-    related = [author]
+    related = []
 
     [responsible, assigned_to].each do |principal|
       case principal

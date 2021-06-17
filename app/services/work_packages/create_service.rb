@@ -41,8 +41,8 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
   end
 
   def perform(work_package: WorkPackage.new,
-           send_notifications: true,
-           **attributes)
+              send_notifications: true,
+              **attributes)
     in_user_context(send_notifications) do
       create(attributes, work_package)
     end
@@ -66,6 +66,8 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
       update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
         result.merge!(ancestor_result)
       end
+
+      set_user_as_watcher(work_package)
     else
       result.success = false
     end
@@ -95,6 +97,10 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
     end
 
     result
+  end
+
+  def set_user_as_watcher(work_package)
+    work_package.watcher_users << user
   end
 
   def attributes_service_class
