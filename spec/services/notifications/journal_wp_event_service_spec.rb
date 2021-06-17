@@ -87,22 +87,43 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
 
   shared_examples_for 'sends mail' do
     let(:sender) { author }
+    let(:event_reason) { :mentioned }
 
     it 'sends a mail' do
-      expect { call }
-        .to enqueue_job(Mails::WorkPackageJob)
-        .with(journal.id, recipient.id, sender.id)
+      events_service = instance_double(Events::CreateService)
+
+      allow(Events::CreateService)
+        .to receive(:new)
+              .with(sender)
+              .and_return(events_service)
+      allow(events_service)
+        .to receive(:call)
+
+      call
+
+      expect(events_service)
+        .to have_received(:call)
+              .with(recipient_id: recipient.id,
+                    reason: event_reason,
+                    resource: journal)
     end
   end
 
   shared_examples_for 'sends no mail' do
     it 'sends no mail' do
-      expect { call }.to_not enqueue_job(Mails::WorkPackageJob)
+      allow(Events::CreateService)
+        .to receive(:new)
+
       call
+
+      expect(Events::CreateService)
+        .not_to have_received(:new)
     end
   end
 
-  it_behaves_like 'sends mail'
+  it_behaves_like 'sends mail' do
+    let(:event_reason) { :assigned }
+  end
 
   context 'assignee is placeholder user' do
     let(:recipient) { FactoryBot.create :placeholder_user }
@@ -141,13 +162,17 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'sends mail'
+      it_behaves_like 'sends mail' do
+        let(:event_reason) { :assigned }
+      end
     end
 
     context 'notification for work_package_note_added enabled' do
       let(:notification_setting) { %w(work_package_note_added) }
 
-      it_behaves_like 'sends mail'
+      it_behaves_like 'sends mail' do
+        let(:event_reason) { :assigned }
+      end
     end
   end
 
@@ -163,13 +188,17 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'sends mail'
+      it_behaves_like 'sends mail' do
+        let(:event_reason) { :assigned }
+      end
     end
 
     context 'notification for status_updated enabled' do
       let(:notification_setting) { %w(status_updated) }
 
-      it_behaves_like 'sends mail'
+      it_behaves_like 'sends mail' do
+        let(:event_reason) { :assigned }
+      end
     end
   end
 
@@ -185,13 +214,17 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'sends mail'
+      it_behaves_like 'sends mail' do
+        let(:event_reason) { :assigned }
+      end
     end
 
     context 'notification for work_package_priority_updated enabled' do
       let(:notification_setting) { %w(work_package_priority_updated) }
 
-      it_behaves_like 'sends mail'
+      it_behaves_like 'sends mail' do
+        let(:event_reason) { :assigned }
+      end
     end
   end
 
@@ -205,6 +238,7 @@ describe Notifications::JournalWpEventService, with_settings: { journal_aggregat
 
     it_behaves_like 'sends mail' do
       let(:sender) { deleted_user }
+      let(:event_reason) { :assigned }
     end
   end
 

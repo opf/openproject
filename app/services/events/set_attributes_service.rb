@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,8 +26,32 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::WorkPackageJournal < Journal::BaseJournal
-  self.table_name = 'work_package_journals'
+module Events
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
 
-  belongs_to :project
+    def set_default_attributes(params)
+      super
+
+      set_default_subject unless model.subject
+      set_default_context unless model.context
+    end
+
+    def set_default_subject
+      # TODO: Work package journal specific.
+      # Extract into strategy per event resource
+      journable = model.resource.journable
+
+      class_name = journable.class.name.underscore
+
+      model.subject = I18n.t("events.#{class_name.pluralize}.subject.#{model  .reason}",
+                             **{ class_name.to_sym => journable.to_s })
+    end
+
+    def set_default_context
+      # TODO: Work package journal specific.
+      # Extract into strategy per event resource
+      model.context = model.resource.data.project
+    end
+  end
 end

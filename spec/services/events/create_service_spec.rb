@@ -28,8 +28,31 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::WorkPackageJournal < Journal::BaseJournal
-  self.table_name = 'work_package_journals'
+require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
-  belongs_to :project
+describe Events::CreateService, type: :model do
+  it_behaves_like 'BaseServices create service' do
+    let(:call_attributes) do
+      {}
+    end
+
+    context 'when successful' do
+      it 'schedules an event notification job' do
+        expect { subject }
+          .to have_enqueued_job(Mails::EventJob)
+               .with({ "_aj_globalid" => "gid://open-project/Event/#{model_instance.id}" },
+                     { "_aj_globalid" => "gid://open-project/User/#{user.id}" })
+      end
+    end
+
+    context 'when unsuccessful' do
+      let(:model_save_result) { false }
+
+      it 'schedules no job' do
+        expect { subject }
+          .not_to have_enqueued_job(Mails::EventJob)
+      end
+    end
+  end
 end

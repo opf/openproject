@@ -52,28 +52,18 @@ class Notifications::JournalWpEventService
       author = User.find_by(id: journal.user_id) || DeletedUser.first
 
       notification_receivers(journal.journable, journal) do |recipient_id, reason|
-        create_event(journal, recipient_id, reason)
-
-        Mails::WorkPackageJob
-          .set(wait_until: 1.minute.from_now)
-          .perform_later(journal.id, recipient_id, author.id)
+        create_event(journal, recipient_id, reason, author)
       end
     end
 
-    def create_event(journal, recipient_id, reason)
+    def create_event(journal, recipient_id, reason, user)
       return unless %i[assigned mentioned].include?(reason)
 
-      work_package = journal.journable
-      subject = I18n.t("events.work_packages.subject.#{reason}", work_package: work_package.to_s)
-
-      # TODO we need the actual journal due to the polymorphic reference, but it's private for aggregated journals
-      resource = journal.respond_to?(:journal, true) ? journal.send(:journal) : journal
-
-      Event.create recipient_id: recipient_id,
-                   reason: reason,
-                   resource: resource,
-                   subject: subject,
-                   context: work_package.project
+      Events::CreateService
+        .new(user)
+        .call(recipient_id: recipient_id,
+              reason: reason,
+              resource: journal)
     end
 
     def notification_receivers(work_package, journal)
@@ -88,7 +78,7 @@ class Notifications::JournalWpEventService
       work_package.recipients.each do |user|
         next if seen.include?(user.id)
 
-        reason = user.is_or_belongs_to?(work_package.assigned_to) ? :assigned : :notified
+        reason = user.is_or_belongs_to?(work_package.assigned_to) ? :assigned : :subscribed
         yield(user.id, reason)
         seen << user.id
       end

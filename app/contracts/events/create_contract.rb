@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,8 +26,30 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::WorkPackageJournal < Journal::BaseJournal
-  self.table_name = 'work_package_journals'
+module Events
+  class CreateContract < ::ModelContract
+    attribute :recipient
+    attribute :subject
+    attribute :reason
+    attribute :context
+    attribute :context_type
+    attribute :resource
+    attribute :resource_type
 
-  belongs_to :project
+    validate :validate_recipient_present
+    validate :validate_subject_present
+    validate :validate_reason_present
+
+    def validate_recipient_present
+      errors.add(:recipient, :blank) if model.recipient.blank?
+    end
+
+    def validate_subject_present
+      errors.add(:subject, :blank) if model.subject.blank?
+    end
+
+    def validate_reason_present
+      errors.add(:reason, :blank) if model.reason.blank?
+    end
+  end
 end

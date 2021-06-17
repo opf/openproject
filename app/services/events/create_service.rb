@@ -28,8 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::WorkPackageJournal < Journal::BaseJournal
-  self.table_name = 'work_package_journals'
+class Events::CreateService < ::BaseServices::Create
+  protected
 
-  belongs_to :project
+  def after_perform(call)
+    super.tap do |result|
+      if result.success?
+        Mails::EventJob
+          .perform_later(result.result, user)
+      end
+    end
+  end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,8 +26,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::WorkPackageJournal < Journal::BaseJournal
-  self.table_name = 'work_package_journals'
+class Mails::EventJob < ApplicationJob
+  queue_with_priority :notification
 
-  belongs_to :project
+  def perform(event, sender)
+    # TODO: implement properly
+    #       move sender to database
+    Mails::WorkPackageJob
+      .perform_now(event.resource, event.recipient_id, sender.id)
+  end
 end
