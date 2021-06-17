@@ -29,7 +29,7 @@
 #++
 require 'spec_helper'
 
-describe Notifications::JournalWpMailService, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe Notifications::JournalWpEventService, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:author) do
@@ -429,11 +429,15 @@ end
 
 describe 'initialization' do
   it 'subscribes the listener' do
-    expect(Notifications::JournalWpMailService).to receive(:call)
+    allow(Notifications::JournalWpEventService)
+      .to receive(:call)
 
     OpenProject::Notifications.send(
       OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-      journal: double('journal', initial?: true, journable: double('WorkPackage'))
+      journal: FactoryBot.build(:journal)
     )
+
+    expect(Notifications::JournalWpEventService)
+      .to have_received(:call)
   end
 end
