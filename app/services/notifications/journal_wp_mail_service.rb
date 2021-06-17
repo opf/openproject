@@ -66,7 +66,6 @@ class Notifications::JournalWpMailService
       work_package = journal.journable
       subject = I18n.t("events.work_packages.subject.#{reason}", work_package: work_package.to_s)
 
-      binding.pry
       Event.create recipient_id: recipient_id,
                    reason: reason,
                    resource: journal,
