@@ -29,7 +29,7 @@
 #++
 
 class Queries::Events::Orders::DefaultOrder < Queries::BaseOrder
-  self.model = PlaceholderUser
+  self.model = Event
 
   def self.key
     /\A(id|created_at|updated_at)\z/
