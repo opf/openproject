@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,30 +26,49 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#++
 
-module API
-  module V3
-    module Events
-      class EventsAPI < ::API::OpenProjectAPI
-        resources :events do
-          before do
-            authorize_by_with_raise current_user.logged?
-          end
+require 'spec_helper'
+require_relative './show_resource_examples'
 
-          get &::API::V3::Utilities::Endpoints::Index
-            .new(model: Event, scope: -> { Event.recipient(current_user) })
-            .mount
+describe ::API::V3::Events::EventsAPI,
+         'show',
+         type: :request do
+  include API::V3::Utilities::PathHelper
 
-          route_param :id, type: Integer, desc: 'Event ID' do
-            after_validation do
-              @event = Event.recipient(current_user).find(params[:id])
-            end
+  shared_let(:recipient) { FactoryBot.create :user }
+  shared_let(:event) { FactoryBot.create :event, recipient: recipient }
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Event).mount
-          end
-        end
-      end
+  let(:send_request) do
+    header "Content-Type", "application/json"
+    get api_v3_paths.event(event.id)
+  end
+
+  let(:parsed_response) { JSON.parse(last_response.body) }
+
+  before do
+    login_as current_user
+    send_request
+  end
+
+  describe 'recipient user' do
+    let(:current_user) { recipient }
+
+    it_behaves_like 'represents the event'
+  end
+
+  describe 'admin user' do
+    let(:current_user) { FactoryBot.build(:admin) }
+
+    it 'returns a 404 response' do
+      expect(last_response.status).to eq(404)
+    end
+  end
+
+  describe 'unauthorized user' do
+    let(:current_user) { FactoryBot.build(:user) }
+
+    it 'returns a 404 response' do
+      expect(last_response.status).to eq(404)
     end
   end
 end

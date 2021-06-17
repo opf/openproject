@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2020 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,30 +26,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See docs/COPYRIGHT.rdoc for more details.
-#++
 
-module API
-  module V3
-    module Events
-      class EventsAPI < ::API::OpenProjectAPI
-        resources :events do
-          before do
-            authorize_by_with_raise current_user.logged?
-          end
+shared_examples 'represents the event' do
+  it :aggregate_failures do
+    expect(last_response.status).to eq(200)
+    expect(last_response.body)
+      .to(be_json_eql('Event'.to_json).at_path('_type'))
 
-          get &::API::V3::Utilities::Endpoints::Index
-            .new(model: Event, scope: -> { Event.recipient(current_user) })
-            .mount
+    expect(last_response.body)
+      .to(be_json_eql(event.subject.to_json).at_path('subject'))
 
-          route_param :id, type: Integer, desc: 'Event ID' do
-            after_validation do
-              @event = Event.recipient(current_user).find(params[:id])
-            end
+    expect(last_response.body)
+      .to(be_json_eql(event.read_iam.to_json).at_path('readIam'))
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Event).mount
-          end
-        end
-      end
-    end
+    expect(last_response.body)
+      .to(be_json_eql(event.read_email.to_json).at_path('readEmail'))
+
+    expect(last_response.body)
+      .to(be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(event.created_at).to_json).at_path('createdAt'))
+
+    expect(last_response.body)
+      .to(be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(event.updated_at).to_json).at_path('updatedAt'))
+
+    expect(last_response.body)
+      .to(be_json_eql(event.id.to_json).at_path('id'))
   end
 end
