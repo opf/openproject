@@ -1,12 +1,13 @@
 <form
-  class="op-modal datepicker-modal loading-indicator--location"
+  class="op-modal op-datepicker-modal loading-indicator--location"
+  data-qa-selector="op-datepicker-modal"
   [attr.id]="htmlId"
   #modalContainer
   data-indicator-name="modal"
   (submit)="save($event)"
 >
   <div class="op-modal--body form -vertical">
-    <div class="datepicker-modal--dates-container">
+    <div class="op-datepicker-modal--dates-container">
       <ng-container *ngIf="singleDate">
         <div class="form--field">
           <label class="form--label"
@@ -96,13 +97,14 @@
           </div>
         </div>
       </ng-container>
-      <div class="form--field datepicker-modal--scheduling-action-container">
+      <div class="form--field op-datepicker-modal--scheduling-action-container">
         <div class="form--field-container">
           <label class="form--label-with-check-box">
             <div class="form--check-box-container">
               <input type="checkbox"
                      name="scheduling"
-                     class="form--check-box datepicker-modal--scheduling-action"
+                     class="form--check-box op-datepicker-modal--scheduling-action"
+                     data-qa-selector="op-datepicker-modal--scheduling-action"
                      [ngModel]="scheduleManually"
                      (ngModelChange)="changeSchedulingMode()">
             </div>
@@ -133,12 +135,14 @@
   <div class="op-modal--footer">
     <button
       (click)="cancel()"
-      class="datepicker-modal--action button"
+      class="op-datepicker-modal--action button"
+      data-qa-selector="op-datepicker-modal--action"
       [textContent]="text.cancel"
     ></button>
     <button 
       [attr.disabled]="!this.isSavable || undefined"
-      class="datepicker-modal--action button -highlight"
+      class="op-datepicker-modal--action button -highlight"
+      data-qa-selector="op-datepicker-modal--action"
       [textContent]="text.save"
     ></button>
   </div>

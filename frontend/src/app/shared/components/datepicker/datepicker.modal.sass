@@ -1,4 +1,4 @@
-.datepicker-modal
+.op-datepicker-modal
   position: relative
   z-index: 500
   width: auto
@@ -16,41 +16,41 @@
     align-items: center
 
 
-.datepicker-modal--dates-container
-  display: grid
-  grid-template-columns: 170px 1fr auto
-  margin: 0 1.5rem
+  &--dates-container
+    display: grid
+    grid-template-columns: 170px 1fr auto
+    margin: 0 1.5rem
 
-  .form--date-field
-    margin: 2px !important
+    .form--date-field
+      margin: 2px !important
 
-    &.-current,
-    &.-current:hover
-      outline: 2px solid var(--primary-color)
+      &.-current,
+      &.-current:hover
+        outline: 2px solid var(--primary-color)
 
-  .datepicker-modal--scheduling-action-container
-    margin-top: 28px
+    .op-datepicker-modal--scheduling-action-container
+      margin-top: 28px
 
-    .form--label-with-check-box
-      padding: 0
+      .form--label-with-check-box
+        padding: 0
 
-  .form--field-inline-action
-    .icon-small:before
-      vertical-align: text-bottom
-    &:hover, &:focus
-      text-decoration: none
+    .form--field-inline-action
+      .icon-small:before
+        vertical-align: text-bottom
+      &:hover, &:focus
+        text-decoration: none
 
 
-.datepicker-modal--actions-container
-  display: flex
-  justify-content: flex-end
-  padding: 15px 1.5rem 0 1.5rem
-  border-top: 1px solid #DDDDDD
-  background: #F8F8F8
+  &--actions-container
+    display: flex
+    justify-content: flex-end
+    padding: 15px 1.5rem 0 1.5rem
+    border-top: 1px solid #DDDDDD
+    background: #F8F8F8
 
-  .datepicker-modal--action[disabled]
-    color: var(--gray-dark)
-    cursor: not-allowed
+    .op-datepicker-modal--action[disabled]
+      color: var(--gray-dark)
+      cursor: not-allowed
 
-    &:hover
-      text-decoration: none
+      &:hover
+        text-decoration: none
