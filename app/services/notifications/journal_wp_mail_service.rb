@@ -66,9 +66,12 @@ class Notifications::JournalWpMailService
       work_package = journal.journable
       subject = I18n.t("events.work_packages.subject.#{reason}", work_package: work_package.to_s)
 
+      # TODO we need the actual journal due to the polymorphic reference, but it's private for aggregated journals
+      resource = journal.respond_to?(:journal, true) ? journal.send(:journal) : journal
+
       Event.create recipient_id: recipient_id,
                    reason: reason,
-                   resource: journal,
+                   resource: resource,
                    subject: subject,
                    context: work_package.project
     end
