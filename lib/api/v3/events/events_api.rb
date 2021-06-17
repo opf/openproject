@@ -31,7 +31,7 @@ module API
     module Events
       class EventsAPI < ::API::OpenProjectAPI
         resources :events do
-          before do
+          after_validation do
             authorize_by_with_raise current_user.logged?
           end
 
