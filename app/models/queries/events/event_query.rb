@@ -32,4 +32,8 @@ class Queries::Events::EventQuery < Queries::BaseQuery
   def self.model
     Event
   end
+
+  def default_scope
+    Event.recipient(user)
+  end
 end
