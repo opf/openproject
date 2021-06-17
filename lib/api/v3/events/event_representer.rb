@@ -49,6 +49,42 @@ module API
 
         date_time_property :updated_at
 
+        link :readIAN do
+          next if represented.read_ian
+
+          {
+            href: api_v3_paths.event_read_ian(represented.id),
+            method: :post
+          }
+        end
+
+        link :unreadIAN do
+          next unless represented.read_ian
+
+          {
+            href: api_v3_paths.event_unread_ian(represented.id),
+            method: :post
+          }
+        end
+
+        link :readEmail do
+          next if represented.read_email
+
+          {
+            href: api_v3_paths.event_read_email(represented.id),
+            method: :post
+          }
+        end
+
+        link :unreadEmail do
+          next unless represented.read_email
+
+          {
+            href: api_v3_paths.event_unread_email(represented.id),
+            method: :post
+          }
+        end
+
         def _type
           'Event'
         end

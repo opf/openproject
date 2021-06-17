@@ -201,6 +201,22 @@ module API
           index :event
           show :event
 
+          def self.event_read_ian(id)
+            "#{event(id)}/readIAN"
+          end
+
+          def self.event_unread_ian(id)
+            "#{event(id)}/unreadIAN"
+          end
+
+          def self.event_read_email(id)
+            "#{event(id)}/readEmail"
+          end
+
+          def self.event_unread_email(id)
+            "#{event(id)}/unreadEmail"
+          end
+
           index :help_text
           show :help_text
 

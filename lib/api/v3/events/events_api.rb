@@ -46,7 +46,25 @@ module API
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: Event).mount
 
-            post :readIAN
+            post :readIAN do
+              @event.update_column(:read_ian, true)
+              status 204
+            end
+
+            post :unreadIAN do
+              @event.update_column(:read_ian, false)
+              status 204
+            end
+
+            post :readEmail do
+              @event.update_column(:read_email, true)
+              status 204
+            end
+
+            post :unreadEmail do
+              @event.update_column(:read_email, false)
+              status 204
+            end
           end
         end
       end
