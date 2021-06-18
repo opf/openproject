@@ -82,6 +82,8 @@ class User < Principal
            class_name: 'Doorkeeper::Application',
            as: :owner
 
+  has_many :notification_settings, dependent: :destroy
+
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }
