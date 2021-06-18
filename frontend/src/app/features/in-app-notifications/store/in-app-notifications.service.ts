@@ -24,7 +24,7 @@ export class InAppNotificationsService {
     this.store.setLoading(true);
     this
       .apiV3Service
-      .events
+      .notifications
       .unread()
       .subscribe(
         events => {
@@ -42,7 +42,7 @@ export class InAppNotificationsService {
   count$():Observable<number> {
     return this
       .apiV3Service
-      .events
+      .notifications
       .unread({ pageSize: 0 })
       .pipe(
         map(events => events.total)
@@ -68,7 +68,7 @@ export class InAppNotificationsService {
         take(1),
         switchMap(events =>
           forkJoin(
-            events.map(event => this.apiV3Service.events.id(event.id).markRead())
+            events.map(event => this.apiV3Service.notifications.id(event.id).markRead())
           )
         )
       )

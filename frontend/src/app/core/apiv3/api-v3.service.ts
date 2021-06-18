@@ -58,7 +58,7 @@ import Project = ts.server.Project;
 import { Apiv3PlaceholderUsersPaths } from "core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths";
 import { Apiv3GroupsPaths } from "core-app/core/apiv3/endpoints/groups/apiv3-groups-paths";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { Apiv3EventsPaths } from "core-app/core/apiv3/endpoints/events/apiv3-events-paths";
+import { Apiv3NotificationsPaths } from "core-app/core/apiv3/endpoints/notifications/apiv3-notifications-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -71,8 +71,8 @@ export class APIV3Service {
   // /api/v3/documents
   public readonly documents = this.apiV3CollectionEndpoint('documents');
 
-  // /api/v3/events
-  public readonly events = this.apiV3CustomEndpoint(Apiv3EventsPaths);
+  // /api/v3/notifications
+  public readonly notifications = this.apiV3CustomEndpoint(Apiv3NotificationsPaths);
 
   // /api/v3/grids
   public readonly grids = this.apiV3CustomEndpoint(Apiv3GridsPaths);

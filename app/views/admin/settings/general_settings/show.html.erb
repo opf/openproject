@@ -45,9 +45,9 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= setting_number_field :activity_days_default, size: 6, unit: t(:label_day_plural), container_class: '-xslim' %>
     </div>
     <div class="form--field">
-      <%= setting_number_field :event_retention_period_days, size: 6, min: 1, unit: t(:label_day_plural), container_class: '-xslim' %>
+      <%= setting_number_field :notification_retention_period_days, size: 6, min: 1, unit: t(:label_day_plural), container_class: '-xslim' %>
       <span class="form--field-instructions">
-        <%= t(:'settings.events.retention_text') %>
+        <%= t(:'settings.notifications.retention_text') %>
       </span>
     </div>
     <div class="form--field">

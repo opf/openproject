@@ -36,7 +36,7 @@ end
 # since they are called by (in effect) by a background job triggered within the
 # Notifications::JournalNotificationService
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWpEventService.call(payload[:journal], payload[:send_mail])
+  Notifications::JournalWpNotificationService.call(payload[:journal], payload[:send_mail])
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|

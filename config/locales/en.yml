@@ -1258,10 +1258,6 @@ en:
     work_package_closed: 'Work Package closed'
     work_package_edit: 'Work Package edited'
     work_package_note: 'Work Package note added'
-    work_packages:
-      subject:
-        assigned: "You have been assigned to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
 
   export:
     your_work_packages_export: "Your work packages export"
@@ -1350,6 +1346,12 @@ en:
         action: "Action"
         expiration: "Expires"
       indefinite_expiration: "Never"
+
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
 
   label_accessibility: "Accessibility"
   label_account: "Account"
@@ -2374,7 +2376,7 @@ en:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_event_retention_period_days: "Event retention period"
+  setting_notification_retention_period_days: "Event retention period"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2444,7 +2446,7 @@ en:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
-    events:
+    notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications)
         will be kept in the system. Any events older than this time will be deleted.

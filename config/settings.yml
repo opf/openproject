@@ -381,6 +381,6 @@ apiv3_cors_enabled:
 apiv3_cors_origins:
   serialized: true
   default: []
-event_retention_period_days:
+notification_retention_period_days:
   default: 30
   format: int

@@ -1,0 +1,78 @@
+# Group Notifications
+
+## View notification [/api/v3/notifications/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Notification",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/notifications/1",
+                        "title": "Work package abc was updated: You are now assignee"
+                    },
+                    "resource": {
+                        "href": "/api/v3/activity/1",
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "context": {
+                        "href": "/api/v3/project/1",
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "actor": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard"
+                    }
+                },
+                "id": 1,
+                "subject": "Work package abc was updated: You are now assignee"
+                "readIAN": false,
+                "readMail": false,
+                "reason": "mentioned",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z",
+                "_embedded:": {
+                  "resource": {
+                    "_type": "Activity::Comment",
+                    "_links": {
+                        "self": {
+                            "href": "/api/v3/activity/1",
+                            "title": "Priority changed from High to Low"
+                        },
+                        "workPackage": {
+                            "href": "/api/v3/work_packages/1",
+                            "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                        },
+                        "user": {
+                            "href": "/api/v3/users/1",
+                            "title": "John Sheppard - admin"
+                        }
+                    },
+                    "id": 1,
+                    "details": [
+                        {
+                            "format": "markdown",
+                            "raw": "Lorem ipsum dolor sit amet.",
+                            "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                        }
+                    ],
+                    "comment": {
+                        "format": "markdown",
+                        "raw": "Lorem ipsum dolor sit amet.",
+                        "html": "<p>Lorem ipsum dolor sit amet.</p>"
+                    },
+                    "createdAt": "2014-05-21T08:51:20Z",
+                    "version": 31
+                  }
+                }
+            }
+
+## View notification [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Notification id
+
++ Response 200 (application/hal+json)
+
+    [View notification][]

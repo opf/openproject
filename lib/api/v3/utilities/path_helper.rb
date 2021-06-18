@@ -198,25 +198,6 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
-          index :event
-          show :event
-
-          def self.event_read_ian(id)
-            "#{event(id)}/readIAN"
-          end
-
-          def self.event_unread_ian(id)
-            "#{event(id)}/unreadIAN"
-          end
-
-          def self.event_read_email(id)
-            "#{event(id)}/readEmail"
-          end
-
-          def self.event_unread_email(id)
-            "#{event(id)}/unreadEmail"
-          end
-
           index :help_text
           show :help_text
 
@@ -237,6 +218,25 @@ module API
 
           def self.news(id)
             "#{newses}/#{id}"
+          end
+
+          index :notification
+          show :notification
+
+          def self.notification_read_ian(id)
+            "#{notification(id)}/readIAN"
+          end
+
+          def self.notification_unread_ian(id)
+            "#{notification(id)}/unreadIAN"
+          end
+
+          def self.notification_read_email(id)
+            "#{notification(id)}/readEmail"
+          end
+
+          def self.notification_unread_email(id)
+            "#{notification(id)}/unreadEmail"
           end
 
           index :placeholder_user
