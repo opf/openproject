@@ -45,7 +45,7 @@ ca:
   backlogs:
     add_new_story: "Nova història"
     any: "qualsevol"
-    backlog_settings: "Configuració de la llista de pendents"
+    backlog_settings: "Configuració dels backlogs"
     burndown_graph: "Gràfic de progrés"
     card_paper_size: "Mida de paper per a impressió de targetes"
     chart_options: "Opcions del gràfic"
@@ -125,7 +125,7 @@ ca:
   label_select_all: "Selecciona-ho tot"
   label_sprint_backlog: "esprint backlog"
   label_sprint_cards: "Exporta targetes"
-  label_sprint_impediments: "Impediments d'esprint"
+  label_sprint_impediments: "Impediments d'sprint"
   label_sprint_name: "Esprint \"%{name}\""
   label_sprint_velocity: "Velocitat %{velocity}, basada en %{sprints} esprints amb una mitja de %{days} dies"
   label_stories: "Històries"
