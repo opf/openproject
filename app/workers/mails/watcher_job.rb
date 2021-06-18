@@ -53,6 +53,7 @@ class Mails::WatcherJob < Mails::DeliverJob
 
   def notify_about_watcher_changed?
     return false if notify_about_self_watching?
+    return false unless UserMailer.perform_deliveries
 
     case watcher.user.mail_notification
     when 'only_my_events'

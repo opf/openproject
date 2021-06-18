@@ -127,15 +127,6 @@ describe MailHandler, type: :model do
     assert_equal user, issue.assigned_to
   end
 
-  it 'should add work package with cc' do
-    issue = submit_email('ticket_with_cc.eml', issue: { project: 'ecookbook' })
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
-    assert_equal 1, issue.watcher_user_ids.size
-  end
-
   it 'should add work package by unknown user' do
     assert_no_difference 'User.count' do
       assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' })
@@ -286,7 +277,10 @@ describe MailHandler, type: :model do
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(WorkPackage)
-    assert_equal 1, ActionMailer::Base.deliveries.size
+    # One for the wp creation and the other for the
+    # author being set as watcher. Only applies as
+    # the user preferences are to be self notified
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   it 'should add work package note' do

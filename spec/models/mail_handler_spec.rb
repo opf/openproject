@@ -28,9 +28,6 @@
 
 require 'spec_helper'
 
-DEVELOPER_PERMISSIONS = %i[view_messages delete_own_messages edit_own_messages add_project edit_project
-                           select_project_modules manage_members manage_versions manage_categories view_work_packages add_work_packages edit_work_packages manage_work_package_relations manage_subtasks add_work_package_notes move_work_packages delete_work_packages view_work_package_watchers add_work_package_watchers delete_work_package_watchers manage_public_queries save_queries view_gantt view_calendar log_time view_time_entries edit_time_entries delete_time_entries manage_news comment_news view_documents manage_documents view_wiki_pages export_wiki_pages view_wiki_edits edit_wiki_pages delete_wiki_pages_attachments protect_wiki_pages delete_wiki_pages rename_wiki_pages add_messages edit_messages delete_messages manage_forums view_files manage_files browse_repository manage_repository view_changesets manage_project_activities export_work_packages]
-
 describe MailHandler, type: :model do
   let(:anno_user) { User.anonymous }
   let(:project) { FactoryBot.create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
@@ -117,6 +114,31 @@ describe MailHandler, type: :model do
 
     subject do
       submit_email('wp_update_with_multiple_quoted_reply_above.eml')
+    end
+  end
+
+  shared_context 'wp create with cc' do
+    let(:permissions) { %i[add_work_packages view_work_packages add_work_package_watchers] }
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: 'JSmith@somenet.foo',
+                        firstname: 'John',
+                        lastname: 'Smith',
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+    let!(:cc_user) do
+      FactoryBot.create(:user,
+                        mail: 'dlopper@somenet.foo',
+                        firstname: 'D',
+                        lastname: 'Lopper',
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+    let(:submit_options) { { issue: { project: project.identifier } } }
+
+    subject do
+      submit_email('ticket_with_cc.eml', **submit_options)
     end
   end
 
@@ -378,6 +400,17 @@ describe MailHandler, type: :model do
           expect(subject.status).to eq(status)
           expect(subject.version).to eq(version)
           expect(subject.priority).to eq priority_low
+        end
+      end
+
+      context 'wp with cc' do
+        include_context 'wp create with cc'
+
+        it_behaves_like 'work package created'
+
+        it 'assigns cc and author as watcher' do
+          expect(subject.watcher_users)
+            .to match_array([user, cc_user])
         end
       end
     end
