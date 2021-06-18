@@ -7,7 +7,7 @@ import { map } from "rxjs/operators";
 export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState> {
 
   /** Get the number of unread items */
-  unreadCount$ = this.selectCount(item => !item.read);
+  unreadCount$ = this.select('count');
 
   /** Do we have any unread items? */
   hasUnread$ = this.unreadCount$.pipe(map(count => count > 0));

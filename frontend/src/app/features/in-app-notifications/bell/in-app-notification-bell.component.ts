@@ -4,7 +4,7 @@ import { InAppNotificationsService } from "core-app/features/in-app-notification
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { InAppNotificationCenterComponent } from "core-app/features/in-app-notifications/center/in-app-notification-center.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { interval } from "rxjs";
+import { interval, merge } from "rxjs";
 import { filter, startWith, switchMap } from "rxjs/operators";
 import { ActiveWindowService } from "core-app/core/active-window/active-window.service";
 
@@ -18,13 +18,17 @@ const POLLING_INTERVAL = 10000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationBellComponent {
-  unreadCount$ = interval(POLLING_INTERVAL)
+  polling$ = interval(POLLING_INTERVAL)
     .pipe(
       startWith(0),
       filter(() => this.activeWindow.isActive),
       switchMap(() => this.inAppService.count$()),
-      filter(count => count > 0)
     );
+
+  unreadCount$ = merge(
+    this.polling$,
+    this.inAppQuery.unreadCount$
+  );
 
   constructor(readonly inAppQuery:InAppNotificationsQuery,
               readonly inAppService:InAppNotificationsService,
