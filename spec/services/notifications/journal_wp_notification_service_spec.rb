@@ -68,13 +68,13 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     work_package.save(validate: false)
     work_package.journals.last
   end
-  let(:send_mails) { true }
+  let(:send_notifications) { true }
   let(:notification_setting) do
     %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated)
   end
 
   def call
-    described_class.call(journal, send_mails)
+    described_class.call(journal, send_notifications)
   end
 
   before do

@@ -40,14 +40,14 @@ class Notifications::JournalWpNotificationService
   MENTION_PATTERN = Regexp.new("(?:#{MENTION_USER_ID_PATTERN})|(?:#{MENTION_USER_LOGIN_PATTERN})|(?:#{MENTION_GROUP_ID_PATTERN})")
 
   class << self
-    def call(journal, send_mails)
-      journal_complete_mail(journal, send_mails)
+    def call(journal, send_notifications)
+      journal_complete_mail(journal, send_notifications)
     end
 
     private
 
-    def journal_complete_mail(journal, send_mails)
-      return nil if abort_sending?(journal, send_mails)
+    def journal_complete_mail(journal, send_notifications)
+      return nil if abort_sending?(journal, send_notifications)
 
       author = User.find_by(id: journal.user_id) || DeletedUser.first
 
@@ -126,11 +126,11 @@ class Notifications::JournalWpNotificationService
         .or(by_group)
     end
 
-    def send_mail?(journal, send_mails)
-      send_mails && ::UserMailer.perform_deliveries && send_mail_setting?(journal)
+    def send_notification?(journal, send_notifications)
+      send_notifications && ::UserMailer.perform_deliveries && send_notification_setting?(journal)
     end
 
-    def send_mail_setting?(journal)
+    def send_notification_setting?(journal)
       notify_for_wp_added?(journal) ||
         notify_for_wp_updated?(journal) ||
         notify_for_notes?(journal) ||
@@ -185,8 +185,8 @@ class Notifications::JournalWpNotificationService
       Setting.notified_events.include?(name)
     end
 
-    def abort_sending?(journal, send_mails)
-      !send_mail?(journal, send_mails) || journal.noop?
+    def abort_sending?(journal, send_notifications)
+      !send_notification?(journal, send_notifications) || journal.noop?
     end
   end
 end
