@@ -33,6 +33,8 @@ module API
     module Notifications
       class NotificationRepresenter < ::API::Decorators::Single
         include API::Decorators::DateProperty
+        include API::Decorators::LinkedResource
+        extend API::Decorators::PolymorphicResource
 
         self_link title_getter: ->(*) { represented.subject }
 
@@ -84,6 +86,9 @@ module API
             method: :post
           }
         end
+
+        polymorphic_resource :context
+        polymorphic_resource :resource
 
         def _type
           'Notification'
