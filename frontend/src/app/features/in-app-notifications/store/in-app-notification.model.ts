@@ -15,7 +15,7 @@ export interface InAppNotification {
   details?:string[];
 
   _links:{
-    project:HalResourceLink,
+    context?:HalResourceLink,
     resource:HalResourceLink,
   };
 }

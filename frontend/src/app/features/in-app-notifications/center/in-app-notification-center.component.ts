@@ -41,5 +41,6 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
 
   markAllRead() {
     this.ianService.markAllRead();
+    this.closeMe();
   }
 }

@@ -10,10 +10,10 @@
     ></span>
     <div class="op-ian-item--message">
       <a
-          *ngIf="notification._links.project"
+          *ngIf="notification._links.context"
           class="op-ian-item--project"
-          [href]="notification._links.project.href"
-          [textContent]="notification._links.project.title"
+          [href]="notification._links.context.href"
+          [textContent]="notification._links.context.title"
           target="_blank"
       ></a>
       <span
