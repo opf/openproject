@@ -32,9 +32,23 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:recipient) { FactoryBot.build_stubbed(:user) }
-  let(:notification) { FactoryBot.build_stubbed(:notification, recipient: recipient, read_ian: read_ian, read_email: read_email) }
-  let(:representer) { described_class.create(notification, current_user: recipient) }
+  let(:resource) { FactoryBot.build_stubbed :work_package_journal }
+  let(:context) { FactoryBot.build_stubbed :project }
+  let(:notification) do
+    FactoryBot.build_stubbed :notification,
+                             recipient: recipient,
+                             context: context,
+                             resource: resource,
+                             read_ian: read_ian,
+                             read_email: read_email
+  end
+  let(:representer) do
+    described_class.create notification,
+                           current_user: recipient,
+                           embed_links: embed_links
+  end
 
+  let(:embed_links) { false }
   let(:read_ian) { false }
   let(:read_email) { false }
 
@@ -127,6 +141,45 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
     it_behaves_like 'datetime property', :updatedAt do
       let(:value) { notification.updated_at }
+    end
+  end
+
+  describe 'context polymorphic resource' do
+    it_behaves_like 'has a titled link' do
+      let(:link) { 'context' }
+      let(:href) { api_v3_paths.project context.id }
+      let(:title) { context.name }
+    end
+
+    context 'when embedding is true' do
+      let(:embed_links) { true }
+
+      it 'embeds the context' do
+        expect(generated)
+          .to be_json_eql('Project'.to_json)
+                .at_path("_embedded/context/_type")
+
+        expect(generated)
+          .to be_json_eql(context.name.to_json)
+                .at_path("_embedded/context/name")
+      end
+    end
+  end
+
+  describe 'resource polymorphic resource' do
+    it_behaves_like 'has an untitled link' do
+      let(:link) { 'resource' }
+      let(:href) { api_v3_paths.activity resource.id }
+    end
+
+    context 'when embedding is true' do
+      let(:embed_links) { true }
+
+      it 'embeds the resource' do
+        expect(generated)
+          .to be_json_eql('Activity'.to_json)
+                .at_path("_embedded/resource/_type")
+      end
     end
   end
 end

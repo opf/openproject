@@ -74,15 +74,18 @@ module API
       end
 
       def polymorphic_link(name, title_attribute, skip_link)
+        path_fn = method(:polymorphic_resource_path)
+
         ->(*) do
           next if instance_exec(&skip_link)
 
-          model_name = represented.model_name.singular
+          resource = represented.send(name)
+          path_name = path_fn.call(resource)
 
           ::API::Decorators::LinkObject
             .new(represented,
-                 path: model_name,
-                 property_name: model_name,
+                 path: path_name,
+                 property_name: name,
                  title_attribute: title_attribute,
                  getter: :"#{name}_id")
             .to_hash
@@ -99,6 +102,15 @@ module API
           ::API::V3::Activities::ActivityRepresenter
         else
           nil
+        end
+      end
+
+      def polymorphic_resource_path(resource)
+        case resource
+        when Journal
+          :activity
+        else
+          resource.model_name.singular
         end
       end
 
