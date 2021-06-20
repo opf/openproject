@@ -1,0 +1,16 @@
+<op-scrollable-tabs
+  *ngIf="tabPortalHost"
+  [tabs]="tabs"
+  [currentTabId]="tabPortalHost.currentTab?.id"
+  (tabSelected)="switchTo($event)"
+>
+
+</op-scrollable-tabs>
+<div class="tab-content" #tabContentOutlet></div>
+
+<button
+  class="button -highlight"
+  [textContent]="text.save"
+  (click)="saveChanges()"
+>
+</button>

@@ -541,11 +541,11 @@ OpenProject::Application.routes.draw do
 
     get '/my/account', action: 'account'
     get '/my/settings', action: 'settings'
-    get '/my/mail_notifications', action: 'mail_notifications'
+    get '/my/notifications', action: 'notifications'
 
     patch '/my/account', action: 'update_account'
     patch '/my/settings', action: 'update_settings'
-    patch '/my/mail_notifications', action: 'update_mail_notifications'
+    patch '/my/notifications', action: 'update_mail_notifications'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'

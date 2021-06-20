@@ -558,6 +558,11 @@ en:
           timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
           timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
 
+    notifications:
+      in_app: "In-app notifications"
+      email: "Email notifications"
+      settings:
+        enable_app_notifications: "Enable in-app notifications"
 
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
