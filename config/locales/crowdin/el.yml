@@ -2855,4 +2855,4 @@ el:
     authorization_error: "Παρουσιάστηκε ένα σφάλμα εξουσιοδότησης."
     revoke_my_application_confirmation: "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε αυτή την εφαρμογή; Αυτό θα ανακαλέσει %{token_count} που είναι ενεργά για αυτή."
     my_registered_applications: "Καταγεγραμμένες εφαρμογές OAuth"
-  you: you
+  you: εσείς

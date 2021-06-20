@@ -218,7 +218,7 @@ el:
         upsale:
           become_hero: "Γίνετε ήρωας!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Ποια είναι τα οφέλη της έκδοσης Enterprise on-premises?"
             high_security: "Χαρακτηριστικά ασφαλείας"
             high_security_text: "Σύστημα ενιαίας πρόσβασης (SAML, OpenID Connect, CAS), έλεγχος ταυτότητας δύο παραγόντων και αυτόματος συγχρονισμός ομάδων LDAP."
             installation: "Υποστήριξη εγκατάστασης"
@@ -479,7 +479,7 @@ el:
         help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε τη δουλειά σας με το OpenProject!'
         members: 'Προσκαλέστε καινούργια <b>Μέλη</b> για να συμμετάσχουν στο έργο σας.'
         project_selection: 'Παρακαλούμε κάντε κλικ σε ένα από τα έργα με χρήσιμα demo δεδομένα για ξεκινήσετε. <br> Το <b>Demo έργο</b> ταιριάζει καλύτερα στη κλασική διαχείριση έργου, ενώ το <b>Scrum έργο</b> είναι καλύτερο για Agile διαχείριση έργου.'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: 'Δημιουργία ενός νέου έργου ή της πρόσκληση συναδέλφων.'
         sidebar_arrow: "Με τα βέλη μπορείτε να πλοηγηθείτε πίσω στο <b>Κύριο μενού</b> του έργου."
         welcome: 'Κάντε μια τρίλεπτη εισαγωγική περιήγηση για να μάθετε τα πιο <b>σημαντικά χαρακτηριστικά</b>. <br> Προτείνουμε να ολοκληρώσετε τα βήματα μέχρι το τέλος. Μπορείτε να επανεκκινήσετε την περιήγηση ανά πάσα στιγμή.'
         wiki: 'Μέσα στο <b>Wiki</b> μπορείτε να καταγράψετε και να μοιραστείτε γνώση μαζί με την ομάδα σας.'
@@ -925,7 +925,7 @@ el:
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
     notice_successful_update: "Επιτυχής ενημέρωση."
-    notice_job_started: "job started."
+    notice_job_started: "η εργασία ξεκίνησε."
     notice_bad_request: "Εσφαλμένο Αίτημα."
     relations:
       empty: Δεν υπάρχει συσχέτιση
@@ -992,7 +992,7 @@ el:
       project:
         label: 'Έργο'
         required: 'Παρακαλούμε επιλέξτε ένα έργο'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission: 'Παρακαλώ επιλέξτε ένα διαφορετικό πρότζεκτ καθώς δεν έχετε δικαιώματα να εγγράψετε τους χρήστες στο επιλεγμένο.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Επόμενο'
         no_results: 'Δεν βρέθηκαν έργα'
