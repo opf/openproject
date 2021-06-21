@@ -212,8 +212,6 @@ module API
           index :message
           show :message
 
-          index :my_preferences
-
           index :newses, :news
 
           def self.news(id)
@@ -408,6 +406,10 @@ module API
 
           def self.user_lock(id)
             "#{user(id)}/lock"
+          end
+
+          def self.user_preferences(id)
+            "#{user(id)}/preferences"
           end
 
           index :group

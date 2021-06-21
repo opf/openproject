@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,14 +31,21 @@
 module API
   module V3
     module UserPreferences
-      class UserPreferencesAPI < ::API::OpenProjectAPI
-        resource :my_preferences do
-          get do
-            redirect api_v3_paths.user_preferences('me'), permanent: true
-          end
+      class NotificationSettingRepresenter < ::API::Decorators::Single
+        property :channel
+        property :watched
+        property :involved
+        property :mentioned
+        property :all
 
-          patch do
-            redirect api_v3_paths.user_preferences('me'), permanent: true
+        link :project do
+          if represented.project.nil?
+            { href: nil }
+          else
+            {
+              href: api_v3_paths.project(represented.project.id),
+              title: represented.project.name
+            }
           end
         end
       end

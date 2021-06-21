@@ -9,12 +9,17 @@ class AddNotificationSettings < ActiveRecord::Migration[6.1]
       t.boolean :mentioned, default: false
       t.boolean :all, default: false
 
-      t.timestamps
+      t.timestamps default: -> { 'CURRENT_TIMESTAMP' }
+
+      t.index %i[user_id channel],
+              unique: true,
+              where: "project_id IS NULL",
+              name: 'index_notification_settings_unique_project_null'
 
       t.index %i[user_id project_id channel],
               unique: true,
-              name: 'index_notification_settings_unique_join'
+              where: "project_id IS NOT NULL",
+              name: 'index_notification_settings_unique_project'
     end
-
   end
 end

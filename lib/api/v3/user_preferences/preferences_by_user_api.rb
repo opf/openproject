@@ -26,17 +26,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'api/v3/activities/activity_representer'
+
 module API
   module V3
     module UserPreferences
-      class UserPreferencesAPI < ::API::OpenProjectAPI
-        resource :my_preferences do
-          get do
-            redirect api_v3_paths.user_preferences('me'), permanent: true
+      class PreferencesByUserAPI < ::API::OpenProjectAPI
+        resource :preferences do
+          after_validation do
+            authorize_by_with_raise current_user.logged? &&
+                (current_user.allowed_to_globally?(:manage_user) || @user == current_user)
           end
 
+          get &::API::V3::Utilities::Endpoints::Show.new(model: UserPreference,
+                                                         instance_generator: ->(*) { @user.pref })
+                                                    .mount
+
+          patch &::API::V3::Utilities::Endpoints::Update.new(model: UserPreference,
+                                                             instance_generator: ->(*) { @user.pref })
+                                                        .mount
+
           patch do
-            redirect api_v3_paths.user_preferences('me'), permanent: true
+            # TODO this should be a BaseService service
+            representer = represent_preferences
+            representer.from_hash(request_body)
+
+            if @preferences.save
+              representer
+            else
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(@preferences.errors)
+            end
           end
         end
       end
