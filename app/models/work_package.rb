@@ -295,11 +295,11 @@ class WorkPackage < ApplicationRecord
 
   # Returns users that should be notified
   def recipients
-    notified = project.notified_users + attribute_users.select { |u| u.notify_about?(self) }
-
-    notified.uniq!
-    # Remove users that can not view the work package
-    notified & User.allowed(:view_work_packages, project)
+    User
+      .notified_on_all(project)
+      .or(User.where(id: (assigned_to.is_a?(Group) ? assigned_to.user_ids : assigned_to_id)))
+      .or(User.where(id: (responsible.is_a?(Group) ? responsible.user_ids : responsible_id)))
+      .where(id: User.allowed(:view_work_packages, project))
   end
 
   def notify?(user)
@@ -681,20 +681,5 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect { |a| !a.valid? }
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
-  end
-
-  def attribute_users
-    related = []
-
-    [responsible, assigned_to].each do |principal|
-      case principal
-      when Group
-        related += principal.users.active
-      when User
-        related << principal
-      end
-    end
-
-    related.select(&:present?)
   end
 end
