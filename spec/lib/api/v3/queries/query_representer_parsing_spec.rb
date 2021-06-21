@@ -66,7 +66,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
   subject { representer.from_hash request_body }
 
-  describe 'parsing empty group_by (Regression #25606)' do
+  nil describe 'parsing empty group_by (Regression #25606)' do
     before do
       query.group_by = 'project'
     end

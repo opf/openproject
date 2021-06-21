@@ -38,7 +38,7 @@ module UserPreferences
     # User preferences can only be accessed with the manage_user permission
     # or if an active, logged user is editing their own prefs
     def user_allowed_to_access
-      unless user.allowed_to_globally?(:manage_user) || (user.logged? && user.active? && user == model)
+      unless user.allowed_to_globally?(:manage_user) || (user.logged? && user.active? && user.id == model.user_id)
         errors.add :base, :error_unauthorized
       end
     end
