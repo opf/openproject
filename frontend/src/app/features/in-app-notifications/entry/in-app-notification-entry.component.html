@@ -1,9 +1,12 @@
-<div class="op-ian-item">
+<div
+    class="op-ian-item"
+    attr.data-qa-selector="op-ian-notification-item-{{notification.id}}"
+>
   <button
       type="button"
       class="op-ian-item--row"
       (click)="toggleDetails()"
-    >
+  >
     <span
         class="op-ian-item--indicator"
         [class.op-ian-item--indicator_read]="!!notification.read"
