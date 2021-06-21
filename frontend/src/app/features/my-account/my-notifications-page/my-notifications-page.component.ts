@@ -14,7 +14,7 @@ import {
   TabPortalOutlet,
 } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { InAppNotificationsTabComponent } from "core-app/features/my-account/my-notifications-page/in-app-notifications-tab/in-app-notifications-tab.component";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   templateUrl: './my-notifications-page.component.html',
@@ -25,53 +25,31 @@ export class MyNotificationsPageComponent implements OnInit {
 
   text = {
     save: this.I18n.t('js.button_save'),
+    enable: this.I18n.t('js.notifications.settings.enable_app_notifications'),
+    email: this.I18n.t('js.notifications.email'),
+    inApp: this.I18n.t('js.notifications.in_app'),
   };
 
-  tabs:TabInterface[] = [
-    {
-      id: 'in-app',
-      name: this.I18n.t('js.notifications.in_app'),
-      componentClass: InAppNotificationsTabComponent,
-    },
-    {
-      id: 'email',
-      name: this.I18n.t('js.notifications.email'),
-      componentClass: InAppNotificationsTabComponent,
-    },
-  ];
+  form = new FormGroup({
+    enabled: new FormControl(''),
+  });
+
+  get enabledControl() {
+    return this.form.get('enabled');
+  }
 
   tabPortalHost:TabPortalOutlet;
   @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
 
   constructor(
-    private I18n:I18nService,
-    private componentFactoryResolver:ComponentFactoryResolver,
-    private appRef:ApplicationRef,
-    private injector:Injector,
+    private I18n:I18nService
   ) {
   }
 
   ngOnInit():void {
-    this.tabPortalHost = new TabPortalOutlet(
-      this.tabs,
-      this.tabContentOutlet.nativeElement,
-      this.componentFactoryResolver,
-      this.appRef,
-      this.injector,
-    );
-
-    this.switchTo(this.tabs[0]);
-  }
-
-  public switchTo(tab:TabInterface):void {
-    this.tabPortalHost.switchTo(tab);
   }
 
   public saveChanges():void {
-    this.tabPortalHost.activeComponents.forEach((component:TabComponent) => {
-      component.onSave();
-    });
-
     this.submit();
   }
 

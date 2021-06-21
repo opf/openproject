@@ -1,12 +1,12 @@
-<op-scrollable-tabs
-  *ngIf="tabPortalHost"
-  [tabs]="tabs"
-  [currentTabId]="tabPortalHost.currentTab?.id"
-  (tabSelected)="switchTo($event)"
->
-
-</op-scrollable-tabs>
-<div class="tab-content" #tabContentOutlet></div>
+<op-form-field [label]="text.enable">
+  <input
+    type="checkbox"
+    class="op-input"
+    [formControl]="enabledControl"
+    slot="input"
+    autofocus
+  />
+</op-form-field>
 
 <button
   class="button -highlight"
