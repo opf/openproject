@@ -1,0 +1,11 @@
+import { HalSourceLink } from "core-app/features/hal/resources/hal-resource";
+import { NotificationSettingChannel } from "core-app/features/my-account/my-notifications-page/state/notification-settings.store";
+
+export interface NotificationSetting {
+  _links:{ project:HalSourceLink };
+  channel:NotificationSettingChannel;
+  watched:boolean;
+  involved:boolean;
+  mentioned:boolean;
+  all:boolean;
+}

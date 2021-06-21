@@ -1,0 +1,112 @@
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2 [textContent]="text.title"></h2>
+    </div>
+    <ul class="toolbar-items">
+      <li class="toolbar-item">
+        <button class="button"
+                (click)="removeAll()">
+          <op-icon icon-classes="button--icon icon-delte">
+          </op-icon>
+          <span class="button--text"
+                [textContent]="text.remove_all">
+          </span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <thead>
+      <tr>
+        <th><div class="generic-table--empty-header"></div></th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.involved_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.mentioned_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.watched_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.any_event_header"></span>
+            </div>
+          </div>
+        </th>
+        <th><div class="generic-table--empty-header"></div></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let setting of notificationSettings$ | async">
+        <td>
+          <span
+            *ngIf="setting._links.project.href; else defaultAllProjects"
+            [textContent]="setting._links.project?.title"
+          ></span>
+          <ng-template #defaultAllProjects>
+            <em [textContent]="text.default_all_projects"></em>
+          </ng-template>
+        </td>
+        <td>
+          <input
+            type="checkbox"
+            [checked]="setting.involved"
+            />
+        </td>
+        <td>
+          <input
+            type="checkbox"
+            [checked]="setting.mentioned"
+          />
+        </td>
+        <td>
+          <input
+            type="checkbox"
+            [checked]="setting.watched"
+          />
+        </td>
+        <td>
+          <input
+            type="checkbox"
+            [checked]="setting.all"
+          />
+        </td>
+        <td class="buttons">
+          <button class="op-link">
+            <op-icon icon-classes="icon-remove icon-no-color"></op-icon>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="generic-table--action-buttons">
+  <button
+    class="button -highlight"
+    [textContent]="text.save"
+    (click)="saveChanges()"
+  >
+  </button>
+</div>
+
+

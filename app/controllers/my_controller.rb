@@ -45,7 +45,7 @@ class MyController < ApplicationController
   menu_item :settings,            only: [:settings]
   menu_item :password,            only: [:password]
   menu_item :access_token,        only: [:access_token]
-  menu_item :mail_notifications,  only: [:mail_notifications]
+  menu_item :notifications,       only: [:notifications]
 
   def account; end
 
@@ -82,7 +82,11 @@ class MyController < ApplicationController
   def access_token; end
 
   # Configure user's mail notifications
-  def mail_notifications; end
+  def notifications
+    render html: '',
+           layout: 'angular',
+           locals: { menu_name: :my_menu }
+  end
 
   def update_mail_notifications
     write_email_settings(redirect_to: :mail_notifications)

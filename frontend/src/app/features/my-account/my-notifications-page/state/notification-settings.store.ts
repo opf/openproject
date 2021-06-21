@@ -26,18 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { Apiv3UserPreferencesPaths } from "core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths";
+import { Injectable } from "@angular/core";
+import { Store, StoreConfig } from '@datorama/akita';
+import { NotificationSetting } from "core-app/features/my-account/my-notifications-page/state/notification-setting.model";
 
-export class APIv3UserPaths extends CachableAPIV3Resource<UserResource> {
+export type NotificationSettingChannel = 'mail'|'in_app';
 
-  readonly avatar = this.subResource('avatar');
 
-  readonly preferences = this.subResource('preferences', Apiv3UserPreferencesPaths);
+export type NotificationSettingsState = {
+  notifications:NotificationSetting[];
+};
 
-  protected createCache():StateCacheService<UserResource> {
-    return new StateCacheService<UserResource>(this.states.users);
+function createInitialState() {
+  return { notifications: [] };
+}
+
+@Injectable()
+@StoreConfig({ name: 'notification-settings' })
+export class NotificationSettingsStore extends Store<NotificationSettingsState> {
+  constructor() {
+    super(createInitialState());
   }
 }
