@@ -62,17 +62,6 @@ describe User, type: :model do
     assert user.save
   end
 
-  context 'User#before_create' do
-    it 'should set the mail_notification to the default Setting' do
-      @user1 = FactoryBot.create(:user, mail_notification: nil)
-      assert_equal 'only_my_events', @user1.mail_notification
-
-      Setting.default_notification_option = 'all'
-      @user2 = FactoryBot.create(:user)
-      assert_equal 'all', @user2.mail_notification
-    end
-  end
-
   context 'User.login' do
     it 'should be case-insensitive.' do
       u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
@@ -109,13 +98,6 @@ describe User, type: :model do
     @admin.login = ''
     assert !@admin.save
     assert_equal 1, @admin.errors.count
-  end
-
-  it 'should validate mail notification inclusion' do
-    u = User.new
-    u.mail_notification = 'foo'
-    u.save
-    refute_empty u.errors[:mail_notification]
   end
 
   context 'User#try_to_login' do
@@ -313,30 +295,6 @@ describe User, type: :model do
     assert_equal 5, User.valid_notification_options.size
     assert_equal 5, User.valid_notification_options(User.find(7)).size
     assert_equal 6, User.valid_notification_options(User.find(2)).size
-  end
-
-  it 'should mail notification all' do
-    @jsmith.mail_notification = 'all'
-    @jsmith.notified_project_ids = []
-    @jsmith.save
-    @jsmith.reload
-    assert @jsmith.projects.first.recipients.include?(@jsmith)
-  end
-
-  it 'should mail notification selected' do
-    @jsmith.mail_notification = 'selected'
-    @jsmith.notified_project_ids = [1]
-    @jsmith.save
-    @jsmith.reload
-    assert Project.find(1).recipients.include?(@jsmith)
-  end
-
-  it 'should mail notification only my events' do
-    @jsmith.mail_notification = 'only_my_events'
-    @jsmith.notified_project_ids = []
-    @jsmith.save
-    @jsmith.reload
-    assert !@jsmith.projects.first.recipients.include?(@jsmith)
   end
 
   it 'should comments sorting preference' do

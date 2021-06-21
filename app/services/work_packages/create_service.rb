@@ -101,10 +101,10 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
 
   def set_user_as_watcher(work_package)
     # We don't care if it fails here. If it does
-    # the user simply does not become member
+    # the user simply does not become watcher
     Services::CreateWatcher
       .new(work_package, user)
-      .run
+      .run(send_notifications: false)
   end
 
   def attributes_service_class

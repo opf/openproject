@@ -325,7 +325,7 @@ describe MailHandler, type: :model do
   it 'should add work package note should send email notification' do
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   it 'should add work package note should not set defaults' do

@@ -44,6 +44,8 @@ OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNA
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_ADDED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::WatcherAddedJob
     .perform_later(payload[:watcher],
                    payload[:watcher_setter])
