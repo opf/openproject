@@ -41,38 +41,51 @@ module UserPreferences
     end
 
     def after_perform(service_call)
-      persist_notifications
+      inserted = persist_notifications
+      remove_other_notifications(inserted)
 
       service_call
     end
 
     def persist_notifications
       global, project = notifications
-        .each { |item| item.merge(updated_at: DateTime.now, user_id: model.user_id) }
+        .map { |item| item.to_h.merge(user_id: model.user_id) }
         .partition { |setting| setting[:project_id].nil? }
 
-      upsert_notifications(global, %i[user_id channel], 'project_id IS NULL')
-      upsert_notifications(project, %i[user_id channel project_id], 'project_id IS NOT NULL')
-      end
+      binding.pry
+      global_ids = upsert_notifications(global, %i[user_id channel], 'project_id IS NULL')
+      project_ids = upsert_notifications(project, %i[user_id channel project_id], 'project_id IS NOT NULL')
 
-      ##
-      # Upsert notification while respecting the partial index on notification_settings
-      # depending on the project presence
-      #
-      # @param notifications The array of notification hashes to upsert
-      # @param conflict_target The uniqueness constraint to upsert within
-      # @param index_predicate The partial index condition on the project
-      def upsert_notifications(notifications, conflict_target, index_predicate)
-        return if notifications.empty?
+      global_ids + project_ids
+    end
 
+    def remove_other_notifications(ids)
+      NotificationSetting
+        .where(user_id: model.user_id)
+        .where.not(id: ids)
+        .delete_all
+    end
 
-        NotificationSetting.import notifications,
-                                   on_duplicate_key_update: {
-                                     conflict_target: conflict_target,
-                                     index_predicate: index_predicate,
-                                     columns: %i[watched involved mentioned all]
-                                   },
-                                   validate: false
-      end
+    ##
+    # Upsert notification while respecting the partial index on notification_settings
+    # depending on the project presence
+    #
+    # @param notifications The array of notification hashes to upsert
+    # @param conflict_target The uniqueness constraint to upsert within
+    # @param index_predicate The partial index condition on the project
+    def upsert_notifications(notifications, conflict_target, index_predicate)
+      return [] if notifications.empty?
+
+      NotificationSetting
+        .import(
+          notifications,
+          on_duplicate_key_update: {
+            conflict_target: conflict_target,
+            index_predicate: index_predicate,
+            columns: %i[watched involved mentioned all]
+          },
+          validate: false
+        ).ids
     end
   end
+end
