@@ -36,7 +36,14 @@ describe ::API::V3::Notifications::NotificationsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:recipient) { FactoryBot.create :user }
-  shared_let(:notification) { FactoryBot.create :notification, recipient: recipient }
+  shared_let(:context) { FactoryBot.create :project }
+  shared_let(:resource) { FactoryBot.create :work_package, project: context }
+  shared_let(:notification) do
+    FactoryBot.create :notification,
+                      recipient: recipient,
+                      context: context,
+                      resource: resource.journals.last
+  end
 
   let(:send_request) do
     header "Content-Type", "application/json"
