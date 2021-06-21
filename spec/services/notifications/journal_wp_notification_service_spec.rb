@@ -29,27 +29,60 @@
 #++
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Notifications::JournalWpNotificationService, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:author) do
-    FactoryBot.create(:user,
-                     mail_notification: 'none',
-                     member_in_project: project,
-                     member_through_role: role)
-  end
   let(:recipient) do
+    # TODO: remove mail_notification
     FactoryBot.create(:user,
+                      notification_settings: recipient_notification_settings,
                       member_in_project: project,
                       member_through_role: role,
-                      login: "johndoe")
+                      mail_notification: 'only_assigned',
+                      login: recipient_login)
   end
+  let(:recipient_login) { "johndoe" }
+  let(:other_user) do
+    FactoryBot.create(:user,
+                      notification_settings: other_user_notification_settings)
+  end
+  let(:author) { user_property == :author ? recipient : other_user }
+  let(:recipient_notification_settings) do
+    [
+      FactoryBot.build(:mail_notification_setting, all: true),
+      FactoryBot.build(:in_app_notification_setting, all: true)
+    ]
+  end
+  let(:other_user_notification_settings) do
+    [
+      FactoryBot.build(:mail_notification_setting, all: false, involved: false, watched: false, mentioned: false),
+      FactoryBot.build(:in_app_notification_setting, all: false, involved: false, watched: false, mentioned: false)
+    ]
+  end
+  let(:user_property) { nil }
   let(:work_package) do
-    FactoryBot.create(:work_package,
-                      project: project,
-                      author: author,
-                      assigned_to: recipient,
-                      type: project.types.first)
+    wp_attributes = { project: project,
+                      author: other_user,
+                      responsible: other_user,
+                      assigned_to: other_user,
+                      type: project.types.first }
+
+    if %i[responsible assigned_to].include?(user_property)
+      FactoryBot.create(:work_package,
+                        **wp_attributes.merge(user_property => recipient))
+    elsif user_property == :watcher
+      FactoryBot.create(:work_package,
+                        **wp_attributes).tap do |wp|
+        Watcher.new(watchable: wp, user: recipient).save(validate: false)
+      end
+    else
+      # Initialize recipient to have the same behaviour as if the recipient is assigned/responsible
+      recipient
+      FactoryBot.create(:work_package,
+                        **wp_attributes)
+    end
+
   end
   let(:journal) { journal_1 }
   let(:journal_1) { work_package.journals.first }
@@ -85,11 +118,17 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     allow(Setting).to receive(:notified_events).and_return(notification_setting)
   end
 
-  shared_examples_for 'creates event' do
+  shared_examples_for 'creates notification' do
     let(:sender) { author }
     let(:event_reason) { :mentioned }
+    let(:event_channels) do
+      {
+        read_ian: false,
+        read_email: false
+      }
+    end
 
-    it 'creates an event' do
+    it 'creates a notification' do
       events_service = instance_double(Notifications::CreateService)
 
       allow(Notifications::CreateService)
@@ -103,16 +142,17 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
       expect(events_service)
         .to have_received(:call)
-              .with(recipient_id: recipient.id,
-                    reason: event_reason,
-                    resource: journal)
+              .with({ recipient_id: recipient.id,
+                      reason: event_reason,
+                      resource: journal }.merge(event_channels))
     end
   end
 
-  shared_examples_for 'creates no event' do
-    it 'creates no event' do
+  shared_examples_for 'creates no notification' do
+    it 'creates no notification' do
       allow(Notifications::CreateService)
         .to receive(:new)
+              .and_call_original
 
       call
 
@@ -121,169 +161,497 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     end
   end
 
-  it_behaves_like 'creates event' do
-    let(:event_reason) { :assigned }
-  end
-
-  context 'assignee is placeholder user' do
-    let(:recipient) { FactoryBot.create :placeholder_user }
-
-    it_behaves_like 'creates no event'
-  end
-
-  context 'responsible is placeholder user' do
-    let(:recipient) { FactoryBot.create :placeholder_user }
-    let(:work_package) do
-      FactoryBot.create(:work_package,
-                        project: project,
-                        author: author,
-                        responsible: recipient,
-                        type: project.types.first)
+  context 'when user is assignee' do
+    let(:user_property) { :assigned_to }
+    let(:recipient_notification_settings) do
+      [
+        FactoryBot.build(:mail_notification_setting, involved: true),
+        FactoryBot.build(:in_app_notification_setting, involved: true)
+      ]
     end
 
-    it_behaves_like 'creates no event'
+    it_behaves_like 'creates notification' do
+      let(:event_reason) { :involved }
+    end
+
+    context 'assignee has in app notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:in_app_notification_setting, involved: false)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
+        let(:event_channels) do
+          {
+            read_ian: nil,
+            read_email: false
+          }
+        end
+      end
+    end
+
+    context 'assignee has mail notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: false),
+          FactoryBot.build(:in_app_notification_setting, involved: true)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
+        let(:event_channels) do
+          {
+            read_ian: false,
+            read_email: nil
+          }
+        end
+      end
+    end
+
+    context 'assignee has all notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: false),
+          FactoryBot.build(:in_app_notification_setting, involved: false)
+        ]
+      end
+
+      # Event creation will be prevented by the service
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
+        let(:event_channels) do
+          {
+            read_ian: nil,
+            read_email: nil
+          }
+        end
+      end
+    end
+
+    context 'assignee is not allowed to view work packages' do
+      let(:role) { FactoryBot.create(:role, permissions: []) }
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'assignee is placeholder user' do
+      let(:recipient) { FactoryBot.create :placeholder_user }
+
+      it_behaves_like 'creates no notification'
+    end
   end
 
-  context 'notification for work_package_added disabled' do
+  context 'when user is responsible' do
+    let(:user_property) { :responsible }
+    let(:recipient_notification_settings) do
+      [
+        FactoryBot.build(:mail_notification_setting, involved: true),
+        FactoryBot.build(:in_app_notification_setting, involved: true)
+      ]
+    end
+
+    it_behaves_like 'creates notification' do
+      let(:event_reason) { :involved }
+    end
+
+    context 'when responsible has in app notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:in_app_notification_setting, involved: false)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
+        let(:event_channels) do
+          {
+            read_ian: nil,
+            read_email: false
+          }
+        end
+      end
+    end
+
+    context 'when responsible has mail notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: false),
+          FactoryBot.build(:in_app_notification_setting, involved: true)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
+        let(:event_channels) do
+          {
+            read_ian: false,
+            read_email: nil
+          }
+        end
+      end
+    end
+
+    context 'when responsible has all notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: false),
+          FactoryBot.build(:in_app_notification_setting, involved: false)
+        ]
+      end
+
+      # Event creation will be prevented by the service
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
+        let(:event_channels) do
+          {
+            read_ian: nil,
+            read_email: nil
+          }
+        end
+      end
+    end
+
+    context 'when responsible is not allowed to view work packages' do
+      let(:role) { FactoryBot.create(:role, permissions: []) }
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'when responsible is placeholder user' do
+      let(:recipient) { FactoryBot.create :placeholder_user }
+
+      it_behaves_like 'creates no notification'
+    end
+  end
+
+  context 'when user is watcher' do
+    let(:user_property) { :watcher }
+    let(:recipient_notification_settings) do
+      [
+        FactoryBot.build(:mail_notification_setting, watched: true),
+        FactoryBot.build(:in_app_notification_setting, watched: true)
+      ]
+    end
+
+    it_behaves_like 'creates notification' do
+      let(:event_reason) { :watched }
+    end
+
+    context 'when watcher has in app notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, watched: true),
+          FactoryBot.build(:in_app_notification_setting, watched: false)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :watched }
+        let(:event_channels) do
+          {
+            read_ian: nil,
+            read_email: false
+          }
+        end
+      end
+    end
+
+    context 'when watcher has mail notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, watched: false),
+          FactoryBot.build(:in_app_notification_setting, watched: true)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :watched }
+        let(:event_channels) do
+          {
+            read_ian: false,
+            read_email: nil
+          }
+        end
+      end
+    end
+
+    context 'when watcher has all notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, watched: false),
+          FactoryBot.build(:in_app_notification_setting, watched: false)
+        ]
+      end
+
+      # Event creation will be prevented by the service
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :watched }
+        let(:event_channels) do
+          {
+            read_ian: nil,
+            read_email: nil
+          }
+        end
+      end
+    end
+
+    context 'when watcher is not allowed to view work packages' do
+      let(:role) { FactoryBot.create(:role, permissions: []) }
+
+      it_behaves_like 'creates no notification'
+    end
+  end
+
+  context 'when user is notified about everything' do
+    let(:user_property) { nil }
+
+    let(:recipient_notification_settings) do
+      [
+        FactoryBot.build(:mail_notification_setting, all: true),
+        FactoryBot.build(:in_app_notification_setting, all: true)
+      ]
+    end
+
+    it_behaves_like 'creates notification' do
+      let(:event_reason) { :subscribed }
+    end
+
+    context 'with in app notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:in_app_notification_setting, all: false)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :subscribed }
+        let(:event_channels) do
+          {
+            read_ian: nil,
+            read_email: false
+          }
+        end
+      end
+    end
+
+    context 'with mail notifications disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: false),
+          FactoryBot.build(:in_app_notification_setting, all: true)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :subscribed }
+        let(:event_channels) do
+          {
+            read_ian: false,
+            read_email: nil
+          }
+        end
+      end
+    end
+
+    context 'with all disabled' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: false),
+          FactoryBot.build(:in_app_notification_setting, all: false)
+        ]
+      end
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'with all disabled as a default but enabled in the project' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: false),
+          FactoryBot.build(:in_app_notification_setting, all: false),
+          FactoryBot.build(:mail_notification_setting, project: project, all: true),
+          FactoryBot.build(:in_app_notification_setting, project: project, all: true)
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :subscribed }
+      end
+    end
+
+    context 'with all enabled as a default but disabled in the project' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:in_app_notification_setting, all: true),
+          FactoryBot.build(:mail_notification_setting, project: project, all: false),
+          FactoryBot.build(:in_app_notification_setting, project: project, all: false)
+        ]
+      end
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'when not allowed to view work packages' do
+      let(:role) { FactoryBot.create(:role, permissions: []) }
+
+      it_behaves_like 'creates no notification'
+    end
+  end
+
+  context 'when notification for work_package_added disabled' do
     let(:notification_setting) { %w(work_package_updated work_package_note_added) }
+    let(:user_property) { :assigned_to }
 
-    it_behaves_like 'creates no event'
+    it_behaves_like 'creates no notification'
   end
 
-  context 'if the journal has a note' do
+  context 'when the journal has a note' do
     let(:journal) { journal_2_with_notes }
+    let(:user_property) { :assigned_to }
 
     context 'notification for work_package_updated and work_package_note_added disabled' do
       let(:notification_setting) { %w(work_package_added status_updated work_package_priority_updated) }
 
-      it_behaves_like 'creates no event'
+      it_behaves_like 'creates no notification'
     end
 
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'creates event' do
-        let(:event_reason) { :assigned }
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
       end
     end
 
     context 'notification for work_package_note_added enabled' do
       let(:notification_setting) { %w(work_package_note_added) }
 
-      it_behaves_like 'creates event' do
-        let(:event_reason) { :assigned }
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
       end
     end
   end
 
-  context 'if the journal has status update' do
+  context 'when the journal has status update' do
     let(:journal) { journal_2_with_status }
+    let(:user_property) { :assigned_to }
 
     context 'notification for work_package_updated and status_updated disabled' do
       let(:notification_setting) { %w(work_package_added work_package_note_added work_package_priority_updated) }
 
-      it_behaves_like 'creates no event'
+      it_behaves_like 'creates no notification'
     end
 
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'creates event' do
-        let(:event_reason) { :assigned }
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
       end
     end
 
     context 'notification for status_updated enabled' do
       let(:notification_setting) { %w(status_updated) }
 
-      it_behaves_like 'creates event' do
-        let(:event_reason) { :assigned }
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
       end
     end
   end
 
-  context 'if the journal has priority' do
+  context 'when the journal has priority' do
     let(:journal) { journal_2_with_priority }
+    let(:user_property) { :assigned_to }
 
     context 'notification for work_package_updated and work_package_priority_updated disabled' do
       let(:notification_setting) { %w(work_package_added work_package_note_added status_updated) }
 
-      it_behaves_like 'creates no event'
+      it_behaves_like 'creates no notification'
     end
 
     context 'notification for work_package_updated enabled' do
       let(:notification_setting) { %w(work_package_updated) }
 
-      it_behaves_like 'creates event' do
-        let(:event_reason) { :assigned }
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
       end
     end
 
     context 'notification for work_package_priority_updated enabled' do
       let(:notification_setting) { %w(work_package_priority_updated) }
 
-      it_behaves_like 'creates event' do
-        let(:event_reason) { :assigned }
+      it_behaves_like 'creates notification' do
+        let(:event_reason) { :involved }
       end
     end
   end
 
-  context 'if the author has been deleted' do
+  context 'when the author has been deleted' do
     let!(:deleted_user) { DeletedUser.first }
+    let(:user_property) { :assigned_to }
 
     before do
       work_package
       author.destroy
     end
 
-    it_behaves_like 'creates event' do
+    it_behaves_like 'creates notification' do
       let(:sender) { deleted_user }
-      let(:event_reason) { :assigned }
+      let(:event_reason) { :involved }
     end
   end
 
-  context 'user is mentioned' do
-    let(:work_package) do
-      FactoryBot.create(:work_package,
-                        project: project,
-                        author: author,
-                        type: project.types.first)
-    end
-    let(:recipient) do
-      FactoryBot.create(:user,
-                        mail_notification: 'only_assigned',
-                        member_in_project: project,
-                        member_through_role: role,
-                        login: "johndoe")
+  context 'when user is mentioned' do
+    let(:recipient_notification_settings) do
+      [
+        FactoryBot.build(:mail_notification_setting, mentioned: true),
+        FactoryBot.build(:in_app_notification_setting, mentioned: true)
+      ]
     end
 
     shared_examples_for 'group mention' do
       context 'group member is allowed to view the work package' do
         context 'user wants to receive notifications' do
-          it_behaves_like 'creates event'
+          it_behaves_like 'creates notification'
         end
 
-        context 'user disabled notifications' do
-          let(:recipient) { FactoryBot.create(:user, mail_notification: User::USER_MAIL_OPTION_NON.first) }
+        context 'user disabled mention notifications' do
+          let(:recipient_notification_settings) do
+            [
+              FactoryBot.build(:mail_notification_setting, mentioned: false),
+              FactoryBot.build(:in_app_notification_setting, mentioned: false)
+            ]
+          end
 
-          it_behaves_like 'creates no event'
+          # Event creation will be prevented by the service
+          it_behaves_like 'creates notification' do
+            let(:event_channels) do
+              {
+                read_ian: nil,
+                read_email: nil
+              }
+            end
+          end
         end
       end
 
       context 'group is not allowed to view the work package' do
+        let(:group_role) { FactoryBot.create(:role, permissions: []) }
         let(:role) { FactoryBot.create(:role, permissions: []) }
 
-        it_behaves_like 'creates no event'
+        it_behaves_like 'creates no notification'
 
         context 'but group member is allowed individually' do
-          let(:recipient) do
-            FactoryBot.create(:user,
-                              mail_notification: 'only_assigned',
-                              member_in_project: project,
-                              member_with_permissions: [:view_work_packages])
-          end
+          let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
 
-          it_behaves_like 'creates event'
+          it_behaves_like 'creates notification'
         end
       end
     end
@@ -292,29 +660,23 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       context 'for users' do
         context "mentioned is allowed to view the work package" do
           context "The added text contains a login name" do
-            let(:note) { "Hello user:\"#{recipient.login}\"" }
+            let(:note) { "Hello user:\"#{recipient_login}\"" }
 
             context "that is pretty normal word" do
-              it_behaves_like 'creates event'
+              it_behaves_like 'creates notification'
             end
 
             context "that is an email address" do
-              let(:recipient) do
-                FactoryBot.create(:user,
-                                  mail_notification: 'only_assigned',
-                                  member_in_project: project,
-                                  member_through_role: role,
-                                  login: "foo@bar.com")
-              end
+              let(:recipient_login) { "foo@bar.com" }
 
-              it_behaves_like 'creates event'
+              it_behaves_like 'creates notification'
             end
           end
 
           context "The added text contains a user ID" do
             let(:note) { "Hello user##{recipient.id}" }
 
-            it_behaves_like 'creates event'
+            it_behaves_like 'creates notification'
           end
 
           context "The added text contains a user mention tag in one way" do
@@ -324,7 +686,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
               NOTE
             end
 
-            it_behaves_like 'creates event'
+            it_behaves_like 'creates notification'
           end
 
           context "The added text contains a user mention tag in the other way" do
@@ -334,52 +696,50 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
               NOTE
             end
 
-            it_behaves_like 'creates event'
+            it_behaves_like 'creates notification'
           end
 
-          context "the recipient turned off all mail notifications" do
-            let(:recipient) do
-              FactoryBot.create(:user,
-                                member_in_project: project,
-                                member_through_role: role,
-                                mail_notification: 'none')
+          context "the recipient turned off mention notifications" do
+            let(:recipient_notification_settings) do
+              [
+                FactoryBot.build(:mail_notification_setting, mentioned: false),
+                FactoryBot.build(:in_app_notification_setting, mentioned: false)
+              ]
             end
 
             let(:note) do
               "Hello user:\"#{recipient.login}\", hey user##{recipient.id}"
             end
 
-            it_behaves_like 'creates no event'
+            # Event creation will be prevented by the service
+            it_behaves_like 'creates notification' do
+              let(:event_channels) do
+                {
+                  read_ian: nil,
+                  read_email: nil
+                }
+              end
+            end
           end
         end
 
         context "mentioned user is not allowed to view the work package" do
-          let(:recipient) do
-            FactoryBot.create(:user,
-                              mail_notification: 'only_assigned',
-                              login: "foo@bar.com")
-          end
+          let(:role) { FactoryBot.create(:role, permissions: []) }
           let(:note) do
             "Hello user:#{recipient.login}, hey user##{recipient.id}"
           end
 
-          it_behaves_like 'creates no event'
+          it_behaves_like 'creates no notification'
         end
       end
 
-      # TODO: test for group mention.
-      # Probably need to distinguish between user and group in mention tag
       context 'for groups' do
-        let(:recipient) do
-          FactoryBot.create(:user,
-                            mail_notification: 'only_assigned')
-        end
-
+        let(:group_role) { FactoryBot.create(:role, permissions: %i[view_work_packages]) }
         let(:group) do
           FactoryBot.create(:group, members: recipient) do |group|
             Members::CreateService
               .new(user: nil, contract_class: EmptyContract)
-              .call(project: project, principal: group, roles: [role])
+              .call(project: project, principal: group, roles: [group_role])
           end
         end
 
@@ -447,7 +807,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     end
   end
 
-  context 'aggregated journal is empty' do
+  context 'when aggregated journal is empty' do
     let(:journal) { journal_2_empty_change }
     let(:journal_2_empty_change) do
       work_package.add_journal(author, 'temp')
@@ -457,7 +817,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       end
     end
 
-    it_behaves_like 'creates no event'
+    it_behaves_like 'creates no notification'
   end
 end
 
@@ -475,3 +835,4 @@ describe 'initialization' do
       .to have_received(:call)
   end
 end
+# rubocop:enable Rspec/MultipleMemoizedHelpers

@@ -42,13 +42,17 @@ describe Notifications::CreateContract do
   let(:event_recipient) { FactoryBot.build_stubbed(:user) }
   let(:event_subject) { 'Some text' }
   let(:event_reason) { :mentioned }
+  let(:event_read_ian) { false }
+  let(:event_read_email) { false }
 
   let(:event) do
     Notification.new(context: event_context,
                      recipient: event_recipient,
                      subject: event_subject,
                      reason: event_reason,
-                     resource: event_resource)
+                     resource: event_resource,
+                     read_ian: event_read_ian,
+                     read_email: event_read_email)
   end
 
   let(:contract) { described_class.new(event, current_user) }
@@ -78,6 +82,25 @@ describe Notifications::CreateContract do
       let(:event_subject) { '' }
 
       it_behaves_like 'contract is invalid', subject: :blank
+    end
+
+    context 'with all channels nil' do
+      let(:event_read_ian) { nil }
+      let(:event_read_email) { nil }
+
+      it_behaves_like 'contract is invalid', base: :at_least_one_channel
+    end
+
+    context 'with read_ian true' do
+      let(:event_read_ian) { true }
+
+      it_behaves_like 'contract is invalid', read_ian: :read_on_creation
+    end
+
+    context 'with read_email true' do
+      let(:event_read_email) { true }
+
+      it_behaves_like 'contract is invalid', read_email: :read_on_creation
     end
   end
 end

@@ -276,16 +276,17 @@ class Project < ApplicationRecord
     notified_users
   end
 
-  # Returns the users that should be notified on project events
+  # Return all users who want to be notified on every event within a project.
+  # If there is only the global notification setting in place, that one is authoritative.
+  # If there is a project specific setting in place, it is the project specific setting instead.
   def notified_users
-    # TODO: User part should be extracted to User#notify_about?
-    notified_members = members.select do |member|
-      setting = member.principal.mail_notification
+    # TODO: Move to NotificationSetting
+    # Migrate data from members over to notification settings
 
-      (setting == 'selected' && member.mail_notification?) || setting == 'all'
-    end
-
-    notified_members.map(&:principal)
+    User
+      .where(id: NotificationSetting.where(all: true, project: nil).select(:user_id))
+      .where.not(id: NotificationSetting.where(project: self).group(:user_id).having('NOT bool_or("all")').select(:user_id))
+      .or(User.where(id: NotificationSetting.where(all: true, project: self).select(:user_id)))
   end
 
   # Returns an array of all custom fields enabled for project issues

@@ -35,10 +35,13 @@ module Notifications
     attribute :context_type
     attribute :resource
     attribute :resource_type
+    attribute :read_ian
+    attribute :read_email
 
     validate :validate_recipient_present
     validate :validate_subject_present
     validate :validate_reason_present
+    validate :validate_channels
 
     def validate_recipient_present
       errors.add(:recipient, :blank) if model.recipient.blank?
@@ -50,6 +53,20 @@ module Notifications
 
     def validate_reason_present
       errors.add(:reason, :blank) if model.reason.blank?
+    end
+
+    def validate_channels
+      if model.read_ian == nil && model.read_email == nil
+        errors.add(:base, :at_least_one_channel)
+      end
+
+      if model.read_ian
+        errors.add(:read_ian, :read_on_creation)
+      end
+
+      if model.read_email
+        errors.add(:read_email, :read_on_creation)
+      end
     end
   end
 end

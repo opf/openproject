@@ -57,11 +57,40 @@ class Notifications::JournalWpNotificationService
     end
 
     def create_event(journal, recipient_id, reason, user)
+      recipient = User.find(recipient_id)
+
+      # Skip placeholders
+      return unless recipient
+
+      channel_attributes = recipient.notification_settings.map do |setting|
+        key = case reason
+              when :subscribed
+                :all
+              else
+                reason
+              end
+
+        channel = case setting.channel
+                  when 'mail'
+                    :read_email
+                  when 'in_app'
+                    :read_ian
+                  else
+                    raise "Unknown notification channel"
+                  end
+
+        [channel, setting[key] ? false : nil]
+      end.to_h
+
+      notification_attributes = {
+        recipient_id: recipient_id,
+        reason: reason,
+        resource: journal
+      }.merge(channel_attributes)
+
       Notifications::CreateService
         .new(user: user)
-        .call(recipient_id: recipient_id,
-              reason: reason,
-              resource: journal)
+        .call(notification_attributes)
     end
 
     def notification_receivers(work_package, journal)
@@ -76,7 +105,11 @@ class Notifications::JournalWpNotificationService
       work_package.recipients.each do |user|
         next if seen.include?(user.id)
 
-        reason = user.is_or_belongs_to?(work_package.assigned_to) ? :assigned : :subscribed
+        reason = if user.is_or_belongs_to?(journal.data.assigned_to) || user.is_or_belongs_to?(journal.data.responsible)
+                   :involved
+                 else
+                   :subscribed
+                 end
         yield(user.id, reason)
         seen << user.id
       end
