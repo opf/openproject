@@ -57,14 +57,14 @@ class Notifications::JournalWpNotificationService
     end
 
     def create_event(journal, recipient, reason, user)
-      channel_attributes = recipient.notification_settings.map do |setting|
-        key = case reason
-              when :subscribed
-                :all
-              else
-                reason
-              end
+      key = case reason
+            when :subscribed
+              :all
+            else
+              reason
+            end
 
+      channel_attributes = recipient.notification_settings.map do |setting|
         channel = case setting.channel
                   when 'mail'
                     :read_email
@@ -89,57 +89,58 @@ class Notifications::JournalWpNotificationService
     end
 
     def notification_receivers(work_package, journal)
-      seen = Set.new
-      mentioned(journal).each do |user|
-        next if seen.include?(user)
-
+      seen = mentioned(journal).each do |user|
         yield(user, :mentioned)
-        seen << user
       end
 
-      involved(journal).each do |user|
-        next if seen.include?(user)
-
+      seen += involved(journal, seen).each do |user|
         yield(user, :involved)
-        seen << user
       end
 
-      subscribed(journal).each do |user|
-        next if seen.include?(user)
-
+      seen += subscribed(journal, seen).each do |user|
         yield(user, :subscribed)
-        seen << user
       end
 
-      work_package.watcher_recipients.each do |user|
-        next if seen.include?(user)
-
+      watched(work_package, seen).each do |user|
         yield(user, :watched)
-        seen << user
       end
     end
 
     def mentioned(journal)
-      mentioned_ids(journal)
-        .not_builtin
-        .where(id: User.allowed(:view_work_packages, journal.data.project))
+      allowed_and_unique(mentioned_ids(journal),
+                         journal.data.project,
+                         [])
     end
 
-    def involved(journal)
-      User
-        .where(id: group_or_user_ids(journal.data.assigned_to))
-        .or(User.where(id: group_or_user_ids(journal.data.responsible)))
-        .not_builtin
-        .where(id: User.allowed(:view_work_packages, journal.data.project))
+    def involved(journal, seen)
+      scope = User
+              .where(id: group_or_user_ids(journal.data.assigned_to))
+              .or(User.where(id: group_or_user_ids(journal.data.responsible)))
+
+      allowed_and_unique(scope,
+                         journal.data.project,
+                         seen)
     end
 
-    def subscribed(journal)
+    def subscribed(journal, seen)
       project = journal.data.project
 
-      User
-        .not_builtin
-        .notified_on_all(project)
-        .where(id: User.allowed(:view_work_packages, project))
+      allowed_and_unique(User.notified_on_all(project),
+                         project,
+                         seen)
+    end
+
+    def watched(work_package, seen)
+      allowed_and_unique(work_package.watcher_users,
+                         work_package.project,
+                         seen)
+    end
+
+    def allowed_and_unique(scope, project, seen = [])
+      scope
+         .where(id: User.allowed(:view_work_packages, project))
+         .where.not(id: seen.map(&:id))
+         .not_builtin
     end
 
     def text_for_mentions(journal)
