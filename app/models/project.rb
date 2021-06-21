@@ -280,13 +280,7 @@ class Project < ApplicationRecord
   # If there is only the global notification setting in place, that one is authoritative.
   # If there is a project specific setting in place, it is the project specific setting instead.
   def notified_users
-    # TODO: Move to NotificationSetting
-    # Migrate data from members over to notification settings
-
-    User
-      .where(id: NotificationSetting.where(all: true, project: nil).select(:user_id))
-      .where.not(id: NotificationSetting.where(project: self).group(:user_id).having('NOT bool_or("all")').select(:user_id))
-      .or(User.where(id: NotificationSetting.where(all: true, project: self).select(:user_id)))
+    User.notified_on_all(self)
   end
 
   # Returns an array of all custom fields enabled for project issues

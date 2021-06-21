@@ -602,15 +602,16 @@ describe WorkPackage, type: :model do
     end
 
     before do
-      allow(project)
-        .to receive(:notified_users)
-        .and_return(project_notified_users)
+      allow(User)
+        .to receive(:notified_on_all)
+              .with(project)
+              .and_return(project_notified_users)
 
       allow(User)
         .to receive(:allowed)
         .and_return users_with_view_permission
 
-      [author, assignee, responsible].each do |user|
+      [assignee, responsible].each do |user|
         allow(user)
           .to receive(:notify_about?)
           .with(work_package)
@@ -618,9 +619,9 @@ describe WorkPackage, type: :model do
       end
     end
 
-    it 'contains author, assignee, responsible and all from project#notified_users' do
+    it 'contains assignee, responsible and all from project#notified_users but not author' do
       expect(work_package.recipients)
-        .to match_array users_with_view_permission
+        .to match_array users_with_view_permission - [author]
     end
 
     context 'with users lacking the view permission' do

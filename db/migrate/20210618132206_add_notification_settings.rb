@@ -1,4 +1,7 @@
 class AddNotificationSettings < ActiveRecord::Migration[6.1]
+  # TODO:
+  #   * Migrate data from members over to notification settings
+  #   * Migrate mail_notification from users over to notification settings
   def change
     create_table :notification_settings do |t|
       t.belongs_to :project, null: true, index: true, foreign_key: true
