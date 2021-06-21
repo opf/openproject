@@ -35,12 +35,14 @@ module UserPreferences
     attr_accessor :notifications
 
     def before_perform(params)
-      self.notifications = Array(params.delete(:notification_settings))
+      self.notifications = params.delete(:notification_settings)
 
       super
     end
 
     def after_perform(service_call)
+      return service_call if notifications.nil?
+
       inserted = persist_notifications
       remove_other_notifications(inserted)
 
@@ -49,7 +51,7 @@ module UserPreferences
 
     def persist_notifications
       global, project = notifications
-        .map { |item| item.to_h.merge(user_id: model.user_id) }
+        .map { |item| item.merge(user_id: model.user_id) }
         .partition { |setting| setting[:project_id].nil? }
 
       global_ids = upsert_notifications(global, %i[user_id channel], 'project_id IS NULL')

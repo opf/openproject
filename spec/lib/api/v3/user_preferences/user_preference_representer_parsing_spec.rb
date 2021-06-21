@@ -70,14 +70,14 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       expect(subject.notification_settings.length).to eq 2
       in_project, global = subject.notification_settings
 
-      expect(in_project.project_id).to eq "1"
-      expect(in_project.channel).to eq 'in_app'
-      expect(in_project.all).to be_truthy
+      expect(in_project[:project_id]).to eq "1"
+      expect(in_project[:channel]).to eq 'in_app'
+      expect(in_project[:all]).to be_truthy
 
-      expect(global.project_id).to eq nil
-      expect(global.channel).to eq 'email'
-      expect(global.all).to eq false
-      expect(global.mentioned).to eq true
+      expect(global[:project_id]).to eq nil
+      expect(global[:channel]).to eq 'email'
+      expect(global[:all]).to eq false
+      expect(global[:mentioned]).to eq true
     end
   end
 end

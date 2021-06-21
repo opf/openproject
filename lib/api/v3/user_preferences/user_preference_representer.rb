@@ -78,6 +78,7 @@ module API
                      NotificationSettingRepresenter
                        .new(OpenStruct.new, current_user: current_user)
                        .from_hash(setting_fragment.with_indifferent_access)
+                       .to_h
                    end
                  end
 
