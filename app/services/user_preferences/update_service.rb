@@ -30,11 +30,11 @@
 
 module UserPreferences
   class UpdateService < ::BaseServices::Update
-    private
+    protected
 
     attr_accessor :notifications
 
-    protected def before_perform(params)
+    def before_perform(params)
       self.notifications = Array(params.delete(:notification_settings))
 
       super
@@ -52,7 +52,6 @@ module UserPreferences
         .map { |item| item.to_h.merge(user_id: model.user_id) }
         .partition { |setting| setting[:project_id].nil? }
 
-      binding.pry
       global_ids = upsert_notifications(global, %i[user_id channel], 'project_id IS NULL')
       project_ids = upsert_notifications(project, %i[user_id channel project_id], 'project_id IS NOT NULL')
 

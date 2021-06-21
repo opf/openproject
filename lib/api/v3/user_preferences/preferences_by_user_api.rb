@@ -26,8 +26,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/activities/activity_representer'
-
 module API
   module V3
     module UserPreferences
@@ -45,18 +43,6 @@ module API
           patch &::API::V3::Utilities::Endpoints::Update.new(model: UserPreference,
                                                              instance_generator: ->(*) { @user.pref })
                                                         .mount
-
-          patch do
-            # TODO this should be a BaseService service
-            representer = represent_preferences
-            representer.from_hash(request_body)
-
-            if @preferences.save
-              representer
-            else
-              raise ::API::Errors::ErrorBase.create_and_merge_errors(@preferences.errors)
-            end
-          end
         end
       end
     end
