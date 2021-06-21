@@ -1,5 +1,5 @@
 class Notification < ApplicationRecord
-  enum reason: { mentioned: 0, assigned: 1, watched: 2, subscribed: 3 }
+  enum reason: { mentioned: 0, involved: 1, watched: 2, subscribed: 3 }
 
   belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id'
   belongs_to :context, polymorphic: true

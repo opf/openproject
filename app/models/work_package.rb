@@ -293,30 +293,6 @@ class WorkPackage < ApplicationRecord
   end
   alias_method :is_milestone?, :milestone?
 
-  # Returns users that should be notified
-  def recipients
-    User
-      .notified_on_all(project)
-      .or(User.where(id: (assigned_to.is_a?(Group) ? assigned_to.user_ids : assigned_to_id)))
-      .or(User.where(id: (responsible.is_a?(Group) ? responsible.user_ids : responsible_id)))
-      .where(id: User.allowed(:view_work_packages, project))
-  end
-
-  def notify?(user)
-    case user.mail_notification
-    when 'selected', 'only_my_events'
-      author == user || user.is_or_belongs_to?(assigned_to) || user.is_or_belongs_to?(responsible)
-    when 'none'
-      false
-    when 'only_assigned'
-      user.is_or_belongs_to?(assigned_to) || user.is_or_belongs_to?(responsible)
-    when 'only_owner'
-      author == user
-    else
-      false
-    end
-  end
-
   def done_ratio
     if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       status.default_done_ratio

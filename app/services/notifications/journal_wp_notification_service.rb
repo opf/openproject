@@ -51,17 +51,12 @@ class Notifications::JournalWpNotificationService
 
       author = User.find_by(id: journal.user_id) || DeletedUser.first
 
-      notification_receivers(journal.journable, journal) do |recipient_id, reason|
-        create_event(journal, recipient_id, reason, author)
+      notification_receivers(journal.journable, journal) do |recipient, reason|
+        create_event(journal, recipient, reason, author)
       end
     end
 
-    def create_event(journal, recipient_id, reason, user)
-      recipient = User.find(recipient_id)
-
-      # Skip placeholders
-      return unless recipient
-
+    def create_event(journal, recipient, reason, user)
       channel_attributes = recipient.notification_settings.map do |setting|
         key = case reason
               when :subscribed
@@ -83,7 +78,7 @@ class Notifications::JournalWpNotificationService
       end.to_h
 
       notification_attributes = {
-        recipient_id: recipient_id,
+        recipient: recipient,
         reason: reason,
         resource: journal
       }.merge(channel_attributes)
@@ -95,38 +90,56 @@ class Notifications::JournalWpNotificationService
 
     def notification_receivers(work_package, journal)
       seen = Set.new
-      mentioned(work_package, journal).each do |user_id|
-        next if seen.include?(user_id)
+      mentioned(journal).each do |user|
+        next if seen.include?(user)
 
-        yield(user_id, :mentioned)
-        seen << user_id
+        yield(user, :mentioned)
+        seen << user
       end
 
-      work_package.recipients.each do |user|
-        next if seen.include?(user.id)
+      involved(journal).each do |user|
+        next if seen.include?(user)
 
-        reason = if user.is_or_belongs_to?(journal.data.assigned_to) || user.is_or_belongs_to?(journal.data.responsible)
-                   :involved
-                 else
-                   :subscribed
-                 end
-        yield(user.id, reason)
-        seen << user.id
+        yield(user, :involved)
+        seen << user
+      end
+
+      subscribed(journal).each do |user|
+        next if seen.include?(user)
+
+        yield(user, :subscribed)
+        seen << user
       end
 
       work_package.watcher_recipients.each do |user|
-        next if seen.include?(user.id)
+        next if seen.include?(user)
 
-        yield(user.id, :watched)
-        seen << user.id
+        yield(user, :watched)
+        seen << user
       end
     end
 
-    def mentioned(work_package, journal)
+    def mentioned(journal)
       mentioned_ids(journal)
-        .where(id: User.allowed(:view_work_packages, work_package.project))
-        .where.not(mail_notification: User::USER_MAIL_OPTION_NON.first)
-        .pluck(:id)
+        .not_builtin
+        .where(id: User.allowed(:view_work_packages, journal.data.project))
+    end
+
+    def involved(journal)
+      User
+        .where(id: group_or_user_ids(journal.data.assigned_to))
+        .or(User.where(id: group_or_user_ids(journal.data.responsible)))
+        .not_builtin
+        .where(id: User.allowed(:view_work_packages, journal.data.project))
+    end
+
+    def subscribed(journal)
+      project = journal.data.project
+
+      User
+        .not_builtin
+        .notified_on_all(project)
+        .where(id: User.allowed(:view_work_packages, project))
     end
 
     def text_for_mentions(journal)
@@ -220,6 +233,10 @@ class Notifications::JournalWpNotificationService
 
     def abort_sending?(journal, send_notifications)
       !send_notification?(journal, send_notifications) || journal.noop?
+    end
+
+    def group_or_user_ids(association)
+      association.is_a?(Group) ? association.user_ids : association&.id
     end
   end
 end
