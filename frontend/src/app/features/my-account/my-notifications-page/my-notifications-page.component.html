@@ -1,12 +1,4 @@
-<op-form-field [label]="text.enable">
-  <input
-    type="checkbox"
-    class="op-input"
-    [formControl]="enabledControl"
-    slot="input"
-    autofocus
-  />
-</op-form-field>
+<span *ngFor="let setting of notificationSettings$ | async, index as i">Notification setting {{i}}</span>
 
 <button
   class="button -highlight"

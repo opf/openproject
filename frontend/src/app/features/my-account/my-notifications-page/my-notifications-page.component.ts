@@ -8,13 +8,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {
-  TabComponent,
-  TabInterface,
-  TabPortalOutlet,
-} from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { FormControl, FormGroup } from "@angular/forms";
+import { MyNotificationsPageService } from "core-app/features/my-account/my-notifications-page/my-notifications-page.service";
+import { NotificationSettingsQuery } from "core-app/features/my-account/my-notifications-page/notification-settings.query";
+import { Observable } from "rxjs";
+import { NotificationSetting } from "core-app/features/my-account/my-notifications-page/notification-settings.store";
 
 @Component({
   templateUrl: './my-notifications-page.component.html',
@@ -22,6 +21,8 @@ import { FormControl, FormGroup } from "@angular/forms";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyNotificationsPageComponent implements OnInit {
+
+  public notificationSettings$: Observable<NotificationSetting[]>;
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -38,15 +39,15 @@ export class MyNotificationsPageComponent implements OnInit {
     return this.form.get('enabled');
   }
 
-  tabPortalHost:TabPortalOutlet;
-  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
-
   constructor(
-    private I18n:I18nService
+    private I18n:I18nService,
+    private myNotificationPageService: MyNotificationsPageService,
+    private notificationSettingsQuery: NotificationSettingsQuery
   ) {
   }
 
   ngOnInit():void {
+    this.notificationSettings$ = this.notificationSettingsQuery.select();
   }
 
   public saveChanges():void {

@@ -5,9 +5,16 @@ import { MY_ACCOUNT_ROUTES } from "core-app/features/my-account/my-account.route
 import { MyNotificationsPageComponent } from "core-app/features/my-account/my-notifications-page/my-notifications-page.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OPSharedModule } from "core-app/shared/shared.module";
-
+import { NotificationSettingsStore } from "core-app/features/my-account/my-notifications-page/notification-settings.store";
+import { MyNotificationsPageService } from "core-app/features/my-account/my-notifications-page/my-notifications-page.service";
+import { NotificationSettingsQuery } from "core-app/features/my-account/my-notifications-page/notification-settings.query";
 
 @NgModule({
+  providers: [
+    NotificationSettingsStore,
+    NotificationSettingsQuery,
+    MyNotificationsPageService,
+  ],
   declarations: [
     MyNotificationsPageComponent
   ],
