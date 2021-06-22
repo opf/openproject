@@ -41,12 +41,6 @@ class Notifications::JournalWpNotificationService
 
   class << self
     def call(journal, send_notifications)
-      journal_complete_mail(journal, send_notifications)
-    end
-
-    private
-
-    def journal_complete_mail(journal, send_notifications)
       return nil if abort_sending?(journal, send_notifications)
 
       author = User.find_by(id: journal.user_id) || DeletedUser.first
@@ -55,6 +49,8 @@ class Notifications::JournalWpNotificationService
         create_event(journal, recipient, reason, author)
       end
     end
+
+    private
 
     def create_event(journal, recipient, reason, user)
       key = case reason

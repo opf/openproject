@@ -163,7 +163,7 @@ module Redmine
 
         # Returns an array of watchers
         def watcher_recipients
-          possible_watcher_users & watcher_users.active.where.not(mail_notification: 'none')
+          possible_watcher_users.where(id: watcher_users.active.where.not(mail_notification: 'none'))
         end
 
         module ClassMethods

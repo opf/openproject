@@ -277,10 +277,8 @@ describe MailHandler, type: :model do
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(WorkPackage)
-    # One for the wp creation and the other for the
-    # author being set as watcher. Only applies as
-    # the user preferences are to be self notified
-    assert_equal 2, ActionMailer::Base.deliveries.size
+    # One for the wp creation.
+    assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
   it 'should add work package note' do
