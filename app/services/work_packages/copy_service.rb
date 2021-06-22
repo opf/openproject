@@ -85,8 +85,8 @@ class WorkPackages::CopyService
   end
 
   def copy_watchers(copied)
-    work_package.watchers.each do |watcher|
-      copied.add_watcher(watcher.user) if watcher.user.active?
+    work_package.watcher_users.each do |user|
+      copied.add_watcher(user) if user.active?
     end
   end
 end

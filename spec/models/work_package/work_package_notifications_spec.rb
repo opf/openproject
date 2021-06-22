@@ -34,8 +34,7 @@ require 'spec_helper'
 # Tests that email notifications will be sent upon creating or changing a work package.
 describe WorkPackage, type: :model do
   describe 'email notifications' do
-    shared_let(:admin) { FactoryBot.create :admin }
-    let(:user) { admin }
+    let(:user) { FactoryBot.create(:admin) }
     let(:current_user) { FactoryBot.create :admin }
     let(:project) { FactoryBot.create :project }
     let(:work_package) do
@@ -57,15 +56,18 @@ describe WorkPackage, type: :model do
       end
 
       context 'with email notifications disabled' do
-        let(:user) { FactoryBot.create :admin, mail_notification: "none" }
+        let(:user) do
+          notification_settings = [
+            FactoryBot.build(:mail_notification_setting, mentioned: false, involved: false, watched: false, all: false),
+            FactoryBot.build(:in_app_notification_setting, mentioned: false, involved: false, watched: false, all: false)
+          ]
+
+          FactoryBot.create :admin,
+                            notification_settings: notification_settings
+        end
 
         let(:project) do
-          project = FactoryBot.create :project
-          role = FactoryBot.create :role
-
-          project.members.create principal: user, roles: [role], mail_notification: true
-
-          project
+          FactoryBot.create :project, members: { user => [FactoryBot.create(:role)] }
         end
 
         it "are not sent to the work package's author" do
