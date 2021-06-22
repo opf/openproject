@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Installation & Upgrade Guide
+  priority: 940
+robots: index, follow
+---
+
 # Installation & operations guide
 
 This page summarizes the options for getting OpenProject, some hosted and some on-premise. With this information you should be able to decide what option is best for you. Find a full feature comparison [here](https://www.openproject.org/pricing/#compare).

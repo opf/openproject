@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Development
+  priority: 920
+robots: index, follow
+---
+
 # Develop OpenProject
 
 We are pleased that you are thinking about contributing to OpenProject! This guide details how to contribute to OpenProject.
