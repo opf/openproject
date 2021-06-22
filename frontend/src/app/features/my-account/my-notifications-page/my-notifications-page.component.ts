@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationSettingsService } from "core-app/features/my-account/my-notifications-page/state/notification-settings.service";
 import { NotificationSettingsQuery } from "core-app/features/my-account/my-notifications-page/state/notification-settings.query";
@@ -13,9 +13,12 @@ import {
 } from "core-app/features/my-account/my-notifications-page/state/notification-setting.model";
 import { HalSourceLink } from "core-app/features/hal/resources/hal-resource";
 import { KeyValue } from "@angular/common";
+import { UIRouterGlobals } from "@uirouter/core";
+
+export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
 @Component({
-  selector: 'op-notifications-page',
+  selector: myNotificationsPageComponentSelector,
   templateUrl: './my-notifications-page.component.html',
   styleUrls: ['./my-notifications-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,10 +61,12 @@ export class MyNotificationsPageComponent implements OnInit {
     private store:NotificationSettingsStore,
     private query:NotificationSettingsQuery,
     private currentUserService:CurrentUserService,
+    private uiRouterGlobals:UIRouterGlobals
   ) {
   }
 
   ngOnInit():void {
+    this.userId = this.userId || this.uiRouterGlobals.params.userId;
     this
       .currentUserService
       .user$

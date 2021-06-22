@@ -36,4 +36,10 @@ export const MY_ACCOUNT_ROUTES:Ng2StateDeclaration[] = [
     url: '/my/notifications',
     component: MyNotificationsPageComponent
   },
+  {
+    name: 'user_notifications',
+    parent: 'root',
+    url: '/users/:userId/edit/notifications',
+    component: MyNotificationsPageComponent
+  },
 ];

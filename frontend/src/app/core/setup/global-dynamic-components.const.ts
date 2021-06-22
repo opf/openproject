@@ -166,6 +166,7 @@ import {
   InAppNotificationBellComponent,
   opInAppNotificationBellSelector
 } from "core-app/features/in-app-notifications/bell/in-app-notification-bell.component";
+import { MyNotificationsPageComponent } from "core-app/features/my-account/my-notifications-page/my-notifications-page.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -214,7 +215,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: slideToggleSelector, cls: SlideToggleComponent },
   { selector: backupSelector, cls: BackupComponent },
-  { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
+  { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent }
 ];
 
 
