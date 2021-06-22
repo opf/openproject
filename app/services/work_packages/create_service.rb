@@ -54,8 +54,7 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
     result = set_attributes(attributes, work_package)
 
     result.success = if result.success
-                       work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
-                       work_package.save
+                       replace_attachments(work_package)
                      else
                        false
                      end
@@ -81,6 +80,11 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
            model: wp,
            contract_class: contract_class)
       .call(attributes)
+  end
+
+  def replace_attachments(work_package)
+    work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
+    work_package.save
   end
 
   def reschedule_related(work_package)

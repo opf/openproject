@@ -37,9 +37,18 @@ module Users::Scopes
 
     class_methods do
       def notified_on_all(project)
-        where(id: NotificationSetting.where(all: true, project: nil).select(:user_id))
-          .where.not(id: NotificationSetting.where(project: project).group(:user_id).having('NOT bool_or("all")').select(:user_id))
-          .or(User.where(id: NotificationSetting.where(all: true, project: project).select(:user_id)))
+        global_settings = NotificationSetting
+                          .where(all: true, project: nil)
+        project_settings_not_all = NotificationSetting
+                                   .where(project: project)
+                                   .group(:user_id)
+                                   .having('NOT bool_or("all")')
+        project_settings = NotificationSetting
+                           .where(all: true, project: project)
+
+        where(id: global_settings.select(:user_id))
+          .where.not(id: project_settings_not_all.select(:user_id))
+          .or(User.where(id: project_settings.select(:user_id)))
       end
     end
   end

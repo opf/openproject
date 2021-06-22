@@ -100,8 +100,6 @@ module API
         case resource
         when Journal
           ::API::V3::Activities::ActivityRepresenter
-        else
-          nil
         end
       end
 

@@ -147,7 +147,7 @@ class Notifications::JournalWpNotificationService
         details = journal.details[field]
 
         if details.present?
-          potential_text << "\n" + Redmine::Helpers::Diff.new(*details.reverse).additions.join(' ')
+          potential_text << "\n#{Redmine::Helpers::Diff.new(*details.reverse).additions.join(' ')}"
         end
       end
       potential_text

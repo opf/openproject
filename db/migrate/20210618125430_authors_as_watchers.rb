@@ -1,7 +1,7 @@
 class AuthorsAsWatchers < ActiveRecord::Migration[6.1]
   def up
     WorkPackage
-      .includes(:author,  :project)
+      .includes(:author, :project)
       .find_each do |work_package|
       Watcher.create(user: work_package.author, watchable: work_package)
     end

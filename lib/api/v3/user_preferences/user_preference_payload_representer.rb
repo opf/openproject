@@ -28,7 +28,6 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-
 module API
   module V3
     module UserPreferences

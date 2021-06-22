@@ -89,7 +89,7 @@ module OpenProject
               partial: 'users/notifications',
               path: ->(params) { edit_user_path(params[:user], tab: :notifications) },
               label: :'notifications.settings.title'
-            },
+            }
           ]
         end
 

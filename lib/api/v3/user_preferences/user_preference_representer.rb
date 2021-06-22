@@ -37,7 +37,7 @@ module API
       class UserPreferenceRepresenter < ::API::Decorators::Single
         link :self do
           {
-            href: api_v3_paths.user_preferences(represented.user.id),
+            href: api_v3_paths.user_preferences(represented.user.id)
           }
         end
 

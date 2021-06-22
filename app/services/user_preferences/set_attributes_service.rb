@@ -30,7 +30,6 @@
 
 module UserPreferences
   class SetAttributesService < ::BaseServices::SetAttributes
-
     def set_attributes(params)
       params.each do |k, v|
         model[k] = v
