@@ -1,98 +1,10 @@
-<div class="toolbar-container">
-  <div class="toolbar">
-    <div class="title-container">
-      <h2 [textContent]="text.title"></h2>
-    </div>
-    <ul class="toolbar-items">
-      <li class="toolbar-item">
-        <button
-            *ngIf="(projectSettings$ | async).length > 0"
-            class="button"
-            (click)="removeAll()"
-        >
-          <op-icon icon-classes="button--icon icon-delte">
-          </op-icon>
-          <span
-              class="button--text"
-              [textContent]="text.remove_projects"
-          >
-          </span>
-        </button>
-      </li>
-    </ul>
-  </div>
-</div>
+<op-notifications-settings-toolbar></op-notifications-settings-toolbar>
+<op-notification-settings-table
+    *ngIf="userId"
+    [userId]="userId"
+></op-notification-settings-table>
 
-<div class="generic-table--container">
-  <div class="generic-table--results-container">
-    <table class="generic-table">
-      <thead>
-      <tr>
-        <th>
-          <div class="generic-table--empty-header"></div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.channel_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.involved_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.mentioned_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.watched_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.any_event_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--empty-header"></div>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue: projectOrder">
-        <ng-container *ngFor="let setting of item.value; let first = first">
-          <tr
-              op-notification-setting-row
-              [first]="first"
-              [setting]="setting"
-          >
-          </tr>
-        </ng-container>
-      </ng-container>
-      </tbody>
-    </table>
-    <op-notification-setting-inline-create
-        *ngIf="userId"
-        [userId]="userId"
-        (onSelect)="addRow($event)"
-    ></op-notification-setting-inline-create>
-  </div>
-</div>
-
-<fieldset class="form--fieldset">
+<fieldset class="form--fieldset form--section">
   <legend class="form--fieldset-legend">
     {{ text.advanced_settings }}
   </legend>

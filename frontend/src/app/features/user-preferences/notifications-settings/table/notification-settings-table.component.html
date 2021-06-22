@@ -1,0 +1,73 @@
+<div class="generic-table--container form--section">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <thead>
+      <tr>
+        <th>
+          <div class="generic-table--empty-header"></div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.channel_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.involved_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.mentioned_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.watched_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.any_event_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--empty-header"></div>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue: projectOrder">
+        <ng-container *ngFor="let setting of item.value; let first = first; let last = last">
+          <tr
+              class="-no-highlighting"
+              op-notification-setting-row
+              [first]="first"
+              [setting]="setting"
+          >
+          </tr>
+          <tr *ngIf="last"
+              class="op-notifications-settings-table--spacer">
+            <td colspan="7"></td>
+          </tr>
+        </ng-container>
+      </ng-container>
+      </tbody>
+    </table>
+    <op-notification-setting-inline-create
+        *ngIf="userId"
+        [userId]="userId"
+        (onSelect)="addRow($event)"
+    ></op-notification-setting-inline-create>
+  </div>
+</div>

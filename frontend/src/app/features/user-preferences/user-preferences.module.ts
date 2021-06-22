@@ -11,6 +11,8 @@ import { NotificationsSettingsPageComponent } from "core-app/features/user-prefe
 import { NotificationSettingRowComponent } from "core-app/features/user-preferences/notifications-settings/row/notification-setting-row.component";
 import { NotificationSettingInlineCreateComponent } from "core-app/features/user-preferences/notifications-settings/inline-create/notification-setting-inline-create.component";
 import { MY_ACCOUNT_ROUTES } from "core-app/features/user-preferences/user-preferences.routes";
+import { NotificationsSettingsToolbarComponent } from './notifications-settings/toolbar/notifications-settings-toolbar.component';
+import { NotificationSettingsTableComponent } from './notifications-settings/table/notification-settings-table.component';
 
 @NgModule({
   providers: [
@@ -22,6 +24,8 @@ import { MY_ACCOUNT_ROUTES } from "core-app/features/user-preferences/user-prefe
     NotificationsSettingsPageComponent,
     NotificationSettingRowComponent,
     NotificationSettingInlineCreateComponent,
+    NotificationsSettingsToolbarComponent,
+    NotificationSettingsTableComponent,
   ],
   imports: [
     CommonModule,
