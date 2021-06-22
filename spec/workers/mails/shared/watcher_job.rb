@@ -36,9 +36,7 @@ shared_examples "watcher job" do |action|
   let(:action) { action }
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:watcher_changer) do
-    FactoryBot.build_stubbed(:user,
-                             mail_notification: watching_setting,
-                             preference: user_pref)
+    FactoryBot.build_stubbed(:user)
   end
   let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
   let(:watcher) do
@@ -52,11 +50,25 @@ shared_examples "watcher job" do |action|
 
     pref
   end
-  let(:watching_setting) { 'all' }
+  let(:notification_settings) do
+    [FactoryBot.build_stubbed(:mail_notification_setting, all: true)]
+  end
   let(:watching_user) do
     FactoryBot.build_stubbed(:user,
-                             mail_notification: watching_setting,
-                             preference: user_pref)
+                             notification_settings: notification_settings,
+                             preference: user_pref).tap do |user|
+      allow(user)
+        .to receive(:notification_settings)
+              .and_return(notification_settings)
+
+      allow(notification_settings)
+        .to receive(:applicable)
+              .and_return(notification_settings)
+
+      allow(notification_settings)
+        .to receive(:mail)
+              .and_return(notification_settings)
+    end
   end
 
   before do
@@ -100,9 +112,7 @@ shared_examples "watcher job" do |action|
     end
   end
 
-  shared_examples_for 'notifies the watcher for' do |setting|
-    let(:watching_setting) { setting }
-
+  shared_examples_for 'notifies the watcher' do
     context 'when added by a different user
                and has self_notified activated' do
       let(:self_notified) { true }
@@ -119,7 +129,7 @@ shared_examples "watcher job" do |action|
 
     context 'but when watcher is added by theirself
                and has self_notified deactivated' do
-      let(:watching_user) { watcher_changer }
+      let(:watcher_changer) { watching_user }
       let(:self_notified) { false }
 
       it_behaves_like 'sends no mail'
@@ -127,76 +137,47 @@ shared_examples "watcher job" do |action|
 
     context 'but when watcher is added by theirself
                and has self_notified activated' do
-      let(:watching_user) { watcher_changer }
+      let(:watcher_changer) { watching_user }
       let(:self_notified) { true }
 
       it_behaves_like 'sends a mail'
     end
   end
 
-  shared_examples_for 'does not notify the watcher for' do |setting|
-    let(:watching_setting) { setting }
-
+  shared_examples_for 'does not notify the watcher' do
     context 'when added by a different user' do
       it_behaves_like 'sends no mail'
     end
 
     context 'when watcher is added by theirself' do
-      let(:watching_user) { watcher_changer }
+      let(:watcher_changer) { watching_user }
       let(:self_notified) { false }
 
       it_behaves_like 'sends no mail'
     end
   end
 
-  it_behaves_like 'does not notify the watcher for', 'none'
-
-  it_behaves_like 'notifies the watcher for', 'all'
-
-  it_behaves_like 'notifies the watcher for', 'only_my_events'
-
-  it_behaves_like 'notifies the watcher for', 'only_owner' do
-    before do
-      work_package.author = watching_user
+  it_behaves_like 'notifies the watcher' do
+    let(:notification_settings) do
+      [FactoryBot.build_stubbed(:mail_notification_setting, mentioned: false, involved: false, watched: false, all: true)]
     end
   end
 
-  it_behaves_like 'does not notify the watcher for', 'only_owner' do
-    before do
-      work_package.author = watcher_changer
+  it_behaves_like 'notifies the watcher' do
+    let(:notification_settings) do
+      [FactoryBot.build_stubbed(:mail_notification_setting, mentioned: false, involved: false, watched: true)]
     end
   end
 
-  it_behaves_like 'notifies the watcher for', 'only_assigned' do
-    before do
-      work_package.assigned_to = watching_user
+  it_behaves_like 'does not notify the watcher' do
+    let(:notification_settings) do
+      [FactoryBot.build_stubbed(:mail_notification_setting, mentioned: false, involved: true, watched: false)]
     end
   end
 
-  it_behaves_like 'does not notify the watcher for', 'only_assigned' do
-    before do
-      work_package.assigned_to = watcher_changer
-    end
-  end
-
-  it_behaves_like 'notifies the watcher for', 'selected' do
-    before do
-      work_package.project = project
-      allow(watching_user).to receive(:notified_projects_ids).and_return([project.id])
-    end
-  end
-
-  it_behaves_like 'does not notify the watcher for', 'selected' do
-    before do
-      work_package.project = project
-      allow(watching_user).to receive(:notified_projects_ids).and_return([])
-    end
-  end
-
-  it_behaves_like 'does not notify the watcher for', 'selected' do
-    let(:work_package) { FactoryBot.build_stubbed(:work_package) }
-    before do
-      allow(watching_user).to receive(:notified_projects_ids).and_return([project.id])
+  it_behaves_like 'does not notify the watcher' do
+    let(:notification_settings) do
+      [FactoryBot.build_stubbed(:mail_notification_setting, mentioned: true, involved: false, watched: false)]
     end
   end
 end

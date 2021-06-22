@@ -39,9 +39,6 @@ FactoryBot.define do
       preferences { {} }
     end
 
-    # TODO: replace by notification settings
-    mail_notification { 'all' }
-
     language { 'en' }
     status { User.statuses[:active] }
     admin { false }

@@ -88,10 +88,6 @@ class MyController < ApplicationController
            locals: { menu_name: :my_menu }
   end
 
-  def update_mail_notifications
-    write_email_settings(redirect_to: :mail_notifications)
-  end
-
   # Create a new feeds key
   def generate_rss_key
     if request.post?
@@ -143,16 +139,6 @@ class MyController < ApplicationController
       return true
     end
     false
-  end
-
-  def write_email_settings(redirect_to:)
-    update_service = UpdateUserEmailSettingsService.new(@user)
-    if update_service.call(mail_notification: permitted_params.user[:mail_notification],
-                           self_notified: params[:self_notified] == '1',
-                           notified_project_ids: params[:notified_project_ids])
-      flash[:notice] = I18n.t(:notice_account_updated)
-      redirect_to(action: redirect_to)
-    end
   end
 
   def write_settings

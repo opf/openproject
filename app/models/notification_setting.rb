@@ -4,5 +4,8 @@ class NotificationSetting < ApplicationRecord
   belongs_to :project
   belongs_to :user
 
+  include Scopes::Scoped
+  scopes :applicable
+
   validates :channel, uniqueness: { scope: %i[project user] }
 end

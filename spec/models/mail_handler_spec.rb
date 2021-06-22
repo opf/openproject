@@ -248,7 +248,6 @@ describe MailHandler, type: :model do
         context 'with a user watching every creation' do
           let!(:other_user) do
             FactoryBot.create(:user,
-                              mail_notification: 'all',
                               member_in_project: project,
                               member_with_permissions: %i[view_work_packages])
           end

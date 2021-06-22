@@ -284,19 +284,6 @@ describe User, type: :model do
     assert_equal({}, User.anonymous.projects_by_role)
   end
 
-  it 'should valid notification options' do
-    # without memberships
-    assert_equal 5, User.find(7).valid_notification_options.size
-    # with memberships
-    assert_equal 6, User.find(2).valid_notification_options.size
-  end
-
-  it 'should valid notification options class method' do
-    assert_equal 5, User.valid_notification_options.size
-    assert_equal 5, User.valid_notification_options(User.find(7)).size
-    assert_equal 6, User.valid_notification_options(User.find(2)).size
-  end
-
   it 'should comments sorting preference' do
     assert !@jsmith.wants_comments_in_reverse_order?
     @jsmith.pref.comments_sorting = 'asc'

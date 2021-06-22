@@ -34,12 +34,10 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:recipient) do
-    # TODO: remove mail_notification
     FactoryBot.create(:user,
                       notification_settings: recipient_notification_settings,
                       member_in_project: project,
                       member_through_role: role,
-                      mail_notification: 'only_assigned',
                       login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }
