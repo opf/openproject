@@ -208,14 +208,6 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'show', :message
   end
 
-  describe 'my paths' do
-    describe '#my_preferences' do
-      subject { helper.my_preferences }
-
-      it_behaves_like 'api v3 path', '/my_preferences'
-    end
-  end
-
   describe 'news paths' do
     describe '#newses' do
       subject { helper.newses }
@@ -443,6 +435,12 @@ describe ::API::V3::Utilities::PathHelper do
   describe 'users paths' do
     it_behaves_like 'index', :user
     it_behaves_like 'show', :user
+  end
+
+  describe 'user_preferences path' do
+    subject { helper.user_preferences(42) }
+
+    it_behaves_like 'api v3 path', '/users/42/preferences'
   end
 
   describe 'group paths' do

@@ -35,7 +35,7 @@ module UserPreferences
     attr_accessor :notifications
 
     def before_perform(params)
-      self.notifications = params.delete(:notification_settings)
+      self.notifications = params&.delete(:notification_settings)
 
       super
     end
