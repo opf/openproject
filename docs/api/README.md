@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: API Documentation
+  priority: 910
+robots: index, follow
+---
+
 # OpenProject API
 
 OpenProject offers two APIs. The general purpose HATEOAS API v3 and the BCF API v2.1 api targeted towards BIM use cases.
