@@ -44,9 +44,7 @@ describe DocumentsController do
     FactoryBot.create(:document, title: "Sample Document", project: project, category: default_category)
   end
 
-  before do
-    allow(User).to receive(:current).and_return admin
-  end
+  current_user { admin }
 
   describe "index" do
     let(:long_description) do
