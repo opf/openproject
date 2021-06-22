@@ -26,25 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { Store, StoreConfig } from '@datorama/akita';
-import { NotificationSetting } from "core-app/features/my-account/my-notifications-page/state/notification-setting.model";
+import { Ng2StateDeclaration } from "@uirouter/angular";
+import { NotificationsSettingsPageComponent } from "core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component";
 
-export type NotificationSettingChannel = 'mail'|'in_app';
-
-
-export type NotificationSettingsState = {
-  notifications:NotificationSetting[];
-};
-
-function createInitialState() {
-  return { notifications: [] };
-}
-
-@Injectable()
-@StoreConfig({ name: 'notification-settings' })
-export class NotificationSettingsStore extends Store<NotificationSettingsState> {
-  constructor() {
-    super(createInitialState());
-  }
-}
+export const MY_ACCOUNT_ROUTES:Ng2StateDeclaration[] = [
+  {
+    name: 'my_notifications',
+    parent: 'root',
+    url: '/my/notifications',
+    component: NotificationsSettingsPageComponent
+  },
+  {
+    name: 'user_notifications',
+    parent: 'root',
+    url: '/users/:userId/edit/notifications',
+    component: NotificationsSettingsPageComponent
+  },
+];

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { NotificationSetting } from "core-app/features/my-account/my-notifications-page/state/notification-setting.model";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationSettingsStore } from "core-app/features/my-account/my-notifications-page/state/notification-settings.store";
 import { arrayUpdate } from "@datorama/akita";
+import { NotificationSetting } from "core-app/features/user-preferences/state/notification-setting.model";
+import { UserPreferencesStore } from "core-app/features/user-preferences/state/user-preferences.store";
 
 @Component({
   selector: '[op-notification-setting-row]',
@@ -34,7 +34,7 @@ export class NotificationSettingRowComponent implements OnInit {
 
   constructor(
     private I18n:I18nService,
-    private store:NotificationSettingsStore,
+    private store:UserPreferencesStore,
   ) {
   }
 

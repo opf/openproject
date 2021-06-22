@@ -26,32 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { MultiInputState } from "reactivestates";
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { APIv3ResourcePath } from "core-app/core/apiv3/paths/apiv3-resource";
-import { NotificationSetting } from "core-app/features/my-account/my-notifications-page/state/notification-setting.model";
 import { Observable } from "rxjs";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { HttpClient } from "@angular/common/http";
+import { UserPreferencesModel } from "core-app/features/user-preferences/state/user-preferences.model";
 
-export interface UserPreference {
-  [key:string]:unknown;
-  notifications:NotificationSetting[];
-}
-
-export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreference> {
+export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferencesModel> {
   @InjectField() http:HttpClient;
 
 
   /**
    * Perform a request to the backend to load preferences
    */
-  public get():Observable<UserPreference> {
+  public get():Observable<UserPreferencesModel> {
     return this
       .http
-      .get<UserPreference>(
+      .get<UserPreferencesModel>(
         this.path,
       );
   }
@@ -59,10 +50,10 @@ export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreference>
   /**
    * Perform a request to update preferences
    */
-  public patch(payload:Partial<UserPreference>):Observable<UserPreference> {
+  public patch(payload:Partial<UserPreferencesModel>):Observable<UserPreferencesModel> {
     return this
       .http
-      .patch<UserPreference>(
+      .patch<UserPreferencesModel>(
         this.path,
         payload,
         { withCredentials: true, responseType: 'json' }

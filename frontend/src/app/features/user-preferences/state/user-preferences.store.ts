@@ -26,20 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Ng2StateDeclaration } from "@uirouter/angular";
-import { MyNotificationsPageComponent } from "core-app/features/my-account/my-notifications-page/my-notifications-page.component";
+import { Injectable } from "@angular/core";
+import { Store, StoreConfig } from '@datorama/akita';
+import { UserPreferencesModel } from "core-app/features/user-preferences/state/user-preferences.model";
 
-export const MY_ACCOUNT_ROUTES:Ng2StateDeclaration[] = [
-  {
-    name: 'my_notifications',
-    parent: 'root',
-    url: '/my/notifications',
-    component: MyNotificationsPageComponent
-  },
-  {
-    name: 'user_notifications',
-    parent: 'root',
-    url: '/users/:userId/edit/notifications',
-    component: MyNotificationsPageComponent
-  },
-];
+function createInitialState():UserPreferencesModel {
+  return {
+    autoHidePopups: true,
+    commentSortDescending: false,
+    hideMail: true,
+    timeZone: null,
+    warnOnLeavingUnsaved: true,
+    notifications: []
+  };
+}
+
+@Injectable()
+@StoreConfig({ name: 'notification-settings' })
+export class UserPreferencesStore extends Store<UserPreferencesModel> {
+  constructor() {
+    super(createInitialState());
+  }
+}

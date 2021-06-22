@@ -34,7 +34,7 @@ import { FirstRouteService } from "core-app/core/routing/first-route-service";
 import { Ng2StateDeclaration, StatesModule } from "@uirouter/angular";
 import { appBaseSelector, ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";
 import { BackRoutingService } from "core-app/features/work-packages/components/back-routing/back-routing.service";
-import { MY_ACCOUNT_LAZY_ROUTES } from "core-app/features/my-account/my-account.lazy-routes";
+import { MY_ACCOUNT_LAZY_ROUTES } from "core-app/features/user-preferences/user-preferences.lazy-routes";
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {

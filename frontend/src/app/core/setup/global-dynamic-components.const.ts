@@ -12,7 +12,10 @@ import {
   ZenModeButtonComponent,
   zenModeComponentSelector
 } from "core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
-import { AttachmentsComponent, attachmentsSelector } from "core-app/shared/components/attachments/attachments.component";
+import {
+  AttachmentsComponent,
+  attachmentsSelector
+} from "core-app/shared/components/attachments/attachments.component";
 import {
   UserAutocompleterComponent,
   usersAutocompleterSelector
@@ -42,7 +45,7 @@ import {
   PersistentToggleComponent,
   persistentToggleSelector
 } from "core-app/shared/components/persistent-toggle/persistent-toggle.component";
-import {OpPrincipalComponent, principalSelector} from "core-app/shared/components/principal/principal.component";
+import { OpPrincipalComponent, principalSelector } from "core-app/shared/components/principal/principal.component";
 import {
   HideSectionLinkComponent,
   hideSectionLinkSelector
@@ -127,7 +130,10 @@ import {
   quickInfoMacroSelector,
   WorkPackageQuickinfoMacroComponent
 } from "core-app/shared/components/fields/macros/work-package-quickinfo-macro.component";
-import { SlideToggleComponent, slideToggleSelector } from "core-app/shared/components/slide-toggle/slide-toggle.component";
+import {
+  SlideToggleComponent,
+  slideToggleSelector
+} from "core-app/shared/components/slide-toggle/slide-toggle.component";
 import { BackupComponent, backupSelector } from "core-app/core/setup/globals/components/admin/backup.component";
 import {
   EnterpriseBaseComponent,
@@ -166,7 +172,6 @@ import {
   InAppNotificationBellComponent,
   opInAppNotificationBellSelector
 } from "core-app/features/in-app-notifications/bell/in-app-notification-bell.component";
-import { MyNotificationsPageComponent } from "core-app/features/my-account/my-notifications-page/my-notifications-page.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
