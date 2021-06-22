@@ -11,10 +11,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { IOpOptionListOption } from "@openproject/angular";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BannersService } from "core-app/core/enterprise/banners.service";
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { IOpOptionListOption } from "core-app/shared/components/option-list/option-list.component";
 import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 import { PrincipalType } from '../invite-user.component';
 import { ProjectAllowedValidator } from './project-allowed.validator';

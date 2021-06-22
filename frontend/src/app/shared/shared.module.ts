@@ -35,6 +35,7 @@ import {NgOptionHighlightModule} from '@ng-select/ng-option-highlight';
 import {DragulaModule} from 'ng2-dragula';
 import {DynamicModule} from 'ng-dynamic-component';
 import {StateService, UIRouterModule} from '@uirouter/angular';
+import {OpOptionListModule} from '@openproject/angular';
 import {OpenprojectAccessibilityModule} from 'core-app/shared/directives/a11y/openproject-a11y.module';
 import {CurrentUserModule} from 'core-app/core/current-user/current-user.module';
 import {IconModule} from 'core-app/shared/components/icon/icon.module';
@@ -66,7 +67,6 @@ import {SlideToggleComponent} from './components/slide-toggle/slide-toggle.compo
 import {DynamicBootstrapModule} from './components/dynamic-bootstrap/dynamic-bootstrap.module';
 import {OpFormFieldComponent} from './components/forms/form-field/form-field.component';
 import {OpFormBindingDirective} from './components/forms/form-field/form-binding.directive';
-import {OpOptionListComponent} from './components/option-list/option-list.component';
 import {OpenprojectPrincipalRenderingModule} from "core-app/shared/components/principal/principal-rendering.module";
 import { DatePickerModule } from "core-app/shared/components/op-date-picker/date-picker.module";
 import { FocusModule } from "core-app/shared/directives/focus/focus.module";
@@ -110,6 +110,9 @@ export function bootstrapModule(injector:Injector) {
     PortalModule,
     DragDropModule,
     DragulaModule,
+
+    OpOptionListModule,
+
     // Our own A11y module
     OpenprojectAccessibilityModule,
     CurrentUserModule,
@@ -139,6 +142,8 @@ export function bootstrapModule(injector:Injector) {
     NgOptionHighlightModule,
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,
+
+    OpOptionListModule,
 
     DatePickerModule,
     FocusModule,
@@ -180,7 +185,6 @@ export function bootstrapModule(injector:Injector) {
     // Autocompleter
     OpFormFieldComponent,
     OpFormBindingDirective,
-    OpOptionListComponent,
   ],
   declarations: [
     OpDateTimeComponent,
@@ -233,7 +237,6 @@ export function bootstrapModule(injector:Injector) {
 
     OpFormFieldComponent,
     OpFormBindingDirective,
-    OpOptionListComponent,
   ]
 })
 export class OPSharedModule {
