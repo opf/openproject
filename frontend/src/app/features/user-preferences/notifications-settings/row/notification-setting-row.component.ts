@@ -7,7 +7,6 @@ import { UserPreferencesStore } from "core-app/features/user-preferences/state/u
 @Component({
   selector: '[op-notification-setting-row]',
   templateUrl: './notification-setting-row.component.html',
-  styleUrls: ['./notification-setting-row.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationSettingRowComponent implements OnInit {

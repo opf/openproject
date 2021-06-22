@@ -6,5 +6,6 @@ export interface UserPreferencesModel {
   hideMail:boolean;
   timeZone:string|null;
   warnOnLeavingUnsaved:boolean;
+  selfNotified:boolean;
   notifications:NotificationSetting[];
 }

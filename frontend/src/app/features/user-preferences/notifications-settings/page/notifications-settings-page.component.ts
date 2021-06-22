@@ -19,7 +19,6 @@ export const myNotificationsPageComponentSelector = 'op-notifications-page';
 @Component({
   selector: myNotificationsPageComponentSelector,
   templateUrl: './notifications-settings-page.component.html',
-  styleUrls: ['./notifications-settings-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsSettingsPageComponent implements OnInit {
@@ -27,6 +26,7 @@ export class NotificationsSettingsPageComponent implements OnInit {
 
   groupedNotificationSettings$ = this.query.notificationsGroupedByProject$;
   projectSettings$ = this.query.projectNotifications$;
+  preferences$ = this.query.preferences$;
 
   text = {
     title: this.I18n.t('js.notifications.settings.title'),
@@ -40,6 +40,8 @@ export class NotificationsSettingsPageComponent implements OnInit {
     watched_header: this.I18n.t('js.notifications.settings.watched'),
     any_event_header: this.I18n.t('js.notifications.settings.all'),
     default_all_projects: this.I18n.t('js.notifications.settings.default_all_projects'),
+    advanced_settings: this.I18n.t('js.forms.advanced_settings'),
+    self_notify: this.I18n.t('js.notifications.settings.self_notify')
   };
 
   projectOrder = (a:KeyValue<string, unknown>, b:KeyValue<string, unknown>):number => {
@@ -77,8 +79,8 @@ export class NotificationsSettingsPageComponent implements OnInit {
   }
 
   public saveChanges():void {
-    const notifications = this.query.getValue().notifications;
-    this.stateService.update(this.userId, { notifications });
+    const prefs = this.query.getValue();
+    this.stateService.update(this.userId, prefs);
   }
 
   removeAll() {
@@ -100,5 +102,9 @@ export class NotificationsSettingsPageComponent implements OnInit {
         notifications: arrayAdd(notifications, added)
       })
     );
+  }
+
+  updateNotified(checked:boolean) {
+    this.store.update({ selfNotified: checked });
   }
 }

@@ -25,6 +25,8 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
       map(settings => settings.filter(notification => notification._links.project.href !== null))
     );
 
+  preferences$ = this.select();
+
   constructor(protected store:UserPreferencesStore) {
     super(store);
   }
