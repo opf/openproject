@@ -294,6 +294,47 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
+    context 'with filtering by visiblity' do
+      let(:public_project) do
+        # Otherwise, the public project is invisible
+        FactoryBot.create(:non_member)
+
+        FactoryBot.create(:public_project)
+      end
+      let(:member_project) do
+        FactoryBot.create(:project, members: { other_user => role })
+      end
+      let(:non_member_project) do
+        FactoryBot.create(:project)
+      end
+      let(:archived_member_project) do
+        FactoryBot.create(:project, members: { other_user => role }, active: false)
+      end
+      let(:projects) { [member_project, public_project, non_member_project, archived_member_project] }
+      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:other_user) do
+        FactoryBot.create(:user)
+      end
+
+      let(:get_path) do
+        api_v3_paths.path_for :projects, filters: [{ "visible": { "operator": "=", "values": [other_user.id.to_s] } }]
+      end
+
+      current_user { admin }
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Project'
+
+      it 'contains the expected projects' do
+        expect(last_response.body)
+          .to be_json_eql(public_project.id.to_json)
+                .at_path('_embedded/elements/0/id')
+
+        expect(last_response.body)
+          .to be_json_eql(member_project.id.to_json)
+                .at_path('_embedded/elements/1/id')
+      end
+    end
+
     context 'with the project being archived/inactive' do
       let(:project_active) { false }
       let(:projects) { [project] }

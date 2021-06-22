@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,33 +26,53 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+require 'spec_helper'
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
-    filter query, filters::VisibleFilter
+describe Queries::Projects::Filters::VisibleFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :visible }
+    let(:type) { :list }
+    let(:model) { Project }
+    let(:attribute) { :visible }
+    let(:values) { ['5'] }
 
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
+    describe '#available_operators' do
+      it 'supports only =' do
+        expect(instance.available_operators)
+          .to eql [Queries::Operators::Equals]
+      end
+    end
+
+    describe '#valid?' do
+      before do
+        allow(User)
+          .to receive(:pluck)
+                .and_return([[5, 5], [8, 8]])
+      end
+      context 'without values' do
+        let(:values) { [] }
+
+        it 'is invalid' do
+          expect(instance)
+            .to be_invalid
+        end
+      end
+
+      context 'with valid value' do
+        it 'is valid' do
+          expect(instance)
+            .to be_valid
+        end
+      end
+
+      context 'with multiple valid values' do
+        let(:values) { %w[5 8] }
+
+        it 'is invalid' do
+          expect(instance)
+            .to be_invalid
+        end
+      end
+    end
   end
 end

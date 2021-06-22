@@ -28,33 +28,44 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+# Returns projects visible for a user.
+# This filter is only useful for admins which want to scope down the list of all the projects to those
+# visible by a user. For a non admin user, the vanilla project query is already limited to the visible projects.
+module Queries
+  module Projects
+    module Filters
+      class VisibleFilter < ::Queries::Projects::Filters::ProjectFilter
+        validate :validate_only_single_value
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
-    filter query, filters::VisibleFilter
+        def allowed_values
+          # Disregard the need for a proper name (as it is no longer actually displayed)
+          # in favor of speed.
+          @allowed_values ||= User.pluck(:id, :id)
+        end
 
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
+        def scope
+          super.where(id: Project.visible(User.find(values.first)))
+        end
+
+        def where
+          # Handled by scope
+          '1 = 1'
+        end
+
+        def type
+          :list
+        end
+
+        def available_operators
+          [::Queries::Operators::Equals]
+        end
+
+        private
+
+        def validate_only_single_value
+          errors.add(:values, :invalid) if values.length != 1
+        end
+      end
+    end
   end
 end
