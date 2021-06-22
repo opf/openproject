@@ -8,6 +8,7 @@ import { Apiv3UserPreferencesPaths } from "core-app/core/apiv3/endpoints/users/a
 import { NotificationSetting } from "core-app/features/my-account/my-notifications-page/state/notification-setting.model";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Injectable({ providedIn: 'root' })
 export class NotificationSettingsService {
@@ -17,6 +18,7 @@ export class NotificationSettingsService {
     private http:HttpClient,
     private apiV3Service:APIV3Service,
     private notifications:NotificationsService,
+    private I18n:I18nService,
   ) {
   }
 
@@ -34,12 +36,18 @@ export class NotificationSettingsService {
   }
 
   update(user:string, notifications:NotificationSetting[]):void {
+    this.store.setLoading(true);
     this
       .preferenceAPI(user)
       .patch({ notifications })
-      .pipe(
-        tap(prefs => this.store.update({ notifications: prefs.notifications }))
-      );
+      .subscribe(
+        prefs => {
+          this.store.update({ notifications: prefs.notifications });
+          this.notifications.addSuccess(this.I18n.t('js.notice_successful_update'));
+        },
+        error => this.notifications.addError(error),
+      )
+      .add(() => this.store.setLoading(false));
   }
 
   private preferenceAPI(user:string):Apiv3UserPreferencesPaths {

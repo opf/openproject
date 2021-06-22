@@ -559,10 +559,18 @@ en:
           timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
 
     notifications:
-      in_app: "In-app notifications"
-      email: "Email notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "Email"
       settings:
-        remove_all: 'Remove all'
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
 
     password_confirmation:

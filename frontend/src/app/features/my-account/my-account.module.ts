@@ -8,6 +8,9 @@ import { OPSharedModule } from "core-app/shared/shared.module";
 import { NotificationSettingsStore } from "core-app/features/my-account/my-notifications-page/state/notification-settings.store";
 import { NotificationSettingsQuery } from "core-app/features/my-account/my-notifications-page/state/notification-settings.query";
 import { NotificationSettingsService } from "core-app/features/my-account/my-notifications-page/state/notification-settings.service";
+import { NotificationSettingRowComponent } from "core-app/features/my-account/my-notifications-page/row/notification-setting-row.component";
+import { NotificationSettingInlineCreateComponent } from "core-app/features/my-account/my-notifications-page/inline-create/notification-setting-inline-create.component";
+import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 
 @NgModule({
   providers: [
@@ -16,11 +19,14 @@ import { NotificationSettingsService } from "core-app/features/my-account/my-not
     NotificationSettingsService,
   ],
   declarations: [
-    MyNotificationsPageComponent
+    MyNotificationsPageComponent,
+    NotificationSettingRowComponent,
+    NotificationSettingInlineCreateComponent,
   ],
   imports: [
     CommonModule,
     OPSharedModule,
+    OpenprojectAutocompleterModule,
     FormsModule,
     ReactiveFormsModule,
     // Routes for /my/*

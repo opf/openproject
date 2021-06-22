@@ -42,7 +42,7 @@ module API
 
         link :userPreferences do
           {
-            href: api_v3_paths.my_preferences
+            href: api_v3_paths.user_preferences(current_user.id)
           }
         end
 
@@ -87,8 +87,8 @@ module API
         end
 
         def user_preferences
-          UserPreferences::UserPreferencesRepresenter.new(current_user.pref,
-                                                          current_user: current_user)
+          UserPreferences::UserPreferenceRepresenter.new(current_user.pref,
+                                                         current_user: current_user)
         end
 
         def date_format

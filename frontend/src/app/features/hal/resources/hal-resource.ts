@@ -42,7 +42,7 @@ export interface HalResourceClass<T extends HalResource = HalResource> {
       $halType:string):T;
 }
 
-export type HalSourceLink = { href:string|null };
+export type HalSourceLink = { href:string|null, title?:string };
 
 export type HalSourceLinks = {
   [key:string]:HalSourceLink

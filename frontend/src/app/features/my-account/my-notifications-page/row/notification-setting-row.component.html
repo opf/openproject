@@ -1,0 +1,58 @@
+<td
+    *ngIf="first"
+    rowspan="2"
+>
+  <span
+      *ngIf="setting._links.project.href; else defaultTitle"
+      [textContent]="setting._links.project.title"
+  ></span>
+  <ng-template #defaultTitle>
+    <em [textContent]="text.default_all_projects"></em>
+  </ng-template>
+</td>
+<td [textContent]="text.channel(setting.channel)">
+</td>
+<td>
+  <input
+      type="checkbox"
+      [checked]="setting.involved || setting.all"
+      [disabled]="setting.all"
+      (change)="update({ involved: $event.target.checked })"
+  />
+</td>
+<td>
+  <input
+      type="checkbox"
+      [checked]="setting.mentioned || setting.all"
+      [disabled]="setting.all"
+      (change)="update({ mentioned: $event.target.checked })"
+  />
+</td>
+<td>
+  <input
+      type="checkbox"
+      [checked]="setting.watched || setting.all"
+      [disabled]="setting.all"
+      (change)="update({ watched: $event.target.checked })"
+  />
+</td>
+<td>
+  <input
+      type="checkbox"
+      [checked]="setting.all"
+      (change)="update({ all: $event.target.checked })"
+  />
+</td>
+<td
+    *ngIf="first"
+    rowspan="2"
+    class="buttons"
+>
+  <button
+      *ngIf="!global"
+      class="op-link"
+      (click)="remove()"
+  >
+    <op-icon icon-classes="icon-remove icon-no-color"></op-icon>
+  </button>
+</td>

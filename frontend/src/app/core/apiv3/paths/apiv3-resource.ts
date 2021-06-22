@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 
 export class APIv3ResourcePath<T = HalResource> extends SimpleResource {
   readonly injector = this.apiRoot.injector;
@@ -98,7 +99,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    * @param filters filter object to filter with
    * @param params additional URL params to append
    */
-  public filtered<R = APIv3GettableResource<V>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
+  public filtered<R = APIv3GettableResource<CollectionResource<V>>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
     return this.subResource<R>('?' + filters.toParams(params), resourceClass) as R;
   }
 

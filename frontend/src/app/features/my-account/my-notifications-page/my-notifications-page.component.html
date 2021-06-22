@@ -5,12 +5,17 @@
     </div>
     <ul class="toolbar-items">
       <li class="toolbar-item">
-        <button class="button"
-                (click)="removeAll()">
+        <button
+            *ngIf="(projectSettings$ | async).length > 0"
+            class="button"
+            (click)="removeAll()"
+        >
           <op-icon icon-classes="button--icon icon-delte">
           </op-icon>
-          <span class="button--text"
-                [textContent]="text.remove_all">
+          <span
+              class="button--text"
+              [textContent]="text.remove_projects"
+          >
           </span>
         </button>
       </li>
@@ -23,7 +28,16 @@
     <table class="generic-table">
       <thead>
       <tr>
-        <th><div class="generic-table--empty-header"></div></th>
+        <th>
+          <div class="generic-table--empty-header"></div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.channel_header"></span>
+            </div>
+          </div>
+        </th>
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
@@ -52,59 +66,36 @@
             </div>
           </div>
         </th>
-        <th><div class="generic-table--empty-header"></div></th>
+        <th>
+          <div class="generic-table--empty-header"></div>
+        </th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let setting of notificationSettings$ | async">
-        <td>
-          <span
-            *ngIf="setting._links.project.href; else defaultAllProjects"
-            [textContent]="setting._links.project?.title"
-          ></span>
-          <ng-template #defaultAllProjects>
-            <em [textContent]="text.default_all_projects"></em>
-          </ng-template>
-        </td>
-        <td>
-          <input
-            type="checkbox"
-            [checked]="setting.involved"
-            />
-        </td>
-        <td>
-          <input
-            type="checkbox"
-            [checked]="setting.mentioned"
-          />
-        </td>
-        <td>
-          <input
-            type="checkbox"
-            [checked]="setting.watched"
-          />
-        </td>
-        <td>
-          <input
-            type="checkbox"
-            [checked]="setting.all"
-          />
-        </td>
-        <td class="buttons">
-          <button class="op-link">
-            <op-icon icon-classes="icon-remove icon-no-color"></op-icon>
-          </button>
-        </td>
-      </tr>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue: projectOrder">
+        <ng-container *ngFor="let setting of item.value; let first = first">
+          <tr
+              op-notification-setting-row
+              [first]="first"
+              [setting]="setting"
+          >
+          </tr>
+        </ng-container>
+      </ng-container>
       </tbody>
     </table>
+    <op-notification-setting-inline-create
+        *ngIf="userId"
+        [userId]="userId"
+        (onSelect)="addRow($event)"
+    ></op-notification-setting-inline-create>
   </div>
 </div>
 <div class="generic-table--action-buttons">
   <button
-    class="button -highlight"
-    [textContent]="text.save"
-    (click)="saveChanges()"
+      class="button -highlight"
+      [textContent]="text.save"
+      (click)="saveChanges()"
   >
   </button>
 </div>
