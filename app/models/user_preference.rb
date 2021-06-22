@@ -32,8 +32,7 @@ class UserPreference < ApplicationRecord
   belongs_to :user
   serialize :others
 
-  has_many :notification_settings,
-           through: :user
+  delegate :notification_settings, to: :user
 
   validates_presence_of :user
   validate :time_zone_correctness, if: -> { time_zone.present? }
