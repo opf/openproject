@@ -23,10 +23,13 @@ export class InAppNotificationsService {
 
   get():void {
     this.store.setLoading(true);
+
+    let facet = this.query.getValue().activeFacet;
+
     this
       .apiV3Service
       .notifications
-      .unread()
+      .facet(facet)
       .pipe(
         tap(events => this.sideLoadInvolvedWorkPackages(events._embedded.elements))
       )
@@ -73,6 +76,10 @@ export class InAppNotificationsService {
     this.store.update(state => ({ ...state, count: state.count + 1}));
   }
 
+  setActiveFacet(facet:string) {
+    this.store.update( state => ({ ...state, activeFacet: facet}));
+  }
+
   markAllRead():void {
     this.query
       .unread$
@@ -102,5 +109,44 @@ export class InAppNotificationsService {
       .apiV3Service
       .work_packages
       .requireAll(_.compact(wpIds));
+  }
+
+  collapse(notification:InAppNotification):void {
+    this.store.update(
+      notification.id,
+      {
+        expanded: false
+      }
+    )
+  }
+
+  expand(notification:InAppNotification):void {
+    this.store.update(
+      notification.id,
+      {
+        expanded: true
+      }
+    )
+  }
+
+  markReadKeepAndExpanded(notification:InAppNotification):void {
+
+      this.apiV3Service.notifications.id(notification.id)
+        .markRead()
+
+      .subscribe(() => {
+        applyTransaction(() => {
+          this.store.update(
+            notification.id,
+            {
+              read: true,
+              keep: true
+            }
+          );
+          this.store.update(
+            ({ count }) => ({ count: count - 1 })
+          );
+        });
+      });
   }
 }

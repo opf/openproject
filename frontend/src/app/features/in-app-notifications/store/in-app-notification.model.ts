@@ -20,6 +20,10 @@ export interface InAppNotification {
   read?:boolean;
 
   details?:InAppNotificationDetail[];
+  // Mark a notification to be kept in the center even though it was saved as "read".
+  keep?:boolean;
+  // Show message of a notification?
+  expanded:boolean;
 
   _links:{
     actor?:HalResourceLink,

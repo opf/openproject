@@ -5,6 +5,7 @@ import { NEVER, Observable } from "rxjs";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
+import { InAppNotificationsService } from "core-app/features/in-app-notifications/store/in-app-notifications.service";
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -17,8 +18,6 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   workPackage$:Observable<WorkPackageResource>|null = null;
 
-  expanded = false;
-
   text = {
     loading: this.I18n.t('js.ajax.loading'),
   };
@@ -26,6 +25,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   constructor(
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
+    readonly inAppNotificationsService:InAppNotificationsService
   ) {
   }
 
@@ -44,7 +44,13 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   toggleDetails() {
-    this.expanded = !this.expanded;
-    this.notification = { ...this.notification, read: true };
+    if(!this.notification.read) {
+      this.inAppNotificationsService.markReadKeepAndExpanded(this.notification);
+    }
+    if(this.notification.expanded) {
+      this.inAppNotificationsService.collapse(this.notification);
+    } else {
+      this.inAppNotificationsService.expand(this.notification);
+    }
   }
 }

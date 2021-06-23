@@ -45,6 +45,14 @@ export class Apiv3NotificationsPaths
     super(apiRoot, basePath, 'notifications', Apiv3NotificationPaths);
   }
 
+  public facet(facet:string, params?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
+    if(facet === 'unread') {
+      return this.unread(params);
+    } else {
+      return this.list(params);
+    };
+  }
+
   /**
    * Load a list of events with a given list parameter filter
    * @param params

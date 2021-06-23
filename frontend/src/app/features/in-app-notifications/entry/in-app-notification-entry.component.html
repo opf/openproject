@@ -7,10 +7,6 @@
       class="op-ian-item--row"
       (click)="toggleDetails()"
   >
-    <span
-        class="op-ian-item--indicator"
-        [class.op-ian-item--indicator_read]="!!notification.read"
-    ></span>
     <div class="op-ian-item--message">
       <a
           *ngIf="notification._links.project"
@@ -33,7 +29,9 @@
                 [textContent]="'#' + workPackage.id"
             >
           </a>
-          <span [textContent]="workPackage.subject">
+          <span [textContent]="workPackage.subject"
+                class="op-ian-item--work-package-subject"
+                [class.-read]="notification.read">
           </span>
         </span>
       </ng-container>
@@ -60,7 +58,7 @@
     ></div>
   </button>
   <div
-      *ngIf="expanded"
+      *ngIf="notification.expanded"
       class="op-ian-item--details"
   >
     <ul class="work-package-details-activities-messages" *ngIf="notification.details">
