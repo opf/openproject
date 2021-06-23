@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,33 +28,9 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-namespace :api do
-  desc 'Print all api routes'
-  task routes: [:environment] do
-    puts <<~HEADER
+class DocsController < ApplicationController
+  before_action :require_login
 
-      Method     Route
-
-    HEADER
-
-    API::Root
-      .routes
-      .sort_by { |route| route.path + route.request_method }
-      .each do |api|
-      method = api.request_method.ljust(10)
-      path = api.path.gsub(/\A\/:version/, "/api/v3").gsub(/\(\/?\.:format\)/, '')
-
-      puts "#{method} #{path}"
-    end
-  end
-
-  desc 'Saves the API spec (OAS3.0) to ./docs/api/openproject-apiv3-<branch>.yml'
-  task :update_spec, [:branch] => [:environment] do |task, args|
-    branch = (args[:branch] || "stable").to_sym
-    spec = API::OpenAPI::BlueprintImport.convert version: branch
-
-    File.open(Rails.application.root.join("docs/api/apiv3-oas-#{branch}.yml"), "w") do |f|
-      f.write spec.to_yaml
-    end
+  def index
   end
 end

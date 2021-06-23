@@ -131,7 +131,7 @@ Instead the `fileName` inside the JSON of the metadata part will be used.
                     "self": {
                         "href": "/api/v3/attachments/1"
                     },
-                    "container" {
+                    "container": {
                         "href": "/api/v3/work_packages/1"
                     },
                     "author": {
@@ -139,7 +139,7 @@ Instead the `fileName` inside the JSON of the metadata part will be used.
                     },
                     "staticDownloadLocation": {
                         "href": "/api/v3/attachments/1/download"
-                    }
+                    },
                     "downloadLocation": {
                         "href": "/some/remote/aws/url/image.png"
                     }
@@ -155,7 +155,7 @@ Instead the `fileName` inside the JSON of the metadata part will be used.
                 "contentType": "image/png",
                 "digest": {
                     "algorithm": "md5",
-                    "64c26a8403cd796ea4cf913cda2ee4a9":
+                    "hash": "64c26a8403cd796ea4cf913cda2ee4a9"
                 },
                 "createdAt": "2014-05-21T08:51:20Z"
             }
@@ -296,7 +296,7 @@ Permanently deletes the specified attachment.
                 }
             }
 
-## List attachments [GET]
+## List attachments by post [GET]
 
 + Parameters
     + id (required, integer, `1`) ... ID of the post whose attachments will be listed
@@ -323,7 +323,7 @@ Permanently deletes the specified attachment.
                 "message": "The requested resource could not be found."
             }
 
-## Add attachment [POST]
+## Add attachment to post [POST]
 
 Adds an attachment with the post as it's container.
 
@@ -577,7 +577,7 @@ See [the general specification for uploading attachments](#attachments-attachmen
                 }
             }
 
-## List attachments [GET]
+## List attachments by wiki page [GET]
 
 + Parameters
     + id (required, integer, `1`) ... ID of the wiki page whose attachments will be listed
@@ -604,7 +604,7 @@ See [the general specification for uploading attachments](#attachments-attachmen
                 "message": "The requested resource could not be found."
             }
 
-## Add attachment [POST]
+## Add attachment to wiki page [POST]
 
 Adds an attachment with the wiki page as it's container.
 
@@ -881,7 +881,7 @@ See [the general specification for uploading attachments](#attachments-attachmen
                 }
             }
 
-## List attachments [GET]
+## List attachments by work package [GET]
 
 + Parameters
     + id (required, integer, `1`) ... ID of the work package whose attachments will be listed
@@ -908,7 +908,7 @@ See [the general specification for uploading attachments](#attachments-attachmen
                 "message": "The specified work package does not exist."
             }
 
-## Add attachment [POST]
+## Add attachment to work package [POST]
 
 To add an attachment to a work package, a client needs to issue a request of type `multipart/form-data`
 with exactly two parts.

@@ -80,9 +80,9 @@ Depending on custom fields defined for projects, additional properties might exi
                     },
                     "workPackages": {
                         "href": "/api/v3/projects/1/work_packages"
-                    }
+                    },
                     "memberships": {
-                        "href": "/api/v3/memberships?filters=[{"project":{"operator":"=","values":["1"]}}]
+                        "href": "/api/v3/memberships?filters=[{\"project\":{\"operator\":\"=\",\"values\":[\"1\"]}}]"
                     },
                     "customField456": {
                         "href": "/api/v3/users/315",
@@ -496,8 +496,8 @@ the project scheduled for deletion, it is archived at once.
                     "createdAt": "2016-02-29T12:50:20+00:00",
                     "updatedAt": "2016-02-29T12:50:20+00:00",
                     "type": null
-                  }]
-                }
+                  }
+                ]
               }
             }
 
@@ -2056,8 +2056,8 @@ The copy endpoint has a `_meta` property that allows defining which associations
                     "createdAt": "2016-02-29T12:50:20+00:00",
                     "updatedAt": "2016-02-29T12:50:20+00:00",
                     "type": null
-                  }]
-                }
+                  }
+                ]
               }
             }
 

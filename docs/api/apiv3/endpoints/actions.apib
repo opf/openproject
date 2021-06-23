@@ -78,6 +78,7 @@ The configuration is adaptable by admins within the administration of the OpenPr
                     "self": {
                         "href": "/api/v3/actions/work_packages/create",
                         "title": "Add work package"
+                    }
                 },
                 "_type": "Action",
                 "id": "work_packages/create",
@@ -147,6 +148,7 @@ Returns an individual action.
                                 "self": {
                                     "href": "/api/v3/actions/work_packages/assign_versions",
                                     "title": "Assigning version"
+                                }
                             },
                             "_type": "Action",
                             "id": "work_packages/assign_versions",
@@ -297,7 +299,7 @@ has sufficient permissions.
                             "id": "work_packages/assignee/p123-567"
                         },
                         {
-                            "_links":
+                            "_links": {
                                 "self": {
                                     "href": "/api/v3/capabilities/memberships/create/p345-821",
                                     "title": "Create members"
@@ -318,7 +320,7 @@ has sufficient permissions.
                             "id": "memberships/create/p345-821"
                         },
                         {
-                            "_links":
+                            "_links": {
                                 "self": {
                                     "href": "/api/v3/capabilities/users/delete/g-567",
                                     "title": "Delete user"
@@ -334,7 +336,7 @@ has sufficient permissions.
                             },
                             "_type": "Capability",
                             "id": "users/delete/g-567"
-                        },
+                        }
                     ]
                 }
             }

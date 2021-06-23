@@ -52,18 +52,10 @@ Depending on custom fields defined for time entries, additional properties might
                 "updatedAt": "2015-03-20T12:56:56Z",
                 "customField12": 5,
                 "_embedded": {
-                    "project": {
-                      ...
-                    },
-                    "workPackage": {
-                      ...
-                    },
-                    "user": {
-                      ...
-                    },
-                    "activity": {
-                      ...
-                    }
+                    "project...": {},
+                    "workPackage...": {},
+                    "user...": {},
+                    "activity...": {}
                 },
                 "_links": {
                     "self": {
@@ -95,7 +87,8 @@ Depending on custom fields defined for time entries, additional properties might
                     },
                     "customField4": {
                         "href": "/api/v3/users/5",
-                        "title" "Some other user"
+                        "title": "Some other user"
+                    }
                 }
             }
 
@@ -1218,12 +1211,10 @@ For more details and all possible responses see the general specification of [Fo
               "_embedded": {
                 "elements": [
                   {
-                    "_type": "Project",
-                    << omitted for brevity >>
+                    "_type": "Project..."
                   },
                   {
-                    "_type": "Project",
-                    << omitted for brevity >>
+                    "_type": "Project..."
                   }
                 ]
               }
@@ -1288,9 +1279,7 @@ None
                 "position": 10,
                 "default": false,
                 "_embedded": {
-                    "projects": [
-                      ...
-                    ]
+                    "projects...": []
                 },
                 "_links": {
                     "self": {

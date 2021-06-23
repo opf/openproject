@@ -196,7 +196,7 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
                     }
                   }
                 },
-                highlightedAttributes: []
+                "highlightedAttributes": []
               },
               "_links": {
                 "self": {
@@ -236,7 +236,7 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
                     "title": "Updated on"
                   }
                 ],
-                highlightedAttributes: [],
+                "highlightedAttributes": [],
                 "groupBy": {
                   "href": null,
                   "title": null
@@ -488,7 +488,7 @@ Delete the query identified by the id parameter
                       "method": "post"
                     }
                   },
-                  highlightedAttributes: []
+                  "highlightedAttributes": []
                 }
               },
               "_links": {
@@ -529,7 +529,7 @@ Delete the query identified by the id parameter
                     "title": "Updated on"
                   }
                 ],
-                highlightedAttributes: [],
+                "highlightedAttributes": [],
                 "groupBy": {
                   "href": null,
                   "title": null
@@ -2013,6 +2013,10 @@ Retrieve the schema for global queries, those, that are not assigned to a projec
 
 Retrieve the schema for project queries.
 
++ Parameters
+
+  + id (required, integer, `1`) ... Project id
+
 + Response 200 (application/hal+json)
 
     [Schema For Project Queries][]
@@ -2030,7 +2034,7 @@ Retrieve the schema for project queries.
             }
 
 
-## Query Available Projects [/api/v3/queries/available_projects]
+## Available projects for query [/api/v3/queries/available_projects]
 
 + Model
     + Body
@@ -2105,18 +2109,18 @@ Retrieve the schema for project queries.
                     "createdAt": "2016-02-29T12:50:20+00:00",
                     "updatedAt": "2016-02-29T12:50:20+00:00",
                     "type": null
-                  }]
-                }
+                  }
+                ]
               }
             }
 
-## Available projects [GET]
+## Available projects for query [GET]
 
 Gets a list of projects that are available as projects a query can be assigned to.
 
 + Response 200 (application/hal+json)
 
-    [Query Available Projects][]
+    [Available projects for query][]
 
 + Response 403 (application/hal+json)
 

@@ -33,7 +33,7 @@ When creating and updating memberships, a custom message can be sent to users of
     + Body
 
             {
-                "_links":
+                "_links": {
                     "self": {
                         "href": "/api/v3/memberships/11",
                         "title": "Some user"
@@ -73,11 +73,9 @@ When creating and updating memberships, a custom message can be sent to users of
                 "createdAt": "2015-03-20T12:56:56Z",
                 "updatedAt": "2018-12-20T18:16:11Z",
                 "_embedded": {
-                    "project": "<-- omitted for brevity -->",
-                    "principal": "<-- omitted for brevity -->",
-                    "roles": [
-                        "<-- omitted for brevity -->"
-                    ]
+                    "project...": {},
+                    "principal...": {},
+                    "roles...": []
                 }
             }
 
@@ -977,8 +975,8 @@ For more details and all possible responses see the general specification of [Fo
                     "createdAt": "2016-02-29T12:50:20+00:00",
                     "updatedAt": "2016-02-29T12:50:20+00:00",
                     "type": null
-                  }]
-                }
+                  }
+                ]
               }
             }
 
