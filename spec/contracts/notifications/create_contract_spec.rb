@@ -46,7 +46,7 @@ describe Notifications::CreateContract do
   let(:event_read_email) { false }
 
   let(:event) do
-    Notification.new(context: event_context,
+    Notification.new(project: event_context,
                      recipient: event_recipient,
                      subject: event_subject,
                      reason: event_reason,

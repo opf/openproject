@@ -69,9 +69,10 @@ describe Notifications::SetAttributesService, type: :model do
       {
         recipient_id: recipient_id,
         reason: reason,
-        resource: journal,
+        resource: journable,
+        journal: journal,
         subject: event_subject,
-        context: project
+        project: project
       }
     end
 
@@ -92,11 +93,9 @@ describe Notifications::SetAttributesService, type: :model do
 
         expect(event.attributes.compact.symbolize_keys)
           .to eql({
-                    context_id: project.id,
-                    context_type: 'Project',
+                    project_id: project.id,
                     reason: 'mentioned',
-                    resource_id: journal.id,
-                    resource_type: 'Journal',
+                    journal_id: journal.id,
                     recipient_id: 1,
                     subject: event_subject,
                     read_ian: false,
@@ -106,7 +105,7 @@ describe Notifications::SetAttributesService, type: :model do
 
       context 'with only the minimal set of attributes for a work package journal' do
         let(:journable) do
-          FactoryBot.build_stubbed(:work_package).tap do |wp|
+          FactoryBot.build_stubbed(:work_package, project: project).tap do |wp|
             allow(wp)
               .to receive(:to_s)
               .and_return("wp to s")
@@ -119,7 +118,8 @@ describe Notifications::SetAttributesService, type: :model do
           {
             recipient_id: recipient_id,
             reason: reason,
-            resource: journal
+            journal: journal,
+            resource: journable,
           }
         end
 
@@ -128,11 +128,11 @@ describe Notifications::SetAttributesService, type: :model do
 
           expect(event.attributes.compact.symbolize_keys)
             .to eql({
-                      context_id: project.id,
-                      context_type: 'Project',
+                      project_id: project.id,
                       reason: 'mentioned',
-                      resource_id: journal.id,
-                      resource_type: 'Journal',
+                      resource_id: journable.id,
+                      resource_type: 'WorkPackage',
+                      journal_id: journal.id,
                       recipient_id: 1,
                       subject: I18n.t("notifications.work_packages.subject.#{reason}", work_package: journable.to_s),
                       read_ian: false,

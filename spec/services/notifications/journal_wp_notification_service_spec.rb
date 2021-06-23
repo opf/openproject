@@ -142,7 +142,10 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
         .to have_received(:call)
               .with({ recipient: recipient,
                       reason: event_reason,
-                      resource: journal }.merge(event_channels))
+                      project: journal.project,
+                      actor: journal.user,
+                      journal: journal,
+                      resource: journal.journable }.merge(event_channels))
     end
   end
 

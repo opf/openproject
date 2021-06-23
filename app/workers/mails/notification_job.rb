@@ -29,10 +29,8 @@
 class Mails::NotificationJob < ApplicationJob
   queue_with_priority :notification
 
-  def perform(notification, sender)
-    # TODO: implement properly
-    #       move sender to database
+  def perform(notification)
     Mails::WorkPackageJob
-      .perform_now(notification.resource, notification.recipient_id, sender.id)
+      .perform_now(notification.journal, notification.recipient_id, notification.actor_id)
   end
 end

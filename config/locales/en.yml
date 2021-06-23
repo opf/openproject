@@ -1357,6 +1357,7 @@ en:
     work_packages:
       subject:
         assigned: "You have been assigned to %{work_package}"
+        subscribed: "You are subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
 
   label_accessibility: "Accessibility"

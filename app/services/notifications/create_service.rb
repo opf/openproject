@@ -35,7 +35,7 @@ class Notifications::CreateService < ::BaseServices::Create
     super.tap do |result|
       if result.success?
         Mails::NotificationJob
-          .perform_later(result.result, user)
+          .perform_later(result.result)
       end
     end
   end

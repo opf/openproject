@@ -53,35 +53,41 @@ class Notifications::JournalWpNotificationService
     private
 
     def create_event(journal, recipient, reason, user)
-      key = case reason
-            when :subscribed
-              :all
-            else
-              reason
-            end
-
-      channel_attributes = recipient.notification_settings.map do |setting|
-        channel = case setting.channel
-                  when 'mail'
-                    :read_email
-                  when 'in_app'
-                    :read_ian
-                  else
-                    raise "Unknown notification channel"
-                  end
-
-        [channel, setting[key] ? false : nil]
-      end.to_h
-
       notification_attributes = {
         recipient: recipient,
         reason: reason,
-        resource: journal
-      }.merge(channel_attributes)
+        project: journal.project,
+        resource: journal.journable,
+        journal: journal,
+        actor: journal.user
+      }.merge(channel_attributes(recipient, reason))
 
       Notifications::CreateService
         .new(user: user)
         .call(notification_attributes)
+    end
+
+    def channel_attributes(recipient, reason)
+      key =
+        case reason
+        when :subscribed
+          :all
+        else
+          reason
+        end
+
+      recipient.notification_settings.map do |setting|
+        channel = case setting.channel
+        when 'mail'
+          :read_email
+        when 'in_app'
+          :read_ian
+        else
+          raise "Unknown notification channel"
+        end
+
+        [channel, setting[key] ? false : nil]
+      end.to_h
     end
 
     def notification_receivers(work_package, journal)
@@ -110,8 +116,8 @@ class Notifications::JournalWpNotificationService
 
     def involved(journal, seen)
       scope = User
-              .where(id: group_or_user_ids(journal.data.assigned_to))
-              .or(User.where(id: group_or_user_ids(journal.data.responsible)))
+        .where(id: group_or_user_ids(journal.data.assigned_to))
+        .or(User.where(id: group_or_user_ids(journal.data.responsible)))
 
       allowed_and_unique(scope,
                          journal.data.project,
@@ -134,9 +140,9 @@ class Notifications::JournalWpNotificationService
 
     def allowed_and_unique(scope, project, seen = [])
       scope
-         .where(id: User.allowed(:view_work_packages, project))
-         .where.not(id: seen.map(&:id))
-         .not_builtin
+        .where(id: User.allowed(:view_work_packages, project))
+        .where.not(id: seen.map(&:id))
+        .not_builtin
     end
 
     def text_for_mentions(journal)
@@ -157,8 +163,8 @@ class Notifications::JournalWpNotificationService
       matches = mention_matches(journal)
 
       base_scope = User
-                   .includes(:groups)
-                   .references(:groups_users)
+        .includes(:groups)
+        .references(:groups_users)
 
       by_id = base_scope.where(id: matches[:user_ids])
       by_login = base_scope.where(login: matches[:user_login_names])
@@ -191,9 +197,9 @@ class Notifications::JournalWpNotificationService
         group_ids_tag_after,
         group_ids_tag_before,
         group_ids_hash = text
-                         .scan(MENTION_PATTERN)
-                         .transpose
-                         .each(&:compact!)
+        .scan(MENTION_PATTERN)
+        .transpose
+        .each(&:compact!)
 
       {
         user_ids: [user_ids_tag_after, user_ids_tag_before, user_ids_hash].flatten.compact,

@@ -34,7 +34,9 @@ module API
       class NotificationRepresenter < ::API::Decorators::Single
         include API::Decorators::DateProperty
         include API::Decorators::LinkedResource
+        include API::Decorators::FormattableProperty
         extend API::Decorators::PolymorphicResource
+        include API::V3::Activities::ActivityPropertyFormatters
 
         self_link title_getter: ->(*) { represented.subject }
 
@@ -50,6 +52,16 @@ module API
         date_time_property :created_at
 
         date_time_property :updated_at
+
+        property :details,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   next unless represented.journal
+
+                   formatted_details(represented.journal)
+                     .unshift formatted_notes(represented.journal)
+                 end,
+                 render_nil: false
 
         link :readIAN do
           next if represented.read_ian
@@ -87,7 +99,13 @@ module API
           }
         end
 
-        polymorphic_resource :context
+        associated_resource :project
+        associated_resource :journal,
+                            as: :activity,
+                            representer: ::API::V3::Activities::ActivityRepresenter,
+                            v3_path: :activity,
+                            skip_render: ->(*) { represented.journal_id.nil? }
+
         polymorphic_resource :resource
 
         def _type

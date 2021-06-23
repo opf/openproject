@@ -36,13 +36,14 @@ describe ::API::V3::Notifications::NotificationsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:recipient) { FactoryBot.create :user }
-  shared_let(:context) { FactoryBot.create :project }
-  shared_let(:resource) { FactoryBot.create :work_package, project: context }
+  shared_let(:project) { FactoryBot.create :project }
+  shared_let(:resource) { FactoryBot.create :work_package, project: project }
   shared_let(:notification) do
     FactoryBot.create :notification,
                       recipient: recipient,
-                      context: context,
-                      resource: resource.journals.last
+                      project: project,
+                      resource: resource,
+                      journal: resource.journals.last
   end
 
   let(:send_request) do

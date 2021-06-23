@@ -37,6 +37,7 @@ module API
         include API::V3::Utilities
         include API::Decorators::DateProperty
         include API::Decorators::FormattableProperty
+        include ActivityPropertyFormatters
 
         self_link path: :activity,
                   title_getter: ->(*) { nil }
@@ -68,27 +69,11 @@ module API
 
         formattable_property :notes,
                              as: :comment,
-                             getter: ->(*) {
-                               text = if represented.noop?
-                                        "_#{I18n.t(:'journals.changes_retracted')}_"
-                                      else
-                                        represented.notes
-                                      end
-
-                               ::API::Decorators::Formattable.new(text,
-                                                                  object: represented,
-                                                                  plain: false)
-                             }
+                             getter: ->(*) { formatted_notes(represented) }
 
         property :details,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   details = render_details(represented, no_html: true)
-                   html_details = render_details(represented)
-                   formattables = details.zip(html_details)
-
-                   formattables.map { |d| { format: 'custom', raw: d[0], html: d[1] } }
-                 },
+                 getter: ->(*) { formatted_details(represented) },
                  render_nil: true
 
         property :version, render_nil: true

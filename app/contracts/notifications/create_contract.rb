@@ -31,9 +31,10 @@ module Notifications
     attribute :recipient
     attribute :subject
     attribute :reason
-    attribute :context
-    attribute :context_type
+    attribute :project
+    attribute :actor
     attribute :resource
+    attribute :journal
     attribute :resource_type
     attribute :read_ian
     attribute :read_email

@@ -12,8 +12,9 @@ describe "Notification bell", type: :feature, js: true do
   shared_let(:notification) do
     FactoryBot.create :notification,
                       recipient: recipient,
-                      context: project,
-                      resource: work_package.journals.last
+                      project: project,
+                      resource: work_package,
+                      journal: work_package.journals.last
   end
 
   let(:center) { ::Components::Notifications::Center.new }

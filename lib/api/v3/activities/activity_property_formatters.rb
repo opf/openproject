@@ -28,29 +28,37 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+module API
+  module V3
+    module Activities
+      module ActivityPropertyFormatters
+        def formatted_notes(journal)
+          ::API::Decorators::Formattable.new(journal_note(journal),
+                                             object: journal,
+                                             plain: false)
+        end
 
-describe Notifications::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service' do
-    let(:call_attributes) do
-      {}
-    end
+        def formatted_details(journal)
+          details = render_details(journal, no_html: true)
+          html_details = render_details(journal)
+          formattables = details.zip(html_details)
 
-    context 'when successful' do
-      it 'schedules an event notification job' do
-        expect { subject }
-          .to have_enqueued_job(Mails::NotificationJob)
-               .with({ "_aj_globalid" => "gid://open-project/Notification/#{model_instance.id}" })
-      end
-    end
+          formattables.map { |d| { format: 'custom', raw: d[0], html: d[1] } }
+        end
 
-    context 'when unsuccessful' do
-      let(:model_save_result) { false }
+        private
 
-      it 'schedules no job' do
-        expect { subject }
-          .not_to have_enqueued_job(Mails::NotificationJob)
+        def render_details(journal, no_html: false)
+          journal.details.map { |d| journal.render_detail(d, no_html: no_html) }
+        end
+
+        def journal_note(journal)
+          if journal.noop?
+            "_#{I18n.t(:'journals.changes_retracted')}_"
+          else
+            journal.notes
+          end
+        end
       end
     end
   end

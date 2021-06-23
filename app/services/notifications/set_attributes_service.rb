@@ -34,13 +34,13 @@ module Notifications
       super
 
       set_default_subject unless model.subject
-      set_default_context unless model.context
+      set_default_project unless model.project
     end
 
     def set_default_subject
       # TODO: Work package journal specific.
       # Extract into strategy per event resource
-      journable = model.resource.journable
+      journable = model.resource
 
       class_name = journable.class.name.underscore
 
@@ -48,10 +48,11 @@ module Notifications
                              **{ class_name.to_sym => journable.to_s })
     end
 
-    def set_default_context
-      # TODO: Work package journal specific.
-      # Extract into strategy per event resource
-      model.context = model.resource.data.project
+    ##
+    # Try to determine the project context from the journal (if any)
+    # or the resource if it has a project set
+    def set_default_project
+      model.project = model.journal&.project || model.resource.try(:project)
     end
   end
 end

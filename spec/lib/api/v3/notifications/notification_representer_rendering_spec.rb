@@ -31,14 +31,17 @@ require 'spec_helper'
 describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
+  shared_let(:project) { FactoryBot.create :project }
+  shared_let(:resource) { FactoryBot.create :work_package, project: project }
+
   let(:recipient) { FactoryBot.build_stubbed(:user) }
-  let(:resource) { FactoryBot.build_stubbed :work_package_journal }
-  let(:context) { FactoryBot.build_stubbed :project }
+  let(:journal) { nil }
   let(:notification) do
     FactoryBot.build_stubbed :notification,
                              recipient: recipient,
-                             context: context,
+                             project: project,
                              resource: resource,
+                             journal: journal,
                              read_ian: read_ian,
                              read_email: read_email
   end
@@ -144,11 +147,11 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
   end
 
-  describe 'context polymorphic resource' do
+  describe 'project' do
     it_behaves_like 'has a titled link' do
-      let(:link) { 'context' }
-      let(:href) { api_v3_paths.project context.id }
-      let(:title) { context.name }
+      let(:link) { 'project' }
+      let(:href) { api_v3_paths.project project.id }
+      let(:title) { project.name }
     end
 
     context 'when embedding is true' do
@@ -157,19 +160,20 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
       it 'embeds the context' do
         expect(generated)
           .to be_json_eql('Project'.to_json)
-                .at_path("_embedded/context/_type")
+                .at_path("_embedded/project/_type")
 
         expect(generated)
-          .to be_json_eql(context.name.to_json)
-                .at_path("_embedded/context/name")
+          .to be_json_eql(project.name.to_json)
+                .at_path("_embedded/project/name")
       end
     end
   end
 
   describe 'resource polymorphic resource' do
-    it_behaves_like 'has an untitled link' do
+    it_behaves_like 'has a titled link' do
       let(:link) { 'resource' }
-      let(:href) { api_v3_paths.activity resource.id }
+      let(:title) { resource.subject }
+      let(:href) { api_v3_paths.work_package resource.id }
     end
 
     context 'when embedding is true' do
@@ -177,8 +181,35 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
       it 'embeds the resource' do
         expect(generated)
-          .to be_json_eql('Activity'.to_json)
+          .to be_json_eql('WorkPackage'.to_json)
                 .at_path("_embedded/resource/_type")
+      end
+    end
+  end
+
+  describe 'journal' do
+    context 'when not set' do
+      it_behaves_like 'has no link' do
+        let(:link) { 'activity' }
+      end
+    end
+
+    context 'when set' do
+      let(:journal) { resource.journals.last }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'activity' }
+        let(:href) { api_v3_paths.activity journal.id }
+      end
+
+      context 'when embedding is true' do
+        let(:embed_links) { true }
+
+        it 'embeds the resource' do
+          expect(generated)
+            .to be_json_eql('Activity'.to_json)
+                  .at_path("_embedded/activity/_type")
+        end
       end
     end
   end
