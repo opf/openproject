@@ -148,13 +148,13 @@ module Components
       end
 
       def expect_parent(work_package)
-        expect(page).to have_selector '.wp-breadcrumb-parent',
+        expect(page).to have_selector '[data-qa-selector="op-wp-breadcrumb-parent"]',
                                       text: work_package.subject,
                                       wait: 10
       end
 
       def expect_no_parent
-        expect(page).to have_no_selector '.wp-breadcrumb-parent', wait: 10
+        expect(page).to have_no_selector '[data-qa-selector="op-wp-breadcrumb-parent"]', wait: 10
       end
 
       def remove_parent

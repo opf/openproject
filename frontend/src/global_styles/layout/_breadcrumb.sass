@@ -30,7 +30,7 @@
   @include default-font(var(--breadcrumb-font-color), var(--breadcrumb-font-size), bold)
 
 #breadcrumb,
-.wp-breadcrumb
+.op-wp-breadcrumb
   display: none
   @include default-transition
   height: var(--breadcrumb-height)
@@ -64,7 +64,7 @@
   li
     white-space: nowrap
 
-ul.breadcrumb
+ul.op-breadcrumb
   margin: 0 0 0 0
   padding: 0
   list-style: none
@@ -74,26 +74,26 @@ ul.breadcrumb
   line-height: var(--breadcrumb-height)
 
 #breadcrumb,
-.wp-breadcrumb
-  ul.breadcrumb li
+.op-wp-breadcrumb
+  ul.op-breadcrumb li
     float: left
     margin: 0 5px 0 0
     padding: 0
 
-.wp-breadcrumb
+.op-wp-breadcrumb
   margin-top: 10px
   height: initial
 
-  ul.breadcrumb
+  ul.op-breadcrumb
     height: initial
 
   li
     line-height: 20px
 
-  .wp-breadcrumb--ellipsed
+  .op-wp-breadcrumb--ellipsed
     max-width: 420px
     @include text-shortener
 
 // Hide projects in normal mode
-.breadcrumb .breadcrumb-project-element
+.op-breadcrumb .op-breadcrumb-project-element
   display: none

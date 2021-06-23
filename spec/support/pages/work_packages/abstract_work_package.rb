@@ -141,7 +141,7 @@ module Pages
     def expect_no_parent
       visit_tab!('relations')
 
-      expect(page).not_to have_selector('.wp-breadcrumb-parent')
+      expect(page).not_to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]')
     end
 
     def expect_zen_mode
