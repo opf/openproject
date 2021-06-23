@@ -37,16 +37,18 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
 
 @Component({
   template: `
-    <p class="widget-box--additional-info">
-      {{ text.descriptionNewFeatures }}
-    </p>
-    <div class="widget-box--description">
-      <p [innerHtml]="currentNewFeatureHtml"></p>
-      <img [src]="new_features_image"/>
-      <a class="widget-box--teaser-image"></a>
-    </div>
+    <div class="op-new-feature">
+      <p class="widget-box--additional-info">
+        {{ text.descriptionNewFeatures }}
+      </p>
+      <div class="widget-box--description">
+        <p [innerHtml]="currentNewFeatureHtml"></p>
+        <img [src]="new_features_image"/>
+        <a class="widget-box--teaser-image"></a>
+      </div>
 
-    <a [href]="teaserWebsiteUrl" target="_blank">{{ text.learnAbout }}</a>
+      <a [href]="teaserWebsiteUrl" target="_blank">{{ text.learnAbout }}</a>
+    </div>
   `,
   selector: homescreenNewFeaturesBlockSelector,
   styleUrls: ['./new-features.component.sass'],

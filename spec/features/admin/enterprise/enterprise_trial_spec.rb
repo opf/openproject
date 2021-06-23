@@ -257,7 +257,7 @@ describe 'Enterprise trial management',
     end
 
     it 'can confirm that trial regularly' do
-      find('.op-modal--modal-body #resend-link', text: 'Resend').click
+      find('.op-modal--modal-body [data-qa-selector="op-ee-trial-waiting-resend-link"]', text: 'Resend').click
       expect(page).to have_selector('.notification-box.-success', text: 'Email has been resent.', wait: 20)
 
       expect(page).to have_text 'foo@foocorp.example'
@@ -269,7 +269,7 @@ describe 'Enterprise trial management',
         .and_return(headers: { 'Access-Control-Allow-Origin' => '*' }, code: 200, body: confirmed_body.to_json)
 
       # Wait until the next request
-      expect(page).to have_selector '.status--confirmed', text: 'confirmed', wait: 20
+      expect(page).to have_selector '[data-qa-selector="op-ee-trial-waiting-status--confirmed"]', text: 'confirmed', wait: 20
 
       # advance to video
       click_on 'Continue'
