@@ -6,7 +6,8 @@ import {I18nService} from "core-app/core/i18n/i18n.service";
   selector: 'enterprise-banner',
   styleUrls: ['./enterprise-banner.component.sass'],
   template: `
-      <div class="op-enterprise-banner-notification-box -ee-upsale"
+    <div class="op-enterprise-banner">
+      <div class="notification-box -ee-upsale"
            [ngClass]="{'-left-margin': leftMargin }">
         <div class="notification-box--content">
           <p class="-bold" [textContent]="text.enterpriseFeature"></p>
@@ -16,6 +17,7 @@ import {I18nService} from "core-app/core/i18n/i18n.service";
              [textContent]="linkMessage"></a>
         </div>
       </div>
+    </div>
   `
 })
 export class EnterpriseBannerComponent {
