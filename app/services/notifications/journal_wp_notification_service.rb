@@ -77,14 +77,15 @@ class Notifications::JournalWpNotificationService
         end
 
       recipient.notification_settings.map do |setting|
-        channel = case setting.channel
-        when 'mail'
-          :read_email
-        when 'in_app'
-          :read_ian
-        else
-          raise "Unknown notification channel"
-        end
+        channel =
+          case setting.channel
+          when 'mail'
+            :read_email
+          when 'in_app'
+            :read_ian
+          else
+            raise "Unknown notification channel"
+          end
 
         [channel, setting[key] ? false : nil]
       end.to_h
