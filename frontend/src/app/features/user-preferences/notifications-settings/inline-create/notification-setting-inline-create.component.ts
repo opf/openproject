@@ -53,7 +53,7 @@ export class NotificationSettingInlineCreateComponent {
 
     const filters = new ApiV3FilterBuilder()
       .add('name_and_identifier', '~', [term])
-      .add('principal', '=', [this.userId]);
+      .add('visible', '=', [this.userId]);
 
     return this
       .apiV3Service
