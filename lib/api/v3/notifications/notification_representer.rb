@@ -99,7 +99,13 @@ module API
           }
         end
 
+        associated_resource :actor,
+                            representer: ::API::V3::Users::UserRepresenter,
+                            skip_render: ->(*) { represented.actor.nil? },
+                            v3_path: :user
+
         associated_resource :project
+
         associated_resource :journal,
                             as: :activity,
                             representer: ::API::V3::Activities::ActivityRepresenter,

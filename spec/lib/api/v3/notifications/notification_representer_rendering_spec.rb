@@ -36,12 +36,14 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
   let(:recipient) { FactoryBot.build_stubbed(:user) }
   let(:journal) { nil }
+  let(:actor) { nil }
   let(:notification) do
     FactoryBot.build_stubbed :notification,
                              recipient: recipient,
                              project: project,
                              resource: resource,
                              journal: journal,
+                             actor: actor,
                              read_ian: read_ian,
                              read_email: read_email
   end
@@ -183,6 +185,24 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
         expect(generated)
           .to be_json_eql('WorkPackage'.to_json)
                 .at_path("_embedded/resource/_type")
+      end
+    end
+  end
+
+  describe 'actor' do
+    context 'when not set' do
+      it_behaves_like 'has no link' do
+        let(:link) { 'actor' }
+      end
+    end
+
+    context 'when set' do
+      let(:actor) { FactoryBot.create :user }
+
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'actor' }
+        let(:href) { api_v3_paths.user actor.id }
+        let(:title) { actor.name }
       end
     end
   end

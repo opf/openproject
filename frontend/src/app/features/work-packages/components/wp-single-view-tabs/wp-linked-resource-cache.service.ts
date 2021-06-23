@@ -30,6 +30,9 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { input, InputState } from 'reactivestates';
 import { take } from 'rxjs/operators';
 import { Observable, of } from "rxjs";
+import { EntityUIStore } from "@datorama/akita";
+
+EntityUIStore
 
 export abstract class WorkPackageLinkedResourceCache<T> {
 
