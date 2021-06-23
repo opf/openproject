@@ -496,22 +496,16 @@ Deletes the work package, as well as:
                 "_embedded": {
                     "elements": [
                         {
-                            "_type": "Schema",
+                            "_type": "Schema...",
                             "_links": {
                                 "self": { "href": "/api/v3/work_packages/schemas/13-1" }
                             }
-
-                            <snip>
-
                         },
                         {
-                            "_type": "Schema",
+                            "_type": "Schema...",
                             "_links": {
                                 "self": { "href": "/api/v3/work_packages/schemas/7-6" }
                             }
-
-                            <snip>
-
                         }
                     ]
                 }
@@ -637,7 +631,7 @@ For more details and all possible responses see the general specification of [Fo
                 }
             }
 
-## List Work Packages [GET]
+## List work packages [GET]
 
 + Parameters
     + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
@@ -843,7 +837,7 @@ Returns the form resource that was created. See [Forms](/docs/api/forms) section
                 }
             }
 
-## List Work Packages [GET]
+## List work packages by project [GET]
 
 + Parameters
     + id (required, integer, `1`) ... Project id
@@ -909,7 +903,7 @@ Returns the form resource that was created. See [Forms](/docs/api/forms) section
                 "message": "The specified project does not exist."
             }
 
-## Create Work Package [POST]
+## Create work package in project [POST]
 
 When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
 The required fields of a WorkPackage can be found in its schema, which is embedded in the respective form.
@@ -992,14 +986,14 @@ Note that it is only allowed to provide properties or links supporting the write
                 }
             }
 
-## Work Package Create Form [/api/v3/projects/{id}/work_packages/form]
+## Work Package Create Form For Project [/api/v3/projects/{id}/work_packages/form]
 
 This endpoint returns a form to allow a guided creation of a new work package.
 The returned form will be pre-filled with default values for every property, if available.
 
 For more details and all possible responses see the general specification of [Forms](/docs/api/forms).
 
-## Work Package Create Form [POST]
+## Work Package Create Form For Project [POST]
 
 + Parameters
     + id (required, integer, `1`) ... ID of the project in which the work package will be created
@@ -1284,16 +1278,16 @@ Lists all relations this work package is involved in.
                             },
                             "showUser": {
                                 "href": "/users/1",
-                                "type": 'text/html'
+                                "type": "text/html"
                             },
                             "lock": {
                                 "href": "/api/v3/users/1/lock",
-                                "title": "Set lock on j.sheppard"
+                                "title": "Set lock on j.sheppard",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/1",
-                                "title": "Delete j.sheppard"
+                                "title": "Delete j.sheppard",
                                 "method": "DELETE"
                             }
                         },
@@ -1316,12 +1310,12 @@ Lists all relations this work package is involved in.
                             },
                             "lock": {
                                 "href": "/api/v3/users/2/lock",
-                                "title": "Set lock on j.sheppard2"
+                                "title": "Set lock on j.sheppard2",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/2",
-                                "title": "Delete j.sheppard2"
+                                "title": "Delete j.sheppard2",
                                 "method": "DELETE"
                             }
                         },
@@ -1590,6 +1584,8 @@ While the endpoint does support the pageSize parameter to limit the number of re
 ## Available relation candidates [GET]
 
 + Parameters
+    + id (required, integer, `1`) ... Project id
+
     + pageSize (optional, integer, `25`) ... Maximum number of candidates to list (default 10)
 
     + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null } }]`) ... JSON specifying filter conditions.
@@ -1626,12 +1622,12 @@ While the endpoint does support the pageSize parameter to limit the number of re
                             },
                             "lock": {
                                 "href": "/api/v3/users/1/lock",
-                                "title": "Set lock on j.sheppard"
+                                "title": "Set lock on j.sheppard",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/1",
-                                "title": "Delete j.sheppard"
+                                "title": "Delete j.sheppard",
                                 "method": "DELETE"
                             }
                         },
@@ -1654,12 +1650,12 @@ While the endpoint does support the pageSize parameter to limit the number of re
                             },
                             "lock": {
                                 "href": "/api/v3/users/2/lock",
-                                "title": "Set lock on j.sheppard2"
+                                "title": "Set lock on j.sheppard2",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/2",
-                                "title": "Delete j.sheppard2"
+                                "title": "Delete j.sheppard2",
                                 "method": "DELETE"
                             }
                         },
@@ -1717,7 +1713,7 @@ Gets a list of users that are able to be watchers of the specified work package.
                 "message": "The specified work package does not exist."
             }
 
-## Available Projects [/api/v3/work_packages/{id}/available_projects]
+## Available projects for work package [/api/v3/work_packages/{id}/available_projects]
 
 + Model
     + Body
@@ -1797,12 +1793,12 @@ Gets a list of users that are able to be watchers of the specified work package.
                     "createdAt": "2016-02-29T12:50:20+00:00",
                     "updatedAt": "2016-02-29T12:50:20+00:00",
                     "type": null
-                  }]
-                }
+                  }
+                ]
               }
             }
 
-## Available projects [GET]
+## Available projects for work package [GET]
 
 Gets a list of projects that are available as projects to which the work package can be moved.
 
@@ -1811,7 +1807,7 @@ Gets a list of projects that are available as projects to which the work package
 
 + Response 200 (application/hal+json)
 
-    [Available Projects][]
+    [Available projects for work package][]
 
 + Response 403 (application/hal+json)
 
@@ -1865,11 +1861,11 @@ Gets a list of projects that are available as projects to which the work package
                         "_type": "Revision",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/revisions/13",
+                                "href": "/api/v3/revisions/13"
                             },
                             "project": {
                                 "href": "/api/v3/projects/1",
-                                "title": "A Test Project
+                                "title": "A Test Project"
                             },
                             "author": {
                                 "href": "/api/v3/users/1",
@@ -1888,22 +1884,22 @@ Gets a list of projects that are available as projects to which the work package
                             "raw": "This revision provides new features\n\nAn elaborate description",
                             "html": "<p>This revision provides new features<br/><br/>An elaborate description</p>"
                         },
-                        "createdAt": "2015-07-21T13:36:59Z",
+                        "createdAt": "2015-07-21T13:36:59Z"
                     },
                     {
                         "_type": "Revision",
                         "_links": {
                             "self": {
-                                "href": "/api/v3/revisions/14",
+                                "href": "/api/v3/revisions/14"
                             },
                             "project": {
                                 "href": "/api/v3/projects/1",
-                                "title": "A Test Project
+                                "title": "A Test Project"
                             },
                             "author": {
                                 "href": "/api/v3/users/2",
                                 "title": "Jim Sheppard - j.sheppard"
-                            }
+                            },
                             "showRevision": {
                                 "href": "/projects/identifier/repository/revision/029ed72a"
                             }
@@ -1917,8 +1913,9 @@ Gets a list of projects that are available as projects to which the work package
                             "raw": "This revision fixes some stuff\n\nMore information here",
                             "html": "<p>This revision fixes some stuff<br/><br/>More information here</p>"
                         },
-                        "createdAt": "2015-06-30T08:47:00Z",
-                    }]
+                        "createdAt": "2015-06-30T08:47:00Z"
+                    }
+                  ]
                 }
             }
 
@@ -2139,12 +2136,12 @@ Returns the activity resource
                             },
                             "lock": {
                                 "href": "/api/v3/users/1/lock",
-                                "title": "Set lock on j.sheppard"
+                                "title": "Set lock on j.sheppard",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/1",
-                                "title": "Delete j.sheppard"
+                                "title": "Delete j.sheppard",
                                 "method": "DELETE"
                             }
                         },
@@ -2167,12 +2164,12 @@ Returns the activity resource
                             },
                             "lock": {
                                 "href": "/api/v3/users/2/lock",
-                                "title": "Set lock on j.sheppard2"
+                                "title": "Set lock on j.sheppard2",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/2",
-                                "title": "Delete j.sheppard2"
+                                "title": "Delete j.sheppard2",
                                 "method": "DELETE"
                             }
                         },
@@ -2253,12 +2250,12 @@ Gets a list of users that can be assigned to work packages in the given project.
                             },
                             "lock": {
                                 "href": "/api/v3/users/1/lock",
-                                "title": "Set lock on j.sheppard"
+                                "title": "Set lock on j.sheppard",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/1",
-                                "title": "Delete j.sheppard"
+                                "title": "Delete j.sheppard",
                                 "method": "DELETE"
                             }
                         },
@@ -2281,12 +2278,12 @@ Gets a list of users that can be assigned to work packages in the given project.
                             },
                             "lock": {
                                 "href": "/api/v3/users/2/lock",
-                                "title": "Set lock on j.sheppard2"
+                                "title": "Set lock on j.sheppard2",
                                 "method": "POST"
                             },
                             "delete": {
                                 "href": "/api/v3/users/2",
-                                "title": "Delete j.sheppard2"
+                                "title": "Delete j.sheppard2",
                                 "method": "DELETE"
                             }
                         },

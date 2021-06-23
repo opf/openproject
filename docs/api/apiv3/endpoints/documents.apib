@@ -49,7 +49,7 @@ None yet
                     },
                     "self": {
                         "href": "/api/v3/documents/1",
-                        "title": "Some document",
+                        "title": "Some document"
                     },
                     "project": {
                         "href": "/api/v3/projects/19",
@@ -58,23 +58,19 @@ None yet
                 },
                 "_embedded": {
                     "project": {
-                        "_type": "Project",
-                        <-- omitted for brevity -->
-                        }
+                        "_type": "Project..."
                     },
-                    attachments": {
+                    "attachments": {
                         "_type": "Collection",
                         "total": 2,
                         "count": 2,
-                        "_embedded": {
-                            <-- omitted for brevity -->
-                        },
+                        "_embedded...": { "elements": [] },
                         "_links": {
                             "self": {
                                 "href": "/api/v3/documents/1/attachments"
                             }
                         }
-                    },
+                    }
                 }
             }
 
@@ -136,7 +132,7 @@ None yet
                                 },
                                 "self": {
                                     "href": "/api/v3/documents/1",
-                                    "title": "Some document",
+                                    "title": "Some document"
                                 },
                                 "project": {
                                     "href": "/api/v3/projects/19",

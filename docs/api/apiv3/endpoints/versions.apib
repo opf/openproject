@@ -41,13 +41,14 @@ Depending on custom fields defined for versions, additional properties might exi
             {
                 "_links": {
                     "self": { "href": "/api/v3/versions/11" },
-                    "update": { "href": "/api/v3/versions/11/form", "method": "POST" }
-                    "updateImmediately": { "href": "/api/v3/versions/11", "method": "PATCH" }
+                    "update": { "href": "/api/v3/versions/11/form", "method": "POST" },
+                    "updateImmediately": { "href": "/api/v3/versions/11", "method": "PATCH" },
                     "definingProject": { "href": "/api/v3/projects/11" },
-                    "availableInProjects": { "href": "/api/v3/versions/11/projects" }
+                    "availableInProjects": { "href": "/api/v3/versions/11/projects" },
                     "customField4": {
                         "href": "/api/v3/custom_options/5",
-                        "title" "Custom field option"
+                        "title": "Custom field option"
+                    }
                 },
                 "_type": "Version",
                 "id": 11,
@@ -61,7 +62,7 @@ Depending on custom fields defined for versions, additional properties might exi
                 "endDate": null,
                 "status": "open",
                 "sharing": "system",
-                "customField14": "1234567890",
+                "customField14": "1234567890"
             }
 
 ## View version [GET]
@@ -332,6 +333,7 @@ You can use the form and schema to be retrieve the valid attribute values and by
                     "customField4": {
                         "href": "/api/v3/custom_options/5",
                         "title" "Custom field option"
+                    }
                 },
                 "name": "v3.0 Alpha",
                 "description": {
@@ -829,6 +831,10 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Version update form [POST]
 
++ Parameters
+
+  + id (required, integer, `1`) ... Project id
+
 + Request Update version form
 
     + Body
@@ -1269,8 +1275,8 @@ Note that due to sharing this might be more than the versions *defined* by that 
                     "createdAt": "2016-02-29T12:50:20+00:00",
                     "updatedAt": "2016-02-29T12:50:20+00:00",
                     "type": null
-                  }]
-                }
+                  }
+                ]
               }
             }
 
