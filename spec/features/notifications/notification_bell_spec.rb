@@ -27,7 +27,7 @@ describe "Notification bell", type: :feature, js: true do
       center.expect_bell_count 1
       center.open
 
-      center.expect_item notification
+      center.expect_work_package_item notification
       center.mark_all_read
       center.expect_closed
 

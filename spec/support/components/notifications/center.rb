@@ -43,10 +43,18 @@ module Components
         click_button 'Mark all as read'
       end
 
-      def expect_item(notification)
+      def expect_item(notification, subject: notification.subject)
         page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']") do
-          expect(page).to have_text notification.subject
+          expect(page).to have_text subject
         end
+      end
+
+      def expect_work_package_item(notification)
+        work_package = notification.resource
+        raise(ArgumentError, "Expected work package") unless work_package.is_a?(WorkPackage)
+
+        expect_item notification,
+                    subject: "#{work_package.type.name.upcase} ##{work_package.id} #{work_package.subject}"
       end
 
       def expect_closed
