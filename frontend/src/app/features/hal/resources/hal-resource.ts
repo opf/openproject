@@ -113,6 +113,11 @@ export class HalResource {
     return href.split('/').pop()!;
   }
 
+  public static matchFromLink(href:string, expectedResource:string):string|null {
+    const match = href.match(new RegExp(`/api/v3/${expectedResource}/(\\d+)`));
+    return match && match[1];
+  }
+
   public get idFromLink():string {
     if (this.href) {
       return HalResource.idFromLink(this.href);

@@ -4,6 +4,13 @@ export interface HalResourceLink {
   href:string;
   title:string;
 }
+export type InAppNotificationFormat = 'markdown'|'custom';
+
+export interface InAppNotificationDetail {
+  format:InAppNotificationFormat;
+  raw:string|null;
+  html:string;
+}
 
 export interface InAppNotification {
   id:ID;
@@ -12,10 +19,12 @@ export interface InAppNotification {
   reason:string;
   read?:boolean;
 
-  details?:string[];
+  details?:InAppNotificationDetail[];
 
   _links:{
-    context?:HalResourceLink,
-    resource:HalResourceLink,
+    actor?:HalResourceLink,
+    project?:HalResourceLink,
+    resource?:HalResourceLink,
+    activity?:HalResourceLink,
   };
 }
