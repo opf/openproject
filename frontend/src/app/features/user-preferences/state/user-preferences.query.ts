@@ -16,7 +16,7 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
   notificationsGroupedByProject$:Observable<{ [key:string]:NotificationSetting[] }> = this
     .notificationSettings$
     .pipe(
-      map(notifications => _.groupBy(notifications, setting => setting._links.project.href || 'global'))
+      map(notifications => _.groupBy(notifications, setting => setting._links.project.title || 'global'))
     );
 
   projectNotifications$ = this

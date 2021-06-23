@@ -18,6 +18,7 @@
       [checked]="setting.involved || setting.all"
       [disabled]="setting.all"
       (change)="update({ involved: $event.target.checked })"
+      data-qa-notification-type="involved"
       [attr.aria-label]="text.involved_header"
   />
 </td>
@@ -27,6 +28,7 @@
       [checked]="setting.mentioned || setting.all"
       [disabled]="setting.all"
       (change)="update({ mentioned: $event.target.checked })"
+      data-qa-notification-type="mentioned"
       [attr.aria-label]="text.mentioned_header"
   />
 </td>
@@ -36,6 +38,7 @@
       [checked]="setting.watched || setting.all"
       [disabled]="setting.all"
       (change)="update({ watched: $event.target.checked })"
+      data-qa-notification-type="watched"
       [attr.aria-label]="text.watched_header"
   />
 </td>
@@ -44,6 +47,7 @@
       type="checkbox"
       [checked]="setting.all"
       (change)="update({ all: $event.target.checked })"
+      data-qa-notification-type="all"
       [attr.aria-label]="text.any_event_header"
   />
 </td>

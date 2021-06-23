@@ -52,6 +52,8 @@
           <tr
               class="-no-highlighting"
               op-notification-setting-row
+              [attr.data-qa-notification-project]="item.key"
+              [attr.data-qa-notification-channel]="setting.channel"
               [first]="first"
               [setting]="setting"
           >
@@ -68,6 +70,7 @@
         *ngIf="userId"
         [userId]="userId"
         (onSelect)="addRow($event)"
+        data-qa-selector="notification-setting-inline-create"
     ></op-notification-setting-inline-create>
   </div>
 </div>
