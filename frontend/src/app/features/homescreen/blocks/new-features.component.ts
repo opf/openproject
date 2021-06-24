@@ -37,14 +37,14 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
 
 @Component({
   template: `
-    <div class="op-new-feature">
+    <div class="op-new-features">
       <p class="widget-box--additional-info">
         {{ text.descriptionNewFeatures }}
       </p>
       <div class="widget-box--description">
         <p [innerHtml]="currentNewFeatureHtml"></p>
         <img [src]="new_features_image"/>
-        <a class="widget-box--teaser-image"></a>
+        <a class="widget-box--teaser-image op-new-features--teaser-image"></a>
       </div>
 
       <a [href]="teaserWebsiteUrl" target="_blank">{{ text.learnAbout }}</a>
