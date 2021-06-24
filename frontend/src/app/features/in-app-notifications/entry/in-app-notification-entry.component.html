@@ -55,13 +55,15 @@
       </ng-container>
     </div>
     <div
-        class="op-ian-item--actor"
-        *ngIf="actor"
+      class="op-ian-item--actor"
+      *ngIf="actor"
     >
       <op-principal
-          [hide-name]="false"
-          [principal]="actor"
-          size="medium"
+        [hide-name]="false"
+        [principal]="actor"
+        [link]="false"
+        size="medium"
+        class="op-principal_hide-name-on-mobile"
       ></op-principal>
     </div>
     <div
