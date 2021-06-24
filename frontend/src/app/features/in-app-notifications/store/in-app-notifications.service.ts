@@ -86,9 +86,7 @@ export class InAppNotificationsService {
       .pipe(
         take(1),
         switchMap(events =>
-          forkJoin(
-            events.map(event => this.apiV3Service.notifications.id(event.id).markRead())
-          )
+          this.apiV3Service.notifications.markRead(events.map(event => event.id))
         )
       )
       .subscribe(() => {

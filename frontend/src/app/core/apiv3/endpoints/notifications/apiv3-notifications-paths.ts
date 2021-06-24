@@ -35,6 +35,7 @@ import { Apiv3NotificationPaths } from "core-app/core/apiv3/endpoints/notificati
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { HttpClient } from "@angular/common/http";
 import { IHALCollection } from "core-app/core/apiv3/types/hal-collection.type";
+import { ID } from "@datorama/akita";
 
 export class Apiv3NotificationsPaths
   extends APIv3ResourceCollection<InAppNotification, Apiv3NotificationPaths> {
@@ -73,5 +74,22 @@ export class Apiv3NotificationsPaths
     };
 
     return this.list(params);
+  }
+
+  /**
+   * Mark all notifications as read
+   * @param ids
+   */
+  public markRead(ids:Array<ID>):Observable<unknown> {
+    return this
+      .http
+      .post(
+        this.path + '/read_ian' + listParamsString({ filters: [['id', "=", ids.map(id => id.toString())]] }),
+        {},
+        {
+          withCredentials: true,
+          responseType: 'json'
+        }
+      );
   }
 }
