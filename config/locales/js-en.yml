@@ -563,6 +563,10 @@ en:
       channels:
         in_app: "In-app"
         mail: "Email"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
       settings:
         default_all_projects: 'Default for all projects'
         involved: 'I am involved'

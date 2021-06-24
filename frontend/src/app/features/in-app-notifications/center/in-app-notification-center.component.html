@@ -52,6 +52,7 @@
           *ngFor="let item of notifications$ | async"
           class="op-ian-center--entry"
           [notification]="item"
+          (resourceLinkClicked)="closeMe()"
       ></op-in-app-notification-entry>
     </ul>
 
