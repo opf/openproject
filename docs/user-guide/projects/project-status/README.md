@@ -12,7 +12,7 @@ The project status serves as an information for yourself and the team if the pro
 
 ##Setting the project status
 
-You can set your project status in the **project settings**. For this, click on **project settings** in the menu on the left and then select the relevant status.
+You can set your project status in the **project settings**. For this, click on **project settings** in the menu on the left and then select the relevant status. To add more information to your project status, you can use the status description directly underneath to manually describe changes, project KPIs etc.
 
 ![project-settings-project-status](project-settings-project-status.png)
 
@@ -20,7 +20,7 @@ Alternatively, you can also set the project status in the **project overview**. 
 
 ![Set-project-status-project-overview](Set-project-status-project-overview.png)
 
-Alternatively, add the project status to your **project overview** widget by clicking on **+** at the top right corner. Then you can choose where you would like to position your additional widget by clicking on the respective **+** at the top, bottom, left or right of existing widgets. Then set your project status from the drop down as shown above.
+If the widget is not yet displayed on the project overview, you can add the project status to your **project overview** widget by clicking on **+** at the top right corner. Then you can choose where you would like to position your additional widget by clicking on the respective **+** at the top, bottom, left or right of existing widgets. Then set your project status from the drop down as shown above.
 
 ![project-status-widget](project-status-widget.png)
 
@@ -30,7 +30,7 @@ The project status is displayed in different OpenProject modules.
 
 ###Project list
 
-Select **View all projects** from the header menu, it will then open your **project list** which displays all your projects including the project status.
+Select **View all projects** from the header menu, it will then open your [project list](/docs/user-guide/projects/#Global-projects-overview---view-all-projects) which displays all your projects including the project status.
 
 ![View-all-projects](View-all-projects-4478986.png)
 
@@ -38,7 +38,7 @@ Select **View all projects** from the header menu, it will then open your **proj
 
 ###Project overview
 
-Your project dashboard will also display your project status. The project status is a widget that you can drag and drop to configure your view.
+Your [dashboard](/docs/user-guide/project-overview/) will also display your project status. The project status is a widget that you can drag and drop to configure your view in the project overview.
 
 ![Project-status-project-overview](Project-status-project-overview.png)
 
