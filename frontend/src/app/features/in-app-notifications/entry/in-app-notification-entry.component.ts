@@ -32,6 +32,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   // Format relative elapsed time (n seconds/minutes/hours ago)
   // at an interval for auto updating
   relativeTime$:Observable<string>;
+  fixedTime:string;
 
   text = {
     loading: this.I18n.t('js.ajax.loading'),
@@ -53,7 +54,8 @@ export class InAppNotificationEntryComponent implements OnInit {
     this.body = details.filter(el => el.format === 'markdown');
     this.details = details.filter(el => el.format === 'custom');
 
-    this.relativeTime$ = timer(0, 30000)
+    this.fixedTime = this.timezoneService.formattedDatetime(this.notification.updatedAt);
+    this.relativeTime$ = timer(0, 10000)
       .pipe(
         map(() => this.timezoneService.formattedRelativeDateTime(this.notification.updatedAt)),
         distinctUntilChanged()
