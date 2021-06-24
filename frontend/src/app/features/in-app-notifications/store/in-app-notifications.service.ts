@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { applyTransaction, ID, transaction } from '@datorama/akita';
-import { InAppNotification } from './in-app-notification.model';
+import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
 import { InAppNotificationsStore } from './in-app-notifications.store';
 import { forkJoin, Observable } from "rxjs";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
@@ -24,12 +24,12 @@ export class InAppNotificationsService {
   get():void {
     this.store.setLoading(true);
 
-    let facet = this.query.getValue().activeFacet;
+    const facet = this.query.getValue().activeFacet;
 
     this
       .apiV3Service
       .notifications
-      .facet(facet)
+      .facet(facet, { pageSize: NOTIFICATIONS_MAX_SIZE })
       .pipe(
         tap(events => this.sideLoadInvolvedWorkPackages(events._embedded.elements))
       )
@@ -37,7 +37,7 @@ export class InAppNotificationsService {
         events => {
           applyTransaction(() => {
             this.store.set(events._embedded.elements);
-            this.store.update({ count: events.total });
+            this.store.update({ count: events.total, notShowing: events.total - events.count });
           });
         },
         error => {

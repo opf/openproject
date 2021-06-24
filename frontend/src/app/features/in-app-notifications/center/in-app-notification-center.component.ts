@@ -5,6 +5,7 @@ import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/store/in-app-notifications.query";
 import { InAppNotificationsService } from "core-app/features/in-app-notifications/store/in-app-notifications.service";
+import { NOTIFICATIONS_MAX_SIZE } from "core-app/features/in-app-notifications/store/in-app-notification.model";
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -17,20 +18,20 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
   notifications$ = this.ianQuery.selectAll();
   notificationsCount$ = this.ianQuery.selectCount();
   hasNotifications$ = this.ianQuery.hasNotifications$;
+  hasMoreThanPageSize$ = this.ianQuery.hasMoreThanPageSize$;
+  maxSize = NOTIFICATIONS_MAX_SIZE;
 
-  facets:string[] = ['unread', 'all']
+  facets:string[] = ['unread', 'all'];
 
   text = {
-    title: 'Notifications',
-    mark_all_read: 'Mark all as read',
+    title: this.I18n.t('js.notifications.title'),
+    mark_all_read: this.I18n.t('js.notifications.center.mark_all_read'),
     button_close: this.I18n.t('js.button_close'),
     no_results: this.I18n.t('js.notice_no_results_to_display'),
-    show_all: 'Show all',
-    show_unread: 'Show unread',
     facets: {
-      unread: 'Unread',
-      all: 'All'
-    }
+      unread: this.I18n.t('js.notifications.facets.unread'),
+      all: this.I18n.t('js.notifications.facets.all'),
+    },
   };
 
   constructor(
@@ -56,6 +57,15 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
   activateFacet(facet:string) {
     this.ianService.setActiveFacet(facet);
     this.ianService.get();
+  }
+
+  totalCountWarning() {
+    const state = this.ianQuery.getValue();
+
+    return this.I18n.t(
+      'js.notifications.center.total_count_warning',
+      { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: state.notShowing },
+    );
   }
 
 }
