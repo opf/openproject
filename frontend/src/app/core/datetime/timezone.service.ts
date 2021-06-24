@@ -136,6 +136,11 @@ export class TimezoneService {
     return c[0] + ' ' + c[1];
   }
 
+  public formattedRelativeDateTime(datetimeString:string) {
+    const d = this.parseDatetime(datetimeString);
+    return d.fromNow();
+  }
+
   public formattedDatetimeComponents(datetimeString:string) {
     var d = this.parseDatetime(datetimeString);
     return [

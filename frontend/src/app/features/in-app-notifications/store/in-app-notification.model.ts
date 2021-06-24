@@ -15,7 +15,8 @@ export interface InAppNotificationDetail {
 export interface InAppNotification {
   id:ID;
   subject:string;
-  date:string;
+  createdAt:string;
+  updatedAt:string;
   reason:string;
   read?:boolean;
 

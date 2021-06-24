@@ -29,9 +29,11 @@
                 [textContent]="'#' + workPackage.id"
             >
           </a>
-          <span [textContent]="workPackage.subject"
-                class="op-ian-item--work-package-subject"
-                [class.-read]="notification.read">
+          <span
+              [textContent]="workPackage.subject"
+              class="op-ian-item--work-package-subject"
+              [class.-read]="notification.read"
+          >
           </span>
         </span>
       </ng-container>
@@ -54,15 +56,26 @@
     ></div>
     <div
         class="op-ian-item--date"
-        [textContent]="notification.date"
+        [textContent]="relativeTime$ | async"
     ></div>
   </button>
   <div
       *ngIf="notification.expanded"
       class="op-ian-item--details"
   >
+    <ng-container *ngIf="body.length > 0">
+      <div class="op-ian-item--body">
+        <ng-container *ngFor="let bodyItem of body">
+          <div
+              class="op-ian-item--body-item"
+              [innerHTML]="bodyItem.html"
+          >
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
     <ul class="work-package-details-activities-messages" *ngIf="notification.details">
-      <ng-container *ngFor="let detail of notification.details">
+      <ng-container *ngFor="let detail of details">
         <li *ngIf="detail.html && detail.html !== ''">
           <span
               class="message"
