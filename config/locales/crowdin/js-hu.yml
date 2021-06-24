@@ -91,11 +91,11 @@ hu:
       title: 'Naptár'
       too_many: 'Összesen %{count} munkacsomag van, de csak %{max} jeleníthető meg.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Új kártya hozzáadása'
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+      remove_from_list: 'Kártya eltávolítása a listából'
     caption_rate_history: "Díj előzmények"
     clipboard:
       browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
@@ -118,7 +118,7 @@ hu:
       errors:
         could_not_load: 'A grafikon megjelenítéséhez szükséges adatokat nem lehetett betölteni. Hiányozhatnak a szükséges engedélyek.'
     description_available_columns: "Elérhető oszlopok"
-    description_current_position: "You are here: "
+    description_current_position: "Itt vagy:"
     description_select_work_package: "Munkacsomag kiválasztás #%{id}"
     description_selected_columns: "Oszlopok kiválasztása"
     description_subwork_package: "Munkacsomag gyermeke #%{id}"
@@ -185,14 +185,14 @@ hu:
         reset_to_defaults: 'Alapbeállítások visszaállítása'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "E-mail cím megerősítése"
           confirmation_info: >
             We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+            invalid_email: "Érvénytelen e-mail cím"
+            label_company: "Cég"
             label_first_name: "Keresztnév"
             label_last_name: "Vezetéknév"
             label_domain: "Domain"
@@ -227,11 +227,11 @@ hu:
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Szakmai támogatás"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "Ingyenes próbaverzió kipróbálása"
+          button_book_now: "Foglalás most"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+          link_quote: "Árajánlat kérése"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -478,14 +478,14 @@ hu:
       steps:
         help_menu: 'A <b>Súgó</b> menüben találja a felhasználói útmutatót és további segítséget. <br> Élvezze az OpenProject munkáját!'
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
-        project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
         quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "A nyíl segítségével visszatérhet a projekt <b>főmenüjébe</b>."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
         wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
         backlogs:
           overview: "Kezelje munkáját <b>Backlogs</b> nézetben.<br>Jobb oldalon van a Product Backlog vagy a Bug Backlog, bal oldalon a megfelelő sprint. Itt létrehozhat <b>epic, user stories és bug</b> típusokat, rangsorolhatja drag'n'drop segítségével, és hozzáadhatja őket a sprinthez."
-          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
+          task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
           task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
           task_board: "A <b>Feladatlap</b> megjeleníti a sprint előrehaladását. Új feladatok vagy akadályok hozzáadása a + ikonhoz a felhasználói történet mellett. A drag'n'drop segítségével frissítheti az állapotot."
         boards:
@@ -566,11 +566,11 @@ hu:
       parent: "Szülő"
       children: "Gyermekek"
       relates: "Related To"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
+      duplicates: "Duplikátumok"
+      duplicated: "Duplikálta (a)z"
       blocks: "Blokkolja"
-      blocked: "Blocked by"
-      precedes: "Precedes"
+      blocked: "Blokkolta a(z)"
+      precedes: "Megelőzi"
       follows: "Követi ezt"
       includes: "Tartalmazza"
       partof: "Része"
@@ -582,7 +582,7 @@ hu:
       hierarchy_headline: "Hierarchia"
       children_headline: "Gyermekek"
     relation_buttons:
-      set_parent: "Set parent"
+      set_parent: "Szülő kapcsolat beállítása"
       change_parent: "Szülő módosítása"
       remove_parent: "Szülő eltávolítása"
       hierarchy_indent: "Behúzási hierarchia"
@@ -591,12 +591,12 @@ hu:
       group_by_relation_type: "Rendezés kapcsolati típusok szerint"
       add_parent: "Meglévő szülő kapcsolat hozzáadása"
       add_new_child: "Új gyermek kapcsolat hozzáadása"
-      create_new: "Create new"
-      add_existing: "Add existing"
+      create_new: "Új létrehozása"
+      add_existing: "Létező tartalom hozzáadása"
       add_existing_child: "Meglévő gyermek kapcsolat hozzáadása"
       remove_child: "Gyermek kapcsolat törlése"
       add_new_relation: "Új kapcsolat hozzáadása"
-      add_existing_relation: "Add existing relation"
+      add_existing_relation: "Létező kapcsolat hozzáadása"
       update_description: "Kapcsolat részleteinek beállítása vagy frissítése"
       toggle_description: "Kapcsolat leírás kapcsolása"
       update_relation: "Klikk a kapcsolat típus módosításához"
@@ -606,7 +606,7 @@ hu:
       save: "Kapcsolat mentése"
       abort: "Megszakít"
     relations_autocomplete:
-      placeholder: "Type to search"
+      placeholder: "Gépeljen a kereséshez"
       parent_placeholder: "Choose new parent or press escape to cancel."
     repositories:
       select_tag: 'Címke kiválasztása'
@@ -693,7 +693,7 @@ hu:
       strong: "Erős"
       italic: "Dőlt betű"
       underline: "Aláhúzott"
-      deleted: "Deleted"
+      deleted: "Törölve"
       code: "Beágyazott kód"
       heading1: "Címsor 1"
       heading2: "Címsor 2"
@@ -754,7 +754,7 @@ hu:
         children_expanded: 'A hierarchia szintje %{level} bővült. Kattintson a szűrt gyermek-objektum megjelenítéséhez'
       faulty_query:
         title: A munkacsomag nem tölthető be.
-        description: Your view is erroneous and could not be processed.
+        description: A nézet hibás, és nem sikerült feldolgozni.
       no_results:
         title: Nincs megjelenítendő munkacsomag.
         description: Vagy nincs még ilyen munkacsomag, vagy a szűrők miatt nem jeleníthető meg.
@@ -886,7 +886,7 @@ hu:
         columns: "Oszlopok..."
         sort_by: "Rendezés..."
         group_by: "Csoportosítás..."
-        display_sums: "Display sums"
+        display_sums: "Megjelenítendő összegek"
         display_hierarchy: "Hierarchia megjelenítése"
         hide_hierarchy: "Hierarchia elrejtése"
         hide_sums: "Összegek elrejtése"
@@ -949,7 +949,7 @@ hu:
         messages_on_field: 'Ez a mező érvénytelen: %{messages}'
     error_could_not_resolve_version_name: "Nem sikerült a verziószám visszafejtése"
     error_could_not_resolve_user_name: "Nem sikerült a felhasználó visszafejtése"
-    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload: "A fájlt nem sikerült feltölteni: %{error}"
     error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
     units:
       workPackage:
@@ -966,13 +966,13 @@ hu:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'
     global_search:
-      all_projects: "In all projects"
+      all_projects: "Az összes projektben"
       search: "Keresés"
-      close_search: "Close search"
+      close_search: "Keresés bezárása"
       current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
       title:
-        all_projects: "all projects"
+        all_projects: "minden projekt"
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
     views:

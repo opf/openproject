@@ -3,11 +3,11 @@ hu:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP connection'
+        auth_source: 'LDAP csatlakozás'
         sync_users: 'Sync users'
       ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
-        auth_source: 'LDAP connection'
+        filter_string: 'LDAP szűrő'
+        auth_source: 'LDAP csatlakozás'
         group_name_attribute: "Group name attribute"
         sync_users: 'Sync users'
         base_dn: "Search base DN"
@@ -21,7 +21,7 @@ hu:
   ldap_groups:
     label_menu_item: 'LDAP group synchronization'
     label_group_key: 'LDAP group filter key'
-    label_synchronize: 'Synchronize'
+    label_synchronize: 'Szinkronizálás'
     settings:
       name_attribute: 'LDAP groups name attribute'
       name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
@@ -50,7 +50,7 @@ hu:
         title: 'Remove synchronized group %{name}'
         confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
         info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
-        verification: "Enter the group's name %{name} to verify the deletion."
+        verification: "Adja meg a csoport nevét %{name} a törlés megerősítéséhez."
       help_text_html: |
         Ez a modul lehetővé teszi az LDAP és az OpenProject csoportok közötti szinkronizálást.
         Attól függ, hogy az LDAP-csoportoknak az OpenProject használatához a <em> groupOfNames / memberOf </em> attribútumot kell használniuk.

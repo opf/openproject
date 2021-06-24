@@ -4,7 +4,7 @@ hu:
       download_starts: 'The download should start automatically.'
       click_to_download: 'Or click here to download.'
       title: 'Background job status'
-      redirect: 'You are being redirected.'
+      redirect: 'Átirányítjuk...'
       redirect_link: 'Please click here to continue.'
       redirect_errors: 'Due to these errors, you will not be redirected automatically.'
       errors: 'Some errors have occurred'
