@@ -221,20 +221,36 @@ module API
           index :notification
           show :notification
 
+          def self.notification_bulk_read_ian
+            "#{notifications}/read_ian"
+          end
+
+          def self.notification_bulk_unread_ian
+            "#{notifications}/unread_ian"
+          end
+
+          def self.notification_bulk_read_email
+            "#{notifications}/read_email"
+          end
+
+          def self.notification_bulk_unread_email
+            "#{notifications}/unread_email"
+          end
+
           def self.notification_read_ian(id)
-            "#{notification(id)}/readIAN"
+            "#{notification(id)}/read_ian"
           end
 
           def self.notification_unread_ian(id)
-            "#{notification(id)}/unreadIAN"
+            "#{notification(id)}/unread_ian"
           end
 
           def self.notification_read_email(id)
-            "#{notification(id)}/readEmail"
+            "#{notification(id)}/read_email"
           end
 
           def self.notification_unread_email(id)
-            "#{notification(id)}/unreadEmail"
+            "#{notification(id)}/unread_email"
           end
 
           index :placeholder_user

@@ -35,35 +35,71 @@ module API
             authorize_by_with_raise current_user.logged?
           end
 
+          helpers do
+            def notification_query
+              @notification_query ||= ParamsToQueryService
+                                      .new(Notification, current_user)
+                                      .call(params)
+            end
+
+            def bulk_update_status(attributes)
+              if notification_query.valid?
+                notification_query.results.update_all({ updated_at: Time.zone.now }.merge(attributes))
+                status 204
+              else
+                raise ::API::Errors::InvalidQuery.new(notification_query.errors.full_messages)
+              end
+            end
+          end
+
           get &::API::V3::Utilities::Endpoints::Index
             .new(model: Notification, scope: -> { Notification.recipient(current_user) })
             .mount
+
+          post :read_ian do
+            bulk_update_status(read_ian: true)
+          end
+
+          post :unread_ian do
+            bulk_update_status(read_ian: false)
+          end
+
+          post :read_email do
+            bulk_update_status(read_email: true)
+          end
+
+          post :unread_email do
+            bulk_update_status(read_email: false)
+          end
 
           route_param :id, type: Integer, desc: 'Notification ID' do
             after_validation do
               @notification = Notification.recipient(current_user).find(params[:id])
             end
 
+            helpers do
+              def update_status(attributes)
+                @notification.update_columns({ updated_at: Time.zone.now }.merge(attributes))
+                status 204
+              end
+            end
+
             get &::API::V3::Utilities::Endpoints::Show.new(model: Notification).mount
 
-            post :readIAN do
-              @notification.update_column(:read_ian, true)
-              status 204
+            post :read_ian do
+              update_status(read_ian: true)
             end
 
-            post :unreadIAN do
-              @notification.update_column(:read_ian, false)
-              status 204
+            post :unread_ian do
+              update_status(read_ian: false)
             end
 
-            post :readEmail do
-              @notification.update_column(:read_email, true)
-              status 204
+            post :read_email do
+              update_status(read_email: true)
             end
 
-            post :unreadEmail do
-              @notification.update_column(:read_email, false)
-              status 204
+            post :unread_email do
+              update_status(read_email: false)
             end
           end
         end
