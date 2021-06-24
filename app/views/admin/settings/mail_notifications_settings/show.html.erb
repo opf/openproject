@@ -37,6 +37,8 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
       <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
+      <div class="form--field"><%= setting_text_field :notification_email_delay_minutes, container_class: '-xslim' %></div>
+      <div class="form--field-instructions"><%= t(:setting_notification_email_delay_minutes_explanation) %></div>
     </section>
 
     <fieldset id="notified_events" class="form--fieldset">

@@ -38,10 +38,45 @@ describe Notifications::CreateService, type: :model do
     end
 
     context 'when successful' do
-      it 'schedules an event notification job' do
-        expect { subject }
-          .to have_enqueued_job(Mails::NotificationJob)
-               .with({ "_aj_globalid" => "gid://open-project/Notification/#{model_instance.id}" })
+      before do
+        allow(set_attributes_service)
+          .to receive(:call) do |attributes|
+          model_instance.attributes = attributes
+
+          set_attributes_result
+        end
+      end
+
+      context 'when mail ought to be send', { with_settings: { notification_email_delay_minutes: 30 } } do
+        let(:call_attributes) do
+          {
+            read_email: false
+          }
+        end
+
+        it 'schedules a delayed event notification job' do
+          allow(Time)
+            .to receive(:now)
+                  .and_return(Time.now)
+
+          expect { subject }
+            .to have_enqueued_job(Mails::NotificationJob)
+                 .with({ "_aj_globalid" => "gid://open-project/Notification/#{model_instance.id}" })
+                 .at(Time.now + Setting.notification_email_delay_minutes.minutes)
+        end
+      end
+
+      context 'when mail not ought to be send' do
+        let(:call_attributes) do
+          {
+            read_email: nil
+          }
+        end
+
+        it 'schedules no event notification job' do
+          expect { subject }
+            .not_to have_enqueued_job(Mails::NotificationJob)
+        end
       end
     end
 
