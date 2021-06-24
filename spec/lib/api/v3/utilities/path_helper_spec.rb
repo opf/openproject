@@ -218,6 +218,59 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'show', :news
   end
 
+  describe 'notifications paths' do
+    it_behaves_like 'index', :notifications
+    it_behaves_like 'show', :notification
+
+    describe '#notification_bulk_read_ian' do
+      subject { helper.notification_bulk_read_ian }
+
+      it_behaves_like 'api v3 path', '/notifications/read_ian'
+    end
+
+    describe '#notification_bulk_unread_ian' do
+      subject { helper.notification_bulk_unread_ian }
+
+      it_behaves_like 'api v3 path', '/notifications/unread_ian'
+    end
+
+    describe '#notification_bulk_read_email' do
+      subject { helper.notification_bulk_read_email }
+
+      it_behaves_like 'api v3 path', '/notifications/read_email'
+    end
+
+    describe '#notification_bulk_unread_email' do
+      subject { helper.notification_bulk_unread_email }
+
+      it_behaves_like 'api v3 path', '/notifications/unread_email'
+    end
+
+    describe '#notification_read_ian' do
+      subject { helper.notification_read_ian(42) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/read_ian'
+    end
+
+    describe '#notification_unread_ian' do
+      subject { helper.notification_unread_ian(42) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/unread_ian'
+    end
+
+    describe '#notification_read_email' do
+      subject { helper.notification_read_email(42) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/read_email'
+    end
+
+    describe '#notification_unread_email' do
+      subject { helper.notification_unread_email(42) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/unread_email'
+    end
+  end
+
   describe 'markup paths' do
     describe '#render_markup' do
       subject { helper.render_markup(link: 'link-ish') }

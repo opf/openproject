@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,19 +28,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Notifications
-  Queries::Register.filter Queries::Notifications::NotificationQuery,
-                           Queries::Notifications::Filters::ReadIanFilter
+require 'spec_helper'
 
-  Queries::Register.filter Queries::Notifications::NotificationQuery,
-                           Queries::Notifications::Filters::IdFilter
-
-  Queries::Register.order Queries::Notifications::NotificationQuery,
-                          Queries::Notifications::Orders::DefaultOrder
-
-  Queries::Register.order Queries::Notifications::NotificationQuery,
-                          Queries::Notifications::Orders::ReasonOrder
-
-  Queries::Register.order Queries::Notifications::NotificationQuery,
-                          Queries::Notifications::Orders::ReadIanOrder
+describe Queries::Notifications::Filters::IdFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :id }
+    let(:type) { :list }
+    let(:model) { Notification }
+    let(:attribute) { :id }
+    let(:values) { ['5'] }
+  end
 end

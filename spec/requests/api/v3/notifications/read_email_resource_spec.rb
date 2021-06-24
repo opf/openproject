@@ -31,19 +31,18 @@ require 'spec_helper'
 
 describe ::API::V3::Notifications::NotificationsAPI,
          'update email read status',
-         type: :request do
+         type: :request,
+         content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:recipient) { FactoryBot.create :user }
   shared_let(:notification) { FactoryBot.create :notification, recipient: recipient }
 
   let(:send_read) do
-    header "Content-Type", "application/json"
     post api_v3_paths.notification_read_email(notification.id)
   end
 
   let(:send_unread) do
-    header "Content-Type", "application/json"
     post api_v3_paths.notification_unread_email(notification.id)
   end
 
