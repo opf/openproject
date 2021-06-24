@@ -11,6 +11,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { InAppNotificationsService } from "core-app/features/in-app-notifications/store/in-app-notifications.service";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 import { distinctUntilChanged, map, mapTo } from "rxjs/operators";
+import { PrincipalLike } from "core-app/shared/components/principal/principal-types";
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -28,6 +29,9 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   // custom rendered details, if any
   details:InAppNotificationDetail[];
+
+  // The actor, if any
+  actor?:PrincipalLike;
 
   // Format relative elapsed time (n seconds/minutes/hours ago)
   // at an interval for auto updating
@@ -47,21 +51,16 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   ngOnInit():void {
+    this.buildActor();
+    this.buildDetails();
+    this.buildTime();
+    this.loadWorkPackage();
+  }
+
+  private loadWorkPackage() {
     const href = this.notification._links.resource?.href;
     const id = href && HalResource.matchFromLink(href, 'work_packages');
-
-    const details = this.notification.details || [];
-    this.body = details.filter(el => el.format === 'markdown');
-    this.details = details.filter(el => el.format === 'custom');
-
-    this.fixedTime = this.timezoneService.formattedDatetime(this.notification.updatedAt);
-    this.relativeTime$ = timer(0, 10000)
-      .pipe(
-        map(() => this.timezoneService.formattedRelativeDateTime(this.notification.updatedAt)),
-        distinctUntilChanged()
-      );
-
-    // Not a work package reference
+    // not a work package reference
     if (id) {
       this.workPackage$ = this
         .apiV3Service
@@ -69,6 +68,21 @@ export class InAppNotificationEntryComponent implements OnInit {
         .id(id)
         .requireAndStream();
     }
+  }
+
+  private buildDetails() {
+    const details = this.notification.details || [];
+    this.body = details.filter(el => el.format === 'markdown');
+    this.details = details.filter(el => el.format === 'custom');
+  }
+
+  private buildTime() {
+    this.fixedTime = this.timezoneService.formattedDatetime(this.notification.updatedAt);
+    this.relativeTime$ = timer(0, 10000)
+      .pipe(
+        map(() => this.timezoneService.formattedRelativeDateTime(this.notification.updatedAt)),
+        distinctUntilChanged()
+      );
   }
 
   toggleDetails():void {
@@ -79,6 +93,17 @@ export class InAppNotificationEntryComponent implements OnInit {
       this.inAppNotificationsService.collapse(this.notification);
     } else {
       this.inAppNotificationsService.expand(this.notification);
+    }
+  }
+
+  private buildActor() {
+    const actor = this.notification._links.actor;
+
+    if (actor) {
+      this.actor = {
+        href: actor.href,
+        name: actor.title,
+      };
     }
   }
 }

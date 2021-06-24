@@ -5,6 +5,7 @@ import { InAppNotificationBellComponent } from "core-app/features/in-app-notific
 import { InAppNotificationCenterComponent } from './center/in-app-notification-center.component';
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { InAppNotificationEntryComponent } from "core-app/features/in-app-notifications/entry/in-app-notification-entry.component";
+import { OpenprojectPrincipalRenderingModule } from "core-app/shared/components/principal/principal-rendering.module";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { InAppNotificationEntryComponent } from "core-app/features/in-app-notifi
     CommonModule,
     IconModule,
     OpenprojectModalModule,
+    OpenprojectPrincipalRenderingModule,
   ]
 })
 export class OpenProjectInAppNotificationsModule { }

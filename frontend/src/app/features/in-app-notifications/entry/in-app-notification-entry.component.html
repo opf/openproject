@@ -51,6 +51,16 @@
       </ng-container>
     </div>
     <div
+        class="op-ian-item--actor"
+        *ngIf="actor"
+    >
+      <op-principal
+          [hide-name]="false"
+          [principal]="actor"
+          size="medium"
+      ></op-principal>
+    </div>
+    <div
         class="op-ian-item--reason"
         [textContent]="notification.reason"
     ></div>
