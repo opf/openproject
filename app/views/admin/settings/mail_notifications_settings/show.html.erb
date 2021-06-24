@@ -27,9 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:'activerecord.attributes.user.mail_notification') -%>
+<% html_title t(:label_administration), t(:'menus.admin.mail_notification') -%>
 
-<%= toolbar title: t(:'activerecord.attributes.user.mail_notification') %>
+<%= toolbar title: t(:'menus.admin.mail_notification') %>
 
 <%= styled_form_tag(admin_settings_mail_notifications_path, method: :patch) do %>
   <% if @deliveries %>
@@ -37,28 +37,13 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
       <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
-      <div class="form--field"><%= setting_text_field :notification_email_delay_minutes, container_class: '-xslim' %></div>
-      <div class="form--field-instructions"><%= t(:setting_notification_email_delay_minutes_explanation) %></div>
-    </section>
-
-    <fieldset id="notified_events" class="form--fieldset">
-      <legend class="form--fieldset-legend">
-        <%= t(:text_select_mail_notifications) %>
-      </legend>
-      <div class="form--toolbar">
-        <span class="form--toolbar-item">
-          (<%= check_all_links 'notified_events' %>)
-        </span>
-      </div>
-      <%= hidden_field_tag 'settings[notified_events][]', '' %>
       <div class="form--field">
-        <div class="form--field-container -vertical">
-          <% @notifiables.each do |notifiable| %>
-            <%= notification_field notifiable %>
-          <% end %>
+        <%= setting_number_field :notification_email_delay_minutes, container_class: '-xslim', unit: t(:label_minute_plural) %>
+        <div class="form--field-instructions">
+          <%= t(:'settings.notifications.delay_minutes_explanation') %>
         </div>
       </div>
-    </fieldset>
+    </section>
 
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_emails_header) %> & <%= t(:setting_emails_footer) %></legend>
       <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>

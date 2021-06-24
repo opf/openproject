@@ -29,19 +29,19 @@
 #++
 
 module Admin::Settings
-  class MailNotificationsSettingsController < ::Admin::SettingsController
+  class NotificationsSettingsController < ::Admin::SettingsController
     current_menu_item [:show] do
-      :mail_notifications
+      :notification_settings
     end
 
     def show
-      @deliveries = ActionMailer::Base.perform_deliveries
+      @notifiables = OpenProject::Notifiable.all
 
       respond_to :html
     end
 
     def default_breadcrumb
-      t(:'menus.admin.mail_notification')
+      t(:'menus.admin.incoming_outgoing')
     end
 
     def show_local_breadcrumb

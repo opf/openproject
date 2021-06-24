@@ -45,12 +45,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <%= setting_number_field :activity_days_default, size: 6, unit: t(:label_day_plural), container_class: '-xslim' %>
     </div>
     <div class="form--field">
-      <%= setting_number_field :notification_retention_period_days, size: 6, min: 1, unit: t(:label_day_plural), container_class: '-xslim' %>
-      <span class="form--field-instructions">
-        <%= t(:'settings.notifications.retention_text') %>
-      </span>
-    </div>
-    <div class="form--field">
       <%= setting_text_field :host_name, size: 60, container_class: '-middle' %>
       <span class="form--field-instructions">
         <%= t(:label_example) %>: <%= @guessed_host %>
