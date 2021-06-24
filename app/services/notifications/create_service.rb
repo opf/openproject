@@ -32,10 +32,13 @@ class Notifications::CreateService < ::BaseServices::Create
   protected
 
   def after_perform(call)
-    super.tap do |result|
-      if result.success?
+    super.tap do |super_call|
+      # Explicitly checking for false here as the nil value means that no
+      # notification should be sent at all.
+      if super_call.success? && super_call.result.read_email == false
         Mails::NotificationJob
-          .perform_later(result.result)
+          .set(wait: Setting.notification_email_delay_minutes.minutes)
+          .perform_later(super_call.result)
       end
     end
   end

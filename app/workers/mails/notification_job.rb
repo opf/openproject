@@ -30,7 +30,23 @@ class Mails::NotificationJob < ApplicationJob
   queue_with_priority :notification
 
   def perform(notification)
+    ensure_supported(notification)
+
+    return if ian_read?(notification)
+
     Mails::WorkPackageJob
       .perform_now(notification.journal, notification.recipient_id, notification.actor_id)
+  end
+
+  private
+
+  def ensure_supported(notification)
+    unless notification.journal && notification.journal.journable.is_a?(WorkPackage)
+      raise ArgumentError, "Only notification for work package journals are currently supported"
+    end
+  end
+
+  def ian_read?(notification)
+    notification.read_ian
   end
 end
