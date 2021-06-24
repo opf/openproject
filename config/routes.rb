@@ -393,6 +393,7 @@ OpenProject::Application.routes.draw do
 
       resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
       resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
+      resource :notifications, controller: '/admin/settings/notifications_settings', only: %i[show update]
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
