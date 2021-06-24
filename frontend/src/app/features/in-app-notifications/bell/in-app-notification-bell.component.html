@@ -10,7 +10,7 @@
       *ngIf="unreadCount > 0"
       class="op-ian-bell--indicator"
       data-qa-selector="op-ian-notifications-count"
-      [textContent]="unreadCount">
+      [textContent]="unreadCount > 99 ? '' : unreadCount">
   </span>
   </ng-container>
 </button>
