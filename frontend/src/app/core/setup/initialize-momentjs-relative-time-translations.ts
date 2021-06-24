@@ -27,41 +27,51 @@
 //++
 
 import * as moment from "moment";
-import { initializeMomentjsRelativeTimeTranslations } from "core-app/core/setup/initialize-momentjs-relative-time-translations";
 
-export function initializeLocale() {
-  const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
-  const locale = meta.dataset.locale || 'en';
-  const firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek || '', 10);
-  const firstWeekOfYear = parseInt(meta.dataset.firstWeekOfYear || '', 10);
-
-  I18n.locale = locale;
-  I18n.firstDayOfWeek = firstDayOfWeek;
-
-  if (!isNaN(firstDayOfWeek) && !isNaN(firstWeekOfYear)) {
-    moment.updateLocale(locale, {
-      week: {
-        dow: firstDayOfWeek,
-        doy: 7 + firstDayOfWeek - firstWeekOfYear
+export function initializeMomentjsRelativeTimeTranslations(locale:string) {
+  const supportedLocales = ['en', 'de'];
+  const relativeTimeConfig:{ [locale:string]: any } = {
+    en: {
+      relativeTime: {
+        future : 'in %s',
+        past   : '%s ago',
+        s  : function (number:number, withoutSuffix:boolean) {
+          return withoutSuffix ? 'now' : 'a few seconds';
+        },
+        m  : '1m',
+        mm : '%dm',
+        h  : '1h',
+        hh : '%dh',
+        d  : '1d',
+        dd : '%dd',
+        M  : '1mth',
+        MM : '%dmth',
+        y  : '1y',
+        yy : '%dy'
       }
-    });
+    },
+    de: {
+      relativeTime: {
+        future : 'in %s',
+        past   : '%s ago',
+        s  : function (number:number, withoutSuffix:boolean) {
+          return withoutSuffix ? 'now' : 'a few seconds';
+        },
+        m  : '1m',
+        mm : '%dm',
+        h  : '1h',
+        hh : '%dh',
+        d  : '1d',
+        dd : '%dd',
+        M  : '1mth',
+        MM : '%dmth',
+        y  : '1y',
+        yy : '%dy'
+      }
+    }
   }
 
-  // Override the default pluralization function to allow
-  // "other" to be used as a fallback for "one" in languages where one is not set
-  // (japanese, for example)
-  I18n.pluralization["default"] = function (count:number) {
-    switch (count) {
-      case 0:
-        return ["zero", "other"];
-      case 1:
-        return ["one", "other"];
-      default:
-        return ["other"];
-    }
-  };
-
-  initializeMomentjsRelativeTimeTranslations(I18n.locale);
-
-  return import(/* webpackChunkName: "locale" */ `../../../locales/${I18n.locale}.js`);
+  if(supportedLocales.indexOf(locale) > -1) {
+    moment.updateLocale(locale, relativeTimeConfig[locale]);
+  }
 }
