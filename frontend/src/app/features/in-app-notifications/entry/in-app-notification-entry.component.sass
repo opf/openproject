@@ -1,0 +1,57 @@
+@import "src/assets/sass/helpers"
+
+.op-ian-item
+  background: #F9F9F9
+  margin: 10px 0
+  padding: 5px 10px
+  font-size: 1rem
+  border: 1px solid #F1F1F1
+  border-radius: 2px
+
+  &:first-child
+    margin-top: 0
+
+  &:hover
+    background: #F1F8FF
+
+  &--row
+    @include unset-button-styles
+    width: 100%
+    display: flex
+    align-items: center
+
+  &--indicator
+    width: 10px
+    height: 10px
+    margin-right: 0.5rem
+    display: block
+    background: var(--primary-color)
+    border-radius: 50%
+
+    &_read
+      background: #AFAFAF
+
+  &--work-package-subject
+    font-weight: bold
+    &.-read
+      font-weight: normal
+  &--message
+    flex: 1
+    display: flex
+    flex-direction: column
+    line-height: 1.1rem
+
+  &--project
+    font-size: 0.8rem
+    color: var(--gray-dark)
+
+  &--reason,
+  &--date,
+  &--actor
+    width: 15%
+    flex-grow: 0
+    text-align: right
+
+  &--body
+    padding: 0.5rem
+    padding-left: 1.2rem

@@ -16,7 +16,7 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export interface ProjectTemplateOption {
   href:string|null;
-  title:string;
+  name:string;
 }
 
 @Component({

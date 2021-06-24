@@ -42,7 +42,7 @@ export interface HalResourceClass<T extends HalResource = HalResource> {
       $halType:string):T;
 }
 
-export type HalSourceLink = { href:string|null };
+export type HalSourceLink = { href:string|null, title?:string };
 
 export type HalSourceLinks = {
   [key:string]:HalSourceLink
@@ -111,6 +111,11 @@ export class HalResource {
 
   public static idFromLink(href:string):string {
     return href.split('/').pop()!;
+  }
+
+  public static matchFromLink(href:string, expectedResource:string):string|null {
+    const match = href.match(new RegExp(`/api/v3/${expectedResource}/(\\d+)`));
+    return match && match[1];
   }
 
   public get idFromLink():string {

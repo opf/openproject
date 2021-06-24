@@ -89,6 +89,8 @@ class Document < ApplicationRecord
     return unless Setting.notified_events.include?('document_added')
 
     recipients.each do |user|
+      next if user == User.current && !User.current.pref.self_notified?
+
       DocumentsMailer.document_added(user, self).deliver_now
     end
   end

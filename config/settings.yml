@@ -326,8 +326,6 @@ session_ttl_enabled:
 session_ttl:
   format: int
   default: 120
-default_notification_option:
-  default: 'only_my_events'
 emails_header:
   serialized: true
   default:
@@ -381,3 +379,9 @@ apiv3_cors_enabled:
 apiv3_cors_origins:
   serialized: true
   default: []
+notification_retention_period_days:
+  default: 30
+  format: int
+notification_email_delay_minutes:
+  default: 15
+  format: int

@@ -51,7 +51,6 @@ export abstract class CachableAPIV3Collection<
   public observeAll():Observable<T[]> {
     return this.cache.observeAll();
   }
-
   /**
    * Inserts a collection or single response to cache as an rxjs tap function
    */

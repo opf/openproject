@@ -393,6 +393,7 @@ OpenProject::Application.routes.draw do
 
       resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
       resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
+      resource :notifications, controller: '/admin/settings/notifications_settings', only: %i[show update]
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
@@ -541,11 +542,10 @@ OpenProject::Application.routes.draw do
 
     get '/my/account', action: 'account'
     get '/my/settings', action: 'settings'
-    get '/my/mail_notifications', action: 'mail_notifications'
+    get '/my/notifications', action: 'notifications'
 
     patch '/my/account', action: 'update_account'
     patch '/my/settings', action: 'update_settings'
-    patch '/my/mail_notifications', action: 'update_mail_notifications'
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'

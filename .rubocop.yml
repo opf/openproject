@@ -108,6 +108,10 @@ Naming/PredicateName:
 Rails/SkipsModelValidations:
   Enabled: false
 
+# Don't force us to use tag instead of content_tag
+# as this breaks angular elements
+Rubocop/Rails/ContentTag:
+  enabled: false
 
 # For feature specs, we tend to have longer specs that cover a larger part of the functionality.
 # This is done for multiple reasons:

@@ -83,6 +83,12 @@ module OpenProject
               path: ->(params) { edit_user_path(params[:user], tab: :global_roles) },
               label: :label_global_roles,
               only_if: ->(*) { User.current.admin? }
+            },
+            {
+              name: 'notifications',
+              partial: 'users/notifications',
+              path: ->(params) { edit_user_path(params[:user], tab: :notifications) },
+              label: :'notifications.settings.title'
             }
           ]
         end

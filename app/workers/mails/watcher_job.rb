@@ -53,23 +53,20 @@ class Mails::WatcherJob < Mails::DeliverJob
 
   def notify_about_watcher_changed?
     return false if notify_about_self_watching?
+    return false unless UserMailer.perform_deliveries
 
-    case watcher.user.mail_notification
-    when 'only_my_events'
-      true
-    when 'selected'
-      watching_selected_includes_project?
-    else
-      watcher.user.notify_about?(watcher.watchable)
-    end
+    settings = watcher
+               .user
+               .notification_settings
+               .applicable(watcher.watchable.project)
+               .mail
+               .first
+
+    settings.watched || settings.all
   end
 
   def notify_about_self_watching?
     watcher.user == sender && !sender.pref.self_notified?
-  end
-
-  def watching_selected_includes_project?
-    watcher.user.notified_projects_ids.include?(watcher.watchable.project_id)
   end
 
   def action

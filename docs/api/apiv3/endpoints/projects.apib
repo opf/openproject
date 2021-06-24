@@ -519,6 +519,7 @@ Returns a collection of projects. The collection can be filtered via query param
       + type_id: based on the types active in a project.
       + user_action: based on the actions (see [Actions](#actions)) the current user has in the project.
       + id: based on projects' id.
+      + visible: based on the visibility for the user (id) provided as the filter value. This filter is useful for admins to identify the projects visible to a user.
     There might also be additional filters based on the custom fields that have been configured.
     + sortBy (optional, string, `[["id", "asc"]]`) ... JSON specifying sort criteria.
     Currently supported orders are:

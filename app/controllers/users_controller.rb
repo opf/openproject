@@ -95,13 +95,11 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new(language: Setting.default_language,
-                     mail_notification: Setting.default_notification_option)
+    @user = User.new(language: Setting.default_language)
   end
 
   def create
-    @user = User.new(language: Setting.default_language,
-                     mail_notification: Setting.default_notification_option)
+    @user = User.new(language: Setting.default_language)
     @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login] || @user.mail
@@ -127,15 +125,9 @@ class UsersController < ApplicationController
 
   def update
     update_params = build_user_update_params
-    mail_notification = update_params.delete(:mail_notification)
     call = ::Users::UpdateService.new(model: @user, user: current_user).call(update_params)
 
     if call.success?
-      update_email_service = UpdateUserEmailSettingsService.new(@user)
-      update_email_service.call(mail_notification: mail_notification,
-                                self_notified: params[:self_notified] == '1',
-                                notified_project_ids: params[:notified_project_ids])
-
       if update_params[:password].present? && @user.change_password_allowed?
         send_information = params[:send_information]
 

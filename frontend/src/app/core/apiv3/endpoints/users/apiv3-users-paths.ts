@@ -42,7 +42,7 @@ export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3
   // Static paths
 
   // /api/v3/users/me
-  public readonly me = this.path + '/me';
+  public readonly me = this.subResource('me', APIv3UserPaths);
 
   // /api/v3/users/form
   public readonly form = this.subResource('form', APIv3FormResource);

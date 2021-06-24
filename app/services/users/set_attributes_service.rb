@@ -45,10 +45,17 @@ module Users
       if model.invited? && model.mail.present?
         ::UserInvitation.assign_user_attributes model
       end
+
+      initialize_notification_settings unless model.notification_settings.any?
     end
 
     def set_preferences(user_preferences)
       model.pref.attributes = user_preferences if user_preferences
+    end
+
+    def initialize_notification_settings
+      model.notification_settings.build(channel: :mail, involved: true, mentioned: true, watched: true)
+      model.notification_settings.build(channel: :in_app, involved: true, mentioned: true, watched: true)
     end
   end
 end

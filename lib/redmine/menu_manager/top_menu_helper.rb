@@ -42,12 +42,21 @@ module Redmine::MenuManager::TopMenuHelper
   def render_top_menu_right
     content_tag :ul, class: 'op-app-menu' do
       [render_module_top_menu_node,
+       render_notification_top_menu_node,
        render_help_top_menu_node,
        render_user_top_menu_node].join.html_safe
     end
   end
 
   private
+
+  def render_notification_top_menu_node
+    return ''.html_safe unless User.current.logged?
+
+    content_tag('li', class: 'op-app-menu--item') do
+      tag('op-in-app-notification-bell')
+    end
+  end
 
   def render_user_top_menu_node(items = first_level_menu_items_for(:account_menu))
     if User.current.logged?

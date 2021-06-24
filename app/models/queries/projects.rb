@@ -48,6 +48,7 @@ module Queries::Projects
     filter query, filters::IdFilter
     filter query, filters::ProjectStatusFilter
     filter query, filters::UserActionFilter
+    filter query, filters::VisibleFilter
 
     order query, orders::DefaultOrder
     order query, orders::LatestActivityAtOrder

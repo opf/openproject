@@ -33,15 +33,13 @@ describe 'API v3 UserPreferences resource', type: :request do
   include Rack::Test::Methods
   include ::API::V3::Utilities::PathHelper
 
-  let(:user) { FactoryBot.create(:user) }
-  let(:preference) { FactoryBot.create(:user_preference, user: user) }
-  let(:preference_path) { api_v3_paths.my_preferences }
   subject(:response) { last_response }
 
-  before do
-    allow(User).to receive(:current).and_return user
-    allow(User).to receive(:preference).and_return preference
-  end
+  let(:user) { FactoryBot.create(:user, preference: preference) }
+  let(:preference) { FactoryBot.create(:user_preference) }
+  let(:preference_path) { api_v3_paths.user_preferences(user.id) }
+
+  current_user { user }
 
   describe '#GET' do
     before do
@@ -82,6 +80,7 @@ describe 'API v3 UserPreferences resource', type: :request do
       let(:params) do
         { whatever: true }
       end
+
       it 'should respond with 401' do
         expect(subject.status).to eq(401)
       end

@@ -293,30 +293,6 @@ class WorkPackage < ApplicationRecord
   end
   alias_method :is_milestone?, :milestone?
 
-  # Returns users that should be notified
-  def recipients
-    notified = project.notified_users + attribute_users.select { |u| u.notify_about?(self) }
-
-    notified.uniq!
-    # Remove users that can not view the work package
-    notified & User.allowed(:view_work_packages, project)
-  end
-
-  def notify?(user)
-    case user.mail_notification
-    when 'selected', 'only_my_events'
-      author == user || user.is_or_belongs_to?(assigned_to) || user.is_or_belongs_to?(responsible)
-    when 'none'
-      false
-    when 'only_assigned'
-      user.is_or_belongs_to?(assigned_to) || user.is_or_belongs_to?(responsible)
-    when 'only_owner'
-      author == user
-    else
-      false
-    end
-  end
-
   def done_ratio
     if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
       status.default_done_ratio
@@ -681,20 +657,5 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect { |a| !a.valid? }
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
-  end
-
-  def attribute_users
-    related = [author]
-
-    [responsible, assigned_to].each do |principal|
-      case principal
-      when Group
-        related += principal.users.active
-      when User
-        related << principal
-      end
-    end
-
-    related.select(&:present?)
   end
 end

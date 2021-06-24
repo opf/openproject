@@ -134,10 +134,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'access_token' },
             caption: I18n.t('my_account.access_tokens.access_token'),
             icon: 'icon2 icon-key'
-  menu.push :mail_notifications,
-            { controller: '/my', action: 'mail_notifications' },
-            caption: I18n.t('activerecord.attributes.user.mail_notification'),
-            icon: 'icon2 icon-news'
+  menu.push :notifications,
+            { controller: '/my', action: 'notifications' },
+            caption: I18n.t('js.notifications.settings.title'),
+            icon: 'icon2 icon-bell'
 
   menu.push :delete_account, :delete_my_account_info_path,
             caption: I18n.t('account.delete'),
@@ -280,23 +280,29 @@ Redmine::MenuManager.map :admin_menu do |menu|
               parent: :settings
   end
 
-  menu.push :email,
-            { controller: '/admin/settings/mail_notifications_settings', action: :show },
+  menu.push :in_out,
+            { controller: '/admin/settings/notifications_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :'attributes.mail',
+            caption: :'menus.admin.incoming_outgoing',
             icon: 'icon2 icon-mail1'
+
+  menu.push :notification_settings,
+            { controller: '/admin/settings/notifications_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_setting_plural,
+            parent: :in_out
 
   menu.push :mail_notifications,
             { controller: '/admin/settings/mail_notifications_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :'activerecord.attributes.user.mail_notification',
-            parent: :email
+            caption: :'menus.admin.mail_notification',
+            parent: :in_out
 
   menu.push :incoming_mails,
             { controller: '/admin/settings/incoming_mails_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_incoming_emails,
-            parent: :email
+            parent: :in_out
 
   menu.push :authentication,
             { controller: '/admin/settings/authentication_settings', action: :show },

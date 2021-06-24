@@ -119,7 +119,7 @@ describe ::API::V3::RootRepresenter do
 
       it_behaves_like 'has an untitled link' do
         let(:link) { 'userPreferences' }
-        let(:href) { api_v3_paths.my_preferences }
+        let(:href) { api_v3_paths.user_preferences(user.id) }
       end
 
       context 'anonymous user' do
@@ -129,8 +129,9 @@ describe ::API::V3::RootRepresenter do
           let(:link) { 'user' }
         end
 
-        it_behaves_like 'has no link' do
+        it_behaves_like 'has an untitled link' do
           let(:link) { 'userPreferences' }
+          let(:href) { api_v3_paths.user_preferences(User.anonymous.id) }
         end
       end
     end

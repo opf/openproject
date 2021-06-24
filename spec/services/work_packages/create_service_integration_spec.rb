@@ -92,7 +92,7 @@ describe WorkPackages::CreateService, 'integration', type: :model do
         due_date: Date.today + 3.days }
     end
 
-    it 'creates the work_package with the provided attributes' do
+    it 'creates the work_package with the provided attributes and sets the user as a watcher' do
       # successful
       expect(service_result)
         .to be_success
@@ -127,6 +127,10 @@ describe WorkPackages::CreateService, 'integration', type: :model do
         .to eql attributes[:start_date]
       expect(parent.due_date)
         .to eql attributes[:due_date]
+
+      # adds the user (author) as watcher
+      expect(new_work_package.watcher_users)
+        .to match_array([user])
     end
 
     describe 'setting the attachments' do

@@ -45,7 +45,7 @@ class MyController < ApplicationController
   menu_item :settings,            only: [:settings]
   menu_item :password,            only: [:password]
   menu_item :access_token,        only: [:access_token]
-  menu_item :mail_notifications,  only: [:mail_notifications]
+  menu_item :notifications,       only: [:notifications]
 
   def account; end
 
@@ -82,10 +82,10 @@ class MyController < ApplicationController
   def access_token; end
 
   # Configure user's mail notifications
-  def mail_notifications; end
-
-  def update_mail_notifications
-    write_email_settings(redirect_to: :mail_notifications)
+  def notifications
+    render html: '',
+           layout: 'angular',
+           locals: { menu_name: :my_menu }
   end
 
   # Create a new feeds key
@@ -139,16 +139,6 @@ class MyController < ApplicationController
       return true
     end
     false
-  end
-
-  def write_email_settings(redirect_to:)
-    update_service = UpdateUserEmailSettingsService.new(@user)
-    if update_service.call(mail_notification: permitted_params.user[:mail_notification],
-                           self_notified: params[:self_notified] == '1',
-                           notified_project_ids: params[:notified_project_ids])
-      flash[:notice] = I18n.t(:notice_account_updated)
-      redirect_to(action: redirect_to)
-    end
   end
 
   def write_settings

@@ -171,7 +171,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
       {
         _links: {
           self: {
-            href: this.apiV3Service.users.me,
+            href: this.apiV3Service.users.me.path,
             title: this.I18n.t('js.label_me')
           }
         }
