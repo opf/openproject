@@ -27,15 +27,15 @@
 
           <li class="toolbar-item">
             <button
-              type="button"
-              class="button"
-              (click)="markAllRead()"
+                type="button"
+                class="button"
+                (click)="markAllRead()"
             >
               <op-icon icon-classes="button--icon icon-yes">
               </op-icon>
               <span
-                class="button--text"
-                [textContent]="text.mark_all_read"
+                  class="button--text"
+                  [textContent]="text.mark_all_read"
               >
               </span>
             </button>
@@ -44,17 +44,19 @@
       </div>
     </div>
 
-    <ul
-        *ngIf="(hasNotifications$ | async); else noResults"
-        class="op-ian-center--entries"
-    >
-      <op-in-app-notification-entry
-          *ngFor="let item of notifications$ | async"
-          class="op-ian-center--entry"
-          [notification]="item"
-          (resourceLinkClicked)="closeMe()"
-      ></op-in-app-notification-entry>
-    </ul>
+    <ng-container *ngIf="(hasNotifications$ | async) as notifications; else noResults">
+      <cdk-virtual-scroll-viewport
+          [itemSize]="notificationsCount$ | async"
+          class="op-ian-center--viewport"
+      >
+        <op-in-app-notification-entry
+            *cdkVirtualFor="let item of notifications$ | async"
+            class="op-ian-center--entry"
+            [notification]="item"
+            (resourceLinkClicked)="closeMe()"
+        ></op-in-app-notification-entry>
+      </cdk-virtual-scroll-viewport>
+    </ng-container>
 
     <ng-template #noResults>
       <div class="generic-table--no-results-container">

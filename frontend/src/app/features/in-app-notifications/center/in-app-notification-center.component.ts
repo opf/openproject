@@ -15,6 +15,7 @@ import { InAppNotificationsService } from "core-app/features/in-app-notification
 export class InAppNotificationCenterComponent extends OpModalComponent implements OnInit {
   activeFacet$ = this.ianQuery.activeFacet$;
   notifications$ = this.ianQuery.selectAll();
+  notificationsCount$ = this.ianQuery.selectCount();
   hasNotifications$ = this.ianQuery.hasNotifications$;
 
   facets:string[] = ['unread', 'all']

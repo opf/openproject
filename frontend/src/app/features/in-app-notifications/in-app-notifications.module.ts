@@ -7,6 +7,7 @@ import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.m
 import { InAppNotificationEntryComponent } from "core-app/features/in-app-notifications/entry/in-app-notification-entry.component";
 import { OpenprojectPrincipalRenderingModule } from "core-app/shared/components/principal/principal-rendering.module";
 import { UIRouterModule } from "@uirouter/angular";
+import { ScrollingModule } from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { UIRouterModule } from "@uirouter/angular";
     IconModule,
     OpenprojectModalModule,
     OpenprojectPrincipalRenderingModule,
+    ScrollingModule,
   ]
 })
 export class OpenProjectInAppNotificationsModule { }
