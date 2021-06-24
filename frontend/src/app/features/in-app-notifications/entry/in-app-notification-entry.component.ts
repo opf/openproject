@@ -97,7 +97,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   toggleDetails():void {
-    if (!this.notification.read) {
+    if (!this.notification.readIAN) {
       this.inAppNotificationsService.markReadKeepAndExpanded(this.notification);
     }
     if (this.notification.expanded) {

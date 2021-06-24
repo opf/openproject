@@ -14,7 +14,7 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
 
   /** Get the unread items */
   unread$ = this.selectAll({
-    filterBy: ({ read }) => !read
+    filterBy: ({ readIAN }) => !readIAN
   });
 
   /** Get all items that shall be kept in the notification center */
