@@ -50,7 +50,7 @@
           class="op-ian-center--viewport"
       >
         <op-in-app-notification-entry
-            *cdkVirtualFor="let item of notifications$ | async"
+            *cdkVirtualFor="let item of notifications$ | async; templateCacheSize: 0"
             class="op-ian-center--entry"
             [notification]="item"
             (resourceLinkClicked)="closeMe()"
