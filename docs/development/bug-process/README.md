@@ -78,7 +78,7 @@ The development team can take a look at the “[Evaluation developers required](
 <u>Notes:</u>
 
 - When a developer is asked for assistance, it is understood that a reply may take several days.
-- If a topic is urgent it should be mentioned in the comment and (if very urgent) additional communication channels (e.g. Slack) are being used.
+- If a topic is urgent it should be mentioned in the comment and (if very urgent) additional communication channels (e.g. Matrix/Elements) are being used.
 
 
 
@@ -103,15 +103,15 @@ Out of the list of confirmed bugs, the most important / urgent bugs are prioriti
   - The bugs at the top of the list are being looked at first (note: due to technical affinity, complexity, dependencies, etc. this does not mean that these bugs are necessarily fixed in that order)
 
 
-There is a work package view that reflects those prioritized bugs:https://community.openproject.org/projects/openproject/work_packages?query_id=2865
+There is a work package view that reflects those prioritized bugs: https://community.openproject.org/projects/openproject/work_packages?query_id=2865
 
-![img](https://lh5.googleusercontent.com/bnpy8Rjej_Zu5LQ17x8Xj4GoxTJKwaPuF0na7GekyikQ4l9EdJ2D7OA08UNCu0zvLMb_5c0dpLUUpgF8yIdod9KP4iNjIVu49rXuBl3y1oQB9mKrWzCQCT2ZGafx-dNBGWAvh7ux)
+![bug-prioritization-list](bug-prioritization-list.png)
 
 
 
 The bugs are assessed and prioritized mostly according to their severity. The effort required to fix them may also be a factor but as no thorough technical analysis will take place up until after the prioritization has already taken place, there will not be a dependable estimate on the effort.  
 
-Bugs can only be set to “prioritized” by OpenProject team members. When assigning bugs to “prioritized”, they should be prioritized against all other bugs. Therefore, team members who assign bugs to “prioritized” should have an overview of the other bugs to evaluate how critical the issue really is. Ideally, the assignment to “prioritized'' should be done by team members who have a good overview of existing bugs. Most of the time, this should be carried out by QA/ Community Management.
+Bugs can only be set to “prioritized” by OpenProject team members. When assigning bugs to “prioritized”, they should be prioritized against all other bugs. Therefore, team members who assign bugs to “prioritized” should have an overview of the other bugs to evaluate how critical the issue really is. Ideally, the assignment to “prioritized'' should be done by team members who have a good overview of existing bugs. Most of the time, this should be carried out by QA/Community Management.
 
 QA, Community Management scans the “prioritized” list in regular intervals to adjust the order and add additional bugs. 
 
