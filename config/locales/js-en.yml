@@ -573,7 +573,7 @@ en:
         all: 'All'
       center:
         mark_all_read: 'Mark all as read'
-        total_count_warning: "Showing the %{newest_count} newest notifications, there are %{more_count} more not shown."
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
         involved: 'I am involved'
