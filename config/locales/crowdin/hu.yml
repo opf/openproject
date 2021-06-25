@@ -63,16 +63,16 @@ hu:
         main-menu-bg-color: "Baloldali menü háttérszíne."
       theme_warning: A téma megváltoztatása felülírja az egyéni stílust. A forma elvész. Biztos, hogy folytatni akarod?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "Frissítés a Vállalati Verzióra"
       add_token: "Töltse fel a Vállalati Verzió támogatási tokenjét"
       replace_token: "A jelenlegi támogatási token lecserélése"
       order: "Order Enterprise on-premises Edition"
       paste: "Illessze be a Vállalati Verzió támogatási tokentjét"
       required_for_feature: "Ez a funkció csak aktív Vállalati Verzió támogatási tokennel érhető el."
       enterprise_link: "További információért kattintson ide."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: 'Ingyenes próbaverzió kipróbálása'
+      book_now: 'Foglalás most'
+      get_quote: 'Árajánlat kérése'
   announcements:
     show_until: Mutassa eddig
     is_active: jelenleg látható
@@ -194,8 +194,8 @@ hu:
   projects:
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
+      schedule_failed: "A projektet nem lehet törölni: %{errors}"
+      failed: "A projekt %{name} törlése meghiúsult"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
@@ -519,7 +519,7 @@ hu:
         uid: "Ügyfél azonosító"
         secret: "Client secret"
         owner: "Tulajdonos"
-        redirect_uri: "Redirect URI"
+        redirect_uri: "Átirányítás URI"
         client_credentials_user_id: "Client Credentials User ID"
         scopes: "Scopes"
         confidential: "Bizalmas"
@@ -591,17 +591,17 @@ hu:
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
-              relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              fragment_present: 'nem tartalmazhat töredéket.'
+              invalid_uri: 'érvényes URI-nak kell lennie.'
+              relative_uri: 'abszolút URI-nak kell lennie.'
+              secured_uri: 'HTTPS/SSL URI-nak kell lennie.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
         enterprise_token:
           unreadable: "nem olvasható. Biztos vagy benne, hogy ez támogatási token?"
         grids/grid:
-          overlaps: 'overlap.'
+          overlaps: 'átfedés'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
         parse_schema_filter_params_service:
@@ -1112,7 +1112,7 @@ hu:
   description_choose_project: "Projektek"
   description_compare_from: "Összehasonlítás ezzel"
   description_compare_to: "Összehasonlítás ehhez"
-  description_current_position: "You are here: "
+  description_current_position: "Itt vagy:"
   description_date_from: "Adja meg a kezdő dátumot"
   description_date_to: "Írjon befejező dátumot"
   description_enter_number: "Írjon számot"
@@ -1262,10 +1262,10 @@ hu:
   image_conversion:
     imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "A módosítások visszavonásra kerültek."
   links:
     configuration_guide: 'Konfigurációs útmutató'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "Kérdése van? Lépjen kapcsolatba velünk"
   instructions_after_registration: "Be tud jelentkezni, amint fiókját aktiválta ide %{signin} kattintva."
   instructions_after_logout: "Újra be tud jelentkezni ide  %{signin} kattintva."
   instructions_after_error: "Próbáljon meg újból bejelentkezni ide  %{signin} kattintva. Ha a hiba továbbra is fennáll, kérje a rendszergazda segítséget."
@@ -1561,7 +1561,7 @@ hu:
   label_name: "Név"
   label_never: "Soha"
   label_new: "Új"
-  label_new_features: "New features"
+  label_new_features: "Új funkciók:"
   label_new_statuses_allowed: "Létrehozás engedélyezett az alábbi státuszokkal"
   label_news_singular: "Hírek"
   label_news_added: "Hírek hozzáadva"
@@ -2524,7 +2524,7 @@ hu:
         planning_element_time_relative_one: "A feladatcsoportok kezdése egy bizonyos időn belül"
         planning_element_time_relative_two: "A feladatcsoportok elvégzése egy bizonyos időn belül"
         planning_element_time_absolute_one: "A feladatcsoportok kezdése egy bizonyos időn belül"
-        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
+        planning_element_time_absolute_two: "A feladatcsoportok elvégzése egy bizonyos időn belül"
       sort:
         sortation: "Rendezés a következő szerint"
         alphabet: "ábécé"
@@ -2782,28 +2782,28 @@ hu:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+        invalid_request: 'A kérésből hiányzik egy szükséges paraméter, nem támogatott paramétert tartalmaz, vagy máshogy sérült.'
         invalid_redirect_uri: "A kért átirányítási URI hibás formátumú vagy nem egyezik a kliens átirányítási URI-vel."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
-        access_denied: 'The resource owner or authorization server denied the request.'
+        access_denied: 'Az erőforrás tulajdonosa vagy hitelesítő kiszolgálója megtagadta a kérést.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
-        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
-        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        server_error: 'Hitelesítő szervert váratlan esemény érte, mely meggátolta a kérés teljesítését.'
+        temporarily_unavailable: 'A hitelesítő szerver jelenleg nem tudja teljesíteni a kérést átmeneti túlterheltség vagy a kiszolgáló karbantartása miatt.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
+        credential_flow_not_configured: 'Az erőforrás tulajdonos jelszóadatainak átadása megszakadt, mert a Doorkeeper.configure.resource_owner_from_credentials beállítatlan.'
         resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
-        unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_type: 'A hitelesítő kiszolgáló nem támogatja ezt a választ.'
         #Access token errors
-        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
-        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_client: 'A kliens hitelesítése megszakadt, mert ismeretlen a kliens, a kliens nem küldött hitelesítést, vagy a hitelesítés módja nem támogatott.'
+        invalid_grant: 'A biztosított hitelesítés érvénytelen, lejárt, visszavont, vagy nem egyezik a hitelesítési kérésben használt URI-val, vagy más kliensnek címezték.'
+        unsupported_grant_type: 'A hitelesítés módja nem támogatott a hitelesítő kiszolgálón.'
         invalid_token:
-          revoked: "The access token was revoked"
-          expired: "The access token expired"
-          unknown: "The access token is invalid"
+          revoked: "Hozzáférési kulcsot visszavonták"
+          expired: "Hozzáférési kulcs lejárt"
+          unknown: "Hozzáférési kulcs érvénytelen"
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "You may run into errors and degraded experience on this page."
@@ -2829,7 +2829,7 @@ hu:
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:
-      authorize: "Authorize"
+      authorize: "Engedélyez"
       cancel: "Cancel and deny authorization."
       prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
       title: "Authorize %{application_name}"
@@ -2839,7 +2839,7 @@ hu:
       api_v3: "Teljes API v3 hozzáférés"
       api_v3_text: "Az alkalmazás teljes olvasási és írási hozzáférést kap az OpenProject API v3 verzióhoz az Ön nevében végzett műveletek elvégzéséhez."
     grants:
-      created_date: "Approved on"
+      created_date: "Elfogadva "
       scopes: "Jogosultságok"
       successful_application_revocation: "Revocation of application %{application_name} successful."
       none_given: "No OAuth applications have been granted access to your user account."
