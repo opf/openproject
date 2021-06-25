@@ -27,6 +27,13 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
 
   activeFacet$ = this.select('activeFacet');
 
+  /** Determine whether the pageSize is not sufficient to load all notifcations */
+  hasMoreThanPageSize$ = this
+    .select()
+    .pipe(
+      map(({ notShowing }) => notShowing > 0),
+    );
+
   constructor(protected store:InAppNotificationsStore) {
     super(store);
   }

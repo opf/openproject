@@ -46,7 +46,7 @@
 
     <ng-container *ngIf="(hasNotifications$ | async) as notifications; else noResults">
       <cdk-virtual-scroll-viewport
-          [itemSize]="notificationsCount$ | async"
+          itemSize="50"
           class="op-ian-center--viewport"
       >
         <op-in-app-notification-entry
@@ -68,5 +68,11 @@
         </span>
       </div>
     </ng-template>
+
+    <p
+        class="op-ian-center--max-warning"
+        *ngIf="hasMoreThanPageSize$ | async"
+        [textContent]="totalCountWarning()">
+    </p>
   </div>
 </div>

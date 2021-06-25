@@ -12,6 +12,7 @@ export interface InAppNotificationsState extends EntityState<InAppNotification> 
 export function createInitialState(): InAppNotificationsState {
   return {
     count: 0,
+    notShowing: 0,
     activeFacet: 'unread',
     expanded: false,
   };

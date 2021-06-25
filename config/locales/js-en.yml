@@ -559,6 +559,7 @@ en:
           timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
 
     notifications:
+      title: "Notifications"
       channel: "Channel"
       channels:
         in_app: "In-app"
@@ -567,6 +568,12 @@ en:
         mentioned: 'mentioned'
         watched: 'watched'
         involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'All'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
         involved: 'I am involved'
