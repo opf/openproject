@@ -39,13 +39,40 @@ module Components
         expect_open
       end
 
+      def close
+        page.find('button[data-qa-selector="op-modal-close"]').click
+        expect_closed
+      end
+
       def mark_all_read
         click_button 'Mark all as read'
       end
 
+      def click_item(notification)
+        text = notification.resource.is_a?(WorkPackage) ? notification.resource.subject : notification.subject
+        within_item(notification) do
+          page.find('span', text: text, exact_text: true).click
+        end
+      end
+
+      def within_item(notification, &block)
+        page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']", &block)
+      end
+
       def expect_item(notification, subject: notification.subject)
-        page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']") do
+        within_item(notification) do
           expect(page).to have_text subject
+        end
+      end
+
+      def expect_read_item(notification)
+        expect(page)
+          .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
+      end
+
+      def expect_expanded(notification)
+        within_item(notification) do
+          expect(page).to have_selector('[data-qa-selector="op-ian-details"]')
         end
       end
 
@@ -63,6 +90,10 @@ module Components
 
       def expect_open
         expect(page).to have_selector('op-in-app-notification-center')
+      end
+
+      def expect_empty
+        expect(page).to have_text I18n.t('js.notice_no_results_to_display')
       end
 
       def expect_bell_count(count)

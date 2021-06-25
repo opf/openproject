@@ -63,7 +63,7 @@ export class InAppNotificationsService {
   @transaction()
   add(inAppNotification:InAppNotification):void {
     this.store.add(inAppNotification);
-    this.store.update(state => ({ ...state, count: state.count + 1}));
+    this.store.update(state => ({ ...state, count: state.count + 1 }));
   }
 
   update(id:ID, inAppNotification:Partial<InAppNotification>):void {
@@ -73,11 +73,11 @@ export class InAppNotificationsService {
   @transaction()
   remove(id:ID):void {
     this.store.remove(id);
-    this.store.update(state => ({ ...state, count: state.count + 1}));
+    this.store.update(state => ({ ...state, count: state.count + 1 }));
   }
 
   setActiveFacet(facet:string) {
-    this.store.update( state => ({ ...state, activeFacet: facet}));
+    this.store.update(state => ({ ...state, activeFacet: facet }));
   }
 
   markAllRead():void {
@@ -91,7 +91,7 @@ export class InAppNotificationsService {
       )
       .subscribe(() => {
         applyTransaction(() => {
-          this.store.update(null, { read: true });
+          this.store.update(null, { readIAN: true });
           this.store.update({ count: 0 });
         });
       });
@@ -115,7 +115,7 @@ export class InAppNotificationsService {
       {
         expanded: false
       }
-    )
+    );
   }
 
   expand(notification:InAppNotification):void {
@@ -124,20 +124,21 @@ export class InAppNotificationsService {
       {
         expanded: true
       }
-    )
+    );
   }
 
   markReadKeepAndExpanded(notification:InAppNotification):void {
-
-      this.apiV3Service.notifications.id(notification.id)
-        .markRead()
-
+    this
+      .apiV3Service
+      .notifications
+      .id(notification.id)
+      .markRead()
       .subscribe(() => {
         applyTransaction(() => {
           this.store.update(
             notification.id,
             {
-              read: true,
+              readIAN: true,
               keep: true
             }
           );

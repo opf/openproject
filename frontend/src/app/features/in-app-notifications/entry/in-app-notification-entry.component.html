@@ -2,6 +2,7 @@
     class="op-ian-item"
     [class.op-ian-item_expanded]="notification.expanded"
     attr.data-qa-selector="op-ian-notification-item-{{notification.id}}"
+    [attr.data-qa-ian-read]="notification.readIAN === true || undefined"
 >
   <button
       type="button"
@@ -35,7 +36,7 @@
           <span
               [textContent]="workPackage.subject"
               class="op-ian-item--work-package-subject"
-              [class.-read]="notification.read"
+              [class.-read]="notification.readIAN"
           >
           </span>
         </span>
@@ -76,6 +77,7 @@
   <div
       *ngIf="notification.expanded"
       class="op-ian-item--details"
+      data-qa-selector="op-ian-details"
   >
     <ng-container *ngIf="body.length > 0">
       <div class="op-ian-item--body">

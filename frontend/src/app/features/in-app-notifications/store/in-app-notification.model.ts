@@ -20,7 +20,8 @@ export interface InAppNotification {
   createdAt:string;
   updatedAt:string;
   reason:string;
-  read?:boolean;
+  readIAN:boolean|null;
+  readEmail:boolean|null;
 
   details?:InAppNotificationDetail[];
   // Mark a notification to be kept in the center even though it was saved as "read".
