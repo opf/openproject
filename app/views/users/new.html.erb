@@ -36,6 +36,8 @@ See docs/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: t(:label_user_new) %>
 
+<%= error_messages_for_contract @user, @errors %>
+
 <%= labelled_tabular_form_for @user,
                               url: { action: "create" },
                               html: { class: nil, autocomplete: 'off' },
