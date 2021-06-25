@@ -33,7 +33,7 @@ hu:
       click_to_remove_list: "Kattints a lista eltávolításához"
       board_type:
         text: 'Tábla típus'
-        free: 'basic'
+        free: 'alap'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Start from scratch with a blank board. Manually add cards and columns to this board.
@@ -55,15 +55,15 @@ hu:
           assignee: felelős
           status: állapot
           version: verzió
-          subproject: subproject
-          subtasks: parent-child
+          subproject: alprojekt
+          subtasks: szülő-gyerek
         board_type_title:
           assignee: Megbízott
           status: Állapot
           version: Verzió
           subproject: Alprojekt
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Szülő-gyerek
+          basic: Alap
         select_attribute: "Akció attribútum"
       add_list_modal:
         labels:

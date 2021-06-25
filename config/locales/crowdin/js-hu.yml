@@ -99,7 +99,7 @@ hu:
     caption_rate_history: "Díj előzmények"
     clipboard:
       browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "A vágólapra másolás sikeres!"
     chart:
       type: 'Diagram típus'
       axis_criteria: 'Tengely kritérium'
@@ -308,9 +308,9 @@ hu:
     label_author: "Szerző: %{user}"
     label_avatar: "Profilkép"
     label_between: "között"
-    label_board: "Board"
+    label_board: "Tábla"
     label_board_locked: "Zárolt"
-    label_board_plural: "Boards"
+    label_board_plural: "Táblák"
     label_board_sticky: "Kiemelt"
     label_change: "Változtat"
     label_create: "Létrehoz"
@@ -419,7 +419,7 @@ hu:
     label_total_sum: "Total sum"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
-    label_today: "Today"
+    label_today: "Ma"
     label_time_entry_plural: "Eltöltött idő"
     label_up: "Fel"
     label_user_plural: "Felhasználók"
@@ -521,7 +521,7 @@ hu:
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
-      use_template: "Use template"
+      use_template: "Sablon használata"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
@@ -959,8 +959,8 @@ hu:
         one: "egy gyermek munkacsomag"
         other: "%{count} gyermek feladatcsoport"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 óra"
+        other: "%{count} ó"
         zero: "0 óra"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
@@ -969,12 +969,12 @@ hu:
       all_projects: "Az összes projektben"
       search: "Keresés"
       close_search: "Keresés bezárása"
-      current_project: "In this project"
-      current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "Ebben a projektben"
+      current_project_and_all_descendants: "Ebben a projektben + alprojektekben"
       title:
         all_projects: "minden projekt"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
+        project_and_subprojects: "az összes alprojektben"
+        search_for: "Keresés"
     views:
       card: 'Kártyák'
       list: 'Tábla'

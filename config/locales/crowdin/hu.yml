@@ -1808,20 +1808,20 @@ hu:
   label_workflow_plural: "A munkafolyamatok"
   label_workflow_summary: "Összegzés"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
+    one: "1 lezárt"
     other: "%{count} closed"
     zero: "0 lezárt"
   label_x_comments:
-    one: "1 comment"
+    one: "1 komment"
     other: "%{count} comments"
     zero: "nincsenek hozzászólások"
   label_x_open_work_packages_abbr:
-    one: "1 open"
+    one: "1 nyitott"
     other: "%{count} open"
     zero: "0 nyitott"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 projekt"
+    other: "%{count} projekt"
     zero: "nincsenek projektek"
   label_yesterday: "tegnap"
   label_role_type: "Típus"
@@ -2091,9 +2091,9 @@ hu:
     template:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+      use_template: 'Sablon használata'
+      make_template: 'Mentés sablonként'
+      remove_from_templates: 'Sablon törlése'
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
       archived: "Archiválva"
@@ -2220,8 +2220,8 @@ hu:
     warnings:
       cannot_annotate: "Ez a fájl nem annotálható."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'aktiválva'
+    deactivated: 'deaktiválva'
   search_input_placeholder: "Keresés ..."
   setting_apiv3_cors_enabled: "Enable CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
@@ -2784,7 +2784,7 @@ hu:
         #Common error messages
         invalid_request: 'A kérésből hiányzik egy szükséges paraméter, nem támogatott paramétert tartalmaz, vagy máshogy sérült.'
         invalid_redirect_uri: "A kért átirányítási URI hibás formátumú vagy nem egyezik a kliens átirányítási URI-vel."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
+        unauthorized_client: 'A kliens nincs feljogosítva erre a kérésre.'
         access_denied: 'Az erőforrás tulajdonosa vagy hitelesítő kiszolgálója megtagadta a kérést.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
@@ -2813,7 +2813,7 @@ hu:
     application:
       singular: "OAuth alkalmazás"
       plural: "OAuth alkalmazások"
-      named: "OAuth application '%{name}'"
+      named: "OAuth-alkalmazás neve %{name}"
       new: "Új OAuth alkalmazás"
       default_scopes: "(Default scopes)"
       instructions:
