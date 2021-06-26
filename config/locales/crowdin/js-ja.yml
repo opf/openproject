@@ -505,6 +505,32 @@ ja:
           create_button: '<b>作成</b>ボタンをクリックすると、プロジェクトに新しいワークパッケージが追加されます。'
           timeline_button: '<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。'
           timeline: 'ここでプロジェクト計画を編集できます。 新しい段階、マイルストーンを作成し、依存関係を追加します。 すべてのチームメンバーは、いつでも最新のプランを見て更新することができます。'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "電子メールアドレス"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: '全て'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "自分自身による変更の通知を希望"
     password_confirmation:
       field_description: 'この変更を確認するには、アカウントのパスワードを入力する必要があります。'
       title: '続行するにはパスワードを確認してください'

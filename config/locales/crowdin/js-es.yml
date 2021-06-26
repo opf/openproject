@@ -504,6 +504,32 @@ es:
           create_button: 'Use el botón <b>Crear</b> para agregar un nuevo paquete de trabajo al proyecto.'
           timeline_button: 'Puede activar el <b>diagrama de Gantt</b> para crear una línea de tiempo del proyecto.'
           timeline: 'Aquí puede editar el plan del proyecto. Cree nuevas fases e hitos, y agregue dependencias. Todos los miembros del equipo pueden ver y actualizar el último plan en cualquier momento.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "Correo electrónico"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Todo'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Deseo ser notificado de los cambios realizados por mí"
     password_confirmation:
       field_description: 'Necesitas introducir la contraseña de tu cuenta para confirmar este cambio.'
       title: 'Confirma tu contraseña para continuar'

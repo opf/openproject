@@ -504,6 +504,32 @@ lt:
           create_button: 'Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.'
           timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
           timeline: 'Čia jūs galite redaguoti savo projekto planą. Kurti naujus etapus, etapai, ir pridėti priklausomybių. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "El. paštas"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Visi'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'

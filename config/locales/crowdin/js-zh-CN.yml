@@ -504,6 +504,32 @@ zh-CN:
           create_button: '<b>创建</b>按钮将为您的项目添加一个新工作包。'
           timeline_button: '您可以激活<b>甘特图</b>来为项目创建时间轴。'
           timeline: '在这里您可以编辑您的项目计划。创建新的阶段、里程碑，并添加依赖项。所有团队成员都可以随时查看和更新最新计划。'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "电子邮件"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: '全部'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "我想要自己的更改通知"
     password_confirmation:
       field_description: '输入密码以确认更改'
       title: '输入密码以继续'

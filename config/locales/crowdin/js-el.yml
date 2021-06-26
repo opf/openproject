@@ -503,6 +503,32 @@ el:
           create_button: 'Το κουμπί <b>Δημιουργία</b> θα προσθέσει ένα καινούργιο πακέτο εργασίας στο έργο σας.'
           timeline_button: 'Μπορείτε να ενεργοποιήσετε το <b>διάγραμμα Gantt</b> για να δημιουργήσετε ένα χρονοδιάγραμμα για το project σας.'
           timeline: 'Εδώ μπορείτε να επεξεργαστείτε το πλάνο του έργου σας. Να δημιουργήσετε καινούργιες φάσεις, ορόσημα και να προσθέσετε εξαρτήσεις. Όλα τα μέλη της ομάδας θα μπορούν να δουν και να ενημερώσουν το τελευταίο πλάνο οποιαδήποτε στιγμή.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "Email"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Όλα'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
     password_confirmation:
       field_description: 'Πρέπει να εισάγετε τον κωδικό πρόσβασης του λογαριασμού σας για να επιβεβαιώσετε αυτή την αλλαγή.'
       title: 'Επιβεβαιώστε τον κωδικό πρόσβασης σας για να συνεχίσετε'

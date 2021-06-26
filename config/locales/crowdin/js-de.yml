@@ -503,6 +503,32 @@ de:
           create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'
           timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-Mail"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Alle'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"
     password_confirmation:
       field_description: 'Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.'
       title: 'Geben Sie Ihr Kennwort ein um fortzufahren'

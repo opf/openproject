@@ -504,6 +504,32 @@ cs:
           create_button: 'Tlačítko <b>Vytvořit</b> přidá do vašeho projektu nový pracovní balíček.'
           timeline_button: 'Můžete aktivovat <b>Gantt graf</b> pro vytvoření časové osy pro váš projekt.'
           timeline: 'Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat aktuální plán.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-mail"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Vše'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Chci být informován o změnách, které dělám sám"
     password_confirmation:
       field_description: 'Pro potvrzení této změny je třeba zadat heslo k účtu.'
       title: 'Pro pokračování potvrďte vaše heslo'

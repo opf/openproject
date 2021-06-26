@@ -474,7 +474,6 @@ hu:
         force_password_change: "Kötelező jelszóváltás a következő bejelentkezéskor"
         language: "Nyelv"
         last_login_on: "Utolsó bejelentkezés"
-        mail_notification: "Email értesítés"
         new_password: "Új jelszó"
         password_confirmation: "Új jelszó újra"
         consented_at: "Ehhez hozzájárult a"
@@ -604,6 +603,13 @@ hu:
           overlaps: 'átfedés'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -750,6 +756,9 @@ hu:
       status: "Feladatcsoport állapot"
       member: "Tag"
       news: "Hírek"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Egyéni lekérdezés"
@@ -1270,6 +1279,9 @@ hu:
   instructions_after_logout: "Újra be tud jelentkezni ide  %{signin} kattintva."
   instructions_after_error: "Próbáljon meg újból bejelentkezni ide  %{signin} kattintva. Ha a hiba továbbra is fennáll, kérje a rendszergazda segítséget."
   menus:
+    admin:
+      mail_notification: "Email értesítés"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1282,6 +1294,12 @@ hu:
         action: "Művelet"
         expiration: "Lejár"
       indefinite_expiration: "Soha"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You are subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
   label_accessibility: "Kisegítő lehetőségek"
   label_account: "Felhasználói fiók"
   label_active: "aktív"
@@ -1808,20 +1826,20 @@ hu:
   label_workflow_plural: "A munkafolyamatok"
   label_workflow_summary: "Összegzés"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
+    one: "1 lezárt"
     other: "%{count} closed"
     zero: "0 lezárt"
   label_x_comments:
-    one: "1 comment"
+    one: "1 komment"
     other: "%{count} comments"
     zero: "nincsenek hozzászólások"
   label_x_open_work_packages_abbr:
-    one: "1 open"
+    one: "1 nyitott"
     other: "%{count} open"
     zero: "0 nyitott"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 projekt"
+    other: "%{count} projekt"
     zero: "nincsenek projektek"
   label_yesterday: "tegnap"
   label_role_type: "Típus"
@@ -2091,9 +2109,9 @@ hu:
     template:
       copying: >
         Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
-      use_template: 'Use template'
-      make_template: 'Set as template'
-      remove_from_templates: 'Remove from templates'
+      use_template: 'Sablon használata'
+      make_template: 'Mentés sablonként'
+      remove_from_templates: 'Sablon törlése'
     archive:
       are_you_sure: "Biztosan szeretnéd arhiválni a projektet '%{name}'?"
       archived: "Archiválva"
@@ -2220,8 +2238,8 @@ hu:
     warnings:
       cannot_annotate: "Ez a fájl nem annotálható."
   scheduling:
-    activated: 'activated'
-    deactivated: 'deactivated'
+    activated: 'aktiválva'
+    deactivated: 'deaktiválva'
   search_input_placeholder: "Keresés ..."
   setting_apiv3_cors_enabled: "Enable CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
@@ -2263,7 +2281,6 @@ hu:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Dátum formátum"
   setting_default_language: "Alapértelmezett nyelv"
-  setting_default_notification_option: "Alapértelmezett értesítési beállítás"
   setting_default_projects_modules: "Az új projektekben alapértelmezetten engedélyezett modulok"
   setting_default_projects_public: "Új projektek nyilvánosak alapértelmezetten"
   setting_diff_max_lines_displayed: "A különböző sorok megjelenítésének maximális száma"
@@ -2273,6 +2290,8 @@ hu:
   setting_email_login: "Használd az e-mail címet a bejellentkezéshez"
   setting_enabled_scm: "SCM engedélyezve"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
   setting_file_max_size_displayed: "A szöveg fájl sorainak maximum mérete megjelenítéskor"
@@ -2286,7 +2305,7 @@ hu:
   setting_work_package_properties: "feladatcsoport tulajdonságok"
   setting_work_package_startdate_is_adddate: "Az aktuális dátum használata, mint kezdő dátuma az új feladatcsoportoknak"
   setting_work_packages_export_limit: "A feladatcsoportok exportjának a korlátozása"
-  setting_journal_aggregation_time_minutes: "A megjelenített hírek összevonása"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Jelentkezzen be a felhasználóként, név és e-mail cím minden lekéréshez"
   setting_login_required: "Hitelesítés szükséges"
   setting_mail_from: "Értesítő e-mailek feladója"
@@ -2341,6 +2360,10 @@ hu:
     passwords: "Jelszavak"
     session: "Munkamenet"
     brute_force_prevention: "Felhasználó automatikus blokkolása"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2421,7 +2444,7 @@ hu:
   text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
   text_work_packages_ref_in_commit_messages: "Viszonyítandó és elintézendő feladatcsoportok a véglegesítési üzenetekben"
   text_journal_added: "%{label} %{value} hozzáadva"
-  text_journal_aggregation_time_explanation: "Fűzze össze a tartalmat az értesítésekben, amennyiben az idő kisebb, mint a megadott érték. Ez ugyanúgy késleltetheti az e-mail kiküldését."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} megváltoztatva %{old} </br><strong></strong> %{new}"
   text_journal_changed_plain: "%{label} megváltozott %{old} -tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
@@ -2451,7 +2474,7 @@ hu:
   text_regexp_info: "pl. ^[A-Z0-9]+$"
   text_regexp_multiline: 'A reguláris kifejezés többsoros módban legyen alkalmazva. pld. ^---\s+'
   text_repository_usernames_mapping: "Jelölje be, vagy frissítse az alkalmazás felhasználóit, minden felhasználónév eltárolva, megtalálhatóak a csomagtároló naplóban. A felhasználók ugyanazzal az alkalmazási és csomagtárolói felhasználó névvel vagy email címmel automatikusan tárolódnak."
-  text_select_mail_notifications: "Válassza ki a tevékenységeket, amelyekről e-mail értesítést kell küldeni."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "A %{value} commit-ban hozzáadva."
   text_table_difference_description: "Ebben a táblázatban látható az egyszeri %{entries}. Megtekintheti a két bejegyzés közötti különbséget azáltal, hogy először kiválasztja a megfelelő jelölőnégyzeteket a táblázatban. A táblázat alatti gombra kattintva a különbségek jelennek meg."
   text_time_logged_by_changeset: "A %{value} commit-ban hozzáadva."
@@ -2674,10 +2697,6 @@ hu:
     password_change_unsupported: A jelszó módosítása nem támogatott.
     registered: "regisztrált"
     reset_failed_logins: "A sikertelen bejelentkezés alaphelyzetbe állitása"
-    settings:
-      mail_notifications: "E-mail értesítések"
-      mail_project_explanaition: "A nem kijelölt projektekhez csak olyan dolgokat kapsz értesítésekkel kapcsolatban, amelyeket nézel, vagy amelyekkel Ön részt vesz (például olyan munkacsomagoknál, amelyek a szerző vagy megbízottjai)."
-      mail_self_notified: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
     status_user_and_brute_force: "%{user} és %{brute_force}"
     status_change: "Állapot változás"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2784,7 +2803,7 @@ hu:
         #Common error messages
         invalid_request: 'A kérésből hiányzik egy szükséges paraméter, nem támogatott paramétert tartalmaz, vagy máshogy sérült.'
         invalid_redirect_uri: "A kért átirányítási URI hibás formátumú vagy nem egyezik a kliens átirányítási URI-vel."
-        unauthorized_client: 'The client is not authorized to perform this request using this method.'
+        unauthorized_client: 'A kliens nincs feljogosítva erre a kérésre.'
         access_denied: 'Az erőforrás tulajdonosa vagy hitelesítő kiszolgálója megtagadta a kérést.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
         invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
@@ -2813,7 +2832,7 @@ hu:
     application:
       singular: "OAuth alkalmazás"
       plural: "OAuth alkalmazások"
-      named: "OAuth application '%{name}'"
+      named: "OAuth-alkalmazás neve %{name}"
       new: "Új OAuth alkalmazás"
       default_scopes: "(Default scopes)"
       instructions:

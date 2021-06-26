@@ -475,7 +475,6 @@ da:
         force_password_change: "Ændring af adgangskode virksom ved næste login"
         language: "Sprog"
         last_login_on: "Seneste login"
-        mail_notification: "E-mail-påmindelser"
         new_password: "Ny adgangskode"
         password_confirmation: "Bekræftelse"
         consented_at: "Consented at"
@@ -605,6 +604,13 @@ da:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -751,6 +757,9 @@ da:
       status: "Status for arbejdspakke"
       member: "Medlem"
       news: "Nyheder"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Pladsholder bruger"
       project: "Prjoekt"
       query: "Selvvalgt forespørgsel"
@@ -1271,6 +1280,9 @@ da:
   instructions_after_logout: "Du kan logge ind igen ved at klikke %{signin}."
   instructions_after_error: "Du kan forsøge at logge ind igen ved at klikke %{signin}. Hvis fejlen stadig opstår, spørg da admin. efter hjælp."
   menus:
+    admin:
+      mail_notification: "E-mail-påmindelser"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Åbn hurtig-tilføj menu"
   my_account:
@@ -1283,6 +1295,12 @@ da:
         action: "Handling"
         expiration: "Udløber"
       indefinite_expiration: "Aldrig"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You are subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
   label_accessibility: "Accessibility"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -2263,7 +2281,6 @@ da:
   setting_first_week_of_year: "Første uge i året indeholder"
   setting_date_format: "Datoformat"
   setting_default_language: "Forhåndsvalgt sprog"
-  setting_default_notification_option: "Forhåndsvalgt indstilling for beskeder"
   setting_default_projects_modules: "Forhåndsvalgt aktive moduler for nye projekter"
   setting_default_projects_public: "Nye projekter er på forhånd sat som offentlige"
   setting_diff_max_lines_displayed: "Højeste antal viste linjer for afvigelser"
@@ -2273,6 +2290,8 @@ da:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Aktiver SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Aktiver feeds"
   setting_feeds_limit: "Grænse for indhold af feeds"
   setting_file_max_size_displayed: "Maksimal størrelse af tekstfiler, der vises inline"
@@ -2286,7 +2305,7 @@ da:
   setting_work_package_properties: "Egenskaber for arbejdspakke"
   setting_work_package_startdate_is_adddate: "Brug dags dato som start for nye arbejdspakker"
   setting_work_packages_export_limit: "Begrænsning for eksport af arbejdspakker"
-  setting_journal_aggregation_time_minutes: "Vis kladder som sammensatte inden for"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log bruger-login, navn og mail-adresse ved hver forespørgsel"
   setting_login_required: "Godkendelse påkrævet"
   setting_mail_from: "Mailadresse for udsendelse"
@@ -2341,6 +2360,10 @@ da:
     passwords: "Adgangskoder"
     session: "Session"
     brute_force_prevention: "Automatiseret brugerblokering"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2421,7 +2444,7 @@ da:
   text_work_packages_destroy_confirmation: "Er du sikker på, du vil slette de/den valgte arbejdspakke(r)?"
   text_work_packages_ref_in_commit_messages: "Arbejdspakker håndteres i tilknyttede meddelelser"
   text_journal_added: "%{label} %{value} tilføjet"
-  text_journal_aggregation_time_explanation: "Sammenskriv kladder til visning, hvis der er mindre tid mellem det end det angivne. Dette vil desuden forsinke påmindelser tilsvrende."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} opdateret"
@@ -2451,7 +2474,7 @@ da:
   text_regexp_info: "fx ^[A-Z0-9]+$"
   text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
   text_repository_usernames_mapping: "Vælg eller opdatér den OpenProject-bruger, der er tilknyttet hvert brugernavn i loggen for projektarkivet.\nBrugere med det samme brugernavn eller mailadresse i OpenProject og i projektarkivet vil automatisk blive tilknyttet."
-  text_select_mail_notifications: "Vælg handlinger hvor der skal sendes mailpåmindelser."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Indføjet i pakken af ændringer, %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Indføjet i pakken af ændringer, %{value}."
@@ -2674,10 +2697,6 @@ da:
     password_change_unsupported: Ændring af adgangskode er ikke understøttet.
     registered: "registreret"
     reset_failed_logins: "Nulstil mislykkede forsøg på at logge ind"
-    settings:
-      mail_notifications: "Send email notifications"
-      mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
-      mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} og %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "Navnet er angivet af din login-udbyder og kan derfor ikke ændres."

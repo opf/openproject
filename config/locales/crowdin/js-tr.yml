@@ -504,6 +504,32 @@ tr:
           create_button: '<b> Oluştur </b> düğmesi, projenize yeni bir iş paketi ekler.'
           timeline_button: 'Projeniz için bir zaman çizelgesi oluşturmak için <b> Gantt şeması </b> ''nı etkinleştirebilirsiniz.'
           timeline: 'Burada proje planınızı düzenleyebilirsiniz. Yeni aşamalar, kilometre taşları oluşturun ve bağımlılıklar ekleyin. Tüm ekip üyeleri en son planı istedikleri zaman görebilir ve güncelleyebilir.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "Eposta"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Hepsi'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Yaptığım değişiklikleri kendim bildirmek istiyorum"
     password_confirmation:
       field_description: 'Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.'
       title: 'Devam etmek için parolanızı doğrulayın'

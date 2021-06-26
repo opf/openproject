@@ -503,6 +503,32 @@ ro:
           create_button: 'Butonul <b>Create (Creare</b> ) va adăuga un nou pachet de lucru la proiectul dumneavoastră.'
           timeline_button: 'Puteți activa <b>diagrama Gantt</b> pentru a crea o cronologie pentru proiectul dvs.'
           timeline: 'Aici vă puteți edita planul de proiect. Creați noi faze, repere și adăugați dependențe. Toți membrii echipei pot vedea și actualiza cel mai recent plan în orice moment.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-mail"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Toate'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Vreau să fiu notificat pentru modificările pe care le fac eu"
     password_confirmation:
       field_description: 'Trebuie să introduceţi parola contului dumneavoastră pentru a confirma această schimbare.'
       title: 'Vă rugăm să confirmați parola dumneavoastră pentru a continua'

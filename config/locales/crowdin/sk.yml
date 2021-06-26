@@ -479,7 +479,6 @@ sk:
         force_password_change: "Požadovať zmenu hesla pri ďalšom prihlásení"
         language: "Jazyk"
         last_login_on: "Posledné prihlásenie"
-        mail_notification: "Upozornenia e-mailom"
         new_password: "Nové heslo"
         password_confirmation: "Potvrdenie"
         consented_at: "Povolené na"
@@ -609,6 +608,13 @@ sk:
           overlaps: 'prekrývajú.'
           outside: 'je mimo mriežku.'
           end_before_start: 'koncová hodnota musí byť väčšia ako počiatočná hodnota.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -759,6 +765,11 @@ sk:
       status: "Stav pracovného balíčka"
       member: "Člen"
       news: "Novinky"
+      notification:
+        one: "Notification"
+        few: "Notifications"
+        many: "Notifications"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Vlastný dopyt"
@@ -1305,6 +1316,9 @@ sk:
   instructions_after_logout: "Môžete znovu prihlásiť kliknutím na tlačidlo %{signin}."
   instructions_after_error: "Skúste sa znova prihlásiť kliknutím na %{signin}. Ak chyba pretrváva, požiadajte správcu o pomoc."
   menus:
+    admin:
+      mail_notification: "Upozornenia e-mailom"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1317,6 +1331,12 @@ sk:
         action: "Akcia"
         expiration: "Expiruje"
       indefinite_expiration: "Nikdy"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You are subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
   label_accessibility: "Prístupnosť"
   label_account: "Účet"
   label_active: "Aktívny"
@@ -2300,7 +2320,6 @@ sk:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Formát dátumu"
   setting_default_language: "Predvolený jazyk"
-  setting_default_notification_option: "Predvolené nastavenie upozornení"
   setting_default_projects_modules: "Predvolené moduly novovytváraných projektov"
   setting_default_projects_public: "Nové projekty nastaviť ako verejné"
   setting_diff_max_lines_displayed: "Maximálny počet rozdielových riadkov na zobrazenie"
@@ -2310,6 +2329,8 @@ sk:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Povolené SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Povoliť informačné kanály"
   setting_feeds_limit: "Limit obsahu informačných kanálov"
   setting_file_max_size_displayed: "Maximálna veľkosť textových súborov zobrazených priamo na stránke"
@@ -2323,7 +2344,7 @@ sk:
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
   setting_work_packages_export_limit: "Limit exportu pracovných balíčkov"
-  setting_journal_aggregation_time_minutes: "Zobraziť koncepty ako zložky v rámci"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Zaznamenať prihlasovacie meno používateľa, meno a e-mailovú adresu pre všetky požiadavky"
   setting_login_required: "Vyžaduje sa overenie"
   setting_mail_from: "Odosielať emaily z adresy"
@@ -2378,6 +2399,10 @@ sk:
     passwords: "Heslá"
     session: "Relácie"
     brute_force_prevention: "Automatizované blokovanie používateľa"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2458,7 +2483,7 @@ sk:
   text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
   text_work_packages_ref_in_commit_messages: "Odkazovanie a oprava pracovných balíčkov v podrobnejšom vysvetľujúcom texte"
   text_journal_added: "%{label} %{value} pridaných"
-  text_journal_aggregation_time_explanation: "Kompilácia konceptov na zobrazenie, ak je medzi nimi menej času. Týmto sa taktiež oneskorí zasielanie e-mailov o rovnaké množstvo času."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} zmenený z %{old} <br/><strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} zmenený z %{old} \nna %{new}"
   text_journal_changed_no_detail: "%{label} aktualizované"
@@ -2488,7 +2513,7 @@ sk:
   text_regexp_info: "napr. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Regex je aplikovaný v režime s viacerými riadkami. napríklad ^---\s+'
   text_repository_usernames_mapping: "Vyberte alebo aktualizujte priradenie používateľov systému OpenProject k menám používateľov nájdených v zázname repozitára.\nPoužívatelia s rovnakým prihlasovacím menom alebo emailom v systéme OpenProject a repozitári sú priradení automaticky."
-  text_select_mail_notifications: "Vyberte akcie, pre ktoré sa majú posielať e-mailové upozornenia."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplikované v súbore zmien %{value}."
   text_table_difference_description: "Táto tabuľka zobrazuje jednotlivé %{entries} archívu projektov. Pomocou začiarkavacích políčok môžete vybrať dve položky a pomocou tlačidla pod tabuľkou zobrazíte rozdiely medzi dvoma vybranými položkami."
   text_time_logged_by_changeset: "Aplikované v súbore zmien %{value}."
@@ -2715,10 +2740,6 @@ sk:
     password_change_unsupported: Zmena hesla nie je podporovaná.
     registered: "registrovaný"
     reset_failed_logins: "Resetovať chybné prihlásenia"
-    settings:
-      mail_notifications: "Posielať e-mailové oznámenia"
-      mail_project_explanaition: "Pri projektoch, ktoré neboli vybrané, budete dostávať upozornenia týkajúce sa iba vašich alebo vami sledovaných vecí (napr. vecí, ktorých ste autor, alebo ku ktorým ste priradení)."
-      mail_self_notified: "Chcem byť upozornený na zmeny, ktoré som urobil sám"
     status_user_and_brute_force: "%{user} a %{brute_force}"
     status_change: "Zmena stavu"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."

@@ -473,7 +473,6 @@ it:
         force_password_change: "Richiedi la modifica della password al prossimo login"
         language: "Linguaggio"
         last_login_on: "Ultimo accesso"
-        mail_notification: "Notifiche email"
         new_password: "Nuova password"
         password_confirmation: "Conferma"
         consented_at: "Consenso a"
@@ -603,6 +602,13 @@ it:
           overlaps: 'sovrapposizione.'
           outside: 'è fuori dalla griglia.'
           end_before_start: 'il valore finale deve essere più grande del valore iniziale.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -749,6 +755,9 @@ it:
       status: "Stato della macro-attività"
       member: "Membro"
       news: "Notizie"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Utente segnaposto"
       project: "Progetto"
       query: "Query personalizzata"
@@ -1269,6 +1278,9 @@ it:
   instructions_after_logout: "Può accedere nuovamente cliccando %{signin}."
   instructions_after_error: "Si può provare ad accedere nuovamente cliccando %{signin}. Se l'errore persiste, chiedi aiuto al tuo amministratore."
   menus:
+    admin:
+      mail_notification: "Notifiche email"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Apri menu di aggiunta rapida"
   my_account:
@@ -1281,6 +1293,12 @@ it:
         action: "Azione"
         expiration: "Scade"
       indefinite_expiration: "Mai"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You are subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
   label_accessibility: "Accessibilità"
   label_account: "Account"
   label_active: "Attivo"
@@ -2263,7 +2281,6 @@ it:
   setting_first_week_of_year: "La prima settimana dell'anno contiene"
   setting_date_format: "Formato data"
   setting_default_language: "Linguaggio predefinito"
-  setting_default_notification_option: "Opzione di notifica predefinita"
   setting_default_projects_modules: "Moduli abilitati in automatico su nuovi progetti"
   setting_default_projects_public: "I nuovi progetti sono pubblici come impostazione predefinita"
   setting_diff_max_lines_displayed: "Numero massimo di linee diff visualizzate"
@@ -2273,6 +2290,8 @@ it:
   setting_email_login: "Usa email come login"
   setting_enabled_scm: "SCM Abilitato"
   setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Abilita Feed"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
@@ -2286,7 +2305,7 @@ it:
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_export_limit: "Limite di esportazione delle macro-attività"
-  setting_journal_aggregation_time_minutes: "Mostra i rapporti aggregando per"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Registra il nome d'accesso, il nome utente, e l'indirizzo mail per tutte le richieste"
   setting_login_required: "Autenticazione richiesta"
   setting_mail_from: "Indirizzo e-mail di emissione"
@@ -2341,6 +2360,10 @@ it:
     passwords: "Password"
     session: "Sessione"
     brute_force_prevention: "Blocco automatico degli utenti"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.
@@ -2421,7 +2444,7 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_aggregation_time_explanation: "Aggrega i rapporti se la loro distanza temporale è inferiore all'intervallo di tempo specificato. Questo ritarderà inoltre della stessa quantità di tempo anche le notifiche via posta elettronica."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "modificato da %{old} <br/><strong>a</strong> %{new} %{label}"
   text_journal_changed_plain: "%{label} cambiato da %{old} \na %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
@@ -2451,7 +2474,7 @@ it:
   text_regexp_info: "es. ^[A-Z0-9]+$"
   text_regexp_multiline: 'L''espressione regolare viene applicata in modalità multi-linea. ad esempio, ^---\s+'
   text_repository_usernames_mapping: "Seleziona o aggiorna l'utente OpenProject mappato per ogni nome utente trovato nel registro dell'archivio. Gli utenti con lo stesso nome utente e repository OpenProject o e-mail vengono mappati automaticamente."
-  text_select_mail_notifications: "Seleziona le azioni per cui l'e-mail deve essere inviata."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Stato variato a partire dalla modifica %{value}."
   text_table_difference_description: "In questa tabella sono mostrate le singole %{entries}. È possibile visualizzare le differenze tra due voci selezionando prima le corrispondenti caselle di controllo nella tabella. Cliccando sul pulsante sotto la tabella saranno mostrate le differenze."
   text_time_logged_by_changeset: "Stato variato a partire dalla modifica %{value}."
@@ -2674,10 +2697,6 @@ it:
     password_change_unsupported: La modifica della password non è supportata.
     registered: "registrato"
     reset_failed_logins: "Azzera gli accessi falliti"
-    settings:
-      mail_notifications: "Invio notifiche via mail"
-      mail_project_explanaition: "Per i progetti non selezionati, si riceveranno solo le notifiche sulle cose che guardi o in cui sei coinvolto (es. macro-attività di cui sei l'autore o che ti sono state assegnate)."
-      mail_self_notified: "Voglio essere informato delle modifiche che faccio io stesso"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Cambiamento di stato"
     text_change_disabled_for_provider_login: "Il nome è impostato dal servizio con cui hai effettuato l'accesso e non può essere modificato."

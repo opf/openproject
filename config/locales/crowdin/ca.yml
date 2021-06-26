@@ -477,7 +477,6 @@ ca:
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
         last_login_on: "Darrer inici de sessió"
-        mail_notification: "Avisos de correu electrònic"
         new_password: "Nova contrasenya"
         password_confirmation: "Confirmació"
         consented_at: "Consented at"
@@ -607,6 +606,13 @@ ca:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -753,6 +759,9 @@ ca:
       status: "Estat del paquet de treball"
       member: "Membre"
       news: "Notícies"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Projecte"
       query: "Consulta personalitzada"
@@ -1273,6 +1282,9 @@ ca:
   instructions_after_logout: "Vostè es pot inscriure altre vegada fent clic a %{signin}."
   instructions_after_error: "Pot intentar iniciar sessió fent clic a %{signin}. Si l'error continua, demaneu ajuda al vostre administrador."
   menus:
+    admin:
+      mail_notification: "Avisos de correu electrònic"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1285,6 +1297,12 @@ ca:
         action: "Acció"
         expiration: "Caduca"
       indefinite_expiration: "Mai"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You are subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
   label_accessibility: "Accessibility"
   label_account: "Compte"
   label_active: "Actiu"
@@ -2265,7 +2283,6 @@ ca:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Format de data"
   setting_default_language: "Idioma per defecte"
-  setting_default_notification_option: "Opció de notificació per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"
   setting_diff_max_lines_displayed: "Nombre màxim de línies mostrades pels diff"
@@ -2275,6 +2292,8 @@ ca:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Activar SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Habilita els canals"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
@@ -2288,7 +2307,7 @@ ca:
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
   setting_work_packages_export_limit: "Límit d'exportació de paquets de treball"
-  setting_journal_aggregation_time_minutes: "Ensenyar informes agregats per"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Registrar login d'usuari, nom i adreça de correu electrònic de totes les sol·licituds"
   setting_login_required: "Es necessita autenticació"
   setting_mail_from: "Adreça de correu electrònic d'emissió"
@@ -2343,6 +2362,10 @@ ca:
     passwords: "Contrasenyes"
     session: "Sessió"
     brute_force_prevention: "Bloqueig automàtic d'usuari"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2423,7 +2446,7 @@ ca:
   text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
-  text_journal_aggregation_time_explanation: "Combina diaris per mostrar si la seva diferència de data és inferior el període especificat. Això retardarà també les notificacions de correu per la mateixa quantitat de temps."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
@@ -2453,7 +2476,7 @@ ca:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'S''aplica l''expressió regular en mode de múltilínia. Per exemple, ^---\s+'
   text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del OpenProject i cada nom d'usuari trobat al repositori.\nEls usuaris amb el mateix nom d'usuari o correu del OpenProject i del repositori s'assignaran automàticament."
-  text_select_mail_notifications: "Seleccionar les accions per les quals s'hauria d'enviar una notificació per correu electrònic."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplicat en el conjunt de canvis %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Aplicat en el conjunt de canvis %{value}."
@@ -2676,10 +2699,6 @@ ca:
     password_change_unsupported: El s'admet el canvi de contrasenya.
     registered: "registrat"
     reset_failed_logins: "Reiniciar inicis de sessió fallits"
-    settings:
-      mail_notifications: "Enviar notificacions per correu electrònic"
-      mail_project_explanaition: "Per als projectes no seleccionats, només rebreu notificacions sobre les coses que vigileu o que hi esteu implicat (ex. assumptes dels que en sou l'autor o hi esteu assignat)."
-      mail_self_notified: "Vull ser notificat de canvis que faig jo mateix"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."

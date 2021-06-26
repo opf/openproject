@@ -478,7 +478,6 @@ ro:
         force_password_change: "Impune schimbarea parolei la următoarea autentificare"
         language: "Limbă"
         last_login_on: "Ultima autentificare"
-        mail_notification: "Notificări prin e-mail"
         new_password: "Parolă nouă"
         password_confirmation: "Confirmare parolă"
         consented_at: "Consimţit la"
@@ -608,6 +607,13 @@ ro:
           overlaps: 'suprapunere.'
           outside: 'se află în afara rețelei.'
           end_before_start: 'valoarea finală trebuie să fie mai mare decât valoarea inițială.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -756,6 +762,10 @@ ro:
       status: "Stare pachet de lucru"
       member: "Membru"
       news: "Noutăţi"
+      notification:
+        one: "Notification"
+        few: "Notifications"
+        other: "Notifications"
       placeholder_user: "Utilizator Placeholder"
       project: "Proiect"
       query: "Interogare personalizată"
@@ -1289,6 +1299,9 @@ ro:
   instructions_after_logout: "Vă puteţi autentifica din nou dând click pe %{signin}."
   instructions_after_error: "Puteţi încerca să vă autentificați din nou dând click pe %{signin}. Dacă eroarea persistă, cereți ajutorul administratorului."
   menus:
+    admin:
+      mail_notification: "Notificări prin e-mail"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Deschideți meniul de adăugare rapidă"
   my_account:
@@ -1301,6 +1314,12 @@ ro:
         action: "Acțiune"
         expiration: "Expirare"
       indefinite_expiration: "Niciodată"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You are subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
   label_accessibility: "Accesibilitate"
   label_account: "Cont"
   label_active: "Activ"
@@ -2283,7 +2302,6 @@ ro:
   setting_first_week_of_year: "Prima săptămână din an conține"
   setting_date_format: "Format dată"
   setting_default_language: "Limbă implicită"
-  setting_default_notification_option: "Opțiune implicită de notificare"
   setting_default_projects_modules: "Module activate implicit la creare proiect"
   setting_default_projects_public: "Proiectele noi sunt implicit publice"
   setting_diff_max_lines_displayed: "Numărul maxim de linii afișate în comparație"
@@ -2293,6 +2311,8 @@ ro:
   setting_email_login: "Folosiți e-mailul ca autentificare"
   setting_enabled_scm: "SCM activat"
   setting_enabled_projects_columns: "Vizibil în lista de proiecte"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Activare fluxuri"
   setting_feeds_limit: "Limită conținut flux"
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
@@ -2306,7 +2326,7 @@ ro:
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
   setting_work_packages_export_limit: "Limita de export pentru pachetele de lucru"
-  setting_journal_aggregation_time_minutes: "Intervalul de timp pentru agregarea jurnalelor"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Auditare utilizator, nume și adresă de email pentru toate cererile"
   setting_login_required: "Autentificare obligatorie"
   setting_mail_from: "Adresa de e-mail a expeditorului"
@@ -2361,6 +2381,10 @@ ro:
     passwords: "Parole"
     session: "Sesiune"
     brute_force_prevention: "Blocare automată a utilizatorilor"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2441,7 +2465,7 @@ ro:
   text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
   text_work_packages_ref_in_commit_messages: "Referențiere și rezolvare a pachetelor de lucru în mesajele de încărcare"
   text_journal_added: "%{label} %{value} adăugat"
-  text_journal_aggregation_time_explanation: "Combină jurnalele de afişare dacă diferența de timp este mai mică decât intervalul specificat. Acest lucru va întârzia, de asemenea, notificările prin e-mail cu același interval."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} a fost schimbat din %{old} <br/><strong>în</strong> %{new}"
   text_journal_changed_plain: "%{label} schimbat de la %{old}\nla %{new}"
   text_journal_changed_no_detail: "%{label} actualizat"
@@ -2471,7 +2495,7 @@ ro:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Formula regex este aplicată într-un mod multilinie - de exemplu: ^---\s+'
   text_repository_usernames_mapping: "Selectați sau modificați contul OpenProject mapat la fiecare cont din istoricul repo-ului.\nUtilizatorii cu cont sau e-mail identic în OpenProject și repo sunt echivalați automat."
-  text_select_mail_notifications: "Selectaţi acţiunile pentru care trebuie trimise notificări e-mail."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplicat prin editarea %{value}."
   text_table_difference_description: "În acest tabel este prezentat un singur %{entries}. Puteți vizualiza diferența dintre oricare două intrări selectând mai întâi casetele de selectare corespunzătoare din tabel. Când faceți clic pe butonul de sub tabel, se afișează diferențele."
   text_time_logged_by_changeset: "Aplicat prin editarea %{value}."
@@ -2696,10 +2720,6 @@ ro:
     password_change_unsupported: Schimbarea parolei nu este suportată.
     registered: "înregistrat"
     reset_failed_logins: "Resetare autentificări eşuate"
-    settings:
-      mail_notifications: "Notificări prin e-mail"
-      mail_project_explanaition: "Pentru proiectele care nu sunt selectate, veți primi notificări doar pentru ceea ce urmăriți sau în ce sunteți implicat (de exemplu tichete create de dumneavoastră sau care vă sunt atribuite)."
-      mail_self_notified: "Vreau să fiu notificat pentru modificările pe care le fac eu"
     status_user_and_brute_force: "%{user} şi %{brute_force}"
     status_change: "Schimbare de stare"
     text_change_disabled_for_provider_login: "Numele este setat de furnizorul de logare și, prin urmare, nu poate fi modificat."

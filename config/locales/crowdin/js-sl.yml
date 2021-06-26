@@ -503,6 +503,32 @@ sl:
           create_button: 'Gumb <b>Ustvari</b> bo dodal nov delovni paket vašemu projektu. '
           timeline_button: 'Omogočite lahko <b>Gantogram</b> da ustvarite časovnico za vaš projekt.'
           timeline: 'Tukaj lahko uredite svoj projektni načrt. Ustvari lahko nove faze, mejnike in dodate odvisnosti. Vsi člani ekipe lahko kadar koli vidijo in posodobijo najnovejši načrt.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-pošta"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Vse'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Želim biti opozorjen(a) za spremembe, ki jih naredim sam(a)"
     password_confirmation:
       field_description: 'Prosimo vnesite svoje uporabniško geslo za potrditev te spremembe. '
       title: 'Potrdite svoje geslo za nadaljevanje'
