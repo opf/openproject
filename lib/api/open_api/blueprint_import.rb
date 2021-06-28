@@ -21,7 +21,7 @@ module API
         @include_directive_regex ||= /\<\!\-\-\s*include\((.*)\)\s*\-\-\>/
       end
 
-      def convert(version: :stable)
+      def convert(version: :stable, single_file: false)
         input_file = Rails.application.root.join("docs/api/apiv3-doc-#{version}.apib")
         md_file = Tempfile.new("apibp.md").path
         assemble_file input_path: input_file, output_path: md_file
@@ -31,9 +31,118 @@ module API
         add_security! spec
         amend_schemas! spec, apibp: File.read(md_file)
 
+        if !single_file
+          split_up_schemas! spec
+          split_up_paths! spec
+          split_up_tags! spec
+        end
+
         spec
       ensure
         FileUtils.rm_f md_file if File.exist? md_file
+      end
+
+      def split_up_schemas!(spec)
+        file_path = Rails.application.root.join "docs/api/apiv3/components/schemas"
+
+        FileUtils.mkdir_p file_path.to_s
+
+        new_schemas = spec["components"]["schemas"].map do |name, content|
+          identifier = name.underscore
+          file_name = "#{identifier}.yml"
+
+          File.open(file_path.join(file_name), "w") do |f|
+            f.write "# Schema: #{name}\n"
+            f.write content.to_yaml
+          end
+
+          [name, { "$ref" => "./components/schemas/#{file_name}"}]
+        end
+
+        spec["components"]["schemas"] = new_schemas.to_h
+      end
+
+      def split_up_tags!(spec)
+        file_path = Rails.application.root.join "docs/api/apiv3/tags"
+
+        FileUtils.mkdir_p file_path.to_s
+
+        new_tags = spec["tags"].map do |value|
+          identifier = value["name"].downcase.gsub("&", "and").gsub(" ", "_")
+          file_name = "#{identifier}.yml"
+
+          File.open(file_path.join(file_name), "w") do |f|
+            f.write value.to_yaml
+          end
+
+          { "$ref" => "./tags/#{file_name}"}
+        end
+
+        spec["tags"] = new_tags
+      end
+
+      def split_up_paths!(spec)
+        file_path = Rails.application.root.join "docs/api/apiv3/paths"
+
+        FileUtils.mkdir_p file_path.to_s
+
+        new_paths = spec["paths"].map do |path, content|
+          segments = path.sub("/api/v3", "").split("/").reject(&:blank?)
+
+          (0..(segments.size - 1)).each do |i|
+            if i > 0 && segments[i].end_with?("id}")
+              before = segments[i - 1]
+              after = before.singularize
+              
+              # certain words like 'news' can't be singularized
+              if before == after
+                segments[i - 1] = "#{before}_item"
+              else
+                segments[i - 1] = after
+              end
+            end
+          end
+          
+          identifier = segments.reject { |s| s.end_with?("id}") }.join("_").presence || "root"
+          file_name = "#{identifier}.yml"
+
+          File.open(file_path.join(file_name), "w") do |f|
+            f.write "# #{path}\n"
+            f.write fix_operation_ids!(fix_references!(content.dup, context: spec)).to_yaml
+          end
+
+          [path, { "$ref" => "./paths/#{file_name}"}]
+        end
+
+        raise "Splitting up into paths failed! Expected same number of paths. " unless new_paths.size == spec["paths"].size
+
+        spec["paths"] = new_paths.to_h
+      end
+
+      def fix_operation_ids!(spec)
+        spec.each do |key, value|
+          if value.is_a? Hash
+            fix_operation_ids! value
+          elsif key == "operationId"
+            spec[key] = spec[key].gsub " ", "_"
+          end
+        end
+
+        spec
+      end
+
+      def fix_references!(spec, context:)
+        spec.each do |key, value|
+          if value.is_a? Hash
+            fix_references! value, context: context
+          elsif value.is_a? Array
+            spec[key] = value.map { |v| v.is_a?(Hash) ? fix_references!(v.dup, context: context) : v }
+          elsif key == "$ref" && value.start_with?("#/components")
+            spec[key] = '.' + context.dig(*(value.split("/").drop(1) + ['$ref']))
+          end
+        end
+
+        spec
       end
       
       def add_security!(spec)
@@ -106,7 +215,6 @@ module API
             "href" => {
               "type" => "string",
               "nullable" => true,
-              "format" => "uri",
               "description" => "URL to the referenced resource (might be relative)"
             },
             "title" => {
@@ -273,7 +381,7 @@ module API
 
           link = {}
           value = {
-            "allOf" => [{ "$ref" => "#/components/schemas/Link" }, link]
+            "allOf" => [{ "$ref" => "./link.yml" }, link]
           }
 
           set_description! link, row, desc_index
@@ -350,6 +458,17 @@ module API
           end
 
           add_conditions! value, row, cond_index
+
+          if type == "Formattable"
+            value.delete "type"
+
+            value = {
+              "allOf" => [
+                { "$ref" => "./formattable.yml" },
+                value
+              ]
+            }
+          end
 
           [name, value]
         end

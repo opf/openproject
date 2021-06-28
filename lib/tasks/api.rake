@@ -49,9 +49,19 @@ namespace :api do
   desc 'Saves the API spec (OAS3.0) to ./docs/api/openproject-apiv3-<branch>.yml'
   task :update_spec, [:branch] => [:environment] do |task, args|
     branch = (args[:branch] || "stable").to_sym
-    spec = API::OpenAPI::BlueprintImport.convert version: branch
+    spec = API::OpenAPI::BlueprintImport.convert version: branch, single_file: false
 
-    File.open(Rails.application.root.join("docs/api/apiv3-oas-#{branch}.yml"), "w") do |f|
+    File.open(Rails.application.root.join("docs/api/apiv3/openapi-spec.yml"), "w") do |f|
+      f.write spec.to_yaml
+    end
+  end
+
+  desc 'Saves the API spec (OAS3.0) to ./docs/api/openproject-apiv3-single.yml'
+  task :assemble_spec, [:branch] => [:environment] do |task, args|
+    branch = (args[:branch] || "stable").to_sym
+    spec = API::OpenAPI.spec
+
+    File.open(Rails.application.root.join("docs/api/apiv3/openapi-spec-single.yml"), "w") do |f|
       f.write spec.to_yaml
     end
   end
