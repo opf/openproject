@@ -49,7 +49,7 @@ class CustomField < ApplicationRecord
   validates :custom_options,
             presence: { message: ->(*) { I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option') } },
             if: ->(*) { field_format == 'list' }
-  validates :name, presence: true, length: { maximum: 30 }
+  validates :name, presence: true, length: { maximum: 256 }
 
   validate :uniqueness_of_name_with_scope
 
