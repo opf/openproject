@@ -30,16 +30,15 @@
 
 require 'spec_helper'
 
-describe WorkPackageWebhookJob, type: :model, webmock: true do
+describe ProjectWebhookJob, type: :job, webmock: true do
   shared_let(:user) { FactoryBot.create :admin }
-  shared_let(:title) { "Some workpackage subject" }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:work_package) { FactoryBot.create :work_package, subject: title }
+  shared_let(:project) { FactoryBot.create :project, name: 'Foo Bar' }
   shared_let(:webhook) { FactoryBot.create :webhook, all_projects: true, url: request_url, secret: nil }
 
-  shared_examples "a work package webhook call" do
-    let(:event) { "work_package:created" }
-    let(:job) { described_class.perform_now webhook.id, work_package, event }
+  shared_examples "a project webhook call" do
+    let(:event) { "project:created" }
+    let(:job) { ProjectWebhookJob.perform_now(webhook.id, project, event) }
 
     let(:stubbed_url) { request_url }
 
@@ -58,9 +57,9 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
         .with(
           body: hash_including(
             "action" => event,
-            "work_package" => hash_including(
-              "_type" => "WorkPackage",
-              "subject" => title
+            "project" => hash_including(
+              "_type" => "Project",
+              "name" => 'Foo Bar'
             )
           ),
           headers: request_headers
@@ -72,7 +71,12 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
         )
     end
 
-    subject { job }
+    subject do
+      job
+    rescue StandardError
+      # ignoring it as it's expected to throw exceptions in certain scenarios
+      nil
+    end
 
     before do
       allow(::Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
@@ -81,21 +85,25 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
     end
 
     it 'requests with all projects' do
-      expect(webhook)
-        .to receive(:enabled_for_project?).with(work_package.project_id)
+      allow(webhook)
+        .to receive(:enabled_for_project?).with(project.id)
         .and_call_original
 
       subject
       expect(stub).to have_been_requested
     end
 
-    it 'does not request when project does not match' do
-      expect(webhook)
-        .to receive(:enabled_for_project?).with(work_package.project_id)
+    it 'does not request when project does not match unless create case' do
+      allow(webhook)
+        .to receive(:enabled_for_project?).with(project.id)
         .and_return(false)
 
       subject
-      expect(stub).not_to have_been_requested
+      if event == 'project:created'
+        expect(stub).to have_been_requested
+      else
+        expect(stub).not_to have_been_requested
+      end
     end
 
     describe 'successful flow' do
@@ -121,21 +129,21 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
     end
   end
 
-  describe "triggering a work package update" do
-    it_behaves_like "a work package webhook call" do
-      let(:event) { "work_package:updated" }
+  describe "triggering a project update" do
+    it_behaves_like "a project webhook call" do
+      let(:event) { "project:updated" }
     end
   end
 
-  describe "triggering a work package creation" do
-    it_behaves_like "a work package webhook call" do
-      let(:event) { "work_package:created" }
+  describe "triggering a projec creation" do
+    it_behaves_like "a project webhook call" do
+      let(:event) { "project:created" }
     end
   end
 
-  describe "triggering a work package update with an invalid url" do
-    it_behaves_like "a work package webhook call" do
-      let(:event) { "work_package:updated" }
+  describe "triggering a work package create with an invalid url" do
+    it_behaves_like "a project webhook call" do
+      let(:event) { "project:update" }
       let(:response_code) { 404 }
       let(:response_body) { "not found" }
     end
