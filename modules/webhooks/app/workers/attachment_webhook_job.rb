@@ -34,7 +34,7 @@ class AttachmentWebhookJob < RepresentedWebhookJob
 
   def accepted_in_project?
     project = resource.container.try(:project)
-    return webhook.all_projects? if project.nil?
+    return true if project.nil?
 
     webhook.enabled_for_project?(project.id)
   end
