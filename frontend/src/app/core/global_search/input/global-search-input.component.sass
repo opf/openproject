@@ -13,7 +13,7 @@ $search-input-height: 30px
   line-height: var(--header-height)
   margin: 0 15px
 
-  @media screen and (max-width: 680px)
+  @media screen and (max-width: 679px)
     margin: 0
 
   &--back-button
@@ -32,7 +32,7 @@ $search-input-height: 30px
     // TODO: This should be using  @include breakpoint(680px down)
     // Which is hard to do since we don't have access here and it'll
     // probably require a larger sass import refactoring
-    @media screen and (max-width: 680px)
+    @media screen and (max-width: 679px)
       position: relative
       padding: 0 8px
 
@@ -73,7 +73,11 @@ $search-input-height: 30px
       text-align: center
 
     .ng-input
-      top: 0
+      @media screen and (max-width: 679px)
+        // TODO: We need to do this because the default ng-select theme uses a specificity of 5(!) classes
+        // We should probably remove the default theme altogether at some point
+        top: 0 !important
+
       input
         color: var(--header-item-font-color)
         height: $search-input-height
