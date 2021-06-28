@@ -267,21 +267,21 @@ class MailHandler < ActionMailer::Base
     email
       .attachments
       .reject { |attachment| ignored_filename?(attachment.filename) }
-      .map do |attachment|
-      file = OpenProject::Files.create_uploaded_file(
-        name: attachment.filename,
-        content_type: attachment.mime_type,
-        content: attachment.decoded,
-        binary: true
-      )
+      .map { |attachment| create_attachment(attachment, container) }
+      .compact
+  end
 
-      Attachment.create(
-        container: container,
-        file: file,
-        author: user,
-        content_type: attachment.mime_type
-      )
-    end
+  def create_attachment(attachment, container)
+    file = OpenProject::Files.create_uploaded_file(
+      name: attachment.filename,
+      content_type: attachment.mime_type,
+      content: attachment.decoded,
+      binary: true
+    )
+
+    ::Attachments::CreateService
+      .new(container, author: user)
+      .call(uploaded_file: file, description: nil)
   end
 
   # Adds To and Cc as watchers of the given object if the sender has the
