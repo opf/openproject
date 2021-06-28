@@ -81,7 +81,6 @@ class Attachments::CreateService
     attachment = Attachment.new(file: uploaded_file,
                                 container: container,
                                 description: description,
-                                content_type: uploaded_file.content_type,
                                 author: author)
 
     attachment.save!
