@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,14 +26,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Notifications::Filters::ReadIanFilter < Queries::Notifications::Filters::NotificationFilter
-  include Queries::Filters::Shared::BooleanFilter
+require 'spec_helper'
 
-  def self.key
-    :read_ian
-  end
+describe Queries::Notifications::Filters::ReadIanFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:type) { :list }
+    let(:class_key) { :read_ian }
 
-  def type_strategy
-    @type_strategy ||= ::Queries::Filters::Strategies::BooleanListStrict.new self
+    describe '#available_operators' do
+      it 'supports = and !' do
+        expect(instance.available_operators)
+          .to eql [Queries::Operators::BooleanEqualsStrict,
+                   Queries::Operators::BooleanNotEquals]
+      end
+    end
+
+    it_behaves_like 'non ar filter'
   end
 end
