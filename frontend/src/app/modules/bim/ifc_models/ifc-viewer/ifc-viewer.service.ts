@@ -1,15 +1,15 @@
 import { Injectable, Injector } from '@angular/core';
-import { XeokitServer } from "core-app/modules/bim/ifc_models/xeokit/xeokit-server";
-import { BcfViewpointInterface } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import { ViewerBridgeService } from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
-import { PathHelperService } from "core-app/modules/common/path-helper/path-helper.service";
-import { BcfApiService } from "core-app/modules/bim/bcf/api/bcf-api.service";
-import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
-import { ViewpointsService } from "core-app/modules/bim/bcf/helper/viewpoints.service";
-import { CurrentProjectService } from "core-app/components/projects/current-project.service";
-import { HttpClient } from "@angular/common/http";
+import { XeokitServer } from 'core-app/modules/bim/ifc_models/xeokit/xeokit-server';
+import { BcfViewpointInterface } from 'core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
+import { ViewerBridgeService } from 'core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/modules/common/path-helper/path-helper.service';
+import { BcfApiService } from 'core-app/modules/bim/bcf/api/bcf-api.service';
+import { InjectField } from 'core-app/helpers/angular/inject-field.decorator';
+import { ViewpointsService } from 'core-app/modules/bim/bcf/helper/viewpoints.service';
+import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
+import { HttpClient } from '@angular/common/http';
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -78,10 +78,12 @@ export class IFCViewerService extends ViewerBridgeService {
       });
 
       viewerUI.on("editModel", (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
-        window.location.href = this.pathHelper.ifcModelsEditPath(this.currentProjectService.identifier as string, event.modelId);
+        window.location.href = this.pathHelper.ifcModelsEditPath(
+          this.currentProjectService.identifier as string, event.modelId);
       });
 
-      viewerUI.on("deleteModel", (event:{ modelId:number|string }) => { // "Delete" selected in Models tab's context menu
+      viewerUI.on("deleteModel", (event:{ modelId:number|string }) => {
+        // "Delete" selected in Models tab's context menu.
         // We don't have an API for IFC models yet. We need to use the normal Rails form posts for deletion.
         const formData = new FormData();
         formData.append(
@@ -94,10 +96,7 @@ export class IFCViewerService extends ViewerBridgeService {
         );
 
         this.httpClient.post(
-          this.pathHelper.ifcModelsDeletePath(
-            this.currentProjectService.identifier as string, event.modelId),
-          formData,
-        )
+          this.pathHelper.ifcModelsDeletePath(this.currentProjectService.identifier as string, event.modelId), formData)
           .subscribe()
           .add(() => {
             // Ensure we reload after every request.
