@@ -1,14 +1,14 @@
-import { Injectable, Inject, Injector } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { XeokitServer } from "core-app/features/bim/ifc_models/xeokit/xeokit-server";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { BehaviorSubject, Observable, Subject , of } from "rxjs";
+import { BehaviorSubject, Observable, of } from "rxjs";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
-import { CurrentProjectService} from "core-app/core/current-project/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { HttpClient } from "@angular/common/http";
 
 
@@ -21,16 +21,28 @@ export interface XeokitElements {
   enableEditModels?:boolean;
 }
 
+/**
+ * Options for saving current viewpoint in xeokit-bim-viewer.
+ * See: https://xeokit.github.io/xeokit-bim-viewer/docs/class/src/BIMViewer.js~BIMViewer.html#instance-method-saveBCFViewpoint
+ */
 export interface BCFCreationOptions {
   spacesVisible?:boolean;
   spaceBoundariesVisible?:boolean;
   openingsVisible?:boolean;
+  defaultInvisible?:boolean;
+  reverseClippingPlanes?:boolean;
 }
 
+/**
+ * Options for loading a viewpoint into xeokit-bim-viewer.
+ * See: https://xeokit.github.io/xeokit-bim-viewer/docs/class/src/BIMViewer.js~BIMViewer.html#instance-method-loadBCFViewpoint
+ */
 export interface BCFLoadOptions {
   rayCast?:boolean;
   immediate?:boolean;
   duration?:number;
+  updateCompositeObjects?:boolean;
+  reverseClippingPlanes?:boolean;
 }
 
 @Injectable()
@@ -49,7 +61,7 @@ export class IFCViewerService extends ViewerBridgeService {
     super(injector);
   }
 
-  public newViewer(elements:XeokitElements, projects:any[]) {
+  public newViewer(elements:XeokitElements, projects:any[]):void {
     import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
       const server = new XeokitServer(this.pathHelper);
       const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
@@ -62,7 +74,7 @@ export class IFCViewerService extends ViewerBridgeService {
 
       viewerUI.loadProject(projects[0]["id"]);
 
-      viewerUI.on("addModel", (event:Event) => { // "Add" selected in Models tab's context menu
+      viewerUI.on("addModel", () => { // "Add" selected in Models tab's context menu
         window.location.href = this.pathHelper.ifcModelsNewPath(this.currentProjectService.identifier as string);
       });
 
@@ -75,32 +87,32 @@ export class IFCViewerService extends ViewerBridgeService {
         const formData = new FormData();
         formData.append(
           'authenticity_token',
-          jQuery('meta[name=csrf-token]').attr('content') as string
+          jQuery('meta[name=csrf-token]').attr('content') as string,
         );
         formData.append(
           '_method',
-          'delete'
+          'delete',
         );
 
         this.httpClient.post(
           this.pathHelper.ifcModelsDeletePath(
             this.currentProjectService.identifier as string, event.modelId),
-            formData
-          )
+          formData,
+        )
           .subscribe()
           .add(() => {
             // Ensure we reload after every request.
             // We need to reload to get a fresh CSRF token for a successive
             // model deletion placed as a META element into the HTML HEAD.
-            window.location.reload()
-          })
+            window.location.reload();
+          });
       });
 
       this.viewer = viewerUI;
     });
   }
 
-  public destroy() {
+  public destroy():void {
     this.viewerVisible$.complete();
 
     if (!this.viewer) {
@@ -111,7 +123,7 @@ export class IFCViewerService extends ViewerBridgeService {
     this.viewer = undefined;
   }
 
-  public get viewer() {
+  public get viewer():any {
     return this._viewer;
   }
 
@@ -119,12 +131,13 @@ export class IFCViewerService extends ViewerBridgeService {
     this._viewer = viewer;
   }
 
-  public setKeyboardEnabled(val:boolean) {
+  public setKeyboardEnabled(val:boolean):void {
     this.viewer.setKeyboardEnabled(val);
   }
 
   public getViewpoint$():Observable<BcfViewpointInterface> {
-    const viewpoint = this.viewer.saveBCFViewpoint({ spacesVisible: true });
+    const opts:BCFCreationOptions = { spacesVisible: true, reverseClippingPlanes: true };
+    const viewpoint = this.viewer.saveBCFViewpoint(opts);
 
     // The backend rejects viewpoints with bitmaps
     delete viewpoint.bitmaps;
@@ -132,15 +145,15 @@ export class IFCViewerService extends ViewerBridgeService {
     return of(viewpoint);
   }
 
-  public showViewpoint(workPackage:WorkPackageResource, index:number) {
+  public showViewpoint(workPackage:WorkPackageResource, index:number):void {
     // Avoid reload the app when there is a place to show the viewer
     // ('bim.partitioned.split')
     if (this.routeWithViewer) {
       if (this.viewer) {
-        let viewpointOptions = { updateCompositeObjects: true };
+        const opts:BCFLoadOptions = { updateCompositeObjects: true, reverseClippingPlanes: true };
         this.viewpointsService
           .getViewPoint$(workPackage, index)
-          .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, viewpointOptions));
+          .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, opts));
       }
     } else {
       // Reload the whole app to get the correct menus and GON data
@@ -149,7 +162,7 @@ export class IFCViewerService extends ViewerBridgeService {
       window.location.href = this.pathHelper.bimDetailsPath(
         workPackage.project.idFromLink,
         workPackage.id!,
-        index
+        index,
       );
     }
   }
