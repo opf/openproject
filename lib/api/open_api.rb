@@ -2,14 +2,25 @@ module API
   module OpenAPI
     extend self
 
-    def spec(version: :stable)
-      spec_path = Rails.application.root.join("docs/api/apiv3/openapi-spec.yml")
+    def spec
+      @spec ||= begin
+        spec_path = Rails.application.root.join("docs/api/apiv3/openapi-spec.yml")
 
-      if spec_path.exist?
-        assemble_spec spec_path
-      else
-        API::OpenAPI::BlueprintImport.convert version: version, single_file: true
+        if spec_path.exist?
+          assemble_spec spec_path
+        else
+          raise "Could not find openapi-spec.yml uner #{spec_path.to_s}"
+        end
       end
+
+      @spec["servers"] = [
+        {
+          "description" => "This server",
+          "url" => "#{Setting.protocol}://#{Setting.host_name}/"
+        }
+      ]
+
+      @spec
     end
 
     def assemble_spec(file_path)

@@ -1,0 +1,19 @@
+---
+description: |-
+  When principals (groups or users) are assigned to a project, they are receive roles in that project. Roles regulate access to specific resources by having permissions configured for them.
+
+  Currently, this is only a stub.
+
+  ## Linked Properties
+
+  | Link                  | Description                               | Type          | Constraints                    | Supported operations |
+  | :-------------------: | ----------------------------------------- | ------------- | -------------------------------| -------------------- |
+  | self                  | This role                                 | Role          | not null                       | READ                 |
+
+  ## Local Properties
+
+  | Property    | Description                                   | Type        | Constraints | Supported operations |
+  | :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
+  | id          | Role id                                       | Integer     | x > 0       | READ                 |
+  | name        | Role name                                     | String      | not null    | READ                 |
+name: Roles

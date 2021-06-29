@@ -1,0 +1,57 @@
+# Schema: StatusModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Status id
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: true
+  name:
+    type: string
+    description: Status name
+    readOnly: true
+  position:
+    type: integer
+    description: Sort index of the status
+    readOnly: true
+  isDefault:
+    type: boolean
+    readOnly: true
+  isClosed:
+    type: boolean
+    description: are tickets of this status considered closed?
+    readOnly: true
+  isReadonly:
+    type: boolean
+    description: are tickets of this status read only?
+    readOnly: true
+  defaultDoneRatio:
+    type: integer
+    description: The percentageDone being applied when changing to this status
+    maximum: 100
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This status
+
+            **Resource**: Status
+          readOnly: true
+example:
+  _links:
+    self:
+      href: "/api/v3/statuses/1"
+  _type: Status
+  id: 1
+  name: New
+  position: 1
+  isDefault: true
+  isClosed: false
+  defaultDoneRatio: 0

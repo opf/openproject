@@ -1,0 +1,30 @@
+# /api/v3/configuration
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/configuration"
+                  userPreferences:
+                    href: "/api/v3/my_preferences"
+                _type: Configuration
+                maximumAttachmentFileSize: 5242880
+                perPageOptions:
+                - 1
+                - 10
+                - 100
+          schema:
+            "$ref": "../components/schemas/configuration_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Configuration
+  description: ''
+  operationId: View_configuration
+  summary: View configuration
