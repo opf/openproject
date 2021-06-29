@@ -47,39 +47,14 @@ module API
             request.env['REQUEST_METHOD'] == 'POST'
           end
 
-          def parse_metadata(json)
-            return nil unless json
-
-            metadata = OpenStruct.new
-            ::API::V3::Attachments::AttachmentMetadataRepresenter.new(metadata).from_json(json)
-
-            unless metadata.file_name
-              raise ::API::Errors::Validation.new(
-                :file_name,
-                "fileName #{I18n.t('activerecord.errors.messages.blank')}"
-              )
-            end
-
-            metadata
-          end
-
           def parse_and_prepare
-            metadata = parse_metadata params[:metadata]
+            metadata = nil
 
             unless metadata
               raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.multipart_body_error'))
             end
 
-            unless metadata.file_size
-              raise ::API::Errors::Validation.new(
-                :file_size,
-                "fileSize #{I18n.t('activerecord.errors.messages.blank')}"
-              )
-            end
-
-            with_handled_create_errors do
-              create_attachment metadata
-            end
+            create_attachment metadata
           end
 
           def create_attachment(metadata)
@@ -92,36 +67,11 @@ module API
             )
           end
 
-          def parse_and_create
-            metadata = parse_metadata params[:metadata]
-            file = params[:file]
-
-            unless metadata && file
-              raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.multipart_body_error'))
-            end
-
-            build_and_attach(metadata, file)
-          end
-
-          def build_and_attach(metadata, file)
-            uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],
-                                                                   file[:type],
-                                                                   file_name: metadata.file_name.to_s
-
-            service = ::Attachments::CreateService.new(container, author: current_user)
-
-            with_handled_create_errors do
-              service.call uploaded_file: uploaded_file,
-                           description: metadata.description
-            end
-          end
-
-          def check_permissions(permissions)
-            if permissions.empty?
-              raise API::Errors::Unauthorized unless container.attachments_addable?(current_user)
-            else
-              authorize_any(permissions, projects: container.project)
-            end
+          ##
+          # Additionally to what would be checked by the contract,
+          # we need to restrict permissions in some use cases of the mounts of this endpoint.
+          def restrict_permissions(permissions)
+            authorize_any(permissions, projects: container.project) unless permissions.empty?
           end
 
           def require_direct_uploads
@@ -130,30 +80,10 @@ module API
             end
           end
 
-          def with_handled_create_errors
-            yield
-          rescue ActiveRecord::RecordInvalid => e
-            raise ::API::Errors::ErrorBase.create_and_merge_errors(e.record.errors)
-          rescue StandardError => e
-            log_attachment_saving_error(e)
-            message =
-              if e&.class&.to_s == 'Errno::EACCES'
-                I18n.t('api_v3.errors.unable_to_create_attachment_permissions')
-              else
-                I18n.t('api_v3.errors.unable_to_create_attachment')
-              end
-            raise ::API::Errors::InternalError.new(message)
-          end
-
-          def log_attachment_saving_error(error)
-            container_message = if container
-                                  "on #{container.class} with ID #{container.id}"
-                                else
-                                  "without container"
-                                end
-            message = "Failed to save attachment #{container_message}: #{error&.class} - #{error&.message || 'Unknown error'}"
-
-            Rails.logger.error message
+          def parse_multipart(request)
+            request.params.tap do |params|
+              params[:metadata] = JSON.parse(params[:metadata]) if params.key?(:metadata)
+            end
           end
         end
 
@@ -168,19 +98,33 @@ module API
 
         def self.create(permissions = [])
           -> do
-            check_permissions permissions
+            restrict_permissions permissions
 
-            ::API::V3::Attachments::AttachmentRepresenter.new(parse_and_create,
-                                                              current_user: current_user)
+            instance_exec &::API::V3::Utilities::Endpoints::Create
+              .new(model: ::Attachment,
+                   parse_representer: AttachmentParsingRepresenter,
+                   params_getter: method(:parse_multipart),
+                   params_modifier: ->(params) do
+                     params.merge(container: container)
+                   end)
+              .mount
           end
         end
 
         def self.prepare(permissions = [])
           -> do
             require_direct_uploads
-            check_permissions permissions
+            restrict_permissions permissions
 
-            ::API::V3::Attachments::AttachmentUploadRepresenter.new(parse_and_prepare, current_user: current_user)
+            instance_exec &::API::V3::Utilities::Endpoints::Create
+               .new(model: ::Attachment,
+                    parse_representer: AttachmentParsingRepresenter,
+                    process_service: nil, # TODO prepare service
+                    params_getter: ->(request) { request.params },
+                    params_modifier: ->(params) do
+                      params.merge(container: container)
+                    end)
+               .mount
           end
         end
       end
