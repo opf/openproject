@@ -28,9 +28,12 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class DocsController < ApplicationController
+class APIDocsController < ApplicationController
   before_action :require_login
 
+  layout 'angular'
+
   def index
+    render_404 unless Setting.apiv3_docs_enabled?
   end
 end

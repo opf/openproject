@@ -135,7 +135,6 @@ import {
   slideToggleSelector
 } from "core-app/shared/components/slide-toggle/slide-toggle.component";
 import { BackupComponent, backupSelector } from "core-app/core/setup/globals/components/admin/backup.component";
-import { DocsComponent, docsSelector } from "core-app/core/setup/globals/components/docs/docs.component";
 import {
   EnterpriseBaseComponent,
   enterpriseBaseSelector,
@@ -222,7 +221,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: slideToggleSelector, cls: SlideToggleComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
-  { selector: docsSelector, cls: DocsComponent }
 ];
 
 

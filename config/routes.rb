@@ -38,7 +38,7 @@ OpenProject::Application.routes.draw do
   get '/health_checks/all' => 'ok_computer/ok_computer#show', check: 'full'
   mount OkComputer::Engine, at: "/health_checks"
 
-  get "/docs" => 'docs#index'
+  get "/api/docs" => 'api_docs#index'
 
   # Redirect deprecated issue links to new work packages uris
   get '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages")
