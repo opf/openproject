@@ -45,24 +45,4 @@ namespace :api do
       puts "#{method} #{path}"
     end
   end
-
-  desc 'Saves the complete API spec (OAS 3.0) as a single json (default) or YAML file.'
-  task save_spec: [:environment] do
-    if ARGV.size != 2
-      $stderr.puts "usage: rake api:save_spec <file-name>"
-      exit 1
-    end
-
-    file_name = ARGV.last
-    format = (file_name =~ /\.ya?ml\Z/i) ? :yml : :json
-    spec = API::OpenAPI.spec
-    
-    File.open(file_name, "w") do |f|
-      if format == :yml
-        f.puts spec.to_yaml
-      else
-        f.puts spec.to_json
-      end
-    end
-  end
 end
