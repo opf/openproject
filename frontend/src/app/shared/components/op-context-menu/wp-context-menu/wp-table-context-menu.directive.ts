@@ -18,19 +18,19 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
 
   public triggerContextMenuAction(action:WorkPackageAction) {
     switch (action.key) {
-    case 'relation-precedes':
+    case "relation-precedes":
       this.table.timelineController.startAddRelationPredecessor(this.workPackage);
       break;
 
-    case 'relation-follows':
+    case "relation-follows":
       this.table.timelineController.startAddRelationFollower(this.workPackage);
       break;
 
-    case 'hierarchy-indent':
+    case "hierarchy-indent":
       this.wpViewIndentation.indent(this.workPackage);
       break;
 
-    case 'hierarchy-outdent':
+    case "hierarchy-outdent":
       this.wpViewIndentation.outdent(this.workPackage);
       break;
 

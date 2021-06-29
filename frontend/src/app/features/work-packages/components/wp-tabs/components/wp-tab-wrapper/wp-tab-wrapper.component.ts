@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import { Transition } from '@uirouter/core';
-import { Component, OnInit } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Transition } from "@uirouter/core";
+import { Component, OnInit } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { WpTabDefinition } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab";
@@ -37,8 +37,8 @@ import { WorkPackageTabsService } from "core-app/features/work-packages/componen
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 
 @Component({
-  templateUrl: './wp-tab-wrapper.html',
-  selector: 'op-wp-tab',
+  templateUrl: "./wp-tab-wrapper.html",
+  selector: "op-wp-tab",
 })
 export class WpTabWrapperComponent implements OnInit {
   workPackage:WorkPackageResource;
@@ -49,7 +49,7 @@ export class WpTabWrapperComponent implements OnInit {
   }>;
 
   get workPackageId() {
-    return (this.$transition.params('to').workPackageId);
+    return (this.$transition.params("to").workPackageId);
   }
 
   constructor(readonly I18n:I18nService,

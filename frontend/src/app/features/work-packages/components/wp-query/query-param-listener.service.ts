@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { WorkPackagesListChecksumService } from "core-app/features/work-packages/components/wp-list/wp-list-checksum.service";
 import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
 import { TransitionService } from "@uirouter/core";
@@ -52,7 +52,7 @@ export class QueryParamListenerService {
     // Listen for param changes
     return this.queryChangeListener = this.$transitions.onSuccess({}, (transition):any => {
       const options = transition.options();
-      const params = transition.params('to');
+      const params = transition.params("to");
 
       const newChecksum = this.wpListService.getCurrentQueryProps(params);
       const newId:string = params.query_id ? params.query_id.toString() : null;

@@ -14,7 +14,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Injectable()
 export class GridAddWidgetService {
-  text = { add: this.i18n.t('js.grid.add_widget') };
+  text = { add: this.i18n.t("js.grid.add_widget") };
 
   constructor(readonly opModalService:OpModalService,
     readonly injector:Injector,
@@ -68,7 +68,7 @@ export class GridAddWidgetService {
         }
 
         const source = {
-          _type: 'GridWidget',
+          _type: "GridWidget",
           identifier: registered.identifier,
           startRow: area.startRow,
           endRow: area.endRow,

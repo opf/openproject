@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
 import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
 import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";

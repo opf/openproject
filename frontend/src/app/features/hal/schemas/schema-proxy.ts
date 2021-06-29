@@ -50,16 +50,16 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
 
   get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
     switch (property) {
-    case 'ofProperty': {
+    case "ofProperty": {
       return this.proxyMethod(this.ofProperty);
     }
-    case 'isAttributeEditable': {
+    case "isAttributeEditable": {
       return this.proxyMethod(this.isAttributeEditable);
     }
-    case 'mappedName': {
+    case "mappedName": {
       return this.proxyMethod(this.mappedName);
     }
-    case 'isEditable': {
+    case "isEditable": {
       return this.isEditable;
     }
     default: {

@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
-} from '@angular/core';
+} from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CurrentUserService } from "core-app/core/current-user/current-user.service";
 import { take } from "rxjs/internal/operators/take";
@@ -9,11 +9,11 @@ import { UserPreferencesService } from "core-app/features/user-preferences/state
 import { UserPreferencesStore } from "core-app/features/user-preferences/state/user-preferences.store";
 import { UserPreferencesQuery } from "core-app/features/user-preferences/state/user-preferences.query";
 
-export const myNotificationsPageComponentSelector = 'op-notifications-page';
+export const myNotificationsPageComponentSelector = "op-notifications-page";
 
 @Component({
   selector: myNotificationsPageComponentSelector,
-  templateUrl: './notifications-settings-page.component.html',
+  templateUrl: "./notifications-settings-page.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsSettingsPageComponent implements OnInit {
@@ -22,12 +22,12 @@ export class NotificationsSettingsPageComponent implements OnInit {
   preferences$ = this.query.preferences$;
 
   text = {
-    save: this.I18n.t('js.button_save'),
-    email: this.I18n.t('js.notifications.email'),
-    inApp: this.I18n.t('js.notifications.in_app'),
-    default_all_projects: this.I18n.t('js.notifications.settings.default_all_projects'),
-    advanced_settings: this.I18n.t('js.forms.advanced_settings'),
-    self_notify: this.I18n.t('js.notifications.settings.self_notify'),
+    save: this.I18n.t("js.button_save"),
+    email: this.I18n.t("js.notifications.email"),
+    inApp: this.I18n.t("js.notifications.in_app"),
+    default_all_projects: this.I18n.t("js.notifications.settings.default_all_projects"),
+    advanced_settings: this.I18n.t("js.forms.advanced_settings"),
+    self_notify: this.I18n.t("js.notifications.settings.self_notify"),
   };
 
   constructor(

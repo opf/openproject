@@ -1,14 +1,14 @@
 import {
   AfterViewInit, ChangeDetectorRef, Component, forwardRef, Input, NgZone,
-} from '@angular/core';
+} from "@angular/core";
 import * as moment from "moment";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 import { OpDatePickerComponent } from "core-app/shared/components/op-date-picker/op-date-picker.component";
 
 @Component({
-  selector: 'op-date-picker-control',
-  templateUrl: '../../../../../../op-date-picker/op-date-picker.component.html',
+  selector: "op-date-picker-control",
+  templateUrl: "../../../../../../op-date-picker/op-date-picker.component.html",
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -19,7 +19,7 @@ import { OpDatePickerComponent } from "core-app/shared/components/op-date-picker
 })
 export class DatePickerControlComponent extends OpDatePickerComponent implements ControlValueAccessor, AfterViewInit {
   // Avoid Angular warning (It looks like you're using the disabled attribute with a reactive form directive...)
-  @Input('disable') disabled:boolean;
+  @Input("disable") disabled:boolean;
 
   onControlChange = (_:any) => { };
 
@@ -61,7 +61,7 @@ export class DatePickerControlComponent extends OpDatePickerComponent implements
   onInputChange(_event:KeyboardEvent) {
     const valueToEmit = this.inputIsValidDate()
       ? this.parser(this.currentValue)
-      : '';
+      : "";
 
     this.onControlChange(valueToEmit);
     this.onControlTouch();

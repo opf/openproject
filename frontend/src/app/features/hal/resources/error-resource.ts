@@ -29,8 +29,8 @@
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { HttpErrorResponse } from "@angular/common/http";
 
-export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';
-export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:errors:MultipleErrors';
+export const v3ErrorIdentifierQueryInvalid = "urn:openproject-org:api:v3:errors:InvalidQuery";
+export const v3ErrorIdentifierMultipleErrors = "urn:openproject-org:api:v3:errors:MultipleErrors";
 
 export class ErrorResource extends HalResource {
   public errors:any[];

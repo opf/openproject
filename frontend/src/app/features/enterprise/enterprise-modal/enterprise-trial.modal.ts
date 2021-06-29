@@ -38,12 +38,12 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { EETrialFormComponent } from "core-app/features/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component";
 import { EnterpriseTrialService } from "core-app/features/enterprise/enterprise-trial.service";
 
-export const eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1';
+export const eeOnboardingVideoURL = "https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1";
 
 @Component({
-  selector: 'enterprise-trial-modal',
-  templateUrl: './enterprise-trial.modal.html',
-  styleUrls: ['./enterprise-trial.modal.sass'],
+  selector: "enterprise-trial-modal",
+  templateUrl: "./enterprise-trial.modal.html",
+  styleUrls: ["./enterprise-trial.modal.sass"],
 })
 export class EnterpriseTrialModal extends OpModalComponent implements AfterViewInit {
   @ViewChild(EETrialFormComponent, { static: false }) formComponent:EETrialFormComponent;
@@ -62,14 +62,14 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   public trustedEEVideoURL:SafeResourceUrl;
 
   public text = {
-    button_submit: this.I18n.t('js.modals.button_submit'),
-    button_cancel: this.I18n.t('js.modals.button_cancel'),
-    button_continue: this.I18n.t('js.button_continue'),
-    close_popup: this.I18n.t('js.close_popup_title'),
-    heading_confirmation: this.I18n.t('js.admin.enterprise.trial.confirmation'),
-    heading_next_steps: this.I18n.t('js.admin.enterprise.trial.next_steps'),
-    heading_test_ee: this.I18n.t('js.admin.enterprise.trial.test_ee'),
-    quick_overview: this.I18n.t('js.admin.enterprise.trial.quick_overview'),
+    button_submit: this.I18n.t("js.modals.button_submit"),
+    button_cancel: this.I18n.t("js.modals.button_cancel"),
+    button_continue: this.I18n.t("js.button_continue"),
+    close_popup: this.I18n.t("js.close_popup_title"),
+    heading_confirmation: this.I18n.t("js.admin.enterprise.trial.confirmation"),
+    heading_next_steps: this.I18n.t("js.admin.enterprise.trial.next_steps"),
+    heading_test_ee: this.I18n.t("js.admin.enterprise.trial.test_ee"),
+    quick_overview: this.I18n.t("js.admin.enterprise.trial.quick_overview"),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -89,7 +89,7 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   // checks if form is valid and submits it
   public onSubmit() {
     if (this.trialForm.valid) {
-      this.trialForm.addControl('_type', new FormControl('enterprise-trial'));
+      this.trialForm.addControl("_type", new FormControl("enterprise-trial"));
       this.eeTrialService.sendForm(this.trialForm);
     }
   }

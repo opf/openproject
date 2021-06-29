@@ -1,14 +1,14 @@
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Component, Input } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { Component, Input } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 import { WorkPackageRelationsService } from "../wp-relations.service";
 
 @Component({
-  selector: 'wp-relations-create',
-  templateUrl: './wp-relation-create.template.html'
+  selector: "wp-relations-create",
+  templateUrl: "./wp-relation-create.template.html",
 })
 export class WorkPackageRelationsCreateComponent {
   @Input() readonly workPackage:WorkPackageResource;
@@ -24,9 +24,9 @@ export class WorkPackageRelationsCreateComponent {
   public isDisabled = false;
 
   public text = {
-    abort: this.I18n.t('js.relation_buttons.abort'),
-    relationType: this.I18n.t('js.relation_buttons.relation_type'),
-    addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation'),
+    abort: this.I18n.t("js.relation_buttons.abort"),
+    relationType: this.I18n.t("js.relation_buttons.relation_type"),
+    addNewRelation: this.I18n.t("js.relation_buttons.add_new_relation"),
   };
 
   constructor(readonly I18n:I18nService,
@@ -59,7 +59,7 @@ export class WorkPackageRelationsCreateComponent {
       this.selectedWpId)
       .then(relation => {
         this.halEvents.push(this.workPackage, {
-          eventType: 'association',
+          eventType: "association",
           relatedWorkPackage: relation.id!,
           relationType: this.selectedRelationType,
         });
@@ -75,6 +75,6 @@ export class WorkPackageRelationsCreateComponent {
   public toggleRelationsCreateForm() {
     this.showRelationsCreateForm = !this.showRelationsCreateForm;
     // Reset value
-    this.selectedWpId = '';
+    this.selectedWpId = "";
   }
 }

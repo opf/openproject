@@ -1,15 +1,15 @@
 import {
   ApplicationRef, ComponentFactoryResolver, Injectable, Injector,
-} from '@angular/core';
+} from "@angular/core";
 import { ComponentPortal, DomPortalOutlet, PortalInjector } from "@angular/cdk/portal";
 import { TransitionService } from "@uirouter/core";
 import { OpContextMenuHandler } from "core-app/shared/components/op-context-menu/op-context-menu-handler";
 import { OpContextMenuLocalsMap, OpContextMenuLocalsToken } from "core-app/shared/components/op-context-menu/op-context-menu.types";
 import { OPContextMenuComponent } from "core-app/shared/components/op-context-menu/op-context-menu.component";
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
+import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class OPContextMenuService {
   public active:OpContextMenuHandler|null = null;
 
@@ -27,8 +27,8 @@ export class OPContextMenuService {
     private appRef:ApplicationRef,
     private $transitions:TransitionService,
     private injector:Injector) {
-    const hostElement = this.portalHostElement = document.createElement('div');
-    hostElement.classList.add('op-context-menu--overlay');
+    const hostElement = this.portalHostElement = document.createElement("div");
+    hostElement.classList.add("op-context-menu--overlay");
     document.body.appendChild(hostElement);
 
     this.bodyPortalHost = new DomPortalOutlet(
@@ -42,7 +42,7 @@ export class OPContextMenuService {
     $transitions.onStart({}, () => this.close());
 
     // Listen to keyups on window to close context menus
-    jQuery(window).on('keydown', (evt:JQuery.TriggeredEvent) => {
+    jQuery(window).on("keydown", (evt:JQuery.TriggeredEvent) => {
       if (this.active && evt.which === keyCodes.ESCAPE) {
         this.close();
       }
@@ -52,7 +52,7 @@ export class OPContextMenuService {
 
     // Listen to any click and close the active context menu
     const that = this;
-    document.getElementById('wrapper')!.addEventListener('click', (evt:Event) => {
+    document.getElementById("wrapper")!.addEventListener("click", (evt:Event) => {
       if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
         that.close();
       }
@@ -70,7 +70,7 @@ export class OPContextMenuService {
     this.isOpening = true;
     const portal = new ComponentPortal(component, null, this.injectorFor(menu.locals));
     this.bodyPortalHost.attach(portal);
-    this.portalHostElement.style.display = 'block';
+    this.portalHostElement.style.display = "block";
     this.active = menu;
 
     setTimeout(() => {
@@ -95,7 +95,7 @@ export class OPContextMenuService {
 
     // Detach any component currently in the portal
     this.bodyPortalHost.detach();
-    this.portalHostElement.style.display = 'none';
+    this.portalHostElement.style.display = "none";
     this.active && this.active.onClose();
     this.active = null;
   }
@@ -107,11 +107,11 @@ export class OPContextMenuService {
 
     this.activeMenu
       .position(this.active.positionArgs(event))
-      .css('visibility', 'visible');
+      .css("visibility", "visible");
   }
 
   public get activeMenu():JQuery {
-    return jQuery(this.portalHostElement).find('.dropdown');
+    return jQuery(this.portalHostElement).find(".dropdown");
   }
 
   /**

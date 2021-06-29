@@ -28,13 +28,13 @@
 
 import {
   Component, Inject, Input, OnInit,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { OpUnlinkTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action';
-import { OpTableActionFactory } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
+import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
+import { OpUnlinkTableAction } from "core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action";
+import { OpTableActionFactory } from "core-app/features/work-packages/components/wp-table/table-actions/table-action";
 import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
 import { WorkPackageRelationQueryBase } from "core-app/features/work-packages/components/wp-relations/embedded/wp-relation-query.base";
 import { WpRelationInlineCreateService } from "core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-inline-create.service";
@@ -46,8 +46,8 @@ import { WorkPackageNotificationService } from "core-app/features/work-packages/
 import { GroupDescriptor } from "core-app/features/work-packages/components/wp-single-view/wp-single-view.component";
 
 @Component({
-  selector: 'wp-relation-query',
-  templateUrl: '../wp-relation-query.html',
+  selector: "wp-relation-query",
+  templateUrl: "../wp-relation-query.html",
   providers: [
     { provide: WorkPackageInlineCreateService, useClass: WpRelationInlineCreateService },
   ],
@@ -61,8 +61,8 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(
-      'remove-relation-action',
-      this.I18n.t('js.relation_buttons.remove'),
+      "remove-relation-action",
+      this.I18n.t("js.relation_buttons.remove"),
       (relatedTo:WorkPackageResource) => {
         this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
           .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
@@ -114,7 +114,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       .add(this.workPackage, toId)
       .then(() => {
         this.halEvents.push(this.workPackage, {
-          eventType: 'association',
+          eventType: "association",
           relatedWorkPackage: toId,
           relationType: this.getRelationTypeFromQuery(),
         });

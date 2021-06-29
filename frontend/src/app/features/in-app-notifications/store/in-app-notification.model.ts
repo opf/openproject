@@ -4,7 +4,7 @@ export interface HalResourceLink {
   href:string;
   title:string;
 }
-export type InAppNotificationFormat = 'markdown'|'custom';
+export type InAppNotificationFormat = "markdown"|"custom";
 
 export const NOTIFICATIONS_MAX_SIZE = 100;
 

@@ -28,34 +28,34 @@
 
 import {
   Directive, ElementRef, Injector, Input,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
+import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
+import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
+import { WpTableConfigurationModalComponent } from "core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal";
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from "core-app/features/hal/resources/query-sort-by-resource";
 import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 @Directive({
-  selector: '[opColumnsContextMenu]'
+  selector: "[opColumnsContextMenu]",
 })
 export class OpColumnsContextMenu extends OpContextMenuTrigger {
-  @Input('opColumnsContextMenu-column') public column:QueryColumn;
+  @Input("opColumnsContextMenu-column") public column:QueryColumn;
 
-  @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
+  @Input("opColumnsContextMenu-table") public table:WorkPackageTable;
 
   public text = {
     confirmDelete: {
-      text: this.I18n.t('js.work_packages.table_configuration.sorting_mode.warning'),
-      title: this.I18n.t('js.modals.form_submit.title'),
+      text: this.I18n.t("js.work_packages.table_configuration.sorting_mode.warning"),
+      title: this.I18n.t("js.modals.form_submit.title"),
     },
   };
 
@@ -82,8 +82,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
 
   public get locals() {
     return {
-      showAnchorRight: this.column && this.column.id !== 'id',
-      contextMenuId: 'column-context-menu',
+      showAnchorRight: this.column && this.column.id !== "id",
+      contextMenuId: "column-context-menu",
       items: this.items,
     };
   }
@@ -95,7 +95,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
    */
   public positionArgs(evt:JQuery.TriggeredEvent) {
     const additionalPositionArgs = {
-      of: this.$element.find('.generic-table--sort-header-outer'),
+      of: this.$element.find(".generic-table--sort-header-outer"),
     };
 
     const position = super.positionArgs(evt);
@@ -115,8 +115,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       {
         // Sort ascending
         hidden: !this.wpTableSortBy.isSortable(c),
-        linkText: this.I18n.t('js.work_packages.query.sort_descending'),
-        icon: 'icon-sort-descending',
+        linkText: this.I18n.t("js.work_packages.query.sort_descending"),
+        icon: "icon-sort-descending",
         onClick: (evt:any) => {
           if (this.wpTableSortBy.isManualSortingMode) {
             this.confirmDialog.confirm({
@@ -134,8 +134,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       {
         // Sort descending
         hidden: !this.wpTableSortBy.isSortable(c),
-        linkText: this.I18n.t('js.work_packages.query.sort_ascending'),
-        icon: 'icon-sort-ascending',
+        linkText: this.I18n.t("js.work_packages.query.sort_ascending"),
+        icon: "icon-sort-ascending",
         onClick: (evt:any) => {
           if (this.wpTableSortBy.isManualSortingMode) {
             this.confirmDialog.confirm({
@@ -153,8 +153,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       {
         // Group by
         hidden: !this.wpTableGroupBy.isGroupable(c) || this.wpTableGroupBy.isCurrentlyGroupedBy(c),
-        linkText: this.I18n.t('js.work_packages.query.group'),
-        icon: 'icon-group-by',
+        linkText: this.I18n.t("js.work_packages.query.group"),
+        icon: "icon-group-by",
         onClick: () => {
           if (this.wpTableHierarchies.isEnabled) {
             this.wpTableHierarchies.setEnabled(false);
@@ -166,8 +166,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       {
         // Move left
         hidden: this.wpTableColumns.isFirst(c),
-        linkText: this.I18n.t('js.work_packages.query.move_column_left'),
-        icon: 'icon-column-left',
+        linkText: this.I18n.t("js.work_packages.query.move_column_left"),
+        icon: "icon-column-left",
         onClick: () => {
           this.wpTableColumns.shift(c, -1);
           return true;
@@ -176,8 +176,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       {
         // Move right
         hidden: this.wpTableColumns.isLast(c),
-        linkText: this.I18n.t('js.work_packages.query.move_column_right'),
-        icon: 'icon-column-right',
+        linkText: this.I18n.t("js.work_packages.query.move_column_right"),
+        icon: "icon-column-right",
         onClick: () => {
           this.wpTableColumns.shift(c, 1);
           return true;
@@ -185,8 +185,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       },
       {
         // Hide column
-        linkText: this.I18n.t('js.work_packages.query.hide_column'),
-        icon: 'icon-delete',
+        linkText: this.I18n.t("js.work_packages.query.hide_column"),
+        icon: "icon-delete",
         onClick: () => {
           const focusColumn = this.wpTableColumns.previous(c) || this.wpTableColumns.next(c);
           this.wpTableColumns.removeColumn(c);
@@ -201,13 +201,13 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       },
       {
         // Insert columns
-        linkText: this.I18n.t('js.work_packages.query.insert_columns'),
-        icon: 'icon-columns',
+        linkText: this.I18n.t("js.work_packages.query.insert_columns"),
+        icon: "icon-columns",
         onClick: () => {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
-            { initialTab: 'columns' },
+            { initialTab: "columns" },
           );
           return true;
         },

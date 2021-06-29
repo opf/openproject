@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateService } from '@uirouter/core';
+import { StateService } from "@uirouter/core";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { Injectable, Injector } from '@angular/core';
-import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { Injectable, Injector } from "@angular/core";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpErrorResponse } from "@angular/common/http";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
@@ -57,7 +57,7 @@ export class HalResourceNotificationService {
 
   public showSave(resource:HalResource, isCreate = false) {
     const message:any = {
-      message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
+      message: this.I18n.t(`js.notice_successful_${isCreate ? "create" : "update"}`),
     };
 
     this.NotificationsService.addSuccess(message);
@@ -88,7 +88,7 @@ export class HalResourceNotificationService {
       return this.handleErrorResponse(errorBody, resource);
     }
 
-    if (typeof (response) === 'string') {
+    if (typeof (response) === "string") {
       this.NotificationsService.addError(response);
       return;
     }
@@ -112,11 +112,11 @@ export class HalResourceNotificationService {
       return error.message;
     }
 
-    if (typeof (error) === 'string') {
+    if (typeof (error) === "string") {
       return error;
     }
 
-    return this.I18n.t('js.error.internal');
+    return this.I18n.t("js.error.internal");
   }
 
   public retrieveError(response:unknown):ErrorResource|unknown {
@@ -130,11 +130,11 @@ export class HalResourceNotificationService {
     }
 
     // Some older response may have a data attribute
-    if (_.get(response, 'data._type') === 'Error') {
+    if (_.get(response, "data._type") === "Error") {
       errorBody = (response as any).data;
     }
 
-    if (errorBody && errorBody._type === 'Error') {
+    if (errorBody && errorBody._type === "Error") {
       return this.halResourceService.createHalResourceOfClass(ErrorResource, errorBody);
     }
 
@@ -158,10 +158,10 @@ export class HalResourceNotificationService {
   }
 
   public showGeneralError(message?:unknown) {
-    let error = this.I18n.t('js.error.internal');
+    let error = this.I18n.t("js.error.internal");
 
-    if (typeof (message) === 'string' || _.has(message, 'toString')) {
-      error += ' ' + (message as any).toString();
+    if (typeof (message) === "string" || _.has(message, "toString")) {
+      error += ` ${(message as any).toString()}`;
     }
 
     this.NotificationsService.addError(error);
@@ -169,17 +169,17 @@ export class HalResourceNotificationService {
 
   public showEditingBlockedError(attribute:string) {
     this.NotificationsService.addError(this.I18n.t(
-      'js.hal.error.edit_prohibited',
+      "js.hal.error.edit_prohibited",
       { attribute },
     ));
   }
 
   protected showCustomError(errorResource:any, resource:HalResource) {
-    if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
+    if (errorResource.errorIdentifier === "urn:openproject-org:api:v3:errors:PropertyFormatError") {
       const schema = this.schemaCache.of(resource).ofProperty(errorResource.details.attribute);
       const attributeName = schema.name;
       const attributeType = schema.type.toLowerCase();
-      const i18nString = 'js.hal.error.format.' + attributeType;
+      const i18nString = `js.hal.error.format.${attributeType}`;
 
       if (this.I18n.lookup(i18nString) === undefined) {
         return false;
@@ -197,7 +197,7 @@ export class HalResourceNotificationService {
     const messages = errorResource.errorMessages;
 
     if (messages.length > 1) {
-      this.NotificationsService.addError('', messages);
+      this.NotificationsService.addError("", messages);
     } else {
       this.NotificationsService.addError(messages[0]);
     }

@@ -41,17 +41,17 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ContainHelpers } from "core-app/shared/directives/focus/contain-helpers";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
-export const triggerEditingEvent = 'op:selectableTitle:trigger';
-export const selectableTitleIdentifier = 'editable-toolbar-title';
+export const triggerEditingEvent = "op:selectableTitle:trigger";
+export const selectableTitleIdentifier = "editable-toolbar-title";
 
 @Component({
-  selector: 'editable-toolbar-title',
-  templateUrl: './editable-toolbar-title.html',
-  styleUrls: ['./editable-toolbar-title.sass'],
-  host: { class: 'title-container' },
+  selector: "editable-toolbar-title",
+  templateUrl: "./editable-toolbar-title.html",
+  styleUrls: ["./editable-toolbar-title.sass"],
+  host: { class: "title-container" },
 })
 export class EditableToolbarTitleComponent implements OnInit, OnChanges {
-  @Input('title') public inputTitle:string;
+  @Input("title") public inputTitle:string;
 
   @Input() public editable = true;
 
@@ -67,7 +67,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   @Output() public onEmptySubmit = new EventEmitter<void>();
 
-  @ViewChild('editableTitleInput') inputField?:ElementRef;
+  @ViewChild("editableTitleInput") inputField?:ElementRef;
 
   public selectedTitle:string;
 
@@ -78,23 +78,23 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @InjectField() I18n!:I18nService;
 
   public text = {
-    click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),
-    press_enter_to_save: this.I18n.t('js.label_press_enter_to_save'),
-    query_has_changed_click_to_save: this.I18n.t('js.label_view_has_changed'),
-    input_title: '',
-    input_placeholder: this.I18n.t('js.work_packages.query.rename_query_placeholder'),
-    search_query_title: this.I18n.t('js.toolbar.search_query_title'),
-    confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
-    duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title'),
+    click_to_edit: this.I18n.t("js.work_packages.query.click_to_edit_query_name"),
+    press_enter_to_save: this.I18n.t("js.label_press_enter_to_save"),
+    query_has_changed_click_to_save: this.I18n.t("js.label_view_has_changed"),
+    input_title: "",
+    input_placeholder: this.I18n.t("js.work_packages.query.rename_query_placeholder"),
+    search_query_title: this.I18n.t("js.toolbar.search_query_title"),
+    confirm_edit_cancel: this.I18n.t("js.work_packages.query.confirm_edit_cancel"),
+    duplicate_query_title: this.I18n.t("js.work_packages.query.errors.duplicate_query_title"),
   };
 
   constructor(readonly injector:Injector) {
   }
 
   ngOnInit() {
-    this.text['input_title'] = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;
+    this.text["input_title"] = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;
 
-    jQuery(this.elementRef.nativeElement).on(triggerEditingEvent, (evt:Event, val = '') => {
+    jQuery(this.elementRef.nativeElement).on(triggerEditingEvent, (evt:Event, val = "") => {
       // In case we're not editable, ignore request
       if (!this.inputField) {
         return;
@@ -185,7 +185,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   }
 
   public get isEmpty():boolean {
-    return this.selectedTitle === '';
+    return this.selectedTitle === "";
   }
 
   /**
@@ -207,7 +207,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   private focusInputOnError() {
     if (this.inputField) {
       const el = this.inputField.nativeElement;
-      el.classList.add('-error');
+      el.classList.add("-error");
       el.focus();
     }
   }
@@ -215,11 +215,11 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   private resetInputField() {
     if (this.inputField) {
       const el = this.inputField.nativeElement;
-      el.classList.remove('-error');
+      el.classList.remove("-error");
     }
   }
 
   private toggleToolbarButtonVisibility(hidden:boolean) {
-    jQuery('.toolbar-items').toggleClass('hidden-for-mobile', hidden);
+    jQuery(".toolbar-items").toggleClass("hidden-for-mobile", hidden);
   }
 }

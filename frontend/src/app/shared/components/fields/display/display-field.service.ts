@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { AbstractFieldService, IFieldType } from "core-app/shared/components/fields/field.service";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
@@ -41,13 +41,13 @@ export interface DisplayFieldContext {
   injector:Injector;
 
   /** Where will the field be rendered? This may result in different styles (Multi select field, e.g.,) */
-  container:'table'|'single-view'|'timeline';
+  container:"table"|"single-view"|"timeline";
 
   /** Options passed to the display field */
   options:{ [key:string]:any };
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class DisplayFieldService extends AbstractFieldService<DisplayField, IDisplayFieldType> {
   /**
    * Create an instance of the field type T given the required arguments

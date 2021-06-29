@@ -38,15 +38,15 @@ export const GRID_PROVIDERS = [
 ];
 
 @Component({
-  templateUrl: './grid.component.html',
-  selector: 'grid'
+  templateUrl: "./grid.component.html",
+  selector: "grid",
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
 
-  public GRID_AREA_HEIGHT = 'auto';
+  public GRID_AREA_HEIGHT = "auto";
 
-  public GRID_GAP_DIMENSION = '20px';
+  public GRID_GAP_DIMENSION = "20px";
 
   public component = WidgetWpGraphComponent;
 
@@ -70,7 +70,7 @@ export class GridComponent implements OnDestroy, OnInit {
     this.uiWidgets.forEach((widget) => widget.destroy());
   }
 
-  @HostListener('window:keyup', ['$event'])
+  @HostListener("window:keyup", ["$event"])
   handleKeyboardEvent(event:KeyboardEvent) {
     if (event.key !== "Escape") {
 
@@ -129,7 +129,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   private gridStyle(amount:number, itemStyle:string) {
-    let style = '';
+    let style = "";
     for (let i = 0; i < amount; i++) {
       style += `${this.GRID_GAP_DIMENSION} ${itemStyle} `;
     }

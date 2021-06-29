@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { ActivityPanelBaseController } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-base.controller";
 
 @Component({
-  templateUrl: './activity-tab.html',
-  selector: 'wp-activity-tab',
+  templateUrl: "./activity-tab.html",
+  selector: "wp-activity-tab",
 })
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController {
   public workPackage:WorkPackageResource;
 
-  public tabName = this.I18n.t('js.work_packages.tabs.activity');
+  public tabName = this.I18n.t("js.work_packages.tabs.activity");
 
-  public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('version');
+  public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty("version");
 
   ngOnInit() {
-    this.workPackageId = this.$transition.params('to').workPackageId;
+    this.workPackageId = this.$transition.params("to").workPackageId;
     super.ngOnInit();
   }
 }

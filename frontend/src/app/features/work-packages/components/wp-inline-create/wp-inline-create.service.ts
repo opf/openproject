@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy } from "@angular/core";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { Subject } from "rxjs";
 import { ComponentType } from "@angular/cdk/portal";
@@ -57,12 +57,12 @@ export class WorkPackageInlineCreateService implements OnDestroy {
    * Reference button text
    */
   public readonly buttonTexts = {
-    reference: '',
-    create: this.I18n.t('js.label_create_work_package'),
+    reference: "",
+    create: this.I18n.t("js.label_create_work_package"),
   };
 
   public get canAdd() {
-    return this.canCreateWorkPackages || this.authorisationService.can('work_package', 'addChild');
+    return this.canCreateWorkPackages || this.authorisationService.can("work_package", "addChild");
   }
 
   public get canReference() {
@@ -70,8 +70,8 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   }
 
   public get canCreateWorkPackages() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage')
-      && this.authorisationService.can('work_packages', 'editWorkPackage');
+    return this.authorisationService.can("work_packages", "createWorkPackage")
+      && this.authorisationService.can("work_packages", "editWorkPackage");
   }
 
   /** Allow callbacks to happen on newly created inline work packages */

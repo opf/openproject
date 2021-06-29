@@ -48,19 +48,19 @@ import { OpAutocompleterComponent } from "core-app/shared/components/autocomplet
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Component({
-  templateUrl: './add-list-modal.html'
+  templateUrl: "./add-list-modal.html",
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
   getAutocompleterData = (searchTerm:string):Observable<HalResource[]> => {
     // Remove prefix # from search
-    searchTerm = searchTerm.replace(/^#/, '');
+    searchTerm = searchTerm.replace(/^#/, "");
     return this.actionService.loadAvailable(this.board, this.active, searchTerm).pipe(tap((values) => this.warnIfNoOptions(values)));
   };
 
   public autocompleterOptions = {
-    resource: '',
+    resource: "",
     getOptionsFn: this.getAutocompleterData,
   };
 
@@ -91,19 +91,19 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   public warningText:string|undefined;
 
   public text:any = {
-    title: this.I18n.t('js.boards.add_list'),
-    button_add: this.I18n.t('js.button_add'),
-    button_create: this.I18n.t('js.button_create'),
-    button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title'),
+    title: this.I18n.t("js.boards.add_list"),
+    button_add: this.I18n.t("js.button_add"),
+    button_create: this.I18n.t("js.button_create"),
+    button_cancel: this.I18n.t("js.button_cancel"),
+    close_popup: this.I18n.t("js.close_popup_title"),
 
-    free_board: this.I18n.t('js.boards.board_type.free'),
-    free_board_text: this.I18n.t('js.boards.board_type.free_text'),
+    free_board: this.I18n.t("js.boards.board_type.free"),
+    free_board_text: this.I18n.t("js.boards.board_type.free_text"),
 
-    action_board: this.I18n.t('js.boards.board_type.action'),
-    action_board_text: this.I18n.t('js.boards.board_type.action_text'),
-    select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
-    placeholder: this.I18n.t('js.placeholders.selection'),
+    action_board: this.I18n.t("js.boards.board_type.action"),
+    action_board_text: this.I18n.t("js.boards.board_type.action_text"),
+    select_attribute: this.I18n.t("js.boards.board_type.select_attribute"),
+    placeholder: this.I18n.t("js.placeholders.selection"),
   };
 
   /** Whether the no results warning is displayed */
@@ -142,7 +142,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
-        this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
+        this.state.go("boards.partitioned.show", { board_id: board.id, isNew: true });
       })
       .catch(() => this.inFlight = false);
   }
@@ -166,8 +166,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
 
   private getVersionPayload(name:string) {
     const payload:any = {};
-    payload['name'] = name;
-    payload['_links'] = {
+    payload["name"] = name;
+    payload["_links"] = {
       definingProject: {
         href: this.apiV3Service.projects.id(this.currentProject.id!).path,
       },
@@ -179,7 +179,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   private warnIfNoOptions(values:unknown[]) {
     let hasMember = false;
     if (values.length === 0) {
-      if (this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && this.ngSelectComponent.ngSelectInstance.searchTerm !== '') {
+      if (this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && this.ngSelectComponent.ngSelectInstance.searchTerm !== "") {
         hasMember = true;
       } else {
         hasMember = false;

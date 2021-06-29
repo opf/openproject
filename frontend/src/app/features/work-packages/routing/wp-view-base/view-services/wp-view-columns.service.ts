@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { States } from "core-app/core/states/states.service";
 import { Injectable } from "@angular/core";
-import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { combine } from 'reactivestates';
-import { mapTo, take } from 'rxjs/operators';
-import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
+import { QueryColumn, queryColumnTypes } from "core-app/features/work-packages/components/wp-query/query-column";
+import { combine } from "reactivestates";
+import { mapTo, take } from "rxjs/operators";
+import { cloneHalResourceCollection } from "core-app/features/hal/helpers/hal-resource-builder";
 import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
@@ -272,7 +272,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * Get columns not yet selected
    */
   public get unused():QueryColumn[] {
-    return _.differenceBy(this.all, this.getColumns(), '$href');
+    return _.differenceBy(this.all, this.getColumns(), "$href");
   }
 
   /**

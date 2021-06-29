@@ -42,11 +42,11 @@ export class DateDisplayField extends HighlightableDisplayField {
 
     // Show scheduling mode in front of the start date field
     if (this.showSchedulingMode()) {
-      const schedulingIcon = document.createElement('span');
-      schedulingIcon.classList.add('icon-context');
+      const schedulingIcon = document.createElement("span");
+      schedulingIcon.classList.add("icon-context");
 
       if (this.resource.scheduleManually) {
-        schedulingIcon.classList.add('icon-pin');
+        schedulingIcon.classList.add("icon-pin");
       }
 
       element.prepend(schedulingIcon);
@@ -71,7 +71,7 @@ export class DateDisplayField extends HighlightableDisplayField {
   }
 
   public get canOverdue():boolean {
-    return ['dueDate', 'date'].indexOf(this.name) !== -1;
+    return ["dueDate", "date"].indexOf(this.name) !== -1;
   }
 
   public get valueString() {
@@ -82,6 +82,6 @@ export class DateDisplayField extends HighlightableDisplayField {
   }
 
   private showSchedulingMode():boolean {
-    return this.name === 'startDate' || this.name === 'date';
+    return this.name === "startDate" || this.name === "date";
   }
 }

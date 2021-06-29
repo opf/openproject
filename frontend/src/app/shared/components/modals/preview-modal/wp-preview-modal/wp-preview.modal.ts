@@ -39,15 +39,15 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { StateService } from "@uirouter/core";
 
 @Component({
-  templateUrl: './wp-preview.modal.html',
-  styleUrls: ['./wp-preview.modal.sass'],
+  templateUrl: "./wp-preview.modal.html",
+  styleUrls: ["./wp-preview.modal.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpPreviewModal extends OpModalComponent implements OnInit {
   public workPackage:WorkPackageResource;
 
   public text = {
-    created_by: this.i18n.t('js.label_created_by'),
+    created_by: this.i18n.t("js.label_created_by"),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -74,17 +74,17 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
 
-        const modal = jQuery(this.elementRef.nativeElement).find('.preview-modal--container');
+        const modal = jQuery(this.elementRef.nativeElement).find(".preview-modal--container");
         this.reposition(modal, this.locals.event.target);
       });
   }
 
   public reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
     element.position({
-      my: 'right top',
-      at: 'right bottom',
+      my: "right top",
+      at: "right bottom",
       of: target,
-      collision: 'flipfit'
+      collision: "flipfit",
     });
   }
 

@@ -50,7 +50,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   // Values used in template
   public isPreview = false;
 
-  public previewHtml = '';
+  public previewHtml = "";
 
   public text:Record<string, string> = {};
 
@@ -58,10 +58,10 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public ckEditorContext:ICKEditorContext = {
     resource: this.change.pristineResource,
-    macros: 'none' as const,
+    macros: "none" as const,
     previewContext: this.previewContext,
     options: { rtl: this.schema.options && this.schema.options.rtl },
-    type: 'constrained',
+    type: "constrained",
     ...this.resource.getEditorContext(this.field.name),
   };
 
@@ -70,9 +70,9 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
     this.handler.registerOnSubmit(() => this.getCurrentValue());
     this.text = {
-      attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
-      save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
-      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
+      attachmentLabel: this.I18n.t("js.label_formattable_attachment_hint"),
+      save: this.I18n.t("js.inplace.button_save", { attribute: this.schema.name }),
+      cancel: this.I18n.t("js.inplace.button_cancel", { attribute: this.schema.name }),
     };
   }
 

@@ -29,10 +29,10 @@
 import * as moment from "moment";
 
 export function initializeLocale() {
-  const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
-  const locale = meta.dataset.locale || 'en';
-  const firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek || '', 10);
-  const firstWeekOfYear = parseInt(meta.dataset.firstWeekOfYear || '', 10);
+  const meta = document.querySelector("meta[name=openproject_initializer]") as HTMLMetaElement;
+  const locale = meta.dataset.locale || "en";
+  const firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek || "", 10);
+  const firstWeekOfYear = parseInt(meta.dataset.firstWeekOfYear || "", 10);
 
   I18n.locale = locale;
   I18n.firstDayOfWeek = firstDayOfWeek;

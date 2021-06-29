@@ -30,8 +30,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 
-export const indicatorLocationSelector = '.loading-indicator--location';
-export const indicatorBackgroundSelector = '.loading-indicator--background';
+export const indicatorLocationSelector = ".loading-indicator--location";
+export const indicatorBackgroundSelector = ".loading-indicator--background";
 
 export function withLoadingIndicator<T>(indicator:LoadingIndicator, delayStopTime?:number):(source:Observable<T>) => Observable<T> {
   return (source$:Observable<T>) => {
@@ -99,23 +99,23 @@ export class LoadingIndicator {
   }
 
   public stop() {
-    this.indicator.find('.loading-indicator--background').remove();
+    this.indicator.find(".loading-indicator--background").remove();
   }
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class LoadingIndicatorService {
   // Provide shortcut to the primarily used indicators
   public get table() {
-    return this.indicator('table');
+    return this.indicator("table");
   }
 
   public get wpDetails() {
-    return this.indicator('wpDetails');
+    return this.indicator("wpDetails");
   }
 
   public get modal() {
-    return this.indicator('modal');
+    return this.indicator("modal");
   }
 
   // Returns a getter function to an indicator
@@ -126,7 +126,7 @@ export class LoadingIndicatorService {
 
   // Return an indicator by name or element
   public indicator(indicator:string|JQuery):LoadingIndicator {
-    if (typeof indicator === 'string') {
+    if (typeof indicator === "string") {
       indicator = this.getIndicatorAt(indicator);
     }
 

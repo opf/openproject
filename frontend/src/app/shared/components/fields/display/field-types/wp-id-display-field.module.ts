@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { StateService } from '@uirouter/core';
+import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { StateService } from "@uirouter/core";
 import { UiStateLinkBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder";
 import { IdDisplayField } from "core-app/shared/components/fields/display/field-types/id-display-field.module";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

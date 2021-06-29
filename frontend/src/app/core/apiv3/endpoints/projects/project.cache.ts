@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { MultiInputState } from 'reactivestates';
+import { MultiInputState } from "reactivestates";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

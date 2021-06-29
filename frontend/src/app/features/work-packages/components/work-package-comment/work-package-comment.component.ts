@@ -52,22 +52,22 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { ErrorResource } from "core-app/features/hal/resources/error-resource";
 
 @Component({
-  selector: 'work-package-comment',
+  selector: "work-package-comment",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './work-package-comment.component.html'
+  templateUrl: "./work-package-comment.component.html",
 })
 export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
 
   @ContentChild(TemplateRef) template:TemplateRef<any>;
 
-  @ViewChild('commentContainer') public commentContainer:ElementRef;
+  @ViewChild("commentContainer") public commentContainer:ElementRef;
 
   public text = {
-    editTitle: this.I18n.t('js.label_add_comment_title'),
-    addComment: this.I18n.t('js.label_add_comment'),
-    cancelTitle: this.I18n.t('js.label_cancel_comment'),
-    placeholder: this.I18n.t('js.label_add_comment_title'),
+    editTitle: this.I18n.t("js.label_add_comment_title"),
+    addComment: this.I18n.t("js.label_add_comment"),
+    cancelTitle: this.I18n.t("js.label_cancel_comment"),
+    placeholder: this.I18n.t("js.label_add_comment_title"),
   };
 
   public fieldLabel:string = this.text.editTitle;
@@ -78,7 +78,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
   public showAbove:boolean;
 
-  public htmlId = 'wp-comment-field';
+  public htmlId = "wp-comment-field";
 
   constructor(protected elementRef:ElementRef,
     protected injector:Injector,
@@ -149,7 +149,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     return indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
       .then(() => {
         this.active = false;
-        this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
+        this.NotificationsService.addSuccess(this.I18n.t("js.work_packages.comment_added"));
 
         this.wpLinkedActivities.require(this.workPackage, true);
         this
@@ -166,7 +166,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
         if (error instanceof ErrorResource) {
           this.workPackageNotificationService.showError(error, this.workPackage);
         } else {
-          this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
+          this.NotificationsService.addError(this.I18n.t("js.work_packages.comment_send_failed"));
         }
       });
   }

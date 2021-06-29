@@ -45,13 +45,13 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
 
   constructor(readonly apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'work_packages', APIV3WorkPackagePaths);
+    super(apiRoot, basePath, "work_packages", APIV3WorkPackagePaths);
   }
 
   // Static paths
 
   // /api/v3/(projects/:projectIdentifier)/work_packages/form
-  public readonly form:APIv3WorkPackageForm = this.subResource('form', APIv3WorkPackageForm);
+  public readonly form:APIv3WorkPackageForm = this.subResource("form", APIv3WorkPackageForm);
 
   /**
    *
@@ -110,15 +110,15 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
     if (idOnly) {
-      filters.add('id', '=', [term]);
+      filters.add("id", "=", [term]);
     } else {
-      filters.add('subjectOrId', '**', [term]);
+      filters.add("subjectOrId", "**", [term]);
     }
 
     const params = {
       sortBy: '[["updatedAt","desc"]]',
-      offset: '1',
-      pageSize: '10',
+      offset: "1",
+      pageSize: "10",
       ...additionalParams,
     };
 
@@ -132,12 +132,12 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    */
   public filterUpdatedSince(ids:(string|null)[], timestamp:unknown):ApiV3WorkPackageCachedSubresource {
     const filters = new ApiV3FilterBuilder()
-      .add('id', '=', ids.filter((n:string|null) => n)) // no null values
-      .add('updatedAt', '<>d', [timestamp, '']);
+      .add("id", "=", ids.filter((n:string|null) => n)) // no null values
+      .add("updatedAt", "<>d", [timestamp, ""]);
 
     const params = {
-      offset: '1',
-      pageSize: '10'
+      offset: "1",
+      pageSize: "10",
     };
 
     return this.filtered(filters, params);
@@ -157,7 +157,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
         this.path,
         ids.length,
         {
-          filters: buildApiV3Filter('id', '=', ids).toJson(),
+          filters: buildApiV3Filter("id", "=", ids).toJson(),
         },
       );
   }
@@ -167,5 +167,5 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
   }
 
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/available_projects
-  public readonly available_projects = this.subResource('available_projects');
+  public readonly available_projects = this.subResource("available_projects");
 }

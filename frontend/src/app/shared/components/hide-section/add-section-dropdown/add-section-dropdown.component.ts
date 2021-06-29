@@ -34,16 +34,16 @@ import { HideSectionDefinition, HideSectionService } from "core-app/shared/compo
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
-export const addSectionDropdownSelector = 'add-section-dropdown';
+export const addSectionDropdownSelector = "add-section-dropdown";
 
 @Component({
   selector: addSectionDropdownSelector,
-  templateUrl: './add-section-dropdown.component.html'
+  templateUrl: "./add-section-dropdown.component.html",
 })
 export class AddSectionDropdownComponent extends UntilDestroyedMixin implements OnInit {
-  @ViewChild('fallbackOption', { static: true }) private option:ElementRef;
+  @ViewChild("fallbackOption", { static: true }) private option:ElementRef;
 
-  trackByKey = AngularTrackingHelpers.trackByProperty('key');
+  trackByKey = AngularTrackingHelpers.trackByProperty("key");
 
   selectable:HideSectionDefinition[] = [];
 
@@ -51,7 +51,7 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
 
   public htmlId:string;
 
-  public placeholder = this.I18n.t('js.placeholders.selection');
+  public placeholder = this.I18n.t("js.placeholders.selection");
 
   constructor(protected hideSectionService:HideSectionService,
     protected elementRef:ElementRef,

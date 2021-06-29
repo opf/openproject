@@ -28,7 +28,7 @@
 import { Directive, ElementRef, OnInit } from "@angular/core";
 
 @Directive({
-  selector: 'op-drag-scroll',
+  selector: "op-drag-scroll",
 })
 export class OpDragScrollDirective implements OnInit {
   constructor(readonly elementRef:ElementRef) {
@@ -36,7 +36,7 @@ export class OpDragScrollDirective implements OnInit {
 
   ngOnInit() {
     const element = jQuery(this.elementRef.nativeElement);
-    const eventName = 'op:dragscroll';
+    const eventName = "op:dragscroll";
 
     // Is mouse down?
     var mousedown = false;
@@ -46,7 +46,7 @@ export class OpDragScrollDirective implements OnInit {
       mousedownY:number;
 
     // Mousedown: Potential drag start
-    element.on('mousedown', (evt) => {
+    element.on("mousedown", (evt) => {
       setTimeout(() => {
         mousedown = true;
         mousedownX = evt.clientX;
@@ -55,12 +55,12 @@ export class OpDragScrollDirective implements OnInit {
     });
 
     // Mouseup: Potential drag stop
-    element.on('mouseup', () => {
+    element.on("mouseup", () => {
       mousedown = false;
     });
 
     // Mousemove: Report movement if mousedown
-    element.on('mousemove', (evt) => {
+    element.on("mousemove", (evt) => {
       if (!mousedown) {
         return;
       }

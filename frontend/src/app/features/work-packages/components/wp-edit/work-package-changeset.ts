@@ -7,7 +7,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
   public setValue(key:string, val:any) {
     super.setValue(key, val);
 
-    if (key === 'project' || key === 'type') {
+    if (key === "project" || key === "type") {
       this.updateForm();
     }
   }
@@ -24,7 +24,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
   protected setNewDefaultFor(key:string, val:unknown) {
     // Special handling for taking over the description
     // to the pristine resource
-    if (key === 'description' && this.pristineResource.isNew) {
+    if (key === "description" && this.pristineResource.isNew) {
       this.pristineResource.description = val;
       return;
     }

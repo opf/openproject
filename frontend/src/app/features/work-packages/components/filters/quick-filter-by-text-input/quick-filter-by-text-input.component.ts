@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { Subject } from "rxjs";
@@ -40,22 +40,22 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
 
 @Component({
-  selector: 'wp-filter-by-text-input',
-  templateUrl: './quick-filter-by-text-input.html'
+  selector: "wp-filter-by-text-input",
+  templateUrl: "./quick-filter-by-text-input.html",
 })
 
 export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
   public text = {
-    createWithDropdown: this.I18n.t('js.work_packages.create.button'),
-    createButton: this.I18n.t('js.label_work_package'),
-    explanation: this.I18n.t('js.label_create_work_package'),
-    placeholder: this.I18n.t('js.work_packages.placeholder_filter_by_text'),
+    createWithDropdown: this.I18n.t("js.work_packages.create.button"),
+    createButton: this.I18n.t("js.label_work_package"),
+    explanation: this.I18n.t("js.label_create_work_package"),
+    placeholder: this.I18n.t("js.work_packages.placeholder_filter_by_text"),
   };
 
   /** Observable to the current search filter term */
-  public searchTerm = input<string>('');
+  public searchTerm = input<string>("");
 
   /** Input for search requests */
   public searchTermChanged:Subject<string> = new Subject<string>();
@@ -70,14 +70,14 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
       .pipe(
         this.untilDestroyed(),
         map(() => {
-          const currentSearchFilter = this.wpTableFilters.find('search');
-          return currentSearchFilter ? (currentSearchFilter.values[0] as string) : '';
+          const currentSearchFilter = this.wpTableFilters.find("search");
+          return currentSearchFilter ? (currentSearchFilter.values[0] as string) : "";
         }),
       )
       .subscribe((upstreamTerm:string) => {
-        console.log("upstream " + upstreamTerm + " " + (this.searchTerm as any).timestampOfLastValue);
+        console.log(`upstream ${upstreamTerm} ${(this.searchTerm as any).timestampOfLastValue}`);
         if (!this.searchTerm.value || this.searchTerm.isValueOlderThan(500)) {
-          console.log("Upstream value setting to " + upstreamTerm);
+          console.log(`Upstream value setting to ${upstreamTerm}`);
           this.searchTerm.putValue(upstreamTerm);
         }
       });
@@ -91,12 +91,12 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
       )
       .subscribe(term => {
         if (term.length > 0) {
-          this.wpTableFilters.replace('search', filter => {
-            filter.operator = filter.findOperator('**')!;
+          this.wpTableFilters.replace("search", filter => {
+            filter.operator = filter.findOperator("**")!;
             filter.values = [term];
           });
         } else {
-          const filter = this.wpTableFilters.find('search');
+          const filter = this.wpTableFilters.find("search");
 
           this.wpTableFilters.remove(filter!);
 

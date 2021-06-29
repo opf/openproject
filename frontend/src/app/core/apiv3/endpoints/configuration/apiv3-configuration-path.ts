@@ -39,7 +39,7 @@ export class Apiv3ConfigurationPath extends APIv3GettableResource<ConfigurationR
 
   constructor(protected apiRoot:APIV3Service,
     readonly basePath:string) {
-    super(apiRoot, basePath, 'configuration');
+    super(apiRoot, basePath, "configuration");
   }
 
   public get():Observable<ConfigurationResource> {

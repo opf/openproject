@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import * as moment from 'moment';
+import * as moment from "moment";
 import { Component } from "@angular/core";
 import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
@@ -67,7 +67,7 @@ export class DurationEditFieldComponent extends EditFieldComponent {
       value = this.value || 0;
     }
 
-    return moment.duration(value, 'hours');
+    return moment.duration(value, "hours");
   }
 
   public formatter(value:any) {

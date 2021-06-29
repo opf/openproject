@@ -10,7 +10,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class BoardListsService {
   private v3 = this.pathHelper.api.v3;
 
@@ -73,8 +73,8 @@ export class BoardListsService {
       const query = await this.create(queryParams, filters);
 
       const source = {
-        _type: 'GridWidget',
-        identifier: 'work_package_query',
+        _type: "GridWidget",
+        identifier: "work_package_query",
         startRow: 1,
         endRow: 2,
         startColumn: count + 1,
@@ -109,6 +109,6 @@ export class BoardListsService {
   }
 
   private freeBoardQueryFilter():ApiV3Filter {
-    return { manualSort: { operator: 'ow', values: [] } };
+    return { manualSort: { operator: "ow", values: [] } };
   }
 }

@@ -23,8 +23,8 @@ export interface ICKEditorStatic {
   createCustomized(el:string|HTMLElement, config?:any):Promise<ICKEditorInstance>;
 }
 
-export type ICKEditorType = 'full'|'constrained';
-export type ICKEditorMacroType = 'none'|'resource'|'full'|boolean|string[];
+export type ICKEditorType = "full"|"constrained";
+export type ICKEditorMacroType = "none"|"resource"|"full"|boolean|string[];
 
 export interface ICKEditorContext {
   // Editor type to setup
@@ -69,13 +69,13 @@ export class CKEditorSetupService {
     await this.load();
 
     const { type } = context;
-    const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
+    const editorClass = type === "constrained" ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
-    const toolbarWrapper = wrapper.querySelector('.document-editor__toolbar') as HTMLElement;
-    const contentWrapper = wrapper.querySelector('.document-editor__editable') as HTMLElement;
+    const toolbarWrapper = wrapper.querySelector(".document-editor__toolbar") as HTMLElement;
+    const contentWrapper = wrapper.querySelector(".document-editor__editable") as HTMLElement;
 
-    var contentLanguage = context.options && context.options.rtl ? 'ar' : 'en';
+    var contentLanguage = context.options && context.options.rtl ? "ar" : "en";
 
     const editor:ICKEditorInstance = await editorClass
       .createCustomized(contentWrapper, {
@@ -90,9 +90,9 @@ export class CKEditorSetupService {
 
     // Allow custom events on wrapper to set/get data for debugging
     jQuery(wrapper)
-      .on('op:ckeditor:setData', (event:any, data:string) => editor.setData(data))
-      .on('op:ckeditor:clear', (event:any) => editor.setData(' '))
-      .on('op:ckeditor:getData', (event:any, cb:any) => cb(editor.getData({ trim: false })));
+      .on("op:ckeditor:setData", (event:any, data:string) => editor.setData(data))
+      .on("op:ckeditor:clear", (event:any) => editor.setData(" "))
+      .on("op:ckeditor:getData", (event:any, cb:any) => cb(editor.getData({ trim: false })));
 
     return editor;
   }
@@ -103,17 +103,17 @@ export class CKEditorSetupService {
   private load():Promise<unknown> {
     // untyped module cannot be dynamically imported
     // @ts-ignore
-    return import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
+    return import(/* webpackChunkName: "ckeditor" */ "core-vendor/ckeditor/ckeditor.js");
   }
 
   private createConfig(context:ICKEditorContext):any {
-    if (context.macros === 'none') {
+    if (context.macros === "none") {
       context.macros = false;
-    } else if (context.macros === 'resource') {
+    } else if (context.macros === "resource") {
       context.macros = [
-        'OPMacroToc',
-        'OPMacroEmbeddedTable',
-        'OPMacroWpButton'
+        "OPMacroToc",
+        "OPMacroEmbeddedTable",
+        "OPMacroWpButton",
       ];
     } else {
       context.macros = context.macros;

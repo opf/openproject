@@ -28,13 +28,13 @@
 
 import {
   AfterViewInit, Component, ElementRef, Injector,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { INotification, NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import * as moment from 'moment';
-import { Moment } from 'moment';
-import { filter, takeUntil } from 'rxjs/operators';
+import * as moment from "moment";
+import { Moment } from "moment";
+import { filter, takeUntil } from "rxjs/operators";
 import { input, InputState } from "reactivestates";
 import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
 import { WorkPackageTimelineCellsRenderer } from "core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cells-renderer";
@@ -54,8 +54,8 @@ import {
   groupTypeFromIdentifier,
 } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
 import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
@@ -68,8 +68,8 @@ import {
 } from "../wp-timeline";
 
 @Component({
-  selector: 'wp-timeline-container',
-  templateUrl: './wp-timeline-container.html'
+  selector: "wp-timeline-container",
+  templateUrl: "./wp-timeline-container.html",
 })
 export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
   private $element:JQuery;
@@ -140,18 +140,18 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.$element = jQuery(this.elementRef.nativeElement);
 
     this.text = {
-      selectionMode: this.I18n.t('js.timelines.selection_mode.notification'),
+      selectionMode: this.I18n.t("js.timelines.selection_mode.notification"),
     };
 
     // Get the outer container for width computation
-    this.outerContainer = this.$element.find('.wp-table-timeline--outer');
-    this.timelineBody = this.$element.find('.wp-table-timeline--body');
+    this.outerContainer = this.$element.find(".wp-table-timeline--outer");
+    this.timelineBody = this.$element.find(".wp-table-timeline--body");
 
     // Register this instance to the table
     this.wpTableComponent.registerTimeline(this, this.timelineBody[0]);
 
     // Refresh on window resize events
-    window.addEventListener('wp-resize.timeline', () => this.refreshRequest.putValue(undefined));
+    window.addEventListener("wp-resize.timeline", () => this.refreshRequest.putValue(undefined));
 
     combineLatest([
       this.querySpace.tableRendered.values$(),
@@ -207,7 +207,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   refreshView() {
     if (!this.wpTableTimeline.isVisible) {
-      debugLog('refreshView() requested, but TL is invisible.');
+      debugLog("refreshView() requested, but TL is invisible.");
       return;
     }
 
@@ -219,9 +219,9 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
-    timeOutput('refreshView() in timeline container', () => {
+    timeOutput("refreshView() in timeline container", () => {
       // Reset the width of the outer container if its content shrinks
-      this.outerContainer.css('width', 'auto');
+      this.outerContainer.css("width", "auto");
 
       this.calculateViewParams(this._viewParameters);
 
@@ -251,12 +251,12 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   startAddRelationPredecessor(start:WorkPackageResource) {
     this.activateSelectionMode(start.id!, end => {
       this.wpRelations
-        .addCommonRelation(start.id!, 'follows', end.id!)
+        .addCommonRelation(start.id!, "follows", end.id!)
         .then(() => {
           this.halEvents.push(start, {
-            eventType: 'association',
+            eventType: "association",
             relatedWorkPackage: end.id!,
-            relationType: 'follows'
+            relationType: "follows",
           });
         })
         .catch((error:any) => this.notificationService.handleRawError(error, end));
@@ -266,12 +266,12 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   startAddRelationFollower(start:WorkPackageResource) {
     this.activateSelectionMode(start.id!, end => {
       this.wpRelations
-        .addCommonRelation(start.id!, 'precedes', end.id!)
+        .addCommonRelation(start.id!, "precedes", end.id!)
         .then(() => {
           this.halEvents.push(start, {
-            eventType: 'association',
+            eventType: "association",
             relatedWorkPackage: end.id!,
-            relationType: 'precedes'
+            relationType: "precedes",
           });
         })
         .catch((error:any) => this.notificationService.handleRawError(error, end));
@@ -282,7 +282,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const outerContainer = this.getParentScrollContainer();
     const { scrollLeft } = outerContainer;
     const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay);
-    return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, 'days');
+    return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, "days");
   }
 
   getLastDayInViewport() {
@@ -291,23 +291,23 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const width = outerContainer.offsetWidth;
     const viewPortRight = scrollLeft + width;
     const daysUntilViewPortEnds = Math.ceil(viewPortRight / this.viewParameters.pixelPerDay) + 1;
-    return this.viewParameters.dateDisplayStart.clone().add(daysUntilViewPortEnds, 'days');
+    return this.viewParameters.dateDisplayStart.clone().add(daysUntilViewPortEnds, "days");
   }
 
   forceCursor(cursor:string) {
-    jQuery('.' + timelineElementCssClass).css('cursor', cursor);
-    jQuery('.wp-timeline-cell').css('cursor', cursor);
-    jQuery('.hascontextmenu').css('cursor', cursor);
-    jQuery('.leftHandle').css('cursor', cursor);
-    jQuery('.rightHandle').css('cursor', cursor);
+    jQuery(`.${timelineElementCssClass}`).css("cursor", cursor);
+    jQuery(".wp-timeline-cell").css("cursor", cursor);
+    jQuery(".hascontextmenu").css("cursor", cursor);
+    jQuery(".leftHandle").css("cursor", cursor);
+    jQuery(".rightHandle").css("cursor", cursor);
   }
 
   resetCursor() {
-    jQuery('.' + timelineElementCssClass).css('cursor', '');
-    jQuery('.wp-timeline-cell').css('cursor', '');
-    jQuery('.hascontextmenu').css('cursor', '');
-    jQuery('.leftHandle').css('cursor', '');
-    jQuery('.rightHandle').css('cursor', '');
+    jQuery(`.${timelineElementCssClass}`).css("cursor", "");
+    jQuery(".wp-timeline-cell").css("cursor", "");
+    jQuery(".hascontextmenu").css("cursor", "");
+    jQuery(".leftHandle").css("cursor", "");
+    jQuery(".rightHandle").css("cursor", "");
   }
 
   private resetSelectionMode() {
@@ -318,10 +318,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.NotificationsService.remove(this.selectionParams.notification);
     }
 
-    Mousetrap.unbind('esc');
+    Mousetrap.unbind("esc");
 
-    this.$element.removeClass('active-selection-mode');
-    jQuery('.' + timelineMarkerSelectionStartClass).removeClass(timelineMarkerSelectionStartClass);
+    this.$element.removeClass("active-selection-mode");
+    jQuery(`.${timelineMarkerSelectionStartClass}`).removeClass(timelineMarkerSelectionStartClass);
     this.refreshView();
   }
 
@@ -334,10 +334,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     };
 
     this._viewParameters.selectionModeStart = start;
-    Mousetrap.bind('esc', () => this.resetSelectionMode());
+    Mousetrap.bind("esc", () => this.resetSelectionMode());
     this.selectionParams.notification = this.NotificationsService.addNotice(this.text.selectionMode);
 
-    this.$element.addClass('active-selection-mode');
+    this.$element.addClass("active-selection-mode");
 
     this.refreshView();
   }
@@ -387,7 +387,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     });
 
     // left spacing
-    newParams.dateDisplayStart = newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days');
+    newParams.dateDisplayStart = newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, "days");
 
     // right spacing
     // RR: kept both variants for documentation purpose.
@@ -398,7 +398,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     const { pixelPerDay } = currentParams;
     const visibleDays = Math.ceil((width / pixelPerDay) * 1.5);
-    newParams.dateDisplayEnd = newParams.dateDisplayEnd.add(visibleDays, 'days');
+    newParams.dateDisplayEnd = newParams.dateDisplayEnd.add(visibleDays, "days");
 
     // Check if view params changed:
 

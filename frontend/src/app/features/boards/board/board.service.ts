@@ -16,17 +16,17 @@ export interface CreateBoardParams {
   attribute?:string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class BoardService {
   public currentBoard$:BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
 
   private loadAllPromise:Promise<Board[]>|undefined;
 
   private text = {
-    unnamed_board: this.I18n.t('js.boards.label_unnamed_board'),
-    action_board: (attr:string) => this.I18n.t('js.boards.board_type.action_by_attribute',
-      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr) }),
-    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
+    unnamed_board: this.I18n.t("js.boards.label_unnamed_board"),
+    action_board: (attr:string) => this.I18n.t("js.boards.board_type.action_by_attribute",
+      { attribute: this.I18n.t(`js.boards.board_type.action_type.${attr}`) }),
+    unnamed_list: this.I18n.t("js.boards.label_unnamed_list"),
   };
 
   constructor(protected apiV3Service:APIV3Service,
@@ -84,7 +84,7 @@ export class BoardService {
       .boards
       .create(params.type, this.boardName(params), this.CurrentProject.identifier!, params.attribute).toPromise();
 
-    if (params.type === 'free') {
+    if (params.type === "free") {
       await this.boardsList.addFreeQuery(board, { name: this.text.unnamed_list });
     } else {
       await this.boardActions.get(params.attribute!).addInitialColumnsForAction(board);

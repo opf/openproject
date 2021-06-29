@@ -1,4 +1,4 @@
-import { EventEmitter, InjectionToken, Injector } from '@angular/core';
+import { EventEmitter, InjectionToken, Injector } from "@angular/core";
 
 export interface WorkPackageViewEventHandler<T> {
   /** Event name to register **/
@@ -23,7 +23,7 @@ export interface WorkPackageViewOutputs {
   stateLinkClicked:EventEmitter<{ workPackageId:string, requestedState:string }>;
 }
 
-export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEventHandler<any>>('CardEventHandler');
+export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEventHandler<any>>("CardEventHandler");
 
 /**
  * Abstract view handler registry for globally handling arbitrary event on the

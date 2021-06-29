@@ -1,6 +1,6 @@
-import { Component, Injector, ViewChild } from '@angular/core';
-import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
-import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { Component, Injector, ViewChild } from "@angular/core";
+import { TabComponent } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
+import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HighlightingMode } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
@@ -10,15 +10,15 @@ import { NgSelectComponent } from "@ng-select/ng-select";
 import { States } from "core-app/core/states/states.service";
 
 @Component({
-  templateUrl: './highlighting-tab.component.html'
+  templateUrl: "./highlighting-tab.component.html",
 })
 export class WpTableConfigurationHighlightingTab implements TabComponent {
   // Display mode
-  public highlightingMode:HighlightingMode = 'inline';
+  public highlightingMode:HighlightingMode = "inline";
 
   public entireRowMode = false;
 
-  public lastEntireRowAttribute:HighlightingMode = 'status';
+  public lastEntireRowAttribute:HighlightingMode = "status";
 
   public eeShowBanners = false;
 
@@ -28,24 +28,24 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
 
   public availableRowHighlightedAttributes:{ name:string; value:HighlightingMode }[] = [];
 
-  @ViewChild('highlightedAttributesNgSelect') public highlightedAttributesNgSelect:NgSelectComponent;
+  @ViewChild("highlightedAttributesNgSelect") public highlightedAttributesNgSelect:NgSelectComponent;
 
-  @ViewChild('rowHighlightNgSelect') public rowHighlightNgSelect:NgSelectComponent;
+  @ViewChild("rowHighlightNgSelect") public rowHighlightNgSelect:NgSelectComponent;
 
   public text = {
-    title: this.I18n.t('js.work_packages.table_configuration.highlighting'),
+    title: this.I18n.t("js.work_packages.table_configuration.highlighting"),
     highlighting_mode: {
-      description: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.description'),
-      none: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none'),
-      inline: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.inline'),
-      inline_all_attributes: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.inline_all'),
-      status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
-      type: this.I18n.t('js.work_packages.properties.type'),
-      priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
-      entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
+      description: this.I18n.t("js.work_packages.table_configuration.highlighting_mode.description"),
+      none: this.I18n.t("js.work_packages.table_configuration.highlighting_mode.none"),
+      inline: this.I18n.t("js.work_packages.table_configuration.highlighting_mode.inline"),
+      inline_all_attributes: this.I18n.t("js.work_packages.table_configuration.highlighting_mode.inline_all"),
+      status: this.I18n.t("js.work_packages.table_configuration.highlighting_mode.status"),
+      type: this.I18n.t("js.work_packages.properties.type"),
+      priority: this.I18n.t("js.work_packages.table_configuration.highlighting_mode.priority"),
+      entire_row_by: this.I18n.t("js.work_packages.table_configuration.highlighting_mode.entire_row_by"),
     },
-    upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
+    upsaleAttributeHighlighting: this.I18n.t("js.work_packages.table_configuration.upsale.attribute_highlighting"),
+    upsaleCheckOutLink: this.I18n.t("js.work_packages.table_configuration.upsale.check_out_link"),
   };
 
   constructor(readonly injector:Injector,
@@ -59,8 +59,8 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   ngOnInit() {
     this.availableInlineHighlightedAttributes = this.availableHighlightedAttributes;
     this.availableRowHighlightedAttributes = [
-      { name: this.text.highlighting_mode.status, value: 'status' },
-      { name: this.text.highlighting_mode.priority, value: 'priority' },
+      { name: this.text.highlighting_mode.status, value: "status" },
+      { name: this.text.highlighting_mode.priority, value: "priority" },
     ];
 
     this.setSelectedValues();
@@ -69,7 +69,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     this.updateMode(this.wpTableHighlight.current.mode);
 
     if (this.eeShowBanners) {
-      this.updateMode('none');
+      this.updateMode("none");
     }
   }
 
@@ -78,14 +78,14 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
     this.wpTableHighlight.update({ mode, selectedAttributes: this.selectedAttributes });
   }
 
-  public updateMode(mode:HighlightingMode | 'entire-row') {
-    if (mode === 'entire-row') {
+  public updateMode(mode:HighlightingMode | "entire-row") {
+    if (mode === "entire-row") {
       this.highlightingMode = this.lastEntireRowAttribute;
     } else {
       this.highlightingMode = mode;
     }
 
-    if (['status', 'priority'].indexOf(this.highlightingMode) !== -1) {
+    if (["status", "priority"].indexOf(this.highlightingMode) !== -1) {
       this.lastEntireRowAttribute = this.highlightingMode;
       this.entireRowMode = true;
     } else {
@@ -98,7 +98,7 @@ export class WpTableConfigurationHighlightingTab implements TabComponent {
   }
 
   public disabledValue(value:boolean):string | null {
-    return value ? 'disabled' : null;
+    return value ? "disabled" : null;
   }
 
   public get availableHighlightedAttributes():HalResource[] {

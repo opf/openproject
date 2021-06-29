@@ -38,7 +38,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 export class APIv3StatusesPaths extends APIv3ResourceCollection<StatusResource, APIv3StatusPaths> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'statuses', APIv3StatusPaths);
+    super(apiRoot, basePath, "statuses", APIv3StatusPaths);
   }
 
   /**

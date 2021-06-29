@@ -31,18 +31,18 @@ import { Injectable } from "@angular/core";
 import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { take } from "rxjs/operators";
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
-import { GroupObject, WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
+import { GroupObject, WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
 import { WorkPackageViewBaseService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {
   readonly wpTypesToShowInCollapsedGroupHeaders:((wp:WorkPackageResource) => boolean)[];
 
-  readonly groupTypesWithHeaderCellsWhenCollapsed = ['project'];
+  readonly groupTypesWithHeaderCellsWhenCollapsed = ["project"];
 
   get config():IGroupsCollapseEvent {
     return this.updatesState.getValueOr(this.getDefaultState());
@@ -122,7 +122,7 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     this.update(newState);
   }
 
-  getAllGroupsCollapsedState(groups:GroupObject[], currentCollapsedGroupsState:IGroupsCollapseEvent['state']) {
+  getAllGroupsCollapsedState(groups:GroupObject[], currentCollapsedGroupsState:IGroupsCollapseEvent["state"]) {
     let allGroupsAreCollapsed = false;
     let allGroupsAreExpanded = true;
 

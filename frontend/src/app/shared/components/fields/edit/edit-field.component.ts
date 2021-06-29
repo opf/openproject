@@ -41,16 +41,16 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Field, IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
-export const OpEditingPortalSchemaToken = new InjectionToken('editing-portal--schema');
-export const OpEditingPortalHandlerToken = new InjectionToken('editing-portal--handler');
-export const OpEditingPortalChangesetToken = new InjectionToken('editing-portal--changeset');
+export const OpEditingPortalSchemaToken = new InjectionToken("editing-portal--schema");
+export const OpEditingPortalHandlerToken = new InjectionToken("editing-portal--handler");
+export const OpEditingPortalChangesetToken = new InjectionToken("editing-portal--changeset");
 
-export const overflowingContainerSelector = '.__overflowing_element_container';
-export const overflowingContainerAttribute = 'overflowingIdentifier';
+export const overflowingContainerSelector = ".__overflowing_element_container";
+export const overflowingContainerAttribute = "overflowingIdentifier";
 
-export const editModeClassName = '-editing';
+export const editModeClassName = "-editing";
 
 @Directive()
 export abstract class EditFieldComponent extends Field implements OnInit, OnDestroy {
@@ -118,11 +118,11 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   }
 
   public get placeholder() {
-    if (this.name === 'subject') {
-      return this.I18n.t('js.placeholders.subject');
+    if (this.name === "subject") {
+      return this.I18n.t("js.placeholders.subject");
     }
 
-    return '';
+    return "";
   }
 
   /**

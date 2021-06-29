@@ -14,7 +14,7 @@ import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { HalResourceEditFieldHandler } from "core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class EditingPortalService {
   constructor(private readonly appRef:ApplicationRef,
     private readonly componentFactoryResolver:ComponentFactoryResolver,
@@ -55,7 +55,7 @@ export class EditingPortalService {
     const portal = new ComponentPortal(EditFormPortalComponent, null, localInjector);
 
     // Clear the container
-    container.innerHTML = '';
+    container.innerHTML = "";
 
     // Attach the portal to the outlet
     const ref = outlet.attachComponentPortal(portal);

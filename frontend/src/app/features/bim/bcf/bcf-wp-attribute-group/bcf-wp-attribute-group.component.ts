@@ -10,7 +10,7 @@ import {
 } from "@angular/core";
 import { StateService } from "@uirouter/core";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { NgxGalleryComponent, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { NgxGalleryComponent, NgxGalleryOptions } from "@kolkov/ngx-gallery";
 import { HalLink } from "core-app/features/hal/hal-link/hal-link";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
@@ -23,8 +23,8 @@ import { BcfViewpointItem } from "core-app/features/bim/bcf/api/viewpoints/bcf-v
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
-  templateUrl: './bcf-wp-attribute-group.component.html',
-  styleUrls: ['./bcf-wp-attribute-group.component.sass'],
+  templateUrl: "./bcf-wp-attribute-group.component.html",
+  styleUrls: ["./bcf-wp-attribute-group.component.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ViewpointsService],
 })
@@ -34,20 +34,20 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
 
   text = {
-    bcf: this.I18n.t('js.bcf.label_bcf'),
-    viewpoint: this.I18n.t('js.bcf.viewpoint'),
-    add_viewpoint: this.I18n.t('js.bcf.add_viewpoint'),
-    show_viewpoint: this.I18n.t('js.bcf.show_viewpoint'),
-    delete_viewpoint: this.I18n.t('js.bcf.delete_viewpoint'),
-    text_are_you_sure: this.I18n.t('js.text_are_you_sure'),
-    notice_successful_create: this.I18n.t('js.notice_successful_create'),
-    notice_successful_delete: this.I18n.t('js.notice_successful_delete'),
+    bcf: this.I18n.t("js.bcf.label_bcf"),
+    viewpoint: this.I18n.t("js.bcf.viewpoint"),
+    add_viewpoint: this.I18n.t("js.bcf.add_viewpoint"),
+    show_viewpoint: this.I18n.t("js.bcf.show_viewpoint"),
+    delete_viewpoint: this.I18n.t("js.bcf.delete_viewpoint"),
+    text_are_you_sure: this.I18n.t("js.text_are_you_sure"),
+    notice_successful_create: this.I18n.t("js.notice_successful_create"),
+    notice_successful_delete: this.I18n.t("js.notice_successful_delete"),
   };
 
   galleryOptions:NgxGalleryOptions[] = [
     {
-      width: '100%',
-      height: '400px',
+      width: "100%",
+      height: "400px",
 
       // Show first thumbnail by default
       startIndex: 0,
@@ -59,30 +59,30 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       // Ensure thumbnails are ALWAYS shown
       thumbnailsAutoHide: false,
       // For BCFs all information shall be visible
-      thumbnailSize: 'contain',
-      imageAnimation: '',
+      thumbnailSize: "contain",
+      imageAnimation: "",
       previewAnimation: false,
       previewCloseOnEsc: true,
       previewKeyboardNavigation: true,
-      imageSize: 'contain',
+      imageSize: "contain",
       imageArrowsAutoHide: true,
       // thumbnailsArrowsAutoHide: true,
       thumbnailsMargin: 5,
       thumbnailMargin: 5,
       previewDownload: true,
       previewCloseOnClick: true,
-      arrowPrevIcon: 'icon-arrow-left2',
-      arrowNextIcon: 'icon-arrow-right2',
-      closeIcon: 'icon-close',
-      downloadIcon: 'icon-download',
+      arrowPrevIcon: "icon-arrow-left2",
+      arrowNextIcon: "icon-arrow-right2",
+      closeIcon: "icon-close",
+      downloadIcon: "icon-download",
       thumbnailActions: this.actions(),
       actions: this.actions(),
     },
     // max-width 800
     {
       breakpoint: 800,
-      width: '100%',
-      height: '400px',
+      width: "100%",
+      height: "400px",
       imagePercent: 80,
       thumbnailsPercent: 20,
       thumbnailsMargin: 5,
@@ -91,7 +91,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     // max-width 680
     {
       breakpoint: 680,
-      height: '200px',
+      height: "200px",
       thumbnailsColumns: 3,
       thumbnailsMargin: 5,
       thumbnailMargin: 5,
@@ -163,8 +163,8 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
   async initialize(workPackage:WorkPackageResource) {
     this.projectId = workPackage.project.idFromLink;
-    this.viewAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'project_actions', 'viewTopic');
-    this.createAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'topic_actions', 'createViewpoint');
+    this.viewAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, "project_actions", "viewTopic");
+    this.createAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, "topic_actions", "createViewpoint");
 
     this.loadViewpointFromRoute(workPackage);
     this.cdRef.detectChanges();
@@ -203,12 +203,12 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   protected loadViewpointFromRoute(workPackage:WorkPackageResource) {
-    if (typeof (this.state.params.viewpoint) === 'number') {
+    if (typeof (this.state.params.viewpoint) === "number") {
       const index = this.state.params.viewpoint;
       this.showViewpoint(workPackage, index);
       this.showIndex = index;
       this.selectViewpointInGallery();
-      this.state.go('.', { ...this.state.params, viewpoint: undefined }, { reload: false });
+      this.state.go(".", { ...this.state.params, viewpoint: undefined }, { reload: false });
     }
   }
 
@@ -222,7 +222,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   protected actions() {
     return [
       {
-        icon: 'icon-view-model',
+        icon: "icon-view-model",
         onClick: (evt:any, index:number) => {
           this.showViewpoint(this.workPackage, index);
           this.gallery.preview.close();
@@ -230,7 +230,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
         titleText: this.text.show_viewpoint,
       },
       {
-        icon: 'icon-delete',
+        icon: "icon-delete",
         onClick: (evt:any, index:number) => this.deleteViewpoint(this.workPackage, index),
         titleText: this.text.delete_viewpoint,
       },
@@ -238,11 +238,11 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   public galleryPreviewOpen():void {
-    jQuery('#top-menu').addClass('-no-z-index');
+    jQuery("#top-menu").addClass("-no-z-index");
   }
 
   public galleryPreviewClose():void {
-    jQuery('#top-menu').removeClass('-no-z-index');
+    jQuery("#top-menu").removeClass("-no-z-index");
   }
 
   public selectViewpointInGallery() {

@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import { Injector } from "@angular/core";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { SingleRowBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder";
 import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
@@ -11,9 +11,9 @@ import {
 import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
-export const indicatorCollapsedClass = '-hierarchy-collapsed';
-export const hierarchyCellClassName = 'wp-table--hierarchy-span';
-export const additionalHierarchyRowClassName = 'wp-table--hierarchy-aditional-row';
+export const indicatorCollapsedClass = "-hierarchy-collapsed";
+export const hierarchyCellClassName = "wp-table--hierarchy-span";
+export const additionalHierarchyRowClassName = "wp-table--hierarchy-aditional-row";
 export const hierarchyIndentation = 20;
 export const hierarchyBaseIndentation = 25;
 
@@ -38,10 +38,10 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     super(injector, workPackageTable);
 
     this.text = {
-      leaf: (level:number) => this.I18n.t('js.work_packages.hierarchy.leaf', { level }),
-      expanded: (level:number) => this.I18n.t('js.work_packages.hierarchy.children_expanded',
+      leaf: (level:number) => this.I18n.t("js.work_packages.hierarchy.leaf", { level }),
+      expanded: (level:number) => this.I18n.t("js.work_packages.hierarchy.children_expanded",
         { level }),
-      collapsed: (level:number) => this.I18n.t('js.work_packages.hierarchy.children_collapsed',
+      collapsed: (level:number) => this.I18n.t("js.work_packages.hierarchy.children_collapsed",
         { level }),
     };
   }
@@ -53,7 +53,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   public refreshRow(workPackage:WorkPackageResource, jRow:JQuery):JQuery {
     // Remove any old hierarchy
     const newRow = super.refreshRow(workPackage, jRow);
-    newRow.find('.wp-table--hierarchy-span').remove();
+    newRow.find(".wp-table--hierarchy-span").remove();
     this.appendHierarchyIndicator(workPackage, newRow);
 
     return newRow;
@@ -120,21 +120,21 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     const hierarchyLevel = level === undefined || null ? workPackage.ancestors.length : level;
     const hierarchyElement = this.buildHierarchyIndicator(workPackage, jRow, hierarchyLevel);
 
-    jRow.find('td.subject')
-      .addClass('-with-hierarchy')
+    jRow.find("td.subject")
+      .addClass("-with-hierarchy")
       .prepend(hierarchyElement);
 
     // Assure that the content is still visible when the hierarchy indentation is very large
-    jRow.find('td.subject').css('minWidth', `${125 + (hierarchyIndentation * hierarchyLevel)}px`);
-    jRow.find('td.subject .wp-table--cell-container')
-      .css('width', 'calc(100% - ' + hierarchyBaseIndentation + 'px - ' + (hierarchyIndentation * hierarchyLevel) + 'px)');
+    jRow.find("td.subject").css("minWidth", `${125 + (hierarchyIndentation * hierarchyLevel)}px`);
+    jRow.find("td.subject .wp-table--cell-container")
+      .css("width", `calc(100% - ${hierarchyBaseIndentation}px - ${hierarchyIndentation * hierarchyLevel}px)`);
   }
 
   /**
    * Build the hierarchy indicator at the given indentation level.
    */
   private buildHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery|null, level:number):HTMLElement {
-    const hierarchyIndicator = document.createElement('span');
+    const hierarchyIndicator = document.createElement("span");
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
     const indicatorWidth = `${hierarchyBaseIndentation + (hierarchyIndentation * level)}px`;
     hierarchyIndicator.classList.add(hierarchyCellClassName);
@@ -142,7 +142,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     hierarchyIndicator.dataset.indentation = indicatorWidth;
 
     if (this.parentsWithVisibleChildren[workPackage.id!]) {
-      const className = collapsed ? indicatorCollapsedClass : '';
+      const className = collapsed ? indicatorCollapsedClass : "";
       hierarchyIndicator.innerHTML = `
             <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
               <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>

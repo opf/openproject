@@ -1,5 +1,5 @@
-import { Injector } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Injector } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { DisplayFieldContext, DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
@@ -15,13 +15,13 @@ import { ISchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { DateDisplayField } from "core-app/shared/components/fields/display/field-types/date-display-field.module";
 
-export const editableClassName = '-editable';
-export const requiredClassName = '-required';
-export const readOnlyClassName = '-read-only';
-export const placeholderClassName = '-placeholder';
-export const displayClassName = 'inline-edit--display-field';
-export const editFieldContainerClass = 'inline-edit--container';
-export const cellEmptyPlaceholder = '-';
+export const editableClassName = "-editable";
+export const requiredClassName = "-required";
+export const readOnlyClassName = "-read-only";
+export const placeholderClassName = "-placeholder";
+export const displayClassName = "inline-edit--display-field";
+export const editFieldContainerClass = "inline-edit--container";
+export const cellEmptyPlaceholder = "-";
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   @InjectField() displayFieldService:DisplayFieldService;
@@ -36,7 +36,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   private fieldCache:{ [key:string]:DisplayField } = {};
 
   constructor(public readonly injector:Injector,
-    public readonly container:'table'|'single-view'|'timeline',
+    public readonly container:"table"|"single-view"|"timeline",
     public readonly options:{ [key:string]:any } = {}) {
   }
 
@@ -59,7 +59,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     requestedAttribute:string,
     change:ResourceChangeset<T>|null,
     placeholder?:string):[DisplayField|null, HTMLSpanElement] {
-    const span = document.createElement('span');
+    const span = document.createElement("span");
     const schema = this.schema(resource, change);
     const attributeName = this.attributeName(requestedAttribute, schema);
     const fieldSchema = schema.ofProperty(attributeName);
@@ -75,9 +75,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
     const { title } = field;
     if (title) {
-      span.setAttribute('title', title);
+      span.setAttribute("title", title);
     }
-    span.setAttribute('aria-label', this.getAriaLabel(field, schema));
+    span.setAttribute("aria-label", this.getAriaLabel(field, schema));
 
     return [field, span];
   }
@@ -102,23 +102,23 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     const context:DisplayFieldContext = { container: this.container, injector: this.injector, options: this.options };
 
     // We handle multi value fields differently in the single view context
-    const isCustomMultiLinesField = ['[]CustomOption'].indexOf(fieldSchema.type) >= 0;
-    if (this.container === 'single-view' && isCustomMultiLinesField) {
+    const isCustomMultiLinesField = ["[]CustomOption"].indexOf(fieldSchema.type) >= 0;
+    if (this.container === "single-view" && isCustomMultiLinesField) {
       return new MultipleLinesCustomOptionsDisplayField(attributeName, context) as DisplayField;
     }
-    const isUserMultiLinesField = ['[]User'].indexOf(fieldSchema.type) >= 0;
-    if (this.container === 'single-view' && isUserMultiLinesField) {
+    const isUserMultiLinesField = ["[]User"].indexOf(fieldSchema.type) >= 0;
+    if (this.container === "single-view" && isUserMultiLinesField) {
       return new MultipleLinesUserFieldModule(attributeName, context) as DisplayField;
     }
 
     // We handle progress differently in the timeline
-    if (this.container === 'timeline' && attributeName === 'percentageDone') {
+    if (this.container === "timeline" && attributeName === "percentageDone") {
       return new ProgressTextDisplayField(attributeName, context);
     }
 
     // We want to render an combined edit field but the display field must
     // show the original attribute
-    if (this.container === 'table' && ['startDate', 'dueDate', 'date'].includes(attributeName)) {
+    if (this.container === "table" && ["startDate", "dueDate", "date"].includes(attributeName)) {
       return new DateDisplayField(attributeName, context);
     }
 
@@ -137,7 +137,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     span.dataset.fieldName = name;
 
     // Make span tabbable unless it's an id field
-    span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
+    span.setAttribute("tabindex", name === "id" ? "-1" : "0");
 
     if (field.required) {
       span.classList.add(requiredClassName);
@@ -150,7 +150,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     const schema = this.schema(resource, change);
     if (this.isAttributeEditable(schema, name)) {
       span.classList.add(editableClassName);
-      span.setAttribute('role', 'button');
+      span.setAttribute("role", "button");
     } else {
       span.classList.add(readOnlyClassName);
     }
@@ -158,8 +158,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   private isAttributeEditable(schema:SchemaResource, fieldName:string) {
     // We need to handle start/due date cases like they were combined dates
-    if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
-      fieldName = 'combinedDate';
+    if (["startDate", "dueDate", "date"].includes(fieldName)) {
+      fieldName = "combinedDate";
     }
 
     return schema.isAttributeEditable(fieldName);
@@ -173,8 +173,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       try {
         titleContent = _.escape(jQuery(`<div>${labelContent}</div>`).text());
       } catch (e) {
-        console.error('Failed to parse formattable labelContent');
-        titleContent = 'Label for ' + field.displayName;
+        console.error("Failed to parse formattable labelContent");
+        titleContent = `Label for ${field.displayName}`;
       }
     } else {
       titleContent = labelContent;
@@ -208,8 +208,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   }
 
   private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
-    if (fieldSchema.type === 'Formattable') {
-      return this.I18n.t('js.work_packages.placeholders.formattable', { name: fieldSchema.name });
+    if (fieldSchema.type === "Formattable") {
+      return this.I18n.t("js.work_packages.placeholders.formattable", { name: fieldSchema.name });
     }
 
     return cellEmptyPlaceholder;

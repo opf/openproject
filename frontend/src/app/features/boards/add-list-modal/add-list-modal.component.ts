@@ -49,7 +49,7 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 
 @Component({
-  templateUrl: './add-list-modal.html'
+  templateUrl: "./add-list-modal.html",
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** Keep a switchmap for search term and loading state */
@@ -86,23 +86,23 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   public warningText:string|undefined;
 
   public text:any = {
-    title: this.I18n.t('js.boards.add_list'),
-    button_add: this.I18n.t('js.button_add'),
-    button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title'),
+    title: this.I18n.t("js.boards.add_list"),
+    button_add: this.I18n.t("js.button_add"),
+    button_cancel: this.I18n.t("js.button_cancel"),
+    close_popup: this.I18n.t("js.close_popup_title"),
 
-    free_board: this.I18n.t('js.boards.board_type.free'),
-    free_board_text: this.I18n.t('js.boards.board_type.free_text'),
+    free_board: this.I18n.t("js.boards.board_type.free"),
+    free_board_text: this.I18n.t("js.boards.board_type.free_text"),
 
-    action_board: this.I18n.t('js.boards.board_type.action'),
-    action_board_text: this.I18n.t('js.boards.board_type.action_text'),
-    select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
-    placeholder: this.I18n.t('js.placeholders.selection'),
+    action_board: this.I18n.t("js.boards.board_type.action"),
+    action_board_text: this.I18n.t("js.boards.board_type.action_text"),
+    select_attribute: this.I18n.t("js.boards.board_type.select_attribute"),
+    placeholder: this.I18n.t("js.placeholders.selection"),
   };
 
   public referenceOutputs = {
     onCreate: (value:HalResource) => this.onNewActionCreated(value),
-    onOpen: () => this.requests.input$.next(''),
+    onOpen: () => this.requests.input$.next(""),
     onChange: (value:HalResource) => this.onModelChange(value),
     onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField(),
   };
@@ -140,7 +140,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .subscribe((values:unknown[]) => {
         let hasMember = false;
         if (values.length === 0) {
-          if (this.requests.lastRequestedValue !== undefined && this.requests.lastRequestedValue !== '') {
+          if (this.requests.lastRequestedValue !== undefined && this.requests.lastRequestedValue !== "") {
             hasMember = true;
           } else {
             hasMember = false;
@@ -159,7 +159,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       });
 
     // Request an empty value to load warning early on
-    this.requests.input$.next('');
+    this.requests.input$.next("");
   }
 
   onModelChange(element:HalResource) {
@@ -174,7 +174,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
-        this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
+        this.state.go("boards.partitioned.show", { board_id: board.id, isNew: true });
       })
       .catch(() => this.inFlight = false);
   }

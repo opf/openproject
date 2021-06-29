@@ -1,11 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
-import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
+import { Component, ViewChild } from "@angular/core";
+import { TabComponent } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 
 @Component({
-  templateUrl: './filters-tab.component.html'
+  templateUrl: "./filters-tab.component.html",
 })
 export class WpGraphConfigurationFiltersTab implements TabComponent {
-  @ViewChild('tabInner', { static: true })
+  @ViewChild("tabInner", { static: true })
   tabInner:TabComponent;
 
   public onSave() {

@@ -26,10 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BimViewService } from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
-
 
 @Component({
   template: `
@@ -47,13 +46,12 @@ import { BimViewService } from "core-app/features/bim/ifc_models/pages/viewer/bi
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'bim-view-toggle-button'
+  selector: "bim-view-toggle-button",
 })
 export class BimViewToggleButtonComponent {
-
   view$ = this.bimView.view$;
 
   constructor(readonly I18n:I18nService,
-              readonly bimView:BimViewService) {
+    readonly bimView:BimViewService) {
   }
 }

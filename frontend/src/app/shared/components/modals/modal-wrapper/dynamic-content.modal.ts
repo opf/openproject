@@ -35,7 +35,7 @@ import { OpModalComponent } from "core-app/shared/components/modal/modal.compone
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
-  templateUrl: './dynamic-content.modal.html'
+  templateUrl: "./dynamic-content.modal.html",
 })
 export class DynamicContentModal extends OpModalComponent implements OnInit, OnDestroy {
   // override superclass
@@ -55,7 +55,7 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
 
     // Append the dynamic body
     this.$element
-      .find('.dynamic-content-modal--wrapper')
+      .find(".dynamic-content-modal--wrapper")
       .addClass(this.locals.modalClassName)
       .append(this.locals.modalBody);
 
@@ -63,15 +63,15 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
     // This registers both on the close button in the modal header, as well as on any
     // other elements you have added the dynamic-content-modal--close-button class.
     jQuery(document.body)
-      .on('click.opdynamicmodal',
-        '.op-modal--close-button, [dynamic-content-modal-close-button]',
+      .on("click.opdynamicmodal",
+        ".op-modal--close-button, [dynamic-content-modal-close-button]",
         (evt:JQuery.TriggeredEvent) => {
           this.closeMe(evt);
         });
   }
 
   ngOnDestroy() {
-    jQuery(document.body).off('click.opdynamicmodal');
+    jQuery(document.body).off("click.opdynamicmodal");
     super.ngOnDestroy();
   }
 }

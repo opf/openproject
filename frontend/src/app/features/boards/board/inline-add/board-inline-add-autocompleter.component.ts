@@ -35,8 +35,8 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
@@ -53,17 +53,17 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
 @Component({
-  selector: 'board-inline-add-autocompleter',
-  templateUrl: './board-inline-add-autocompleter.html',
+  selector: "board-inline-add-autocompleter",
+  templateUrl: "./board-inline-add-autocompleter.html",
 
   // Allow styling the embedded ng-select
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./board-inline-add-autocompleter.sass'],
+  styleUrls: ["./board-inline-add-autocompleter.sass"],
 })
 
 export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   readonly text = {
-    placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
+    placeholder: this.I18n.t("js.relations_autocomplete.placeholder"),
   };
 
   // Whether we're currently loading
@@ -79,16 +79,16 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     const results = this.querySpace.results.value;
 
-    filters.add('subjectOrId', '**', [searchString]);
+    filters.add("subjectOrId", "**", [searchString]);
 
     if (results && results.elements.length > 0) {
-      filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
+      filters.add("id", "!", results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
     // Add the subproject filter, if any
     const query = this.querySpace.query.value;
     if (query?.filters) {
       const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
-      filters.merge(currentFilters, 'subprojectId');
+      filters.merge(currentFilters, "subprojectId");
     }
 
     return this
@@ -112,7 +112,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     getOptionsFn: this.getAutocompleterData,
   };
 
-  @Input() appendToContainer = 'body';
+  @Input() appendToContainer = "body";
 
   @ViewChild(OpAutocompleterComponent) public ngSelectComponent:OpAutocompleterComponent;
 

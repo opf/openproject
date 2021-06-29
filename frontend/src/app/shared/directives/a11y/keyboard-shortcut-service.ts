@@ -43,31 +43,31 @@ const accessKeys = {
 };
 
 // this could be extracted into a separate component if it grows
-const accessibleListSelector = 'table.keyboard-accessible-list';
-const accessibleRowSelector = 'table.keyboard-accessible-list tbody tr';
+const accessibleListSelector = "table.keyboard-accessible-list";
+const accessibleRowSelector = "table.keyboard-accessible-list tbody tr";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class KeyboardShortcutService {
   // maybe move it to a .constant
   private shortcuts:any = {
-    '?': () => this.showHelpModal(),
-    'g m': this.globalAction('myPagePath'),
-    'g o': this.projectScoped('projectPath'),
-    'g w p': this.projectScoped('projectWorkPackagesPath'),
-    'g w i': this.projectScoped('projectWikiPath'),
-    'g a': this.projectScoped('projectActivityPath'),
-    'g c': this.projectScoped('projectCalendarPath'),
-    'g n': this.projectScoped('projectNewsPath'),
-    'n w p': this.projectScoped('projectWorkPackageNewPath'),
+    "?": () => this.showHelpModal(),
+    "g m": this.globalAction("myPagePath"),
+    "g o": this.projectScoped("projectPath"),
+    "g w p": this.projectScoped("projectWorkPackagesPath"),
+    "g w i": this.projectScoped("projectWikiPath"),
+    "g a": this.projectScoped("projectActivityPath"),
+    "g c": this.projectScoped("projectCalendarPath"),
+    "g n": this.projectScoped("projectNewsPath"),
+    "n w p": this.projectScoped("projectWorkPackageNewPath"),
 
-    'g e': this.accessKey('edit'),
-    'g p': this.accessKey('preview'),
-    'd w p': this.accessKey('details'),
-    m: this.accessKey('moreMenu'),
-    p: this.accessKey('projectSearch'),
-    s: this.accessKey('quickSearch'),
+    "g e": this.accessKey("edit"),
+    "g p": this.accessKey("preview"),
+    "d w p": this.accessKey("details"),
+    m: this.accessKey("moreMenu"),
+    p: this.accessKey("projectSearch"),
+    s: this.accessKey("quickSearch"),
     k: () => this.focusPrevItem(),
     j: () => this.focusNextItem(),
   };
@@ -85,15 +85,15 @@ export class KeyboardShortcutService {
     _.each(this.shortcuts, (action:() => void, key:string) => Mousetrap.bind(key, action));
   }
 
-  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details') {
+  public accessKey(keyName:"preview"|"newWorkPackage"|"edit"|"quickSearch"|"projectSearch"|"help"|"moreMenu"|"details") {
     var key = accessKeys[keyName];
     return () => {
-      var elem = jQuery('[accesskey=' + key + ']:first');
-      if (elem.is('input') || elem.attr('id') === 'global-search-input') {
+      var elem = jQuery(`[accesskey=${key}]:first`);
+      if (elem.is("input") || elem.attr("id") === "global-search-input") {
         // timeout with delay so that the key is not
         // triggered on the input
         setTimeout(() => this.FocusHelper.focus(elem), 200);
-      } else if (elem.is('[href]')) {
+      } else if (elem.is("[href]")) {
         this.clickLink(elem[0]);
       } else {
         elem[0].click();
@@ -119,7 +119,7 @@ export class KeyboardShortcutService {
   }
 
   clickLink(link:any) {
-    const event = new MouseEvent('click', {
+    const event = new MouseEvent("click", {
       view: window,
       bubbles: true,
       cancelable: true,
@@ -138,8 +138,8 @@ export class KeyboardShortcutService {
   findListInPage() {
     const domLists = jQuery(accessibleListSelector);
     const focusElements:any = [];
-    domLists.find('tbody tr').each((index, tr) => {
-      var firstLink = jQuery(tr).find(':visible:tabbable')[0];
+    domLists.find("tbody tr").each((index, tr) => {
+      var firstLink = jQuery(tr).find(":visible:tabbable")[0];
       if (firstLink !== undefined) {
         focusElements.push(firstLink);
       }
@@ -158,7 +158,7 @@ export class KeyboardShortcutService {
     index = list.indexOf(
       jQuery(document.activeElement!)
         .closest(accessibleRowSelector)
-        .find(':visible:tabbable')[0],
+        .find(":visible:tabbable")[0],
     );
 
     const target = jQuery(list[(index + offset + list.length) % list.length]);

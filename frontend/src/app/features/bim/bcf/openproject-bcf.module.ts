@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule } from "@angular/core";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { NgxGalleryModule } from "@kolkov/ngx-gallery";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
@@ -105,12 +105,12 @@ export class OpenprojectBcfModule {
 
     const displayFieldService = injector.get(DisplayFieldService);
     displayFieldService
-      .addFieldType(BcfThumbnailDisplayField, 'bcfThumbnail', [
-        'BCF Thumbnail'
+      .addFieldType(BcfThumbnailDisplayField, "bcfThumbnail", [
+        "BCF Thumbnail",
       ]);
 
     const hookService = injector.get(HookService);
-    hookService.register('prependedAttributeGroups', (workPackage:WorkPackageResource) => {
+    hookService.register("prependedAttributeGroups", (workPackage:WorkPackageResource) => {
       if (!window.OpenProject.isBimEdition) {
         return;
       }

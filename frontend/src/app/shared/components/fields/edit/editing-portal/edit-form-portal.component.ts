@@ -21,8 +21,8 @@ import { EditFieldService, IEditFieldType } from "core-app/shared/components/fie
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 
 @Component({
-  selector: 'edit-form-portal',
-  templateUrl: './edit-form-portal.component.html'
+  selector: "edit-form-portal",
+  templateUrl: "./edit-form-portal.component.html",
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() schemaInput:IFieldSchema;

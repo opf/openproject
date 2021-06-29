@@ -2,14 +2,14 @@
  * A PortalOutlet that lets multiple components live for the lifetime of the outlet,
  * allowing faster switching and persistent data.
  */
-import { ComponentPortal } from '@angular/cdk/portal';
+import { ComponentPortal } from "@angular/cdk/portal";
 import {
   ApplicationRef,
   ComponentFactoryResolver,
   ComponentRef,
   EmbeddedViewRef,
   Injector,
-} from '@angular/core';
+} from "@angular/core";
 import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";
 
 export interface TabInterface extends TabDefinition {

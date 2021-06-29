@@ -25,10 +25,10 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { IAutocompleteItem } from 'core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component';
+import { IAutocompleteItem } from "core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component";
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { StateService } from "@uirouter/core";
@@ -44,19 +44,19 @@ export class WorkPackageStaticQueriesService {
   }
 
   public text = {
-    assignee: this.I18n.t('js.work_packages.properties.assignee'),
-    author: this.I18n.t('js.work_packages.properties.author'),
-    created_at: this.I18n.t('js.work_packages.properties.createdAt'),
-    updated_at: this.I18n.t('js.work_packages.properties.updatedAt'),
-    status: this.I18n.t('js.work_packages.properties.status'),
-    work_packages: this.I18n.t('js.label_work_package_plural'),
-    gantt: this.I18n.t('js.timelines.gantt_chart'),
-    latest_activity: this.I18n.t('js.work_packages.default_queries.latest_activity'),
-    created_by_me: this.I18n.t('js.work_packages.default_queries.created_by_me'),
-    assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
-    recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
-    all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
-    summary: this.I18n.t('js.work_packages.default_queries.summary'),
+    assignee: this.I18n.t("js.work_packages.properties.assignee"),
+    author: this.I18n.t("js.work_packages.properties.author"),
+    created_at: this.I18n.t("js.work_packages.properties.createdAt"),
+    updated_at: this.I18n.t("js.work_packages.properties.updatedAt"),
+    status: this.I18n.t("js.work_packages.properties.status"),
+    work_packages: this.I18n.t("js.label_work_package_plural"),
+    gantt: this.I18n.t("js.timelines.gantt_chart"),
+    latest_activity: this.I18n.t("js.work_packages.default_queries.latest_activity"),
+    created_by_me: this.I18n.t("js.work_packages.default_queries.created_by_me"),
+    assigned_to_me: this.I18n.t("js.work_packages.default_queries.assigned_to_me"),
+    recently_created: this.I18n.t("js.work_packages.default_queries.recently_created"),
+    all_open: this.I18n.t("js.work_packages.default_queries.all_open"),
+    summary: this.I18n.t("js.work_packages.default_queries.summary"),
   };
 
   // Create all static queries manually
@@ -65,22 +65,22 @@ export class WorkPackageStaticQueriesService {
   public get all():IAutocompleteItem[] {
     let items = [
       {
-        identifier: 'all_open',
+        identifier: "all_open",
         label: this.text.all_open,
         query_props: null,
       },
       {
-        identifier: 'latest_activity',
+        identifier: "latest_activity",
         label: this.text.latest_activity,
         query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
       },
       {
-        identifier: 'gantt',
+        identifier: "gantt",
         label: this.text.gantt,
         query_props: '{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
       },
       {
-        identifier: 'recently_created',
+        identifier: "recently_created",
         label: this.text.recently_created,
         query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
       },
@@ -89,7 +89,7 @@ export class WorkPackageStaticQueriesService {
     const projectIdentifier = this.CurrentProject.identifier;
     if (projectIdentifier) {
       items.push({
-        identifier: 'summary',
+        identifier: "summary",
         label: this.text.summary,
         static_link: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
       });
@@ -98,12 +98,12 @@ export class WorkPackageStaticQueriesService {
     if (this.CurrentUserService.isLoggedIn) {
       items = items.concat([
         {
-          identifier: 'created_by_me',
+          identifier: "created_by_me",
           label: this.text.created_by_me,
           query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
         },
         {
-          identifier: 'assigned_to_me',
+          identifier: "assigned_to_me",
           label: this.text.assigned_to_me,
           query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
         },
@@ -129,8 +129,8 @@ export class WorkPackageStaticQueriesService {
 
     // Try to detect the all open filter
     if (query.filters.length === 1 // Only one filter
-      && query.filters[0].id === 'status' && // that is status
-      query.filters[0].operator.id === 'o') { // and is open
+      && query.filters[0].id === "status" // that is status
+      && query.filters[0].operator.id === "o") { // and is open
       return this.text.all_open;
     }
 

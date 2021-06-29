@@ -22,7 +22,7 @@ import { StateService } from "@uirouter/core";
 import { States } from "core-app/core/states/states.service";
 import { WorkPackageViewOrderService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { filter, map, withLatestFrom } from "rxjs/operators";
 import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
 import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { CardViewHandlerRegistry } from "core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry";
@@ -41,16 +41,16 @@ import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 
-export type CardViewOrientation = 'horizontal'|'vertical';
+export type CardViewOrientation = "horizontal"|"vertical";
 
 @Component({
-  selector: 'wp-card-view',
-  styleUrls: ['./styles/wp-card-view.component.sass', './styles/wp-card-view-horizontal.sass', './styles/wp-card-view-vertical.sass'],
-  templateUrl: './wp-card-view.component.html',
+  selector: "wp-card-view",
+  styleUrls: ["./styles/wp-card-view.component.sass", "./styles/wp-card-view-horizontal.sass", "./styles/wp-card-view-vertical.sass"],
+  templateUrl: "./wp-card-view.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, WorkPackageViewOutputs {
-  @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
+  @Input("dragOutOfHandler") public canDragOutOf:(wp:WorkPackageResource) => boolean;
 
   @Input() public dragInto:boolean;
 
@@ -62,7 +62,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Input() public showInfoButton = false;
 
-  @Input() public orientation:CardViewOrientation = 'vertical';
+  @Input() public orientation:CardViewOrientation = "vertical";
 
   /** Whether cards are removable */
   @Input() public cardsRemovable = false;
@@ -74,7 +74,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   @Input() public shrinkOnMobile = false;
 
   /** Container reference */
-  @ViewChild('container', { static: true }) public container:ElementRef;
+  @ViewChild("container", { static: true }) public container:ElementRef;
 
   @Output() public onMoved = new EventEmitter<void>();
 
@@ -84,7 +84,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
-  public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('lockVersion');
+  public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty("lockVersion");
 
   public query:QueryResource;
 
@@ -93,11 +93,11 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   public columns:QueryColumn[];
 
   public text = {
-    removeCard: this.I18n.t('js.card.remove_from_list'),
-    addNewCard: this.I18n.t('js.card.add_new'),
+    removeCard: this.I18n.t("js.card.remove_from_list"),
+    addNewCard: this.I18n.t("js.card.add_new"),
     noResults: {
-      title: this.I18n.t('js.work_packages.no_results.title'),
-      description: this.I18n.t('js.work_packages.no_results.description'),
+      title: this.I18n.t("js.work_packages.no_results.title"),
+      description: this.I18n.t("js.work_packages.no_results.description"),
     },
   };
 
@@ -152,9 +152,9 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
     // Observe changes to the work packages in this view
     this.halEvents
-      .aggregated$('WorkPackage')
+      .aggregated$("WorkPackage")
       .pipe(
-        map(events => events.filter(event => event.eventType === 'updated')),
+        map(events => events.filter(event => event.eventType === "updated")),
         filter(events => {
           const wpIds:string[] = this.workPackages.map(el => el.id!.toString());
           return !!events.find(event => wpIds.indexOf(event.id) !== -1);
@@ -228,9 +228,9 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   }
 
   public classes() {
-    let classes = 'wp-cards-container ';
-    classes += '-' + this.orientation;
-    classes += this.shrinkOnMobile ? ' -shrink' : '';
+    let classes = "wp-cards-container ";
+    classes += `-${this.orientation}`;
+    classes += this.shrinkOnMobile ? " -shrink" : "";
 
     return classes;
   }

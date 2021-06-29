@@ -38,7 +38,7 @@ import {
 import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
 @Directive({
-  selector: '[wpViewDropdown]'
+  selector: "[wpViewDropdown]",
 })
 export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
@@ -57,7 +57,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
   public get locals() {
     return {
       items: this.items,
-      contextMenuId: 'wp-view-context-menu'
+      contextMenuId: "wp-view-context-menu",
     };
   }
 
@@ -68,8 +68,8 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
       this.items.push(
         {
           // Card View
-          linkText: this.I18n.t('js.views.card'),
-          icon: 'icon-view-card',
+          linkText: this.I18n.t("js.views.card"),
+          icon: "icon-view-card",
           onClick: (evt:any) => {
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
             if (this.wpTableTimeline.isVisible) {
@@ -86,8 +86,8 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
       this.items.push(
         {
           // List View
-          linkText: this.I18n.t('js.views.list'),
-          icon: 'icon-view-list',
+          linkText: this.I18n.t("js.views.list"),
+          icon: "icon-view-list",
           onClick: (evt:any) => {
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
             if (this.wpTableTimeline.isVisible) {
@@ -103,8 +103,8 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
       this.items.push(
         {
           // List View with enabled Gantt
-          linkText: this.I18n.t('js.views.timeline'),
-          icon: 'icon-view-timeline',
+          linkText: this.I18n.t("js.views.timeline"),
+          icon: "icon-view-timeline",
           onClick: (evt:any) => {
             if (!this.wpTableTimeline.isVisible) {
               this.wpTableTimeline.toggle();

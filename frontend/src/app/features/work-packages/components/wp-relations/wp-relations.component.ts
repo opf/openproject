@@ -28,22 +28,22 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Observable, zip } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { Observable, zip } from "rxjs";
+import { take, takeUntil } from "rxjs/operators";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { RelationsStateValue, WorkPackageRelationsService } from './wp-relations.service';
+import { RelationsStateValue, WorkPackageRelationsService } from "./wp-relations.service";
 import { RelatedWorkPackagesGroup } from "./wp-relations.interfaces";
 
 @Component({
-  selector: 'wp-relations',
+  selector: "wp-relations",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './wp-relations.template.html'
+  templateUrl: "./wp-relations.template.html",
 })
 export class WorkPackageRelationsComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -60,7 +60,7 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   public groupByWorkPackageType = false;
 
   public text = {
-    relations_header: this.I18n.t('js.work_packages.tabs.relations'),
+    relations_header: this.I18n.t("js.work_packages.tabs.relations"),
   };
 
   public currentRelations:WorkPackageResource[] = [];
@@ -132,7 +132,7 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
           return wp.type.name;
         }
         var normalizedType = (wp.relatedBy as RelationResource).normalizedType(this.workPackage);
-        return this.I18n.t("js.relation_labels." + normalizedType);
+        return this.I18n.t(`js.relation_labels.${normalizedType}`);
       });
     this.relationGroupKeys = _.keys(this.relationGroups);
     this.relationsPresent = _.size(this.relationGroups) > 0;

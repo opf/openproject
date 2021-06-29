@@ -1,10 +1,10 @@
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WpGraphConfigurationSettingsTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component";
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { TabInterface } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { WpGraphConfigurationFiltersTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component";
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions, ChartType } from "chart.js";
 import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
 import {
   WpGraphConfiguration,
@@ -138,8 +138,8 @@ export class WpGraphConfigurationService {
   public get tabs():TabInterface[] {
     const tabs:TabInterface[] = [
       {
-        id: 'graph-settings',
-        name: this.I18n.t('js.chart.tabs.graph_settings'),
+        id: "graph-settings",
+        name: this.I18n.t("js.chart.tabs.graph_settings"),
         componentClass: WpGraphConfigurationSettingsTab,
       },
     ];

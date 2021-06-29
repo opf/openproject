@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { InputState } from 'reactivestates';
+import { InputState } from "reactivestates";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export class UserResource extends HalResource {
@@ -53,7 +53,7 @@ export class UserResource extends HalResource {
   public showUser:HalResource;
 
   public static get active_user_statuses() {
-    return ['active', 'registered'];
+    return ["active", "registered"];
   }
 
   public get state():InputState<this> {

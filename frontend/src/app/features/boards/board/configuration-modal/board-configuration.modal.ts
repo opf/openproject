@@ -9,23 +9,23 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+} from "@angular/core";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
   TabPortalOutlet,
-} from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
+} from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardConfigurationService } from "core-app/features/boards/board/configuration-modal/board-configuration.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { Board } from "core-app/features/boards/board/board";
 
 @Component({
-  templateUrl: './board-configuration.modal.html'
+  templateUrl: "./board-configuration.modal.html",
 })
 export class BoardConfigurationModal extends OpModalComponent implements OnInit, OnDestroy {
   /* Close on escape? */
@@ -35,15 +35,15 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
   public closeOnOutsideClick = false;
 
   public text = {
-    title: this.I18n.t('js.boards.configuration_modal.title'),
-    closePopup: this.I18n.t('js.close_popup_title'),
+    title: this.I18n.t("js.boards.configuration_modal.title"),
+    closePopup: this.I18n.t("js.close_popup_title"),
 
-    applyButton: this.I18n.t('js.modals.button_apply'),
-    cancelButton: this.I18n.t('js.modals.button_cancel'),
+    applyButton: this.I18n.t("js.modals.button_apply"),
+    cancelButton: this.I18n.t("js.modals.button_cancel"),
   };
 
   // Get the view child we'll use as the portal host
-  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+  @ViewChild("tabContentOutlet", { static: true }) tabContentOutlet:ElementRef;
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;

@@ -1,6 +1,6 @@
 import { InjectionToken } from "@angular/core";
 
-export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
+export const OpContextMenuLocalsToken = new InjectionToken<any>("CONTEXT_MENU_LOCALS");
 
 export interface OpContextMenuLocalsMap {
   items:OpContextMenuItem[];

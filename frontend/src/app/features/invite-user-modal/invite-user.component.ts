@@ -6,9 +6,9 @@ import {
   Inject,
   OnInit,
   ViewEncapsulation,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+} from "@angular/core";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { PrincipalData } from "core-app/shared/components/principal/principal-types";
@@ -26,14 +26,14 @@ enum Steps {
 }
 
 export enum PrincipalType {
-  User = 'User',
-  Placeholder = 'PlaceholderUser',
-  Group = 'Group',
+  User = "User",
+  Placeholder = "PlaceholderUser",
+  Group = "Group",
 }
 
 @Component({
-  templateUrl: './invite-user.component.html',
-  styleUrls: ['./invite-user.component.sass'],
+  templateUrl: "./invite-user.component.html",
+  styleUrls: ["./invite-user.component.sass"],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -59,7 +59,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   public role:RoleResource|null = null;
 
-  public message = '';
+  public message = "";
 
   public createdNewPrincipal = false;
 

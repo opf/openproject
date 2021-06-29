@@ -18,6 +18,7 @@ module.exports = {
   overrides: [
     {
       files: ["*.ts"],
+      parser: "@typescript-eslint/parser",
       parserOptions: {
         project: "./src/tsconfig.app.json",
         tsconfigRootDir: __dirname,
@@ -114,7 +115,8 @@ module.exports = {
         "spaced-comment": "off",
 
         // Force double quotes to align with ruby
-        quotes: ["error", "double", { avoidEscape: true }],
+        quotes: "off",
+        "@typescript-eslint/quotes": ["error", "double", { avoidEscape: true }],
 
         // Disable consistent return as typescript checks return type
         "consistent-return": "off",

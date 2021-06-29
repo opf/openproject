@@ -35,27 +35,27 @@ import { distinctUntilChanged } from "rxjs/operators";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
-  selector: 'enterprise-trial-waiting',
-  templateUrl: './ee-trial-waiting.component.html',
-  styleUrls: ['./ee-trial-waiting.component.sass'],
+  selector: "enterprise-trial-waiting",
+  templateUrl: "./ee-trial-waiting.component.html",
+  styleUrls: ["./ee-trial-waiting.component.sass"],
 })
 export class EETrialWaitingComponent implements OnInit {
   created = this.timezoneService.formattedDate(new Date().toString());
 
-  email = '';
+  email = "";
 
   public text = {
-    confirmation_info: (date:string, email:string) => this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+    confirmation_info: (date:string, email:string) => this.I18n.t("js.admin.enterprise.trial.confirmation_info", {
       date,
       email,
     }),
-    resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
-    resend_success: this.I18n.t('js.admin.enterprise.trial.resend_success'),
-    resend_warning: this.I18n.t('js.admin.enterprise.trial.resend_warning'),
-    session_timeout: this.I18n.t('js.admin.enterprise.trial.session_timeout'),
-    status_confirmed: this.I18n.t('js.admin.enterprise.trial.status_confirmed'),
-    status_label: this.I18n.t('js.admin.enterprise.trial.status_label'),
-    status_waiting: this.I18n.t('js.admin.enterprise.trial.status_waiting'),
+    resend: this.I18n.t("js.admin.enterprise.trial.resend_link"),
+    resend_success: this.I18n.t("js.admin.enterprise.trial.resend_success"),
+    resend_warning: this.I18n.t("js.admin.enterprise.trial.resend_warning"),
+    session_timeout: this.I18n.t("js.admin.enterprise.trial.session_timeout"),
+    status_confirmed: this.I18n.t("js.admin.enterprise.trial.status_confirmed"),
+    status_label: this.I18n.t("js.admin.enterprise.trial.status_label"),
+    status_waiting: this.I18n.t("js.admin.enterprise.trial.status_waiting"),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -69,7 +69,7 @@ export class EETrialWaitingComponent implements OnInit {
   ngOnInit() {
     const eeTrialKey = (window as any).gon.ee_trial_key;
     if (eeTrialKey) {
-      const savedDateStr = eeTrialKey.created.split(' ')[0];
+      const savedDateStr = eeTrialKey.created.split(" ")[0];
       this.created = this.timezoneService.formattedDate(savedDateStr);
     }
 

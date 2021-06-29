@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { GridResource } from "core-app/features/hal/resources/grid-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
@@ -18,7 +18,7 @@ export class GridInitializationService {
     return this
       .apiV3Service
       .grids
-      .list({ filters: [['scope', '=', [path]]] })
+      .list({ filters: [["scope", "=", [path]]] })
       .toPromise()
       .then(collection => {
         if (collection.total === 0) {

@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { QueryEntity } from '@datorama/akita';
-import { map, switchMap } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { QueryEntity } from "@datorama/akita";
+import { map, switchMap } from "rxjs/operators";
 import { InAppNotificationsStore, InAppNotificationsState } from "./in-app-notifications.store";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState> {
   /** Get the number of unread items */
-  unreadCount$ = this.select('count');
+  unreadCount$ = this.select("count");
 
   /** Do we have any unread items? */
   hasUnread$ = this.unreadCount$.pipe(map(count => count > 0));
@@ -24,7 +24,7 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
   /** Do we have any notification that shall be visible the notification center? */
   hasNotifications$ = this.selectCount().pipe(map(count => count > 0));
 
-  activeFacet$ = this.select('activeFacet');
+  activeFacet$ = this.select("activeFacet");
 
   /** Determine whether the pageSize is not sufficient to load all notifcations */
   hasMoreThanPageSize$ = this

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { DisplayedDays } from "core-app/shared/components/calendar/te-calendar/te-calendar.component";
 
 @Injectable()

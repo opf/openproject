@@ -50,7 +50,7 @@ export class QueryFilterInstanceResource extends HalResource {
   public $initialize(source:any) {
     super.$initialize(source);
 
-    this.$links['schema'] = {
+    this.$links["schema"] = {
       href: `${this.pathHelper.api.v3.apiV3Base}/queries/filter_instance_schemas/${this.filter.idFromLink}`,
     };
   }
@@ -81,7 +81,7 @@ export class QueryFilterInstanceResource extends HalResource {
       try {
         this.memoizedCurrentSchemas[key] = this.schemaCache.of(this).resultingSchema(this.operator);
       } catch (e) {
-        console.error("Failed to access filter schema" + e);
+        console.error(`Failed to access filter schema${e}`);
       }
     }
 
@@ -99,8 +99,8 @@ export class QueryFilterInstanceResource extends HalResource {
   public isTemplated() {
     let flag = false;
     (this.values as any[]).find((value:any) => {
-      const href:string = value?.href || value.toString() || '';
-      flag = href.includes('{id}');
+      const href:string = value?.href || value.toString() || "";
+      flag = href.includes("{id}");
     });
     return flag;
   }

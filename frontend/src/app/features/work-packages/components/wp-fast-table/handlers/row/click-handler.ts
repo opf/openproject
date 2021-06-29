@@ -1,14 +1,14 @@
-import { Injector } from '@angular/core';
-import { StateService } from '@uirouter/core';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { Injector } from "@angular/core";
+import { StateService } from "@uirouter/core";
+import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import { States } from "core-app/core/states/states.service";
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { displayClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
-import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { displayClassName } from "core-app/shared/components/fields/display/display-field-renderer";
+import { activeFieldClassName } from "core-app/shared/components/fields/edit/edit-form/edit-form";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { debugLog } from "core-app/shared/helpers/debug_output";
 import { TableEventComponent, TableEventHandler } from "../table-handler-registry";
-import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { tableRowClassName } from "../../builders/rows/single-row-builder";
 import { KeepTabService } from "../../../wp-single-view-tabs/keep-tab/keep-tab.service";
 
 export class RowClickHandler implements TableEventHandler {
@@ -27,7 +27,7 @@ export class RowClickHandler implements TableEventHandler {
   }
 
   public get EVENT() {
-    return 'click.table.row';
+    return "click.table.row";
   }
 
   public get SELECTOR() {
@@ -42,21 +42,21 @@ export class RowClickHandler implements TableEventHandler {
     const target = jQuery(evt.target);
 
     // Ignore links
-    if (target.is('a') || target.parent().is('a')) {
+    if (target.is("a") || target.parent().is("a")) {
       return true;
     }
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
     if (target.hasClass(`${displayClassName}`) || target.hasClass(`${activeFieldClassName}`)) {
-      debugLog('Skipping click on inner cell');
+      debugLog("Skipping click on inner cell");
       return true;
     }
 
     // Locate the row from event
     const element = target.closest(this.SELECTOR);
-    const wpId = element.data('workPackageId');
-    const classIdentifier = element.data('classIdentifier');
+    const wpId = element.data("workPackageId");
+    const classIdentifier = element.data("classIdentifier");
 
     if (!wpId) {
       return true;

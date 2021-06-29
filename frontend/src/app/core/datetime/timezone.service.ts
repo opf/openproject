@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import * as moment from 'moment-timezone';
-import { Moment } from 'moment';
+import { Injectable } from "@angular/core";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import * as moment from "moment-timezone";
+import { Moment } from "moment";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class TimezoneService {
   constructor(readonly ConfigurationService:ConfigurationService,
     readonly I18n:I18nService) {
@@ -95,11 +95,11 @@ export class TimezoneService {
    * @returns {Moment}
    */
   public parseISODatetime(datetime:string) {
-    return this.parseDatetime(datetime, 'YYYY-MM-DDTHH:mm:ssZ');
+    return this.parseDatetime(datetime, "YYYY-MM-DDTHH:mm:ssZ");
   }
 
   public parseISODate(date:string) {
-    return this.parseDate(date, 'YYYY-MM-DD');
+    return this.parseDate(date, "YYYY-MM-DD");
   }
 
   public formattedDate(date:string) {
@@ -122,9 +122,9 @@ export class TimezoneService {
    */
   public daysFromToday(dateString:string):number {
     const date = this.parseDate(dateString);
-    const today = moment().startOf('day');
+    const today = moment().startOf("day");
 
-    return date.diff(today, 'days');
+    return date.diff(today, "days");
   }
 
   public formattedTime(datetimeString:string) {
@@ -154,11 +154,11 @@ export class TimezoneService {
   }
 
   public formattedDuration(durationString:string) {
-    return this.I18n.t('js.units.hour', { count: this.toHours(durationString) });
+    return this.I18n.t("js.units.hour", { count: this.toHours(durationString) });
   }
 
   public formattedISODate(date:any) {
-    return this.parseDate(date).format('YYYY-MM-DD');
+    return this.parseDate(date).format("YYYY-MM-DD");
   }
 
   public formattedISODateTime(datetime:any) {
@@ -166,11 +166,11 @@ export class TimezoneService {
   }
 
   public isValidISODate(date:any) {
-    return this.isValid(date, 'YYYY-MM-DD');
+    return this.isValid(date, "YYYY-MM-DD");
   }
 
   public isValidISODateTime(dateTime:string) {
-    return this.isValid(dateTime, 'YYYY-MM-DDTHH:mm:ssZ');
+    return this.isValid(dateTime, "YYYY-MM-DDTHH:mm:ssZ");
   }
 
   public isValid(date:string, dateFormat:string) {
@@ -179,10 +179,10 @@ export class TimezoneService {
   }
 
   public getDateFormat() {
-    return this.ConfigurationService.dateFormatPresent() ? this.ConfigurationService.dateFormat() : 'L';
+    return this.ConfigurationService.dateFormatPresent() ? this.ConfigurationService.dateFormat() : "L";
   }
 
   public getTimeFormat() {
-    return this.ConfigurationService.timeFormatPresent() ? this.ConfigurationService.timeFormat() : 'LT';
+    return this.ConfigurationService.timeFormatPresent() ? this.ConfigurationService.timeFormat() : "LT";
   }
 }

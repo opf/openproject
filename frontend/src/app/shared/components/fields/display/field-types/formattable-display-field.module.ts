@@ -36,22 +36,22 @@ export class FormattableDisplayField extends DisplayField {
   @InjectField() readonly appRef:ApplicationRef;
 
   public render(element:HTMLElement, displayText:string, options:any = {}):void {
-    const div = document.createElement('div');
+    const div = document.createElement("div");
 
     div.classList.add(
-      'read-value--html',
-      'highlight',
-      'op-uc-container',
-      'op-uc-container_reduced-headings',
-      '-multiline',
+      "read-value--html",
+      "highlight",
+      "op-uc-container",
+      "op-uc-container_reduced-headings",
+      "-multiline",
     );
     if (options.rtl) {
-      div.classList.add('-rtl');
+      div.classList.add("-rtl");
     }
 
     div.innerHTML = displayText;
 
-    element.innerHTML = '';
+    element.innerHTML = "";
     element.appendChild(div);
 
     // Allow embeddable rendered content
@@ -68,7 +68,7 @@ export class FormattableDisplayField extends DisplayField {
     }
     const element = this.resource[this.name];
     if (!(element && element.html)) {
-      return '';
+      return "";
     }
 
     return this.unescape(element.html);

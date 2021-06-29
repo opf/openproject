@@ -19,7 +19,7 @@ export function bootstrapModule(injector:Injector) {
     });
   });
 
-  const userMeta = document.querySelectorAll('meta[name=current_user]')[0] as HTMLElement|undefined;
+  const userMeta = document.querySelectorAll("meta[name=current_user]")[0] as HTMLElement|undefined;
   currentUserService.setUser({
     id: userMeta?.dataset.id || null,
     name: userMeta?.dataset.name || null,

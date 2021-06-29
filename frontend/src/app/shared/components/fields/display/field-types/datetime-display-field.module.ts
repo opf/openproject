@@ -38,6 +38,6 @@ export class DateTimeDisplayField extends DisplayField {
       return this.timezoneService.formattedDatetime(this.value);
     }
 
-    return '';
+    return "";
   }
 }

@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageNewSplitViewComponent } from 'core-app/features/work-packages/components/wp-new/wp-new-split-view.component';
-import { Ng2StateDeclaration } from '@uirouter/angular';
-import { ComponentType } from '@angular/cdk/overlay';
-import { WpTabWrapperComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
+import { WorkPackageNewSplitViewComponent } from "core-app/features/work-packages/components/wp-new/wp-new-split-view.component";
+import { Ng2StateDeclaration } from "@uirouter/angular";
+import { ComponentType } from "@angular/cdk/overlay";
+import { WpTabWrapperComponent } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component";
 import { WorkPackageCopySplitViewComponent } from "core-app/features/work-packages/components/wp-copy/wp-copy-split-view.component";
 
 /**
@@ -59,24 +59,24 @@ export function makeSplitViewRoutes(baseRoute:string,
   routeName = baseRoute):Ng2StateDeclaration[] {
   // makeFullWidth configuration
   const views:any = makeFullWidth
-    ? { 'content-left@^.^': { component: showComponent } }
-    : { 'content-right@^.^': { component: showComponent } };
-  const partition = makeFullWidth ? '-left-only' : '-split';
+    ? { "content-left@^.^": { component: showComponent } }
+    : { "content-right@^.^": { component: showComponent } };
+  const partition = makeFullWidth ? "-left-only" : "-split";
 
   return [
     {
       name: `${routeName}.details`,
-      url: '/details/{workPackageId:[0-9]+}',
+      url: "/details/{workPackageId:[0-9]+}",
       redirectTo: (trans) => {
-        const params = trans.params('to');
+        const params = trans.params("to");
         return {
           state: `${routeName}.details.tabs`,
-          params: { ...params, tabIdentifier: 'overview' },
+          params: { ...params, tabIdentifier: "overview" },
         };
       },
       reloadOnSearch: false,
       data: {
-        bodyClasses: 'router--work-packages-partitioned-split-view-details',
+        bodyClasses: "router--work-packages-partitioned-split-view-details",
         menuItem: menuItemClass,
         // Remember the base route so we can route back to it anywhere
         baseRoute,
@@ -89,7 +89,7 @@ export function makeSplitViewRoutes(baseRoute:string,
     },
     {
       name: `${routeName}.details.tabs`,
-      url: '/:tabIdentifier',
+      url: "/:tabIdentifier",
       component: WpTabWrapperComponent,
       data: {
         baseRoute,
@@ -100,12 +100,12 @@ export function makeSplitViewRoutes(baseRoute:string,
     // Split create route
     {
       name: `${routeName}.new`,
-      url: '/create_new?{type:[0-9]+}&{parent_id:[0-9]+}',
+      url: "/create_new?{type:[0-9]+}&{parent_id:[0-9]+}",
       reloadOnSearch: false,
       data: {
-        partition: '-split',
+        partition: "-split",
         allowMovingInEditMode: true,
-        bodyClasses: 'router--work-packages-partitioned-split-view-new',
+        bodyClasses: "router--work-packages-partitioned-split-view-new",
         // Remember the base route so we can route back to it anywhere
         baseRoute,
         parent: baseRoute,
@@ -113,24 +113,24 @@ export function makeSplitViewRoutes(baseRoute:string,
       views: {
         // Retarget and by that override the grandparent views
         // https://ui-router.github.io/guide/views#relative-parent-state
-        'content-right@^.^': { component: newComponent },
+        "content-right@^.^": { component: newComponent },
       },
     },
     // Split copy route
     {
       name: `${routeName}.copy`,
-      url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
+      url: "/details/{copiedFromWorkPackageId:[0-9]+}/copy",
       views: {
-        'content-right@^.^': { component: WorkPackageCopySplitViewComponent },
+        "content-right@^.^": { component: WorkPackageCopySplitViewComponent },
       },
       reloadOnSearch: false,
       data: {
         baseRoute,
         parent: baseRoute,
         allowMovingInEditMode: true,
-        bodyClasses: 'router--work-packages-partitioned-split-view',
+        bodyClasses: "router--work-packages-partitioned-split-view",
         menuItem: menuItemClass,
-        partition: '-split'
+        partition: "-split",
       },
     },
   ];

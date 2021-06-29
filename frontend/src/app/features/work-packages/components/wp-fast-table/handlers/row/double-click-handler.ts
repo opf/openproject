@@ -1,16 +1,16 @@
-import { Injector } from '@angular/core';
-import { StateService } from '@uirouter/core';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { Injector } from "@angular/core";
+import { StateService } from "@uirouter/core";
+import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
+import { debugLog } from "core-app/shared/helpers/debug_output";
 import { States } from "core-app/core/states/states.service";
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { displayClassName } from "core-app/shared/components/fields/display/display-field-renderer";
 import { activeFieldClassName } from "core-app/shared/components/fields/edit/edit-form/edit-form";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { TableEventComponent, TableEventHandler } from "../table-handler-registry";
 import { WorkPackageTable } from "../../wp-fast-table";
-import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { tableRowClassName } from "../../builders/rows/single-row-builder";
 import { tdClassName } from "../../builders/cell-builder";
 
 export class RowDoubleClickHandler implements TableEventHandler {
@@ -27,7 +27,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
   }
 
   public get EVENT() {
-    return 'dblclick.table.row';
+    return "dblclick.table.row";
   }
 
   public get SELECTOR() {
@@ -49,16 +49,16 @@ export class RowDoubleClickHandler implements TableEventHandler {
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
     if (target.hasClass(`${displayClassName}`) || target.hasClass(`${activeFieldClassName}`)) {
-      debugLog('Skipping click on inner cell');
+      debugLog("Skipping click on inner cell");
       return true;
     }
 
     // Locate the row from event
     const element = target.closest(this.SELECTOR).closest(`.${tableRowClassName}`);
-    const wpId = element.data('workPackageId');
+    const wpId = element.data("workPackageId");
 
     // Ignore links
-    if (target.is('a') || target.parent().is('a')) {
+    if (target.is("a") || target.parent().is("a")) {
       return true;
     }
 

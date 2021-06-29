@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpModalWrapperAugmentService } from "core-app/shared/components/modal/modal-wrapper-augment.service";
 import { PathScriptAugmentService } from "core-app/core/augmenting/services/path-script.augment.service";

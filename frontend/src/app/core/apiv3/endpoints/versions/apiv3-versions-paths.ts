@@ -39,13 +39,13 @@ import { APIv3VersionPaths } from "core-app/core/apiv3/endpoints/versions/apiv3-
 export class APIv3VersionsPaths extends APIv3ResourceCollection<VersionResource, APIv3VersionPaths> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'versions', APIv3VersionPaths);
+    super(apiRoot, basePath, "versions", APIv3VersionPaths);
   }
 
   // /api/v3/versions/form
-  public readonly form = this.subResource('form', APIv3FormResource);
+  public readonly form = this.subResource("form", APIv3FormResource);
 
-  public readonly available_projects = this.subResource('available_projects', Apiv3AvailableProjectsPaths);
+  public readonly available_projects = this.subResource("available_projects", Apiv3AvailableProjectsPaths);
 
   /**
    * Get all versions

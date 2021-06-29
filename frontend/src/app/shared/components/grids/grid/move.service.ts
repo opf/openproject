@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
 

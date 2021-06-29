@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { Component, OnInit } from "@angular/core";
 import {
   FormattableEditFieldComponent,
@@ -39,7 +39,7 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
   public isBusy = false;
 
-  public name = 'comment';
+  public name = "comment";
 
   @InjectField() public ConfigurationService:ConfigurationService;
 

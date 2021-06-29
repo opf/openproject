@@ -33,13 +33,13 @@ import { CurrentProjectService } from "core-app/core/current-project/current-pro
 import { InviteUserModalComponent } from "./invite-user.component";
 import ClickEvent = JQuery.ClickEvent;
 
-const attributeSelector = '[invite-user-modal-augment]';
+const attributeSelector = "[invite-user-modal-augment]";
 
 /**
  * This service triggers user-invite modals to clicks on elements
  * with the attribute [invite-user-modal-augment] set.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class OpInviteUserModalAugmentService {
   constructor(@Inject(DOCUMENT) protected documentElement:Document,
     protected opModalService:OpModalService,
@@ -53,7 +53,7 @@ export class OpInviteUserModalAugmentService {
     const matches = this.documentElement.querySelectorAll(attributeSelector);
     for (let i = 0; i < matches.length; ++i) {
       const el = matches[i] as HTMLElement;
-      el.addEventListener('click', this.spawnModal.bind(this));
+      el.addEventListener("click", this.spawnModal.bind(this));
     }
   }
 
@@ -62,7 +62,7 @@ export class OpInviteUserModalAugmentService {
 
     const modal = this.opModalService.show(
       InviteUserModalComponent,
-      'global',
+      "global",
       { projectId: this.currentProjectService.id },
     );
 

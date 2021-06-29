@@ -28,7 +28,7 @@
 
 import { Component } from "@angular/core";
 
-export const appBaseSelector = 'openproject-base';
+export const appBaseSelector = "openproject-base";
 
 @Component({
   selector: appBaseSelector,
@@ -36,8 +36,7 @@ export const appBaseSelector = 'openproject-base';
     <div class="openproject-base--ui-view">
       <ui-view></ui-view>
     </div>
-  `
+  `,
 })
 export class ApplicationBaseComponent {
 }
-

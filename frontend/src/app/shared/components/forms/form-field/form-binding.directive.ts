@@ -2,13 +2,13 @@ import {
   Directive,
   forwardRef,
   Input,
-} from '@angular/core';
+} from "@angular/core";
 import {
   NgControl,
   FormControl,
   FormGroup,
   FormArray,
-} from '@angular/forms';
+} from "@angular/forms";
 
 export const formControlBinding:any = {
   provide: NgControl,
@@ -16,12 +16,12 @@ export const formControlBinding:any = {
 };
 
 @Directive({
-  selector: '[opFormBinding]',
+  selector: "[opFormBinding]",
   providers: [formControlBinding],
-  exportAs: 'ngForm',
+  exportAs: "ngForm",
 })
 export class OpFormBindingDirective extends NgControl {
-  @Input('opFormBinding') form!:FormControl|FormGroup|FormArray;
+  @Input("opFormBinding") form!:FormControl|FormGroup|FormArray;
 
   get control():FormControl|FormGroup|FormArray {
     return this.form;

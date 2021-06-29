@@ -55,8 +55,7 @@ export class GridBaseResource extends HalResource {
           widget,
           true,
           this.halInitializer,
-          'GridWidget'
-        );
+          "GridWidget");
 
         widgetResource.grid = this;
 

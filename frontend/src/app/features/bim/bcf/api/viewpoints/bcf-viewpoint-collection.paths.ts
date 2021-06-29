@@ -16,7 +16,7 @@ export class BcfViewpointCollectionPath extends BcfResourceCollectionPath<BcfVie
     return this
       .bcfTopicService
       .request(
-        'post',
+        "post",
         this.toPath(),
         viewpoint,
       );

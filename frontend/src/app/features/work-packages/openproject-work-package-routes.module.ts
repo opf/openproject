@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { UIRouterModule } from "@uirouter/angular";
 import { WORK_PACKAGES_ROUTES } from "core-app/features/work-packages/routing/work-packages-routes";
 import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";

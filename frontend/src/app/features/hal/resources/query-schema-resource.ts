@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
 import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
@@ -42,5 +42,5 @@ export class QuerySchemaResource extends SchemaResource {
 
   groupBy:{ allowedValues:QueryGroupByResource[] };
 
-  displayRepresentation:{ allowedValues:'list'|'card' };
+  displayRepresentation:{ allowedValues:"list"|"card" };
 }

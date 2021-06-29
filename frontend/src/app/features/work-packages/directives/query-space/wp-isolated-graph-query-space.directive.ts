@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Directive } from '@angular/core';
+import { Directive } from "@angular/core";
 import { OpTableActionsService } from "core-app/features/work-packages/components/wp-table/table-actions/table-actions.service";
 import { WorkPackageViewRelationColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
 import { WorkPackageViewPaginationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service";
@@ -110,7 +110,7 @@ export const WpIsolatedGraphQuerySpaceProviders = [
  * in a module.
  */
 @Directive({
-  selector: '[wp-isolated-graph-query-space]',
+  selector: "[wp-isolated-graph-query-space]",
   providers: WpIsolatedGraphQuerySpaceProviders,
 })
 export class WorkPackageIsolatedGraphQuerySpaceDirective extends WorkPackageIsolatedQuerySpaceDirective {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { StateService } from "@uirouter/core";
 import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
@@ -6,20 +6,20 @@ import { CurrentProjectService } from "core-app/core/current-project/current-pro
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 @Component({
-  selector: 'app-projects',
-  templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss'],
+  selector: "app-projects",
+  templateUrl: "./projects.component.html",
+  styleUrls: ["./projects.component.scss"],
 })
 export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
   projectsPath:string;
 
-  formMethod = 'patch';
+  formMethod = "patch";
 
   text:{ [key:string]:string };
 
   dynamicFieldsSettingsPipe:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
 
-  hiddenFields = ['identifier', 'active'];
+  hiddenFields = ["identifier", "active"];
 
   constructor(
     private _pathHelperService:PathHelperService,
@@ -45,6 +45,6 @@ export class ProjectsComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private isFieldHidden(name:string|undefined) {
-    return this.hiddenFields.includes(name || '');
+    return this.hiddenFields.includes(name || "");
   }
 }

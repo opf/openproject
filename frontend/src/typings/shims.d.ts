@@ -15,18 +15,18 @@
 /// <reference path="../../node_modules/@types/resize-observer-browser/index.d.ts" />
 
 import { ErrorReporter } from "core-app/core/errors/sentry/sentry-reporter";
-import { Injector } from '@angular/core';
+import { Injector } from "@angular/core";
 
-import { OpenProject } from 'core-app/core/setup/globals/openproject';
-import * as TLodash from 'lodash';
-import * as TMoment from 'moment';
+import { OpenProject } from "core-app/core/setup/globals/openproject";
+import * as TLodash from "lodash";
+import * as TMoment from "moment";
 import { GlobalI18n } from "core-app/core/i18n/i18n.service";
 import { Dragula } from "dragula";
 import { Screenfull } from "screenfull";
 
-declare module 'observable-array';
-declare module 'dom-autoscroller';
-declare module 'core-vendor/enjoyhint';
+declare module "observable-array";
+declare module "dom-autoscroller";
+declare module "core-vendor/enjoyhint";
 
 declare global {
   const _:typeof TLodash;

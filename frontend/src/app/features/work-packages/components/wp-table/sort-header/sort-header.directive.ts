@@ -28,10 +28,10 @@
 
 import {
   AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { RelationQueryColumn, TypeRelationQueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { RelationQueryColumn, TypeRelationQueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
+import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from "core-app/features/hal/resources/query-sort-by-resource";
 import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
@@ -41,8 +41,8 @@ import { combineLatest } from "rxjs";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Component({
-  selector: 'sortHeader',
-  templateUrl: './sort-header.directive.html'
+  selector: "sortHeader",
+  templateUrl: "./sort-header.directive.html",
 })
 export class SortHeaderDirective extends UntilDestroyedMixin implements AfterViewInit {
   @Input() headerColumn:any;
@@ -56,14 +56,14 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
   directionClass:string;
 
   public text = {
-    toggleHierarchy: this.I18n.t('js.work_packages.hierarchy.show'),
-    openMenu: this.I18n.t('js.label_open_menu'),
-    sortColumn: 'Sorting column' // TODO
+    toggleHierarchy: this.I18n.t("js.work_packages.hierarchy.show"),
+    openMenu: this.I18n.t("js.label_open_menu"),
+    sortColumn: "Sorting column", // TODO
   };
 
   isHierarchyColumn:boolean;
 
-  columnType:'hierarchy'|'relation'|'sort';
+  columnType:"hierarchy"|"relation"|"sort";
 
   columnName:string;
 
@@ -117,23 +117,23 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
       });
 
     // Place the hierarchy icon left to the subject column
-    this.isHierarchyColumn = this.headerColumn.id === 'subject';
+    this.isHierarchyColumn = this.headerColumn.id === "subject";
 
-    if (this.headerColumn.id === 'sortHandle') {
-      this.columnType = 'sort';
+    if (this.headerColumn.id === "sortHandle") {
+      this.columnType = "sort";
     }
     if (this.isHierarchyColumn) {
-      this.columnType = 'hierarchy';
-    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'toType') {
-      this.columnType = 'relation';
+      this.columnType = "hierarchy";
+    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === "toType") {
+      this.columnType = "relation";
       this.columnName = (this.headerColumn as TypeRelationQueryColumn).type.name;
-    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'ofType') {
-      this.columnType = 'relation';
-      this.columnName = I18n.t('js.relation_labels.' + (this.headerColumn as RelationQueryColumn).relationType);
+    } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === "ofType") {
+      this.columnType = "relation";
+      this.columnName = I18n.t(`js.relation_labels.${(this.headerColumn as RelationQueryColumn).relationType}`);
     }
 
     if (this.isHierarchyColumn) {
-      this.hierarchyIcon = 'icon-hierarchy';
+      this.hierarchyIcon = "icon-hierarchy";
       this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
 
       // Disable hierarchy mode when group by is active
@@ -186,30 +186,30 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
 
   setHierarchyIcon() {
     if (this.wpTableHierarchies.isEnabled) {
-      this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
-      this.hierarchyIcon = 'icon-hierarchy';
+      this.text.toggleHierarchy = I18n.t("js.work_packages.hierarchy.hide");
+      this.hierarchyIcon = "icon-hierarchy";
     } else {
-      this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');
-      this.hierarchyIcon = 'icon-no-hierarchy';
+      this.text.toggleHierarchy = I18n.t("js.work_packages.hierarchy.show");
+      this.hierarchyIcon = "icon-no-hierarchy";
     }
   }
 
   private getDirectionClass():string {
     if (!this.currentSortDirection) {
-      return '';
+      return "";
     }
 
     switch (this.currentSortDirection.href) {
     case QUERY_SORT_BY_ASC:
-      return 'asc';
+      return "asc";
     case QUERY_SORT_BY_DESC:
-      return 'desc';
+      return "desc";
     default:
-      return '';
+      return "";
     }
   }
 
   setActiveColumnClass() {
-    this.element.toggleClass('active-column', !!this.currentSortDirection);
+    this.element.toggleClass("active-column", !!this.currentSortDirection);
   }
 }

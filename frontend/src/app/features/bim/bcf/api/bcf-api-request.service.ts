@@ -39,10 +39,10 @@ export class BcfApiRequestService<T> {
       headers,
       params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: params }),
       withCredentials: true,
-      responseType: 'json'
+      responseType: "json",
     };
 
-    return this._request('get', path, config);
+    return this._request("get", path, config);
   }
 
   /**
@@ -56,7 +56,7 @@ export class BcfApiRequestService<T> {
   public request(method:HTTPSupportedMethods, path:string, data:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}):Observable<T> {
     // HttpClient requires us to create HttpParams instead of passing data for get
     // so forward to that method instead.
-    if (method === 'get') {
+    if (method === "get") {
       return this.get(path, data, headers);
     }
 
@@ -64,7 +64,7 @@ export class BcfApiRequestService<T> {
       body: data || {},
       headers,
       withCredentials: true,
-      responseType: 'json'
+      responseType: "json",
     };
 
     return this._request(method, path, config);

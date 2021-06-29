@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Directive, ElementRef, Injector } from '@angular/core';
+import { Directive, ElementRef, Injector } from "@angular/core";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { OpTableActionsService } from "core-app/features/work-packages/components/wp-table/table-actions/table-actions.service";
 import { WorkPackageViewRelationColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
@@ -74,7 +74,7 @@ import { WorkPackageService } from "core-app/features/work-packages/services/wor
  * in a module.
  */
 @Directive({
-  selector: '[wp-isolated-query-space]',
+  selector: "[wp-isolated-query-space]",
   providers: [
     // Override the hal notification service
     { provide: HalResourceNotificationService, useExisting: WorkPackageNotificationService },

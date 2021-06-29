@@ -26,32 +26,32 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { Injectable, Injector } from "@angular/core";
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
+import { catchError, map } from "rxjs/operators";
+import { Observable, throwError } from "rxjs";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { ErrorResource } from "core-app/features/hal/resources/error-resource";
-import * as Pako from 'pako';
+import * as Pako from "pako";
 import * as base64 from "byte-base64";
-import { whenDebugging } from 'core-app/shared/helpers/debug_output';
+import { whenDebugging } from "core-app/shared/helpers/debug_output";
 import {
   HTTPClientHeaders,
   HTTPClientOptions,
   HTTPClientParamMap,
   HTTPSupportedMethods,
-} from 'core-app/features/hal/http/http.interfaces';
-import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
-import { URLParamsEncoder } from 'core-app/features/hal/services/url-params-encoder';
-import { HalResource, HalResourceClass } from 'core-app/features/hal/resources/hal-resource';
-import { initializeHalProperties } from '../helpers/hal-resource-builder';
+} from "core-app/features/hal/http/http.interfaces";
+import { HalLink, HalLinkInterface } from "core-app/features/hal/hal-link/hal-link";
+import { URLParamsEncoder } from "core-app/features/hal/services/url-params-encoder";
+import { HalResource, HalResourceClass } from "core-app/features/hal/resources/hal-resource";
+import { initializeHalProperties } from "../helpers/hal-resource-builder";
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
   attrTypes?:{ [attrName:string]:string };
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class HalResourceService {
   /**
    * List of all known hal resources, extendable.
@@ -68,7 +68,7 @@ export class HalResourceService {
   public request<T extends HalResource>(method:HTTPSupportedMethods, href:string, data?:any, headers:HTTPClientHeaders = {}):Observable<T> {
     // HttpClient requires us to create HttpParams instead of passing data for get
     // so forward to that method instead.
-    if (method === 'get') {
+    if (method === "get") {
       return this.get(href, data, headers);
     }
 
@@ -76,7 +76,7 @@ export class HalResourceService {
       body: data || {},
       headers,
       withCredentials: true,
-      responseType: 'json',
+      responseType: "json",
     };
 
     return this._request(method, href, config);
@@ -108,10 +108,10 @@ export class HalResourceService {
       headers,
       params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: params }),
       withCredentials: true,
-      responseType: 'json',
+      responseType: "json",
     };
 
-    return this._request('get', href, config);
+    return this._request("get", href, config);
   }
 
   /**
@@ -137,11 +137,11 @@ export class HalResourceService {
     while (retrieved < expected) {
       params.offset = page;
 
-      const promise = this.request('get', href, this.toEprops(params), headers).toPromise();
+      const promise = this.request("get", href, this.toEprops(params), headers).toPromise();
       const results = await promise;
 
       if (results.count === 0) {
-        throw 'No more results for this query, but expected more.';
+        throw "No more results for this query, but expected more.";
       }
 
       allResults.push(results);
@@ -161,7 +161,7 @@ export class HalResourceService {
    * @returns {Promise<HalResource>}
    */
   public put<T extends HalResource>(href:string, data?:any, headers?:HTTPClientHeaders):Observable<T> {
-    return this.request('put', href, data, headers);
+    return this.request("put", href, data, headers);
   }
 
   /**
@@ -173,7 +173,7 @@ export class HalResourceService {
    * @returns {Promise<HalResource>}
    */
   public post<T extends HalResource>(href:string, data?:any, headers?:HTTPClientHeaders):Observable<T> {
-    return this.request('post', href, data, headers);
+    return this.request("post", href, data, headers);
   }
 
   /**
@@ -185,7 +185,7 @@ export class HalResourceService {
    * @returns {Promise<HalResource>}
    */
   public patch<T extends HalResource>(href:string, data?:any, headers?:HTTPClientHeaders):Observable<T> {
-    return this.request('patch', href, data, headers);
+    return this.request("patch", href, data, headers);
   }
 
   /**
@@ -197,7 +197,7 @@ export class HalResourceService {
    * @returns {Promise<HalResource>}
    */
   public delete<T extends HalResource>(href:string, data?:any, headers?:HTTPClientHeaders):Observable<T> {
-    return this.request('delete', href, data, headers);
+    return this.request("delete", href, data, headers);
   }
 
   /**
@@ -233,7 +233,7 @@ export class HalResourceService {
       source = HalResource.getEmptyResource();
     }
 
-    const type = source._type || 'HalResource';
+    const type = source._type || "HalResource";
     return this.createHalResourceOfType<T>(type, source, loaded);
   }
 
@@ -253,7 +253,7 @@ export class HalResourceService {
    */
   public createHalResourceOfClass<T extends HalResource>(resourceClass:HalResourceClass<T>, source:any, loaded = false) {
     const initializer = (halResource:T) => initializeHalProperties(this, halResource);
-    const type = source._type || 'HalResource';
+    const type = source._type || "HalResource";
     const resource = new resourceClass(this.injector, source, loaded, initializer, type);
 
     return resource;
@@ -285,7 +285,7 @@ export class HalResourceService {
   public createLinkedResource<T extends HalResource = HalResource>(halResource:T, linkName:string, link:HalLinkInterface) {
     const source = HalResource.getEmptyResource();
     const fromType = halResource.$halType;
-    const toType = this.getResourceClassOfAttribute(fromType, linkName) || 'HalResource';
+    const toType = this.getResourceClassOfAttribute(fromType, linkName) || "HalResource";
 
     source._links.self = link;
 

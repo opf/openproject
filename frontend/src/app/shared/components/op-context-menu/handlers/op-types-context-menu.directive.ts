@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import { StateService } from '@uirouter/core';
+import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
+import { StateService } from "@uirouter/core";
 import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
 import {
   Directive, ElementRef, Input, OnInit,
@@ -35,19 +35,19 @@ import {
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
 import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
+import { WorkPackageCreateService } from "core-app/features/work-packages/components/wp-new/wp-create.service";
 import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { TypeResource } from "core-app/features/hal/resources/type-resource";
 
 @Directive({
-  selector: '[opTypesCreateDropdown]'
+  selector: "[opTypesCreateDropdown]",
 })
 export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
-  @Input('projectIdentifier') public projectIdentifier:string|null|undefined;
+  @Input("projectIdentifier") public projectIdentifier:string|null|undefined;
 
-  @Input('stateName') public stateName:string;
+  @Input("stateName") public stateName:string;
 
-  @Input('dropdownActive') active:boolean;
+  @Input("dropdownActive") active:boolean;
 
   constructor(readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
@@ -66,7 +66,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
 
     // Force full-view create if in mobile view
     if (this.browserDetector.isMobile) {
-      this.stateName = 'work-packages.new';
+      this.stateName = "work-packages.new";
     }
   }
 
@@ -83,7 +83,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
   public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
     return {
       items: this.items,
-      contextMenuId: 'types-context-menu'
+      contextMenuId: "types-context-menu",
     };
   }
 

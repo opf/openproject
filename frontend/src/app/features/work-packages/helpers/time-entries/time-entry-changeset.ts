@@ -6,7 +6,7 @@ export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
     super.setValue(key, val);
 
     // Update the form for fields that may alter the form itself
-    if (key === 'workPackage') {
+    if (key === "workPackage") {
       this.updateForm();
     }
   }
@@ -15,7 +15,7 @@ export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
     const payload = super.buildPayloadFromChanges();
 
     // we ignore the project and instead rely completely on the work package.
-    delete payload['_links']['project'];
+    delete payload["_links"]["project"];
 
     return payload;
   }

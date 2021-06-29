@@ -1,9 +1,9 @@
 import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
 
 export class GridGap extends GridArea {
-  private type:'row'|'column';
+  private type:"row"|"column";
 
-  constructor(startRow:number, endRow:number, startColumn:number, endColumn:number, type:'row'|'column') {
+  constructor(startRow:number, endRow:number, startColumn:number, endColumn:number, type:"row"|"column") {
     super(startRow, endRow, startColumn, endColumn);
 
     this.type = type;
@@ -38,10 +38,10 @@ export class GridGap extends GridArea {
   }
 
   public get isRow() {
-    return this.type === 'row';
+    return this.type === "row";
   }
 
   public get isColumn() {
-    return this.type === 'column';
+    return this.type === "column";
   }
 }

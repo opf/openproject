@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 import { Query } from "@datorama/akita";
 import { map } from "rxjs/operators";
@@ -10,13 +10,13 @@ import { NotificationSetting } from "core-app/features/user-preferences/state/no
 @Injectable()
 export class UserPreferencesQuery extends Query<UserPreferencesModel> {
   /** All notification settings */
-  notificationSettings$ = this.select('notifications');
+  notificationSettings$ = this.select("notifications");
 
   /** Notification settings grouped by Project */
   notificationsGroupedByProject$:Observable<{ [key:string]:NotificationSetting[] }> = this
     .notificationSettings$
     .pipe(
-      map(notifications => _.groupBy(notifications, setting => setting._links.project.title || 'global')),
+      map(notifications => _.groupBy(notifications, setting => setting._links.project.title || "global")),
     );
 
   projectNotifications$ = this

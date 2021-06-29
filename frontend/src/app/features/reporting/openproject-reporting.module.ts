@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { UIRouterModule } from "@uirouter/angular";
 import {
   REPORTING_ROUTES,

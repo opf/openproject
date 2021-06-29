@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
 import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
 import { GridGap } from "core-app/shared/components/grids/areas/grid-gap";
@@ -8,7 +8,7 @@ import { SchemaResource } from "core-app/features/hal/resources/schema-resource"
 import { WidgetChangeset } from "core-app/shared/components/grids/widgets/widget-changeset";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from "rxjs";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Apiv3GridForm } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-form";
 import { map } from "rxjs/operators";
@@ -118,7 +118,7 @@ export class GridAreaService {
     Object.assign(payloadWidget, changeset.changes);
 
     // Adding the id so that the url can be deduced
-    payload['id'] = this.resource.id;
+    payload["id"] = this.resource.id;
 
     this.saveGrid(payload);
   }
@@ -144,7 +144,7 @@ export class GridAreaService {
   // But as scrollIntoView will always readjust the viewport, the result would be an unbearable flicker
   // which causes e.g. dragging to be impossible.
   public scrollPlaceholderIntoView() {
-    const placeholder = jQuery('.grid--area.-placeholder');
+    const placeholder = jQuery(".grid--area.-placeholder");
 
     if ((placeholder[0] as any).scrollIntoViewIfNeeded) {
       setTimeout(() => (placeholder[0] as any).scrollIntoViewIfNeeded());
@@ -159,7 +159,7 @@ export class GridAreaService {
       .patch(resource, schema)
       .subscribe(updatedGrid => {
         this.assignAreasWidget(updatedGrid);
-        this.notification.addSuccess(this.i18n.t('js.notice_successful_update'));
+        this.notification.addSuccess(this.i18n.t("js.notice_successful_update"));
       });
   }
 
@@ -232,7 +232,7 @@ export class GridAreaService {
         row + 1,
         column,
         column + 1,
-        'row'));
+        "row"));
     }
 
     if (row <= this.numRows) {
@@ -241,7 +241,7 @@ export class GridAreaService {
           row + 1,
           column,
           column + 1,
-          'column'));
+          "column"));
       }
     }
 

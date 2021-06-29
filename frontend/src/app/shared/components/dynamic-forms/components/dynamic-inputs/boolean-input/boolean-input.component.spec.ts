@@ -1,11 +1,11 @@
-import { fakeAsync } from '@angular/core/testing';
+import { fakeAsync } from "@angular/core/testing";
 import {
   createDynamicInputFixture,
   testDynamicInputControValueAccessor,
 } from "core-app/shared/components/dynamic-forms/spec/helpers";
 
-describe('BooleanInputComponent', () => {
-  it('should load the field', fakeAsync(() => {
+describe("BooleanInputComponent", () => {
+  it("should load the field", fakeAsync(() => {
     const fieldsConfig = [
       {
         type: "booleanInput" as const,
@@ -26,6 +26,6 @@ describe('BooleanInputComponent', () => {
 
     const fixture = createDynamicInputFixture(fieldsConfig, formModel);
 
-    testDynamicInputControValueAccessor(fixture, testModel, 'op-boolean-input input');
+    testDynamicInputControValueAccessor(fixture, testModel, "op-boolean-input input");
   }));
 });

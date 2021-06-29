@@ -27,9 +27,9 @@
 //++
 
 import { InputState } from "reactivestates";
-import { Injector } from '@angular/core';
-import { States } from 'core-app/core/states/states.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Injector } from "@angular/core";
+import { States } from "core-app/core/states/states.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 import { HalLinkInterface } from "core-app/features/hal/hal-link/hal-link";
@@ -113,7 +113,7 @@ export class HalResource {
   public _name:string;
 
   public static idFromLink(href:string):string {
-    return href.split('/').pop()!;
+    return href.split("/").pop()!;
   }
 
   public static matchFromLink(href:string, expectedResource:string):string|null {
@@ -126,7 +126,7 @@ export class HalResource {
       return HalResource.idFromLink(this.href);
     }
 
-    return '';
+    return "";
   }
 
   public $initialize(source:any) {
@@ -169,11 +169,11 @@ export class HalResource {
   }
 
   public get isNew():boolean {
-    return !this.id || this.id === 'new';
+    return !this.id || this.id === "new";
   }
 
   public get persisted() {
-    return !!(this.id && this.id !== 'new');
+    return !!(this.id && this.id !== "new");
   }
 
   /**
@@ -212,7 +212,7 @@ export class HalResource {
   }
 
   public get name():string {
-    return this._name || this.$link.title || '';
+    return this._name || this.$link.title || "";
   }
 
   public set name(name:string) {
@@ -250,7 +250,7 @@ export class HalResource {
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
-    return { type: 'constrained' };
+    return { type: "constrained" };
   }
 
   public $load(force = false):Promise<this> {
@@ -310,7 +310,7 @@ export class HalResource {
    */
   public $embeddableKeys():string[] {
     const properties = Object.keys(this.$source);
-    return _.without(properties, '_links', '_embedded', 'id');
+    return _.without(properties, "_links", "_embedded", "id");
   }
 
   /**
@@ -319,6 +319,6 @@ export class HalResource {
    */
   public $linkableKeys():string[] {
     const properties = Object.keys(this.$links);
-    return _.without(properties, 'self');
+    return _.without(properties, "self");
   }
 }

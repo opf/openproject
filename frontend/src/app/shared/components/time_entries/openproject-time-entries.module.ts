@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { NgModule } from "@angular/core";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { TimeEntryCreateModal } from "core-app/shared/components/time_entries/create/create.modal";

@@ -41,10 +41,10 @@ export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
   @InjectField() private queryFilters:QueryFiltersService;
 
   // Static paths
-  readonly form = this.subResource('form', Apiv3QueryForm);
+  readonly form = this.subResource("form", Apiv3QueryForm);
 
   // Order path
-  readonly order = new APIV3QueryOrder(this.injector, this.path, 'order');
+  readonly order = new APIV3QueryOrder(this.injector, this.path, "order");
 
   /**
    * Stream the response for the given query request

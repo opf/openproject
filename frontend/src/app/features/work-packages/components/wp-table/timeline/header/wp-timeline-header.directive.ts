@@ -38,12 +38,12 @@ import {
   timelineHeaderCSSClass,
   timelineHeaderSelector,
   TimelineViewParameters,
-} from '../wp-timeline';
+} from "../wp-timeline";
 import Moment = moment.Moment;
 
 @Component({
   selector: timelineHeaderSelector,
-  templateUrl: './wp-timeline-header.html'
+  templateUrl: "./wp-timeline-header.html",
 })
 export class WorkPackageTimelineHeaderController implements OnInit {
   public $element:JQuery;
@@ -61,11 +61,11 @@ export class WorkPackageTimelineHeaderController implements OnInit {
 
   ngOnInit() {
     this.workPackageTimelineTableController
-      .onRefreshRequested('header', (vp:TimelineViewParameters) => this.refreshView(vp));
+      .onRefreshRequested("header", (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
   refreshView(vp:TimelineViewParameters) {
-    this.innerHeader = this.$element.find('.wp-table-timeline--header-inner');
+    this.innerHeader = this.$element.find(".wp-table-timeline--header-inner");
     this.renderLabels(vp);
   }
 
@@ -75,18 +75,18 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     }
 
     this.innerHeader.empty();
-    this.innerHeader.attr('data-current-zoom-level', this.wpTimelineService.zoomLevel);
+    this.innerHeader.attr("data-current-zoom-level", this.wpTimelineService.zoomLevel);
 
     switch (vp.settings.zoomLevel) {
-    case 'days':
+    case "days":
       return this.renderLabelsDays(vp);
-    case 'weeks':
+    case "weeks":
       return this.renderLabelsWeeks(vp);
-    case 'months':
+    case "months":
       return this.renderLabelsMonths(vp);
-    case 'quarters':
+    case "quarters":
       return this.renderLabelsQuarters(vp);
-    case 'years':
+    case "years":
       return this.renderLabelsYears(vp);
     }
 
@@ -94,101 +94,101 @@ export class WorkPackageTimelineHeaderController implements OnInit {
   }
 
   private renderLabelsDays(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'month', 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('MMM YYYY');
-      cell.classList.add('wp-timeline--header-top-bold-element');
-      cell.style.height = '13px';
+    this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MMM YYYY");
+      cell.classList.add("wp-timeline--header-top-bold-element");
+      cell.style.height = "13px";
     });
 
-    this.renderTimeSlices(vp, 'week', 13, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('ww');
-      cell.classList.add('-top-border');
-      cell.style.height = '32px';
+    this.renderTimeSlices(vp, "week", 13, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("ww");
+      cell.classList.add("-top-border");
+      cell.style.height = "32px";
     });
 
-    this.renderTimeSlices(vp, 'day', 23, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('D');
-      cell.classList.add('-top-border');
-      cell.style.height = '22px';
+    this.renderTimeSlices(vp, "day", 23, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("D");
+      cell.classList.add("-top-border");
+      cell.style.height = "22px";
     });
 
-    this.renderTimeSlices(vp, 'day', 33, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('dd');
-      cell.classList.add('wp-timeline--header-day-element');
+    this.renderTimeSlices(vp, "day", 33, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("dd");
+      cell.classList.add("wp-timeline--header-day-element");
     });
   }
 
   private renderLabelsWeeks(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'month', 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('MMM YYYY');
-      cell.classList.add('wp-timeline--header-top-bold-element');
+    this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MMM YYYY");
+      cell.classList.add("wp-timeline--header-top-bold-element");
     });
 
-    this.renderTimeSlices(vp, 'week', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('ww');
-      cell.classList.add('-top-border');
-      cell.style.height = '22px';
+    this.renderTimeSlices(vp, "week", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("ww");
+      cell.classList.add("-top-border");
+      cell.style.height = "22px";
     });
 
-    this.renderTimeSlices(vp, 'day', 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('D');
-      cell.classList.add('wp-timeline--header-middle-element');
+    this.renderTimeSlices(vp, "day", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("D");
+      cell.classList.add("wp-timeline--header-middle-element");
     });
   }
 
   private renderLabelsMonths(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'year', 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('YYYY');
-      cell.classList.add('wp-timeline--header-top-bold-element');
+    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("YYYY");
+      cell.classList.add("wp-timeline--header-top-bold-element");
     });
 
-    this.renderTimeSlices(vp, 'month', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('MMM');
-      cell.classList.add('-top-border');
-      cell.style.height = '30px';
+    this.renderTimeSlices(vp, "month", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MMM");
+      cell.classList.add("-top-border");
+      cell.style.height = "30px";
     });
 
-    this.renderTimeSlices(vp, 'week', 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('ww');
-      cell.classList.add('wp-timeline--header-middle-element');
+    this.renderTimeSlices(vp, "week", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("ww");
+      cell.classList.add("wp-timeline--header-middle-element");
     });
   }
 
   private renderLabelsQuarters(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'year', 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('wp-timeline--header-top-bold-element');
-      cell.innerHTML = start.format('YYYY');
+    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("wp-timeline--header-top-bold-element");
+      cell.innerHTML = start.format("YYYY");
     });
 
-    this.renderTimeSlices(vp, 'quarter', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = this.I18n.t('js.timelines.quarter_label',
-        { quarter_number: start.format('Q') });
-      cell.classList.add('-top-border');
-      cell.style.height = '30px';
+    this.renderTimeSlices(vp, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = this.I18n.t("js.timelines.quarter_label",
+        { quarter_number: start.format("Q") });
+      cell.classList.add("-top-border");
+      cell.style.height = "30px";
     });
 
-    this.renderTimeSlices(vp, 'month', 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('MMM');
-      cell.classList.add('wp-timeline--header-middle-element');
+    this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MMM");
+      cell.classList.add("wp-timeline--header-middle-element");
     });
   }
 
   private renderLabelsYears(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'year', 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('YYYY');
-      cell.classList.add('wp-timeline--header-top-bold-element');
+    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("YYYY");
+      cell.classList.add("wp-timeline--header-top-bold-element");
     });
 
-    this.renderTimeSlices(vp, 'quarter', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = this.I18n.t('js.timelines.quarter_label',
-        { quarter_number: start.format('Q') });
-      cell.classList.add('-top-border');
-      cell.style.height = '30px';
+    this.renderTimeSlices(vp, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = this.I18n.t("js.timelines.quarter_label",
+        { quarter_number: start.format("Q") });
+      cell.classList.add("-top-border");
+      cell.style.height = "30px";
     });
 
-    this.renderTimeSlices(vp, 'month', 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format('M');
-      cell.classList.add('wp-timeline--header-middle-element');
+    this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("M");
+      cell.classList.add("wp-timeline--header-middle-element");
     });
   }
 
@@ -203,23 +203,23 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     for (const [start, end] of inViewportAndBoundaries) {
       const cell = this.addLabelCell();
       cell.style.top = `${marginTop}px`;
-      cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
-      cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
+      cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
+      cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
       cellCallback(start, cell);
     }
     setTimeout(() => {
       for (const [start, end] of rest) {
         const cell = this.addLabelCell();
         cell.style.top = `${marginTop}px`;
-        cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
-        cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
+        cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
+        cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
         cellCallback(start, cell);
       }
     }, 0);
   }
 
   private addLabelCell():HTMLElement {
-    const label = document.createElement('div');
+    const label = document.createElement("div");
     label.className = timelineHeaderCSSClass;
 
     this.innerHeader.append(label);

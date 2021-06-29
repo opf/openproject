@@ -28,13 +28,13 @@
 
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { Injectable } from "@angular/core";
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
-import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
-import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
-import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
-import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
+import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
+import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
+import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
+import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
 import { QueryColumn } from "../wp-query/query-column";
 
 @Injectable()
@@ -104,11 +104,11 @@ export class WorkPackagesListInvalidQueryService {
   }
 
   private restoreOtherProperties(query:QueryResource, stubQuery:QueryResource) {
-    _.without(Object.keys(stubQuery.$source), '_links', 'filters').forEach((property:any) => {
+    _.without(Object.keys(stubQuery.$source), "_links", "filters").forEach((property:any) => {
       query[property] = stubQuery[property];
     });
 
-    _.without(Object.keys(stubQuery.$source._links), 'columns', 'groupBy', 'sortBy').forEach((property:any) => {
+    _.without(Object.keys(stubQuery.$source._links), "columns", "groupBy", "sortBy").forEach((property:any) => {
       query[property] = stubQuery[property];
     });
   }

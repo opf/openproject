@@ -2,18 +2,18 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import {
   ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 import { WorkPackageRelationsService } from "../wp-relations.service";
 
 @Component({
-  selector: 'wp-relation-row',
-  templateUrl: './wp-relation-row.template.html'
+  selector: "wp-relation-row",
+  templateUrl: "./wp-relation-row.template.html",
 })
 export class WorkPackageRelationRowComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -22,7 +22,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
 
   @Input() public groupByWorkPackageType:boolean;
 
-  @ViewChild('relationDescriptionTextarea') readonly relationDescriptionTextarea:ElementRef;
+  @ViewChild("relationDescriptionTextarea") readonly relationDescriptionTextarea:ElementRef;
 
   public relationType:string;
 
@@ -35,7 +35,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   public selectedRelationType:{ name:string };
 
   public userInputs = {
-    newRelationText: '',
+    newRelationText: "",
     showDescriptionEditForm: false,
     showRelationTypesForm: false,
     showRelationInfo: false,
@@ -52,14 +52,14 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   public relation:RelationResource;
 
   public text = {
-    cancel: this.I18n.t('js.button_cancel'),
-    save: this.I18n.t('js.button_save'),
-    removeButton: this.I18n.t('js.relation_buttons.remove'),
-    description_label: this.I18n.t('js.relation_buttons.update_description'),
-    toggleDescription: this.I18n.t('js.relation_buttons.toggle_description'),
-    updateRelation: this.I18n.t('js.relation_buttons.update_relation'),
+    cancel: this.I18n.t("js.button_cancel"),
+    save: this.I18n.t("js.button_save"),
+    removeButton: this.I18n.t("js.relation_buttons.remove"),
+    description_label: this.I18n.t("js.relation_buttons.update_description"),
+    toggleDescription: this.I18n.t("js.relation_buttons.toggle_description"),
+    updateRelation: this.I18n.t("js.relation_buttons.update_relation"),
     placeholder: {
-      description: this.I18n.t('js.placeholders.relation_description'),
+      description: this.I18n.t("js.placeholders.relation_description"),
     },
   };
 
@@ -76,7 +76,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   ngOnInit() {
     this.relation = this.relatedWorkPackage.relatedBy as RelationResource;
 
-    this.userInputs.newRelationText = this.relation.description || '';
+    this.userInputs.newRelationText = this.relation.description || "";
     this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
     this.selectedRelationType = _.find(this.availableRelationTypes,
       { name: this.relation.normalizedType(this.workPackage) })!;
@@ -99,7 +99,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
    */
   public get normalizedRelationType() {
     var type = this.relation.normalizedType(this.workPackage);
-    return this.I18n.t('js.relation_labels.' + type);
+    return this.I18n.t(`js.relation_labels.${type}`);
   }
 
   public get relationReady() {
@@ -114,8 +114,8 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
       // Focus and set cursor to end
       textarea.focus();
 
-      textarea.prop('selectionStart', textlen);
-      textarea.prop('selectionEnd', textlen);
+      textarea.prop("selectionStart", textlen);
+      textarea.prop("selectionEnd", textlen);
     });
   }
 
@@ -127,7 +127,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
 
   public cancelDescriptionEdit() {
     this.userInputs.showDescriptionEditForm = false;
-    this.userInputs.newRelationText = this.relation.description || '';
+    this.userInputs.newRelationText = this.relation.description || "";
   }
 
   public saveDescription() {
@@ -184,7 +184,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     this.wpRelations.removeRelation(this.relation)
       .then(() => {
         this.halEvents.push(this.workPackage, {
-          eventType: 'association',
+          eventType: "association",
           relatedWorkPackage: null,
           relationType: this.relation.normalizedType(this.workPackage),
         });

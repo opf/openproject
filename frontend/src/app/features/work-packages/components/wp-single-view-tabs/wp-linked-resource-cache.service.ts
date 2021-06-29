@@ -27,8 +27,8 @@
 //++
 
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { input, InputState } from 'reactivestates';
-import { take } from 'rxjs/operators';
+import { input, InputState } from "reactivestates";
+import { take } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 import { EntityUIStore } from "@datorama/akita";
 

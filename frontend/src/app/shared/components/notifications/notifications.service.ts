@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { input, State } from 'reactivestates';
-import { Injectable } from '@angular/core';
+import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { input, State } from "reactivestates";
+import { Injectable } from "@angular/core";
 import { UploadInProgress } from "core-app/core/file-upload/op-file-upload.service";
 
 export function removeSuccessFlashMessages() {
-  jQuery('.flash.notice').remove();
+  jQuery(".flash.notice").remove();
 }
 
-export type NotificationType = 'success'|'error'|'warning'|'info'|'upload';
-export const OPNotificationEvent = 'op:notifications:add';
+export type NotificationType = "success"|"error"|"warning"|"info"|"upload";
+export const OPNotificationEvent = "op:notifications:add";
 
 export interface INotification {
   message:string;
@@ -45,7 +45,7 @@ export interface INotification {
   data?:any;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class NotificationsService {
   // The current stack of notifications
   private stack = input<INotification[]>([]);
@@ -71,12 +71,12 @@ export class NotificationsService {
 
     this.stack.doModify((current) => {
       const nextValue = [notification].concat(current);
-      _.remove(nextValue, (n, i) => i > 0 && (n.type === 'success' || n.type === 'error'));
+      _.remove(nextValue, (n, i) => i > 0 && (n.type === "success" || n.type === "error"));
       return nextValue;
     });
 
     // auto-hide if success
-    if (notification.type === 'success' && this.configurationService.autoHidePopups()) {
+    if (notification.type === "success" && this.configurationService.autoHidePopups()) {
       setTimeout(() => this.remove(notification), timeoutAfter);
     }
 
@@ -88,22 +88,22 @@ export class NotificationsService {
       errors = [errors];
     }
 
-    const notification:INotification = this.createNotification(message, 'error');
+    const notification:INotification = this.createNotification(message, "error");
     notification.data = errors;
 
     return this.add(notification);
   }
 
   public addWarning(message:INotification|string) {
-    return this.add(this.createNotification(message, 'warning'));
+    return this.add(this.createNotification(message, "warning"));
   }
 
   public addSuccess(message:INotification|string) {
-    return this.add(this.createNotification(message, 'success'));
+    return this.add(this.createNotification(message, "success"));
   }
 
   public addNotice(message:INotification|string) {
-    return this.add(this.createNotification(message, 'info'));
+    return this.add(this.createNotification(message, "info"));
   }
 
   public addAttachmentUpload(message:INotification|string, uploads:UploadInProgress[]) {
@@ -132,10 +132,10 @@ export class NotificationsService {
 
   private createAttachmentUploadNotification(message:INotification|string, uploads:UploadInProgress[]) {
     if (!uploads.length) {
-      throw new Error('Cannot create an upload notification without uploads!');
+      throw new Error("Cannot create an upload notification without uploads!");
     }
 
-    const notification = this.createNotification(message, 'upload');
+    const notification = this.createNotification(message, "upload");
     notification.data = uploads;
 
     return notification;

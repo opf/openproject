@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FormattableControlComponent } from './formattable-control.component';
+import { FormattableControlComponent } from "./formattable-control.component";
 
-xdescribe('FormattableControlComponent', () => {
+xdescribe("FormattableControlComponent", () => {
   let component:FormattableControlComponent;
   let fixture:ComponentFixture<FormattableControlComponent>;
 
@@ -19,7 +19,7 @@ xdescribe('FormattableControlComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

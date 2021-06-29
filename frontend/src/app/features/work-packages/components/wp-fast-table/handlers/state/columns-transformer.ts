@@ -1,9 +1,9 @@
-import { Injector } from '@angular/core';
-import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { takeUntil } from 'rxjs/operators';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { Injector } from "@angular/core";
+import { debugLog } from "core-app/shared/helpers/debug_output";
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { takeUntil } from "rxjs/operators";
+import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { WorkPackageTable } from "../../wp-fast-table";
 
 export class ColumnsTransformer {
@@ -26,7 +26,7 @@ export class ColumnsTransformer {
 
           var t1 = performance.now();
 
-          debugLog('column redraw took ' + (t1 - t0) + ' milliseconds.');
+          debugLog(`column redraw took ${t1 - t0} milliseconds.`);
         }
       });
   }

@@ -47,7 +47,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
   public hidden = false;
 
   /** Reference to the embedded table instance */
-  @ViewChild('embeddedTable') protected embeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild("embeddedTable") protected embeddedTable:WorkPackageEmbeddedTableComponent;
 
   constructor(protected queryUrlParamsHelper:UrlParamsHelperService) {
     super();
@@ -92,7 +92,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
    * Get the filters of the query props
    */
   protected projectValuesCount(query:QueryResource):number|null {
-    const project = query.filters.find(f => f.id === 'project');
+    const project = query.filters.find(f => f.id === "project");
     return project ? project.values.length : null;
   }
 

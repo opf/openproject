@@ -49,7 +49,7 @@ interface IOPFieldSchema {
   minLength?:number,
   maxLength?:number,
   attributeGroup?:string;
-  location?:'_meta'|'_links'|undefined;
+  location?:"_meta"|"_links"|undefined;
   options:{
     [key:string]:any;
   };
@@ -103,9 +103,9 @@ interface IOPAllowedValue {
   };
 }
 
-type OPFieldType = 'String' | 'Integer' | 'Float' | 'Boolean' | 'Date' | 'DateTime' | 'Formattable' |
-"Priority" | 'Status' | 'Type' | 'User' | 'Version' | 'TimeEntriesActivity' | 'Category' |
-"CustomOption" | 'Project' | 'ProjectStatus' | 'Password';
+type OPFieldType = "String" | "Integer" | "Float" | "Boolean" | "Date" | "DateTime" | "Formattable" |
+"Priority" | "Status" | "Type" | "User" | "Version" | "TimeEntriesActivity" | "Category" |
+"CustomOption" | "Project" | "ProjectStatus" | "Password";
 
 interface IOPFormError {
   errorIdentifier:string;

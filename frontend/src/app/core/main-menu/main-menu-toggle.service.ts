@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, Injector } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { DeviceService } from "core-app/core/browser/device.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class MainMenuToggleService {
   public toggleTitle:string;
 
@@ -43,22 +43,22 @@ export class MainMenuToggleService {
 
   private readonly defaultWidth:number = 230;
 
-  private readonly localStorageKey:string = 'openProject-mainMenuWidth';
+  private readonly localStorageKey:string = "openProject-mainMenuWidth";
 
-  private readonly localStorageStateKey:string = 'openProject-mainMenuCollapsed';
+  private readonly localStorageStateKey:string = "openProject-mainMenuCollapsed";
 
   @InjectField() currentProject:CurrentProjectService;
 
   private global = (window as any);
 
-  private htmlNode = document.getElementsByTagName('html')[0];
+  private htmlNode = document.getElementsByTagName("html")[0];
 
-  private mainMenu = jQuery('#main-menu')[0]; // main menu, containing sidebar and resizer
+  private mainMenu = jQuery("#main-menu")[0]; // main menu, containing sidebar and resizer
 
-  private hideElements = jQuery('.can-hide-navigation');
+  private hideElements = jQuery(".can-hide-navigation");
 
   // Title needs to be sync in main-menu-toggle.component.ts and main-menu-resizer.component.ts
-  private titleData = new BehaviorSubject<string>('');
+  private titleData = new BehaviorSubject<string>("");
 
   public titleData$ = this.titleData.asObservable();
 
@@ -89,7 +89,7 @@ export class MainMenuToggleService {
     }
 
     const currentProject:CurrentProjectService = this.injector.get(CurrentProjectService);
-    if (jQuery(document.body).hasClass('controller-my') && this.elementWidth === 0 || currentProject.id === null) {
+    if (jQuery(document.body).hasClass("controller-my") && this.elementWidth === 0 || currentProject.id === null) {
       this.saveWidth(this.defaultWidth);
     }
 
@@ -127,14 +127,14 @@ export class MainMenuToggleService {
 
   public closeMenu():void {
     this.setWidth(0);
-    window.OpenProject.guardedLocalStorage(this.localStorageStateKey, 'true');
-    jQuery('.collapsible-menu--search-input').blur();
+    window.OpenProject.guardedLocalStorage(this.localStorageStateKey, "true");
+    jQuery(".collapsible-menu--search-input").blur();
   }
 
   public closeWhenOnMobile():void {
     if (this.deviceService.isMobile) {
       this.closeMenu();
-      window.OpenProject.guardedLocalStorage(this.localStorageStateKey, 'false');
+      window.OpenProject.guardedLocalStorage(this.localStorageStateKey, "false");
     }
   }
 
@@ -165,7 +165,7 @@ export class MainMenuToggleService {
     // Send change event when size of menu is changing (menu toggled or resized)
     // Event should only be fired, when transition is finished
     const changeEvent = jQuery.Event("change");
-    jQuery('#content-wrapper').on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', () => {
+    jQuery("#content-wrapper").on("transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd", () => {
       this.changeData.next(changeEvent);
     });
   }
@@ -182,14 +182,14 @@ export class MainMenuToggleService {
 
   private setToggleTitle():void {
     if (this.showNavigation) {
-      this.toggleTitle = this.I18n.t('js.label_hide_project_menu');
+      this.toggleTitle = this.I18n.t("js.label_hide_project_menu");
     } else {
-      this.toggleTitle = this.I18n.t('js.label_expand_project_menu');
+      this.toggleTitle = this.I18n.t("js.label_expand_project_menu");
     }
     this.titleData.next(this.toggleTitle);
   }
 
   private toggleClassHidden():void {
-    this.hideElements.toggleClass('hidden-navigation', !this.showNavigation);
+    this.hideElements.toggleClass("hidden-navigation", !this.showNavigation);
   }
 }

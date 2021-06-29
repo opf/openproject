@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class FocusHelperService {
   private minimumOffsetForNewSwitchInMs = 100;
 
@@ -36,7 +36,7 @@ export class FocusHelperService {
 
   private lastPriority = -1;
 
-  private static FOCUSABLE_SELECTORS = 'a, button, :input, [tabindex], select';
+  private static FOCUSABLE_SELECTORS = "a, button, :input, [tabindex], select";
 
   public throttleAndCheckIfAllowedFocusChangeBasedOnTimeout() {
     var allowFocusSwitch = (Date.now() - this.lastFocusSwitch) >= this.minimumOffsetForNewSwitchInMs;
@@ -65,7 +65,7 @@ export class FocusHelperService {
   }
 
   public getFocusableElement(element:JQuery) {
-    var focusser = element.find('input.ui-select-focusser');
+    var focusser = element.find("input.ui-select-focusser");
 
     if (focusser.length > 0) {
       return focusser[0];
@@ -83,16 +83,16 @@ export class FocusHelperService {
   public focus(element:JQuery) {
     var focusable = jQuery(this.getFocusableElement(element));
     var $focusable = jQuery(focusable);
-    var isDisabled = $focusable.is('[disabled]');
+    var isDisabled = $focusable.is("[disabled]");
 
-    if (isDisabled && !$focusable.attr('ng-disabled')) {
-      $focusable.prop('disabled', false);
+    if (isDisabled && !$focusable.attr("ng-disabled")) {
+      $focusable.prop("disabled", false);
     }
 
     focusable.focus();
 
-    if (isDisabled && !$focusable.attr('ng-disabled')) {
-      $focusable.prop('disabled', true);
+    if (isDisabled && !$focusable.attr("ng-disabled")) {
+      $focusable.prop("disabled", true);
     }
   }
 

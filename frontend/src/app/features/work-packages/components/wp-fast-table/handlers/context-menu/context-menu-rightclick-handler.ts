@@ -1,8 +1,8 @@
-import { Injector } from '@angular/core';
-import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
+import { Injector } from "@angular/core";
+import { debugLog } from "core-app/shared/helpers/debug_output";
+import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { TableEventComponent } from "core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry";
 import { tableRowClassName } from "../../builders/rows/single-row-builder";
 import { timelineCellClassName } from "../../builders/timeline/timeline-row-builder";
 import { uiStateLinkClass } from "../../builders/ui-state-link-builder";
@@ -17,7 +17,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
   }
 
   public get EVENT() {
-    return 'contextmenu.table.rightclick';
+    return "contextmenu.table.rightclick";
   }
 
   public get SELECTOR() {
@@ -37,7 +37,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id
     if (target.closest(`.${uiStateLinkClass}`).length) {
-      debugLog('Allowing original context menu on state link');
+      debugLog("Allowing original context menu on state link");
       return true;
     }
 
@@ -46,7 +46,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
 
     // Locate the row from event
     const element = target.closest(this.SELECTOR);
-    const wpId = element.data('workPackageId');
+    const wpId = element.data("workPackageId");
 
     if (wpId) {
       const [index] = view.workPackageTable.findRenderedRow(wpId);

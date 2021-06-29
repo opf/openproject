@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 import { DynamicFormService } from "core-app/shared/components/dynamic-forms/services/dynamic-form/dynamic-form.service";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { HttpClient } from "@angular/common/http";
@@ -7,12 +7,12 @@ import { FormGroup } from "@angular/forms";
 import { of } from "rxjs";
 import { FormsService } from "core-app/core/forms/forms.service";
 
-describe('DynamicFormService', () => {
+describe("DynamicFormService", () => {
   let httpClient:HttpClient;
   let httpTestingController:HttpTestingController;
   let dynamicFormService:DynamicFormService;
   let formsService:jasmine.SpyObj<FormsService>;
-  const testFormUrl = 'http://op.com/form';
+  const testFormUrl = "http://op.com/form";
   const formSchema = {
     _type: "Form",
     _embedded: {
@@ -21,7 +21,7 @@ describe('DynamicFormService', () => {
         _links: {
           parent: {
             href: "/api/v3/projects/26",
-            title: "Parent project"
+            title: "Parent project",
           },
         },
       },
@@ -46,7 +46,7 @@ describe('DynamicFormService', () => {
           writable: true,
           _links: {
             allowedValues: {
-              href: "/api/v3/projects/available_parent_projects?of=25"
+              href: "/api/v3/projects/available_parent_projects?of=25",
             },
           },
         },
@@ -57,15 +57,15 @@ describe('DynamicFormService', () => {
     _links: {
       self: {
         href: "/api/v3/projects/25/form",
-        method: "post"
+        method: "post",
       },
       validate: {
         href: "/api/v3/projects/25/form",
-        method: "post"
+        method: "post",
       },
       commit: {
         href: "/api/v3/projects/25",
-        method: "patch"
+        method: "patch",
       },
     },
   };
@@ -77,7 +77,7 @@ describe('DynamicFormService', () => {
         templateOptions: {
           required: true,
           label: "Name",
-          type: "text"
+          type: "text",
         },
       },
       {
@@ -97,7 +97,7 @@ describe('DynamicFormService', () => {
           clearSearchOnAdd: false,
           hideSelected: false,
           text: {
-            add_new_action: "Create"
+            add_new_action: "Create",
           },
           options: of([]),
         },
@@ -109,7 +109,7 @@ describe('DynamicFormService', () => {
         parent: {
           href: "/api/v3/projects/26",
           title: "Parent project",
-          name: "Parent project"
+          name: "Parent project",
         },
       },
       _meta: undefined,
@@ -118,7 +118,7 @@ describe('DynamicFormService', () => {
   };
 
   beforeEach(() => {
-    const formServiceSpy = jasmine.createSpyObj('FormsService', ['submit$']);
+    const formServiceSpy = jasmine.createSpyObj("FormsService", ["submit$"]);
 
     TestBed.configureTestingModule({
       imports: [
@@ -136,33 +136,33 @@ describe('DynamicFormService', () => {
     formsService = TestBed.inject(FormsService) as jasmine.SpyObj<FormsService>;
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(dynamicFormService).toBeTruthy();
   });
 
-  it('should return the dynamic form config from the backend response', () => {
+  it("should return the dynamic form config from the backend response", () => {
     dynamicFormService
       .getSettingsFromBackend$(testFormUrl)
       .subscribe(dynamicFormConfigResponse => {
-        expect(dynamicFormConfigResponse.fields.length).toEqual(dynamicFormConfig.fields.length, 'should return one dynamic field per schema field');
+        expect(dynamicFormConfigResponse.fields.length).toEqual(dynamicFormConfig.fields.length, "should return one dynamic field per schema field");
         expect(
           dynamicFormConfigResponse.fields.every((field, index) => field.type === dynamicFormConfig.fields[index].type),
         )
-          .toBe(true, 'should return the dynamic fields in the schema order');
-        expect(dynamicFormConfigResponse.model).toEqual(dynamicFormConfig.model, 'should return the form model formatted');
+          .toBe(true, "should return the dynamic fields in the schema order");
+        expect(dynamicFormConfigResponse.model).toEqual(dynamicFormConfig.model, "should return the form model formatted");
       });
 
     const req = httpTestingController.expectOne(testFormUrl);
 
-    expect(req.request.method).toEqual('POST');
+    expect(req.request.method).toEqual("POST");
     req.flush(formSchema);
     httpTestingController.verify();
   });
 
-  it('should submit the dynamic form value', () => {
+  it("should submit the dynamic form value", () => {
     const dynamicForm = dynamicFormConfig.form;
 
-    formsService.submit$.and.returnValue(of('ok response'));
+    formsService.submit$.and.returnValue(of("ok response"));
 
     dynamicFormService
       .submit$(dynamicForm, testFormUrl)

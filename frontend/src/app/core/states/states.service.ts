@@ -1,6 +1,6 @@
 import {
   input, InputState, multiInput, MultiInputState, StatesGroup,
-} from 'reactivestates';
+} from "reactivestates";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { Subject } from "rxjs";
 import { WorkPackageDisplayRepresentationValue } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
@@ -22,7 +22,7 @@ import { PostResource } from "core-app/features/hal/resources/post-resource";
 import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
 
 export class States extends StatesGroup {
-  name = 'MainStore';
+  name = "MainStore";
 
   /* /api/v3/projects */
   projects:MultiInputState<ProjectResource> = multiInput<ProjectResource>();

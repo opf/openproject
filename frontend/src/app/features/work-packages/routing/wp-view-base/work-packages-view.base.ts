@@ -28,14 +28,14 @@
 
 import {
   ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit,
-} from '@angular/core';
-import { StateService, TransitionService } from '@uirouter/core';
-import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+} from "@angular/core";
+import { StateService, TransitionService } from "@uirouter/core";
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { filter, take, withLatestFrom } from 'rxjs/operators';
+import { filter, take, withLatestFrom } from "rxjs/operators";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
+import { WorkPackageStaticQueriesService } from "core-app/features/work-packages/components/wp-query-select/wp-static-queries.service";
 import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
 import { States } from "core-app/core/states/states.service";
 import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
@@ -201,7 +201,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    */
   protected setupRefreshObserver() {
     this.halEvents
-      .aggregated$('WorkPackage')
+      .aggregated$("WorkPackage")
       .pipe(
         this.untilDestroyed(),
         filter((events:HalEvent[]) => this.filterRefreshEvents(events)),
@@ -236,7 +236,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
     for (let i = 0; i < events.length; i++) {
       const item = events[i];
-      if (rendered.has(item.id) || item.eventType === 'created') {
+      if (rendered.has(item.id) || item.eventType === "created") {
         return true;
       }
     }

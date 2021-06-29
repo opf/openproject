@@ -53,40 +53,40 @@ import { CombinedDateDisplayField } from "core-app/shared/components/fields/disp
 
 export function initializeCoreDisplayFields(displayFieldService:DisplayFieldService) {
   return () => {
-    displayFieldService.defaultFieldType = 'text';
+    displayFieldService.defaultFieldType = "text";
     displayFieldService
-      .addFieldType(TextDisplayField, 'text', ['String'])
-      .addFieldType(FloatDisplayField, 'float', ['Float'])
-      .addFieldType(IntegerDisplayField, 'integer', ['Integer'])
-      .addFieldType(HighlightedResourceDisplayField, 'highlight', [
-        'Status',
-        'Priority'
+      .addFieldType(TextDisplayField, "text", ["String"])
+      .addFieldType(FloatDisplayField, "float", ["Float"])
+      .addFieldType(IntegerDisplayField, "integer", ["Integer"])
+      .addFieldType(HighlightedResourceDisplayField, "highlight", [
+        "Status",
+        "Priority",
       ])
-      .addFieldType(TypeDisplayField, 'type', ['Type'])
-      .addFieldType(ResourceDisplayField, 'resource', [
-        'Project',
-        'TimeEntriesActivity',
-        'Version',
-        'Category',
-        'CustomOption'])
-      .addFieldType(ResourcesDisplayField, 'resources', ['[]CustomOption'])
-      .addFieldType(MultipleUserFieldModule, 'users', ['[]User'])
-      .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
-      .addFieldType(DurationDisplayField, 'duration', ['Duration'])
-      .addFieldType(DateDisplayField, 'date', ['Date'])
-      .addFieldType(DateTimeDisplayField, 'datetime', ['DateTime'])
-      .addFieldType(BooleanDisplayField, 'boolean', ['Boolean'])
-      .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
-      .addFieldType(LinkedWorkPackageDisplayField, 'work_package', ['WorkPackage'])
-      .addFieldType(IdDisplayField, 'id', ['id'])
-      .addFieldType(UserDisplayField, 'user', ['User']);
+      .addFieldType(TypeDisplayField, "type", ["Type"])
+      .addFieldType(ResourceDisplayField, "resource", [
+        "Project",
+        "TimeEntriesActivity",
+        "Version",
+        "Category",
+        "CustomOption"])
+      .addFieldType(ResourcesDisplayField, "resources", ["[]CustomOption"])
+      .addFieldType(MultipleUserFieldModule, "users", ["[]User"])
+      .addFieldType(FormattableDisplayField, "formattable", ["Formattable"])
+      .addFieldType(DurationDisplayField, "duration", ["Duration"])
+      .addFieldType(DateDisplayField, "date", ["Date"])
+      .addFieldType(DateTimeDisplayField, "datetime", ["DateTime"])
+      .addFieldType(BooleanDisplayField, "boolean", ["Boolean"])
+      .addFieldType(ProgressDisplayField, "progress", ["percentageDone"])
+      .addFieldType(LinkedWorkPackageDisplayField, "work_package", ["WorkPackage"])
+      .addFieldType(IdDisplayField, "id", ["id"])
+      .addFieldType(UserDisplayField, "user", ["User"]);
 
     displayFieldService
-      .addSpecificFieldType('WorkPackage', WorkPackageIdDisplayField, 'id', ['id'])
-      .addSpecificFieldType('WorkPackage', WorkPackageSpentTimeDisplayField, 'spentTime', ['spentTime'])
-      .addSpecificFieldType('WorkPackage', CombinedDateDisplayField, 'combinedDate', ['combinedDate'])
-      .addSpecificFieldType('TimeEntry', PlainFormattableDisplayField, 'comment', ['comment'])
-      .addSpecificFieldType('Project', ProjectStatusDisplayField, 'status', ['status'])
-      .addSpecificFieldType('TimeEntry', WorkPackageDisplayField, 'work_package', ['workPackage']);
+      .addSpecificFieldType("WorkPackage", WorkPackageIdDisplayField, "id", ["id"])
+      .addSpecificFieldType("WorkPackage", WorkPackageSpentTimeDisplayField, "spentTime", ["spentTime"])
+      .addSpecificFieldType("WorkPackage", CombinedDateDisplayField, "combinedDate", ["combinedDate"])
+      .addSpecificFieldType("TimeEntry", PlainFormattableDisplayField, "comment", ["comment"])
+      .addSpecificFieldType("Project", ProjectStatusDisplayField, "status", ["status"])
+      .addSpecificFieldType("TimeEntry", WorkPackageDisplayField, "work_package", ["workPackage"]);
   };
 }

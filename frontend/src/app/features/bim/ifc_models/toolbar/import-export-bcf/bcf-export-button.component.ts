@@ -26,8 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, OnDestroy, OnInit, Injector } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import {
+  Component, OnDestroy, OnInit, Injector,
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
@@ -48,24 +50,26 @@ import { WpTableExportModal } from "core-app/shared/components/modals/export-mod
       <span class="button--text"> {{text.export}} </span>
     </a>
   `,
-  selector: 'bcf-export-button',
+  selector: "bcf-export-button",
 })
 export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   public text = {
-    export: this.I18n.t('js.bcf.export'),
-    export_hover: this.I18n.t('js.bcf.export_bcf_xml_file')
+    export: this.I18n.t("js.bcf.export"),
+    export_hover: this.I18n.t("js.bcf.export_bcf_xml_file"),
   };
+
   public query:QueryResource;
+
   public exportLink:string;
 
   constructor(readonly I18n:I18nService,
-              readonly currentProject:CurrentProjectService,
-              readonly bcfPathHelper:BcfPathHelperService,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly queryUrlParamsHelper:UrlParamsHelperService,
-              readonly opModalService:OpModalService,
-              readonly injector:Injector,
-              readonly state:StateService) {
+    readonly currentProject:CurrentProjectService,
+    readonly bcfPathHelper:BcfPathHelperService,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly queryUrlParamsHelper:UrlParamsHelperService,
+    readonly opModalService:OpModalService,
+    readonly injector:Injector,
+    readonly state:StateService) {
     super();
   }
 
@@ -73,7 +77,7 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
     this.querySpace.query
       .values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((query) => {
         this.query = query;
@@ -82,7 +86,7 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
         const filters = this.queryUrlParamsHelper.buildV3GetFilters(this.query.filters);
         this.exportLink = this.bcfPathHelper.projectExportIssuesPath(
           projectIdentifier!,
-          JSON.stringify(filters)
+          JSON.stringify(filters),
         );
       });
   }

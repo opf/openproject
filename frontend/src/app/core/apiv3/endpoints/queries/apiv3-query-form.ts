@@ -47,11 +47,11 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     // can check whether form saving is possible.
     // The query needs a name to be valid.
     const payload:any = {
-      name: query.name || '!!!__O__o__O__!!!'
+      name: query.name || "!!!__O__o__O__!!!",
     };
 
     if (query.project) {
-      payload['_links'] = {
+      payload["_links"] = {
         project: {
           href: query.project.href,
         },
@@ -80,7 +80,7 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     // can check whether form saving is possible.
     // The query needs a name to be valid.
     if (!queryId && !payload.name) {
-      payload.name = '!!!__O__o__O__!!!';
+      payload.name = "!!!__O__o__O__!!!";
     }
 
     if (projectIdentifier) {
@@ -101,6 +101,6 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
   }
 
   protected buildQueryResource(form:QueryFormResource):QueryResource {
-    return this.halResourceService.createHalResourceOfType<QueryResource>('Query', form.payload);
+    return this.halResourceService.createHalResourceOfType<QueryResource>("Query", form.payload);
   }
 }

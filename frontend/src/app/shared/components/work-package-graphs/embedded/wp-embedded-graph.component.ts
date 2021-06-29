@@ -1,6 +1,6 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { ChartOptions, ChartType } from 'chart.js';
+import { Component, Input, SimpleChanges } from "@angular/core";
+import { WorkPackageTableConfiguration } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
+import { ChartOptions, ChartType } from "chart.js";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
 
@@ -16,22 +16,22 @@ interface ChartDataSet {
 }
 
 @Component({
-  selector: 'wp-embedded-graph',
-  templateUrl: './wp-embedded-graph.html',
-  styleUrls: ['./wp-embedded-graph.component.sass'],
+  selector: "wp-embedded-graph",
+  templateUrl: "./wp-embedded-graph.html",
+  styleUrls: ["./wp-embedded-graph.component.sass"],
 })
 export class WorkPackageEmbeddedGraphComponent {
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
-  @Input('chartOptions') public inputChartOptions:ChartOptions;
+  @Input("chartOptions") public inputChartOptions:ChartOptions;
 
-  @Input('chartType') chartType:ChartType = 'horizontalBar';
+  @Input("chartType") chartType:ChartType = "horizontalBar";
 
   public configuration:WorkPackageTableConfiguration;
 
   public error:string|null = null;
 
-  public chartHeight = '100%';
+  public chartHeight = "100%";
 
   public chartLabels:string[] = [];
 
@@ -42,7 +42,7 @@ export class WorkPackageEmbeddedGraphComponent {
   public initialized = false;
 
   public text = {
-    noResults: this.i18n.t('js.work_packages.no_results.title'),
+    noResults: this.i18n.t("js.work_packages.no_results.title"),
   };
 
   constructor(readonly i18n:I18nService) {}
@@ -104,13 +104,13 @@ export class WorkPackageEmbeddedGraphComponent {
       },
       plugins: {
         datalabels: {
-          align: this.chartType === 'bar' ? 'top' : 'center',
+          align: this.chartType === "bar" ? "top" : "center",
         },
       },
     };
 
     const chartTypeDefaults:ChartOptions = { scales: {} };
-    if (this.chartType === 'horizontalBar' || this.chartType === 'bar' ) {
+    if (this.chartType === "horizontalBar" || this.chartType === "bar") {
       this.setChartAxesValues(chartTypeDefaults);
     }
 
@@ -122,7 +122,7 @@ export class WorkPackageEmbeddedGraphComponent {
   }
 
   private setHeight() {
-    if (this.chartType === 'horizontalBar' && this.datasets && this.datasets[0]) {
+    if (this.chartType === "horizontalBar" && this.datasets && this.datasets[0]) {
       const labels:string[] = [];
       this.datasets.forEach(d => d.groups!.forEach(g => {
         if (!labels.includes(g.value)) {
@@ -141,7 +141,7 @@ export class WorkPackageEmbeddedGraphComponent {
 
       this.chartHeight = `${height}px`;
     } else {
-      this.chartHeight = '100%';
+      this.chartHeight = "100%";
     }
   }
 
@@ -164,10 +164,10 @@ export class WorkPackageEmbeddedGraphComponent {
     }];
 
     if (chartOptions.scales) {
-      if (this.chartType === 'bar') {
+      if (this.chartType === "bar") {
         chartOptions.scales.yAxes = changeableValuesAxis;
         chartOptions.scales.xAxes = constantValuesAxis;
-      } else if (this.chartType === 'horizontalBar') {
+      } else if (this.chartType === "horizontalBar") {
         chartOptions.scales.xAxes = changeableValuesAxis;
         chartOptions.scales.yAxes = constantValuesAxis;
       }

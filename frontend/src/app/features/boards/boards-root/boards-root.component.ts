@@ -9,8 +9,8 @@ import { BoardSubprojectActionService } from "core-app/features/boards/board/boa
 import { BoardSubtasksActionService } from "core-app/features/boards/board/board-actions/subtasks/board-subtasks-action.service";
 
 @Component({
-  selector: 'boards-entry',
-  template: '<ui-view wp-isolated-query-space></ui-view>',
+  selector: "boards-entry",
+  template: "<ui-view wp-isolated-query-space></ui-view>",
   providers: [
     BoardConfigurationService,
     BoardStatusActionService,
@@ -19,19 +19,17 @@ import { BoardSubtasksActionService } from "core-app/features/boards/board/board
     BoardSubprojectActionService,
     BoardSubtasksActionService,
     QueryUpdatedService,
-  ]
+  ],
 })
 export class BoardsRootComponent {
-
   constructor(readonly injector:Injector) {
-
     // Register action services
     const registry = injector.get(BoardActionsRegistryService);
 
-    registry.add('status', injector.get(BoardStatusActionService));
-    registry.add('assignee', injector.get(BoardAssigneeActionService));
-    registry.add('version', injector.get(BoardVersionActionService));
-    registry.add('subproject', injector.get(BoardSubprojectActionService));
-    registry.add('subtasks', injector.get(BoardSubtasksActionService));
+    registry.add("status", injector.get(BoardStatusActionService));
+    registry.add("assignee", injector.get(BoardAssigneeActionService));
+    registry.add("version", injector.get(BoardVersionActionService));
+    registry.add("subproject", injector.get(BoardSubprojectActionService));
+    registry.add("subtasks", injector.get(BoardSubtasksActionService));
   }
 }

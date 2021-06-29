@@ -1,10 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from "@angular/core";
 import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
 import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
 import { GridMoveService } from "core-app/shared/components/grids/grid/move.service";
-import { Subscription } from 'rxjs';
-import { filter, distinctUntilChanged, throttleTime } from 'rxjs/operators';
+import { Subscription } from "rxjs";
+import { filter, distinctUntilChanged, throttleTime } from "rxjs/operators";
 
 @Injectable()
 export class GridDragAndDropService implements OnDestroy {
@@ -91,7 +91,7 @@ export class GridDragAndDropService implements OnDestroy {
   }
 
   public abort() {
-    document.dispatchEvent(new Event('mouseup'));
+    document.dispatchEvent(new Event("mouseup"));
     this.draggedArea = null;
     this.placeholderArea = null;
     this.layout.resetAreas();

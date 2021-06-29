@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input } from "@angular/core";
 import { Board } from "core-app/features/boards/board/board";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
@@ -15,8 +15,8 @@ import { BoardFiltersService } from "core-app/features/boards/board/board-filter
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
-  selector: 'board-filter',
-  templateUrl: './board-filter.component.html'
+  selector: "board-filter",
+  templateUrl: "./board-filter.component.html",
 })
 export class BoardFilterComponent extends UntilDestroyedMixin implements AfterViewInit {
   /** Current active */
@@ -72,7 +72,7 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
 
         this.boardFilters.filters.putValue(filterHash);
 
-        this.$state.go('.', { query_props }, { custom: { notify: false } });
+        this.$state.go(".", { query_props }, { custom: { notify: false } });
       });
   }
 

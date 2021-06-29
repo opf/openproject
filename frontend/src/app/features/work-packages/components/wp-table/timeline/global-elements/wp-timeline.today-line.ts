@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import * as moment from 'moment';
-import { calculatePositionValueForDayCount, TimelineViewParameters } from '../wp-timeline';
-import { TimelineStaticElement } from './timeline-static-element';
+import * as moment from "moment";
+import { calculatePositionValueForDayCount, TimelineViewParameters } from "../wp-timeline";
+import { TimelineStaticElement } from "./timeline-static-element";
 
 export class TodayLineElement extends TimelineStaticElement {
   protected finishElement(elem:HTMLElement, vp:TimelineViewParameters):HTMLElement {
-    const offsetToday = vp.now.diff(vp.dateDisplayStart, 'days');
+    const offsetToday = vp.now.diff(vp.dateDisplayStart, "days");
     const dayProgress = moment().hour() / 24;
     elem.style.left = calculatePositionValueForDayCount(vp, offsetToday + dayProgress);
 
@@ -40,6 +40,6 @@ export class TodayLineElement extends TimelineStaticElement {
   }
 
   public get identifier():string {
-    return 'wp-timeline-static-element-today-line';
+    return "wp-timeline-static-element-today-line";
   }
 }

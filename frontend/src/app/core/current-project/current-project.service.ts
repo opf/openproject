@@ -30,7 +30,7 @@ import { Injectable } from "@angular/core";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class CurrentProjectService {
   private current:{ id:string, identifier:string, name:string };
 
@@ -60,18 +60,18 @@ export class CurrentProjectService {
   }
 
   public get id():string|null {
-    return this.getCurrent('id');
+    return this.getCurrent("id");
   }
 
   public get name():string|null {
-    return this.getCurrent('name');
+    return this.getCurrent("name");
   }
 
   public get identifier():string|null {
-    return this.getCurrent('identifier');
+    return this.getCurrent("identifier");
   }
 
-  private getCurrent(key:'id'|'identifier'|'name') {
+  private getCurrent(key:"id"|"identifier"|"name") {
     if (this.current && this.current[key]) {
       return this.current[key].toString();
     }
@@ -83,7 +83,7 @@ export class CurrentProjectService {
    * Detect the current project from its meta tag.
    */
   public detect() {
-    const element:HTMLMetaElement|null = document.querySelector('meta[name=current_project]');
+    const element:HTMLMetaElement|null = document.querySelector("meta[name=current_project]");
     if (element) {
       this.current = {
         id: element.dataset.projectId!,

@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateService } from '@uirouter/core';
+import { StateService } from "@uirouter/core";
 import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
 import { Directive, ElementRef, Input } from "@angular/core";
 import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
@@ -42,10 +42,10 @@ import { HalEventsService } from "core-app/features/hal/services/hal-events.serv
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 
 @Directive({
-  selector: '[wpStatusDropdown]'
+  selector: "[wpStatusDropdown]",
 })
 export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
-  @Input('wpStatusDropdown-workPackage') public workPackage:WorkPackageResource;
+  @Input("wpStatusDropdown-workPackage") public workPackage:WorkPackageResource;
 
   constructor(readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
@@ -67,7 +67,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
 
       const { writable } = change.schema.status;
       if (!writable) {
-        this.notificationService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
+        this.notificationService.addError(this.I18n.t("js.work_packages.message_work_package_status_blocked"));
       } else {
         this.opContextMenu.show(this, evt);
       }
@@ -77,7 +77,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   public get locals() {
     return {
       items: this.items,
-      contextMenuId: 'wp-status-context-menu'
+      contextMenuId: "wp-status-context-menu",
     };
   }
 

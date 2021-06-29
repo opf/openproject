@@ -9,9 +9,9 @@ export class BcfProjectPaths extends BcfResourcePath {
   readonly bcfProjectService = new BcfApiRequestService(this.injector, BcfProjectResource);
 
   /** /topics */
-  public readonly topics = new BcfTopicCollectionPath(this.injector, this.path, 'topics');
+  public readonly topics = new BcfTopicCollectionPath(this.injector, this.path, "topics");
 
-  public readonly extensions = new BcfExtensionPaths(this.injector, this.path, 'extensions');
+  public readonly extensions = new BcfExtensionPaths(this.injector, this.path, "extensions");
 
   get(params:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}) {
     return this.bcfProjectService.get(this.toPath(), params, headers);

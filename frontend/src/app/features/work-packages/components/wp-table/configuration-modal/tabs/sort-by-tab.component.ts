@@ -1,7 +1,7 @@
-import { Component, Injector } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
+import { Component, Injector } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { TabComponent } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import {
   QUERY_SORT_BY_ASC,
   QUERY_SORT_BY_DESC,
@@ -19,29 +19,29 @@ export interface SortColumn {
   href:string | null;
 }
 
-export type SortingMode = 'automatic'|'manual';
+export type SortingMode = "automatic"|"manual";
 
 @Component({
-  templateUrl: './sort-by-tab.component.html'
+  templateUrl: "./sort-by-tab.component.html",
 })
 export class WpTableConfigurationSortByTab implements TabComponent {
   public text = {
-    title: this.I18n.t('js.label_sort_by'),
-    placeholder: this.I18n.t('js.placeholders.default'),
-    sort_criteria_1: this.I18n.t('js.filter.sorting.criteria.one'),
-    sort_criteria_2: this.I18n.t('js.filter.sorting.criteria.two'),
-    sort_criteria_3: this.I18n.t('js.filter.sorting.criteria.three'),
+    title: this.I18n.t("js.label_sort_by"),
+    placeholder: this.I18n.t("js.placeholders.default"),
+    sort_criteria_1: this.I18n.t("js.filter.sorting.criteria.one"),
+    sort_criteria_2: this.I18n.t("js.filter.sorting.criteria.two"),
+    sort_criteria_3: this.I18n.t("js.filter.sorting.criteria.three"),
     sorting_mode: {
-      description: this.I18n.t('js.work_packages.table_configuration.sorting_mode.description'),
-      automatic: this.I18n.t('js.work_packages.table_configuration.sorting_mode.automatic'),
-      manually: this.I18n.t('js.work_packages.table_configuration.sorting_mode.manually'),
-      warning: this.I18n.t('js.work_packages.table_configuration.sorting_mode.warning'),
+      description: this.I18n.t("js.work_packages.table_configuration.sorting_mode.description"),
+      automatic: this.I18n.t("js.work_packages.table_configuration.sorting_mode.automatic"),
+      manually: this.I18n.t("js.work_packages.table_configuration.sorting_mode.manually"),
+      warning: this.I18n.t("js.work_packages.table_configuration.sorting_mode.warning"),
     },
   };
 
   readonly availableDirections = [
-    { href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending') },
-    { href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') },
+    { href: QUERY_SORT_BY_ASC, name: this.I18n.t("js.label_ascending") },
+    { href: QUERY_SORT_BY_DESC, name: this.I18n.t("js.label_descending") },
   ];
 
   public availableColumns:SortColumn[] = [];
@@ -52,7 +52,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
 
   public emptyColumn:SortColumn = { name: this.text.placeholder, href: null };
 
-  public sortingMode:SortingMode = 'automatic';
+  public sortingMode:SortingMode = "automatic";
 
   public manualSortColumn:SortColumn;
 
@@ -64,7 +64,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
 
   public onSave() {
     let sortElements;
-    if (this.sortingMode === 'automatic') {
+    if (this.sortingMode === "automatic") {
       sortElements = this.sortationObjects.filter(object => object.column !== null);
     } else {
       sortElements = [new SortModalObject(this.manualSortColumn, QUERY_SORT_BY_ASC)];
@@ -86,18 +86,18 @@ export class WpTableConfigurationSortByTab implements TabComponent {
 
         // For whatever reason, even though the UI doesnt implement it,
         // QuerySortByResources are doubled for each column (one for asc/desc direction)
-        this.allColumns = _.uniqBy(allColumns, 'href');
+        this.allColumns = _.uniqBy(allColumns, "href");
 
         this.getManualSortingOption();
 
         _.each(this.wpTableSortBy.current, sort => {
-          if (!sort.column.href!.endsWith('/parent')) {
+          if (!sort.column.href!.endsWith("/parent")) {
             this.sortationObjects.push(
               new SortModalObject({ name: sort.column.name, href: sort.column.href },
                 sort.direction.href!),
             );
             if (sort.column.href === this.manualSortColumn.href) {
-              this.updateSortingMode('manual');
+              this.updateSortingMode("manual");
             }
           }
         });
@@ -117,7 +117,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
       .filter(o => o.column !== null)
       .map((object:SortModalObject) => object.column);
 
-    this.availableColumns = _.sortBy(_.differenceBy(this.allColumns, usedColumns, 'href'), 'name');
+    this.availableColumns = _.sortBy(_.differenceBy(this.allColumns, usedColumns, "href"), "name");
   }
 
   public updateSortingMode(mode:SortingMode) {
@@ -135,7 +135,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
   }
 
   private getManualSortingOption() {
-    this.manualSortColumn = this.allColumns.find((e) => e.href!.endsWith('/manualSorting'))!;
+    this.manualSortColumn = this.allColumns.find((e) => e.href!.endsWith("/manualSorting"))!;
     this.allColumns.splice(this.allColumns.indexOf(this.manualSortColumn), 1);
   }
 }

@@ -9,10 +9,10 @@ import {
 } from "core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component";
 import { URLParamsEncoder } from "core-app/features/hal/services/url-params-encoder";
 
-export const membersAutocompleterSelector = 'members-autocompleter';
+export const membersAutocompleterSelector = "members-autocompleter";
 
 @Component({
-  templateUrl: '../user-autocompleter/user-autocompleter.component.html',
+  templateUrl: "../user-autocompleter/user-autocompleter.component.html",
   selector: membersAutocompleterSelector,
 })
 export class MembersAutocompleterComponent extends UserAutocompleterComponent {
@@ -25,8 +25,8 @@ export class MembersAutocompleterComponent extends UserAutocompleterComponent {
       .get<UserAutocompleteItem[]>(url,
         {
           params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: { q: searchTerm } }),
-          responseType: 'json',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          responseType: "json",
+          headers: { "Content-Type": "application/json; charset=utf-8" },
         });
   }
 }

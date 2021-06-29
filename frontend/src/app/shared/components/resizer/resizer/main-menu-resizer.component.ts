@@ -28,13 +28,13 @@
 
 import {
   ChangeDetectorRef, Component, ElementRef, OnInit,
-} from '@angular/core';
-import { distinctUntilChanged } from 'rxjs/operators';
+} from "@angular/core";
+import { distinctUntilChanged } from "rxjs/operators";
 import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { MainMenuToggleService } from "core-app/core/main-menu/main-menu-toggle.service";
 
-export const mainMenuResizerSelector = 'main-menu-resizer';
+export const mainMenuResizerSelector = "main-menu-resizer";
 
 @Component({
   selector: mainMenuResizerSelector,
@@ -67,7 +67,7 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
 
   private elementWidth:number;
 
-  private mainMenu = jQuery('#main-menu')[0];
+  private mainMenu = jQuery("#main-menu")[0];
 
   public moving = false;
 

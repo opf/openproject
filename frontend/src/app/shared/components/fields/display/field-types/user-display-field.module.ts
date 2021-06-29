@@ -48,7 +48,7 @@ export class UserDisplayField extends DisplayField {
         element,
         this.attribute,
         { hide: false, link: false },
-        { hide: false, size: 'medium' },
+        { hide: false, size: "medium" },
       );
     }
   }

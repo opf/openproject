@@ -31,7 +31,7 @@ import {
 } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 import { AvatarSize, PrincipalRendererService } from "./principal-renderer.service";
@@ -39,23 +39,23 @@ import { PrincipalLike } from "./principal-types";
 import { PrincipalHelper } from "./principal-helper";
 import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
 
-export const principalSelector = 'op-principal';
+export const principalSelector = "op-principal";
 
 @Component({
-  template: '',
+  template: "",
   selector: principalSelector,
 })
 export class OpPrincipalComponent implements OnInit {
   /** If coming from angular, pass a principal resource if available */
   @Input() principal:PrincipalLike;
 
-  @Input('hide-avatar') hideAvatar = false;
+  @Input("hide-avatar") hideAvatar = false;
 
-  @Input('hide-name') hideName = false;
+  @Input("hide-name") hideName = false;
 
   @Input() link = true;
 
-  @Input() size:AvatarSize = 'default';
+  @Input() size:AvatarSize = "default";
 
   public constructor(readonly elementRef:ElementRef,
     readonly PathHelper:PathHelperService,
@@ -71,10 +71,10 @@ export class OpPrincipalComponent implements OnInit {
 
     if (!this.principal) {
       this.principal = this.principalFromDataset(element);
-      this.hideAvatar = element.dataset.hideAvatar === 'true';
-      this.hideName = element.dataset.hideName === 'true';
-      this.link = element.dataset.link === 'true';
-      this.size = element.dataset.size ?? 'default';
+      this.hideAvatar = element.dataset.hideAvatar === "true";
+      this.hideName = element.dataset.hideName === "true";
+      this.link = element.dataset.link === "true";
+      this.size = element.dataset.size ?? "default";
     }
 
     this.principalRenderer.render(

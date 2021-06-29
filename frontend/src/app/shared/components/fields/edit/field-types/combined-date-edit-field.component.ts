@@ -48,11 +48,11 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
 
   @InjectField() opModalService:OpModalService;
 
-  dates = '';
+  dates = "";
 
-  text_no_start_date = this.I18n.t('js.label_no_start_date');
+  text_no_start_date = this.I18n.t("js.label_no_start_date");
 
-  text_no_due_date = this.I18n.t('js.label_no_due_date');
+  text_no_due_date = this.I18n.t("js.label_no_due_date");
 
   private modal:OpModalComponent;
 
@@ -84,7 +84,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       .show(DatePickerModal, this.injector, { changeset: this.change, fieldName: this.name }, true);
 
     setTimeout(() => {
-      const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');
+      const modalElement = jQuery(modal.elementRef.nativeElement).find(".datepicker-modal");
       const field = jQuery(this.elementRef.nativeElement);
       modal.reposition(modalElement, field);
     });

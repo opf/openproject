@@ -34,14 +34,14 @@ export class VersionResource extends HalResource {
   public definingProject:HalResource;
 
   public isLocked() {
-    return this.status === 'locked';
+    return this.status === "locked";
   }
 
   public isOpen() {
-    return this.status === 'open';
+    return this.status === "open";
   }
 
   public isClosed() {
-    return this.status === 'closed';
+    return this.status === "closed";
   }
 }

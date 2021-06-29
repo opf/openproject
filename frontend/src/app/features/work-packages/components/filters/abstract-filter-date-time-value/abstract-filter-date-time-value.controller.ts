@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Moment } from 'moment';
+import { Moment } from "moment";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { OnInit, Directive } from '@angular/core';
+import { OnInit, Directive } from "@angular/core";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
@@ -52,7 +52,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
 
   public isoDateParser(data:any) {
     if (!this.timezoneService.isValidISODate(data)) {
-      return '';
+      return "";
     }
     var d = this.timezoneService.parseISODatetime(data);
     return this.timezoneService.formattedISODateTime(d);
@@ -60,7 +60,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
 
   public isoDateFormatter(data:any) {
     if (!this.timezoneService.isValidISODateTime(data)) {
-      return '';
+      return "";
     }
     var d = this.timezoneService.parseISODatetime(data);
     return this.timezoneService.formattedISODate(d);
@@ -77,19 +77,19 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
 
   public get timeZoneText() {
     if (this.lowerBoundary && this.upperBoundary) {
-      return this.I18n.t('js.filter.time_zone_converted.two_values',
+      return this.I18n.t("js.filter.time_zone_converted.two_values",
         {
-          from: this.lowerBoundary.format('YYYY-MM-DD HH:mm'),
-          to: this.upperBoundary.format('YYYY-MM-DD HH:mm'),
+          from: this.lowerBoundary.format("YYYY-MM-DD HH:mm"),
+          to: this.upperBoundary.format("YYYY-MM-DD HH:mm"),
         });
     } if (this.upperBoundary) {
-      return this.I18n.t('js.filter.time_zone_converted.only_end',
-        { to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
+      return this.I18n.t("js.filter.time_zone_converted.only_end",
+        { to: this.upperBoundary.format("YYYY-MM-DD HH:mm") });
     } if (this.lowerBoundary) {
-      return this.I18n.t('js.filter.time_zone_converted.only_start',
-        { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm') });
+      return this.I18n.t("js.filter.time_zone_converted.only_start",
+        { from: this.lowerBoundary.format("YYYY-MM-DD HH:mm") });
     }
 
-    return '';
+    return "";
   }
 }

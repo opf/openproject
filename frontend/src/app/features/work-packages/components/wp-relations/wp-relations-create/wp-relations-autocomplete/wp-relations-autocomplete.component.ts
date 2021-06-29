@@ -34,8 +34,8 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { from, Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
@@ -51,16 +51,16 @@ import { OpAutocompleterComponent } from "core-app/shared/components/autocomplet
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Component({
-  selector: 'wp-relations-autocomplete',
-  templateUrl: './wp-relations-autocomplete.html',
+  selector: "wp-relations-autocomplete",
+  templateUrl: "./wp-relations-autocomplete.html",
 
   // Allow styling the embedded ng-select
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./wp-relations-autocomplete.sass'],
+  styleUrls: ["./wp-relations-autocomplete.sass"],
 })
 export class WorkPackageRelationsAutocomplete {
   readonly text = {
-    placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
+    placeholder: this.I18n.t("js.relations_autocomplete.placeholder"),
   };
 
   @Input() inputPlaceholder:string = this.text.placeholder;
@@ -74,7 +74,7 @@ export class WorkPackageRelationsAutocomplete {
   /** Do we take the current query filters into account? */
   @Input() additionalFilters:ApiV3Filter[] = [];
 
-  @Input() hiddenOverflowContainer = 'body';
+  @Input() hiddenOverflowContainer = "body";
 
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
@@ -95,7 +95,7 @@ export class WorkPackageRelationsAutocomplete {
     }
 
     // Remove prefix # from search
-    query = query.replace(/^#/, '');
+    query = query.replace(/^#/, "");
 
     return from(
       this.workPackage.availableRelationCandidates.$link.$fetch({
@@ -119,7 +119,7 @@ export class WorkPackageRelationsAutocomplete {
     getOptionsFn: this.getAutocompleterData,
   };
 
-  public appendToContainer = 'body';
+  public appendToContainer = "body";
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
     private readonly pathHelper:PathHelperService,
@@ -132,7 +132,7 @@ export class WorkPackageRelationsAutocomplete {
     private readonly I18n:I18nService) {
   }
 
-  @HostListener('keydown.escape')
+  @HostListener("keydown.escape")
   public reset() {
     this.cancel();
   }
@@ -158,7 +158,7 @@ export class WorkPackageRelationsAutocomplete {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.ngSelectComponent.repositionDropdown();
-        jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+        jQuery(this.hiddenOverflowContainer).one("scroll", () => {
           this.ngSelectComponent.closeSelect();
         });
       }, 25);

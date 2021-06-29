@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { States } from 'core-app/core/states/states.service';
-import { combine } from 'reactivestates';
-import { mapTo } from 'rxjs/operators';
+import { States } from "core-app/core/states/states.service";
+import { combine } from "reactivestates";
+import { mapTo } from "rxjs/operators";
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable } from '@angular/core';
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
 import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
@@ -148,7 +148,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
 
   private isManuallySorted(sortBy:QuerySortByResource[]):boolean {
     if (sortBy && sortBy.length > 0) {
-      return sortBy[0].column.href!.endsWith('/manualSorting');
+      return sortBy[0].column.href!.endsWith("/manualSorting");
     }
 
     return false;

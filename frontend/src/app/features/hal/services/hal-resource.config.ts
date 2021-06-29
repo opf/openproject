@@ -68,38 +68,38 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   WorkPackage: {
     cls: WorkPackageResource,
     attrTypes: {
-      parent: 'WorkPackage',
-      ancestors: 'WorkPackage',
-      children: 'WorkPackage',
-      relations: 'Relation',
-      schema: 'Schema',
-      status: 'Status',
-      type: 'Type'
+      parent: "WorkPackage",
+      ancestors: "WorkPackage",
+      children: "WorkPackage",
+      relations: "Relation",
+      schema: "Schema",
+      status: "Status",
+      type: "Type",
     },
   },
   Activity: {
     cls: HalResource,
     attrTypes: {
-      user: 'User'
+      user: "User",
     },
   },
-  'Activity::Comment': {
+  "Activity::Comment": {
     cls: HalResource,
     attrTypes: {
-      user: 'User'
+      user: "User",
     },
   },
-  'Activity::Revision': {
+  "Activity::Revision": {
     cls: HalResource,
     attrTypes: {
-      user: 'User'
+      user: "User",
     },
   },
   Relation: {
     cls: RelationResource,
     attrTypes: {
-      from: 'WorkPackage',
-      to: 'WorkPackage'
+      from: "WorkPackage",
+      to: "WorkPackage",
     },
   },
   Schema: {
@@ -135,27 +135,27 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   Query: {
     cls: QueryResource,
     attrTypes: {
-      filters: 'QueryFilterInstance'
+      filters: "QueryFilterInstance",
     },
   },
   Form: {
     cls: FormResource,
     attrTypes: {
-      payload: 'FormPayload'
+      payload: "FormPayload",
     },
   },
   FormPayload: {
     cls: HalResource,
     attrTypes: {
-      attachments: 'AttachmentsCollection'
+      attachments: "AttachmentsCollection",
     },
   },
   QueryFilterInstance: {
     cls: QueryFilterInstanceResource,
     attrTypes: {
-      schema: 'QueryFilterInstanceSchema',
-      filter: 'QueryFilter',
-      operator: 'QueryOperator'
+      schema: "QueryFilterInstanceSchema",
+      filter: "QueryFilter",
+      operator: "QueryOperator",
     },
   },
   QueryFilterInstanceSchema: {

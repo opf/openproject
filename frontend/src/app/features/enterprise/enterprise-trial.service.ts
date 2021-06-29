@@ -36,16 +36,16 @@ export class EnterpriseTrialService {
 
   public cancelled = false;
 
-  public status:'mailSubmitted'|'startTrial'|undefined;
+  public status:"mailSubmitted"|"startTrial"|undefined;
 
   public error:HttpErrorResponse|undefined;
 
   public emailInvalid = false;
 
   public text = {
-    invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
-    taken_email: this.I18n.t('js.admin.enterprise.trial.form.taken_email'),
-    taken_domain: this.I18n.t('js.admin.enterprise.trial.form.taken_domain'),
+    invalid_email: this.I18n.t("js.admin.enterprise.trial.form.invalid_email"),
+    taken_email: this.I18n.t("js.admin.enterprise.trial.form.taken_email"),
+    taken_domain: this.I18n.t("js.admin.enterprise.trial.form.taken_domain"),
   };
 
   constructor(readonly I18n:I18nService,
@@ -81,7 +81,7 @@ export class EnterpriseTrialService {
         if (error.status === 422 || error.status === 400) {
           this.error = error;
         } else {
-          this.notificationsService.addWarning(error.error.description || I18n.t('js.error.internal'));
+          this.notificationsService.addWarning(error.error.description || I18n.t("js.error.internal"));
         }
       });
   }
@@ -104,7 +104,7 @@ export class EnterpriseTrialService {
       })
       .catch((error:HttpErrorResponse) => {
         // returns error 422 while waiting of confirmation
-        if (error.status === 422 && error.error.identifier === 'waiting_for_email_verification') {
+        if (error.status === 422 && error.error.identifier === "waiting_for_email_verification") {
           // get resend button link
           this.resendLink = error.error._links.resend.href;
           // save a key for the requested trial
@@ -114,10 +114,10 @@ export class EnterpriseTrialService {
           // open next modal window -> status waiting
           this.setMailSubmittedStatus();
           this.confirmed = false;
-        } else if (_.get(error, 'error._type') === 'Error') {
+        } else if (_.get(error, "error._type") === "Error") {
           this.notificationsService.addError(error.error.message);
         } else {
-          this.notificationsService.addError(error.error || I18n.t('js.error.internal'));
+          this.notificationsService.addError(error.error || I18n.t("js.error.internal"));
         }
       });
   }
@@ -127,7 +127,7 @@ export class EnterpriseTrialService {
   // and to ask for the corresponding user data saved in Augur
   private saveTrialKey(resendlink:string) {
     // extract token from resend link
-    const trialKey = resendlink.split('/')[6];
+    const trialKey = resendlink.split("/")[6];
     return this.http.post(
       `${this.pathHelper.appBasePath}/admin/enterprise/save_trial_key`,
       { trial_key: trialKey },
@@ -165,7 +165,7 @@ export class EnterpriseTrialService {
           )
           .toPromise();
 
-        this.notificationsService.addError(error.error.description || I18n.t('js.error.internal'));
+        this.notificationsService.addError(error.error.description || I18n.t("js.error.internal"));
       });
   }
 
@@ -184,27 +184,27 @@ export class EnterpriseTrialService {
   }
 
   public setStartTrialStatus() {
-    this.status = 'startTrial';
+    this.status = "startTrial";
   }
 
   public setMailSubmittedStatus() {
-    this.status = 'mailSubmitted';
+    this.status = "mailSubmitted";
   }
 
   public get trialStarted():boolean {
-    return this.status === 'startTrial';
+    return this.status === "startTrial";
   }
 
   public get mailSubmitted():boolean {
-    return this.status === 'mailSubmitted';
+    return this.status === "mailSubmitted";
   }
 
   public get domainTaken():boolean {
-    return this.error ? this.error.error.identifier === 'domain_taken' : false;
+    return this.error ? this.error.error.identifier === "domain_taken" : false;
   }
 
   public get emailTaken():boolean {
-    return this.error ? this.error.error.identifier === 'user_already_created_trial' : false;
+    return this.error ? this.error.error.identifier === "user_already_created_trial" : false;
   }
 
   public get emailError():boolean {
@@ -217,7 +217,7 @@ export class EnterpriseTrialService {
   }
 
   public get errorMsg() {
-    let error = '';
+    let error = "";
     if (this.emailInvalid) {
       error = this.text.invalid_email;
     } else if (this.domainTaken) {

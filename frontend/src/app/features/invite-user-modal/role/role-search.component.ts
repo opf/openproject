@@ -3,7 +3,7 @@ import {
   OnInit,
   Input,
   ElementRef,
-} from '@angular/core';
+} from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable, Subject, combineLatest } from "rxjs";
 import {
@@ -15,11 +15,11 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 @Component({
-  selector: 'op-ium-role-search',
-  templateUrl: './role-search.component.html',
+  selector: "op-ium-role-search",
+  templateUrl: "./role-search.component.html",
 })
 export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input('opFormBinding') roleControl:FormControl;
+  @Input("opFormBinding") roleControl:FormControl;
 
   public input$ = new Subject<string|null>();
 
@@ -28,7 +28,7 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
   public items$:Observable<any[]>;
 
   public text = {
-    noRolesFound: this.I18n.t('js.invite_user_modal.role.no_roles_found'),
+    noRolesFound: this.I18n.t("js.invite_user_modal.role.no_roles_found"),
   };
 
   constructor(
@@ -43,7 +43,7 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
         .pipe(
           this.untilDestroyed(),
           debounceTime(200),
-          filter(input => typeof input === 'string'),
+          filter(input => typeof input === "string"),
           map((input:string) => input.toLowerCase()),
           distinctUntilChanged(),
         ),
@@ -55,10 +55,10 @@ export class RoleSearchComponent extends UntilDestroyedMixin implements OnInit {
 
   ngOnInit() {
     const filters = new ApiV3FilterBuilder();
-    filters.add('grantable', '=', true);
-    filters.add('unit', '=', ['project']);
+    filters.add("grantable", "=", true);
+    filters.add("unit", "=", ["project"]);
     this.apiV3Service.roles.filtered(filters).get().subscribe(({ elements }) => this.roles$.next(elements));
 
-    setTimeout(() => this.input$.next(''));
+    setTimeout(() => this.input$.next(""));
   }
 }

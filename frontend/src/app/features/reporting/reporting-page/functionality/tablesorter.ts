@@ -1,4 +1,4 @@
-import 'tablesorter';
+import "tablesorter";
 
 /**
  * Ported from legacy asset pipeline reporting
@@ -13,22 +13,22 @@ function initTableSorter() {
 
   // Override the default texts to enable translations
   jQuery.tablesorter.language = {
-    sortAsc: I18n.t('js.sort.sorted_asc'),
-    sortDesc: I18n.t('js.sort.sorted_dsc'),
-    sortNone: I18n.t('js.sort.sorted_no'),
-    sortDisabled: I18n.t('js.sort.sorting_disabled'),
-    nextAsc: I18n.t('js.sort.activate_asc'),
-    nextDesc: I18n.t('js.sort.activate_dsc'),
-    nextNone: I18n.t('js.sort.activate_no'),
+    sortAsc: I18n.t("js.sort.sorted_asc"),
+    sortDesc: I18n.t("js.sort.sorted_dsc"),
+    sortNone: I18n.t("js.sort.sorted_no"),
+    sortDisabled: I18n.t("js.sort.sorting_disabled"),
+    nextAsc: I18n.t("js.sort.activate_asc"),
+    nextDesc: I18n.t("js.sort.activate_dsc"),
+    nextNone: I18n.t("js.sort.activate_no"),
   };
 
-  jQuery('#sortable-table')
-    .not('.tablesorter')
+  jQuery("#sortable-table")
+    .not(".tablesorter")
     .tablesorter({
       sortList: [[0, 0]],
-      widgets: ['saveSort'],
+      widgets: ["saveSort"],
       widgetOptions: {
-        storage_storageType: 's'
+        storage_storageType: "s",
       },
       textExtraction(node:HTMLElement, table:any, cellIndex:any) {
         return node.getAttribute("raw-data");

@@ -20,7 +20,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { FormsService } from "core-app/core/forms/forms.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
-import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
+import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
 
 /**
 * SETTINGS:
@@ -129,7 +129,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   @Input() formUrl?:string;
 
   /** When using the formUrl @Input(), set the http method to use if it is not 'POST' */
-  @Input() formHttpMethod?:'post'|'patch' = 'post';
+  @Input() formHttpMethod?:"post"|"patch" = "post";
 
   /** Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example)
   * Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath
@@ -165,7 +165,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   @Input() showNotifications = true;
 
-  @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
+  @Input() showValidationErrorsOn:"change"|"blur"|"submit"|"never" = "submit";
 
   @Input() handleSubmit = true;
 
@@ -186,11 +186,11 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   inFlight:boolean;
 
   text = {
-    save: this._I18n.t('js.button_save'),
-    load_error_message: this._I18n.t('js.forms.load_error_message'),
-    successful_update: this._I18n.t('js.notice_successful_update'),
-    successful_create: this._I18n.t('js.notice_successful_create'),
-    job_started: this._I18n.t('js.notice_job_started'),
+    save: this._I18n.t("js.button_save"),
+    load_error_message: this._I18n.t("js.forms.load_error_message"),
+    successful_update: this._I18n.t("js.notice_successful_update"),
+    successful_create: this._I18n.t("js.notice_successful_create"),
+    job_started: this._I18n.t("js.notice_job_started"),
   };
 
   noSettingsSourceErrorMessage = `DynamicFormComponent needs a settings, formUrl or resourcePath @Input
@@ -369,9 +369,9 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     if (formResponse?.jobId) {
       const title = formResponse?.payload?.title;
 
-      submit_message = `${title || ''} ${this.text.job_started}`;
+      submit_message = `${title || ""} ${this.text.job_started}`;
     } else {
-      submit_message = this.formHttpMethod === 'patch' ? this.text.successful_update : this.text.successful_create;
+      submit_message = this.formHttpMethod === "patch" ? this.text.successful_update : this.text.successful_create;
     }
 
     this._notificationsService.addSuccess(submit_message);

@@ -46,11 +46,11 @@ import { of } from "rxjs";
 import { WorkPackageFoldToggleButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component";
 
 @Component({
-  selector: 'wp-view-page',
-  templateUrl: '../partitioned-query-space-page/partitioned-query-space-page.component.html',
+  selector: "wp-view-page",
+  templateUrl: "../partitioned-query-space-page/partitioned-query-space-page.component.html",
   styleUrls: [
     // Absolute paths do not work for styleURLs :-(
-    '../partitioned-query-space-page/partitioned-query-space-page.component.sass',
+    "../partitioned-query-space-page/partitioned-query-space-page.component.sass",
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -65,7 +65,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
       component: WorkPackageCreateButtonComponent,
       inputs: {
         stateName$: of("work-packages.partitioned.list.new"),
-        allowed: ['work_packages.createWorkPackage'],
+        allowed: ["work_packages.createWorkPackage"],
       },
     },
     {
@@ -73,7 +73,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageViewToggleButton,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: WorkPackageFoldToggleButtonComponent,
@@ -81,15 +81,15 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageDetailsViewButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: WorkPackageTimelineButtonComponent,
-      containerClasses: 'hidden-for-mobile -no-spacing',
+      containerClasses: "hidden-for-mobile -no-spacing",
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: WorkPackageSettingsButtonComponent,
@@ -98,7 +98,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
 
   ngOnInit() {
     super.ngOnInit();
-    this.text.button_settings = this.I18n.t('js.button_settings');
+    this.text.button_settings = this.I18n.t("js.button_settings");
   }
 
   protected additionalLoadingTime():Promise<unknown> {
@@ -109,6 +109,6 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
   }
 
   protected shouldUpdateHtmlTitle():boolean {
-    return this.$state.current.name === 'work-packages.partitioned.list';
+    return this.$state.current.name === "work-packages.partitioned.list";
   }
 }

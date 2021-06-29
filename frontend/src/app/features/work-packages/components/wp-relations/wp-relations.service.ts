@@ -1,6 +1,6 @@
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { multiInput, MultiInputState, StatesGroup } from "reactivestates";
 import { Injectable } from "@angular/core";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
@@ -12,7 +12,7 @@ import { RelationResource } from "core-app/features/hal/resources/relation-resou
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 
 export class RelationStateGroup extends StatesGroup {
-  name = 'WP-Relations';
+  name = "WP-Relations";
 
   relations:MultiInputState<RelationsStateValue> = multiInput<RelationsStateValue>();
 

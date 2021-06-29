@@ -7,8 +7,8 @@ import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/
 import { BcfViewpointItem } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface";
 
 @Component({
-  templateUrl: './bcf-wp-attribute-group.component.html',
-  styleUrls: ['./bcf-wp-attribute-group.component.sass'],
+  templateUrl: "./bcf-wp-attribute-group.component.html",
+  styleUrls: ["./bcf-wp-attribute-group.component.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponent {
@@ -91,6 +91,6 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
     // Show only delete button
     return super
       .actions()
-      .filter(el => el.icon === 'icon-delete');
+      .filter(el => el.icon === "icon-delete");
   }
 }

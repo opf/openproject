@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { NgModule } from "@angular/core";
+import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
 import { DisplayJobPageComponent } from "core-app/features/job-status/display-job-page/display-job-page.component";
@@ -35,12 +35,12 @@ import { JobStatusModal } from "core-app/features/job-status/job-status-modal/jo
 
 export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
   {
-    name: 'job-statuses',
-    url: '/job_statuses/{jobId:[a-z0-9-]+}',
-    parent: 'root',
+    name: "job-statuses",
+    url: "/job_statuses/{jobId:[a-z0-9-]+}",
+    parent: "root",
     component: DisplayJobPageComponent,
     data: {
-      bodyClasses: 'router--job-statuses'
+      bodyClasses: "router--job-statuses",
     },
   },
 ];

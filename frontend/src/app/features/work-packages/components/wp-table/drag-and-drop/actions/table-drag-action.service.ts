@@ -52,9 +52,9 @@ export class TableDragActionService {
    */
   public changeShadowElement(shadowElement:HTMLElement, backToDefault = false) {
     if (backToDefault) {
-      shadowElement.classList.remove('-dragged');
+      shadowElement.classList.remove("-dragged");
     } else {
-      shadowElement.classList.add('-dragged');
+      shadowElement.classList.add("-dragged");
     }
     return true;
   }

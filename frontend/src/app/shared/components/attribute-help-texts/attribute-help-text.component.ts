@@ -34,18 +34,18 @@ import {
   Injector,
   Input,
   OnInit,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { AttributeHelpTextsService } from './attribute-help-text.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { AttributeHelpTextsService } from "./attribute-help-text.service";
 import { AttributeHelpTextModal } from "./attribute-help-text.modal";
 
-export const attributeHelpTextSelector = 'attribute-help-text';
+export const attributeHelpTextSelector = "attribute-help-text";
 
 @Component({
   selector: attributeHelpTextSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './attribute-help-text.component.html'
+  templateUrl: "./attribute-help-text.component.html",
 })
 export class AttributeHelpTextComponent implements OnInit {
   // Attribute to show help text for
@@ -62,9 +62,9 @@ export class AttributeHelpTextComponent implements OnInit {
   public exists = false;
 
   readonly text = {
-    open_dialog: this.I18n.t('js.help_texts.show_modal'),
-    edit: this.I18n.t('js.button_edit'),
-    close: this.I18n.t('js.button_close'),
+    open_dialog: this.I18n.t("js.help_texts.show_modal"),
+    edit: this.I18n.t("js.button_edit"),
+    close: this.I18n.t("js.button_close"),
   };
 
   constructor(protected elementRef:ElementRef,

@@ -36,7 +36,7 @@ export class Apiv3HelpTextsPaths
   extends APIv3ResourceCollection<HelpTextResource, APIv3GettableResource<HelpTextResource>> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'help_texts');
+    super(apiRoot, basePath, "help_texts");
   }
 
   /**

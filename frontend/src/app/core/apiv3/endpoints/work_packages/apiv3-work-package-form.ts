@@ -12,7 +12,7 @@ export class APIv3WorkPackageForm extends APIv3FormResource {
    * @returns A work package form resource prefilled with the provided payload.
    */
   public forTypePayload(payload:HalSource):Observable<FormResource> {
-    const typePayload = payload._links['type'] ? { _links: { type: payload['_links']['type'] } } : { _links: {} };
+    const typePayload = payload._links["type"] ? { _links: { type: payload["_links"]["type"] } } : { _links: {} };
 
     return this.post(payload);
   }

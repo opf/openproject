@@ -36,25 +36,25 @@ import {
   ViewChild,
   ViewEncapsulation,
   NgZone, AfterViewInit,
-} from '@angular/core';
+} from "@angular/core";
 import { Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
-import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
-import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
-import { DeviceService } from 'core-app/core/browser/device.service';
-import { ContainHelpers } from 'core-app/shared/directives/focus/contain-helpers';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { APIV3Service } from '../../apiv3/api-v3.service';
+import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
+import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { DeviceService } from "core-app/core/browser/device.service";
+import { ContainHelpers } from "core-app/shared/directives/focus/contain-helpers";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { APIV3Service } from "../../apiv3/api-v3.service";
 
-export const globalSearchSelector = 'global-search-input';
+export const globalSearchSelector = "global-search-input";
 
 interface SearchResultItem {
   id:string;
@@ -74,17 +74,17 @@ interface SearchOptionItem {
 @Component({
   selector: globalSearchSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './global-search-input.component.html',
+  templateUrl: "./global-search-input.component.html",
   styleUrls: [
-    './global-search-input.component.sass',
-    './global-search-input-mobile.component.sass',
-    './global-search.component.sass',
+    "./global-search-input.component.sass",
+    "./global-search-input-mobile.component.sass",
+    "./global-search.component.sass",
   ],
   // Necessary because of ng-select
   encapsulation: ViewEncapsulation.None,
 })
 export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('btn', { static: true }) btn:ElementRef;
+  @ViewChild("btn", { static: true }) btn:ElementRef;
 
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
@@ -104,7 +104,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   };
 
   /** Remember the current value */
-  public currentValue = '';
+  public currentValue = "";
 
   public isFocusedDirectly = (this.globalSearchService.searchTerm.length > 0);
 
@@ -118,12 +118,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   private isInitialized = false;
 
   public text:{ [key:string]:string } = {
-    all_projects: this.I18n.t('js.global_search.all_projects'),
-    current_project: this.I18n.t('js.global_search.current_project'),
-    current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
-    search: this.I18n.t('js.global_search.search'),
+    all_projects: this.I18n.t("js.global_search.all_projects"),
+    current_project: this.I18n.t("js.global_search.current_project"),
+    current_project_and_all_descendants: this.I18n.t("js.global_search.current_project_and_all_descendants"),
+    search: this.I18n.t("js.global_search.search"),
     search_dots: `${this.I18n.t("js.global_search.search")} ...`,
-    close_search: this.I18n.t('js.global_search.close_search'),
+    close_search: this.I18n.t("js.global_search.close_search"),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -151,7 +151,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   // detect if click is outside or inside the element
-  @HostListener('click', ['$event'])
+  @HostListener("click", ["$event"])
   public handleClick(event:JQuery.TriggeredEvent):void {
     event.stopPropagation();
     event.preventDefault();
@@ -161,7 +161,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       if (this.deviceService.isMobile) {
         this.toggleMobileSearch();
         // open ng-select menu on default
-        jQuery('.ng-input input').focus();
+        jQuery(".ng-input input").focus();
       } else if (this.ngSelectComponent.ngSelectInstance.searchTerm.length === 0) {
         this.ngSelectComponent.ngSelectInstance.focus();
       } else {
@@ -217,7 +217,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   public clearSearch() {
-    this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm = '';
+    this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm = "";
     this.openCloseMenu(this.currentValue);
   }
 
@@ -233,15 +233,15 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   public statusHighlighting(statusId:string) {
-    return Highlighting.inlineClass('status', statusId);
+    return Highlighting.inlineClass("status", statusId);
   }
 
   private get isDirectHit() {
-    return this.selectedItem && this.selectedItem.hasOwnProperty('id');
+    return this.selectedItem && this.selectedItem.hasOwnProperty("id");
   }
 
   public followItem(item:SearchResultItem|SearchOptionItem) {
-    if (item.hasOwnProperty('id')) {
+    if (item.hasOwnProperty("id")) {
       window.location.href = this.wpPath((item as SearchResultItem).id);
     } else {
       // update embedded table and title when new search is submitted
@@ -337,13 +337,13 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     // add all options when searching within a project
     // otherwise search in 'all projects'
     if (this.currentProjectService.path) {
-      searchOptions.push('current_project_and_all_descendants');
-      searchOptions.push('current_project');
+      searchOptions.push("current_project_and_all_descendants");
+      searchOptions.push("current_project");
     }
-    if (this.globalSearchService.projectScope === 'current_project') {
+    if (this.globalSearchService.projectScope === "current_project") {
       searchOptions.reverse();
     }
-    searchOptions.push('all_projects');
+    searchOptions.push("all_projects");
 
     return searchOptions.map((suggestion:string) => ({ projectScope: suggestion, text: this.text[suggestion] }));
   }
@@ -383,23 +383,23 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private searchInScope(scope:string) {
     switch (scope) {
-      case 'all_projects': {
+      case "all_projects": {
         let forcePageLoad = false;
-        if (this.globalSearchService.projectScope !== 'all') {
+        if (this.globalSearchService.projectScope !== "all") {
           forcePageLoad = true;
           this.globalSearchService.resultsHidden = true;
         }
-        this.globalSearchService.projectScope = 'all';
+        this.globalSearchService.projectScope = "all";
         this.submitNonEmptySearch(forcePageLoad);
         break;
       }
-      case 'current_project': {
-        this.globalSearchService.projectScope = 'current_project';
+      case "current_project": {
+        this.globalSearchService.projectScope = "current_project";
         this.submitNonEmptySearch();
         break;
       }
-      case 'current_project_and_all_descendants': {
-        this.globalSearchService.projectScope = '';
+      case "current_project_and_all_descendants": {
+        this.globalSearchService.projectScope = "";
         this.submitNonEmptySearch();
         break;
       }
@@ -413,10 +413,10 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       // Work package results can update without page reload.
       if (!forcePageLoad
         && this.globalSearchService.isAfterSearch()
-        && this.globalSearchService.currentTab === 'work_packages') {
+        && this.globalSearchService.currentTab === "work_packages") {
         window.history
           .replaceState({},
-            `${I18n.t('global_search.search')}: ${this.ngSelectComponent.ngSelectInstance.searchTerm}`,
+            `${I18n.t("global_search.search")}: ${this.ngSelectComponent.ngSelectInstance.searchTerm}`,
             this.globalSearchService.searchPath());
 
         return;
@@ -426,13 +426,13 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   public blur() {
-    this.ngSelectComponent.ngSelectInstance.searchTerm = '';
+    this.ngSelectComponent.ngSelectInstance.searchTerm = "";
     (<HTMLInputElement>document.activeElement).blur();
   }
 
   private get currentScope():string {
     const serviceScope = this.globalSearchService.projectScope;
-    return (serviceScope === '') ? 'current_project_and_all_descendants' : serviceScope;
+    return (serviceScope === "") ? "current_project_and_all_descendants" : serviceScope;
   }
 
   private unregister() {
@@ -443,6 +443,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   private toggleTopMenuClass() {
-    jQuery('.op-app-header').toggleClass('op-app-header_search-open', this.expanded);
+    jQuery(".op-app-header").toggleClass("op-app-header_search-open", this.expanded);
   }
 }

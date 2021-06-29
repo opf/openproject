@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { TestBed } from "@angular/core/testing";
+import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
 import { GlobalEditFormChangesTrackerService } from "./global-edit-form-changes-tracker.service";
 
-describe('GlobalEditFormChangesTrackerService', () => {
+describe("GlobalEditFormChangesTrackerService", () => {
   let service:GlobalEditFormChangesTrackerService;
   const createForm = (changed?:boolean) => ({
     change: {
@@ -15,15 +15,15 @@ describe('GlobalEditFormChangesTrackerService', () => {
     service = TestBed.inject(GlobalEditFormChangesTrackerService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 
-  it('should report no changes when empty', () => {
+  it("should report no changes when empty", () => {
     expect(service.thereAreFormsWithUnsavedChanges).toBeFalse();
   });
 
-  it('should report no changes when one form has no changes', () => {
+  it("should report no changes when one form has no changes", () => {
     const form = createForm();
 
     service.addToActiveForms(form);
@@ -31,7 +31,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
     expect(service.thereAreFormsWithUnsavedChanges).toBeFalse();
   });
 
-  it('should report no changes when multiple forms have no changes', () => {
+  it("should report no changes when multiple forms have no changes", () => {
     const form = createForm();
     const form2 = createForm();
     const form3 = createForm();
@@ -43,7 +43,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
     expect(service.thereAreFormsWithUnsavedChanges).toBeFalse();
   });
 
-  it('should report no changes when the only form with changes is removed', () => {
+  it("should report no changes when the only form with changes is removed", () => {
     const form = createForm(true);
 
     service.addToActiveForms(form);
@@ -52,7 +52,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
     expect(service.thereAreFormsWithUnsavedChanges).toBeFalse();
   });
 
-  it('should report changes when one form has changes', () => {
+  it("should report changes when one form has changes", () => {
     const form = createForm(true);
 
     service.addToActiveForms(form);
@@ -60,7 +60,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
     expect(service.thereAreFormsWithUnsavedChanges).toBeTrue();
   });
 
-  it('should report forms with changes when multiple form have changes', () => {
+  it("should report forms with changes when multiple form have changes", () => {
     const form = createForm(true);
     const form2 = createForm(true);
     const form3 = createForm();
@@ -72,12 +72,12 @@ describe('GlobalEditFormChangesTrackerService', () => {
     expect(service.thereAreFormsWithUnsavedChanges).toBeTrue();
   });
 
-  it('should call thereAreFormsWithUnsavedChangesSpy on beforeunload', () => {
-    const thereAreFormsWithUnsavedChangesSpy = spyOnProperty(service, 'thereAreFormsWithUnsavedChanges', 'get');
+  it("should call thereAreFormsWithUnsavedChangesSpy on beforeunload", () => {
+    const thereAreFormsWithUnsavedChangesSpy = spyOnProperty(service, "thereAreFormsWithUnsavedChanges", "get");
 
     window.onbeforeunload = jasmine.createSpy();
 
-    window.dispatchEvent(new Event('beforeunload'));
+    window.dispatchEvent(new Event("beforeunload"));
 
     expect(thereAreFormsWithUnsavedChangesSpy).toHaveBeenCalled();
   });

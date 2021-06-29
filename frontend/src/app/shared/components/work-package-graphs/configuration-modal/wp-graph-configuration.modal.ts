@@ -12,28 +12,28 @@ import {
   OnInit,
   Optional,
   ViewChild,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+} from "@angular/core";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { ConfigurationService } from "core-app/core/config/configuration.service";
 import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
   TabPortalOutlet,
-} from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
-import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+} from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ComponentType } from "@angular/cdk/portal";
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import { WpGraphConfiguration } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 
-export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
+export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>("WpTableConfigurationModalPrependComponent");
 
 @Component({
-  templateUrl: '../../../../features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html',
+  templateUrl: "../../../../features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
@@ -46,17 +46,17 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   public $element:JQuery;
 
   public text = {
-    title: this.I18n.t('js.chart.modal_title'),
-    closePopup: this.I18n.t('js.close_popup_title'),
+    title: this.I18n.t("js.chart.modal_title"),
+    closePopup: this.I18n.t("js.close_popup_title"),
 
-    applyButton: this.I18n.t('js.modals.button_apply'),
-    cancelButton: this.I18n.t('js.modals.button_cancel'),
+    applyButton: this.I18n.t("js.modals.button_apply"),
+    cancelButton: this.I18n.t("js.modals.button_cancel"),
   };
 
   public configuration:WpGraphConfiguration;
 
   // Get the view child we'll use as the portal host
-  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+  @ViewChild("tabContentOutlet", { static: true }) tabContentOutlet:ElementRef;
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
@@ -79,7 +79,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    this.loadingIndicator.indicator('modal').promise = this.graphConfiguration.loadForms()
+    this.loadingIndicator.indicator("modal").promise = this.graphConfiguration.loadForms()
       .then(() => {
         this.tabPortalHost = new TabPortalOutlet(
           this.graphConfiguration.tabs,
@@ -89,7 +89,7 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
           this.injector,
         );
 
-        const initialTabName = this.locals['initialTab'];
+        const initialTabName = this.locals["initialTab"];
         const initialTab = this.availableTabs.find(el => el.id === initialTabName);
         this.cdRef.markForCheck();
         this.switchTo(initialTab || this.availableTabs[0]);

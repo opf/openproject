@@ -12,15 +12,15 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
-} from '@angular/core';
+} from "@angular/core";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
 
 @Component({
-  templateUrl: './form.component.html',
-  selector: 'te-form',
+  templateUrl: "./form.component.html",
+  selector: "te-form",
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -31,17 +31,17 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
 
   @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
 
-  @ViewChild('editForm', { static: true }) editForm:EditFormComponent;
+  @ViewChild("editForm", { static: true }) editForm:EditFormComponent;
 
   text = {
     attributes: {
-      comment: this.i18n.t('js.time_entry.comment'),
-      hours: this.i18n.t('js.time_entry.hours'),
-      activity: this.i18n.t('js.time_entry.activity'),
-      workPackage: this.i18n.t('js.time_entry.work_package'),
-      spentOn: this.i18n.t('js.time_entry.spent_on'),
+      comment: this.i18n.t("js.time_entry.comment"),
+      hours: this.i18n.t("js.time_entry.hours"),
+      activity: this.i18n.t("js.time_entry.activity"),
+      workPackage: this.i18n.t("js.time_entry.work_package"),
+      spentOn: this.i18n.t("js.time_entry.spent_on"),
     },
-    wpRequired: this.i18n.t('js.time_entry.work_package_required'),
+    wpRequired: this.i18n.t("js.time_entry.work_package_required"),
   };
 
   public workPackageSelected = false;

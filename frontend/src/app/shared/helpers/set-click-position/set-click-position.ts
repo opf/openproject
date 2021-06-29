@@ -1,4 +1,4 @@
-import { debugLog } from '../debug_output';
+import { debugLog } from "../debug_output";
 
 export namespace ClickPositionMapper {
 
@@ -12,7 +12,7 @@ export namespace ClickPositionMapper {
     try {
       element.setSelectionRange(offset, offset);
     } catch (e) {
-      debugLog('Failed to set click position for edit field.', e);
+      debugLog("Failed to set click position for edit field.", e);
     }
   }
 

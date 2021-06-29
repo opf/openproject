@@ -32,7 +32,7 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { Observable } from "rxjs";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class OpenProjectBackupService {
   constructor(protected http:HttpClient,
     protected halResource:HalResourceService) {

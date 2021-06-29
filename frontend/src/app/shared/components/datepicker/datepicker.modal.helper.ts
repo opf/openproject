@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { DateKeys } from "core-app/shared/components/datepicker/datepicker.modal";
 import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker";
 import { DateOption } from "flatpickr/dist/types/options";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class DatePickerModalHelper {
   public currentlyActivatedDateField:DateKeys;
 
@@ -41,21 +41,21 @@ export class DatePickerModalHelper {
    * @param key
    */
   public mappedDate(date:string):string|null {
-    return date === '' ? null : date;
+    return date === "" ? null : date;
   }
 
-  public parseDate(date:Date|string):Date|'' {
+  public parseDate(date:Date|string):Date|"" {
     if (date instanceof Date) {
       return new Date(date.setHours(0, 0, 0, 0));
-    } if (date === '') {
-      return '';
+    } if (date === "") {
+      return "";
     }
     return new Date(new Date(date).setHours(0, 0, 0, 0));
   }
 
   public validDate(date:Date|string) {
     return (date instanceof Date)
-      || (date === '')
+      || (date === "")
       || !!new Date(date).valueOf();
   }
 
@@ -78,7 +78,7 @@ export class DatePickerModalHelper {
   }
 
   public toggleCurrentActivatedField(dates:{ [key in DateKeys]:string }, datePicker:DatePicker) {
-    this.currentlyActivatedDateField = this.currentlyActivatedDateField === 'start' ? 'end' : 'start';
+    this.currentlyActivatedDateField = this.currentlyActivatedDateField === "start" ? "end" : "start";
     this.setDatepickerRestrictions(dates, datePicker);
   }
 
@@ -110,13 +110,13 @@ export class DatePickerModalHelper {
 
     let disableFunction:Function = (date:Date) => false;
 
-    if (this.isStateOfCurrentActivatedField('start') && dates.end) {
+    if (this.isStateOfCurrentActivatedField("start") && dates.end) {
       disableFunction = (date:Date) => date.getTime() > new Date(dates.end).setHours(0, 0, 0, 0);
-    } else if (this.isStateOfCurrentActivatedField('end') && dates.start) {
+    } else if (this.isStateOfCurrentActivatedField("end") && dates.start) {
       disableFunction = (date:Date) => date.getTime() < new Date(dates.start).setHours(0, 0, 0, 0);
     }
 
-    datePicker.datepickerInstance.set('disable', [disableFunction]);
+    datePicker.datepickerInstance.set("disable", [disableFunction]);
   }
 
   public setRangeClasses(dates:{ [key in DateKeys]:string }) {
@@ -124,7 +124,7 @@ export class DatePickerModalHelper {
       return;
     }
 
-    var monthContainer = document.getElementsByClassName('dayContainer');
+    var monthContainer = document.getElementsByClassName("dayContainer");
     // For each container of the two-month layout, set the highlighting classes
     for (let i = 0; i < monthContainer.length; i++) {
       this.highlightRangeInSingleMonth(monthContainer[i], dates);
@@ -132,45 +132,45 @@ export class DatePickerModalHelper {
   }
 
   private highlightRangeInSingleMonth(container:Element, dates:{ [key in DateKeys]:string }) {
-    var selectedElements = jQuery(container).find('.flatpickr-day.selected');
+    var selectedElements = jQuery(container).find(".flatpickr-day.selected");
     if (selectedElements.length === 2) {
       // Both dates are in the same month
-      selectedElements[0].classList.add('startRange');
-      selectedElements[1].classList.add('endRange');
+      selectedElements[0].classList.add("startRange");
+      selectedElements[1].classList.add("endRange");
 
       this.selectRangeFromUntil(selectedElements[0], selectedElements[1]);
     } else if (selectedElements.length === 1) {
       // Only one date is in this month
       if (this.datepickerShowsDate(dates.start, selectedElements[0])) {
-        selectedElements[0].classList.add('startRange');
-        this.selectRangeFromUntil(selectedElements[0], '');
+        selectedElements[0].classList.add("startRange");
+        this.selectRangeFromUntil(selectedElements[0], "");
       } else if (this.datepickerShowsDate(dates.end, selectedElements[0])) {
-        const firstDay = jQuery(container).find('.flatpickr-day')[0];
+        const firstDay = jQuery(container).find(".flatpickr-day")[0];
 
-        selectedElements[0].classList.add('endRange');
-        firstDay.classList.add('inRange');
+        selectedElements[0].classList.add("endRange");
+        firstDay.classList.add("inRange");
 
         this.selectRangeFromUntil(firstDay, selectedElements[0]);
       }
     } else if (this.datepickerIsInDateRange(container, dates)) {
       // No date is in this month, but the month is completely between start and end date
-      jQuery(container).find('.flatpickr-day').addClass('inRange');
+      jQuery(container).find(".flatpickr-day").addClass("inRange");
     }
   }
 
   private datepickerShowsDate(date:string, selectedElement:Element):boolean {
-    return new Date(selectedElement.getAttribute('aria-label')!).toDateString() === new Date(date).toDateString();
+    return new Date(selectedElement.getAttribute("aria-label")!).toDateString() === new Date(date).toDateString();
   }
 
   private datepickerIsInDateRange(container:Element, dates:{ [key in DateKeys]:string }):boolean {
-    var firstDayOfMonthElement = jQuery(container).find('.flatpickr-day:not(.hidden)')[0];
-    var firstDayOfMonth = new Date(firstDayOfMonthElement.getAttribute('aria-label')!);
+    var firstDayOfMonthElement = jQuery(container).find(".flatpickr-day:not(.hidden)")[0];
+    var firstDayOfMonth = new Date(firstDayOfMonthElement.getAttribute("aria-label")!);
 
     return firstDayOfMonth <= new Date(dates.end)
            && firstDayOfMonth >= new Date(dates.start);
   }
 
   private selectRangeFromUntil(from:Element, until:string|Element) {
-    jQuery(from).nextUntil(until).addClass('inRange');
+    jQuery(from).nextUntil(until).addClass("inRange");
   }
 }

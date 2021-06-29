@@ -19,28 +19,28 @@ import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
-  templateUrl: './boards-index-page.component.html',
-  styleUrls: ['./boards-index-page.component.sass'],
+  templateUrl: "./boards-index-page.component.html",
+  styleUrls: ["./boards-index-page.component.sass"],
 })
 export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   public text = {
-    name: this.I18n.t('js.modals.label_name'),
-    board: this.I18n.t('js.label_board'),
-    boards: this.I18n.t('js.label_board_plural'),
-    type: this.I18n.t('js.boards.label_board_type'),
-    type_free: this.I18n.t('js.boards.board_type.free'),
-    action_by_attribute: (attr:string) => this.I18n.t('js.boards.board_type.action_by_attribute',
-      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr) }),
-    createdAt: this.I18n.t('js.label_created_on'),
-    delete: this.I18n.t('js.button_delete'),
-    areYouSure: this.I18n.t('js.text_are_you_sure'),
-    deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
-    noResults: this.I18n.t('js.notice_no_results_to_display'),
+    name: this.I18n.t("js.modals.label_name"),
+    board: this.I18n.t("js.label_board"),
+    boards: this.I18n.t("js.label_board_plural"),
+    type: this.I18n.t("js.boards.label_board_type"),
+    type_free: this.I18n.t("js.boards.board_type.free"),
+    action_by_attribute: (attr:string) => this.I18n.t("js.boards.board_type.action_by_attribute",
+      { attribute: this.I18n.t(`js.boards.board_type.action_type.${attr}`) }),
+    createdAt: this.I18n.t("js.label_created_on"),
+    delete: this.I18n.t("js.button_delete"),
+    areYouSure: this.I18n.t("js.text_are_you_sure"),
+    deleteSuccessful: this.I18n.t("js.notice_successful_delete"),
+    noResults: this.I18n.t("js.notice_no_results_to_display"),
 
-    teaser_text: this.I18n.t('js.boards.upsale.teaser_text'),
-    enterprise: this.I18n.t('js.boards.upsale.upgrade_to_ee_text'),
-    upgrade: this.I18n.t('js.boards.upsale.upgrade'),
-    personal_demo: this.I18n.t('js.boards.upsale.personal_demo'),
+    teaser_text: this.I18n.t("js.boards.upsale.teaser_text"),
+    enterprise: this.I18n.t("js.boards.upsale.upgrade_to_ee_text"),
+    upgrade: this.I18n.t("js.boards.upsale.upgrade"),
+    personal_demo: this.I18n.t("js.boards.upsale.personal_demo"),
   };
 
   public canAdd = false;
@@ -69,12 +69,12 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     this.authorisationService
       .observeUntil(componentDestroyed(this))
       .subscribe(() => {
-        this.canAdd = this.authorisationService.can('boards', 'create');
+        this.canAdd = this.authorisationService.can("boards", "create");
       });
   }
 
   ngAfterViewInit():void {
-    const loadingIndicator = this.loadingIndicatorService.indicator('boards-module');
+    const loadingIndicator = this.loadingIndicatorService.indicator("boards-module");
     loadingIndicator.promise = this.boardService.loadAllBoards();
   }
 
@@ -92,7 +92,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
       .then(() => {
         this.notifications.addSuccess(this.text.deleteSuccessful);
       })
-      .catch((error) => this.notifications.addError("Deletion failed: " + error));
+      .catch((error) => this.notifications.addError(`Deletion failed: ${error}`));
   }
 
   public showBoardIndexView() {
@@ -100,7 +100,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   }
 
   public eeLink() {
-    return this.bannerService.getEnterPriseEditionUrl({ referrer: 'boards' });
+    return this.bannerService.getEnterPriseEditionUrl({ referrer: "boards" });
   }
 
   public demoLink():string {

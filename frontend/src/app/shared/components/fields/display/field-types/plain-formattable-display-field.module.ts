@@ -35,6 +35,6 @@ export class PlainFormattableDisplayField extends DisplayField {
     }
     const element = this.resource[this.name];
 
-    return element && element.raw || '';
+    return element && element.raw || "";
   }
 }

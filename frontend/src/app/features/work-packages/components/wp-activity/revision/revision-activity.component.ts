@@ -36,9 +36,9 @@ import { ProjectResource } from "core-app/features/hal/resources/project-resourc
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 
 @Component({
-  selector: 'revision-activity',
+  selector: "revision-activity",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './revision-activity.component.html'
+  templateUrl: "./revision-activity.component.html",
 })
 export class RevisionActivityComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -83,7 +83,7 @@ export class RevisionActivityComponent implements OnInit {
     const revisionPath = this.activity.showRevision.$link.href;
     const formattedRevision = this.activity.formattedIdentifier;
 
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = revisionPath;
     link.title = this.revision;
     link.textContent = this.I18n.t(
@@ -113,7 +113,7 @@ export class RevisionActivityComponent implements OnInit {
           this.userActive = user.isActive;
           this.userAvatar = user.avatar;
           this.userPath = user.showUser.href;
-          this.userLabel = this.I18n.t('js.label_author', { user: this.userName });
+          this.userLabel = this.I18n.t("js.label_author", { user: this.userName });
           this.cdRef.detectChanges();
         });
     }

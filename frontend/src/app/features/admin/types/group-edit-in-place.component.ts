@@ -34,16 +34,16 @@ import {
   Input,
   OnInit,
   Output,
-} from '@angular/core';
+} from "@angular/core";
 import { TypeBannerService } from "core-app/features/admin/types/type-banner.service";
 
 @Component({
-  selector: 'group-edit-in-place',
+  selector: "group-edit-in-place",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './group-edit-in-place.html'
+  templateUrl: "./group-edit-in-place.html",
 })
 export class GroupEditInPlaceComponent implements OnInit {
-  @Input() public placeholder = '';
+  @Input() public placeholder = "";
 
   @Input() public name:string;
 
@@ -81,7 +81,7 @@ export class GroupEditInPlaceComponent implements OnInit {
 
     this.cdRef.detectChanges();
 
-    if (this.name !== '') {
+    if (this.name !== "") {
       this.onValueChange.emit(this.name);
     }
 

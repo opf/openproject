@@ -47,11 +47,11 @@ export class Apiv3TimeEntriesPaths
   implements Apiv3ListResourceInterface<TimeEntryResource> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'time_entries', Apiv3TimeEntryPaths);
+    super(apiRoot, basePath, "time_entries", Apiv3TimeEntryPaths);
   }
 
   // Static paths
-  public readonly form = this.subResource('form', APIv3FormResource);
+  public readonly form = this.subResource("form", APIv3FormResource);
 
   /**
    * Load a list of time entries with a given list parameter filter

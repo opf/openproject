@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateService, TransitionService } from '@uirouter/core';
+import { StateService, TransitionService } from "@uirouter/core";
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit,
-} from '@angular/core';
+} from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { Observable } from "rxjs";
@@ -38,14 +38,14 @@ import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
 @Component({
-  selector: 'wp-create-button',
+  selector: "wp-create-button",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './wp-create-button.html'
+  templateUrl: "./wp-create-button.html",
 })
 export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @Input('allowed') allowedWhen:string[];
+  @Input("allowed") allowedWhen:string[];
 
-  @Input('stateName$') stateName$:Observable<string>;
+  @Input("stateName$") stateName$:Observable<string>;
 
   allowed:boolean;
 
@@ -58,9 +58,9 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
   transitionUnregisterFn:Function;
 
   text = {
-    createWithDropdown: this.I18n.t('js.work_packages.create.button'),
-    createButton: this.I18n.t('js.label_work_package'),
-    explanation: this.I18n.t('js.label_create_work_package'),
+    createWithDropdown: this.I18n.t("js.work_packages.create.button"),
+    createButton: this.I18n.t("js.label_work_package"),
+    explanation: this.I18n.t("js.label_create_work_package"),
   };
 
   constructor(readonly $state:StateService,
@@ -82,7 +82,7 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
         this.allowed = !!this
           .allowedWhen
           .find(combined => {
-            const [module, permission] = combined.split('.');
+            const [module, permission] = combined.split(".");
             return this.authorisationService.can(module, permission);
           });
 
@@ -98,7 +98,7 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
   }
 
   private updateDisabledState() {
-    this.disabled = !this.allowed || this.$state.includes('**.new');
+    this.disabled = !this.allowed || this.$state.includes("**.new");
     this.cdRef.detectChanges();
   }
 }

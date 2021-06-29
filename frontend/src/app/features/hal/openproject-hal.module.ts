@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from "@angular/core";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openproject-header-interceptor";
 import { HalAwareErrorHandler } from "core-app/features/hal/services/hal-aware-error-handler";

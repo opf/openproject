@@ -16,12 +16,12 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   @InjectField() readonly displayFieldService:DisplayFieldService;
 
   public text = {
-    sum: this.I18n.t('js.label_sum'),
+    sum: this.I18n.t("js.label_sum"),
   };
 
   public buildSumsRow(group:GroupObject) {
-    const tr:HTMLTableRowElement = document.createElement('tr');
-    tr.classList.add('wp-table--sums-row', 'wp-table--row', groupedRowClassName(group.index));
+    const tr:HTMLTableRowElement = document.createElement("tr");
+    tr.classList.add("wp-table--sums-row", "wp-table--row", groupedRowClassName(group.index));
 
     this.renderColumns(group.sums, tr);
 
@@ -30,7 +30,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
 
   public renderColumns(sums:{ [key:string]:any }, tr:HTMLTableRowElement) {
     this.augmentedColumns.forEach((column, i:number) => {
-      const td = document.createElement('td');
+      const td = document.createElement("td");
       const div = this.renderContent(sums, column.id, this.sumsSchema[column.id]);
 
       if (i === 0) {
@@ -43,7 +43,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   }
 
   private appendFirstLabel(div:HTMLElement) {
-    const span = document.createElement('span');
+    const span = document.createElement("span");
     span.textContent = `${this.text.sum}`;
     span.title = `${this.text.sum}`;
     div.prepend(span);
@@ -58,8 +58,8 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   }
 
   private renderContent(sums:any, name:string, fieldSchema:IFieldSchema) {
-    const div = document.createElement('div');
-    div.classList.add('wp-table--sum-container', name);
+    const div = document.createElement("div");
+    div.classList.add("wp-table--sum-container", name);
 
     // The field schema for this element may be undefined
     // because it is not summable.
@@ -71,7 +71,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
       sums,
       name,
       fieldSchema,
-      { injector: this.injector, container: 'table', options: {} },
+      { injector: this.injector, container: "table", options: {} },
     );
 
     if (!field.isEmpty()) {

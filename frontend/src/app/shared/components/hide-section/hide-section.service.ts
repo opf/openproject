@@ -35,14 +35,14 @@ export interface HideSectionDefinition {
   label:string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class HideSectionService {
   public displayed = input<string[]>();
 
   public all:HideSectionDefinition[] = [];
 
   constructor(Gon:GonService) {
-    const sections:any = Gon.get('hideSections');
+    const sections:any = Gon.get("hideSections");
     this.all = sections.all;
     this.displayed.putValue(sections.active.map((el:HideSectionDefinition) => {
       this.toggleVisibility(el.key, true);
@@ -76,17 +76,17 @@ export class HideSectionService {
 
   private removeHiddenOnSubmit() {
     jQuery(document.body)
-      .on('submit', 'form', function (evt:any) {
+      .on("submit", "form", function (evt:any) {
         const form = jQuery(this);
-        const sections = form.find('section.hide-section:hidden');
+        const sections = form.find("section.hide-section:hidden");
 
-        if (form.data('hideSectionRemoved') || sections.length === 0) {
+        if (form.data("hideSectionRemoved") || sections.length === 0) {
           return true;
         }
 
-        form.data('hideSectionRemoved', true);
+        form.data("hideSectionRemoved", true);
         sections.remove();
-        form.trigger('submit');
+        form.trigger("submit");
         evt.preventDefault();
         return false;
       });

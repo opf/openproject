@@ -28,11 +28,11 @@
 
 import {
   Component, ElementRef, OnInit, OnDestroy,
-} from '@angular/core';
+} from "@angular/core";
 
 @Component({
-  selector: 'col[highlight-col]',
-  template: ''
+  selector: "col[highlight-col]",
+  template: "",
 })
 
 export class HighlightColDirective implements OnInit, OnDestroy {
@@ -46,30 +46,30 @@ export class HighlightColDirective implements OnInit, OnDestroy {
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.thead = this.$element
-      .parent('colgroup')
-      .siblings('thead');
+      .parent("colgroup")
+      .siblings("thead");
 
     // Separate handling instead of toggle is necessary to avoid
     // unwanted side effects when adding/removing columns via keyboard in the modal
-    this.thead.on('mouseenter', 'th', (evt:JQuery.TriggeredEvent) => {
+    this.thead.on("mouseenter", "th", (evt:JQuery.TriggeredEvent) => {
       if (this.$element.index() === jQuery(evt.currentTarget).index()) {
-        this.$element.addClass('hover');
+        this.$element.addClass("hover");
       }
     });
 
-    this.thead.on('mouseleave', 'th', (evt:JQuery.TriggeredEvent) => {
+    this.thead.on("mouseleave", "th", (evt:JQuery.TriggeredEvent) => {
       if (this.$element.index() === jQuery(evt.currentTarget).index()) {
-        this.$element.removeClass('hover');
+        this.$element.removeClass("hover");
       }
     });
   }
 
   ngOnDestroy() {
-    this.thead.off('mouseenter mouseleave');
+    this.thead.off("mouseenter mouseleave");
   }
 }
 
 export const highlightColBootstrap = {
-  selector: 'col[highlight-col]',
+  selector: "col[highlight-col]",
   cls: HighlightColDirective,
 };

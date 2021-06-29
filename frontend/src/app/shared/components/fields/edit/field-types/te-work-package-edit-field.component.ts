@@ -40,7 +40,7 @@ import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter
 const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
 
 @Component({
-  templateUrl: './work-package-edit-field.component.html'
+  templateUrl: "./work-package-edit-field.component.html",
 })
 export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditFieldComponent {
   @InjectField() apiV3Service:APIV3Service;
@@ -53,7 +53,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
     // For reasons beyond me, the referenceOutputs variable is not defined at first when editing
     // existing values.
     if (this.referenceOutputs) {
-      this.referenceOutputs['modeSwitch'] = (mode:TimeEntryWorkPackageAutocompleterMode) => {
+      this.referenceOutputs["modeSwitch"] = (mode:TimeEntryWorkPackageAutocompleterMode) => {
         this.valuesLoaded = false;
         const lastValue = this.requests.lastRequestedValue!;
 
@@ -87,7 +87,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
       return this
         .apiV3Service
         .time_entries
-        .list({ filters: [["user_id", "=", ["me"]]], sortBy: [['updated_at', 'desc']], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
+        .list({ filters: [["user_id", "=", ["me"]]], sortBy: [["updated_at", "desc"]], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
         .toPromise()
         .then(collection => {
           this.recentWorkPackageIds = collection
@@ -104,12 +104,12 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   protected allowedValuesFilter(query?:string):{} {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
-    if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent') {
-      filters.add('id', '=', this.recentWorkPackageIds);
+    if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === "recent") {
+      filters.add("id", "=", this.recentWorkPackageIds);
     }
 
     if (query) {
-      filters.add('subjectOrId', '**', [query]);
+      filters.add("subjectOrId", "**", [query]);
     }
 
     return { filters: filters.toJson() };

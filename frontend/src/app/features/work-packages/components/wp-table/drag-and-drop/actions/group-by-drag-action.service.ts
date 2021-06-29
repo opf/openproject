@@ -41,7 +41,7 @@ export class GroupByDragActionService extends TableDragActionService {
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.halEditing
       .save(changeset)
-      .then((saved) => this.halEvents.push(saved.resource, { eventType: 'updated' }))
+      .then((saved) => this.halEvents.push(saved.resource, { eventType: "updated" }))
       .catch(e => this.halNotification.handleRawError(e, workPackage));
   }
 

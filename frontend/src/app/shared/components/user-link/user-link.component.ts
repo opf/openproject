@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
-  selector: 'user-link',
+  selector: "user-link",
   template: `
     <a *ngIf="href"
        [attr.href]="href"
@@ -59,6 +59,6 @@ export class UserLinkComponent {
   }
 
   public get label() {
-    return this.I18n.t('js.label_author', { user: this.name });
+    return this.I18n.t("js.label_author", { user: this.name });
   }
 }

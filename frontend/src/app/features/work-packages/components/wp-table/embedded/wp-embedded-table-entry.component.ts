@@ -1,6 +1,8 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  Component, ElementRef, Input, OnInit,
+} from "@angular/core";
 
-export const wpTableEntrySelector = 'wp-embedded-table-entry';
+export const wpTableEntrySelector = "wp-embedded-table-entry";
 
 @Component({
   selector: wpTableEntrySelector,
@@ -11,11 +13,13 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
                          [configuration]="configuration">
       </wp-embedded-table>
     </ng-container>
-  `
+  `,
 })
 export class WorkPackageEmbeddedTableEntryComponent implements OnInit {
   @Input() public queryProps:any;
+
   @Input() public configuration:any;
+
   @Input() public initialLoadingIndicator = true;
 
   constructor(readonly elementRef:ElementRef) {
@@ -24,13 +28,13 @@ export class WorkPackageEmbeddedTableEntryComponent implements OnInit {
   ngOnInit() {
     const element = this.elementRef.nativeElement;
 
-    if (element.getAttribute('query-props')) {
+    if (element.getAttribute("query-props")) {
       this.getInputsFromData(element);
     }
   }
 
   private getInputsFromData(element:HTMLElement) {
-    this.queryProps = JSON.parse(element.getAttribute('query-props')!);
-    this.configuration = JSON.parse(element.getAttribute('configuration')!);
+    this.queryProps = JSON.parse(element.getAttribute("query-props")!);
+    this.configuration = JSON.parse(element.getAttribute("configuration")!);
   }
 }

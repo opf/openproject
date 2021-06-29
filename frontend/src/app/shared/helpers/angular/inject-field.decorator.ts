@@ -14,11 +14,11 @@ export function InjectField(token?:any, defaultValue:any = null, flags?:InjectFl
           if (token) {
             return this.injector.get<any>(token, defaultValue, flags);
           }
-          const type = Reflect.getMetadata('design:type', target, property);
+          const type = Reflect.getMetadata("design:type", target, property);
           return this.injector.get<any>(type, defaultValue, flags);
         },
         set(this:InjectableClass, _val:any) {
-          debugLog('Trying to set InjectField property ' + property);
+          debugLog(`Trying to set InjectField property ${property}`);
         },
       });
     }

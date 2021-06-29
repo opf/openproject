@@ -31,14 +31,14 @@ import { ReportingPageComponent } from "core-app/features/reporting/reporting-pa
 
 export const REPORTING_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: 'reporting',
-    parent: 'root',
-    url: '/cost_reports',
+    name: "reporting",
+    parent: "root",
+    url: "/cost_reports",
     component: ReportingPageComponent,
   },
   {
-    name: 'reporting.show',
-    url: '/:id',
+    name: "reporting.show",
+    url: "/:id",
     component: ReportingPageComponent,
   },
 ];

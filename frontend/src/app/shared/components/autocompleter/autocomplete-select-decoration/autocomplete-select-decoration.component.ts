@@ -26,12 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, OnInit, ViewChild,
+} from "@angular/core";
 import { NgSelectComponent } from "@ng-select/ng-select";
 
 type SelectItem = { label:string, value:string, selected?:boolean };
 
-export const autocompleteSelectDecorationSelector = 'autocomplete-select-decoration';
+export const autocompleteSelectDecorationSelector = "autocomplete-select-decoration";
 
 @Component({
   template: `
@@ -49,7 +51,7 @@ export const autocompleteSelectDecorationSelector = 'autocomplete-select-decorat
       </ng-template>
     </ng-select>
   `,
-  selector: autocompleteSelectDecorationSelector
+  selector: autocompleteSelectDecorationSelector,
 })
 export class AutocompleteSelectDecorationComponent implements OnInit {
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
@@ -75,14 +77,14 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     const element = this.elementRef.nativeElement;
 
     // Set options
-    this.multiselect = element.dataset.multiselect === 'true';
+    this.multiselect = element.dataset.multiselect === "true";
     this.labelForId = element.dataset.inputId!;
 
     // Get the sync target
     this.syncInputFieldName = element.dataset.inputName;
     // Add Rails multiple identifier if multiselect
     if (this.multiselect) {
-      this.syncInputFieldName += '[]';
+      this.syncInputFieldName += "[]";
     }
 
     // Prepare and build the options
@@ -108,7 +110,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
 
   updateSelection(items:SelectItem|SelectItem[]) {
     this.selected = items;
-    items = _.castArray(items) as SelectItem[];
+    items = _.castArray(items);
 
     this.removeCurrentSyncedFields();
     items.forEach((el:SelectItem) => {
@@ -120,7 +122,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     const element = jQuery(this.elementRef.nativeElement);
     element
       .parent()
-      .append(`<input type="hidden" name="${this.syncInputFieldName || ''}" value="${value}" />`);
+      .append(`<input type="hidden" name="${this.syncInputFieldName || ""}" value="${value}" />`);
   }
 
   removeCurrentSyncedFields() {

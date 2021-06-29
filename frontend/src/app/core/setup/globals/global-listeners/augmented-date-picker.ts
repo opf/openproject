@@ -8,14 +8,14 @@ import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker
  * @param target
  */
 export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
-  if (target.hasClass('-augmented-datepicker')) {
+  if (target.hasClass("-augmented-datepicker")) {
     target
-      .attr('autocomplete', 'off'); // Disable autocomplete for those fields
+      .attr("autocomplete", "off"); // Disable autocomplete for those fields
 
     window.OpenProject.getPluginContext()
       .then(context => {
         var datePicker = new DatePicker(
-          '.-augmented-datepicker',
+          ".-augmented-datepicker",
           target.val(),
           {
             weekNumbers: true,

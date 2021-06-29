@@ -28,8 +28,8 @@
 
 import {
   Component, Injector, Input, AfterViewInit,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
@@ -41,8 +41,8 @@ import {
 } from "core-app/features/work-packages/components/wp-single-view/wp-single-view.component";
 
 @Component({
-  selector: 'wp-attribute-group',
-  templateUrl: './wp-attribute-group.template.html'
+  selector: "wp-attribute-group",
+  templateUrl: "./wp-attribute-group.template.html",
 })
 export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public workPackage:WorkPackageResource;
@@ -59,7 +59,7 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
     setTimeout(() => this.fixColumns());
 
     // Listen to resize event and fix column start again
-    fromEvent(window, 'resize', { passive: true })
+    fromEvent(window, "resize", { passive: true })
       .pipe(
         this.untilDestroyed(),
         debounceTime(250),
@@ -96,14 +96,14 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
   private fixColumns() {
     let lastOffset = 0;
     // Find corresponding HTML of attribute fields for each group
-    const htmlAttributes = jQuery('div.attributes-group:contains(' + this.group.name + ')').find('.attributes-key-value');
+    const htmlAttributes = jQuery(`div.attributes-group:contains(${this.group.name})`).find(".attributes-key-value");
 
     htmlAttributes.each(function () {
       const offset = jQuery(this).position().top;
 
       if (offset < lastOffset) {
         // Fix position of the column start
-        jQuery(this).addClass('-column-start');
+        jQuery(this).addClass("-column-start");
       }
       lastOffset = offset;
     });

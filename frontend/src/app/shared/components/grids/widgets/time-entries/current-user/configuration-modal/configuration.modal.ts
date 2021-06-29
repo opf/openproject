@@ -6,18 +6,18 @@ import {
   Inject,
   Injector,
   OnInit,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+} from "@angular/core";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { TimeEntriesCurrentUserConfigurationModalService } from "core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/services/configuration-modal/configuration-modal.service";
 
 @Component({
-  templateUrl: './configuration.modal.html',
+  templateUrl: "./configuration.modal.html",
   providers: [TimeEntriesCurrentUserConfigurationModalService],
 })
 export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalComponent implements OnInit {
@@ -30,10 +30,10 @@ export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalCo
   public $element:JQuery;
 
   public text = {
-    displayedDays: this.I18n.t('js.grid.widgets.time_entries_current_user.displayed_days'),
-    closePopup: this.I18n.t('js.close_popup_title'),
-    applyButton: this.I18n.t('js.modals.button_apply'),
-    cancelButton: this.I18n.t('js.modals.button_cancel'),
+    displayedDays: this.I18n.t("js.grid.widgets.time_entries_current_user.displayed_days"),
+    closePopup: this.I18n.t("js.close_popup_title"),
+    applyButton: this.I18n.t("js.modals.button_apply"),
+    cancelButton: this.I18n.t("js.modals.button_cancel"),
   };
 
   public firstDayOfWeek:number;

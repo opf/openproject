@@ -1,4 +1,4 @@
-import { Component, Injector, Type } from '@angular/core';
+import { Component, Injector, Type } from "@angular/core";
 import { Observable } from "rxjs";
 import { StateService } from "@uirouter/angular";
 import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";

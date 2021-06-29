@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { StateService, UIRouterGlobals } from "@uirouter/core";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
@@ -20,9 +20,9 @@ export interface ProjectTemplateOption {
 }
 
 @Component({
-  selector: 'op-new-project',
-  templateUrl: './new-project.component.html',
-  styleUrls: ['./new-project.component.sass'],
+  selector: "op-new-project",
+  templateUrl: "./new-project.component.html",
+  styleUrls: ["./new-project.component.sass"],
 })
 export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   formUrl:string|null;
@@ -36,20 +36,20 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   initialPayload = {};
 
   text = {
-    use_template: this.I18n.t('js.project.use_template'),
-    no_template_selected: this.I18n.t('js.project.no_template_selected'),
+    use_template: this.I18n.t("js.project.use_template"),
+    no_template_selected: this.I18n.t("js.project.no_template_selected"),
     advancedSettingsLabel: this.I18n.t("js.forms.advanced_settings"),
   };
 
   hiddenFields:string[] = [
-    'identifier',
-    'sendNotifications',
-    'active'
+    "identifier",
+    "sendNotifications",
+    "active",
   ];
 
   copyableTemplateFilter = new ApiV3FilterBuilder()
-    .add('user_action', '=', ["projects/copy"]) // no null values
-    .add('templated', '=', true);
+    .add("user_action", "=", ["projects/copy"]) // no null values
+    .add("templated", "=", true);
 
   templateOptions$:Observable<ProjectTemplateOption[]> =
   this
@@ -66,7 +66,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   });
 
   get templateControl() {
-    return this.templateForm.get('template');
+    return this.templateForm.get("template");
   }
 
   @ViewChild(DynamicFormComponent) dynamicForm:DynamicFormComponent;
@@ -86,7 +86,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.resourcePath = this.apiV3Service.projects.path;
     this.fieldGroups = [{
       name: this.text.advancedSettingsLabel,
-      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!)
+      fieldsFilter: (field) => !["name", "parent"].includes(field.templateOptions?.property!)
         && !(field.templateOptions?.required
         && !field.templateOptions.hasDefault
         && field.templateOptions.payloadValue == null),
@@ -98,8 +98,8 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   onSubmitted(response:HalSource) {
-    if (response._type === 'JobStatus') {
-      this.modalService.show(JobStatusModal, 'global', { jobId: response.jobId });
+    if (response._type === "JobStatus") {
+      this.modalService.show(JobStatusModal, "global", { jobId: response.jobId });
     } else {
       window.location.href = this.pathHelperService.projectPath(response.identifier as string);
     }
@@ -118,7 +118,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private isMeta(key:string):boolean {
-    return key.startsWith('_meta.');
+    return key.startsWith("_meta.");
   }
 
   private setParentAsPayload(parentId:string) {

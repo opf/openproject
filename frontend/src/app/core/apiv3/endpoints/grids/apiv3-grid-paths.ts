@@ -34,7 +34,7 @@ import { Apiv3GridForm } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-fo
 
 export class Apiv3GridPaths extends APIv3GettableResource<GridResource> {
   // Static paths
-  readonly form = this.subResource('form', Apiv3GridForm);
+  readonly form = this.subResource("form", Apiv3GridForm);
 
   /**
    * Update a grid resource or payload

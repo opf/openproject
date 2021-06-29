@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import { Injector } from "@angular/core";
 import { PrimaryRenderPass, RowRenderInfo } from "core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass";
 import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
 import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";

@@ -11,13 +11,13 @@ import { Observable } from "rxjs";
             [boardsToolbarMenu-resource]="board$ | async">
       <op-icon icon-classes="button--icon icon-show-more"></op-icon>
     </button>
-  `
+  `,
 })
 export class BoardsMenuButtonComponent {
   @Input() board$:Observable<Board>;
 
   text = {
-    button_more: this.I18n.t('js.button_more'),
+    button_more: this.I18n.t("js.button_more"),
   };
 
   constructor(readonly I18n:I18nService) {

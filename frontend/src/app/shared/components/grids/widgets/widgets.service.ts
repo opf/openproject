@@ -9,7 +9,7 @@ export class GridWidgetsService {
   public get registered() {
     let registeredWidgets:WidgetRegistration[] = [];
 
-    _.each(this.Hook.call('gridWidgets'), (registration:WidgetRegistration[]) => {
+    _.each(this.Hook.call("gridWidgets"), (registration:WidgetRegistration[]) => {
       registeredWidgets = registeredWidgets.concat(registration);
     });
 

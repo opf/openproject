@@ -41,7 +41,7 @@ export class BcfThumbnailDisplayField extends DisplayField {
         <img src="${this.bcfPathHelper.snapshotPath(viewpoint)}" class="thumbnail">
       `;
     } else {
-      element.innerHTML = '';
+      element.innerHTML = "";
     }
   }
 }

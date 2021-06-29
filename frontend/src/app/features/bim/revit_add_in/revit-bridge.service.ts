@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 import {
   distinctUntilChanged, filter, first, map, mapTo,
@@ -35,7 +35,7 @@ export class RevitBridgeService extends ViewerBridgeService {
     if (window.RevitBridge) {
       this.hookUpRevitListener();
     } else {
-      window.addEventListener('revit.plugin.ready', () => {
+      window.addEventListener("revit.plugin.ready", () => {
         this.hookUpRevitListener();
       }, { once: true });
     }
@@ -48,12 +48,12 @@ export class RevitBridgeService extends ViewerBridgeService {
   public getViewpoint$():Observable<BcfViewpointInterface> {
     const trackingId = this.newTrackingId();
 
-    this.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
+    this.sendMessageToRevit("ViewpointGenerationRequest", trackingId, "");
 
     return this.revitMessageReceived$
       .pipe(
         distinctUntilChanged(),
-        filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
+        filter(message => message.messageType === "ViewpointData" && message.trackingId === trackingId),
         first(),
       )
       .pipe(
@@ -61,7 +61,7 @@ export class RevitBridgeService extends ViewerBridgeService {
           const viewpointJson = message.messagePayload;
 
           viewpointJson.snapshot = {
-            snapshot_type: 'png',
+            snapshot_type: "png",
             snapshot_data: viewpointJson.snapshot,
           };
 
@@ -73,7 +73,7 @@ export class RevitBridgeService extends ViewerBridgeService {
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
     this.viewpointsService
       .getViewPoint$(workPackage, index)
-      .subscribe((viewpoint:BcfViewpointInterface) => this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
+      .subscribe((viewpoint:BcfViewpointInterface) => this.sendMessageToRevit("ShowViewpoint", this.newTrackingId(), JSON.stringify(viewpoint)));
   }
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {

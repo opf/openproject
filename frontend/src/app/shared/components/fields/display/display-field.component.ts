@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, ViewChild,
-} from '@angular/core';
+} from "@angular/core";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
@@ -9,8 +9,8 @@ import { Constructor } from "@angular/cdk/table";
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 
 @Component({
-  selector: 'display-field',
-  template: '<span #displayFieldContainer></span>',
+  selector: "display-field",
+  template: "<span #displayFieldContainer></span>",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DisplayFieldComponent implements OnInit {
@@ -20,11 +20,11 @@ export class DisplayFieldComponent implements OnInit {
 
   @Input() displayClass?:Constructor<DisplayField>;
 
-  @Input() containerType:'table'|'single-view'|'timeline' = 'table';
+  @Input() containerType:"table"|"single-view"|"timeline" = "table";
 
   @Input() displayFieldOptions:{ [key:string]:unknown } = {};
 
-  @ViewChild('displayFieldContainer') container:ElementRef<HTMLSpanElement>;
+  @ViewChild("displayFieldContainer") container:ElementRef<HTMLSpanElement>;
 
   constructor(private injector:Injector,
     private displayFieldService:DisplayFieldService,
@@ -47,7 +47,7 @@ export class DisplayFieldComponent implements OnInit {
 
     // Default the field to a placeholder when rendering
     if (field.isEmpty()) {
-      container.textContent = '-';
+      container.textContent = "-";
     } else {
       field.render(container, field.valueString);
     }

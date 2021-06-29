@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 
 export const DEFAULT_PAGINATION_OPTIONS = {
@@ -91,15 +91,15 @@ export class PaginationService {
   }
 
   public getMaxVisiblePageOptions() {
-    return _.get(this.paginationOptions, 'maxVisiblePageOptions', DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions);
+    return _.get(this.paginationOptions, "maxVisiblePageOptions", DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions);
   }
 
   public getOptionsTruncationSize() {
-    return _.get(this.paginationOptions, 'optionsTruncationSize', DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize);
+    return _.get(this.paginationOptions, "optionsTruncationSize", DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize);
   }
 
   public setPerPage(perPage:number) {
-    window.OpenProject.guardedLocalStorage('pagination.perPage', perPage.toString());
+    window.OpenProject.guardedLocalStorage("pagination.perPage", perPage.toString());
     this.paginationOptions.perPage = perPage;
   }
 

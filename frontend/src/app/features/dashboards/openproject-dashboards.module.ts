@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { Ng2StateDeclaration, UIRouter, UIRouterModule } from "@uirouter/angular";
 import { DashboardComponent } from "core-app/features/dashboards/dashboard/dashboard.component";
 import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
 
-const menuItemClass = 'dashboards-menu-item';
+const menuItemClass = "dashboards-menu-item";
 
 export const DASHBOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: 'dashboards',
-    parent: 'root',
+    name: "dashboards",
+    parent: "root",
     // The trailing slash is important
     // cf., https://community.openproject.com/wp/29754
-    url: '/dashboards/',
+    url: "/dashboards/",
     data: {
-      bodyClasses: ['router--dashboards-view-base', 'widget-grid-layout'],
+      bodyClasses: ["router--dashboards-view-base", "widget-grid-layout"],
       menuItem: menuItemClass,
     },
     component: DashboardComponent,

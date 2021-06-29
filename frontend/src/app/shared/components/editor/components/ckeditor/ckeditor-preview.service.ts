@@ -71,7 +71,7 @@ export class CKEditorPreviewService {
         ref.destroy();
       });
       refs.length = 0;
-      hostElement.innerHTML = '';
+      hostElement.innerHTML = "";
     };
   }
 }

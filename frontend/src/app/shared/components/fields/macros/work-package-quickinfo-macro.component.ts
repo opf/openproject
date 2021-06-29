@@ -41,12 +41,12 @@ import { DateDisplayField } from "core-app/shared/components/fields/display/fiel
 import { CombinedDateDisplayField } from "core-app/shared/components/fields/display/field-types/combined-date-display.field";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
-export const quickInfoMacroSelector = 'macro.macro--wp-quickinfo';
+export const quickInfoMacroSelector = "macro.macro--wp-quickinfo";
 
 @Component({
   selector: quickInfoMacroSelector,
-  templateUrl: './work-package-quickinfo-macro.html',
-  styleUrls: ['./work-package-quickinfo-macro.sass'],
+  templateUrl: "./work-package-quickinfo-macro.html",
+  styleUrls: ["./work-package-quickinfo-macro.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
@@ -57,11 +57,11 @@ export class WorkPackageQuickinfoMacroComponent {
   error:string|null = null;
 
   text = {
-    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    not_found: this.I18n.t("js.editor.macro.attribute_reference.not_found"),
+    help: this.I18n.t("js.editor.macro.attribute_reference.macro_help_tooltip"),
   };
 
-  @HostBinding('title') hostTitle = this.text.help;
+  @HostBinding("title") hostTitle = this.text.help;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;
@@ -86,7 +86,7 @@ export class WorkPackageQuickinfoMacroComponent {
   ngOnInit() {
     const element = this.elementRef.nativeElement as HTMLElement;
     const id:string = element.dataset.id!;
-    this.detailed = element.dataset.detailed === 'true';
+    this.detailed = element.dataset.detailed === "true";
     this.workPackageLink = this.pathHelper.workPackagePath(id);
 
     this.workPackage$ = this
@@ -100,8 +100,8 @@ export class WorkPackageQuickinfoMacroComponent {
   }
 
   markError(message:string) {
-    console.error("Failed to render macro " + message);
-    this.error = this.I18n.t('js.editor.macro.error', { message });
+    console.error(`Failed to render macro ${message}`);
+    this.error = this.I18n.t("js.editor.macro.error", { message });
     this.cdRef.detectChanges();
   }
 }

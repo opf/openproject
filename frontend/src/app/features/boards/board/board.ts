@@ -3,7 +3,7 @@ import { GridResource } from "core-app/features/hal/resources/grid-resource";
 import { CardHighlightingMode } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
-export type BoardType = 'free'|'action';
+export type BoardType = "free"|"action";
 
 export interface BoardWidgetOption {
   queryId:string;
@@ -31,7 +31,7 @@ export class Board {
   }
 
   public get isAction() {
-    return this.grid.options.type === 'action';
+    return this.grid.options.type === "action";
   }
 
   public get actionAttribute():string|undefined {
@@ -47,7 +47,7 @@ export class Board {
   }
 
   public get highlightingMode():CardHighlightingMode {
-    return (this.grid.options.highlightingMode || 'none') as CardHighlightingMode;
+    return (this.grid.options.highlightingMode || "none") as CardHighlightingMode;
   }
 
   public set name(name:string) {
@@ -84,6 +84,6 @@ export class Board {
   }
 
   public showStatusButton() {
-    return this.actionAttribute !== 'status';
+    return this.actionAttribute !== "status";
   }
 }

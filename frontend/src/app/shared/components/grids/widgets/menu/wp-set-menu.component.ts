@@ -28,12 +28,12 @@
 
 import {
   Injector, EventEmitter, Output, Directive,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
-import { ComponentType } from '@angular/cdk/portal';
+import { ComponentType } from "@angular/cdk/portal";
 import { WidgetAbstractMenuComponent } from "core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component";
 import { WpGraphConfigurationModalComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
@@ -62,7 +62,7 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
 
   protected get configureItem() {
     return {
-      linkText: this.i18n.t('js.toolbar.settings.configure_view'),
+      linkText: this.i18n.t("js.toolbar.settings.configure_view"),
       onClick: () => {
         this.opModalService.show(this.configurationComponent, this.injector, this.locals)
           .closingEvent.subscribe((modal:WpGraphConfigurationModalComponent) => {

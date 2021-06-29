@@ -12,8 +12,8 @@ import { FormattableTextareaInputComponent } from "core-app/shared/components/dy
 import { DynamicFieldGroupWrapperComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
-import { FormlyModule, FormlyForm } from '@ngx-formly/core';
-import { IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
+import { FormlyModule, FormlyForm } from "@ngx-formly/core";
+import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
 
 import { By } from "@angular/platform-browser";
 import { FormattableControlComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component";
@@ -45,7 +45,7 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
     @ViewChild(FormlyForm) dynamicForm:FormlyForm;
   }
 
-  const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
+  const notificationsServiceSpy = jasmine.createSpyObj("NotificationsService", ["addError", "addSuccess"]);
 
   TestBed
     .configureTestingModule({
@@ -54,13 +54,13 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
         ReactiveFormsModule,
         FormlyModule.forRoot({
           types: [
-            { name: 'textInput', component: TextInputComponent },
-            { name: 'integerInput', component: IntegerInputComponent },
-            { name: 'selectInput', component: SelectInputComponent },
-            { name: 'selectProjectStatusInput', component: SelectProjectStatusInputComponent },
-            { name: 'booleanInput', component: BooleanInputComponent },
-            { name: 'dateInput', component: DateInputComponent },
-            { name: 'formattableInput', component: FormattableTextareaInputComponent },
+            { name: "textInput", component: TextInputComponent },
+            { name: "integerInput", component: IntegerInputComponent },
+            { name: "selectInput", component: SelectInputComponent },
+            { name: "selectProjectStatusInput", component: SelectProjectStatusInputComponent },
+            { name: "booleanInput", component: BooleanInputComponent },
+            { name: "dateInput", component: DateInputComponent },
+            { name: "formattableInput", component: FormattableTextareaInputComponent },
           ],
           wrappers: [
             {
@@ -123,27 +123,27 @@ export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any
   // Test ControlValueAccessor
   // Write Value
   expect(dynamicForm.value.testControl).toBe(model.initialValue);
-  expect(dynamicInput.classList.contains('ng-untouched')).toBeTrue();
-  expect(dynamicInput.classList.contains('ng-valid')).toBeTrue();
-  expect(dynamicInput.classList.contains('ng-pristine')).toBeTrue();
+  expect(dynamicInput.classList.contains("ng-untouched")).toBeTrue();
+  expect(dynamicInput.classList.contains("ng-valid")).toBeTrue();
+  expect(dynamicInput.classList.contains("ng-pristine")).toBeTrue();
 
   // Change
-  if (dynamicInput.type === 'checkbox') {
+  if (dynamicInput.type === "checkbox") {
     dynamicInput.click();
   } else {
     dynamicInput.value = model.changedValue;
-    dynamicInput.dispatchEvent(new Event('input'));
+    dynamicInput.dispatchEvent(new Event("input"));
   }
 
   fixture.detectChanges();
 
   expect(dynamicForm.value.testControl).toBe(model.changedValue);
-  expect(dynamicInput.classList.contains('ng-dirty')).toBeTrue();
+  expect(dynamicInput.classList.contains("ng-dirty")).toBeTrue();
 
   // Blur
-  dynamicInput.dispatchEvent(new Event('blur'));
+  dynamicInput.dispatchEvent(new Event("blur"));
   fixture.detectChanges();
-  expect(dynamicInput.classList.contains('ng-touched')).toBeTrue();
+  expect(dynamicInput.classList.contains("ng-touched")).toBeTrue();
 
   // Disabled
   dynamicForm.disable();

@@ -43,7 +43,7 @@ export class Apiv3PlaceholderUsersPaths
   implements Apiv3ListResourceInterface<PlaceholderUserResource> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'placeholder_users', Apiv3PlaceholderUserPaths);
+    super(apiRoot, basePath, "placeholder_users", Apiv3PlaceholderUserPaths);
   }
 
   /**

@@ -41,8 +41,8 @@ export class WorkPackageEditFormRoutingService extends EditFormRoutingService {
   public blockedTransition(transition:Transition):boolean {
     const toState = transition.to();
     const fromState = transition.from();
-    const fromParams = transition.params('from');
-    const toParams = transition.params('to');
+    const fromParams = transition.params("from");
+    const toParams = transition.params("to");
 
     // In new/copy mode, transitions to the same controller are allowed
     if (fromState.name && (/\.(new|copy)$/.exec(fromState.name))) {

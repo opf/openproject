@@ -28,11 +28,11 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
-} from '@angular/core';
-import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+} from "@angular/core";
+import { INotification, NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
-export const notificationsContainerSelector = 'notifications-container';
+export const notificationsContainerSelector = "notifications-container";
 
 @Component({
   template: `
@@ -56,7 +56,7 @@ export class NotificationsContainerComponent extends UntilDestroyedMixin impleme
   ngOnInit():void {
     this.notificationsService
       .current
-      .values$('Subscribing to changes in the notification stack')
+      .values$("Subscribing to changes in the notification stack")
       .pipe(
         this.untilDestroyed(),
       )

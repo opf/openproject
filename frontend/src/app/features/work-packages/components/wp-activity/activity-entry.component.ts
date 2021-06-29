@@ -32,8 +32,8 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
-  selector: 'activity-entry',
-  templateUrl: './activity-entry.component.html'
+  selector: "activity-entry",
+  templateUrl: "./activity-entry.component.html",
 })
 export class ActivityEntryComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;

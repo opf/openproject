@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TestBed, waitForAsync } from "@angular/core/testing";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
 
-describe('NotificationsService', () => {
+describe("NotificationsService", () => {
   var notificationsService:NotificationsService;
 
   beforeEach(waitForAsync(() => {
@@ -53,64 +53,64 @@ describe('NotificationsService', () => {
       });
   }));
 
-  it('should be able to create warnings', () => {
-    var notification = notificationsService.addWarning('warning!');
+  it("should be able to create warnings", () => {
+    var notification = notificationsService.addWarning("warning!");
 
-    expect(notification).toEqual({ message: 'warning!', type: 'warning' });
+    expect(notification).toEqual({ message: "warning!", type: "warning" });
   });
 
-  it('should be able to create error messages with errors', () => {
-    var notification = notificationsService.addError('a super cereal error', ['fooo', 'baarr']);
+  it("should be able to create error messages with errors", () => {
+    var notification = notificationsService.addError("a super cereal error", ["fooo", "baarr"]);
     expect(notification).toEqual({
-      message: 'a super cereal error',
-      data: ['fooo', 'baarr'],
-      type: 'error'
+      message: "a super cereal error",
+      data: ["fooo", "baarr"],
+      type: "error",
     });
   });
 
-  it('should be able to create error messages with only a message', () => {
-    var notification = notificationsService.addError('a super cereal error');
+  it("should be able to create error messages with only a message", () => {
+    var notification = notificationsService.addError("a super cereal error");
     expect(notification).toEqual({
-      message: 'a super cereal error',
+      message: "a super cereal error",
       data: [],
-      type: 'error'
+      type: "error",
     });
   });
 
-  it('should be able to create upload messages with uploads', () => {
-    var notification = notificationsService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
+  it("should be able to create upload messages with uploads", () => {
+    var notification = notificationsService.addAttachmentUpload("uploading...", [0, 1, 2] as any);
     expect(notification).toEqual({
-      message: 'uploading...',
-      type: 'upload',
+      message: "uploading...",
+      type: "upload",
       data: [0, 1, 2],
     });
   });
 
-  it('should throw an Error if trying to create an upload with uploads = null', () => {
+  it("should throw an Error if trying to create an upload with uploads = null", () => {
     expect(() => {
-      notificationsService.addAttachmentUpload('themUploads', null as any);
+      notificationsService.addAttachmentUpload("themUploads", null as any);
     }).toThrow();
   });
 
-  it('should throw an Error if trying to create an upload without uploads', () => {
+  it("should throw an Error if trying to create an upload without uploads", () => {
     expect(() => {
-      notificationsService.addAttachmentUpload('themUploads', []);
+      notificationsService.addAttachmentUpload("themUploads", []);
     }).toThrow();
   });
 
-  it('sends a broadcast to remove the first notification upon adding a second success notification',
+  it("sends a broadcast to remove the first notification upon adding a second success notification",
     () => {
-      var firstNotification = notificationsService.addSuccess('blubs');
+      var firstNotification = notificationsService.addSuccess("blubs");
       expect(notificationsService.current.value!.length).toEqual(1);
 
-      notificationsService.addSuccess('blubs2');
+      notificationsService.addSuccess("blubs2");
       expect(notificationsService.current.value!.length).toEqual(1);
     });
 
-  it('sends a broadcast to remove the first notification upon adding a second error notification',
+  it("sends a broadcast to remove the first notification upon adding a second error notification",
     () => {
-      var firstNotification = notificationsService.addSuccess('blubs');
-      notificationsService.addError('blubs2');
+      var firstNotification = notificationsService.addSuccess("blubs");
+      notificationsService.addError("blubs2");
 
       expect(notificationsService.current.value!.length).toEqual(1);
     });

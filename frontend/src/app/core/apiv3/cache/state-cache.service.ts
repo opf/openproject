@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { MultiInputState, State } from 'reactivestates';
+import { MultiInputState, State } from "reactivestates";
 import { Observable } from "rxjs";
 import {
   auditTime, map, share, startWith, take,
@@ -55,7 +55,7 @@ export class StateCacheService<T> {
    */
   public touch(id:string):void {
     const state = this.multiState.get(id);
-    state.putValue(state.value, 'Touching the state');
+    state.putValue(state.value, "Touching the state");
   }
 
   /**

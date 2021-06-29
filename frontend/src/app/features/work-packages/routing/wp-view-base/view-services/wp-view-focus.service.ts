@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { Observable } from "rxjs";
+import { distinctUntilChanged, map } from "rxjs/operators";
 import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
 import { WorkPackageViewBaseService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service";
 import { QueryResource } from "core-app/features/hal/resources/query-resource";

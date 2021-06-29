@@ -48,40 +48,40 @@ import { WorkPackageCommentFieldComponent } from "core-app/features/work-package
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
   return () => {
-    editFieldService.defaultFieldType = 'text';
+    editFieldService.defaultFieldType = "text";
     editFieldService
-      .addFieldType(TextEditFieldComponent, 'text', ['String'])
-      .addFieldType(IntegerEditFieldComponent, 'integer', ['Integer'])
-      .addFieldType(DurationEditFieldComponent, 'duration', ['Duration'])
-      .addFieldType(SelectEditFieldComponent, 'select', ['Priority',
-        'Status',
-        'Type',
-        'User',
-        'Version',
-        'TimeEntriesActivity',
-        'Category',
-        'CustomOption',
-        'Project'])
-      .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
-        '[]CustomOption',
-        '[]User'
+      .addFieldType(TextEditFieldComponent, "text", ["String"])
+      .addFieldType(IntegerEditFieldComponent, "integer", ["Integer"])
+      .addFieldType(DurationEditFieldComponent, "duration", ["Duration"])
+      .addFieldType(SelectEditFieldComponent, "select", ["Priority",
+        "Status",
+        "Type",
+        "User",
+        "Version",
+        "TimeEntriesActivity",
+        "Category",
+        "CustomOption",
+        "Project"])
+      .addFieldType(MultiSelectEditFieldComponent, "multi-select", [
+        "[]CustomOption",
+        "[]User",
       ])
-      .addFieldType(FloatEditFieldComponent, 'float', ['Float'])
-      .addFieldType(WorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
-      .addFieldType(BooleanEditFieldComponent, 'boolean', ['Boolean'])
-      .addFieldType(DateEditFieldComponent, 'date', ['Date'])
-      .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable'])
-      .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment']);
+      .addFieldType(FloatEditFieldComponent, "float", ["Float"])
+      .addFieldType(WorkPackageEditFieldComponent, "workPackage", ["WorkPackage"])
+      .addFieldType(BooleanEditFieldComponent, "boolean", ["Boolean"])
+      .addFieldType(DateEditFieldComponent, "date", ["Date"])
+      .addFieldType(FormattableEditFieldComponent, "wiki-textarea", ["Formattable"])
+      .addFieldType(WorkPackageCommentFieldComponent, "_comment", ["comment"]);
 
     editFieldService
-      .addSpecificFieldType('WorkPackage', CombinedDateEditFieldComponent,
-        'date',
-        ['combinedDate', 'startDate', 'dueDate', 'date'])
-      .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
-      .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
-      .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage']);
+      .addSpecificFieldType("WorkPackage", CombinedDateEditFieldComponent,
+        "date",
+        ["combinedDate", "startDate", "dueDate", "date"])
+      .addSpecificFieldType("Project", ProjectStatusEditFieldComponent, "status", ["status"])
+      .addSpecificFieldType("TimeEntry", PlainFormattableEditFieldComponent, "comment", ["comment"])
+      .addSpecificFieldType("TimeEntry", TimeEntryWorkPackageEditFieldComponent, "workPackage", ["WorkPackage"]);
 
-    selectAutocompleterRegisterService.register(VersionAutocompleterComponent, 'Version');
-    selectAutocompleterRegisterService.register(WorkPackageAutocompleterComponent, 'WorkPackage');
+    selectAutocompleterRegisterService.register(VersionAutocompleterComponent, "Version");
+    selectAutocompleterRegisterService.register(WorkPackageAutocompleterComponent, "WorkPackage");
   };
 }

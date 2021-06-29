@@ -10,7 +10,7 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
 import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 @Component({
-  templateUrl: '../list/time-entries-list.component.html',
+  templateUrl: "../list/time-entries-list.component.html",
 })
 export class WidgetTimeEntriesProjectComponent extends WidgetTimeEntriesListComponent implements OnInit {
   constructor(readonly injector:Injector,
@@ -24,7 +24,7 @@ export class WidgetTimeEntriesProjectComponent extends WidgetTimeEntriesListComp
   }
 
   protected dmFilters():Array<[string, FilterOperator, [string]]> {
-    return [['spentOn', '>t-', ['7']] as [string, FilterOperator, [string]],
-      ['project_id', '=', [this.currentProject.id]] as [string, FilterOperator, [string]]];
+    return [["spentOn", ">t-", ["7"]] as [string, FilterOperator, [string]],
+      ["project_id", "=", [this.currentProject.id]] as [string, FilterOperator, [string]]];
   }
 }

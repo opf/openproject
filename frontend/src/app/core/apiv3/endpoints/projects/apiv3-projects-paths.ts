@@ -46,11 +46,11 @@ export class APIv3ProjectsPaths
   implements Apiv3ListResourceInterface<ProjectResource> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'projects', APIv3ProjectPaths);
+    super(apiRoot, basePath, "projects", APIv3ProjectPaths);
   }
 
   // /api/v3/projects/schema
-  public readonly schema = this.subResource<SchemaResource>('schema');
+  public readonly schema = this.subResource<SchemaResource>("schema");
 
   /**
    * Load a list of project with a given list parameter filter

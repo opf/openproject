@@ -53,11 +53,11 @@ export interface CallableHalLink extends HalLinkInterface {
 export class HalLink implements HalLinkInterface {
   constructor(public requestMethod:(method:HTTPSupportedMethods, href:string, data:any, headers:any) => Promise<HalResource>,
     public href:string|null = null,
-    public title:string = '',
-    public method:HTTPSupportedMethods = 'get',
+    public title:string = "",
+    public method:HTTPSupportedMethods = "get",
     public templated:boolean = false,
     public payload?:any,
-    public type:string = 'application/json',
+    public type:string = "application/json",
     public identifier?:string) {
   }
 
@@ -92,12 +92,12 @@ export class HalLink implements HalLinkInterface {
    */
   public $prepare(templateValues:{ [templateKey:string]:string }) {
     if (!this.templated) {
-      throw 'The link ' + this.href + ' is not templated.';
+      throw `The link ${this.href} is not templated.`;
     }
 
-    let href = _.clone(this.href) || '';
+    let href = _.clone(this.href) || "";
     _.each(templateValues, (value:string, key:string) => {
-      const regexp = new RegExp('{' + key + '}');
+      const regexp = new RegExp(`{${key}}`);
       href = href.replace(regexp, value);
     });
 

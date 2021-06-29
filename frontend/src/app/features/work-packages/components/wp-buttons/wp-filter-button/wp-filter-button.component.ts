@@ -26,28 +26,28 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AbstractWorkPackageButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-buttons.module';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { AbstractWorkPackageButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-buttons.module";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
-} from '@angular/core';
+} from "@angular/core";
 import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 
 @Component({
-  selector: 'wp-filter-button',
+  selector: "wp-filter-button",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './wp-filter-button.html'
+  templateUrl: "./wp-filter-button.html",
 })
 export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   public count:number;
 
   public initialized = false;
 
-  public buttonId = 'work-packages-filter-toggle-button';
+  public buttonId = "work-packages-filter-toggle-button";
 
-  public iconClass = 'icon-filter';
+  public iconClass = "icon-filter";
 
   constructor(readonly I18n:I18nService,
     protected cdRef:ChangeDetectorRef,
@@ -61,11 +61,11 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
   }
 
   public get labelKey():string {
-    return 'js.button_filter';
+    return "js.button_filter";
   }
 
   public get textKey():string {
-    return 'js.toolbar.filter';
+    return "js.toolbar.filter";
   }
 
   public get label():string {

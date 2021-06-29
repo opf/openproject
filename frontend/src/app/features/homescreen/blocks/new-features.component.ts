@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
-import imagePath = ImageHelpers.imagePath;
 import { BcfRestApi } from "core-app/features/bim/bcf/bcf-constants.const";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
+import imagePath = ImageHelpers.imagePath;
 
-export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
+export const homescreenNewFeaturesBlockSelector = "homescreen-new-features-block";
 
 @Component({
   template: `
@@ -49,9 +49,8 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
     <a [href]="teaserWebsiteUrl" target="_blank">{{ text.learnAbout }}</a>
   `,
   selector: homescreenNewFeaturesBlockSelector,
-  styleUrls: ['./new-features.component.sass'],
+  styleUrls: ["./new-features.component.sass"],
 })
-
 
 /**
  * Component for the homescreen block to promote new features.
@@ -60,34 +59,36 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
  */
 export class HomescreenNewFeaturesBlockComponent {
   public isStandardEdition:boolean;
-  new_features_image = ImageHelpers.imagePath('11_3_features.png');
+
+  new_features_image = ImageHelpers.imagePath("11_3_features.png");
+
   public text = {
-    newFeatures: this.i18n.t('js.label_new_features'),
-    descriptionNewFeatures: this.i18n.t('js.homescreen.blocks.new_features.text_new_features'),
-    learnAbout: this.i18n.t('js.homescreen.blocks.new_features.learn_about'),
+    newFeatures: this.i18n.t("js.label_new_features"),
+    descriptionNewFeatures: this.i18n.t("js.homescreen.blocks.new_features.text_new_features"),
+    learnAbout: this.i18n.t("js.homescreen.blocks.new_features.learn_about"),
   };
 
   constructor(
     readonly i18n:I18nService,
-    readonly domSanitizer:DomSanitizer
+    readonly domSanitizer:DomSanitizer,
   ) {
     this.isStandardEdition = window.OpenProject.isStandardEdition;
   }
 
   public get teaserWebsiteUrl() {
-    const url = this.translated('learn_about_link');
+    const url = this.translated("learn_about_link");
     return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   public get currentNewFeatureHtml():string {
-    return this.translated('current_new_feature_html');
+    return this.translated("current_new_feature_html");
   }
 
   private translated(key:string):string {
-    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key, { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
+    return this.i18n.t(`${this.i18nBase + this.i18nPrefix}.${key}`, { list_styling_class: "widget-box--arrow-links", bcf_api_link: BcfRestApi });
   }
 
-  private i18nBase = 'js.homescreen.blocks.new_features.';
+  private i18nBase = "js.homescreen.blocks.new_features.";
 
   private get i18nPrefix():string {
     return this.isStandardEdition ? "standard" : "bim";

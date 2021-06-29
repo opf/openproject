@@ -34,16 +34,16 @@ import {
   Injector,
   Input,
   OnInit,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { distinctUntilChanged, map } from "rxjs/operators";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
-import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
+import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { HookService } from 'core-app/features/plugins/hook-service';
+import { HookService } from "core-app/features/plugins/hook-service";
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import { Subject } from "rxjs";
 import { randomString } from "core-app/shared/helpers/random-string";
@@ -81,11 +81,11 @@ export interface ResourceContextChange {
   project:string|null;
 }
 
-export const overflowingContainerAttribute = 'overflowingIdentifier';
+export const overflowingContainerAttribute = "overflowingIdentifier";
 
 @Component({
-  templateUrl: './wp-single-view.html',
-  selector: 'wp-single-view',
+  templateUrl: "./wp-single-view.html",
+  selector: "wp-single-view",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implements OnInit {
@@ -111,20 +111,20 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public text = {
     attachments: {
-      label: this.I18n.t('js.label_attachments'),
+      label: this.I18n.t("js.label_attachments"),
     },
     project: {
-      required: this.I18n.t('js.project.required_outside_context'),
-      context: this.I18n.t('js.project.context'),
-      switchTo: this.I18n.t('js.project.click_to_switch_context'),
+      required: this.I18n.t("js.project.required_outside_context"),
+      context: this.I18n.t("js.project.context"),
+      switchTo: this.I18n.t("js.project.click_to_switch_context"),
     },
 
     fields: {
-      description: this.I18n.t('js.work_packages.properties.description'),
+      description: this.I18n.t("js.work_packages.properties.description"),
     },
     infoRow: {
-      createdBy: this.I18n.t('js.label_created_by'),
-      lastUpdatedOn: this.I18n.t('js.label_last_updated_on'),
+      createdBy: this.I18n.t("js.label_created_by"),
+      lastUpdatedOn: this.I18n.t("js.label_last_updated_on"),
     },
   };
 
@@ -193,7 +193,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     }
 
     if (isNew && !this.currentProject.inProjectContext) {
-      this.projectContext.field = this.getFields(change, ['project']);
+      this.projectContext.field = this.getFields(change, ["project"]);
     }
 
     const attributeGroups = this.schema(resource)._attributeGroups;
@@ -229,25 +229,25 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * Allow other modules to register groups to insert into the single view
    */
   public prependedAttributeGroupComponents() {
-    return this.hook.call('prependedAttributeGroups', this.workPackage);
+    return this.hook.call("prependedAttributeGroups", this.workPackage);
   }
 
   public attributeGroupComponent(group:GroupDescriptor) {
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
-    return this.hook.call('attributeGroupComponent', group, this.workPackage).pop() || null;
+    return this.hook.call("attributeGroupComponent", group, this.workPackage).pop() || null;
   }
 
   public attachmentListComponent() {
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
-    return this.hook.call('workPackageAttachmentListComponent', this.workPackage).pop() || null;
+    return this.hook.call("workPackageAttachmentListComponent", this.workPackage).pop() || null;
   }
 
   public attachmentUploadComponent() {
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
-    return this.hook.call('workPackageAttachmentUploadComponent', this.workPackage).pop() || null;
+    return this.hook.call("workPackageAttachmentUploadComponent", this.workPackage).pop() || null;
   }
 
   /*
@@ -261,7 +261,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const id = this.workPackage.project.idFromLink;
     const projectPath = this.PathHelper.projectPath(id);
     const project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
-    return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
+    return this.I18n.t("js.project.work_package_belongs_to", { projectname: project });
   }
 
   /*
@@ -308,13 +308,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const descriptors:FieldDescriptor[] = [];
 
     fieldNames.forEach((fieldName:string) => {
-      if (fieldName === 'date') {
+      if (fieldName === "date") {
         descriptors.push(this.getDateField(change));
         return;
       }
 
       if (!change.schema.ofProperty(fieldName)) {
-        debugLog('Unknown field for current schema', fieldName);
+        debugLog("Unknown field for current schema", fieldName);
         return;
       }
 
@@ -338,16 +338,16 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
     const object:any = {
-      label: this.I18n.t('js.work_packages.properties.date'),
+      label: this.I18n.t("js.work_packages.properties.date"),
       multiple: false,
     };
 
-    if (change.schema.ofProperty('date')) {
-      object.field = this.displayField(change, 'date');
-      object.name = 'date';
+    if (change.schema.ofProperty("date")) {
+      object.field = this.displayField(change, "date");
+      object.name = "date";
     } else {
-      object.field = this.displayField(change, 'combinedDate');
-      object.name = 'combinedDate';
+      object.field = this.displayField(change, "combinedDate");
+      object.name = "combinedDate";
     }
 
     return object;
@@ -385,7 +385,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       change.projectedResource,
       name,
       change.schema.ofProperty(name),
-      { container: 'single-view', injector: this.injector, options: {} },
+      { container: "single-view", injector: this.injector, options: {} },
     );
   }
 

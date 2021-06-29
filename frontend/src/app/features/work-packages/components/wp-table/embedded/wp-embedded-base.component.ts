@@ -1,24 +1,24 @@
 import {
   AfterViewInit, ChangeDetectorRef, Directive, Input, SimpleChanges,
-} from '@angular/core';
+} from "@angular/core";
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject,
 } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { WorkPackagesViewBase } from "core-app/features/work-packages/routing/wp-view-base/work-packages-view.base";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { WorkPackageStatesInitializationService } from "../../wp-list/wp-states-initialization.service";
 
 @Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
-  @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
+  @Input("configuration") protected providedConfiguration:WorkPackageTableConfigurationObject;
 
   @Input() public uniqueEmbeddedTableName = `embedded-table-${Date.now()}`;
 

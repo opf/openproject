@@ -28,12 +28,12 @@
 
 import {
   Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Optional, Output,
-} from '@angular/core';
-import { StateService, Transition, TransitionService } from '@uirouter/core';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
-import { input } from 'reactivestates';
-import { filter, map, take } from 'rxjs/operators';
+} from "@angular/core";
+import { StateService, Transition, TransitionService } from "@uirouter/core";
+import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { EditableAttributeFieldComponent } from "core-app/shared/components/fields/edit/field/editable-attribute-field.component";
+import { input } from "reactivestates";
+import { filter, map, take } from "rxjs/operators";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import {
   activeFieldClassName,
@@ -49,17 +49,17 @@ import { ResourceChangesetCommit } from "core-app/shared/components/fields/edit/
 import { GlobalEditFormChangesTrackerService } from "core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service";
 
 @Component({
-  selector: 'edit-form,[edit-form]',
-  template: '<ng-content></ng-content>'
+  selector: "edit-form,[edit-form]",
+  template: "<ng-content></ng-content>",
 })
 export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
-  @Input('resource') resource:HalResource;
+  @Input("resource") resource:HalResource;
 
-  @Input('inEditMode') initializeEditMode = false;
+  @Input("inEditMode") initializeEditMode = false;
 
-  @Input('skippedFields') skippedFields:string[] = [];
+  @Input("skippedFields") skippedFields:string[] = [];
 
-  @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
+  @Output("onSaved") onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
 
   public fields:{ [attribute:string]:EditableAttributeFieldComponent } = {};
 
@@ -78,7 +78,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     private globalEditFormChangesTrackerService:GlobalEditFormChangesTrackerService) {
     super(injector);
 
-    const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
+    const confirmText = I18n.t("js.work_packages.confirm_edit_cancel");
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
     this.unregisterListener = $transitions.onBefore({}, (transition:Transition) => {
@@ -142,7 +142,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public cancel(reset = false) {
     this.editMode = false;
-    this.closeEditFields('all', reset);
+    this.closeEditFields("all", reset);
 
     if (reset) {
       this.halEditing.reset(this.change);
@@ -197,7 +197,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     jQuery(this.elementRef.nativeElement)
       .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
       .first()
-      .trigger('focus');
+      .trigger("focus");
   }
 
   private skipField(field:EditableAttributeFieldComponent) {

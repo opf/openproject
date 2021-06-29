@@ -11,7 +11,7 @@ import { homescreenOnboardingTourSteps } from "core-app/core/setup/globals/onboa
 import { scrumBacklogsTourSteps, scrumTaskBoardTourSteps } from "core-app/core/setup/globals/onboarding/tours/backlogs_tour";
 import { Injector } from "@angular/core";
 
-require('core-vendor/enjoyhint');
+require("core-vendor/enjoyhint");
 
 declare global {
   interface Window {
@@ -20,21 +20,21 @@ declare global {
 }
 
 export function start(name:OnboardingTourNames) {
-  console.log('star tour', name);
+  console.log("star tour", name);
   switch (name) {
-  case 'backlogs':
-    initializeTour('startTaskBoardTour');
+  case "backlogs":
+    initializeTour("startTaskBoardTour");
     startTour(scrumBacklogsTourSteps());
     break;
-  case 'taskboard':
-    initializeTour('startMainTourFromBacklogs');
+  case "taskboard":
+    initializeTour("startMainTourFromBacklogs");
     startTour(scrumTaskBoardTourSteps());
     break;
-  case 'homescreen':
-    initializeTour('startProjectTour', '.widget-box--blocks--buttons a', true);
+  case "homescreen":
+    initializeTour("startProjectTour", ".widget-box--blocks--buttons a", true);
     startTour(homescreenOnboardingTourSteps());
     break;
-  case 'main':
+  case "main":
     mainTour();
     break;
   }
@@ -65,18 +65,18 @@ function initializeTour(storageValue:any, disabledElements?:any, projectSelectio
 }
 
 function startTour(steps:any) {
-  console.log('startTour', steps);
+  console.log("startTour", steps);
   window.onboardingTourInstance.set(steps);
   window.onboardingTourInstance.run();
 }
 
 function mainTour() {
-  initializeTour('mainTourFinished');
+  initializeTour("mainTourFinished");
 
-  const boardsDemoDataAvailable = jQuery('meta[name=boards_demo_data_available]').attr('content') === "true";
-  const eeTokenAvailable = !jQuery('body').hasClass('ee-banners-visible');
+  const boardsDemoDataAvailable = jQuery("meta[name=boards_demo_data_available]").attr("content") === "true";
+  const eeTokenAvailable = !jQuery("body").hasClass("ee-banners-visible");
 
-  waitForElement('.work-package--results-tbody', '#content', () => {
+  waitForElement(".work-package--results-tbody", "#content", () => {
     let steps:any[];
 
     // Check for EE edition, and available seed data of boards.

@@ -10,7 +10,7 @@ import { DisplayedDays } from "core-app/shared/components/calendar/te-calendar/t
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
-  templateUrl: './time-entries-current-user.component.html',
+  templateUrl: "./time-entries-current-user.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetComponent {

@@ -1,8 +1,8 @@
-import * as Fuse from 'fuse.js';
+import * as Fuse from "fuse.js";
 
 export interface IAutocompleteItem<T> {
   label:string;
-  render:'match' | 'disabled';
+  render:"match" | "disabled";
   object:T;
 }
 
@@ -102,7 +102,7 @@ export abstract class ILazyAutocompleterBridge<T> {
       results.push({
         label: el.label,
         object: el.object,
-        render: 'match'
+        render: "match",
       } as IAutocompleteItem<T>);
     });
 
@@ -121,7 +121,7 @@ export abstract class ILazyAutocompleterBridge<T> {
       distance: 10000, // allow the term to appear anywhere
       maxPatternLength: 16,
       minMatchCharLength: 2,
-      keys: ['label'] as any,
+      keys: ["label"] as any,
     };
 
     this.fuseInstance = new Fuse(items, options);
@@ -137,7 +137,7 @@ export abstract class ILazyAutocompleterBridge<T> {
         response(ctrl.augmentedResultSet(autocompleteValues, fuzzyResults));
       },
       select: (ul:any, selected:{ item:IAutocompleteItem<T> }) => {
-        if (selected.item.render === 'match') {
+        if (selected.item.render === "match") {
           ctrl.onItemSelected(selected.item.object);
         }
       },
@@ -197,13 +197,13 @@ export namespace LazyLoadedAutocompleter {
         });
 
         // Ensure scrollbar is shown when more results exist
-        ul.css('height', 'auto');
+        ul.css("height", "auto");
         if (rendered < items.length) {
           const maxHeight = document.body.offsetHeight * 0.55;
           const shownHeight = rendered * 32;
 
           if (shownHeight < maxHeight) {
-            ul.css('height', shownHeight - 50);
+            ul.css("height", shownHeight - 50);
           }
         }
       },

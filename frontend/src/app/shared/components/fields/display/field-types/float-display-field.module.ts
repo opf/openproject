@@ -31,7 +31,7 @@ import { DisplayField } from "core-app/shared/components/fields/display/display-
 export class FloatDisplayField extends DisplayField {
   public get valueString():string {
     if (this.value == null) {
-      return '';
+      return "";
     }
 
     return this.value.toLocaleString(

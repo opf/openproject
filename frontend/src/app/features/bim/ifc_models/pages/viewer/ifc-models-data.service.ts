@@ -65,6 +65,6 @@ export class IfcModelsDataService {
   }
 
   private get gonIFC():IFCGonDefinition {
-    return (this.gon.get('ifc_models') as IFCGonDefinition);
+    return (this.gon.get("ifc_models") as IFCGonDefinition);
   }
 }

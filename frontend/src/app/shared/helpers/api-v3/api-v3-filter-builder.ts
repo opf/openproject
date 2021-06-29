@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-export type FilterOperator = '='|'!*'|'!'|'~'|'o'|'>t-'|'<>d'|'**'|'ow' ;
-export const FalseValue = ['f'];
-export const TrueValue = ['t'];
+export type FilterOperator = "="|"!*"|"!"|"~"|"o"|">t-"|"<>d"|"**"|"ow";
+export const FalseValue = ["f"];
+export const TrueValue = ["t"];
 
 export interface ApiV3FilterValue {
   operator:FilterOperator;
@@ -149,9 +149,9 @@ export class ApiV3FilterBuilder {
     const typeName = keys[0];
     const operatorAndValues:any = filter[typeName];
 
-    transformedFilter = `{"${typeName}":{"operator":"${operatorAndValues['operator']}","values":[${operatorAndValues['values']
+    transformedFilter = `{"${typeName}":{"operator":"${operatorAndValues["operator"]}","values":[${operatorAndValues["values"]
       .map((val:any) => this.serializeFilterValue(val))
-      .join(',')}]}}`;
+      .join(",")}]}}`;
 
     return transformedFilter;
   }

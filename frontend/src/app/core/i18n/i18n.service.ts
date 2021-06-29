@@ -43,7 +43,7 @@ interface ToHumanSizeOptions extends ToNumberOptions {
   format?:string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class I18nService {
   private _i18n:GlobalI18n = (window as any).I18n;
 

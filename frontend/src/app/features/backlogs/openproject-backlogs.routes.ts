@@ -31,21 +31,21 @@ import { BacklogsPageComponent } from "core-app/features/backlogs/backlogs-page/
 
 export const BACKLOGS_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: 'backlogs',
-    parent: 'root',
-    url: '/backlogs',
+    name: "backlogs",
+    parent: "root",
+    url: "/backlogs",
     component: BacklogsPageComponent,
   },
   {
-    name: 'backlogs_sprint',
-    parent: 'root',
-    url: '/sprints/{sprintId:int}/taskboard',
+    name: "backlogs_sprint",
+    parent: "root",
+    url: "/sprints/{sprintId:int}/taskboard",
     component: BacklogsPageComponent,
   },
   {
-    name: 'backlogs_burndown',
-    parent: 'root',
-    url: '/sprints/{sprintId:int}/burndown_chart',
+    name: "backlogs_burndown",
+    parent: "root",
+    url: "/sprints/{sprintId:int}/burndown_chart",
     component: BacklogsPageComponent,
   },
 ];

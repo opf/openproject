@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import { Injector } from "@angular/core";
 import { CardEventHandler } from "core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry";
 import { WorkPackageCardViewComponent } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
 import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
@@ -15,7 +15,7 @@ export class CardDblClickHandler implements CardEventHandler {
   }
 
   public get EVENT() {
-    return 'dblclick.cardView.card';
+    return "dblclick.cardView.card";
   }
 
   public get SELECTOR() {
@@ -30,13 +30,13 @@ export class CardDblClickHandler implements CardEventHandler {
     const target = jQuery(evt.target);
 
     // Ignore links
-    if (target.is('a') || target.parent().is('a')) {
+    if (target.is("a") || target.parent().is("a")) {
       return true;
     }
 
     // Locate the row from event
-    const element = target.closest('wp-single-card');
-    const wpId = element.data('workPackageId');
+    const element = target.closest("wp-single-card");
+    const wpId = element.data("workPackageId");
 
     if (!wpId) {
       return true;

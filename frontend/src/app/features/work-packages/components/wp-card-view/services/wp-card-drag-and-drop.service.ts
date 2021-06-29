@@ -1,4 +1,4 @@
-import { Injectable, Injector, Optional } from '@angular/core';
+import { Injectable, Injector, Optional } from "@angular/core";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageViewOrderService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service";
 import { States } from "core-app/core/states/states.service";
@@ -206,7 +206,7 @@ export class WorkPackageCardDragAndDropService {
    * On new card saved
    */
   async onCardSaved(wp:WorkPackageResource) {
-    const index = this.workPackages.findIndex((el) => el.id === 'new');
+    const index = this.workPackages.findIndex((el) => el.id === "new");
 
     if (index !== -1) {
       this.activeInlineCreateWp = undefined;

@@ -51,31 +51,31 @@ import {
   SupportedAttributeModels,
 } from "core-app/shared/components/fields/macros/attribute-model-loader.service";
 
-export const attributeValueMacro = 'macro.macro--attribute-value';
+export const attributeValueMacro = "macro.macro--attribute-value";
 
 @Component({
   selector: attributeValueMacro,
-  templateUrl: './attribute-value-macro.html',
-  styleUrls: ['./attribute-macro.sass'],
+  templateUrl: "./attribute-value-macro.html",
+  styleUrls: ["./attribute-macro.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
   ],
 })
 export class AttributeValueMacroComponent {
-  @ViewChild('displayContainer') private displayContainer:ElementRef<HTMLSpanElement>;
+  @ViewChild("displayContainer") private displayContainer:ElementRef<HTMLSpanElement>;
 
   // Whether the value could not be loaded
   error:string|null = null;
 
   text = {
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
-    placeholder: this.I18n.t('js.placeholders.default'),
-    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
+    help: this.I18n.t("js.editor.macro.attribute_reference.macro_help_tooltip"),
+    placeholder: this.I18n.t("js.placeholders.default"),
+    not_found: this.I18n.t("js.editor.macro.attribute_reference.not_found"),
+    invalid_attribute: (attr:string) => this.I18n.t("js.editor.macro.attribute_reference.invalid_attribute", { name: attr }),
   };
 
-  @HostBinding('title') hostTitle = this.text.help;
+  @HostBinding("title") hostTitle = this.text.help;
 
   resource:HalResource;
 
@@ -106,7 +106,7 @@ export class AttributeValueMacroComponent {
     try {
       resource = await this.resourceLoader.require(model, id);
     } catch (e) {
-      console.error("Failed to render macro " + e);
+      console.error(`Failed to render macro ${e}`);
       return this.markError(this.text.not_found);
     }
 
@@ -130,7 +130,7 @@ export class AttributeValueMacroComponent {
   }
 
   markError(message:string) {
-    this.error = this.I18n.t('js.editor.macro.error', { message });
+    this.error = this.I18n.t("js.editor.macro.error", { message });
     this.cdRef.detectChanges();
   }
 }

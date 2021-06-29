@@ -22,7 +22,7 @@ export class DragDropHandleBuilder {
    */
   public build(workPackage:WorkPackageResource, position?:number):HTMLElement {
     // Append sort handle
-    const td = document.createElement('td');
+    const td = document.createElement("td");
 
     td.classList.add(tdClassName, internalSortColumn.id);
 
@@ -30,16 +30,16 @@ export class DragDropHandleBuilder {
       return td;
     }
 
-    td.classList.add('wp-table--sort-td', internalSortColumn.id, "hide-when-print");
+    td.classList.add("wp-table--sort-td", internalSortColumn.id, "hide-when-print");
 
     // Wrap handle as span
-    const span = document.createElement('span');
-    span.classList.add('wp-table--drag-and-drop-handle', 'icon-drag-handle');
+    const span = document.createElement("span");
+    span.classList.add("wp-table--drag-and-drop-handle", "icon-drag-handle");
     td.appendChild(span);
 
     if (RENDER_DRAG_AND_DROP_POSITION) {
-      const text = document.createElement('span');
-      text.textContent = '' + position;
+      const text = document.createElement("span");
+      text.textContent = `${position}`;
       td.appendChild(text);
     }
 

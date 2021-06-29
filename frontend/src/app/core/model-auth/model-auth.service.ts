@@ -34,7 +34,7 @@ import { takeUntil } from "rxjs/operators";
 export type ModelLinks = { [action:string]:any };
 export type ModelLinksHash = { [model:string]:ModelLinks };
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthorisationService {
   private links = input<ModelLinksHash>({});
 

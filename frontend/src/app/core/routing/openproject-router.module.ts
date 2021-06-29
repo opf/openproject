@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule } from "@angular/core";
 import { FirstRouteService } from "core-app/core/routing/first-route-service";
 import { UIRouterModule } from "@uirouter/angular";
 import { ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";

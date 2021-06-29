@@ -27,40 +27,40 @@
 //++
 
 import { Injectable } from "@angular/core";
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { combine, input, InputState } from "reactivestates";
-import { States } from 'core-app/core/states/states.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { mapTo, take } from 'rxjs/operators';
-import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
-import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
-import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { States } from "core-app/core/states/states.service";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { mapTo, take } from "rxjs/operators";
+import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { cloneHalResourceCollection } from "core-app/features/hal/helpers/hal-resource-builder";
+import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
+import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
 import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
   public hidden:string[] = [
-    'datesInterval',
-    'precedes',
-    'follows',
-    'relates',
-    'duplicates',
-    'duplicated',
-    'blocks',
-    'blocked',
-    'partof',
-    'includes',
-    'requires',
-    'required',
-    'search',
+    "datesInterval",
+    "precedes",
+    "follows",
+    "relates",
+    "duplicates",
+    "duplicated",
+    "blocks",
+    "blocked",
+    "partof",
+    "includes",
+    "requires",
+    "required",
+    "search",
     // The filter should be named subjectOrId but for some reason
     // it is only named subjectOr
-    'subjectOrId',
-    'subjectOr',
-    'manualSort'
+    "subjectOrId",
+    "subjectOr",
+    "manualSort",
   ];
 
   /** Flag state to determine whether the filters are incomplete */
@@ -283,7 +283,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
 
   public get currentlyVisibleFilters() {
     const invisibleFilters = new Set(this.hidden);
-    invisibleFilters.delete('search');
+    invisibleFilters.delete("search");
 
     return _.reject(this.currentFilterResources, (filter) => invisibleFilters.has(filter.id));
   }

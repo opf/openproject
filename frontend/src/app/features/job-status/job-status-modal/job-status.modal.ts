@@ -1,11 +1,11 @@
 import {
   ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+} from "@angular/core";
+import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
+import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from "@angular/common/http";
 import { Observable, timer } from "rxjs";
 import { switchMap, takeWhile } from "rxjs/operators";
 import {
@@ -18,8 +18,8 @@ import { NotificationsService } from "core-app/shared/components/notifications/n
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
-  templateUrl: './job-status.modal.html',
-  styleUrls: ['./job-status.modal.sass'],
+  templateUrl: "./job-status.modal.html",
+  styleUrls: ["./job-status.modal.sass"],
 })
 export class JobStatusModal extends OpModalComponent implements OnInit {
   /* Close on escape? */
@@ -29,14 +29,14 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
   public closeOnOutsideClick = false;
 
   public text = {
-    title: this.I18n.t('js.job_status.title'),
-    closePopup: this.I18n.t('js.close_popup_title'),
-    redirect: this.I18n.t('js.job_status.redirect'),
+    title: this.I18n.t("js.job_status.title"),
+    closePopup: this.I18n.t("js.close_popup_title"),
+    redirect: this.I18n.t("js.job_status.redirect"),
     redirect_errors: `${this.I18n.t("js.job_status.redirect_errors")} `,
-    redirect_link: this.I18n.t('js.job_status.redirect_link'),
-    errors: this.I18n.t('js.job_status.errors'),
-    download_starts: this.I18n.t('js.job_status.download_starts'),
-    click_to_download: this.I18n.t('js.job_status.click_to_download'),
+    redirect_link: this.I18n.t("js.job_status.redirect_link"),
+    errors: this.I18n.t("js.job_status.errors"),
+    download_starts: this.I18n.t("js.job_status.download_starts"),
+    click_to_download: this.I18n.t("js.job_status.click_to_download"),
   };
 
   /** The job ID reference */
@@ -63,7 +63,7 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
   /** A link in case the job results in a download */
   public downloadHref:string|null = null;
 
-  @ViewChild('downloadLink') private downloadLink:ElementRef<HTMLInputElement>;
+  @ViewChild("downloadLink") private downloadLink:ElementRef<HTMLInputElement>;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
@@ -90,7 +90,7 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
         switchMap(() => this.performRequest()),
         takeWhile(response => !!response.body && this.continuedStatus(response.body), true),
         this.untilDestroyed(),
-        withDelayedLoadingIndicator(this.loadingIndicator.getter('modal')),
+        withDelayedLoadingIndicator(this.loadingIndicator.getter("modal")),
       ).subscribe(
         response => this.onResponse(response),
         error => this.handleError(error),
@@ -103,7 +103,7 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
     case "cancelled":
     case "failure":
     case "error":
-      return 'icon-error';
+      return "icon-error";
       break;
     case "success":
       return "icon-checkmark";
@@ -118,7 +118,7 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
    * @param response
    */
   private continuedStatus(response:JobStatusInterface) {
-    return ['in_queue', 'in_process'].includes(response.status);
+    return ["in_queue", "in_process"].includes(response.status);
   }
 
   private onResponse(response:HttpResponse<JobStatusInterface>) {
@@ -156,8 +156,8 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
       // Get the file url from the redirectionUrl
       this.httpClient
         .get(redirectionUrl, {
-          observe: 'response',
-          responseType: 'text'
+          observe: "response",
+          responseType: "text",
         })
         .subscribe(response => {
           this.downloadHref = response.url;
@@ -173,19 +173,19 @@ export class JobStatusModal extends OpModalComponent implements OnInit {
       .httpClient
       .get<JobStatusInterface>(
         this.jobUrl,
-        { observe: 'response', responseType: 'json' },
+        { observe: "response", responseType: "json" },
       );
   }
 
   private handleError(error:HttpErrorResponse) {
     if (error?.status === 404) {
-      this.statusIcon = 'icon-help';
-      this.message = this.I18n.t('js.job_status.generic_messages.not_found');
+      this.statusIcon = "icon-help";
+      this.message = this.I18n.t("js.job_status.generic_messages.not_found");
       return;
     }
 
-    this.statusIcon = 'icon-error';
-    this.message = error?.message || this.I18n.t('js.error.internal');
+    this.statusIcon = "icon-error";
+    this.message = error?.message || this.I18n.t("js.error.internal");
     this.notifications.addError(this.message);
   }
 

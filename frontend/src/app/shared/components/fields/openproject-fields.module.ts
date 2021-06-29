@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OpenprojectAccessibilityModule } from "core-app/shared/directives/a11y/openproject-a11y.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
-import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
+import { OpenprojectEditorModule } from "core-app/shared/components/editor/openproject-editor.module";
 import { OpenprojectAttachmentsModule } from "core-app/shared/components/attachments/openproject-attachments.module";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { AttributeHelpTextModule } from "core-app/shared/components/attribute-help-texts/attribute-help-text.module";

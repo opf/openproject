@@ -30,16 +30,16 @@ import { Injectable, Injector } from "@angular/core";
 import { BcfResourceCollectionPath } from "core-app/features/bim/bcf/api/bcf-path-resources";
 import { BcfProjectPaths } from "core-app/features/bim/bcf/api/projects/bcf-project.paths";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class BcfApiService {
-  public readonly bcfApiVersion = '2.1';
+  public readonly bcfApiVersion = "2.1";
 
-  public readonly appBasePath = window.appBasePath || '';
+  public readonly appBasePath = window.appBasePath || "";
 
   public readonly bcfApiBase = `${this.appBasePath}/api/bcf/${this.bcfApiVersion}`;
 
   // /api/bcf/:version/projects
-  public readonly projects = new BcfResourceCollectionPath(this.injector, this.bcfApiBase, 'projects', BcfProjectPaths);
+  public readonly projects = new BcfResourceCollectionPath(this.injector, this.bcfApiBase, "projects", BcfProjectPaths);
 
   constructor(readonly injector:Injector) {
   }
@@ -55,8 +55,8 @@ export class BcfApiService {
     }
 
     const parts = href
-      .replace(`${this.bcfApiBase}/`, '')
-      .split('/');
+      .replace(`${this.bcfApiBase}/`, "")
+      .split("/");
 
     // Try to find a target collection or resource
     let current:any = this;

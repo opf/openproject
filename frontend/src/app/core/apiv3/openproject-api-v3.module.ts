@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OPSharedModule } from 'core-app/shared/shared.module';
-import { NgModule } from '@angular/core';
+import { OPSharedModule } from "core-app/shared/shared.module";
+import { NgModule } from "@angular/core";
 import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
 
 @NgModule({

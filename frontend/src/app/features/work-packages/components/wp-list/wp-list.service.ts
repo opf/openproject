@@ -28,14 +28,14 @@
 
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { States } from "core-app/core/states/states.service";
-import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { StateService } from '@uirouter/core';
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
+import { StateService } from "@uirouter/core";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { Injectable } from '@angular/core';
-import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { Injectable } from "@angular/core";
+import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { from, Observable, of } from 'rxjs';
+import { from, Observable, of } from "rxjs";
 import { input } from "reactivestates";
 import {
   catchError, mergeMap, share, switchMap, take,
@@ -51,7 +51,7 @@ import { APIv3QueryPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-que
 import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
 import { ErrorResource } from "core-app/features/hal/resources/error-resource";
 import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
+import { WorkPackageStatesInitializationService } from "./wp-states-initialization.service";
 import { WorkPackagesListInvalidQueryService } from "./wp-list-invalid-query.service";
 
 export interface QueryDefinition {
@@ -239,7 +239,7 @@ export class WorkPackagesListService {
 
     promise
       .then(query => {
-        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
+        this.NotificationsService.addSuccess(this.I18n.t("js.notice_successful_create"));
 
         // Reload the query, and then reload the menu
         this.reloadQuery(query).subscribe(() => {
@@ -267,11 +267,11 @@ export class WorkPackagesListService {
 
     promise
       .then(() => {
-        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_delete'));
+        this.NotificationsService.addSuccess(this.I18n.t("js.notice_successful_delete"));
 
         let id;
         if (query.project) {
-          id = query.project.href!.split('/').pop();
+          id = query.project.href!.split("/").pop();
         }
 
         this.loadDefaultQuery(id);
@@ -296,9 +296,9 @@ export class WorkPackagesListService {
 
     promise
       .then(() => {
-        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
+        this.NotificationsService.addSuccess(this.I18n.t("js.notice_successful_update"));
 
-        this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
+        this.$state.go(".", { query_id: query!.id, query_props: null }, { reload: true });
         this.states.changes.queries.next(query!.id!);
       })
       .catch((error:ErrorResource) => {
@@ -317,7 +317,7 @@ export class WorkPackagesListService {
     promise.then((query:QueryResource) => {
       this.querySpace.query.putValue(query);
 
-      this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
+      this.NotificationsService.addSuccess(this.I18n.t("js.notice_successful_update"));
 
       this.states.changes.queries.next(query.id!);
     });
@@ -352,7 +352,7 @@ export class WorkPackagesListService {
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
-    this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
+    this.NotificationsService.addError(this.I18n.t("js.work_packages.faulty_query.description"), error.message);
 
     return new Promise((resolve, reject) => {
       this

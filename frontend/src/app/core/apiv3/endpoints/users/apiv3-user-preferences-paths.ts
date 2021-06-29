@@ -55,7 +55,7 @@ export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferences
       .patch<UserPreferencesModel>(
         this.path,
         payload,
-        { withCredentials: true, responseType: 'json' },
+        { withCredentials: true, responseType: "json" },
       );
   }
 }

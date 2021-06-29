@@ -26,39 +26,39 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, OnDestroy } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Injectable, OnDestroy } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Observable } from "rxjs";
 import { StateService, TransitionService } from "@uirouter/core";
 import { input } from "reactivestates";
 import { takeUntil } from "rxjs/operators";
 
-export const bimListViewIdentifier = 'list';
-export const bimTableViewIdentifier = 'table';
-export const bimSplitViewCardsIdentifier = 'splitCards';
-export const bimSplitViewListIdentifier = 'splitList';
-export const bimViewerViewIdentifier = 'viewer';
+export const bimListViewIdentifier = "list";
+export const bimTableViewIdentifier = "table";
+export const bimSplitViewCardsIdentifier = "splitCards";
+export const bimSplitViewListIdentifier = "splitList";
+export const bimViewerViewIdentifier = "viewer";
 
-export type BimViewState = 'list'|'viewer'|'splitList'|'splitCards'|'table';
+export type BimViewState = "list"|"viewer"|"splitList"|"splitCards"|"table";
 
 @Injectable()
 export class BimViewService implements OnDestroy {
   private _state = input<BimViewState>();
 
   public text:any = {
-    list: this.I18n.t('js.views.card'),
-    viewer: this.I18n.t('js.ifc_models.views.viewer'),
-    splitList: this.I18n.t('js.ifc_models.views.split'),
-    splitCards: this.I18n.t('js.ifc_models.views.split_cards'),
-    table: this.I18n.t('js.views.list'),
+    list: this.I18n.t("js.views.card"),
+    viewer: this.I18n.t("js.ifc_models.views.viewer"),
+    splitList: this.I18n.t("js.ifc_models.views.split"),
+    splitCards: this.I18n.t("js.ifc_models.views.split_cards"),
+    table: this.I18n.t("js.views.list"),
   };
 
   public icon:any = {
-    list: 'icon-view-card',
-    viewer: 'icon-view-model',
-    splitList: 'icon-view-split-viewer-table',
-    splitCards: 'icon-view-split2',
-    table: 'icon-view-list',
+    list: "icon-view-card",
+    viewer: "icon-view-model",
+    splitList: "icon-view-split-viewer-table",
+    splitCards: "icon-view-split2",
+    table: "icon-view-list",
   };
 
   private transitionFn:Function;

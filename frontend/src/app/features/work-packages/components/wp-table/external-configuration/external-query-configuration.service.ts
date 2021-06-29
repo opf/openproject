@@ -1,9 +1,9 @@
 import {
   ApplicationRef, ComponentFactoryResolver, Injectable, Injector,
-} from '@angular/core';
-import { ComponentPortal, DomPortalOutlet, PortalInjector } from '@angular/cdk/portal';
-import { TransitionService } from '@uirouter/core';
-import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+} from "@angular/core";
+import { ComponentPortal, DomPortalOutlet, PortalInjector } from "@angular/cdk/portal";
+import { TransitionService } from "@uirouter/core";
+import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
 import {
   ExternalQueryConfigurationComponent,
   QueryConfigurationLocals,
@@ -32,8 +32,8 @@ export class ExternalQueryConfigurationService {
    */
   private get bodyPortalHost() {
     if (!this._portalHostElement) {
-      const hostElement = this._portalHostElement = document.createElement('div');
-      hostElement.classList.add('op-external-query-configuration--container');
+      const hostElement = this._portalHostElement = document.createElement("div");
+      hostElement.classList.add("op-external-query-configuration--container");
       document.body.appendChild(hostElement);
 
       this._bodyPortalHost = new DomPortalOutlet(
@@ -60,7 +60,7 @@ export class ExternalQueryConfigurationService {
       this.injectorFor(data),
     );
     this.bodyPortalHost.attach(portal);
-    this._portalHostElement.style.display = 'block';
+    this._portalHostElement.style.display = "block";
   }
 
   /**
@@ -70,7 +70,7 @@ export class ExternalQueryConfigurationService {
     // Detach any component currently in the portal
     if (this.bodyPortalHost.hasAttached()) {
       this.bodyPortalHost.detach();
-      this._portalHostElement.style.display = 'none';
+      this._portalHostElement.style.display = "none";
     }
   }
 

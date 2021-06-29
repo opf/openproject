@@ -6,7 +6,7 @@ import { ErrorResource } from "core-app/features/hal/resources/error-resource";
 @Injectable()
 export class HalAwareErrorHandler extends ErrorHandler {
   private text = {
-    internal_error: this.I18n.t('js.error.internal'),
+    internal_error: this.I18n.t("js.error.internal"),
   };
 
   constructor(private readonly I18n:I18nService) {
@@ -24,7 +24,7 @@ export class HalAwareErrorHandler extends ErrorHandler {
       message += `Resource returned ${error.name}`;
     } else if (error instanceof Error) {
       window.ErrorReporter.captureException(error);
-    } else if (typeof error === 'string') {
+    } else if (typeof error === "string") {
       window.ErrorReporter.captureMessage(error);
       message = error;
     }

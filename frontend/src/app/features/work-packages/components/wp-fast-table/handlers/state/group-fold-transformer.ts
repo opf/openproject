@@ -1,5 +1,5 @@
-import { Injector } from '@angular/core';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Injector } from "@angular/core";
+import { distinctUntilChanged, takeUntil } from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";

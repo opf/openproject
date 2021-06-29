@@ -25,18 +25,18 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
-import * as moment from 'moment';
-import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
+import { AfterViewInit, Component, ElementRef } from "@angular/core";
+import * as moment from "moment";
+import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
+import { WorkPackageTimelineTableController } from "../container/wp-timeline-container.directive";
 import {
   calculatePositionValueForDayCount,
   getTimeSlicesForHeader,
   timelineElementCssClass,
   timelineGridElementCssClass,
-  TimelineViewParameters
-} from '../wp-timeline';
+  TimelineViewParameters,
+} from "../wp-timeline";
 import Moment = moment.Moment;
-import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
   const day = date.day();
@@ -44,28 +44,27 @@ function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
   // Sunday = 0
   // Monday = 6
   if (day === 0 || day === 6) {
-    cell.classList.add('grid-weekend');
+    cell.classList.add("grid-weekend");
   }
 }
 
 @Component({
-  selector: 'wp-timeline-grid',
-  template: '<div class="wp-table-timeline--grid"></div>'
+  selector: "wp-timeline-grid",
+  template: '<div class="wp-table-timeline--grid"></div>',
 })
 export class WorkPackageTableTimelineGrid implements AfterViewInit {
-
   private activeZoomLevel:TimelineZoomLevel;
 
   private gridContainer:JQuery;
 
   constructor(private elementRef:ElementRef,
-              public wpTimeline:WorkPackageTimelineTableController) {
+    public wpTimeline:WorkPackageTimelineTableController) {
   }
 
   ngAfterViewInit() {
     const $element = jQuery(this.elementRef.nativeElement);
-    this.gridContainer = $element.find('.wp-table-timeline--grid');
-    this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
+    this.gridContainer = $element.find(".wp-table-timeline--grid");
+    this.wpTimeline.onRefreshRequested("grid", (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
   refreshView(vp:TimelineViewParameters) {
@@ -80,15 +79,15 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
     this.gridContainer.empty();
 
     switch (vp.settings.zoomLevel) {
-    case 'days':
+    case "days":
       return this.renderLabelsDays(vp);
-    case 'weeks':
+    case "weeks":
       return this.renderLabelsWeeks(vp);
-    case 'months':
+    case "months":
       return this.renderLabelsMonths(vp);
-    case 'quarters':
+    case "quarters":
       return this.renderLabelsQuarters(vp);
-    case 'years':
+    case "years":
       return this.renderLabelsYears(vp);
     }
 
@@ -96,66 +95,66 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
   }
 
   private renderLabelsDays(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.style.paddingTop = '1px';
+    this.renderTimeSlices(vp, "day", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.style.paddingTop = "1px";
       checkForWeekendHighlight(start, cell);
     });
 
-    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('-grid-highlight');
-      cell.style.zIndex = '2';
+    this.renderTimeSlices(vp, "year", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("-grid-highlight");
+      cell.style.zIndex = "2";
     });
   }
 
   private renderLabelsWeeks(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "day", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       checkForWeekendHighlight(start, cell);
     });
 
-    this.renderTimeSlices(vp, 'week', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('-grid-highlight');
+    this.renderTimeSlices(vp, "week", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("-grid-highlight");
     });
 
-    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('-grid-highlight');
-      cell.style.zIndex = '2';
+    this.renderTimeSlices(vp, "year", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("-grid-highlight");
+      cell.style.zIndex = "2";
     });
   }
 
   private renderLabelsMonths(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'week', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "week", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
     });
 
-    this.renderTimeSlices(vp, 'month', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('-grid-highlight');
+    this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("-grid-highlight");
     });
 
-    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('-grid-highlight');
-      cell.style.zIndex = '2';
+    this.renderTimeSlices(vp, "year", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("-grid-highlight");
+      cell.style.zIndex = "2";
     });
   }
 
   private renderLabelsQuarters(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'month', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
     });
 
-    this.renderTimeSlices(vp, 'quarter', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('-grid-highlight');
+    this.renderTimeSlices(vp, "quarter", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("-grid-highlight");
     });
 
-    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('-grid-highlight');
-      cell.style.zIndex = '2';
+    this.renderTimeSlices(vp, "year", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("-grid-highlight");
+      cell.style.zIndex = "2";
     });
   }
 
   private renderLabelsYears(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, 'month', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
     });
 
-    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add('-grid-highlight');
+    this.renderTimeSlices(vp, "year", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add("-grid-highlight");
     });
   }
 
@@ -164,23 +163,22 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
     startView:Moment,
     endView:Moment,
     cellCallback:(start:Moment, cell:HTMLElement) => void) {
-
     const { inViewportAndBoundaries, rest } = getTimeSlicesForHeader(vp, unit, startView, endView);
 
     for (const [start, end] of inViewportAndBoundaries) {
-      const cell = document.createElement('div');
+      const cell = document.createElement("div");
       cell.classList.add(timelineElementCssClass, timelineGridElementCssClass);
-      cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
-      cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
+      cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
+      cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
       this.gridContainer[0].appendChild(cell);
       cellCallback(start, cell);
     }
     setTimeout(() => {
       for (const [start, end] of rest) {
-        const cell = document.createElement('div');
+        const cell = document.createElement("div");
         cell.classList.add(timelineElementCssClass, timelineGridElementCssClass);
-        cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
-        cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
+        cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
+        cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
         this.gridContainer[0].appendChild(cell);
         cellCallback(start, cell);
       }

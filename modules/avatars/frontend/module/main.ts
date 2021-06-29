@@ -24,10 +24,10 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { HookService } from 'core-app/features/plugins/hook-service';
-import { AvatarUploadFormComponent } from './avatar-upload-form/avatar-upload-form.component';
+import { HookService } from "core-app/features/plugins/hook-service";
+import { AvatarUploadFormComponent } from "./avatar-upload-form/avatar-upload-form.component";
 
 @NgModule({
   imports: [
@@ -40,7 +40,7 @@ import { AvatarUploadFormComponent } from './avatar-upload-form/avatar-upload-fo
 export class PluginModule {
   constructor(injector:Injector) {
     const hookService = injector.get(HookService);
-    hookService.register('openProjectAngularBootstrap', () => [
+    hookService.register("openProjectAngularBootstrap", () => [
       { selector: "avatar-upload-form", cls: AvatarUploadFormComponent },
     ]);
   }

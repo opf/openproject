@@ -1,9 +1,9 @@
 import {
   AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild,
-} from '@angular/core';
-import { WorkPackageEmbeddedTableComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component';
-import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
-import { RestrictedWpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/restricted-wp-table-configuration.service';
+} from "@angular/core";
+import { WorkPackageEmbeddedTableComponent } from "core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component";
+import { WpTableConfigurationService } from "core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service";
+import { RestrictedWpTableConfigurationService } from "core-app/features/work-packages/components/wp-table/external-configuration/restricted-wp-table-configuration.service";
 import { OpQueryConfigurationLocalsToken } from "core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.constants";
 import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
 
@@ -16,11 +16,11 @@ export interface QueryConfigurationLocals {
 }
 
 @Component({
-  templateUrl: './external-query-configuration.template.html',
+  templateUrl: "./external-query-configuration.template.html",
   providers: [[{ provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }]],
 })
 export class ExternalQueryConfigurationComponent implements OnInit, AfterViewInit {
-  @ViewChild('embeddedTableForConfiguration', { static: true }) private embeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild("embeddedTableForConfiguration", { static: true }) private embeddedTable:WorkPackageEmbeddedTableComponent;
 
   queryProps:string;
 

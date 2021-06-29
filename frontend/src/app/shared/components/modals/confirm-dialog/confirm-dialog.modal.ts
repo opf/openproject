@@ -49,7 +49,7 @@ export interface ConfirmDialogOptions {
 }
 
 @Component({
-  templateUrl: './confirm-dialog.modal.html'
+  templateUrl: "./confirm-dialog.modal.html",
 })
 export class ConfirmDialogModal extends OpModalComponent {
   public showClose:boolean;
@@ -59,11 +59,11 @@ export class ConfirmDialogModal extends OpModalComponent {
   private options:ConfirmDialogOptions;
 
   public text:any = {
-    title: this.I18n.t('js.modals.form_submit.title'),
-    text: this.I18n.t('js.modals.form_submit.text'),
-    button_continue: this.I18n.t('js.button_continue'),
-    button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title'),
+    title: this.I18n.t("js.modals.form_submit.title"),
+    text: this.I18n.t("js.modals.form_submit.text"),
+    button_continue: this.I18n.t("js.button_continue"),
+    button_cancel: this.I18n.t("js.button_cancel"),
+    close_popup: this.I18n.t("js.close_popup_title"),
   };
 
   public passedData:string[];

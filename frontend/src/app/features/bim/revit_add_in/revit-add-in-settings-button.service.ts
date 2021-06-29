@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 /*
@@ -13,11 +13,11 @@ export class RevitAddInSettingsButtonService {
 
   constructor(readonly injector:Injector,
     readonly i18n:I18nService) {
-    const onRevitAddInEnvironment = window.navigator.userAgent.search('Revit') > -1;
+    const onRevitAddInEnvironment = window.navigator.userAgent.search("Revit") > -1;
 
     if (onRevitAddInEnvironment) {
-      this.labelText = i18n.t('js.revit.revit_add_in_settings');
-      this.groupLabelText = i18n.t('js.revit.revit_add_in');
+      this.labelText = i18n.t("js.revit.revit_add_in_settings");
+      this.groupLabelText = i18n.t("js.revit.revit_add_in");
 
       this.addUserMenuItem();
       this.addLoginMenuItem();
@@ -25,10 +25,10 @@ export class RevitAddInSettingsButtonService {
   }
 
   public addUserMenuItem():void {
-    const userMenu = document.getElementById('user-menu');
+    const userMenu = document.getElementById("user-menu");
 
     if (userMenu) {
-      const menuItem:HTMLElement = document.createElement('li');
+      const menuItem:HTMLElement = document.createElement("li");
       menuItem.dataset.name = this.labelText;
       menuItem.innerHTML = `
         <a class="revit-addin-settings-menu-item ellipsis" title="${this.labelText}" href="#">
@@ -36,16 +36,16 @@ export class RevitAddInSettingsButtonService {
         </a>
       `;
 
-      menuItem.addEventListener('click', () => this.goToSettings());
+      menuItem.addEventListener("click", () => this.goToSettings());
       userMenu.appendChild(menuItem);
     }
   }
 
   public addLoginMenuItem() {
-    const loginModal = document.querySelector('#nav-login-content');
+    const loginModal = document.querySelector("#nav-login-content");
 
     if (loginModal) {
-      const loginMenuItem:HTMLElement = document.createElement('div');
+      const loginMenuItem:HTMLElement = document.createElement("div");
 
       loginMenuItem.dataset.name = this.labelText;
       loginMenuItem.innerHTML = `
@@ -64,13 +64,13 @@ export class RevitAddInSettingsButtonService {
       `;
       loginModal.appendChild(loginMenuItem);
 
-      const settingsButton = loginModal.querySelector('.revit-add-in-button');
+      const settingsButton = loginModal.querySelector(".revit-add-in-button");
 
-      settingsButton!.addEventListener('click', () => this.goToSettings());
+      settingsButton!.addEventListener("click", () => this.goToSettings());
     }
   }
 
   goToSettings() {
-    window.RevitBridge.sendMessageToRevit('GoToSettings', '1', '');
+    window.RevitBridge.sendMessageToRevit("GoToSettings", "1", "");
   }
 }

@@ -39,7 +39,7 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource> {
   // Static paths
-  readonly form = this.subResource('form', APIv3FormResource);
+  readonly form = this.subResource("form", APIv3FormResource);
 
   /**
    * Update the time entry with the given payload.

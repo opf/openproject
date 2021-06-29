@@ -28,22 +28,22 @@
 
 import {
   Directive, EventEmitter, HostListener, Input, Output,
-} from '@angular/core';
+} from "@angular/core";
 
 @Directive({
-  selector: '[doubleClickOrTap]',
+  selector: "[doubleClickOrTap]",
 })
 export class DoubleClickOrTapDirective {
-  @Input('doubleClickOrTapStopEvent') stopEventPropagation = true;
+  @Input("doubleClickOrTapStopEvent") stopEventPropagation = true;
 
-  @Output('doubleClickOrTap') eventHandler = new EventEmitter<any>();
+  @Output("doubleClickOrTap") eventHandler = new EventEmitter<any>();
 
-  @HostListener('dblclick', ['$event'])
-  @HostListener('tap', ['$event'])
+  @HostListener("dblclick", ["$event"])
+  @HostListener("tap", ["$event"])
   public handleClick(event:any):boolean {
     // Pass along double clicks immediately
     // Or when the hammer.js event tap count reaches two
-    if (event.type === 'dblclick' || event.tapCount === 2) {
+    if (event.type === "dblclick" || event.tapCount === 2) {
       this.eventHandler.emit(event);
       return this.eventStopReturnCode(event);
     }

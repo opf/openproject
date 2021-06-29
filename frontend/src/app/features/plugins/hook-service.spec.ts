@@ -28,27 +28,27 @@
 
 /*jshint expr: true*/
 
-import { HookService } from 'core-app/features/plugins/hook-service';
+import { HookService } from "core-app/features/plugins/hook-service";
 
-describe('HookService', () => {
+describe("HookService", () => {
   let service:HookService = new HookService();
 
   var callback:any; var
     invalidCallback:any;
-  var validId = 'myValidCallbacks';
+  var validId = "myValidCallbacks";
 
   beforeEach(() => {
     service = new HookService();
   });
 
   var shouldBehaveLikeEmptyResult = function (id:string) {
-    it('returns empty results', () => {
+    it("returns empty results", () => {
       expect(service.call(id).length).toEqual(0);
     });
   };
 
   var shouldBehaveLikeResultWithElements = function (id:string, count:number) {
-    it('returns #count results', () => {
+    it("returns #count results", () => {
       expect(service.call(id).length).toEqual(count);
     });
   };
@@ -58,7 +58,7 @@ describe('HookService', () => {
       service.call(id);
     });
 
-    it('is called', () => {
+    it("is called", () => {
       expect(callback).toHaveBeenCalled();
     });
   };
@@ -68,22 +68,22 @@ describe('HookService', () => {
       service.call(id);
     });
 
-    it('is not called', () => {
+    it("is not called", () => {
       expect(invalidCallback.called).toBeFalsy();
     });
   };
 
-  describe('register', () => {
-    var invalidId = 'myInvalidCallbacks';
+  describe("register", () => {
+    var invalidId = "myInvalidCallbacks";
 
-    describe('no callback registered', () => {
+    describe("no callback registered", () => {
       shouldBehaveLikeEmptyResult(invalidId);
     });
 
-    describe('valid function callback registered', () => {
+    describe("valid function callback registered", () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook');
-        service.register('myValidCallbacks', callback);
+        callback = jasmine.createSpy("hook");
+        service.register("myValidCallbacks", callback);
       });
 
       shouldBehaveLikeEmptyResult(validId);
@@ -92,11 +92,11 @@ describe('HookService', () => {
     });
   });
 
-  describe('call', () => {
-    describe('function that returns undefined', () => {
+  describe("call", () => {
+    describe("function that returns undefined", () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook');
-        service.register('myValidCallbacks', callback);
+        callback = jasmine.createSpy("hook");
+        service.register("myValidCallbacks", callback);
       });
 
       shouldBehaveLikeCalledCallback(validId);
@@ -104,11 +104,11 @@ describe('HookService', () => {
       shouldBehaveLikeEmptyResult(validId);
     });
 
-    describe('function that returns something that is not undefined', () => {
+    describe("function that returns something that is not undefined", () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook').and.returnValue({});
+        callback = jasmine.createSpy("hook").and.returnValue({});
 
-        service.register('myValidCallbacks', callback);
+        service.register("myValidCallbacks", callback);
       });
 
       shouldBehaveLikeCalledCallback(validId);
@@ -116,11 +116,11 @@ describe('HookService', () => {
       shouldBehaveLikeResultWithElements(validId, 1);
     });
 
-    describe('function that returns something that is not undefined', () => {
+    describe("function that returns something that is not undefined", () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook').and.returnValue({});
+        callback = jasmine.createSpy("hook").and.returnValue({});
 
-        service.register('myValidCallbacks', callback);
+        service.register("myValidCallbacks", callback);
       });
 
       shouldBehaveLikeCalledCallback(validId);
@@ -128,14 +128,14 @@ describe('HookService', () => {
       shouldBehaveLikeResultWithElements(validId, 1);
     });
 
-    describe('function that returns something that is not undefined', () => {
+    describe("function that returns something that is not undefined", () => {
       beforeEach(() => {
-        callback = jasmine.createSpy('hook');
-        invalidCallback = jasmine.createSpy('invalidHook');
+        callback = jasmine.createSpy("hook");
+        invalidCallback = jasmine.createSpy("invalidHook");
 
-        service.register('myValidCallbacks', callback);
+        service.register("myValidCallbacks", callback);
 
-        service.register('myInvalidCallbacks', invalidCallback);
+        service.register("myInvalidCallbacks", invalidCallback);
       });
 
       shouldBehaveLikeCalledCallback(validId);
@@ -143,16 +143,16 @@ describe('HookService', () => {
       shouldBehaveLikeUncalledCallback(validId);
     });
 
-    describe('function that returns something that is not undefined', () => {
+    describe("function that returns something that is not undefined", () => {
       var callback1; var
         callback2;
 
       beforeEach(() => {
-        callback1 = jasmine.createSpy('hook1').and.returnValue({});
-        callback2 = jasmine.createSpy('hook1').and.returnValue({});
+        callback1 = jasmine.createSpy("hook1").and.returnValue({});
+        callback2 = jasmine.createSpy("hook1").and.returnValue({});
 
-        service.register('myValidCallbacks', callback1);
-        service.register('myValidCallbacks', callback2);
+        service.register("myValidCallbacks", callback1);
+        service.register("myValidCallbacks", callback2);
       });
 
       shouldBehaveLikeResultWithElements(validId, 2);

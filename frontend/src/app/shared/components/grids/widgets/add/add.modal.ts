@@ -10,14 +10,14 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BannersService } from "core-app/core/enterprise/banners.service";
 
 @Component({
-  templateUrl: './add.modal.html'
+  templateUrl: "./add.modal.html",
 })
 export class AddGridWidgetModal extends OpModalComponent {
   text = {
-    title: this.i18n.t('js.grid.add_widget'),
-    close_popup: this.i18n.t('js.button_close'),
-    upsale_link: this.i18n.t('js.grid.upsale.link'),
-    upsale_text: this.i18n.t('js.grid.upsale.text'),
+    title: this.i18n.t("js.grid.add_widget"),
+    close_popup: this.i18n.t("js.button_close"),
+    upsale_link: this.i18n.t("js.grid.upsale.link"),
+    upsale_text: this.i18n.t("js.grid.upsale.text"),
   };
 
   public chosenWidget:WidgetRegistration;

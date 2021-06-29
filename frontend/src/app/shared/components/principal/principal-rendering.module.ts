@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { OpPrincipalComponent } from './principal.component';
+import { OpPrincipalComponent } from "./principal.component";
 import { PrincipalRendererService } from "./principal-renderer.service";
 
 @NgModule({

@@ -7,7 +7,7 @@ import { Injectable } from "@angular/core";
 
 export type AllowedExtensionKey = keyof BcfExtensionResource;
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class BcfAuthorizationService {
   // Poor mans caching to avoid repeatedly fetching from the backend.
   protected authorizationMap = multiInput<BcfExtensionResource>();

@@ -43,7 +43,7 @@ export class Apiv3NotificationsPaths
 
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'notifications', Apiv3NotificationPaths);
+    super(apiRoot, basePath, "notifications", Apiv3NotificationPaths);
   }
 
   public facet(facet:string, params?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
@@ -83,11 +83,11 @@ export class Apiv3NotificationsPaths
     return this
       .http
       .post(
-        `${this.path}/read_ian${listParamsString({ filters: [["id", '=', ids.map(id => id.toString())]] })}`,
+        `${this.path}/read_ian${listParamsString({ filters: [["id", "=", ids.map(id => id.toString())]] })}`,
         {},
         {
           withCredentials: true,
-          responseType: 'json'
+          responseType: "json",
         },
       );
   }

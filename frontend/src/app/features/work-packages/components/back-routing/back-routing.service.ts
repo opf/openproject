@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { StateService, Transition } from "@uirouter/core";
 import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
@@ -38,7 +38,7 @@ interface BackRouteOptions {
   baseRoute:string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class BackRoutingService {
   @InjectField() private $state:StateService;
 
@@ -84,9 +84,9 @@ export class BackRoutingService {
   public goBack(preferListOverSplit = false) {
     // Default: back to list
     // When coming from a deep link or a create form
-    const baseRoute = this.backRoute?.baseRoute || this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
+    const baseRoute = this.backRoute?.baseRoute || this.$state.current.data.baseRoute || "work-packages.partitioned.list";
     // if we are in the first state
-    if (!this.backRoute && baseRoute.includes('show')) {
+    if (!this.backRoute && baseRoute.includes("show")) {
       this.$state.reload();
     } else if (!this.backRoute || this.backRoute.name.includes("new")) {
       this.$state.go(baseRoute, this.$state.params);
@@ -96,7 +96,7 @@ export class BackRoutingService {
   }
 
   public goToBaseState() {
-    const baseRoute = this.$state.current.data.baseRoute || 'work-packages.partitioned.list';
+    const baseRoute = this.$state.current.data.baseRoute || "work-packages.partitioned.list";
     this.$state.go(baseRoute, this.$state.params);
   }
 
@@ -109,7 +109,7 @@ export class BackRoutingService {
       && fromState.data
       && toState.data
       && fromState.data.parent !== toState.data.parent) {
-      const paramsFromCopy = { ...transition.params('from') };
+      const paramsFromCopy = { ...transition.params("from") };
       this.backRoute = {
         name: fromState.name,
         params: paramsFromCopy,

@@ -120,7 +120,7 @@ export class ReorderDeltaBuilder {
 
     // Ensure we reorder when predecessor is at max already
     if (predecessorPosition >= MAX_ORDER) {
-      debugLog('Predecessor position is at max order, need to reorder');
+      debugLog("Predecessor position is at max order, need to reorder");
       return this.reorderedInsert();
     }
 
@@ -136,7 +136,7 @@ export class ReorderDeltaBuilder {
 
     // Ensure we reorder when successor is at max already
     if (successorPosition >= MAX_ORDER) {
-      debugLog('Successor position is at max order, need to reorder');
+      debugLog("Successor position is at max order, need to reorder");
       return this.reorderedInsert();
     }
 

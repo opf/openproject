@@ -30,7 +30,7 @@ import { DisplayField } from "core-app/shared/components/fields/display/display-
 
 export class IdDisplayField extends DisplayField {
   public text = {
-    linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
+    linkTitle: this.I18n.t("js.work_packages.message_successful_show_in_fullscreen"),
   };
 
   public get value() {

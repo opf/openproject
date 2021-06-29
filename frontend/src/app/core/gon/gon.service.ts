@@ -40,7 +40,7 @@ export interface GonType {
   ifc_models:IFCGonDefinition;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class GonService {
   get(...path:string[]):unknown|null {
     return _.get(window.gon, path, null);

@@ -1,12 +1,12 @@
-import { EventEmitter, Injector } from '@angular/core';
-import { HighlightingTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/highlighting-transformer';
-import { DragAndDropTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/drag-and-drop-transformer';
+import { EventEmitter, Injector } from "@angular/core";
+import { HighlightingTransformer } from "core-app/features/work-packages/components/wp-fast-table/handlers/state/highlighting-transformer";
+import { DragAndDropTransformer } from "core-app/features/work-packages/components/wp-fast-table/handlers/state/drag-and-drop-transformer";
 import {
   WorkPackageViewEventHandler, WorkPackageViewOutputs,
   WorkPackageViewHandlerRegistry,
-} from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
-import { WorkPackageFocusContext } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
-import { GroupFoldTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/group-fold-transformer';
+} from "core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry";
+import { WorkPackageFocusContext } from "core-app/features/work-packages/components/wp-table/wp-table.component";
+import { GroupFoldTransformer } from "core-app/features/work-packages/components/wp-fast-table/handlers/state/group-fold-transformer";
 import { WorkPackageTable } from "../wp-fast-table";
 import { EditCellHandler } from "./cell/edit-cell-handler";
 import { RelationsCellHandler } from "./cell/relations-cell-handler";

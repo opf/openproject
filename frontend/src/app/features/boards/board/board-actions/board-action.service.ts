@@ -131,7 +131,7 @@ export abstract class BoardActionService {
 
     const filter = {
       [this.filterName]: {
-        operator: '=' as FilterOperator,
+        operator: "=" as FilterOperator,
         values: [value.idFromLink],
       },
     };
@@ -228,7 +228,7 @@ export abstract class BoardActionService {
     // Ensure attribute remains writable in the form
     if (!changeset.isWritable(this.filterName)) {
       throw new Error(this.I18n.t(
-        'js.boards.error_attribute_not_writable',
+        "js.boards.error_attribute_not_writable",
         { attribute: changeset.humanName(this.filterName) },
       ));
     }

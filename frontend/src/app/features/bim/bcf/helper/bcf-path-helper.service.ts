@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { HalLink } from "core-app/features/hal/hal-link/hal-link";
 

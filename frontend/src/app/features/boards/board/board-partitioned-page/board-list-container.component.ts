@@ -28,33 +28,33 @@ import {
 } from "rxjs/operators";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
+import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
 
 @Component({
-  templateUrl: './board-list-container.component.html',
-  styleUrls: ['./board-list-container.component.sass'],
+  templateUrl: "./board-list-container.component.html",
+  styleUrls: ["./board-list-container.component.sass"],
   providers: [
     BoardListCrossSelectionService,
   ],
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
   text = {
-    button_more: this.I18n.t('js.button_more'),
-    delete: this.I18n.t('js.button_delete'),
-    areYouSure: this.I18n.t('js.text_are_you_sure'),
-    deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
-    updateSuccessful: this.I18n.t('js.notice_successful_update'),
-    loadingError: 'No such board found',
-    addList: this.I18n.t('js.boards.add_list'),
-    upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
-    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
+    button_more: this.I18n.t("js.button_more"),
+    delete: this.I18n.t("js.button_delete"),
+    areYouSure: this.I18n.t("js.text_are_you_sure"),
+    deleteSuccessful: this.I18n.t("js.notice_successful_delete"),
+    updateSuccessful: this.I18n.t("js.notice_successful_update"),
+    loadingError: "No such board found",
+    addList: this.I18n.t("js.boards.add_list"),
+    upsaleBoards: this.I18n.t("js.boards.upsale.teaser_text"),
+    upsaleCheckOutLink: this.I18n.t("js.work_packages.table_configuration.upsale.check_out_link"),
+    unnamed_list: this.I18n.t("js.boards.label_unnamed_list"),
   };
 
   /** Container reference */
   public _container:HTMLElement;
 
-  @ViewChild('container')
+  @ViewChild("container")
   set container(v:ElementRef|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
@@ -189,7 +189,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   }
 
   opReferrer(board:Board) {
-    return board.isFree ? 'boards#free' : 'boards#status';
+    return board.isFree ? "boards#free" : "boards#status";
   }
 
   saveBoard(board:Board):void {

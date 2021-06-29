@@ -14,8 +14,8 @@ import { Component, OnInit } from "@angular/core";
 import { StateService } from "@uirouter/core";
 
 @Component({
-  selector: 'op-copy-project',
-  templateUrl: './copy-project.component.html'
+  selector: "op-copy-project",
+  templateUrl: "./copy-project.component.html",
 })
 export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit {
   dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
@@ -25,8 +25,8 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   formUrl:string;
 
   hiddenFields:string[] = [
-    'identifier',
-    'active'
+    "identifier",
+    "active",
   ];
 
   text = {
@@ -60,7 +60,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   onSubmitted(response:HalSource) {
-    this.modalService.show(JobStatusModal, 'global', { jobId: response.jobId });
+    this.modalService.show(JobStatusModal, "global", { jobId: response.jobId });
   }
 
   private isHiddenField(key:string|undefined):boolean {
@@ -79,11 +79,11 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
     return (to.required
       && !to.hasDefault
       && to.payloadValue == null)
-      || to.property === 'name' ||
-      to.property === 'parent';
+      || to.property === "name"
+      || to.property === "parent";
   }
 
   private isMeta(property:string|undefined):boolean {
-    return !!property && (property.startsWith('copy') || property == 'sendNotifications');
+    return !!property && (property.startsWith("copy") || property == "sendNotifications");
   }
 }

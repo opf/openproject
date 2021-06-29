@@ -27,44 +27,44 @@
 //++
 import * as moment from "moment";
 import { InputState, MultiInputState } from "reactivestates";
-import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 import Moment = moment.Moment;
 
-export const timelineElementCssClass = 'timeline-element';
-export const timelineBackgroundElementClass = 'timeline-element--bg';
-export const timelineGridElementCssClass = 'wp-timeline--grid-element';
-export const timelineMarkerSelectionStartClass = 'selection-start';
-export const timelineHeaderCSSClass = 'wp-timeline--header-element';
-export const timelineHeaderSelector = 'wp-timeline-header';
+export const timelineElementCssClass = "timeline-element";
+export const timelineBackgroundElementClass = "timeline-element--bg";
+export const timelineGridElementCssClass = "wp-timeline--grid-element";
+export const timelineMarkerSelectionStartClass = "selection-start";
+export const timelineHeaderCSSClass = "wp-timeline--header-element";
+export const timelineHeaderSelector = "wp-timeline-header";
 
 /**
  *
  */
 export class TimelineViewParametersSettings {
-  zoomLevel:TimelineZoomLevel = 'days';
+  zoomLevel:TimelineZoomLevel = "days";
 }
 
 // Can't properly map the enum to a string aray
 export const zoomLevelOrder:TimelineZoomLevel[] = [
-  'days', 'weeks', 'months', 'quarters', 'years'
+  "days", "weeks", "months", "quarters", "years",
 ];
 
 export function getPixelPerDayForZoomLevel(zoomLevel:TimelineZoomLevel) {
   switch (zoomLevel) {
-  case 'days':
+  case "days":
     return 30;
-  case 'weeks':
+  case "weeks":
     return 15;
-  case 'months':
+  case "months":
     return 6;
-  case 'quarters':
+  case "quarters":
     return 2;
-  case 'years':
+  case "years":
     return 0.5;
   }
-  throw new Error('invalid zoom level: ' + zoomLevel);
+  throw new Error(`invalid zoom level: ${zoomLevel}`);
 }
 
 /**
@@ -80,7 +80,7 @@ export class TimelineViewParameters {
 
   dateDisplayStart:Moment = moment({ hour: 0, minute: 0, seconds: 0 });
 
-  dateDisplayEnd:Moment = this.dateDisplayStart.clone().add(1, 'day');
+  dateDisplayEnd:Moment = this.dateDisplayStart.clone().add(1, "day");
 
   settings:TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
@@ -102,7 +102,7 @@ export class TimelineViewParameters {
   }
 
   get maxSteps():number {
-    return this.dateDisplayEnd.diff(this.dateDisplayStart, 'days');
+    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days");
   }
 
   get dayCountForMarginLeft():number {
@@ -205,6 +205,6 @@ export function calculateDaySpan(visibleWorkPackages:RenderedWorkPackage[],
     }
   });
 
-  const daysSpan = latest.diff(earliest, 'days') + 1;
+  const daysSpan = latest.diff(earliest, "days") + 1;
   return daysSpan;
 }

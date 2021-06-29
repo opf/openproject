@@ -7,10 +7,10 @@ import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { take } from "rxjs/operators";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { Injector } from '@angular/core';
+import { Injector } from "@angular/core";
 import { SchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
 
-export const PROXY_IDENTIFIER = '__is_changeset_proxy';
+export const PROXY_IDENTIFIER = "__is_changeset_proxy";
 
 /**
  * Temporary class living while a resource is being edited
@@ -226,7 +226,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param key
    */
   private proxyGet(key:string) {
-    if (key === '__is_proxy') {
+    if (key === "__is_proxy") {
       return true;
     }
 
@@ -382,7 +382,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       // They will already be created on the server but now
       // we need to claim them for the newly created work package.
       if (this.pristineResource.attachments) {
-        payload['_links']['attachments'] = this.pristineResource
+        payload["_links"]["attachments"] = this.pristineResource
           .attachments
           .elements
           .map((a:HalResource) => ({ href: a.href }));
@@ -452,7 +452,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    */
   protected setNewDefaultFor(key:string, val:unknown) {
     if (!this.valueExists(key)) {
-      debugLog("Taking over default value from form for " + key);
+      debugLog(`Taking over default value from form for ${key}`);
       this.setValue(key, val);
     }
   }

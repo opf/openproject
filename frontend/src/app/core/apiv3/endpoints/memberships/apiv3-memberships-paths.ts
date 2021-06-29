@@ -42,11 +42,11 @@ export class Apiv3MembershipsPaths
   extends APIv3ResourceCollection<MembershipResource, APIv3GettableResource<MembershipResource>>
   implements Apiv3ListResourceInterface<MembershipResource> {
   // Static paths
-  readonly form = this.subResource('form', Apiv3MembershipsForm);
+  readonly form = this.subResource("form", Apiv3MembershipsForm);
 
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'memberships');
+    super(apiRoot, basePath, "memberships");
   }
 
   /**
@@ -60,7 +60,7 @@ export class Apiv3MembershipsPaths
   }
 
   // /api/v3/memberships/available_projects
-  readonly available_projects = this.subResource('available_projects', Apiv3AvailableProjectsPaths);
+  readonly available_projects = this.subResource("available_projects", Apiv3AvailableProjectsPaths);
 
   /**
    * Create a new MembershipResource

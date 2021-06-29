@@ -36,7 +36,7 @@ import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service
 export class APIv3TypesPaths extends CachableAPIV3Collection<TypeResource, APIv3TypePaths> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'types', APIv3TypePaths);
+    super(apiRoot, basePath, "types", APIv3TypePaths);
   }
 
   protected createCache():StateCacheService<TypeResource> {

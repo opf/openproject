@@ -1,12 +1,12 @@
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { CurrentUserService } from "core-app/core/current-user/current-user.service";
+import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { Injector } from "@angular/core";
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
-import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
+import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
 export class WorkPackageFilterValues {
@@ -15,8 +15,8 @@ export class WorkPackageFilterValues {
   @InjectField() halResourceService:HalResourceService;
 
   handlers:Partial<Record<FilterOperator, (filter:QueryFilterInstanceResource) => void>> = {
-    '=': this.applyFirstValue.bind(this),
-    '!*': this.setToNull.bind(this),
+    "=": this.applyFirstValue.bind(this),
+    "!*": this.setToNull.bind(this),
   };
 
   constructor(public injector:Injector,
@@ -98,11 +98,11 @@ export class WorkPackageFilterValues {
    * @param {string} field
    */
   private findSpecialValue(value:string|HalResource, field:string):string|HalResource|undefined {
-    if (field === 'parent') {
+    if (field === "parent") {
       return value;
     }
 
-    if (value instanceof HalResource && value.href === '/api/v3/users/me' && this.currentUser.isLoggedIn) {
+    if (value instanceof HalResource && value.href === "/api/v3/users/me" && this.currentUser.isLoggedIn) {
       return this.halResourceService.fromSelfLink(`/api/v3/users/${this.currentUser.userId}`);
     }
 
@@ -137,8 +137,8 @@ export class WorkPackageFilterValues {
    * @private
    */
   private mapFilterToAttribute(filter:any):string {
-    if (filter.id === 'onlySubproject') {
-      return 'project';
+    if (filter.id === "onlySubproject") {
+      return "project";
     }
 
     // Default to returning the filter id

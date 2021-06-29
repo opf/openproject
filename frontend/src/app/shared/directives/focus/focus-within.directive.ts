@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { BehaviorSubject } from 'rxjs';
-import { auditTime } from 'rxjs/operators';
+import { BehaviorSubject } from "rxjs";
+import { auditTime } from "rxjs/operators";
 import {
   Directive, ElementRef, Input, OnInit,
 } from "@angular/core";
@@ -36,7 +36,7 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 // with courtesy of http://stackoverflow.com/a/29722694/3206935
 
 @Directive({
-  selector: '[focus-within]'
+  selector: "[focus-within]",
 })
 export class FocusWithinDirective extends UntilDestroyedMixin implements OnInit {
   @Input() public selector:string;
@@ -55,22 +55,22 @@ export class FocusWithinDirective extends UntilDestroyedMixin implements OnInit 
         auditTime(50),
       )
       .subscribe(focused => {
-        element.toggleClass('-focus', focused);
+        element.toggleClass("-focus", focused);
       });
 
     const focusListener = function () {
       focusedObservable.next(true);
     };
-    element[0].addEventListener('focus', focusListener, true);
+    element[0].addEventListener("focus", focusListener, true);
 
     const blurListener = function () {
       focusedObservable.next(false);
     };
-    element[0].addEventListener('blur', blurListener, true);
+    element[0].addEventListener("blur", blurListener, true);
 
     setTimeout(() => {
-      element.addClass('focus-within--trigger');
-      element.find(this.selector).addClass('focus-within--depending');
+      element.addClass("focus-within--trigger");
+      element.find(this.selector).addClass("focus-within--depending");
     }, 0);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WpTabDefinition } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab";
 import { WorkPackageRelationsTabComponent } from "core-app/features/work-packages/components/wp-single-view-tabs/relations-tab/relations-tab.component";
@@ -11,7 +11,7 @@ import { workPackageWatchersCount } from "core-app/features/work-packages/compon
 import { workPackageRelationsCount } from "core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-relations-count.function";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class WorkPackageTabsService {
   private registeredTabs:WpTabDefinition[];
@@ -57,25 +57,25 @@ export class WorkPackageTabsService {
     return [
       {
         component: WorkPackageOverviewTabComponent,
-        name: this.I18n.t('js.work_packages.tabs.overview'),
-        id: 'overview',
-        displayable: (_, $state) => $state.includes('**.details.*'),
+        name: this.I18n.t("js.work_packages.tabs.overview"),
+        id: "overview",
+        displayable: (_, $state) => $state.includes("**.details.*"),
       },
       {
-        id: 'activity',
+        id: "activity",
         component: WorkPackageActivityTabComponent,
-        name: I18n.t('js.work_packages.tabs.activity'),
+        name: I18n.t("js.work_packages.tabs.activity"),
       },
       {
-        id: 'relations',
+        id: "relations",
         component: WorkPackageRelationsTabComponent,
-        name: I18n.t('js.work_packages.tabs.relations'),
+        name: I18n.t("js.work_packages.tabs.relations"),
         count: workPackageRelationsCount,
       },
       {
-        id: 'watchers',
+        id: "watchers",
         component: WorkPackageWatchersTabComponent,
-        name: I18n.t('js.work_packages.tabs.watchers'),
+        name: I18n.t("js.work_packages.tabs.watchers"),
         displayable: (workPackage) => !!workPackage.watchers,
         count: workPackageWatchersCount,
       },

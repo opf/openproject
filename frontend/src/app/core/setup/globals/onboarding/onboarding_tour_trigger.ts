@@ -6,8 +6,8 @@ import { debugLog } from "core-app/shared/helpers/debug_output";
 export function detectOnboardingTour() {
   // ------------------------------- Global -------------------------------
   const url = new URL(window.location.href);
-  const isMobile = document.body.classList.contains('-browser-mobile');
-  const demoProjectsAvailable = jQuery('meta[name=demo_projects_available]').attr('content') === "true";
+  const isMobile = document.body.classList.contains("-browser-mobile");
+  const demoProjectsAvailable = jQuery("meta[name=demo_projects_available]").attr("content") === "true";
   let currentTourPart = sessionStorage.getItem(onboardingTourStorageKey);
   let tourCancelled = false;
 
@@ -17,50 +17,50 @@ export function detectOnboardingTour() {
     // Start after the intro modal (language selection)
     // This has to be changed once the project selection is implemented
     if (url.searchParams.get("first_time_user") && demoProjectsLinks().length === 2) {
-      currentTourPart = '';
-      sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
+      currentTourPart = "";
+      sessionStorage.setItem(onboardingTourStorageKey, "readyToStart");
 
       // Start automatically when the language selection is closed
-      jQuery('.op-modal--close-button').click(() => {
+      jQuery(".op-modal--close-button").click(() => {
         tourCancelled = true;
-        triggerTour('homescreen');
+        triggerTour("homescreen");
       });
 
       //Start automatically when the escape button is pressed
-      document.addEventListener('keydown', (event) => {
+      document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && !tourCancelled) {
           tourCancelled = true;
-          triggerTour('homescreen');
+          triggerTour("homescreen");
         }
       }, { once: true });
     }
 
     // ------------------------------- Tutorial Homescreen page -------------------------------
     if (currentTourPart === "readyToStart") {
-      triggerTour('homescreen');
+      triggerTour("homescreen");
     }
 
     // ------------------------------- Tutorial WP page -------------------------------
     if (currentTourPart === "startMainTourFromBacklogs" || url.searchParams.get("start_onboarding_tour")) {
-      triggerTour('main');
+      triggerTour("main");
     }
 
     // ------------------------------- Tutorial Backlogs page -------------------------------
     if (url.searchParams.get("start_scrum_onboarding_tour")) {
-      if (jQuery('.backlogs-menu-item').length > 0) {
-        triggerTour('backlogs');
+      if (jQuery(".backlogs-menu-item").length > 0) {
+        triggerTour("backlogs");
       }
     }
 
     // ------------------------------- Tutorial Task Board page -------------------------------
     if (currentTourPart === "startTaskBoardTour") {
-      triggerTour('taskboard');
+      triggerTour("taskboard");
     }
   }
 }
 
 async function triggerTour(name:OnboardingTourNames) {
-  debugLog("Loading and triggering onboarding tour " + name);
-  const tour = await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour');
+  debugLog(`Loading and triggering onboarding tour ${name}`);
+  const tour = await import(/* webpackChunkName: "onboarding-tour" */ "./onboarding_tour");
   tour.start(name);
 }

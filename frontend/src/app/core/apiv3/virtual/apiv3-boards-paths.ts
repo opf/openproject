@@ -50,7 +50,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
 
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'grids', APIv3BoardPath);
+    super(apiRoot, basePath, "grids", APIv3BoardPath);
   }
 
   /**
@@ -62,7 +62,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
       .halResourceService
       .get<CollectionResource<GridResource>>(this.path + listParamsString(params))
       .pipe(
-        tap(collection => this.authorisationService.initModelAuth('boards', collection.$links)),
+        tap(collection => this.authorisationService.initModelAuth("boards", collection.$links)),
         map(collection => collection.elements.map(grid => {
           const board = new Board(grid);
           board.sortWidgets();
@@ -80,7 +80,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
    */
   public allInScope(projectIdentifier:string):Observable<Board[]> {
     const path = this.boardPath(projectIdentifier);
-    return this.list({ filters: [['scope', '=', [path]]] });
+    return this.list({ filters: [["scope", "=", [path]]] });
   }
 
   /**
@@ -108,12 +108,12 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
   }
 
   protected createCache():StateCacheService<Board> {
-    const state = this.states.forType<Board>('boards');
+    const state = this.states.forType<Board>("boards");
     return new StateCacheService<Board>(state);
   }
 
   private createGrid(type:BoardType, name:string, scope:string, actionAttribute?:string):Observable<GridResource> {
-    const payload:any = _.set({ name }, '_links.scope.href', scope);
+    const payload:any = _.set({ name }, "_links.scope.href", scope);
     payload.options = {
       type,
     };

@@ -32,10 +32,10 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 }
 
 @Component({
-  templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: "../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html",
   styleUrls: [
-    '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
-    './board-partitioned-page.component.sass'
+    "../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass",
+    "./board-partitioned-page.component.sass",
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -45,17 +45,17 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 })
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   text = {
-    button_more: this.I18n.t('js.button_more'),
-    delete: this.I18n.t('js.button_delete'),
-    areYouSure: this.I18n.t('js.text_are_you_sure'),
-    deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
-    updateSuccessful: this.I18n.t('js.notice_successful_update'),
-    unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
-    loadingError: 'No such board found',
-    addList: this.I18n.t('js.boards.add_list'),
-    upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
-    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
+    button_more: this.I18n.t("js.button_more"),
+    delete: this.I18n.t("js.button_delete"),
+    areYouSure: this.I18n.t("js.text_are_you_sure"),
+    deleteSuccessful: this.I18n.t("js.notice_successful_delete"),
+    updateSuccessful: this.I18n.t("js.notice_successful_update"),
+    unnamedBoard: this.I18n.t("js.boards.label_unnamed_board"),
+    loadingError: "No such board found",
+    addList: this.I18n.t("js.boards.add_list"),
+    upsaleBoards: this.I18n.t("js.boards.upsale.teaser_text"),
+    upsaleCheckOutLink: this.I18n.t("js.work_packages.table_configuration.upsale.check_out_link"),
+    unnamed_list: this.I18n.t("js.boards.label_unnamed_list"),
   };
 
   /** Board observable */
@@ -72,7 +72,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   editable:boolean;
 
   /** Go back to boards using back-button */
-  backButtonCallback = () => this.state.go('boards');
+  backButtonCallback = () => this.state.go("boards");
 
   /** Current query title to render */
   selectedTitle?:string;
@@ -94,7 +94,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   filterAllowed = true;
 
   /** We need to pass the correct partition state to the view to manage the grid */
-  currentPartition:ViewPartitionState = '-split';
+  currentPartition:ViewPartitionState = "-split";
 
   /** We need to apply our own board filter component */
   /** Which filter container component to mount */
@@ -120,15 +120,15 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageFilterButtonComponent,
-      containerClasses: 'hidden-for-mobile'
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile'
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: BoardsMenuButtonComponent,
-      containerClasses: 'hidden-for-mobile',
+      containerClasses: "hidden-for-mobile",
       show: () => this.editable,
       inputs: {
         board$: this.board$,
@@ -164,7 +164,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
 
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       const toState = transition.to();
-      const params = transition.params('to');
+      const params = transition.params("to");
 
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
@@ -197,7 +197,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
         board.filters = this.boardFilters.current;
 
         const params = { isNew: false, query_props: null };
-        this.state.go('.', params, { custom: { notify: false } });
+        this.state.go(".", params, { custom: { notify: false } });
 
         this.boardSaver.request(board);
       });
@@ -219,6 +219,6 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
    * @param state The current or entering state
    */
   protected setPartition(state:Ng2StateDeclaration) {
-    this.currentPartition = (state.data && state.data.partition) ? state.data.partition : '-split';
+    this.currentPartition = (state.data && state.data.partition) ? state.data.partition : "-split";
   }
 }

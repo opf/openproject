@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
@@ -50,7 +50,7 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
   /**
    * Define the reference type
    */
-  public relationType = 'children';
+  public relationType = "children";
 
   /**
    * Add a new relation of the above type
@@ -87,8 +87,8 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
    * Reference button text
    */
   public readonly buttonTexts = {
-    reference: this.I18n.t('js.relation_buttons.add_existing_child'),
-    create: this.I18n.t('js.relation_buttons.add_new_child'),
+    reference: this.I18n.t("js.relation_buttons.add_existing_child"),
+    create: this.I18n.t("js.relation_buttons.add_new_child"),
   };
 
   private get schema() {

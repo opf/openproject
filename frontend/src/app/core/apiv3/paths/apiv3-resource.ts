@@ -60,7 +60,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    */
   public id(input:string|number|{ id:string|null }):T {
     let id:string;
-    if (typeof input === 'string' || typeof input === 'number') {
+    if (typeof input === "string" || typeof input === "number") {
       id = input.toString();
     } else {
       id = input.id!;
@@ -98,7 +98,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    * @param params additional URL params to append
    */
   public filtered<R = APIv3GettableResource<CollectionResource<V>>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
-    return this.subResource<R>('?' + filters.toParams(params), resourceClass);
+    return this.subResource<R>(`?${filters.toParams(params)}`, resourceClass);
   }
 
   /**

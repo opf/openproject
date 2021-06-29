@@ -4,9 +4,9 @@
  * This should not be loaded globally and ideally refactored into components
  */
 export function listenToSettingChanges() {
-  jQuery('#settings_session_ttl_enabled').on('change', function () {
-    jQuery('#settings_session_ttl_container').toggle(jQuery(this).is(':checked'));
-  }).trigger('change');
+  jQuery("#settings_session_ttl_enabled").on("change", function () {
+    jQuery("#settings_session_ttl_container").toggle(jQuery(this).is(":checked"));
+  }).trigger("change");
 
   /** Sync SCM vendor select when enabled SCMs are changed */
   jQuery('[name="settings[enabled_scm][]"]').change(function (this:HTMLInputElement) {
@@ -20,20 +20,20 @@ export function listenToSettingChanges() {
       return;
     }
 
-    option.prop('disabled', wasDisabled);
-    if (wasDisabled && option.prop('selected')) {
-      select.val('');
+    option.prop("disabled", wasDisabled);
+    if (wasDisabled && option.prop("selected")) {
+      select.val("");
     }
   });
 
   /* Javascript for Settings::TextSettingCell */
   const langSelectSwitchData = function (select:any) {
     const self = jQuery(select);
-    const id:string = self.attr("id") || '';
-    const settingName = id.replace('lang-for-', '');
+    const id:string = self.attr("id") || "";
+    const settingName = id.replace("lang-for-", "");
     const newLang = self.val();
     const textArea = jQuery(`#settings-${settingName}`);
-    const editor = textArea.siblings('ckeditor-augmented-textarea').data('editor');
+    const editor = textArea.siblings("ckeditor-augmented-textarea").data("editor");
 
     return {
       id, settingName, newLang, textArea, editor,
@@ -58,16 +58,16 @@ export function listenToSettingChanges() {
       const storedValue = jQuery(`#${data.id}-${data.newLang}`).val();
 
       data.editor.setData(storedValue);
-      data.textArea.attr('name', `settings[${data.settingName}][${data.newLang}]`);
+      data.textArea.attr("name", `settings[${data.settingName}][${data.newLang}]`);
     });
   /* end Javascript for Settings::TextSettingCell */
 
-  jQuery('.admin-settings--form').submit(() => {
+  jQuery(".admin-settings--form").submit(() => {
     /* Update consent time if consent required */
-    if (jQuery('#settings_consent_required').is(':checked') && jQuery('#toggle_consent_time').is(':checked')) {
-      jQuery('#settings_consent_time')
+    if (jQuery("#settings_consent_required").is(":checked") && jQuery("#toggle_consent_time").is(":checked")) {
+      jQuery("#settings_consent_time")
         .val(new Date().toISOString())
-        .prop('disabled', false);
+        .prop("disabled", false);
     }
 
     return true;
@@ -77,31 +77,31 @@ export function listenToSettingChanges() {
   jQuery("#email_delivery_method_switch").on("change", function () {
     const delivery_method = jQuery(this).val();
     jQuery(".email_delivery_method_settings").hide();
-    jQuery("#email_delivery_method_" + delivery_method).show();
+    jQuery(`#email_delivery_method_${delivery_method}`).show();
   }).trigger("change");
 
-  jQuery('#settings_smtp_authentication').on('change', function () {
-    var isNone = jQuery(this).val() === 'none';
-    jQuery('#settings_smtp_user_name,#settings_smtp_password')
-      .closest('.form--field')
+  jQuery("#settings_smtp_authentication").on("change", function () {
+    var isNone = jQuery(this).val() === "none";
+    jQuery("#settings_smtp_user_name,#settings_smtp_password")
+      .closest(".form--field")
       .toggle(!isNone);
   });
 
   /** Toggle repository checkout fieldsets required when option is disabled */
-  jQuery('.settings-repositories--checkout-toggle').change(function (this:HTMLInputElement) {
+  jQuery(".settings-repositories--checkout-toggle").change(function (this:HTMLInputElement) {
     var wasChecked = this.checked;
-    var fieldset = jQuery(this).closest('fieldset');
+    var fieldset = jQuery(this).closest("fieldset");
 
     fieldset
-      .find('input,select')
-      .filter(':not([type=checkbox])')
-      .filter(':not([type=hidden])')
-      .removeAttr('required') // Rails 4.0 still seems to use attribute
-      .prop('required', wasChecked);
+      .find("input,select")
+      .filter(":not([type=checkbox])")
+      .filter(":not([type=hidden])")
+      .removeAttr("required") // Rails 4.0 still seems to use attribute
+      .prop("required", wasChecked);
   });
 
   /** Toggle highlighted attributes visibility depending on if the highlighting mode 'inline' was selected*/
-  jQuery('.settings--highlighting-mode select').change(function () {
+  jQuery(".settings--highlighting-mode select").change(function () {
     var highlightingMode = jQuery(this).val();
     jQuery(".settings--highlighted-attributes").toggle(highlightingMode === "inline");
   });
@@ -113,7 +113,7 @@ export function listenToSettingChanges() {
   if (jQuery(".settings--highlighted-attributes input[type='checkbox']:checked").length === 0) {
     jQuery(".settings--highlighted-attributes input[type='checkbox']").prop("checked", true);
   }
-  jQuery('#tab-content-work_packages form').submit(() => {
+  jQuery("#tab-content-work_packages form").submit(() => {
     var availableAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']");
     var selectedAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']:checked");
     if (selectedAttributes.length === availableAttributes.length) {

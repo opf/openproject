@@ -1,8 +1,8 @@
-import { Injector } from '@angular/core';
+import { Injector } from "@angular/core";
 import { States } from "core-app/core/states/states.service";
-import { TableEventComponent, TableEventHandler } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
-import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { TableEventComponent, TableEventHandler } from "core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry";
+import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { tableRowClassName } from "../../builders/rows/single-row-builder";
 import { WorkPackageTable } from "../../wp-fast-table";
 import { ClickOrEnterHandler } from "../click-or-enter-handler";
@@ -18,7 +18,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
   }
 
   public get EVENT() {
-    return 'click.table.hierarchy';
+    return "click.table.hierarchy";
   }
 
   public get SELECTOR() {
@@ -34,7 +34,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
 
     // Locate the row from event
     const element = target.closest(`.${tableRowClassName}`);
-    const wpId = element.data('workPackageId');
+    const wpId = element.data("workPackageId");
 
     this.wpTableHierarchies.toggle(wpId);
 

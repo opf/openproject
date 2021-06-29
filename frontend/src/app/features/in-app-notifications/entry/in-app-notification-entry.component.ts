@@ -1,6 +1,6 @@
 import {
   EventEmitter, ChangeDetectionStrategy, Component, Input, OnInit, Output,
-} from '@angular/core';
+} from "@angular/core";
 import {
   InAppNotification,
   InAppNotificationDetail,
@@ -17,9 +17,9 @@ import { PrincipalLike } from "core-app/shared/components/principal/principal-ty
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 @Component({
-  selector: 'op-in-app-notification-entry',
-  templateUrl: './in-app-notification-entry.component.html',
-  styleUrls: ['./in-app-notification-entry.component.sass'],
+  selector: "op-in-app-notification-entry",
+  templateUrl: "./in-app-notification-entry.component.html",
+  styleUrls: ["./in-app-notification-entry.component.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationEntryComponent implements OnInit {
@@ -50,7 +50,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   project?:{ href:string, title:string, showUrl:string };
 
   text = {
-    loading: this.I18n.t('js.ajax.loading'),
+    loading: this.I18n.t("js.ajax.loading"),
   };
 
   constructor(
@@ -73,7 +73,7 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   private loadWorkPackage() {
     const href = this.notification._links.resource?.href;
-    const id = href && HalResource.matchFromLink(href, 'work_packages');
+    const id = href && HalResource.matchFromLink(href, "work_packages");
     // not a work package reference
     if (id) {
       this.workPackage$ = this
@@ -86,8 +86,8 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   private buildDetails() {
     const details = this.notification.details || [];
-    this.body = details.filter(el => el.format === 'markdown');
-    this.details = details.filter(el => el.format === 'custom');
+    this.body = details.filter(el => el.format === "markdown");
+    this.details = details.filter(el => el.format === "custom");
   }
 
   private buildTime() {
@@ -123,7 +123,7 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   private buildTranslatedReason() {
     this.translatedReason = this.I18n.t(
-      'js.notifications.reasons.' + this.notification.reason,
+      `js.notifications.reasons.${this.notification.reason}`,
       { defaultValue: this.notification.reason },
     );
   }

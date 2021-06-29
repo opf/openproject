@@ -27,7 +27,7 @@
 //++
 
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { StateService } from '@uirouter/core';
+import { StateService } from "@uirouter/core";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 export class WorkPackageAuthorization {
@@ -55,7 +55,7 @@ export class WorkPackageAuthorization {
   }
 
   public linkForAction(action:any) {
-    if (action.key === 'copy') {
+    if (action.key === "copy") {
       action.link = this.copyLink();
     } else {
       action.link = this.allActions[action.resource][action.link].href;

@@ -6,7 +6,7 @@ import {
   SecurityContext,
   ViewChild,
 } from "@angular/core";
-import { FullCalendarComponent } from '@fullcalendar/angular';
+import { FullCalendarComponent } from "@fullcalendar/angular";
 import { States } from "core-app/core/states/states.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
@@ -20,10 +20,10 @@ import { NotificationsService } from "core-app/shared/components/notifications/n
 import { DomSanitizer } from "@angular/platform-browser";
 import { WorkPackagesListChecksumService } from "core-app/features/work-packages/components/wp-list/wp-list-checksum.service";
 import { OpTitleService } from "core-app/core/html/op-title.service";
-import dayGridPlugin from '@fullcalendar/daygrid';
-import { CalendarOptions, EventApi, EventInput } from '@fullcalendar/core';
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { CalendarOptions, EventApi, EventInput } from "@fullcalendar/core";
 import { Subject } from "rxjs";
-import { take, debounceTime } from 'rxjs/operators';
+import { take, debounceTime } from "rxjs/operators";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
@@ -34,9 +34,9 @@ interface CalendarViewEvent {
 }
 
 @Component({
-  templateUrl: './wp-calendar.template.html',
-  styleUrls: ['./wp-calendar.sass'],
-  selector: 'wp-calendar',
+  templateUrl: "./wp-calendar.template.html",
+  styleUrls: ["./wp-calendar.sass"],
+  selector: "wp-calendar",
 })
 export class WorkPackagesCalendarController extends UntilDestroyedMixin implements OnInit {
   private resizeObserver:ResizeObserver;
@@ -58,15 +58,15 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     // The full-calendar component's outputs do not seem to work
     // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
     // Therefore, setting the outputs via the underlying API
-    this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
+    this.ucCalendar.getApi().setOption("eventDidMount", (event:CalendarViewEvent) => {
       this.addTooltip(event);
     });
-    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
+    this.ucCalendar.getApi().setOption("eventClick", (event:CalendarViewEvent) => {
       this.toWPFullView(event);
     });
   }
 
-  @ViewChild('ucCalendar', { read: ElementRef })
+  @ViewChild("ucCalendar", { read: ElementRef })
   set ucCalendarElement(v:ElementRef|undefined) {
     if (!v) {
       return;
@@ -173,21 +173,21 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       return;
     }
 
-    const startDate = moment(fetchInfo.start).format('YYYY-MM-DD');
-    const endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
+    const startDate = moment(fetchInfo.start).format("YYYY-MM-DD");
+    const endDate = moment(fetchInfo.end).format("YYYY-MM-DD");
 
     if (filtersEmpty) {
       let queryProps = this.defaultQueryProps(startDate, endDate);
 
       if (this.$state.params.query_props) {
-        queryProps = decodeURIComponent(this.$state.params.query_props || '');
+        queryProps = decodeURIComponent(this.$state.params.query_props || "");
       }
 
       this.wpListService.fromQueryParams({ query_props: queryProps }, this.projectIdentifier).toPromise();
     } else {
       const { params } = this.$state;
 
-      this.wpTableFilters.modify('datesInterval', (datesIntervalFilter) => {
+      this.wpTableFilters.modify("datesInterval", (datesIntervalFilter) => {
         datesIntervalFilter.values[0] = startDate;
         datesIntervalFilter.values[1] = endDate;
       });
@@ -197,9 +197,9 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   public addTooltip(event:CalendarViewEvent) {
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.workPackage),
-      items: '.fc-event',
+      items: ".fc-event",
       close() {
-        jQuery('.ui-helper-hidden-accessible').remove();
+        jQuery(".ui-helper-hidden-accessible").remove();
       },
       track: true,
     });
@@ -220,14 +220,14 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     window.history.pushState({}, this.titleService.current, window.location.href);
 
     this.$state.go(
-      'work-packages.show',
+      "work-packages.show",
       { workPackageId: workPackage.id },
       { inherit: false },
     );
   }
 
   private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('.wp-calendar--container');
+    return jQuery(this.element.nativeElement).find(".wp-calendar--container");
   }
 
   private calendarHeight():number {
@@ -254,7 +254,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     return {
       right: "dayGridMonth,dayGridWeek",
       center: "title",
-      left: "prev,next today"
+      left: "prev,next today",
     };
   }
 
@@ -264,20 +264,20 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       return;
     }
 
-    const datesIntervalFilter = _.find(query.filters || [], { id: 'datesInterval' }) as any;
+    const datesIntervalFilter = _.find(query.filters || [], { id: "datesInterval" }) as any;
 
     let calendarDate:any = null;
-    let calendarUnit = 'dayGridMonth';
+    let calendarUnit = "dayGridMonth";
 
     if (datesIntervalFilter) {
       const lower = moment(datesIntervalFilter.values[0] as string);
       const upper = moment(datesIntervalFilter.values[1] as string);
-      const diff = upper.diff(lower, 'days');
+      const diff = upper.diff(lower, "days");
 
-      calendarDate = lower.add(diff / 2, 'days');
+      calendarDate = lower.add(diff / 2, "days");
 
       if (diff === 7) {
-        calendarUnit = 'dayGridWeek';
+        calendarUnit = "dayGridWeek";
       }
     }
 
@@ -307,10 +307,10 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
     const events = workPackages.map((workPackage:WorkPackageResource) => {
-      const startDate = this.eventDate(workPackage, 'start');
-      const endDate = this.eventDate(workPackage, 'due');
+      const startDate = this.eventDate(workPackage, "start");
+      const endDate = this.eventDate(workPackage, "due");
 
-      const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
+      const exclusiveEnd = moment(endDate).add(1, "days").format("YYYY-MM-DD");
 
       return {
         title: workPackage.subject,
@@ -327,7 +327,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   private warnOnTooManyResults(collection:WorkPackageCollectionResource) {
     if (collection.count < collection.total) {
-      this.tooManyResultsText = this.i18n.t('js.calendar.too_many',
+      this.tooManyResultsText = this.i18n.t("js.calendar.too_many",
         {
           count: collection.total,
           max: WorkPackagesCalendarController.MAX_DISPLAYED,
@@ -363,40 +363,40 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   private tooltipContentString(workPackage:WorkPackageResource) {
     return `
-        ${this.sanitizedValue(workPackage, 'type')} #${workPackage.id}: ${this.sanitizedValue(workPackage, 'subject', null)}
+        ${this.sanitizedValue(workPackage, "type")} #${workPackage.id}: ${this.sanitizedValue(workPackage, "subject", null)}
         <ul class="tooltip--map">
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.projectName')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'project')}</span>
+            <span class="tooltip--map--key">${this.i18n.t("js.work_packages.properties.projectName")}:</span>
+            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, "project")}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.status')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'status')}</span>
+            <span class="tooltip--map--key">${this.i18n.t("js.work_packages.properties.status")}:</span>
+            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, "status")}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.startDate')}:</span>
-            <span class="tooltip--map--value">${this.eventDate(workPackage, 'start')}</span>
+            <span class="tooltip--map--key">${this.i18n.t("js.work_packages.properties.startDate")}:</span>
+            <span class="tooltip--map--value">${this.eventDate(workPackage, "start")}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.dueDate')}:</span>
-            <span class="tooltip--map--value">${this.eventDate(workPackage, 'due')}</span>
+            <span class="tooltip--map--key">${this.i18n.t("js.work_packages.properties.dueDate")}:</span>
+            <span class="tooltip--map--value">${this.eventDate(workPackage, "due")}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.assignee')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'assignee')}</span>
+            <span class="tooltip--map--key">${this.i18n.t("js.work_packages.properties.assignee")}:</span>
+            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, "assignee")}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t('js.work_packages.properties.priority')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'priority')}</span>
+            <span class="tooltip--map--key">${this.i18n.t("js.work_packages.properties.priority")}:</span>
+            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, "priority")}</span>
           </li>
         </ul>
         `;
   }
 
-  private sanitizedValue(workPackage:WorkPackageResource, attribute:string, toStringMethod:string|null = 'name') {
+  private sanitizedValue(workPackage:WorkPackageResource, attribute:string, toStringMethod:string|null = "name") {
     let value = workPackage[attribute];
     value = toStringMethod && value ? value[toStringMethod] : value;
-    value = value || this.i18n.t('js.placeholders.default');
+    value = value || this.i18n.t("js.placeholders.default");
 
     return this.sanitizer.sanitize(SecurityContext.HTML, value);
   }
@@ -405,7 +405,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     // deactivate tooltip so that it is not displayed on the wp show page
     jQuery(element).tooltip({
       close() {
-        jQuery('.ui-helper-hidden-accessible').remove();
+        jQuery(".ui-helper-hidden-accessible").remove();
       },
       disabled: true,
     });

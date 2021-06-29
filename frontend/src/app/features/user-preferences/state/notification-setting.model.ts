@@ -1,6 +1,6 @@
 import { HalSourceLink } from "core-app/features/hal/resources/hal-resource";
 
-export type NotificationSettingChannel = 'mail'|'in_app';
+export type NotificationSettingChannel = "mail"|"in_app";
 
 export interface NotificationSetting {
   _links:{ project:HalSourceLink };

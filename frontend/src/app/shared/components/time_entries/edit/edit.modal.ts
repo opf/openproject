@@ -5,8 +5,8 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { TimeEntryBaseModal } from "core-app/shared/components/time_entries/shared/modal/base.modal";
 
 @Component({
-  templateUrl: '../shared/modal/base.modal.html',
-  styleUrls: ['../shared/modal/base.modal.sass'],
+  templateUrl: "../shared/modal/base.modal.html",
+  styleUrls: ["../shared/modal/base.modal.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,

@@ -27,21 +27,21 @@ import { OPSharedModule } from "core-app/shared/shared.module";
     ReactiveFormsModule,
     FormlyModule.forRoot({
       types: [
-        { name: 'booleanInput', component: BooleanInputComponent },
-        { name: 'integerInput', component: IntegerInputComponent },
-        { name: 'textInput', component: TextInputComponent },
-        { name: 'dateInput', component: DateInputComponent },
-        { name: 'selectInput', component: SelectInputComponent },
-        { name: 'selectProjectStatusInput', component: SelectProjectStatusInputComponent },
-        { name: 'formattableInput', component: FormattableTextareaInputComponent },
+        { name: "booleanInput", component: BooleanInputComponent },
+        { name: "integerInput", component: IntegerInputComponent },
+        { name: "textInput", component: TextInputComponent },
+        { name: "dateInput", component: DateInputComponent },
+        { name: "selectInput", component: SelectInputComponent },
+        { name: "selectProjectStatusInput", component: SelectProjectStatusInputComponent },
+        { name: "formattableInput", component: FormattableTextareaInputComponent },
       ],
       wrappers: [
         {
-          name: 'op-dynamic-field-group-wrapper',
+          name: "op-dynamic-field-group-wrapper",
           component: DynamicFieldGroupWrapperComponent,
         },
         {
-          name: 'op-dynamic-field-wrapper',
+          name: "op-dynamic-field-wrapper",
           component: DynamicFieldWrapperComponent,
         },
       ],

@@ -28,27 +28,27 @@
 
 import { Injector } from "@angular/core";
 import * as moment from "moment";
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
-import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { take } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { take } from "rxjs/operators";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { WorkPackageCellLabels } from "./wp-timeline-cell";
-import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { TimelineCellRenderer } from "./timeline-cell-renderer";
 import { RenderInfo } from "../wp-timeline";
-import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
+import { WorkPackageTimelineTableController } from "../container/wp-timeline-container.directive";
 import Moment = moment.Moment;
 
-export const classNameBar = 'bar';
-export const classNameLeftHandle = 'leftHandle';
-export const classNameRightHandle = 'rightHandle';
-export const classNameBarLabel = 'bar-label';
+export const classNameBar = "bar";
+export const classNameLeftHandle = "leftHandle";
+export const classNameRightHandle = "rightHandle";
+export const classNameBarLabel = "bar-label";
 
 export function registerWorkPackageMouseHandler(this:void,
   injector:Injector,
@@ -70,7 +70,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
-  const jBody = jQuery('body');
+  const jBody = jQuery("body");
 
   // handles change to existing work packages
   bar.onmousedown = (ev:MouseEvent) => {
@@ -99,9 +99,9 @@ export function registerWorkPackageMouseHandler(this:void,
     ev.preventDefault();
 
     // add/remove css class while drag'n'drop is active
-    const classNameActiveDrag = 'active-drag';
+    const classNameActiveDrag = "active-drag";
     bar.classList.add(classNameActiveDrag);
-    jBody.on('mouseup.timelinecell', () => bar.classList.remove(classNameActiveDrag));
+    jBody.on("mouseup.timelinecell", () => bar.classList.remove(classNameActiveDrag));
 
     workPackageTimeline.disableViewParamsCalculation = true;
     mouseDownStartDay = getCursorOffsetInDaysFromLeft(renderInfo, ev);
@@ -116,16 +116,16 @@ export function registerWorkPackageMouseHandler(this:void,
     // Determine what attributes of the work package should be changed
     const direction = renderer.onMouseDown(ev, null, renderInfo, labels, bar);
 
-    jBody.on('mousemove.timelinecell', createMouseMoveFn(direction));
-    jBody.on('keyup.timelinecell', keyPressFn);
-    jBody.on('mouseup.timelinecell', () => deactivate(false));
+    jBody.on("mousemove.timelinecell", createMouseMoveFn(direction));
+    jBody.on("keyup.timelinecell", keyPressFn);
+    jBody.on("mouseup.timelinecell", () => deactivate(false));
   }
 
-  function createMouseMoveFn(direction:'left'|'right'|'both'|'create'|'dragright') {
+  function createMouseMoveFn(direction:"left"|"right"|"both"|"create"|"dragright") {
     return (ev:JQuery.MouseMoveEvent) => {
       const days = getCursorOffsetInDaysFromLeft(renderInfo, ev.originalEvent!) - mouseDownStartDay!;
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
-      const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
+      const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, "days");
 
       dateStates = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, days, direction);
       applyDateValues(renderInfo, dateStates);
@@ -150,12 +150,12 @@ export function registerWorkPackageMouseHandler(this:void,
     const isEditable = (wp.isLeaf || wp.scheduleManually) && renderer.canMoveDates(wp);
 
     if (!isEditable) {
-      cell.style.cursor = 'not-allowed';
+      cell.style.cursor = "not-allowed";
       return;
     }
 
     // placeholder logic
-    cell.style.cursor = '';
+    cell.style.cursor = "";
     placeholderForEmptyCell && placeholderForEmptyCell.remove();
     placeholderForEmptyCell = renderer.displayPlaceholderUnderCursor(ev, renderInfo);
     cell.appendChild(placeholderForEmptyCell);
@@ -168,16 +168,16 @@ export function registerWorkPackageMouseHandler(this:void,
     // create logic
     cell.onmousedown = (ev) => {
       placeholderForEmptyCell.remove();
-      bar.style.pointerEvents = 'none';
+      bar.style.pointerEvents = "none";
       ev.preventDefault();
 
       const offsetDayStart = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
-      const clickStart = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayStart, 'days');
-      const dateForCreate = clickStart.format('YYYY-MM-DD');
+      const clickStart = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayStart, "days");
+      const dateForCreate = clickStart.format("YYYY-MM-DD");
       const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels, bar);
       renderer.update(bar, labels, renderInfo);
 
-      if (mouseDownType === 'create') {
+      if (mouseDownType === "create") {
         deactivate(false);
         ev.preventDefault();
         return;
@@ -185,7 +185,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
       cell.onmousemove = (ev) => {
         const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
-        const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
+        const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, "days");
         const widthInDays = offsetDayCurrent - offsetDayStart;
         const moved = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, widthInDays, mouseDownType);
         renderer.assignDateValues(renderInfo.change, labels, moved);
@@ -200,7 +200,7 @@ export function registerWorkPackageMouseHandler(this:void,
         deactivate(false);
       };
 
-      jBody.on('keyup.timelinecell', keyPressFn);
+      jBody.on("keyup.timelinecell", keyPressFn);
     };
   }
 
@@ -212,9 +212,9 @@ export function registerWorkPackageMouseHandler(this:void,
     cell.onmouseleave = _.noop;
     cell.onmouseup = _.noop;
 
-    bar.style.pointerEvents = 'auto';
+    bar.style.pointerEvents = "auto";
 
-    jBody.off('.timelinecell');
+    jBody.off(".timelinecell");
     workPackageTimeline.resetCursor();
     mouseDownStartDay = null;
     dateStates = {};
@@ -263,7 +263,7 @@ export function registerWorkPackageMouseHandler(this:void,
           .get()
           .toPromise()
           .then(() => {
-            halEvents.push(result.resource, { eventType: 'updated' });
+            halEvents.push(result.resource, { eventType: "updated" });
             return querySpace.timelineRendered.pipe(take(1)).toPromise();
           });
       });

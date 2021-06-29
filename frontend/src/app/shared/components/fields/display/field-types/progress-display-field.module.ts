@@ -45,7 +45,7 @@ export class ProgressDisplayField extends DisplayField {
   }
 
   public render(element:HTMLElement, displayText:string):void {
-    element.setAttribute('title', displayText);
+    element.setAttribute("title", displayText);
     element.innerHTML = `
       <span>
         <span style="width: 80px" class="progress-bar">

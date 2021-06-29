@@ -1,4 +1,4 @@
-import { OpModalService } from './modal.service';
+import { OpModalService } from "./modal.service";
 
 export interface OpModalLocalsMap {
   service:OpModalService;

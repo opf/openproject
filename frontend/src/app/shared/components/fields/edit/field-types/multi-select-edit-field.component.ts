@@ -28,7 +28,7 @@
 
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
 import { ValueOption } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component";
@@ -36,7 +36,7 @@ import { NgSelectComponent } from "@ng-select/ng-select";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 @Component({
-  templateUrl: './multi-select-edit-field.component.html'
+  templateUrl: "./multi-select-edit-field.component.html",
 })
 export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
@@ -48,10 +48,10 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   public valueOptions:ValueOption[];
 
   public text = {
-    requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
-    placeholder: this.I18n.t('js.placeholders.default'),
-    save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
-    cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
+    requiredPlaceholder: this.I18n.t("js.placeholders.selection"),
+    placeholder: this.I18n.t("js.placeholders.default"),
+    save: this.I18n.t("js.inplace.button_save", { attribute: this.schema.name }),
+    cancel: this.I18n.t("js.inplace.button_cancel", { attribute: this.schema.name }),
   };
 
   public appendTo:any = null;
@@ -60,7 +60,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   public showAddNewUserButton:boolean;
 
-  private hiddenOverflowContainer = '.__hidden_overflow_container';
+  private hiddenOverflowContainer = ".__hidden_overflow_container";
 
   private nullOption:ValueOption;
 
@@ -71,7 +71,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   ngOnInit() {
     this.nullOption = { name: this.text.placeholder, href: null };
-    this.showAddNewUserButton = this.schema.type === 'User';
+    this.showAddNewUserButton = this.schema.type === "User";
 
     this.handler
       .$onUserActivate
@@ -121,7 +121,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
       // Special case 'null' value, which angular
       // only understands in ng-options as an empty string.
-      if (option && option.href === '') {
+      if (option && option.href === "") {
         option.href = null;
       }
 
@@ -132,7 +132,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   public onOpen() {
-    jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+    jQuery(this.hiddenOverflowContainer).one("scroll", () => {
       this.ngSelectComponent.close();
     });
   }
@@ -198,7 +198,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     } else if (this.schema.allowedValues) {
       return this.schema.allowedValues.$load().then((values:CollectionResource) => {
         // The select options of the project shall be sorted
-        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
+        if (values.count > 0 && (values.elements[0] as any)._type === "Project") {
           this.setValues(values.elements, true);
         } else {
           this.setValues(values.elements);

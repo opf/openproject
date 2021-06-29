@@ -12,19 +12,19 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Injectable()
 export class BoardSubtasksActionService extends BoardActionService {
-  filterName = 'parent';
+  filterName = "parent";
 
-  text = this.I18n.t('js.boards.board_type.board_type_title.subtasks');
+  text = this.I18n.t("js.boards.board_type.board_type_title.subtasks");
 
-  description = this.I18n.t('js.boards.board_type.action_text_subtasks');
+  description = this.I18n.t("js.boards.board_type.action_text_subtasks");
 
-  label = this.I18n.t('js.boards.add_list_modal.labels.subtasks');
+  label = this.I18n.t("js.boards.add_list_modal.labels.subtasks");
 
-  icon = 'icon-hierarchy';
+  icon = "icon-hierarchy";
 
-  image = ImageHelpers.imagePath('board_creation_modal/parent-child.svg');
+  image = ImageHelpers.imagePath("board_creation_modal/parent-child.svg");
 
-  localizedName = this.I18n.t('js.boards.board_type.action_type.subtasks');
+  localizedName = this.I18n.t("js.boards.board_type.action_type.subtasks");
 
   public headerComponent() {
     return SubtasksBoardHeaderComponent;
@@ -39,7 +39,7 @@ export class BoardSubtasksActionService extends BoardActionService {
 
     // Disable dragging a work package into its own column
     if (parentId === changeset.id) {
-      throw new Error(this.I18n.t('js.boards.error_cannot_move_into_self'));
+      throw new Error(this.I18n.t("js.boards.error_cannot_move_into_self"));
     }
 
     super.assignToWorkPackage(changeset, query);
@@ -47,11 +47,11 @@ export class BoardSubtasksActionService extends BoardActionService {
 
   protected loadValues(matching?:string):Observable<HalResource[]> {
     const filters = new ApiV3FilterBuilder();
-    filters.add('is_milestone', '=', false);
-    filters.add('project', '=', [this.currentProject.id]);
+    filters.add("is_milestone", "=", false);
+    filters.add("project", "=", [this.currentProject.id]);
 
     if (matching) {
-      filters.add('subjectOrId', '**', [matching]);
+      filters.add("subjectOrId", "**", [matching]);
     }
 
     return this

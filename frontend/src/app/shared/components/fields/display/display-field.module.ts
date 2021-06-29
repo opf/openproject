@@ -33,7 +33,7 @@ import { ResourceChangeset } from "core-app/shared/components/fields/changeset/r
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
-export const cssClassCustomOption = 'custom-option';
+export const cssClassCustomOption = "custom-option";
 
 export class DisplayField<T extends HalResource = HalResource> extends Field {
   public static type:string;
@@ -59,8 +59,8 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
   }
 
   public texts = {
-    empty: this.I18n.t('js.label_no_value'),
-    placeholder: this.I18n.t('js.placeholders.default'),
+    empty: this.I18n.t("js.label_no_value"),
+    placeholder: this.I18n.t("js.placeholders.default"),
   };
 
   public get isFormattable():boolean {
@@ -100,7 +100,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
   }
 
   public get placeholder():string {
-    return '-';
+    return "-";
   }
 
   public get label() {
@@ -125,10 +125,10 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
    * Render an empty placeholder if no values are present
    */
   public renderEmpty(element:HTMLElement) {
-    const emptyDiv = document.createElement('div');
-    emptyDiv.setAttribute('title', this.texts.empty);
+    const emptyDiv = document.createElement("div");
+    emptyDiv.setAttribute("title", this.texts.empty);
     emptyDiv.textContent = this.texts.placeholder;
-    emptyDiv.classList.add(cssClassCustomOption, '-empty');
+    emptyDiv.classList.add(cssClassCustomOption, "-empty");
 
     element.appendChild(emptyDiv);
   }

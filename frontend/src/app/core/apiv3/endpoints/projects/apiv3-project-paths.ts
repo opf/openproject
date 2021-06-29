@@ -38,7 +38,7 @@ import { APIv3ProjectCopyPaths } from "core-app/core/apiv3/endpoints/projects/ap
 
 export class APIv3ProjectPaths extends CachableAPIV3Resource<ProjectResource> {
   // /api/v3/projects/:project_id/available_assignees
-  public readonly available_assignees = this.subResource('available_assignees');
+  public readonly available_assignees = this.subResource("available_assignees");
 
   // /api/v3/projects/:project_id/queries
   public readonly queries = new APIv3QueriesPaths(this.apiRoot, this.path);

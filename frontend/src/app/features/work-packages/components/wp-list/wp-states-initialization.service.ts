@@ -1,28 +1,28 @@
 import { States } from "core-app/core/states/states.service";
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { Injectable } from "@angular/core";
-import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
-import { take } from 'rxjs/operators';
-import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
-import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
-import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { WorkPackageViewAdditionalElementsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-additional-elements.service';
-import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
-import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
-import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
-import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
-import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
+import { take } from "rxjs/operators";
+import { WorkPackageViewOrderService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service";
+import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { WorkPackageViewSumService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service";
+import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
+import { WorkPackageViewAdditionalElementsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-additional-elements.service";
+import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageViewPaginationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
+import { WorkPackageViewRelationColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
+import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
+import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
+import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
 import { WorkPackagesListChecksumService } from "./wp-list-checksum.service";
 
 @Injectable()
@@ -99,8 +99,8 @@ export class WorkPackageStatesInitializationService {
 
   public updateQuerySpace(query:QueryResource, results:WorkPackageCollectionResource) {
     // Clear table required data states
-    this.querySpace.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
-    this.querySpace.tableRendered.clear('Clearing rendered data before upgrading query space');
+    this.querySpace.additionalRequiredWorkPackages.clear("Clearing additional WPs before updating rows");
+    this.querySpace.tableRendered.clear("Clearing rendered data before upgrading query space");
 
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {
@@ -110,7 +110,7 @@ export class WorkPackageStatesInitializationService {
 
     this.querySpace.query.putValue(query);
 
-    this.authorisationService.initModelAuth('work_packages', results.$links);
+    this.authorisationService.initModelAuth("work_packages", results.$links);
 
     results.elements.forEach(wp => this.apiV3Service.work_packages.cache.updateWorkPackage(wp, true));
 
@@ -136,7 +136,7 @@ export class WorkPackageStatesInitializationService {
 
   public updateChecksum(query:QueryResource, results:WorkPackageCollectionResource) {
     this.wpListChecksumService.updateIfDifferent(this.querySpace.query.value!, this.wpTablePagination.current);
-    this.authorisationService.initModelAuth('work_packages', results.$links);
+    this.authorisationService.initModelAuth("work_packages", results.$links);
   }
 
   public initializeFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
@@ -152,8 +152,8 @@ export class WorkPackageStatesInitializationService {
     this.wpTableHighlighting.initialize(query, results);
     this.wpDisplayRepresentation.initialize(query, results);
 
-    this.authorisationService.initModelAuth('query', query.$links);
-    this.authorisationService.initModelAuth('work_packages', results.$links);
+    this.authorisationService.initModelAuth("query", query.$links);
+    this.authorisationService.initModelAuth("work_packages", results.$links);
   }
 
   public applyToQuery(query:QueryResource) {
@@ -171,7 +171,7 @@ export class WorkPackageStatesInitializationService {
   }
 
   public clearStates() {
-    const reason = 'Clearing states before re-initialization.';
+    const reason = "Clearing states before re-initialization.";
 
     // Clear immediate input states
     this.querySpace.initialized.clear(reason);

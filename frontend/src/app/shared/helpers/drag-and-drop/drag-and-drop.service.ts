@@ -39,18 +39,18 @@ export class DragAndDropService implements OnDestroy {
   private autoscroll:any;
 
   private escapeListener = (evt:KeyboardEvent) => {
-    if (this.drake && evt.key === 'Escape') {
+    if (this.drake && evt.key === "Escape") {
       this.drake.cancel(true);
     }
   };
 
   constructor(@Inject(DOCUMENT) private document:Document,
     readonly injector:Injector) {
-    this.document.documentElement.addEventListener('keydown', this.escapeListener);
+    this.document.documentElement.addEventListener("keydown", this.escapeListener);
   }
 
   ngOnDestroy():void {
-    this.document.documentElement.removeEventListener('keydown', this.escapeListener);
+    this.document.documentElement.removeEventListener("keydown", this.escapeListener);
     this.autoscroll && this.autoscroll.destroy();
     this.drake && this.drake.destroy();
   }
@@ -129,7 +129,7 @@ export class DragAndDropService implements OnDestroy {
         return (member && member.accepts) ? member.accepts(el, container) : true;
       },
       invalid: () => false,
-      direction: 'vertical', // Y axis is considered when determining where an element would be dropped
+      direction: "vertical", // Y axis is considered when determining where an element would be dropped
       copy: false, // elements are moved by default, not copied
       revertOnSpill: true, // spilling will put the element back where it was dragged from, if this is true
       removeOnSpill: false, // spilling will `.remove` the element, if this is true
@@ -137,32 +137,32 @@ export class DragAndDropService implements OnDestroy {
       ignoreInputTextSelection: true, // allows users to select input text, see details below
     });
 
-    this.drake.on('drag', (el:HTMLElement, source:HTMLElement) => {
+    this.drake.on("drag", (el:HTMLElement, source:HTMLElement) => {
       el.dataset.sourceIndex = DragAndDropHelpers.findIndex(el).toString();
     });
 
-    this.drake.on('over', (el:HTMLElement, container:HTMLElement) => {
-      const zone = container.closest('.drop-zone');
+    this.drake.on("over", (el:HTMLElement, container:HTMLElement) => {
+      const zone = container.closest(".drop-zone");
       if (zone) {
-        zone.classList.add('-dragged-over');
+        zone.classList.add("-dragged-over");
       }
     });
 
-    this.drake.on('out', (el:HTMLElement, container:HTMLElement) => {
-      const zone = container.closest('.drop-zone');
+    this.drake.on("out", (el:HTMLElement, container:HTMLElement) => {
+      const zone = container.closest(".drop-zone");
       if (zone) {
-        zone.classList.remove('-dragged-over');
+        zone.classList.remove("-dragged-over");
       }
     });
 
-    this.drake.on('cloned', (clone:HTMLElement, original:HTMLElement) => {
+    this.drake.on("cloned", (clone:HTMLElement, original:HTMLElement) => {
       const member = this.member(original.parentElement!);
       if (member && member.onCloned) {
         member.onCloned(clone, original);
       }
     });
 
-    this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement) => {
+    this.drake.on("drop", async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement) => {
       try {
         await this.handleDrop(el, target, source, sibling);
       } catch (e) {
@@ -170,14 +170,14 @@ export class DragAndDropService implements OnDestroy {
       }
     });
 
-    this.drake.on('shadow', (shadowElement:HTMLElement, container:HTMLElement) => {
+    this.drake.on("shadow", (shadowElement:HTMLElement, container:HTMLElement) => {
       const member = this.member(container);
       if (member && member.onShadowInserted) {
         member.onShadowInserted(shadowElement);
       }
     });
 
-    this.drake.on('cancel', (el:HTMLElement, container:HTMLElement, source:HTMLElement) => {
+    this.drake.on("cancel", (el:HTMLElement, container:HTMLElement, source:HTMLElement) => {
       const member = this.member(container);
       if (member && member.onCancel) {
         member.onCancel(el);

@@ -38,12 +38,12 @@ import { TransitionService } from "@uirouter/core";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
-export type SupportedAttributeModels = 'project'|'workPackage';
+export type SupportedAttributeModels = "project"|"workPackage";
 
 @Injectable({ providedIn: "root" })
 export class AttributeModelLoaderService {
   text = {
-    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
+    not_found: this.I18n.t("js.editor.macro.attribute_reference.not_found"),
   };
 
   // Cache the required model/id values because
@@ -89,16 +89,16 @@ export class AttributeModelLoaderService {
       .values$()
       .pipe(
         take(1),
-        tap(val => console.log("VAL " + val), err => console.error('ERR ' + err)),
+        tap(val => console.log(`VAL ${val}`), err => console.error(`ERR ${err}`)),
       )
       .toPromise();
   }
 
   private load(model:SupportedAttributeModels, id?:string|undefined|null):Observable<HalResource|null> {
     switch (model) {
-    case 'workPackage':
+    case "workPackage":
       return this.loadWorkPackage(id);
-    case 'project':
+    case "project":
       return this.loadProject(id);
     default:
       return NEVER;
@@ -144,7 +144,7 @@ export class AttributeModelLoaderService {
       .apiV3Service
       .withOptionalProject(this.currentProject.id)
       .work_packages
-      .filterBySubjectOrId(id, false, { pageSize: '1' })
+      .filterBySubjectOrId(id, false, { pageSize: "1" })
       .get()
       .pipe(
         take(1),

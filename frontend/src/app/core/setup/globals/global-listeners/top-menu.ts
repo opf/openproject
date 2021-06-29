@@ -43,15 +43,15 @@ export class TopMenu {
 
   skipContentClickListener() {
     // Skip menu on content
-    jQuery('#skip-navigation--content').on('click', () => {
+    jQuery("#skip-navigation--content").on("click", () => {
       // Skip to the breadcrumb or the first link in the toolbar or the first link in the content (homescreen)
-      const selectors = '.first-breadcrumb-element a, .toolbar-container a:first-of-type, #content a:first-of-type';
+      const selectors = ".first-breadcrumb-element a, .toolbar-container a:first-of-type, #content a:first-of-type";
       const visibleLink = jQuery(selectors)
-        .not(':hidden')
+        .not(":hidden")
         .first();
 
       if (visibleLink.length) {
-        visibleLink.trigger('focus');
+        visibleLink.trigger("focus");
       }
     });
   }
@@ -105,12 +105,12 @@ export class TopMenu {
   }
 
   closeOnBodyClick() {
-    const wrapper = document.getElementById('wrapper');
+    const wrapper = document.getElementById("wrapper");
     if (!wrapper) {
       return;
     }
 
-    wrapper.addEventListener('click', (evt) => {
+    wrapper.addEventListener("click", (evt) => {
       if (this.menuIsOpen && !this.openDropdowns()[0].contains(evt.target as HTMLElement)) {
         this.closing();
       }
@@ -127,14 +127,14 @@ export class TopMenu {
 
   withHeadingFoldOutAtBorder() {
     let menu_start_position;
-    if (this.menuContainer.next().get(0) !== undefined && (this.menuContainer.next().get(0).tagName === 'H2')) {
+    if (this.menuContainer.next().get(0) !== undefined && (this.menuContainer.next().get(0).tagName === "H2")) {
       menu_start_position = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
       this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
     } else if (this.menuContainer.next().hasClass("wiki-content")
       && this.menuContainer.next().children().next().first()
         .get(0) !== undefined
       && this.menuContainer.next().children().next().first()
-        .get(0).tagName === 'H1') {
+        .get(0).tagName === "H1") {
       var wiki_heading = this.menuContainer.next().children().next().first();
       menu_start_position = wiki_heading.innerHeight()! + wiki_heading.position().top;
       this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
@@ -143,15 +143,15 @@ export class TopMenu {
 
   setupDropdownClick() {
     this.dropdowns().each((ix, it) => {
-      jQuery(it).find('.op-app-menu--item-action').click(() => {
+      jQuery(it).find(".op-app-menu--item-action").click(() => {
         this.toggleClick(jQuery(it));
         return false;
       });
-      jQuery(it).find('op-app-menu--item-action').on('touchstart', (e) => {
+      jQuery(it).find("op-app-menu--item-action").on("touchstart", (e) => {
         // This shall avoid the hover event is fired,
         // which would otherwise lead to menu being closed directly after its opened.
         // Ignore clicks from within the dropdown
-        if (jQuery(e.target).closest('.op-app-menu--body').length) {
+        if (jQuery(e.target).closest(".op-app-menu--body").length) {
           return true;
         }
         e.preventDefault();

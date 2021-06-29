@@ -55,7 +55,7 @@ import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-
 import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
-describe('WorkPackageFilterValues', () => {
+describe("WorkPackageFilterValues", () => {
   let resource:WorkPackageResource;
   let injector:Injector;
   let halResourceService:HalResourceService;
@@ -104,17 +104,17 @@ describe('WorkPackageFilterValues', () => {
 
     const type1 = halResourceService.createHalResourceOfClass(
       TypeResource,
-      { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } },
+      { _type: "Type", id: "1", _links: { self: { href: "/api/v3/types/1", name: "Task" } } },
     );
     const type2 = halResourceService.createHalResourceOfClass(
       TypeResource,
-      { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } },
+      { _type: "Type", id: "2", _links: { self: { href: "/api/v3/types/2", name: "Bug" } } },
     );
 
     filters = [
       {
-        id: 'type',
-        operator: { id: '=' },
+        id: "type",
+        operator: { id: "=" },
         values: [type1, type2],
       },
     ];
@@ -122,16 +122,16 @@ describe('WorkPackageFilterValues', () => {
     subject = new WorkPackageFilterValues(injector, filters);
   }
 
-  describe('when a filter value already exists in values', () => {
-    describe('with the first type applied', () => {
+  describe("when a filter value already exists in values", () => {
+    describe("with the first type applied", () => {
       beforeEach(() => {
         source = {
-          _type: 'WorkPackage',
-          id: '1234',
+          _type: "WorkPackage",
+          id: "1234",
           _links: {
             type: {
-              href: '/api/v3/types/1',
-              name: 'Task'
+              href: "/api/v3/types/1",
+              name: "Task",
             },
           },
         };
@@ -139,22 +139,22 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not apply the first value (Regression #30817)', (() => {
+      it("it should not apply the first value (Regression #30817)", (() => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
-        expect(changeset.value('type').href).toEqual('/api/v3/types/1');
+        expect(changeset.value("type").href).toEqual("/api/v3/types/1");
       }));
     });
 
-    describe('with the second type applied', () => {
+    describe("with the second type applied", () => {
       beforeEach(() => {
         source = {
-          id: '1234',
+          id: "1234",
           _links: {
             type: {
-              href: '/api/v3/types/2',
-              name: 'Bug'
+              href: "/api/v3/types/2",
+              name: "Bug",
             },
           },
         };
@@ -162,11 +162,11 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not apply the first value (Regression #30817)', (() => {
+      it("it should not apply the first value (Regression #30817)", (() => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
-        expect(changeset.value('type').href).toEqual('/api/v3/types/2');
+        expect(changeset.value("type").href).toEqual("/api/v3/types/2");
       }));
     });
   });

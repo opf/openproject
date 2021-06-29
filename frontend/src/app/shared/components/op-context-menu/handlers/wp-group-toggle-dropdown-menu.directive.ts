@@ -39,7 +39,7 @@ import { WorkPackageViewTimelineService } from "core-app/features/work-packages/
 import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 @Directive({
-  selector: '[wpGroupToggleDropdown]'
+  selector: "[wpGroupToggleDropdown]",
 })
 export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
@@ -57,7 +57,7 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
   public get locals() {
     return {
       items: this.items,
-      contextMenuId: 'wp-group-fold-context-menu'
+      contextMenuId: "wp-group-fold-context-menu",
     };
   }
 
@@ -65,8 +65,8 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
     this.items = [
       {
         disabled: this.wpViewCollapsedGroups.allGroupsAreCollapsed,
-        linkText: this.I18n.t('js.button_collapse_all'),
-        icon: 'icon-minus2',
+        linkText: this.I18n.t("js.button_collapse_all"),
+        icon: "icon-minus2",
         onClick: (evt:JQuery.TriggeredEvent) => {
           this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(true);
 
@@ -75,8 +75,8 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
       },
       {
         disabled: this.wpViewCollapsedGroups.allGroupsAreExpanded,
-        linkText: this.I18n.t('js.button_expand_all'),
-        icon: 'icon-plus',
+        linkText: this.I18n.t("js.button_expand_all"),
+        icon: "icon-plus",
         onClick: (evt:JQuery.TriggeredEvent) => {
           this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(false);
 

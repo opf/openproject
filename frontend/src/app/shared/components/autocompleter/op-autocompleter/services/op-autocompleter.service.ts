@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { map } from 'rxjs/operators';
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { Injectable } from "@angular/core";
+import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { map } from "rxjs/operators";
+import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
 import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { APIv3UserPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-paths';
-import { APIV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths';
+import { APIv3UserPaths } from "core-app/core/apiv3/endpoints/users/apiv3-user-paths";
+import { APIV3WorkPackagePaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
@@ -39,7 +39,7 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
       finalFilters.add(filter.name, filter.operator, filter.values);
     }
     if (matching) {
-      finalFilters.add(searchKey ?? '', '**', [matching]);
+      finalFilters.add(searchKey ?? "", "**", [matching]);
     }
     return finalFilters;
   }

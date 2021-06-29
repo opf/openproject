@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Injectable, Injector } from "@angular/core";
+import { Observable, Subject } from "rxjs";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HookService } from 'core-app/features/plugins/hook-service';
+import { HookService } from "core-app/features/plugins/hook-service";
 import { WorkPackageFilterValues } from "core-app/features/work-packages/components/wp-edit-form/work-package-filter-values";
 import {
   HalResourceEditingService,
@@ -48,7 +48,7 @@ import { SchemaResource } from "core-app/features/hal/resources/schema-resource"
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
-export const newWorkPackageHref = '/api/v3/work_packages/new';
+export const newWorkPackageHref = "/api/v3/work_packages/new";
 
 @Injectable()
 export class WorkPackageCreateService extends UntilDestroyedMixin {
@@ -72,7 +72,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .committedChanges
       .pipe(
         this.untilDestroyed(),
-        filter(commit => commit.resource._type === 'WorkPackage' && commit.wasNew),
+        filter(commit => commit.resource._type === "WorkPackage" && commit.wasNew),
       )
       .subscribe((commit:ResourceChangesetCommit<WorkPackageResource>) => {
         this.newWorkPackageCreated(commit.resource);
@@ -115,7 +115,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const change = this.halEditing.edit<WorkPackageResource, WorkPackageChangeset>(wp, form);
 
     // Call work package initialization hook
-    this.hooks.call('workPackageNewInitialization', change);
+    this.hooks.call("workPackageNewInitialization", change);
 
     return change;
   }
@@ -183,7 +183,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     }
 
     return changePromise.then((change:WorkPackageChangeset) => {
-      this.authorisationService.initModelAuth('work_package', change.pristineResource);
+      this.authorisationService.initModelAuth("work_package", change.pristineResource);
       this.halEditing.updateValue(newWorkPackageHref, change);
       this
         .apiV3Service
@@ -200,7 +200,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .apiV3Service
       .work_packages
       .cache
-      .clearSome('new');
+      .clearSome("new");
     this.form = undefined;
   }
 
@@ -241,7 +241,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
         return this.createNewWorkPackage(projectIdentifier, mergedPayload).then((change:WorkPackageChangeset) => {
           if (!change) {
-            throw 'No new work package was created';
+            throw "No new work package was created";
           }
 
           // We need to apply the defaults again (after them being applied in the form requests)
@@ -269,7 +269,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const query = this.querySpace.query.value;
 
     if (query) {
-      const except:string[] = defaults?._links && defaults._links['type'] ? ['type'] : [];
+      const except:string[] = defaults?._links && defaults._links["type"] ? ["type"] : [];
 
       new WorkPackageFilterValues(this.injector, query.filters, except)
         .applyDefaultsFromFilters(object);
@@ -311,15 +311,15 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const links:string[] = [];
 
     Object.keys(schema.$source).forEach(attribute => {
-      if (!['Integer',
-        'Float',
-        'Date',
-        'DateTime',
-        'Duration',
-        'Formattable',
-        'Boolean',
-        'String',
-        'Text',
+      if (!["Integer",
+        "Float",
+        "Date",
+        "DateTime",
+        "Duration",
+        "Formattable",
+        "Boolean",
+        "String",
+        "Text",
         undefined].includes(schema.$source[attribute].type)) {
         links.push(attribute);
       }
@@ -348,23 +348,23 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const payload = form.payload.$plain();
 
     // maintain the reference to the schema
-    payload['_links']['schema'] = { href: 'new' };
+    payload["_links"]["schema"] = { href: "new" };
 
-    const wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', payload);
+    const wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>("WorkPackage", payload);
 
-    wp.$source.id = 'new';
+    wp.$source.id = "new";
 
     // Ensure type is set to identify the resource
-    wp._type = 'WorkPackage';
+    wp._type = "WorkPackage";
 
     // Since the ID will change upon saving, keep track of the WP
     // with the actual creation date
     wp.__initialized_at = Date.now();
 
     // Set update link to form
-    wp['update'] = wp.$links.update = form.$links.self;
+    wp["update"] = wp.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
-    wp['updateImmediately'] = wp.$links.updateImmediately = (payload) => this.apiV3Service.work_packages.post(payload).toPromise();
+    wp["updateImmediately"] = wp.$links.updateImmediately = (payload) => this.apiV3Service.work_packages.post(payload).toPromise();
 
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
     // the editability.

@@ -9,15 +9,15 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { MainMenuNavigationService } from "core-app/core/main-menu/main-menu-navigation.service";
 
-export const boardsMenuSelector = 'boards-menu';
+export const boardsMenuSelector = "boards-menu";
 
 @Component({
   selector: boardsMenuSelector,
-  templateUrl: './boards-menu.component.html'
+  templateUrl: "./boards-menu.component.html",
 })
 
 export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
-  trackById = AngularTrackingHelpers.compareByAttribute('id');
+  trackById = AngularTrackingHelpers.compareByAttribute("id");
 
   currentProjectIdentifier = this.currentProject.identifier;
 
@@ -50,7 +50,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     // When activating the boards submenu,
     // either initially or through click on the toggle, load the results
     this.mainMenuService
-      .onActivate('board_view')
+      .onActivate("board_view")
       .subscribe(() => {
         this.focusBackArrow();
         this.boardService.loadAllBoards();

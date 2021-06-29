@@ -25,8 +25,8 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { State } from 'reactivestates';
-import { Injectable } from '@angular/core';
+import { State } from "reactivestates";
+import { Injectable } from "@angular/core";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { Observable } from "rxjs";
 import { take } from "rxjs/operators";

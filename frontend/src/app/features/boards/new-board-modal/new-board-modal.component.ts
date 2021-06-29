@@ -39,15 +39,15 @@ import { BoardService } from "core-app/features/boards/board/board.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 import { ITileViewEntry } from "../tile-view/tile-view.component";
 import imagePath = ImageHelpers.imagePath;
 
 @Component({
-  templateUrl: './new-board-modal.html',
+  templateUrl: "./new-board-modal.html",
 })
 export class NewBoardModalComponent extends OpModalComponent {
-  @ViewChild('actionAttributeSelect', { static: true }) actionAttributeSelect:ElementRef;
+  @ViewChild("actionAttributeSelect", { static: true }) actionAttributeSelect:ElementRef;
 
   public showClose = true;
 
@@ -58,18 +58,18 @@ export class NewBoardModalComponent extends OpModalComponent {
   public inFlight = false;
 
   public text:any = {
-    close_popup: this.I18n.t('js.close_popup_title'),
+    close_popup: this.I18n.t("js.close_popup_title"),
 
-    free_board: this.I18n.t('js.boards.board_type.free'),
-    free_board_text: this.I18n.t('js.boards.board_type.free_text'),
-    free_board_title: this.I18n.t('js.boards.board_type.board_type_title.basic'),
-    board_type: this.I18n.t('js.boards.board_type.text'),
+    free_board: this.I18n.t("js.boards.board_type.free"),
+    free_board_text: this.I18n.t("js.boards.board_type.free_text"),
+    free_board_title: this.I18n.t("js.boards.board_type.board_type_title.basic"),
+    board_type: this.I18n.t("js.boards.board_type.text"),
 
-    action_board: this.I18n.t('js.boards.board_type.action'),
-    action_board_text: this.I18n.t('js.boards.board_type.action_text'),
-    select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
-    select_board_type: this.I18n.t('js.boards.board_type.select_board_type'),
-    placeholder: this.I18n.t('js.placeholders.selection'),
+    action_board: this.I18n.t("js.boards.board_type.action"),
+    action_board_text: this.I18n.t("js.boards.board_type.action_text"),
+    select_attribute: this.I18n.t("js.boards.board_type.select_attribute"),
+    select_board_type: this.I18n.t("js.boards.board_type.select_board_type"),
+    placeholder: this.I18n.t("js.placeholders.selection"),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -87,7 +87,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   }
 
   public createBoard(attribute:string) {
-    if (attribute === 'basic') {
+    if (attribute === "basic") {
       this.createFree();
     } else {
       this.createAction(attribute);
@@ -96,11 +96,11 @@ export class NewBoardModalComponent extends OpModalComponent {
 
   private initiateTiles() {
     this.available.unshift({
-      attribute: 'basic',
+      attribute: "basic",
       text: this.text.free_board_title,
-      icon: 'icon-boards',
+      icon: "icon-boards",
       description: this.text.free_board_text,
-      image: imagePath('board_creation_modal/lists.svg'),
+      image: imagePath("board_creation_modal/lists.svg"),
     });
     this.addIcon(this.available);
     this.addDescription(this.available);
@@ -109,11 +109,11 @@ export class NewBoardModalComponent extends OpModalComponent {
   }
 
   private createFree() {
-    this.create({ type: 'free' });
+    this.create({ type: "free" });
   }
 
   private createAction(attribute:string) {
-    this.create({ type: 'action', attribute });
+    this.create({ type: "action", attribute });
   }
 
   private create(params:{ type:BoardType, attribute?:string }) {
@@ -124,7 +124,7 @@ export class NewBoardModalComponent extends OpModalComponent {
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
-        this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
+        this.state.go("boards.partitioned.show", { board_id: board.id, isNew: true });
       })
       .catch((error:unknown) => {
         this.inFlight = false;
@@ -134,7 +134,7 @@ export class NewBoardModalComponent extends OpModalComponent {
 
   private addDescription(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
-      if (element.attribute !== 'basic') {
+      if (element.attribute !== "basic") {
         const service = this.boardActionRegistry.get(element.attribute);
         element.description = service.description;
       }
@@ -143,7 +143,7 @@ export class NewBoardModalComponent extends OpModalComponent {
 
   private addIcon(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
-      if (element.attribute !== 'basic') {
+      if (element.attribute !== "basic") {
         const service = this.boardActionRegistry.get(element.attribute);
         element.icon = service.icon;
       }
@@ -152,7 +152,7 @@ export class NewBoardModalComponent extends OpModalComponent {
 
   private addText(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
-      if (element.attribute !== 'basic') {
+      if (element.attribute !== "basic") {
         const service = this.boardActionRegistry.get(element.attribute);
         element.text = service.text;
       }
@@ -161,7 +161,7 @@ export class NewBoardModalComponent extends OpModalComponent {
 
   private addImage(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
-      if (element.attribute !== 'basic') {
+      if (element.attribute !== "basic") {
         const service = this.boardActionRegistry.get(element.attribute);
         element.image = service.image;
       }

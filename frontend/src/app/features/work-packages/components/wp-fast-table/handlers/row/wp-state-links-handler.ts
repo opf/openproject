@@ -1,10 +1,10 @@
-import { Injector } from '@angular/core';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { Injector } from "@angular/core";
+import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { States } from "core-app/core/states/states.service";
 import { StateService } from "@uirouter/core";
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { KeepTabService } from "../../../wp-single-view-tabs/keep-tab/keep-tab.service";
 import { tableRowClassName } from "../../builders/rows/single-row-builder";
 import { uiStateLinkClass } from "../../builders/ui-state-link-builder";
@@ -27,7 +27,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
   }
 
   public get EVENT() {
-    return 'click.table.wpLink';
+    return "click.table.wpLink";
   }
 
   public get SELECTOR() {
@@ -49,18 +49,18 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     // Locate the details link from event
     const target = jQuery(evt.target);
     const element = target.closest(this.SELECTOR);
-    const state = element.data('wpState');
-    const workPackageId = element.data('workPackageId');
+    const state = element.data("wpState");
+    const workPackageId = element.data("workPackageId");
 
     // Blur the target to avoid focus being kept there
-    target.closest('a').blur();
+    target.closest("a").blur();
 
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
     // Locate the row from event
     const row = target.closest(`.${tableRowClassName}`);
-    const classIdentifier = row.data('classIdentifier');
+    const classIdentifier = row.data("classIdentifier");
     const [index, _] = view.workPackageTable.findRenderedRow(classIdentifier);
 
     // Update single selection if no modifier present

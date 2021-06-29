@@ -52,12 +52,12 @@ import {
 } from "core-app/shared/components/fields/macros/attribute-model-loader.service";
 import { StringHelpers } from "core-app/shared/helpers/string-helpers";
 
-export const attributeLabelMacro = 'macro.macro--attribute-label';
+export const attributeLabelMacro = "macro.macro--attribute-label";
 
 @Component({
   selector: attributeLabelMacro,
-  templateUrl: './attribute-label-macro.html',
-  styleUrls: ['./attribute-macro.sass'],
+  templateUrl: "./attribute-label-macro.html",
+  styleUrls: ["./attribute-macro.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
@@ -68,12 +68,12 @@ export class AttributeLabelMacroComponent {
   error:string|null = null;
 
   text = {
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
-    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
+    help: this.I18n.t("js.editor.macro.attribute_reference.macro_help_tooltip"),
+    not_found: this.I18n.t("js.editor.macro.attribute_reference.not_found"),
+    invalid_attribute: (attr:string) => this.I18n.t("js.editor.macro.attribute_reference.invalid_attribute", { name: attr }),
   };
 
-  @HostBinding('title') hostTitle = this.text.help;
+  @HostBinding("title") hostTitle = this.text.help;
 
   // The loaded resource, required for help text
   resource:HalResource|null = null;
@@ -113,7 +113,7 @@ export class AttributeLabelMacroComponent {
     try {
       this.resource = resource = await this.resourceLoader.require(model, id);
     } catch (e) {
-      console.error("Failed to render macro " + e);
+      console.error(`Failed to render macro ${e}`);
       return this.markError(this.text.not_found);
     }
 
@@ -134,7 +134,7 @@ export class AttributeLabelMacroComponent {
   }
 
   markError(message:string) {
-    this.error = this.I18n.t('js.editor.macro.error', { message });
+    this.error = this.I18n.t("js.editor.macro.error", { message });
     this.cdRef.detectChanges();
   }
 }

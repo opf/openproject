@@ -1,7 +1,7 @@
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import {
   Component, OnInit, ChangeDetectorRef, Injector, ChangeDetectionStrategy,
-} from '@angular/core';
+} from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { UserResource } from "core-app/features/hal/resources/user-resource";
@@ -15,15 +15,15 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 const DISPLAYED_MEMBERS_LIMIT = 100;
 
 @Component({
-  templateUrl: './members.component.html',
+  templateUrl: "./members.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./members.component.sass'],
+  styleUrls: ["./members.component.sass"],
 })
 export class WidgetMembersComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    add: this.i18n.t('js.grid.widgets.members.add'),
-    noResults: this.i18n.t('js.grid.widgets.members.no_results'),
-    viewAll: this.i18n.t('js.grid.widgets.members.view_all_members'),
+    add: this.i18n.t("js.grid.widgets.members.add"),
+    noResults: this.i18n.t("js.grid.widgets.members.no_results"),
+    viewAll: this.i18n.t("js.grid.widgets.members.view_all_members"),
   };
 
   public totalMembers:number;
@@ -115,7 +115,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
     const params:Apiv3ListParameters = { sortBy: [["created_at", "desc"]], pageSize: DISPLAYED_MEMBERS_LIMIT };
 
     if (this.currentProject.id) {
-      params['filters'] = [['project_id', '=', [this.currentProject.id]]];
+      params["filters"] = [["project_id", "=", [this.currentProject.id]]];
     }
 
     return params;
@@ -127,7 +127,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
     const params:Apiv3ListParameters = {};
 
     if (this.currentProject.id) {
-      params['filters'] = [['id', '=', [this.currentProject.id]]];
+      params["filters"] = [["id", "=", [this.currentProject.id]]];
     }
 
     return params;

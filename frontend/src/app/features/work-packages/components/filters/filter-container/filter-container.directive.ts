@@ -35,8 +35,8 @@ import {
   OnInit,
   Output,
   ViewEncapsulation,
-} from '@angular/core';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+} from "@angular/core";
+import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
 import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
 import { Observable } from "rxjs";
@@ -45,14 +45,14 @@ import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 
 @Component({
-  templateUrl: './filter-container.directive.html',
+  templateUrl: "./filter-container.directive.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'filter-container'
+  selector: "filter-container",
 })
 export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @Input('showFilterButton') showFilterButton = false;
+  @Input("showFilterButton") showFilterButton = false;
 
-  @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
+  @Input("filterButtonText") filterButtonText:string = I18n.t("js.button_filter");
 
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 

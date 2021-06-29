@@ -12,7 +12,7 @@ export function relationRowClass():string {
 }
 
 export function locateTableRow(workPackageId:string):JQuery {
-  return jQuery('.' + rowId(workPackageId));
+  return jQuery(`.${rowId(workPackageId)}`);
 }
 
 export function locateTableRowByIdentifier(identifier:string) {

@@ -28,36 +28,36 @@
 
 import {
   APP_INITIALIZER, ApplicationRef, Injector, NgModule,
-} from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { States } from 'core-app/core/states/states.service';
+} from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
+import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
+import { States } from "core-app/core/states/states.service";
 import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpDragScrollDirective } from "core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive";
-import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
+import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
 import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";
 import { OpenprojectAttachmentsModule } from "core-app/shared/components/attachments/openproject-attachments.module";
 import { OpenprojectEditorModule } from "core-app/shared/components/editor/openproject-editor.module";
-import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
-import { OpenprojectRouterModule } from 'core-app/core/routing/openproject-router.module';
-import { OpenprojectWorkPackageRoutesModule } from 'core-app/features/work-packages/openproject-work-package-routes.module';
-import { BrowserModule } from '@angular/platform-browser';
-import { OpenprojectCalendarModule } from 'core-app/shared/components/calendar/openproject-calendar.module';
-import { OpenprojectGlobalSearchModule } from 'core-app/core/global_search/openproject-global-search.module';
-import { OpenprojectDashboardsModule } from 'core-app/features/dashboards/openproject-dashboards.module';
-import { OpenprojectWorkPackageGraphsModule } from 'core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module';
-import { PreviewTriggerService } from 'core-app/core/setup/globals/global-listeners/preview-trigger.service';
-import { OpenprojectOverviewModule } from 'core-app/features/overview/openproject-overview.module';
-import { OpenprojectMyPageModule } from 'core-app/features/my-page/openproject-my-page.module';
-import { OpenprojectProjectsModule } from 'core-app/features/projects/openproject-projects.module';
-import { KeyboardShortcutService } from 'core-app/shared/directives/a11y/keyboard-shortcut-service';
-import { OpenprojectMembersModule } from 'core-app/shared/components/autocompleter/members-autocompleter/members.module';
-import { OpenprojectAugmentingModule } from 'core-app/core/augmenting/openproject-augmenting.module';
-import { OpenprojectInviteUserModalModule } from 'core-app/features/invite-user-modal/invite-user-modal.module';
-import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
-import { RevitAddInSettingsButtonService } from 'core-app/features/bim/revit_add_in/revit-add-in-settings-button.service';
-import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
+import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
+import { OpenprojectRouterModule } from "core-app/core/routing/openproject-router.module";
+import { OpenprojectWorkPackageRoutesModule } from "core-app/features/work-packages/openproject-work-package-routes.module";
+import { BrowserModule } from "@angular/platform-browser";
+import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";
+import { OpenprojectGlobalSearchModule } from "core-app/core/global_search/openproject-global-search.module";
+import { OpenprojectDashboardsModule } from "core-app/features/dashboards/openproject-dashboards.module";
+import { OpenprojectWorkPackageGraphsModule } from "core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module";
+import { PreviewTriggerService } from "core-app/core/setup/globals/global-listeners/preview-trigger.service";
+import { OpenprojectOverviewModule } from "core-app/features/overview/openproject-overview.module";
+import { OpenprojectMyPageModule } from "core-app/features/my-page/openproject-my-page.module";
+import { OpenprojectProjectsModule } from "core-app/features/projects/openproject-projects.module";
+import { KeyboardShortcutService } from "core-app/shared/directives/a11y/keyboard-shortcut-service";
+import { OpenprojectMembersModule } from "core-app/shared/components/autocompleter/members-autocompleter/members.module";
+import { OpenprojectAugmentingModule } from "core-app/core/augmenting/openproject-augmenting.module";
+import { OpenprojectInviteUserModalModule } from "core-app/features/invite-user-modal/invite-user-modal.module";
+import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
+import { RevitAddInSettingsButtonService } from "core-app/features/bim/revit_add_in/revit-add-in-settings-button.service";
+import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
 import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
 import { OpenprojectEnterpriseModule } from "core-app/features/enterprise/openproject-enterprise.module";
 import { MainMenuToggleComponent } from "core-app/core/main-menu/main-menu-toggle.component";
@@ -80,7 +80,7 @@ import { HookService } from "core-app/features/plugins/hook-service";
 import { OpenprojectPluginsModule } from "core-app/features/plugins/openproject-plugins.module";
 import { LinkedPluginsModule } from "core-app/features/plugins/linked-plugins.module";
 import { OpenProjectInAppNotificationsModule } from "core-app/features/in-app-notifications/in-app-notifications.module";
-import { OpenProjectBackupService } from './core/backup/op-backup.service';
+import { OpenProjectBackupService } from "./core/backup/op-backup.service";
 import { OpenProjectDirectFileUploadService } from "./core/file-upload/op-direct-file-upload.service";
 
 @NgModule({
@@ -210,7 +210,7 @@ export class OpenProjectModule {
     // We can't use ngDoBootstrap in nested modules since they are not called.
     const hookService = (appRef as any)._injector.get(HookService);
     hookService
-      .call('openProjectAngularBootstrap')
+      .call("openProjectAngularBootstrap")
       .forEach((results:{ selector:string, cls:any }[]) => {
         DynamicBootstrapper.bootstrapOptionalDocument(appRef, document, results);
       });

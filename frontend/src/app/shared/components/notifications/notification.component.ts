@@ -28,24 +28,24 @@
 
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import {
   INotification,
   NotificationsService,
   NotificationType,
-} from 'core-app/shared/components/notifications/notifications.service';
+} from "core-app/shared/components/notifications/notifications.service";
 
 @Component({
-  templateUrl: './notification.component.html',
+  templateUrl: "./notification.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'notification'
+  selector: "notification",
 })
 export class NotificationComponent implements OnInit {
   @Input() public notification:INotification;
 
   public text = {
-    close_popup: this.I18n.t('js.close_popup_title'),
+    close_popup: this.I18n.t("js.close_popup_title"),
   };
 
   public type:NotificationType;
@@ -71,7 +71,7 @@ export class NotificationComponent implements OnInit {
   }
 
   public removable() {
-    return this.notification.type !== 'upload';
+    return this.notification.type !== "upload";
   }
 
   public remove() {
@@ -98,7 +98,7 @@ export class NotificationComponent implements OnInit {
   }
 
   public get uploadText() {
-    return this.I18n.t('js.label_upload_counter',
+    return this.I18n.t("js.label_upload_counter",
       { done: this.uploadCount, count: this.data.length });
   }
 }

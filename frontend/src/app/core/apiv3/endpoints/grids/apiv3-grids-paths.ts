@@ -45,10 +45,10 @@ export class Apiv3GridsPaths
   implements Apiv3ListResourceInterface<GridResource> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'grids', Apiv3GridPaths);
+    super(apiRoot, basePath, "grids", Apiv3GridPaths);
   }
 
-  readonly form = this.subResource('form', Apiv3GridForm);
+  readonly form = this.subResource("form", Apiv3GridForm);
 
   /**
    * Load a list of grids with a given list parameter filter

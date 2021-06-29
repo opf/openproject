@@ -15,17 +15,17 @@ import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-re
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    activity: this.i18n.t('js.time_entry.activity'),
-    comment: this.i18n.t('js.time_entry.comment'),
-    hour: this.i18n.t('js.time_entry.hours'),
-    workPackage: this.i18n.t('js.label_work_package'),
-    edit: this.i18n.t('js.button_edit'),
-    delete: this.i18n.t('js.button_delete'),
+    activity: this.i18n.t("js.time_entry.activity"),
+    comment: this.i18n.t("js.time_entry.comment"),
+    hour: this.i18n.t("js.time_entry.hours"),
+    workPackage: this.i18n.t("js.label_work_package"),
+    edit: this.i18n.t("js.button_edit"),
+    delete: this.i18n.t("js.button_delete"),
     confirmDelete: {
-      text: this.i18n.t('js.modals.destroy_time_entry.text'),
-      title: this.i18n.t('js.modals.destroy_time_entry.title'),
+      text: this.i18n.t("js.modals.destroy_time_entry.text"),
+      title: this.i18n.t("js.modals.destroy_time_entry.title"),
     },
-    noResults: this.i18n.t('js.grid.widgets.time_entries_list.no_results'),
+    noResults: this.i18n.t("js.grid.widgets.time_entries_list.no_results"),
   };
 
   public entries:TimeEntryResource[] = [];
@@ -63,7 +63,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   public get total() {
     const duration = this.entries.reduce((current, entry) => current + this.timezone.toHours(entry.hours), 0);
 
-    return this.i18n.t('js.units.hour', { count: this.formatNumber(duration) });
+    return this.i18n.t("js.units.hour", { count: this.formatNumber(duration) });
   }
 
   public get anyEntries() {
@@ -132,7 +132,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       showClose: true,
       closeByDocument: true,
       passedData: [
-        '#' + entry.workPackage?.idFromLink + ' ' + entry.workPackage?.name,
+        `#${entry.workPackage?.idFromLink} ${entry.workPackage?.name}`,
         `${this.i18n.t(
           "js.units.hour",
           { count: this.timezone.toHours(entry.hours) },

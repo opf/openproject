@@ -22,9 +22,9 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 
 @Component({
-  selector: 'wp-single-card',
-  styleUrls: ['./wp-single-card.component.sass'],
-  templateUrl: './wp-single-card.component.html',
+  selector: "wp-single-card",
+  styleUrls: ["./wp-single-card.component.sass"],
+  templateUrl: "./wp-single-card.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implements OnInit {
@@ -36,11 +36,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public showRemoveButton = false;
 
-  @Input() public highlightingMode:CardHighlightingMode = 'inline';
+  @Input() public highlightingMode:CardHighlightingMode = "inline";
 
   @Input() public draggable = false;
 
-  @Input() public orientation:CardViewOrientation = 'vertical';
+  @Input() public orientation:CardViewOrientation = "vertical";
 
   @Input() public shrinkOnMobile = false;
 
@@ -51,8 +51,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   public uiStateLinkClass:string = uiStateLinkClass;
 
   public text = {
-    removeCard: this.I18n.t('js.card.remove_from_list'),
-    detailsView: this.I18n.t('js.button_open_details'),
+    removeCard: this.I18n.t("js.card.remove_from_list"),
+    detailsView: this.I18n.t("js.button_open_details"),
   };
 
   constructor(readonly pathHelper:PathHelperService,
@@ -86,7 +86,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     }
 
     const classIdentifier = this.classIdentifier(wp);
-    const stateToEmit = detail ? 'split' : 'show';
+    const stateToEmit = detail ? "split" : "show";
 
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.wpTableFocus.updateFocus(wp.id!);
@@ -94,12 +94,12 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public cardClasses() {
-    let classes = this.isSelected(this.workPackage) ? checkedClassName : '';
-    classes += this.draggable ? ' -draggable' : '';
-    classes += this.workPackage.isNew ? ' -new' : '';
-    classes += ' wp-card-' + this.workPackage.id;
-    classes += ' -' + this.orientation;
-    classes += this.shrinkOnMobile ? ' -shrink' : '';
+    let classes = this.isSelected(this.workPackage) ? checkedClassName : "";
+    classes += this.draggable ? " -draggable" : "";
+    classes += this.workPackage.isNew ? " -new" : "";
+    classes += ` wp-card-${this.workPackage.id}`;
+    classes += ` -${this.orientation}`;
+    classes += this.shrinkOnMobile ? " -shrink" : "";
     return classes;
   }
 
@@ -116,7 +116,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public fullWorkPackageLink(wp:WorkPackageResource) {
-    return this.$state.href('work-packages.show', { workPackageId: wp.id });
+    return this.$state.href("work-packages.show", { workPackageId: wp.id });
   }
 
   public cardHighlightingClass(wp:WorkPackageResource) {
@@ -124,7 +124,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public typeHighlightingClass(wp:WorkPackageResource) {
-    return this.attributeHighlighting('type', wp);
+    return this.attributeHighlighting("type", wp);
   }
 
   public onRemoved(wp:WorkPackageResource) {
@@ -144,10 +144,10 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   private cardHighlighting(wp:WorkPackageResource) {
-    if (['status', 'priority', 'type'].includes(this.highlightingMode)) {
+    if (["status", "priority", "type"].includes(this.highlightingMode)) {
       return Highlighting.backgroundClass(this.highlightingMode, wp[this.highlightingMode].id);
     }
-    return '';
+    return "";
   }
 
   private attributeHighlighting(type:string, wp:WorkPackageResource) {

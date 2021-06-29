@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";
 import { GlobalSearchInputComponent } from "core-app/core/global_search/input/global-search-input.component";
 import { GlobalSearchWorkPackagesComponent } from "core-app/core/global_search/global-search-work-packages.component";

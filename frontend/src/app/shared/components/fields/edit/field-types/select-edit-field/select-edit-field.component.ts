@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, InjectFlags, OnInit } from '@angular/core';
+import { Component, InjectFlags, OnInit } from "@angular/core";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { SelectAutocompleterRegisterService } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service";
 import { from } from "rxjs";
 import { map, tap } from "rxjs/operators";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
-import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
-import { StateService } from '@uirouter/core';
-import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
+import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
+import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
+import { StateService } from "@uirouter/core";
+import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { HalResourceSortingService } from "core-app/features/hal/services/hal-resource-sorting.service";
 import { EditFieldComponent } from "../../edit-field.component";
 
 export interface ValueOption {
@@ -46,7 +46,7 @@ export interface ValueOption {
 }
 
 @Component({
-  templateUrl: './select-edit-field.component.html',
+  templateUrl: "./select-edit-field.component.html",
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
@@ -94,7 +94,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
-    if (option && option.href === '') {
+    if (option && option.href === "") {
       option.href = null;
     }
 
@@ -107,7 +107,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   protected _autocompleterComponent:CreateAutocompleterComponent;
 
-  private hiddenOverflowContainer = '.__hidden_overflow_container';
+  private hiddenOverflowContainer = ".__hidden_overflow_container";
 
   /** Remember the values loading promise which changes as soon as the changeset is updated
    * (e.g., project or type is changed).
@@ -134,8 +134,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   protected initialize() {
     this.text = {
-      requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
-      placeholder: this.I18n.t('js.placeholders.default'),
+      requiredPlaceholder: this.I18n.t("js.placeholders.selection"),
+      placeholder: this.I18n.t("js.placeholders.default"),
     };
 
     this.valuesLoadingPromise = this.change.getForm().then(() => this.initialValueLoading());
@@ -144,7 +144,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   initializeShowAddButton() {
-    this.showAddNewButton = this.schema.type === 'User';
+    this.showAddNewButton = this.schema.type === "User";
   }
 
   protected initialValueLoading() {
@@ -233,7 +233,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public onOpen() {
-    jQuery(this.hiddenOverflowContainer).one('scroll', () => {
+    jQuery(this.hiddenOverflowContainer).one("scroll", () => {
       this._autocompleterComponent.closeSelect();
     });
   }
@@ -269,7 +269,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     if (emptyOption === undefined) {
       this.availableOptions.unshift({
         name: this.text.placeholder,
-        href: ''
+        href: "",
       });
     }
   }
@@ -299,12 +299,12 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   private _syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode:boolean) {
     // Work package type changes need to be synced with the type url param
     // in order to keep the form changes (changeset) between route/state changes
-    if (fieldName === 'type' && editMode) {
+    if (fieldName === "type" && editMode) {
       this.handler.registerOnBeforeSubmit(() => {
         const newType = this.value?.$source?.id;
 
         if (newType) {
-          this.$state.go('.', { type: newType }, { notify: false });
+          this.$state.go(".", { type: newType }, { notify: false });
         }
       });
     }

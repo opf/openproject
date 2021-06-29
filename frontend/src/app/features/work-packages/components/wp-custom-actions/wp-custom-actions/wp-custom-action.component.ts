@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, Input } from "@angular/core";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
@@ -38,8 +38,8 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { CustomActionResource } from "core-app/features/hal/resources/custom-action-resource";
 
 @Component({
-  selector: 'wp-custom-action',
-  templateUrl: './wp-custom-action.component.html'
+  selector: "wp-custom-action",
+  templateUrl: "./wp-custom-action.component.html",
 })
 export class WpCustomActionComponent {
   @Input() workPackage:WorkPackageResource;
@@ -91,7 +91,7 @@ export class WpCustomActionComponent {
       );
   }
 
-  @HostListener('mouseenter') onMouseEnter() {
+  @HostListener("mouseenter") onMouseEnter() {
     this.fetchAction();
   }
 }

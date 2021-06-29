@@ -12,22 +12,22 @@ import { ProjectResource } from "core-app/features/hal/resources/project-resourc
 
 @Injectable()
 export class BoardAssigneeActionService extends CachedBoardActionService {
-  filterName = 'assignee';
+  filterName = "assignee";
 
-  text = this.I18n.t('js.boards.board_type.board_type_title.assignee');
+  text = this.I18n.t("js.boards.board_type.board_type_title.assignee");
 
-  description = this.I18n.t('js.boards.board_type.action_text_assignee');
+  description = this.I18n.t("js.boards.board_type.action_text_assignee");
 
-  label = this.I18n.t('js.boards.add_list_modal.labels.assignee');
+  label = this.I18n.t("js.boards.add_list_modal.labels.assignee");
 
-  icon = 'icon-user';
+  icon = "icon-user";
 
-  image = ImageHelpers.imagePath('board_creation_modal/assignees.svg');
+  image = ImageHelpers.imagePath("board_creation_modal/assignees.svg");
 
   readonly unassignedUser:any = {
     id: null,
     href: null,
-    name: this.I18n.t('js.filter.noneElement'),
+    name: this.I18n.t("js.filter.noneElement"),
   };
 
   /**
@@ -43,14 +43,14 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
     if (value.id === null) {
       filter = {
         assignee: {
-          operator: '!*',
+          operator: "!*",
           values: [],
         },
       };
     } else {
       filter = {
         assignee: {
-          operator: '=',
+          operator: "=",
           values: [value.idFromLink],
         },
       };
@@ -68,14 +68,14 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
     const filter = this.getActionFilter(query);
 
     // Return the special unassigned user
-    if (filter && filter.operator.id === '!*') {
+    if (filter && filter.operator.id === "!*") {
       return Promise.resolve(this.unassignedUser);
     }
 
     return super.getLoadedActionValue(query);
   }
 
-  localizedName = this.I18n.t('js.work_packages.properties.assignee');
+  localizedName = this.I18n.t("js.work_packages.properties.assignee");
 
   public headerComponent() {
     return AssigneeBoardHeaderComponent;
@@ -83,8 +83,8 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   public warningTextWhenNoOptionsAvailable(hasMember?:boolean) {
     let text = hasMember
-      ? this.I18n.t('js.boards.add_list_modal.warning.assignee')
-      : this.I18n.t('js.boards.add_list_modal.warning.no_member');
+      ? this.I18n.t("js.boards.add_list_modal.warning.assignee")
+      : this.I18n.t("js.boards.add_list_modal.warning.no_member");
 
     return this
       .apiV3Service
@@ -95,7 +95,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       .then((project:ProjectResource) => {
         if (project.memberships) {
           text = text.concat(
-            this.I18n.t('js.boards.add_list_modal.warning.add_members', {
+            this.I18n.t("js.boards.add_list_modal.warning.add_members", {
               link: this.pathHelper.projectMembershipsPath(this.currentProject.identifier!),
             }),
           );

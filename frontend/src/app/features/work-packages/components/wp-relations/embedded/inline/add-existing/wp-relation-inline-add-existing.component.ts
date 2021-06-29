@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Inject } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Component, Inject } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
 import { WorkPackageInlineCreateComponent } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.component";
 import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
@@ -42,7 +42,7 @@ import { WorkPackageNotificationService } from "core-app/features/work-packages/
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 
 @Component({
-  templateUrl: './wp-relation-inline-add-existing.component.html'
+  templateUrl: "./wp-relation-inline-add-existing.component.html",
 })
 export class WpRelationInlineAddExistingComponent {
   public selectedWpId:string;
@@ -52,7 +52,7 @@ export class WpRelationInlineAddExistingComponent {
   public queryFilters = this.buildQueryFilters();
 
   public text = {
-    abort: this.I18n.t('js.relation_buttons.abort'),
+    abort: this.I18n.t("js.relation_buttons.abort"),
   };
 
   constructor(protected readonly parent:WorkPackageInlineCreateComponent,
@@ -83,7 +83,7 @@ export class WpRelationInlineAddExistingComponent {
           .refresh();
 
         this.halEvents.push(this.workPackage, {
-          eventType: 'association',
+          eventType: "association",
           relatedWorkPackage: newRelationId,
           relationType: this.relationType,
         });

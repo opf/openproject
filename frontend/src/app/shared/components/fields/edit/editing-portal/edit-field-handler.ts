@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 

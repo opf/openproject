@@ -43,7 +43,7 @@ export class Apiv3NewsPaths
   implements Apiv3ListResourceInterface<NewsResource> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'news');
+    super(apiRoot, basePath, "news");
   }
 
   /**

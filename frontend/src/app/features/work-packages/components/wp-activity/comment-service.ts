@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { Injectable } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { Subject } from "rxjs";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
@@ -50,7 +50,7 @@ export class CommentService {
   public createComment(workPackage:WorkPackageResource, comment:{ raw:string }) {
     return workPackage.addComment(
       { comment },
-      { 'Content-Type': 'application/json; charset=UTF-8' },
+      { "Content-Type": "application/json; charset=UTF-8" },
     )
       .catch((error:any) => this.errorAndReject(error, workPackage));
   }
@@ -58,18 +58,18 @@ export class CommentService {
   public updateComment(activity:HalResource, comment:string) {
     const options = {
       ajax: {
-        method: 'PATCH',
+        method: "PATCH",
         data: JSON.stringify({ comment }),
-        contentType: 'application/json; charset=utf-8'
+        contentType: "application/json; charset=utf-8",
       },
     };
 
     return activity.update(
       { comment },
-      { 'Content-Type': 'application/json; charset=UTF-8' },
+      { "Content-Type": "application/json; charset=UTF-8" },
     ).then((activity:HalResource) => {
       this.NotificationsService.addSuccess(
-        this.I18n.t('js.work_packages.comment_updated'),
+        this.I18n.t("js.work_packages.comment_updated"),
       );
 
       return activity;

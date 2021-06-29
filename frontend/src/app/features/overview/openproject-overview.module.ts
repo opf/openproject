@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { Ng2StateDeclaration, UIRouter, UIRouterModule } from "@uirouter/angular";
 import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
 import { OverviewComponent } from "core-app/features/overview/overview.component";
 
-const menuItemClass = 'overview-menu-item';
+const menuItemClass = "overview-menu-item";
 
 export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: 'overview',
-    parent: 'root',
+    name: "overview",
+    parent: "root",
     // The trailing slash is important
     // cf., https://community.openproject.com/wp/29754
-    url: '/',
+    url: "/",
     data: {
       menuItem: menuItemClass,
     },

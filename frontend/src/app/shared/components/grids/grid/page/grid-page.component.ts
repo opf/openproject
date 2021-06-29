@@ -1,8 +1,8 @@
 import {
   ChangeDetectorRef, OnDestroy, OnInit, Renderer2, Directive,
-} from '@angular/core';
+} from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Title } from '@angular/platform-browser';
+import { Title } from "@angular/platform-browser";
 import { GridInitializationService } from "core-app/shared/components/grids/grid/initialization.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { GridResource } from "core-app/features/hal/resources/grid-resource";
@@ -31,7 +31,7 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
   public grid:GridResource;
 
   ngOnInit() {
-    this.renderer.addClass(document.body, 'widget-grid-layout');
+    this.renderer.addClass(document.body, "widget-grid-layout");
     this
       .gridInitialization
       .initialize(this.gridScopePath())
@@ -44,7 +44,7 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():void {
-    this.renderer.removeClass(document.body, 'widget-grid-layout');
+    this.renderer.removeClass(document.body, "widget-grid-layout");
   }
 
   private setHtmlTitle() {

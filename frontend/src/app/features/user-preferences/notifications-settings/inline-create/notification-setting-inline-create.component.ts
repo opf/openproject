@@ -1,6 +1,6 @@
 import {
   EventEmitter, Component, OnInit, ChangeDetectionStrategy, Output, Input,
-} from '@angular/core';
+} from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { Observable, of } from "rxjs";
 import { map, tap } from "rxjs/operators";
@@ -14,8 +14,8 @@ export interface NotificationSettingProjectOption {
 }
 
 @Component({
-  selector: 'op-notification-setting-inline-create',
-  templateUrl: './notification-setting-inline-create.component.html',
+  selector: "op-notification-setting-inline-create",
+  templateUrl: "./notification-setting-inline-create.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationSettingInlineCreateComponent {
@@ -27,8 +27,8 @@ export class NotificationSettingInlineCreateComponent {
   active = false;
 
   text = {
-    add_setting: this.I18n.t('js.notifications.settings.add'),
-    please_select: this.I18n.t('js.placeholders.selection'),
+    add_setting: this.I18n.t("js.notifications.settings.add"),
+    please_select: this.I18n.t("js.placeholders.selection"),
   };
 
   public autocompleterOptions = {
@@ -54,8 +54,8 @@ export class NotificationSettingInlineCreateComponent {
     }
 
     const filters = new ApiV3FilterBuilder()
-      .add('name_and_identifier', '~', [term])
-      .add('visible', '=', [this.userId]);
+      .add("name_and_identifier", "~", [term])
+      .add("visible", "=", [this.userId]);
 
     return this
       .apiV3Service

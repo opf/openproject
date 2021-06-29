@@ -35,7 +35,7 @@ import {
   Output,
   ViewChild,
   Injector,
-} from '@angular/core';
+} from "@angular/core";
 import { NgSelectComponent } from "@ng-select/ng-select";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
@@ -45,7 +45,7 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 import { PrincipalHelper } from "core-app/shared/components/principal/principal-helper";
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
 import { filter } from "rxjs/operators";
@@ -56,9 +56,9 @@ export interface CreateAutocompleterValueOption {
 }
 
 @Component({
-  templateUrl: './create-autocompleter.component.html',
-  selector: 'create-autocompleter',
-  styleUrls: ['./create-autocompleter.component.sass'],
+  templateUrl: "./create-autocompleter.component.html",
+  selector: "create-autocompleter",
+  styleUrls: ["./create-autocompleter.component.sass"],
 })
 export class CreateAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
@@ -75,9 +75,9 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public finishedLoading = false;
 
-  @Input() public id = '';
+  @Input() public id = "";
 
-  @Input() public classes = '';
+  @Input() public classes = "";
 
   @Input() public typeahead?:Subject<string>;
 
@@ -120,7 +120,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   constructor(readonly injector:Injector) {
     super();
 
-    this.text.add_new_action = this.I18n.t('js.label_create');
+    this.text.add_new_action = this.I18n.t("js.label_create");
   }
 
   ngAfterViewInit() {

@@ -8,13 +8,13 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 
 @Directive()
 export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
-  @HostBinding('style.grid-column-start') gridColumnStart:number;
+  @HostBinding("style.grid-column-start") gridColumnStart:number;
 
-  @HostBinding('style.grid-column-end') gridColumnEnd:number;
+  @HostBinding("style.grid-column-end") gridColumnEnd:number;
 
-  @HostBinding('style.grid-row-start') gridRowStart:number;
+  @HostBinding("style.grid-row-start") gridRowStart:number;
 
-  @HostBinding('style.grid-row-end') gridRowEnd:number;
+  @HostBinding("style.grid-row-end") gridRowEnd:number;
 
   @Input() resource:GridWidgetResource;
 
@@ -56,7 +56,7 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
   protected setChangesetOptions(values:{ [key:string]:unknown; }) {
     const changeset = new WidgetChangeset(this.resource);
 
-    changeset.setValue('options', { ...this.resource.options, ...values });
+    changeset.setValue("options", { ...this.resource.options, ...values });
 
     return changeset;
   }

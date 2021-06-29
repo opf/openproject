@@ -12,19 +12,19 @@ import { CollectionResource } from "core-app/features/hal/resources/collection-r
 
 @Injectable()
 export class BoardSubprojectActionService extends CachedBoardActionService {
-  filterName = 'onlySubproject';
+  filterName = "onlySubproject";
 
-  text = this.I18n.t('js.boards.board_type.board_type_title.subproject');
+  text = this.I18n.t("js.boards.board_type.board_type_title.subproject");
 
-  description = this.I18n.t('js.boards.board_type.action_text_subprojects');
+  description = this.I18n.t("js.boards.board_type.action_text_subprojects");
 
-  label = this.I18n.t('js.boards.add_list_modal.labels.subproject');
+  label = this.I18n.t("js.boards.add_list_modal.labels.subproject");
 
-  icon = 'icon-projects';
+  icon = "icon-projects";
 
-  image = ImageHelpers.imagePath('board_creation_modal/subproject.svg');
+  image = ImageHelpers.imagePath("board_creation_modal/subproject.svg");
 
-  localizedName = this.I18n.t('js.work_packages.properties.subproject');
+  localizedName = this.I18n.t("js.work_packages.properties.subproject");
 
   headerComponent() {
     return SubprojectBoardHeaderComponent;
@@ -38,7 +38,7 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
     const href = this.getActionValueId(query, true);
-    changeset.setValue('project', { href });
+    changeset.setValue("project", { href });
   }
 
   protected loadUncached():Promise<HalResource[]> {
@@ -48,8 +48,8 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
       .projects
       .filtered(
         new ApiV3FilterBuilder()
-          .add('ancestor', '=', [currentProjectId])
-          .add('active', '=', true),
+          .add("ancestor", "=", [currentProjectId])
+          .add("active", "=", true),
       )
       .get()
       .toPromise()

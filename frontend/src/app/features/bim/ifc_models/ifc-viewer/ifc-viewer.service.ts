@@ -1,4 +1,4 @@
-import { Injectable, Inject, Injector } from '@angular/core';
+import { Injectable, Inject, Injector } from "@angular/core";
 import { XeokitServer } from "core-app/features/bim/ifc_models/xeokit/xeokit-server";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
@@ -57,7 +57,7 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public newViewer(elements:XeokitElements, projects:any[]) {
-    import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
+    import("@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es").then((XeokitViewerModule:any) => {
       const server = new XeokitServer(this.pathHelper);
       const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
@@ -81,12 +81,12 @@ export class IFCViewerService extends ViewerBridgeService {
         // We don't have an API for IFC models yet. We need to use the normal Rails form posts for deletion.
         const formData = new FormData();
         formData.append(
-          'authenticity_token',
-          jQuery('meta[name=csrf-token]').attr('content') as string,
+          "authenticity_token",
+          jQuery("meta[name=csrf-token]").attr("content") as string,
         );
         formData.append(
-          '_method',
-          'delete'
+          "_method",
+          "delete",
         );
 
         this.httpClient.post(

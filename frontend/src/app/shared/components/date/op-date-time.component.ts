@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 @Component({
-  selector: 'op-date-time',
+  selector: "op-date-time",
   template: `
     <span title="{{date}} {{ time }}">
       <span [textContent]="date"></span>
       <span>&nbsp;</span>
       <span [textContent]="time"></span>
     </span>
-  `
+  `,
 })
 export class OpDateTimeComponent {
-
-  @Input('dateTimeValue') dateTimeValue:any;
+  @Input("dateTimeValue") dateTimeValue:any;
 
   public date:any;
+
   public time:any;
 
   constructor(readonly timezoneService:TimezoneService) {

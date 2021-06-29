@@ -35,17 +35,17 @@ export class ProjectResource extends HalResource {
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
-    if (['statusExplanation', 'description'].indexOf(fieldName) !== -1) {
-      return { type: 'full', macros: 'resource' };
+    if (["statusExplanation", "description"].indexOf(fieldName) !== -1) {
+      return { type: "full", macros: "resource" };
     }
 
-    return { type: 'constrained' };
+    return { type: "constrained" };
   }
 
   /**
    * Exclude the schema _link from the linkable Resources.
    */
   public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), 'schema');
+    return _.without(super.$linkableKeys(), "schema");
   }
 }

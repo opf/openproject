@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 class Apiv3Paths {
@@ -63,17 +63,17 @@ class Apiv3Paths {
   public principals(projectId:string|number, term:string|null) {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     // Only real and activated users:
-    filters.add('status', '!', ['3']);
+    filters.add("status", "!", ["3"]);
     // that are members of that project:
-    filters.add('member', '=', [projectId.toString()]);
+    filters.add("member", "=", [projectId.toString()]);
     // That are users:
-    filters.add('type', '=', ['User', 'Group']);
+    filters.add("type", "=", ["User", "Group"]);
     // That are not the current user:
-    filters.add('id', '!', ['me']);
+    filters.add("id", "!", ["me"]);
 
     if (term && term.length > 0) {
       // Containing the that substring:
-      filters.add('name', '~', [term]);
+      filters.add("name", "~", [term]);
     }
 
     return `${this.apiV3Base
@@ -82,9 +82,9 @@ class Apiv3Paths {
   }
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class PathHelperService {
-  public readonly appBasePath = window.appBasePath || '';
+  public readonly appBasePath = window.appBasePath || "";
 
   public readonly api = {
     v3: new Apiv3Paths(this.appBasePath),

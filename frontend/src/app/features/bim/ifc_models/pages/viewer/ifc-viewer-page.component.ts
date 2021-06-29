@@ -27,10 +27,10 @@ import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 
 @Component({
-  templateUrl: '../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
+  templateUrl: "../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html",
   styleUrls: [
-    '../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
-    './styles/generic.sass'
+    "../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass",
+    "./styles/generic.sass",
   ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,10 +40,10 @@ import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge
 })
 export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
   text = {
-    title: this.I18n.t('js.bcf.management'),
-    delete: this.I18n.t('js.button_delete'),
-    edit: this.I18n.t('js.button_edit'),
-    areYouSure: this.I18n.t('js.text_are_you_sure'),
+    title: this.I18n.t("js.bcf.management"),
+    delete: this.I18n.t("js.button_delete"),
+    edit: this.I18n.t("js.button_edit"),
+    areYouSure: this.I18n.t("js.text_are_you_sure"),
   };
 
   newRoute$ = new BehaviorSubject<string | undefined>(undefined);
@@ -55,18 +55,18 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       component: WorkPackageCreateButtonComponent,
       inputs: {
         stateName$: this.newRoute$,
-        allowed: ['work_packages.createWorkPackage', 'work_package.copy'],
+        allowed: ["work_packages.createWorkPackage", "work_package.copy"],
       },
     },
     {
       component: BcfImportButtonComponent,
-      show: () => this.ifcData.allowed('manage_bcf'),
-      containerClasses: 'hidden-for-mobile'
+      show: () => this.ifcData.allowed("manage_bcf"),
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: BcfExportButtonComponent,
-      show: () => this.ifcData.allowed('manage_bcf'),
-      containerClasses: 'hidden-for-mobile'
+      show: () => this.ifcData.allowed("manage_bcf"),
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: WorkPackageFilterButtonComponent,
@@ -74,11 +74,11 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     },
     {
       component: BimViewToggleButtonComponent,
-      containerClasses: 'hidden-for-mobile'
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: 'hidden-for-mobile'
+      containerClasses: "hidden-for-mobile",
     },
     {
       component: BimManageIfcModelsButtonComponent,
@@ -137,7 +137,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     if (this.bimView.current === bimListViewIdentifier) {
       super.updateTitle(query);
     } else {
-      this.selectedTitle = this.I18n.t('js.bcf.management');
+      this.selectedTitle = this.I18n.t("js.bcf.management");
     }
 
     // For now, disable any editing

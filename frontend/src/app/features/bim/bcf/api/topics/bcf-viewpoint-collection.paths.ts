@@ -26,7 +26,7 @@ export class BcfTopicCollectionPath extends BcfResourceCollectionPath<BcfTopicPa
     return this
       .bcfTopicService
       .request(
-        'post',
+        "post",
         this.toPath(),
         payload,
       );

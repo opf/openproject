@@ -36,14 +36,14 @@ import {
   Output,
 } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { PaginationInstance } from 'core-app/shared/components/table-pagination/pagination-instance';
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { PaginationInstance } from "core-app/shared/components/table-pagination/pagination-instance";
 import { IPaginationOptions, PaginationService } from "./pagination-service";
 
 @Component({
-  selector: '[tablePagination]',
+  selector: "[tablePagination]",
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './table-pagination.component.html'
+  templateUrl: "./table-pagination.component.html",
 })
 export class TablePaginationComponent extends UntilDestroyedMixin implements OnInit {
   @Input() totalEntries:string;
@@ -61,13 +61,13 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
   public pagination:PaginationInstance;
 
   public text = {
-    label_previous: this.I18n.t('js.pagination.pages.previous'),
-    label_next: this.I18n.t('js.pagination.pages.next'),
-    per_page: this.I18n.t('js.label_per_page'),
-    no_other_page: this.I18n.t('js.pagination.no_other_page'),
+    label_previous: this.I18n.t("js.pagination.pages.previous"),
+    label_next: this.I18n.t("js.pagination.pages.next"),
+    per_page: this.I18n.t("js.label_per_page"),
+    no_other_page: this.I18n.t("js.pagination.no_other_page"),
   };
 
-  public currentRange = '';
+  public currentRange = "";
 
   public pageNumbers:number[] = [];
 
@@ -134,9 +134,9 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
       const lowerBound = this.pagination.getLowerPageBound();
       const upperBound = this.pagination.getUpperPageBound(this.pagination.total);
 
-      this.currentRange = '(' + lowerBound + ' - ' + upperBound + '/' + totalItems + ')';
+      this.currentRange = `(${lowerBound} - ${upperBound}/${totalItems})`;
     } else {
-      this.currentRange = '(0 - 0/0)';
+      this.currentRange = "(0 - 0/0)";
     }
   }
 

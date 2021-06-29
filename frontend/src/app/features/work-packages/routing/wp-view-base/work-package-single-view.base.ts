@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Injector } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { ChangeDetectorRef, Injector } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { OpTitleService } from "core-app/core/html/op-title.service";
-import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { States } from 'core-app/core/states/states.service';
-import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HookService } from 'core-app/features/plugins/hook-service';
+import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
+import { States } from "core-app/core/states/states.service";
+import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { HookService } from "core-app/features/plugins/hook-service";
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -112,8 +112,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    */
   protected initializeTexts() {
     this.text.tabs = {};
-    ['overview', 'activity', 'relations', 'watchers'].forEach(tab => {
-      this.text.tabs[tab] = this.I18n.t('js.work_packages.tabs.' + tab);
+    ["overview", "activity", "relations", "watchers"].forEach(tab => {
+      this.text.tabs[tab] = this.I18n.t(`js.work_packages.tabs.${tab}`);
     });
   }
 
@@ -133,7 +133,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       });
 
     // Set authorisation data
-    this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
+    this.authorisationService.initModelAuth("work_package", this.workPackage.$links);
 
     // Push the current title
     this.titleService.setFirstPart(this.workPackage.subjectWithType(20));
@@ -155,8 +155,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Recompute the current tab focus label
    */
   public updateFocusAnchorLabel(tabName:string):string {
-    const tabLabel = this.I18n.t('js.label_work_package_details_you_are_here', {
-      tab: this.I18n.t('js.work_packages.tabs.' + tabName),
+    const tabLabel = this.I18n.t("js.label_work_package_details_you_are_here", {
+      tab: this.I18n.t(`js.work_packages.tabs.${tabName}`),
       type: this.workPackage.type.name,
       subject: this.workPackage.subject,
     });

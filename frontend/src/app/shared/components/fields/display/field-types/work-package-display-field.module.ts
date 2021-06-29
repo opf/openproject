@@ -30,7 +30,7 @@ import { DisplayField } from "core-app/shared/components/fields/display/display-
 
 export class WorkPackageDisplayField extends DisplayField {
   public text = {
-    none: this.I18n.t('js.filter.noneElement'),
+    none: this.I18n.t("js.filter.noneElement"),
   };
 
   public get value() {

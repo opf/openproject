@@ -69,7 +69,7 @@ export class ActivityEntryInfo {
   public isInitial(forceReverse = false) {
     var activityNo = this.number(forceReverse);
 
-    if (this.activity._type.indexOf('Activity') !== 0) {
+    if (this.activity._type.indexOf("Activity") !== 0) {
       return false;
     }
 
@@ -80,7 +80,7 @@ export class ActivityEntryInfo {
     while (--activityNo > 0) {
       var idx = this.orderedIndex(activityNo, forceReverse) - 1;
       var activity = this.activities[idx];
-      if (!_.isNil(activity) && activity._type.indexOf('Activity') === 0) {
+      if (!_.isNil(activity) && activity._type.indexOf("Activity") === 0) {
         return false;
       }
     }
@@ -90,7 +90,7 @@ export class ActivityEntryInfo {
 
   protected activityDate(activity:any) {
     // Force long date regardless of current date settings for headers
-    return moment(activity.createdAt).format('LL');
+    return moment(activity.createdAt).format("LL");
   }
 
   protected orderedIndex(activityNo:number, forceReverse = false) {

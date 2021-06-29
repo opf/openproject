@@ -62,9 +62,9 @@ export interface DisabledButtonPlaceholder {
 }
 
 @Component({
-  selector: 'board-list',
-  templateUrl: './board-list.component.html',
-  styleUrls: ['./board-list.component.sass'],
+  selector: "board-list",
+  templateUrl: "./board-list.component.html",
+  styleUrls: ["./board-list.component.sass"],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService },
@@ -80,7 +80,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   @Input() public board:Board;
 
   /** Access to the loading indicator element */
-  @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef;
+  @ViewChild("loadingIndicator", { static: true }) indicator:ElementRef;
 
   /** Access to the card view */
   @ViewChild(WorkPackageCardViewComponent) cardView:WorkPackageCardViewComponent;
@@ -94,7 +94,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** The action attribute resource if any */
   public actionResource:HalResource|undefined;
 
-  public actionResourceClass = '';
+  public actionResourceClass = "";
 
   public headerComponent:ComponentType<unknown>|undefined;
 
@@ -107,11 +107,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   public columnsQueryProps:any;
 
   public text = {
-    addCard: this.I18n.t('js.boards.add_card'),
-    updateSuccessful: this.I18n.t('js.notice_successful_update'),
-    areYouSure: this.I18n.t('js.text_are_you_sure'),
-    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
-    click_to_remove: this.I18n.t('js.boards.click_to_remove_list'),
+    addCard: this.I18n.t("js.boards.add_card"),
+    updateSuccessful: this.I18n.t("js.notice_successful_update"),
+    areYouSure: this.I18n.t("js.text_are_you_sure"),
+    unnamed_list: this.I18n.t("js.boards.label_unnamed_list"),
+    click_to_remove: this.I18n.t("js.boards.click_to_remove_list"),
   };
 
   /** Are we allowed to remove and drag & drop elements ? */
@@ -238,7 +238,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public get errorMessage() {
-    return this.I18n.t('js.boards.error_loading_the_list', { error_message: this.loadingError });
+    return this.I18n.t("js.boards.error_loading_the_list", { error_message: this.loadingError });
   }
 
   public canMove(workPackage:WorkPackageResource) {
@@ -426,7 +426,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     const newFilters = existingFilters.concat(filters);
     const newColumnsQueryProps:any = {
-      'columns[]': ['id', 'subject'],
+      "columns[]": ["id", "subject"],
       showHierarchies: false,
       pageSize: 500,
       filters: JSON.stringify(newFilters),
@@ -446,10 +446,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.halEvents
       .events$
       .pipe(
-        filter(event => event.resourceType === 'WorkPackage'),
+        filter(event => event.resourceType === "WorkPackage"),
         // Only allow updates, otherwise this causes an error reloading the list
         // before the work package can be added to the query order
-        filter(event => event.eventType === 'updated'),
+        filter(event => event.eventType === "updated"),
         map((event:HalEvent) => event.commit?.changes[this.actionService!.filterName]),
         filter(value => !!value),
         filter((value:ChangeItem) => {
@@ -469,7 +469,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   openFullViewOnDoubleClick(event:{ workPackageId:string, double:boolean }) {
     if (event.double) {
       this.state.go(
-        'work-packages.show',
+        "work-packages.show",
         { workPackageId: event.workPackageId },
       );
     }
@@ -478,7 +478,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   openStateLink(event:{ workPackageId:string; requestedState:string }) {
     const params = { workPackageId: event.workPackageId };
 
-    if (event.requestedState === 'split') {
+    if (event.requestedState === "split") {
       this.keepTab.goCurrentDetailsState(params);
     } else {
       this.keepTab.goCurrentShowState(params);

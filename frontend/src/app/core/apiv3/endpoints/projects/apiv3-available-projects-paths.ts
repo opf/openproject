@@ -64,7 +64,7 @@ export class Apiv3AvailableProjectsPaths
       .halResourceService
       .get<CollectionResource<ProjectResource>>(
         this.path,
-        { filters: buildApiV3Filter('id', '=', [projectId]).toJson() },
+        { filters: buildApiV3Filter("id", "=", [projectId]).toJson() },
       )
       .pipe(
         map(collection => collection.count > 0),

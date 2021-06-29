@@ -11,8 +11,8 @@ import {
 } from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { UIRouterGlobals } from '@uirouter/core';
+import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { UIRouterGlobals } from "@uirouter/core";
 import { pluck, distinctUntilChanged } from "rxjs/operators";
 import { States } from "core-app/core/states/states.service";
 import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
@@ -21,8 +21,8 @@ import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 
 @Component({
-  templateUrl: './bcf-list-container.component.html',
-  styleUrls: ['./bcf-list-container.component.sass'],
+  templateUrl: "./bcf-list-container.component.html",
+  styleUrls: ["./bcf-list-container.component.sass"],
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
@@ -60,13 +60,13 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     // until we can load the initial query
     this.wpTableColumns
       .onReady()
-      .then(() => this.wpTableColumns.addColumn('bcfThumbnail', 2));
+      .then(() => this.wpTableColumns.addColumn("bcfThumbnail", 2));
 
     this.uIRouterGlobals
       .params$!
       .pipe(
         this.untilDestroyed(),
-        pluck('cards'),
+        pluck("cards"),
         distinctUntilChanged(),
       )
       .subscribe((cards:boolean) => {

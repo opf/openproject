@@ -28,7 +28,7 @@
 
 import {
   Component, Output, EventEmitter, Injector,
-} from '@angular/core';
+} from "@angular/core";
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
@@ -37,8 +37,8 @@ import { WidgetAbstractMenuComponent } from "core-app/shared/components/grids/wi
 import { TimeEntriesCurrentUserConfigurationModalComponent } from "core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal";
 
 @Component({
-  selector: 'widget-time-entries-current-user-menu',
-  templateUrl: '../../menu/widget-menu.component.html'
+  selector: "widget-time-entries-current-user-menu",
+  templateUrl: "../../menu/widget-menu.component.html",
 })
 export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMenuComponent {
   @Output()
@@ -61,7 +61,7 @@ export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMen
 
   protected get configureItem() {
     return {
-      linkText: this.i18n.t('js.grid.configure'),
+      linkText: this.i18n.t("js.grid.configure"),
       onClick: () => {
         this.opModalService.show(TimeEntriesCurrentUserConfigurationModalComponent, this.injector, this.locals)
           .closingEvent.subscribe((modal:TimeEntriesCurrentUserConfigurationModalComponent) => {

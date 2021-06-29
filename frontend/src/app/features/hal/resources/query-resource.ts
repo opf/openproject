@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { HighlightingMode } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
 import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
@@ -45,7 +45,7 @@ export interface QueryResourceEmbedded {
   filters:QueryFilterInstanceResource[];
 }
 
-export type TimelineZoomLevel = 'days'|'weeks'|'months'|'quarters'|'years'|'auto';
+export type TimelineZoomLevel = "days"|"weeks"|"months"|"quarters"|"years"|"auto";
 
 export interface TimelineLabels {
   left:string|null;
@@ -104,7 +104,7 @@ export class QueryResource extends HalResource {
         filter,
         true,
         this.halInitializer,
-        'QueryFilterInstance'
+        "QueryFilterInstance",
       ));
   }
 }

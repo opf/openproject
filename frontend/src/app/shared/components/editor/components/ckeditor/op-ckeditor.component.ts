@@ -28,7 +28,7 @@
 
 import {
   Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,
-} from '@angular/core';
+} from "@angular/core";
 import {
   CKEditorSetupService,
   ICKEditorContext,
@@ -38,14 +38,14 @@ import { NotificationsService } from "core-app/shared/components/notifications/n
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 
-declare module 'codemirror';
+declare module "codemirror";
 
-const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
+const manualModeLocalStorageKey = "op-ckeditor-uses-manual-mode";
 
 @Component({
-  selector: 'op-ckeditor',
-  templateUrl: './op-ckeditor.html',
-  styleUrls: ['./op-ckeditor.sass'],
+  selector: "op-ckeditor",
+  templateUrl: "./op-ckeditor.html",
+  styleUrls: ["./op-ckeditor.sass"],
 })
 export class OpCkeditorComponent implements OnInit {
   @Input() context:ICKEditorContext;
@@ -69,9 +69,9 @@ export class OpCkeditorComponent implements OnInit {
   @Output() onInitializationFailed = new EventEmitter<string>();
 
   // View container of the replacement used to initialize CKEditor5
-  @ViewChild('opCkeditorReplacementContainer', { static: true }) opCkeditorReplacementContainer:ElementRef;
+  @ViewChild("opCkeditorReplacementContainer", { static: true }) opCkeditorReplacementContainer:ElementRef;
 
-  @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef;
+  @ViewChild("codeMirrorPane") codeMirrorPane:ElementRef;
 
   // CKEditor instance once initialized
   public ckEditorInstance:ICKEditorInstance;
@@ -85,7 +85,7 @@ export class OpCkeditorComponent implements OnInit {
   private _content:string;
 
   public text = {
-    errorTitle: this.I18n.t('js.editor.error_initialization_failed'),
+    errorTitle: this.I18n.t("js.editor.error_initialization_failed"),
   };
 
   // Codemirror instance, initialized lazily when running source mode
@@ -139,8 +139,8 @@ export class OpCkeditorComponent implements OnInit {
       } catch (e) {
         console.error(`Failed to save CKEditor content: ${e}.`);
         const error = this.I18n.t(
-          'js.editor.error_saving_failed',
-          { error: e || this.I18n.t('js.error.internal') },
+          "js.editor.error_saving_failed",
+          { error: e || this.I18n.t("js.error.internal") },
         );
 
         if (notificationOnError) {
@@ -192,17 +192,17 @@ export class OpCkeditorComponent implements OnInit {
         this.ckEditorInstance = editor;
 
         // Save changes while in wysiwyg mode
-        editor.model.document.on('change', this.debouncedEmitter);
+        editor.model.document.on("change", this.debouncedEmitter);
 
         // Switch mode
-        editor.on('op:source-code-enabled', () => this.enableManualMode());
-        editor.on('op:source-code-disabled', () => this.disableManualMode());
+        editor.on("op:source-code-enabled", () => this.enableManualMode());
+        editor.on("op:source-code-disabled", () => this.disableManualMode());
 
         this.onInitialized.emit(editor);
         return editor;
       });
 
-    this.$element.data('editor', editorPromise);
+    this.$element.data("editor", editorPromise);
   }
 
   /**
@@ -222,26 +222,26 @@ export class OpCkeditorComponent implements OnInit {
    */
   private enableManualMode() {
     const current = this.getRawData();
-    const cmMode = 'gfm';
+    const cmMode = "gfm";
 
     Promise
       .all([
-        import('codemirror'),
+        import("codemirror"),
         import(/* webpackChunkName: "codemirror-mode" */ `codemirror/mode/${cmMode}/${cmMode}.js`),
       ])
       .then((imported:any[]) => {
         const CodeMirror = imported[0].default;
         this.codeMirrorInstance = CodeMirror(
-          this.$element.find('.ck-editor__source')[0],
+          this.$element.find(".ck-editor__source")[0],
           {
             lineNumbers: true,
             smartIndent: true,
             value: current,
-            mode: ''
+            mode: "",
           },
         );
 
-        this.codeMirrorInstance.on('change', this.debouncedEmitter);
+        this.codeMirrorInstance.on("change", this.debouncedEmitter);
         setTimeout(() => this.codeMirrorInstance.refresh(), 100);
         this.manualMode = true;
       });

@@ -32,12 +32,12 @@ import {
 import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
 
 @Directive({
-  selector: '[focus]'
+  selector: "[focus]",
 })
 export class FocusDirective implements AfterViewInit {
-  @Input('focus') condition:boolean;
+  @Input("focus") condition:boolean;
 
-  @Input('focusPriority') priority?:number = 0;
+  @Input("focusPriority") priority?:number = 0;
 
   constructor(readonly FocusHelper:FocusHelperService,
     readonly elementRef:ElementRef) {

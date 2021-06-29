@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Output,
   ElementRef,
-} from '@angular/core';
+} from "@angular/core";
 import { Observable, of } from "rxjs";
 import { mapTo, switchMap } from "rxjs/operators";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -12,13 +12,13 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { RoleResource } from "core-app/features/hal/resources/role-resource";
 import { PrincipalData, PrincipalLike } from "core-app/shared/components/principal/principal-types";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
 import { PrincipalType } from "../invite-user.component";
 
 @Component({
-  selector: 'op-ium-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.sass'],
+  selector: "op-ium-summary",
+  templateUrl: "./summary.component.html",
+  styleUrls: ["./summary.component.sass"],
 })
 export class SummaryComponent {
   @Input() type:PrincipalType;
@@ -29,7 +29,7 @@ export class SummaryComponent {
 
   @Input() principalData:PrincipalData;
 
-  @Input() message = '';
+  @Input() message = "";
 
   @Output() close = new EventEmitter<void>();
 
@@ -40,22 +40,22 @@ export class SummaryComponent {
   public PrincipalType = PrincipalType;
 
   public text = {
-    title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
+    title: () => this.I18n.t("js.invite_user_modal.title.invite_principal_to_project", {
       principal: this.principal?.name,
       project: this.project?.name,
     }),
-    projectLabel: this.I18n.t('js.invite_user_modal.project.label'),
+    projectLabel: this.I18n.t("js.invite_user_modal.project.label"),
     principalLabel: {
-      User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
-      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      User: this.I18n.t("js.invite_user_modal.principal.label.name_or_email"),
+      PlaceholderUser: this.I18n.t("js.invite_user_modal.principal.label.name"),
+      Group: this.I18n.t("js.invite_user_modal.principal.label.name"),
     },
-    roleLabel: () => this.I18n.t('js.invite_user_modal.role.label', {
+    roleLabel: () => this.I18n.t("js.invite_user_modal.role.label", {
       project: this.project?.name,
     }),
-    messageLabel: this.I18n.t('js.invite_user_modal.message.label'),
-    backButton: this.I18n.t('js.invite_user_modal.back'),
-    nextButton: () => this.I18n.t('js.invite_user_modal.summary.next_button', {
+    messageLabel: this.I18n.t("js.invite_user_modal.message.label"),
+    backButton: this.I18n.t("js.invite_user_modal.back"),
+    nextButton: () => this.I18n.t("js.invite_user_modal.summary.next_button", {
       type: this.type,
       principal: this.principal,
     }),
@@ -100,7 +100,7 @@ export class SummaryComponent {
       case PrincipalType.User:
         return this.api.users.post({
           email: principal!.name,
-          status: 'invited',
+          status: "invited",
           ...customFields,
         });
       case PrincipalType.Placeholder:

@@ -12,22 +12,22 @@ export function performAnchorHijacking(evt:JQuery.TriggeredEvent, target:JQuery)
   }
 
   // Avoid handling clicks on anything other than a
-  const linkElement = target.closest('a');
+  const linkElement = target.closest("a");
   if (linkElement.length === 0) {
     return;
   }
 
-  const link = linkElement.attr('href') || '';
-  const hashPos = link.indexOf('#');
+  const link = linkElement.attr("href") || "";
+  const hashPos = link.indexOf("#");
 
   // If link is neither empty nor starts with hash, ignore it
-  if (link !== '' && hashPos !== 0) {
+  if (link !== "" && hashPos !== 0) {
     return;
   }
 
   // Set the location to the hash if there is any
   // Since with the base tag, links like href="#whatever" otherwise target to <base>/#whatever
-  if (hashPos !== -1 && link !== '#') {
+  if (hashPos !== -1 && link !== "#") {
     window.location.hash = link;
   }
 

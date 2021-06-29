@@ -28,7 +28,7 @@
 
 import {
   AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output, Injector,
-} from '@angular/core';
+} from "@angular/core";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
@@ -38,8 +38,8 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
 @Component({
-  templateUrl: '../create-autocompleter/create-autocompleter.component.html',
-  selector: 'version-autocompleter'
+  templateUrl: "../create-autocompleter/create-autocompleter.component.html",
+  selector: "version-autocompleter",
 })
 export class VersionAutocompleterComponent extends CreateAutocompleterComponent implements AfterViewInit {
   @Output() public onCreate = new EventEmitter<VersionResource>();
@@ -102,8 +102,8 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
 
   private getVersionPayload(name:string) {
     const payload:any = {};
-    payload['name'] = name;
-    payload['_links'] = {
+    payload["name"] = name;
+    payload["_links"] = {
       definingProject: {
         href: this.apiV3Service.projects.id(this.currentProject.id!).path,
       },

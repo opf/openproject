@@ -35,7 +35,7 @@ import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
-  templateUrl: './child-pages-macro.modal.html'
+  templateUrl: "./child-pages-macro.modal.html",
 })
 export class ChildPagesMacroModal extends OpModalComponent implements AfterViewInit {
   public changed = false;
@@ -50,20 +50,20 @@ export class ChildPagesMacroModal extends OpModalComponent implements AfterViewI
 
   public selectedIncludeParent:boolean;
 
-  public page = '';
+  public page = "";
 
   public includeParent = false;
 
-  @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef;
+  @ViewChild("selectedPageInput", { static: true }) selectedPageInput:ElementRef;
 
   public text:any = {
-    title: this.I18n.t('js.editor.macro.child_pages.button'),
-    hint: this.I18n.t('js.editor.macro.child_pages.hint'),
-    page: this.I18n.t('js.editor.macro.child_pages.page'),
-    include_parent: this.I18n.t('js.editor.macro.child_pages.include_parent'),
-    button_save: this.I18n.t('js.button_save'),
-    button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title'),
+    title: this.I18n.t("js.editor.macro.child_pages.button"),
+    hint: this.I18n.t("js.editor.macro.child_pages.hint"),
+    page: this.I18n.t("js.editor.macro.child_pages.page"),
+    include_parent: this.I18n.t("js.editor.macro.child_pages.include_parent"),
+    button_save: this.I18n.t("js.button_save"),
+    button_cancel: this.I18n.t("js.button_cancel"),
+    close_popup: this.I18n.t("js.close_popup_title"),
   };
 
   constructor(readonly elementRef:ElementRef,

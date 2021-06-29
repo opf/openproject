@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
-import { INotification } from 'core-app/shared/components/notifications/notifications.service';
+import { Injectable, Injector } from "@angular/core";
+import { INotification } from "core-app/shared/components/notifications/notifications.service";
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
@@ -41,7 +41,7 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
 
   public showSave(resource:WorkPackageResource, isCreate = false) {
     const message:any = {
-      message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
+      message: this.I18n.t(`js.notice_successful_${isCreate ? "create" : "update"}`),
     };
 
     this.addWorkPackageFullscreenLink(message, resource as any);
@@ -50,12 +50,12 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
   }
 
   protected showCustomError(errorResource:any, resource:WorkPackageResource):boolean {
-    if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
+    if (errorResource.errorIdentifier === "urn:openproject-org:api:v3:errors:UpdateConflict") {
       this.NotificationsService.addError({
         message: errorResource.message,
-        type: 'error',
+        type: "error",
         link: {
-          text: this.I18n.t('js.hal.error.update_conflict_refresh'),
+          text: this.I18n.t("js.hal.error.update_conflict_refresh"),
           target: () => this.apiV3Service.work_packages.id(resource).refresh(),
         },
       });
@@ -68,10 +68,10 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
 
   private addWorkPackageFullscreenLink(message:INotification, resource:WorkPackageResource) {
     // Don't show the 'Show in full screen' link  if we're there already
-    if (!this.$state.includes('work-packages.show')) {
+    if (!this.$state.includes("work-packages.show")) {
       message.link = {
-        target: () => this.$state.go('work-packages.show.tabs', { tabIdentifier: 'activity', workPackageId: resource.id }),
-        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
+        target: () => this.$state.go("work-packages.show.tabs", { tabIdentifier: "activity", workPackageId: resource.id }),
+        text: this.I18n.t("js.work_packages.message_successful_show_in_fullscreen"),
       };
     }
   }

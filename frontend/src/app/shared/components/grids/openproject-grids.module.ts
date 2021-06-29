@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector, NgModule } from '@angular/core';
-import { DynamicModule } from 'ng-dynamic-component';
+import { Injector, NgModule } from "@angular/core";
+import { DynamicModule } from "ng-dynamic-component";
 import { HookService } from "core-app/features/plugins/hook-service";
 import { OPSharedModule } from "core-app/shared/shared.module";
 import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
 import { OpenprojectCalendarModule } from "core-app/shared/components/calendar/openproject-calendar.module";
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule } from "@angular/forms";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";
 import { WidgetWpCalendarComponent } from "core-app/shared/components/grids/widgets/wp-calendar/wp-calendar.component";
 import { WidgetTimeEntriesCurrentUserComponent } from "core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user.component";
@@ -65,7 +65,7 @@ import { WidgetMembersComponent } from "core-app/shared/components/grids/widgets
 import { WidgetProjectStatusComponent } from "core-app/shared/components/grids/widgets/project-status/project-status.component";
 import { OpenprojectTimeEntriesModule } from "core-app/shared/components/time_entries/openproject-time-entries.module";
 import { WidgetTimeEntriesCurrentUserMenuComponent } from "core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component";
-import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 import { TimeEntriesCurrentUserConfigurationModalComponent } from "./widgets/time-entries/current-user/configuration-modal/configuration.modal";
 
 @NgModule({
@@ -152,12 +152,12 @@ export function registerWidgets(injector:Injector) {
   const hookService = injector.get(HookService);
   const i18n = injector.get(I18nService);
 
-  hookService.register('gridWidgets', () => {
+  hookService.register("gridWidgets", () => {
     const defaultColumns = ["id", "project", "type", "subject"];
 
     const assignedFilters = new ApiV3FilterBuilder();
-    assignedFilters.add('assignee', '=', ["me"]);
-    assignedFilters.add('status', 'o', []);
+    assignedFilters.add("assignee", "=", ["me"]);
+    assignedFilters.add("status", "o", []);
 
     const assignedProps = {
       "columns[]": defaultColumns,
@@ -165,8 +165,8 @@ export function registerWidgets(injector:Injector) {
     };
 
     const accountableFilters = new ApiV3FilterBuilder();
-    accountableFilters.add('responsible', '=', ["me"]);
-    accountableFilters.add('status', 'o', []);
+    accountableFilters.add("responsible", "=", ["me"]);
+    accountableFilters.add("status", "o", []);
 
     const accountableProps = {
       "columns[]": defaultColumns,
@@ -174,8 +174,8 @@ export function registerWidgets(injector:Injector) {
     };
 
     const createdFilters = new ApiV3FilterBuilder();
-    createdFilters.add('author', '=', ["me"]);
-    createdFilters.add('status', 'o', []);
+    createdFilters.add("author", "=", ["me"]);
+    createdFilters.add("status", "o", []);
 
     const createdProps = {
       "columns[]": defaultColumns,
@@ -183,8 +183,8 @@ export function registerWidgets(injector:Injector) {
     };
 
     const watchedFilters = new ApiV3FilterBuilder();
-    watchedFilters.add('watcher', '=', ["me"]);
-    watchedFilters.add('status', 'o', []);
+    watchedFilters.add("watcher", "=", ["me"]);
+    watchedFilters.add("status", "o", []);
 
     const watchedProps = {
       "columns[]": defaultColumns,
@@ -193,155 +193,155 @@ export function registerWidgets(injector:Injector) {
 
     return [
       {
-        identifier: 'work_packages_assigned',
+        identifier: "work_packages_assigned",
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t('js.grid.widgets.work_packages_assigned.title'),
+        title: i18n.t("js.grid.widgets.work_packages_assigned.title"),
         properties: {
           queryProps: assignedProps,
-          name: i18n.t('js.grid.widgets.work_packages_assigned.title'),
+          name: i18n.t("js.grid.widgets.work_packages_assigned.title"),
         },
       },
       {
-        identifier: 'work_packages_accountable',
+        identifier: "work_packages_accountable",
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t('js.grid.widgets.work_packages_accountable.title'),
+        title: i18n.t("js.grid.widgets.work_packages_accountable.title"),
         properties: {
           queryProps: accountableProps,
-          name: i18n.t('js.grid.widgets.work_packages_accountable.title'),
+          name: i18n.t("js.grid.widgets.work_packages_accountable.title"),
         },
       },
       {
-        identifier: 'work_packages_created',
+        identifier: "work_packages_created",
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t('js.grid.widgets.work_packages_created.title'),
+        title: i18n.t("js.grid.widgets.work_packages_created.title"),
         properties: {
           queryProps: createdProps,
-          name: i18n.t('js.grid.widgets.work_packages_created.title'),
+          name: i18n.t("js.grid.widgets.work_packages_created.title"),
         },
       },
       {
-        identifier: 'work_packages_watched',
+        identifier: "work_packages_watched",
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t('js.grid.widgets.work_packages_watched.title'),
+        title: i18n.t("js.grid.widgets.work_packages_watched.title"),
         properties: {
           queryProps: watchedProps,
-          name: i18n.t('js.grid.widgets.work_packages_watched.title'),
+          name: i18n.t("js.grid.widgets.work_packages_watched.title"),
         },
       },
       {
-        identifier: 'work_packages_table',
+        identifier: "work_packages_table",
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t('js.grid.widgets.work_packages_table.title'),
+        title: i18n.t("js.grid.widgets.work_packages_table.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.work_packages_table.title'),
+          name: i18n.t("js.grid.widgets.work_packages_table.title"),
         },
       },
       {
-        identifier: 'work_packages_graph',
+        identifier: "work_packages_graph",
         component: WidgetWpGraphComponent,
-        title: i18n.t('js.grid.widgets.work_packages_graph.title'),
+        title: i18n.t("js.grid.widgets.work_packages_graph.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.work_packages_graph.title'),
+          name: i18n.t("js.grid.widgets.work_packages_graph.title"),
         },
       },
       {
-        identifier: 'work_packages_calendar',
+        identifier: "work_packages_calendar",
         component: WidgetWpCalendarComponent,
-        title: i18n.t('js.grid.widgets.work_packages_calendar.title'),
+        title: i18n.t("js.grid.widgets.work_packages_calendar.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.work_packages_calendar.title'),
+          name: i18n.t("js.grid.widgets.work_packages_calendar.title"),
         },
       },
       {
-        identifier: 'work_packages_overview',
+        identifier: "work_packages_overview",
         component: WidgetWpOverviewComponent,
-        title: i18n.t('js.grid.widgets.work_packages_overview.title'),
+        title: i18n.t("js.grid.widgets.work_packages_overview.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.work_packages_overview.title'),
+          name: i18n.t("js.grid.widgets.work_packages_overview.title"),
         },
       },
       {
-        identifier: 'time_entries_current_user',
+        identifier: "time_entries_current_user",
         component: WidgetTimeEntriesCurrentUserComponent,
-        title: i18n.t('js.grid.widgets.time_entries_current_user.title'),
+        title: i18n.t("js.grid.widgets.time_entries_current_user.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.time_entries_current_user.title'),
+          name: i18n.t("js.grid.widgets.time_entries_current_user.title"),
           days: [true, true, true, true, true, true, true],
         },
       },
       {
-        identifier: 'time_entries_project',
+        identifier: "time_entries_project",
         component: WidgetTimeEntriesProjectComponent,
-        title: i18n.t('js.grid.widgets.time_entries_list.title'),
+        title: i18n.t("js.grid.widgets.time_entries_list.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.time_entries_list.title'),
+          name: i18n.t("js.grid.widgets.time_entries_list.title"),
         },
       },
       {
-        identifier: 'documents',
+        identifier: "documents",
         component: WidgetDocumentsComponent,
-        title: i18n.t('js.grid.widgets.documents.title'),
+        title: i18n.t("js.grid.widgets.documents.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.documents.title'),
+          name: i18n.t("js.grid.widgets.documents.title"),
         },
       },
       {
-        identifier: 'members',
+        identifier: "members",
         component: WidgetMembersComponent,
-        title: i18n.t('js.grid.widgets.members.title'),
+        title: i18n.t("js.grid.widgets.members.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.members.title'),
+          name: i18n.t("js.grid.widgets.members.title"),
         },
       },
       {
-        identifier: 'news',
+        identifier: "news",
         component: WidgetNewsComponent,
-        title: i18n.t('js.grid.widgets.news.title'),
+        title: i18n.t("js.grid.widgets.news.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.news.title'),
+          name: i18n.t("js.grid.widgets.news.title"),
         },
       },
       {
-        identifier: 'project_description',
+        identifier: "project_description",
         component: WidgetProjectDescriptionComponent,
-        title: i18n.t('js.grid.widgets.project_description.title'),
+        title: i18n.t("js.grid.widgets.project_description.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.project_description.title'),
+          name: i18n.t("js.grid.widgets.project_description.title"),
         },
       },
       {
-        identifier: 'custom_text',
+        identifier: "custom_text",
         component: WidgetCustomTextComponent,
-        title: i18n.t('js.grid.widgets.custom_text.title'),
+        title: i18n.t("js.grid.widgets.custom_text.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.custom_text.title'),
+          name: i18n.t("js.grid.widgets.custom_text.title"),
           text: {
-            raw: '',
+            raw: "",
           },
         },
       },
       {
-        identifier: 'project_details',
+        identifier: "project_details",
         component: WidgetProjectDetailsComponent,
-        title: i18n.t('js.grid.widgets.project_details.title'),
+        title: i18n.t("js.grid.widgets.project_details.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.project_details.title'),
+          name: i18n.t("js.grid.widgets.project_details.title"),
         },
       },
       {
-        identifier: 'project_status',
+        identifier: "project_status",
         component: WidgetProjectStatusComponent,
-        title: i18n.t('js.grid.widgets.project_status.title'),
+        title: i18n.t("js.grid.widgets.project_status.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.project_status.title'),
+          name: i18n.t("js.grid.widgets.project_status.title"),
         },
       },
       {
-        identifier: 'subprojects',
+        identifier: "subprojects",
         component: WidgetSubprojectsComponent,
-        title: i18n.t('js.grid.widgets.subprojects.title'),
+        title: i18n.t("js.grid.widgets.subprojects.title"),
         properties: {
-          name: i18n.t('js.grid.widgets.subprojects.title'),
+          name: i18n.t("js.grid.widgets.subprojects.title"),
         },
       },
     ];

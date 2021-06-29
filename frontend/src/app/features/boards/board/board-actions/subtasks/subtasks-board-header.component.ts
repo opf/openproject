@@ -32,15 +32,15 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 
 @Component({
-  templateUrl: './subtasks-board-header.html',
-  styleUrls: ['./subtasks-board-header.sass'],
-  host: { class: 'title-container -small' },
+  templateUrl: "./subtasks-board-header.html",
+  styleUrls: ["./subtasks-board-header.sass"],
+  host: { class: "title-container -small" },
 })
 export class SubtasksBoardHeaderComponent implements OnInit {
   @Input() public resource:WorkPackageResource;
 
   text = {
-    workPackage: this.I18n.t('js.label_work_package_parent'),
+    workPackage: this.I18n.t("js.label_work_package_parent"),
   };
 
   typeHighlightingClass:string;
@@ -50,6 +50,6 @@ export class SubtasksBoardHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.typeHighlightingClass = Highlighting.inlineClass('type', this.resource.type.id!);
+    this.typeHighlightingClass = Highlighting.inlineClass("type", this.resource.type.id!);
   }
 }

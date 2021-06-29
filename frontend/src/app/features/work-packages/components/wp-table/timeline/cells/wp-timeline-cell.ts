@@ -28,28 +28,28 @@
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { States } from "core-app/core/states/states.service";
 import { Injector } from "@angular/core";
-import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { registerWorkPackageMouseHandler } from "./wp-timeline-cell-mouse-handler";
-import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
+import { TimelineMilestoneCellRenderer } from "./timeline-milestone-cell-renderer";
 import { TimelineCellRenderer } from "./timeline-cell-renderer";
-import { RenderInfo } from '../wp-timeline';
+import { RenderInfo } from "../wp-timeline";
 import { WorkPackageTimelineTableController } from "../container/wp-timeline-container.directive";
 
-export const classNameLeftLabel = 'labelLeft';
-export const classNameRightContainer = 'containerRight';
-export const classNameRightLabel = 'labelRight';
-export const classNameLeftHoverLabel = 'labelHoverLeft';
-export const classNameRightHoverLabel = 'labelHoverRight';
-export const classNameHoverStyle = '-label-style';
-export const classNameFarRightLabel = 'labelFarRight';
-export const classNameShowOnHover = 'show-on-hover';
-export const classNameHideOnHover = 'hide-on-hover';
+export const classNameLeftLabel = "labelLeft";
+export const classNameRightContainer = "containerRight";
+export const classNameRightLabel = "labelRight";
+export const classNameLeftHoverLabel = "labelHoverLeft";
+export const classNameRightHoverLabel = "labelHoverRight";
+export const classNameHoverStyle = "-label-style";
+export const classNameFarRightLabel = "labelFarRight";
+export const classNameShowOnHover = "show-on-hover";
+export const classNameHideOnHover = "hide-on-hover";
 
 export class WorkPackageCellLabels {
   constructor(public readonly center:HTMLDivElement|null,
@@ -119,7 +119,7 @@ export class WorkPackageTimelineCell {
   }
 
   public clear() {
-    this.cellElement.html('');
+    this.cellElement.html("");
     this.wpElement = null;
   }
 
@@ -136,7 +136,7 @@ export class WorkPackageTimelineCell {
     const cell = this.cellElement;
 
     if (!cell.length) {
-      return Promise.reject('uninitialized');
+      return Promise.reject("uninitialized");
     }
 
     const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
@@ -161,7 +161,7 @@ export class WorkPackageTimelineCell {
 
     // Allow editing if editable
     if (renderer.canMoveDates(renderInfo.workPackage)) {
-      this.wpElement.classList.add('-editable');
+      this.wpElement.classList.add("-editable");
 
       registerWorkPackageMouseHandler(
         this.injector,

@@ -30,7 +30,7 @@ import { Injectable } from "@angular/core";
 import { HttpEvent, HttpResponse } from "@angular/common/http";
 import { from, Observable, of } from "rxjs";
 import { share, switchMap } from "rxjs/operators";
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import {
   OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress,
 } from "./op-file-upload.service";
@@ -49,7 +49,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
    * @param {UploadFile} file
    * @param {string} method
    */
-  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = 'post', responseType:'text'|'json' = 'text') {
+  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = "post", responseType:"text"|"json" = "text") {
     const observable = from(this.getDirectUploadFormFrom(url, file))
       .pipe(
         switchMap(this.uploadToExternal(file, method, responseType)),
@@ -61,7 +61,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
 
   private uploadToExternal(file:UploadFile|UploadBlob, method:string, responseType:string):(result:PrepareUploadResult) => Observable<HttpEvent<unknown>> {
     return result => {
-      result.form.append('file', file, file.customName || file.name);
+      result.form.append("file", file, file.customName || file.name);
 
       return this
         .http
@@ -71,7 +71,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
           {
             body: result.form,
             // Observe the response, not the body
-            observe: 'events',
+            observe: "events",
             // This is important as the CORS policy for the bucket is * and you can't use credentals then,
             // besides we don't need them here anyway.
             withCredentials: false,
@@ -92,7 +92,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
           .get(
             result.response._links.completeUpload.href,
             {
-              observe: 'response'
+              observe: "response",
             },
           );
       }
@@ -119,7 +119,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
 
     // add the metadata object
     formData.append(
-      'metadata',
+      "metadata",
       JSON.stringify(metadata),
     );
 

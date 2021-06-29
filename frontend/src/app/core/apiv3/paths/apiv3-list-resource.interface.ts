@@ -70,10 +70,10 @@ export function listParamsString(params?:Apiv3ListParameters):string {
     queryProps.push(filters.toParams());
   }
 
-  let queryPropsString = '';
+  let queryPropsString = "";
 
   if (queryProps.length) {
-    queryPropsString = `?${queryProps.join('&')}`;
+    queryPropsString = `?${queryProps.join("&")}`;
   }
 
   return queryPropsString;

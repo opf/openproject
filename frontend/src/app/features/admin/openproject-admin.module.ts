@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { OPSharedModule } from "core-app/shared/shared.module";
-import { DragulaModule } from 'ng2-dragula';
+import { DragulaModule } from "ng2-dragula";
 import { TypeFormAttributeGroupComponent } from "core-app/features/admin/types/attribute-group.component";
 import { TypeFormConfigurationComponent } from "core-app/features/admin/types/type-form-configuration.component";
 import { TypeFormQueryGroupComponent } from "core-app/features/admin/types/query-group.component";

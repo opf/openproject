@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { UIRouterModule } from "@uirouter/angular";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OPSharedModule } from "core-app/shared/shared.module";
@@ -11,8 +11,8 @@ import { NotificationsSettingsPageComponent } from "core-app/features/user-prefe
 import { NotificationSettingRowComponent } from "core-app/features/user-preferences/notifications-settings/row/notification-setting-row.component";
 import { NotificationSettingInlineCreateComponent } from "core-app/features/user-preferences/notifications-settings/inline-create/notification-setting-inline-create.component";
 import { MY_ACCOUNT_ROUTES } from "core-app/features/user-preferences/user-preferences.routes";
-import { NotificationsSettingsToolbarComponent } from './notifications-settings/toolbar/notifications-settings-toolbar.component';
-import { NotificationSettingsTableComponent } from './notifications-settings/table/notification-settings-table.component';
+import { NotificationsSettingsToolbarComponent } from "./notifications-settings/toolbar/notifications-settings-toolbar.component";
+import { NotificationSettingsTableComponent } from "./notifications-settings/table/notification-settings-table.component";
 
 @NgModule({
   providers: [

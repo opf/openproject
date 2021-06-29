@@ -1,7 +1,7 @@
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
 import { Component } from "@angular/core";
-import { ChartType } from 'chart.js';
+import { ChartType } from "chart.js";
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
 import { TabComponent } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
@@ -14,8 +14,8 @@ interface OpChartType {
 }
 
 @Component({
-  selector: 'settings-tab-inner',
-  templateUrl: './settings-tab-inner.component.html'
+  selector: "settings-tab-inner",
+  templateUrl: "./settings-tab-inner.component.html",
 })
 export class WpGraphConfigurationSettingsTabInner extends QuerySpacedTabComponent implements TabComponent {
   // Grouping
@@ -26,8 +26,8 @@ export class WpGraphConfigurationSettingsTabInner extends QuerySpacedTabComponen
   public currentChartType:OpChartType;
 
   public text = {
-    group_by: this.I18n.t('js.chart.axis_criteria'),
-    chart_type: this.I18n.t('js.chart.type'),
+    group_by: this.I18n.t("js.chart.axis_criteria"),
+    chart_type: this.I18n.t("js.chart.type"),
   };
 
   constructor(readonly I18n:I18nService,
@@ -76,19 +76,19 @@ export class WpGraphConfigurationSettingsTabInner extends QuerySpacedTabComponen
       available = available.concat(current);
     }
 
-    this.availableGroups = _.sortBy(available, 'name');
+    this.availableGroups = _.sortBy(available, "name");
   }
 
   private initializeAvailableChartType() {
     this.availableChartTypes = _.sortBy([
-      { identifier: 'horizontalBar' as ChartType, label: this.I18n.t('js.chart.types.horizontal_bar') },
-      { identifier: 'bar' as ChartType, label: this.I18n.t('js.chart.types.bar') },
-      { identifier: 'line' as ChartType, label: this.I18n.t('js.chart.types.line') },
-      { identifier: 'pie' as ChartType, label: this.I18n.t('js.chart.types.pie') },
-      { identifier: 'doughnut' as ChartType, label: this.I18n.t('js.chart.types.doughnut') },
-      { identifier: 'radar' as ChartType, label: this.I18n.t('js.chart.types.radar') },
-      { identifier: 'polarArea' as ChartType, label: this.I18n.t('js.chart.types.polar_area') },
-    ], 'label');
+      { identifier: "horizontalBar" as ChartType, label: this.I18n.t("js.chart.types.horizontal_bar") },
+      { identifier: "bar" as ChartType, label: this.I18n.t("js.chart.types.bar") },
+      { identifier: "line" as ChartType, label: this.I18n.t("js.chart.types.line") },
+      { identifier: "pie" as ChartType, label: this.I18n.t("js.chart.types.pie") },
+      { identifier: "doughnut" as ChartType, label: this.I18n.t("js.chart.types.doughnut") },
+      { identifier: "radar" as ChartType, label: this.I18n.t("js.chart.types.radar") },
+      { identifier: "polarArea" as ChartType, label: this.I18n.t("js.chart.types.polar_area") },
+    ], "label");
 
     this.currentChartType = this.availableChartTypes.find(type => type.identifier === this.wpGraphConfiguration.configuration.chartType) || this.availableChartTypes[0];
   }

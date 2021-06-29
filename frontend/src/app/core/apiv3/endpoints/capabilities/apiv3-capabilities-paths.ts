@@ -46,7 +46,7 @@ export class Apiv3CapabilitiesPaths
   implements Apiv3ListResourceInterface<CapabilityResource> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'capabilities', Apiv3CapabilityPaths);
+    super(apiRoot, basePath, "capabilities", Apiv3CapabilityPaths);
   }
 
   /**

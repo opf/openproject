@@ -37,9 +37,9 @@ import { EEActiveTrialBase } from "core-app/features/enterprise/enterprise-activ
 import { GonService } from "core-app/core/gon/gon.service";
 
 @Component({
-  selector: 'enterprise-active-trial',
-  templateUrl: './ee-active-trial.component.html',
-  styleUrls: ['./ee-active-trial.component.sass'],
+  selector: "enterprise-active-trial",
+  templateUrl: "./ee-active-trial.component.html",
+  styleUrls: ["./ee-active-trial.component.sass"],
 })
 export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit {
   public subscriber:string;
@@ -83,7 +83,7 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
   }
 
   private initialize():void {
-    const eeTrialKey = this.Gon.get('ee_trial_key') as any;
+    const eeTrialKey = this.Gon.get("ee_trial_key") as any;
 
     if (eeTrialKey && !this.eeTrialService.userData$.hasValue()) {
       // after reload: get data from Augur using the trial key saved in gon

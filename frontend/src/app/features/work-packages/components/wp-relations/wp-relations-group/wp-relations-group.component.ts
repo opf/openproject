@@ -33,8 +33,8 @@ import {
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
-  selector: 'wp-relations-group',
-  templateUrl: './wp-relations-group.template.html'
+  selector: "wp-relations-group",
+  templateUrl: "./wp-relations-group.template.html",
 })
 export class WorkPackageRelationsGroupComponent {
   @Input() public relatedWorkPackages:WorkPackageResource[];
@@ -49,11 +49,11 @@ export class WorkPackageRelationsGroupComponent {
 
   @Output() public onToggleGroupBy = new EventEmitter<undefined>();
 
-  @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef;
+  @ViewChild("wpRelationGroupByToggler") readonly toggleElement:ElementRef;
 
   public text = {
-    groupByType: this.I18n.t('js.relation_buttons.group_by_wp_type'),
-    groupByRelation: this.I18n.t('js.relation_buttons.group_by_relation_type'),
+    groupByType: this.I18n.t("js.relation_buttons.group_by_wp_type"),
+    groupByRelation: this.I18n.t("js.relation_buttons.group_by_relation_type"),
   };
 
   constructor(

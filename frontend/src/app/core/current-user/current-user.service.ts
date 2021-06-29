@@ -27,18 +27,18 @@
 //++
 
 import { Injectable } from "@angular/core";
-import { of, forkJoin } from 'rxjs';
+import { of, forkJoin } from "rxjs";
 import {
   take, map, mergeMap, distinctUntilChanged, tap,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { CurrentUserStore, CurrentUser } from './current-user.store';
-import { CurrentUserQuery } from './current-user.query';
+import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { CurrentUserStore, CurrentUser } from "./current-user.store";
+import { CurrentUserQuery } from "./current-user.query";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class CurrentUserService {
   private PAGE_FETCH_SIZE = 1000;
 
@@ -84,9 +84,9 @@ export class CurrentUserService {
         return;
       }
 
-      const filters:[string, FilterOperator, string[]][] = [['principal', '=', [user.id]]];
+      const filters:[string, FilterOperator, string[]][] = [["principal", "=", [user.id]]];
       if (contexts.length) {
-        filters.push(["context", '=', contexts.map(context => (context === "global" ? "g" : `p${context}`))]);
+        filters.push(["context", "=", contexts.map(context => (context === "global" ? "g" : `p${context}`))]);
       }
 
       this.apiV3Service.capabilities.list({
@@ -152,7 +152,7 @@ export class CurrentUserService {
   /**
    * Returns an Observable<boolean> indicating whether the user has the required capabilities in the provided context.
    */
-  public hasCapabilities$(action:string|string[], contextId = 'global') {
+  public hasCapabilities$(action:string|string[], contextId = "global") {
     const actions = _.castArray(action);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => actions.reduce(
@@ -166,7 +166,7 @@ export class CurrentUserService {
   /**
    * Returns an Observable<boolean> indicating whether the user has any of the required capabilities in the provided context.
    */
-  public hasAnyCapabilityOf$(actions:string|string[], contextId = 'global') {
+  public hasAnyCapabilityOf$(actions:string|string[], contextId = "global") {
     const actionsToFilter = _.castArray(actions);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => capabilities.reduce(
@@ -199,17 +199,17 @@ export class CurrentUserService {
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get userId() {
-    return this._user.id || '';
+    return this._user.id || "";
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get name() {
-    return this._user.name || '';
+    return this._user.name || "";
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get mail() {
-    return this._user.mail || '';
+    return this._user.mail || "";
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
@@ -219,6 +219,6 @@ export class CurrentUserService {
 
   /** @deprecated Use `I18nService.locale` instead */
   public get language() {
-    return I18n.locale || 'en';
+    return I18n.locale || "en";
   }
 }

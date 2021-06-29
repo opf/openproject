@@ -1,5 +1,5 @@
-import { Injector } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injector } from "@angular/core";
+import { Observable } from "rxjs";
 import { WorkPackageWatchersService } from "core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";

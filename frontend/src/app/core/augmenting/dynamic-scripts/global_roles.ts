@@ -37,7 +37,7 @@
     },
 
     toggle_forms_on_click() {
-      $("#global_role").on('click', global_roles.toggle_forms);
+      $("#global_role").on("click", global_roles.toggle_forms);
     },
 
     toggle_forms(event:any) {
@@ -45,7 +45,7 @@
     },
 
     activation_and_visibility_based_on_checked(element:any) {
-      if ($(element).prop('checked')) {
+      if ($(element).prop("checked")) {
         global_roles.show_global_forms();
         global_roles.hide_member_forms();
         global_roles.enable_global_forms();

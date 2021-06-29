@@ -56,10 +56,10 @@ import { StateService } from "@uirouter/core";
 import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
 
 @Component({
-  selector: 'wp-list-view',
-  templateUrl: './wp-list-view.component.html',
-  styleUrls: ['./wp-list-view.component.sass'],
-  host: { class: 'work-packages-split-view--tabletimeline-side' },
+  selector: "wp-list-view",
+  templateUrl: "./wp-list-view.component.html",
+  styleUrls: ["./wp-list-view.component.sass"],
+  host: { class: "work-packages-split-view--tabletimeline-side" },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
@@ -69,9 +69,9 @@ import { KeepTabService } from "core-app/features/work-packages/components/wp-si
 })
 export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
   text = {
-    jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
-    text_jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.label_pagination'),
-    button_settings: this.I18n.t('js.button_settings'),
+    jump_to_pagination: this.I18n.t("js.work_packages.jump_marks.pagination"),
+    text_jump_to_pagination: this.I18n.t("js.work_packages.jump_marks.label_pagination"),
+    button_settings: this.I18n.t("js.button_settings"),
   };
 
   /** Switch between list and card view */
@@ -128,8 +128,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     // detection on the entire app
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        const selectedRow = this.elementRef.nativeElement.querySelector('.wp-table--row.-checked');
-        const selectedCard = this.elementRef.nativeElement.querySelector('.wp-card.-checked');
+        const selectedRow = this.elementRef.nativeElement.querySelector(".wp-table--row.-checked");
+        const selectedCard = this.elementRef.nativeElement.querySelector(".wp-card.-checked");
 
         // The header of the table hides the scrolledIntoView element
         // so we scrollIntoView the previous element, if any
@@ -171,13 +171,13 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     }
   }
 
-  openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }) {
+  openStateLink(event:{ workPackageId:string; requestedState:"show"|"split" }) {
     const params = {
       workPackageId: event.workPackageId,
       focus: true,
     };
 
-    if (event.requestedState === 'split') {
+    if (event.requestedState === "split") {
       this.keepTab.goCurrentDetailsState(params);
     } else {
       this.keepTab.goCurrentShowState(params);
@@ -198,7 +198,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
 
   private openInFullView(workPackageId:string) {
     this.$state.go(
-      'work-packages.show',
+      "work-packages.show",
       { workPackageId },
     );
   }

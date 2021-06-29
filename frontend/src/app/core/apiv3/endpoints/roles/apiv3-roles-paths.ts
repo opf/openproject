@@ -38,7 +38,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 export class APIv3RolesPaths extends APIv3ResourceCollection<RoleResource, APIv3RolePaths> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'roles', APIv3RolePaths);
+    super(apiRoot, basePath, "roles", APIv3RolePaths);
   }
 
   /**

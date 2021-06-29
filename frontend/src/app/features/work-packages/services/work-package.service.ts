@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateService } from '@uirouter/core';
+import { StateService } from "@uirouter/core";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
@@ -38,7 +38,7 @@ import { HalDeletedEvent, HalEventsService } from "core-app/features/hal/service
 @Injectable()
 export class WorkPackageService {
   private text = {
-    successful_delete: this.I18n.t('js.work_packages.message_successful_bulk_delete'),
+    successful_delete: this.I18n.t("js.work_packages.message_successful_bulk_delete"),
   };
 
   constructor(private readonly http:HttpClient,
@@ -52,7 +52,7 @@ export class WorkPackageService {
 
   public performBulkDelete(ids:string[], defaultHandling:boolean) {
     const params = {
-      'ids[]': ids,
+      "ids[]": ids,
     };
     const promise = this.http
       .delete(
@@ -66,11 +66,11 @@ export class WorkPackageService {
         .then(() => {
           this.NotificationsService.addSuccess(this.text.successful_delete);
 
-          ids.forEach(id => this.halEvents.push({ _type: "WorkPackage", id }, { eventType: 'deleted' } as HalDeletedEvent));
+          ids.forEach(id => this.halEvents.push({ _type: "WorkPackage", id }, { eventType: "deleted" } as HalDeletedEvent));
 
-          if (this.$state.includes('**.list.details.**')
+          if (this.$state.includes("**.list.details.**")
             && ids.indexOf(this.$state.params.workPackageId) > -1) {
-            this.$state.go('work-packages.partitioned.list', this.$state.params);
+            this.$state.go("work-packages.partitioned.list", this.$state.params);
           }
         })
         .catch(() => {

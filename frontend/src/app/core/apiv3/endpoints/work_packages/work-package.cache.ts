@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { MultiInputState } from 'reactivestates';
+import { MultiInputState } from "reactivestates";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from "@angular/core";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
@@ -74,7 +74,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
       this.schemaCacheService.ensureLoaded(wp).then(() => {
         // Check if the work package has changed
         if (skipOnIdentical && state.hasValue() && _.isEqual(state.value!.$source, wp.$source)) {
-          debugLog('Skipping identical work package from updating');
+          debugLog("Skipping identical work package from updating");
           return;
         }
 

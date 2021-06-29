@@ -38,21 +38,21 @@ export interface RelationResourceLinks {
 export class RelationResource extends HalResource {
   static RELATION_TYPES(includeParentChild = true):string[] {
     const types = [
-      'relates',
-      'duplicates',
-      'duplicated',
-      'blocks',
-      'blocked',
-      'precedes',
-      'follows',
-      'includes',
-      'partof',
-      'requires',
-      'required'
+      "relates",
+      "duplicates",
+      "duplicated",
+      "blocks",
+      "blocked",
+      "precedes",
+      "follows",
+      "includes",
+      "partof",
+      "requires",
+      "required",
     ];
 
     if (includeParentChild) {
-      types.push('parent', 'children');
+      types.push("parent", "children");
     }
 
     return types;
@@ -61,11 +61,11 @@ export class RelationResource extends HalResource {
   static LOCALIZED_RELATION_TYPES(includeParentchild = true) {
     const relationTypes = RelationResource.RELATION_TYPES(includeParentchild);
 
-    return relationTypes.map((key:string) => ({ name: key, label: I18n.t("js.relation_labels." + key) }));
+    return relationTypes.map((key:string) => ({ name: key, label: I18n.t(`js.relation_labels.${key}`) }));
   }
 
   static DEFAULT() {
-    return 'relates';
+    return "relates";
   }
 
   // Properties
@@ -93,13 +93,13 @@ export class RelationResource extends HalResource {
    * @return {{id, href, relationType: string, workPackageType}}
    */
   public denormalized(workPackage:WorkPackageResource):DenormalizedRelationData {
-    const target = (this.to.href === workPackage.href) ? 'from' : 'to';
+    const target = (this.to.href === workPackage.href) ? "from" : "to";
 
     return {
       target: this[target],
       targetId: this[target].id!,
-      relationType: target === 'from' ? this.reverseType : this.type,
-      reverseRelationType: target === 'from' ? this.type : this.reverseType,
+      relationType: target === "from" ? this.reverseType : this.type,
+      reverseRelationType: target === "from" ? this.type : this.reverseType,
     };
   }
 

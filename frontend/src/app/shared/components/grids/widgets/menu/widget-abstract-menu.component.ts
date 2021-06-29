@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Input, Directive } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Input, Directive } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
 import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
 import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
@@ -50,7 +50,7 @@ export abstract class WidgetAbstractMenuComponent {
 
   protected get removeItem() {
     return {
-      linkText: this.i18n.t('js.grid.remove'),
+      linkText: this.i18n.t("js.grid.remove"),
       onClick: () => {
         this.remove.widget(this.resource);
         return true;

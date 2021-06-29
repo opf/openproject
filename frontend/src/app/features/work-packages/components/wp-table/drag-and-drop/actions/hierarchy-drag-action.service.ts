@@ -87,14 +87,14 @@ export class HierarchyDragActionService extends TableDragActionService {
   }
 
   private droppedIntoGroup(element:Element, previous:Element, next:Element | null):boolean {
-    const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
-    const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
+    const inGroup = previous.className.indexOf(hierarchyGroupClass("")) >= 0;
+    const isRoot = previous.className.indexOf(hierarchyRootClass("")) >= 0;
     let skipDroppedIntoGroup;
 
     if (inGroup || isRoot) {
-      const elementGroups = Array.from(element.classList).filter(listClass => listClass.includes('__hierarchy-group-')) || [];
-      const previousGroups = Array.from(previous.classList).filter(listClass => listClass.includes('__hierarchy-group-')) || [];
-      const nextGroups = next && Array.from(next.classList).filter(listClass => listClass.includes('__hierarchy-group-')) || [];
+      const elementGroups = Array.from(element.classList).filter(listClass => listClass.includes("__hierarchy-group-")) || [];
+      const previousGroups = Array.from(previous.classList).filter(listClass => listClass.includes("__hierarchy-group-")) || [];
+      const nextGroups = next && Array.from(next.classList).filter(listClass => listClass.includes("__hierarchy-group-")) || [];
       const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
       const isLastElementOfGroup = !nextGroups.some(nextGroup => previousGroups.includes(nextGroup)) && !nextGroups.includes(hierarchyGroupClass(previousWpId));
       const elementAlreadyBelongsToGroup = elementGroups.some(elementGroup => previousGroups.includes(elementGroup))

@@ -1,9 +1,9 @@
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export const queryColumnTypes = {
-  PROPERTY: 'QueryColumn::Property',
-  RELATION_OF_TYPE: 'QueryColumn::RelationOfType',
-  RELATION_TO_TYPE: 'QueryColumn::RelationToType',
+  PROPERTY: "QueryColumn::Property",
+  RELATION_OF_TYPE: "QueryColumn::RelationOfType",
+  RELATION_TO_TYPE: "QueryColumn::RelationToType",
 };
 
 export function isRelationColumn(column:QueryColumn) {

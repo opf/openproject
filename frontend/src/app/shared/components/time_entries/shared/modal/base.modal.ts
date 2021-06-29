@@ -7,19 +7,19 @@ import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { TimeEntryFormComponent } from "core-app/shared/components/time_entries/form/form.component";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Directive()
 export abstract class TimeEntryBaseModal extends OpModalComponent {
-  @ViewChild('editForm', { static: true }) editForm:TimeEntryFormComponent;
+  @ViewChild("editForm", { static: true }) editForm:TimeEntryFormComponent;
 
   public text:{ [key:string]:string } = {
-    title: this.i18n.t('js.time_entry.title'),
-    cancel: this.i18n.t('js.button_cancel'),
-    close: this.i18n.t('js.button_close'),
-    delete: this.i18n.t('js.button_delete'),
-    areYouSure: this.i18n.t('js.text_are_you_sure'),
+    title: this.i18n.t("js.time_entry.title"),
+    cancel: this.i18n.t("js.button_cancel"),
+    close: this.i18n.t("js.button_close"),
+    delete: this.i18n.t("js.button_delete"),
+    areYouSure: this.i18n.t("js.text_are_you_sure"),
   };
 
   public closeOnEscape = false;
@@ -64,7 +64,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   }
 
   public get saveText() {
-    return this.i18n.t('js.button_save');
+    return this.i18n.t("js.button_save");
   }
 
   public get saveAllowed() {

@@ -28,7 +28,7 @@
 
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { RelationsStateValue, WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
@@ -37,7 +37,7 @@ import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
+import { WorkPackageViewHierarchiesService } from "./wp-view-hierarchy.service";
 import { WorkPackageViewColumnsService } from "./wp-view-columns.service";
 
 @Injectable()
@@ -71,10 +71,10 @@ export class WorkPackageViewAdditionalElementsService {
       .work_packages
       .requireAll(wpIds)
       .then(() => {
-        this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
+        this.querySpace.additionalRequiredWorkPackages.putValue(null, "All required work packages are loaded");
       })
       .catch((e) => {
-        this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
+        this.querySpace.additionalRequiredWorkPackages.putValue(null, "Failure loading required work packages");
         this.notificationService.handleRawError(e);
       });
   }

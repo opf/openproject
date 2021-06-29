@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import {
   IAutocompleteItem,
   ILazyAutocompleterBridge,
-} from 'core-app/shared/components/autocompleter/lazyloaded/lazyloaded-autocompleter';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+} from "core-app/shared/components/autocompleter/lazyloaded/lazyloaded-autocompleter";
+import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
+import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { HttpClient } from "@angular/common/http";
 import {
@@ -50,10 +50,10 @@ export interface IProjectMenuEntry {
 
 export type ProjectAutocompleteItem = IAutocompleteItem<IProjectMenuEntry>;
 
-export const projectMenuAutocompleteSelector = 'project-menu-autocomplete';
+export const projectMenuAutocompleteSelector = "project-menu-autocomplete";
 
 @Component({
-  templateUrl: './project-menu-autocomplete.template.html',
+  templateUrl: "./project-menu-autocomplete.template.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: projectMenuAutocompleteSelector,
 })
@@ -82,36 +82,36 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     protected cdRef:ChangeDetectorRef,
     protected I18n:I18nService,
     protected currentProject:CurrentProjectService) {
-    super('projectMenuAutocomplete');
+    super("projectMenuAutocomplete");
 
     this.text = {
-      label: I18n.t('js.projects.autocompleter.label'),
-      no_results: I18n.t('js.notice_no_principals_found'),
-      loading: I18n.t('js.ajax.loading'),
+      label: I18n.t("js.projects.autocompleter.label"),
+      no_results: I18n.t("js.notice_no_principals_found"),
+      loading: I18n.t("js.ajax.loading"),
     };
   }
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
-    this.dropdownMenu = this.$element.parents('li.op-app-menu--item_has-dropdown');
-    this.input = this.$element.find('.project-menu-autocomplete--input');
-    this.noResults = this.$element.find('.project-menu-autocomplete--no-results');
+    this.dropdownMenu = this.$element.parents("li.op-app-menu--item_has-dropdown");
+    this.input = this.$element.find(".project-menu-autocomplete--input");
+    this.noResults = this.$element.find(".project-menu-autocomplete--no-results");
 
-    this.dropdownMenu.on('opened', () => this.open());
-    this.dropdownMenu.on('closed', () => this.close());
+    this.dropdownMenu.on("opened", () => this.open());
+    this.dropdownMenu.on("closed", () => this.close());
   }
 
   public close() {
     try {
-      (this.input as any).projectMenuAutocomplete('destroy');
+      (this.input as any).projectMenuAutocomplete("destroy");
     } catch (e) {
       console.warn("Failed to destroy autocomplete: %O", e);
     }
-    this.$element.find('.project-search-results').css('visibility', 'hidden');
+    this.$element.find(".project-search-results").css("visibility", "hidden");
   }
 
   public open() {
-    this.$element.find('.project-search-results').css('visibility', 'visible');
+    this.$element.find(".project-search-results").css("visibility", "visible");
     this.loadProjects().then((results:IProjectMenuEntry[]) => {
       const autocompleteValues = _.map(results, project => ({ label: project.name, render: "match", object: project } as ProjectAutocompleteItem));
 
@@ -141,8 +141,8 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   }
 
   public renderItem(item:ProjectAutocompleteItem, div:JQuery):void {
-    const link = jQuery('<a>')
-      .attr('href', this.projectLink(item.object.identifier))
+    const link = jQuery("<a>")
+      .attr("href", this.projectLink(item.object.identifier))
       .text(item.label)
       .appendTo(div);
 
@@ -150,21 +150,21 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     if (item.object.level > 0) {
       link
         .text(`» ${item.label}`)
-        .css('padding-left', `${4 + item.object.level * 16}px`);
+        .css("padding-left", `${4 + item.object.level * 16}px`);
     }
 
     // Highlight selected project
     if (item.object.identifier === this.currentProject.identifier) {
-      div.addClass('selected');
+      div.addClass("selected");
     }
   }
 
   public projectLink(identifier:string) {
-    const currentMenuItem = jQuery('meta[name="current_menu_item"]').attr('content');
+    const currentMenuItem = jQuery('meta[name="current_menu_item"]').attr("content");
     let url = this.PathHelper.projectPath(identifier);
 
     if (currentMenuItem) {
-      url += '?jump=' + encodeURIComponent(currentMenuItem);
+      url += `?jump=${encodeURIComponent(currentMenuItem)}`;
     }
 
     return url;
@@ -222,12 +222,12 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
 
     items.forEach(el => {
       const { identifier } = el.object;
-      let renderType:'disabled'|'match';
+      let renderType:"disabled"|"match";
 
       if (matches.indexOf(identifier) >= 0) {
-        renderType = 'match';
+        renderType = "match";
       } else if (_.find(matchedParents, e => e.identifier === identifier)) {
-        renderType = 'disabled';
+        renderType = "disabled";
       } else {
         return;
       }
@@ -246,12 +246,12 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
    * Avoid closing the results when the input has lost focus.
    */
   protected addInputHandlers() {
-    this.input.off('blur');
+    this.input.off("blur");
 
     this.input.keydown((evt:JQuery.TriggeredEvent) => {
       if (evt.which === keyCodes.ESCAPE) {
-        this.input.val('');
-        (this.input as any)[this.widgetName].call(this.input, 'search', '');
+        this.input.val("");
+        (this.input as any)[this.widgetName].call(this.input, "search", "");
         return false;
       }
 
@@ -267,8 +267,8 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
   protected addClickHandler() {
     var touchMoved = false;
     this.$element
-      .find('.project-menu-autocomplete--results')
-      .on('click', '.ui-menu-item a', (evt:JQuery.TriggeredEvent) => {
+      .find(".project-menu-autocomplete--results")
+      .on("click", ".ui-menu-item a", (evt:JQuery.TriggeredEvent) => {
         if (LinkHandling.isClickedWithModifier(evt)) {
           evt.stopImmediatePropagation();
         }
@@ -278,14 +278,14 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
 
       // On iOS the click event doesn't get fired. So we need to listen to touch events and discard them if they they
       // are the beginning of some scrolling.
-      .on('touchend', '.ui-menu-item a', (evt:JQuery.TriggeredEvent) => {
+      .on("touchend", ".ui-menu-item a", (evt:JQuery.TriggeredEvent) => {
         if (!touchMoved) {
           window.location.href = (evt.target as HTMLAnchorElement).href;
         }
-      }).on('touchmove', '.ui-menu-item a', () => {
+      }).on("touchmove", ".ui-menu-item a", () => {
         touchMoved = true;
       })
-      .on('touchstart', '.ui-menu-item a', () => {
+      .on("touchstart", ".ui-menu-item a", () => {
         touchMoved = false;
       });
   }
@@ -294,19 +294,19 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     const params:any = super.setupParams(autocompleteValues);
 
     // Append to top-menu
-    params.appendTo = '.project-menu-autocomplete--wrapper';
+    params.appendTo = ".project-menu-autocomplete--wrapper";
     params.classes = {
-      'ui-autocomplete': '-inplace project-menu-autocomplete--results'
+      "ui-autocomplete": "-inplace project-menu-autocomplete--results",
     };
     params.position = {
-      of: '.project-menu-autocomplete--input-container'
+      of: ".project-menu-autocomplete--input-container",
     };
 
     return params;
   }
 
   private scrollCurrentProjectIntoView() {
-    const currentProject:HTMLElement|null = document.querySelector('.ui-menu-item-wrapper.selected');
+    const currentProject:HTMLElement|null = document.querySelector(".ui-menu-item-wrapper.selected");
 
     // It can happen that no project is selected yet initially.
     if (!currentProject) {
@@ -314,7 +314,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     }
 
     const currentProjectHeight = currentProject.offsetHeight;
-    const scrollableContainer = document.getElementsByClassName('project-menu-autocomplete--results')[0];
+    const scrollableContainer = document.getElementsByClassName("project-menu-autocomplete--results")[0];
 
     // Scroll current project to top of the list and
     // substract half the container width again to center it vertically

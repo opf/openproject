@@ -25,8 +25,8 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { UIRouterModule } from "@uirouter/angular";
 import { FocusModule } from "core-app/shared/directives/focus/focus.module";
 import { AttributeHelpTextModule } from "core-app/shared/components/attribute-help-texts/attribute-help-text.module";

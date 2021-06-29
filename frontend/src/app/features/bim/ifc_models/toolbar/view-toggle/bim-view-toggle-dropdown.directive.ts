@@ -43,7 +43,7 @@ import {
 import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
 
 @Directive({
-  selector: '[bimViewDropdown]'
+  selector: "[bimViewDropdown]",
 })
 export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
@@ -65,7 +65,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
   public get locals() {
     return {
       items: this.items,
-      contextMenuId: 'bim-view-context-menu'
+      contextMenuId: "bim-view-context-menu",
     };
   }
 

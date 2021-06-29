@@ -11,9 +11,9 @@ export interface ITileViewEntry {
 }
 
 @Component({
-  selector: 'tile-view',
-  styleUrls: ['./tile-view.component.sass'],
-  templateUrl: './tile-view.component.html',
+  selector: "tile-view",
+  styleUrls: ["./tile-view.component.sass"],
+  templateUrl: "./tile-view.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TileViewComponent {

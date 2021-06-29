@@ -43,7 +43,7 @@ export class Apiv3GroupsPaths
   implements Apiv3ListResourceInterface<GroupResource> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'groups', Apiv3GroupPaths);
+    super(apiRoot, basePath, "groups", Apiv3GroupPaths);
   }
 
   /**

@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input } from '@angular/core';
+import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: 'op-icon',
-  host: { class: 'op-icon--wrapper' },
+  selector: "op-icon",
+  host: { class: "op-icon--wrapper" },
   template: `
       <i [ngClass]="iconClasses"
          [title]="iconTitle"
@@ -42,7 +42,7 @@ import { Component, Input } from '@angular/core';
     `,
 })
 export class OpIconComponent {
-  @Input('icon-classes') iconClasses:string;
+  @Input("icon-classes") iconClasses:string;
 
-  @Input('icon-title') iconTitle = '';
+  @Input("icon-title") iconTitle = "";
 }

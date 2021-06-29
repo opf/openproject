@@ -39,7 +39,7 @@ export class QueryOperatorResource extends HalResource {
       return decodeURIComponent(idPart);
     }
 
-    return '';
+    return "";
   }
 
   public set id(val:string) {

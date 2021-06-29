@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Injectable } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 import { TabInterface } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
 import { BoardHighlightingTabComponent } from "core-app/features/boards/board/configuration-modal/tabs/highlighting-tab.component";
 
@@ -7,8 +7,8 @@ import { BoardHighlightingTabComponent } from "core-app/features/boards/board/co
 export class BoardConfigurationService {
   protected _tabs:TabInterface[] = [
     {
-      id: 'highlighting',
-      name: this.I18n.t('js.work_packages.table_configuration.highlighting'),
+      id: "highlighting",
+      name: this.I18n.t("js.work_packages.table_configuration.highlighting"),
       componentClass: BoardHighlightingTabComponent,
     },
   ];

@@ -43,7 +43,7 @@ export class Apiv3NotificationPaths extends APIv3GettableResource<InAppNotificat
         {},
         {
           withCredentials: true,
-          responseType: 'json'
+          responseType: "json",
         },
       );
   }
@@ -56,7 +56,7 @@ export class Apiv3NotificationPaths extends APIv3GettableResource<InAppNotificat
         {},
         {
           withCredentials: true,
-          responseType: 'json'
+          responseType: "json",
         },
       );
   }

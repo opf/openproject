@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from "@angular/core";
-import { Store, StoreConfig } from '@datorama/akita';
+import { Store, StoreConfig } from "@datorama/akita";
 import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
 
 export interface CurrentUser {
@@ -50,7 +50,7 @@ export function createInitialState():CurrentUserState {
 }
 
 @Injectable()
-@StoreConfig({ name: 'current-user' })
+@StoreConfig({ name: "current-user" })
 export class CurrentUserStore extends Store<CurrentUserState> {
   constructor() {
     super(createInitialState());

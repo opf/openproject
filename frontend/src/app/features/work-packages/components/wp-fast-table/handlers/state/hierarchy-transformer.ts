@@ -1,8 +1,8 @@
-import { Injector } from '@angular/core';
-import { scrollTableRowIntoView } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
+import { Injector } from "@angular/core";
+import { scrollTableRowIntoView } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers";
 import {
   distinctUntilChanged, filter, map, takeUntil,
-} from 'rxjs/operators';
+} from "rxjs/operators";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
 import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
@@ -77,9 +77,9 @@ export class HierarchyTransformer {
 
       if (hierarchyRoot) {
         if (isCollapsed) {
-          hierarchyRoot.classList.add('__hierarchy-root-collapsed');
+          hierarchyRoot.classList.add("__hierarchy-root-collapsed");
         } else {
-          hierarchyRoot.classList.remove('__hierarchy-root-collapsed');
+          hierarchyRoot.classList.remove("__hierarchy-root-collapsed");
         }
       }
 
@@ -108,6 +108,6 @@ export class HierarchyTransformer {
       scrollTableRowIntoView(state.last);
     }
 
-    this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
+    this.querySpace.tableRendered.putValue(rendered, "Updated hidden state of rows after hierarchy change.");
   }
 }

@@ -36,16 +36,16 @@ import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource
 export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'users', APIv3UserPaths);
+    super(apiRoot, basePath, "users", APIv3UserPaths);
   }
 
   // Static paths
 
   // /api/v3/users/me
-  public readonly me = this.subResource('me', APIv3UserPaths);
+  public readonly me = this.subResource("me", APIv3UserPaths);
 
   // /api/v3/users/form
-  public readonly form = this.subResource('form', APIv3FormResource);
+  public readonly form = this.subResource("form", APIv3FormResource);
 
   /**
    * Create a new UserResource
@@ -63,7 +63,7 @@ export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3
     password?:string,
     auth_source?:string,
     identity_url?:string,
-    status:'invited'|'active',
+    status:"invited"|"active",
   }):Observable<UserResource> {
     return this
       .halResourceService

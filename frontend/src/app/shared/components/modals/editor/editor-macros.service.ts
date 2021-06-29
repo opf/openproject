@@ -60,7 +60,7 @@ export class EditorMacrosService {
    */
   public configureWikiPageInclude(page:string):Promise<string> {
     return new Promise<string>((resolve, _) => {
-      const pageValue = page || '';
+      const pageValue = page || "";
       const modal = this.opModalService.show(WikiIncludePageMacroModal, this.injector, { page: pageValue });
       modal.closingEvent.subscribe((modal:WikiIncludePageMacroModal) => {
         if (modal.changed) {

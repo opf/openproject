@@ -43,7 +43,7 @@ export class ResourcesDisplayField extends DisplayField {
       } if (cf.name) {
         return [cf.name];
       }
-      return ['error: ' + JSON.stringify(cf)];
+      return [`error: ${JSON.stringify(cf)}`];
     }
 
     return [];
@@ -51,8 +51,8 @@ export class ResourcesDisplayField extends DisplayField {
 
   public render(element:HTMLElement, displayText:string):void {
     const values = this.value;
-    element.innerHTML = '';
-    element.setAttribute('title', values.join(', '));
+    element.innerHTML = "";
+    element.setAttribute("title", values.join(", "));
 
     if (values.length === 0) {
       this.renderEmpty(element);
@@ -72,7 +72,7 @@ export class ResourcesDisplayField extends DisplayField {
     content.appendChild(abridged);
 
     if (values.length > 2) {
-      const badge = this.optionDiv(values.length.toString(), 'badge', '-secondary');
+      const badge = this.optionDiv(values.length.toString(), "badge", "-secondary");
       content.appendChild(badge);
     }
 
@@ -83,8 +83,8 @@ export class ResourcesDisplayField extends DisplayField {
    * Build .custom-option div/span nodes with the given text
    */
   protected optionDiv(text:string, ...classes:string[]) {
-    const div = document.createElement('div');
-    const span = document.createElement('span');
+    const div = document.createElement("div");
+    const span = document.createElement("span");
     div.classList.add(cssClassCustomOption);
     span.classList.add(...classes);
     span.textContent = text;
@@ -101,9 +101,9 @@ export class ResourcesDisplayField extends DisplayField {
     const valueForDisplay = _.take(values, 2);
 
     if (values.length > 2) {
-      valueForDisplay.push('... ');
+      valueForDisplay.push("... ");
     }
 
-    return valueForDisplay.join(', ');
+    return valueForDisplay.join(", ");
   }
 }
