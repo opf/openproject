@@ -38,7 +38,7 @@ module API
         spec
       end
     end
-    
+
     def substitute_refs_in_hash(spec, path:, root_path:, root_spec: spec)
       if spec.size == 1 && spec.keys.first == "$ref"
         ref_path = path.join spec.values.first
@@ -62,20 +62,24 @@ module API
 
     def resolve_refs_in_hash(spec, path:, root_path:, root_spec:)
       if spec.size == 1 && spec.keys.first == "$ref"
-        ref_path = spec.values.first
-
-        if ref_path.start_with?(".")
-          schema_file = path.join(ref_path).to_s.sub(root_path.to_s, ".")
-          schema_path = path.join(ref_path).parent.to_s.sub(root_path.to_s, "").split("/").drop(1)
-          schema_name = root_spec.dig(*schema_path).find { |_k, v| v["$ref"] == schema_file }.first
-          schema_ref = path.join(ref_path).parent.join(schema_name).to_s.sub(root_path.to_s, "#")
-
-          { spec.keys.first => schema_ref }
-        else
-          spec
-        end
+        resolve_ref spec, path: path, root_path: root_path, root_spec: root_spec
       else
         spec.transform_values { |v| resolve_refs v, path: path, root_path: root_path, root_spec: root_spec }
+      end
+    end
+
+    def resolve_ref(spec, path:, root_path:, root_spec:)
+      ref_path = spec.values.first
+
+      if ref_path.start_with?(".")
+        schema_file = path.join(ref_path).to_s.sub(root_path.to_s, ".")
+        schema_path = path.join(ref_path).parent.to_s.sub(root_path.to_s, "").split("/").drop(1)
+        schema_name = root_spec.dig(*schema_path).find { |_k, v| v["$ref"] == schema_file }.first
+        schema_ref = path.join(ref_path).parent.join(schema_name).to_s.sub(root_path.to_s, "#")
+
+        { spec.keys.first => schema_ref }
+      else
+        spec
       end
     end
   end
