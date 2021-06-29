@@ -28,14 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Notifications::Filters::ReadIanFilter < Queries::Notifications::Filters::NotificationFilter
-  include Queries::Filters::Shared::BooleanFilter
+module Queries::Filters::Strategies
+  class BooleanListStrict < BooleanList
+    def operator_map
+      super_value = super.dup
+      super_value['='] = ::Queries::Operators::BooleanEqualsStrict
 
-  def self.key
-    :read_ian
-  end
-
-  def type_strategy
-    @type_strategy ||= ::Queries::Filters::Strategies::BooleanListStrict.new self
+      super_value
+    end
   end
 end

@@ -30,6 +30,10 @@ require 'spec_helper'
 
 shared_examples_for 'API V3 collection response' do |total, count, type|
   subject { last_response.body }
+  # If an array of elements is provided, those elements are expected
+  # to be embedded in the _embedded/elements section in the order provided.
+  # Only the id of the element is checked for.
+  let(:elements) { nil }
 
   # Allow input to pass a proc to avoid counting before the example
   # context
@@ -59,6 +63,10 @@ shared_examples_for 'API V3 collection response' do |total, count, type|
 
       if type && count_number > 0
         expect(subject).to be_json_eql(type.to_json).at_path('_embedded/elements/0/_type')
+      end
+
+      elements&.each_with_index do |element, index|
+        expect(subject).to be_json_eql(element.id.to_json).at_path("_embedded/elements/#{index}/id")
       end
     end
   end
