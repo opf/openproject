@@ -1,8 +1,9 @@
 module.exports = {
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
   ],
   env: {
     browser: true,
@@ -29,7 +30,7 @@ module.exports = {
       "extends": [
         "plugin:@angular-eslint/recommended",
         // This is required if you use inline templates in Components
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
       ],
       "rules": {
         /**
@@ -47,13 +48,15 @@ module.exports = {
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-empty-function": "error",
+
         // note you must disable the base rule as it can report incorrect errors
         semi: "off",
-        "@typescript-eslint/semi": ["error"],
+        "@typescript-eslint/semi": ["error", "always", { "omitLastInOneLineBlock": true}],
         "brace-style": [
           "error",
           "1tbs",
         ],
+
         curly: "error",
         "eol-last": "off",
         eqeqeq: [
@@ -110,8 +113,8 @@ module.exports = {
         // Disable required spaces in license comments
         "spaced-comment": "off",
 
-        // Disable preference on quotes, rely on formatter instead
-        quotes: "off",
+        // Force double quotes to align with ruby
+        quotes: ["error", "double", { avoidEscape: true }],
 
         // Disable consistent return as typescript checks return type
         "consistent-return": "off",

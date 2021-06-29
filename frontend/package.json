@@ -11,6 +11,8 @@
     "@angular-eslint/schematics": "12.0.0",
     "@angular-eslint/template-parser": "^12.0.0",
     "@angular/language-service": "12.0.2",
+    "@html-eslint/eslint-plugin": "^0.11.0",
+    "@html-eslint/parser": "^0.11.0",
     "@jsdevtools/coverage-istanbul-loader": "3.0.5",
     "@types/jasmine": "~3.6.0",
     "@typescript-eslint/eslint-plugin": "4.23.0",
@@ -18,7 +20,11 @@
     "codelyzer": "^6.0.0",
     "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.3.2",
@@ -130,6 +136,7 @@
     "test": "ng test --watch=false",
     "test-watch": "ng test --watch=true",
     "lint": "eslint -c .eslintrc.js --ext .ts src/app/",
+    "lint:fix": "eslint -c .eslintrc.js --ext .ts --fix src/app/",
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   }
 }
