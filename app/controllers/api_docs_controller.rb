@@ -31,9 +31,9 @@
 class APIDocsController < ApplicationController
   before_action :require_login
 
-  layout 'angular'
-
   def index
     render_404 unless Setting.apiv3_docs_enabled?
+
+    render layout: 'angular', inline: ''
   end
 end
