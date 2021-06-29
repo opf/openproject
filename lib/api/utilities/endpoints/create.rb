@@ -29,7 +29,7 @@
 module API
   module Utilities
     module Endpoints
-      class Create < Modify
+    class Create < Modify
         def default_instance_generator(_model)
           ->(_params) do
           end

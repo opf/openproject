@@ -28,42 +28,39 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+module Attachments
+  class CreateContract < ::ModelContract
+    attribute :file
+    attribute :filename
+    attribute :filesize
+    attribute :digest
+    attribute :description
+    attribute :content_type
+    attribute :container
+    attribute :author
 
-module API
-  module V3
-    module Attachments
-      class AttachmentParsingRepresenter < ::API::Decorators::Single
-        property :file,
-                 setter: ->(fragment:, **) {
-                   self.file = OpenProject::Files.build_uploaded_file fragment[:tempfile],
-                                                                      fragment[:type]
-                 }
+    validate :validate_attachments_addable
+    validate :validate_container_addable
+    validate :validate_author
 
-        nested :metadata do
-          property :filename,
-                   as: :fileName
+    private
 
-          property :description,
-                   getter: ->(*) {
-                     ::API::Decorators::Formattable.new(description, plain: true)
-                   },
-                   setter: ->(fragment:, **) { self.description = fragment['raw'] },
-                   render_nil: true
-
-          property :content_type,
-                   as: :contentType,
-                   render_nil: false
-
-          property :filesize,
-                   as: :fileSize,
-                   render_nil: false
-
-          property :digest,
-                   render_nil: false
-        end
+    def validate_attachments_addable
+      if Redmine::Acts::Attachable.attachables.none?(&:attachments_addable?)
+        errors.add(:base, :error_unauthorized)
       end
+    end
+
+    def validate_author
+      unless model.author == user
+        errors.add(:author, :invalid)
+      end
+    end
+
+    def validate_container_addable
+      return unless model.container
+
+      errors.add(:base, :error_unauthorized) unless model.container.attachments_addable?(user)
     end
   end
 end

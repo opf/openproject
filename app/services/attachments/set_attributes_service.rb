@@ -28,42 +28,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
-module API
-  module V3
-    module Attachments
-      class AttachmentParsingRepresenter < ::API::Decorators::Single
-        property :file,
-                 setter: ->(fragment:, **) {
-                   self.file = OpenProject::Files.build_uploaded_file fragment[:tempfile],
-                                                                      fragment[:type]
-                 }
-
-        nested :metadata do
-          property :filename,
-                   as: :fileName
-
-          property :description,
-                   getter: ->(*) {
-                     ::API::Decorators::Formattable.new(description, plain: true)
-                   },
-                   setter: ->(fragment:, **) { self.description = fragment['raw'] },
-                   render_nil: true
-
-          property :content_type,
-                   as: :contentType,
-                   render_nil: false
-
-          property :filesize,
-                   as: :fileSize,
-                   render_nil: false
-
-          property :digest,
-                   render_nil: false
-        end
-      end
+module Attachments
+  class SetAttributesService < ::BaseServices::SetAttributes
+    def set_default_attributes(params)
+      model.author = user if model.author.nil?
     end
   end
 end
