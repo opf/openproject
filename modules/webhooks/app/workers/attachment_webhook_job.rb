@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,36 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  ##
-  # Events defined in OpenProject, e.g. created work packages.
-  # The module defines a constant for each event.
-  #
-  # Plugins should register their events here too by prepending a module
-  # including the respective constants.
-  #
-  # @note Does not include all events but it should!
-  # @see OpenProject::Notifications
-  module Events
-    AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready".freeze
-    AGGREGATED_WIKI_JOURNAL_READY = "aggregated_wiki_journal_ready".freeze
+class AttachmentWebhookJob < RepresentedWebhookJob
+  def payload_key
+    :attachment
+  end
 
-    ATTACHMENT_CREATED = 'attachment_created'.freeze
+  def accepted_in_project?
+    project = resource.container.try(:project)
+    return true if project.nil?
 
-    JOURNAL_CREATED = 'journal_created'.freeze
+    webhook.enabled_for_project?(project.id)
+  end
 
-    MEMBER_CREATED = 'member_created'.freeze
-    MEMBER_UPDATED = 'member_updated'.freeze
-    # Called like this for historic reasons, should be called 'member_destroyed'
-    MEMBER_DESTROYED = 'member_removed'.freeze
-
-    TIME_ENTRY_CREATED = "time_entry_created".freeze
-
-    PROJECT_CREATED = "project_created".freeze
-    PROJECT_UPDATED = "project_updated".freeze
-    PROJECT_RENAMED = "project_renamed".freeze
-
-    WATCHER_ADDED = 'watcher_added'.freeze
-    WATCHER_REMOVED = 'watcher_removed'.freeze
+  def payload_representer
+    User.system.run_given do |user|
+      ::API::V3::Attachments::AttachmentRepresenter
+        .create(resource, current_user: user, embed_links: true)
+    end
   end
 end

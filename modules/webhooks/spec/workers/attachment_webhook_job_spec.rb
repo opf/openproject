@@ -30,64 +30,64 @@
 
 require 'spec_helper'
 
-describe ProjectWebhookJob, type: :job, webmock: true do
+describe AttachmentWebhookJob, type: :job, webmock: true do
   shared_let(:user) { FactoryBot.create :admin }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:project) { FactoryBot.create :project, name: 'Foo Bar', hours: 10 }
+  shared_let(:project) { FactoryBot.create :project, name: 'Foo Bar' }
+  shared_let(:container) { FactoryBot.create :work_package, project: project }
+  shared_let(:attachment) { FactoryBot.create :attachment, container: container }
   shared_let(:webhook) { FactoryBot.create :webhook, all_projects: true, url: request_url, secret: nil }
+  let(:event) { "attachment:created" }
+  let(:job) { described_class.perform_now(webhook.id, attachment, event) }
+  let(:stubbed_url) { request_url }
 
-  shared_examples "a project webhook call" do
-    let(:event) { "project:created" }
-    let(:job) { TimeEntryWebhookJob.perform_now(webhook.id, project, event) }
+  let(:request_headers) do
+    { content_type: "application/json", accept: "application/json" }
+  end
 
-    let(:stubbed_url) { request_url }
+  let(:response_code) { 200 }
+  let(:response_body) { "hook called" }
+  let(:response_headers) do
+    { content_type: "text/plain", x_spec: "foobar" }
+  end
 
-    let(:request_headers) do
-      { content_type: "application/json", accept: "application/json" }
-    end
+  let(:stub) do
+    stub_request(:post, stubbed_url.sub("http://", ""))
+      .with(
+        body: hash_including(
+          "action" => event,
+          "attachment" => hash_including(
+            "_type" => "Attachment",
+            'id' => attachment.id
+          )
+        ),
+        headers: request_headers
+      )
+      .to_return(
+        status: response_code,
+        body: response_body,
+        headers: response_headers
+      )
+  end
 
-    let(:response_code) { 200 }
-    let(:response_body) { "hook called" }
-    let(:response_headers) do
-      { content_type: "text/plain", x_spec: "foobar" }
-    end
+  subject do
+    job
+  rescue StandardError
+    # ignoring it as it's expected to throw exceptions in certain scenarios
+    nil
+  end
 
-    let(:stub) do
-      stub_request(:post, stubbed_url.sub("http://", ""))
-        .with(
-          body: hash_including(
-            "action" => event,
-            "poroject" => hash_including(
-              "_type" => "Project",
-              "name" => 'Foo Bar'
-            )
-          ),
-          headers: request_headers
-        )
-        .to_return(
-          status: response_code,
-          body: response_body,
-          headers: response_headers
-        )
-    end
+  before do
+    allow(::Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
+    login_as user
+    stub
+  end
 
-    subject do
-      job
-    rescue StandardError
-      # ignoring it as it's expected to throw exceptions in certain scenarios
-      nil
-    end
-
-    before do
-      allow(::Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
-      login_as user
-      stub
-    end
-
+  describe "attachment webhook call" do
     it 'requests with all projects' do
       allow(webhook)
         .to receive(:enabled_for_project?).with(project.id)
-        .and_call_original
+                                          .and_call_original
 
       subject
       expect(stub).to have_been_requested
@@ -96,13 +96,22 @@ describe ProjectWebhookJob, type: :job, webmock: true do
     it 'does not request when project does not match unless create case' do
       allow(webhook)
         .to receive(:enabled_for_project?).with(project.id)
-        .and_return(false)
+                                          .and_return(false)
 
       subject
-      if event_name == 'project:created'
+      expect(stub).not_to have_been_requested
+    end
+
+    context 'with uncontainered' do
+      shared_let(:attachment) { FactoryBot.create :attachment, container: nil }
+
+      it 'does requests even if project nil' do
+        allow(webhook)
+          .to receive(:enabled_for_project?).with(project.id)
+                                            .and_return(false)
+
+        subject
         expect(stub).to have_been_requested
-      else
-        expect(stub).not_to have_been_requested
       end
     end
 
@@ -126,26 +135,6 @@ describe ProjectWebhookJob, type: :job, webmock: true do
         expect(log.response_body).to eq response_body
         expect(log.response_headers).to eq response_headers
       end
-    end
-  end
-
-  describe "triggering a project update" do
-    it_behaves_like "a project webhook call" do
-      let(:event) { "project:updated" }
-    end
-  end
-
-  describe "triggering a projec creation" do
-    it_behaves_like "a project webhook call" do
-      let(:event) { "project:created" }
-    end
-  end
-
-  describe "triggering a work package create with an invalid url" do
-    it_behaves_like "a project webhook call" do
-      let(:event) { "project:update" }
-      let(:response_code) { 404 }
-      let(:response_body) { "not found" }
     end
   end
 end
