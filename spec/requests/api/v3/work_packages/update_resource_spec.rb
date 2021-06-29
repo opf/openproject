@@ -32,8 +32,6 @@ require 'rack/test'
 describe 'API v3 Work package resource',
          type: :request,
          content_type: :json do
-  include Rack::Test::Methods
-  include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
   let(:closed_status) { FactoryBot.create(:closed_status) }
@@ -55,316 +53,10 @@ describe 'API v3 Work package resource',
 
     user
   end
-  let(:watcher) do
-    FactoryBot
-      .create(:user, member_in_project: project, member_through_role: role)
-      .tap do |user|
-        work_package.add_watcher(user)
-      end
-  end
-  let(:unauthorize_user) { FactoryBot.create(:user) }
   let(:type) { FactoryBot.create(:type) }
 
   before do
     login_as(current_user)
-  end
-
-  describe 'GET /api/v3/work_packages' do
-    subject { last_response }
-
-    let(:path) { api_v3_paths.work_packages }
-    let(:other_work_package) { FactoryBot.create(:work_package) }
-    let(:work_packages) { [work_package, other_work_package] }
-
-    before(:each) do
-      work_packages
-      get path
-    end
-
-    it 'succeeds' do
-      expect(subject.status).to eql 200
-    end
-
-    it 'returns visible work packages' do
-      expect(subject.body).to be_json_eql(1.to_json).at_path('total')
-    end
-
-    it 'embedds the work package schemas' do
-      expect(subject.body)
-        .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
-        .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
-    end
-
-    context 'user not seeing any work packages' do
-      include_context 'with non-member permissions from non_member_permissions'
-      let(:current_user) { FactoryBot.create(:user) }
-      let(:non_member_permissions) { [:view_work_packages] }
-
-      it 'succeeds' do
-        expect(subject.status).to eql 200
-      end
-
-      it 'returns no work packages' do
-        expect(subject.body).to be_json_eql(0.to_json).at_path('total')
-      end
-
-      context 'because he is not allowed to see work packages in general' do
-        let(:non_member_permissions) { [] }
-
-        it_behaves_like 'unauthorized access'
-      end
-    end
-
-    describe 'encoded query props' do
-      let(:props) do
-        eprops = {
-          filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
-          sortBy: [%w(id asc)].to_json,
-          pageSize: 1
-        }.to_json
-
-        {
-          eprops: Base64.encode64(Zlib::Deflate.deflate(eprops))
-        }.to_query
-      end
-      let(:path) { "#{api_v3_paths.work_packages}?#{props}" }
-      let(:other_visible_work_package) do
-        FactoryBot.create(:work_package,
-                          project: project)
-      end
-      let(:another_visible_work_package) do
-        FactoryBot.create(:work_package,
-                          project: project)
-      end
-
-      let(:work_packages) { [work_package, other_work_package, other_visible_work_package, another_visible_work_package] }
-
-      it 'succeeds' do
-        expect(subject.status)
-          .to eql 200
-      end
-
-      it 'returns visible and filtered work packages' do
-        expect(subject.body)
-          .to be_json_eql(2.to_json)
-          .at_path('total')
-
-        # because of the page size
-        expect(subject.body)
-          .to be_json_eql(1.to_json)
-          .at_path('count')
-
-        expect(subject.body)
-          .to be_json_eql(work_package.id.to_json)
-          .at_path('_embedded/elements/0/id')
-      end
-
-      context 'non zlibbed' do
-        let(:props) do
-          eprops = {
-            filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
-            sortBy: [%w(id asc)].to_json,
-            pageSize: 1
-          }.to_json
-
-          {
-            eprops: Base64.encode64(eprops)
-          }.to_query
-        end
-
-        it_behaves_like 'param validation error'
-      end
-
-      context 'non json encoded' do
-        let(:props) do
-          eprops = "some non json string"
-
-          {
-            eprops: Base64.encode64(Zlib::Deflate.deflate(eprops))
-          }.to_query
-        end
-
-        it_behaves_like 'param validation error'
-      end
-
-      context 'non base64 encoded' do
-        let(:props) do
-          eprops = {
-            filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
-            sortBy: [%w(id asc)].to_json,
-            pageSize: 1
-          }.to_json
-
-          {
-            eprops: Zlib::Deflate.deflate(eprops)
-          }.to_query
-        end
-
-        it_behaves_like 'param validation error'
-      end
-
-      context 'non hash' do
-        let(:props) do
-          eprops = [{
-            filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,
-            sortBy: [%w(id asc)].to_json,
-            pageSize: 1
-          }].to_json
-
-          {
-            eprops: Base64.encode64(Zlib::Deflate.deflate(eprops))
-          }.to_query
-        end
-
-        it_behaves_like 'param validation error'
-      end
-    end
-  end
-
-  describe 'GET /api/v3/work_packages/:id' do
-    let(:get_path) { api_v3_paths.work_package work_package.id }
-
-    context 'when acting as a user with permission to view work package' do
-      before(:each) do
-        login_as(current_user)
-        get get_path
-      end
-
-      it 'should respond with 200' do
-        expect(last_response.status).to eq(200)
-      end
-
-      describe 'response body' do
-        subject { last_response.body }
-        let!(:other_wp) do
-          FactoryBot.create(:work_package,
-                            project_id: project.id,
-                            status: closed_status)
-        end
-        let(:work_package) do
-          FactoryBot.create(:work_package,
-                            project_id: project.id,
-                            description: description).tap do |wp|
-            wp.children << children
-          end
-        end
-        let(:children) { [] }
-        let(:description) do
-          <<~DESCRIPTION
-            <macro class="toc"><macro>
-
-            # OpenProject Masterplan for 2015
-
-            ## three point plan
-
-            1) One ###{other_wp.id}
-            2) Two
-            3) Three
-
-            ### random thoughts
-
-            ### things we like
-
-            * Pointed
-            * Relaxed
-            * Debonaire
-          DESCRIPTION
-        end
-
-        it 'responds with work package in HAL+JSON format' do
-          expect(subject)
-            .to be_json_eql(work_package.id.to_json)
-            .at_path('id')
-        end
-
-        describe "description" do
-          subject { JSON.parse(last_response.body)['description'] }
-
-          it 'renders to html' do
-            is_expected.to have_selector('h1')
-            is_expected.to have_selector('h2')
-
-            # resolves links
-            expect(subject['html'])
-              .to have_selector("macro.macro--wp-quickinfo[data-id='#{other_wp.id}']")
-            # resolves macros, e.g. toc
-            expect(subject['html'])
-              .to have_selector('.op-uc-toc--list-item', text: "OpenProject Masterplan for 2015")
-          end
-        end
-
-        describe 'derived dates' do
-          let(:children) do
-            # This will be in another project but the user is still allowed to see the dates
-            [FactoryBot.create(:work_package,
-                               start_date: Date.today,
-                               due_date: Date.today + 5.days)]
-          end
-
-          it 'has derived dates' do
-            is_expected
-              .to be_json_eql(Date.today.to_json)
-              .at_path('derivedStartDate')
-
-            is_expected
-              .to be_json_eql((Date.today + 5.days).to_json)
-              .at_path('derivedDueDate')
-          end
-        end
-
-        describe 'relations' do
-          let(:directly_related_wp) do
-            FactoryBot.create(:work_package, project_id: project.id)
-          end
-          let(:transitively_related_wp) do
-            FactoryBot.create(:work_package, project_id: project.id)
-          end
-
-          let(:work_package) do
-            FactoryBot.create(:work_package,
-                              project_id: project.id,
-                              description: 'lorem ipsum').tap do |wp|
-              FactoryBot.create(:relation, relates: 1, from: wp, to: directly_related_wp)
-              FactoryBot.create(:relation, relates: 1, from: directly_related_wp, to: transitively_related_wp)
-            end
-          end
-
-          it 'embeds all direct relations' do
-            expect(subject)
-              .to be_json_eql(1.to_json)
-              .at_path('_embedded/relations/total')
-
-            expect(subject)
-              .to be_json_eql(api_v3_paths.work_package(directly_related_wp.id).to_json)
-              .at_path('_embedded/relations/_embedded/elements/0/_links/to/href')
-          end
-        end
-      end
-
-      context 'requesting nonexistent work package' do
-        let(:get_path) { api_v3_paths.work_package 909090 }
-
-        it_behaves_like 'not found'
-      end
-    end
-
-    context 'when acting as a user without permission to view work package' do
-      before(:each) do
-        allow(User).to receive(:current).and_return unauthorize_user
-        get get_path
-      end
-
-      it_behaves_like 'not found'
-    end
-
-    context 'when acting as an anonymous user' do
-      before(:each) do
-        allow(User).to receive(:current).and_return User.anonymous
-        get get_path
-      end
-
-      it_behaves_like 'not found'
-    end
   end
 
   describe 'PATCH /api/v3/work_packages/:id' do
@@ -416,7 +108,7 @@ describe 'API v3 Work package resource',
         it {
           expect(subject.body)
             .to be_json_eql(work_package.reload.lock_version)
-            .at_path('lockVersion')
+                  .at_path('lockVersion')
         }
       end
 
@@ -443,7 +135,7 @@ describe 'API v3 Work package resource',
           it do
             expect(Notifications::JournalCompletedJob)
               .to have_been_enqueued
-              .at_least(1)
+                    .at_least(1)
           end
         end
 
@@ -454,7 +146,7 @@ describe 'API v3 Work package resource',
           it do
             expect(Notifications::JournalCompletedJob)
               .to have_been_enqueued
-              .at_least(1)
+                    .at_least(1)
           end
         end
       end
@@ -482,7 +174,7 @@ describe 'API v3 Work package resource',
           it 'has a readonly error' do
             expect(response.body)
               .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
-              .at_path('errorIdentifier')
+                    .at_path('errorIdentifier')
           end
         end
       end
@@ -743,7 +435,7 @@ describe 'API v3 Work package resource',
           it 'responds with the new custom field having the desired value' do
             expect(subject.body)
               .to be_json_eql(true.to_json)
-              .at_path("customField#{custom_field.id}")
+                    .at_path("customField#{custom_field.id}")
           end
         end
       end
@@ -802,7 +494,7 @@ describe 'API v3 Work package resource',
               it {
                 expect(response.body)
                   .to be_json_eql(title)
-                  .at_path("_links/#{property}/title")
+                        .at_path("_links/#{property}/title")
               }
 
               it_behaves_like 'lock version updated'
@@ -909,7 +601,7 @@ describe 'API v3 Work package resource',
           it 'should respond with the work package assigned to the version' do
             expect(subject.body)
               .to be_json_eql(target_version.name.to_json)
-              .at_path('_embedded/version/name')
+                    .at_path('_embedded/version/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -925,7 +617,7 @@ describe 'API v3 Work package resource',
           it 'has a readonly error' do
             expect(response.body)
               .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyIsReadOnly'.to_json)
-              .at_path('errorIdentifier')
+                    .at_path('errorIdentifier')
           end
         end
       end
@@ -946,7 +638,7 @@ describe 'API v3 Work package resource',
           it 'should respond with the work package assigned to the category' do
             expect(subject.body)
               .to be_json_eql(target_category.name.to_json)
-              .at_path('_embedded/category/name')
+                    .at_path('_embedded/category/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -969,7 +661,7 @@ describe 'API v3 Work package resource',
           it 'should respond with the work package assigned to the priority' do
             expect(subject.body)
               .to be_json_eql(target_priority.name.to_json)
-              .at_path('_embedded/priority/name')
+                    .at_path('_embedded/priority/name')
           end
 
           it_behaves_like 'lock version updated'
@@ -1037,7 +729,7 @@ describe 'API v3 Work package resource',
           it 'should respond with the work package assigned to the new value' do
             expect(subject.body)
               .to be_json_eql(value_link.to_json)
-              .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
+                    .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
           end
 
           it_behaves_like 'lock version updated'
@@ -1172,263 +864,6 @@ describe 'API v3 Work package resource',
           expect(work_package.attachments)
             .to match_array(attachment)
         end
-      end
-    end
-  end
-
-  describe 'DELETE /api/v3/work_packages/:id' do
-    let(:path) { api_v3_paths.work_package work_package.id }
-
-    before do
-      delete path
-    end
-
-    subject { last_response }
-
-    context 'with required permissions' do
-      let(:permissions) { %i[view_work_packages delete_work_packages] }
-
-      it 'responds with HTTP No Content' do
-        expect(subject.status).to eq 204
-      end
-
-      it 'deletes the work package' do
-        expect(WorkPackage.exists?(work_package.id)).to be_falsey
-      end
-
-      context 'for a non-existent work package' do
-        let(:path) { api_v3_paths.work_package 1337 }
-
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'WorkPackage' }
-        end
-      end
-    end
-
-    context 'without permission to see work packages' do
-      let(:permissions) { [] }
-
-      it_behaves_like 'not found'
-    end
-
-    context 'without permission to delete work packages' do
-      let(:permissions) { [:view_work_packages] }
-
-      it_behaves_like 'unauthorized access'
-
-      it 'does not delete the work package' do
-        expect(WorkPackage.exists?(work_package.id)).to be_truthy
-      end
-    end
-  end
-
-  describe 'POST /api/v3/work_packages' do
-    let(:path) { api_v3_paths.work_packages }
-    let(:permissions) { %i[add_work_packages view_project] }
-    let(:status) { FactoryBot.build(:status, is_default: true) }
-    let(:priority) { FactoryBot.build(:priority, is_default: true) }
-    let(:type) { project.types.first }
-    let(:parameters) do
-      {
-        subject: 'new work packages',
-        _links: {
-          type: {
-            href: api_v3_paths.type(type.id)
-          },
-          project: {
-            href: api_v3_paths.project(project.id)
-          }
-        }
-      }
-    end
-
-    before do
-      status.save!
-      priority.save!
-
-      FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
-      perform_enqueued_jobs do
-        post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
-      end
-    end
-
-    context 'notifications' do
-      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
-
-      it 'sends a mail by default' do
-        expect(ActionMailer::Base.deliveries.size)
-          .to eql 1
-      end
-
-      context 'without notifications' do
-        let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
-
-        it 'should not send a mail' do
-          expect(ActionMailer::Base.deliveries.size)
-            .to eql 0
-        end
-      end
-
-      context 'with notifications' do
-        let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
-
-        it 'should send a mail' do
-          expect(ActionMailer::Base.deliveries.size)
-            .to eql 1
-        end
-      end
-    end
-
-    it 'should return Created(201)' do
-      expect(last_response.status).to eq(201)
-    end
-
-    it 'should create a work package' do
-      expect(WorkPackage.all.count).to eq(1)
-    end
-
-    it 'should use the given parameters' do
-      expect(WorkPackage.first.subject).to eq(parameters[:subject])
-    end
-
-    it 'should be associated with the provided project' do
-      expect(WorkPackage.first.project).to eq(project)
-    end
-
-    it 'should be associated with the provided type' do
-      expect(WorkPackage.first.type).to eq(type)
-    end
-
-    context 'no permissions' do
-      let(:current_user) { FactoryBot.create(:user) }
-
-      it 'should hide the endpoint' do
-        expect(last_response.status).to eq(403)
-      end
-    end
-
-    context 'view_project permission' do
-      # Note that this just removes the add_work_packages permission
-      # view_project is actually provided by being a member of the project
-      let(:permissions) { [:view_project] }
-
-      it 'should point out the missing permission' do
-        expect(last_response.status).to eq(403)
-      end
-    end
-
-    context 'empty parameters' do
-      let(:parameters) { {} }
-
-      it_behaves_like 'multiple errors', 422
-
-      it 'should not create a work package' do
-        expect(WorkPackage.all.count).to eq(0)
-      end
-    end
-
-    context 'bogus parameters' do
-      let(:parameters) do
-        {
-          bogus: 'bogus',
-          _links: {
-            type: {
-              href: api_v3_paths.type(project.types.first.id)
-            },
-            project: {
-              href: api_v3_paths.project(project.id)
-            }
-          }
-        }
-      end
-
-      it_behaves_like 'constraint violation' do
-        let(:message) { "Subject can't be blank" }
-      end
-
-      it 'should not create a work package' do
-        expect(WorkPackage.all.count).to eq(0)
-      end
-    end
-
-    context 'schedule manually' do
-      let(:work_package) { WorkPackage.first }
-
-      context 'with true' do
-        # mind the () for the super call, those are required in rspec's super
-        let(:parameters) { super().merge(scheduleManually: true) }
-
-        it 'should set the scheduling mode to true' do
-          expect(work_package.schedule_manually).to eq true
-        end
-      end
-
-      context 'with false' do
-        let(:parameters) { super().merge(scheduleManually: false) }
-
-        it 'should set the scheduling mode to false' do
-          expect(work_package.schedule_manually).to eq false
-        end
-      end
-
-      context 'with scheduleManually absent' do
-        it 'should set the scheduling mode to false (default)' do
-          expect(work_package.schedule_manually).to eq false
-        end
-      end
-    end
-
-    context 'invalid value' do
-      let(:parameters) do
-        {
-          subject: nil,
-          _links: {
-            type: {
-              href: api_v3_paths.type(project.types.first.id)
-            },
-            project: {
-              href: api_v3_paths.project(project.id)
-            }
-          }
-        }
-      end
-
-      it_behaves_like 'constraint violation' do
-        let(:message) { "Subject can't be blank" }
-      end
-
-      it 'should not create a work package' do
-        expect(WorkPackage.all.count).to eq(0)
-      end
-    end
-
-    context 'claiming attachments' do
-      let(:attachment) { FactoryBot.create(:attachment, container: nil, author: current_user) }
-      let(:parameters) do
-        {
-          subject: 'subject',
-          _links: {
-            type: {
-              href: api_v3_paths.type(project.types.first.id)
-            },
-            project: {
-              href: api_v3_paths.project(project.id)
-            },
-            attachments: [
-              href: api_v3_paths.attachment(attachment.id)
-            ]
-          }
-        }
-      end
-
-      it 'creates the work package and assigns the attachments' do
-        expect(WorkPackage.all.count).to eq(1)
-
-        work_package = WorkPackage.last
-
-        expect(work_package.attachments)
-          .to match_array(attachment)
       end
     end
   end
