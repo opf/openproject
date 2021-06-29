@@ -192,7 +192,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
         new_window = window_opened_by { find('body').native.send_keys('?') }
         within_window new_window do
-          expect(page.current_url).to include 'https://docs.openproject.org/'
+          expect(page.current_url).to start_with 'https://www.openproject.org/docs'
         end
 
         new_window.close
