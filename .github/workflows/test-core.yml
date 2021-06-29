@@ -87,11 +87,11 @@ jobs:
   api-spec:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository == 'opf/openproject'
-    runs-on: [self-hosted-autoscale]
+    runs-on: [ubuntu-latest]
     steps:
+    - uses: ruby/setup-ruby@v1
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
       with:
         node-version: '14'
-    - uses: ruby/setup-ruby@v1
     - run: ./script/api/validate_spec
