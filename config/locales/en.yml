@@ -2351,6 +2351,7 @@ en:
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under
     <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2467,6 +2468,14 @@ en:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files.
+        <br/>
+        Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>).
+        <br/>
+        Leave empty to allow any file type to be uploaded.
+        Multiple values allowed (one line for each value).
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications)
