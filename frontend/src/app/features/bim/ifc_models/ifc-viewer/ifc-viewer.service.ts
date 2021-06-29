@@ -79,10 +79,12 @@ export class IFCViewerService extends ViewerBridgeService {
       });
 
       viewerUI.on("editModel", (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
-        window.location.href = this.pathHelper.ifcModelsEditPath(this.currentProjectService.identifier as string, event.modelId);
+        window.location.href = this.pathHelper.ifcModelsEditPath(
+          this.currentProjectService.identifier as string, event.modelId);
       });
 
-      viewerUI.on("deleteModel", (event:{ modelId:number|string }) => { // "Delete" selected in Models tab's context menu
+      viewerUI.on("deleteModel", (event:{ modelId:number|string }) => {
+        // "Delete" selected in Models tab's context menu.
         // We don't have an API for IFC models yet. We need to use the normal Rails form posts for deletion.
         const formData = new FormData();
         formData.append(
@@ -95,10 +97,7 @@ export class IFCViewerService extends ViewerBridgeService {
         );
 
         this.httpClient.post(
-          this.pathHelper.ifcModelsDeletePath(
-            this.currentProjectService.identifier as string, event.modelId),
-          formData,
-        )
+          this.pathHelper.ifcModelsDeletePath(this.currentProjectService.identifier as string, event.modelId), formData)
           .subscribe()
           .add(() => {
             // Ensure we reload after every request.
