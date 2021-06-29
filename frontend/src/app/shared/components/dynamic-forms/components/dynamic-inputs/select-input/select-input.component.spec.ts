@@ -15,23 +15,23 @@ describe('SelectInputComponent', () => {
       {
         name: 'option2',
         value: 2,
-      }
+      },
     ];
     const fieldsConfig = [
       {
-        "type": "selectInput" as "selectInput",
-        "key": "testControl",
-        "templateOptions": {
-          "required": true,
-          "label": "testControl",
-          "type": "text",
-          "placeholder": "",
-          "disabled": false,
-          "options": of(selectOptions),
-          "bindLabel": 'name',
-          "bindValue": 'value',
+        type: "selectInput" as const,
+        key: "testControl",
+        templateOptions: {
+          required: true,
+          label: "testControl",
+          type: "text",
+          placeholder: "",
+          disabled: false,
+          options: of(selectOptions),
+          bindLabel: 'name',
+          bindValue: 'value',
         },
-      }
+      },
     ];
     const formModel = {
       testControl: selectOptions[0],

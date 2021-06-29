@@ -30,8 +30,10 @@ import { Injectable } from "@angular/core";
 import { HttpEvent, HttpResponse } from "@angular/common/http";
 import { from, Observable, of } from "rxjs";
 import { share, switchMap } from "rxjs/operators";
-import { OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress } from './op-file-upload.service';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress,
+} from "./op-file-upload.service";
 
 interface PrepareUploadResult {
   url:string;
@@ -51,7 +53,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
     const observable = from(this.getDirectUploadFormFrom(url, file))
       .pipe(
         switchMap(this.uploadToExternal(file, method, responseType)),
-        share()
+        share(),
       );
 
     return [file, observable] as UploadInProgress;
@@ -75,8 +77,8 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
             withCredentials: false,
             responseType: responseType as any,
             // Subscribe to progress events. subscribe() will fire multiple times!
-            reportProgress: true
-          }
+            reportProgress: true,
+          },
         )
         .pipe(switchMap(this.finishUpload(result)));
     };
@@ -91,7 +93,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
             result.response._links.completeUpload.href,
             {
               observe: 'response'
-            }
+            },
           );
       }
 
@@ -106,7 +108,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
       description: file.description,
       fileName: file.customName || file.name,
       fileSize: file.size,
-      contentType: file.type
+      contentType: file.type,
     };
 
     /*
@@ -129,8 +131,8 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
         {
           body: formData,
           withCredentials: true,
-          responseType: "json" as any
-        }
+          responseType: "json" as any,
+        },
       )
       .toPromise()
       .then((res) => {
@@ -140,7 +142,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
           form.append(key, value);
         });
 
-        return { url: res._links.addAttachment.href, form: form, response: res };
+        return { url: res._links.addAttachment.href, form, response: res };
       });
 
     return result;

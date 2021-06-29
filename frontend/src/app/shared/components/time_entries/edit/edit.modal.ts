@@ -9,14 +9,15 @@ import { TimeEntryBaseModal } from "core-app/shared/components/time_entries/shar
   styleUrls: ['../shared/modal/base.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    HalResourceEditingService
-  ]
+    HalResourceEditingService,
+  ],
 })
 export class TimeEntryEditModal extends TimeEntryBaseModal {
   public modifiedEntry:TimeEntryResource;
+
   public destroyedEntry:TimeEntryResource;
 
-  public setModifiedEntry($event:{savedResource:HalResource, isInital:boolean}) {
+  public setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }) {
     this.modifiedEntry = $event.savedResource as TimeEntryResource;
     this.reloadWorkPackageAndClose();
   }

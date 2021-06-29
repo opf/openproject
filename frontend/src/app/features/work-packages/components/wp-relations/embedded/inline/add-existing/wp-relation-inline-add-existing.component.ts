@@ -41,12 +41,12 @@ import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builde
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 
-
 @Component({
   templateUrl: './wp-relation-inline-add-existing.component.html'
 })
 export class WpRelationInlineAddExistingComponent {
   public selectedWpId:string;
+
   public isDisabled = false;
 
   public queryFilters = this.buildQueryFilters();
@@ -56,14 +56,14 @@ export class WpRelationInlineAddExistingComponent {
   };
 
   constructor(protected readonly parent:WorkPackageInlineCreateComponent,
-              @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateServiceInterface,
-              protected apiV3Service:APIV3Service,
-              protected wpRelations:WorkPackageRelationsService,
-              protected notificationService:WorkPackageNotificationService,
-              protected halEvents:HalEventsService,
-              protected urlParamsHelper:UrlParamsHelperService,
-              protected querySpace:IsolatedQuerySpace,
-              protected readonly I18n:I18nService) {
+    @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateServiceInterface,
+    protected apiV3Service:APIV3Service,
+    protected wpRelations:WorkPackageRelationsService,
+    protected notificationService:WorkPackageNotificationService,
+    protected halEvents:HalEventsService,
+    protected urlParamsHelper:UrlParamsHelperService,
+    protected querySpace:IsolatedQuerySpace,
+    protected readonly I18n:I18nService) {
   }
 
   public addExisting() {

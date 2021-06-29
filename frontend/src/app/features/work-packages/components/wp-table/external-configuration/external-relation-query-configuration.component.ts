@@ -11,9 +11,9 @@ import { ExternalQueryConfigurationComponent } from "core-app/features/work-pack
   templateUrl: './external-query-configuration.template.html',
   providers: [
     [
-      { provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }
+      { provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService },
     ],
-    { provide: WpTableConfigurationModalPrependToken, useValue: WpTableConfigurationRelationSelectorComponent }
+    { provide: WpTableConfigurationModalPrependToken, useValue: WpTableConfigurationRelationSelectorComponent },
   ],
 })
 export class ExternalRelationQueryConfigurationComponent extends ExternalQueryConfigurationComponent {

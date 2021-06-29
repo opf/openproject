@@ -4,7 +4,6 @@ import { SchemaResource } from "core-app/features/hal/resources/schema-resource"
 import { WorkPackageSchemaProxy } from "core-app/features/hal/schemas/work-package-schema-proxy";
 
 export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource> {
-
   public setValue(key:string, val:any) {
     super.setValue(key, val);
 
@@ -41,8 +40,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
   public get schema():SchemaResource {
     if (this.form$.hasValue()) {
       return WorkPackageSchemaProxy.create(super.schema, this.projectedResource);
-    } else {
-      return super.schema;
     }
+    return super.schema;
   }
 }

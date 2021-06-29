@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output, Injector } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Output, Injector,
+} from '@angular/core';
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
@@ -43,7 +45,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   constructor(
-    readonly injector: Injector,
+    readonly injector:Injector,
     readonly I18n:I18nService,
     readonly currentProject:CurrentProjectService,
     readonly cdRef:ChangeDetectorRef,
@@ -79,7 +81,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
       .apiV3Service
       .versions
       .available_projects
-      .exists(this.currentProject.id!)
+      .exists(this.currentProject.id)
       .toPromise()
       .catch(() => false);
   }
@@ -94,7 +96,8 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
         error => {
           this.closeSelect();
           this.halNotification.handleRawError(error);
-        });
+        },
+      );
   }
 
   private getVersionPayload(name:string) {
@@ -102,8 +105,8 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
     payload['name'] = name;
     payload['_links'] = {
       definingProject: {
-        href: this.apiV3Service.projects.id(this.currentProject.id!).path
-      }
+        href: this.apiV3Service.projects.id(this.currentProject.id!).path,
+      },
     };
 
     return payload;

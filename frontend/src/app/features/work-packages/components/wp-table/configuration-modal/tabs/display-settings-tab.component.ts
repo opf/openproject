@@ -1,4 +1,3 @@
-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
@@ -11,12 +10,12 @@ import { QueryGroupByResource } from "core-app/features/hal/resources/query-grou
   templateUrl: './display-settings-tab.component.html'
 })
 export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
-
   // Display mode
   public displayMode:'hierarchy'|'grouped'|'default' = 'default';
 
   // Grouping
   public currentGroup:QueryGroupByResource|null;
+
   public availableGroups:QueryGroupByResource[] = [];
 
   // Sums row display
@@ -35,15 +34,15 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
       default: this.I18n.t('js.work_packages.table_configuration.default_mode'),
       grouped: this.I18n.t('js.work_packages.table_configuration.grouped_mode'),
       hierarchy: this.I18n.t('js.work_packages.table_configuration.hierarchy_mode'),
-      hierarchy_hint: '— ' + this.I18n.t('js.work_packages.table_configuration.hierarchy_hint')
-    }
+      hierarchy_hint: '— ' + this.I18n.t('js.work_packages.table_configuration.hierarchy_hint'),
+    },
   };
 
   constructor(readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly wpTableGroupBy:WorkPackageViewGroupByService,
-              readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
-              readonly wpTableSums:WorkPackageViewSumService) {
+    readonly I18n:I18nService,
+    readonly wpTableGroupBy:WorkPackageViewGroupByService,
+    readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
+    readonly wpTableSums:WorkPackageViewSumService) {
   }
 
   public onSave() {

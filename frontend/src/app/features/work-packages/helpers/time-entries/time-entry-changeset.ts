@@ -2,7 +2,6 @@ import { ResourceChangeset } from "core-app/shared/components/fields/changeset/r
 import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
 
 export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
-
   public setValue(key:string, val:any) {
     super.setValue(key, val);
 

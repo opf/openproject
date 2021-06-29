@@ -42,16 +42,15 @@ export class Apiv3NotificationsPaths
   @InjectField() http:HttpClient;
 
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'notifications', Apiv3NotificationPaths);
   }
 
   public facet(facet:string, params?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
-    if(facet === 'unread') {
+    if (facet === "unread") {
       return this.unread(params);
-    } else {
-      return this.list(params);
-    };
+    }
+    return this.list(params);
   }
 
   /**
@@ -70,7 +69,7 @@ export class Apiv3NotificationsPaths
   public unread(additional?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
     const params:Apiv3ListParameters = {
       ...additional,
-      filters: [["readIAN", "=", false]]
+      filters: [["readIAN", "=", false]],
     };
 
     return this.list(params);
@@ -84,12 +83,12 @@ export class Apiv3NotificationsPaths
     return this
       .http
       .post(
-        this.path + '/read_ian' + listParamsString({ filters: [['id', "=", ids.map(id => id.toString())]] }),
+        `${this.path}/read_ian${listParamsString({ filters: [["id", '=', ids.map(id => id.toString())]] })}`,
         {},
         {
           withCredentials: true,
           responseType: 'json'
-        }
+        },
       );
   }
 }

@@ -27,7 +27,9 @@
 //++
 
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { combine, deriveRaw, input, State } from 'reactivestates';
+import {
+  combine, deriveRaw, input, State,
+} from 'reactivestates';
 import { map, mapTo, take } from 'rxjs/operators';
 import { merge, Observable } from 'rxjs';
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
@@ -125,7 +127,7 @@ export abstract class WorkPackageViewBaseService<T> {
       .values$()
       .pipe(
         take(1),
-        mapTo(null)
+        mapTo(null),
       )
       .toPromise();
   }
@@ -142,9 +144,8 @@ export abstract class WorkPackageViewBaseService<T> {
               return pristine;
             }
             return current;
-          })
-        )
-    );
+          }),
+        ));
   }
 
   /**

@@ -107,7 +107,6 @@ export class DynamicBootstrapper {
   private static performBootstrap(appRef:ApplicationRef, root:Document|HTMLElement, embedded:boolean, definitions:OptionalBootstrapDefinition[]) {
     definitions
       .forEach(el => {
-
         // Skip non-embeddable components in an embedded bootstrap.
         if (embedded && !el.embeddable) {
           return;

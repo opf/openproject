@@ -34,13 +34,18 @@ import { HalResourceService } from "core-app/features/hal/services/hal-resource.
 
 export class GridWidgetResource extends HalResource {
   @InjectField() protected halResource:HalResourceService;
+
   public identifier:string;
+
   public startRow:number;
+
   public endRow:number;
+
   public startColumn:number;
+
   public endColumn:number;
 
-  public options:{[key:string]:unknown};
+  public options:{ [key:string]:unknown };
 
   public get height() {
     return this.endRow - this.startRow;
@@ -53,6 +58,6 @@ export class GridWidgetResource extends HalResource {
   public grid:GridResource;
 
   public get schema():SchemaResource {
-    return this.halResource.createHalResource({ '_type': 'Schema' }, true);
+    return this.halResource.createHalResource({ _type: 'Schema' }, true);
   }
 }

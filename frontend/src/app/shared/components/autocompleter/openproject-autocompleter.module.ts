@@ -13,10 +13,10 @@ import { UserAutocompleterComponent } from "core-app/shared/components/autocompl
 import { CommonModule } from "@angular/common";
 import { OpenprojectInviteUserModalModule } from "core-app/features/invite-user-modal/invite-user-modal.module";
 import { DragulaModule } from "ng2-dragula";
-import {OpAutocompleterComponent} from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
-import {OpAutocompleterOptionTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-option-template.directive";
-import {OpAutocompleterLabelTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-label-template.directive";
-import {OpAutocompleterHeaderTemplateDirective} from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-header-template.directive";
+import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
+import { OpAutocompleterOptionTemplateDirective } from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-option-template.directive";
+import { OpAutocompleterLabelTemplateDirective } from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-label-template.directive";
+import { OpAutocompleterHeaderTemplateDirective } from "core-app/shared/components/autocompleter/op-autocompleter/directives/op-autocompleter-header-template.directive";
 import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
 import { OpAutocompleterFooterTemplateDirective } from "core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive";
 
@@ -45,9 +45,9 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
     NgSelectModule,
     DragulaModule,
 
-    DynamicModule.withComponents(OPENPROJECT_AUTOCOMPLETE_COMPONENTS)
+    DynamicModule.withComponents(OPENPROJECT_AUTOCOMPLETE_COMPONENTS),
   ],
   exports: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
-  declarations: OPENPROJECT_AUTOCOMPLETE_COMPONENTS
+  declarations: OPENPROJECT_AUTOCOMPLETE_COMPONENTS,
 })
 export class OpenprojectAutocompleterModule { }

@@ -54,8 +54,8 @@ export function makeColorPreviews() {
 
       if (input.val() && input.val().length > 0) {
         previewColor = input.val();
-      } else if (input.attr('placeholder') &&
-        input.attr('placeholder').length > 0) {
+      } else if (input.attr('placeholder')
+        && input.attr('placeholder').length > 0) {
         previewColor = input.attr('placeholder');
       }
 

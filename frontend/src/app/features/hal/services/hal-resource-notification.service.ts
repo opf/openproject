@@ -40,12 +40,16 @@ import { ErrorResource } from "core-app/features/hal/resources/error-resource";
 
 @Injectable()
 export class HalResourceNotificationService {
-
   @InjectField() protected I18n:I18nService;
+
   @InjectField() protected $state:StateService;
+
   @InjectField() protected halResourceService:HalResourceService;
+
   @InjectField() protected NotificationsService:NotificationsService;
+
   @InjectField() protected loadingIndicator:LoadingIndicatorService;
+
   @InjectField() protected schemaCache:SchemaCacheService;
 
   constructor(public injector:Injector) {
@@ -166,14 +170,12 @@ export class HalResourceNotificationService {
   public showEditingBlockedError(attribute:string) {
     this.NotificationsService.addError(this.I18n.t(
       'js.hal.error.edit_prohibited',
-      { attribute: attribute }
+      { attribute },
     ));
   }
 
   protected showCustomError(errorResource:any, resource:HalResource) {
-
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
-
       const schema = this.schemaCache.of(resource).ofProperty(errorResource.details.attribute);
       const attributeName = schema.name;
       const attributeType = schema.type.toLowerCase();

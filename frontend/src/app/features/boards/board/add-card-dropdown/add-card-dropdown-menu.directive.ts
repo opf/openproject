@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Directive, ElementRef, Injector } from '@angular/core';
+import {
+  ChangeDetectorRef, Directive, ElementRef, Injector,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -40,20 +42,18 @@ import { BoardListComponent } from "core-app/features/boards/board/board-list/bo
   selector: '[addCardDropdown]'
 })
 export class AddCardDropdownMenuDirective extends OpContextMenuTrigger {
-
   private focusAfterClose = true;
 
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly opModalService:OpModalService,
-              readonly authorisationService:AuthorisationService,
-              readonly wpInlineCreate:WorkPackageInlineCreateService,
-              readonly boardList:BoardListComponent,
-              readonly injector:Injector,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly opModalService:OpModalService,
+    readonly authorisationService:AuthorisationService,
+    readonly wpInlineCreate:WorkPackageInlineCreateService,
+    readonly boardList:BoardListComponent,
+    readonly injector:Injector,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(elementRef, opContextMenu);
   }
 
@@ -87,7 +87,7 @@ export class AddCardDropdownMenuDirective extends OpContextMenuTrigger {
         onClick: () => {
           this.boardList.addNewCard();
           return true;
-        }
+        },
       },
       {
         disabled: !this.wpInlineCreate.canReference,
@@ -95,8 +95,8 @@ export class AddCardDropdownMenuDirective extends OpContextMenuTrigger {
         onClick: () => {
           this.boardList.addReferenceCard();
           return true;
-        }
-      }
+        },
+      },
     ];
   }
 }

@@ -19,8 +19,18 @@
 */
 
 // Ensure global is set for ng2-dragula and others
-(window as any).global = window;
+/*
+ * in IE/Edge developer tools, the addEventListener will also be wrapped by zone.js
+ * with the following flag, it will bypass `zone.js` patch for IE/Edge
+ */
+// (window as any).__Zone_enable_cross_context_check = true;
 
+/***************************************************************************************************
+ * Zone JS is required by default for Angular itself.
+ */
+import "zone.js";
+
+(window as any).global = window;
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import 'classlist.js';  // Run `npm install --save classlist.js`.
@@ -28,11 +38,9 @@
 /** IE10 and IE11 requires the following for the Reflect API. */
 // import 'core-js/es6/reflect';
 
-
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 // import 'core-js/es7/reflect';
-
 
 /**
  * Required to support Web Animations `@angular/platform-browser/animations`.
@@ -45,22 +53,9 @@
  * user can disable parts of macroTask/DomEvents patch by setting following flags
  */
 
- // (window as any).__Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
- // (window as any).__Zone_disable_on_property = true; // disable patch onProperty such as onclick
- (window as any).__zone_symbol__BLACK_LISTED_EVENTS = ['scroll', 'mousemove', 'mouseover', 'mouseout', 'mousewheel'];
-
- /*
- * in IE/Edge developer tools, the addEventListener will also be wrapped by zone.js
- * with the following flag, it will bypass `zone.js` patch for IE/Edge
- */
-// (window as any).__Zone_enable_cross_context_check = true;
-
-/***************************************************************************************************
- * Zone JS is required by default for Angular itself.
- */
-import 'zone.js';  // Included with Angular CLI.
-
-
+// (window as any).__Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
+// (window as any).__Zone_disable_on_property = true; // disable patch onProperty such as onclick
+(window as any).__zone_symbol__BLACK_LISTED_EVENTS = ["scroll", "mousemove", "mouseover", "mouseout", "mousewheel"]; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

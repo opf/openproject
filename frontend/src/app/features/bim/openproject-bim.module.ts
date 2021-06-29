@@ -34,8 +34,7 @@ import { OpenprojectIFCModelsModule } from "core-app/features/bim/ifc_models/ope
   imports: [
     OpenprojectBcfModule,
     OpenprojectIFCModelsModule,
-  ]
+  ],
 })
 export class OpenprojectBimModule {
 }
-

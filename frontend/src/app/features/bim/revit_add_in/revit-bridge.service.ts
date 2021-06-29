@@ -1,12 +1,13 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from "rxjs";
-import { distinctUntilChanged, filter, first, map, mapTo } from "rxjs/operators";
+import {
+  distinctUntilChanged, filter, first, map, mapTo,
+} from "rxjs/operators";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-
 
 declare global {
   interface Window {
@@ -17,8 +18,11 @@ declare global {
 @Injectable()
 export class RevitBridgeService extends ViewerBridgeService {
   public shouldShowViewer = false;
+
   public viewerVisible$ = new BehaviorSubject<boolean>(false);
+
   private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:any }>();
+
   private trackingIdNumber = 0;
 
   @InjectField() viewpointsService:ViewpointsService;
@@ -50,7 +54,7 @@ export class RevitBridgeService extends ViewerBridgeService {
       .pipe(
         distinctUntilChanged(),
         filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
-        first()
+        first(),
       )
       .pipe(
         map((message) => {
@@ -62,14 +66,14 @@ export class RevitBridgeService extends ViewerBridgeService {
           };
 
           return viewpointJson;
-        })
+        }),
       );
   }
 
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
     this.viewpointsService
       .getViewPoint$(workPackage, index)
-      .subscribe((viewpoint:BcfViewpointInterface) =>  this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
+      .subscribe((viewpoint:BcfViewpointInterface) => this.sendMessageToRevit('ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint)));
   }
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
@@ -84,21 +88,21 @@ export class RevitBridgeService extends ViewerBridgeService {
   private hookUpRevitListener() {
     window.RevitBridge.sendMessageToOpenProject = (messageString:string) => {
       const message = JSON.parse(messageString);
-      const messageType = message.messageType;
-      const trackingId = message.trackingId;
+      const { messageType } = message;
+      const { trackingId } = message;
       const messagePayload = JSON.parse(message.messagePayload);
 
       this.revitMessageReceivedSource.next({
-        messageType: messageType,
-        trackingId: trackingId,
-        messagePayload: messagePayload
+        messageType,
+        trackingId,
+        messagePayload,
       });
     };
     this.viewerVisible$.next(true);
   }
 
   newTrackingId():string {
-    this.trackingIdNumber = this.trackingIdNumber + 1;
+    this.trackingIdNumber += 1;
     return String(this.trackingIdNumber);
   }
 }

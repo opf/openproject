@@ -35,6 +35,7 @@ import { Component, Input, HostBinding } from '@angular/core';
 
 export class NoResultsComponent {
   @Input() title:string;
+
   @Input() description:string;
 
   @HostBinding('class.generic-table--no-results-container') setHostClass = true;

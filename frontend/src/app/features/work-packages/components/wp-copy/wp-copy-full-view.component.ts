@@ -31,11 +31,10 @@ import { WorkPackageCopyController } from 'core-app/features/work-packages/compo
 
 @Component({
   selector: 'wp-copy-full-view',
-  host: { 'class': 'work-packages-page--ui-view' },
+  host: { class: 'work-packages-page--ui-view' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: '../wp-new/wp-new-full-view.html'
 })
 export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController {
   public successState = 'work-packages.show';
 }
-

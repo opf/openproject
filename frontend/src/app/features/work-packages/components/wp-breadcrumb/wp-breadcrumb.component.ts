@@ -60,5 +60,3 @@ export class WorkPackageBreadcrumbComponent {
     this.inputActive = val;
   }
 }
-
-

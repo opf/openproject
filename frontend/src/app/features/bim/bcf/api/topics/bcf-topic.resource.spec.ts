@@ -3,26 +3,26 @@ import { BcfTopicResource } from "core-app/features/bim/bcf/api/topics/bcf-topic
 import * as moment from 'moment';
 
 export const topic_object = {
-  "guid": "00efc0da-b4d5-4933-bcb6-e01513ee2bcc",
-  "topic_type": "Clash",
-  "topic_status": "New",
-  "priority": "Normal",
-  "reference_links": ["/api/v3/work_packages/52"],
-  "title": "Clash between wall and facade",
-  "index": null,
-  "labels": [],
-  "creation_date": "2020-02-25T15:09:15.000Z",
-  "creation_author": "admin@example.net",
-  "modified_date": "2020-02-25T15:09:15.000Z",
-  "modified_author": null,
-  "assigned_to": "",
-  "stage": null,
-  "description": "Clash between wall and facade",
-  "due_date": "2020-05-16",
-  "authorization": {
-    "topic_actions": ["update", "updateRelatedTopics", "updateFiles", "createViewpoint"],
-    "topic_status": ["New", "In progress", "Resolved", "Closed"]
-  }
+  guid: "00efc0da-b4d5-4933-bcb6-e01513ee2bcc",
+  topic_type: "Clash",
+  topic_status: "New",
+  priority: "Normal",
+  reference_links: ["/api/v3/work_packages/52"],
+  title: "Clash between wall and facade",
+  index: null,
+  labels: [],
+  creation_date: "2020-02-25T15:09:15.000Z",
+  creation_author: "admin@example.net",
+  modified_date: "2020-02-25T15:09:15.000Z",
+  modified_author: null,
+  assigned_to: "",
+  stage: null,
+  description: "Clash between wall and facade",
+  due_date: "2020-05-16",
+  authorization: {
+    topic_actions: ["update", "updateRelatedTopics", "updateFiles", "createViewpoint"],
+    topic_status: ["New", "In progress", "Resolved", "Closed"],
+  },
 };
 
 describe('BcfTopicResource', () => {
@@ -43,4 +43,3 @@ describe('BcfTopicResource', () => {
     expect(serializer.toPlainJson(subject)).toEqual(topic_object);
   });
 });
-

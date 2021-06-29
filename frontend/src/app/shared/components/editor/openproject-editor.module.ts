@@ -64,7 +64,7 @@ import { CodeBlockMacroModal } from "core-app/shared/components/modals/editor/ma
     WikiIncludePageMacroModal,
     CodeBlockMacroModal,
     ChildPagesMacroModal,
-  ]
+  ],
 })
 export class OpenprojectEditorModule {
 }

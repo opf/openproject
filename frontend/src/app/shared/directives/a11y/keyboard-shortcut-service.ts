@@ -31,7 +31,6 @@ import { FocusHelperService } from "core-app/shared/directives/focus/focus-helpe
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 
-
 const accessKeys = {
   preview: 1,
   newWorkPackage: 2,
@@ -40,19 +39,17 @@ const accessKeys = {
   projectSearch: 5,
   help: 6,
   moreMenu: 7,
-  details: 8
+  details: 8,
 };
 
 // this could be extracted into a separate component if it grows
 const accessibleListSelector = 'table.keyboard-accessible-list';
 const accessibleRowSelector = 'table.keyboard-accessible-list tbody tr';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class KeyboardShortcutService {
-
   // maybe move it to a .constant
   private shortcuts:any = {
     '?': () => this.showHelpModal(),
@@ -68,17 +65,16 @@ export class KeyboardShortcutService {
     'g e': this.accessKey('edit'),
     'g p': this.accessKey('preview'),
     'd w p': this.accessKey('details'),
-    'm': this.accessKey('moreMenu'),
-    'p': this.accessKey('projectSearch'),
-    's': this.accessKey('quickSearch'),
-    'k': () => this.focusPrevItem(),
-    'j': () => this.focusNextItem()
+    m: this.accessKey('moreMenu'),
+    p: this.accessKey('projectSearch'),
+    s: this.accessKey('quickSearch'),
+    k: () => this.focusPrevItem(),
+    j: () => this.focusNextItem(),
   };
 
-
   constructor(private readonly PathHelper:PathHelperService,
-              private readonly FocusHelper:FocusHelperService,
-              private readonly currentProject:CurrentProjectService) {
+    private readonly FocusHelper:FocusHelperService,
+    private readonly currentProject:CurrentProjectService) {
     this.register();
   }
 
@@ -126,7 +122,7 @@ export class KeyboardShortcutService {
     const event = new MouseEvent('click', {
       view: window,
       bubbles: true,
-      cancelable: true
+      cancelable: true,
     });
     const cancelled = !link.dispatchEvent(event);
 
@@ -142,7 +138,7 @@ export class KeyboardShortcutService {
   findListInPage() {
     const domLists = jQuery(accessibleListSelector);
     const focusElements:any = [];
-    domLists.find('tbody tr').each(function (index, tr) {
+    domLists.find('tbody tr').each((index, tr) => {
       var firstLink = jQuery(tr).find(':visible:tabbable')[0];
       if (firstLink !== undefined) {
         focusElements.push(firstLink);
@@ -162,12 +158,11 @@ export class KeyboardShortcutService {
     index = list.indexOf(
       jQuery(document.activeElement!)
         .closest(accessibleRowSelector)
-        .find(':visible:tabbable')[0]
+        .find(':visible:tabbable')[0],
     );
 
     const target = jQuery(list[(index + offset + list.length) % list.length]);
     target.focus();
-
   }
 
   focusNextItem() {
@@ -178,4 +173,3 @@ export class KeyboardShortcutService {
     this.focusItemOffset(-1);
   }
 }
-

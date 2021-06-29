@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {DisplayedDays} from "core-app/shared/components/calendar/te-calendar/te-calendar.component";
+import { DisplayedDays } from "core-app/shared/components/calendar/te-calendar/te-calendar.component";
 
 @Injectable()
 export class TimeEntriesCurrentUserConfigurationModalService {
@@ -31,8 +31,8 @@ export class TimeEntriesCurrentUserConfigurationModalService {
         (dayCheckedValue, index) => ({
           weekDay: localeWeekDays[index],
           checked: dayCheckedValue,
-          originalIndex: this.getOriginalIndex(offsetToApply, index, orderedDaysCheckedValues.length)
-        })
+          originalIndex: this.getOriginalIndex(offsetToApply, index, orderedDaysCheckedValues.length),
+        }),
       );
 
     return weekDaysWithCheckedValue;
@@ -41,7 +41,7 @@ export class TimeEntriesCurrentUserConfigurationModalService {
   getOriginalIndex(offsetToApply:number, currentIndex:number, arrayLength:number):number {
     let originalIndex = currentIndex + offsetToApply;
 
-    if (originalIndex < 0 ) {
+    if (originalIndex < 0) {
       originalIndex = arrayLength - 1;
     } else if (originalIndex >= arrayLength) {
       originalIndex = 0;
@@ -52,7 +52,7 @@ export class TimeEntriesCurrentUserConfigurationModalService {
 
   getCheckedValuesInOriginalOrder(days:IDayData[]) {
     const configuredDays = days
-      .sort((a, b) => a.originalIndex < b.originalIndex ? -1 : 1)
+      .sort((a, b) => (a.originalIndex < b.originalIndex ? -1 : 1))
       .map(localeDayData => localeDayData.checked);
 
     return this.validDays(configuredDays as DisplayedDays);
@@ -61,8 +61,7 @@ export class TimeEntriesCurrentUserConfigurationModalService {
   private validDays(days:DisplayedDays) {
     if (days.every((value) => !value)) {
       return Array.apply(null, Array(7)).map(() => true);
-    } else {
-      return days;
     }
+    return days;
   }
 }

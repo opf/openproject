@@ -47,11 +47,11 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected schemaCache:SchemaCacheService;
 
   constructor(pristineResource:T,
-              public readonly state?:InputState<ResourceChangeset<T>>,
-              loadedForm:FormResource|null = null) {
+    public readonly state?:InputState<ResourceChangeset<T>>,
+    loadedForm:FormResource|null = null) {
     this.updatePristineResource(pristineResource);
 
-    this.schemaCache = (pristineResource.injector as Injector).get(SchemaCacheService);
+    this.schemaCache = (pristineResource.injector).get(SchemaCacheService);
 
     if (loadedForm) {
       this.form$.putValue(loadedForm);
@@ -97,7 +97,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
           this.setValue(key, val);
           return true;
         },
-      }
+      },
     );
   }
 
@@ -310,9 +310,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   public get schema():SchemaResource {
     if (this.form$.hasValue()) {
       return SchemaProxy.create(this.form$.value!.schema, this.projectedResource);
-    } else {
-      return this.schemaCache.of(this.pristineResource);
     }
+    return this.schemaCache.of(this.pristineResource);
   }
 
   /**
@@ -386,11 +385,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
         payload['_links']['attachments'] = this.pristineResource
           .attachments
           .elements
-          .map((a:HalResource) => {
-            return { href: a.href };
-          });
+          .map((a:HalResource) => ({ href: a.href }));
       }
-
     } else {
       // Otherwise, simply use the bare minimum
       payload = this.minimalPayload;
@@ -411,7 +407,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
 
     // Test if we either have a CollectionResource or a HAL array,
     // or a single hal value.
-    const isArrayType = (fieldSchema.type || '').startsWith('[]');
+    const isArrayType = (fieldSchema.type || "").startsWith("[]");
     let isArray = false;
 
     if (val.forEach || val.elements) {
@@ -432,9 +428,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       }
 
       return links;
-    } else {
-      return { href: _.get(val, 'href', null) };
     }
+    return { href: _.get(val, "href", null) };
   }
 
   /**

@@ -37,7 +37,7 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
@@ -58,12 +58,15 @@ import { HalResourceService } from "core-app/features/hal/services/hal-resource.
 })
 export class FilterToggledMultiselectValueComponent implements OnInit, AfterViewInit {
   @Input() public shouldFocus = false;
+
   @Input() public filter:QueryFilterInstanceResource;
+
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   public _availableOptions:HalResource[] = [];
+
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
   private _isEmpty:boolean;
@@ -73,12 +76,12 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   };
 
   constructor(readonly halResourceService:HalResourceService,
-              readonly halSorting:HalResourceSortingService,
-              readonly PathHelper:PathHelperService,
-              readonly apiV3Service:APIV3Service,
-              readonly currentUser:CurrentUserService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
+    readonly halSorting:HalResourceSortingService,
+    readonly PathHelper:PathHelperService,
+    readonly apiV3Service:APIV3Service,
+    readonly currentUser:CurrentUserService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
   }
 
   ngOnInit() {
@@ -172,10 +175,10 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
         _links: {
           self: {
             href: this.apiV3Service.users.me.path,
-            title: this.I18n.t('js.label_me')
-          }
-        }
-      }, true
+            title: this.I18n.t('js.label_me'),
+          },
+        },
+      }, true,
     );
 
     this._availableOptions.unshift(me);

@@ -28,7 +28,7 @@
 
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
-import { HalLink } from  "core-app/features/hal/hal-link/hal-link";
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { Injectable } from '@angular/core';
 import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
 import { ApiV3Filter, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
@@ -36,7 +36,6 @@ import { PaginationService } from "core-app/shared/components/table-pagination/p
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsHelperService {
-
   public constructor(public paginationService:PaginationService) {
   }
 
@@ -59,8 +58,8 @@ export class UrlParamsHelperService {
         if (v !== null && typeof v === 'object') {
           v = JSON.stringify(v);
         }
-        parts.push(encodeURIComponent(key) + '=' +
-          encodeURIComponent(v));
+        parts.push(`${encodeURIComponent(key)}=${
+          encodeURIComponent(v)}`);
       });
     });
 
@@ -87,9 +86,7 @@ export class UrlParamsHelperService {
   }
 
   private encodeColumns(paramsData:any, query:QueryResource) {
-    paramsData.c = query.columns.map(function (column) {
-      return column.id!;
-    });
+    paramsData.c = query.columns.map((column) => column.id);
 
     return paramsData;
   }
@@ -121,9 +118,7 @@ export class UrlParamsHelperService {
     if (query.sortBy) {
       paramsData.t = query
         .sortBy
-        .map(function (sort:QuerySortByResource) {
-          return sort.id!.replace('-', ':');
-        })
+        .map((sort:QuerySortByResource) => sort.id!.replace("-", ":"))
         .join();
     }
     return paramsData;
@@ -133,14 +128,14 @@ export class UrlParamsHelperService {
     if (filters && filters.length > 0) {
       paramsData.f = filters
         .map((filter:any) => {
-          var id = filter.id;
+          var { id } = filter;
 
           var operator = filter.operator.id;
 
           return {
             n: id,
             o: operator,
-            v: _.map(filter.values, (v) => this.queryFilterValueToParam(v))
+            v: _.map(filter.values, (v) => this.queryFilterValueToParam(v)),
           };
         });
     } else {
@@ -164,10 +159,9 @@ export class UrlParamsHelperService {
     return paramsData;
   }
 
-
   public buildV3GetQueryFromJsonParams(updateJson:string|null) {
     var queryData:any = {
-      pageSize: this.paginationService.getPerPage()
+      pageSize: this.paginationService.getPerPage(),
     };
 
     if (!updateJson) {
@@ -215,9 +209,9 @@ export class UrlParamsHelperService {
 
     // Filters
     if (properties.f) {
-      var filters = properties.f.map(function (urlFilter:any) {
+      var filters = properties.f.map((urlFilter:any) => {
         var attributes = {
-          operator: decodeURIComponent(urlFilter.o)
+          operator: decodeURIComponent(urlFilter.o),
         };
         if (urlFilter.v) {
           // the array check is only there for backwards compatibility reasons.
@@ -287,25 +281,24 @@ export class UrlParamsHelperService {
   }
 
   public queryFilterValueToParam(value:any) {
-    if (typeof(value) === 'boolean') {
-      return value ? 't' : 'f';
+    if (typeof (value) === "boolean") {
+      return value ? "t" : "f";
     }
 
     if (!value) {
-      return '';
-    } else if (value.id) {
+      return "";
+    } if (value.id) {
       return value.id.toString();
-    } else if (value.href) {
-      return value.href.split('/').pop().toString();
-    } else {
-      return value.toString();
+    } if (value.href) {
+      return value.href.split("/").pop().toString();
     }
+    return value.toString();
   }
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource) {
     if (query.columns) {
       return query.columns.map((column:any) => column.id || column.idFromLink);
-    } else if (query._links.columns) {
+    } if (query._links.columns) {
       return query._links.columns.map((column:HalLink) => {
         const id = column.href!;
 
@@ -327,7 +320,7 @@ export class UrlParamsHelperService {
       });
 
       const filterHash:ApiV3Filter = {};
-      filterHash[id] = { operator: operator as FilterOperator, values: values };
+      filterHash[id] = { operator: operator as FilterOperator, values };
 
       return filterHash;
     });
@@ -348,20 +341,17 @@ export class UrlParamsHelperService {
   private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.operator) {
       return filter.operator.id || filter.operator.idFromLink;
-    } else {
-      const href = filter._links.operator.href;
-
-      return this.idFromHref(href);
     }
+    const { href } = filter._links.operator;
+
+    return this.idFromHref(href);
   }
 
   private buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.values) {
       return _.map(filter.values, (v:any) => this.queryFilterValueToParam(v));
-    } else {
-      return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
     }
-
+    return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {
@@ -369,13 +359,12 @@ export class UrlParamsHelperService {
     const sortByIds = sortBys.map((sort:QuerySortByResource) => {
       if (sort.id) {
         return sort.id;
-      } else {
-        const href = sort.href!;
-
-        const id = this.idFromHref(href);
-
-        return id;
       }
+      const href = sort.href!;
+
+      const id = this.idFromHref(href);
+
+      return id;
     });
 
     return JSON.stringify(sortByIds.map((id:string) => id.split('-')));

@@ -6,23 +6,27 @@ import {
   Output,
   ElementRef,
 } from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {Observable, BehaviorSubject, combineLatest, forkJoin} from "rxjs";
-import {debounceTime, distinctUntilChanged, share, map, shareReplay, switchMap} from "rxjs/operators";
-import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
-import {I18nService} from "core-app/core/i18n/i18n.service";
-import {UntilDestroyedMixin} from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import {ProjectResource} from "core-app/features/hal/resources/project-resource";
-import {UserResource} from "core-app/features/hal/resources/user-resource";
-import {PrincipalLike} from "core-app/shared/components/principal/principal-types";
-import {CurrentUserService} from "core-app/core/current-user/current-user.service";
-import {PrincipalType} from '../invite-user.component';
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { FormControl } from "@angular/forms";
+import {
+  Observable, BehaviorSubject, combineLatest, forkJoin,
+} from "rxjs";
+import {
+  debounceTime, distinctUntilChanged, share, map, shareReplay, switchMap,
+} from "rxjs/operators";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+import { UserResource } from "core-app/features/hal/resources/user-resource";
+import { PrincipalLike } from "core-app/shared/components/principal/principal-types";
+import { CurrentUserService } from "core-app/core/current-user/current-user.service";
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { PrincipalType } from "../invite-user.component";
 
 interface NgSelectPrincipalOption {
-  principal: PrincipalLike,
-  disabled: boolean;
-};
+  principal:PrincipalLike,
+  disabled:boolean;
+}
 
 @Component({
   selector: 'op-ium-principal-search',
@@ -30,34 +34,37 @@ interface NgSelectPrincipalOption {
 })
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
   @Input('opFormBinding') principalControl:FormControl;
+
   @Input() type:PrincipalType;
+
   @Input() project:ProjectResource;
 
   @Output() createNew = new EventEmitter<PrincipalLike>();
 
   public input$ = new BehaviorSubject<string>('');
+
   public input = '';
-  public items$: Observable<NgSelectPrincipalOption[]> = this.input$.pipe(
+
+  public items$:Observable<NgSelectPrincipalOption[]> = this.input$.pipe(
     this.untilDestroyed(),
     debounceTime(200),
     distinctUntilChanged(),
     switchMap(this.loadPrincipalData.bind(this)),
     share(),
   );
-  private emailRegExp:RegExp = /^\S+@\S+\.\S+$/;
+
+  private emailRegExp = /^\S+@\S+\.\S+$/;
 
   public canInviteByEmail$ = combineLatest(
     this.items$,
     this.input$,
     this.currentUserService.hasCapabilities$('users/create'),
   ).pipe(
-    map(([elements, input, canCreateUsers]) => {
-      return canCreateUsers
+    map(([elements, input, canCreateUsers]) => canCreateUsers
         && this.type === PrincipalType.User
         && !!input
         && this.emailRegExp.test(input)
-        && !elements.find((el) => (el.principal as UserResource).email === input);
-    }),
+        && !elements.find((el) => (el.principal as UserResource).email === input)),
   );
 
   public canCreateNewPlaceholder$ = combineLatest(
@@ -109,8 +116,10 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
       this.canInviteByEmail$,
       this.canCreateNewPlaceholder$,
     ).pipe(
-      map(([canInviteByEmail, canCreateNewPlaceholder]:boolean[]) => canInviteByEmail || canCreateNewPlaceholder)
-    ).subscribe(showAddTag => { this.showAddTag = showAddTag; });
+      map(([canInviteByEmail, canCreateNewPlaceholder]:boolean[]) => canInviteByEmail || canCreateNewPlaceholder),
+    ).subscribe(showAddTag => {
+      this.showAddTag = showAddTag;
+    });
   }
 
   ngOnInit() {
@@ -160,7 +169,5 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
       );
   }
 
-  compareWith = (a: NgSelectPrincipalOption, b: PrincipalLike) => {
-    return a.principal.id === b.id;
-  }
+  compareWith = (a:NgSelectPrincipalOption, b:PrincipalLike) => a.principal.id === b.id;
 }

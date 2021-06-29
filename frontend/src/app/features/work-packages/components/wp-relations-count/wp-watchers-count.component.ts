@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+} from '@angular/core';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
@@ -7,15 +9,16 @@ import { WorkPackageWatchersService } from "core-app/features/work-packages/comp
 @Component({
   templateUrl: './wp-relations-count.html',
   selector: 'wp-watchers-count',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin implements OnInit {
   @Input('wpId') wpId:string;
+
   public count = 0;
 
   constructor(protected apiV3Service:APIV3Service,
-              protected wpWatcherService:WorkPackageWatchersService,
-              protected cdRef:ChangeDetectorRef) {
+    protected wpWatcherService:WorkPackageWatchersService,
+    protected cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -26,7 +29,7 @@ export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin imple
       .id(this.wpId)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       ).subscribe((workPackage) => {
         this.wpWatcherService
           .require(workPackage)

@@ -7,7 +7,7 @@ import { switchMap } from "rxjs/operators";
 @Injectable()
 export class GridInitializationService {
   constructor(readonly apiV3Service:APIV3Service,
-              readonly halResourceService:HalResourceService) {
+    readonly halResourceService:HalResourceService) {
   }
 
   // If a page with the current page exists (scoped to the current user by the backend)
@@ -23,19 +23,18 @@ export class GridInitializationService {
       .then(collection => {
         if (collection.total === 0) {
           return this.myPageForm(path);
-        } else {
-          return (collection.elements[0] as GridResource);
         }
+        return (collection.elements[0]);
       });
   }
 
   private myPageForm(path:string):Promise<GridResource> {
     const payload = {
-      '_links': {
-        'scope': {
-          'href': path
-        }
-      }
+      _links: {
+        scope: {
+          href: path,
+        },
+      },
     };
 
     return this
@@ -46,7 +45,7 @@ export class GridInitializationService {
       .pipe(
         switchMap(form => {
           const source = form.payload.$source;
-          const resource = this.halResourceService.createHalResource(source) as GridResource;
+          const resource = this.halResourceService.createHalResource(source);
 
           if (resource.widgets.length === 0) {
             resource.rowCount = 1;
@@ -57,7 +56,7 @@ export class GridInitializationService {
             .apiV3Service
             .grids
             .post(resource, form.schema);
-        })
+        }),
       )
       .toPromise();
   }

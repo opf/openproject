@@ -40,11 +40,13 @@ import { QueryFilterInstanceResource } from "core-app/features/hal/resources/que
 })
 export class FilterStringValueComponent extends UntilDestroyedMixin {
   @Input() public shouldFocus = false;
+
   @Input() public filter:QueryFilterInstanceResource;
+
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
   readonly text = {
-    enter_text: this.I18n.t('js.work_packages.description_enter_text')
+    enter_text: this.I18n.t('js.work_packages.description_enter_text'),
   };
 
   constructor(readonly I18n:I18nService) {

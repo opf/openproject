@@ -46,35 +46,31 @@ export class DatePickerModalHelper {
 
   public parseDate(date:Date|string):Date|'' {
     if (date instanceof Date) {
-      return new Date(date.setHours(0,0,0,0));
-    } else if (date === '') {
+      return new Date(date.setHours(0, 0, 0, 0));
+    } if (date === '') {
       return '';
-    } else {
-      return new Date(new Date(date).setHours(0,0,0,0));
     }
+    return new Date(new Date(date).setHours(0, 0, 0, 0));
   }
 
   public validDate(date:Date|string) {
-    return (date instanceof Date) ||
-      (date === '') ||
-      !!new Date(date).valueOf();
+    return (date instanceof Date)
+      || (date === '')
+      || !!new Date(date).valueOf();
   }
 
   public sortDates(dates:Date[]):Date[] {
-    return dates.sort(function(a:Date, b:Date) {
-      return a.getTime() - b.getTime();
-    });
+    return dates.sort((a:Date, b:Date) => a.getTime() - b.getTime());
   }
 
   public areDatesEqual(firstDate:Date|string, secondDate:Date|string) {
     const parsedDate1 = this.parseDate(firstDate);
     const parsedDate2 = this.parseDate(secondDate);
 
-    if ((typeof(parsedDate1) === 'string') || (typeof(parsedDate2) === 'string')) {
+    if ((typeof (parsedDate1) === "string") || (typeof (parsedDate2) === "string")) {
       return false;
-    } else {
-      return parsedDate1.getTime() === parsedDate2.getTime();
     }
+    return parsedDate1.getTime() === parsedDate2.getTime();
   }
 
   public setCurrentActivatedField(val:DateKeys) {
@@ -91,8 +87,8 @@ export class DatePickerModalHelper {
   }
 
   public setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date) {
-    const currentMonth = datePicker.datepickerInstance.currentMonth;
-    const currentYear = datePicker.datepickerInstance.currentYear;
+    const { currentMonth } = datePicker.datepickerInstance;
+    const { currentYear } = datePicker.datepickerInstance;
     datePicker.setDates(dates);
 
     if (enforceDate) {
@@ -112,18 +108,12 @@ export class DatePickerModalHelper {
       return;
     }
 
-    let disableFunction:Function = (date:Date) => {
-      return false;
-    };
+    let disableFunction:Function = (date:Date) => false;
 
     if (this.isStateOfCurrentActivatedField('start') && dates.end) {
-      disableFunction = (date:Date) => {
-        return date.getTime() > new Date(dates.end).setHours(0,0,0,0);
-      };
+      disableFunction = (date:Date) => date.getTime() > new Date(dates.end).setHours(0, 0, 0, 0);
     } else if (this.isStateOfCurrentActivatedField('end') && dates.start) {
-      disableFunction = (date:Date) => {
-        return date.getTime() < new Date(dates.start).setHours(0,0,0,0);
-      };
+      disableFunction = (date:Date) => date.getTime() < new Date(dates.start).setHours(0, 0, 0, 0);
     }
 
     datePicker.datepickerInstance.set('disable', [disableFunction]);
@@ -176,8 +166,8 @@ export class DatePickerModalHelper {
     var firstDayOfMonthElement = jQuery(container).find('.flatpickr-day:not(.hidden)')[0];
     var firstDayOfMonth = new Date(firstDayOfMonthElement.getAttribute('aria-label')!);
 
-    return firstDayOfMonth <= new Date(dates.end) &&
-           firstDayOfMonth >= new Date(dates.start);
+    return firstDayOfMonth <= new Date(dates.end)
+           && firstDayOfMonth >= new Date(dates.start);
   }
 
   private selectRangeFromUntil(from:Element, until:string|Element) {

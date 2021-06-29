@@ -5,8 +5,8 @@ import { WpGraphConfigurationService } from "core-app/shared/components/work-pac
 
 export abstract class QuerySpacedTabComponent {
   constructor(readonly I18n:I18nService,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly wpGraphConfiguration:WpGraphConfigurationService) {
+    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+    readonly wpGraphConfiguration:WpGraphConfigurationService) {
   }
 
   protected initializeQuerySpace() {

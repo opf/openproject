@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:string|boolean }>;
 
 export class WorkPackageTableConfiguration {

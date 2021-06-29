@@ -40,7 +40,7 @@ import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-
            (keydown)="handler.handleUserKeydown($event)"
            (focusout)="handler.onFocusOut()"
            [id]="handler.htmlId" />
-  `
+  `,
 })
 export class IntegerEditFieldComponent extends EditFieldComponent {
   public locale = I18n.locale;

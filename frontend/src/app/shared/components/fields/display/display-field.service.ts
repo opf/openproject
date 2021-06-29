@@ -49,7 +49,6 @@ export interface DisplayFieldContext {
 
 @Injectable({ providedIn: 'root' })
 export class DisplayFieldService extends AbstractFieldService<DisplayField, IDisplayFieldType> {
-
   /**
    * Create an instance of the field type T given the required arguments
    * with either in descending order:

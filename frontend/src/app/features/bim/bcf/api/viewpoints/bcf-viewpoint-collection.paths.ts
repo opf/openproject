@@ -18,7 +18,7 @@ export class BcfViewpointCollectionPath extends BcfResourceCollectionPath<BcfVie
       .request(
         'post',
         this.toPath(),
-        viewpoint
+        viewpoint,
       );
   }
 }

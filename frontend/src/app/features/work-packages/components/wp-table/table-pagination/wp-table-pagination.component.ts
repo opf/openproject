@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewPaginationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service";
 import { WorkPackageViewPagination } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination";
@@ -43,15 +45,13 @@ import { IPaginationOptions, PaginationService } from "core-app/shared/component
   selector: 'wp-table-pagination'
 })
 export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnInit, OnDestroy {
-
   constructor(protected paginationService:PaginationService,
-              protected cdRef:ChangeDetectorRef,
-              protected wpTablePagination:WorkPackageViewPaginationService,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly wpTableSortBy:WorkPackageViewSortByService,
-              readonly I18n:I18nService) {
+    protected cdRef:ChangeDetectorRef,
+    protected wpTablePagination:WorkPackageViewPaginationService,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly wpTableSortBy:WorkPackageViewSortByService,
+    readonly I18n:I18nService) {
     super(paginationService, cdRef, I18n);
-
   }
 
   ngOnInit() {
@@ -65,7 +65,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
     this.wpTablePagination
       .live$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wpPagination:WorkPackageViewPagination) => {
         this.pagination = wpPagination.current;
@@ -75,9 +75,9 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
     // hide/show pagination options depending on the sort mode
     combineLatest([
       this.querySpace.query.values$(),
-      this.wpTableSortBy.live$()
+      this.wpTableSortBy.live$(),
     ]).pipe(
-      this.untilDestroyed()
+      this.untilDestroyed(),
     ).subscribe(([query, sort]) => {
       this.showPerPage = this.showPageSelections = !this.isManualSortingMode;
       this.infoText = this.paginationInfoText(query.results);
@@ -88,7 +88,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   public selectPerPage(perPage:number) {
     this.paginationService.setPerPage(perPage);
-    this.wpTablePagination.updateFromObject({ page: 1, perPage: perPage });
+    this.wpTablePagination.updateFromObject({ page: 1, perPage });
   }
 
   public showPage(pageNumber:number) {
@@ -101,10 +101,9 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   public paginationInfoText(work_packages:WorkPackageCollectionResource) {
     if (this.isManualSortingMode && (work_packages.count < work_packages.total)) {
-      return I18n.t('js.work_packages.limited_results',
+      return I18n.t("js.work_packages.limited_results",
         { count: work_packages.count });
-    } else {
-      return undefined;
     }
+    return undefined;
   }
 }

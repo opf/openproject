@@ -35,10 +35,8 @@ export class AttachmentCollectionResource extends CollectionResource {
 
     this.elements = this.elements || [];
   }
-
 }
 
 export interface AttachmentCollectionResource {
   elements:HalResource[];
 }
-

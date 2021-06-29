@@ -36,6 +36,7 @@ import { MultiInputState } from "reactivestates";
 
 export class TimeEntryCacheService extends StateCacheService<TimeEntryResource> {
   @InjectField() readonly states:States;
+
   @InjectField() readonly schemaCache:SchemaCacheService;
 
   constructor(readonly injector:Injector, state:MultiInputState<TimeEntryResource>) {

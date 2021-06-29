@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Injector, OnInit,
+} from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from "core-app/core/states/states.service";
@@ -43,22 +45,21 @@ import { BackRoutingService } from "core-app/features/work-packages/components/b
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-split-view-entry',
   providers: [
-    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService }
-  ]
+    { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
+  ],
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
-
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
   private baseRoute:string = this.$state.current.data.baseRoute;
 
   constructor(public injector:Injector,
-              public states:States,
-              public firstRoute:FirstRouteService,
-              public keepTab:KeepTabService,
-              public wpTableSelection:WorkPackageViewSelectionService,
-              public wpTableFocus:WorkPackageViewFocusService,
-              readonly $state:StateService,
-              readonly backRouting:BackRoutingService) {
+    public states:States,
+    public firstRoute:FirstRouteService,
+    public keepTab:KeepTabService,
+    public wpTableSelection:WorkPackageViewSelectionService,
+    public wpTableFocus:WorkPackageViewFocusService,
+    readonly $state:StateService,
+    readonly backRouting:BackRoutingService) {
     super(injector, $state.params['workPackageId']);
   }
 
@@ -83,14 +84,14 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
 
     this.wpTableFocus.whenChanged()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(newId => {
         const idSame = wpId.toString() === newId.toString();
         if (!idSame && this.$state.includes(`${this.baseRoute}.details`)) {
           this.$state.go(
             (this.$state.current.name as string),
-            { workPackageId: newId, focus: false }
+            { workPackageId: newId, focus: false },
           );
         }
       });

@@ -37,10 +37,11 @@ export class ConfigurationService {
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
   private configuration:ConfigurationResource;
+
   public initialized:Promise<boolean>;
 
   public constructor(readonly I18n:I18nService,
-                     readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:APIV3Service) {
     this.initialized = this.loadConfiguration().then(() => true).catch(() => false);
   }
 
@@ -102,10 +103,9 @@ export class ConfigurationService {
 
   public startOfWeek() {
     if (this.startOfWeekPresent()) {
-      return this.systemPreference('startOfWeek');
-    } else {
-      return moment.localeData(I18n.locale).firstDayOfWeek();
+      return this.systemPreference("startOfWeek");
     }
+    return moment.localeData(I18n.locale).firstDayOfWeek();
   }
 
   private loadConfiguration() {

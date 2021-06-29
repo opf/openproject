@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Injector, OnInit, Directive } from "@angular/core";
+import {
+  ChangeDetectorRef, Injector, OnInit, Directive,
+} from "@angular/core";
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
@@ -21,23 +23,27 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     delete: this.i18n.t('js.button_delete'),
     confirmDelete: {
       text: this.i18n.t('js.modals.destroy_time_entry.text'),
-      title: this.i18n.t('js.modals.destroy_time_entry.title')
+      title: this.i18n.t('js.modals.destroy_time_entry.title'),
     },
     noResults: this.i18n.t('js.grid.widgets.time_entries_list.no_results'),
   };
+
   public entries:TimeEntryResource[] = [];
+
   private entriesLoaded = false;
-  public rows:{ date:string, sum?:string, entry?:TimeEntryResource}[] = [];
+
+  public rows:{ date:string, sum?:string, entry?:TimeEntryResource }[] = [];
 
   @InjectField() public readonly timeEntryEditService:TimeEntryEditService;
+
   @InjectField() public readonly apiV3Service:APIV3Service;
 
   constructor(readonly injector:Injector,
-              readonly timezone:TimezoneService,
-              readonly i18n:I18nService,
-              readonly pathHelper:PathHelperService,
-              readonly confirmDialog:ConfirmDialogService,
-              protected readonly cdr:ChangeDetectorRef) {
+    readonly timezone:TimezoneService,
+    readonly i18n:I18nService,
+    readonly pathHelper:PathHelperService,
+    readonly confirmDialog:ConfirmDialogService,
+    protected readonly cdr:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
@@ -55,9 +61,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public get total() {
-    const duration = this.entries.reduce((current, entry) => {
-      return current + this.timezone.toHours(entry.hours);
-    }, 0);
+    const duration = this.entries.reduce((current, entry) => current + this.timezone.toHours(entry.hours), 0);
 
     return this.i18n.t('js.units.hour', { count: this.formatNumber(duration) });
   }
@@ -127,18 +131,17 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       closeByEscape: true,
       showClose: true,
       closeByDocument: true,
-      passedData:[
+      passedData: [
         '#' + entry.workPackage?.idFromLink + ' ' + entry.workPackage?.name,
-        this.i18n.t(
-          'js.units.hour',
-          { count: this.timezone.toHours(entry.hours) }) + ' (' + entry.activity?.name + ')'
+        `${this.i18n.t(
+          "js.units.hour",
+          { count: this.timezone.toHours(entry.hours) },
+        )} (${entry.activity?.name})`,
       ],
-      dangerHighlighting: true
+      dangerHighlighting: true,
     }).then(() => {
       entry.delete().then(() => {
-        const newEntries = this.entries.filter((anEntry) => {
-          return entry.id !== anEntry.id;
-        });
+        const newEntries = this.entries.filter((anEntry) => entry.id !== anEntry.id);
 
         this.buildEntries(newEntries);
       });
@@ -152,7 +155,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   private buildEntries(entries:TimeEntryResource[]) {
     this.entries = entries;
-    const sumsByDateSpent:{[key:string]:number} = {};
+    const sumsByDateSpent:{ [key:string]:number } = {};
 
     entries.forEach((entry) => {
       const date = entry.spentOn;
@@ -164,9 +167,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       sumsByDateSpent[date] = sumsByDateSpent[date] + this.timezone.toHours(entry.hours);
     });
 
-    const sortedEntries = entries.sort((a, b) => {
-      return b.spentOn.localeCompare(a.spentOn);
-    });
+    const sortedEntries = entries.sort((a, b) => b.spentOn.localeCompare(a.spentOn));
 
     this.rows = [];
     let currentDate:string|null = null;
@@ -176,7 +177,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
         this.rows.push({ date: this.timezone.formattedDate(currentDate!), sum: this.formatNumber(sumsByDateSpent[currentDate!]) });
       }
 
-      this.rows.push({ date: currentDate!, entry: entry });
+      this.rows.push({ date: currentDate!, entry });
     });
     //entries
   }

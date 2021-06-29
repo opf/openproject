@@ -14,107 +14,107 @@ describe('DynamicFormService', () => {
   let formsService:jasmine.SpyObj<FormsService>;
   const testFormUrl = 'http://op.com/form';
   const formSchema = {
-    "_type": "Form",
-    "_embedded": {
-      "payload": {
-        "name": "Project 1",
-        "_links": {
-          "parent": {
-            "href": "/api/v3/projects/26",
-            "title": "Parent project"
-          }
-        }
-      },
-      "schema": {
-        "_type": "Schema",
-        "_dependencies": [],
-        "name": {
-          "type": "String",
-          "name": "Name",
-          "required": true,
-          "hasDefault": false,
-          "writable": true,
-          "minLength": 1,
-          "maxLength": 255,
-          "options": {}
+    _type: "Form",
+    _embedded: {
+      payload: {
+        name: "Project 1",
+        _links: {
+          parent: {
+            href: "/api/v3/projects/26",
+            title: "Parent project"
+          },
         },
-        "parent": {
-          "type": "Project",
-          "name": "Subproject of",
-          "required": false,
-          "hasDefault": false,
-          "writable": true,
-          "_links": {
-            "allowedValues": {
-              "href": "/api/v3/projects/available_parent_projects?of=25"
-            }
-          }
-        },
-        "_links": {}
       },
-      "validationErrors": {}
+      schema: {
+        _type: "Schema",
+        _dependencies: [],
+        name: {
+          type: "String",
+          name: "Name",
+          required: true,
+          hasDefault: false,
+          writable: true,
+          minLength: 1,
+          maxLength: 255,
+          options: {},
+        },
+        parent: {
+          type: "Project",
+          name: "Subproject of",
+          required: false,
+          hasDefault: false,
+          writable: true,
+          _links: {
+            allowedValues: {
+              href: "/api/v3/projects/available_parent_projects?of=25"
+            },
+          },
+        },
+        _links: {},
+      },
+      validationErrors: {},
     },
-    "_links": {
-      "self": {
-        "href": "/api/v3/projects/25/form",
-        "method": "post"
+    _links: {
+      self: {
+        href: "/api/v3/projects/25/form",
+        method: "post"
       },
-      "validate": {
-        "href": "/api/v3/projects/25/form",
-        "method": "post"
+      validate: {
+        href: "/api/v3/projects/25/form",
+        method: "post"
       },
-      "commit": {
-        "href": "/api/v3/projects/25",
-        "method": "patch"
-      }
-    }
+      commit: {
+        href: "/api/v3/projects/25",
+        method: "patch"
+      },
+    },
   };
   const dynamicFormConfig = {
-    "fields": [
+    fields: [
       {
-        "type": "textInput",
-        "key": "name",
-        "templateOptions": {
-          "required": true,
-          "label": "Name",
-          "type": "text"
-        }
+        type: "textInput",
+        key: "name",
+        templateOptions: {
+          required: true,
+          label: "Name",
+          type: "text"
+        },
       },
       {
-        "type": "selectInput",
-        "expressionProperties": {},
-        "key": "_links.parent",
-        "templateOptions": {
-          "required": false,
-          "label": "Subproject of",
-          "type": "number",
-          "locale": "en",
-          "bindLabel": "title",
-          "searchable": false,
-          "virtualScroll": true,
-          "typeahead": false,
-          "clearOnBackspace": false,
-          "clearSearchOnAdd": false,
-          "hideSelected": false,
-          "text": {
-            "add_new_action": "Create"
+        type: "selectInput",
+        expressionProperties: {},
+        key: "_links.parent",
+        templateOptions: {
+          required: false,
+          label: "Subproject of",
+          type: "number",
+          locale: "en",
+          bindLabel: "title",
+          searchable: false,
+          virtualScroll: true,
+          typeahead: false,
+          clearOnBackspace: false,
+          clearSearchOnAdd: false,
+          hideSelected: false,
+          text: {
+            add_new_action: "Create"
           },
-          "options": of([]),
-        }
-      }
-    ],
-    "model": {
-      "name": "Project 1",
-      "_links": {
-        "parent": {
-          "href": "/api/v3/projects/26",
-          "title": "Parent project",
-          "name": "Parent project"
-        }
+          options: of([]),
+        },
       },
-      "_meta": undefined
+    ],
+    model: {
+      name: "Project 1",
+      _links: {
+        parent: {
+          href: "/api/v3/projects/26",
+          title: "Parent project",
+          name: "Parent project"
+        },
+      },
+      _meta: undefined,
     },
-    "form": new FormGroup({}),
+    form: new FormGroup({}),
   };
 
   beforeEach(() => {
@@ -127,8 +127,8 @@ describe('DynamicFormService', () => {
       providers: [
         DynamicFormService,
         DynamicFieldsService,
-        { provide: FormsService, useValue: formServiceSpy }
-      ]
+        { provide: FormsService, useValue: formServiceSpy },
+      ],
     });
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -146,7 +146,7 @@ describe('DynamicFormService', () => {
       .subscribe(dynamicFormConfigResponse => {
         expect(dynamicFormConfigResponse.fields.length).toEqual(dynamicFormConfig.fields.length, 'should return one dynamic field per schema field');
         expect(
-          dynamicFormConfigResponse.fields.every((field, index) => field.type === dynamicFormConfig.fields[index].type)
+          dynamicFormConfigResponse.fields.every((field, index) => field.type === dynamicFormConfig.fields[index].type),
         )
           .toBe(true, 'should return the dynamic fields in the schema order');
         expect(dynamicFormConfigResponse.model).toEqual(dynamicFormConfig.model, 'should return the form model formatted');

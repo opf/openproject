@@ -91,13 +91,13 @@ import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/
       provide: APP_INITIALIZER,
       useFactory: initializeCoreEditFields,
       deps: [EditFieldService, SelectAutocompleterRegisterService],
-      multi: true
+      multi: true,
     },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeCoreDisplayFields,
       deps: [DisplayFieldService],
-      multi: true
+      multi: true,
     },
   ],
   declarations: [
@@ -116,8 +116,7 @@ import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/
     AttributeLabelMacroComponent,
 
     WorkPackageQuickinfoMacroComponent,
-  ]
+  ],
 })
 export class OpenprojectFieldsModule {
 }
-

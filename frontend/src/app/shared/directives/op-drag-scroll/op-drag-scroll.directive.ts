@@ -31,7 +31,6 @@ import { Directive, ElementRef, OnInit } from "@angular/core";
   selector: 'op-drag-scroll',
 })
 export class OpDragScrollDirective implements OnInit {
-
   constructor(readonly elementRef:ElementRef) {
   }
 
@@ -43,7 +42,8 @@ export class OpDragScrollDirective implements OnInit {
     var mousedown = false;
 
     // Position of last mousedown
-    var mousedownX:number, mousedownY:number;
+    var mousedownX:number; var
+      mousedownY:number;
 
     // Mousedown: Potential drag start
     element.on('mousedown', (evt) => {
@@ -68,7 +68,7 @@ export class OpDragScrollDirective implements OnInit {
       // Trigger drag scroll event
       element.trigger(eventName, {
         x: evt.clientX - mousedownX,
-        y: evt.clientY - mousedownY
+        y: evt.clientY - mousedownY,
       });
 
       // Update last mouse position

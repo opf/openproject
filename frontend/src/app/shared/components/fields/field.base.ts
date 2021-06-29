@@ -41,9 +41,13 @@ export interface IFieldSchema {
 
 export class Field extends UntilDestroyedMixin {
   public static type:string;
+
   public resource:any;
+
   public name:string;
+
   public schema:IFieldSchema;
+
   public context:DisplayFieldContext;
 
   public get displayName():string {

@@ -37,12 +37,10 @@ import { FormResource } from "core-app/features/hal/resources/form-resource";
   selector: '[wpCreateSettingsMenu]'
 })
 export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger {
-
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly states:States,
-              readonly halEditing:HalResourceEditingService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly states:States,
+    readonly halEditing:HalResourceEditingService) {
     super(elementRef, opContextMenu);
   }
 
@@ -55,7 +53,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
         (loadedForm:FormResource) => {
           this.buildItems(loadedForm);
           this.opContextMenu.show(this, evt);
-        }
+        },
       );
     }
   }
@@ -87,7 +85,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
         href: queryCustomFields.href,
         icon: 'icon-custom-fields',
         linkText: queryCustomFields.name,
-        onClick: () => false
+        onClick: () => false,
       });
     }
 
@@ -96,9 +94,8 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
         href: configureFormLink.href,
         icon: 'icon-settings3',
         linkText: configureFormLink.name,
-        onClick: () => false
+        onClick: () => false,
       });
     }
   }
 }
-

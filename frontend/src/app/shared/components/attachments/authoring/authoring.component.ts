@@ -40,19 +40,26 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
 export class AuthoringComponent implements OnInit {
   // scope: { createdOn: '=', author: '=', showAuthorAsLink: '=', project: '=', activity: '=' },
   @Input('createdOn') createdOn:string;
+
   @Input('author') author:HalResource;
+
   @Input('showAuthorAsLink') showAuthorAsLink:boolean;
+
   @Input('project') project:any;
+
   @Input('activity') activity:any;
 
   public createdOnTime:any;
+
   public timeago:any;
+
   public time:any;
+
   public userLink:string;
 
   public constructor(readonly PathHelper:PathHelperService,
-                     readonly I18n:I18nService,
-                     readonly timezoneService:TimezoneService) {
+    readonly I18n:I18nService,
+    readonly timezoneService:TimezoneService) {
 
   }
 

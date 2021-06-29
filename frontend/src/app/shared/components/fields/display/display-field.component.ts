@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, ViewChild,
+} from '@angular/core';
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
@@ -9,21 +11,24 @@ import { DisplayField } from "core-app/shared/components/fields/display/display-
 @Component({
   selector: 'display-field',
   template: '<span #displayFieldContainer></span>',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DisplayFieldComponent implements OnInit {
   @Input() resource:HalResource;
+
   @Input() fieldName:string;
+
   @Input() displayClass?:Constructor<DisplayField>;
 
   @Input() containerType:'table'|'single-view'|'timeline' = 'table';
-  @Input() displayFieldOptions:{[key:string]:unknown} = {};
+
+  @Input() displayFieldOptions:{ [key:string]:unknown } = {};
 
   @ViewChild('displayFieldContainer') container:ElementRef<HTMLSpanElement>;
 
   constructor(private injector:Injector,
-              private displayFieldService:DisplayFieldService,
-              private schemaCache:SchemaCacheService) {
+    private displayFieldService:DisplayFieldService,
+    private schemaCache:SchemaCacheService) {
   }
 
   ngOnInit() {
@@ -59,7 +64,7 @@ export class DisplayFieldComponent implements OnInit {
       this.resource,
       this.fieldName,
       fieldSchema,
-      this.displayFieldContext
+      this.displayFieldContext,
     );
   }
 

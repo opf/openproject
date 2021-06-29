@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Directive, ElementRef, Injector, Input } from '@angular/core';
+import {
+  Directive, ElementRef, Injector, Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -39,7 +41,7 @@ import { WpTableConfigurationModalComponent } from 'core-app/features/work-packa
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
   selectableTitleIdentifier,
-  triggerEditingEvent
+  triggerEditingEvent,
 } from "core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component";
 import { QuerySharingModal } from "core-app/shared/components/modals/share-modal/query-sharing.modal";
 import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
@@ -51,20 +53,22 @@ import { QueryFormResource } from "core-app/features/hal/resources/query-form-re
 })
 export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   @Input('opSettingsContextMenu-query') public query:QueryResource;
+
   private form:QueryFormResource;
+
   private loadingPromise:PromiseLike<any>;
+
   private focusAfterClose = true;
 
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly opModalService:OpModalService,
-              readonly wpListService:WorkPackagesListService,
-              readonly authorisationService:AuthorisationService,
-              readonly states:States,
-              readonly injector:Injector,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly I18n:I18nService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly opModalService:OpModalService,
+    readonly wpListService:WorkPackagesListService,
+    readonly authorisationService:AuthorisationService,
+    readonly states:States,
+    readonly injector:Injector,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly I18n:I18nService) {
     super(elementRef, opContextMenu);
   }
 
@@ -73,7 +77,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
 
     this.querySpace.query.values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(queryUpdate => {
         this.query = queryUpdate;
@@ -83,7 +87,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
 
     this.querySpace.queryForm.values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(formUpdate => {
         this.form = formUpdate;
@@ -100,7 +104,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   public get locals() {
     return {
       contextMenuId: 'settingsDropdown',
-      items: this.items
+      items: this.items,
     };
   }
 
@@ -138,19 +142,17 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   private allowFormAction(event:JQuery.TriggeredEvent, action:string) {
     if (this.form.$links[action]) {
       return true;
-    } else {
-      event.stopPropagation();
-      return false;
     }
+    event.stopPropagation();
+    return false;
   }
 
   private allowAction(event:JQuery.TriggeredEvent, modelName:string, action:any) {
     if (this.authorisationService.can(modelName, action)) {
       return true;
-    } else {
-      event.stopPropagation();
-      return false;
     }
+    event.stopPropagation();
+    return false;
   }
 
   private buildItems() {
@@ -165,7 +167,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
 
           return true;
-        }
+        },
       },
       {
         // Insert columns
@@ -176,10 +178,10 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
-            { initialTab: 'columns' }
+            { initialTab: 'columns' },
           );
           return true;
-        }
+        },
       },
       {
         // Sort by
@@ -189,10 +191,10 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
-            { initialTab: 'sort-by' }
+            { initialTab: 'sort-by' },
           );
           return true;
-        }
+        },
       },
       {
         // Group by
@@ -203,10 +205,10 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
-            { initialTab: 'display-settings' }
+            { initialTab: 'display-settings' },
           );
           return true;
-        }
+        },
       },
       {
         // Rename query shortcut
@@ -220,7 +222,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           }
 
           return true;
-        }
+        },
       },
       {
         // Query save modal
@@ -228,7 +230,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.toolbar.settings.save'),
         icon: 'icon-save',
         onClick: ($event:JQuery.TriggeredEvent) => {
-          const query = this.query;
+          const { query } = this;
           if (!query.persisted && this.allowQueryAction($event, 'updateImmediately')) {
             this.opModalService.show(SaveQueryModal, this.injector);
           } else if (query.id && this.allowQueryAction($event, 'updateImmediately')) {
@@ -236,7 +238,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           }
 
           return true;
-        }
+        },
       },
       {
         // Query save as modal
@@ -249,7 +251,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           }
 
           return true;
-        }
+        },
       },
       {
         // Delete query
@@ -257,13 +259,13 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
         onClick: ($event:JQuery.TriggeredEvent) => {
-          if (this.allowQueryAction($event, 'delete') &&
-            window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
+          if (this.allowQueryAction($event, 'delete')
+            && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
             this.wpListService.delete();
           }
 
           return true;
-        }
+        },
       },
       {
         // Export query
@@ -276,7 +278,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           }
 
           return true;
-        }
+        },
       },
       {
         // Sharing modal
@@ -289,11 +291,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           }
 
           return true;
-        }
+        },
       },
       {
         divider: true,
-        hidden: !(this.query.results.customFields && this.form.configureForm)
+        hidden: !(this.query.results.customFields && this.form.configureForm),
       },
       {
         // Settings modal
@@ -301,8 +303,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         href: this.query.results.customFields && this.query.results.customFields.href,
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',
-        onClick: () => false
-      }
+        onClick: () => false,
+      },
     ];
   }
 }

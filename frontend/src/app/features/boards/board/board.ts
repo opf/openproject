@@ -80,9 +80,7 @@ export class Board {
   }
 
   public sortWidgets() {
-    this.grid.widgets = this.grid.widgets.sort((a, b) => {
-      return a.startColumn - b.startColumn;
-    });
+    this.grid.widgets = this.grid.widgets.sort((a, b) => a.startColumn - b.startColumn);
   }
 
   public showStatusButton() {

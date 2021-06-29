@@ -39,7 +39,7 @@ export class Apiv3PlaceholderUserPaths extends APIv3GettableResource<Placeholder
     return this
       .halResourceService
       .patch<PlaceholderUserResource>(this.path, {
-        name: resource.name
+        name: resource.name,
       });
   }
 

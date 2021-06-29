@@ -34,7 +34,7 @@ import {
   Input,
   Output,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable, of } from "rxjs";
@@ -58,20 +58,18 @@ import { HalResourceService } from "core-app/features/hal/services/hal-resource.
 
   // Allow styling the embedded ng-select
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./board-inline-add-autocompleter.sass']
+  styleUrls: ['./board-inline-add-autocompleter.sass'],
 })
 
 export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
-
   readonly text = {
-    placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
+    placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
   };
 
   // Whether we're currently loading
   public isLoading = false;
 
-  getAutocompleterData = (searchString:string):Observable<WorkPackageResource[]> =>
-  {
+  getAutocompleterData = (searchString:string):Observable<WorkPackageResource[]> => {
     // Return when the search string is empty
     if (searchString.length === 0) {
       this.isLoading = false;
@@ -105,33 +103,34 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
           this.notificationService.handleRawError(error);
           return of([]);
         }),
-        tap(() => this.isLoading = false)
+        tap(() => this.isLoading = false),
       );
-  }
+  };
 
   public autocompleterOptions = {
-    resource:'work_packages',
-    getOptionsFn: this.getAutocompleterData
-  }
+    resource: "work_packages",
+    getOptionsFn: this.getAutocompleterData,
+  };
 
   @Input() appendToContainer = 'body';
+
   @ViewChild(OpAutocompleterComponent) public ngSelectComponent:OpAutocompleterComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
+
   @Output() onReferenced = new EventEmitter<WorkPackageResource>();
 
-
   constructor(private readonly querySpace:IsolatedQuerySpace,
-              private readonly pathHelper:PathHelperService,
-              private readonly apiV3Service:APIV3Service,
-              private readonly urlParamsHelper:UrlParamsHelperService,
-              private readonly notificationService:WorkPackageNotificationService,
-              private readonly CurrentProject:CurrentProjectService,
-              private readonly halResourceService:HalResourceService,
-              private readonly schemaCacheService:SchemaCacheService,
-              private readonly cdRef:ChangeDetectorRef,
-              private readonly I18n:I18nService,
-              private readonly wpCardDragDrop:WorkPackageCardDragAndDropService) {
+    private readonly pathHelper:PathHelperService,
+    private readonly apiV3Service:APIV3Service,
+    private readonly urlParamsHelper:UrlParamsHelperService,
+    private readonly notificationService:WorkPackageNotificationService,
+    private readonly CurrentProject:CurrentProjectService,
+    private readonly halResourceService:HalResourceService,
+    private readonly schemaCacheService:SchemaCacheService,
+    private readonly cdRef:ChangeDetectorRef,
+    private readonly I18n:I18nService,
+    private readonly wpCardDragDrop:WorkPackageCardDragAndDropService) {
   }
 
   ngAfterViewInit():void {
@@ -148,7 +147,6 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   }
 
   public addWorkPackageToQuery(workPackage?:WorkPackageResource) {
-
     if (workPackage) {
       this.schemaCacheService
         .ensureLoaded(workPackage)

@@ -34,6 +34,7 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 export class DateDisplayField extends HighlightableDisplayField {
   @InjectField() timezoneService:TimezoneService;
+
   @InjectField() apiV3Service:APIV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
@@ -76,9 +77,8 @@ export class DateDisplayField extends HighlightableDisplayField {
   public get valueString() {
     if (this.value) {
       return this.timezoneService.formattedDate(this.value);
-    } else {
-      return '';
     }
+    return "";
   }
 
   private showSchedulingMode():boolean {

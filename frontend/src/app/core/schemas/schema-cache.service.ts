@@ -39,9 +39,8 @@ import { SchemaResource } from "core-app/features/hal/resources/schema-resource"
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {
-
   constructor(readonly states:States,
-              readonly halResourceService:HalResourceService) {
+    readonly halResourceService:HalResourceService) {
     super(states.schemas);
   }
 
@@ -63,11 +62,10 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
       throw `Schema for resource ${resource} was expected to be loaded but isn't.`;
     }
 
-    if (resource._type === 'WorkPackage') {
+    if (resource._type === "WorkPackage") {
       return WorkPackageSchemaProxy.create(schema, resource);
-    } else {
-      return SchemaProxy.create(schema, resource);
     }
+    return SchemaProxy.create(schema, resource);
   }
 
   public getSchemaHref(resource:HalResource):string {
@@ -91,7 +89,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
     return this
       .requireAndStream(href)
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise();
   }
@@ -110,7 +108,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
     if (this.stale(href) || force) {
       this.clearAndLoad(
         href,
-        this.load(href)
+        this.load(href),
       );
     }
 
@@ -125,7 +123,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
       .halResourceService
       .get<SchemaResource>(href)
       .pipe(
-        take(1)
+        take(1),
       );
   }
 
@@ -145,9 +143,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   private stateKey(id:string|HalResource):string {
     if (id instanceof HalResource) {
       return this.getSchemaHref(id);
-    } else {
-      return id;
     }
+    return id;
   }
 }
-

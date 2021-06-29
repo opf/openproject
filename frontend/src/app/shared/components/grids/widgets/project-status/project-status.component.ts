@@ -33,7 +33,7 @@ import {
   ElementRef,
   Injector,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -51,22 +51,23 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
   providers: [
     WorkPackageViewHighlightingService,
     IsolatedQuerySpace,
-    HalResourceEditingService
-  ]
+    HalResourceEditingService,
+  ],
 })
 export class WidgetProjectStatusComponent extends AbstractWidgetComponent implements OnInit {
-
   @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
 
   public currentStatusCode = 'not set';
+
   public explanation = '';
+
   public project$:Observable<ProjectResource>;
 
   constructor(protected readonly i18n:I18nService,
-              protected readonly injector:Injector,
-              protected readonly apiV3Service:APIV3Service,
-              protected readonly currentProject:CurrentProjectService,
-              protected readonly cdRef:ChangeDetectorRef) {
+    protected readonly injector:Injector,
+    protected readonly apiV3Service:APIV3Service,
+    protected readonly currentProject:CurrentProjectService,
+    protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);
   }
 

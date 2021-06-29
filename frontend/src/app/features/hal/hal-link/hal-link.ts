@@ -52,13 +52,13 @@ export interface CallableHalLink extends HalLinkInterface {
 
 export class HalLink implements HalLinkInterface {
   constructor(public requestMethod:(method:HTTPSupportedMethods, href:string, data:any, headers:any) => Promise<HalResource>,
-              public href:string|null = null,
-              public title:string = '',
-              public method:HTTPSupportedMethods = 'get',
-              public templated:boolean = false,
-              public payload?:any,
-              public type:string = 'application/json',
-              public identifier?:string) {
+    public href:string|null = null,
+    public title:string = '',
+    public method:HTTPSupportedMethods = 'get',
+    public templated:boolean = false,
+    public payload?:any,
+    public type:string = 'application/json',
+    public identifier?:string) {
   }
 
   /**
@@ -66,15 +66,14 @@ export class HalLink implements HalLinkInterface {
    */
   public static fromObject(halResourceService:HalResourceService, link:HalLinkInterface):HalLink {
     return new HalLink(
-      (method:HTTPSupportedMethods, href:string, data:any, headers:any) =>
-        halResourceService.request(method, href, data, headers).toPromise(),
+      (method:HTTPSupportedMethods, href:string, data:any, headers:any) => halResourceService.request(method, href, data, headers).toPromise(),
       link.href,
       link.title,
       link.method,
       link.templated,
       link.payload,
       link.type,
-      link.identifier
+      link.identifier,
     );
   }
 
@@ -110,7 +109,7 @@ export class HalLink implements HalLinkInterface {
       false,
       this.payload,
       this.type,
-      this.identifier
+      this.identifier,
     ).$callable();
   }
 

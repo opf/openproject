@@ -31,7 +31,7 @@ import { By } from "@angular/platform-browser";
 import { DebugElement } from "@angular/core";
 import { OpIconComponent } from "./icon.component";
 
-describe('opIcon Directive', function() {
+describe('opIcon Directive', () => {
   let app:OpIconComponent;
   let fixture:ComponentFixture<OpIconComponent>;
   let element:DebugElement;
@@ -40,8 +40,8 @@ describe('opIcon Directive', function() {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       declarations: [
-        OpIconComponent
-      ]
+        OpIconComponent,
+      ],
     }).compileComponents();
   }));
 
@@ -54,8 +54,8 @@ describe('opIcon Directive', function() {
     fixture.detectChanges();
   });
 
-  describe('without a title', function() {
-    it('should render an icon', function () {
+  describe('without a title', () => {
+    it('should render an icon', () => {
       const i = element.query(By.css('i'));
 
       expect(i.nativeElement.tagName.toLowerCase()).toEqual('i');
@@ -66,13 +66,13 @@ describe('opIcon Directive', function() {
     });
   });
 
-  describe('with a title', function() {
-    beforeEach(function() {
+  describe('with a title', () => {
+    beforeEach(() => {
       app.iconTitle = 'blabla';
       fixture.detectChanges();
     });
 
-    it('should render icon and title', function() {
+    it('should render icon and title', () => {
       const i = element.query(By.css('i'));
       const span = element.query(By.css('span'));
 

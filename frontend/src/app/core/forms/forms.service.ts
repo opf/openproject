@@ -8,33 +8,32 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class FormsService {
-
   constructor(
     private _httpClient:HttpClient,
   ) { }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch'):Observable<any> {
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:"post" | 'patch'):Observable<any> {
     const modelToSubmit = this.formatModelToSubmit(form.getRawValue());
     const httpMethod = resourceId ? 'patch' : (formHttpMethod || 'post');
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
 
     return this._httpClient
-        [httpMethod](
+      [httpMethod](
         url,
         modelToSubmit,
         {
           withCredentials: true,
           responseType: 'json'
-        }
+        },
       )
       .pipe(
         catchError((error:HttpErrorResponse) => {
-          if (error.status == 422 ) {
+          if (error.status == 422) {
             this.handleBackendFormValidationErrors(error, form);
           }
 
           throw error;
-        })
+        }),
       );
   }
 
@@ -45,18 +44,18 @@ export class FormsService {
       .post(
         `${resourceEndpoint}/form`,
         modelToSubmit,
-      {
+        {
           withCredentials: true,
           responseType: 'json'
-        }
+        },
       )
       .pipe(
-        map((response: HalSource) => this.getFormattedErrors(Object.values(response?._embedded?.validationErrors))),
-        map((formattedErrors: IFormattedValidationError[]) => this.setFormValidationErrors(formattedErrors, form)),
+        map((response:HalSource) => this.getFormattedErrors(Object.values(response?._embedded?.validationErrors))),
+        map((formattedErrors:IFormattedValidationError[]) => this.setFormValidationErrors(formattedErrors, form)),
       );
   }
 
-  getFormBackendValidationError$(formValue: {[key:string]: any}, resourceEndpoint:string, limitValidationToKeys?:string | string[]) {
+  getFormBackendValidationError$(formValue:{ [key:string]:any }, resourceEndpoint:string, limitValidationToKeys?:string | string[]) {
     const modelToSubmit = this.formatModelToSubmit(formValue);
 
     return this._httpClient
@@ -68,11 +67,11 @@ export class FormsService {
           responseType: 'json',
           headers: {
             'content-type': 'application/json; charset=utf-8'
-          }
-        }
+          },
+        },
       )
       .pipe(
-        map((response: HalSource) => this.getAllFormValidationErrors(response._embedded.validationErrors, limitValidationToKeys))
+        map((response:HalSource) => this.getAllFormValidationErrors(response._embedded.validationErrors, limitValidationToKeys)),
       );
   }
 
@@ -85,9 +84,9 @@ export class FormsService {
         const resource = resources[resourceKey];
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface
-        const resourceValue = Array.isArray(resource) ?
-          resource.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href })) :
-          { href: resource?.href || resource?._links?.self?.href };
+        const resourceValue = Array.isArray(resource)
+          ? resource.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href }))
+          : { href: resource?.href || resource?._links?.self?.href };
 
         return {
           ...result,
@@ -98,12 +97,12 @@ export class FormsService {
     return {
       ...formModel,
       _links: formattedResources,
-    }
+    };
   }
 
   private handleBackendFormValidationErrors(error:HttpErrorResponse, form:FormGroup):void {
-    const errors:IOPFormError[] = error?.error?._embedded?.errors ?
-      error?.error?._embedded?.errors : [error.error];
+    const errors:IOPFormError[] = error?.error?._embedded?.errors
+      ? error?.error?._embedded?.errors : [error.error];
     const formErrors = this.getFormattedErrors(errors);
 
     this.setFormValidationErrors(formErrors, form);
@@ -113,35 +112,32 @@ export class FormsService {
     errors.forEach((err:any) => {
       const formControl = form.get(err.key) || form.get('_links')?.get(err.key);
 
-      formControl?.setErrors({[err.key]: {message: err.message}});
+      formControl?.setErrors({ [err.key]: { message: err.message } });
     });
   }
 
-  private getAllFormValidationErrors(validationErrors:IOPValidationErrors, formControlKeys?:string | string[]): {[key:string]: {message:string}} {
+  private getAllFormValidationErrors(validationErrors:IOPValidationErrors, formControlKeys?:string | string[]):{ [key:string]:{ message:string } } {
     const errors = Object.values(validationErrors);
     const keysToValidate = Array.isArray(formControlKeys) ? formControlKeys : [formControlKeys];
     const formErrors = this.getFormattedErrors(errors)
       .filter(error => {
         if (!formControlKeys) {
           return true;
-        } else {
-          return keysToValidate.includes(error.key);
         }
+        return keysToValidate.includes(error.key);
       })
-      .reduce((result, { key, message }) => {
-        return {
-          ...result,
-          [key]: {message}
-        }
-      }, {})
+      .reduce((result, { key, message }) => ({
+        ...result,
+        [key]: { message },
+      }), {});
 
-    return formErrors
+    return formErrors;
   }
 
   private getFormattedErrors(errors:IOPFormError[]):IFormattedValidationError[] {
     const formattedErrors = errors.map(err => ({
       key: err._embedded.details.attribute,
-      message:  err.message
+      message: err.message,
     }));
 
     return formattedErrors;

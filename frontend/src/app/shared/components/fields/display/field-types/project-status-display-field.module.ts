@@ -29,7 +29,6 @@
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/shared/components/fields/helpers/project-status-helper";
 
-
 export class ProjectStatusDisplayField extends DisplayField {
   public render(element:HTMLElement, displayText:string):void {
     const code = this.value && this.value.id;
@@ -38,7 +37,7 @@ export class ProjectStatusDisplayField extends DisplayField {
     bulb.classList.add('project-status--bulb', projectStatusCodeCssClass(code));
 
     const name = document.createElement('span');
-    name.classList.add('project-status--name',  projectStatusCodeCssClass(code));
+    name.classList.add('project-status--name', projectStatusCodeCssClass(code));
     name.textContent = projectStatusI18n(code, this.I18n);
 
     element.innerHTML = '';

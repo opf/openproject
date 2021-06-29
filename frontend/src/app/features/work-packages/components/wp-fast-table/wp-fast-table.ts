@@ -3,32 +3,39 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { States } from "core-app/core/states/states.service";
-import { WorkPackageTimelineTableController } from '../wp-table/timeline/container/wp-timeline-container.directive';
-import { GroupedRowsBuilder } from './builders/modes/grouped/grouped-rows-builder';
-import { HierarchyRowsBuilder } from './builders/modes/hierarchy/hierarchy-rows-builder';
-import { PlainRowsBuilder } from './builders/modes/plain/plain-rows-builder';
-import { RowsBuilder } from './builders/modes/rows-builder';
-import { PrimaryRenderPass } from './builders/primary-render-pass';
-import { WorkPackageTableEditingContext } from './wp-table-editing';
-import { WorkPackageTableRow } from './wp-table.interfaces';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
-import { WorkPackageTableConfiguration } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
-import { debugLog } from "core-app/shared/helpers/debug_output";
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { WorkPackageTimelineTableController } from "../wp-table/timeline/container/wp-timeline-container.directive";
+import { GroupedRowsBuilder } from "./builders/modes/grouped/grouped-rows-builder";
+import { HierarchyRowsBuilder } from "./builders/modes/hierarchy/hierarchy-rows-builder";
+import { PlainRowsBuilder } from "./builders/modes/plain/plain-rows-builder";
+import { RowsBuilder } from "./builders/modes/rows-builder";
+import { PrimaryRenderPass } from "./builders/primary-render-pass";
+import { WorkPackageTableEditingContext } from "./wp-table-editing";
+import { WorkPackageTableRow } from "./wp-table.interfaces";
 
 export class WorkPackageTable {
-
   @InjectField() querySpace:IsolatedQuerySpace;
+
   @InjectField() apiV3Service:APIV3Service;
+
   @InjectField() states:States;
+
   @InjectField() I18n!:I18nService;
+
   @InjectField() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
 
   public originalRows:string[] = [];
+
   public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
+
   private hierarchyRowsBuilder = new HierarchyRowsBuilder(this.injector, this);
+
   private groupedRowsBuilder = new GroupedRowsBuilder(this.injector, this);
+
   private plainRowsBuilder = new PlainRowsBuilder(this.injector, this);
 
   // WP rows builder
@@ -43,12 +50,12 @@ export class WorkPackageTable {
   public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this, this.injector);
 
   constructor(public readonly injector:Injector,
-              public tableAndTimelineContainer:HTMLElement,
-              public scrollContainer:HTMLElement,
-              public tbody:HTMLElement,
-              public timelineBody:HTMLElement,
-              public timelineController:WorkPackageTimelineTableController,
-              public configuration:WorkPackageTableConfiguration) {
+    public tableAndTimelineContainer:HTMLElement,
+    public scrollContainer:HTMLElement,
+    public tbody:HTMLElement,
+    public timelineBody:HTMLElement,
+    public timelineController:WorkPackageTimelineTableController,
+    public configuration:WorkPackageTableConfiguration) {
   }
 
   public get renderedRows() {
@@ -109,9 +116,7 @@ export class WorkPackageTable {
       this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
       // Mark rendering event in a timeout to let DOM process
-      setTimeout(() =>
-        this.querySpace.tableRendered.putValue(renderPass.result)
-      );
+      setTimeout(() => this.querySpace.tableRendered.putValue(renderPass.result));
     });
   }
 
@@ -151,7 +156,6 @@ export class WorkPackageTable {
     return this.configuration.dragAndDropEnabled;
   }
 
-
   /**
    * Perform the render pass
    * @param insert whether to insert the result (set to false for timeline)
@@ -171,7 +175,7 @@ export class WorkPackageTable {
     return renderPass;
   }
 
-  setGroupsCollapseState(newState:{[key:string]:boolean}) {
+  setGroupsCollapseState(newState:{ [key:string]:boolean }) {
     this.querySpace.collapsedGroups.putValue(newState);
 
     const t0 = performance.now();

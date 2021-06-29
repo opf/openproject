@@ -13,4 +13,3 @@ export interface WorkPackageTableRow {
   element?:HTMLElement;
   group:GroupObject|null;
 }
-

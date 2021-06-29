@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
@@ -13,7 +15,6 @@ import { JobStatusModal } from "core-app/features/job-status/job-status-modal/jo
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 
-
 interface ExportLink extends HalLink {
   identifier:string;
 }
@@ -25,10 +26,9 @@ interface ExportLink extends HalLink {
 @Component({
   templateUrl: './wp-table-export.modal.html',
   styleUrls: ['./wp-table-export.modal.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpTableExportModal extends OpModalComponent implements OnInit {
-
   /* Close on escape? */
   public closeOnEscape = true;
 
@@ -36,23 +36,24 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   public closeOnOutsideClick = true;
 
   public $element:JQuery;
+
   public exportOptions:{ identifier:string, label:string, url:string }[];
 
   public text = {
     title: this.I18n.t('js.label_export'),
     closePopup: this.I18n.t('js.close_popup_title'),
-    exportPreparing: this.I18n.t('js.label_export_preparing')
+    exportPreparing: this.I18n.t('js.label_export_preparing'),
   };
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
-              readonly elementRef:ElementRef,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly cdRef:ChangeDetectorRef,
-              readonly httpClient:HttpClient,
-              readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly loadingIndicator:LoadingIndicatorService,
-              readonly notifications:NotificationsService) {
+    readonly I18n:I18nService,
+    readonly elementRef:ElementRef,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly cdRef:ChangeDetectorRef,
+    readonly httpClient:HttpClient,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly loadingIndicator:LoadingIndicatorService,
+    readonly notifications:NotificationsService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -75,7 +76,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
       return {
         identifier: link.identifier,
         label: link.title,
-        url: this.addColumnsToHref(format.href!)
+        url: this.addColumnsToHref(format.href!),
       };
     });
   }
@@ -96,13 +97,12 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
       .get(url, { observe: 'body', responseType: 'json' })
       .subscribe(
         (json:{ job_id:string }) => this.replaceWithJobModal(json.job_id),
-        error => this.handleError(error)
+        error => this.handleError(error),
       );
-
   }
 
   private replaceWithJobModal(jobId:string) {
-    this.service.show(JobStatusModal, 'global', { jobId: jobId });
+    this.service.show(JobStatusModal, 'global', { jobId });
   }
 
   private handleError(error:HttpErrorResponse) {
@@ -125,9 +125,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   private addColumnsToHref(href:string) {
     const columns = this.wpTableColumns.getColumns();
 
-    const columnIds = columns.map(function (column) {
-      return column.id;
-    });
+    const columnIds = columns.map((column) => column.id);
 
     const url = URI(href);
     // Remove current columns

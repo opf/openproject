@@ -45,7 +45,7 @@ export class WorkPackageEditFormRoutingService extends EditFormRoutingService {
     const toParams = transition.params('to');
 
     // In new/copy mode, transitions to the same controller are allowed
-    if (fromState.name && fromState.name.match(/\.(new|copy)$/)) {
+    if (fromState.name && (/\.(new|copy)$/.exec(fromState.name))) {
       return !(toState.data && toState.data.allowMovingInEditMode);
     }
 
@@ -53,4 +53,3 @@ export class WorkPackageEditFormRoutingService extends EditFormRoutingService {
     return toParams.workPackageId === undefined || toParams.workPackageId !== fromParams.workPackageId;
   }
 }
-

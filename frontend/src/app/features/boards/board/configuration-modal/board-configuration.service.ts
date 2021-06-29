@@ -5,13 +5,12 @@ import { BoardHighlightingTabComponent } from "core-app/features/boards/board/co
 
 @Injectable()
 export class BoardConfigurationService {
-
   protected _tabs:TabInterface[] = [
     {
       id: 'highlighting',
       name: this.I18n.t('js.work_packages.table_configuration.highlighting'),
       componentClass: BoardHighlightingTabComponent,
-    }
+    },
   ];
 
   constructor(readonly I18n:I18nService) {

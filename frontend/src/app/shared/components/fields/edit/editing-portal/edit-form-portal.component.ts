@@ -7,13 +7,13 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output,
 } from "@angular/core";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import {
   OpEditingPortalChangesetToken,
   OpEditingPortalHandlerToken,
-  OpEditingPortalSchemaToken
+  OpEditingPortalSchemaToken,
 } from "core-app/shared/components/fields/edit/edit-field.component";
 import { createLocalInjector } from "core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
@@ -26,22 +26,30 @@ import { ResourceChangeset } from "core-app/shared/components/fields/changeset/r
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() schemaInput:IFieldSchema;
+
   @Input() changeInput:ResourceChangeset;
+
   @Input() editFieldHandler:EditFieldHandler;
+
   @Output() public onEditFieldReady = new EventEmitter<void>();
 
   public handler:EditFieldHandler;
+
   public schema:IFieldSchema;
+
   public change:ResourceChangeset;
+
   public fieldInjector:Injector;
 
   public componentClass:IEditFieldType;
+
   public htmlId:string;
+
   public label:string;
 
   constructor(readonly injector:Injector,
-              readonly editField:EditFieldService,
-              readonly elementRef:ElementRef) {
+    readonly editField:EditFieldService,
+    readonly elementRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -49,7 +57,6 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
       this.handler = this.editFieldHandler;
       this.schema = this.schemaInput;
       this.change = this.changeInput;
-
     } else {
       this.handler = this.injector.get<EditFieldHandler>(OpEditingPortalHandlerToken);
       this.schema = this.injector.get<IFieldSchema>(OpEditingPortalSchemaToken);

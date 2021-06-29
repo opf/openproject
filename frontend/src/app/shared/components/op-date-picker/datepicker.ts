@@ -36,22 +36,23 @@ import DateOption = flatpickr.Options.DateOption;
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
 
-  private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier)! as HTMLElement;
+  private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier)! ;
+
   public datepickerInstance:Instance;
+
   private reshowTimeout:any;
 
   constructor(private datepickerElemIdentifier:string,
-              private date:any,
-              private options:any,
-              private datepickerTarget?:HTMLElement,
-              private configurationService?:ConfigurationService) {
+    private date:any,
+    private options:any,
+    private datepickerTarget?:HTMLElement,
+    private configurationService?:ConfigurationService) {
     this.initialize(options);
   }
 
   private initialize(options:any) {
     const I18n = new I18nService();
-    const firstDayOfWeek =
-      this.configurationService?.startOfWeekPresent() ? this.configurationService.startOfWeek() : 1;
+    const firstDayOfWeek = this.configurationService?.startOfWeekPresent() ? this.configurationService.startOfWeek() : 1;
 
     const mergedOptions = _.extend({}, options, {
       weekNumbers: true,
@@ -69,8 +70,8 @@ export class DatePicker {
           shorthand: (I18n.t('date.abbr_month_names') as any).slice(1),
           longhand: (I18n.t('date.month_names') as any).slice(1),
         },
-        firstDayOfWeek: firstDayOfWeek,
-        weekAbbreviation: I18n.t('date.abbr_week')
+        firstDayOfWeek,
+        weekAbbreviation: I18n.t('date.abbr_week'),
       },
     });
 
@@ -140,8 +141,8 @@ export class DatePicker {
 
   private visibleAndActive() {
     try {
-      return this.isInViewport(this.datepickerCont) &&
-        document.activeElement === this.datepickerCont;
+      return this.isInViewport(this.datepickerCont)
+        && document.activeElement === this.datepickerCont;
     } catch (e) {
       console.error('Failed to test visibleAndActive ' + e);
       return false;
@@ -152,10 +153,10 @@ export class DatePicker {
     const rect = element.getBoundingClientRect();
 
     return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+      rect.top >= 0
+      && rect.left >= 0
+      && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+      && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   }
 }

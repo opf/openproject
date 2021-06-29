@@ -35,8 +35,12 @@ import { QueryGroupByResource } from "core-app/features/hal/resources/query-grou
 
 export class QuerySchemaResource extends SchemaResource {
   columns:{ allowedValues:QueryColumn[] };
+
   filtersSchemas:CollectionResource<QueryFilterInstanceSchemaResource>;
+
   sortBy:{ allowedValues:QuerySortByResource[] };
+
   groupBy:{ allowedValues:QueryGroupByResource[] };
+
   displayRepresentation:{ allowedValues:'list'|'card' };
 }

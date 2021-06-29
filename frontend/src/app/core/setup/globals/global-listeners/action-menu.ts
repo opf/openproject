@@ -49,7 +49,9 @@ function menu_top_position(menu:JQuery) {
   var menu_start_position;
   if (menu.next().get(0) !== undefined && (menu.next().get(0).tagName === 'H2')) {
     menu_start_position = menu.next().innerHeight()! + menu.next().position().top;
-  } else if (menu.next().hasClass("wiki-content") && menu.next().children().next().first().get(0) != undefined && menu.next().children().next().first().get(0).tagName == 'H1') {
+  } else if (menu.next().hasClass("wiki-content") && menu.next().children().next().first()
+    .get(0) != undefined && menu.next().children().next().first()
+    .get(0).tagName == 'H1') {
     var wiki_heading = menu.next().children().next().first();
     menu_start_position = wiki_heading.innerHeight()! + wiki_heading.position().top;
   }
@@ -70,7 +72,7 @@ function open_menu(menu:JQuery) {
   var drop_down = menu.find(" > li.drop-down");
   // do not open a menu, which is already open
   if (!drop_down.hasClass('open')) {
-    drop_down.find('> ul').slideDown(ANIMATION_RATE_MS, function () {
+    drop_down.find('> ul').slideDown(ANIMATION_RATE_MS, () => {
       drop_down.find('li > a:first').focus();
       // when clicking on something, which is not the menu, close the menu
       jQuery('html').on('click', { menu: menu.get(0) }, close_menu);

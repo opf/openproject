@@ -28,28 +28,32 @@
 
 import { Injectable } from "@angular/core";
 import { of, forkJoin } from 'rxjs';
-import { take, map, mergeMap, distinctUntilChanged, tap } from 'rxjs/operators';
+import {
+  take, map, mergeMap, distinctUntilChanged, tap,
+} from 'rxjs/operators';
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { CurrentUserStore, CurrentUser } from "./current-user.store";
-import { CurrentUserQuery } from "./current-user.query";
-import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { CurrentUserStore, CurrentUser } from './current-user.store';
+import { CurrentUserQuery } from './current-user.query';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
   private PAGE_FETCH_SIZE = 1000;
 
   constructor(
-    private apiV3Service: APIV3Service,
-    private currentUserStore: CurrentUserStore,
-    private currentUserQuery: CurrentUserQuery,
+    private apiV3Service:APIV3Service,
+    private currentUserStore:CurrentUserStore,
+    private currentUserQuery:CurrentUserQuery,
   ) {
     this.setupLegacyDataListeners();
   }
 
   public capabilities$ = this.currentUserQuery.capabilities$;
+
   public isLoggedIn$ = this.currentUserQuery.isLoggedIn$;
+
   public user$ = this.currentUserQuery.user$;
 
   /**
@@ -57,7 +61,7 @@ export class CurrentUserService {
    *
    * This refetches the global and current project capabilities
    */
-  public setUser(user: CurrentUser) {
+  public setUser(user:CurrentUser) {
     this.currentUserStore.update(state => ({
       ...state,
       ...user,
@@ -80,56 +84,56 @@ export class CurrentUserService {
         return;
       }
 
-      const filters: [string, FilterOperator, string[]][] = [ ['principal', '=', [user.id]] ];
+      const filters:[string, FilterOperator, string[]][] = [['principal', '=', [user.id]]];
       if (contexts.length) {
-        filters.push([ 'context', '=', contexts.map(context => context === 'global' ? 'g' : `p${context}`) ]);
+        filters.push(["context", '=', contexts.map(context => (context === "global" ? "g" : `p${context}`))]);
       }
 
       this.apiV3Service.capabilities.list({
         pageSize: this.PAGE_FETCH_SIZE,
         filters,
       })
-      .pipe(
-        mergeMap((data: CollectionResource<CapabilityResource>) => {
+        .pipe(
+          mergeMap((data:CollectionResource<CapabilityResource>) => {
           // The data we've loaded might not contain all capabilities. Some responses might have thousands of
           // capabilites, and our page size is restricted. If this is the case, we branch out and sent out parallel
           // requests for each of the other pages.
-          if (data.total > this.PAGE_FETCH_SIZE) {
-            const remaining = data.total - this.PAGE_FETCH_SIZE;
-            const pagesRemaining = Math.ceil(remaining / this.PAGE_FETCH_SIZE);
-            const calls = (new Array(pagesRemaining))
-              .fill(null)
-              .map((_, i) => this.apiV3Service.capabilities.list({
-                pageSize: this.PAGE_FETCH_SIZE,
-                offset: i + 2, // Page offsets are 1-indexed, and we already fetched the first page
-                filters,
-              }));
+            if (data.total > this.PAGE_FETCH_SIZE) {
+              const remaining = data.total - this.PAGE_FETCH_SIZE;
+              const pagesRemaining = Math.ceil(remaining / this.PAGE_FETCH_SIZE);
+              const calls = (new Array(pagesRemaining))
+                .fill(null)
+                .map((_, i) => this.apiV3Service.capabilities.list({
+                  pageSize: this.PAGE_FETCH_SIZE,
+                  offset: i + 2, // Page offsets are 1-indexed, and we already fetched the first page
+                  filters,
+                }));
 
-            // Branch out and fetch all remaining pages in parallel.
-            // Afterwards, merge the resulting list
-            return forkJoin(...calls).pipe(
-              map(
-                (results: CollectionResource<CapabilityResource>[]) => results.reduce(
-                  (acc, next) => acc.concat(next.elements),
-                  data.elements,
+              // Branch out and fetch all remaining pages in parallel.
+              // Afterwards, merge the resulting list
+              return forkJoin(...calls).pipe(
+                map(
+                  (results:CollectionResource<CapabilityResource>[]) => results.reduce(
+                    (acc, next) => acc.concat(next.elements),
+                    data.elements,
+                  ),
                 ),
-              ),
-            );
-          }
+              );
+            }
 
-          // The current page is the only page, return the results.
-          return of(data.elements);
-        }),
-      )
-      .subscribe((capabilities) => {
-        this.currentUserStore.update(state => ({
-          ...state,
-          capabilities: [
-            ...capabilities,
-            ...(state.capabilities || []).filter(cap => !!capabilities.find(newCap => newCap.id === cap.id)),
-          ],
-        }));
-      });
+            // The current page is the only page, return the results.
+            return of(data.elements);
+          }),
+        )
+        .subscribe((capabilities) => {
+          this.currentUserStore.update(state => ({
+            ...state,
+            capabilities: [
+              ...capabilities,
+              ...(state.capabilities || []).filter(cap => !!capabilities.find(newCap => newCap.id === cap.id)),
+            ],
+          }));
+        });
     });
 
     return this.currentUserQuery.capabilities$;
@@ -138,7 +142,7 @@ export class CurrentUserService {
   /**
    * Returns the users' capabilities filtered by context
    */
-  public capabilitiesForContext$(contextId: string) {
+  public capabilitiesForContext$(contextId:string) {
     return this.capabilities$.pipe(
       map((capabilities) => capabilities.filter(cap => cap.context.href.endsWith(`/${contextId}`))),
       distinctUntilChanged(),
@@ -146,25 +150,23 @@ export class CurrentUserService {
   }
 
   /**
-   * Returns an Observable<boolean> indicating whether the user has the required capabilities in the provided context. 
+   * Returns an Observable<boolean> indicating whether the user has the required capabilities in the provided context.
    */
-  public hasCapabilities$(action: string|string[], contextId: string = 'global') {
+  public hasCapabilities$(action:string|string[], contextId = 'global') {
     const actions = _.castArray(action);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => actions.reduce(
-        (acc, action) => {
-          return acc && !!capabilities.find(cap => cap.action.href.endsWith(`/api/v3/actions/${action}`));
-        },
+        (acc, action) => acc && !!capabilities.find(cap => cap.action.href.endsWith(`/api/v3/actions/${action}`)),
         capabilities.length > 0,
       )),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     );
   }
 
   /**
-   * Returns an Observable<boolean> indicating whether the user has any of the required capabilities in the provided context. 
+   * Returns an Observable<boolean> indicating whether the user has any of the required capabilities in the provided context.
    */
-  public hasAnyCapabilityOf$(actions: string|string[], contextId: string = 'global') {
+  public hasAnyCapabilityOf$(actions:string|string[], contextId = 'global') {
     const actionsToFilter = _.castArray(actions);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => capabilities.reduce(
@@ -177,19 +179,19 @@ export class CurrentUserService {
 
   // Everything below this is deprecated legacy interfacing and should not be used
 
-
   private setupLegacyDataListeners() {
     this.currentUserQuery.user$.subscribe(user => this._user = user);
     this.currentUserQuery.isLoggedIn$.subscribe(isLoggedIn => this._isLoggedIn = isLoggedIn);
   }
 
   private _isLoggedIn = false;
+
   /** @deprecated Use the store mechanism `currentUserQuery.isLoggedIn$` */
   public get isLoggedIn() {
     return this._isLoggedIn;
   }
 
-  private _user: CurrentUser = {
+  private _user:CurrentUser = {
     id: null,
     name: null,
     mail: null,

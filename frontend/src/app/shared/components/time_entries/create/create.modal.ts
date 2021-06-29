@@ -9,8 +9,8 @@ import { TimeEntryBaseModal } from '../shared/modal/base.modal';
   styleUrls: ['../shared/modal/base.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    HalResourceEditingService
-  ]
+    HalResourceEditingService,
+  ],
 })
 export class TimeEntryCreateModal extends TimeEntryBaseModal {
   public createdEntry:TimeEntryResource;
@@ -19,7 +19,7 @@ export class TimeEntryCreateModal extends TimeEntryBaseModal {
     return false;
   }
 
-  public setModifiedEntry($event:{savedResource:HalResource, isInital:boolean}) {
+  public setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }) {
     this.createdEntry = $event.savedResource as TimeEntryResource;
     this.reloadWorkPackageAndClose();
   }

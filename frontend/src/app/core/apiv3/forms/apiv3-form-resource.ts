@@ -14,7 +14,7 @@ export class APIv3FormResource<T extends FormResource = FormResource> extends AP
       .halResourceService
       .post<T>(
         this.path,
-        this.extractPayload(request, schema)
+        this.extractPayload(request, schema),
       );
   }
 

@@ -6,30 +6,29 @@ import { UserResource } from "core-app/features/hal/resources/user-resource";
 import { APIv3UserPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-paths';
 import { APIV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import {HalResource} from "core-app/features/hal/resources/hal-resource";
-import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
-import {Observable} from "rxjs";
-import {UntilDestroyedMixin} from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Observable } from "rxjs";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 @Injectable()
 
 export class OpAutocompleterService extends UntilDestroyedMixin {
-
   constructor(
     private apiV3Service:APIV3Service,
   ) {
     super();
   }
+
   // A method for fetching data with different resource type and different filter
-  public loadAvailable(matching:string, resource:resource, filters?: IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
+  public loadAvailable(matching:string, resource:resource, filters?:IAPIFilter[], searchKey?:string):Observable<HalResource[]> {
     const finalFilters:ApiV3FilterBuilder = this.createFilters(filters ?? [], matching, searchKey);
 
     const filteredData = (this.apiV3Service[resource] as
       APIv3ResourceCollection<UserResource|WorkPackageResource, APIv3UserPaths|APIV3WorkPackagePaths>)
       .filtered(finalFilters).get()
       .pipe(map(collection => collection.elements));
-      return filteredData;
-   
+    return filteredData;
   }
 
   // A method for building filters
@@ -49,13 +48,13 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
   // If you need to fetch our default date sources like work_packages or users,
   // you should use the default method (loadAvailable), otherwise you should implement a function for
   // your desired resourse
-  public loadData(matching:string,  resource:resource, filters?:IAPIFilter[], searchKey?:string) {
+  public loadData(matching:string, resource:resource, filters?:IAPIFilter[], searchKey?:string) {
     switch (resource) {
-      // in this case we can add more functions for fetching usual resources
+    // in this case we can add more functions for fetching usual resources
       default: {
-         return this.loadAvailable(matching, resource, filters, searchKey);
-         break;
+        return this.loadAvailable(matching, resource, filters, searchKey);
+        break;
       }
-   }
+    }
   }
 }

@@ -1,41 +1,49 @@
 import { Injector } from '@angular/core';
-import { WorkPackageTable } from '../../wp-fast-table';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { take, takeUntil } from "rxjs/operators";
-import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { TableDragActionsRegistryService } from "core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service";
-import { TableDragActionService } from "core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import { States } from "core-app/core/states/states.service";
-import { tableRowClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder";
-import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
-import { DragAndDropHelpers } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers";
-import { WorkPackageViewOrderService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service";
-import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { isInsideCollapsedGroup } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers";
-import { collapsedGroupClass } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { take, takeUntil } from 'rxjs/operators';
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
+import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
+import { States } from 'core-app/core/states/states.service';
+import { tableRowClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
+import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { DragAndDropHelpers } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
+import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { isInsideCollapsedGroup } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
+import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
+import { WorkPackageTable } from "../../wp-fast-table";
 
 export class DragAndDropTransformer {
-
   @InjectField() private readonly states:States;
+
   @InjectField() private readonly querySpace:IsolatedQuerySpace;
+
   @InjectField() private readonly inlineCreateService:WorkPackageInlineCreateService;
+
   @InjectField() private readonly halNotification:HalResourceNotificationService;
+
   @InjectField() private readonly wpTableSortBy:WorkPackageViewSortByService;
+
   @InjectField() private readonly wpTableOrder:WorkPackageViewOrderService;
+
   @InjectField() private readonly browserDetector:BrowserDetector;
+
   @InjectField() private readonly apiV3Service:APIV3Service;
+
   @InjectField() private readonly wpListService:WorkPackagesListService;
+
   @InjectField() private readonly dragActionRegistry:TableDragActionsRegistryService;
+
   @InjectField(DragAndDropService, null) private readonly dragService:DragAndDropService|null;
 
   constructor(public readonly injector:Injector,
-              public table:WorkPackageTable) {
-
+    public table:WorkPackageTable) {
     // The DragService may not have been provided
     // in which case we do not provide drag and drop
     if (this.dragService === null) {
@@ -161,8 +169,8 @@ export class DragAndDropTransformer {
 
     const mappedOrder = await Promise.all(
       order.map(
-        wpId => this.apiV3Service.work_packages.id(wpId).get().toPromise()
-      )
+        wpId => this.apiV3Service.work_packages.id(wpId).get().toPromise(),
+      ),
     );
 
     /** Re-render the table */

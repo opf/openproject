@@ -12,11 +12,11 @@ import { OpModalHeaderComponent } from "./modal-header.component";
     FocusModule,
     IconModule,
   ],
-  exports: [ OpModalHeaderComponent ],
+  exports: [OpModalHeaderComponent],
   providers: [
     OpModalService,
     OpModalWrapperAugmentService,
   ],
-  declarations: [ OpModalHeaderComponent ]
+  declarations: [OpModalHeaderComponent],
 })
 export class OpenprojectModalModule { }

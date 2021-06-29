@@ -31,7 +31,6 @@ export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEve
  * of the table.
  */
 export abstract class WorkPackageViewHandlerRegistry<T> {
-
   constructor(public readonly injector:Injector) {
   }
 

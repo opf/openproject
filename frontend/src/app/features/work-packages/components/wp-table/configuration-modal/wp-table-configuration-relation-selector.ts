@@ -16,7 +16,7 @@ import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
   templateUrl: './wp-table-configuration-relation-selector.html',
   selector: 'wp-table-configuration-relation-selector'
 })
-export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
+export class WpTableConfigurationRelationSelectorComponent implements OnInit {
   private relationFilterIds:string[] = [
     'parent',
     'precedes',
@@ -33,6 +33,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
   ];
 
   public availableRelationFilters:QueryFilterResource[] = [];
+
   public selectedRelationFilter:QueryFilterResource|undefined = undefined;
 
   public text = {
@@ -40,25 +41,25 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
     please_select: this.I18n.t('js.placeholders.selection'),
     // We need to inverse the translation strings, as the filters's are named the other way around than what
     // a user knows from the relations tab:
-    parent:        this.I18n.t('js.relation_labels.children'),
-    precedes:      this.I18n.t('js.relation_labels.follows'),
-    follows:       this.I18n.t('js.relation_labels.precedes'),
-    relates:     this.I18n.t('js.relation_labels.relates'),
-    duplicates:    this.I18n.t('js.relation_labels.duplicated'),
-    duplicated:  this.I18n.t('js.relation_labels.duplicates'),
-    blocks:        this.I18n.t('js.relation_labels.blocked'),
-    blocked:     this.I18n.t('js.relation_labels.blocks'),
-    requires:      this.I18n.t('js.relation_labels.required'),
-    required:    this.I18n.t('js.relation_labels.requires'),
-    partof:        this.I18n.t('js.relation_labels.includes'),
-    includes:      this.I18n.t('js.relation_labels.partof')
+    parent: this.I18n.t('js.relation_labels.children'),
+    precedes: this.I18n.t('js.relation_labels.follows'),
+    follows: this.I18n.t('js.relation_labels.precedes'),
+    relates: this.I18n.t('js.relation_labels.relates'),
+    duplicates: this.I18n.t('js.relation_labels.duplicated'),
+    duplicated: this.I18n.t('js.relation_labels.duplicates'),
+    blocks: this.I18n.t('js.relation_labels.blocked'),
+    blocked: this.I18n.t('js.relation_labels.blocks'),
+    requires: this.I18n.t('js.relation_labels.required'),
+    required: this.I18n.t('js.relation_labels.requires'),
+    partof: this.I18n.t('js.relation_labels.includes'),
+    includes: this.I18n.t('js.relation_labels.partof'),
   };
 
   constructor(readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly ConfigurationService:ConfigurationService,
-              readonly schemaCache:SchemaCacheService) {
+    readonly I18n:I18nService,
+    readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly ConfigurationService:ConfigurationService,
+    readonly schemaCache:SchemaCacheService) {
   }
 
   ngOnInit() {
@@ -85,7 +86,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
   public onRelationFilterSelected() {
     if (this.selectedRelationFilter) {
       this.removeRelationFiltersFromCurrentState();
-      this.addFilterToCurrentState(this.selectedRelationFilter as QueryFilterResource);
+      this.addFilterToCurrentState(this.selectedRelationFilter);
     }
   }
 
@@ -108,7 +109,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit  {
   }
 
   private getOperatorForId(filter:QueryFilterResource, id:string):QueryOperatorResource {
-    return _.find(this.schemaCache.of(filter).availableOperators, { 'id': id }) as QueryOperatorResource;
+    return _.find(this.schemaCache.of(filter).availableOperators, { id }) as QueryOperatorResource;
   }
 
   public compareRelationFilters(f1:undefined|QueryFilterResource, f2:undefined|QueryFilterResource):boolean {

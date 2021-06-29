@@ -34,7 +34,7 @@ import { Observable } from "rxjs";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
-  listParamsString
+  listParamsString,
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 
@@ -42,7 +42,7 @@ export class Apiv3PlaceholderUsersPaths
   extends APIv3ResourceCollection<PlaceholderUserResource, Apiv3PlaceholderUserPaths>
   implements Apiv3ListResourceInterface<PlaceholderUserResource> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'placeholder_users', Apiv3PlaceholderUserPaths);
   }
 

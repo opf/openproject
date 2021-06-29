@@ -34,7 +34,7 @@ import {
   EventEmitter,
   Input, OnChanges,
   OnInit,
-  Output, SimpleChanges
+  Output, SimpleChanges,
 } from '@angular/core';
 
 export const slideToggleSelector = 'slide-toggle';
@@ -43,20 +43,24 @@ export const slideToggleSelector = 'slide-toggle';
   templateUrl: './slide-toggle.component.html',
   selector: slideToggleSelector,
   styleUrls: ['./slide-toggle.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class SlideToggleComponent implements OnInit, OnChanges {
   @Input() containerId:string;
+
   @Input() containerClasses:string;
+
   @Input() inputId:string;
+
   @Input() inputName:string;
+
   @Input() active:boolean;
 
   @Output() valueChanged = new EventEmitter();
 
   constructor(private elementRef:ElementRef,
-              private cdRef:ChangeDetectorRef) {
+    private cdRef:ChangeDetectorRef) {
   }
 
   ngOnChanges(changes:SimpleChanges) {
@@ -64,7 +68,7 @@ export class SlideToggleComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    const dataset = this.elementRef.nativeElement.dataset;
+    const { dataset } = this.elementRef.nativeElement;
 
     // Allow taking over values from dataset (Rails)
     if (dataset.inputName) {

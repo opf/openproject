@@ -29,10 +29,9 @@ export interface IfcModelDefinition {
 
 @Injectable()
 export class IfcModelsDataService {
-
   constructor(readonly paths:PathHelperService,
-              readonly currentProjectService:CurrentProjectService,
-              readonly gon:GonService) {
+    readonly currentProjectService:CurrentProjectService,
+    readonly gon:GonService) {
   }
 
   public get models():IfcModelDefinition[] {

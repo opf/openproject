@@ -28,8 +28,8 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageWatchersTabComponent } from './watchers-tab.component';
-import { UserResource } from "core-app/features/hal/resources/user-resource";
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { WorkPackageWatchersTabComponent } from "./watchers-tab.component";
 
 @Component({
   templateUrl: './wp-watcher-entry.html',
@@ -37,16 +37,18 @@ import { UserResource } from "core-app/features/hal/resources/user-resource";
 })
 export class WorkPackageWatcherEntryComponent implements OnInit {
   @Input('watcher') public watcher:UserResource;
+
   public deleting = false;
+
   public text:{ remove:string };
 
   constructor(readonly I18n:I18nService,
-              readonly panelCtrl:WorkPackageWatchersTabComponent) {
+    readonly panelCtrl:WorkPackageWatchersTabComponent) {
   }
 
   ngOnInit() {
     this.text = {
-      remove: this.I18n.t('js.label_remove_watcher', { name: this.watcher.name })
+      remove: this.I18n.t('js.label_remove_watcher', { name: this.watcher.name }),
     };
   }
 

@@ -21,14 +21,11 @@ export abstract class CachedBoardActionService extends BoardActionService {
       .pipe(
         map(results => {
           if (matching) {
-            return results.filter(resource =>
-              new RegExp(matching, 'i').test(resource.name)
-            );
-          } else {
-            return results;
+            return results.filter(resource => new RegExp(matching, "i").test(resource.name));
           }
+          return results;
         }),
-        take(1)
+        take(1),
       );
   }
 
@@ -51,14 +48,11 @@ export abstract class CachedBoardActionService extends BoardActionService {
       .cache
       .values$()
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise()
-      .then(results => {
-        return results.find(resource => resource.id === id)!;
-      });
+      .then(results => results.find(resource => resource.id === id)!);
   }
 
   protected abstract loadUncached():Promise<HalResource[]>;
 }
-

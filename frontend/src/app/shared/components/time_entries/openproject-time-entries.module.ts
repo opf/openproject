@@ -47,14 +47,14 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
     OpenprojectFieldsModule,
   ],
   providers: [
-    TimeEntryEditService
+    TimeEntryEditService,
   ],
   declarations: [
     TimeEntryEditModal,
     TimeEntryCreateModal,
     TimeEntryFormComponent,
-    TriggerActionsEntryComponent
-  ]
+    TriggerActionsEntryComponent,
+  ],
 })
 export class OpenprojectTimeEntriesModule {
 }

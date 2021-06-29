@@ -55,21 +55,20 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
    * @param property the schema part is desired for
    */
   public ofProperty(property:string) {
-    if (property === 'combinedDate') {
-      const propertySchema = super.ofProperty('startDate');
+    if (property === "combinedDate") {
+      const propertySchema = super.ofProperty("startDate");
 
       if (!propertySchema) {
         return null;
       }
 
-      propertySchema.writable = propertySchema.writable ||
-        this.isAttributeEditable('dueDate') ||
-        this.isAttributeEditable('scheduleManually');
+      propertySchema.writable = propertySchema.writable
+        || this.isAttributeEditable("dueDate")
+        || this.isAttributeEditable("scheduleManually");
 
       return propertySchema;
-    } else {
-      return super.ofProperty(property);
     }
+    return super.ofProperty(property);
   }
 
   public get isReadonly():boolean {
@@ -85,13 +84,12 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
   public isAttributeEditable(property:string):boolean {
     if (this.isReadonly && property !== 'status') {
       return false;
-    } else if (['startDate', 'dueDate', 'date'].includes(property) &&
-      this.resource.scheduleManually) {
+    } if (['startDate', 'dueDate', 'date'].includes(property)
+      && this.resource.scheduleManually) {
       // This is a blatant shortcut but should be adequate.
       return super.isAttributeEditable('scheduleManually');
-    } else {
-      return super.isAttributeEditable(property);
     }
+    return super.isAttributeEditable(property);
   }
 
   public get isMilestone():boolean {
@@ -99,10 +97,9 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
   }
 
   public mappedName(property:string):string {
-    if (this.isMilestone && (property === 'startDate' || property === 'dueDate')) {
-      return 'date';
-    } else {
-      return property;
+    if (this.isMilestone && (property === "startDate" || property === "dueDate")) {
+      return "date";
     }
+    return property;
   }
 }

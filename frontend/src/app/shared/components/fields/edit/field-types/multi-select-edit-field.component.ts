@@ -40,22 +40,30 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 })
 export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
+
   @InjectField() I18n!:I18nService;
 
   public availableOptions:any[] = [];
+
   public valueOptions:ValueOption[];
+
   public text = {
     requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
     placeholder: this.I18n.t('js.placeholders.default'),
     save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
     cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
   };
+
   public appendTo:any = null;
+
   public currentValueInvalid = false;
+
   public showAddNewUserButton:boolean;
 
   private hiddenOverflowContainer = '.__hidden_overflow_container';
+
   private nullOption:ValueOption;
+
   private _selectedOption:ValueOption[];
 
   /** Since we need to wait for values to be loaded, remember if the user activated this field*/
@@ -68,7 +76,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     this.handler
       .$onUserActivate
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.requestFocus = this.availableOptions.length === 0;
@@ -143,7 +151,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     // The timeout takes care that the opening is added to the end of the current call stack.
     // Thus we can be sure that the autocompleter is rendered and ready to be opened.
     const that = this;
-    window.setTimeout(function () {
+    window.setTimeout(() => {
       that.ngSelectComponent.open();
     }, 0);
   }
@@ -160,7 +168,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   private setValues(availableValues:any[], sortValuesByName = false) {
     if (sortValuesByName) {
-      availableValues.sort(function (a:any, b:any) {
+      availableValues.sort((a:any, b:any) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
@@ -168,9 +176,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     }
 
     this.availableOptions = availableValues || [];
-    this.valueOptions = this.availableOptions.map(el => {
-      return { name: el.name, href: el.href };
-    });
+    this.valueOptions = this.availableOptions.map(el => ({ name: el.name, href: el.href }));
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
 
@@ -186,7 +192,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   private loadValues() {
-    const allowedValues = this.schema.allowedValues;
+    const { allowedValues } = this.schema;
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);
     } else if (this.schema.allowedValues) {
@@ -209,9 +215,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       this.currentValueInvalid = !!(
         // (If value AND)
         // MultiSelect AND there is no value which href is not in the options hrefs
-        (!_.some(this.value, (value:HalResource) => {
-          return _.some(this.availableOptions, (option) => (option.href === value.href));
-        }))
+        (!_.some(this.value, (value:HalResource) => _.some(this.availableOptions, (option) => (option.href === value.href))))
       );
     } else {
       // If no value but required

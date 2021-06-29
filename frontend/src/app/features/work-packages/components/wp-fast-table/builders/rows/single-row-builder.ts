@@ -2,20 +2,20 @@ import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { locateTableRowByIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
-import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { WorkPackageTable } from '../../wp-fast-table';
-import { CellBuilder, tdClassName } from '../cell-builder';
-import { RelationCellbuilder } from '../relation-cell-builder';
-import { checkedClassName } from '../ui-state-link-builder';
-import { TableActionRenderer } from 'core-app/features/work-packages/components/wp-fast-table/builders/table-action-renderer';
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
+import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { TableActionRenderer } from "core-app/features/work-packages/components/wp-fast-table/builders/table-action-renderer";
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import {
   internalContextMenuColumn,
-  internalSortColumn
-} from "core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { debugLog } from "core-app/shared/helpers/debug_output";
+  internalSortColumn,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { checkedClassName } from "../ui-state-link-builder";
+import { RelationCellbuilder } from '../relation-cell-builder';
+import { CellBuilder, tdClassName } from "../cell-builder";
+import { WorkPackageTable } from '../../wp-fast-table';
+import { isRelationColumn, QueryColumn } from "../../../wp-query/query-column";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -23,14 +23,16 @@ export const tableRowClassName = 'wp-table--row';
 export const commonRowClassName = 'wp--row';
 
 export class SingleRowBuilder {
-
   // Injections
   @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+
   @InjectField() I18n!:I18nService;
 
   // Cell builder instance
   protected cellBuilder = new CellBuilder(this.injector);
+
   // Relation cell builder instance
   protected relationCellBuilder = new RelationCellbuilder(this.injector);
 
@@ -41,7 +43,7 @@ export class SingleRowBuilder {
   protected readonly augmentedColumns:QueryColumn[] = this.buildAugmentedColumns();
 
   constructor(public readonly injector:Injector,
-              protected workPackageTable:WorkPackageTable) {
+    protected workPackageTable:WorkPackageTable) {
   }
 
   /**
@@ -76,13 +78,13 @@ export class SingleRowBuilder {
     case internalContextMenuColumn.id:
       if (this.workPackageTable.configuration.actionsColumnEnabled) {
         return this.contextLinkBuilder.build(workPackage);
-      } else if (this.workPackageTable.configuration.columnMenuEnabled) {
+      } if (this.workPackageTable.configuration.columnMenuEnabled) {
         const td = document.createElement('td');
         td.classList.add('hide-when-print');
         return td;
-      } else {
-        return null;
       }
+        return null;
+
     default:
       return this.cellBuilder.build(workPackage, column);
     }

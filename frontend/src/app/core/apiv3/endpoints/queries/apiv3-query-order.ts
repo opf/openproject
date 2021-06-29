@@ -37,15 +37,15 @@ export class APIV3QueryOrder extends SimpleResource {
   @InjectField() http:HttpClient;
 
   constructor(readonly injector:Injector,
-              readonly basePath:string,
-              readonly id:string|number) {
+    readonly basePath:string,
+    readonly id:string|number) {
     super(basePath, id);
   }
 
   public get():Promise<QueryOrder> {
     return this.http
       .get<QueryOrder>(
-        this.path
+        this.path,
       )
       .toPromise()
       .then(result => result || {});
@@ -55,11 +55,11 @@ export class APIV3QueryOrder extends SimpleResource {
     return this.http
       .patch(
         this.path,
-        { delta: delta },
-        { withCredentials: true }
+        { delta },
+        { withCredentials: true },
       )
       .toPromise()
-      .then((response:{t:string}) => response.t);
+      .then((response:{ t:string }) => response.t);
   }
 
   public delete(id:string, ...wpIds:string[]) {

@@ -27,13 +27,14 @@
 //++
 
 import { ConfirmDialogModal } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component, ElementRef, OnInit, ViewChild,
+} from "@angular/core";
 
 @Component({
   templateUrl: './password-confirmation.modal.html'
 })
 export class PasswordConfirmationModal extends ConfirmDialogModal implements OnInit {
-
   public password_confirmation:string|null = null;
 
   @ViewChild('passwordConfirmationField', { static: true }) passwordConfirmationField:ElementRef;

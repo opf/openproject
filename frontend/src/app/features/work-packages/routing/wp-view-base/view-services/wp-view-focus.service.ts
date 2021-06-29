@@ -42,9 +42,8 @@ export interface WPFocusState {
 
 @Injectable()
 export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFocusState> {
-
   constructor(public querySpace:IsolatedQuerySpace,
-              public wpTableSelection:WorkPackageViewSelectionService) {
+    public wpTableSelection:WorkPackageViewSelectionService) {
     super(querySpace);
   }
 
@@ -82,7 +81,7 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
     return this.live$()
       .pipe(
         map((val:WPFocusState) => val.workPackageId),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
   }
 
@@ -91,7 +90,7 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
     if (this.wpTableSelection.isEmpty) {
       this.wpTableSelection.setRowState(workPackageId, true);
     }
-    this.update({ workPackageId: workPackageId, focusAfterRender: setFocusAfterRender });
+    this.update({ workPackageId, focusAfterRender: setFocusAfterRender });
   }
 
   valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):WPFocusState|undefined {

@@ -31,7 +31,6 @@ import { WorkPackageInlineCreateService } from "core-app/features/work-packages/
 
 export interface WpRelationInlineCreateServiceInterface extends WorkPackageInlineCreateService {
 
-
   /**
    * Defines the relation type for the relations inline create
    */

@@ -67,7 +67,7 @@ describe('WorkPackage', () => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
-        OpenprojectHalModule
+        OpenprojectHalModule,
       ],
       providers: [
         HalResourceService,
@@ -87,7 +87,7 @@ describe('WorkPackage', () => {
         { provide: WorkPackageCreateService, useValue: {} },
         { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
-      ]
+      ],
     })
       .compileComponents()
       .then(() => {
@@ -142,9 +142,9 @@ describe('WorkPackage', () => {
         _links: {
           schema: { _type: 'Schema', href: 'schema' },
           attachments: { href: 'attachments' },
-          activities: { href: 'activities' }
+          activities: { href: 'activities' },
         },
-        isNew: true
+        isNew: true,
       };
       createWorkPackage();
     });
@@ -158,7 +158,7 @@ describe('WorkPackage', () => {
       file = {};
       attachment = {
         $isHal: true,
-        'delete': () => undefined
+        delete: () => undefined,
       };
 
       createWorkPackage();

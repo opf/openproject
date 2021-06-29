@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild } from "@angular/core";
+import {
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild,
+} from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { FormControl, FormGroup } from "@angular/forms";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
@@ -41,20 +43,24 @@ export const eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?a
 @Component({
   selector: 'enterprise-trial-modal',
   templateUrl: './enterprise-trial.modal.html',
-  styleUrls: ['./enterprise-trial.modal.sass']
+  styleUrls: ['./enterprise-trial.modal.sass'],
 })
 export class EnterpriseTrialModal extends OpModalComponent implements AfterViewInit {
   @ViewChild(EETrialFormComponent, { static: false }) formComponent:EETrialFormComponent;
+
   @Input() public opReferrer:string;
 
   public trialForm:FormGroup;
 
   // modal configuration
   public showClose = true;
+
   public closeOnEscape = false;
+
   public closeOnOutsideClick = false;
 
   public trustedEEVideoURL:SafeResourceUrl;
+
   public text = {
     button_submit: this.I18n.t('js.modals.button_submit'),
     button_cancel: this.I18n.t('js.modals.button_cancel'),
@@ -63,15 +69,15 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
     heading_confirmation: this.I18n.t('js.admin.enterprise.trial.confirmation'),
     heading_next_steps: this.I18n.t('js.admin.enterprise.trial.next_steps'),
     heading_test_ee: this.I18n.t('js.admin.enterprise.trial.test_ee'),
-    quick_overview: this.I18n.t('js.admin.enterprise.trial.quick_overview')
+    quick_overview: this.I18n.t('js.admin.enterprise.trial.quick_overview'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService,
-              readonly domSanitizer:DomSanitizer,
-              public eeTrialService:EnterpriseTrialService) {
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService,
+    readonly domSanitizer:DomSanitizer,
+    public eeTrialService:EnterpriseTrialService) {
     super(locals, cdRef, elementRef);
     this.trustedEEVideoURL = this.trustedURL(eeOnboardingVideoURL);
   }
@@ -96,11 +102,10 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   public headerText() {
     if (this.eeTrialService.mailSubmitted) {
       return this.text.heading_confirmation;
-    } else if (this.eeTrialService.trialStarted) {
+    } if (this.eeTrialService.trialStarted) {
       return this.text.heading_next_steps;
-    } else {
-      return this.text.heading_test_ee;
     }
+    return this.text.heading_test_ee;
   }
 
   public closeModal(event:any) {
@@ -119,11 +124,9 @@ export class EnterpriseTrialModal extends OpModalComponent implements AfterViewI
   public openWindow():number {
     if (!this.eeTrialService.status || this.eeTrialService.cancelled) {
       return 1;
-    } else if (this.eeTrialService.mailSubmitted && !this.eeTrialService.cancelled) {
+    } if (this.eeTrialService.mailSubmitted && !this.eeTrialService.cancelled) {
       return 2;
-    } else {
-      return 3;
     }
+    return 3;
   }
 }
-

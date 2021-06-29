@@ -25,7 +25,9 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+} from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
@@ -40,26 +42,35 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 })
 export class RevisionActivityComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public activity:any;
+
   @Input() public activityNo:number;
 
   public userId:string | number;
+
   public userName:string;
+
   public userActive:boolean;
+
   public userPath:string | null;
+
   public userLabel:string;
+
   public userAvatar:string;
 
   public project:ProjectResource;
+
   public revision:string;
+
   public message:string;
 
   public revisionLink:string;
 
   constructor(readonly I18n:I18nService,
-              readonly timezoneService:TimezoneService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly apiV3Service:APIV3Service) {
+    readonly timezoneService:TimezoneService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly apiV3Service:APIV3Service) {
   }
 
   ngOnInit() {
@@ -77,13 +88,13 @@ export class RevisionActivityComponent implements OnInit {
     link.title = this.revision;
     link.textContent = this.I18n.t(
       "js.label_committed_link",
-      { revision_identifier: formattedRevision }
+      { revision_identifier: formattedRevision },
     );
 
     this.revisionLink = this.I18n.t("js.label_committed_at",
       {
         committed_revision_link: link.outerHTML,
-        date: this.timezoneService.formattedDatetime(this.activity.createdAt)
+        date: this.timezoneService.formattedDatetime(this.activity.createdAt),
       });
   }
 

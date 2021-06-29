@@ -31,7 +31,7 @@ import { States } from 'core-app/core/states/states.service';
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import {
   HalResourceEditingService,
-  ResourceChangesetCommit
+  ResourceChangesetCommit,
 } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
@@ -45,11 +45,13 @@ export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
 
 export abstract class EditForm<T extends HalResource = HalResource> {
-
   // Injections
   @InjectField() states:States;
+
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() halNotification:HalResourceNotificationService;
+
   @InjectField() halEvents:HalEventsService;
 
   // All current active (open) edit fields
@@ -98,7 +100,6 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     return !_.isEmpty(this.activeFields);
   }
 
-
   /**
    * Return the current or a new change object for the given resource.
    * This will always return a valid (potentially empty) change.
@@ -136,9 +137,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
       return Promise.resolve();
     }
 
-    return this.requireVisible(fieldName).then(() => {
-      return this.activate(fieldName, true);
-    });
+    return this.requireVisible(fieldName).then(() => this.activate(fieldName, true));
   }
 
   /**
@@ -246,15 +245,13 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
   private setErrorsForFields(erroneousFields:string[]) {
     // Accumulate errors for the given response
-    const promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
-      return this.requireVisible(fieldName).then(() => {
-        if (this.activeFields[fieldName]) {
-          this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
-        }
+    const promises:Promise<any>[] = erroneousFields.map((fieldName:string) => this.requireVisible(fieldName).then(() => {
+      if (this.activeFields[fieldName]) {
+        this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
+      }
 
-        return this.activateWhenNeeded(fieldName) as any;
-      });
-    });
+      return this.activateWhenNeeded(fieldName) as any;
+    }));
 
     Promise.all(promises)
       .then(() => {

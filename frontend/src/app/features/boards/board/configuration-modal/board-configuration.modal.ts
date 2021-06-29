@@ -8,7 +8,7 @@ import {
   Injector,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
@@ -17,19 +17,17 @@ import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
-  TabPortalOutlet
+  TabPortalOutlet,
 } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardConfigurationService } from "core-app/features/boards/board/configuration-modal/board-configuration.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
 import { Board } from "core-app/features/boards/board/board";
 
-
 @Component({
   templateUrl: './board-configuration.modal.html'
 })
-export class BoardConfigurationModal extends OpModalComponent implements OnInit, OnDestroy  {
-
+export class BoardConfigurationModal extends OpModalComponent implements OnInit, OnDestroy {
   /* Close on escape? */
   public closeOnEscape = false;
 
@@ -46,18 +44,19 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
 
   // Get the view child we'll use as the portal host
   @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
-              readonly boardService:BoardService,
-              readonly boardConfigurationService:BoardConfigurationService,
-              readonly injector:Injector,
-              readonly appRef:ApplicationRef,
-              readonly componentFactoryResolver:ComponentFactoryResolver,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+    readonly I18n:I18nService,
+    readonly boardService:BoardService,
+    readonly boardConfigurationService:BoardConfigurationService,
+    readonly injector:Injector,
+    readonly appRef:ApplicationRef,
+    readonly componentFactoryResolver:ComponentFactoryResolver,
+    readonly cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef) {
     super(locals, cdRef, elementRef);
   }
 
@@ -69,7 +68,7 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
       this.tabContentOutlet.nativeElement,
       this.componentFactoryResolver,
       this.appRef,
-      this.injector
+      this.injector,
     );
 
     setTimeout(() => {
@@ -105,7 +104,6 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
       .subscribe(board => {
         this.service.close();
       });
-
   }
 
   /**

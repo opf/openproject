@@ -4,9 +4,11 @@ import {
   ComponentRef,
   Injectable,
   InjectionToken,
-  Injector
+  Injector,
 } from '@angular/core';
-import { ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector } from '@angular/cdk/portal';
+import {
+  ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector,
+} from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
@@ -20,6 +22,7 @@ export class OpModalService {
 
   // Hold a reference to the DOM node we're using as a host
   private portalHostElement:HTMLElement;
+
   // And a reference to the actual portal host interface on top of the element
   private bodyPortalHost:DomPortalOutlet;
 
@@ -27,11 +30,10 @@ export class OpModalService {
   private opening = false;
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
-              readonly FocusHelper:FocusHelperService,
-              private appRef:ApplicationRef,
-              private $transitions:TransitionService,
-              private injector:Injector) {
-
+    readonly FocusHelper:FocusHelperService,
+    private appRef:ApplicationRef,
+    private $transitions:TransitionService,
+    private injector:Injector) {
     const hostElement = this.portalHostElement = document.createElement('div');
     hostElement.classList.add('op-modal-overlay');
     document.body.appendChild(hostElement);
@@ -47,10 +49,10 @@ export class OpModalService {
 
     // Listen to any click when should close outside modal
     jQuery(window).on('click', (evt:JQuery.TriggeredEvent) => {
-      if (this.active &&
-        !this.opening &&
-        this.active.closeOnOutsideClick &&
-        this.activeModal[0] === evt.target as Element) {
+      if (this.active
+        && !this.opening
+        && this.active.closeOnOutsideClick
+        && this.activeModal[0] === evt.target as Element) {
         this.close();
       }
     });
@@ -59,7 +61,7 @@ export class OpModalService {
       hostElement,
       this.componentFactoryResolver,
       this.appRef,
-      this.injector
+      this.injector,
     );
   }
 

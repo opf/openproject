@@ -10,7 +10,7 @@ import {
   OnDestroy,
   OnInit,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { CustomTextEditFieldService } from "core-app/shared/components/grids/widgets/custom-text/custom-text-edit-field.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -24,22 +24,23 @@ import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstr
   templateUrl: './custom-text.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    CustomTextEditFieldService
-  ]
+    CustomTextEditFieldService,
+  ],
 })
 export class WidgetCustomTextComponent extends AbstractWidgetComponent implements OnInit, OnChanges, OnDestroy {
   protected currentRawText:string;
+
   public customText:SafeHtml;
 
   @ViewChild('displayContainer') readonly displayContainer:ElementRef;
 
   constructor(protected i18n:I18nService,
-              protected injector:Injector,
-              public handler:CustomTextEditFieldService,
-              protected cdr:ChangeDetectorRef,
-              protected sanitization:DomSanitizer,
-              protected appRef:ApplicationRef,
-              protected layout:GridAreaService) {
+    protected injector:Injector,
+    public handler:CustomTextEditFieldService,
+    protected cdr:ChangeDetectorRef,
+    protected sanitization:DomSanitizer,
+    protected appRef:ApplicationRef,
+    protected layout:GridAreaService) {
     super(i18n, injector);
   }
 
@@ -51,7 +52,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
       .valueChanged$
       .pipe(
         this.untilDestroyed(),
-        filter(value => value !== this.resource.options['text'])
+        filter(value => value !== this.resource.options['text']),
       ).subscribe(newText => {
         const changeset = this.setChangesetOptions({ text: { raw: newText } });
         this.resourceChanged.emit(changeset);

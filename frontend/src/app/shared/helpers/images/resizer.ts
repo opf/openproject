@@ -31,19 +31,17 @@ export namespace ImageHelpers {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d')!;
 
-    let width = image.width;
-    let height = image.height;
+    let { width } = image;
+    let { height } = image;
 
     if (width > height) {
       if (width > maxSize) {
         height *= maxSize / width;
         width = maxSize;
       }
-    } else {
-      if (height > maxSize) {
-        width *= maxSize / height;
-        height = maxSize;
-      }
+    } else if (height > maxSize) {
+      width *= maxSize / height;
+      height = maxSize;
     }
 
     canvas.width = width;
@@ -54,9 +52,9 @@ export namespace ImageHelpers {
   }
 
   function dataURItoBlob(dataURI:string) {
-    const bytes = dataURI.split(',')[0].indexOf('base64') >= 0 ?
-      atob(dataURI.split(',')[1]) :
-      unescape(dataURI.split(',')[1]);
+    const bytes = dataURI.split(',')[0].indexOf('base64') >= 0
+      ? atob(dataURI.split(',')[1])
+      : unescape(dataURI.split(',')[1]);
     const mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
     const max = bytes.length;
     const ia = new Uint8Array(max);

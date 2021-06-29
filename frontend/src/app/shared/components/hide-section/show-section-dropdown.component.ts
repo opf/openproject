@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HideSectionService } from "./hide-section.service";
-import { Component, ElementRef, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { HideSectionService } from './hide-section.service';
 
 export const showSectionDropdownSelector = 'show-section-dropdown';
 
@@ -36,11 +36,12 @@ export const showSectionDropdownSelector = 'show-section-dropdown';
   template: ''
 })
 export class ShowSectionDropdownComponent implements OnInit {
-  public optValue:string;           // value of option for which hide-section should be visible
-  public hideSecWithName:string;    // section-name of hide-section
+  public optValue:string; // value of option for which hide-section should be visible
+
+  public hideSecWithName:string; // section-name of hide-section
 
   constructor(private HideSectionService:HideSectionService,
-              private elementRef:ElementRef) {
+    private elementRef:ElementRef) {
   }
 
   ngOnInit() {
@@ -60,5 +61,3 @@ export class ShowSectionDropdownComponent implements OnInit {
     });
   }
 }
-
-

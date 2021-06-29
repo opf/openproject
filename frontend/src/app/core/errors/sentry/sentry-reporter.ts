@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Hub, Severity, Scope, Event as SentryEvent } from "@sentry/types";
+import {
+  Hub, Severity, Scope, Event as SentryEvent,
+} from "@sentry/types";
 import { environment } from "../../../../environments/environment";
 
 export type ScopeCallback = (scope:Scope) => void;
@@ -57,7 +59,6 @@ interface QueuedMessage {
 }
 
 export class SentryReporter implements ErrorReporter {
-
   private contextCallbacks:ScopeCallback[] = [];
 
   private messageStack:QueuedMessage[] = [];
@@ -67,7 +68,7 @@ export class SentryReporter implements ErrorReporter {
   private client:Hub;
 
   constructor() {
-    const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement|null;
+    const sentryElement = document.querySelector('meta[name=openproject_sentry]');
     if (sentryElement !== null) {
       this.loadSentry(sentryElement);
     } else {
@@ -84,7 +85,7 @@ export class SentryReporter implements ErrorReporter {
     import('./sentry-dependency').then((imported) => {
       const sentry = imported.Sentry;
       sentry.init({
-        dsn: dsn,
+        dsn,
         debug: !environment.production,
         release: 'op-frontend@' + version,
         environment: environment.production ? 'production' : 'development',

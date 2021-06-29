@@ -36,7 +36,6 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 @Injectable()
 export class CommentService {
-
   // Replacement for ng1 $scope.$emit on activty-entry to mark comments to be quoted.
   // Should be generalized if needed for more than that.
   public quoteEvents = new Subject<string>();
@@ -44,13 +43,14 @@ export class CommentService {
   constructor(
     readonly I18n:I18nService,
     private workPackageNotificationService:WorkPackageNotificationService,
-    private NotificationsService:NotificationsService) {
+    private NotificationsService:NotificationsService,
+  ) {
   }
 
   public createComment(workPackage:WorkPackageResource, comment:{ raw:string }) {
     return workPackage.addComment(
-      { comment: comment },
-      { 'Content-Type': 'application/json; charset=UTF-8' }
+      { comment },
+      { 'Content-Type': 'application/json; charset=UTF-8' },
     )
       .catch((error:any) => this.errorAndReject(error, workPackage));
   }
@@ -59,17 +59,17 @@ export class CommentService {
     const options = {
       ajax: {
         method: 'PATCH',
-        data: JSON.stringify({ comment: comment }),
+        data: JSON.stringify({ comment }),
         contentType: 'application/json; charset=utf-8'
-      }
+      },
     };
 
     return activity.update(
-      { comment: comment },
-      { 'Content-Type': 'application/json; charset=UTF-8' }
+      { comment },
+      { 'Content-Type': 'application/json; charset=UTF-8' },
     ).then((activity:HalResource) => {
       this.NotificationsService.addSuccess(
-        this.I18n.t('js.work_packages.comment_updated')
+        this.I18n.t('js.work_packages.comment_updated'),
       );
 
       return activity;

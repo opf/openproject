@@ -24,6 +24,6 @@ import { AttributeHelpTextModal } from "./attribute-help-text.modal";
   ],
   exports: [
     AttributeHelpTextComponent,
-  ]
+  ],
 })
 export class AttributeHelpTextModule {}

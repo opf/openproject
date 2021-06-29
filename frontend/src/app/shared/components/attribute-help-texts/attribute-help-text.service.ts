@@ -67,7 +67,7 @@ export class AttributeHelpTextsService {
       .helpTexts
       .values$()
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise()
       .then(() => {
@@ -77,14 +77,11 @@ export class AttributeHelpTextsService {
   }
 
   private load():void {
-    this.helpTexts.putFromPromiseIfPristine(() =>
-      this.apiV3Service
-        .help_texts
-        .get()
-        .toPromise()
-        .then((resources:CollectionResource<HelpTextResource>) => resources.elements)
-    );
-
+    this.helpTexts.putFromPromiseIfPristine(() => this.apiV3Service
+      .help_texts
+      .get()
+      .toPromise()
+      .then((resources:CollectionResource<HelpTextResource>) => resources.elements));
   }
 
   private find(attribute:string, scope:string):HelpTextResource|undefined {

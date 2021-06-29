@@ -10,10 +10,11 @@ import { WorkPackageViewContextMenu } from "core-app/shared/components/op-contex
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class CardRightClickHandler implements CardEventHandler {
-
   // Injections
   @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+
   @InjectField() wpCardView:WorkPackageCardViewService;
+
   @InjectField() opContextMenu:OPContextMenuService;
 
   constructor(public readonly injector:Injector,
@@ -38,7 +39,7 @@ export class CardRightClickHandler implements CardEventHandler {
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id)
     if (target.closest(`.${uiStateLinkClass}`).length) {
-      debugLog('Allowing original context menu on state link');
+      debugLog("Allowing original context menu on state link");
       return true;
     }
 
@@ -46,24 +47,22 @@ export class CardRightClickHandler implements CardEventHandler {
     evt.stopPropagation();
 
     // Locate the card from event
-    const element = target.closest('wp-single-card');
-    const wpId = element.data('workPackageId');
+    const element = target.closest("wp-single-card");
+    const wpId = element.data("workPackageId");
 
     if (!wpId) {
       return true;
-    } else {
-      const classIdentifier = element.data('classIdentifier');
-      const index = this.wpCardView.findRenderedCard(classIdentifier);
-
-      if (!this.wpTableSelection.isSelected(wpId)) {
-        this.wpTableSelection.setSelection(wpId, index);
-      }
-
-      const handler = new WorkPackageViewContextMenu(this.injector, wpId, jQuery(evt.target) as JQuery, {}, card.showInfoButton);
-      this.opContextMenu.show(handler, evt);
     }
+    const classIdentifier = element.data("classIdentifier");
+    const index = this.wpCardView.findRenderedCard(classIdentifier);
+
+    if (!this.wpTableSelection.isSelected(wpId)) {
+      this.wpTableSelection.setSelection(wpId, index);
+    }
+
+    const handler = new WorkPackageViewContextMenu(this.injector, wpId, jQuery(evt.target) as JQuery, {}, card.showInfoButton);
+    this.opContextMenu.show(handler, evt);
 
     return false;
   }
 }
-

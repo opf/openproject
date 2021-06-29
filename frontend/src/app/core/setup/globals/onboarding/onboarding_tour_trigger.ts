@@ -14,7 +14,6 @@ export function detectOnboardingTour() {
   // ------------------------------- Initial start -------------------------------
   // Do not show the tutorial on mobile or when the demo data has been deleted
   if (!isMobile && demoProjectsAvailable) {
-
     // Start after the intro modal (language selection)
     // This has to be changed once the project selection is implemented
     if (url.searchParams.get("first_time_user") && demoProjectsLinks().length === 2) {
@@ -22,13 +21,13 @@ export function detectOnboardingTour() {
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
       // Start automatically when the language selection is closed
-      jQuery('.op-modal--close-button').click(function () {
+      jQuery('.op-modal--close-button').click(() => {
         tourCancelled = true;
         triggerTour('homescreen');
       });
 
       //Start automatically when the escape button is pressed
-      document.addEventListener('keydown', function (event) {
+      document.addEventListener('keydown', (event) => {
         if (event.key === "Escape" && !tourCancelled) {
           tourCancelled = true;
           triggerTour('homescreen');
@@ -65,4 +64,3 @@ async function triggerTour(name:OnboardingTourNames) {
   const tour = await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour');
   tour.start(name);
 }
-

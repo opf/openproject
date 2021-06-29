@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component, ElementRef, OnInit, OnDestroy,
+} from '@angular/core';
 
 @Component({
   selector: 'col[highlight-col]',
@@ -35,6 +37,7 @@ import { Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
 
 export class HighlightColDirective implements OnInit, OnDestroy {
   private $element:JQuery;
+
   private thead:JQuery;
 
   constructor(private elementRef:ElementRef) {
@@ -68,5 +71,5 @@ export class HighlightColDirective implements OnInit, OnDestroy {
 
 export const highlightColBootstrap = {
   selector: 'col[highlight-col]',
-  cls: HighlightColDirective
+  cls: HighlightColDirective,
 };

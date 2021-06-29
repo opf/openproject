@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy, Component, OnDestroy, OnInit,
+} from "@angular/core";
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { OpTitleService } from "core-app/core/html/op-title.service";
 import { WorkPackagesViewBase } from "core-app/features/work-packages/routing/wp-view-base/work-packages-view.base";
@@ -63,18 +65,21 @@ export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
-    QueryParamListenerService
-  ]
+    QueryParamListenerService,
+  ],
 })
 export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase implements OnInit, OnDestroy {
   @InjectField() I18n!:I18nService;
+
   @InjectField() titleService:OpTitleService;
+
   @InjectField() queryParamListener:QueryParamListenerService;
+
   @InjectField() opModalService:OpModalService;
 
   text:{ [key:string]:string } = {
-    'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
-    'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
+    jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
+    text_jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.label_pagination'),
   };
 
   /** Whether the title can be edited */
@@ -82,6 +87,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   /** Current query title to render */
   selectedTitle?:string;
+
   currentQuery:QueryResource|undefined;
 
   /** Whether we're saving the query */
@@ -92,6 +98,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   /** Listener callbacks */
   unRegisterTitleListener:Function;
+
   removeTransitionSubscription:Function;
 
   /** Determine when query is initially loaded */
@@ -111,7 +118,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   /** Which filter container component to mount */
   filterContainerDefinition:DynamicComponentDefinition = {
-    component: WorkPackageFilterContainerComponent
+    component: WorkPackageFilterContainerComponent,
   };
 
   ngOnInit() {
@@ -138,7 +145,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.queryParamListener
       .observe$
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       ).subscribe(() => {
       /** Ensure we reload the query from the changed props */
         this.currentQuery = undefined;
@@ -151,7 +158,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     });
 
     this.querySpace.query.values$().pipe(
-      this.untilDestroyed()
+      this.untilDestroyed(),
     ).subscribe((query) => {
       this.onQueryUpdated(query);
     });
@@ -214,12 +221,10 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   }
 
   updateTitle(query?:QueryResource) {
-
     // Too early for loaded query
     if (!query) {
       return;
     }
-
 
     if (query.persisted) {
       this.selectedTitle = query.name;
@@ -231,7 +236,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
     // Update the title if we're in the list state alone
     if (this.shouldUpdateHtmlTitle()) {
-      this.titleService.setFirstPart(this.selectedTitle!);
+      this.titleService.setFirstPart(this.selectedTitle);
     }
   }
 
@@ -272,9 +277,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   protected loadFirstPage():Promise<QueryResource> {
     if (this.currentQuery) {
       return this.wpListService.reloadQuery(this.currentQuery, this.projectIdentifier).toPromise();
-    } else {
-      return this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
     }
+    return this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }
 
   protected additionalLoadingTime():Promise<unknown> {

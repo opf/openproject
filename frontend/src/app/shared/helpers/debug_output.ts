@@ -25,12 +25,11 @@ export function timeOutput(msg:string, cb:() => void):any {
     var results = cb();
 
     var t1 = performance.now();
-    console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, 'color:#00A093;');
+    console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, "color:#00A093;");
 
     return results;
-  } else {
-    return cb();
   }
+  return cb();
 }
 
 export function asyncTimeOutput(msg:string, promise:Promise<any>):any {
@@ -39,9 +38,8 @@ export function asyncTimeOutput(msg:string, promise:Promise<any>):any {
 
     return promise.then(() => {
       var t1 = performance.now();
-      console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, 'color:#00A093;');
+      console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, "color:#00A093;");
     });
-  } else {
-    return promise;
   }
+  return promise;
 }

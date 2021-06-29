@@ -46,7 +46,7 @@ export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
   templateUrl: './te-work-package-autocompleter.component.html',
   styleUrls: ['./te-work-package-autocompleter.component.sass'],
   selector: 'te-work-package-autocompleter',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutocompleterComponent implements AfterViewInit {
   @Output() modeSwitch = new EventEmitter<TimeEntryWorkPackageAutocompleterMode>();
@@ -61,6 +61,7 @@ export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutoc
   }
 
   public loading = false;
+
   public mode:TimeEntryWorkPackageAutocompleterMode = 'all';
 
   public setMode(value:TimeEntryWorkPackageAutocompleterMode) {

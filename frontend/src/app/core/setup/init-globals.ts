@@ -34,4 +34,3 @@ import './globals/dynamic-bootstrapper';
 import './globals/global-listeners';
 import './globals/openproject';
 import './globals/tree-menu';
-

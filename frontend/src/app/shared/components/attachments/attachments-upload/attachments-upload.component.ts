@@ -28,7 +28,9 @@
 
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Component, ElementRef, Input, ViewChild , OnInit } from '@angular/core';
+import {
+  Component, ElementRef, Input, ViewChild, OnInit,
+} from '@angular/core';
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
@@ -44,29 +46,30 @@ export class AttachmentsUploadComponent implements OnInit {
   @ViewChild('hiddenFileInput') public filePicker:ElementRef;
 
   public draggingOver = false;
+
   public text:any;
+
   public maxFileSize:number;
+
   public $element:JQuery;
 
   constructor(readonly I18n:I18nService,
-              readonly ConfigurationService:ConfigurationService,
-              readonly notificationsService:NotificationsService,
-              protected elementRef:ElementRef,
-              protected halResourceService:HalResourceService) {
+    readonly ConfigurationService:ConfigurationService,
+    readonly notificationsService:NotificationsService,
+    protected elementRef:ElementRef,
+    protected halResourceService:HalResourceService) {
     this.text = {
       uploadLabel: I18n.t('js.label_add_attachments'),
       dropFiles: I18n.t('js.label_drop_files'),
       dropFilesHint: I18n.t('js.label_drop_files_hint'),
-      foldersWarning: I18n.t('js.label_drop_folders_hint')
+      foldersWarning: I18n.t('js.label_drop_folders_hint'),
     };
   }
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    this.ConfigurationService.initialized.then(() =>
-      this.maxFileSize = this.ConfigurationService.maximumAttachmentFileSize
-    );
+    this.ConfigurationService.initialized.then(() => this.maxFileSize = this.ConfigurationService.maximumAttachmentFileSize);
   }
 
   public triggerFileInput(event:MouseEvent) {
@@ -94,7 +97,7 @@ export class AttachmentsUploadComponent implements OnInit {
     this.draggingOver = false;
   }
 
-  public onDragOver(event:DragEvent)  {
+  public onDragOver(event:DragEvent) {
     if (this.containsFiles(event.dataTransfer)) {
       event.dataTransfer!.dropEffect = 'copy';
       this.draggingOver = true;
@@ -104,7 +107,7 @@ export class AttachmentsUploadComponent implements OnInit {
     event.stopPropagation();
   }
 
-  public onDragLeave(event:DragEvent)  {
+  public onDragLeave(event:DragEvent) {
     this.draggingOver = false;
     event.preventDefault();
     event.stopPropagation();
@@ -117,10 +120,9 @@ export class AttachmentsUploadComponent implements OnInit {
 
   private containsFiles(dataTransfer:any) {
     if (dataTransfer.types.contains) {
-      return dataTransfer.types.contains('Files');
-    } else {
-      return (dataTransfer as DataTransfer).types.indexOf('Files') >= 0;
+      return dataTransfer.types.contains("Files");
     }
+    return (dataTransfer as DataTransfer).types.indexOf("Files") >= 0;
   }
 
   protected uploadFiles(files:UploadFile[]):void {
@@ -129,7 +131,6 @@ export class AttachmentsUploadComponent implements OnInit {
     files = this.filterFolders(files);
 
     if (files.length === 0) {
-
       // If we filtered all files as directories, show a notice
       if (countBefore > 0) {
         this.notificationsService.addNotice(this.text.foldersWarning);
@@ -148,7 +149,6 @@ export class AttachmentsUploadComponent implements OnInit {
    */
   protected filterFolders(files:UploadFile[]) {
     return files.filter((file) => {
-
       // Folders never have a mime type
       if (file.type !== '') {
         return true;

@@ -31,7 +31,6 @@ export const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side
 const jQueryScrollSyncEventNamespace = ".scroll-sync";
 const scrollStep = 15;
 
-
 function getXandYScrollDeltas(ev:WheelEvent):[number, number] {
   let x = ev.deltaX;
   let y = ev.deltaY;
@@ -72,11 +71,11 @@ function syncWheelEvent(jev:JQuery.TriggeredEvent, elementTable:JQuery, elementT
   deltaX = getPlattformAgnosticScrollAmount(deltaX); // apply only in target div
   deltaY = getPlattformAgnosticScrollAmount(deltaY); // apply in both divs
 
-  window.requestAnimationFrame(function () {
+  window.requestAnimationFrame(() => {
     elementTable[0].scrollTop = elementTable[0].scrollTop + deltaY;
     elementTimeline[0].scrollTop = elementTable[0].scrollTop + deltaY;
 
-    scrollTarget.scrollLeft = scrollTarget.scrollLeft + deltaX;
+    scrollTarget.scrollLeft += deltaX;
   });
 }
 
@@ -86,12 +85,10 @@ function syncWheelEvent(jev:JQuery.TriggeredEvent, elementTable:JQuery, elementT
  * @param $element true if the timeline is visible, false otherwise.
  */
 export function createScrollSync($element:JQuery) {
-
   var elTable = jQuery($element).find(selectorTableSide);
   var elTimeline = jQuery($element).find(selectorTimelineSide);
 
   return (timelineVisible:boolean) => {
-
     // state vars
     var syncedLeft = false;
     var syncedRight = false;
@@ -130,5 +127,4 @@ export function createScrollSync($element:JQuery) {
       elTable.off(jQueryScrollSyncEventNamespace);
     }
   };
-
 }

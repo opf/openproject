@@ -19,10 +19,10 @@ export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
           target.val(),
           {
             weekNumbers: true,
-            allowInput: true
+            allowInput: true,
           },
           target[0],
-          context.services.configurationService
+          context.services.configurationService,
         );
         datePicker.show();
       });

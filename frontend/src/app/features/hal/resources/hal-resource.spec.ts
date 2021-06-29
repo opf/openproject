@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { States } from 'core-app/core/states/states.service';
-import { of } from 'rxjs';
+import { Injector } from "@angular/core";
+import { TestBed, waitForAsync } from "@angular/core/testing";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { States } from "core-app/core/states/states.service";
+import { of } from "rxjs";
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
+import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import Spy = jasmine.Spy;
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
-import { HalLink, HalLinkInterface } from "core-app/features/hal/hal-link/hal-link";
 
 describe('HalResource', () => {
   let halResourceService:HalResourceService;
@@ -51,13 +51,13 @@ describe('HalResource', () => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
-        OpenprojectHalModule
+        OpenprojectHalModule,
       ],
       providers: [
         HalResourceService,
         States,
         I18nService,
-      ]
+      ],
     })
       .compileComponents()
       .then(() => {
@@ -79,16 +79,15 @@ describe('HalResource', () => {
         _links: {
           self: {
             href: '/api/hello'
-          }
-        }
+          },
+        },
       };
 
       getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
-        if (verb === 'get' && path === '/api/hello') {
+        if (verb === "get" && path === "/api/hello") {
           return of(halResourceService.createHalResource(source)) as any;
-        } else {
-          return false as any;
         }
+        return false as any;
       });
     });
 
@@ -118,13 +117,13 @@ describe('HalResource', () => {
           _links: {
             someResource: {
               href: 'foo'
-            }
-          }
+            },
+          },
         };
 
         halResourceService.registerResource(
           'Other',
-          { cls: OtherResource, attrTypes: { someResource: 'Other' } }
+          { cls: OtherResource, attrTypes: { someResource: 'Other' } },
         );
         resource = halResourceService.createHalResource(source, false);
       });
@@ -156,14 +155,14 @@ describe('HalResource', () => {
           get link() {
             linkFn();
             return {};
-          }
+          },
         },
         _embedded: {
           get resource() {
             embeddedFn();
             return {};
-          }
-        }
+          },
+        },
       });
     });
 
@@ -196,7 +195,7 @@ describe('HalResource', () => {
         property: 'foo',
         obj: {
           foo: 'bar'
-        }
+        },
       };
       resource = halResourceService.createHalResource(source, true);
     });
@@ -241,8 +240,8 @@ describe('HalResource', () => {
           self: {
             href: '/api/hello',
             title: 'some title'
-          }
-        }
+          },
+        },
       };
       resource = halResourceService.createHalResource(source, false);
     });
@@ -276,8 +275,8 @@ describe('HalResource', () => {
           resource: {
             method: 'get',
             href: 'resource/1'
-          }
-        }
+          },
+        },
       };
       resource = halResourceService.createHalResource(source);
       resource.resource = null;
@@ -297,9 +296,9 @@ describe('HalResource', () => {
       source = {
         _links: {
           property: {
-            href: null
-          }
-        }
+            href: null,
+          },
+        },
       };
       resource = halResourceService.createHalResource(source);
     });
@@ -352,8 +351,8 @@ describe('HalResource', () => {
           },
           beaver: {
             href: 'justin/420'
-          }
-        }
+          },
+        },
       };
       resource = halResourceService.createHalResource(source);
     });
@@ -376,11 +375,10 @@ describe('HalResource', () => {
 
     it('should have a callable self link', () => {
       spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
-        if (verb === 'get' && path === 'unicorn/69') {
+        if (verb === "get" && path === "unicorn/69") {
           return of(halResourceService.createHalResource({})) as any;
-        } else {
-          return null as any;
         }
+        return null as any;
       });
 
       expect(() => resource.$links.self()).not.toThrow(Error);
@@ -388,11 +386,10 @@ describe('HalResource', () => {
 
     it('should have a callable beaver', () => {
       spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
-        if (verb === 'get' && path === 'justin/420') {
+        if (verb === "get" && path === "justin/420") {
           return of(halResourceService.createHalResource({})) as any;
-        } else {
-          return null as any;
         }
+        return null as any;
       });
 
       expect(() => resource.$links.beaver()).not.toThrow(Error);
@@ -413,7 +410,7 @@ describe('HalResource', () => {
       source = {
         _embedded: {
           resource: { _links: {} },
-        }
+        },
       };
 
       resource = halResourceService.createHalResource(source);
@@ -462,10 +459,10 @@ describe('HalResource', () => {
               second: {
                 _links: {},
                 property: 'yet another value'
-              }
+              },
             },
             property: 'another value'
-          }
+          },
         };
 
         first = resource.$embedded.resource.$embedded.first;
@@ -509,9 +506,9 @@ describe('HalResource', () => {
             {
               href: '/api/value/2',
               title: 'val2'
-            }
-          ]
-        }
+            },
+          ],
+        },
       };
       resource = halResourceService.createHalResource(source);
     });
@@ -567,8 +564,8 @@ describe('HalResource', () => {
     beforeEach(() => {
       source = {
         _embedded: {
-          elements: [{ _links: {} }, { _links: {} }]
-        }
+          elements: [{ _links: {} }, { _links: {} }],
+        },
       };
 
       resource = halResourceService.createHalResource(source);
@@ -601,14 +598,14 @@ describe('HalResource', () => {
           },
           self: {
             href: '/api/self'
-          }
+          },
         },
         _embedded: {
           embedded: {
             _links: {
               self: {
                 href: '/api/embedded'
-              }
+              },
             },
             name: 'name'
           },
@@ -616,10 +613,10 @@ describe('HalResource', () => {
             _links: {
               self: {
                 href: '/api/not-linked'
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       };
 
       resource = halResourceService.createHalResource(source);
@@ -672,7 +669,7 @@ describe('HalResource', () => {
           $link: {
             method: 'get',
             href: 'newHref'
-          }
+          },
         };
 
         resource.embedded = embeddedResource;
@@ -724,11 +721,10 @@ describe('HalResource', () => {
             });
 
             getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
-              if (verb === 'get' && path === '/api/property') {
+              if (verb === "get" && path === "/api/property") {
                 return of(result) as any;
-              } else {
-                return false as any;
               }
+              return false as any;
             });
 
             resource = resource.property;

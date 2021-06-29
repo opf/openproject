@@ -32,7 +32,6 @@ import { InputState } from 'reactivestates';
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 
 export class SchemaResource extends HalResource {
-
   public get state():InputState<this> {
     return this.states.schemas.get(this.href as string) as any;
   }
@@ -59,9 +58,14 @@ export class SchemaResource extends HalResource {
 
 export class SchemaAttributeObject<T = HalResource> {
   public type:string;
+
   public name:string;
+
   public required:boolean;
+
   public hasDefault:boolean;
+
   public writable:boolean;
+
   public allowedValues:T[] | CollectionResource<T>;
 }

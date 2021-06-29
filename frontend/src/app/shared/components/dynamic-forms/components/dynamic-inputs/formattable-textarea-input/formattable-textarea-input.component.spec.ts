@@ -1,4 +1,6 @@
-import { discardPeriodicTasks, fakeAsync, flush, tick } from '@angular/core/testing';
+import {
+  discardPeriodicTasks, fakeAsync, flush, tick,
+} from '@angular/core/testing';
 import {
   createDynamicInputFixture,
 } from "core-app/shared/components/dynamic-forms/spec/helpers";
@@ -10,19 +12,19 @@ describe('FormattableTextareaInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
-        "type": "formattableInput" as "formattableInput",
-        "key": "testControl",
-        "templateOptions": {
-          "required": true,
-          "label": "testControl",
-          "type": "text",
-          "placeholder": "",
-          "disabled": false,
-          "bindLabel": 'name',
-          "bindValue": 'value',
-          "noWrapLabel": true
+        type: "formattableInput" as const,
+        key: "testControl",
+        templateOptions: {
+          required: true,
+          label: "testControl",
+          type: "text",
+          placeholder: "",
+          disabled: false,
+          bindLabel: 'name',
+          bindValue: 'value',
+          noWrapLabel: true,
         },
-      }
+      },
     ];
     const formModel = {
       testControl: {
@@ -55,4 +57,3 @@ describe('FormattableTextareaInputComponent', () => {
     discardPeriodicTasks();
   }));
 });
-

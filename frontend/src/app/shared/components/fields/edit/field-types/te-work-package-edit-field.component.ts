@@ -33,7 +33,7 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import {
   TimeEntryWorkPackageAutocompleterComponent,
-  TimeEntryWorkPackageAutocompleterMode
+  TimeEntryWorkPackageAutocompleterMode,
 } from "core-app/shared/components/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
@@ -87,7 +87,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
       return this
         .apiV3Service
         .time_entries
-        .list({ filters: [['user_id', '=', ['me']]], sortBy: [["updated_at", "desc"]], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
+        .list({ filters: [["user_id", "=", ["me"]]], sortBy: [['updated_at', 'desc']], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
         .toPromise()
         .then(collection => {
           this.recentWorkPackageIds = collection
@@ -97,9 +97,8 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
 
           return this.fetchAllowedValueQuery(query);
         });
-    } else {
-      return this.fetchAllowedValueQuery(query);
     }
+    return this.fetchAllowedValueQuery(query);
   }
 
   protected allowedValuesFilter(query?:string):{} {
@@ -117,17 +116,14 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   }
 
   protected sortValues(availableValues:HalResource[]) {
-    if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent') {
+    if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === "recent") {
       return this.sortValuesByRecentIds(availableValues);
-    } else {
-      return super.sortValues(availableValues);
     }
+    return super.sortValues(availableValues);
   }
 
   protected sortValuesByRecentIds(availableValues:HalResource[]) {
     return availableValues
-      .sort((a, b) => {
-        return this.recentWorkPackageIds.indexOf(a.id!) - this.recentWorkPackageIds.indexOf(b.id!);
-      });
+      .sort((a, b) => this.recentWorkPackageIds.indexOf(a.id!) - this.recentWorkPackageIds.indexOf(b.id!));
   }
 }

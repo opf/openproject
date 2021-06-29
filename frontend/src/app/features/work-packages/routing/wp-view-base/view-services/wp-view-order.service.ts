@@ -28,31 +28,29 @@
 
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { Injectable } from '@angular/core';
-import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { States } from "core-app/core/states/states.service";
-import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { MAX_ORDER, ReorderDeltaBuilder } from "core-app/shared/helpers/drag-and-drop/reorder-delta-builder";
-import { take } from "rxjs/operators";
-import { InputState } from "reactivestates";
-import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
-
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { States } from 'core-app/core/states/states.service';
+import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { MAX_ORDER, ReorderDeltaBuilder } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
+import { take } from 'rxjs/operators';
+import { InputState } from 'reactivestates';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
-
   constructor(protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly apiV3Service:APIV3Service,
-              protected readonly states:States,
-              protected readonly causedUpdates:CausedUpdatesService,
-              protected readonly wpTableSortBy:WorkPackageViewSortByService,
-              protected readonly pathHelper:PathHelperService) {
+    protected readonly apiV3Service:APIV3Service,
+    protected readonly states:States,
+    protected readonly causedUpdates:CausedUpdatesService,
+    protected readonly wpTableSortBy:WorkPackageViewSortByService,
+    protected readonly pathHelper:PathHelperService) {
     super(querySpace);
   }
 
@@ -61,7 +59,6 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     if (!query.persisted && this.positions.hasValue()) {
       this.applyToQuery(query);
     }
-
 
     if (this.wpTableSortBy.isManualSortingMode) {
       return this.withLoadedPositions();
@@ -168,7 +165,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    */
   public withLoadedPositions():Promise<QueryOrder> {
     if (this.currentQuery.persisted) {
-      const value = this.positions.value;
+      const { value } = this.positions;
 
       // Remove empty or stale values given we can reload them
       if ((value === {} || this.positions.isValueOlderThan(60000))) {
@@ -181,7 +178,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
           .apiV3Service
           .queries.id(this.currentQuery)
           .order
-          .get()
+          .get(),
       );
     } else if (this.positions.isPristine()) {
       // Insert an empty fallback in case we have no data yet
@@ -210,13 +207,12 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
     if (this.currentQuery.persisted || this.positions.isPristine()) {
       return upstreamOrder;
-    } else {
-      const positions = this.positions.value!;
-      return _.sortBy(upstreamOrder, (wp) => {
-        const pos = positions[wp.id!];
-        return pos !== undefined ? pos : MAX_ORDER;
-      });
     }
+    const positions = this.positions.value!;
+    return _.sortBy(upstreamOrder, (wp) => {
+      const pos = positions[wp.id!];
+      return pos !== undefined ? pos : MAX_ORDER;
+    });
   }
 
   applyToQuery(query:QueryResource):boolean {

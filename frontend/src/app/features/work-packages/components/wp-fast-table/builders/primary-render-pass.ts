@@ -2,15 +2,15 @@ import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageTable } from '../wp-fast-table';
-import { RelationRenderInfo, RelationsRenderPass } from './relations/relations-render-pass';
-import { SingleRowBuilder } from './rows/single-row-builder';
-import { TimelineRenderPass } from './timeline/timeline-render-pass';
 import { HighlightingRenderPass } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
 import { DragDropHandleRenderPass } from "core-app/features/work-packages/components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { States } from "core-app/core/states/states.service";
 import { timeOutput } from "core-app/shared/helpers/debug_output";
+import { TimelineRenderPass } from './timeline/timeline-render-pass';
+import { SingleRowBuilder } from "./rows/single-row-builder";
+import { RelationRenderInfo, RelationsRenderPass } from './relations/relations-render-pass';
+import { WorkPackageTable } from "../wp-fast-table";
 
 export type RenderedRowType = 'primary'|'relations';
 
@@ -35,9 +35,10 @@ export interface RowRenderInfo {
 }
 
 export abstract class PrimaryRenderPass {
-
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() states:States;
+
   @InjectField() I18n!:I18nService;
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
@@ -59,8 +60,8 @@ export abstract class PrimaryRenderPass {
   public highlighting:HighlightingRenderPass;
 
   constructor(public readonly injector:Injector,
-              public workPackageTable:WorkPackageTable,
-              public rowBuilder:SingleRowBuilder) {
+    public workPackageTable:WorkPackageTable,
+    public rowBuilder:SingleRowBuilder) {
   }
 
   /**
@@ -69,9 +70,7 @@ export abstract class PrimaryRenderPass {
    * @return {PrimaryRenderPass}
    */
   public render():this {
-
     timeOutput('Primary render pass', () => {
-
       // Prepare and reset the render pass
       this.prepare();
 
@@ -124,13 +123,11 @@ export abstract class PrimaryRenderPass {
   }
 
   public get result():RenderedWorkPackage[] {
-    return this.renderedOrder.map((row) => {
-      return {
-        classIdentifier: row.classIdentifier,
-        workPackageId: row.workPackage ? row.workPackage.id : null,
-        hidden: row.hidden
-      };
-    });
+    return this.renderedOrder.map((row) => ({
+      classIdentifier: row.classIdentifier,
+      workPackageId: row.workPackage ? row.workPackage.id : null,
+      hidden: row.hidden,
+    }));
   }
 
   /**
@@ -187,16 +184,15 @@ export abstract class PrimaryRenderPass {
     row:HTMLTableRowElement,
     additionalClasses:string[] = [],
     hidden = false) {
-
     this.tableBody.appendChild(row);
 
     this.renderedOrder.push({
       classIdentifier: this.rowBuilder.classIdentifier(workPackage),
-      additionalClasses: additionalClasses,
-      workPackage: workPackage,
+      additionalClasses,
+      workPackage,
       renderType: 'primary',
       element: row,
-      hidden: hidden
+      hidden,
     });
   }
 
@@ -216,10 +212,10 @@ export abstract class PrimaryRenderPass {
     this.renderedOrder.push({
       element: row,
       classIdentifier: classIdentifer,
-      additionalClasses: additionalClasses,
+      additionalClasses,
       workPackage: null,
       renderType: 'primary',
-      hidden: hidden
+      hidden,
     });
   }
 }

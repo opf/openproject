@@ -43,9 +43,10 @@ import { HalResourceNotificationService } from "core-app/features/hal/services/h
   providers: [
     { provide: ErrorHandler, useClass: HalAwareErrorHandler },
     { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
-    { provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true },
+    {
+      provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true,
+    },
     HalResourceNotificationService,
-  ]
+  ],
 })
 export class OpenprojectHalModule { }
-

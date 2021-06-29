@@ -8,7 +8,6 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 
 @Injectable()
 export class OpTableActionsService {
-
   constructor(private readonly injector:Injector) {
   }
 

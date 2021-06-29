@@ -41,14 +41,17 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
            (click)="handleClick()"
            class="op-input"
            type="text" />
-  `
+  `,
 })
 export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit, OnDestroy {
   @InjectField() readonly timezoneService:TimezoneService;
+
   @InjectField() opModalService:OpModalService;
 
   dates = '';
+
   text_no_start_date = this.I18n.t('js.label_no_start_date');
+
   text_no_due_date = this.I18n.t('js.label_no_due_date');
 
   private modal:OpModalComponent;
@@ -59,7 +62,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
     this.handler
       .$onUserActivate
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.showDatePickerModal();

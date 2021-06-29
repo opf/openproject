@@ -26,8 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component, ElementRef, OnInit, ViewChild,
+} from "@angular/core";
 
 export const collapsibleSectionAugmentSelector = 'collapsible-section-augment';
 
@@ -37,6 +38,7 @@ export const collapsibleSectionAugmentSelector = 'collapsible-section-augment';
 })
 export class CollapsibleSectionComponent implements OnInit {
   public expanded = false;
+
   public sectionTitle:string;
 
   @ViewChild('sectionBody', { static: true }) public sectionBody:ElementRef;

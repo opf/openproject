@@ -38,7 +38,7 @@ export function refreshOnFormChanges() {
     form
       .find(inputId)
       .on('change', () => {
-        window.location.href = url + '?' + form.serialize();
+        window.location.href = `${url}?${form.serialize()}`;
       });
   }
 }

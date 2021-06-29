@@ -13,5 +13,5 @@ export function projectStatusI18n(code:string|null|undefined, I18n:I18nService):
 }
 
 function ensureDefaultCode(code:string|null|undefined):string {
-  return code ? code : 'not-set';
+  return code || "not-set";
 }

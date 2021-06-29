@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, OnInit,
+} from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
@@ -58,17 +60,20 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
 
 export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnInit {
   public toggleTitle:string;
+
   private resizeEvent:string;
+
   private localStorageKey:string;
 
   private elementWidth:number;
+
   private mainMenu = jQuery('#main-menu')[0];
 
   public moving = false;
 
   constructor(readonly toggleService:MainMenuToggleService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef) {
     super();
   }
 

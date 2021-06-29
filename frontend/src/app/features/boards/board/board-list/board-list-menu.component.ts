@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import {
+  Component, Output, EventEmitter, Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpModalService } from "core-app/shared/components/modal/modal.service";
@@ -43,14 +45,15 @@ import { BoardActionService } from "core-app/features/boards/board/board-actions
 })
 export class BoardListMenuComponent {
   @Input() board:Board;
+
   @Output() onRemove = new EventEmitter<void>();
 
   constructor(readonly opModalService:OpModalService,
-              readonly authorisationService:AuthorisationService,
-              private readonly querySpace:IsolatedQuerySpace,
-              private readonly boardService:BoardService,
-              private readonly boardActionRegistry:BoardActionsRegistryService,
-              readonly I18n:I18nService) {
+    readonly authorisationService:AuthorisationService,
+    private readonly querySpace:IsolatedQuerySpace,
+    private readonly boardService:BoardService,
+    private readonly boardActionRegistry:BoardActionsRegistryService,
+    readonly I18n:I18nService) {
   }
 
   public get menuItems() {
@@ -62,8 +65,8 @@ export class BoardListMenuComponent {
           onClick: () => {
             this.onRemove.emit();
             return true;
-          }
-        }
+          },
+        },
       ];
 
       // Add action specific menu entries

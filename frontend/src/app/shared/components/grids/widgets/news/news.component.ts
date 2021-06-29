@@ -1,5 +1,7 @@
 import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { ChangeDetectionStrategy, Component, Injector, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Injector, OnInit, ChangeDetectorRef,
+} from '@angular/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { NewsResource } from "core-app/features/hal/resources/news-resource";
@@ -17,10 +19,11 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     at: this.i18n.t('js.grid.widgets.news.at'),
     noResults: this.i18n.t('js.grid.widgets.news.no_results'),
     addedBy: (news:NewsResource) => this.i18n.t('js.label_added_time_by',
-      { author: this.newsAuthorName(news), age: this.newsCreated(news), authorLink: this.newsAuthorPath(news) })
+      { author: this.newsAuthorName(news), age: this.newsCreated(news), authorLink: this.newsAuthorPath(news) }),
   };
 
   public entries:NewsResource[] = [];
+
   private entriesLoaded = false;
 
   constructor(
@@ -31,7 +34,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
     readonly timezone:TimezoneService,
     readonly currentProject:CurrentProjectService,
     readonly apiV3Service:APIV3Service,
-    readonly cdr:ChangeDetectorRef
+    readonly cdr:ChangeDetectorRef,
   ) {
     super(i18n, injector);
   }
@@ -45,7 +48,6 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public setupNews(news:any[]) {
-
     this.entries = news;
     this.entriesLoaded = true;
     this.cdr.detectChanges();
@@ -56,7 +58,6 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public newsPath(news:NewsResource) {
-
     return this.pathHelper.newsPath(news.id!);
   }
 
@@ -74,7 +75,6 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
 
   public newsAuthorPath(news:NewsResource) {
     return this.pathHelper.userPath(news.author?.id);
-
   }
 
   public newsCreated(news:NewsResource) {
@@ -88,7 +88,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   private get newsDmParams() {
     const params:Apiv3ListParameters = {
       sortBy: [['created_at', 'desc']],
-      pageSize: 3
+      pageSize: 3,
     };
 
     if (this.currentProject.id) {

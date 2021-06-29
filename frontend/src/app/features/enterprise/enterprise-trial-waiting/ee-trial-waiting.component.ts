@@ -37,16 +37,17 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
 @Component({
   selector: 'enterprise-trial-waiting',
   templateUrl: './ee-trial-waiting.component.html',
-  styleUrls: ['./ee-trial-waiting.component.sass']
+  styleUrls: ['./ee-trial-waiting.component.sass'],
 })
 export class EETrialWaitingComponent implements OnInit {
   created = this.timezoneService.formattedDate(new Date().toString());
+
   email = '';
 
   public text = {
-    confirmation_info: (date:string, email:string) => this.I18n.t('js.admin.enterprise.trial.confirmation_info',{
-      date: date,
-      email: email
+    confirmation_info: (date:string, email:string) => this.I18n.t('js.admin.enterprise.trial.confirmation_info', {
+      date,
+      email,
     }),
     resend: this.I18n.t('js.admin.enterprise.trial.resend_link'),
     resend_success: this.I18n.t('js.admin.enterprise.trial.resend_success'),
@@ -54,15 +55,15 @@ export class EETrialWaitingComponent implements OnInit {
     session_timeout: this.I18n.t('js.admin.enterprise.trial.session_timeout'),
     status_confirmed: this.I18n.t('js.admin.enterprise.trial.status_confirmed'),
     status_label: this.I18n.t('js.admin.enterprise.trial.status_label'),
-    status_waiting: this.I18n.t('js.admin.enterprise.trial.status_waiting')
+    status_waiting: this.I18n.t('js.admin.enterprise.trial.status_waiting'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly I18n:I18nService,
-              protected http:HttpClient,
-              protected notificationsService:NotificationsService,
-              public eeTrialService:EnterpriseTrialService,
-              readonly timezoneService:TimezoneService) {
+    readonly I18n:I18nService,
+    protected http:HttpClient,
+    protected notificationsService:NotificationsService,
+    public eeTrialService:EnterpriseTrialService,
+    readonly timezoneService:TimezoneService) {
   }
 
   ngOnInit() {
@@ -101,4 +102,3 @@ export class EETrialWaitingComponent implements OnInit {
       });
   }
 }
-

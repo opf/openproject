@@ -17,10 +17,9 @@ export interface WorkPackageViewSelectionState {
 
 @Injectable()
 export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<WorkPackageViewSelectionState> implements OnDestroy {
-
   public constructor(readonly querySpace:IsolatedQuerySpace,
-                     readonly states:States,
-                     readonly opContextMenu:OPContextMenuService) {
+    readonly states:States,
+    readonly opContextMenu:OPContextMenuService) {
     super(querySpace);
     this.reset();
   }
@@ -33,7 +32,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   public initializeSelection(selectedWorkPackageIds:string[]) {
     const state:WorkPackageViewSelectionState = {
       selected: {},
-      activeRowIndex: null
+      activeRowIndex: null,
     };
 
     selectedWorkPackageIds.forEach(id => state.selected[id] = true);
@@ -181,7 +180,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
   private get _emptyState():WorkPackageViewSelectionState {
     return {
       selected: {},
-      activeRowIndex: null
+      activeRowIndex: null,
     };
   }
 
@@ -189,4 +188,3 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     return undefined;
   }
 }
-

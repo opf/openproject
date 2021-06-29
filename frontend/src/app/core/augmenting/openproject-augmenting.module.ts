@@ -32,8 +32,8 @@ import { OpModalWrapperAugmentService } from "core-app/shared/components/modal/m
 import { PathScriptAugmentService } from "core-app/core/augmenting/services/path-script.augment.service";
 
 @NgModule({
-  imports: [ OpenprojectModalModule ],
-  providers: [ PathScriptAugmentService ],
+  imports: [OpenprojectModalModule],
+  providers: [PathScriptAugmentService],
 })
 export class OpenprojectAugmentingModule {
   constructor(modalWrapper:OpModalWrapperAugmentService,
@@ -43,4 +43,3 @@ export class OpenprojectAugmentingModule {
     pathScript.loadRequiredScripts();
   }
 }
-

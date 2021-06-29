@@ -10,7 +10,6 @@ import { WpTableConfigurationHighlightingTab } from "core-app/features/work-pack
 
 @Injectable()
 export class WpTableConfigurationService {
-
   protected _tabs:TabInterface[] = [
     {
       id: 'columns',
@@ -40,8 +39,8 @@ export class WpTableConfigurationService {
     {
       id: 'timelines',
       name: this.I18n.t('js.timelines.gantt_chart'),
-      componentClass: WpTableConfigurationTimelinesTab
-    }
+      componentClass: WpTableConfigurationTimelinesTab,
+    },
   ];
 
   constructor(readonly I18n:I18nService) {

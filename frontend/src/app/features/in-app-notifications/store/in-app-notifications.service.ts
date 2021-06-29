@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { applyTransaction, ID, transaction } from '@datorama/akita';
-import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
-import { InAppNotificationsStore } from './in-app-notifications.store';
 import { forkJoin, Observable } from "rxjs";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { map, switchMap, tap } from "rxjs/operators";
@@ -9,10 +7,11 @@ import { NotificationsService } from "core-app/shared/components/notifications/n
 import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/store/in-app-notifications.query";
 import { take } from "rxjs/internal/operators/take";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { InAppNotificationsStore } from './in-app-notifications.store';
+import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from "./in-app-notification.model";
 
 @Injectable({ providedIn: 'root' })
 export class InAppNotificationsService {
-
   constructor(
     private store:InAppNotificationsStore,
     private query:InAppNotificationsQuery,
@@ -31,7 +30,7 @@ export class InAppNotificationsService {
       .notifications
       .facet(facet, { pageSize: NOTIFICATIONS_MAX_SIZE })
       .pipe(
-        tap(events => this.sideLoadInvolvedWorkPackages(events._embedded.elements))
+        tap(events => this.sideLoadInvolvedWorkPackages(events._embedded.elements)),
       )
       .subscribe(
         events => {
@@ -45,7 +44,7 @@ export class InAppNotificationsService {
         },
       )
       .add(
-        () => this.store.setLoading(false)
+        () => this.store.setLoading(false),
       );
   }
 
@@ -56,7 +55,7 @@ export class InAppNotificationsService {
       .unread({ pageSize: 0 })
       .pipe(
         map(events => events.total),
-        tap(count => this.store.update({ count }))
+        tap(count => this.store.update({ count })),
       );
   }
 
@@ -85,9 +84,7 @@ export class InAppNotificationsService {
       .unread$
       .pipe(
         take(1),
-        switchMap(events =>
-          this.apiV3Service.notifications.markRead(events.map(event => event.id))
-        )
+        switchMap(events => this.apiV3Service.notifications.markRead(events.map(event => event.id))),
       )
       .subscribe(() => {
         applyTransaction(() => {
@@ -113,8 +110,8 @@ export class InAppNotificationsService {
     this.store.update(
       notification.id,
       {
-        expanded: false
-      }
+        expanded: false,
+      },
     );
   }
 
@@ -122,8 +119,8 @@ export class InAppNotificationsService {
     this.store.update(
       notification.id,
       {
-        expanded: true
-      }
+        expanded: true,
+      },
     );
   }
 
@@ -139,11 +136,11 @@ export class InAppNotificationsService {
             notification.id,
             {
               readIAN: true,
-              keep: true
-            }
+              keep: true,
+            },
           );
           this.store.update(
-            ({ count }) => ({ count: count - 1 })
+            ({ count }) => ({ count: count - 1 }),
           );
         });
       });

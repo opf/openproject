@@ -36,7 +36,6 @@ import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service
 import { Apiv3BoardsPaths } from "core-app/core/apiv3/virtual/apiv3-boards-paths";
 
 export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
-
   /**
    * Perform a request to the HalResourceService with the current path
    */
@@ -53,7 +52,7 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
           newBoard.sortWidgets();
 
           return newBoard;
-        })
+        }),
       );
   }
 
@@ -68,14 +67,13 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
           .apiRoot
           .grids
           .id(board.grid)
-          .patch(board.grid, schema)
-        ),
+          .patch(board.grid, schema)),
         map(grid => {
           board.grid = grid;
           board.sortWidgets();
           return board;
         }),
-        this.cacheResponse()
+        this.cacheResponse(),
       );
   }
 
@@ -86,7 +84,7 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
       .id(this.id)
       .delete()
       .pipe(
-        tap(() => this.cache.clearSome(this.id.toString()))
+        tap(() => this.cache.clearSome(this.id.toString())),
       );
   }
 
@@ -98,7 +96,7 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
       .form
       .post({})
       .pipe(
-        map(form => form.schema)
+        map(form => form.schema),
       );
   }
 

@@ -4,7 +4,6 @@ import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
 export class MainMenuNavigationService {
-
   public navigationEvents$ = new BehaviorSubject<string>('');
 
   public onActivate(...names:string[]) {
@@ -12,7 +11,7 @@ export class MainMenuNavigationService {
       .navigationEvents$
       .pipe(
         filter(evt => names.indexOf(evt) !== -1),
-        take(1)
+        take(1),
       );
   }
 
@@ -22,10 +21,9 @@ export class MainMenuNavigationService {
     jQuery("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
 
     var toggler = jQuery('<a class="toggler" href="#"><i class="icon6 icon-toggler icon-arrow-right3" aria-hidden="true"></i><span class="hidden-for-sighted"></span></a>')
-      .on('click', function() {
+      .on('click', function () {
         const target = jQuery(this);
         if (target.hasClass('toggler')) {
-
           // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it.
           jQuery('#sidebar').toggleClass('-hidden', true);
 
@@ -57,7 +55,7 @@ export class MainMenuNavigationService {
 
       // inherit element id
       if (elementId) {
-        wrapperElement.attr('id', elementId + '-wrapper');
+        wrapperElement.attr('id', `${elementId}-wrapper`);
       }
 
       return wrapperElement;
@@ -65,13 +63,12 @@ export class MainMenuNavigationService {
   }
 
   register() {
-
     // Wrap main item
     this.wrapMainItem();
 
     // Scroll to the active item or if none found, the active menu wrapper
-    const selected = document.querySelector('.tree-menu--item.-selected') ||
-      document.querySelector('.main-item-wrapper a.selected');
+    const selected = document.querySelector('.tree-menu--item.-selected')
+      || document.querySelector('.main-item-wrapper a.selected');
 
     selected?.scrollIntoView();
 
@@ -99,18 +96,19 @@ export class MainMenuNavigationService {
       jQuery(target).parents('li').first().removeClass('open');
       jQuery(".menu_root").removeClass('closed').addClass('open');
 
-      target.parents('li').first().find('.toggler').first().focus();
+      target.parents('li').first().find('.toggler').first()
+        .focus();
 
       // TODO: Instead of hiding the sidebar move sidebar's contents to submenus and cache it.
       jQuery('#sidebar').toggleClass('-hidden', false);
     }
 
-    jQuery('#main-menu ul.main-menu--children').each(function(_i, child) {
+    jQuery('#main-menu ul.main-menu--children').each((_i, child) => {
       var title = jQuery(child).parents('li').find('.main-item-wrapper .op-menu--item-title').contents()[0].textContent;
       var parentURL = jQuery(child).parents('li').find('.main-item-wrapper > a').attr('href');
       var header = jQuery('<div class="main-menu--children-menu-header"></div>');
       var upLink = jQuery('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');
-      var parentLink = jQuery('<a href="' + parentURL + '" class="main-menu--parent-node ellipsis">' + title + '</a>');
+      var parentLink = jQuery(`<a href="${parentURL}" class="main-menu--parent-node ellipsis">${title}</a>`);
       upLink.attr('title', I18n.t('js.label_up'));
       upLink.on('click', navigateUp);
       header.append(upLink);
@@ -123,5 +121,4 @@ export class MainMenuNavigationService {
       jQuery('#sidebar').toggleClass('-hidden', true);
     }
   }
-
 }

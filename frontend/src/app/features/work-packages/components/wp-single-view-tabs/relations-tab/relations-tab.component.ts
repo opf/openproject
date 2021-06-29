@@ -39,11 +39,12 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 })
 export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackageId?:string;
+
   public workPackage:WorkPackageResource;
 
   public constructor(readonly I18n:I18nService,
-                     readonly $transition:Transition,
-                     readonly apiV3Service:APIV3Service) {
+    readonly $transition:Transition,
+    readonly apiV3Service:APIV3Service) {
     super();
   }
 
@@ -55,12 +56,11 @@ export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implem
       .id(wpId)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp) => {
         this.workPackageId = wp.id!;
         this.workPackage = wp;
       });
   }
-
 }

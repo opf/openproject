@@ -25,7 +25,9 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy,
+} from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -42,8 +44,11 @@ export const globalSearchTitleSelector = 'global-search-title';
 })
 export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnDestroy {
   @Input() public searchTerm:string;
+
   @Input() public project:string;
+
   @Input() public projectScope:string;
+
   @Input() public searchTitle:string;
 
   @InjectField() private currentProjectService:CurrentProjectService;
@@ -52,14 +57,14 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
     all_projects: this.I18n.t('js.global_search.title.all_projects'),
     project_and_subprojects: this.I18n.t('js.global_search.title.project_and_subprojects'),
     search_for: this.I18n.t('js.global_search.title.search_for'),
-    in: this.I18n.t('js.label_in')
+    in: this.I18n.t('js.label_in'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly cdRef:ChangeDetectorRef,
-              readonly globalSearchService:GlobalSearchService,
-              readonly I18n:I18nService,
-              readonly injector:Injector) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly globalSearchService:GlobalSearchService,
+    readonly I18n:I18nService,
+    readonly injector:Injector) {
     super();
   }
 
@@ -67,11 +72,11 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
     // Listen on changes of search input value and project scope
     combineLatest([
       this.globalSearchService.searchTerm$,
-      this.globalSearchService.projectScope$
+      this.globalSearchService.projectScope$,
     ])
       .pipe(
         distinctUntilChanged(),
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(([newSearchTerm, newProjectScope]) => {
         this.searchTerm = newSearchTerm;
@@ -93,7 +98,7 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
       return currentProjectName;
       break;
     case '':
-      return currentProjectName + ' ' + this.text.project_and_subprojects;
+      return `${currentProjectName} ${this.text.project_and_subprojects}`;
       break;
     default:
       return '';

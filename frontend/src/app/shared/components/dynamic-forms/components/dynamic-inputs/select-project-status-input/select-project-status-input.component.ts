@@ -8,6 +8,6 @@ import { projectStatusCodeCssClass } from "core-app/shared/components/fields/hel
 })
 export class SelectProjectStatusInputComponent extends FieldType {
   cssClass(item:any) {
-    return projectStatusCodeCssClass(item.id)
+    return projectStatusCodeCssClass(item.id);
   }
 }

@@ -20,10 +20,10 @@ export class WpGraphConfigurationFiltersTabInner extends QuerySpacedTabComponent
   };
 
   constructor(readonly I18n:I18nService,
-              readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly wpFiltersService:WorkPackageFiltersService,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly wpGraphConfiguration:WpGraphConfigurationService) {
+    readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly wpFiltersService:WorkPackageFiltersService,
+    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+    readonly wpGraphConfiguration:WpGraphConfigurationService) {
     super(I18n, wpStatesInitialization, wpGraphConfiguration);
   }
 

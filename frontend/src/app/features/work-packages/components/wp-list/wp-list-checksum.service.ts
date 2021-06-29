@@ -35,16 +35,17 @@ import { QueryResource } from "core-app/features/hal/resources/query-resource";
 @Injectable()
 export class WorkPackagesListChecksumService {
   constructor(protected UrlParamsHelper:UrlParamsHelperService,
-              protected $state:StateService) {
+    protected $state:StateService) {
   }
 
   public id:string|null;
+
   public checksum:string|null;
+
   public visibleChecksum:string|null;
 
   public updateIfDifferent(query:QueryResource,
     pagination:WorkPackageViewPagination):Promise<unknown> {
-
     const newQueryChecksum = this.getNewChecksum(query, pagination);
     let routePromise:Promise<unknown> = Promise.resolve();
 
@@ -54,7 +55,6 @@ export class WorkPackagesListChecksumService {
       routePromise = this.maintainUrlQueryState(query.id, null);
 
       this.clear();
-
     } else if (this.isChecksumDifferent(newQueryChecksum)) {
       routePromise = this.maintainUrlQueryState(query.id, newQueryChecksum);
     }
@@ -129,14 +129,14 @@ export class WorkPackagesListChecksumService {
 
     return (
       // Can only be outdated if either ID or props set
-      (hasCurrentQueryID || hasCurrentChecksum) &&
-      (
+      (hasCurrentQueryID || hasCurrentChecksum)
+      && (
         // Query ID changed
-        idChanged ||
+        idChanged
         // Query ID same + query props changed
-        (!idChanged && checksumChanged && (otherChecksum || this.visibleChecksum)) ||
+        || (!idChanged && checksumChanged && (otherChecksum || this.visibleChecksum))
         // No query ID set
-        (!hasCurrentQueryID && visibleChecksumChanged)
+        || (!hasCurrentQueryID && visibleChecksumChanged)
       )
     );
   }
@@ -151,7 +151,7 @@ export class WorkPackagesListChecksumService {
     return this.$state.go(
       '.',
       { query_props: checksum, query_id: id },
-      { custom: { notify: false } }
+      { custom: { notify: false } },
     );
   }
 }

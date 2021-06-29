@@ -1,7 +1,7 @@
 import { Injector } from "@angular/core";
 import {
   WorkPackageAction,
-  WorkPackageContextMenuHelperService
+  WorkPackageContextMenuHelperService,
 } from "core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service";
 import { States } from "core-app/core/states/states.service";
 import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
@@ -19,21 +19,28 @@ import { splitViewRoute } from "core-app/features/work-packages/routing/split-vi
 import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
-
   @InjectField() protected states!:States;
+
   @InjectField() protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService;
+
   @InjectField() protected opModalService:OpModalService;
+
   @InjectField() protected $state!:StateService;
+
   @InjectField() protected wpTableSelection:WorkPackageViewSelectionService;
+
   @InjectField() protected WorkPackageContextMenuHelper!:WorkPackageContextMenuHelperService;
+
   @InjectField() protected timeEntryCreateService:TimeEntryCreateService;
 
   protected workPackage = this.states.workPackages.get(this.workPackageId).value!;
+
   protected selectedWorkPackages = this.getSelectedWorkPackages();
+
   protected permittedActions = this.WorkPackageContextMenuHelper.getPermittedActions(
     this.selectedWorkPackages,
     PERMITTED_CONTEXT_MENU_ACTIONS,
-    this.allowSplitScreenActions
+    this.allowSplitScreenActions,
   );
 
   // Get the base route for the current route to ensure we always link correctly
@@ -42,10 +49,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   protected items = this.buildItems();
 
   constructor(public injector:Injector,
-              protected workPackageId:string,
-              protected $element:JQuery,
-              protected additionalPositionArgs:any = {},
-              protected allowSplitScreenActions:boolean = true) {
+    protected workPackageId:string,
+    protected $element:JQuery,
+    protected additionalPositionArgs:any = {},
+    protected allowSplitScreenActions:boolean = true) {
     super(injector.get(OPContextMenuService));
   }
 
@@ -61,7 +68,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   public triggerContextMenuAction(action:WorkPackageAction) {
-    const link = action.link;
+    const { link } = action;
 
     switch (action.key) {
       case 'delete':
@@ -100,7 +107,6 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
     if (selected.length > 1) {
       window.location.href = link;
-      return;
     }
   }
 
@@ -113,10 +119,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     }
 
     const params = {
-      copiedFromWorkPackageId: selected[0].id
+      copiedFromWorkPackageId: selected[0].id,
     };
 
-    this.$state.go(this.baseRoute + '.copy', params);
+    this.$state.go(`${this.baseRoute}.copy`, params);
   }
 
   private logTimeForSelectedWorkPackage() {
@@ -142,24 +148,21 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   protected buildItems():OpContextMenuItem[] {
-    const items = this.permittedActions.map((action:WorkPackageAction) => {
-      return {
-        class: undefined as string|undefined,
-        disabled: false,
-        linkText: action.text,
-        href: action.href,
-        icon: action.icon != null ? action.icon : `icon-${action.key}`,
-        onClick: ($event:JQuery.TriggeredEvent) => {
-          if (action.href && LinkHandling.isClickedWithModifier($event)) {
-            return false;
-          }
-
-          this.triggerContextMenuAction(action);
-          return true;
+    const items = this.permittedActions.map((action:WorkPackageAction) => ({
+      class: undefined as string|undefined,
+      disabled: false,
+      linkText: action.text,
+      href: action.href,
+      icon: action.icon != null ? action.icon : `icon-${action.key}`,
+      onClick: ($event:JQuery.TriggeredEvent) => {
+        if (action.href && LinkHandling.isClickedWithModifier($event)) {
+          return false;
         }
-      };
-    });
 
+        this.triggerContextMenuAction(action);
+        return true;
+      },
+    }));
 
     if (!this.workPackage.isNew) {
       items.unshift({
@@ -175,10 +178,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
           this.$state.go(
             'work-packages.show',
-            { workPackageId: this.workPackageId }
+            { workPackageId: this.workPackageId },
           );
           return true;
-        }
+        },
       });
 
       if (this.allowSplitScreenActions) {
@@ -187,8 +190,9 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
           icon: 'icon-view-split',
           class: 'detailsViewMenuItem',
           href: this.$state.href(
-            splitViewRoute(this.$state) + '.tabs',
-            { workPackageId: this.workPackageId, tabIdentifier: 'overview' }),
+            `${splitViewRoute(this.$state)}.tabs`,
+            { workPackageId: this.workPackageId, tabIdentifier: 'overview' },
+          ),
           linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQuery.TriggeredEvent) => {
             if (LinkHandling.isClickedWithModifier($event)) {
@@ -196,11 +200,11 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             }
 
             this.$state.go(
-              splitViewRoute(this.$state) + '.tabs',
-              { workPackageId: this.workPackageId, tabIdentifier: 'overview' }
+              `${splitViewRoute(this.$state)}.tabs`,
+              { workPackageId: this.workPackageId, tabIdentifier: 'overview' },
             );
             return true;
-          }
+          },
         });
       }
     }

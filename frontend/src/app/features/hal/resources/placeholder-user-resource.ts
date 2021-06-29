@@ -32,7 +32,9 @@ import { InputState } from 'reactivestates';
 export class PlaceholderUserResource extends HalResource {
   // Links
   public updateImmediately:HalResource;
+
   public delete:HalResource;
+
   public showUser:HalResource;
 
   public get state():InputState<this> {

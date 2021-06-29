@@ -39,13 +39,12 @@ import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource"
 import { ApiV3WorkPackageCachedSubresource } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource";
 import { ApiV3FilterBuilder, buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
-
 export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageResource, APIV3WorkPackagePaths, WorkPackageCache> {
   // Base path
   public readonly path:string;
 
   constructor(readonly apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'work_packages', APIV3WorkPackagePaths);
   }
 
@@ -75,7 +74,6 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
             if (results.elements) {
               this.cache.updateWorkPackageList(results.elements);
             }
-
           });
 
           resolve(undefined);
@@ -94,7 +92,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       .halResourceService
       .post<WorkPackageResource>(this.path, payload)
       .pipe(
-        this.cacheResponse()
+        this.cacheResponse(),
       );
   }
 
@@ -121,7 +119,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       sortBy: '[["updatedAt","desc"]]',
       offset: '1',
       pageSize: '10',
-      ...additionalParams
+      ...additionalParams,
     };
 
     return this.filtered(filters, params);
@@ -160,7 +158,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
         ids.length,
         {
           filters: buildApiV3Filter('id', '=', ids).toJson(),
-        }
+        },
       );
   }
 

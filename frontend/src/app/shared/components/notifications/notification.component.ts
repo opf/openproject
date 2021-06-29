@@ -26,12 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   INotification,
   NotificationsService,
-  NotificationType
+  NotificationType,
 } from 'core-app/shared/components/notifications/notifications.service';
 
 @Component({
@@ -47,11 +49,13 @@ export class NotificationComponent implements OnInit {
   };
 
   public type:NotificationType;
+
   public uploadCount = 0;
+
   public show = false;
 
   constructor(readonly I18n:I18nService,
-              readonly notificationsService:NotificationsService) {
+    readonly notificationsService:NotificationsService) {
   }
 
   ngOnInit() {

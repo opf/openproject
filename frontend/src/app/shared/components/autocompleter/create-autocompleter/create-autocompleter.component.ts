@@ -62,37 +62,59 @@ export interface CreateAutocompleterValueOption {
 })
 export class CreateAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
+
   @Input() public appendTo:string;
+
   @Input() public resource:HalResource;
+
   @Input() public model:any;
+
   @Input() public required = false;
+
   @Input() public disabled = false;
+
   @Input() public finishedLoading = false;
+
   @Input() public id = '';
+
   @Input() public classes = '';
+
   @Input() public typeahead?:Subject<string>;
+
   @Input() public hideSelected = false;
+
   @Input() public showAddNewButton:boolean;
 
   @Output() public onChange = new EventEmitter<HalResource>();
-  @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
-  @Output() public onOpen = new EventEmitter<void>();
-  @Output() public onClose = new EventEmitter<void>();
-  @Output() public onAfterViewInit = new EventEmitter<this>();
-  @Output() public onAddNew = new EventEmitter<this>();
 
+  @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
+
+  @Output() public onOpen = new EventEmitter<void>();
+
+  @Output() public onClose = new EventEmitter<void>();
+
+  @Output() public onAfterViewInit = new EventEmitter<this>();
+
+  @Output() public onAddNew = new EventEmitter<this>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @InjectField() readonly opInviteUserModalService:OpInviteUserModalService;
+
   @InjectField() readonly I18n:I18nService;
+
   @InjectField() readonly cdRef:ChangeDetectorRef;
+
   @InjectField() readonly currentProject:CurrentProjectService;
+
   @InjectField() readonly pathHelper:PathHelperService;
 
   public compareByHref = AngularTrackingHelpers.compareByHref;
+
   public text:{ [key:string]:string } = {};
+
   public createAllowed:boolean|AddTagFn = false;
+
   private _openDirectly = false;
 
   constructor(readonly injector:Injector) {
@@ -107,7 +129,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
       this.opInviteUserModalService.close
         .pipe(
           this.untilDestroyed(),
-          filter(user => !!user)
+          filter(user => !!user),
         )
         .subscribe((user:HalResource) => {
           this.onChange.emit(user);

@@ -1,4 +1,6 @@
-import { Directive, ElementRef, Injector, Input } from '@angular/core';
+import {
+  Directive, ElementRef, Injector, Input,
+} from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
@@ -25,13 +27,13 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   @InjectField() public timeEntryCreateService:TimeEntryCreateService;
 
   constructor(readonly HookService:HookService,
-              readonly $state:StateService,
-              readonly injector:Injector,
-              readonly PathHelper:PathHelperService,
-              readonly elementRef:ElementRef,
-              readonly opModalService:OpModalService,
-              readonly opContextMenuService:OPContextMenuService,
-              readonly authorisationService:AuthorisationService) {
+    readonly $state:StateService,
+    readonly injector:Injector,
+    readonly PathHelper:PathHelperService,
+    readonly elementRef:ElementRef,
+    readonly opModalService:OpModalService,
+    readonly opContextMenuService:OPContextMenuService,
+    readonly authorisationService:AuthorisationService) {
     super(elementRef, opContextMenuService);
   }
 
@@ -48,7 +50,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   public triggerContextMenuAction(action:WorkPackageAction, key:string) {
-    const link = action.link;
+    const { link } = action;
 
     switch (key) {
     case 'copy':
@@ -109,7 +111,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     const configureFormLink = this.workPackage.configureForm;
 
     this.items = permittedActions.map((action:WorkPackageAction) => {
-      const key = action.key;
+      const { key } = action;
       return {
         disabled: false,
         linkText: I18n.t('js.button_' + key),
@@ -122,7 +124,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
           this.triggerContextMenuAction(action, key);
           return true;
-        }
+        },
       };
     });
 
@@ -132,8 +134,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
           href: configureFormLink.href,
           icon: 'icon-settings3',
           linkText: I18n.t('js.button_configure-form'),
-          onClick: () => false
-        }
+          onClick: () => false,
+        },
       );
     }
 

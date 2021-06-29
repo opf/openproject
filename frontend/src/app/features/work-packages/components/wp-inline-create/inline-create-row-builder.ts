@@ -2,41 +2,42 @@ import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { States } from "core-app/core/states/states.service";
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
+import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { WorkPackageTable } from "../wp-fast-table/wp-fast-table";
+import { rowId } from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {
   commonRowClassName,
   SingleRowBuilder,
-  tableRowClassName
-} from '../wp-fast-table/builders/rows/single-row-builder';
-import { rowId } from '../wp-fast-table/helpers/wp-table-row-helpers';
-import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
-import { tdClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/cell-builder";
-import { internalContextMenuColumn } from "core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+  tableRowClassName,
+} from "../wp-fast-table/builders/rows/single-row-builder";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
 
 export class InlineCreateRowBuilder extends SingleRowBuilder {
-
   // Injections
   @InjectField() public states:States;
+
   @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+
   @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+
   @InjectField() public I18n:I18nService;
 
   protected text:{ cancelButton:string };
 
   constructor(public readonly injector:Injector,
     workPackageTable:WorkPackageTable) {
-
     super(injector, workPackageTable);
 
     this.text = {
-      cancelButton: this.I18n.t('js.button_cancel')
+      cancelButton: this.I18n.t('js.button_cancel'),
     };
   }
 
@@ -52,7 +53,6 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
   public buildNew(workPackage:WorkPackageResource, form:EditForm):[HTMLElement, boolean] {
     // Get any existing edit state for this work package
     const [row, hidden] = this.buildEmpty(workPackage);
-
 
     return [row, hidden];
   }
@@ -71,7 +71,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     tr.classList.add(
       inlineCreateRowClassName, commonRowClassName, tableRowClassName, 'issue',
       identifier,
-      `${identifier}-table`
+      `${identifier}-table`,
     );
 
     return tr;

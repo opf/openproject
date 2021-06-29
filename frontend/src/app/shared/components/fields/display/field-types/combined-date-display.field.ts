@@ -32,7 +32,7 @@ export class CombinedDateDisplayField extends DateDisplayField {
   text = {
     placeholder: {
       startDate: this.I18n.t('js.label_no_start_date'),
-      dueDate: this.I18n.t('js.label_no_due_date')
+      dueDate: this.I18n.t('js.label_no_due_date'),
     },
   };
 
@@ -53,9 +53,9 @@ export class CombinedDateDisplayField extends DateDisplayField {
   private createDateDisplayField(date:'dueDate'|'startDate'):HTMLElement {
     const dateElement = document.createElement('span');
     const dateDisplayField = new DateDisplayField(date, this.context);
-    const text = this.resource[date] ?
-      this.timezoneService.formattedDate(this.resource[date]) :
-      this.text.placeholder[date];
+    const text = this.resource[date]
+      ? this.timezoneService.formattedDate(this.resource[date])
+      : this.text.placeholder[date];
 
     dateDisplayField.apply(this.resource, this.schema);
     dateDisplayField.render(dateElement, text);

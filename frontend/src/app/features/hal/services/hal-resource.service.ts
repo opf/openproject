@@ -32,43 +32,40 @@ import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { ErrorResource } from "core-app/features/hal/resources/error-resource";
-import * as Pako  from 'pako';
+import * as Pako from 'pako';
 import * as base64 from "byte-base64";
-import { initializeHalProperties } from "../helpers/hal-resource-builder";
-import { whenDebugging } from "core-app/shared/helpers/debug_output";
+import { whenDebugging } from 'core-app/shared/helpers/debug_output';
 import {
   HTTPClientHeaders,
   HTTPClientOptions,
   HTTPClientParamMap,
   HTTPSupportedMethods,
-} from "core-app/features/hal/http/http.interfaces";
-import { HalLink, HalLinkInterface } from "core-app/features/hal/hal-link/hal-link";
-import { URLParamsEncoder } from "core-app/features/hal/services/url-params-encoder";
-import { HalResource, HalResourceClass } from "core-app/features/hal/resources/hal-resource";
+} from 'core-app/features/hal/http/http.interfaces';
+import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
+import { URLParamsEncoder } from 'core-app/features/hal/services/url-params-encoder';
+import { HalResource, HalResourceClass } from 'core-app/features/hal/resources/hal-resource';
+import { initializeHalProperties } from '../helpers/hal-resource-builder';
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
   attrTypes?:{ [attrName:string]:string };
 }
 
-
 @Injectable({ providedIn: 'root' })
 export class HalResourceService {
-
   /**
    * List of all known hal resources, extendable.
    */
   private config:{ [typeName:string]:HalResourceFactoryConfigInterface } = {};
 
   constructor(readonly injector:Injector,
-              readonly http:HttpClient) {
+    readonly http:HttpClient) {
   }
 
   /**
    * Perform a HTTP request and return a HalResource promise.
    */
   public request<T extends HalResource>(method:HTTPSupportedMethods, href:string, data?:any, headers:HTTPClientHeaders = {}):Observable<T> {
-
     // HttpClient requires us to create HttpParams instead of passing data for get
     // so forward to that method instead.
     if (method === 'get') {
@@ -77,7 +74,7 @@ export class HalResourceService {
 
     const config:HTTPClientOptions = {
       body: data || {},
-      headers: headers,
+      headers,
       withCredentials: true,
       responseType: 'json',
     };
@@ -108,7 +105,7 @@ export class HalResourceService {
    */
   public get<T extends HalResource>(href:string, params?:HTTPClientParamMap, headers?:HTTPClientHeaders):Observable<T> {
     const config:HTTPClientOptions = {
-      headers: headers,
+      headers,
       params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: params }),
       withCredentials: true,
       responseType: 'json',
@@ -278,7 +275,7 @@ export class HalResourceService {
    * @param href Self link of the HAL resource
    */
   public fromSelfLink(href:string|null) {
-    const source = { _links: { self: { href: href } } };
+    const source = { _links: { self: { href } } };
     return this.createHalResource(source);
   }
 
@@ -321,7 +318,7 @@ export class HalResourceService {
 
   protected toEprops(params:unknown):{ eprops:string } {
     const deflatedArray = Pako.deflate(JSON.stringify(params));
-    const compressed = base64.bytesToBase64(deflatedArray)
+    const compressed = base64.bytesToBase64(deflatedArray);
 
     return { eprops: compressed };
   }

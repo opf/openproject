@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject } from "@angular/core";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject,
+} from "@angular/core";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
@@ -50,7 +52,6 @@ export interface ConfirmDialogOptions {
   templateUrl: './confirm-dialog.modal.html'
 })
 export class ConfirmDialogModal extends OpModalComponent {
-
   public showClose:boolean;
 
   public confirmed = false;
@@ -62,7 +63,7 @@ export class ConfirmDialogModal extends OpModalComponent {
     text: this.I18n.t('js.modals.form_submit.text'),
     button_continue: this.I18n.t('js.button_continue'),
     button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title')
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   public passedData:string[];
@@ -70,10 +71,9 @@ export class ConfirmDialogModal extends OpModalComponent {
   public dangerHighlighting:boolean;
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
     this.options = locals.options || {};
 
@@ -91,4 +91,3 @@ export class ConfirmDialogModal extends OpModalComponent {
     this.closeMe(evt);
   }
 }
-

@@ -45,7 +45,7 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
            (keydown)="handler.handleUserKeydown($event)"
            [disabled]="inFlight"
            [id]="handler.htmlId" />
-  `
+  `,
 })
 export class DurationEditFieldComponent extends EditFieldComponent {
   @InjectField() TimezoneService:TimezoneService;
@@ -89,4 +89,3 @@ export class DurationEditFieldComponent extends EditFieldComponent {
     return parsedValue;
   }
 }
-

@@ -33,7 +33,6 @@ import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export class Apiv3GridForm extends APIv3FormResource {
-
   /**
    * We need to override the grid widget extraction
    * to pass the correct payload to the API.
@@ -43,23 +42,21 @@ export class Apiv3GridForm extends APIv3FormResource {
    */
   public static extractPayload(resource:HalResource|Object, schema:SchemaResource|null = null):Object {
     if (resource instanceof HalResource && schema) {
-      const grid = resource as HalResource;
+      const grid = resource;
       const payload = HalPayloadHelper.extractPayloadFromSchema(grid, schema);
 
       // The widget only states the type of the widget resource but does not explain
       // the widget itself. We therefore have to do that by hand.
       if (payload.widgets) {
-        payload.widgets = grid.widgets.map((widget:GridWidgetResource) => {
-          return {
-            id: widget.id,
-            startRow: widget.startRow,
-            endRow: widget.endRow,
-            startColumn: widget.startColumn,
-            endColumn: widget.endColumn,
-            identifier: widget.identifier,
-            options: widget.options
-          };
-        });
+        payload.widgets = grid.widgets.map((widget:GridWidgetResource) => ({
+          id: widget.id,
+          startRow: widget.startRow,
+          endRow: widget.endRow,
+          startColumn: widget.startColumn,
+          endColumn: widget.endColumn,
+          identifier: widget.identifier,
+          options: widget.options,
+        }));
       }
 
       return payload;
@@ -77,5 +74,4 @@ export class Apiv3GridForm extends APIv3FormResource {
   public extractPayload(request:HalResource|Object, schema:SchemaResource|null = null) {
     return Apiv3GridForm.extractPayload(request, schema);
   }
-
 }

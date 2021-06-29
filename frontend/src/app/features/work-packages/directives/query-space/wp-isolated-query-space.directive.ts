@@ -126,13 +126,12 @@ import { WorkPackageService } from "core-app/features/work-packages/services/wor
 
     // Table Drag & Drop actions
     TableDragActionsRegistryService,
-  ]
+  ],
 })
 export class WorkPackageIsolatedQuerySpaceDirective {
-
   constructor(private elementRef:ElementRef,
-              public querySpace:IsolatedQuerySpace,
-              private injector:Injector) {
+    public querySpace:IsolatedQuerySpace,
+    private injector:Injector) {
     debugLog("Opening isolated query space %O in %O", injector, elementRef.nativeElement);
   }
 }

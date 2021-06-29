@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++    Ng1FieldControlsWrapper,
 
-
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
@@ -42,9 +41,7 @@ import { DoubleClickOrTapDirective } from "core-app/shared/directives/a11y/doubl
   ],
   declarations: [
     DoubleClickOrTapDirective,
-  ]
+  ],
 })
 export class OpenprojectAccessibilityModule {
 }
-
-

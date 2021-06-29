@@ -12,9 +12,9 @@ import { FormattableTextareaInputComponent } from "core-app/shared/components/dy
 import { DynamicFieldGroupWrapperComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
-import { FormlyModule } from "@ngx-formly/core";
-import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
-import { FormlyForm } from "@ngx-formly/core";
+import { FormlyModule, FormlyForm } from '@ngx-formly/core';
+import { IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
+
 import { By } from "@angular/platform-browser";
 import { FormattableControlComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component";
 import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
@@ -23,9 +23,9 @@ import { CKEditorSetupService } from "core-app/shared/components/editor/componen
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { OpFormFieldComponent } from "core-app/shared/components/forms/form-field/form-field.component";
 
-export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], model:any, providers?:any[]): ComponentFixture<any> {
+export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model:any, providers?:any[]):ComponentFixture<any> {
   @Component({
-    template:`
+    template: `
       <form [formGroup]="form">
         <formly-form [form]="form"
                      [model]="model"
@@ -37,7 +37,9 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
   })
   class DynamicInputsTestingComponent {
     form = new FormGroup({});
+
     model = model;
+
     fields = fields;
 
     @ViewChild(FormlyForm) dynamicForm:FormlyForm;
@@ -65,7 +67,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
               name: "op-dynamic-field-group-wrapper",
               component: DynamicFieldGroupWrapperComponent,
             },
-          ]
+          ],
         }),
         NgSelectModule,
         NgOptionHighlightModule,
@@ -83,7 +85,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
         FormattableTextareaInputComponent,
         DynamicInputsTestingComponent,
       ],
-      providers: []
+      providers: [],
     })
     .overrideComponent(
       FormattableControlComponent,
@@ -99,11 +101,11 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
             },
             {
               provide: ConfigurationService,
-              useValue: {}
+              useValue: {},
             },
-          ]
-        }
-      }
+          ],
+        },
+      },
     );
 
   TestBed.compileComponents();
@@ -115,7 +117,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
 }
 
 export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any>, model:any, selector:string) {
-  const dynamicForm: FormGroup = fixture.componentInstance.dynamicForm.form;
+  const dynamicForm:FormGroup = fixture.componentInstance.dynamicForm.form;
   const dynamicInput = fixture.debugElement.query(By.css(selector)).nativeElement;
 
   // Test ControlValueAccessor

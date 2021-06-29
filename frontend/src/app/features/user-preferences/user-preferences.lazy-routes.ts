@@ -33,12 +33,12 @@ export const MY_ACCOUNT_LAZY_ROUTES:Ng2StateDeclaration[] = [
     name: 'my_notifications.**',
     parent: 'root',
     url: '/my/notifications',
-    loadChildren: () => import('./user-preferences.module').then(m => m.OpenProjectMyAccountModule)
+    loadChildren: () => import('./user-preferences.module').then(m => m.OpenProjectMyAccountModule),
   },
   {
     name: 'user_notifications.**',
     parent: 'root',
     url: '/users/:userId/edit/notifications',
-    loadChildren: () => import('./user-preferences.module').then(m => m.OpenProjectMyAccountModule)
+    loadChildren: () => import('./user-preferences.module').then(m => m.OpenProjectMyAccountModule),
   },
 ];

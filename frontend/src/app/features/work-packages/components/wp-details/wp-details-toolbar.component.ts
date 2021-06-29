@@ -39,9 +39,9 @@ export class WorkPackageSplitViewToolbarComponent {
   @Input('workPackage') workPackage:WorkPackageResource;
 
   public text = {
-    button_more: this.I18n.t('js.button_more')
+    button_more: this.I18n.t('js.button_more'),
   };
 
   constructor(readonly I18n:I18nService,
-            readonly halEditing:HalResourceEditingService) {}
+    readonly halEditing:HalResourceEditingService) {}
 }

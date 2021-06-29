@@ -3,14 +3,13 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { Injector } from "@angular/core";
 
 export class TableDragActionService {
-
   /**
    * Initialize an action service in the given isolated query space
    * @param querySpace The isolated query space for this table
    * @param injector The hierarchical injector for this table
    */
   constructor(readonly querySpace:IsolatedQuerySpace,
-              readonly injector:Injector) {
+    readonly injector:Injector) {
   }
 
   /**

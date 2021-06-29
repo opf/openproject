@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { TileViewComponent } from './tile-view.component';
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
+import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { TileViewComponent } from "./tile-view.component";
 import imagePath = ImageHelpers.imagePath;
 
 describe('shows tiles', () => {
@@ -17,7 +17,7 @@ describe('shows tiles', () => {
     image: imagePath('board_creation_modal/lists.svg'),
     description: `Create a board in which you can freely
   create lists and order your work packages within.
-  Moving work packages between lists do not change the work package itself.`
+  Moving work packages between lists do not change the work package itself.`,
   }];
 
   beforeEach(() => {
@@ -43,13 +43,11 @@ describe('shows tiles', () => {
     fixture.detectChanges();
     const tile:HTMLElement = element.query(By.css('.tile-block')).nativeElement;
     expect(tile.textContent).toContain('Basic');
-
   });
 
   it('should show the image', () => {
     fixture.detectChanges();
     const tile = document.querySelector('.tile-block-image');
     expect(document.contains(tile)).toBeTruthy();
-
   });
 });

@@ -6,7 +6,6 @@ import { QueryResource } from "core-app/features/hal/resources/query-resource";
  * It is e.g. used to not update the board list when the current user moved a card within a list/query.
   */
 
-
 @Injectable()
 export class CausedUpdatesService {
   /** contains all the updates to the query caused by modifications of the user */

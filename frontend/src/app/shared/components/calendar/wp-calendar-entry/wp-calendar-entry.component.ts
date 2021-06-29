@@ -42,7 +42,6 @@ export class WorkPackagesCalendarEntryComponent extends WorkPackagesViewBase {
   }
 
   public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
-    return this.loadingIndicator =
-      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier!);
+    return this.loadingIndicator = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }
 }

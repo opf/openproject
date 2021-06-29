@@ -34,11 +34,11 @@ import { OPSharedModule } from "core-app/shared/shared.module";
 @NgModule({
   imports: [
     OPSharedModule,
-    NgSelectModule
+    NgSelectModule,
   ],
-  exports: [  ],
+  exports: [],
   declarations: [
-    MembersAutocompleterComponent
-  ]
+    MembersAutocompleterComponent,
+  ],
 })
 export class OpenprojectMembersModule { }

@@ -29,6 +29,7 @@ export const ANIMATION_RATE_MS = 100;
 
 export class TopMenu {
   private hover = false;
+
   private menuIsOpen = false;
 
   constructor(readonly menuContainer:JQuery) {
@@ -129,9 +130,11 @@ export class TopMenu {
     if (this.menuContainer.next().get(0) !== undefined && (this.menuContainer.next().get(0).tagName === 'H2')) {
       menu_start_position = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
       this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
-    } else if (this.menuContainer.next().hasClass("wiki-content") &&
-      this.menuContainer.next().children().next().first().get(0) !== undefined &&
-      this.menuContainer.next().children().next().first().get(0).tagName === 'H1') {
+    } else if (this.menuContainer.next().hasClass("wiki-content")
+      && this.menuContainer.next().children().next().first()
+        .get(0) !== undefined
+      && this.menuContainer.next().children().next().first()
+        .get(0).tagName === 'H1') {
       var wiki_heading = this.menuContainer.next().children().next().first();
       menu_start_position = wiki_heading.innerHeight()! + wiki_heading.position().top;
       this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
@@ -144,7 +147,7 @@ export class TopMenu {
         this.toggleClick(jQuery(it));
         return false;
       });
-      jQuery(it).find('op-app-menu--item-action').on('touchstart', function (e) {
+      jQuery(it).find('op-app-menu--item-action').on('touchstart', (e) => {
         // This shall avoid the hover event is fired,
         // which would otherwise lead to menu being closed directly after its opened.
         // Ignore clicks from within the dropdown
@@ -169,7 +172,7 @@ export class TopMenu {
   open(dropdown:JQuery) {
     this.dontCloseWhenUsing(dropdown);
     this.closeOtherItems(dropdown);
-    this.slideAndFocus(dropdown, function () {
+    this.slideAndFocus(dropdown, () => {
       dropdown.trigger("opened", dropdown);
     });
   }
@@ -188,10 +191,10 @@ export class TopMenu {
   }
 
   dontCloseWhenUsing(dropdown:JQuery) {
-    jQuery(dropdown).find("li").click(function (event) {
+    jQuery(dropdown).find("li").click((event) => {
       event.stopPropagation();
     });
-    jQuery(dropdown).bind("mousedown mouseup click", function (event) {
+    jQuery(dropdown).bind("mousedown mouseup click", (event) => {
       event.stopPropagation();
     });
   }
@@ -231,7 +234,7 @@ export class TopMenu {
     // The rest is only there to work around a rendering bug in webkit (as of Oct 2011),
     // occuring mostly inside the login/signup dropdown.
     toFocus.blur();
-    setTimeout(function () {
+    setTimeout(() => {
       toFocus.focus();
     }, 10);
   }
@@ -239,10 +242,10 @@ export class TopMenu {
   registerEventHandlers() {
     const toggler = jQuery("#main-menu-toggle");
 
-    this.menuContainer.on("closeDropDown", (event: Event) => {
+    this.menuContainer.on("closeDropDown", (event:Event) => {
       this.close(jQuery(event.target as HTMLElement));
     }).on("openDropDown", (event) => {
-      this.open(jQuery(event.target as HTMLElement));
+      this.open(jQuery(event.target));
     }).on("closeMenu", () => {
       this.closing();
     }).on("openMenu", () => {
@@ -250,7 +253,7 @@ export class TopMenu {
       this.opening();
     });
 
-    toggler.on("click", () => {  // click on hamburger icon is closing other menu
+    toggler.on("click", () => { // click on hamburger icon is closing other menu
       this.closing();
     });
   }

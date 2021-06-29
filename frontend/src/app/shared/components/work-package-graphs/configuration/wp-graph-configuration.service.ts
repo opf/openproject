@@ -8,7 +8,7 @@ import { ChartOptions, ChartType } from 'chart.js';
 import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
 import {
   WpGraphConfiguration,
-  WpGraphQueryParams
+  WpGraphQueryParams,
 } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
@@ -17,15 +17,16 @@ import { WorkPackageEmbeddedGraphDataset } from "core-app/shared/components/work
 
 @Injectable()
 export class WpGraphConfigurationService {
-
   private _configuration:WpGraphConfiguration;
-  private _forms:{[id:string]:QueryFormResource} = {};
+
+  private _forms:{ [id:string]:QueryFormResource } = {};
+
   private _formsPromise:Promise<void[]>|null;
 
   constructor(readonly I18n:I18nService,
-              readonly apiv3Service:APIV3Service,
-              readonly notificationService:WorkPackageNotificationService,
-              readonly currentProject:CurrentProjectService) {
+    readonly apiv3Service:APIV3Service,
+    readonly notificationService:WorkPackageNotificationService,
+    readonly currentProject:CurrentProjectService) {
   }
 
   public persistAndReload():Promise<unknown> {
@@ -35,21 +36,17 @@ export class WpGraphConfigurationService {
   }
 
   public persistChanges():Promise<unknown> {
-    const promises = this.queries.map(query => {
-      return this.saveQuery(query);
-    });
+    const promises = this.queries.map(query => this.saveQuery(query));
 
     return Promise.all(promises);
   }
 
   public get datasets():WorkPackageEmbeddedGraphDataset[] {
-    return this.queries.map(query => {
-      return {
-        groups: query.results.groups,
-        queryProps: '',
-        label: query.name
-      };
-    });
+    return this.queries.map(query => ({
+      groups: query.results.groups,
+      queryProps: "",
+      label: query.name,
+    }));
   }
 
   public reloadQueries():Promise<unknown> {
@@ -66,9 +63,8 @@ export class WpGraphConfigurationService {
 
           return this.loadQueries();
         });
-    } else {
-      return this.loadQueries();
     }
+    return this.loadQueries();
   }
 
   private createInitial():Promise<QueryResource> {
@@ -80,22 +76,18 @@ export class WpGraphConfigurationService {
         { pageSize: 0 },
         undefined,
         this.currentProject.identifier,
-        WpGraphConfiguration.queryCreationParams(this.I18n, !!this.currentProject.identifier)
+        WpGraphConfiguration.queryCreationParams(this.I18n, !!this.currentProject.identifier),
       )
       .toPromise()
-      .then(([form, query]) => {
-        return this
-          .apiv3Service
-          .queries
-          .post(query, form)
-          .toPromise();
-      });
+      .then(([form, query]) => this
+        .apiv3Service
+        .queries
+        .post(query, form)
+        .toPromise());
   }
 
   private loadQueries() {
-    const queryPromises = this.queryParams.map(queryParam => {
-      return this.loadQuery(queryParam);
-    });
+    const queryPromises = this.queryParams.map(queryParam => this.loadQuery(queryParam));
 
     return Promise.all(queryPromises);
   }
@@ -105,7 +97,7 @@ export class WpGraphConfigurationService {
       .apiv3Service
       .queries
       .find(
-        Object.assign({ pageSize: 0 }, params.props),
+        { pageSize: 0, ...params.props },
         params.id,
         this.currentProject.identifier,
       )
@@ -120,14 +112,12 @@ export class WpGraphConfigurationService {
 
   private async saveQuery(query:QueryResource) {
     return this.formFor(query)
-      .then(form => {
-        return this
-          .apiv3Service
-          .queries
-          .id(query)
-          .patch(query, form)
-          .toPromise();
-      });
+      .then(form => this
+        .apiv3Service
+        .queries
+        .id(query)
+        .patch(query, form)
+        .toPromise());
   }
 
   public get configuration() {
@@ -142,9 +132,7 @@ export class WpGraphConfigurationService {
   public async formFor(query:QueryResource):Promise<QueryFormResource> {
     return this
       .loadForms()
-      .then(() => {
-        return this._forms[query.id!];
-      });
+      .then(() => this._forms[query.id!]);
   }
 
   public get tabs():TabInterface[] {
@@ -153,34 +141,30 @@ export class WpGraphConfigurationService {
         id: 'graph-settings',
         name: this.I18n.t('js.chart.tabs.graph_settings'),
         componentClass: WpGraphConfigurationSettingsTab,
-      }
+      },
     ];
 
-    const queryTabs = this.configuration.queries.map((query) => {
-      return {
-        id: query.id as string,
-        name: this.I18n.t('js.work_packages.query.filters'),
-        componentClass: WpGraphConfigurationFiltersTab
-      };
-    });
+    const queryTabs = this.configuration.queries.map((query) => ({
+      id: query.id as string,
+      name: this.I18n.t("js.work_packages.query.filters"),
+      componentClass: WpGraphConfigurationFiltersTab,
+    }));
 
     return tabs.concat(queryTabs);
   }
 
   public loadForms():Promise<unknown> {
     if (!this._formsPromise) {
-      const formPromises = this.configuration.queries.map((query) => {
-        return this
-          .apiv3Service
-          .queries
-          .form
-          .load(query)
-          .toPromise()
-          .then(([form, _]) => {
-            this._forms[query.id as string] = form;
-          })
-          .catch((error) => this.notificationService.handleRawError(error));
-      });
+      const formPromises = this.configuration.queries.map((query) => this
+        .apiv3Service
+        .queries
+        .form
+        .load(query)
+        .toPromise()
+        .then(([form, _]) => {
+          this._forms[query.id as string] = form;
+        })
+        .catch((error) => this.notificationService.handleRawError(error)));
 
       this._formsPromise = Promise.all(formPromises);
     }

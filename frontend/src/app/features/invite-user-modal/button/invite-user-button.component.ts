@@ -9,10 +9,11 @@ import { OpInviteUserModalService } from "core-app/features/invite-user-modal/in
 @Component({
   selector: 'op-invite-user-button',
   templateUrl: './invite-user-button.component.html',
-  styleUrls: ['./invite-user-button.component.sass']
+  styleUrls: ['./invite-user-button.component.sass'],
 })
 export class InviteUserButtonComponent {
   @Input() projectId:string|null;
+
   /** This component does not provide an output, because both primary usecases were in places where the button was
    * destroyed before the modal closed, causing the data from the modal to never arrive at the parent.
    * If you want to do something with the output from the modal that is opened, use the OpInviteUserModalService
@@ -37,7 +38,7 @@ export class InviteUserButtonComponent {
     this.projectId = this.projectId || this.currentProjectService.id;
     this.canInviteUsersToProject$ = this.currentUserService.hasCapabilities$(
       'memberships/create',
-      this.projectId || undefined
+      this.projectId || undefined,
     );
   }
 

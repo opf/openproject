@@ -1,4 +1,6 @@
-import { ElementRef, Inject, ChangeDetectorRef, ViewChild, Directive, Injector } from "@angular/core";
+import {
+  ElementRef, Inject, ChangeDetectorRef, ViewChild, Directive, Injector,
+} from "@angular/core";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
@@ -21,20 +23,22 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   };
 
   public closeOnEscape = false;
+
   public closeOnOutsideClick = false;
+
   public formInFlight:boolean;
 
   @InjectField() apiV3Service:APIV3Service;
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly i18n:I18nService,
-              readonly injector:Injector) {
+    @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly i18n:I18nService,
+    readonly injector:Injector) {
     super(locals, cdRef, elementRef);
   }
 
-  public abstract setModifiedEntry($event:{savedResource:HalResource, isInital:boolean}):void;
+  public abstract setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }):void;
 
   public get changeset() {
     return this.locals.changeset;

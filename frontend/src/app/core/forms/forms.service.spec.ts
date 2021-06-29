@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { FormsService } from './forms.service';
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
-import { HttpClient } from "@angular/common/http";
-import { FormBuilder } from "@angular/forms";
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
+import { FormBuilder } from '@angular/forms';
+import { FormsService } from "./forms.service";
 
 describe('FormsService', () => {
   let service:FormsService;
@@ -10,21 +10,21 @@ describe('FormsService', () => {
   let httpTestingController:HttpTestingController;
   const testFormUrl = 'http://op.com/form';
   const formModel = {
-    "name": "Project 1",
-    "_links": {
-      "parent": {
-        "href": "/api/v3/projects/26",
-        "title": "Parent project",
-        "name": "Parent project"
+    name: "Project 1",
+    _links: {
+      parent: {
+        href: "/api/v3/projects/26",
+        title: "Parent project",
+        name: "Parent project"
       },
-      "users": [
+      users: [
         {
-          "href": "/api/v3/users/26",
-          "title": "User 1",
-          "name": "User 1"
-        }
-      ]
-    }
+          href: "/api/v3/users/26",
+          title: "User 1",
+          name: "User 1"
+        },
+      ],
+    },
   };
   const formBuilder = new FormBuilder();
 
@@ -76,57 +76,58 @@ describe('FormsService', () => {
     // @ts-ignore
     const formattedModel = service.formatModelToSubmit(formModel);
     const expectedResult = {
-      "name": "Project 1",
-      "_links": {
-        "parent": {
-          "href": "/api/v3/projects/26",
+      name: "Project 1",
+      _links: {
+        parent: {
+          href: "/api/v3/projects/26",
         },
-        "users": [
+        users: [
           {
-            "href": "/api/v3/users/26",
-          }
-        ]
-      }
+            href: "/api/v3/users/26",
+          },
+        ],
+      },
     };
 
     expect(formattedModel).toEqual(expectedResult);
   });
 
   it('should set the backend errors in the FormGroup', () => {
-    const form= formBuilder.group({
+    const form = formBuilder.group({
       ...formModel,
       _links: formBuilder.group(formModel._links),
     });
     const backEndErrorResponse = {
       error: {
-        "_type": "Error",
-        "errorIdentifier": "urn:openproject-org:api:v3:errors:MultipleErrors",
-        "message": "Multiple field constraints have been violated.",
-        "_embedded": {
-          "errors": [
+        _type: "Error",
+        errorIdentifier: "urn:openproject-org:api:v3:errors:MultipleErrors",
+        message: "Multiple field constraints have been violated.",
+        _embedded: {
+          errors: [
             {
-              "_type": "Error",
-              "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-              "message": "Name can't be blank.",
-              "_embedded": {
-                "details": {
-                  "attribute": "name"
-                }
-              }
+              _type: "Error",
+              errorIdentifier: "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+              message: "Name can't be blank.",
+              _embedded: {
+                details: {
+                  attribute: "name"
+                },
+              },
             },
             {
-              "_type": "Error",
-              "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
-              "message": "Identifier can't be blank.",
-              "_embedded": {
-                "details": {
-                  "attribute": "parent"
-                }
-              }
+              _type: "Error",
+              errorIdentifier: "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+              message: "Identifier can't be blank.",
+              _embedded: {
+                details: {
+                  attribute: "parent"
+                },
+              },
             },
-          ]
-        }
-      }, status: 422
+          ],
+        },
+      },
+      status: 422,
     };
 
     // @ts-ignore

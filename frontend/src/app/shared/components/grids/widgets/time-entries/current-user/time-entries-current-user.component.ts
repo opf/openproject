@@ -1,4 +1,6 @@
-import { Component, Injector, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
+import {
+  Component, Injector, ChangeDetectionStrategy, ChangeDetectorRef,
+} from "@angular/core";
 import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -13,13 +15,14 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
 })
 export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetComponent {
   public entries:TimeEntryResource[] = [];
+
   public displayedDays:DisplayedDays;
 
   constructor(protected readonly injector:Injector,
-              readonly timezone:TimezoneService,
-              readonly i18n:I18nService,
-              readonly pathHelper:PathHelperService,
-              protected readonly cdr:ChangeDetectorRef) {
+    readonly timezone:TimezoneService,
+    readonly i18n:I18nService,
+    readonly pathHelper:PathHelperService,
+    protected readonly cdr:ChangeDetectorRef) {
     super(i18n, injector);
   }
 
@@ -34,15 +37,12 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
   }
 
   public get total() {
-    const duration = this.entries.reduce((current, entry) => {
-      return current + this.timezone.toHours(entry.hours);
-    }, 0);
+    const duration = this.entries.reduce((current, entry) => current + this.timezone.toHours(entry.hours), 0);
 
     if (duration > 0) {
-      return this.i18n.t('js.units.hour', { count: this.formatNumber(duration) });
-    } else {
-      return this.i18n.t('js.placeholders.default');
+      return this.i18n.t("js.units.hour", { count: this.formatNumber(duration) });
     }
+    return this.i18n.t("js.placeholders.default");
   }
 
   public get isEditable() {

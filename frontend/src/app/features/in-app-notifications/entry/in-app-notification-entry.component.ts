@@ -1,7 +1,9 @@
-import { EventEmitter, ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
+import {
+  EventEmitter, ChangeDetectionStrategy, Component, Input, OnInit, Output,
+} from '@angular/core';
 import {
   InAppNotification,
-  InAppNotificationDetail
+  InAppNotificationDetail,
 } from "core-app/features/in-app-notifications/store/in-app-notification.model";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { NEVER, Observable, timer } from "rxjs";
@@ -18,10 +20,11 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
   selector: 'op-in-app-notification-entry',
   templateUrl: './in-app-notification-entry.component.html',
   styleUrls: ['./in-app-notification-entry.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationEntryComponent implements OnInit {
   @Input() notification:InAppNotification;
+
   @Output() resourceLinkClicked = new EventEmitter<unknown>();
 
   workPackage$:Observable<WorkPackageResource>|null = null;
@@ -41,6 +44,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   // Format relative elapsed time (n seconds/minutes/hours ago)
   // at an interval for auto updating
   relativeTime$:Observable<string>;
+
   fixedTime:string;
 
   project?:{ href:string, title:string, showUrl:string };
@@ -48,7 +52,6 @@ export class InAppNotificationEntryComponent implements OnInit {
   text = {
     loading: this.I18n.t('js.ajax.loading'),
   };
-
 
   constructor(
     readonly apiV3Service:APIV3Service,
@@ -92,7 +95,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     this.relativeTime$ = timer(0, 10000)
       .pipe(
         map(() => this.timezoneService.formattedRelativeDateTime(this.notification.updatedAt)),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
   }
 
@@ -108,7 +111,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   private buildActor() {
-    const actor = this.notification._links.actor;
+    const { actor } = this.notification._links;
 
     if (actor) {
       this.actor = {
@@ -121,7 +124,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   private buildTranslatedReason() {
     this.translatedReason = this.I18n.t(
       'js.notifications.reasons.' + this.notification.reason,
-      { defaultValue: this.notification.reason }
+      { defaultValue: this.notification.reason },
     );
   }
 
@@ -130,7 +133,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   private buildProject() {
-    const project = this.notification._links.project;
+    const { project } = this.notification._links;
 
     if (project) {
       this.project = {

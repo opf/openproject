@@ -30,14 +30,13 @@ import { Injectable } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { input } from 'reactivestates';
-import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { WorkPackageTimelineState } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline";
-import { zoomLevelOrder } from "core-app/features/work-packages/components/wp-table/timeline/wp-timeline";
-import { QueryResource, TimelineLabels, TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
+import { WorkPackageTimelineState } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline';
+import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
+import { QueryResource, TimelineLabels, TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewTimelineService extends WorkPackageQueryStateService<WorkPackageTimelineState> {
-
   /** Remember the computed zoom level to correct zooming after leaving autozoom */
   public appliedZoomLevel$ = input<TimelineZoomLevel>('auto');
 
@@ -50,7 +49,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
       ...this.defaultState,
       visible: query.timelineVisible,
       zoomLevel: query.timelineZoomLevel,
-      labels: query.timelineLabels
+      labels: query.timelineLabels,
     };
   }
 
@@ -104,7 +103,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   }
 
   public updateLabels(labels:TimelineLabels) {
-    this.modify({ labels: labels });
+    this.modify({ labels });
   }
 
   public getNormalizedLabels(workPackage:WorkPackageResource) {
@@ -194,7 +193,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
     return {
       zoomLevel: 'auto',
       visible: false,
-      labels: this.defaultLabels
+      labels: this.defaultLabels,
     };
   }
 }

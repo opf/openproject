@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateService, Transition, TransitionService, UIRouterGlobals } from '@uirouter/core';
+import {
+  StateService, Transition, TransitionService, UIRouterGlobals,
+} from '@uirouter/core';
 import { ReplaySubject } from 'rxjs';
 import { Injectable } from "@angular/core";
 import { splitViewRoute } from "core-app/features/work-packages/routing/split-view-routes.helper";
@@ -38,9 +40,8 @@ export class KeepTabService {
   protected subject = new ReplaySubject<{ [tab:string]:string; }>(1);
 
   constructor(protected $state:StateService,
-              protected uiRouterGlobals:UIRouterGlobals,
-              protected $transitions:TransitionService) {
-
+    protected uiRouterGlobals:UIRouterGlobals,
+    protected $transitions:TransitionService) {
     this.updateTabs();
     $transitions.onSuccess({}, (transition:Transition) => {
       this.updateTabs(transition.params('to').tabIdentifier);
@@ -77,7 +78,7 @@ export class KeepTabService {
     const route = splitViewRoute(this.$state);
 
     this.$state.go(
-      route + '.tabs',
+      `${route}.tabs`,
       {
         ...this.uiRouterGlobals.params,
         ...params,

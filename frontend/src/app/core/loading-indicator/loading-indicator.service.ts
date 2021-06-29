@@ -41,8 +41,8 @@ export function withLoadingIndicator<T>(indicator:LoadingIndicator, delayStopTim
       tap(
         () => indicator.delayedStop(delayStopTime),
         () => indicator.stop(),
-        () => indicator.stop()
-      )
+        () => indicator.stop(),
+      ),
     );
   };
 }
@@ -55,17 +55,15 @@ export function withDelayedLoadingIndicator<T>(indicator:() => LoadingIndicator)
       tap(
         () => undefined,
         () => indicator().stop(),
-        () => indicator().stop()
-      )
+        () => indicator().stop(),
+      ),
     );
   };
 }
 
-
 export class LoadingIndicator {
-
   private indicatorTemplate =
-    `<div class="loading-indicator--background">
+  `<div class="loading-indicator--background">
       <div class="loading-indicator">
         <div class="block-1"></div>
         <div class="block-2"></div>
@@ -107,7 +105,6 @@ export class LoadingIndicator {
 
 @Injectable({ providedIn: 'root' })
 export class LoadingIndicatorService {
-
   // Provide shortcut to the primarily used indicators
   public get table() {
     return this.indicator('table');
@@ -130,7 +127,7 @@ export class LoadingIndicatorService {
   // Return an indicator by name or element
   public indicator(indicator:string|JQuery):LoadingIndicator {
     if (typeof indicator === 'string') {
-      indicator = this.getIndicatorAt(indicator) as JQuery;
+      indicator = this.getIndicatorAt(indicator);
     }
 
     return new LoadingIndicator(indicator);

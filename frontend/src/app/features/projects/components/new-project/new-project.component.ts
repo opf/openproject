@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {StateService, UIRouterGlobals} from "@uirouter/core";
-import {PathHelperService} from "core-app/core/path-helper/path-helper.service";
-import {IDynamicFieldGroupConfig, IOPFormlyFieldSettings} from "core-app/shared/components/dynamic-forms/typings";
-import {I18nService} from "core-app/core/i18n/i18n.service";
-import {FormControl, FormGroup} from "@angular/forms";
-import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
-import {JobStatusModal} from "core-app/features/job-status/job-status-modal/job-status.modal";
-import {OpModalService} from "core-app/shared/components/modal/modal.service";
+import { StateService, UIRouterGlobals } from "@uirouter/core";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { FormControl, FormGroup } from "@angular/forms";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
+import { OpModalService } from "core-app/shared/components/modal/modal.service";
 import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
@@ -26,9 +26,13 @@ export interface ProjectTemplateOption {
 })
 export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   formUrl:string|null;
+
   resourcePath:string;
+
   dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
+
   fieldGroups:IDynamicFieldGroupConfig[];
+
   initialPayload = {};
 
   text = {
@@ -48,15 +52,14 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     .add('templated', '=', true);
 
   templateOptions$:Observable<ProjectTemplateOption[]> =
-    this
-      .apiV3Service
-      .projects
-      .filtered(this.copyableTemplateFilter)
-      .get()
-      .pipe(
-        map(response =>
-          response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),
-      );
+  this
+    .apiV3Service
+    .projects
+    .filtered(this.copyableTemplateFilter)
+    .get()
+    .pipe(
+      map(response => response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),
+    );
 
   templateForm = new FormGroup({
     template: new FormControl(),
@@ -83,10 +86,10 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.resourcePath = this.apiV3Service.projects.path;
     this.fieldGroups = [{
       name: this.text.advancedSettingsLabel,
-      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!) &&
-        !(field.templateOptions?.required &&
-        !field.templateOptions.hasDefault &&
-        field.templateOptions.payloadValue == null),
+      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!)
+        && !(field.templateOptions?.required
+        && !field.templateOptions.hasDefault
+        && field.templateOptions.payloadValue == null),
     }];
 
     if (this.uIRouterGlobals.params.parent_id) {
@@ -106,7 +109,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.initialPayload = {
       ...this.initialPayload,
       name: this.dynamicForm.model.name,
-    }
+    };
     this.formUrl = selected?.href ? `${selected.href}/copy` : null;
   }
 
@@ -124,13 +127,13 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
     this.initialPayload = {
       _links: {
         parent: {
-          href: href
-        }
-      }
+          href,
+        },
+      },
     };
   }
 
   private fieldSettingsPipe(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
-    return dynamicFieldsSettings.map(field => ({...field, hide: this.isHiddenField(field.key)}))
+    return dynamicFieldsSettings.map(field => ({ ...field, hide: this.isHiddenField(field.key) }));
   }
 }

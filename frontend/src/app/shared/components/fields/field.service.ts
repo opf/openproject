@@ -40,10 +40,10 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
   public defaultFieldType:string;
 
   /** Registered attribute types => field identifier */
-  protected fields:{[attributeType:string]:string} = {};
+  protected fields:{ [attributeType:string]:string } = {};
 
   /** Registered field classes */
-  protected classes:{[type:string]:C} = {};
+  protected classes:{ [type:string]:C } = {};
 
   /**
    * Get the field type for the given attribute type.
@@ -68,8 +68,8 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
   }
 
   public getSpecificClassFor(resourceType:string, fieldName:string, type = 'unknown'):C {
-    const key = this.fieldType(`${resourceType}-${fieldName}`) ||
-              this.fieldType(`${resourceType}-${type}`);
+    const key = this.fieldType(`${resourceType}-${fieldName}`)
+              || this.fieldType(`${resourceType}-${type}`);
 
     if (key) {
       return this.classes[key];

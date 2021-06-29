@@ -27,7 +27,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
   readonly unassignedUser:any = {
     id: null,
     href: null,
-    name: this.I18n.t('js.filter.noneElement')
+    name: this.I18n.t('js.filter.noneElement'),
   };
 
   /**
@@ -44,15 +44,15 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       filter = {
         assignee: {
           operator: '!*',
-          values: []
-        }
+          values: [],
+        },
       };
     } else {
       filter = {
         assignee: {
           operator: '=',
-          values: [value.idFromLink]
-        }
+          values: [value.idFromLink],
+        },
       };
     }
 
@@ -82,9 +82,9 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
   }
 
   public warningTextWhenNoOptionsAvailable(hasMember?:boolean) {
-    let text = hasMember ?
-      this.I18n.t('js.boards.add_list_modal.warning.assignee'):
-      this.I18n.t('js.boards.add_list_modal.warning.no_member');
+    let text = hasMember
+      ? this.I18n.t('js.boards.add_list_modal.warning.assignee')
+      : this.I18n.t('js.boards.add_list_modal.warning.no_member');
 
     return this
       .apiV3Service
@@ -96,8 +96,8 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
         if (project.memberships) {
           text = text.concat(
             this.I18n.t('js.boards.add_list_modal.warning.add_members', {
-              link: this.pathHelper.projectMembershipsPath(this.currentProject.identifier!)
-            })
+              link: this.pathHelper.projectMembershipsPath(this.currentProject.identifier!),
+            }),
           );
         }
 
@@ -114,7 +114,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       .get()
       .toPromise()
       .then(
-        (collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements)
+        (collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements),
       );
   }
 }

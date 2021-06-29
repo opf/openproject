@@ -46,7 +46,6 @@ import { VersionAutocompleterComponent } from "core-app/shared/components/autoco
 import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
 import { WorkPackageCommentFieldComponent } from "core-app/features/work-packages/components/work-package-comment/wp-comment-field.component";
 
-
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
   return () => {
     editFieldService.defaultFieldType = 'text';

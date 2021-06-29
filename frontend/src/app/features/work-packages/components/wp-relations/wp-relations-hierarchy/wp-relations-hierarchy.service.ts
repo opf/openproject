@@ -38,30 +38,30 @@ import { HalEventsService } from "core-app/features/hal/services/hal-events.serv
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
-              protected states:States,
-              protected halEvents:HalEventsService,
-              protected notificationService:WorkPackageNotificationService,
-              protected pathHelper:PathHelperService,
-              protected apiV3Service:APIV3Service) {
+    protected states:States,
+    protected halEvents:HalEventsService,
+    protected notificationService:WorkPackageNotificationService,
+    protected pathHelper:PathHelperService,
+    protected apiV3Service:APIV3Service) {
 
   }
 
   public changeParent(workPackage:WorkPackageResource, parentId:string|null) {
     const payload:any = {
-      lockVersion: workPackage.lockVersion
+      lockVersion: workPackage.lockVersion,
     };
 
     if (parentId) {
       payload['_links'] = {
         parent: {
-          href: this.apiV3Service.work_packages.id(parentId).path
-        }
+          href: this.apiV3Service.work_packages.id(parentId).path,
+        },
       };
     } else {
       payload['_links'] = {
         parent: {
-          href: null
-        }
+          href: null,
+        },
       };
     }
 
@@ -99,42 +99,40 @@ export class WorkPackageRelationsHierarchyService {
       .id(childWpId)
       .get()
       .toPromise()
-      .then((wpToBecomeChild:WorkPackageResource|undefined) => {
-        return this.changeParent(wpToBecomeChild!, workPackage.id!)
-          .then(wp => {
-            // Reload work package
-            this
-              .apiV3Service
-              .work_packages
-              .id(workPackage)
-              .refresh();
+      .then((wpToBecomeChild:WorkPackageResource|undefined) => this.changeParent(wpToBecomeChild!, workPackage.id)
+        .then(wp => {
+          // Reload work package
+          this
+            .apiV3Service
+            .work_packages
+            .id(workPackage)
+            .refresh();
 
-            this.halEvents.push(workPackage, {
-              eventType: 'association',
-              relatedWorkPackage: wpToBecomeChild!.id!,
-              relationType: 'child'
-            });
-
-            return wp;
+          this.halEvents.push(workPackage, {
+            eventType: "association",
+            relatedWorkPackage: wpToBecomeChild!.id!,
+            relationType: "child"
           });
-      });
+
+          return wp;
+        }));
   }
 
   public addNewChildWp(baseRoute:string, workPackage:WorkPackageResource) {
     workPackage.project.$load()
       .then(() => {
         const args = [
-          baseRoute + '.new',
+          `${baseRoute}.new`,
           {
-            parent_id: workPackage.id
-          }
+            parent_id: workPackage.id,
+          },
         ];
 
         if (this.$state.includes('work-packages.show')) {
           args[0] = 'work-packages.new';
         }
 
-        (<any>this.$state).go(...args);
+        (<any> this.$state).go(...args);
       });
   }
 
@@ -144,10 +142,10 @@ export class WorkPackageRelationsHierarchyService {
       return childWorkPackage.changeParent({
         _links: {
           parent: {
-            href: null
-          }
+            href: null,
+          },
         },
-        lockVersion: childWorkPackage.lockVersion
+        lockVersion: childWorkPackage.lockVersion,
       }).then(wp => {
         if (parentWorkPackage) {
           this

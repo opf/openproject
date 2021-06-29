@@ -32,8 +32,7 @@ export class ResourceDisplayField extends DisplayField {
   public get value() {
     if (this.schema) {
       return this.attribute && this.attribute.name;
-    } else {
-      return null;
     }
+    return null;
   }
 }

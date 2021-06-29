@@ -1,4 +1,3 @@
-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { Component } from "@angular/core";
@@ -21,18 +20,20 @@ interface OpChartType {
 export class WpGraphConfigurationSettingsTabInner extends QuerySpacedTabComponent implements TabComponent {
   // Grouping
   public availableGroups:QueryGroupByResource[] = [];
+
   public availableChartTypes:OpChartType[];
+
   public currentChartType:OpChartType;
 
   public text = {
     group_by: this.I18n.t('js.chart.axis_criteria'),
-    chart_type: this.I18n.t('js.chart.type')
+    chart_type: this.I18n.t('js.chart.type'),
   };
 
   constructor(readonly I18n:I18nService,
-              readonly wpTableGroupBy:WorkPackageViewGroupByService,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly wpGraphConfiguration:WpGraphConfigurationService) {
+    readonly wpTableGroupBy:WorkPackageViewGroupByService,
+    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+    readonly wpGraphConfiguration:WpGraphConfigurationService) {
     super(I18n, wpStatesInitialization, wpGraphConfiguration);
   }
 
@@ -65,13 +66,13 @@ export class WpGraphConfigurationSettingsTabInner extends QuerySpacedTabComponen
   }
 
   private initializeAvailableGroups() {
-    let available = this.wpTableGroupBy.available;
+    let { available } = this.wpTableGroupBy;
     // the object in current is not identical to one in available. We therefore
     // have to do this by hand to be able to just use ngModel later.
-    const current = this.wpTableGroupBy.current;
+    const { current } = this.wpTableGroupBy;
 
     if (current) {
-      available = available.filter(group => group.id !== current!.id);
+      available = available.filter(group => group.id !== current.id);
       available = available.concat(current);
     }
 
@@ -86,7 +87,7 @@ export class WpGraphConfigurationSettingsTabInner extends QuerySpacedTabComponen
       { identifier: 'pie' as ChartType, label: this.I18n.t('js.chart.types.pie') },
       { identifier: 'doughnut' as ChartType, label: this.I18n.t('js.chart.types.doughnut') },
       { identifier: 'radar' as ChartType, label: this.I18n.t('js.chart.types.radar') },
-      { identifier: 'polarArea' as ChartType, label: this.I18n.t('js.chart.types.polar_area') }
+      { identifier: 'polarArea' as ChartType, label: this.I18n.t('js.chart.types.polar_area') },
     ], 'label');
 
     this.currentChartType = this.availableChartTypes.find(type => type.identifier === this.wpGraphConfiguration.configuration.chartType) || this.availableChartTypes[0];

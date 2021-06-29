@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, Input, OnInit,
+} from '@angular/core';
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { filter } from "rxjs/operators";
@@ -40,20 +42,23 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 })
 export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
+
   @Input() public destroyImmediately = true;
 
   trackByHref = AngularTrackingHelpers.trackByHref;
 
   attachments:HalResource[] = [];
+
   deletedAttachments:HalResource[] = [];
 
   public $element:JQuery;
+
   public $formElement:JQuery;
 
   constructor(protected elementRef:ElementRef,
-              protected states:States,
-              protected cdRef:ChangeDetectorRef,
-              protected halResourceService:HalResourceService) {
+    protected states:States,
+    protected cdRef:ChangeDetectorRef,
+    protected halResourceService:HalResourceService) {
     super();
   }
 
@@ -73,7 +78,7 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
       .values$()
       .pipe(
         this.untilDestroyed(),
-        filter(newResource => !!newResource)
+        filter(newResource => !!newResource),
       )
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;

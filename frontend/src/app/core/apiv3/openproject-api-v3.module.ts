@@ -35,7 +35,7 @@ import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.modu
     // Commons
     OPSharedModule,
     OpenprojectHalModule,
-  ]
+  ],
 })
 export class OpenprojectApiV3Module {
 }

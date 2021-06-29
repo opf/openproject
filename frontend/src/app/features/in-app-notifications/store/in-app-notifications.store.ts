@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
-import { InAppNotification } from './in-app-notification.model';
-import { CurrentUserState } from "core-app/core/current-user/current-user.store";
+import { CurrentUserState } from 'core-app/core/current-user/current-user.store';
+import { InAppNotification } from "./in-app-notification.model";
 
 export interface InAppNotificationsState extends EntityState<InAppNotification> {
   count:number;
@@ -9,7 +9,7 @@ export interface InAppNotificationsState extends EntityState<InAppNotification> 
   expanded:boolean;
 }
 
-export function createInitialState(): InAppNotificationsState {
+export function createInitialState():InAppNotificationsState {
   return {
     count: 0,
     notShowing: 0,

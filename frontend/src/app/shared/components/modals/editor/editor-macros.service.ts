@@ -35,9 +35,8 @@ import { ChildPagesMacroModal } from "core-app/shared/components/modals/editor/m
 
 @Injectable()
 export class EditorMacrosService {
-
   constructor(readonly opModalService:OpModalService,
-              readonly injector:Injector) {
+    readonly injector:Injector) {
   }
 
   /**
@@ -46,7 +45,7 @@ export class EditorMacrosService {
    */
   public configureWorkPackageButton(typeName?:string, classes?:string):Promise<{ type:string, classes:string }> {
     return new Promise<{ type:string, classes:string }>((resolve, reject) => {
-      const modal = this.opModalService.show(WpButtonMacroModal, this.injector, { type: typeName, classes: classes });
+      const modal = this.opModalService.show(WpButtonMacroModal, this.injector, { type: typeName, classes });
       modal.closingEvent.subscribe((modal:WpButtonMacroModal) => {
         if (modal.changed) {
           resolve({ type: modal.type, classes: modal.classes });
@@ -77,7 +76,7 @@ export class EditorMacrosService {
    */
   public editCodeBlock(content:string, languageClass:string):Promise<{ content:string, languageClass:string }> {
     return new Promise<{ content:string, languageClass:string }>((resolve, _) => {
-      const modal = this.opModalService.show(CodeBlockMacroModal, this.injector, { content: content, languageClass: languageClass });
+      const modal = this.opModalService.show(CodeBlockMacroModal, this.injector, { content, languageClass });
       modal.closingEvent.subscribe((modal:CodeBlockMacroModal) => {
         if (modal.changed) {
           resolve({ languageClass: modal.languageClass, content: modal.content });
@@ -92,12 +91,12 @@ export class EditorMacrosService {
    */
   public configureChildPages(page:string, includeParent:string):Promise<object> {
     return new Promise<object>((resolve, _) => {
-      const modal = this.opModalService.show(ChildPagesMacroModal, this.injector,{ page: page, includeParent: includeParent });
+      const modal = this.opModalService.show(ChildPagesMacroModal, this.injector, { page, includeParent });
       modal.closingEvent.subscribe((modal:ChildPagesMacroModal) => {
         if (modal.changed) {
           resolve({
             page: modal.page,
-            includeParent: modal.includeParent
+            includeParent: modal.includeParent,
           });
         }
       });

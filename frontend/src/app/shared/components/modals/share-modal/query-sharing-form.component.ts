@@ -1,6 +1,8 @@
 import { States } from 'core-app/core/states/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import {
+  Component, EventEmitter, Input, Output,
+} from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 
@@ -15,8 +17,11 @@ export interface QuerySharingChange {
 })
 export class QuerySharingForm {
   @Input() public isSave:boolean;
+
   @Input() public isStarred:boolean;
+
   @Input() public isPublic:boolean;
+
   @Output() public onChange = new EventEmitter<QuerySharingChange>();
 
   public text = {
@@ -24,19 +29,19 @@ export class QuerySharingForm {
     visibleForOthers: this.I18n.t('js.label_public_query'),
 
     showInMenuText: this.I18n.t('js.work_packages.query.star_text'),
-    visibleForOthersText: this.I18n.t('js.work_packages.query.public_text')
+    visibleForOthersText: this.I18n.t('js.work_packages.query.public_text'),
   };
 
   constructor(readonly states:States,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly authorisationService:AuthorisationService,
-              readonly I18n:I18nService) {
+    readonly querySpace:IsolatedQuerySpace,
+    readonly authorisationService:AuthorisationService,
+    readonly I18n:I18nService) {
   }
 
   public get canStar() {
-    return this.isSave ||
-      this.authorisationService.can('query', 'star') ||
-      this.authorisationService.can('query', 'unstar');
+    return this.isSave
+      || this.authorisationService.can('query', 'star')
+      || this.authorisationService.can('query', 'unstar');
   }
 
   public get canPublish() {

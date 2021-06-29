@@ -18,9 +18,9 @@ export function setupServerResponse() {
   * CVE-2011-0447
   * 2 - shows and hides ajax indicator
   */
-  jQuery(document).ajaxSend(function (event, request) {
-    if (jQuery(event.target.activeElement!).closest('[ajax-indicated]').length &&
-      jQuery('ajax-indicator')) {
+  jQuery(document).ajaxSend((event, request) => {
+    if (jQuery(event.target.activeElement!).closest('[ajax-indicated]').length
+      && jQuery('ajax-indicator')) {
       jQuery('#ajax-indicator').show();
     }
 
@@ -37,7 +37,7 @@ export function setupServerResponse() {
   });
 
   // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
-  jQuery(document).ajaxStop(function () {
+  jQuery(document).ajaxStop(() => {
     if (jQuery('#ajax-indicator')) {
       jQuery('#ajax-indicator').hide();
     }
@@ -50,20 +50,20 @@ export function setupServerResponse() {
   });
 
   let resizeTo:any = null;
-  jQuery(window).on('resize', function () {
+  jQuery(window).on('resize', () => {
     // wait 200 milliseconds for no further resize event
     // then readjust breadcrumb
 
     if (resizeTo) {
       clearTimeout(resizeTo);
     }
-    resizeTo = setTimeout(function () {
+    resizeTo = setTimeout(() => {
       jQuery(window).trigger('resizeEnd');
     }, 200);
   });
 
   // Do not close the login window when using it
-  jQuery('#nav-login-content').click(function (event) {
+  jQuery('#nav-login-content').click((event) => {
     event.stopPropagation();
   });
 
@@ -82,8 +82,8 @@ export function setupServerResponse() {
   addClickEventToAllErrorMessages();
 
   // Click handler for formatting help
-  jQuery(document.body).on('click', '.formatting-help-link-button', function () {
-    window.open(window.appBasePath + '/help/wiki_syntax',
+  jQuery(document.body).on('click', '.formatting-help-link-button', () => {
+    window.open(`${window.appBasePath}/help/wiki_syntax`,
       "",
       "resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes"
     );
@@ -102,7 +102,7 @@ function flashCloseHandler() {
 }
 
 function autoHideFlashMessage() {
-  setTimeout(function () {
+  setTimeout(() => {
     jQuery('.flash.autohide-notification').remove();
   }, 5000);
 }
@@ -110,7 +110,7 @@ function autoHideFlashMessage() {
 function addClickEventToAllErrorMessages() {
   jQuery('a.afocus').each(function () {
     var target = jQuery(this);
-    target.click(function (evt) {
+    target.click((evt) => {
       var field = jQuery('#' + target.attr('href')!.substr(1));
       if (field === null) {
         // Cut off '_id' (necessary for select boxes)
@@ -134,14 +134,13 @@ function initMainMenuExpandStatus() {
 function activateFlash(selector:any) {
   const flashMessages = jQuery(selector);
 
-  flashMessages.each(function (ix, e) {
+  flashMessages.each((ix, e) => {
     const flashMessage = jQuery(e);
     flashMessage.show();
   });
 }
 
 function activateFlashNotice() {
-
   activateFlash('.flash');
 }
 
@@ -155,4 +154,3 @@ function focusFirstErroneousField() {
 
   erroneousInput.trigger('focus');
 }
-

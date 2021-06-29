@@ -41,7 +41,7 @@ import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-
            (focusout)="handler.onFocusOut()"
            [attr.lang]="locale"
            [id]="handler.htmlId" />
-  `
+  `,
 })
 export class FloatEditFieldComponent extends EditFieldComponent {
   public locale = I18n.locale;

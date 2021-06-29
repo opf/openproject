@@ -5,9 +5,8 @@ export const uiStateLinkClass = '__ui-state-link';
 export const checkedClassName = '-checked';
 
 export class UiStateLinkBuilder {
-
   constructor(public readonly $state:StateService,
-              public readonly keepTab:KeepTabService) {
+    public readonly keepTab:KeepTabService) {
   }
 
   public linkToDetails(workPackageId:string, title:string, content:string) {
@@ -33,9 +32,9 @@ export class UiStateLinkBuilder {
     a.href = this.$state.href(
       tabState,
       {
-        workPackageId: workPackageId,
-        tabIdentifier: tabIdentifier
-      }
+        workPackageId,
+        tabIdentifier,
+      },
     );
     a.classList.add(uiStateLinkClass);
     a.dataset['workPackageId'] = workPackageId;

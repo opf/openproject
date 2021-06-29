@@ -26,12 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 export class PaginationInstance {
-
   constructor(public page:number,
-              public total:number,
-              public perPage:number) {
+    public total:number,
+    public perPage:number) {
   }
 
   public getLowerPageBound() {
@@ -50,4 +48,3 @@ export class PaginationInstance {
     this.page -= 1;
   }
 }
-

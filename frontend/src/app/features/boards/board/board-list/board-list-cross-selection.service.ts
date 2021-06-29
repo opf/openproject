@@ -13,14 +13,12 @@ export interface BoardSelection {
   allSelected:string[];
 }
 
-
 /**
  * Responsible for keeping selected items across all lists of a board,
  * selections in one list will propagate to other lists as well.
  */
 @Injectable()
 export class BoardListCrossSelectionService {
-
   private selections$ = new Subject<BoardSelection>();
 
   /**
@@ -44,7 +42,7 @@ export class BoardListCrossSelectionService {
     return this
       .selections$
       .pipe(
-        filter(selection => selection.withinQuery !== id)
+        filter(selection => selection.withinQuery !== id),
       );
   }
 

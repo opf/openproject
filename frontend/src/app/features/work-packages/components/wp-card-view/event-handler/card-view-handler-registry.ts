@@ -4,14 +4,12 @@ import { CardDblClickHandler } from "core-app/features/work-packages/components/
 import { CardRightClickHandler } from "core-app/features/work-packages/components/wp-card-view/event-handler/right-click-handler";
 import {
   WorkPackageViewEventHandler,
-  WorkPackageViewHandlerRegistry
+  WorkPackageViewHandlerRegistry,
 } from "core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry";
-
 
 export type CardEventHandler = WorkPackageViewEventHandler<WorkPackageCardViewComponent>;
 
 export class CardViewHandlerRegistry extends WorkPackageViewHandlerRegistry<WorkPackageCardViewComponent> {
-
   protected eventHandlers:((c:WorkPackageCardViewComponent) => CardEventHandler)[] = [
     // Clicking on the card (not within a cell)
     c => new CardClickHandler(this.injector, c),

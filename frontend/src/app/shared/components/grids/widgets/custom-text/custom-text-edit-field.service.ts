@@ -17,12 +17,13 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   public valueChanged$:BehaviorSubject<string>;
 
   public changeset:ResourceChangeset;
+
   public active:boolean;
 
   constructor(protected elementRef:ElementRef,
-              protected injector:Injector,
-              protected halResource:HalResourceService,
-              protected schemaCache:SchemaCacheService) {
+    protected injector:Injector,
+    protected halResource:HalResourceService,
+    protected schemaCache:SchemaCacheService) {
     super();
   }
 
@@ -60,7 +61,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
       writable: true,
       required: false,
       type: 'Formattable',
-      hasDefault: false
+      hasDefault: false,
     };
   }
 
@@ -135,19 +136,17 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     const schemaHref = 'customtext-schema';
     const resourceSource = {
       text: value.options.text,
-      getEditorContext: () => {
-        return {
-          type: 'full',
-          macros: 'resource',
-        } as ICKEditorContext;
-      },
+      getEditorContext: () => ({
+        type: "full",
+        macros: "resource",
+      } as ICKEditorContext),
       canAddAttachments: value.grid.canAddAttachments,
       uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files),
       _links: {
         schema: {
-          href: schemaHref
-        }
-      }
+          href: schemaHref,
+        },
+      },
     };
 
     const resource = this.halResource.createHalResource(resourceSource, true);
@@ -155,11 +154,11 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     const schemaSource = {
       text: this.schema,
       _links: {
-        self: { href: schemaHref }
-      }
+        self: { href: schemaHref },
+      },
     };
 
-    const schema = this.halResource.createHalResource(schemaSource, true) as SchemaResource;
+    const schema = this.halResource.createHalResource(schemaSource, true);
 
     this.schemaCache.update(resource, schema);
 

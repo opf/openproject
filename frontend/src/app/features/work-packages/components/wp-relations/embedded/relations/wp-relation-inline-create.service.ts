@@ -68,16 +68,14 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
 
     if (relation !== undefined) {
       return this.wpRelations.removeRelation(relation);
-    } else {
-      return Promise.reject();
     }
+    return Promise.reject();
   }
 
   /**
    * A related work package for the inline create context
    */
   public referenceTarget:WorkPackageResource|null = null;
-
 
   public get canAdd() {
     return !!(this.referenceTarget && this.canCreateWorkPackages && this.referenceTarget.addRelation);
@@ -92,6 +90,6 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
    */
   public readonly buttonTexts = {
     reference: this.I18n.t('js.relation_buttons.add_existing'),
-    create: this.I18n.t('js.relation_buttons.create_new')
+    create: this.I18n.t('js.relation_buttons.create_new'),
   };
 }

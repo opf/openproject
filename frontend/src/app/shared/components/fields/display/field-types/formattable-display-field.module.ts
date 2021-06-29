@@ -33,7 +33,6 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { ExpressionService } from "core-app/core/expression/expression.service";
 
 export class FormattableDisplayField extends DisplayField {
-
   @InjectField() readonly appRef:ApplicationRef;
 
   public render(element:HTMLElement, displayText:string, options:any = {}):void {
@@ -80,8 +79,7 @@ export class FormattableDisplayField extends DisplayField {
   protected unescape(html:string) {
     if (html) {
       return ExpressionService.unescape(html);
-    } else {
-      return '';
     }
+    return "";
   }
 }

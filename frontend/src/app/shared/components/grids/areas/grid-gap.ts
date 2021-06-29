@@ -12,33 +12,29 @@ export class GridGap extends GridArea {
   public get gridStartRow() {
     if (this.isRow) {
       return this.startRow * 2 - 1;
-    } else {
-      return this.startRow * 2;
     }
+    return this.startRow * 2;
   }
 
   public get gridEndRow() {
     if (this.isRow) {
       return this.endRow * 2 - 2;
-    } else {
-      return this.endRow * 2 - 1;
     }
+    return this.endRow * 2 - 1;
   }
 
   public get gridStartColumn() {
     if (this.isRow) {
       return this.startColumn * 2;
-    } else {
-      return this.startColumn * 2 - 1;
     }
+    return this.startColumn * 2 - 1;
   }
 
   public get gridEndColumn() {
     if (this.isRow) {
       return this.endColumn * 2 - 1;
-    } else {
-      return this.endColumn * 2 - 2;
     }
+    return this.endColumn * 2 - 2;
   }
 
   public get isRow() {

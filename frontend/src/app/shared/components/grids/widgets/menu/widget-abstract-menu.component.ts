@@ -40,14 +40,12 @@ export abstract class WidgetAbstractMenuComponent {
   protected menuItemList:OpContextMenuItem[] = [this.removeItem];
 
   constructor(readonly i18n:I18nService,
-              protected readonly remove:GridRemoveWidgetService,
-              protected readonly layout:GridAreaService) {
+    protected readonly remove:GridRemoveWidgetService,
+    protected readonly layout:GridAreaService) {
   }
 
   public get menuItems() {
-    return async () => {
-      return this.menuItemList;
-    };
+    return async () => this.menuItemList;
   }
 
   protected get removeItem() {
@@ -56,7 +54,7 @@ export abstract class WidgetAbstractMenuComponent {
       onClick: () => {
         this.remove.widget(this.resource);
         return true;
-      }
+      },
     };
   }
 

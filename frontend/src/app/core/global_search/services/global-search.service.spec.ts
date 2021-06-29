@@ -36,7 +36,7 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
 import { States } from "core-app/core/states/states.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
-describe('Global search service', function() {
+describe('Global search service', () => {
   let service:GlobalSearchService;
   let CurrentProject:CurrentProjectService;
   let CurrentProjectSpy;
@@ -51,13 +51,13 @@ describe('Global search service', function() {
         APIV3Service,
         CurrentProjectService,
         GlobalSearchService,
-      ]
+      ],
     })
-    .compileComponents()
-    .then(() => {
-      CurrentProject = TestBed.inject(CurrentProjectService);
-      service = TestBed.inject(GlobalSearchService);
-    });
+      .compileComponents()
+      .then(() => {
+        CurrentProject = TestBed.inject(CurrentProjectService);
+        service = TestBed.inject(GlobalSearchService);
+      });
   }));
 
   describe('outside a project', () => {

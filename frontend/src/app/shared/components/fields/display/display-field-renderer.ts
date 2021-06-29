@@ -24,25 +24,26 @@ export const editFieldContainerClass = 'inline-edit--container';
 export const cellEmptyPlaceholder = '-';
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
-
   @InjectField() displayFieldService:DisplayFieldService;
+
   @InjectField() schemaCache:SchemaCacheService;
+
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() I18n!:I18nService;
 
   /** We cache the previously used fields to avoid reinitialization */
   private fieldCache:{ [key:string]:DisplayField } = {};
 
   constructor(public readonly injector:Injector,
-              public readonly container:'table'|'single-view'|'timeline',
-              public readonly options:{ [key:string]:any } = {}) {
+    public readonly container:'table'|'single-view'|'timeline',
+    public readonly options:{ [key:string]:any } = {}) {
   }
 
   public render(resource:T,
     name:string,
     change:ResourceChangeset<T>|null,
     placeholder?:string):HTMLSpanElement {
-
     const [field, span] = this.renderFieldValue(resource, name, change, placeholder);
 
     if (field === null) {
@@ -72,7 +73,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     const field = this.getField(resource, fieldSchema, attributeName, change);
     field.render(span, this.getText(field, fieldSchema, placeholder), fieldSchema.options);
 
-    const title = field.title;
+    const { title } = field;
     if (title) {
       span.setAttribute('title', title);
     }
@@ -127,9 +128,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   private getText(field:DisplayField, fieldSchema:IFieldSchema, placeholder?:string):string {
     if (field.isEmpty()) {
       return placeholder || this.getDefaultPlaceholder(fieldSchema);
-    } else {
-      return field.valueString;
     }
+    return field.valueString;
   }
 
   private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, resource:T, change:ResourceChangeset<T>|null):void {
@@ -173,27 +173,24 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       try {
         titleContent = _.escape(jQuery(`<div>${labelContent}</div>`).text());
       } catch (e) {
-        console.error("Failed to parse formattable labelContent");
-        titleContent = "Label for " + field.displayName;
+        console.error('Failed to parse formattable labelContent');
+        titleContent = 'Label for ' + field.displayName;
       }
-
     } else {
       titleContent = labelContent;
     }
 
     if (field.writable && schema.isAttributeEditable(field.name)) {
-      return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
-    } else {
-      return `${field.displayName} ${titleContent}`;
+      return this.I18n.t("js.inplace.button_edit", { attribute: `${field.displayName} ${titleContent}` });
     }
+    return `${field.displayName} ${titleContent}`;
   }
 
   private getLabelContent(field:DisplayField):string {
     if (field.isEmpty()) {
-      return this.I18n.t('js.inplace.null_value_label');
-    } else {
-      return field.valueString;
+      return this.I18n.t("js.inplace.null_value_label");
     }
+    return field.valueString;
   }
 
   /**
@@ -206,9 +203,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   private attributeName(attribute:string, schema:SchemaResource) {
     if (schema.mappedName) {
       return schema.mappedName(attribute);
-    } else {
-      return attribute;
     }
+    return attribute;
   }
 
   private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
@@ -222,10 +218,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   private schema(resource:T, change:ResourceChangeset<T>|null) {
     if (change) {
       return change.schema;
-    } else if (this.halEditing.typedState(resource).hasValue()) {
+    } if (this.halEditing.typedState(resource).hasValue()) {
       return this.halEditing.typedState(resource).value!.schema;
-    } else {
-      return this.schemaCache.of(resource) as ISchemaProxy;
     }
+    return this.schemaCache.of(resource);
   }
 }

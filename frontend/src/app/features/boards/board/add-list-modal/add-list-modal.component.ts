@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild,
+} from "@angular/core";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
@@ -49,19 +51,17 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
   templateUrl: './add-list-modal.html'
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
-
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
   getAutocompleterData = (searchTerm:string):Observable<HalResource[]> => {
-
     // Remove prefix # from search
     searchTerm = searchTerm.replace(/^#/, '');
     return this.actionService.loadAvailable(this.board, this.active, searchTerm).pipe(tap((values) => this.warnIfNoOptions(values)));
   };
 
   public autocompleterOptions = {
-    resource:"",
-    getOptionsFn: this.getAutocompleterData
+    resource: '',
+    getOptionsFn: this.getAutocompleterData,
   };
 
   public showClose:boolean;
@@ -110,16 +110,15 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   showWarning = false;
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly boardActions:BoardActionsRegistryService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly state:StateService,
-              readonly boardService:BoardService,
-              readonly I18n:I18nService,
-              readonly apiV3Service:APIV3Service,
-              readonly currentProject:CurrentProjectService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly boardActions:BoardActionsRegistryService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly state:StateService,
+    readonly boardService:BoardService,
+    readonly I18n:I18nService,
+    readonly apiV3Service:APIV3Service,
+    readonly currentProject:CurrentProjectService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -128,7 +127,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.board = this.locals.board;
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
-    this.autocompleterOptions.resource=this.actionService.localizedName.toLowerCase();
+    this.autocompleterOptions.resource = this.actionService.localizedName.toLowerCase();
   }
 
   onModelChange(element:HalResource) {
@@ -154,21 +153,24 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .versions
       .post(this.getVersionPayload(this.ngSelectComponent.ngSelectInstance.searchTerm))
       .subscribe(
-        version => { this.selectedAttribute = version;
-          this.create();},
+        version => {
+          this.selectedAttribute = version;
+          this.create();
+        },
         error => {
           this.ngSelectComponent.closeSelect();
           this.halNotification.handleRawError(error);
-        });
-
+        },
+      );
   }
+
   private getVersionPayload(name:string) {
     const payload:any = {};
     payload['name'] = name;
     payload['_links'] = {
       definingProject: {
-        href: this.apiV3Service.projects.id(this.currentProject.id!).path
-      }
+        href: this.apiV3Service.projects.id(this.currentProject.id!).path,
+      },
     };
 
     return payload;
@@ -194,4 +196,3 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 }
-

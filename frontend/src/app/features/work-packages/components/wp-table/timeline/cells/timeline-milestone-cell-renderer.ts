@@ -1,9 +1,10 @@
-import * as moment from 'moment';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import * as moment from "moment";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import {
   calculatePositionValueForDayCountingPx,
   RenderInfo,
-  timelineElementCssClass
+  timelineElementCssClass,
 } from '../wp-timeline';
 import { CellDateMovement, LabelPosition, TimelineCellRenderer } from './timeline-cell-renderer';
 import {
@@ -16,10 +17,9 @@ import {
   classNameRightHoverLabel,
   classNameRightLabel,
   classNameShowOnHover,
-  WorkPackageCellLabels
+  WorkPackageCellLabels,
 } from './wp-timeline-cell';
 import Moment = moment.Moment;
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public get type():string {
@@ -44,7 +44,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     placeholder.style.pointerEvents = 'none';
     placeholder.style.height = '1em';
     placeholder.style.width = '1em';
-    placeholder.style.left = (days * renderInfo.viewParams.pixelPerDay) + 'px';
+    placeholder.style.left = `${days * renderInfo.viewParams.pixelPerDay}px`;
 
     const diamond = document.createElement('div');
     diamond.className = 'diamond';
@@ -66,7 +66,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public assignDateValues(change:WorkPackageChangeset,
     labels:WorkPackageCellLabels,
     dates:any):void {
-
     this.assignDate(change, 'date', dates.date);
     this.updateLabels(true, labels, change);
   }
@@ -78,7 +77,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     dayUnderCursor:Moment,
     delta:number,
     direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
-
     const initialDate = change.pristineResource.date;
     const dates:CellDateMovement = {};
 
@@ -94,7 +92,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     renderInfo:RenderInfo,
     labels:WorkPackageCellLabels,
     elem:HTMLElement):'left' | 'right' | 'both' | 'create' | 'dragright' {
-
     // check for active selection mode
     if (renderInfo.viewParams.activeSelectionMode) {
       renderInfo.viewParams.activeSelectionMode(renderInfo.workPackage);
@@ -117,7 +114,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
-    const viewParams = renderInfo.viewParams;
+    const { viewParams } = renderInfo;
     const date = moment(renderInfo.change.projectedResource.date);
 
     // abort if no date
@@ -127,16 +124,16 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     const diamond = jQuery('.diamond', element)[0];
 
-    diamond.style.width = 15 + 'px';
-    diamond.style.height = 15 + 'px';
-    diamond.style.width = 15 + 'px';
-    diamond.style.height = 15 + 'px';
-    diamond.style.marginLeft = -(15 / 2) + (renderInfo.viewParams.pixelPerDay / 2) + 'px';
+    diamond.style.width = `${15}px`;
+    diamond.style.height = `${15}px`;
+    diamond.style.width = `${15}px`;
+    diamond.style.height = `${15}px`;
+    diamond.style.marginLeft = `${-(15 / 2) + (renderInfo.viewParams.pixelPerDay / 2)}px`;
     this.applyTypeColor(renderInfo, diamond);
 
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, 'days');
-    element.style.left = calculatePositionValueForDayCountingPx(viewParams, offsetStart) + 'px';
+    element.style.left = `${calculatePositionValueForDayCountingPx(viewParams, offsetStart)}px`;
 
     // Update labels if any
     if (labels) {
@@ -149,7 +146,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   getMarginLeftOfLeftSide(renderInfo:RenderInfo):number {
-    const change = renderInfo.change;
+    const { change } = renderInfo;
     const start = moment(change.projectedResource.date);
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, 'days');
     return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
@@ -173,7 +170,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    */
   public render(renderInfo:RenderInfo):HTMLDivElement {
     const element = document.createElement('div');
-    element.className = timelineElementCssClass + ' ' + this.type;
+    element.className = `${timelineElementCssClass} ${this.type}`;
 
     const diamond = document.createElement('div');
     diamond.className = 'diamond';
@@ -231,7 +228,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   protected updateLabels(activeDragNDrop:boolean,
     labels:WorkPackageCellLabels,
     change:WorkPackageChangeset) {
-
     const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(change.projectedResource);
 
     if (!activeDragNDrop) {
@@ -268,5 +264,4 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     super.renderLabel(change, labels, position, attribute);
   }
-
 }

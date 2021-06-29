@@ -31,7 +31,9 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class FocusHelperService {
   private minimumOffsetForNewSwitchInMs = 100;
+
   private lastFocusSwitch = -this.minimumOffsetForNewSwitchInMs;
+
   private lastPriority = -1;
 
   private static FOCUSABLE_SELECTORS = 'a, button, :input, [tabindex], select';
@@ -79,9 +81,9 @@ export class FocusHelperService {
   }
 
   public focus(element:JQuery) {
-    var focusable = jQuery(this.getFocusableElement(element)),
-      $focusable = jQuery(focusable),
-      isDisabled = $focusable.is('[disabled]');
+    var focusable = jQuery(this.getFocusableElement(element));
+    var $focusable = jQuery(focusable);
+    var isDisabled = $focusable.is('[disabled]');
 
     if (isDisabled && !$focusable.attr('ng-disabled')) {
       $focusable.prop('disabled', false);

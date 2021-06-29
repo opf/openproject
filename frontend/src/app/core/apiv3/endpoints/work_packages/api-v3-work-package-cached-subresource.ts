@@ -47,7 +47,7 @@ export class ApiV3WorkPackageCachedSubresource extends APIv3GettableResource<Wor
       .pipe(
         tap(collection => collection.schemas && this.updateSchemas(collection.schemas)),
         tap(collection => this.cache.updateWorkPackageList(collection.elements)),
-        take(1)
+        take(1),
       );
   }
 

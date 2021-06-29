@@ -75,80 +75,80 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
       schema: 'Schema',
       status: 'Status',
       type: 'Type'
-    }
+    },
   },
   Activity: {
     cls: HalResource,
     attrTypes: {
       user: 'User'
-    }
+    },
   },
   'Activity::Comment': {
     cls: HalResource,
     attrTypes: {
       user: 'User'
-    }
+    },
   },
   'Activity::Revision': {
     cls: HalResource,
     attrTypes: {
       user: 'User'
-    }
+    },
   },
   Relation: {
     cls: RelationResource,
     attrTypes: {
       from: 'WorkPackage',
       to: 'WorkPackage'
-    }
+    },
   },
   Schema: {
-    cls: SchemaResource
+    cls: SchemaResource,
   },
   Type: {
-    cls: TypeResource
+    cls: TypeResource,
   },
   Status: {
-    cls: StatusResource
+    cls: StatusResource,
   },
   SchemaDependency: {
-    cls: SchemaDependencyResource
+    cls: SchemaDependencyResource,
   },
   Error: {
-    cls: ErrorResource
+    cls: ErrorResource,
   },
   User: {
-    cls: UserResource
+    cls: UserResource,
   },
   Group: {
-    cls: GroupResource
+    cls: GroupResource,
   },
   Collection: {
-    cls: CollectionResource
+    cls: CollectionResource,
   },
   WorkPackageCollection: {
-    cls: WorkPackageCollectionResource
+    cls: WorkPackageCollectionResource,
   },
   AttachmentCollection: {
-    cls: AttachmentCollectionResource
+    cls: AttachmentCollectionResource,
   },
   Query: {
     cls: QueryResource,
     attrTypes: {
       filters: 'QueryFilterInstance'
-    }
+    },
   },
   Form: {
     cls: FormResource,
     attrTypes: {
       payload: 'FormPayload'
-    }
+    },
   },
   FormPayload: {
     cls: HalResource,
     attrTypes: {
       attachments: 'AttachmentsCollection'
-    }
+    },
   },
   QueryFilterInstance: {
     cls: QueryFilterInstanceResource,
@@ -156,7 +156,7 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
       schema: 'QueryFilterInstanceSchema',
       filter: 'QueryFilter',
       operator: 'QueryOperator'
-    }
+    },
   },
   QueryFilterInstanceSchema: {
     cls: QueryFilterInstanceSchemaResource,
@@ -174,41 +174,41 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
     cls: HelpTextResource,
   },
   CustomAction: {
-    cls: CustomActionResource
+    cls: CustomActionResource,
   },
   WikiPage: {
-    cls: WikiPageResource
+    cls: WikiPageResource,
   },
   MeetingContent: {
-    cls: MeetingContentResource
+    cls: MeetingContentResource,
   },
   Post: {
-    cls: PostResource
+    cls: PostResource,
   },
   Project: {
-    cls: ProjectResource
+    cls: ProjectResource,
   },
   Role: {
-    cls: RoleResource
+    cls: RoleResource,
   },
   Grid: {
     cls: GridResource,
   },
   GridWidget: {
-    cls: GridWidgetResource
+    cls: GridWidgetResource,
   },
   TimeEntry: {
-    cls: TimeEntryResource
+    cls: TimeEntryResource,
   },
   Membership: {
-    cls: MembershipResource
+    cls: MembershipResource,
   },
   News: {
-    cls: NewsResource
+    cls: NewsResource,
   },
   Version: {
-    cls: VersionResource
-  }
+    cls: VersionResource,
+  },
 };
 
 export function initializeHalResourceConfig(halResourceService:HalResourceService) {
@@ -216,4 +216,3 @@ export function initializeHalResourceConfig(halResourceService:HalResourceServic
     _.each(halResourceDefaultConfig, (value, key) => halResourceService.registerResource(key, value));
   };
 }
-

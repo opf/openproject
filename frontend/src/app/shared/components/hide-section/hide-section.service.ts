@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 import { GonService } from "core-app/core/gon/gon.service";
 import { Injectable } from "@angular/core";
 import { input } from "reactivestates";
@@ -39,6 +38,7 @@ export interface HideSectionDefinition {
 @Injectable({ providedIn: 'root' })
 export class HideSectionService {
   public displayed = input<string[]>();
+
   public all:HideSectionDefinition[] = [];
 
   constructor(Gon:GonService) {
@@ -76,7 +76,7 @@ export class HideSectionService {
 
   private removeHiddenOnSubmit() {
     jQuery(document.body)
-      .on('submit', 'form', function(evt:any) {
+      .on('submit', 'form', function (evt:any) {
         const form = jQuery(this);
         const sections = form.find('section.hide-section:hidden');
 

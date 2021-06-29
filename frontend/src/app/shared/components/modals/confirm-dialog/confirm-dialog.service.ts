@@ -32,9 +32,8 @@ import { Injectable, Injector } from "@angular/core";
 
 @Injectable()
 export class ConfirmDialogService {
-
   constructor(readonly opModalService:OpModalService,
-              readonly injector:Injector) {
+    readonly injector:Injector) {
   }
 
   /**
@@ -42,7 +41,7 @@ export class ConfirmDialogService {
    */
   public confirm(options:ConfirmDialogOptions):Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const confirmModal = this.opModalService.show(ConfirmDialogModal, this.injector, { options: options });
+      const confirmModal = this.opModalService.show(ConfirmDialogModal, this.injector, { options });
       confirmModal.closingEvent.subscribe((modal:ConfirmDialogModal) => {
         if (modal.confirmed) {
           resolve();

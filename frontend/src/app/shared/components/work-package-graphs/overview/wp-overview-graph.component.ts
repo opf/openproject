@@ -1,14 +1,16 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   WorkPackageEmbeddedGraphComponent,
-  WorkPackageEmbeddedGraphDataset
+  WorkPackageEmbeddedGraphDataset,
 } from "core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { ChartOptions } from 'chart.js';
 import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
 import {
   WpGraphConfiguration,
-  WpGraphQueryParams
+  WpGraphQueryParams,
 } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
 
 export const wpOverviewGraphSelector = 'wp-overview-graph';
@@ -19,26 +21,33 @@ export const wpOverviewGraphSelector = 'wp-overview-graph';
   styleUrls: ['./wp-overview-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    WpGraphConfigurationService
-  ]
+    WpGraphConfigurationService,
+  ],
 })
 
 export class WorkPackageOverviewGraphComponent implements OnInit {
   @Input() additionalFilter:any;
+
   @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
+
   @ViewChild('wpEmbeddedGraphSingle') private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
+
   @Input() groupBy = 'status';
+
   @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
+
   public datasets:WorkPackageEmbeddedGraphDataset[] = [];
+
   public displayModeSingle = true;
-  public availableGroupBy:{label:string, key:string}[];
+
+  public availableGroupBy:{ label:string, key:string }[];
+
   public error:string|null = null;
 
   constructor(readonly elementRef:ElementRef,
-              readonly I18n:I18nService,
-              readonly graphConfigurationService:WpGraphConfigurationService,
-              protected readonly cdr:ChangeDetectorRef) {
-
+    readonly I18n:I18nService,
+    readonly graphConfigurationService:WpGraphConfigurationService,
+    protected readonly cdr:ChangeDetectorRef) {
     this.availableGroupBy = [{ label: I18n.t('js.work_packages.properties.category'), key: 'category' },
       { label: I18n.t('js.work_packages.properties.type'), key: 'type' },
       { label: I18n.t('js.work_packages.properties.status'), key: 'status' },
@@ -95,12 +104,9 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   public sortedDatasets(datasets:WorkPackageEmbeddedGraphDataset[], params:WpGraphQueryParams[]) {
-    const sortingArray = params.map((x) => x.name );
+    const sortingArray = params.map((x) => x.name);
 
-    return datasets.slice().sort((a, b) => {
-      return sortingArray.indexOf(a.label) - sortingArray.indexOf(b.label);
-    });
-
+    return datasets.slice().sort((a, b) => sortingArray.indexOf(a.label) - sortingArray.indexOf(b.label));
   }
 
   public get propsBoth() {
@@ -130,7 +136,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
       'columns[]': [],
       filters: JSON.stringify(filters),
       group_by: this.groupBy,
-      pageSize: 0
+      pageSize: 0,
     };
   }
 
@@ -145,11 +151,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   private get currentGraph() {
     if (this.displaySingle) {
       return this.embeddedGraphSingle;
-    } else {
-      return this.embeddedGraphMulti;
     }
-
+    return this.embeddedGraphMulti;
   }
 }
-
-

@@ -44,16 +44,27 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
+
   @InjectField() I18n!:I18nService;
+
   @InjectField() keepTab:KeepTabService;
+
   @InjectField() PathHelper:PathHelperService;
+
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() wpTableFocus:WorkPackageViewFocusService;
+
   @InjectField() notificationService:WorkPackageNotificationService;
+
   @InjectField() authorisationService:AuthorisationService;
+
   @InjectField() cdRef:ChangeDetectorRef;
+
   @InjectField() readonly titleService:OpTitleService;
+
   @InjectField() readonly apiV3Service:APIV3Service;
+
   @InjectField() readonly hooks:HookService;
 
   // Static texts
@@ -61,13 +72,15 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
+
   public projectIdentifier:string;
 
   public focusAnchorLabel:string;
+
   public showStaticPagePath:string;
 
   constructor(public injector:Injector,
-              protected workPackageId:string) {
+    protected workPackageId:string) {
     super();
     this.initializeTexts();
   }
@@ -84,15 +97,14 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .id(this.workPackageId)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
-          this.workPackage = wp;
-          this.init();
-          this.cdRef.detectChanges();
-        },
-        (error) => this.notificationService.handleRawError(error)
-      );
+        this.workPackage = wp;
+        this.init();
+        this.cdRef.detectChanges();
+      },
+      (error) => this.notificationService.handleRawError(error));
   }
 
   /**
@@ -132,7 +144,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     // Listen to tab changes to update the tab label
     this.keepTab.observable
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((tabs:any) => {
         this.updateFocusAnchorLabel(tabs.active);
@@ -146,7 +158,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     const tabLabel = this.I18n.t('js.label_work_package_details_you_are_here', {
       tab: this.I18n.t('js.work_packages.tabs.' + tabName),
       type: this.workPackage.type.name,
-      subject: this.workPackage.subject
+      subject: this.workPackage.subject,
     });
 
     return this.focusAnchorLabel = tabLabel;

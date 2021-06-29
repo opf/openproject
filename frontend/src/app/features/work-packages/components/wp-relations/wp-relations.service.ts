@@ -24,10 +24,9 @@ export class RelationStateGroup extends StatesGroup {
 
 @Injectable()
 export class WorkPackageRelationsService extends StateCacheService<RelationsStateValue> {
-
   constructor(private PathHelper:PathHelperService,
-              private apiV3Service:APIV3Service,
-              private halResource:HalResourceService) {
+    private apiV3Service:APIV3Service,
+    private halResource:HalResourceService) {
     super(new RelationStateGroup().relations);
   }
 
@@ -44,7 +43,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return this
       .requireAndStream(id, force)
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise();
   }
@@ -63,7 +62,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     if (this.stale(id) || force) {
       this.clearAndLoad(
         id,
-        this.load(id)
+        this.load(id),
       );
     }
 
@@ -82,7 +81,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       .relations
       .get()
       .pipe(
-        map(collection => this.relationsStateValue(id, collection.elements))
+        map(collection => this.relationsStateValue(id, collection.elements)),
       );
   }
 
@@ -117,8 +116,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       // Check that
       // 1. the denormalized relation points at "to"
       // 2. that the denormalized relation type matches.
-      return denormalized.target.id === to.id &&
-        denormalized.relationType === type;
+      return denormalized.target.id === to.id
+        && denormalized.relationType === type;
     });
   }
 
@@ -138,9 +137,9 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     const params = {
       _links: {
         from: { href: from.href },
-        to: { href: to.href }
+        to: { href: to.href },
       },
-      type: type
+      type,
     };
 
     return this.updateRelation(relation, params);
@@ -160,9 +159,9 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     const params = {
       _links: {
         from: { href: this.apiV3Service.work_packages.id(fromId).toString() },
-        to: { href: this.apiV3Service.work_packages.id(relatedWpId).toString() }
+        to: { href: this.apiV3Service.work_packages.id(relatedWpId).toString() },
       },
-      type: relationType
+      type: relationType,
     };
 
     const path = this.apiV3Service.work_packages.id(fromId).relations.toString();
@@ -201,9 +200,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         delete value[relation.id!];
         return value;
-      }, () => {
-        return {};
-      });
+      }, () => ({}));
     });
   }
 
@@ -232,6 +229,5 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
       this.updateValue(wpId, value);
     });
-
   }
 }

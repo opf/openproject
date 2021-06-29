@@ -38,7 +38,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
   public filter:QueryFilterInstanceResource;
 
   constructor(protected I18n:I18nService,
-              protected timezoneService:TimezoneService) {
+    protected timezoneService:TimezoneService) {
     super();
   }
 
@@ -71,9 +71,8 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
 
     if (!value) {
       return false;
-    } else {
-      return value.hours() !== 0 || value.minutes() !== 0;
     }
+    return value.hours() !== 0 || value.minutes() !== 0;
   }
 
   public get timeZoneText() {
@@ -81,16 +80,14 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
       return this.I18n.t('js.filter.time_zone_converted.two_values',
         {
           from: this.lowerBoundary.format('YYYY-MM-DD HH:mm'),
-          to: this.upperBoundary.format('YYYY-MM-DD HH:mm')
+          to: this.upperBoundary.format('YYYY-MM-DD HH:mm'),
         });
-    } else if (this.upperBoundary) {
+    } if (this.upperBoundary) {
       return this.I18n.t('js.filter.time_zone_converted.only_end',
         { to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
-
-    } else if (this.lowerBoundary) {
+    } if (this.lowerBoundary) {
       return this.I18n.t('js.filter.time_zone_converted.only_start',
         { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm') });
-
     }
 
     return '';

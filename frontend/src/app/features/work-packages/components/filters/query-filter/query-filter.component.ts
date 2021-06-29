@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component, EventEmitter, Input, OnInit, Output,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
 import { BannersService } from "core-app/core/enterprise/banners.service";
@@ -42,14 +44,21 @@ import { QueryFilterResource } from "core-app/features/hal/resources/query-filte
 })
 export class QueryFilterComponent implements OnInit {
   @Input() public shouldFocus = false;
+
   @Input() public filter:QueryFilterInstanceResource;
+
   @Output() public filterChanged = new EventEmitter<QueryFilterResource>();
+
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
   public availableOperators:any;
+
   public showValuesInput = false;
+
   public eeShowBanners = false;
+
   public trackByHref = AngularTrackingHelpers.halHref;
+
   public compareByHref = AngularTrackingHelpers.compareByHref;
 
   public text = {
@@ -62,10 +71,10 @@ export class QueryFilterComponent implements OnInit {
   };
 
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly schemaCache:SchemaCacheService,
-              readonly I18n:I18nService,
-              readonly currentProject:CurrentProjectService,
-              readonly bannerService:BannersService) {
+    readonly schemaCache:SchemaCacheService,
+    readonly I18n:I18nService,
+    readonly currentProject:CurrentProjectService,
+    readonly bannerService:BannersService) {
   }
 
   public onFilterUpdated(filter:QueryFilterInstanceResource) {
@@ -93,6 +102,6 @@ export class QueryFilterComponent implements OnInit {
   }
 
   private showValues(filter:QueryFilterInstanceResource) {
-    return  this.filter.currentSchema!.isValueRequired() && this.filter.currentSchema!.values!.type !== '[1]Boolean';
+    return this.filter.currentSchema!.isValueRequired() && this.filter.currentSchema!.values!.type !== '[1]Boolean';
   }
 }

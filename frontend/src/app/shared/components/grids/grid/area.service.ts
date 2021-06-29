@@ -15,23 +15,31 @@ import { map } from "rxjs/operators";
 
 @Injectable()
 export class GridAreaService {
-
   private resource:GridResource;
+
   public schema:SchemaResource;
 
   public numColumns = 0;
+
   public numRows = 0;
+
   public gridAreas:GridArea[];
+
   public gridGaps:GridArea[];
+
   public widgetAreas:GridWidgetArea[];
+
   public gridAreaIds:string[];
+
   public mousedOverArea:GridArea|null = null;
+
   public $mousedOverArea = new BehaviorSubject(this.mousedOverArea);
+
   public helpMode = false;
 
-  constructor (private apiV3Service:APIV3Service,
-               private notification:NotificationsService,
-               private i18n:I18nService) { }
+  constructor(private apiV3Service:APIV3Service,
+    private notification:NotificationsService,
+    private i18n:I18nService) { }
 
   public set gridResource(value:GridResource) {
     this.resource = value;
@@ -241,9 +249,7 @@ export class GridAreaService {
   }
 
   private buildGridWidgetAreas() {
-    return this.widgetResources.map((widget) => {
-      return new GridWidgetArea(widget);
-    });
+    return this.widgetResources.map((widget) => new GridWidgetArea(widget));
   }
 
   // persist all changes to the areas caused by dragging/resizing
@@ -267,10 +273,10 @@ export class GridAreaService {
       const widget = this
         .rowWidgets(row)
         .sort((a, b) => a.startColumn - b.startColumn)
-        .find(widget => !(widget.startRow < excludeRow && widget.endRow > excludeRow) &&
-                     (widget.startColumn === column + 1 ||
-                      widget.endColumn === column + 1 ||
-                      widget.startColumn <= column && widget.endColumn > column));
+        .find(widget => !(widget.startRow < excludeRow && widget.endRow > excludeRow)
+                     && (widget.startColumn === column + 1
+                      || widget.endColumn === column + 1
+                      || widget.startColumn <= column && widget.endColumn > column));
 
       if (widget) {
         movedWidgets.push(widget);
@@ -295,10 +301,10 @@ export class GridAreaService {
       const widget = this
         .columnWidgets(column)
         .sort((a, b) => a.startRow - b.startRow)
-        .find(widget => !(widget.startColumn < excludeColumn && widget.endColumn > excludeColumn) &&
-                     (widget.startRow === row + 1 ||
-                       widget.endRow === row + 1 ||
-                       widget.startRow <= row && widget.endRow > row));
+        .find(widget => !(widget.startColumn < excludeColumn && widget.endColumn > excludeColumn)
+                     && (widget.startRow === row + 1
+                       || widget.endRow === row + 1
+                       || widget.startRow <= row && widget.endRow > row));
 
       if (widget) {
         movedWidgets.push(widget);
@@ -323,9 +329,7 @@ export class GridAreaService {
 
     // move all widgets that are after the removed column
     // so that they appear to keep their place.
-    this.widgetAreas.filter((widget) => {
-      return widget.startColumn > column;
-    }).forEach((widget) => {
+    this.widgetAreas.filter((widget) => widget.startColumn > column).forEach((widget) => {
       widget.startColumn--;
       widget.endColumn--;
     });
@@ -344,18 +348,14 @@ export class GridAreaService {
 
     // move all widgets that are after the removed row
     // so that they appear to keep their place.
-    this.widgetAreas.filter((widget) => {
-      return widget.startRow > row;
-    }).forEach((widget) => {
+    this.widgetAreas.filter((widget) => widget.startRow > row).forEach((widget) => {
       widget.startRow--;
       widget.endRow--;
     });
   }
 
   public resetAreas(ignoredArea:GridWidgetArea|null = null) {
-    this.widgetAreas.filter((area) => {
-      return !ignoredArea || area.guid !== ignoredArea.guid;
-    }).forEach(area => area.reset());
+    this.widgetAreas.filter((area) => !ignoredArea || area.guid !== ignoredArea.guid).forEach(area => area.reset());
 
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;
@@ -383,7 +383,7 @@ export class GridAreaService {
   }
 
   public removeWidget(removedWidget:GridWidgetResource) {
-    let index = this.resource.widgets.findIndex((widget) => widget.id === removedWidget.id );
+    let index = this.resource.widgets.findIndex((widget) => widget.id === removedWidget.id);
     this.resource.widgets.splice(index, 1);
 
     index = this.widgetAreas.findIndex((area) => area.widget.id === removedWidget.id);

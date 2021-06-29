@@ -10,7 +10,7 @@ import {
 
 export class SortModalObject {
   constructor(public column:SortColumn,
-              public direction:string) {
+    public direction:string) {
   }
 }
 
@@ -25,7 +25,6 @@ export type SortingMode = 'automatic'|'manual';
   templateUrl: './sort-by-tab.component.html'
 })
 export class WpTableConfigurationSortByTab implements TabComponent {
-
   public text = {
     title: this.I18n.t('js.label_sort_by'),
     placeholder: this.I18n.t('js.placeholders.default'),
@@ -42,20 +41,24 @@ export class WpTableConfigurationSortByTab implements TabComponent {
 
   readonly availableDirections = [
     { href: QUERY_SORT_BY_ASC, name: this.I18n.t('js.label_ascending') },
-    { href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') }
+    { href: QUERY_SORT_BY_DESC, name: this.I18n.t('js.label_descending') },
   ];
 
   public availableColumns:SortColumn[] = [];
+
   public allColumns:SortColumn[] = [];
+
   public sortationObjects:SortModalObject[] = [];
+
   public emptyColumn:SortColumn = { name: this.text.placeholder, href: null };
 
   public sortingMode:SortingMode = 'automatic';
+
   public manualSortColumn:SortColumn;
 
   constructor(readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly wpTableSortBy:WorkPackageViewSortByService) {
+    readonly I18n:I18nService,
+    readonly wpTableSortBy:WorkPackageViewSortByService) {
 
   }
 
@@ -64,7 +67,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
     if (this.sortingMode === 'automatic') {
       sortElements = this.sortationObjects.filter(object => object.column !== null);
     } else {
-      sortElements = [ new SortModalObject(this.manualSortColumn, QUERY_SORT_BY_ASC) ];
+      sortElements = [new SortModalObject(this.manualSortColumn, QUERY_SORT_BY_ASC)];
     }
 
     sortElements = sortElements.map(object => this.getMatchingSort(object.column.href!, object.direction));
@@ -76,13 +79,9 @@ export class WpTableConfigurationSortByTab implements TabComponent {
       .onReadyWithAvailable()
       .subscribe(() => {
         const allColumns:SortColumn[] = this.wpTableSortBy.available.filter(
-          (sort:QuerySortByResource) => {
-            return !sort.column.href!.endsWith('/parent');
-          }
+          (sort:QuerySortByResource) => !sort.column.href!.endsWith("/parent"),
         ).map(
-          (sort:QuerySortByResource) => {
-            return { name: sort.column.name, href: sort.column.href };
-          }
+          (sort:QuerySortByResource) => ({ name: sort.column.name, href: sort.column.href }),
         );
 
         // For whatever reason, even though the UI doesnt implement it,
@@ -95,7 +94,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
           if (!sort.column.href!.endsWith('/parent')) {
             this.sortationObjects.push(
               new SortModalObject({ name: sort.column.name, href: sort.column.href },
-                sort.direction.href!)
+                sort.direction.href!),
             );
             if (sort.column.href === this.manualSortColumn.href) {
               this.updateSortingMode('manual');
@@ -126,9 +125,7 @@ export class WpTableConfigurationSortByTab implements TabComponent {
   }
 
   private getMatchingSort(column:string, direction:string) {
-    return _.find(this.wpTableSortBy.available, sort => {
-      return sort.column.href === column && sort.direction.href === direction;
-    });
+    return _.find(this.wpTableSortBy.available, sort => sort.column.href === column && sort.direction.href === direction);
   }
 
   private fillUpSortElements() {

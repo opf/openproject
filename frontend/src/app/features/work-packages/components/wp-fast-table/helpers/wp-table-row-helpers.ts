@@ -33,9 +33,8 @@ export function locatePredecessorBySelector(el:HTMLElement, selector:string):HTM
   while (previous) {
     if (previous.matches(selector)) {
       return previous as HTMLElement;
-    } else {
-      previous = previous.previousElementSibling;
     }
+    previous = previous.previousElementSibling;
   }
 
   return null;
@@ -57,6 +56,6 @@ export function scrollTableRowIntoView(workPackageId:string):void {
       container[0].scrollTop = elemBottom - container.height()!;
     }
   } catch (e) {
-    console.warn("Can't scroll row element into view: " + e);
+    console.warn(`Can't scroll row element into view: ${e}`);
   }
 }

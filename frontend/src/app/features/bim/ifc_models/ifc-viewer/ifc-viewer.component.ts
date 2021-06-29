@@ -33,7 +33,7 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
@@ -45,30 +45,33 @@ import { CurrentProjectService } from "core-app/core/current-project/current-pro
   selector: 'ifc-viewer',
   templateUrl: './ifc-viewer.component.html',
   styleUrls: ['./ifc-viewer.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
   private viewerUI:any;
+
   modelCount:number;
+
   canManage = this.ifcData.allowed('manage_ifc_models');
 
   text = {
     empty_warning: this.I18n.t('js.ifc_models.empty_warning'),
     use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage'),
-    keyboard_input_disabled: this.I18n.t('js.ifc_models.keyboard_input_disabled')
+    keyboard_input_disabled: this.I18n.t('js.ifc_models.keyboard_input_disabled'),
   };
 
   keyboardEnabled = false;
 
   @ViewChild('outerContainer') outerContainer:ElementRef;
+
   @ViewChild('modelCanvas') modelCanvas:ElementRef;
 
   constructor(private I18n:I18nService,
-              private elementRef:ElementRef,
-              public ifcData:IfcModelsDataService,
-              private ifcViewer:IFCViewerService,
-              private currentUserService:CurrentUserService,
-              private currentProjectService:CurrentProjectService) {
+    private elementRef:ElementRef,
+    public ifcData:IfcModelsDataService,
+    private ifcViewer:IFCViewerService,
+    private currentUserService:CurrentUserService,
+    private currentProjectService:CurrentProjectService) {
   }
 
   ngOnInit():void {
@@ -87,7 +90,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
           'ifc_models/update',
           'ifc_models/destroy'
         ],
-        this.currentProjectService.id as string
+        this.currentProjectService.id as string,
       ).subscribe((manageIfcModelsAllowed) => {
         this.ifcViewer.newViewer(
           {
@@ -96,12 +99,11 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
             toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
             navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
             busyModelBackdropElement: element.find(".xeokit-busy-modal-backdrop")[0],
-            enableEditModels: manageIfcModelsAllowed
+            enableEditModels: manageIfcModelsAllowed,
           },
-          this.ifcData.projects
-        )
+          this.ifcData.projects,
+        );
       });
-
   }
 
   ngOnDestroy():void {
@@ -118,7 +120,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:Element) {
-    if (this.modelCount && !this.outerContainer.nativeElement!.contains(target)) {
+    if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewer.setKeyboardEnabled(false);
     }

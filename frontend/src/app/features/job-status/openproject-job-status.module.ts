@@ -41,8 +41,8 @@ export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
     component: DisplayJobPageComponent,
     data: {
       bodyClasses: 'router--job-statuses'
-    }
-  }
+    },
+  },
 ];
 
 @NgModule({
@@ -57,8 +57,8 @@ export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
   ],
   declarations: [
     DisplayJobPageComponent,
-    JobStatusModal
-  ]
+    JobStatusModal,
+  ],
 })
 export class OpenProjectJobStatusModule {
 }

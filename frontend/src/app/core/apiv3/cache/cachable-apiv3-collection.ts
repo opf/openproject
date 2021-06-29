@@ -38,7 +38,7 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 export abstract class CachableAPIV3Collection<
   T extends HasId = HalResource,
   V extends APIv3GettableResource<T> = APIv3GettableResource<T>,
-  X extends StateCacheService<T> = StateCacheService<T>
+  X extends StateCacheService<T> = StateCacheService<T>,
   >
   extends APIv3ResourceCollection<T, V> {
   @InjectField() states:States;
@@ -51,23 +51,22 @@ export abstract class CachableAPIV3Collection<
   public observeAll():Observable<T[]> {
     return this.cache.observeAll();
   }
+
   /**
    * Inserts a collection or single response to cache as an rxjs tap function
    */
   protected cacheResponse<R>():(source:Observable<R>) => Observable<R> {
-    return (source$) => {
-      return source$.pipe(
-        tap(
-          (response:R) => {
-            if (response instanceof CollectionResource) {
-              response.elements.forEach(this.touch.bind(this));
-            } else if (response instanceof HalResource) {
-              this.touch(response as any);
-            }
+    return (source$) => source$.pipe(
+      tap(
+        (response:R) => {
+          if (response instanceof CollectionResource) {
+            response.elements.forEach(this.touch.bind(this));
+          } else if (response instanceof HalResource) {
+            this.touch(response as any);
           }
-        )
-      );
-    };
+        },
+      ),
+    );
   }
 
   /**

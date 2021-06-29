@@ -26,10 +26,12 @@ import { ProjectAllowedValidator } from './project-allowed.validator';
 })
 export class ProjectSelectionComponent implements OnInit {
   @Input() type:PrincipalType;
+
   @Input() project:ProjectResource|null;
 
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{project:any, type:string}>();
+
+  @Output() save = new EventEmitter<{ project:any, type:string }>();
 
   public text = {
     title: this.I18n.t('js.invite_user_modal.title.invite'),
@@ -58,12 +60,17 @@ export class ProjectSelectionComponent implements OnInit {
   ];
 
   projectAndTypeForm = new FormGroup({
-    type: new FormControl(PrincipalType.User, [ Validators.required ]),
-    project: new FormControl(null, [ Validators.required ], ProjectAllowedValidator(this.currentUserService))
+    type: new FormControl(PrincipalType.User, [Validators.required]),
+    project: new FormControl(null, [Validators.required], ProjectAllowedValidator(this.currentUserService)),
   });
 
-  get typeControl() { return this.projectAndTypeForm.get('type'); }
-  get projectControl() { return this.projectAndTypeForm.get('project'); }
+  get typeControl() {
+    return this.projectAndTypeForm.get('type');
+  }
+
+  get projectControl() {
+    return this.projectAndTypeForm.get('project');
+  }
 
   constructor(
     readonly I18n:I18nService,

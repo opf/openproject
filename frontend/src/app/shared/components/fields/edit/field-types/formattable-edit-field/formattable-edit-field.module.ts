@@ -4,7 +4,6 @@ import { FormattableEditFieldComponent } from "core-app/shared/components/fields
 import { OpenprojectEditorModule } from "core-app/shared/components/editor/openproject-editor.module";
 import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/field-controls/edit-field-controls.module";
 
-
 @NgModule({
   declarations: [
     FormattableEditFieldComponent,
@@ -16,6 +15,6 @@ import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/
   ],
   exports: [
     FormattableEditFieldComponent,
-  ]
+  ],
 })
 export class FormattableEditFieldModule { }

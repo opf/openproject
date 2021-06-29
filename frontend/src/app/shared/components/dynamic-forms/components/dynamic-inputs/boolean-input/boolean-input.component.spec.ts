@@ -8,13 +8,13 @@ describe('BooleanInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
-        "type": "booleanInput" as "booleanInput",
-        "key": "testControl",
-        "templateOptions": {
-          "required": true,
-          "label": "testControl",
+        type: "booleanInput" as const,
+        key: "testControl",
+        templateOptions: {
+          required: true,
+          label: "testControl",
         },
-      }
+      },
     ];
     const formModel = {
       testControl: true,

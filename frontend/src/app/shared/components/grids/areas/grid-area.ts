@@ -1,8 +1,12 @@
 export class GridArea {
   private storedGuid:string;
+
   public startRow:number;
+
   public endRow:number;
+
   public startColumn:number;
+
   public endColumn:number;
 
   constructor(startRow:number, endRow:number, startColumn:number, endColumn:number) {
@@ -42,7 +46,6 @@ export class GridArea {
         .toString(16)
         .substring(1);
     }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
   }
 }
-

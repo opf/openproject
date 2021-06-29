@@ -29,7 +29,6 @@
 import { Component } from "@angular/core";
 import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
 
-
 @Component({
   template: `
     <input type="checkbox"
@@ -40,7 +39,7 @@ import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-
            (keydown)="handler.handleUserKeydown($event)"
            [disabled]="inFlight"
            [id]="handler.htmlId" />
-  `
+  `,
 })
 export class BooleanEditFieldComponent extends EditFieldComponent {
   public updateValue(newValue:boolean) {

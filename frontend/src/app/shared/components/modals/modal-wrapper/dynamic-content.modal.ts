@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit,
+} from "@angular/core";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
@@ -42,13 +44,11 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
   public closeOnOutsideClick = false;
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
   }
-
 
   ngOnInit() {
     super.ngOnInit();
@@ -74,5 +74,4 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
     jQuery(document.body).off('click.opdynamicmodal');
     super.ngOnDestroy();
   }
-
 }

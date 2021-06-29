@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { IntegerEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/integer-edit-field/integer-edit-field.component";
 import { FormsModule } from "@angular/forms";
 
-
-
 @NgModule({
   declarations: [
     IntegerEditFieldComponent,
@@ -15,6 +13,6 @@ import { FormsModule } from "@angular/forms";
   ],
   exports: [
     IntegerEditFieldComponent,
-  ]
+  ],
 })
 export class IntegerEditFieldModule { }

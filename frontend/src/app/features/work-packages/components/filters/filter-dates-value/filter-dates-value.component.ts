@@ -42,15 +42,17 @@ import { QueryFilterInstanceResource } from "core-app/features/hal/resources/que
 })
 export class FilterDatesValueComponent extends UntilDestroyedMixin {
   @Input() public shouldFocus = false;
+
   @Input() public filter:QueryFilterInstanceResource;
+
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
   readonly text = {
-    spacer: this.I18n.t('js.filter.value_spacer')
+    spacer: this.I18n.t('js.filter.value_spacer'),
   };
 
   constructor(readonly timezoneService:TimezoneService,
-              readonly I18n:I18nService) {
+    readonly I18n:I18nService) {
     super();
   }
 
@@ -73,19 +75,17 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
   }
 
   public parser(data:any) {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+    if (moment(data, "YYYY-MM-DD", true).isValid()) {
       return data;
-    } else {
-      return null;
     }
+    return null;
   }
 
   public formatter(data:any) {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+    if (moment(data, "YYYY-MM-DD", true).isValid()) {
       var d = this.timezoneService.parseDate(data);
       return this.timezoneService.formattedISODate(d);
-    } else {
-      return null;
     }
+    return null;
   }
 }

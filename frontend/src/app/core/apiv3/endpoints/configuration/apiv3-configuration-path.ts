@@ -38,11 +38,9 @@ export class Apiv3ConfigurationPath extends APIv3GettableResource<ConfigurationR
   private $configuration:Observable<ConfigurationResource>;
 
   constructor(protected apiRoot:APIV3Service,
-              readonly basePath:string) {
+    readonly basePath:string) {
     super(apiRoot, basePath, 'configuration');
   }
-
-
 
   public get():Observable<ConfigurationResource> {
     if (this.$configuration) {
@@ -52,7 +50,7 @@ export class Apiv3ConfigurationPath extends APIv3GettableResource<ConfigurationR
     return this.$configuration = this.halResourceService
       .get<ConfigurationResource>(this.path)
       .pipe(
-        shareReplay()
+        shareReplay(),
       );
   }
 }

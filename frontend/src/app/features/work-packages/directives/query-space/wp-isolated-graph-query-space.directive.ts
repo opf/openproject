@@ -102,7 +102,6 @@ export const WpIsolatedGraphQuerySpaceProviders = [
   TableDragActionsRegistryService,
 ];
 
-
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
  * that provides access to query-bound data and services, especially around the querySpace services.
@@ -112,7 +111,7 @@ export const WpIsolatedGraphQuerySpaceProviders = [
  */
 @Directive({
   selector: '[wp-isolated-graph-query-space]',
-  providers: WpIsolatedGraphQuerySpaceProviders
+  providers: WpIsolatedGraphQuerySpaceProviders,
 })
 export class WorkPackageIsolatedGraphQuerySpaceDirective extends WorkPackageIsolatedQuerySpaceDirective {
 }

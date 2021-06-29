@@ -36,8 +36,8 @@ import { CurrentProjectService } from "core-app/core/current-project/current-pro
 })
 export class WidgetWpCalendarComponent extends AbstractWidgetComponent {
   constructor(protected readonly i18n:I18nService,
-              protected readonly injector:Injector,
-              protected readonly currentProject:CurrentProjectService) {
+    protected readonly injector:Injector,
+    protected readonly currentProject:CurrentProjectService) {
     super(i18n, injector);
   }
 

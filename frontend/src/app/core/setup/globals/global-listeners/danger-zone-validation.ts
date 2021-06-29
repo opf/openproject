@@ -33,7 +33,7 @@ export function dangerZoneValidation() {
   var dangerZoneVerification = jQuery('.danger-zone--verification');
   var expectedValue = jQuery('.danger-zone--expected-value').text();
 
-  dangerZoneVerification.find('input').on('input', function () {
+  dangerZoneVerification.find('input').on('input', () => {
     var actualValue = dangerZoneVerification.find('input').val() as string;
     if (expectedValue.toLowerCase() === actualValue.toLowerCase()) {
       dangerZoneVerification.find('button').prop('disabled', false);

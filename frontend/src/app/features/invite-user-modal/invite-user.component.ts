@@ -39,6 +39,7 @@ export enum PrincipalType {
 })
 export class InviteUserModalComponent extends OpModalComponent implements OnInit {
   public Steps = Steps;
+
   public step = Steps.ProjectSelection;
 
   /* Close on outside click */
@@ -48,13 +49,18 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public data:any = null;
 
   public type:PrincipalType|null = null;
+
   public project:ProjectResource|null = null;
+
   public principalData:PrincipalData = {
     principal: null,
     customFields: {},
   };
+
   public role:RoleResource|null = null;
+
   public message = '';
+
   public createdNewPrincipal = false;
 
   public get loading() {
@@ -84,7 +90,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
           this.cdRef.markForCheck();
         },
       );
-    } 
+    }
   }
 
   onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {

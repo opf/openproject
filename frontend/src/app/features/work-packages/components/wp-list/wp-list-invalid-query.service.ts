@@ -27,15 +27,15 @@
 //++
 
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { QueryColumn } from '../wp-query/query-column';
-import { Injectable } from '@angular/core';
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
-import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
+import { Injectable } from "@angular/core";
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { QueryColumn } from "../wp-query/query-column";
 
 @Injectable()
 export class WorkPackagesListInvalidQueryService {
@@ -52,9 +52,7 @@ export class WorkPackagesListInvalidQueryService {
 
   private restoreFilters(query:QueryResource, payload:QueryResource, querySchema:SchemaResource) {
     let filters = _.map((payload.filters), filter => {
-      const filterInstanceSchema = _.find(querySchema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => {
-        return (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.filter.href;
-      });
+      const filterInstanceSchema = _.find(querySchema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.filter.href);
 
       if (!filterInstanceSchema) {
         return null;
@@ -62,9 +60,7 @@ export class WorkPackagesListInvalidQueryService {
 
       const recreatedFilter = filterInstanceSchema.getFilter();
 
-      const operator = _.find(filterInstanceSchema.operator.allowedValues, operator => {
-        return operator.href === filter.operator.href;
-      });
+      const operator = _.find(filterInstanceSchema.operator.allowedValues, operator => operator.href === filter.operator.href);
 
       if (operator) {
         recreatedFilter.operator = operator;
@@ -84,11 +80,7 @@ export class WorkPackagesListInvalidQueryService {
   }
 
   private restoreColumns(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
-    let columns = _.map(stubQuery.columns, column => {
-      return _.find((schema.columns.allowedValues as QueryColumn[]), candidate => {
-        return candidate.href === column.href;
-      });
-    });
+    let columns = _.map(stubQuery.columns, column => _.find((schema.columns.allowedValues as QueryColumn[]), candidate => candidate.href === column.href));
 
     columns = _.compact(columns);
 
@@ -97,11 +89,7 @@ export class WorkPackagesListInvalidQueryService {
   }
 
   private restoreSortBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
-    let sortBys = _.map((stubQuery.sortBy), sortBy => {
-      return _.find((schema.sortBy.allowedValues as QuerySortByResource[]), candidate => {
-        return candidate.href === sortBy.href;
-      })!;
-    });
+    let sortBys = _.map((stubQuery.sortBy), sortBy => _.find((schema.sortBy.allowedValues as QuerySortByResource[]), candidate => candidate.href === sortBy.href)!);
 
     sortBys = _.compact(sortBys);
 
@@ -110,9 +98,7 @@ export class WorkPackagesListInvalidQueryService {
   }
 
   private restoreGroupBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
-    const groupBy = _.find((schema.groupBy.allowedValues as QueryGroupByResource[]), candidate => {
-      return stubQuery.groupBy && stubQuery.groupBy.href === candidate.href;
-    }) as any;
+    const groupBy = _.find((schema.groupBy.allowedValues as QueryGroupByResource[]), candidate => stubQuery.groupBy && stubQuery.groupBy.href === candidate.href) as any;
 
     query.groupBy = groupBy;
   }

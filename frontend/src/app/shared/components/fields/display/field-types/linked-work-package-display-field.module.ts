@@ -33,13 +33,13 @@ import { WorkPackageDisplayField } from "core-app/shared/components/fields/displ
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
-
   public text = {
     linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
-    none: this.I18n.t('js.filter.noneElement')
+    none: this.I18n.t('js.filter.noneElement'),
   };
 
   @InjectField() $state!:StateService;
+
   @InjectField() keepTab!:KeepTabService;
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
@@ -53,7 +53,7 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     const link = this.uiStateBuilder.linkToShow(
       this.wpId,
       this.text.linkTitle,
-      this.valueString
+      this.valueString,
     );
 
     const title = document.createElement('span');

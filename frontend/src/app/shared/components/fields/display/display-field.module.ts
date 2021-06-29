@@ -37,7 +37,9 @@ export const cssClassCustomOption = 'custom-option';
 
 export class DisplayField<T extends HalResource = HalResource> extends Field {
   public static type:string;
+
   public mode:string | null = null;
+
   public activeChange:ResourceChangeset<T>|null = null;
 
   @InjectField() I18n!:I18nService;
@@ -58,7 +60,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
 
   public texts = {
     empty: this.I18n.t('js.label_no_value'),
-    placeholder: this.I18n.t('js.placeholders.default')
+    placeholder: this.I18n.t('js.placeholders.default'),
   };
 
   public get isFormattable():boolean {
@@ -81,9 +83,8 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
 
     if (this.activeChange) {
       return this.activeChange.projectedResource[this.name];
-    } else {
-      return this.attribute;
     }
+    return this.attribute;
   }
 
   protected get attribute() {
@@ -107,7 +108,6 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
   }
 
   public get title():string|null {
-
     // Don't return a value for long text fields,
     // since they shouldn't / won't be truncated.
     if (this.isFormattable) {

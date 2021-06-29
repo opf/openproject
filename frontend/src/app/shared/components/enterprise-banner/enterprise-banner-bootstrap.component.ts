@@ -11,15 +11,17 @@ export const enterpriseBannerSelector = 'enterprise-banner-bootstrap';
       [linkMessage]="linkMessage"
       [opReferrer]="referrer">
     </enterprise-banner>
-  `
+  `,
 })
 export class EnterpriseBannerBootstrapComponent implements OnInit {
   public textMessage:string;
+
   public linkMessage:string;
+
   public referrer:string;
 
   constructor(protected elementRef:ElementRef,
-              protected i18n:I18nService) {
+    protected i18n:I18nService) {
   }
 
   ngOnInit() {

@@ -26,19 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { States } from 'core-app/core/states/states.service';
-import { Injectable } from '@angular/core';
-import { QueryColumn, queryColumnTypes } from "core-app/features/work-packages/components/wp-query/query-column";
-import { combine } from "reactivestates";
-import { mapTo, take } from "rxjs/operators";
-import { cloneHalResourceCollection } from "core-app/features/hal/helpers/hal-resource-builder";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { States } from "core-app/core/states/states.service";
+import { Injectable } from "@angular/core";
+import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { combine } from 'reactivestates';
+import { mapTo, take } from 'rxjs/operators';
+import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
+import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
-
   public constructor(readonly states:States, readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
@@ -60,7 +59,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
 
     return _.isEqual(
       comparer(a),
-      comparer(this.getColumns())
+      comparer(this.getColumns()),
     );
   }
 
@@ -91,7 +90,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * Returns a shallow copy with the original column objects.
    */
   public getColumns():QueryColumn[] {
-    return [ ...this.current ];
+    return [...this.current];
   }
 
   /**
@@ -215,7 +214,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
     }
 
     if (this.index(id) === -1) {
-      const newColumn =  _.find(this.all, (column) => column.id === id);
+      const newColumn = _.find(this.all, (column) => column.id === id);
 
       if (!newColumn) {
         throw "Column with provided name is not found";
@@ -284,7 +283,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
       .values$()
       .pipe(
         take(1),
-        mapTo(null)
+        mapTo(null),
       )
       .toPromise();
   }

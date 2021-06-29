@@ -34,7 +34,7 @@ import {
   InjectionToken,
   Injector,
   OnDestroy,
-  OnInit
+  OnInit,
 } from "@angular/core";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -61,12 +61,12 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   protected $element:JQuery;
 
   constructor(readonly I18n:I18nService,
-              readonly elementRef:ElementRef,
-              @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
-              @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
-              @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
-              readonly cdRef:ChangeDetectorRef,
-              readonly injector:Injector) {
+    readonly elementRef:ElementRef,
+    @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
+    @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
+    @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
+    readonly cdRef:ChangeDetectorRef,
+    readonly injector:Injector) {
     super();
 
     this.updateFromChangeset(change);
@@ -75,7 +75,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
       this.change.state
         .values$()
         .pipe(
-          this.untilDestroyed()
+          this.untilDestroyed(),
         )
         .subscribe((change) => {
           const fieldSchema = change.schema.ofProperty(this.name);
@@ -101,9 +101,8 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
       return this.$element
         .closest(overflowingContainerSelector)
         .data(overflowingContainerAttribute);
-    } else {
-      return null;
     }
+    return null;
   }
 
   public get inFlight() {

@@ -28,9 +28,8 @@ export class SimpleResourceCollection<T = SimpleResource> {
   public withOptionalId(id?:string|number):this|T {
     if (_.isNil(id)) {
       return this;
-    } else {
-      return this.id(id);
     }
+    return this.id(id);
   }
 
   public toString():string {

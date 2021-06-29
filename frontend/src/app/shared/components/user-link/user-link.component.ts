@@ -42,7 +42,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
       {{ name }}
     <ng-container>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserLinkComponent {
   @Input() user:UserResource;

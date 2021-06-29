@@ -21,7 +21,6 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { FormattableControlModule } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.module";
 import { OPSharedModule } from "core-app/shared/shared.module";
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -45,7 +44,7 @@ import { OPSharedModule } from "core-app/shared/shared.module";
           name: 'op-dynamic-field-wrapper',
           component: DynamicFieldWrapperComponent,
         },
-      ]
+      ],
     }),
     HttpClientModule,
     OPSharedModule,
@@ -75,6 +74,6 @@ import { OPSharedModule } from "core-app/shared/shared.module";
   ],
   exports: [
     DynamicFormComponent,
-  ]
+  ],
 })
 export class DynamicFormsModule {}

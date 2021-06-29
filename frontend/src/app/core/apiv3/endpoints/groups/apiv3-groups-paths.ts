@@ -33,7 +33,7 @@ import { Observable } from "rxjs";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
-  listParamsString
+  listParamsString,
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 import { GroupResource } from "core-app/features/hal/resources/group-resource";
@@ -42,7 +42,7 @@ export class Apiv3GroupsPaths
   extends APIv3ResourceCollection<GroupResource, Apiv3GroupPaths>
   implements Apiv3ListResourceInterface<GroupResource> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'groups', Apiv3GroupPaths);
   }
 

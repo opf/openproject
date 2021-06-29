@@ -16,14 +16,14 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
     _links: {
       project: {
         href: project ? project.href : null,
-        title: project?.title
-      }
+        title: project?.title,
+      },
     },
     involved: true,
     mentioned: true,
     watched: false,
     all: false,
     channel: "in_app",
-    ...params
+    ...params,
   };
 }

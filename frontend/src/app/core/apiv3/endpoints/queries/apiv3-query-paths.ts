@@ -88,5 +88,4 @@ export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
   public paginated(pagination:PaginationObject):Observable<QueryResource> {
     return this.parameterised(pagination);
   }
-
 }

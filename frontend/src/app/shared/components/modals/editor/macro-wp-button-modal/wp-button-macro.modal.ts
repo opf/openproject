@@ -32,7 +32,7 @@ import {
   Component,
   ElementRef,
   Inject,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
@@ -47,17 +47,22 @@ import { FormResource } from "core-app/features/hal/resources/form-resource";
   templateUrl: './wp-button-macro.modal.html'
 })
 export class WpButtonMacroModal extends OpModalComponent implements AfterViewInit {
-
   public changed = false;
+
   public showClose = true;
+
   public closeOnEscape = true;
+
   public closeOnOutsideClick = true;
 
   public selectedType:string;
+
   public buttonStyle:boolean;
 
   public availableTypes:TypeResource[];
+
   public type = '';
+
   public classes = '';
 
   @ViewChild('typeSelect', { static: true }) typeSelect:ElementRef;
@@ -70,16 +75,15 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
     button_style_hint: this.I18n.t('js.editor.macro.work_package_button.button_style_hint'),
     button_save: this.I18n.t('js.button_save'),
     button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title')
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              protected currentProject:CurrentProjectService,
-              protected apiV3Service:APIV3Service,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    protected currentProject:CurrentProjectService,
+    protected apiV3Service:APIV3Service,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
     this.selectedType = this.type = this.locals.type;
     this.classes = this.locals.classes;
@@ -107,4 +111,3 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
     this.typeSelect.nativeElement.focus();
   }
 }
-

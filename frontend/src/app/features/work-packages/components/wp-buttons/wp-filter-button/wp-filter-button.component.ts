@@ -28,7 +28,9 @@
 
 import { AbstractWorkPackageButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-buttons.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
+} from '@angular/core';
 import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
@@ -40,15 +42,17 @@ import { WorkPackageFiltersService } from "core-app/features/work-packages/compo
 })
 export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   public count:number;
+
   public initialized = false;
 
   public buttonId = 'work-packages-filter-toggle-button';
+
   public iconClass = 'icon-filter';
 
   constructor(readonly I18n:I18nService,
-              protected cdRef:ChangeDetectorRef,
-              protected wpFiltersService:WorkPackageFiltersService,
-              protected wpTableFilters:WorkPackageViewFiltersService) {
+    protected cdRef:ChangeDetectorRef,
+    protected wpFiltersService:WorkPackageFiltersService,
+    protected wpTableFilters:WorkPackageViewFiltersService) {
     super(I18n);
   }
 
@@ -84,7 +88,7 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
     this.wpTableFilters
       .live$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.count = this.wpTableFilters.currentlyVisibleFilters.length;

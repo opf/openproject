@@ -19,8 +19,8 @@ export class WpGraphConfiguration implements WpGraphConfiguration {
   public queries:QueryResource[] = [];
 
   constructor(public queryParams:WpGraphQueryParams[],
-              public chartOptions:ChartOptions,
-              public chartType:ChartType) {
+    public chartOptions:ChartOptions,
+    public chartType:ChartType) {
     this.chartType = this.chartType || 'horizontalBar';
   }
 
@@ -33,8 +33,8 @@ export class WpGraphConfiguration implements WpGraphConfiguration {
       _links: {
         groupBy: {
           href: "/api/v3/queries/group_bys/status"
-        }
-      }
+        },
+      },
     };
   }
 }

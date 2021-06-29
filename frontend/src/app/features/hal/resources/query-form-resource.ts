@@ -38,6 +38,7 @@ export interface QueryFormResourceEmbedded {
 
 export class QueryFormResource extends FormResource {
   public $embedded:QueryFormResourceEmbedded;
+
   public schema:SchemaResource;
 
   public get filtersSchemas():QueryFilterInstanceSchemaResource[] {

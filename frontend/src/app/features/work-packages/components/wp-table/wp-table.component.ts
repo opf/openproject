@@ -35,7 +35,7 @@ import {
   Input,
   NgZone,
   OnInit, Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -54,7 +54,7 @@ import { WorkPackageTimelineTableController } from "core-app/features/work-packa
 import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
 import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import {WorkPackageViewSumService} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service";
+import { WorkPackageViewSumService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service";
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject,
@@ -77,12 +77,14 @@ export interface WorkPackageFocusContext {
   selector: 'wp-table',
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent {
-
   @Input() projectIdentifier:string;
+
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
 
   @Output() selectionChanged = new EventEmitter<string[]>();
+
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
+
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
   public trackByHref = AngularTrackingHelpers.trackByHref;
@@ -126,21 +128,21 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   // We need to sync certain height difference to the timeline
   // depending on whether inline create or sums rows are being shown
   public inlineCreateVisible = false;
+
   public sumVisible = false;
 
   constructor(readonly elementRef:ElementRef,
-              readonly injector:Injector,
-              readonly states:States,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly zone:NgZone,
-              readonly wpTableGroupBy:WorkPackageViewGroupByService,
-              readonly wpTableTimeline:WorkPackageViewTimelineService,
-              readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly wpTableSortBy:WorkPackageViewSortByService,
-              readonly wpTableSums:WorkPackageViewSumService,
-  ) {
+    readonly injector:Injector,
+    readonly states:States,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly zone:NgZone,
+    readonly wpTableGroupBy:WorkPackageViewGroupByService,
+    readonly wpTableTimeline:WorkPackageViewTimelineService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly wpTableSortBy:WorkPackageViewSortByService,
+    readonly wpTableSums:WorkPackageViewSumService) {
     super();
   }
 
@@ -157,17 +159,15 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       cancel: I18n.t('js.button_cancel'),
       noResults: {
         title: I18n.t('js.work_packages.no_results.title'),
-        description: I18n.t('js.work_packages.no_results.description')
+        description: I18n.t('js.work_packages.no_results.description'),
       },
-      limitedResults: (count:number, total:number) => {
-        return I18n.t('js.work_packages.limited_results', { count: count, total: total });
-      },
+      limitedResults: (count:number, total:number) => I18n.t("js.work_packages.limited_results", { count, total }),
       tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
         I18n.t('js.work_packages.table.text_inline_edit'),
         I18n.t('js.work_packages.table.text_select_hint'),
-        I18n.t('js.work_packages.table.text_sort_hint')
-      ].join(' ')
+        I18n.t('js.work_packages.table.text_sort_hint'),
+      ].join(' '),
     };
 
     const statesCombined = combineLatest([
@@ -176,11 +176,11 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.wpTableColumns.live$(),
       this.wpTableTimeline.live$(),
       this.wpTableSortBy.live$(),
-      this.wpTableSums.live$()
+      this.wpTableSums.live$(),
     ]);
 
     statesCombined.pipe(
-      this.untilDestroyed()
+      this.untilDestroyed(),
     ).subscribe(([results, groupBy, columns, timelines, sort, sums]) => {
       this.query = this.querySpace.query.value!;
 
@@ -228,7 +228,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       // Timeline controller
       controller,
       // Table configuration
-      this.configuration
+      this.configuration,
     );
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;

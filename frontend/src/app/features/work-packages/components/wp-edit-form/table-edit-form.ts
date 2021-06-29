@@ -48,9 +48,13 @@ export const activeFieldClassName = 'inline-edit--field';
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
   @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+
   @InjectField() public apiV3Service!:APIV3Service;
+
   @InjectField() public states:States;
+
   @InjectField() public FocusHelper:FocusHelperService;
+
   @InjectField() public editingPortalService:EditingPortalService;
 
   // Use cell builder to reset edit fields
@@ -65,9 +69,9 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     .subscribe((wp) => this.resource = wp);
 
   constructor(public injector:Injector,
-              public table:WorkPackageTable,
-              public workPackageId:string,
-              public classIdentifier:string) {
+    public table:WorkPackageTable,
+    public workPackageId:string,
+    public classIdentifier:string) {
     super(injector);
   }
 
@@ -86,7 +90,6 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
     return this.waitForContainer(fieldName)
       .then((cell) => {
-
         // Forcibly set the width since the edit field may otherwise
         // be given more width. Thereby preserve a minimum width of 150.
         // To avoid flickering content, the padding is removed, too.
@@ -94,8 +97,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
         td.addClass(editModeClassName);
         let width = parseInt(td.css('width'));
         width = width > 150 ? width - 10 : 150;
-        td.css('max-width', width + 'px');
-        td.css('width', width + 'px');
+        td.css('max-width', `${width}px`);
+        td.css('width', `${width}px`);
 
         return this.editingPortalService.create(
           cell,
@@ -103,7 +106,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
           form,
           schema,
           fieldName,
-          errors
+          errors,
         );
       });
   }

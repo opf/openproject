@@ -33,7 +33,7 @@ import { ApplicationBaseComponent } from "core-app/core/routing/base/application
 import {
   initializeUiRouterListeners,
   OPENPROJECT_ROUTES,
-  uiRouterConfiguration
+  uiRouterConfiguration,
 } from "core-app/core/routing/openproject.routes";
 
 @NgModule({
@@ -45,11 +45,11 @@ import {
     } as any),
   ],
   providers: [
-    FirstRouteService
+    FirstRouteService,
   ],
   declarations: [
-    ApplicationBaseComponent
-  ]
+    ApplicationBaseComponent,
+  ],
 })
 export class OpenprojectRouterModule {
   constructor(injector:Injector) {

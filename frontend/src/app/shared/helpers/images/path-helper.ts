@@ -13,6 +13,6 @@ export namespace ImageHelpers {
    * @param image Path to the image starting from frontend/src/assets/images
    */
   export function imagePath(image:string) {
-    return __webpack_public_path__ + 'assets/images/' + image;
+    return `${__webpack_public_path__}assets/images/${image}`;
   }
 }

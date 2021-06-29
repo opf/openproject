@@ -25,13 +25,13 @@ export class InAppNotificationBellComponent {
 
   unreadCount$ = merge(
     this.polling$,
-    this.inAppQuery.unreadCount$
+    this.inAppQuery.unreadCount$,
   );
 
   constructor(readonly inAppQuery:InAppNotificationsQuery,
-              readonly inAppService:InAppNotificationsService,
-              readonly activeWindow:ActiveWindowService,
-              readonly modalService:OpModalService) {
+    readonly inAppService:InAppNotificationsService,
+    readonly activeWindow:ActiveWindowService,
+    readonly modalService:OpModalService) {
   }
 
   openCenter(event:MouseEvent) {

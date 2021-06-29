@@ -27,7 +27,6 @@
 //++
 
 export class ExpressionService {
-
   // This is what returned by rails-angular-xss when it discovers double open curly braces
   // See https://github.com/opf/rails-angular-xss for more information.
   public static get UNESCAPED_EXPRESSION() {

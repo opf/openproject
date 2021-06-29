@@ -20,8 +20,7 @@ import { TimeEntriesCurrentUserConfigurationModalService } from "core-app/shared
   templateUrl: './configuration.modal.html',
   providers: [TimeEntriesCurrentUserConfigurationModalService],
 })
-export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalComponent implements OnInit  {
-
+export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalComponent implements OnInit {
   /* Close on escape? */
   public closeOnEscape = true;
 
@@ -41,29 +40,31 @@ export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalCo
 
   // Checked value of all days of the week, starting from Monday.
   public options:{ days:boolean[] };
+
   public daysOriginalCheckedValues:boolean[];
+
   public days:IDayData[];
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
-              readonly injector:Injector,
-              readonly appRef:ApplicationRef,
-              readonly loadingIndicator:LoadingIndicatorService,
-              readonly notificationService:WorkPackageNotificationService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly configuration:ConfigurationService,
-              readonly elementRef:ElementRef,
-              readonly timeEntriesCurrentUserConfigurationModalService:TimeEntriesCurrentUserConfigurationModalService) {
+    readonly I18n:I18nService,
+    readonly injector:Injector,
+    readonly appRef:ApplicationRef,
+    readonly loadingIndicator:LoadingIndicatorService,
+    readonly notificationService:WorkPackageNotificationService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly configuration:ConfigurationService,
+    readonly elementRef:ElementRef,
+    readonly timeEntriesCurrentUserConfigurationModalService:TimeEntriesCurrentUserConfigurationModalService) {
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
-    this.daysOriginalCheckedValues = this.locals.options.days || Array.from({ length: 7 }, () => true );
+    this.daysOriginalCheckedValues = this.locals.options.days || Array.from({ length: 7 }, () => true);
     this.days = this.timeEntriesCurrentUserConfigurationModalService.getOrderedDaysData(this.daysOriginalCheckedValues);
   }
 
   public saveChanges():void {
-    const checkedValuesInOriginalOrder= this.timeEntriesCurrentUserConfigurationModalService.getCheckedValuesInOriginalOrder(this.days);
+    const checkedValuesInOriginalOrder = this.timeEntriesCurrentUserConfigurationModalService.getCheckedValuesInOriginalOrder(this.days);
 
     this.options = { days: checkedValuesInOriginalOrder };
     this.service.close();

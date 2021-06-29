@@ -38,6 +38,7 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 })
 export class WorkPackageCommentFieldComponent extends FormattableEditFieldComponent implements OnInit {
   public isBusy = false;
+
   public name = 'comment';
 
   @InjectField() public ConfigurationService:ConfigurationService;

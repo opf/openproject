@@ -1,14 +1,13 @@
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { Injectable } from '@angular/core';
-import { WorkPackageViewHierarchies } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies";
+import { Injectable } from "@angular/core";
+import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
+import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateService<WorkPackageViewHierarchies> {
-
   public valueFromQuery(query:QueryResource):WorkPackageViewHierarchies {
-    const value =  new WorkPackageViewHierarchies(query.showHierarchies);
-    const current = this.current;
+    const value = new WorkPackageViewHierarchies(query.showHierarchies);
+    const { current } = this;
 
     // Take over current collapsed values
     // which are not yet saved

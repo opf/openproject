@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++    Ng1FieldControlsWrapper,
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector } from "@angular/core";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector,
+} from "@angular/core";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
@@ -47,8 +49,8 @@ export const quickInfoMacroSelector = 'macro.macro--wp-quickinfo';
   styleUrls: ['./work-package-quickinfo-macro.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    HalResourceEditingService
-  ]
+    HalResourceEditingService,
+  ],
 })
 export class WorkPackageQuickinfoMacroComponent {
   // Whether the value could not be loaded
@@ -56,25 +58,28 @@ export class WorkPackageQuickinfoMacroComponent {
 
   text = {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip')
+    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
   };
 
   @HostBinding('title') hostTitle = this.text.help;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;
+
   dateDisplayField = CombinedDateDisplayField;
+
   workPackageLink:string;
+
   detailed = false;
 
   constructor(readonly elementRef:ElementRef,
-              readonly injector:Injector,
-              readonly apiV3Service:APIV3Service,
-              readonly schemaCache:SchemaCacheService,
-              readonly displayField:DisplayFieldService,
-              readonly pathHelper:PathHelperService,
-              readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly injector:Injector,
+    readonly apiV3Service:APIV3Service,
+    readonly schemaCache:SchemaCacheService,
+    readonly displayField:DisplayFieldService,
+    readonly pathHelper:PathHelperService,
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef) {
 
   }
 
@@ -90,13 +95,13 @@ export class WorkPackageQuickinfoMacroComponent {
       .id(id)
       .get()
       .pipe(
-        tap({ error: (e) => this.markError(this.text.not_found) })
+        tap({ error: (e) => this.markError(this.text.not_found) }),
       );
   }
 
   markError(message:string) {
     console.error("Failed to render macro " + message);
-    this.error = this.I18n.t('js.editor.macro.error', { message: message });
+    this.error = this.I18n.t('js.editor.macro.error', { message });
     this.cdRef.detectChanges();
   }
 }

@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup } from 'reactivestates';
+import {
+  combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup,
+} from 'reactivestates';
 import { filter, map } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { Subject } from "rxjs";
@@ -91,13 +93,12 @@ export interface ResourceChangesetClass {
 
 @Injectable()
 export class HalResourceEditingService extends StateCacheService<ResourceChangeset> {
-
   /** Committed / saved changes to work packages observable */
   public committedChanges = new Subject<ResourceChangesetCommit>();
 
   constructor(protected readonly injector:Injector,
-              protected readonly halEvents:HalEventsService,
-              protected readonly hook:HookService) {
+    protected readonly halEvents:HalEventsService,
+    protected readonly hook:HookService) {
     super(new ChangesetStates().changesets);
   }
 
@@ -217,7 +218,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
    * @return {State<HalResource>}
    */
   public temporaryEditResource<V extends HalResource, T extends ResourceChangeset<V>>(resource:V):State<V> {
-    const combined = combine(resource.state! as State<V>, this.typedState<V, T>(resource) as State<T>);
+    const combined = combine(resource.state! as State<V>, this.typedState<V, T>(resource));
 
     return deriveRaw(combined,
       ($) => $
@@ -230,9 +231,8 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
             }
 
             return resource;
-          })
-        )
-    );
+          }),
+        ));
   }
 
   public stopEditing(resource:HalResource|{ href:string }) {
@@ -247,4 +247,3 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     return Promise.resolve();
   }
 }
-

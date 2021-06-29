@@ -8,13 +8,13 @@ describe('IntegerInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
-        "type": "integerInput" as "integerInput",
-        "key": "testControl",
-        "templateOptions": {
-          "required": true,
-          "label": "testControl",
+        type: "integerInput" as const,
+        key: "testControl",
+        templateOptions: {
+          required: true,
+          label: "testControl",
         },
-      }
+      },
     ];
     const formModel = {
       testControl: 'testValue',
@@ -29,4 +29,3 @@ describe('IntegerInputComponent', () => {
     testDynamicInputControValueAccessor(fixture, testModel, 'op-integer-input input');
   }));
 });
-

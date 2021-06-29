@@ -11,8 +11,8 @@ import { BannersService } from "core-app/core/enterprise/banners.service";
   selector: 'wp-table-config-filters-tab'
 })
 export class WpTableConfigurationFiltersTab implements TabComponent {
-
   public filters:QueryFilterInstanceResource[] = [];
+
   public eeShowBanners = false;
 
   public text = {
@@ -21,14 +21,14 @@ export class WpTableConfigurationFiltersTab implements TabComponent {
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
 
     upsaleRelationColumns: this.I18n.t('js.modals.upsale_relation_columns'),
-    upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link')
+    upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link'),
   };
 
   constructor(readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly wpFiltersService:WorkPackageFiltersService,
-              readonly bannerService:BannersService) {
+    readonly I18n:I18nService,
+    readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly wpFiltersService:WorkPackageFiltersService,
+    readonly bannerService:BannersService) {
   }
 
   ngOnInit() {

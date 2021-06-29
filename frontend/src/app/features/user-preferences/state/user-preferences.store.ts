@@ -38,7 +38,7 @@ function createInitialState():UserPreferencesModel {
     timeZone: null,
     warnOnLeavingUnsaved: true,
     selfNotified: false,
-    notifications: []
+    notifications: [],
   };
 }
 

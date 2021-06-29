@@ -5,7 +5,6 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { StateService } from "@uirouter/core";
 
-
 @Injectable()
 export abstract class ViewerBridgeService {
   @InjectField() state:StateService;
@@ -25,6 +24,7 @@ export abstract class ViewerBridgeService {
   }
 
   constructor(readonly injector:Injector) {}
+
   /**
    * Get a viewpoint from the viewer
    */

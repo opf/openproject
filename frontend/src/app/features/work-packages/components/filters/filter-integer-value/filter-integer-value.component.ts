@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 import { Component, Input, Output } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
@@ -42,11 +41,13 @@ import { QueryFilterResource } from "core-app/features/hal/resources/query-filte
 })
 export class FilterIntegerValueComponent extends UntilDestroyedMixin {
   @Input() public shouldFocus = false;
+
   @Input() public filter:QueryFilterInstanceResource;
+
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
   constructor(readonly I18n:I18nService,
-              readonly schemaCache:SchemaCacheService) {
+    readonly schemaCache:SchemaCacheService) {
     super();
   }
 

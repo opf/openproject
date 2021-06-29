@@ -39,12 +39,12 @@ export class Apiv3NotificationPaths extends APIv3GettableResource<InAppNotificat
     return this
       .http
       .post(
-        this.path + '/read_ian',
+        `${this.path}/read_ian`,
         {},
         {
           withCredentials: true,
           responseType: 'json'
-        }
+        },
       );
   }
 
@@ -52,12 +52,12 @@ export class Apiv3NotificationPaths extends APIv3GettableResource<InAppNotificat
     return this
       .http
       .post(
-        this.path + '/unread_ian',
+        `${this.path}/unread_ian`,
         {},
         {
           withCredentials: true,
           responseType: 'json'
-        }
+        },
       );
   }
 }

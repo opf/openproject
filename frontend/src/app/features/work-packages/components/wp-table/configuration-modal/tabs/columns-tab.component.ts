@@ -14,11 +14,15 @@ export class WpTableConfigurationColumnsTab implements TabComponent, OnInit {
   public availableColumnsOptions = this.wpTableColumns.all.map(c => this.column2Like(c));
 
   public availableColumns = this.wpTableColumns.all;
+
   public availableColumnsMap:{ [id:string]:QueryColumn } = _.keyBy(this.availableColumns, c => c.id);
+
   public selectedColumns:DraggableOption[] = this.wpTableColumns.getColumns().map(c => this.column2Like(c));
 
   public selectedColumnMap:{ [id:string]:boolean } = {};
+
   public eeShowBanners = false;
+
   public text = {
 
     columnsHelp: this.I18n.t('js.work_packages.table_configuration.columns_help_text'),
@@ -27,14 +31,14 @@ export class WpTableConfigurationColumnsTab implements TabComponent, OnInit {
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
 
     upsaleRelationColumns: this.I18n.t('js.work_packages.table_configuration.upsale.relation_columns'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
+    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
   };
 
   constructor(readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly ConfigurationService:ConfigurationService,
-              readonly bannerService:BannersService) {
+    readonly I18n:I18nService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly ConfigurationService:ConfigurationService,
+    readonly bannerService:BannersService) {
   }
 
   public onSave() {

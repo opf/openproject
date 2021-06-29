@@ -9,12 +9,15 @@ import { filter, distinctUntilChanged, throttleTime } from 'rxjs/operators';
 @Injectable()
 export class GridDragAndDropService implements OnDestroy {
   public draggedArea:GridWidgetArea|null;
+
   public placeholderArea:GridWidgetArea|null;
+
   public draggedHeight:number|null;
+
   private mousedOverAreaObserver:Subscription;
 
   constructor(readonly layout:GridAreaService,
-              readonly move:GridMoveService) {
+    readonly move:GridMoveService) {
     // ngOnInit is not called on services
     this.setupMousedOverAreaSubscription();
   }
@@ -99,9 +102,9 @@ export class GridDragAndDropService implements OnDestroy {
       return;
     }
 
-    this.placeholderArea!.copyDimensionsTo(this.draggedArea!);
+    this.placeholderArea!.copyDimensionsTo(this.draggedArea);
 
-    if (!this.draggedArea!.unchangedSize) {
+    if (!this.draggedArea.unchangedSize) {
       this.layout.writeAreaChangesToWidgets();
       this.layout.cleanupUnusedAreas();
       this.layout.rebuildAndPersist();
@@ -131,5 +134,4 @@ export class GridDragAndDropService implements OnDestroy {
       sink.endColumn = source.startColumn + sink.widget.width;
     }
   }
-
 }

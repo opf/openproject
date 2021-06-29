@@ -39,22 +39,24 @@ import { WorkPackageNotificationService } from "core-app/features/work-packages/
   templateUrl: './wp-full-view.html',
   selector: 'wp-full-view-entry',
   // Required class to support inner scrolling on page
-  host: { 'class': 'work-packages-page--ui-view' },
+  host: { class: 'work-packages-page--ui-view' },
   providers: [
-    { provide: HalResourceNotificationService, useExisting: WorkPackageNotificationService }
-  ]
+    { provide: HalResourceNotificationService, useExisting: WorkPackageNotificationService },
+  ],
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
   // Watcher properties
   public isWatched:boolean;
+
   public displayWatchButton:boolean;
+
   public watchers:any;
 
   stateName$ = of('work-packages.new');
 
   constructor(public injector:Injector,
-              public wpTableSelection:WorkPackageViewSelectionService,
-              readonly $state:StateService) {
+    public wpTableSelection:WorkPackageViewSelectionService,
+    readonly $state:StateService) {
     super(injector, $state.params['workPackageId']);
   }
 
@@ -66,7 +68,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     super.initializeTexts();
 
     this.text.full_view = {
-      button_more: this.I18n.t('js.button_more')
+      button_more: this.I18n.t('js.button_more'),
     };
   }
 

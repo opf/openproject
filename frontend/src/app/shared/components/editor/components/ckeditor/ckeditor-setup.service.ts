@@ -68,7 +68,7 @@ export class CKEditorSetupService {
     // Load the bundle
     await this.load();
 
-    const type = context.type;
+    const { type } = context;
     const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
@@ -77,14 +77,13 @@ export class CKEditorSetupService {
 
     var contentLanguage = context.options && context.options.rtl ? 'ar' : 'en';
 
-
     const editor:ICKEditorInstance = await editorClass
       .createCustomized(contentWrapper, {
         openProject: this.createConfig(context),
-        initialData: initialData,
+        initialData,
         language: {
-          content: contentLanguage
-        }
+          content: contentLanguage,
+        },
       });
 
     toolbarWrapper.appendChild(editor.ui.view.toolbar.element);
@@ -121,9 +120,9 @@ export class CKEditorSetupService {
     }
 
     return {
-      context: context,
+      context,
       helpURL: this.PathHelper.textFormattingHelp(),
-      pluginContext: window.OpenProject.pluginContext.value
+      pluginContext: window.OpenProject.pluginContext.value,
     };
   }
 }

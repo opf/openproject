@@ -28,23 +28,21 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     .boards
     .observeAll()
     .pipe(
-      map((boards:Board[]) => {
-        return boards.sort(function (a, b) {
-          if (a.name < b.name) {
-            return -1;
-          }
-          if (a.name > b.name) {
-            return 1;
-          }
-          return 0;
-        });
-      })
+      map((boards:Board[]) => boards.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      })),
     );
 
   constructor(private readonly boardService:BoardService,
-              private readonly apiV3Service:APIV3Service,
-              private readonly currentProject:CurrentProjectService,
-              private readonly mainMenuService:MainMenuNavigationService) {
+    private readonly apiV3Service:APIV3Service,
+    private readonly currentProject:CurrentProjectService,
+    private readonly mainMenuService:MainMenuNavigationService) {
     super();
   }
 
@@ -62,10 +60,10 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
       .boardService
       .currentBoard$
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((id:string|null) => {
-        this.selectedBoardId = id ? id : '';
+        this.selectedBoardId = id || "";
       });
   }
 

@@ -26,39 +26,39 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from "@angular/core";
+import { Injectable, Injector } from '@angular/core';
 import {
   APIv3GettableResource,
   APIv3ResourceCollection,
-  APIv3ResourcePath
-} from "core-app/core/apiv3/paths/apiv3-resource";
-import { Constructor } from "@angular/cdk/table";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { Apiv3GridsPaths } from "core-app/core/apiv3/endpoints/grids/apiv3-grids-paths";
-import { Apiv3TimeEntriesPaths } from "core-app/core/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
-import { Apiv3CapabilitiesPaths } from "core-app/core/apiv3/endpoints/capabilities/apiv3-capabilities-paths";
-import { Apiv3MembershipsPaths } from "core-app/core/apiv3/endpoints/memberships/apiv3-memberships-paths";
-import { Apiv3UsersPaths } from "core-app/core/apiv3/endpoints/users/apiv3-users-paths";
-import { APIv3TypesPaths } from "core-app/core/apiv3/endpoints/types/apiv3-types-paths";
-import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";
-import { APIV3WorkPackagesPaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import { APIv3ProjectPaths } from "core-app/core/apiv3/endpoints/projects/apiv3-project-paths";
-import { APIv3ProjectsPaths } from "core-app/core/apiv3/endpoints/projects/apiv3-projects-paths";
-import { APIv3StatusesPaths } from "core-app/core/apiv3/endpoints/statuses/apiv3-statuses-paths";
-import { APIv3RolesPaths } from "core-app/core/apiv3/endpoints/roles/apiv3-roles-paths";
-import { APIv3VersionsPaths } from "core-app/core/apiv3/endpoints/versions/apiv3-versions-paths";
-import { Apiv3RelationsPaths } from "core-app/core/apiv3/endpoints/relations/apiv3-relations-paths";
-import { Apiv3NewsPaths } from "core-app/core/apiv3/endpoints/news/apiv3-news-paths";
-import { Apiv3HelpTextsPaths } from "core-app/core/apiv3/endpoints/help_texts/apiv3-help-texts-paths";
-import { Apiv3ConfigurationPath } from "core-app/core/apiv3/endpoints/configuration/apiv3-configuration-path";
-import { Apiv3BoardsPaths } from "core-app/core/apiv3/virtual/apiv3-boards-paths";
-import { RootResource } from "core-app/features/hal/resources/root-resource";
-import * as ts from "typescript/lib/tsserverlibrary";
+  APIv3ResourcePath,
+} from 'core-app/core/apiv3/paths/apiv3-resource';
+import { Constructor } from '@angular/cdk/table';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { Apiv3GridsPaths } from 'core-app/core/apiv3/endpoints/grids/apiv3-grids-paths';
+import { Apiv3TimeEntriesPaths } from 'core-app/core/apiv3/endpoints/time-entries/apiv3-time-entries-paths';
+import { Apiv3CapabilitiesPaths } from 'core-app/core/apiv3/endpoints/capabilities/apiv3-capabilities-paths';
+import { Apiv3MembershipsPaths } from 'core-app/core/apiv3/endpoints/memberships/apiv3-memberships-paths';
+import { Apiv3UsersPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-users-paths';
+import { APIv3TypesPaths } from 'core-app/core/apiv3/endpoints/types/apiv3-types-paths';
+import { APIv3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
+import { APIV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
+import { APIv3ProjectPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-project-paths';
+import { APIv3ProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-projects-paths';
+import { APIv3StatusesPaths } from 'core-app/core/apiv3/endpoints/statuses/apiv3-statuses-paths';
+import { APIv3RolesPaths } from 'core-app/core/apiv3/endpoints/roles/apiv3-roles-paths';
+import { APIv3VersionsPaths } from 'core-app/core/apiv3/endpoints/versions/apiv3-versions-paths';
+import { Apiv3RelationsPaths } from 'core-app/core/apiv3/endpoints/relations/apiv3-relations-paths';
+import { Apiv3NewsPaths } from 'core-app/core/apiv3/endpoints/news/apiv3-news-paths';
+import { Apiv3HelpTextsPaths } from 'core-app/core/apiv3/endpoints/help_texts/apiv3-help-texts-paths';
+import { Apiv3ConfigurationPath } from 'core-app/core/apiv3/endpoints/configuration/apiv3-configuration-path';
+import { Apiv3BoardsPaths } from 'core-app/core/apiv3/virtual/apiv3-boards-paths';
+import { RootResource } from 'core-app/features/hal/resources/root-resource';
+import * as ts from 'typescript/lib/tsserverlibrary';
+import { Apiv3PlaceholderUsersPaths } from 'core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths';
+import { Apiv3GroupsPaths } from 'core-app/core/apiv3/endpoints/groups/apiv3-groups-paths';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { Apiv3NotificationsPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notifications-paths';
 import Project = ts.server.Project;
-import { Apiv3PlaceholderUsersPaths } from "core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths";
-import { Apiv3GroupsPaths } from "core-app/core/apiv3/endpoints/groups/apiv3-groups-paths";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { Apiv3NotificationsPaths } from "core-app/core/apiv3/endpoints/notifications/apiv3-notifications-paths";
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
@@ -144,7 +144,7 @@ export class APIV3Service {
   public readonly boards = this.apiV3CustomEndpoint(Apiv3BoardsPaths);
 
   constructor(readonly injector:Injector,
-              readonly pathHelper:PathHelperService) {
+    readonly pathHelper:PathHelperService) {
   }
 
   /**
@@ -159,13 +159,12 @@ export class APIV3Service {
   public withOptionalProject(projectIdentifier:string|number|null|undefined):APIv3ProjectPaths|this {
     if (_.isNil(projectIdentifier)) {
       return this;
-    } else {
-      return this.projects.id(projectIdentifier);
     }
+    return this.projects.id(projectIdentifier);
   }
 
   public collectionFromString(fullPath:string) {
-    const path = fullPath.replace(this.pathHelper.api.v3.apiV3Base + '/', '');
+    const path = fullPath.replace(`${this.pathHelper.api.v3.apiV3Base}/`, '');
 
     return this.apiV3CollectionEndpoint(path);
   }

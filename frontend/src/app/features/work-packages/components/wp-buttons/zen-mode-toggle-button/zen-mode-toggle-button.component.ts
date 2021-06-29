@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AbstractWorkPackageButtonComponent } from '../wp-buttons.module';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
 
-import * as sfimport from "screenfull";
-import { Screenfull } from "screenfull";
+import * as sfimport from 'screenfull';
+import { Screenfull } from 'screenfull';
+import { AbstractWorkPackageButtonComponent } from "../wp-buttons.module";
 
 const screenfull:Screenfull = sfimport as any;
 export const zenModeComponentSelector = 'zen-mode-toggle-button';
@@ -43,25 +43,27 @@ export const zenModeComponentSelector = 'zen-mode-toggle-button';
 })
 export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
   public buttonId = 'work-packages-zen-mode-toggle-button';
+
   public buttonClass = 'toolbar-icon';
+
   public iconClass = 'icon-zen-mode';
 
   static inZenMode = false;
 
   private activateLabel:string;
+
   private deactivateLabel:string;
 
   constructor(readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly cdRef:ChangeDetectorRef) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.zen_mode.button_activate');
     this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
     const self = this;
 
-
     if (screenfull.enabled) {
-      screenfull.onchange(function() {
+      screenfull.onchange(() => {
         // This event might get triggered several times for once leaving
         // fullscreen mode.
         if (!screenfull.isFullscreen) {
@@ -74,9 +76,8 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
   public get label():string {
     if (this.isActive) {
       return this.deactivateLabel;
-    } else {
-      return this.activateLabel;
     }
+    return this.activateLabel;
   }
 
   public isToggle():boolean {

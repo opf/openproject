@@ -39,6 +39,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
   public workPackage:WorkPackageResource;
+
   public workPackageId:string;
 
   // All activities retrieved for the work package
@@ -48,20 +49,23 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   public visibleActivities:ActivityEntryInfo[] = [];
 
   public reverse:boolean;
+
   public showToggler:boolean;
 
   public onlyComments = false;
+
   public togglerText:string;
+
   public text = {
     commentsOnly: this.I18n.t('js.label_activity_show_only_comments'),
-    showAll: this.I18n.t('js.label_activity_show_all')
+    showAll: this.I18n.t('js.label_activity_show_all'),
   };
 
   constructor(readonly apiV3Service:APIV3Service,
-              readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly $transition:Transition,
-              readonly wpActivity:WorkPackagesActivityService) {
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly $transition:Transition,
+    readonly wpActivity:WorkPackagesActivityService) {
     super();
 
     this.reverse = wpActivity.isReversed;
@@ -75,7 +79,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .id(this.workPackageId)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -98,17 +102,16 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     const count_all = this.unfilteredActivities.length;
     const count_with_comments = this.getActivitiesWithComments().length;
 
-    return count_all > 1 &&
-      count_with_comments > 0 &&
-      count_with_comments < this.unfilteredActivities.length;
+    return count_all > 1
+      && count_with_comments > 0
+      && count_with_comments < this.unfilteredActivities.length;
   }
 
   protected getVisibleActivities() {
     if (!this.onlyComments) {
       return this.unfilteredActivities;
-    } else {
-      return this.getActivitiesWithComments();
     }
+    return this.getActivitiesWithComments();
   }
 
   protected getActivitiesWithComments() {
@@ -131,4 +134,3 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     return this.wpActivity.info(this.unfilteredActivities, activity, index);
   }
 }
-

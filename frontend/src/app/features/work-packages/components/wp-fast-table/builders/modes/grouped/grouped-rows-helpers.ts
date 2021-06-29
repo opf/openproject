@@ -16,12 +16,11 @@ export function groupIdentifier(group:GroupObject) {
 }
 
 export function groupName(group:GroupObject) {
-  const value = group.value;
+  const { value } = group;
   if (value === null) {
-    return '-';
-  } else {
-    return value;
+    return "-";
   }
+  return value;
 }
 
 export function groupByProperty(group:GroupObject):string {

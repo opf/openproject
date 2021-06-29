@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from "@angular/core";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken, OpModalService } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
@@ -49,18 +51,18 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly i18n:I18nService,
-              readonly apiV3Service:APIV3Service,
-              readonly opModalService:OpModalService,
-              readonly $state:StateService) {
+    @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly i18n:I18nService,
+    readonly apiV3Service:APIV3Service,
+    readonly opModalService:OpModalService,
+    readonly $state:StateService) {
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const workPackageLink = this.locals.workPackageLink;
+    const { workPackageLink } = this.locals;
     const workPackageId = HalResource.idFromLink(workPackageLink);
 
     this

@@ -27,7 +27,9 @@
 //++
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, Injector, ViewChild,
+} from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
@@ -57,17 +59,22 @@ export class BackupComponent implements AfterViewInit {
   };
 
   public jobStatusId:string = this.elementRef.nativeElement.dataset['jobStatusId'];
+
   public lastBackupDate:string = this.elementRef.nativeElement.dataset['lastBackupDate'];
+
   public lastBackupAttachmentId:string = this.elementRef.nativeElement.dataset['lastBackupAttachmentId'];
+
   public mayIncludeAttachments:boolean = this.elementRef.nativeElement.dataset['mayIncludeAttachments'] != "false";
 
-  public isInProgress:boolean = false;
-  public includeAttachments:boolean = true;
-  public backupToken:string = "";
+  public isInProgress = false;
+
+  public includeAttachments = true;
+
+  public backupToken = "";
 
   @InjectField() opBackup:OpenProjectBackupService;
 
-  @ViewChild("backupTokenInput") backupTokenInput: ElementRef;
+  @ViewChild("backupTokenInput") backupTokenInput:ElementRef;
 
   constructor(
     readonly elementRef:ElementRef,
@@ -75,7 +82,7 @@ export class BackupComponent implements AfterViewInit {
     protected i18n:I18nService,
     protected notificationsService:NotificationsService,
     protected opModalService:OpModalService,
-    protected pathHelper:PathHelperService
+    protected pathHelper:PathHelperService,
   ) {
     this.includeAttachments = this.mayIncludeAttachments;
   }
@@ -107,7 +114,7 @@ export class BackupComponent implements AfterViewInit {
       event.preventDefault();
     }
 
-    var backupToken = this.backupToken;
+    var { backupToken } = this;
 
     this.backupToken = "";
 

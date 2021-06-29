@@ -26,27 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit } from '@angular/core';
-import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
-import * as moment from 'moment';
+import { Component, ElementRef, OnInit } from "@angular/core";
+import { WorkPackageTimelineTableController } from "core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive";
+import * as moment from "moment";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 import {
   calculatePositionValueForDayCount,
   getTimeSlicesForHeader,
   timelineHeaderCSSClass,
   timelineHeaderSelector,
-  TimelineViewParameters
+  TimelineViewParameters,
 } from '../wp-timeline';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import Moment = moment.Moment;
-import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 @Component({
   selector: timelineHeaderSelector,
   templateUrl: './wp-timeline-header.html'
 })
 export class WorkPackageTimelineHeaderController implements OnInit {
-
   public $element:JQuery;
 
   private activeZoomLevel:TimelineZoomLevel;
@@ -54,10 +53,9 @@ export class WorkPackageTimelineHeaderController implements OnInit {
   private innerHeader:JQuery;
 
   constructor(elementRef:ElementRef,
-              readonly I18n:I18nService,
-              readonly wpTimelineService:WorkPackageViewTimelineService,
-              readonly workPackageTimelineTableController:WorkPackageTimelineTableController) {
-
+    readonly I18n:I18nService,
+    readonly wpTimelineService:WorkPackageViewTimelineService,
+    readonly workPackageTimelineTableController:WorkPackageTimelineTableController) {
     this.$element = jQuery(elementRef.nativeElement);
   }
 
@@ -179,7 +177,6 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     this.renderTimeSlices(vp, 'year', 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format('YYYY');
       cell.classList.add('wp-timeline--header-top-bold-element');
-
     });
 
     this.renderTimeSlices(vp, 'quarter', 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -201,12 +198,11 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     startView:Moment,
     endView:Moment,
     cellCallback:(start:Moment, cell:HTMLElement) => void) {
-
     const { inViewportAndBoundaries, rest } = getTimeSlicesForHeader(vp, unit, startView, endView);
 
     for (const [start, end] of inViewportAndBoundaries) {
       const cell = this.addLabelCell();
-      cell.style.top = marginTop + 'px';
+      cell.style.top = `${marginTop}px`;
       cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
       cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
       cellCallback(start, cell);
@@ -214,7 +210,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     setTimeout(() => {
       for (const [start, end] of rest) {
         const cell = this.addLabelCell();
-        cell.style.top = marginTop + 'px';
+        cell.style.top = `${marginTop}px`;
         cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
         cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
         cellCallback(start, cell);

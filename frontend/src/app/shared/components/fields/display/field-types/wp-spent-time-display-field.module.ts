@@ -26,23 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DurationDisplayField } from './duration-display-field.module';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import * as URI from 'urijs';
-import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import * as URI from "urijs";
+import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { DurationDisplayField } from "./duration-display-field.module";
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
     linkTitle: this.I18n.t('js.work_packages.message_view_spent_time'),
-    logTime: this.I18n.t('js.button_log_time')
+    logTime: this.I18n.t('js.button_log_time'),
   };
 
   @InjectField() PathHelper:PathHelperService;
+
   @InjectField(TimeEntryCreateService, null) timeEntryCreateService:TimeEntryCreateService;
+
   @InjectField() apiV3Service:APIV3Service;
 
   public render(element:HTMLElement, displayText:string):void {

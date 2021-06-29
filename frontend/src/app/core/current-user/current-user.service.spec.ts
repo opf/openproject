@@ -34,9 +34,8 @@ import { States } from "core-app/core/states/states.service";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CurrentUserService } from './current-user.service';
-import { CurrentUserStore } from "./current-user.store";
-import { CurrentUserQuery } from "./current-user.query";
-import { CurrentUser } from './current-user.store';
+import { CurrentUserStore, CurrentUser } from './current-user.store';
+import { CurrentUserQuery } from './current-user.query';
 
 const globalCapability = {
   _type: 'Capability',
@@ -122,7 +121,7 @@ const projectCapabilityp53Update = {
   },
 };
 
-describe('CurrentUserService', function () {
+describe('CurrentUserService', () => {
   let injector:TestBed;
   let currentUserService:CurrentUserService;
   let httpMock:HttpTestingController;
@@ -171,8 +170,7 @@ describe('CurrentUserService', function () {
           },
         });
       });
-  }
-
+  };
 
   afterEach(() => {
     httpMock.verify();

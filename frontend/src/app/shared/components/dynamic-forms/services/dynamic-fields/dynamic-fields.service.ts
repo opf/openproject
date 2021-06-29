@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   IDynamicFieldGroupConfig,
   IOPDynamicInputTypeSettings,
   IOPFormlyFieldSettings,
-} from "../../typings";
-import { FormlyFieldConfig } from "@ngx-formly/core";
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
-import { HttpClient } from "@angular/common/http";
-import { HalLink } from "core-app/features/hal/hal-link/hal-link";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-
+} from '../../typings';
 
 @Injectable()
 export class DynamicFieldsService {
   readonly selectDefaultValue = { name: '-', _links: { self: { href: null } } };
+
   readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
@@ -23,7 +23,7 @@ export class DynamicFieldsService {
           type: 'text',
         },
       },
-      useForFields: ['String']
+      useForFields: ['String'],
     },
     {
       config: {
@@ -32,7 +32,7 @@ export class DynamicFieldsService {
           type: 'password',
         },
       },
-      useForFields: ['Password']
+      useForFields: ['Password'],
     },
     {
       config: {
@@ -42,7 +42,7 @@ export class DynamicFieldsService {
           locale: this.I18n.locale,
         },
       },
-      useForFields: ['Integer', 'Float']
+      useForFields: ['Integer', 'Float'],
     },
     {
       config: {
@@ -51,13 +51,13 @@ export class DynamicFieldsService {
           type: 'checkbox',
         },
       },
-      useForFields: ['Boolean']
+      useForFields: ['Boolean'],
     },
     {
       config: {
         type: 'dateInput',
       },
-      useForFields: ['Date', 'DateTime']
+      useForFields: ['Date', 'DateTime'],
     },
     {
       config: {
@@ -68,7 +68,7 @@ export class DynamicFieldsService {
           noWrapLabel: true,
         },
       },
-      useForFields: ['Formattable']
+      useForFields: ['Formattable'],
     },
     {
       config: {
@@ -93,7 +93,7 @@ export class DynamicFieldsService {
       useForFields: [
         'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
         'Category', 'CustomOption', 'Project'
-      ]
+      ],
     },
     {
       config: {
@@ -110,7 +110,7 @@ export class DynamicFieldsService {
       },
       useForFields: [
         'ProjectStatus'
-      ]
+      ],
     },
   ];
 
@@ -144,11 +144,11 @@ export class DynamicFieldsService {
       const elementValue = otherElements[key];
 
       if (this.isValue(elementValue)) {
-        model = { ...model, [key]: elementValue }
+        model = { ...model, [key]: elementValue };
       }
 
       return model;
-    }, {})
+    }, {});
 
     const model = {
       ...otherElementsModel,
@@ -161,9 +161,7 @@ export class DynamicFieldsService {
 
   getFormlyFormWithFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
     // Remove previous grouping
-    formFields = formFields.reduce((result:IOPFormlyFieldSettings[], formField) => {
-      return formField.fieldGroup ? [...result, ...formField.fieldGroup] : [...result, formField];
-    }, []);
+    formFields = formFields.reduce((result:IOPFormlyFieldSettings[], formField) => (formField.fieldGroup ? [...result, ...formField.fieldGroup] : [...result, formField]), []);
     const formFieldsWithoutGroup = formFields.filter(formField => fieldGroups.every(fieldGroup => !fieldGroup.fieldsFilter || !fieldGroup.fieldsFilter(formField)));
     const formFieldGroups = this.getDynamicFormFieldGroups(fieldGroups, formFields);
 
@@ -175,7 +173,7 @@ export class DynamicFieldsService {
       .map(fieldSchemaKey => {
         const fieldSchema = {
           ...formSchema[fieldSchemaKey],
-          key: this.getAttributeKey(formSchema[fieldSchemaKey], fieldSchemaKey)
+          key: this.getAttributeKey(formSchema[fieldSchemaKey], fieldSchemaKey),
         };
 
         return fieldSchema;
@@ -202,12 +200,12 @@ export class DynamicFieldsService {
       const resource = resourcesModel[resourceKey];
       // ng-select needs a 'name' in order to show the label
       // We need to add it in case of the form payload (HalLinkSource)
-      const resourceModel = Array.isArray(resource) ?
-        resource.map(resourceElement => resourceElement?.href && {
+      const resourceModel = Array.isArray(resource)
+        ? resource.map(resourceElement => resourceElement?.href && {
           ...resourceElement,
-          name: resourceElement?.name || resourceElement?.title
-        }) :
-        resource?.href && { ...resource, name: resource?.name || resource?.title };
+          name: resourceElement?.name || resourceElement?.title,
+        })
+        : resource?.href && { ...resource, name: resource?.name || resource?.title };
 
       result = {
         ...result,
@@ -219,7 +217,9 @@ export class DynamicFieldsService {
   }
 
   private getFormlyFieldConfig(fieldSchema:IOPFieldSchemaWithKey, formPayload:IOPFormModel):IOPFormlyFieldSettings|null {
-    const { key, name: label, required, hasDefault, minLength, maxLength } = fieldSchema;
+    const {
+      key, name: label, required, hasDefault, minLength, maxLength,
+    } = fieldSchema;
     const fieldTypeConfigSearch = this.getFieldTypeConfig(fieldSchema);
     if (!fieldTypeConfigSearch) {
       return null;
@@ -251,16 +251,16 @@ export class DynamicFieldsService {
 
   private getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
     const fieldType = field.type.replace('[]', '') as OPFieldType;
-    let inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
+    const inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
 
     if (!inputType) {
       console.warn(
-        `Could not find a input definition for a field with the folowing type: ${fieldType}. The full field configuration is`, field
+        `Could not find a input definition for a field with the folowing type: ${fieldType}. The full field configuration is`, field,
       );
       return null;
     }
 
-    let inputConfig = inputType.config;
+    const inputConfig = inputType.config;
     let configCustomizations;
 
     if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput' || inputConfig.type === 'selectProjectStatusInput') {
@@ -294,14 +294,14 @@ export class DynamicFieldsService {
     }
 
     if (Array.isArray(allowedValues)) {
-      const optionsValues = allowedValues[0]?._links?.self?.title ?
-        this.formatAllowedValues(allowedValues) :
-        allowedValues;
+      const optionsValues = allowedValues[0]?._links?.self?.title
+        ? this.formatAllowedValues(allowedValues)
+        : allowedValues;
 
       options = of(optionsValues);
-    } else if (allowedValues!.href) {
+    } else if (allowedValues.href) {
       options = this.httpClient
-        .get(allowedValues!.href!)
+        .get(allowedValues.href)
         .pipe(
           map((response:api.v3.Result) => response._embedded.elements),
           map(options => this.formatAllowedValues(options)),
@@ -310,7 +310,7 @@ export class DynamicFieldsService {
 
     return options?.pipe(
       map(options => this.prependCurrentValue(options, currentValue)),
-      map(options => this.prependDefaultValue(options, field))
+      map(options => this.prependDefaultValue(options, field)),
     );
   }
 
@@ -339,8 +339,8 @@ export class DynamicFieldsService {
           expressionProperties: {
             ...newFormFieldGroup.expressionProperties,
             ...fieldGroup.settings.expressionProperties && fieldGroup.settings.expressionProperties,
-          }
-        }
+          },
+        };
       }
 
       if (newFormFieldGroup?.fieldGroup?.length) {
@@ -363,8 +363,8 @@ export class DynamicFieldsService {
       },
       fieldGroup: this.getGroupFields(fieldGroupConfig, formFields),
       expressionProperties: {
-        'templateOptions.collapsibleFieldGroupsCollapsed': this.collapsibleFieldGroupsCollapsedExpressionProperty
-      }
+        'templateOptions.collapsibleFieldGroupsCollapsed': this.collapsibleFieldGroupsCollapsedExpressionProperty,
+      },
     };
 
     return defaultFieldGroupSettings;
@@ -376,29 +376,26 @@ export class DynamicFieldsService {
 
       if (!formFieldKey) {
         return false;
-      } else if (fieldGroupConfig.fieldsFilter) {
+      } if (fieldGroupConfig.fieldsFilter) {
         return fieldGroupConfig.fieldsFilter(formField);
-      } else {
-        return true;
       }
-    })
+      return true;
+    });
   }
 
   private collapsibleFieldGroupsCollapsedExpressionProperty(model:any, formState:any, field:FormlyFieldConfig) {
     // Uncollapse field groups when the form has errors and is submitted
     if (
-      field.type !== 'formly-group' ||
-      !field.templateOptions?.collapsibleFieldGroups ||
-      !field.templateOptions?.collapsibleFieldGroupsCollapsed
+      field.type !== "formly-group" ||
+      !field.templateOptions?.collapsibleFieldGroups
+      || !field.templateOptions?.collapsibleFieldGroupsCollapsed
     ) {
-      return;
+
     } else {
       return !(
-        field.fieldGroup?.some((groupField:IOPFormlyFieldSettings) =>
-          groupField.formControl?.errors &&
-          !groupField.hide &&
-          field.options?.parentForm?.submitted
-        ));
+        field.fieldGroup?.some((groupField:IOPFormlyFieldSettings) => groupField.formControl?.errors
+          && !groupField.hide
+          && field.options?.parentForm?.submitted));
     }
   }
 
@@ -407,12 +404,11 @@ export class DynamicFieldsService {
   private prependCurrentValue(options:IOPAllowedValue[], currentValue:HalLink|null):IOPAllowedValue[] {
     if (!currentValue?.href || options.some(option => option?._links?.self?.href === currentValue.href)) {
       return options;
-    } else {
-      return [
-        { name: currentValue.title, _links: { self: currentValue } },
-        ...options
-      ];
     }
+    return [
+      { name: currentValue.title, _links: { self: currentValue } },
+      ...options,
+    ];
   }
 
   // So select properties that are not required always get a default ('-'/'none') option.
@@ -421,9 +417,8 @@ export class DynamicFieldsService {
   private prependDefaultValue(options:IOPAllowedValue[], field:IOPFieldSchemaWithKey):IOPAllowedValue[] {
     if (field.required || this.isMultiSelectField(field)) {
       return options;
-    } else {
-      return [this.selectDefaultValue, ...options];
     }
+    return [this.selectDefaultValue, ...options];
   }
 
   private isMultiSelectField(field:IOPFieldSchemaWithKey) {
@@ -434,5 +429,3 @@ export class DynamicFieldsService {
     return ![null, undefined, ''].includes(value);
   }
 }
-
-

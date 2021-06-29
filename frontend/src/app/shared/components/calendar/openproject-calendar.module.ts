@@ -49,8 +49,8 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
       bodyClasses: 'router--work-packages-calendar',
       menuItem: menuItemClass,
       parent: 'work-packages'
-    }
-  }
+    },
+  },
 ];
 
 @NgModule({
@@ -82,7 +82,7 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
   exports: [
     WorkPackagesCalendarController,
     TimeEntryCalendarComponent,
-  ]
+  ],
 })
 export class OpenprojectCalendarModule {
 }

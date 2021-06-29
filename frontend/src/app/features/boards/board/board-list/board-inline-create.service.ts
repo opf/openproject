@@ -38,13 +38,12 @@ import { GonService } from "core-app/core/gon/gon.service";
 
 @Injectable()
 export class BoardInlineCreateService extends WorkPackageInlineCreateService {
-
   constructor(readonly injector:Injector,
-              protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly halResourceService:HalResourceService,
-              protected readonly pathHelperService:PathHelperService,
-              protected readonly Gon:GonService,
-              protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
+    protected readonly querySpace:IsolatedQuerySpace,
+    protected readonly halResourceService:HalResourceService,
+    protected readonly pathHelperService:PathHelperService,
+    protected readonly Gon:GonService,
+    protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService) {
     super(injector);
   }
 
@@ -71,6 +70,6 @@ export class BoardInlineCreateService extends WorkPackageInlineCreateService {
    */
   public readonly buttonTexts = {
     reference: this.I18n.t('js.relation_buttons.add_existing_child'),
-    create: this.I18n.t('js.relation_buttons.add_new_child')
+    create: this.I18n.t('js.relation_buttons.add_new_child'),
   };
 }

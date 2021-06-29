@@ -26,13 +26,36 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, Component, ElementRef, Injector } from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, Injector,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { filter, takeUntil } from 'rxjs/operators';
+import { input, InputState } from "reactivestates";
+import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
+import { WorkPackageTimelineCellsRenderer } from "core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cells-renderer";
+import { States } from "core-app/core/states/states.service";
+import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
+import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageTimelineCell } from "core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cell";
+import { selectorTimelineSide } from "core-app/features/work-packages/components/wp-table/wp-table-scroll-sync";
+import { debugLog, timeOutput } from "core-app/shared/helpers/debug_output";
+import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
+import { combineLatest, Observable } from "rxjs";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { WorkPackagesTableComponent } from "core-app/features/work-packages/components/wp-table/wp-table.component";
+import {
+  groupIdFromIdentifier,
+  groupTypeFromIdentifier,
+} from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
+import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import {
   calculateDaySpan,
   getPixelPerDayForZoomLevel,
@@ -41,30 +64,8 @@ import {
   timelineHeaderSelector,
   timelineMarkerSelectionStartClass,
   TimelineViewParameters,
-  zoomLevelOrder
-} from '../wp-timeline';
-import { input, InputState } from 'reactivestates';
-import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import { WorkPackageTimelineCellsRenderer } from 'core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cells-renderer';
-import { States } from 'core-app/core/states/states.service';
-import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
-import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { WorkPackageTimelineCell } from 'core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cell';
-import { selectorTimelineSide } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
-import { debugLog, timeOutput } from 'core-app/shared/helpers/debug_output';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { combineLatest, Observable } from 'rxjs';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
-import {
-  groupIdFromIdentifier,
-  groupTypeFromIdentifier
-} from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
-import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-
+  zoomLevelOrder,
+} from "../wp-timeline";
 
 @Component({
   selector: 'wp-timeline-container',
@@ -90,7 +91,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   public timelineBody:JQuery;
 
   private selectionParams:{ notification:INotification|null } = {
-    notification: null
+    notification: null,
   };
 
   private text:{ selectionMode:string };
@@ -102,13 +103,11 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   private orderedRows:RenderedWorkPackage[] = [];
 
   get commonPipes() {
-    return (source:Observable<any>) => {
-      return source.pipe(
-        this.untilDestroyed(),
-        takeUntil(this.querySpace.stopAllSubscriptions),
-        filter(() => this.initialized && this.wpTableTimeline.isVisible),
-      );
-    };
+    return (source:Observable<any>) => source.pipe(
+      this.untilDestroyed(),
+      takeUntil(this.querySpace.stopAllSubscriptions),
+      filter(() => this.initialized && this.wpTableTimeline.isVisible),
+    );
   }
 
   get workPackagesWithGroupHeaderCell():RenderedWorkPackage[] {
@@ -116,24 +115,24 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const wpsWithGroupHeaderCell = tableWorkPackages
       .filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage))
       .map(tableWorkPackage => tableWorkPackage.id);
-    const workPackagesWithGroupHeaderCell = this.orderedRows.filter(row => wpsWithGroupHeaderCell.includes(row.workPackageId!) && !this.workPackageIdOrder.includes(row));
+    const workPackagesWithGroupHeaderCell = this.orderedRows.filter(row => wpsWithGroupHeaderCell.includes(row.workPackageId) && !this.workPackageIdOrder.includes(row));
 
     return workPackagesWithGroupHeaderCell;
   }
 
   constructor(public readonly injector:Injector,
-              private elementRef:ElementRef,
-              private states:States,
-              public wpTableComponent:WorkPackagesTableComponent,
-              private NotificationsService:NotificationsService,
-              private wpTableTimeline:WorkPackageViewTimelineService,
-              private notificationService:WorkPackageNotificationService,
-              private wpRelations:WorkPackageRelationsService,
-              private wpTableHierarchies:WorkPackageViewHierarchiesService,
-              private halEvents:HalEventsService,
-              private querySpace:IsolatedQuerySpace,
-              readonly I18n:I18nService,
-              private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService) {
+    private elementRef:ElementRef,
+    private states:States,
+    public wpTableComponent:WorkPackagesTableComponent,
+    private NotificationsService:NotificationsService,
+    private wpTableTimeline:WorkPackageViewTimelineService,
+    private notificationService:WorkPackageNotificationService,
+    private wpRelations:WorkPackageRelationsService,
+    private wpTableHierarchies:WorkPackageViewHierarchiesService,
+    private halEvents:HalEventsService,
+    private querySpace:IsolatedQuerySpace,
+    readonly I18n:I18nService,
+    private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService) {
     super();
   }
 
@@ -141,7 +140,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.$element = jQuery(this.elementRef.nativeElement);
 
     this.text = {
-      selectionMode: this.I18n.t('js.timelines.selection_mode.notification')
+      selectionMode: this.I18n.t('js.timelines.selection_mode.notification'),
     };
 
     // Get the outer container for width computation
@@ -157,7 +156,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     combineLatest([
       this.querySpace.tableRendered.values$(),
       this.refreshRequest.changes$(),
-      this.wpTableTimeline.live$()
+      this.wpTableTimeline.live$(),
     ]).pipe(
       this.commonPipes,
     )
@@ -281,14 +280,14 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   getFirstDayInViewport() {
     const outerContainer = this.getParentScrollContainer();
-    const scrollLeft = outerContainer.scrollLeft;
+    const { scrollLeft } = outerContainer;
     const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay);
     return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, 'days');
   }
 
   getLastDayInViewport() {
     const outerContainer = this.getParentScrollContainer();
-    const scrollLeft = outerContainer.scrollLeft;
+    const { scrollLeft } = outerContainer;
     const width = outerContainer.offsetWidth;
     const viewPortRight = scrollLeft + width;
     const daysUntilViewPortEnds = Math.ceil(viewPortRight / this.viewParameters.pixelPerDay) + 1;
@@ -375,14 +374,16 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
         newParams.dateDisplayStart,
         currentParams.now,
         startDate,
-        date);
+        date,
+      );
 
       // finish date
       newParams.dateDisplayEnd = moment.max(
         newParams.dateDisplayEnd,
         currentParams.now,
         dueDate,
-        date);
+        date,
+      );
     });
 
     // left spacing
@@ -395,7 +396,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const width = this.$element.children().width()!; // A
     // const width = jQuery('body').width(); // B
 
-    const pixelPerDay = currentParams.pixelPerDay;
+    const { pixelPerDay } = currentParams;
     const visibleDays = Math.ceil((width / pixelPerDay) * 1.5);
     newParams.dateDisplayEnd = newParams.dateDisplayEnd.add(visibleDays, 'days');
 
@@ -427,7 +428,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       return;
     }
 
-    const workPackagesToCalculateWidthFrom =  this.getWorkPackagesToCalculateTimelineWidthFrom();
+    const workPackagesToCalculateWidthFrom = this.getWorkPackagesToCalculateTimelineWidthFrom();
     const daysSpan = calculateDaySpan(workPackagesToCalculateWidthFrom, this.states.workPackages, this._viewParameters);
     const timelineWidthInPx = this.$element.parent().width()! - (2 * requiredPixelMarginLeft);
 
@@ -459,8 +460,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       .subscribe((groupsCollapseEvent:IGroupsCollapseEvent) => {
         this.manageCollapsedGroupHeaderCells(
           groupsCollapseEvent,
-                this.querySpace.results.value!.elements,
-                this.collapsedGroupsCellsMap,
+          this.querySpace.results.value!.elements,
+          this.collapsedGroupsCellsMap,
         );
       });
   }
@@ -500,8 +501,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   shouldManageCollapsedGroupHeaderCells(groupIdentifier:string, groupsCollapseConfig:IGroupsCollapseEvent) {
     const keyGroupType = groupTypeFromIdentifier(groupIdentifier);
 
-    return this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType) &&
-          this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(groupsCollapseConfig.groupedBy!);
+    return this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(keyGroupType)
+          && this.workPackageViewCollapsedGroupsService.groupTypesWithHeaderCellsWhenCollapsed.includes(groupsCollapseConfig.groupedBy!);
   }
 
   createCollapsedGroupHeaderCells(groupIdentifier:string, tableWorkPackages:WorkPackageResource[], collapsedGroupsCellsMap:IGroupCellsMap) {
@@ -510,17 +511,17 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const changedGroupId = groupIdFromIdentifier(groupIdentifier);
     const changedGroupType = groupTypeFromIdentifier(groupIdentifier);
     const changedGroupTableWorkPackages = tableWorkPackages.filter(tableWorkPackage => tableWorkPackage[changedGroupType].id === changedGroupId);
-    const changedGroupWpsWithHeaderCells = changedGroupTableWorkPackages.filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage) &&
-                                                                                                    (tableWorkPackage.date || tableWorkPackage.startDate));
+    const changedGroupWpsWithHeaderCells = changedGroupTableWorkPackages.filter(tableWorkPackage => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage)
+                                                                                                    && (tableWorkPackage.date || tableWorkPackage.startDate));
     const changedGroupWpsWithHeaderCellsIds = changedGroupWpsWithHeaderCells.map(workPackage => workPackage.id!);
 
-    this.collapsedGroupsCellsMap[groupIdentifier!] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupWpsWithHeaderCellsIds, `group-${groupIdentifier}-timeline`, true);
+    this.collapsedGroupsCellsMap[groupIdentifier] = this.cellsRenderer.buildCellsAndRenderOnRow(changedGroupWpsWithHeaderCellsIds, `group-${groupIdentifier}-timeline`, true);
   }
 
   removeCollapsedGroupHeaderCells(groupIdentifier:string, collapsedGroupsCellsMap:IGroupCellsMap) {
-    if (collapsedGroupsCellsMap[groupIdentifier!]) {
-      collapsedGroupsCellsMap[groupIdentifier!].forEach((cell:WorkPackageTimelineCell) => cell.clear());
-      collapsedGroupsCellsMap[groupIdentifier!] = [];
+    if (collapsedGroupsCellsMap[groupIdentifier]) {
+      collapsedGroupsCellsMap[groupIdentifier].forEach((cell:WorkPackageTimelineCell) => cell.clear());
+      collapsedGroupsCellsMap[groupIdentifier] = [];
     }
   }
 

@@ -13,6 +13,6 @@ import { OpIconComponent } from './icon.component';
   ],
   exports: [
     OpIconComponent,
-  ]
+  ],
 })
 export class IconModule {}

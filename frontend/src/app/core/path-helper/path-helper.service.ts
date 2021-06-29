@@ -33,7 +33,7 @@ class Apiv3Paths {
   readonly apiV3Base:string;
 
   constructor(basePath:string) {
-    this.apiV3Base = basePath + '/api/v3';
+    this.apiV3Base = `${basePath}/api/v3`;
   }
 
   /**
@@ -49,9 +49,8 @@ class Apiv3Paths {
 
     if (context) {
       return `${base}?context=${context}`;
-    } else {
-      return base;
     }
+    return base;
   }
 
   /**
@@ -77,17 +76,18 @@ class Apiv3Paths {
       filters.add('name', '~', [term]);
     }
 
-    return this.apiV3Base +
-      '/principals?' +
-      filters.toParams({ sortBy: '[["name","asc"]]', offset: '1', pageSize: '10' });
+    return `${this.apiV3Base
+    }/principals?${
+      filters.toParams({ sortBy: '[["name","asc"]]', offset: "1", pageSize: "10" })}`;
   }
 }
 
 @Injectable({ providedIn: 'root' })
 export class PathHelperService {
   public readonly appBasePath = window.appBasePath || '';
+
   public readonly api = {
-    v3: new Apiv3Paths(this.appBasePath)
+    v3: new Apiv3Paths(this.appBasePath),
   };
 
   public get staticBase() {
@@ -99,9 +99,8 @@ export class PathHelperService {
 
     if (slug) {
       return `${path}/${slug}`;
-    } else {
-      return path;
     }
+    return path;
   }
 
   public attachmentContentPath(attachmentIdentifier:number|string) {
@@ -213,9 +212,8 @@ export class PathHelperService {
   public projectBoardsPath(projectIdentifier:string|null) {
     if (projectIdentifier) {
       return `${this.projectPath(projectIdentifier)}/boards`;
-    } else {
-      return `${this.staticBase}/boards`;
     }
+    return `${this.staticBase}/boards`;
   }
 
   public projectDashboardsPath(projectIdentifier:string) {
@@ -223,13 +221,12 @@ export class PathHelperService {
   }
 
   public timeEntriesPath(workPackageId:string|number) {
-    const suffix = '/time_entries';
+    const suffix = "/time_entries";
 
     if (workPackageId) {
       return this.workPackagePath(workPackageId) + suffix;
-    } else {
-      return this.staticBase + suffix; // time entries root path
     }
+    return this.staticBase + suffix; // time entries root path
   }
 
   public usersPath() {

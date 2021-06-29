@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {ResourcesDisplayField} from "./resources-display-field.module";
-import {UserResource} from "core-app/features/hal/resources/user-resource";
-import {InjectField} from "core-app/shared/helpers/angular/inject-field.decorator";
-import {PrincipalRendererService} from "core-app/shared/components/principal/principal-renderer.service";
-import {cssClassCustomOption} from "core-app/shared/components/fields/display/display-field.module";
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
+import { cssClassCustomOption } from 'core-app/shared/components/fields/display/display-field.module';
+import { ResourcesDisplayField } from './resources-display-field.module';
 
 export class MultipleUserFieldModule extends ResourcesDisplayField {
   @InjectField() principalRenderer:PrincipalRendererService;
@@ -69,7 +69,6 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
     }
 
     element.appendChild(content);
-
   }
 
   public renderAbridgedValues(element:HTMLElement, values:UserResource[]) {

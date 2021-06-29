@@ -29,5 +29,5 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS = [
     key: 'export-atom',
     link: 'atom',
     resource: 'workPackage'
-  }
+  },
 ];

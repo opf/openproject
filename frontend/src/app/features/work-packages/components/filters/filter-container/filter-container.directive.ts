@@ -34,7 +34,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
@@ -51,16 +51,20 @@ import { WorkPackageFiltersService } from "core-app/features/work-packages/compo
 })
 export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input('showFilterButton') showFilterButton = false;
+
   @Input('filterButtonText') filterButtonText:string = I18n.t('js.button_filter');
+
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
   public visible$:Observable<boolean>;
+
   public filters = this.wpTableFilters.current;
+
   public loaded = false;
 
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly wpFiltersService:WorkPackageFiltersService) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly wpFiltersService:WorkPackageFiltersService) {
     super();
     this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));
   }
@@ -69,7 +73,7 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
     this.wpTableFilters
       .pristine$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.filters = this.wpTableFilters.current;

@@ -28,7 +28,9 @@
 
 import { States } from "core-app/core/states/states.service";
 import { StateService, TransitionService } from '@uirouter/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild,
+} from "@angular/core";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -75,9 +77,11 @@ export const wpQuerySelectSelector = 'wp-query-select';
 })
 export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin implements OnInit {
   @ViewChild('wpQueryMenuSearchInput', { static: true }) _wpQueryMenuSearchInput:ElementRef;
+
   @ViewChild('queryResultsContainer', { static: true }) _queryResultsContainerElement:ElementRef;
 
   public loading = false;
+
   public noResults = false;
 
   public text = {
@@ -89,6 +93,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     scope_private: this.I18n.t('js.label_custom_queries'),
     no_results: this.I18n.t('js.work_packages.query.text_no_results'),
   };
+
   private unregisterTransitionListener:Function;
 
   private projectIdentifier:string|null;
@@ -98,27 +103,27 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   private reportsBodySelector = '.controller-work_packages\\/reports';
 
   private queryResultsContainer:JQuery;
+
   private buttonArrowLeft:JQuery;
 
   private searchInput:IQueryAutocompleteJQuery;
 
   private initialized = false;
 
-
   constructor(readonly ref:ChangeDetectorRef,
-              readonly element:ElementRef,
-              readonly apiV3Service:APIV3Service,
-              readonly $state:StateService,
-              readonly $transitions:TransitionService,
-              readonly I18n:I18nService,
-              readonly states:States,
-              readonly CurrentProject:CurrentProjectService,
-              readonly loadingIndicator:LoadingIndicatorService,
-              readonly pathHelper:PathHelperService,
-              readonly wpStaticQueries:WorkPackageStaticQueriesService,
-              readonly mainMenuService:MainMenuNavigationService,
-              readonly toggleService:MainMenuToggleService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly element:ElementRef,
+    readonly apiV3Service:APIV3Service,
+    readonly $state:StateService,
+    readonly $transitions:TransitionService,
+    readonly I18n:I18nService,
+    readonly states:States,
+    readonly CurrentProject:CurrentProjectService,
+    readonly loadingIndicator:LoadingIndicatorService,
+    readonly pathHelper:PathHelperService,
+    readonly wpStaticQueries:WorkPackageStaticQueriesService,
+    readonly mainMenuService:MainMenuNavigationService,
+    readonly toggleService:MainMenuToggleService,
+    readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -158,9 +163,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
   private transformQueries(collection:CollectionResource<QueryResource>) {
     const loadedQueries:IAutocompleteItem[] = collection.elements
-      .map(query => {
-        return { label: query.name, query: query, query_props: null };
-      });
+      .map(query => ({ label: query.name, query, query_props: null }));
 
     // Add to the loaded set of queries the fixed set of queries for the current project context
     const combinedQueries = loadedQueries.concat(this.wpStaticQueries.all);
@@ -179,7 +182,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
       // public
       public: [],
       // private
-      private: []
+      private: [],
     };
 
     let auto_id = 0;
@@ -209,7 +212,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
     return _.flatten(
       [categorized.starred, categorized.default, categorized.public, categorized.private]
-        .map(items => this.sortByLabel(items))
+        .map(items => this.sortByLabel(items)),
     );
   }
 
@@ -225,7 +228,6 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
       .filterNonHidden(this.CurrentProject.identifier)
       .toPromise()
       .then(collection => {
-
         // Update the complete collection
         this.searchInput.querycomplete("option", { source: this.transformQueries(collection) });
 
@@ -265,9 +267,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
       // The values are added later by the listener also covering
       // the changes to queries (updateMenuOnChanges()).
       source: [],
-      select: (ul:any, selected:{ item:IAutocompleteItem }) => {
-        return false; // Don't show title of selected query in the input field
-      },
+      select: (ul:any, selected:{ item:IAutocompleteItem }) => false, // Don't show title of selected query in the input field
       response: (event:any, ui:any) => {
         // Show the noResults span if we don't have any matches
         this.noResults = (ui.content.length === 0);
@@ -282,7 +282,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
         let sourceEvent:any|null = _event;
 
         while (sourceEvent && sourceEvent.originalEvent) {
-          sourceEvent = sourceEvent.originalEvent as any;
+          sourceEvent = sourceEvent.originalEvent;
         }
 
         // Focus the given item, but only when we're using the keyboard.
@@ -302,7 +302,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
         'ui-menu-divider': 'collapsible-menu--category-icon'
       },
       autoFocus: false, // Don't automatically select first entry since we 'open' the autocomplete on page load
-      minLength: 0
+      minLength: 0,
     });
   }
 
@@ -310,22 +310,22 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     const thisComponent = this;
 
     jQuery.widget('custom.querycomplete', jQuery.ui.autocomplete, {
-      _create: function (this:any) {
+      _create(this:any) {
         this._super();
-        this.widget().menu('option', 'items', '.collapsible-menu--item');
-        this._search('');
+        this.widget().menu("option", "items", ".collapsible-menu--item");
+        this._search("");
       },
-      _renderItem: function (this:{}, ul:any, item:IAutocompleteItem) {
-        const link = jQuery('<a>')
-          .addClass('collapsible-menu--item-link')
-          .attr('href', thisComponent.buildQueryItemUrl(item))
+      _renderItem(this:{}, ul:any, item:IAutocompleteItem) {
+        const link = jQuery("<a>")
+          .addClass("collapsible-menu--item-link")
+          .attr("href", thisComponent.buildQueryItemUrl(item))
           .text(item.label);
 
-        const li = jQuery('<li>')
-          .addClass(`ui-menu-item collapsible-menu--item`)
-          .attr('id', `collapsible-menu-item-${item.auto_id}`)
-          .attr('data-category', item.category || '')
-          .data('ui-autocomplete-item', item)  // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
+        const li = jQuery("<li>")
+          .addClass("ui-menu-item collapsible-menu--item")
+          .attr("id", `collapsible-menu-item-${item.auto_id}`)
+          .attr("data-category", item.category || "")
+          .data("ui-autocomplete-item", item) // Focus method of autocompleter needs this data for accessibility - if not set, it will throw errors
           .append(link)
           .appendTo(ul);
 
@@ -333,7 +333,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
         return li;
       },
-      _renderMenu: function (this:any, ul:any, items:IAutocompleteItem[]) {
+      _renderMenu(this:any, ul:any, items:IAutocompleteItem[]) {
         let currentCategory:QueryCategory;
 
         _.each(items, option => {
@@ -343,25 +343,24 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
             const label = thisComponent.labelFunction(currentCategory);
 
             ul.append(`<a tabindex="0" class="collapsible-menu--category-icon collapsible-menu--category-toggle" data-category="${currentCategory}" aria-hidden="true"></a>`);
-            jQuery('<li>')
-              .addClass('ui-autocomplete--category collapsible-menu--category-toggle ellipsis')
-              .attr('title', label)
-              .attr('data-category', currentCategory)
+            jQuery("<li>")
+              .addClass("ui-autocomplete--category collapsible-menu--category-toggle ellipsis")
+              .attr("title", label)
+              .attr("data-category", currentCategory)
               .text(label)
               .appendTo(ul);
           }
           this._renderItemData(ul, option);
         });
 
-
         // Scroll to selected element if search is empty
-        if (thisComponent.searchInput.val() === '') {
-          const selected = thisComponent.queryResultsContainer.find('.collapsible-menu--item.selected');
+        if (thisComponent.searchInput.val() === "") {
+          const selected = thisComponent.queryResultsContainer.find(".collapsible-menu--item.selected");
           if (selected.length > 0) {
-            setTimeout(() => selected[0].scrollIntoView({ behavior: 'auto', block: 'center' }), 20);
+            setTimeout(() => selected[0].scrollIntoView({ behavior: "auto", block: "center" }), 20);
           }
         }
-      }
+      },
     });
   }
 
@@ -413,7 +412,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   private updateMenuOnChanges() {
     this.states.changes.queries
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => this.loadQueries());
   }
@@ -434,7 +433,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     this.$state.go(
       'work-packages.partitioned.list',
       params,
-      opts
+      opts,
     );
 
     this.toggleService.closeWhenOnMobile();

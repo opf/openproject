@@ -8,13 +8,13 @@ import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/q
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class HighlightingRenderPass {
-
   @InjectField() wpTableHighlighting:WorkPackageViewHighlightingService;
+
   @InjectField() querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
-              private table:WorkPackageTable,
-              private tablePass:PrimaryRenderPass) {
+    private table:WorkPackageTable,
+    private tablePass:PrimaryRenderPass) {
 
   }
 
@@ -31,7 +31,6 @@ export class HighlightingRenderPass {
 
     // Render for each original row, clone it since we're modifying the tablepass
     this.tablePass.renderedOrder.forEach((row:RowRenderInfo, position:number) => {
-
       // We only care for rows that are natural work packages
       if (!row.workPackage) {
         return;

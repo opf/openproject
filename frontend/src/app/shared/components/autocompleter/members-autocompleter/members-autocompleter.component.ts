@@ -9,15 +9,15 @@ import {
 } from "core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component";
 import { URLParamsEncoder } from "core-app/features/hal/services/url-params-encoder";
 
-
 export const membersAutocompleterSelector = 'members-autocompleter';
 
 @Component({
   templateUrl: '../user-autocompleter/user-autocompleter.component.html',
-  selector: membersAutocompleterSelector
+  selector: membersAutocompleterSelector,
 })
 export class MembersAutocompleterComponent extends UserAutocompleterComponent {
   @InjectField() http:HttpClient;
+
   @InjectField() pathHelper:PathHelperService;
 
   protected getAvailableUsers(url:string, searchTerm:any):Observable<UserAutocompleteItem[]> {
@@ -26,8 +26,7 @@ export class MembersAutocompleterComponent extends UserAutocompleterComponent {
         {
           params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: { q: searchTerm } }),
           responseType: 'json',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' }
-        },
-      );
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        });
   }
 }

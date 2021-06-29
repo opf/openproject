@@ -55,24 +55,43 @@ export interface TimelineLabels {
 
 export class QueryResource extends HalResource {
   public $embedded:QueryResourceEmbedded;
+
   public results:WorkPackageCollectionResource;
+
   public columns:QueryColumn[];
+
   public groupBy:QueryGroupByResource|undefined;
+
   public sortBy:QuerySortByResource[];
+
   public filters:QueryFilterInstanceResource[];
+
   public starred:boolean;
+
   public sums:boolean;
+
   public hasError:boolean;
+
   public timelineVisible:boolean;
+
   public timelineZoomLevel:TimelineZoomLevel;
+
   public highlightingMode:HighlightingMode;
+
   public highlightedAttributes:HalResource[]|undefined;
+
   public displayRepresentation:string|undefined;
+
   public timelineLabels:TimelineLabels;
+
   public showHierarchies:boolean;
+
   public public:boolean;
+
   public hidden:boolean;
+
   public project:ProjectResource;
+
   public ordered_work_packages:QueryOrder;
 
   public $initialize(source:any) {
@@ -86,8 +105,7 @@ export class QueryResource extends HalResource {
         true,
         this.halInitializer,
         'QueryFilterInstance'
-      )
-      );
+      ));
   }
 }
 
@@ -96,4 +114,3 @@ export interface QueryResourceLinks {
 }
 
 export interface QueryResource extends QueryResourceLinks {}
-

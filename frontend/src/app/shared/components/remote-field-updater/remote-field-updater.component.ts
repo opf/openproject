@@ -37,15 +37,16 @@ export const remoteFieldUpdaterSelector = 'remote-field-updater';
   template: ''
 })
 export class RemoteFieldUpdaterComponent implements OnInit {
-
   constructor(private elementRef:ElementRef,
-              private http:HttpClient) {
+    private http:HttpClient) {
   }
 
   private url:string;
+
   private htmlMode:boolean;
 
   private inputs:JQuery;
+
   private target:JQuery;
 
   ngOnInit():void {
@@ -85,11 +86,11 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       .get(
         this.url,
         {
-          params: params,
-          headers: headers,
+          params,
+          headers,
           responseType: (this.htmlMode ? 'text' : 'json') as any,
-          withCredentials: true
-        }
+          withCredentials: true,
+        },
       );
   }
 
@@ -121,4 +122,3 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       });
   }
 }
-

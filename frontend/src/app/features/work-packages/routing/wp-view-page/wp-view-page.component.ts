@@ -77,9 +77,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageFoldToggleButtonComponent,
-      show: () => {
-        return !!(this.currentQuery && this.currentQuery.groupBy);
-      },
+      show: () => !!(this.currentQuery && this.currentQuery.groupBy),
     },
     {
       component: WorkPackageDetailsViewButtonComponent,
@@ -106,9 +104,8 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
   protected additionalLoadingTime():Promise<unknown> {
     if (this.wpTableTimeline.isVisible) {
       return this.querySpace.timelineRendered.pipe(take(1)).toPromise();
-    } else {
-      return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
     }
+    return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
   }
 
   protected shouldUpdateHtmlTitle():boolean {

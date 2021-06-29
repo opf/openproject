@@ -36,8 +36,8 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
-
   @InjectField() I18n!:I18nService;
+
   @InjectField() protected readonly authorisationService:AuthorisationService;
 
   constructor(readonly injector:Injector) {
@@ -70,8 +70,8 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   }
 
   public get canCreateWorkPackages() {
-    return this.authorisationService.can('work_packages', 'createWorkPackage') &&
-      this.authorisationService.can('work_packages', 'editWorkPackage');
+    return this.authorisationService.can('work_packages', 'createWorkPackage')
+      && this.authorisationService.can('work_packages', 'editWorkPackage');
   }
 
   /** Allow callbacks to happen on newly created inline work packages */

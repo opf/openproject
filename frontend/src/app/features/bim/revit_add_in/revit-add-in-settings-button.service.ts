@@ -8,10 +8,11 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 @Injectable()
 export class RevitAddInSettingsButtonService {
   private readonly labelText:string;
+
   private readonly groupLabelText:string;
 
   constructor(readonly injector:Injector,
-              readonly i18n:I18nService) {
+    readonly i18n:I18nService) {
     const onRevitAddInEnvironment = window.navigator.userAgent.search('Revit') > -1;
 
     if (onRevitAddInEnvironment) {

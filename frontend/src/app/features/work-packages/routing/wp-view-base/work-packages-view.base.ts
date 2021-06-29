@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit,
+} from '@angular/core';
 import { StateService, TransitionService } from '@uirouter/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
@@ -58,32 +60,56 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
-
   @InjectField() $state:StateService;
+
   @InjectField() states:States;
+
   @InjectField() querySpace:IsolatedQuerySpace;
+
   @InjectField() authorisationService:AuthorisationService;
+
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+
   @InjectField() wpTableHighlighting:WorkPackageViewHighlightingService;
+
   @InjectField() wpTableSortBy:WorkPackageViewSortByService;
+
   @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
+
   @InjectField() wpTableFilters:WorkPackageViewFiltersService;
+
   @InjectField() wpTableSum:WorkPackageViewSumService;
+
   @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
+
   @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+
   @InjectField() wpTablePagination:WorkPackageViewPaginationService;
+
   @InjectField() wpTableOrder:WorkPackageViewOrderService;
+
   @InjectField() wpListService:WorkPackagesListService;
+
   @InjectField() wpListChecksumService:WorkPackagesListChecksumService;
+
   @InjectField() loadingIndicatorService:LoadingIndicatorService;
+
   @InjectField() $transitions:TransitionService;
+
   @InjectField() I18n!:I18nService;
+
   @InjectField() wpStaticQueries:WorkPackageStaticQueriesService;
+
   @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
+
   @InjectField() cdRef:ChangeDetectorRef;
+
   @InjectField() wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService;
+
   @InjectField() halEvents:HalEventsService;
+
   @InjectField() deviceService:DeviceService;
+
   @InjectField() currentProject:CurrentProjectService;
 
   /** Determine when query is initially loaded */
@@ -112,7 +138,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
       .updates$()
       .pipe(
         this.untilDestroyed(),
-        withLatestFrom(this.querySpace.query.values$())
+        withLatestFrom(this.querySpace.query.values$()),
       ).subscribe(([pagination, query]) => {
         if (this.wpListChecksumService.isQueryOutdated(query, pagination)) {
           this.wpListChecksumService.update(query, pagination);
@@ -146,7 +172,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
       .updates$()
       .pipe(
         this.untilDestroyed(),
-        filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
+        filter(() => queryState.hasValue() && service.hasChanged(queryState.value!)),
       )
       .subscribe(() => {
         const newQuery = queryState.value!;
@@ -178,13 +204,12 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
       .aggregated$('WorkPackage')
       .pipe(
         this.untilDestroyed(),
-        filter((events:HalEvent[]) => this.filterRefreshEvents(events))
+        filter((events:HalEvent[]) => this.filterRefreshEvents(events)),
       )
       .subscribe((events:HalEvent[]) => {
         this.refresh(false, false);
       });
   }
-
 
   /**
    * Refresh the set of results,
@@ -193,7 +218,6 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    * @param A refresh request
    */
   public abstract refresh(visibly:boolean, firstPage:boolean):Promise<unknown>;
-
 
   /**
    * Set the loading indicator for this set instance
@@ -227,7 +251,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
       .values$()
       .pipe(
         take(1),
-        filter(() => !this.componentDestroyed)
+        filter(() => !this.componentDestroyed),
       )
       .subscribe(() => {
         this.queryLoaded = true;

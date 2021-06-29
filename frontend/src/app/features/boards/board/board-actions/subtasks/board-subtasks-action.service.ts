@@ -60,7 +60,7 @@ export class BoardSubtasksActionService extends BoardActionService {
       .filtered(filters)
       .get()
       .pipe(
-        map(collection => collection.elements)
+        map(collection => collection.elements),
       );
   }
 

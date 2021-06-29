@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from "@angular/core";
 import { StateService } from "@uirouter/core";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import {
@@ -54,7 +56,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
     (searchTerm:string) => this.actionService.loadAvailable(this.board, this.active, searchTerm),
     errorNotificationHandler(this.halNotification),
-    true
+    true,
   );
 
   public showClose:boolean;
@@ -102,7 +104,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     onCreate: (value:HalResource) => this.onNewActionCreated(value),
     onOpen: () => this.requests.input$.next(''),
     onChange: (value:HalResource) => this.onModelChange(value),
-    onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField()
+    onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField(),
   };
 
   /** The loaded available values */
@@ -112,14 +114,13 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   showWarning = false;
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly boardActions:BoardActionsRegistryService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly state:StateService,
-              readonly boardService:BoardService,
-              readonly I18n:I18nService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly boardActions:BoardActionsRegistryService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly state:StateService,
+    readonly boardService:BoardService,
+    readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -130,12 +131,11 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
 
-
     this
       .requests
       .output$
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((values:unknown[]) => {
         let hasMember = false;
@@ -188,4 +188,3 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     return this.actionService.autocompleterComponent();
   }
 }
-

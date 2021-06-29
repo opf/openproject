@@ -1,14 +1,15 @@
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageRelationsService } from '../wp-relations.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import {
+  ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { WorkPackageRelationsService } from "../wp-relations.service";
 
 @Component({
   selector: 'wp-relation-row',
@@ -16,15 +17,21 @@ import { RelationResource } from "core-app/features/hal/resources/relation-resou
 })
 export class WorkPackageRelationRowComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public relatedWorkPackage:WorkPackageResource;
+
   @Input() public groupByWorkPackageType:boolean;
 
   @ViewChild('relationDescriptionTextarea') readonly relationDescriptionTextarea:ElementRef;
 
   public relationType:string;
+
   public showRelationInfo = false;
+
   public showEditForm = false;
+
   public availableRelationTypes:{ label:string, name:string }[];
+
   public selectedRelationType:{ name:string };
 
   public userInputs = {
@@ -39,10 +46,11 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     handler: {
       active: true,
     },
-    required: false
+    required: false,
   };
 
   public relation:RelationResource;
+
   public text = {
     cancel: this.I18n.t('js.button_cancel'),
     save: this.I18n.t('js.button_save'),
@@ -51,17 +59,17 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     toggleDescription: this.I18n.t('js.relation_buttons.toggle_description'),
     updateRelation: this.I18n.t('js.relation_buttons.update_relation'),
     placeholder: {
-      description: this.I18n.t('js.placeholders.relation_description')
-    }
+      description: this.I18n.t('js.placeholders.relation_description'),
+    },
   };
 
   constructor(protected apiV3Service:APIV3Service,
-              protected notificationService:WorkPackageNotificationService,
-              protected wpRelations:WorkPackageRelationsService,
-              protected halEvents:HalEventsService,
-              protected I18n:I18nService,
-              protected cdRef:ChangeDetectorRef,
-              protected PathHelper:PathHelperService) {
+    protected notificationService:WorkPackageNotificationService,
+    protected wpRelations:WorkPackageRelationsService,
+    protected halEvents:HalEventsService,
+    protected I18n:I18nService,
+    protected cdRef:ChangeDetectorRef,
+    protected PathHelper:PathHelperService) {
     super();
   }
 
@@ -71,7 +79,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     this.userInputs.newRelationText = this.relation.description || '';
     this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
     this.selectedRelationType = _.find(this.availableRelationTypes,
-      { 'name': this.relation.normalizedType(this.workPackage) })!;
+      { name: this.relation.normalizedType(this.workPackage) })!;
 
     this
       .apiV3Service
@@ -79,7 +87,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
       .id(this.relatedWorkPackage)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       ).subscribe((wp) => {
         this.relatedWorkPackage = wp;
       });
@@ -125,7 +133,8 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   public saveDescription() {
     this.wpRelations.updateRelation(
       this.relation,
-      { description: this.userInputs.newRelationText })
+      { description: this.userInputs.newRelationText },
+    )
       .then((savedRelation:RelationResource) => {
         this.relation = savedRelation;
         this.relatedWorkPackage.relatedBy = savedRelation;
@@ -154,7 +163,8 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
       this.workPackage,
       this.relatedWorkPackage,
       this.relation,
-      this.selectedRelationType.name)
+      this.selectedRelationType.name,
+    )
       .then((savedRelation:RelationResource) => {
         this.notificationService.showSave(this.relatedWorkPackage);
         this.relatedWorkPackage.relatedBy = savedRelation;
@@ -176,7 +186,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
         this.halEvents.push(this.workPackage, {
           eventType: 'association',
           relatedWorkPackage: null,
-          relationType: this.relation.normalizedType(this.workPackage)
+          relationType: this.relation.normalizedType(this.workPackage),
         });
 
         this

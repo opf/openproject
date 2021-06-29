@@ -8,6 +8,7 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
  */
 export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
   protected $element:JQuery;
+
   protected items:OpContextMenuItem[] = [];
 
   constructor(readonly opContextMenu:OPContextMenuService) {
@@ -44,7 +45,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    */
   public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
     return {
-      items: this.items
+      items: this.items,
     };
   }
 

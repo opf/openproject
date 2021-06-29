@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
+} from "@angular/core";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
@@ -37,10 +39,9 @@ import { BoardService } from "core-app/features/boards/board/board.service";
 import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
 import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { ITileViewEntry } from '../tile-view/tile-view.component';
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
+import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { ITileViewEntry } from "../tile-view/tile-view.component";
 import imagePath = ImageHelpers.imagePath;
-
 
 @Component({
   templateUrl: './new-board-modal.html',
@@ -72,16 +73,15 @@ export class NewBoardModalComponent extends OpModalComponent {
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly state:StateService,
-              readonly boardService:BoardService,
-              readonly boardActions:BoardActionsRegistryService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly loadingIndicatorService:LoadingIndicatorService,
-              readonly I18n:I18nService,
-              readonly boardActionRegistry:BoardActionsRegistryService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly state:StateService,
+    readonly boardService:BoardService,
+    readonly boardActions:BoardActionsRegistryService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly loadingIndicatorService:LoadingIndicatorService,
+    readonly I18n:I18nService,
+    readonly boardActionRegistry:BoardActionsRegistryService) {
     super(locals, cdRef, elementRef);
     this.initiateTiles();
   }
@@ -100,7 +100,7 @@ export class NewBoardModalComponent extends OpModalComponent {
       text: this.text.free_board_title,
       icon: 'icon-boards',
       description: this.text.free_board_text,
-      image: imagePath('board_creation_modal/lists.svg')
+      image: imagePath('board_creation_modal/lists.svg'),
     });
     this.addIcon(this.available);
     this.addDescription(this.available);
@@ -113,7 +113,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   }
 
   private createAction(attribute:string) {
-    this.create({ type: 'action', attribute: attribute! });
+    this.create({ type: 'action', attribute });
   }
 
   private create(params:{ type:BoardType, attribute?:string }) {
@@ -135,7 +135,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   private addDescription(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
-        const service = this.boardActionRegistry.get(element.attribute!);
+        const service = this.boardActionRegistry.get(element.attribute);
         element.description = service.description;
       }
     });
@@ -144,7 +144,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   private addIcon(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
-        const service = this.boardActionRegistry.get(element.attribute!);
+        const service = this.boardActionRegistry.get(element.attribute);
         element.icon = service.icon;
       }
     });
@@ -153,7 +153,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   private addText(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
-        const service = this.boardActionRegistry.get(element.attribute!);
+        const service = this.boardActionRegistry.get(element.attribute);
         element.text = service.text;
       }
     });
@@ -162,7 +162,7 @@ export class NewBoardModalComponent extends OpModalComponent {
   private addImage(tiles:ITileViewEntry[]) {
     tiles.forEach(element => {
       if (element.attribute !== 'basic') {
-        const service = this.boardActionRegistry.get(element.attribute!);
+        const service = this.boardActionRegistry.get(element.attribute);
         element.image = service.image;
       }
     });

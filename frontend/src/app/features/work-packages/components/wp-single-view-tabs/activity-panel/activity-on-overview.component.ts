@@ -36,12 +36,13 @@ import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking
 @Component({
   selector: 'newest-activity-on-overview',
   templateUrl: './activity-on-overview.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewestActivityOnOverviewComponent extends ActivityPanelBaseController {
   @Input('workPackage') public workPackage:WorkPackageResource;
 
   public latestActivityInfo:ActivityEntryInfo[] = [];
+
   public trackByHref = AngularTrackingHelpers.trackByProperty('identifier');
 
   ngOnInit() {
@@ -59,17 +60,15 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
   }
 
   private latestActivities(visible = 3) {
-
     if (this.reverse) {
       // In reverse, we already get reversed entries from API.
       // So simply take the first three
       const segment = this.unfilteredActivities.slice(0, visible);
       return segment.map((el:HalResource, i:number) => this.info(el, i));
-    } else {
-      // In ascending sort, take the last three items
-      const segment = this.unfilteredActivities.slice(-visible);
-      const startIndex = this.unfilteredActivities.length - segment.length;
-      return segment.map((el:HalResource, i:number) => this.info(el, startIndex + i));
     }
+    // In ascending sort, take the last three items
+    const segment = this.unfilteredActivities.slice(-visible);
+    const startIndex = this.unfilteredActivities.length - segment.length;
+    return segment.map((el:HalResource, i:number) => this.info(el, startIndex + i));
   }
 }

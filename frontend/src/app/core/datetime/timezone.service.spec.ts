@@ -35,8 +35,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
-describe('TimezoneService', function () {
-
+describe('TimezoneService', () => {
   const TIME = '2013-02-08T09:30:26';
   const DATE = '2013-02-08';
   let timezoneService:TimezoneService;
@@ -44,56 +43,55 @@ describe('TimezoneService', function () {
   const compile = (timezone?:string) => {
     const ConfigurationServiceStub = {
       isTimezoneSet: () => !!timezone,
-      timezone: () => timezone
+      timezone: () => timezone,
     };
 
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule
+        HttpClientModule,
       ],
       providers: [
         { provide: I18nService, useValue: {} },
         { provide: ConfigurationService, useValue: ConfigurationServiceStub },
         PathHelperService,
         TimezoneService,
-      ]
+      ],
     });
 
     timezoneService = TestBed.inject(TimezoneService);
   };
 
-  describe('without time zone set', function () {
+  describe('without time zone set', () => {
     beforeEach(() => {
       compile();
     });
 
-    describe('#parseDatetime', function () {
-      it('is UTC', function () {
+    describe('#parseDatetime', () => {
+      it('is UTC', () => {
         var time = timezoneService.parseDatetime(TIME);
         expect(time.utcOffset()).toEqual(0);
         expect(time.format('HH:mm')).toEqual('09:30');
       });
 
-      it('has no time information', function () {
+      it('has no time information', () => {
         var time = timezoneService.parseDate(DATE);
         expect(time.format('HH:mm')).toEqual('00:00');
       });
     });
   });
 
-  describe('with time zone set', function () {
+  describe('with time zone set', () => {
     beforeEach(() => {
       compile('America/Vancouver');
     });
 
-    describe('Non-UTC timezone', function () {
-
-      it('is in the given timezone' , function () {
+    describe('Non-UTC timezone', () => {
+      it('is in the given timezone' , () => {
         const date = timezoneService.parseDatetime(TIME);
         expect(date.format('HH:mm')).toEqual('01:30');
       });
 
-      it('has local time zone', function () {
+      it('has local time zone', () => {
         expect(timezoneService.ConfigurationService.timezone()).toEqual('America/Vancouver');
       });
     });

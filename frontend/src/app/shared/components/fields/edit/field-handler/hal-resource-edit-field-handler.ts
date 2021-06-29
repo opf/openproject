@@ -44,7 +44,9 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
   @InjectField() FocusHelper:FocusHelperService;
+
   @InjectField() ConfigurationService:ConfigurationService;
+
   @InjectField() I18n!:I18nService;
 
   // Subject to fire when user demanded activation
@@ -54,13 +56,12 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   public errors:string[];
 
   constructor(public injector:Injector,
-              public form:EditForm,
-              public fieldName:string,
-              public schema:IFieldSchema,
-              public element:HTMLElement,
-              protected pathHelper:PathHelperService,
-              protected withErrors?:string[]) {
-
+    public form:EditForm,
+    public fieldName:string,
+    public schema:IFieldSchema,
+    public element:HTMLElement,
+    protected pathHelper:PathHelperService,
+    protected withErrors?:string[]) {
     super();
 
     if (withErrors !== undefined) {
@@ -107,7 +108,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   public onFocusOut() {
     // In case of inline create or erroneous forms: do not save on focus loss
     // const specialField = this.resource.shouldCloseOnFocusOut(this.fieldName);
-    if (this.resource.subject && this.withErrors && this.withErrors!.length === 0) {
+    if (this.resource.subject && this.withErrors && this.withErrors.length === 0) {
       this.handleUserSubmit();
     }
   }
@@ -214,11 +215,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public errorMessageOnLabel() {
     if (!this.isErrorenous) {
-      return '';
-    } else {
-      return this.I18n.t('js.inplace.errors.messages_on_field',
-        { messages: this.errors.join(' ') });
+      return "";
     }
+    return this.I18n.t("js.inplace.errors.messages_on_field",
+      { messages: this.errors.join(" ") });
   }
 
   public previewContext(resource:HalResource) {

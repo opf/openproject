@@ -2,22 +2,25 @@ import { Injector } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from "core-app/core/states/states.service";
-import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { displayClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
+import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { TableEventComponent, TableEventHandler } from "../table-handler-registry";
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
-import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { displayClassName } from "core-app/shared/components/fields/display/display-field-renderer";
-import { activeFieldClassName } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { debugLog } from "core-app/shared/helpers/debug_output";
+import { KeepTabService } from "../../../wp-single-view-tabs/keep-tab/keep-tab.service";
 
 export class RowClickHandler implements TableEventHandler {
-
   // Injections
   @InjectField() public $state:StateService;
+
   @InjectField() public states:States;
+
   @InjectField() public keepTab:KeepTabService;
+
   @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+
   @InjectField() public wpTableFocus:WorkPackageViewFocusService;
 
   constructor(public readonly injector:Injector) {
@@ -86,4 +89,3 @@ export class RowClickHandler implements TableEventHandler {
     return false;
   }
 }
-

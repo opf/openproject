@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, Injector, OnInit } from "@angular/core";
+import {
+  AfterViewInit, Component, Injector, OnInit,
+} from "@angular/core";
 import { Observable } from "rxjs";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { BoardService } from "core-app/features/boards/board/board.service";
@@ -18,10 +20,9 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   templateUrl: './boards-index-page.component.html',
-  styleUrls: ['./boards-index-page.component.sass']
+  styleUrls: ['./boards-index-page.component.sass'],
 })
 export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
-
   public text = {
     name: this.I18n.t('js.modals.label_name'),
     board: this.I18n.t('js.label_board'),
@@ -29,7 +30,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     type: this.I18n.t('js.boards.label_board_type'),
     type_free: this.I18n.t('js.boards.board_type.free'),
     action_by_attribute: (attr:string) => this.I18n.t('js.boards.board_type.action_by_attribute',
-      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr ) }),
+      { attribute: this.I18n.t('js.boards.board_type.action_type.' + attr) }),
     createdAt: this.I18n.t('js.label_created_on'),
     delete: this.I18n.t('js.button_delete'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
@@ -52,15 +53,15 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   teaserVideoURL = this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
 
   constructor(private readonly boardService:BoardService,
-              private readonly apiV3Service:APIV3Service,
-              private readonly I18n:I18nService,
-              private readonly notifications:NotificationsService,
-              private readonly opModalService:OpModalService,
-              private readonly loadingIndicatorService:LoadingIndicatorService,
-              private readonly authorisationService:AuthorisationService,
-              private readonly injector:Injector,
-              private readonly bannerService:BannersService,
-              private readonly domSanitizer:DomSanitizer) {
+    private readonly apiV3Service:APIV3Service,
+    private readonly I18n:I18nService,
+    private readonly notifications:NotificationsService,
+    private readonly opModalService:OpModalService,
+    private readonly loadingIndicatorService:LoadingIndicatorService,
+    private readonly authorisationService:AuthorisationService,
+    private readonly injector:Injector,
+    private readonly bannerService:BannersService,
+    private readonly domSanitizer:DomSanitizer) {
     super();
   }
 

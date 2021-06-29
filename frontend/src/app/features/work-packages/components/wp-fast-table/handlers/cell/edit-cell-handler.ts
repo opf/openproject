@@ -1,20 +1,20 @@
 import { Injector } from '@angular/core';
 import { displayClassName, editableClassName, readOnlyClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { tableRowClassName } from '../../builders/rows/single-row-builder';
-import { WorkPackageTable } from '../../wp-fast-table';
-import { ClickOrEnterHandler } from '../click-or-enter-handler';
-import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { ClickPositionMapper } from "core-app/shared/helpers/set-click-position/set-click-position";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
 import { States } from "core-app/core/states/states.service";
 import { debugLog } from "core-app/shared/helpers/debug_output";
+import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { ClickOrEnterHandler } from "../click-or-enter-handler";
+import { WorkPackageTable } from '../../wp-fast-table';
+import { tableRowClassName } from "../../builders/rows/single-row-builder";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
-
   // Injections
   @InjectField() public states:States;
+
   @InjectField() public halEditing:HalResourceEditingService;
 
   // Keep a reference to all

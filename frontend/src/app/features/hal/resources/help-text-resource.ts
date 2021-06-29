@@ -32,8 +32,11 @@ import { CallableHalLink } from "core-app/features/hal/hal-link/hal-link";
 
 export class HelpTextBaseResource extends HalResource {
   public attribute:string;
+
   public attributeCaption:string;
+
   public scope:string;
+
   public helpText:api.v3.Formattable;
 }
 

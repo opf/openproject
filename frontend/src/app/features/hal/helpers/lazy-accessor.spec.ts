@@ -29,8 +29,7 @@
 import { OpenprojectHalModuleHelpers } from "core-app/features/hal/helpers/lazy-accessor";
 
 describe('lazy service', () => {
-  var lazy = OpenprojectHalModuleHelpers.lazy;
-
+  var { lazy } = OpenprojectHalModuleHelpers;
 
   it('should exist', () => {
     expect(lazy).toBeDefined();
@@ -38,7 +37,7 @@ describe('lazy service', () => {
 
   it('should add a property with the given name to the object', () => {
     const obj:any = {
-      prop: void 0
+      prop: void 0,
     };
     lazy(obj, 'prop', () => '');
     expect(obj.prop).toBeDefined();
@@ -46,7 +45,7 @@ describe('lazy service', () => {
 
   it('should add an enumerable property', () => {
     const obj:any = {
-      prop: void 0
+      prop: void 0,
     };
     lazy(obj, 'prop', () => '');
     expect(obj.propertyIsEnumerable('prop')).toBeTruthy();
@@ -54,7 +53,7 @@ describe('lazy service', () => {
 
   it('should add a configurable property', () => {
     const obj:any = {
-      prop: void 0
+      prop: void 0,
     };
     lazy(obj, 'prop', () => '');
     expect((Object as any).getOwnPropertyDescriptor(obj, 'prop').configurable).toBeTruthy();
@@ -62,7 +61,7 @@ describe('lazy service', () => {
 
   it('should set the value of the property provided by the setter', () => {
     const obj:any = {
-      prop: void 0
+      prop: void 0,
     };
     lazy(obj, 'prop', () => '', (val:any) => val);
     obj.prop = 'hello';
@@ -71,7 +70,7 @@ describe('lazy service', () => {
 
   it('should not be settable, if no setter is provided', () => {
     const obj:any = {
-      prop: void 0
+      prop: void 0,
     };
     lazy(obj, 'prop', () => '');
     try {

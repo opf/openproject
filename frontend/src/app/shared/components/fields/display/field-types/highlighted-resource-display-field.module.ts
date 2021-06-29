@@ -31,7 +31,6 @@ import { HighlightableDisplayField } from "core-app/shared/components/fields/dis
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export class HighlightedResourceDisplayField extends HighlightableDisplayField {
-
   public render(element:HTMLElement, displayText:string):void {
     super.render(element, displayText);
 
@@ -43,9 +42,8 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
   public get value() {
     if (this.schema) {
       return this.attribute && this.attribute.name;
-    } else {
-      return null;
     }
+    return null;
   }
 
   private addHighlight(element:HTMLElement):void {

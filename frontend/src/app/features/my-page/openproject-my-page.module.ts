@@ -41,7 +41,7 @@ export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
     data: {
       bodyClasses: ['router--work-packages-my-page', 'widget-grid-layout'],
       parent: 'work-packages'
-    }
+    },
   },
 ];
 
@@ -55,9 +55,8 @@ export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
     UIRouterModule.forChild({ states: MY_PAGE_ROUTES }),
   ],
   declarations: [
-    MyPageComponent
-  ]
+    MyPageComponent,
+  ],
 })
 export class OpenprojectMyPageModule {
 }
-

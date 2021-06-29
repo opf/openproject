@@ -26,8 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
 
@@ -37,6 +35,7 @@ export interface QueryFilterResourceEmbedded {
 
 export class QueryFilterResource extends HalResource {
   public $embedded:QueryFilterResourceEmbedded;
+
   public values:any[];
 
   public get id():string {

@@ -10,7 +10,6 @@ interface ITableDragActionService {
 
 @Injectable()
 export class TableDragActionsRegistryService {
-
   private register:ITableDragActionService[] = [
     HierarchyDragActionService,
     GroupByDragActionService,

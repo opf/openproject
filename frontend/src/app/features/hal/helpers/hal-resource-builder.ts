@@ -14,17 +14,15 @@ interface HalSource {
 export function cloneHalResourceCollection<T extends HalResource>(values:T[]|undefined):T[] {
   if (_.isNil(values)) {
     return [];
-  } else {
-    return values.map(v => v.$copy<T>());
   }
+  return values.map(v => v.$copy<T>());
 }
 
 export function cloneHalResource<T extends HalResource>(value:T|undefined):T|undefined {
   if (_.isNil(value)) {
     return value;
-  } else {
-    return value.$copy<T>();
   }
+  return value.$copy<T>();
 }
 
 export function initializeHalProperties<T extends HalResource>(halResourceService:HalResourceService, halResource:T) {
@@ -70,7 +68,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
         },
 
         enumerable: true,
-        configurable: true
+        configurable: true,
       });
     });
   }
@@ -108,8 +106,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
 
           return null;
         },
-        (val:any) => setter(val, linkName)
-      );
+        (val:any) => setter(val, linkName));
     });
   }
 
@@ -145,15 +142,13 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       (link) => {
         if (Array.isArray(link)) {
           return link.map(l => HalLink.fromObject(halResourceService, l).$callable());
-        } else {
-          return HalLink.fromObject(halResourceService, link).$callable();
         }
+        return HalLink.fromObject(halResourceService, link).$callable();
       });
   }
 
   function setupEmbedded() {
     setupProperty('embedded', (element:any) => {
-
       if (Array.isArray(element)) {
         return element.map((source) => asHalResource(source, true));
       }
@@ -178,9 +173,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     if (!val) {
       halResource.$source._links[linkName] = { href: null };
     } else if (isArray) {
-      halResource.$source._links[linkName] = (val as HalResource[]).map((el:any) => {
-        return { href: el.href };
-      });
+      halResource.$source._links[linkName] = (val as HalResource[]).map((el:any) => ({ href: el.href }));
     } else if (val.hasOwnProperty('$link')) {
       const link = (val as HalResource).$link;
 

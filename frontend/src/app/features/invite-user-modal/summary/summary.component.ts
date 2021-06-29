@@ -5,15 +5,15 @@ import {
   Output,
   ElementRef,
 } from '@angular/core';
-import {Observable, of} from "rxjs";
-import {mapTo, switchMap} from "rxjs/operators";
-import {I18nService} from "core-app/core/i18n/i18n.service";
-import {APIV3Service} from "core-app/core/apiv3/api-v3.service";
-import {RoleResource} from "core-app/features/hal/resources/role-resource";
-import {PrincipalData, PrincipalLike} from "core-app/shared/components/principal/principal-types";
-import {HalResource} from "core-app/features/hal/resources/hal-resource";
-import {PrincipalType} from '../invite-user.component';
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+import { Observable, of } from "rxjs";
+import { mapTo, switchMap } from "rxjs/operators";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { RoleResource } from "core-app/features/hal/resources/role-resource";
+import { PrincipalData, PrincipalLike } from "core-app/shared/components/principal/principal-types";
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { PrincipalType } from "../invite-user.component";
 
 @Component({
   selector: 'op-ium-summary',
@@ -22,13 +22,19 @@ import { ProjectResource } from "core-app/features/hal/resources/project-resourc
 })
 export class SummaryComponent {
   @Input() type:PrincipalType;
+
   @Input() project:ProjectResource;
+
   @Input() role:RoleResource;
+
   @Input() principalData:PrincipalData;
-  @Input() message:string = '';
+
+  @Input() message = '';
 
   @Output() close = new EventEmitter<void>();
+
   @Output() back = new EventEmitter<void>();
+
   @Output() save = new EventEmitter();
 
   public PrincipalType = PrincipalType;
@@ -69,20 +75,18 @@ export class SummaryComponent {
     return of(this.principalData)
       .pipe(
         switchMap((principalData:PrincipalData) => this.createPrincipal(principalData)),
-        switchMap((principal:HalResource) =>
-          this.api.memberships
-            .post({
-              principal,
-              project: this.project,
-              roles: [this.role],
-              notificationMessage: {
-                raw: this.message
-              }
-            })
-            .pipe(
-              mapTo(principal)
-            )
-        )
+        switchMap((principal:HalResource) => this.api.memberships
+          .post({
+            principal,
+            project: this.project,
+            roles: [this.role],
+            notificationMessage: {
+              raw: this.message,
+            },
+          })
+          .pipe(
+            mapTo(principal),
+          )),
       );
   }
 
@@ -111,8 +115,6 @@ export class SummaryComponent {
 
     this
       .invite()
-      .subscribe((principal) =>
-        this.save.emit({ principal })
-      );
+      .subscribe((principal) => this.save.emit({ principal }));
   }
 }

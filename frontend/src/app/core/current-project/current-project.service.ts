@@ -35,7 +35,7 @@ export class CurrentProjectService {
   private current:{ id:string, identifier:string, name:string };
 
   constructor(private PathHelper:PathHelperService,
-              private apiV3Service:APIV3Service) {
+    private apiV3Service:APIV3Service) {
     this.detect();
   }
 
@@ -88,7 +88,7 @@ export class CurrentProjectService {
       this.current = {
         id: element.dataset.projectId!,
         name: element.dataset.projectName!,
-        identifier: element.dataset.projectIdentifier!
+        identifier: element.dataset.projectIdentifier!,
       };
     }
   }

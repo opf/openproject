@@ -6,10 +6,9 @@ import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-
 
 @Injectable()
 export class TypeBannerService extends BannersService {
-
   constructor(@Inject(DOCUMENT) protected documentElement:Document,
-              private confirmDialog:ConfirmDialogService,
-              private I18n:I18nService) {
+    private confirmDialog:ConfirmDialogService,
+    private I18n:I18nService) {
     super(documentElement);
   }
 
@@ -19,11 +18,10 @@ export class TypeBannerService extends BannersService {
         title: this.I18n.t('js.types.attribute_groups.upgrade_to_ee'),
         text: this.I18n.t('js.types.attribute_groups.upgrade_to_ee_text'),
         button_continue: this.I18n.t('js.types.attribute_groups.more_information'),
-        button_cancel: this.I18n.t('js.types.attribute_groups.nevermind')
-      }
+        button_cancel: this.I18n.t('js.types.attribute_groups.nevermind'),
+      },
     }).then(() => {
       window.location.href = 'https://www.openproject.org/enterprise-edition/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration';
     });
   }
 }
-

@@ -47,23 +47,23 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     // can check whether form saving is possible.
     // The query needs a name to be valid.
     const payload:any = {
-      'name': query.name || '!!!__O__o__O__!!!'
+      name: query.name || '!!!__O__o__O__!!!'
     };
 
     if (query.project) {
       payload['_links'] = {
-        'project': {
-          'href': query.project.href
-        }
+        project: {
+          href: query.project.href,
+        },
       };
     }
 
-    const path = this.apiRoot.queries.withOptionalId(query.id).form.path;
+    const { path } = this.apiRoot.queries.withOptionalId(query.id).form;
     return this.halResourceService
       .post<QueryFormResource>(path, payload)
       .pipe(
         tap(form => this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas)),
-        map(form => [form, this.buildQueryResource(form)])
+        map(form => [form, this.buildQueryResource(form)]),
       );
   }
 
@@ -75,7 +75,7 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
    * @param projectIdentifier
    * @param payload
    */
-  public loadWithParams(params:{[key:string]:unknown}, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Observable<[QueryFormResource, QueryResource]> {
+  public loadWithParams(params:{ [key:string]:unknown }, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Observable<[QueryFormResource, QueryResource]> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
@@ -86,18 +86,17 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     if (projectIdentifier) {
       payload._links = payload._links || {};
       payload._links.project = {
-        'href': this.apiRoot.projects.id(projectIdentifier).toString()
+        href: this.apiRoot.projects.id(projectIdentifier).toString(),
       };
-
     }
 
-    const path = this.apiRoot.queries.withOptionalId(queryId).form.path;
+    const { path } = this.apiRoot.queries.withOptionalId(queryId).form;
     const href = URI(path).search(params).toString();
     return this.halResourceService
       .post<QueryFormResource>(href, payload)
       .pipe(
         tap(form => this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas)),
-        map(form => [form, this.buildQueryResource(form)])
+        map(form => [form, this.buildQueryResource(form)]),
       );
   }
 

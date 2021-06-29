@@ -52,7 +52,6 @@ import { OPSharedModule } from "core-app/shared/shared.module";
     GlobalSearchWorkPackagesComponent,
     GlobalSearchTabsComponent,
     GlobalSearchTitleComponent,
-  ]
+  ],
 })
 export class OpenprojectGlobalSearchModule { }
-

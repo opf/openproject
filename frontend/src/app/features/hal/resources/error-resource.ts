@@ -34,8 +34,11 @@ export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:error
 
 export class ErrorResource extends HalResource {
   public errors:any[];
+
   public message:string;
+
   public details:any;
+
   public errorIdentifier:string;
 
   /** We may get a reference to the underlying http error */
@@ -75,9 +78,8 @@ export class ErrorResource extends HalResource {
     return _.flatten(columns.map((resource:ErrorResource) => {
       if (resource.errorIdentifier === v3ErrorIdentifierMultipleErrors) {
         return this.extractMultiError(resource)[0];
-      } else {
-        return resource.details.attribute;
       }
+      return resource.details.attribute;
     }));
   }
 
@@ -104,7 +106,7 @@ export class ErrorResource extends HalResource {
   }
 
   protected extractMultiError(resource:ErrorResource):[string, string[]] {
-    const attribute = resource.errors[0].details.attribute;
+    const { attribute } = resource.errors[0].details;
     const messages = resource.errors.map((el:ErrorResource) => el.message);
 
     return [attribute, messages];

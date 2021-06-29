@@ -25,12 +25,12 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import * as moment from 'moment';
-import { InputState, MultiInputState } from 'reactivestates';
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import * as moment from "moment";
+import { InputState, MultiInputState } from "reactivestates";
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
 import Moment = moment.Moment;
-import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
 
 export const timelineElementCssClass = 'timeline-element';
 export const timelineBackgroundElementClass = 'timeline-element--bg';
@@ -43,9 +43,7 @@ export const timelineHeaderSelector = 'wp-timeline-header';
  *
  */
 export class TimelineViewParametersSettings {
-
   zoomLevel:TimelineZoomLevel = 'days';
-
 }
 
 // Can't properly map the enum to a string aray
@@ -78,7 +76,6 @@ export const requiredPixelMarginLeft = 120;
  *
  */
 export class TimelineViewParameters {
-
   readonly now:Moment = moment({ hour: 0, minute: 0, seconds: 0 });
 
   dateDisplayStart:Moment = moment({ hour: 0, minute: 0, seconds: 0 });
@@ -111,7 +108,6 @@ export class TimelineViewParameters {
   get dayCountForMarginLeft():number {
     return Math.ceil(requiredPixelMarginLeft / this.pixelPerDay);
   }
-
 }
 
 /**
@@ -138,14 +134,13 @@ export function calculatePositionValueForDayCountingPx(viewParams:TimelineViewPa
  */
 export function calculatePositionValueForDayCount(viewParams:TimelineViewParameters, days:number):string {
   const value = calculatePositionValueForDayCountingPx(viewParams, days);
-  return value + 'px';
+  return `${value}px`;
 }
 
 export function getTimeSlicesForHeader(vp:TimelineViewParameters,
   unit:moment.unitOfTime.DurationConstructor,
   startView:Moment,
   endView:Moment) {
-
   const inViewport:[Moment, Moment][] = [];
   const rest:[Moment, Moment][] = [];
 
@@ -160,7 +155,6 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
     const viewport = vp.visibleViewportAtCalculationTime;
     if ((sliceStart.isSameOrAfter(viewport[0]) && sliceStart.isSameOrBefore(viewport[1]))
       || (sliceEnd.isSameOrAfter(viewport[0]) && sliceEnd.isSameOrBefore(viewport[1]))) {
-
       inViewport.push([sliceStart, sliceEnd]);
     } else {
       rest.push([sliceStart, sliceEnd]);
@@ -172,14 +166,13 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
   const inViewportAndBoundaries = _.concat(
     [firstRest].filter(e => !_.isNil(e)),
     inViewport,
-    [lastRest].filter(e => !_.isNil(e))
+    [lastRest].filter(e => !_.isNil(e)),
   );
 
   return {
     inViewportAndBoundaries,
-    rest
+    rest,
   };
-
 }
 
 export function calculateDaySpan(visibleWorkPackages:RenderedWorkPackage[],

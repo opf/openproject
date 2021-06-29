@@ -28,7 +28,9 @@
 
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { States } from 'core-app/core/states/states.service';
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from "@angular/core";
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
@@ -46,11 +48,14 @@ import { WorkPackageService } from "core-app/features/work-packages/services/wor
 export class WpDestroyModal extends OpModalComponent implements OnInit {
   // When deleting multiple
   public workPackages:WorkPackageResource[];
+
   public workPackageLabel:string;
 
   // Single work package
   public singleWorkPackage:WorkPackageResource;
+
   public singleWorkPackageChildren:WorkPackageResource[];
+
   public busy = false;
 
   // Need to confirm deletion when children are involved
@@ -67,16 +72,16 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly WorkPackageService:WorkPackageService,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly $state:StateService,
-              readonly states:States,
-              readonly wpTableFocus:WorkPackageViewFocusService,
-              readonly wpListService:WorkPackagesListService,
-              readonly notificationService:WorkPackageNotificationService,
-              readonly backRoutingService:BackRoutingService) {
+    readonly WorkPackageService:WorkPackageService,
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly $state:StateService,
+    readonly states:States,
+    readonly wpTableFocus:WorkPackageViewFocusService,
+    readonly wpListService:WorkPackagesListService,
+    readonly notificationService:WorkPackageNotificationService,
+    readonly backRoutingService:BackRoutingService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -95,16 +100,15 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
     this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
       label: this.workPackageLabel,
-      count: this.workPackages.length
+      count: this.workPackages.length,
     });
 
     this.text.childCount = (wp:WorkPackageResource) => {
       const count = this.children(wp).length;
-      return this.I18n.t('js.units.child_work_packages', { count: count });
+      return this.I18n.t('js.units.child_work_packages', { count });
     };
 
-    this.text.hasChildren = (wp:WorkPackageResource) =>
-      this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits: this.text.childCount(wp) }),
+    this.text.hasChildren = (wp:WorkPackageResource) => this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits: this.text.childCount(wp) }),
 
     this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
@@ -120,8 +124,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       const result = this.singleWorkPackageChildren.length > 0;
     }
 
-    return result || !!_.find(this.workPackages, wp =>
-      wp.children && wp.children.length > 0);
+    return result || !!_.find(this.workPackages, wp => wp.children && wp.children.length > 0);
   }
 
   public confirmDeletion($event:JQuery.TriggeredEvent) {
@@ -149,10 +152,9 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   }
 
   public children(workPackage:WorkPackageResource) {
-    if (workPackage.hasOwnProperty('children')) {
+    if (workPackage.hasOwnProperty("children")) {
       return workPackage.children;
-    } else {
-      return [];
     }
+    return [];
   }
 }

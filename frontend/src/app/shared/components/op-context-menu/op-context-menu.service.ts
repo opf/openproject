@@ -1,4 +1,6 @@
-import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
+import {
+  ApplicationRef, ComponentFactoryResolver, Injectable, Injector,
+} from '@angular/core';
 import { ComponentPortal, DomPortalOutlet, PortalInjector } from "@angular/cdk/portal";
 import { TransitionService } from "@uirouter/core";
 import { OpContextMenuHandler } from "core-app/shared/components/op-context-menu/op-context-menu-handler";
@@ -13,6 +15,7 @@ export class OPContextMenuService {
 
   // Hold a reference to the DOM node we're using as a host
   private portalHostElement:HTMLElement;
+
   // And a reference to the actual portal host interface on top of the element
   private bodyPortalHost:DomPortalOutlet;
 
@@ -20,11 +23,10 @@ export class OPContextMenuService {
   private isOpening = false;
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
-              readonly FocusHelper:FocusHelperService,
-              private appRef:ApplicationRef,
-              private $transitions:TransitionService,
-              private injector:Injector) {
-
+    readonly FocusHelper:FocusHelperService,
+    private appRef:ApplicationRef,
+    private $transitions:TransitionService,
+    private injector:Injector) {
     const hostElement = this.portalHostElement = document.createElement('div');
     hostElement.classList.add('op-context-menu--overlay');
     document.body.appendChild(hostElement);
@@ -33,7 +35,7 @@ export class OPContextMenuService {
       hostElement,
       this.componentFactoryResolver,
       this.appRef,
-      this.injector
+      this.injector,
     );
 
     // Close context menus on state change
@@ -50,11 +52,11 @@ export class OPContextMenuService {
 
     // Listen to any click and close the active context menu
     const that = this;
-    document.getElementById('wrapper')!.addEventListener('click', function(evt:Event) {
-      if (that.active &&  !that.portalHostElement.contains(evt.target as Element)) {
+    document.getElementById('wrapper')!.addEventListener('click', (evt:Event) => {
+      if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
         that.close();
       }
-    },  true);
+    }, true);
   }
 
   /**

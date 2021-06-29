@@ -43,10 +43,10 @@ export const DASHBOARDS_ROUTES:Ng2StateDeclaration[] = [
     url: '/dashboards/',
     data: {
       bodyClasses: ['router--dashboards-view-base', 'widget-grid-layout'],
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
     },
-    component: DashboardComponent
-  }
+    component: DashboardComponent,
+  },
 ];
 
 export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
@@ -55,7 +55,7 @@ export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
   uiRouter.urlService.rules
     .when(
       new RegExp("^/projects/(.*)/dashboards$"),
-      match => `/projects/${match[1]}/dashboards/`
+      match => `/projects/${match[1]}/dashboards/`,
     );
 }
 
@@ -68,15 +68,14 @@ export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
     // Routes for /dashboards
     UIRouterModule.forChild({
       states: DASHBOARDS_ROUTES,
-      config: uiRouterDashboardsConfiguration
+      config: uiRouterDashboardsConfiguration,
     }),
   ],
   providers: [
   ],
   declarations: [
-    DashboardComponent
-  ]
+    DashboardComponent,
+  ],
 })
 export class OpenprojectDashboardsModule {
 }
-

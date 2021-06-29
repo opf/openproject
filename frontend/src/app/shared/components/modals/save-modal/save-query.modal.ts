@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
+} from "@angular/core";
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
@@ -44,8 +46,11 @@ import { States } from 'core-app/core/states/states.service';
 })
 export class SaveQueryModal extends OpModalComponent {
   public queryName = '';
+
   public isStarred = false;
+
   public isPublic = false;
+
   public isBusy = false;
 
   @ViewChild('queryNameField', { static: true }) queryNameField:ElementRef;
@@ -58,18 +63,18 @@ export class SaveQueryModal extends OpModalComponent {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
     button_save: this.I18n.t('js.modals.button_save'),
     button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title')
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
-              readonly states:States,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly wpListService:WorkPackagesListService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly notificationsService:NotificationsService) {
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly I18n:I18nService,
+    readonly states:States,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly wpListService:WorkPackagesListService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly notificationsService:NotificationsService) {
     super(locals, cdRef, elementRef);
   }
 

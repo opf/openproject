@@ -9,13 +9,12 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageViewHierarchyIdentationService {
-
   constructor(private wpViewHierarchies:WorkPackageViewHierarchiesService,
-              private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
-              private states:States,
-              private wpRelationHierarchy:WorkPackageRelationsHierarchyService,
-              private apiV3Service:APIV3Service,
-              private querySpace:IsolatedQuerySpace) {
+    private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
+    private states:States,
+    private wpRelationHierarchy:WorkPackageRelationsHierarchyService,
+    private apiV3Service:APIV3Service,
+    private querySpace:IsolatedQuerySpace) {
   }
 
   /**
@@ -114,7 +113,7 @@ export class WorkPackageViewHierarchyIdentationService {
 
     // If we have more than one ancestor,
     // just drop the last one
-    const ancestorIds = workPackage.ancestorIds;
+    const { ancestorIds } = workPackage;
     const ancestorCount = ancestorIds.length;
     if (ancestorCount > 1) {
       newParentId = ancestorIds[ancestorCount - 2];

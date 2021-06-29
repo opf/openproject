@@ -15,6 +15,6 @@ import { FocusModule } from "core-app/shared/directives/focus/focus.module";
   ],
   exports: [
     TextEditFieldComponent,
-  ]
+  ],
 })
 export class TextEditFieldModule { }

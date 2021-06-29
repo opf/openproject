@@ -6,7 +6,6 @@ import { forkJoin } from "rxjs";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { BcfViewpointItem } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface";
 
-
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
   styleUrls: ['./bcf-wp-attribute-group.component.sass'],
@@ -44,7 +43,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
             .map(viewPointItem => this.viewpointsService.saveViewpoint$(this.workPackage, viewPointItem.viewpoint));
 
           return forkJoin(observables);
-        })
+        }),
       )
       .subscribe((viewpoints:BcfViewpointInterface[]) => {
         this.showIndex = this.galleryViewpoints.length - 1;
@@ -53,15 +52,13 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
 
   // Disable show viewpoint functionality
   showViewpoint(workPackage:WorkPackageResource, index:number) {
-    return;
+
   }
 
   deleteViewpoint(workPackage:WorkPackageResource, index:number) {
     this.galleryViewpoints = this.galleryViewpoints.filter((_, i) => i !== index);
 
     this.setViewpointsOnGallery(this.galleryViewpoints);
-
-    return;
   }
 
   saveViewpoint() {
@@ -70,12 +67,12 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
       .subscribe(viewpoint => {
         const newViewpoint = {
           snapshotURL: viewpoint.snapshot.snapshot_data,
-          viewpoint: viewpoint
+          viewpoint,
         };
 
         this.galleryViewpoints = [
           ...this.galleryViewpoints,
-          newViewpoint
+          newViewpoint,
         ];
 
         this.setViewpointsOnGallery(this.galleryViewpoints);
@@ -89,6 +86,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
   shouldShowGroup() {
     return this.createAllowed && this.viewerVisible;
   }
+
   protected actions() {
     // Show only delete button
     return super

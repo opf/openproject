@@ -29,7 +29,9 @@
 import { Injectable } from "@angular/core";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { NEVER, Observable, throwError } from "rxjs";
-import { filter, map, take, tap } from "rxjs/operators";
+import {
+  filter, map, take, tap,
+} from "rxjs/operators";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { multiInput } from "reactivestates";
 import { TransitionService } from "@uirouter/core";
@@ -40,9 +42,8 @@ export type SupportedAttributeModels = 'project'|'workPackage';
 
 @Injectable({ providedIn: "root" })
 export class AttributeModelLoaderService {
-
   text = {
-    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found')
+    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
   };
 
   // Cache the required model/id values because
@@ -50,10 +51,9 @@ export class AttributeModelLoaderService {
   private cache$ = multiInput<HalResource>();
 
   constructor(readonly apiV3Service:APIV3Service,
-              readonly transitions:TransitionService,
-              readonly currentProject:CurrentProjectService,
-              readonly I18n:I18nService) {
-
+    readonly transitions:TransitionService,
+    readonly currentProject:CurrentProjectService,
+    readonly I18n:I18nService) {
     // Clear cached values whenever leaving the page
     transitions.onStart({}, () => {
       this.cache$.clear();
@@ -77,7 +77,7 @@ export class AttributeModelLoaderService {
       const promise = this
         .load(model, id)
         .pipe(
-          filter(response => !!response)
+          filter(response => !!response),
         )
         .toPromise();
       state.clearAndPutFromPromise(promise as PromiseLike<HalResource>);
@@ -89,7 +89,7 @@ export class AttributeModelLoaderService {
       .values$()
       .pipe(
         take(1),
-        tap(val => console.log("VAL " + val), err => console.error('ERR ' + err))
+        tap(val => console.log("VAL " + val), err => console.error('ERR ' + err)),
       )
       .toPromise();
   }
@@ -118,7 +118,7 @@ export class AttributeModelLoaderService {
       .id(id)
       .get()
       .pipe(
-        take(1)
+        take(1),
       );
   }
 
@@ -135,7 +135,7 @@ export class AttributeModelLoaderService {
         .id(id)
         .get()
         .pipe(
-          take(1)
+          take(1),
         );
     }
 
@@ -148,7 +148,7 @@ export class AttributeModelLoaderService {
       .get()
       .pipe(
         take(1),
-        map(collection => collection.elements[0] || null)
+        map(collection => collection.elements[0] || null),
       );
   }
 }

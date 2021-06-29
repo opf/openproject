@@ -41,8 +41,8 @@ export function initializeLocale() {
     moment.updateLocale(locale, {
       week: {
         dow: firstDayOfWeek,
-        doy: 7 + firstDayOfWeek - firstWeekOfYear
-      }
+        doy: 7 + firstDayOfWeek - firstWeekOfYear,
+      },
     });
   }
 

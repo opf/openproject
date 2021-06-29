@@ -73,7 +73,7 @@ describe('WorkPackageCache', () => {
         { provide: WorkPackageNotificationService, useValue: {} },
         { provide: OpenProjectFileUploadService, useValue: {} },
         { provide: OpenProjectDirectFileUploadService, useValue: {} },
-      ]
+      ],
     });
 
     injector = TestBed.inject(Injector);
@@ -84,14 +84,13 @@ describe('WorkPackageCache', () => {
     // sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
     spyOn(schemaCacheService, 'ensureLoaded').and.returnValue(Promise.resolve(true as any));
 
-
     const workPackage1 = new WorkPackageResource(
       injector,
       {
         id: '1',
         _links: {
           self: ''
-        }
+        },
       },
       true,
       (wp:WorkPackageResource) => undefined,
@@ -101,10 +100,10 @@ describe('WorkPackageCache', () => {
     dummyWorkPackages = [workPackage1 as any];
   });
 
-  it('returns a work package after the list has been initialized', function (done:any) {
+  it('returns a work package after the list has been initialized', (done:any) => {
     workPackageCache.state('1').values$()
       .pipe(
-        take(1)
+        take(1),
       )
       .subscribe((wp:WorkPackageResource) => {
         expect(wp.id!).toEqual('1');
@@ -119,7 +118,7 @@ describe('WorkPackageCache', () => {
 
     workPackageCache.state('1').values$()
       .pipe(
-        takeWhile((wp) => count < 2)
+        takeWhile((wp) => count < 2),
       )
       .subscribe((wp:WorkPackageResource) => {
         expect(wp.id!).toEqual('1');
@@ -134,5 +133,4 @@ describe('WorkPackageCache', () => {
     workPackageCache.updateWorkPackageList([dummyWorkPackages[0]], false);
     workPackageCache.updateWorkPackageList([dummyWorkPackages[0]], false);
   });
-
 });

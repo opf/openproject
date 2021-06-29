@@ -13,7 +13,6 @@ export class BcfTopicAuthorizationMap {
 
 @jsonObject
 export class BcfTopicResource {
-
   @jsonMember
   guid:string;
 
@@ -61,7 +60,7 @@ export class BcfTopicResource {
 
   @jsonMember({
     deserializer: value => moment(value),
-    serializer: (timestamp:Moment) => timestamp.format('YYYY-MM-DD')
+    serializer: (timestamp:Moment) => timestamp.format('YYYY-MM-DD'),
   })
   due_date:Moment;
 

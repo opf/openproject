@@ -12,6 +12,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 })
 export class OpModalHeadingComponent {
   @HostBinding('class.op-modal--heading') className = true;
+
   @Output('close') close = new EventEmitter<void>();
 
   public text = {

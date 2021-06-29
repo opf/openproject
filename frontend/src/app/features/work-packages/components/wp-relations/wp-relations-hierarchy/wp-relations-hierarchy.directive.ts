@@ -41,20 +41,25 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 })
 export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public relationType:string;
 
   public showEditForm = false;
+
   public workPackagePath:string;
+
   public canHaveChildren:boolean;
+
   public canModifyHierarchy:boolean;
+
   public canAddRelation:boolean;
 
   public childrenQueryProps:any;
 
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected apiV3Service:APIV3Service,
-              protected PathHelper:PathHelperService,
-              readonly I18n:I18nService) {
+    protected apiV3Service:APIV3Service,
+    protected PathHelper:PathHelperService,
+    readonly I18n:I18nService) {
     super();
   }
 
@@ -71,7 +76,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
     this.childrenQueryProps = {
       filters: JSON.stringify([{ parent: { operator: '=', values: [this.workPackage.id] } }]),
       'columns[]': ['id', 'type', 'subject', 'status'],
-      showHierarchies: false
+      showHierarchies: false,
     };
 
     this
@@ -80,7 +85,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
       .id(this.workPackage)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -94,7 +99,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
             .id(parentId)
             .get()
             .pipe(
-              take(1)
+              take(1),
             )
             .subscribe((parent:WorkPackageResource) => {
               this.workPackage.parent = parent;

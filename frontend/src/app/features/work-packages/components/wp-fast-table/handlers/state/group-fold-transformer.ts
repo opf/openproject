@@ -6,8 +6,8 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
 
 export class GroupFoldTransformer {
-
   @InjectField() public workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
+
   @InjectField() public querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
@@ -16,7 +16,7 @@ export class GroupFoldTransformer {
       .updates$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       )
       .subscribe((groupsCollapseEvent) => table.setGroupsCollapseState(groupsCollapseEvent.state));
   }

@@ -36,7 +36,6 @@ export interface RelationResourceLinks {
 }
 
 export class RelationResource extends HalResource {
-
   static RELATION_TYPES(includeParentChild = true):string[] {
     const types = [
       'relates',
@@ -62,9 +61,7 @@ export class RelationResource extends HalResource {
   static LOCALIZED_RELATION_TYPES(includeParentchild = true) {
     const relationTypes = RelationResource.RELATION_TYPES(includeParentchild);
 
-    return relationTypes.map((key:string) => {
-      return { name: key, label: I18n.t('js.relation_labels.' + key) };
-    });
+    return relationTypes.map((key:string) => ({ name: key, label: I18n.t("js.relation_labels." + key) }));
   }
 
   static DEFAULT() {
@@ -73,12 +70,16 @@ export class RelationResource extends HalResource {
 
   // Properties
   public description:string|null;
+
   public type:any;
+
   public reverseType:string;
 
   // Links
   public $links:RelationResourceLinks;
+
   public to:WorkPackageResource;
+
   public from:WorkPackageResource;
 
   public normalizedType(workPackage:WorkPackageResource) {
@@ -98,7 +99,7 @@ export class RelationResource extends HalResource {
       target: this[target],
       targetId: this[target].id!,
       relationType: target === 'from' ? this.reverseType : this.type,
-      reverseRelationType: target === 'from' ? this.type : this.reverseType
+      reverseRelationType: target === 'from' ? this.type : this.reverseType,
     };
   }
 
@@ -117,16 +118,16 @@ export class RelationResource extends HalResource {
   public get ids() {
     return {
       from: WorkPackageResource.idFromLink(this.from.href!),
-      to: WorkPackageResource.idFromLink(this.to.href!)
+      to: WorkPackageResource.idFromLink(this.to.href!),
     };
   }
 
   public updateDescription(description:string) {
-    return this.$links.updateImmediately({ description: description });
+    return this.$links.updateImmediately({ description });
   }
 
   public updateType(type:any) {
-    return this.$links.updateImmediately({ type: type });
+    return this.$links.updateImmediately({ type });
   }
 }
 
@@ -138,4 +139,3 @@ export interface DenormalizedRelationData {
   relationType:string;
   reverseRelationType:string;
 }
-

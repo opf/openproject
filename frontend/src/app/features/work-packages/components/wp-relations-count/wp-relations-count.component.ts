@@ -4,17 +4,17 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
 
-
 @Component({
   templateUrl: './wp-relations-count.html',
   selector: 'wp-relations-count',
 })
 export class WorkPackageRelationsCountComponent extends UntilDestroyedMixin implements OnInit {
   @Input('wpId') wpId:string;
+
   public count = 0;
 
   constructor(protected apiV3Service:APIV3Service,
-              protected wpRelations:WorkPackageRelationsService) {
+    protected wpRelations:WorkPackageRelationsService) {
     super();
   }
 
@@ -30,9 +30,9 @@ export class WorkPackageRelationsCountComponent extends UntilDestroyedMixin impl
         .apiV3Service
         .work_packages
         .id(this.wpId)
-        .requireAndStream()
+        .requireAndStream(),
     ]).pipe(
-      this.untilDestroyed()
+      this.untilDestroyed(),
     ).subscribe(([relations, workPackage]) => {
       const relationCount = _.size(relations);
       const childrenCount = _.size(workPackage.children);

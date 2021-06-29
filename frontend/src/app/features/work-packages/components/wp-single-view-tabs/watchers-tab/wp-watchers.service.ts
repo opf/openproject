@@ -34,11 +34,8 @@ import { WorkPackageLinkedResourceCache } from 'core-app/features/work-packages/
 
 @Injectable()
 export class WorkPackageWatchersService extends WorkPackageLinkedResourceCache<HalResource[]> {
-
   protected load(workPackage:WorkPackageResource) {
     return workPackage.watchers.$update()
-      .then((collection:CollectionResource<HalResource>) => {
-        return collection.elements;
-      });
+      .then((collection:CollectionResource<HalResource>) => collection.elements);
   }
 }

@@ -39,12 +39,14 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 @Directive()
 export class WorkPackageCopyController extends WorkPackageCreateComponent {
   private __initialized_at:number;
+
   private copiedWorkPackageId:string;
 
   /** Are we in the copying substates ? */
   public copying = true;
 
   @InjectField() wpRelations:WorkPackageRelationsService;
+
   @InjectField() halEditing:HalResourceEditingService;
 
   ngOnInit() {
@@ -52,7 +54,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
 
     this.wpCreate.onNewWorkPackage()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
         if (wp.__initialized_at === this.__initialized_at) {
@@ -70,7 +72,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
         .id(this.copiedWorkPackageId)
         .get()
         .pipe(
-          take(1)
+          take(1),
         )
         .subscribe((wp:WorkPackageResource) => {
           this.createCopyFrom(wp).then(resolve, reject);
@@ -83,7 +85,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
   }
 
   private createCopyFrom(wp:WorkPackageResource) {
-    const sourceChangeset = this.halEditing.changeFor(wp) as WorkPackageChangeset;
+    const sourceChangeset = this.halEditing.changeFor(wp);
 
     return this.wpCreate
       .copyWorkPackage(sourceChangeset)

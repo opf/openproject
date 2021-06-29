@@ -26,8 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export class QueryOperatorResource extends HalResource {
@@ -44,9 +42,7 @@ export class QueryOperatorResource extends HalResource {
     return '';
   }
 
-
   public set id(val:string) {
     this.$source.id = val;
   }
 }
-

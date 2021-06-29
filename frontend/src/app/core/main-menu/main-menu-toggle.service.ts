@@ -36,30 +36,40 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 @Injectable({ providedIn: 'root' })
 export class MainMenuToggleService {
   public toggleTitle:string;
+
   private elementWidth:number;
+
   private elementMinWidth = 11;
+
   private readonly defaultWidth:number = 230;
+
   private readonly localStorageKey:string = 'openProject-mainMenuWidth';
+
   private readonly localStorageStateKey:string = 'openProject-mainMenuCollapsed';
 
   @InjectField() currentProject:CurrentProjectService;
 
   private global = (window as any);
+
   private htmlNode = document.getElementsByTagName('html')[0];
-  private mainMenu = jQuery('#main-menu')[0];  // main menu, containing sidebar and resizer
+
+  private mainMenu = jQuery('#main-menu')[0]; // main menu, containing sidebar and resizer
+
   private hideElements = jQuery('.can-hide-navigation');
 
   // Title needs to be sync in main-menu-toggle.component.ts and main-menu-resizer.component.ts
   private titleData = new BehaviorSubject<string>('');
+
   public titleData$ = this.titleData.asObservable();
 
   // Notes all changes of the menu size (currently needed in wp-resizer.component.ts)
   private changeData = new BehaviorSubject<any>({});
+
   public changeData$ = this.changeData.asObservable();
 
   constructor(protected I18n:I18nService,
-              public injector:Injector,
-              readonly deviceService:DeviceService) {
+    public injector:Injector,
+    readonly deviceService:DeviceService) {
   }
 
   public initializeMenu():void {
@@ -110,7 +120,7 @@ export class MainMenuToggleService {
     // Set focus on first visible main menu item.
     // This needs to be called after AngularJS has rendered the menu, which happens some when after(!) we leave this
     // method here. So we need to set the focus after a timeout.
-    setTimeout(function () {
+    setTimeout(() => {
       jQuery('#main-menu [class*="-menu-item"]:visible').first().focus();
     }, 500);
   }
@@ -127,6 +137,7 @@ export class MainMenuToggleService {
       window.OpenProject.guardedLocalStorage(this.localStorageStateKey, 'false');
     }
   }
+
   public saveWidth(width?:number):void {
     this.setWidth(width);
     window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
@@ -149,7 +160,7 @@ export class MainMenuToggleService {
     this.toggleClassHidden();
 
     this.global.showNavigation = this.showNavigation;
-    this.htmlNode.style.setProperty("--main-menu-width", this.elementWidth + 'px');
+    this.htmlNode.style.setProperty("--main-menu-width", `${this.elementWidth}px`);
 
     // Send change event when size of menu is changing (menu toggled or resized)
     // Event should only be fired, when transition is finished

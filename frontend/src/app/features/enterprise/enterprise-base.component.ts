@@ -37,7 +37,7 @@ export const enterpriseBaseSelector = 'enterprise-base';
 @Component({
   selector: enterpriseBaseSelector,
   templateUrl: './enterprise-base.component.html',
-  styleUrls: ['./enterprise-base.component.sass']
+  styleUrls: ['./enterprise-base.component.sass'],
 })
 export class EnterpriseBaseComponent {
   public text = {
@@ -49,13 +49,13 @@ export class EnterpriseBaseComponent {
     email_not_received: this.I18n.t('js.admin.enterprise.trial.email_not_received'),
     enterprise_edition: this.I18n.t('js.admin.enterprise.upsale.text'),
     confidence: this.I18n.t('js.admin.enterprise.upsale.confidence'),
-    try_another_email: this.I18n.t('js.admin.enterprise.trial.try_another_email')
+    try_another_email: this.I18n.t('js.admin.enterprise.trial.try_another_email'),
   };
 
   constructor(protected I18n:I18nService,
-              protected opModalService:OpModalService,
-              readonly injector:Injector,
-              public eeTrialService:EnterpriseTrialService) {
+    protected opModalService:OpModalService,
+    readonly injector:Injector,
+    public eeTrialService:EnterpriseTrialService) {
   }
 
   public openTrialModal() {

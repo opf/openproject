@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild,
+} from '@angular/core';
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -47,22 +49,26 @@ export interface UserAutocompleteItem {
   href:string|null;
 }
 
-
 @Component({
   templateUrl: './user-autocompleter.component.html',
-  selector: usersAutocompleterSelector
+  selector: usersAutocompleterSelector,
 })
 export class UserAutocompleterComponent implements OnInit {
   userTracker = (item:any) => item.href || item.id;
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
+
   @Output() public onChange = new EventEmitter<void>();
+
   @Input() public clearAfterSelection = false;
 
   // Load all users as default
   @Input() public url:string = this.apiV3Service.users.path;
+
   @Input() public allowEmpty = false;
+
   @Input() public appendTo = '';
+
   @Input() public multiple = false;
 
   @Input() public initialSelection:number|null = null;
@@ -73,18 +79,18 @@ export class UserAutocompleterComponent implements OnInit {
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, UserAutocompleteItem>(
     (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
-    errorNotificationHandler(this.halNotification)
+    errorNotificationHandler(this.halNotification),
   );
 
   public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
   constructor(protected elementRef:ElementRef,
-              protected halResourceService:HalResourceService,
-              protected I18n:I18nService,
-              protected halNotification:HalResourceNotificationService,
-              readonly pathHelper:PathHelperService,
-              readonly apiV3Service:APIV3Service,
-              readonly injector:Injector) {
+    protected halResourceService:HalResourceService,
+    protected I18n:I18nService,
+    protected halNotification:HalResourceNotificationService,
+    readonly pathHelper:PathHelperService,
+    readonly apiV3Service:APIV3Service,
+    readonly injector:Injector) {
   }
 
   ngOnInit() {
@@ -99,9 +105,9 @@ export class UserAutocompleterComponent implements OnInit {
       this.setInitialSelection();
     }
 
-    const filterInput  = this.elementRef.nativeElement.dataset['additionalFilter'];
+    const filterInput = this.elementRef.nativeElement.dataset['additionalFilter'];
     if (filterInput) {
-      JSON.parse(filterInput).forEach((filter:{selector:string; operator:FilterOperator, values:string[]}) => {
+      JSON.parse(filterInput).forEach((filter:{ selector:string; operator:FilterOperator, values:string[] }) => {
         this.inputFilters.add(filter['selector'], filter['operator'], filter['values']);
       });
     }
@@ -161,16 +167,16 @@ export class UserAutocompleterComponent implements OnInit {
       .get(url, { filters: searchFilters.toJson() })
       .pipe(
         map(res => {
-          const options = res.elements.map((el:any) => {
-            return { name: el.name, id: el.id, href: el.href, avatar: el.avatar };
-          });
+          const options = res.elements.map((el:any) => ({
+            name: el.name, id: el.id, href: el.href, avatar: el.avatar,
+          }));
 
           if (this.allowEmpty) {
             options.unshift({ name: this.I18n.t('js.timelines.filter.noneSelection'), href: null, id: null });
           }
 
           return options;
-        })
+        }),
       );
   }
 
@@ -181,4 +187,3 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 }
-

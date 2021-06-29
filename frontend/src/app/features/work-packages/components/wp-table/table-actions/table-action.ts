@@ -10,11 +10,10 @@ export const contextMenuLinkClassName = 'wp-table-context-menu-link';
 export const contextColumnIcon = 'wp-table-context-menu-icon';
 
 export abstract class OpTableAction {
-
   @InjectField() I18n!:I18nService;
 
   constructor(readonly injector:Injector,
-              readonly workPackage:WorkPackageResource) {
+    readonly workPackage:WorkPackageResource) {
   }
 
   /** Identifier to uniquely identify the action */

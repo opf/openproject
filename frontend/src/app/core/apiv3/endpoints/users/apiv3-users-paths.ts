@@ -35,7 +35,7 @@ import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource
 
 export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'users', APIv3UserPaths);
   }
 

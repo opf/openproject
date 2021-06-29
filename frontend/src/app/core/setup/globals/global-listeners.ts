@@ -26,8 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { performAnchorHijacking } from "./global-listeners/link-hijacking";
-import { augmentedDatePicker } from "./global-listeners/augmented-date-picker";
 import { refreshOnFormChanges } from 'core-app/core/setup/globals/global-listeners/refresh-on-form-changes';
 import { registerRequestForConfirmation } from "core-app/core/setup/globals/global-listeners/request-for-confirmation";
 import { DeviceService } from "core-app/core/browser/device.service";
@@ -40,14 +38,15 @@ import { dangerZoneValidation } from "core-app/core/setup/globals/global-listene
 import { setupServerResponse } from "core-app/core/setup/globals/global-listeners/setup-server-response";
 import { listenToSettingChanges } from "core-app/core/setup/globals/global-listeners/settings";
 import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onboarding_tour_trigger";
+import { augmentedDatePicker } from "./global-listeners/augmented-date-picker";
+import { performAnchorHijacking } from './global-listeners/link-hijacking';
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
  */
 (function ($:JQueryStatic) {
-
-  $(function () {
-    $(document.documentElement!)
+  $(() => {
+    $(document.documentElement)
       .on('click', (evt:any) => {
         const target = jQuery(evt.target) as JQuery;
 
@@ -62,7 +61,7 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
       });
 
     // Jump to the element given by location.hash, if present
-    const hash = window.location.hash;
+    const { hash } = window.location;
     if (hash && hash.startsWith('#')) {
       try {
         const el = document.querySelector(hash);
@@ -77,7 +76,7 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
 
     // Global submitting hook,
     // necessary to avoid a data loss warning on beforeunload
-    $(document).on('submit', 'form', function () {
+    $(document).on('submit', 'form', () => {
       window.OpenProject.pageIsSubmitted = true;
     });
 
@@ -101,7 +100,7 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
     });
 
     // Disable global drag & drop handling, which results in the browser loading the image and losing the page
-    $(document.documentElement!)
+    $(document.documentElement)
       .on('dragover drop', (evt:any) => {
         evt.preventDefault();
         return false;
@@ -134,7 +133,7 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
     new TopMenu(jQuery('.op-app-header'));
 
     // Action menu logic
-    jQuery('.project-actions, .toolbar-items').each(function (idx:number, menu:HTMLElement) {
+    jQuery('.project-actions, .toolbar-items').each((idx:number, menu:HTMLElement) => {
       install_menu_logic(jQuery(menu));
     });
 
@@ -150,5 +149,4 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
     // Bootstrap legacy app code
     setupServerResponse();
   });
-
 }(jQuery));

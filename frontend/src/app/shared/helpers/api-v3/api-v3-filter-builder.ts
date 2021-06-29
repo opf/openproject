@@ -42,7 +42,6 @@ export interface ApiV3Filter {
 export type ApiV3FilterObject = { [filter:string]:ApiV3FilterValue };
 
 export class ApiV3FilterBuilder {
-
   private filterMap:ApiV3FilterObject = {};
 
   public add(name:string, operator:FilterOperator, values:unknown[]|boolean):this {
@@ -55,8 +54,8 @@ export class ApiV3FilterBuilder {
     }
 
     this.filterMap[name] = {
-      operator: operator,
-      values: values
+      operator,
+      values,
     };
 
     return this;
@@ -98,12 +97,12 @@ export class ApiV3FilterBuilder {
   public merge(filters:ApiV3Filter[], ...only:string[]) {
     const toAdd:ApiV3FilterObject = _.pickBy(
       this.toFilterObject(filters),
-      (_, filter:string) => only.includes(filter)
+      (_, filter:string) => only.includes(filter),
     );
 
     this.filterMap = {
       ...this.filterMap,
-      ...toAdd
+      ...toAdd,
     };
   }
 
@@ -123,9 +122,7 @@ export class ApiV3FilterBuilder {
   public toParams(mergeParams:{ [key:string]:string } = {}):string {
     let transformedFilters:string[] = [];
 
-    transformedFilters = this.filters.map((filter:ApiV3Filter) => {
-      return this.serializeFilter(filter);
-    });
+    transformedFilters = this.filters.map((filter:ApiV3Filter) => this.serializeFilter(filter));
 
     const params = { filters: `[${transformedFilters.join(",")}]`, ...mergeParams };
     return new URLSearchParams(params).toString();

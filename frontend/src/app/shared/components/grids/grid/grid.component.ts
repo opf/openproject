@@ -1,9 +1,11 @@
-import { Component,
+import {
+  Component,
   ComponentRef,
   OnDestroy,
   OnInit,
   Input,
-  HostListener } from "@angular/core";
+  HostListener,
+} from "@angular/core";
 import { GridResource } from "core-app/features/hal/resources/grid-resource";
 import { DomSanitizer } from "@angular/platform-browser";
 import { GridWidgetsService } from "core-app/shared/components/grids/widgets/widgets.service";
@@ -32,7 +34,7 @@ export const GRID_PROVIDERS = [
   GridDragAndDropService,
   GridResizeService,
   GridAddWidgetService,
-  GridRemoveWidgetService
+  GridRemoveWidgetService,
 ];
 
 @Component({
@@ -41,7 +43,9 @@ export const GRID_PROVIDERS = [
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
+
   public GRID_AREA_HEIGHT = 'auto';
+
   public GRID_GAP_DIMENSION = '20px';
 
   public component = WidgetWpGraphComponent;
@@ -49,13 +53,13 @@ export class GridComponent implements OnDestroy, OnInit {
   @Input() grid:GridResource;
 
   constructor(private sanitization:DomSanitizer,
-              private widgetsService:GridWidgetsService,
-              public drag:GridDragAndDropService,
-              public resize:GridResizeService,
-              public layout:GridAreaService,
-              public add:GridAddWidgetService,
-              public remove:GridRemoveWidgetService,
-              readonly browserDetector:BrowserDetector) {
+    private widgetsService:GridWidgetsService,
+    public drag:GridDragAndDropService,
+    public resize:GridResizeService,
+    public layout:GridAreaService,
+    public add:GridAddWidgetService,
+    public remove:GridRemoveWidgetService,
+    readonly browserDetector:BrowserDetector) {
   }
 
   ngOnInit() {
@@ -68,8 +72,8 @@ export class GridComponent implements OnDestroy, OnInit {
 
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event:KeyboardEvent) {
-    if (event.key !== 'Escape') {
-      return;
+    if (event.key !== "Escape") {
+
     } else if (this.drag.currentlyDragging) {
       this.drag.abort();
     } else if (this.resize.currentlyResizing) {
@@ -78,7 +82,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public widgetComponent(area:GridWidgetArea) {
-    const widget = area.widget;
+    const { widget } = area;
 
     if (!widget) {
       return null;
@@ -90,9 +94,8 @@ export class GridComponent implements OnDestroy, OnInit {
       // debugLog(`No widget registered with identifier ${widget.identifier}`);
 
       return null;
-    } else {
-      return registration.component;
     }
+    return registration.component;
   }
 
   public widgetComponentInput(area:GridWidgetArea) {

@@ -26,12 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++    Ng1FieldControlsWrapper,
 
-
 import { Injector, NgModule } from "@angular/core";
 import { HookService } from "core-app/features/plugins/hook-service";
 import { OpenProjectPluginContext } from "core-app/features/plugins/plugin-context";
 import { debugLog } from "core-app/shared/helpers/debug_output";
-
 
 @NgModule({
   providers: [
@@ -45,5 +43,3 @@ export class OpenprojectPluginsModule {
     window.OpenProject.pluginContext.putValue(pluginContext);
   }
 }
-
-

@@ -4,16 +4,17 @@ import { WorkPackageViewHierarchiesService } from "core-app/features/work-packag
 import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {
   hierarchyGroupClass,
-  hierarchyRootClass
+  hierarchyRootClass,
 } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
 import { relationRowClass, isInsideCollapsedGroup } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export class HierarchyDragActionService extends TableDragActionService {
-
   @InjectField() private wpTableHierarchies:WorkPackageViewHierarchiesService;
+
   @InjectField() private relationHierarchyService:WorkPackageRelationsHierarchyService;
+
   @InjectField() private apiV3Service:APIV3Service;
 
   public get applies() {
@@ -28,9 +29,7 @@ export class HierarchyDragActionService extends TableDragActionService {
   }
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    return this.determineParent(el).then((parentId:string|null) => {
-      return this.relationHierarchyService.changeParent(workPackage, parentId);
-    });
+    return this.determineParent(el).then((parentId:string|null) => this.relationHierarchyService.changeParent(workPackage, parentId));
   }
 
   /**
@@ -98,8 +97,8 @@ export class HierarchyDragActionService extends TableDragActionService {
       const nextGroups = next && Array.from(next.classList).filter(listClass => listClass.includes('__hierarchy-group-')) || [];
       const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
       const isLastElementOfGroup = !nextGroups.some(nextGroup => previousGroups.includes(nextGroup)) && !nextGroups.includes(hierarchyGroupClass(previousWpId));
-      const elementAlreadyBelongsToGroup = elementGroups.some(elementGroup => previousGroups.includes(elementGroup)) ||
-                                           elementGroups.includes(hierarchyGroupClass(previousWpId));
+      const elementAlreadyBelongsToGroup = elementGroups.some(elementGroup => previousGroups.includes(elementGroup))
+                                           || elementGroups.includes(hierarchyGroupClass(previousWpId));
 
       skipDroppedIntoGroup = isLastElementOfGroup && !elementAlreadyBelongsToGroup;
     }
@@ -118,8 +117,6 @@ export class HierarchyDragActionService extends TableDragActionService {
       .id(wpId)
       .get()
       .toPromise()
-      .then((wp:WorkPackageResource) => {
-        return Promise.resolve(wp.parent?.id || null);
-      });
+      .then((wp:WorkPackageResource) => Promise.resolve(wp.parent?.id || null));
   }
 }

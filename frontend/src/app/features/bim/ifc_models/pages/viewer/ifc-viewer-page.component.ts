@@ -1,15 +1,17 @@
-import { ChangeDetectionStrategy, Component, Injector, ViewEncapsulation } from "@angular/core";
+import {
+  ChangeDetectionStrategy, Component, Injector, ViewEncapsulation,
+} from "@angular/core";
 import { GonService } from "core-app/core/gon/gon.service";
 import {
   PartitionedQuerySpacePageComponent,
-  ToolbarButtonComponentDefinition
+  ToolbarButtonComponentDefinition,
 } from "core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import { WorkPackageFilterButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component";
 import { ZenModeButtonComponent } from "core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {
   bimListViewIdentifier,
   bimViewerViewIdentifier,
-  BimViewService
+  BimViewService,
 } from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
 import { BimViewToggleButtonComponent } from "core-app/features/bim/ifc_models/toolbar/view-toggle/bim-view-toggle-button.component";
 import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
@@ -34,18 +36,18 @@ import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     QueryParamListenerService,
-  ]
+  ],
 })
 export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
-
   text = {
     title: this.I18n.t('js.bcf.management'),
     delete: this.I18n.t('js.button_delete'),
     edit: this.I18n.t('js.button_edit'),
-    areYouSure: this.I18n.t('js.text_are_you_sure')
+    areYouSure: this.I18n.t('js.text_are_you_sure'),
   };
 
   newRoute$ = new BehaviorSubject<string | undefined>(undefined);
+
   transitionUnsubscribeFn:Function;
 
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
@@ -53,8 +55,8 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
       component: WorkPackageCreateButtonComponent,
       inputs: {
         stateName$: this.newRoute$,
-        allowed: ['work_packages.createWorkPackage', 'work_package.copy']
-      }
+        allowed: ['work_packages.createWorkPackage', 'work_package.copy'],
+      },
     },
     {
       component: BcfImportButtonComponent,
@@ -68,7 +70,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     },
     {
       component: WorkPackageFilterButtonComponent,
-      show: () => this.bimView.currentViewerState() !== bimViewerViewIdentifier
+      show: () => this.bimView.currentViewerState() !== bimViewerViewIdentifier,
     },
     {
       component: BimViewToggleButtonComponent,
@@ -80,29 +82,29 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     },
     {
       component: BimManageIfcModelsButtonComponent,
-      show: () => {
+      show: () =>
         // Hide 'Manage models' toolbar button on plugin environment (ie: Revit)
-        return this.viewerBridgeService.shouldShowViewer &&
-               this.ifcData.allowed('manage_ifc_models');
-      }
-    }
+        this.viewerBridgeService.shouldShowViewer
+               && this.ifcData.allowed("manage_ifc_models"),
+
+    },
   ];
 
-  get newRoute () {
+  get newRoute() {
     // Open new work packages in full view when there
     // is no viewer (ie: Revit)
-    return this.viewerBridgeService.shouldShowViewer ?
-      this.state.current.data.newRoute :
-      'bim.partitioned.new';
+    return this.viewerBridgeService.shouldShowViewer
+      ? this.state.current.data.newRoute
+      : "bim.partitioned.new";
   }
 
   constructor(readonly ifcData:IfcModelsDataService,
-              readonly state:StateService,
-              readonly bimView:BimViewService,
-              readonly transition:TransitionService,
-              readonly gon:GonService,
-              readonly injector:Injector,
-              readonly viewerBridgeService:ViewerBridgeService) {
+    readonly state:StateService,
+    readonly bimView:BimViewService,
+    readonly transition:TransitionService,
+    readonly gon:GonService,
+    readonly injector:Injector,
+    readonly viewerBridgeService:ViewerBridgeService) {
     super(injector);
   }
 

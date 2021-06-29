@@ -38,7 +38,7 @@ import { APIv3VersionPaths } from "core-app/core/apiv3/endpoints/versions/apiv3-
 
 export class APIv3VersionsPaths extends APIv3ResourceCollection<VersionResource, APIv3VersionPaths> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'versions', APIv3VersionPaths);
   }
 

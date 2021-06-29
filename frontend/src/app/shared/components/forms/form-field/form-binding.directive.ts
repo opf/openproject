@@ -12,7 +12,7 @@ import {
 
 export const formControlBinding:any = {
   provide: NgControl,
-  useExisting: forwardRef(() => OpFormBindingDirective)
+  useExisting: forwardRef(() => OpFormBindingDirective),
 };
 
 @Directive({

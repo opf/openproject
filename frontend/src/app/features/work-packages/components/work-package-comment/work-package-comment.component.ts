@@ -38,7 +38,7 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from "@angular/core";
 import { ConfigurationService } from "core-app/core/config/configuration.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
@@ -60,33 +60,37 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
   @Input() public workPackage:WorkPackageResource;
 
   @ContentChild(TemplateRef) template:TemplateRef<any>;
+
   @ViewChild('commentContainer') public commentContainer:ElementRef;
 
   public text = {
     editTitle: this.I18n.t('js.label_add_comment_title'),
     addComment: this.I18n.t('js.label_add_comment'),
     cancelTitle: this.I18n.t('js.label_cancel_comment'),
-    placeholder: this.I18n.t('js.label_add_comment_title')
+    placeholder: this.I18n.t('js.label_add_comment_title'),
   };
+
   public fieldLabel:string = this.text.editTitle;
 
   public inFlight = false;
+
   public canAddComment:boolean;
+
   public showAbove:boolean;
 
   public htmlId = 'wp-comment-field';
 
   constructor(protected elementRef:ElementRef,
-              protected injector:Injector,
-              protected commentService:CommentService,
-              protected wpLinkedActivities:WorkPackagesActivityService,
-              protected ConfigurationService:ConfigurationService,
-              protected loadingIndicator:LoadingIndicatorService,
-              protected apiV3Service:APIV3Service,
-              protected workPackageNotificationService:WorkPackageNotificationService,
-              protected NotificationsService:NotificationsService,
-              protected cdRef:ChangeDetectorRef,
-              protected I18n:I18nService) {
+    protected injector:Injector,
+    protected commentService:CommentService,
+    protected wpLinkedActivities:WorkPackagesActivityService,
+    protected ConfigurationService:ConfigurationService,
+    protected loadingIndicator:LoadingIndicatorService,
+    protected apiV3Service:APIV3Service,
+    protected workPackageNotificationService:WorkPackageNotificationService,
+    protected NotificationsService:NotificationsService,
+    protected cdRef:ChangeDetectorRef,
+    protected I18n:I18nService) {
     super(elementRef, injector);
   }
 
@@ -98,7 +102,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
     this.commentService.quoteEvents
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((quote:string) => {
         this.activate(quote);

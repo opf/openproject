@@ -32,17 +32,16 @@ import { take } from 'rxjs/operators';
 import { Observable, of } from "rxjs";
 import { EntityUIStore } from "@datorama/akita";
 
-EntityUIStore
+EntityUIStore;
 
 export abstract class WorkPackageLinkedResourceCache<T> {
-
   protected cacheDurationInSeconds = 120;
 
   // Cache activities for the last work package
   // to allow fast switching between work packages without refreshing.
   protected cache:{ id:string|null, state:InputState<T> } = {
     id: null,
-    state: input<T>()
+    state: input<T>(),
   };
 
   /**
@@ -56,7 +55,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
    */
   public requireAndStream(workPackage:WorkPackageResource, force = false):Observable<T> {
     const id = workPackage.id!;
-    const state = this.cache.state;
+    const { state } = this.cache;
 
     // Clear cache if requesting different resource
     if (force || this.cache.id !== id) {
@@ -79,7 +78,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
     return this
       .requireAndStream(workPackage, force)
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise();
   }
@@ -96,7 +95,7 @@ export abstract class WorkPackageLinkedResourceCache<T> {
    * @returns {boolean}
    */
   public isCached(workPackageId:string) {
-    const state = this.cache.state;
+    const { state } = this.cache;
     return this.cache.id === workPackageId && state.hasValue() && !state.isValueOlderThan(this.cacheDurationInSeconds * 1000);
   }
 

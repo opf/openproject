@@ -19,14 +19,21 @@ import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking
 
 export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
   @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
+
   @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
+
   @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef;
+
   @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef;
 
   @Input() public currentTabId:string|null = null;
+
   @Input() public tabs:TabDefinition[] = [];
+
   @Input() public classes:string[] = [];
+
   @Input() public hideLeftButton = true;
+
   @Input() public hideRightButton = true;
 
   @Output() public tabSelected = new EventEmitter<TabDefinition>();
@@ -34,6 +41,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
   trackById = AngularTrackingHelpers.trackByProperty('id');
 
   private container:Element;
+
   private pane:Element;
 
   constructor(private cdRef:ChangeDetectorRef) {

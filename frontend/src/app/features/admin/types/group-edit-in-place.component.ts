@@ -33,10 +33,9 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { TypeBannerService } from "core-app/features/admin/types/type-banner.service";
-
 
 @Component({
   selector: 'group-edit-in-place',
@@ -45,6 +44,7 @@ import { TypeBannerService } from "core-app/features/admin/types/type-banner.ser
 })
 export class GroupEditInPlaceComponent implements OnInit {
   @Input() public placeholder = '';
+
   @Input() public name:string;
 
   @Output() public onValueChange = new EventEmitter<string>();
@@ -54,7 +54,7 @@ export class GroupEditInPlaceComponent implements OnInit {
   public editedName:string;
 
   constructor(private bannerService:TypeBannerService,
-              protected readonly cdRef:ChangeDetectorRef) {
+    protected readonly cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit():void {
@@ -71,7 +71,7 @@ export class GroupEditInPlaceComponent implements OnInit {
       () => this.bannerService.showEEOnlyHint(),
       () => {
         this.editing = true;
-      }
+      },
     );
   }
 

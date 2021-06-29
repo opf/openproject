@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
+} from '@angular/core';
 import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
@@ -41,14 +43,13 @@ export const notificationsContainerSelector = 'notifications-container';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: notificationsContainerSelector
+  selector: notificationsContainerSelector,
 })
 export class NotificationsContainerComponent extends UntilDestroyedMixin implements OnInit {
-
   public stack:INotification[] = [];
 
   constructor(readonly notificationsService:NotificationsService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -57,7 +58,7 @@ export class NotificationsContainerComponent extends UntilDestroyedMixin impleme
       .current
       .values$('Subscribing to changes in the notification stack')
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(stack => {
         this.stack = stack;
@@ -65,5 +66,3 @@ export class NotificationsContainerComponent extends UntilDestroyedMixin impleme
       });
   }
 }
-
-

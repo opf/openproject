@@ -43,7 +43,7 @@ export class WorkPackageSubjectComponent extends UntilDestroyedMixin implements 
   public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
 
   constructor(protected uiRouterGlobals:UIRouterGlobals,
-              protected apiV3Service:APIV3Service) {
+    protected apiV3Service:APIV3Service) {
     super();
   }
 
@@ -55,7 +55,7 @@ export class WorkPackageSubjectComponent extends UntilDestroyedMixin implements 
         .id(this.uiRouterGlobals.params['workPackageId'])
         .requireAndStream()
         .pipe(
-          this.untilDestroyed()
+          this.untilDestroyed(),
         )
         .subscribe((wp:WorkPackageResource) => {
           this.workPackage = wp;

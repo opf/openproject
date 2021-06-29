@@ -5,7 +5,6 @@ import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-
 
 @Injectable()
 export class GridRemoveWidgetService {
-
   constructor(readonly layout:GridAreaService) {
   }
 
@@ -16,5 +15,4 @@ export class GridRemoveWidgetService {
   public widget(widget:GridWidgetResource) {
     this.layout.removeWidget(widget);
   }
-
 }

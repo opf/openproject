@@ -36,7 +36,7 @@ import {
   ElementRef,
   Injector,
   Input, NgZone,
-  OnInit
+  OnInit,
 } from "@angular/core";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
@@ -52,24 +52,35 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
   selector: 'user-activity',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './user-activity.component.html',
-  styleUrls: ['./user-activity.component.sass']
+  styleUrls: ['./user-activity.component.sass'],
 })
 export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public activity:HalResource;
+
   @Input() public activityNo:number;
+
   @Input() public isInitial:boolean;
 
   public userCanEdit = false;
+
   public userCanQuote = false;
 
   public userId:string | number;
+
   public user:UserResource;
+
   public userName:string;
+
   public userAvatar:string;
+
   public details:any[] = [];
+
   public isComment:boolean;
+
   public isBcfComment:boolean;
+
   public postedComment:SafeHtml;
 
   public focused = false;
@@ -84,23 +95,22 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   private $element:JQuery;
 
   constructor(readonly elementRef:ElementRef,
-              readonly injector:Injector,
-              readonly sanitization:DomSanitizer,
-              readonly PathHelper:PathHelperService,
-              readonly wpLinkedActivities:WorkPackagesActivityService,
-              readonly commentService:CommentService,
-              readonly ConfigurationService:ConfigurationService,
-              readonly apiV3Service:APIV3Service,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService,
-              readonly ngZone:NgZone,
-              protected appRef:ApplicationRef) {
+    readonly injector:Injector,
+    readonly sanitization:DomSanitizer,
+    readonly PathHelper:PathHelperService,
+    readonly wpLinkedActivities:WorkPackagesActivityService,
+    readonly commentService:CommentService,
+    readonly ConfigurationService:ConfigurationService,
+    readonly apiV3Service:APIV3Service,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService,
+    readonly ngZone:NgZone,
+    protected appRef:ApplicationRef) {
     super(elementRef, injector);
   }
 
   public ngOnInit() {
     super.ngOnInit();
-
 
     this.htmlId = `user_activity_edit_field_${this.activityNo}`;
     this.updateCommentText();
@@ -162,11 +172,10 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public get bcfSnapshotUrl() {
-    if (_.get(this.activity, 'bcfViewpoints[0]')) {
-      return `${_.get(this.activity, 'bcfViewpoints[0]').href}/snapshot`;
-    } else {
-      return null;
+    if (_.get(this.activity, "bcfViewpoints[0]")) {
+      return `${_.get(this.activity, "bcfViewpoints[0]").href}/snapshot`;
     }
+    return null;
   }
 
   public async updateComment() {
@@ -214,11 +223,9 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   public quotedText(rawComment:string) {
     const quoted = rawComment.split('\n')
-      .map(function(line:string) {
-        return '\n> ' + line;
-      })
+      .map((line:string) => "\n> " + line)
       .join('');
-    return this.userName + ' wrote:\n' + quoted;
+    return `${this.userName} wrote:\n${quoted}`;
   }
 
   deactivate(focus:boolean):void {

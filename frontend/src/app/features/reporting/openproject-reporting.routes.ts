@@ -34,11 +34,11 @@ export const REPORTING_ROUTES:Ng2StateDeclaration[] = [
     name: 'reporting',
     parent: 'root',
     url: '/cost_reports',
-    component: ReportingPageComponent
+    component: ReportingPageComponent,
   },
   {
     name: 'reporting.show',
     url: '/:id',
-    component: ReportingPageComponent
+    component: ReportingPageComponent,
   },
 ];

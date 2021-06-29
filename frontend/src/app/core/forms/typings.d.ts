@@ -85,11 +85,10 @@ interface IOPApiOption {
 }
 
 interface IOPAttributeGroup {
-  _type:
-    | "WorkPackageFormAttributeGroup"
-    | "WorkPackageFormChildrenQueryGroup"
-    | "WorkPackageFormRelationQueryGroup"
-    | unknown;
+  _type:| "WorkPackageFormAttributeGroup"
+  | "WorkPackageFormChildrenQueryGroup"
+  | "WorkPackageFormRelationQueryGroup"
+  | unknown;
   name:string;
   attributes:string[];
 }
@@ -105,8 +104,8 @@ interface IOPAllowedValue {
 }
 
 type OPFieldType = 'String' | 'Integer' | 'Float' | 'Boolean' | 'Date' | 'DateTime' | 'Formattable' |
-  'Priority' | 'Status' | 'Type' | 'User' | 'Version' | 'TimeEntriesActivity' | 'Category' |
-  'CustomOption' | 'Project' | 'ProjectStatus' | 'Password';
+"Priority" | 'Status' | 'Type' | 'User' | 'Version' | 'TimeEntriesActivity' | 'Category' |
+"CustomOption" | 'Project' | 'ProjectStatus' | 'Password';
 
 interface IOPFormError {
   errorIdentifier:string;
@@ -137,7 +136,3 @@ interface IOPFormErrors {
 interface IOPValidationErrors {
   [key:string]:IOPFormError;
 }
-
-
-
-

@@ -16,13 +16,13 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
   notificationsGroupedByProject$:Observable<{ [key:string]:NotificationSetting[] }> = this
     .notificationSettings$
     .pipe(
-      map(notifications => _.groupBy(notifications, setting => setting._links.project.title || 'global'))
+      map(notifications => _.groupBy(notifications, setting => setting._links.project.title || 'global')),
     );
 
   projectNotifications$ = this
     .notificationSettings$
     .pipe(
-      map(settings => settings.filter(notification => notification._links.project.href !== null))
+      map(settings => settings.filter(notification => notification._links.project.href !== null)),
     );
 
   preferences$ = this.select();

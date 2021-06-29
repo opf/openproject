@@ -38,11 +38,17 @@ export interface WorkPackageCollectionResourceEmbedded {
 
 export class WorkPackageCollectionResource extends CollectionResource<WorkPackageResource> {
   public schemas:CollectionResource<SchemaResource>;
+
   public createWorkPackage:any;
+
   public elements:WorkPackageResource[];
+
   public groups:GroupObject[];
-  public totalSums?:{[key:string]:number};
+
+  public totalSums?:{ [key:string]:number };
+
   public sumsSchema?:SchemaResource;
+
   public representations:Array<HalResource>;
 }
 
@@ -58,7 +64,7 @@ export interface GroupObject {
   collapsed?:boolean;
   index:number;
   identifier:string;
-  sums:{[attribute:string]:number|null};
+  sums:{ [attribute:string]:number|null };
   href:{ href:string }[];
   _links:{
     valueLink:{ href:string }[];

@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { TimeEntriesCurrentUserConfigurationModalService } from './configuration-modal.service';
 
 describe('TimeEntriesCurrentUserTimeEntriesCurrentUserConfigurationModalService', () => {
-  let service: TimeEntriesCurrentUserConfigurationModalService;
+  let service:TimeEntriesCurrentUserConfigurationModalService;
   let daysCheckedValues:boolean[];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         TimeEntriesCurrentUserConfigurationModalService,
-      ]
+      ],
     });
 
     service = TestBed.inject(TimeEntriesCurrentUserConfigurationModalService);

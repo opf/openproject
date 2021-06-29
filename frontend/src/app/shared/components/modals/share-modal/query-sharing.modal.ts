@@ -34,7 +34,9 @@ import { NotificationsService } from "core-app/shared/components/notifications/n
 import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
 import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from "@angular/core";
 import { QuerySharingChange } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
@@ -44,8 +46,11 @@ import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/q
 })
 export class QuerySharingModal extends OpModalComponent implements OnInit {
   public query:QueryResource;
+
   public isStarred = false;
+
   public isPublic = false;
+
   public isBusy = false;
 
   public text = {
@@ -56,18 +61,18 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
     button_save: this.I18n.t('js.modals.button_save'),
     button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title')
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
-              readonly states:States,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly cdRef:ChangeDetectorRef,
-              readonly wpListService:WorkPackagesListService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly notificationsService:NotificationsService) {
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly I18n:I18nService,
+    readonly states:States,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly cdRef:ChangeDetectorRef,
+    readonly wpListService:WorkPackagesListService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly notificationsService:NotificationsService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -79,7 +84,6 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
     this.isStarred = this.query.starred;
     this.isPublic = this.query.public;
   }
-
 
   public setValues(change:QuerySharingChange) {
     this.isStarred = change.isStarred;

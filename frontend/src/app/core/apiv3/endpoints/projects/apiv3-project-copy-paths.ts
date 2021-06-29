@@ -32,7 +32,7 @@ import { SimpleResource } from "core-app/core/apiv3/paths/path-resources";
 
 export class APIv3ProjectCopyPaths extends SimpleResource {
   constructor(protected apiRoot:APIV3Service,
-              public basePath:string) {
+    public basePath:string) {
     super(basePath, 'copy');
   }
 

@@ -7,9 +7,8 @@ import { OpQueryConfigurationLocalsToken } from "core-app/features/work-packages
 
 @Injectable()
 export class RestrictedWpTableConfigurationService extends WpTableConfigurationService {
-
   constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals,
-              readonly I18n:I18nService) {
+    readonly I18n:I18nService) {
     super(I18n);
   }
 

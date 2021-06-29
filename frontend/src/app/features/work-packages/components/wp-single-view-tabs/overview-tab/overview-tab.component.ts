@@ -39,12 +39,14 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 })
 export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin {
   public workPackageId:string;
+
   public workPackage:WorkPackageResource;
+
   public tabName = this.I18n.t('js.label_latest_activity');
 
   public constructor(readonly I18n:I18nService,
-                     readonly $state:StateService,
-                     readonly apiV3Service:APIV3Service) {
+    readonly $state:StateService,
+    readonly apiV3Service:APIV3Service) {
     super();
 
     this.workPackageId = this.$state.params.workPackageId;
@@ -55,7 +57,7 @@ export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin {
       .id(this.workPackageId)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp) => this.workPackage = wp);
   }

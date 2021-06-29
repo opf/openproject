@@ -48,14 +48,16 @@ import { GroupDescriptor } from "core-app/features/work-packages/components/wp-s
   templateUrl: '../wp-relation-query.html',
   providers: [
     { provide: WorkPackageInlineCreateService, useClass: WpChildrenInlineCreateService },
-  ]
+  ],
 })
 export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryBase implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public query:QueryResource;
 
   /** An optional group descriptor if we're rendering on the single view */
   @Input() public group?:GroupDescriptor;
+
   @Input() public addExistingChildEnabled = false;
 
   public tableActions:OpTableActionFactory[] = [
@@ -65,17 +67,17 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
       (child:WorkPackageResource) => {
         this.embeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
       },
-      (child:WorkPackageResource) => !!child.changeParent
-    )
+      (child:WorkPackageResource) => !!child.changeParent,
+    ),
   ];
 
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected PathHelper:PathHelperService,
-              protected wpInlineCreate:WorkPackageInlineCreateService,
-              protected halEvents:HalEventsService,
-              protected apiV3Service:APIV3Service,
-              protected queryUrlParamsHelper:UrlParamsHelperService,
-              readonly I18n:I18nService) {
+    protected PathHelper:PathHelperService,
+    protected wpInlineCreate:WorkPackageInlineCreateService,
+    protected halEvents:HalEventsService,
+    protected apiV3Service:APIV3Service,
+    protected queryUrlParamsHelper:UrlParamsHelperService,
+    readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
   }
 
@@ -89,7 +91,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
     // Fire event that children were added
     this.wpInlineCreate.newInlineWorkPackageCreated
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((toId:string) => {
         this.halEvents.push(this.workPackage, {
@@ -107,7 +109,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
       .observe()
       .pipe(
         filter(() => this.embeddedTable && this.embeddedTable.isInitialized),
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => this.refreshTable());
   }

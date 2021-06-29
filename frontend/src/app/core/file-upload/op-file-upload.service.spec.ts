@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpenProjectFileUploadService, UploadFile, UploadResult } from './op-file-upload.service';
-import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
-import { getTestBed, TestBed } from "@angular/core/testing";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { States } from "core-app/core/states/states.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { States } from 'core-app/core/states/states.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpenProjectFileUploadService, UploadFile, UploadResult } from "./op-file-upload.service";
 
 describe('opFileUpload service', () => {
   let injector:TestBed;
@@ -47,8 +47,8 @@ describe('opFileUpload service', () => {
         I18nService,
         OpenProjectFileUploadService,
         OpenProjectDirectFileUploadService,
-        HalResourceService
-      ]
+        HalResourceService,
+      ],
     });
 
     injector = getTestBed();
@@ -62,14 +62,14 @@ describe('opFileUpload service', () => {
 
   describe('when uploading multiple files', () => {
     var result:UploadResult;
-    const file:UploadFile = new File([ JSON.stringify({
+    const file:UploadFile = new File([JSON.stringify({
       name: 'name',
       description: 'description'
     })], 'name');
 
     beforeEach(() => {
       result = service.upload('/my/api/path', [file, file]);
-      httpMock.match(`/my/api/path`).forEach((req) => {
+      httpMock.match('/my/api/path').forEach((req) => {
         expect(req.request.method).toBe("POST");
         req.flush({});
       });

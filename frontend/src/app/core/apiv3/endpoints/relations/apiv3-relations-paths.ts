@@ -36,7 +36,7 @@ import { buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-b
 
 export class Apiv3RelationsPaths extends APIv3ResourceCollection<RelationResource, APIv3GettableResource<RelationResource>> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'relations');
   }
 
@@ -60,7 +60,7 @@ export class Apiv3RelationsPaths extends APIv3ResourceCollection<RelationResourc
       .filtered(buildApiV3Filter('involved', '=', validIds))
       .get()
       .pipe(
-        map(collection => collection.elements)
+        map(collection => collection.elements),
       );
   }
 }

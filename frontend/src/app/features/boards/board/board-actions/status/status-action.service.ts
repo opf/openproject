@@ -10,7 +10,7 @@ import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
 export class BoardStatusActionService extends CachedBoardActionService {
   filterName = 'status';
 
-  text =  this.I18n.t('js.boards.board_type.board_type_title.status');
+  text = this.I18n.t('js.boards.board_type.board_type_title.status');
 
   description = this.I18n.t('js.boards.board_type.action_text_status');
 
@@ -30,19 +30,16 @@ export class BoardStatusActionService extends CachedBoardActionService {
     return this
       .loadValues()
       .toPromise()
-      .then((results) =>
-        Promise.all<unknown>(
-          results.map((status:StatusResource) => {
+      .then((results) => Promise.all<unknown>(
+        results.map((status:StatusResource) => {
+          if (status.isDefault) {
+            return this.addColumnWithActionAttribute(board, status);
+          }
 
-            if (status.isDefault) {
-              return this.addColumnWithActionAttribute(board, status);
-            }
-
-            return Promise.resolve(board);
-          })
-        )
-          .then(() => board)
-      );
+          return Promise.resolve(board);
+        }),
+      )
+        .then(() => board));
   }
 
   public warningTextWhenNoOptionsAvailable() {

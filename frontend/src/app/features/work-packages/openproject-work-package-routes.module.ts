@@ -45,7 +45,7 @@ import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/o
 
     // Routes for /work_packages
     UIRouterModule.forChild({ states: WORK_PACKAGES_ROUTES }),
-  ]
+  ],
 })
 export class OpenprojectWorkPackageRoutesModule {
 }

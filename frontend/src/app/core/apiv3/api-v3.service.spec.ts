@@ -31,7 +31,7 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { States } from "core-app/core/states/states.service";
 
-describe('APIv3Service', function() {
+describe('APIv3Service', () => {
   let service:APIV3Service;
 
   beforeEach(waitForAsync(() => {
@@ -40,8 +40,8 @@ describe('APIv3Service', function() {
       providers: [
         States,
         PathHelperService,
-        APIV3Service
-      ]
+        APIV3Service,
+      ],
     })
       .compileComponents()
       .then(() => {
@@ -53,14 +53,14 @@ describe('APIv3Service', function() {
     return new URLSearchParams(object).toString();
   }
 
-  describe('apiV3', function() {
+  describe('apiV3', () => {
     var projectIdentifier = 'majora';
 
-    it('should provide the project\'s path', function() {
+    it("should provide the project's path", () => {
       expect(service.projects.id(projectIdentifier).path).toEqual('/api/v3/projects/majora');
     });
 
-    it('should provide a path to work package query on subject or ID ', function() {
+    it('should provide a path to work package query on subject or ID ', () => {
       let params = {
         filters: '[{"subjectOrId":{"operator":"**","values":["bogus"]}}]',
         sortBy: '[["updatedAt","desc"]]',
@@ -69,8 +69,8 @@ describe('APIv3Service', function() {
       };
 
       expect(
-        service.work_packages.filterBySubjectOrId("bogus").path
-      ).toEqual('/api/v3/work_packages?' +  encodeParams(params));
+        service.work_packages.filterBySubjectOrId("bogus").path,
+      ).toEqual('/api/v3/work_packages?' + encodeParams(params));
 
       params = {
         filters: '[{"id":{"operator":"=","values":["1234"]}}]',
@@ -79,8 +79,8 @@ describe('APIv3Service', function() {
         pageSize: '10'
       };
       expect(
-        service.work_packages.filterBySubjectOrId("1234", true).path
-      ).toEqual('/api/v3/work_packages?' +  encodeParams(params));
+        service.work_packages.filterBySubjectOrId("1234", true).path,
+      ).toEqual('/api/v3/work_packages?' + encodeParams(params));
     });
   });
 });

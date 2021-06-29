@@ -44,11 +44,17 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     public attachments:AttachmentCollectionResource;
 
     private NotificationsService:NotificationsService;
+
     private halNotification:HalResourceNotificationService;
+
     private opFileUpload:OpenProjectFileUploadService;
+
     private opDirectFileUpload:OpenProjectDirectFileUploadService;
+
     private pathHelper:PathHelperService;
+
     private apiV3Service:APIV3Service;
+
     private config:ConfigurationService;
 
     /**
@@ -158,7 +164,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
           if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred.
-            message = this.I18n.t('js.error_attachment_upload', { error: error });
+            message = this.I18n.t('js.error_attachment_upload', { error });
           } else if (_.get(error, 'error._type') === 'Error') {
             message = error.error.message;
           } else {
@@ -172,11 +178,11 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     private performUpload(files:UploadFile[]) {
-      let href:string = this.directUploadURL || '';
+      let href:string = this.directUploadURL || "";
 
       if (href) {
         return this.opDirectFileUpload.uploadAndMapResponse(href, files);
-      } else if (this.isNew || !this.id || !this.attachmentsBackend) {
+      } if (this.isNew || !this.id || !this.attachmentsBackend) {
         href = this.apiV3Service.attachments.path;
       } else {
         href = this.addAttachment.$link.href;
@@ -192,9 +198,8 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
       if (this.isNew) {
         return this.config.prepareAttachmentURL;
-      } else {
-        return null;
       }
+      return null;
     }
 
     private updateState() {

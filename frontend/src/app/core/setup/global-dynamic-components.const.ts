@@ -2,137 +2,137 @@ import { OptionalBootstrapDefinition } from "core-app/core/setup/globals/dynamic
 import { appBaseSelector, ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";
 import {
   EmbeddedTablesMacroComponent,
-  wpEmbeddedTableMacroSelector
+  wpEmbeddedTableMacroSelector,
 } from "core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component";
 import {
   ColorsAutocompleter,
-  colorsAutocompleterSelector
+  colorsAutocompleterSelector,
 } from "core-app/shared/components/colors/colors-autocompleter.component";
 import {
   ZenModeButtonComponent,
-  zenModeComponentSelector
+  zenModeComponentSelector,
 } from "core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
 import {
   AttachmentsComponent,
-  attachmentsSelector
+  attachmentsSelector,
 } from "core-app/shared/components/attachments/attachments.component";
 import {
   UserAutocompleterComponent,
-  usersAutocompleterSelector
+  usersAutocompleterSelector,
 } from "core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component";
 import {
   GlobalSearchWorkPackagesComponent,
-  globalSearchWorkPackagesSelector
+  globalSearchWorkPackagesSelector,
 } from "core-app/core/global_search/global-search-work-packages.component";
 import {
   CustomDateActionAdminComponent,
-  customDateActionAdminSelector
+  customDateActionAdminSelector,
 } from "core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component";
 import { BoardsMenuComponent, boardsMenuSelector } from "core-app/features/boards/boards-sidebar/boards-menu.component";
 import {
   GlobalSearchWorkPackagesEntryComponent,
-  globalSearchWorkPackagesSelectorEntry
+  globalSearchWorkPackagesSelectorEntry,
 } from "core-app/core/global_search/global-search-work-packages-entry.component";
 import {
   NotificationsContainerComponent,
-  notificationsContainerSelector
+  notificationsContainerSelector,
 } from "core-app/shared/components/notifications/notifications-container.component";
 import {
   CkeditorAugmentedTextareaComponent,
-  ckeditorAugmentedTextareaSelector
+  ckeditorAugmentedTextareaSelector,
 } from "core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component";
 import {
   PersistentToggleComponent,
-  persistentToggleSelector
+  persistentToggleSelector,
 } from "core-app/shared/components/persistent-toggle/persistent-toggle.component";
 import { OpPrincipalComponent, principalSelector } from "core-app/shared/components/principal/principal.component";
 import {
   HideSectionLinkComponent,
-  hideSectionLinkSelector
+  hideSectionLinkSelector,
 } from "core-app/shared/components/hide-section/hide-section-link/hide-section-link.component";
 import {
   ShowSectionDropdownComponent,
-  showSectionDropdownSelector
+  showSectionDropdownSelector,
 } from "core-app/shared/components/hide-section/show-section-dropdown.component";
 import {
   AddSectionDropdownComponent,
-  addSectionDropdownSelector
+  addSectionDropdownSelector,
 } from "core-app/shared/components/hide-section/add-section-dropdown/add-section-dropdown.component";
 import {
   AutocompleteSelectDecorationComponent,
-  autocompleteSelectDecorationSelector
+  autocompleteSelectDecorationSelector,
 } from "core-app/shared/components/autocompleter/autocomplete-select-decoration/autocomplete-select-decoration.component";
 import {
   ContentTabsComponent,
-  contentTabsSelector
+  contentTabsSelector,
 } from "core-app/shared/components/tabs/content-tabs/content-tabs.component";
 import {
   CopyToClipboardDirective,
-  copyToClipboardSelector
+  copyToClipboardSelector,
 } from "core-app/shared/components/copy-to-clipboard/copy-to-clipboard.directive";
 import {
   GlobalSearchInputComponent,
-  globalSearchSelector
+  globalSearchSelector,
 } from "core-app/core/global_search/input/global-search-input.component";
 import {
   collapsibleSectionAugmentSelector,
-  CollapsibleSectionComponent
+  CollapsibleSectionComponent,
 } from "core-app/shared/components/collapsible-section/collapsible-section.component";
 import {
   ProjectMenuAutocompleteComponent,
-  projectMenuAutocompleteSelector
+  projectMenuAutocompleteSelector,
 } from "core-app/shared/components/autocompleter//project-menu-autocomplete/project-menu-autocomplete.component";
 import {
   RemoteFieldUpdaterComponent,
-  remoteFieldUpdaterSelector
+  remoteFieldUpdaterSelector,
 } from "core-app/shared/components/remote-field-updater/remote-field-updater.component";
 import {
   WorkPackageOverviewGraphComponent,
-  wpOverviewGraphSelector
+  wpOverviewGraphSelector,
 } from "core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component";
 import {
   WorkPackageQuerySelectDropdownComponent,
-  wpQuerySelectSelector
+  wpQuerySelectSelector,
 } from "core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component";
 import {
   GlobalSearchTitleComponent,
-  globalSearchTitleSelector
+  globalSearchTitleSelector,
 } from "core-app/core/global_search/title/global-search-title.component";
 import {
   GlobalSearchTabsComponent,
-  globalSearchTabsSelector
+  globalSearchTabsSelector,
 } from "core-app/core/global_search/tabs/global-search-tabs.component";
 import {
   MembersAutocompleterComponent,
-  membersAutocompleterSelector
+  membersAutocompleterSelector,
 } from "core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component";
 import {
   TriggerActionsEntryComponent,
-  triggerActionsEntryComponentSelector
+  triggerActionsEntryComponentSelector,
 } from "core-app/shared/components/time_entries/edit/trigger-actions-entry.component";
 import {
   BacklogsPageComponent,
-  backlogsPageComponentSelector
+  backlogsPageComponentSelector,
 } from "core-app/features/backlogs/backlogs-page/backlogs-page.component";
 import {
   attributeValueMacro,
-  AttributeValueMacroComponent
+  AttributeValueMacroComponent,
 } from "core-app/shared/components/fields/macros/attribute-value-macro.component";
 import {
   attributeLabelMacro,
-  AttributeLabelMacroComponent
+  AttributeLabelMacroComponent,
 } from "core-app/shared/components/fields/macros/attribute-label-macro.component";
 import {
   AttributeHelpTextComponent,
-  attributeHelpTextSelector
+  attributeHelpTextSelector,
 } from "core-app/shared/components/attribute-help-texts/attribute-help-text.component";
 import {
   quickInfoMacroSelector,
-  WorkPackageQuickinfoMacroComponent
+  WorkPackageQuickinfoMacroComponent,
 } from "core-app/shared/components/fields/macros/work-package-quickinfo-macro.component";
 import {
   SlideToggleComponent,
-  slideToggleSelector
+  slideToggleSelector,
 } from "core-app/shared/components/slide-toggle/slide-toggle.component";
 import { BackupComponent, backupSelector } from "core-app/core/setup/globals/components/admin/backup.component";
 import {
@@ -170,7 +170,7 @@ import {
 } from "core-app/features/admin/editable-query-props/editable-query-props.component";
 import {
   InAppNotificationBellComponent,
-  opInAppNotificationBellSelector
+  opInAppNotificationBellSelector,
 } from "core-app/features/in-app-notifications/bell/in-app-notification-bell.component";
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
@@ -189,7 +189,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: boardsMenuSelector, cls: BoardsMenuComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
   { selector: notificationsContainerSelector, cls: NotificationsContainerComponent },
-  { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent, },
+  { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },
   { selector: principalSelector, cls: OpPrincipalComponent },
@@ -220,9 +220,5 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: slideToggleSelector, cls: SlideToggleComponent },
   { selector: backupSelector, cls: BackupComponent },
-  { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent }
+  { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
 ];
-
-
-
-

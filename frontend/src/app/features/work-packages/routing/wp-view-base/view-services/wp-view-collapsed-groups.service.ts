@@ -27,20 +27,21 @@
 //++
 
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageViewBaseService } from './wp-view-base.service';
-import { Injectable } from '@angular/core';
-import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { take } from 'rxjs/operators';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
-import { GroupObject, WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
+import { Injectable } from "@angular/core";
+import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { take } from "rxjs/operators";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
+import { GroupObject, WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { WorkPackageViewBaseService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseService<IGroupsCollapseEvent> {
   readonly wpTypesToShowInCollapsedGroupHeaders:((wp:WorkPackageResource) => boolean)[];
+
   readonly groupTypesWithHeaderCellsWhenCollapsed = ['project'];
 
   get config():IGroupsCollapseEvent {
@@ -83,15 +84,13 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     };
   }
 
-  isMilestone = (workPackage:WorkPackageResource):boolean => {
-    return this.schemaCacheService.of(workPackage)?.isMilestone;
-  };
+  isMilestone = (workPackage:WorkPackageResource):boolean => this.schemaCacheService.of(workPackage)?.isMilestone;
 
   toggleGroupCollapseState(groupIdentifier:string):void {
     const newCollapsedState = !this.config.state[groupIdentifier];
     const state = {
       ...this.config.state,
-      [groupIdentifier]: newCollapsedState
+      [groupIdentifier]: newCollapsedState,
     };
     const newState = {
       ...this.config,
@@ -104,12 +103,10 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
   }
 
   setAllGroupsCollapseStateTo(collapsedState:boolean):void {
-    const groupUpdatedState = this.currentGroups.reduce((updatedState:{[key:string]:boolean}, group) => {
-      return {
-        ...updatedState,
-        [group.identifier]:collapsedState,
-      };
-    }, {});
+    const groupUpdatedState = this.currentGroups.reduce((updatedState:{ [key:string]:boolean }, group) => ({
+      ...updatedState,
+      [group.identifier]: collapsedState,
+    }), {});
     const newState = {
       ...this.config,
       state: {
@@ -132,10 +129,8 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     if (currentCollapsedGroupsState && groups?.length) {
       const firstGroupIdentifier = groups[0].identifier;
       const firstGroupCollapsedState = currentCollapsedGroupsState[firstGroupIdentifier];
-      const allGroupsHaveTheSameCollapseState = groups.every((group) => {
-        return currentCollapsedGroupsState[group.identifier] != null &&
-              currentCollapsedGroupsState[group.identifier] === currentCollapsedGroupsState[firstGroupIdentifier];
-      });
+      const allGroupsHaveTheSameCollapseState = groups.every((group) => currentCollapsedGroupsState[group.identifier] != null
+              && currentCollapsedGroupsState[group.identifier] === currentCollapsedGroupsState[firstGroupIdentifier]);
 
       allGroupsAreCollapsed = allGroupsHaveTheSameCollapseState && firstGroupCollapsedState;
       allGroupsAreExpanded = allGroupsHaveTheSameCollapseState && !firstGroupCollapsedState;
@@ -156,6 +151,6 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
   }
 
   applyToQuery(query:QueryResource) {
-    return;
+
   }
 }

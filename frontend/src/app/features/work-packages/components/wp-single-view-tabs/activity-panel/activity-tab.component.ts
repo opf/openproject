@@ -37,7 +37,9 @@ import { ActivityPanelBaseController } from "core-app/features/work-packages/com
 })
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController {
   public workPackage:WorkPackageResource;
+
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
+
   public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('version');
 
   ngOnInit() {

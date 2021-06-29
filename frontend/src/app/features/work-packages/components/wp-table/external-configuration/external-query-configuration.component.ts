@@ -1,4 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild,
+} from '@angular/core';
 import { WorkPackageEmbeddedTableComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
 import { RestrictedWpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/restricted-wp-table-configuration.service';
@@ -15,17 +17,16 @@ export interface QueryConfigurationLocals {
 
 @Component({
   templateUrl: './external-query-configuration.template.html',
-  providers: [[{ provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }]]
+  providers: [[{ provide: WpTableConfigurationService, useClass: RestrictedWpTableConfigurationService }]],
 })
 export class ExternalQueryConfigurationComponent implements OnInit, AfterViewInit {
-
   @ViewChild('embeddedTableForConfiguration', { static: true }) private embeddedTable:WorkPackageEmbeddedTableComponent;
 
   queryProps:string;
 
   constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals,
-              readonly urlParamsHelper:UrlParamsHelperService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly urlParamsHelper:UrlParamsHelperService,
+    readonly cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit() {

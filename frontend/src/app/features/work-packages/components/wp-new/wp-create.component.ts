@@ -26,41 +26,48 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Directive, Injector, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef, Directive, Injector, OnInit, ViewChild,
+} from '@angular/core';
 import { StateService, Transition } from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from "core-app/core/states/states.service";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { RootResource } from "core-app/features/hal/resources/root-resource";
-import { WorkPackageCreateService } from './wp-create.service';
-import { takeWhile } from 'rxjs/operators';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import * as URI from 'urijs';
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { splitViewRoute } from "core-app/features/work-packages/routing/split-view-routes.helper";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { HalSource, HalSourceLinks } from "core-app/features/hal/resources/hal-resource";
-import { OpTitleService } from "core-app/core/html/op-title.service";
+import { takeWhile } from "rxjs/operators";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import * as URI from "urijs";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalSource, HalSourceLinks } from 'core-app/features/hal/resources/hal-resource';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
+import { WorkPackageCreateService } from "./wp-create.service";
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
   public successState:string = splitViewRoute(this.$state);
+
   public cancelState:string = this.$state.current.data.baseRoute;
+
   public newWorkPackage:WorkPackageResource;
+
   public parentWorkPackage:WorkPackageResource;
+
   public change:WorkPackageChangeset;
 
   /** Are we in the copying substates ? */
   public copying = false;
 
   public stateParams = this.$transition.params('to');
+
   public text = {
-    button_settings: this.I18n.t('js.button_settings')
+    button_settings: this.I18n.t('js.button_settings'),
   };
 
   @ViewChild(EditFormComponent, { static: false }) protected editForm:EditFormComponent;
@@ -69,18 +76,18 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   protected destroyed = false;
 
   constructor(public readonly injector:Injector,
-              protected readonly $transition:Transition,
-              protected readonly $state:StateService,
-              protected readonly I18n:I18nService,
-              protected readonly titleService:OpTitleService,
-              protected readonly notificationService:WorkPackageNotificationService,
-              protected readonly states:States,
-              protected readonly wpCreate:WorkPackageCreateService,
-              protected readonly wpViewFocus:WorkPackageViewFocusService,
-              protected readonly wpTableFilters:WorkPackageViewFiltersService,
-              protected readonly pathHelper:PathHelperService,
-              protected readonly apiV3Service:APIV3Service,
-              protected readonly cdRef:ChangeDetectorRef) {
+    protected readonly $transition:Transition,
+    protected readonly $state:StateService,
+    protected readonly I18n:I18nService,
+    protected readonly titleService:OpTitleService,
+    protected readonly notificationService:WorkPackageNotificationService,
+    protected readonly states:States,
+    protected readonly wpCreate:WorkPackageCreateService,
+    protected readonly wpViewFocus:WorkPackageViewFocusService,
+    protected readonly wpTableFilters:WorkPackageViewFiltersService,
+    protected readonly pathHelper:PathHelperService,
+    protected readonly apiV3Service:APIV3Service,
+    protected readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -125,7 +132,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
         if (this.stateParams['parent_id']) {
           changeset.setValue(
             'parent',
-            { href: this.apiV3Service.work_packages.id(this.stateParams['parent_id']).path }
+            { href: this.apiV3Service.work_packages.id(this.stateParams['parent_id']).path },
           );
         }
 
@@ -137,7 +144,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
             .id(this.stateParams['parent_id'])
             .get()
             .pipe(
-              this.untilDestroyed()
+              this.untilDestroyed(),
             )
             .subscribe(parent => {
               this.parentWorkPackage = parent;
@@ -171,7 +178,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
   protected createdWorkPackage() {
     const defaults:HalSource = {
-      _links: {}
+      _links: {},
     };
 
     const type = this.stateParams.type ? parseInt(this.stateParams.type) : undefined;
@@ -192,7 +199,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     this.wpCreate
       .onNewWorkPackage()
       .pipe(
-        takeWhile(() => !this.componentDestroyed)
+        takeWhile(() => !this.componentDestroyed),
       )
       .subscribe((wp:WorkPackageResource) => {
         this.onSaved({ savedResource: wp, isInitial: true });

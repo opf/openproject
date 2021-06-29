@@ -9,8 +9,6 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormlyForm } from "@ngx-formly/core";
-import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
-import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { catchError, finalize } from "rxjs/operators";
@@ -21,6 +19,8 @@ import { FormGroup } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { FormsService } from "core-app/core/forms/forms.service";
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
+import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
 
 /**
 * SETTINGS:
@@ -127,43 +127,64 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 export class DynamicFormComponent extends UntilDestroyedMixin implements OnChanges {
   /** Backend form URL (e.g. https://community.openproject.org/api/v3/projects/dev-large/form) */
   @Input() formUrl?:string;
+
   /** When using the formUrl @Input(), set the http method to use if it is not 'POST' */
   @Input() formHttpMethod?:'post'|'patch' = 'post';
+
   /** Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example)
   * Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath
   * for you (⌐■_■).
   */
   @Input() resourcePath?:string;
+
   /** Pass the resourceId in case you are editing an existing resource and you don't have the Form URL. */
   @Input() resourceId?:string;
+
   @Input() settings?:IOPFormSettings;
+
   @Input() dynamicFormGroup?:FormGroup;
+
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
+
   @Input() set model(payload:IOPFormModel) {
-    if (!this.innerModel && !payload) { return; }
+    if (!this.innerModel && !payload) {
+      return;
+    }
 
     const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
 
     this.form.patchValue(formattedModel);
   }
+
   /** Chance to modify the dynamicFormFields settings before the form is rendered */
   @Input() fieldsSettingsPipe?:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
+
   /** Create fieldGroups programmatically */
   @Input() fieldGroups?:IDynamicFieldGroupConfig[];
+
   @Input() showNotifications = true;
+
   @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
+
   @Input() handleSubmit = true;
+
   @Input() helpTextAttributeScope?:string;
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
+
   @Output() submitted = new EventEmitter<HalSource>();
+
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();
 
   form:FormGroup;
+
   fields:IOPFormlyFieldSettings[];
+
   formEndpoint?:string;
+
   inFlight:boolean;
+
   text = {
     save: this._I18n.t('js.button_save'),
     load_error_message: this._I18n.t('js.forms.load_error_message'),
@@ -171,10 +192,13 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     successful_create: this._I18n.t('js.notice_successful_create'),
     job_started: this._I18n.t('js.notice_job_started'),
   };
+
   noSettingsSourceErrorMessage = `DynamicFormComponent needs a settings, formUrl or resourcePath @Input
   in order to fetch its setting. Please provide one.`;
+
   noPathToSubmitToError = `DynamicForm needs a resourcePath or formUrl @Input in order to be submitted 
   and validated. Please provide one.`;
+
   innerModel:IOPFormModel;
 
   get model() {
@@ -204,15 +228,15 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   ngOnChanges(changes:SimpleChanges) {
     if (
-      changes.settings ||
-      changes.resourcePath ||
-      changes.resourceId ||
-      changes.formUrl ||
-      changes.formHttpMethod ||
-      changes.dynamicFormGroup ||
-      changes.initialPayload ||
-      changes.fieldsSettingsPipe ||
-      changes.fieldGroups
+      changes.settings
+      || changes.resourcePath
+      || changes.resourceId
+      || changes.formUrl
+      || changes.formHttpMethod
+      || changes.dynamicFormGroup
+      || changes.initialPayload
+      || changes.fieldsSettingsPipe
+      || changes.fieldGroups
     ) {
       this.initializeDynamicForm(
         this.settings,
@@ -289,16 +313,14 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   private getFormEndPoint(formUrl?:string, resourcePath?:string):string|undefined {
     if (formUrl) {
-      return formUrl.endsWith(`/form`) ?
-        formUrl.replace(`/form`, ``) :
-        formUrl;
+      return formUrl.endsWith("/form")
+        ? formUrl.replace("/form", "")
+        : formUrl;
     }
 
     if (resourcePath) {
       return resourcePath;
     }
-
-    return;
   }
 
   private setupDynamicFormFromBackend(formEndpoint?:string, resourceId?:string, payload?:Object) {

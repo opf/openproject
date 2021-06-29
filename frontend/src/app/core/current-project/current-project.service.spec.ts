@@ -28,19 +28,17 @@
 
 /*jshint expr: true*/
 
-import { CurrentProjectService } from './current-project.service';
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { CurrentProjectService } from "./current-project.service";
 
-describe('currentProject service', function() {
+describe('currentProject service', () => {
   let element:JQuery;
   let currentProject:CurrentProjectService;
 
   const apiV3Stub:any = {
     projects: {
-      id: (id:string) => {
-        return { toString: () => '/api/v3/projects/' + id };
-      }
-    }
+      id: (id:string) => ({ toString: () => "/api/v3/projects/" + id }),
+    },
   };
 
   beforeEach(() => {

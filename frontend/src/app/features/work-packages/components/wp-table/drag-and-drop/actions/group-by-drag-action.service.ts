@@ -12,11 +12,14 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 export class GroupByDragActionService extends TableDragActionService {
-
   @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
+
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() halEvents:HalEventsService;
+
   @InjectField() halNotification:HalResourceNotificationService;
+
   @InjectField() schemaCache:SchemaCacheService;
 
   public get applies() {
@@ -55,16 +58,15 @@ export class GroupByDragActionService extends TableDragActionService {
 
       // Unwrap single links to properly use them
       return links.length === 1 ? links[0] : links;
-    } else {
-      return match.value;
     }
+    return match.value;
   }
 
   /**
    * Get the attribute we're grouping by
    */
   private get groupedAttribute():string|null {
-    const current = this.wpTableGroupBy.current;
+    const { current } = this.wpTableGroupBy;
     return current ? current.id : null;
   }
 

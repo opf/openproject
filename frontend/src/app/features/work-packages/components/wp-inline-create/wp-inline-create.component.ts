@@ -35,20 +35,12 @@ import {
   Injector,
   Input,
   EventEmitter,
-  OnInit, Output
+  OnInit, Output,
 } from '@angular/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { filter } from 'rxjs/operators';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
-import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
-import { WorkPackageCreateService } from '../wp-new/wp-create.service';
-import {
-  inlineCreateCancelClassName,
-  InlineCreateRowBuilder,
-  inlineCreateRowClassName
-} from './inline-create-row-builder';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
@@ -59,20 +51,29 @@ import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-
 import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import {
+  inlineCreateCancelClassName,
+  InlineCreateRowBuilder,
+  inlineCreateRowClassName,
+} from './inline-create-row-builder';
+import { WorkPackageCreateService } from "../wp-new/wp-create.service";
+import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
+import { onClickOrEnter } from "../wp-fast-table/handlers/click-or-enter-handler";
 
 @Component({
   selector: '[wpInlineCreate]',
   templateUrl: './wp-inline-create.component.html'
 })
 export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
-
   @Input('wp-inline-create--table') table:WorkPackageTable;
+
   @Input('wp-inline-create--project-identifier') projectIdentifier:string;
 
   @Output('wp-inline-create--showing') showing = new EventEmitter<boolean>();
 
   // inner state
   public canAdd = false;
+
   public canReference = false;
 
   // Inline create / reference row is active
@@ -95,16 +96,16 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   constructor(public readonly injector:Injector,
-              protected readonly elementRef:ElementRef,
-              protected readonly schemaCache:SchemaCacheService,
-              protected readonly I18n:I18nService,
-              protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly cdRef:ChangeDetectorRef,
-              protected readonly wpCreate:WorkPackageCreateService,
-              protected readonly wpInlineCreate:WorkPackageInlineCreateService,
-              protected readonly wpTableColumns:WorkPackageViewColumnsService,
-              protected readonly wpTableFocus:WorkPackageViewFocusService,
-              protected readonly authorisationService:AuthorisationService) {
+    protected readonly elementRef:ElementRef,
+    protected readonly schemaCache:SchemaCacheService,
+    protected readonly I18n:I18nService,
+    protected readonly querySpace:IsolatedQuerySpace,
+    protected readonly cdRef:ChangeDetectorRef,
+    protected readonly wpCreate:WorkPackageCreateService,
+    protected readonly wpInlineCreate:WorkPackageInlineCreateService,
+    protected readonly wpTableColumns:WorkPackageViewColumnsService,
+    protected readonly wpTableFocus:WorkPackageViewFocusService,
+    protected readonly authorisationService:AuthorisationService) {
     super();
   }
 
@@ -157,7 +158,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
       .updates$()
       .pipe(
         filter(() => this.isActive), // Take only when row is inserted
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => this.refreshRow());
   }
@@ -170,7 +171,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     this.wpCreate
       .onNewWorkPackage()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
         if (this.currentWorkPackage && this.currentWorkPackage.__initialized_at === wp.__initialized_at) {
@@ -217,7 +218,6 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     this.wpCreate
       .createOrContinueWorkPackage(this.projectIdentifier)
       .then((change:WorkPackageChangeset) => {
-
         const wp = this.currentWorkPackage = change.projectedResource;
 
         this.editingSubscription = this
@@ -229,7 +229,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
             if (!this.isActive) {
               this.insertRow(wp);
             } else {
-              this.schemaCache.update(this.currentWorkPackage!, form!.schema);
+              this.schemaCache.update(this.currentWorkPackage!, form.schema);
               this.refreshRow();
             }
           });
@@ -269,7 +269,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     const builder = new InlineCreateRowBuilder(this.injector, this.table);
     const form = this.table.editing.startEditing(wp, builder.classIdentifier(wp));
 
-    const [row,] = builder.buildNew(wp, form);
+    const [row] = builder.buildNew(wp, form);
     this.$element.append(row);
 
     return form;
@@ -311,5 +311,4 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public get colspan():number {
     return this.wpTableColumns.columnCount + 1;
   }
-
 }

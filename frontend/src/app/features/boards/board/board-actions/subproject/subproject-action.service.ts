@@ -14,7 +14,7 @@ import { CollectionResource } from "core-app/features/hal/resources/collection-r
 export class BoardSubprojectActionService extends CachedBoardActionService {
   filterName = 'onlySubproject';
 
-  text =  this.I18n.t('js.boards.board_type.board_type_title.subproject');
+  text = this.I18n.t('js.boards.board_type.board_type_title.subproject');
 
   description = this.I18n.t('js.boards.board_type.action_text_subprojects');
 
@@ -38,7 +38,7 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
     const href = this.getActionValueId(query, true);
-    changeset.setValue('project', { href: href });
+    changeset.setValue('project', { href });
   }
 
   protected loadUncached():Promise<HalResource[]> {
@@ -49,7 +49,7 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
       .filtered(
         new ApiV3FilterBuilder()
           .add('ancestor', '=', [currentProjectId])
-          .add('active', '=', true)
+          .add('active', '=', true),
       )
       .get()
       .toPromise()

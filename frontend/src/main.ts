@@ -1,12 +1,12 @@
 import { OpenProjectModule } from 'core-app/app.module';
 import { enableProdMode } from '@angular/core';
 import * as jQuery from "jquery";
-import { environment } from './environments/environment';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { SentryReporter } from "core-app/core/errors/sentry/sentry-reporter";
-import { whenDebugging } from "core-app/shared/helpers/debug_output";
-import { enableReactiveStatesLogging } from "reactivestates";
-import { initializeLocale } from "core-app/core/setup/init-locale";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { SentryReporter } from 'core-app/core/errors/sentry/sentry-reporter';
+import { whenDebugging } from 'core-app/shared/helpers/debug_output';
+import { enableReactiveStatesLogging } from 'reactivestates';
+import { initializeLocale } from 'core-app/core/setup/init-locale';
+import { environment } from "./environments/environment";
 
 (window as any).global = window;
 
@@ -40,7 +40,7 @@ whenDebugging(() => {
 // Import the correct locale early on
 initializeLocale()
   .then(() => {
-    jQuery(function () {
+    jQuery(() => {
       // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
       platformBrowserDynamic()
         .bootstrapModule(OpenProjectModule)

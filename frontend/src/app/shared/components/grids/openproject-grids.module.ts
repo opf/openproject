@@ -65,8 +65,8 @@ import { WidgetMembersComponent } from "core-app/shared/components/grids/widgets
 import { WidgetProjectStatusComponent } from "core-app/shared/components/grids/widgets/project-status/project-status.component";
 import { OpenprojectTimeEntriesModule } from "core-app/shared/components/time_entries/openproject-time-entries.module";
 import { WidgetTimeEntriesCurrentUserMenuComponent } from "core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user-menu.component";
-import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/time-entries/current-user/configuration-modal/configuration.modal';
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { TimeEntriesCurrentUserConfigurationModalComponent } from "./widgets/time-entries/current-user/configuration-modal/configuration.modal";
 
 @NgModule({
   imports: [
@@ -153,7 +153,6 @@ export function registerWidgets(injector:Injector) {
   const i18n = injector.get(I18nService);
 
   hookService.register('gridWidgets', () => {
-
     const defaultColumns = ["id", "project", "type", "subject"];
 
     const assignedFilters = new ApiV3FilterBuilder();
@@ -162,7 +161,7 @@ export function registerWidgets(injector:Injector) {
 
     const assignedProps = {
       "columns[]": defaultColumns,
-      "filters": assignedFilters.toJson(),
+      filters: assignedFilters.toJson(),
     };
 
     const accountableFilters = new ApiV3FilterBuilder();
@@ -171,7 +170,7 @@ export function registerWidgets(injector:Injector) {
 
     const accountableProps = {
       "columns[]": defaultColumns,
-      "filters": accountableFilters.toJson(),
+      filters: accountableFilters.toJson(),
     };
 
     const createdFilters = new ApiV3FilterBuilder();
@@ -180,7 +179,7 @@ export function registerWidgets(injector:Injector) {
 
     const createdProps = {
       "columns[]": defaultColumns,
-      "filters": createdFilters.toJson(),
+      filters: createdFilters.toJson(),
     };
 
     const watchedFilters = new ApiV3FilterBuilder();
@@ -189,14 +188,14 @@ export function registerWidgets(injector:Injector) {
 
     const watchedProps = {
       "columns[]": defaultColumns,
-      "filters": watchedFilters.toJson(),
+      filters: watchedFilters.toJson(),
     };
 
     return [
       {
         identifier: 'work_packages_assigned',
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t(`js.grid.widgets.work_packages_assigned.title`),
+        title: i18n.t('js.grid.widgets.work_packages_assigned.title'),
         properties: {
           queryProps: assignedProps,
           name: i18n.t('js.grid.widgets.work_packages_assigned.title'),
@@ -205,7 +204,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'work_packages_accountable',
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t(`js.grid.widgets.work_packages_accountable.title`),
+        title: i18n.t('js.grid.widgets.work_packages_accountable.title'),
         properties: {
           queryProps: accountableProps,
           name: i18n.t('js.grid.widgets.work_packages_accountable.title'),
@@ -214,7 +213,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'work_packages_created',
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t(`js.grid.widgets.work_packages_created.title`),
+        title: i18n.t('js.grid.widgets.work_packages_created.title'),
         properties: {
           queryProps: createdProps,
           name: i18n.t('js.grid.widgets.work_packages_created.title'),
@@ -223,7 +222,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'work_packages_watched',
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t(`js.grid.widgets.work_packages_watched.title`),
+        title: i18n.t('js.grid.widgets.work_packages_watched.title'),
         properties: {
           queryProps: watchedProps,
           name: i18n.t('js.grid.widgets.work_packages_watched.title'),
@@ -232,7 +231,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'work_packages_table',
         component: WidgetWpTableQuerySpaceComponent,
-        title: i18n.t(`js.grid.widgets.work_packages_table.title`),
+        title: i18n.t('js.grid.widgets.work_packages_table.title'),
         properties: {
           name: i18n.t('js.grid.widgets.work_packages_table.title'),
         },
@@ -240,7 +239,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'work_packages_graph',
         component: WidgetWpGraphComponent,
-        title: i18n.t(`js.grid.widgets.work_packages_graph.title`),
+        title: i18n.t('js.grid.widgets.work_packages_graph.title'),
         properties: {
           name: i18n.t('js.grid.widgets.work_packages_graph.title'),
         },
@@ -248,7 +247,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'work_packages_calendar',
         component: WidgetWpCalendarComponent,
-        title: i18n.t(`js.grid.widgets.work_packages_calendar.title`),
+        title: i18n.t('js.grid.widgets.work_packages_calendar.title'),
         properties: {
           name: i18n.t('js.grid.widgets.work_packages_calendar.title'),
         },
@@ -256,7 +255,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'work_packages_overview',
         component: WidgetWpOverviewComponent,
-        title: i18n.t(`js.grid.widgets.work_packages_overview.title`),
+        title: i18n.t('js.grid.widgets.work_packages_overview.title'),
         properties: {
           name: i18n.t('js.grid.widgets.work_packages_overview.title'),
         },
@@ -264,7 +263,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'time_entries_current_user',
         component: WidgetTimeEntriesCurrentUserComponent,
-        title: i18n.t(`js.grid.widgets.time_entries_current_user.title`),
+        title: i18n.t('js.grid.widgets.time_entries_current_user.title'),
         properties: {
           name: i18n.t('js.grid.widgets.time_entries_current_user.title'),
           days: [true, true, true, true, true, true, true],
@@ -273,7 +272,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'time_entries_project',
         component: WidgetTimeEntriesProjectComponent,
-        title: i18n.t(`js.grid.widgets.time_entries_list.title`),
+        title: i18n.t('js.grid.widgets.time_entries_list.title'),
         properties: {
           name: i18n.t('js.grid.widgets.time_entries_list.title'),
         },
@@ -281,7 +280,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'documents',
         component: WidgetDocumentsComponent,
-        title: i18n.t(`js.grid.widgets.documents.title`),
+        title: i18n.t('js.grid.widgets.documents.title'),
         properties: {
           name: i18n.t('js.grid.widgets.documents.title'),
         },
@@ -289,7 +288,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'members',
         component: WidgetMembersComponent,
-        title: i18n.t(`js.grid.widgets.members.title`),
+        title: i18n.t('js.grid.widgets.members.title'),
         properties: {
           name: i18n.t('js.grid.widgets.members.title'),
         },
@@ -297,7 +296,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'news',
         component: WidgetNewsComponent,
-        title: i18n.t(`js.grid.widgets.news.title`),
+        title: i18n.t('js.grid.widgets.news.title'),
         properties: {
           name: i18n.t('js.grid.widgets.news.title'),
         },
@@ -305,7 +304,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'project_description',
         component: WidgetProjectDescriptionComponent,
-        title: i18n.t(`js.grid.widgets.project_description.title`),
+        title: i18n.t('js.grid.widgets.project_description.title'),
         properties: {
           name: i18n.t('js.grid.widgets.project_description.title'),
         },
@@ -313,7 +312,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'custom_text',
         component: WidgetCustomTextComponent,
-        title: i18n.t(`js.grid.widgets.custom_text.title`),
+        title: i18n.t('js.grid.widgets.custom_text.title'),
         properties: {
           name: i18n.t('js.grid.widgets.custom_text.title'),
           text: {
@@ -324,7 +323,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'project_details',
         component: WidgetProjectDetailsComponent,
-        title: i18n.t(`js.grid.widgets.project_details.title`),
+        title: i18n.t('js.grid.widgets.project_details.title'),
         properties: {
           name: i18n.t('js.grid.widgets.project_details.title'),
         },
@@ -332,7 +331,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'project_status',
         component: WidgetProjectStatusComponent,
-        title: i18n.t(`js.grid.widgets.project_status.title`),
+        title: i18n.t('js.grid.widgets.project_status.title'),
         properties: {
           name: i18n.t('js.grid.widgets.project_status.title'),
         },
@@ -340,7 +339,7 @@ export function registerWidgets(injector:Injector) {
       {
         identifier: 'subprojects',
         component: WidgetSubprojectsComponent,
-        title: i18n.t(`js.grid.widgets.subprojects.title`),
+        title: i18n.t('js.grid.widgets.subprojects.title'),
         properties: {
           name: i18n.t('js.grid.widgets.subprojects.title'),
         },

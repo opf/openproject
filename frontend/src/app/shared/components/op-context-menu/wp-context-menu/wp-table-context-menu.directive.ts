@@ -6,14 +6,13 @@ import { WorkPackageViewHierarchyIdentationService } from "core-app/features/wor
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
-
   @InjectField() wpViewIndentation:WorkPackageViewHierarchyIdentationService;
 
   constructor(public injector:Injector,
-              protected workPackageId:string,
-              protected $element:JQuery,
-              protected additionalPositionArgs:any = {},
-              protected table:WorkPackageTable) {
+    protected workPackageId:string,
+    protected $element:JQuery,
+    protected additionalPositionArgs:any = {},
+    protected table:WorkPackageTable) {
     super(injector, workPackageId, $element, additionalPositionArgs, true);
   }
 

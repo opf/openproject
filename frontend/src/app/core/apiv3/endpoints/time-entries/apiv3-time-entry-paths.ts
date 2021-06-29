@@ -54,7 +54,7 @@ export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource
       .halResourceService
       .patch<TimeEntryResource>(this.path, this.extractPayload(payload, schema))
       .pipe(
-        tap(resource => this.touch(resource))
+        tap(resource => this.touch(resource)),
       );
   }
 
@@ -66,7 +66,7 @@ export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource
       .halResourceService
       .delete<TimeEntryResource>(this.path)
       .pipe(
-        tap(() => this.cache.clearSome(this.id.toString()))
+        tap(() => this.cache.clearSome(this.id.toString())),
       );
   }
 
@@ -84,10 +84,9 @@ export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource
   protected extractPayload(resource:HalResource|Object|null, schema:SchemaResource|null = null) {
     if (resource instanceof HalResource && schema) {
       return HalPayloadHelper.extractPayloadFromSchema(resource, schema);
-    } else if (!(resource instanceof HalResource)) {
+    } if (!(resource instanceof HalResource)) {
       return resource;
-    } else {
-      return {};
     }
+    return {};
   }
 }

@@ -37,28 +37,27 @@ import { HalDeletedEvent, HalEventsService } from "core-app/features/hal/service
 
 @Injectable()
 export class WorkPackageService {
-
   private text = {
-    successful_delete: this.I18n.t('js.work_packages.message_successful_bulk_delete')
+    successful_delete: this.I18n.t('js.work_packages.message_successful_bulk_delete'),
   };
 
   constructor(private readonly http:HttpClient,
-              private readonly $state:StateService,
-              private readonly PathHelper:PathHelperService,
-              private readonly UrlParamsHelper:UrlParamsHelperService,
-              private readonly NotificationsService:NotificationsService,
-              private readonly I18n:I18nService,
-              private readonly halEvents:HalEventsService) {
+    private readonly $state:StateService,
+    private readonly PathHelper:PathHelperService,
+    private readonly UrlParamsHelper:UrlParamsHelperService,
+    private readonly NotificationsService:NotificationsService,
+    private readonly I18n:I18nService,
+    private readonly halEvents:HalEventsService) {
   }
 
   public performBulkDelete(ids:string[], defaultHandling:boolean) {
     const params = {
-      'ids[]': ids
+      'ids[]': ids,
     };
     const promise = this.http
       .delete(
         this.PathHelper.workPackagesBulkDeletePath(),
-        { params: params, withCredentials: true }
+        { params, withCredentials: true },
       )
       .toPromise();
 
@@ -67,7 +66,7 @@ export class WorkPackageService {
         .then(() => {
           this.NotificationsService.addSuccess(this.text.successful_delete);
 
-          ids.forEach(id => this.halEvents.push({ _type:'WorkPackage', id: id }, { eventType: 'deleted' } as HalDeletedEvent));
+          ids.forEach(id => this.halEvents.push({ _type: "WorkPackage", id }, { eventType: 'deleted' } as HalDeletedEvent));
 
           if (this.$state.includes('**.list.details.**')
             && ids.indexOf(this.$state.params.workPackageId) > -1) {
@@ -76,7 +75,7 @@ export class WorkPackageService {
         })
         .catch(() => {
           const urlParams = this.UrlParamsHelper.buildQueryString(params);
-          window.location.href = this.PathHelper.workPackagesBulkDeletePath() + '?' + urlParams;
+          window.location.href = `${this.PathHelper.workPackagesBulkDeletePath()}?${urlParams}`;
         });
     }
 

@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export namespace OpenprojectHalModuleHelpers {
@@ -34,7 +33,6 @@ export namespace OpenprojectHalModuleHelpers {
     property:string,
     getter:{ ():any },
     setter?:{ (value:any):void }):void {
-
     if (_.isObject(obj)) {
       let done = false;
       let value:any;
@@ -49,7 +47,7 @@ export namespace OpenprojectHalModuleHelpers {
         set: ():void => undefined,
 
         configurable: true,
-        enumerable: true
+        enumerable: true,
       };
 
       if (setter) {

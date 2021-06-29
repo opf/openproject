@@ -53,11 +53,10 @@ import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openpro
  * Depending on that, we use the IFC viewer service for showing/saving viewpoints.
  */
 export const viewerBridgeServiceFactory = (injector:Injector) => {
-  if (window.navigator.userAgent.search('Revit') > -1) {
+  if (window.navigator.userAgent.search("Revit") > -1) {
     return new RevitBridgeService(injector);
-  } else {
-    return injector.get(IFCViewerService, new IFCViewerService(injector));
   }
+  return injector.get(IFCViewerService, new IFCViewerService(injector));
 };
 
 @NgModule({
@@ -70,7 +69,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
     {
       provide: ViewerBridgeService,
       useFactory: viewerBridgeServiceFactory,
-      deps: [Injector]
+      deps: [Injector],
     },
     BcfDetectorService,
     BcfPathHelperService,
@@ -85,7 +84,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
   exports: [
     BcfImportButtonComponent,
     BcfExportButtonComponent,
-  ]
+  ],
 })
 export class OpenprojectBcfModule {
   static bootstrapCalled = false;
@@ -110,7 +109,6 @@ export class OpenprojectBcfModule {
         'BCF Thumbnail'
       ]);
 
-
     const hookService = injector.get(HookService);
     hookService.register('prependedAttributeGroups', (workPackage:WorkPackageResource) => {
       if (!window.OpenProject.isBimEdition) {
@@ -119,10 +117,8 @@ export class OpenprojectBcfModule {
 
       if (workPackage.isNew) {
         return BcfNewWpAttributeGroupComponent;
-      } else {
-        return BcfWpAttributeGroupComponent;
       }
+      return BcfWpAttributeGroupComponent;
     });
   }
 }
-

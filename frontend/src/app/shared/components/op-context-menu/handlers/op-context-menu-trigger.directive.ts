@@ -8,10 +8,11 @@ import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op
 })
 export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterViewInit {
   protected $element:JQuery;
+
   protected items:OpContextMenuItem[] = [];
 
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService) {
+    readonly opContextMenu:OPContextMenuService) {
     super(opContextMenu);
   }
 

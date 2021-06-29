@@ -36,4 +36,3 @@ import { WorkPackageCopyController } from "core-app/features/work-packages/compo
 })
 export class WorkPackageCopySplitViewComponent extends WorkPackageCopyController {
 }
-

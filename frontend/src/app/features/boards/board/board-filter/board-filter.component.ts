@@ -25,14 +25,14 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
   initialized = false;
 
   constructor(private readonly currentProjectService:CurrentProjectService,
-              private readonly querySpace:IsolatedQuerySpace,
-              private readonly apiV3Service:APIV3Service,
-              private readonly halResourceService:HalResourceService,
-              private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              private readonly wpTableFilters:WorkPackageViewFiltersService,
-              private readonly urlParamsHelper:UrlParamsHelperService,
-              private readonly boardFilters:BoardFiltersService,
-              private readonly $state:StateService) {
+    private readonly querySpace:IsolatedQuerySpace,
+    private readonly apiV3Service:APIV3Service,
+    private readonly halResourceService:HalResourceService,
+    private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+    private readonly wpTableFilters:WorkPackageViewFiltersService,
+    private readonly urlParamsHelper:UrlParamsHelperService,
+    private readonly boardFilters:BoardFiltersService,
+    private readonly $state:StateService) {
     super();
   }
 
@@ -63,17 +63,16 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
       .pipe(
         this.untilDestroyed(),
         skip(1),
-        debounceTime(250)
+        debounceTime(250),
       )
       .subscribe(() => {
-
         const filters:QueryFilterInstanceResource[] = this.wpTableFilters.current;
         const filterHash = this.urlParamsHelper.buildV3GetFilters(filters);
         const query_props = JSON.stringify(filterHash);
 
         this.boardFilters.filters.putValue(filterHash);
 
-        this.$state.go('.', { query_props: query_props }, { custom: { notify: false } });
+        this.$state.go('.', { query_props }, { custom: { notify: false } });
       });
   }
 
@@ -85,7 +84,7 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
       .loadWithParams(
         { filters: JSON.stringify(this.boardFilters.current) },
         undefined,
-        this.currentProjectService.id
+        this.currentProjectService.id,
       )
       .subscribe(([form, query]) => {
         this.querySpace.query.putValue(query);

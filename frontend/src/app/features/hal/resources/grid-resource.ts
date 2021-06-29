@@ -38,8 +38,11 @@ export interface GridResourceLinks {
 
 export class GridBaseResource extends HalResource {
   public widgets:GridWidgetResource[];
-  public options:{[key:string]:unknown};
+
+  public options:{ [key:string]:unknown };
+
   public rowCount:number;
+
   public columnCount:number;
 
   public $initialize(source:any) {
@@ -48,7 +51,7 @@ export class GridBaseResource extends HalResource {
     this.widgets = this
       .widgets
       .map((widget:Object) => {
-        const widgetResource = new GridWidgetResource( this.injector,
+        const widgetResource = new GridWidgetResource(this.injector,
           widget,
           true,
           this.halInitializer,
@@ -70,7 +73,6 @@ export class GridBaseResource extends HalResource {
     });
   }
 }
-
 
 export const GridResource = Attachable(GridBaseResource);
 

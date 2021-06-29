@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Injector, Input } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, Injector, Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -36,16 +38,15 @@ import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op
 @Component({
   selector: 'icon-triggered-context-menu',
   templateUrl: './icon-triggered-context-menu.component.html',
-  styleUrls: ['./icon-triggered-context-menu.component.sass']
+  styleUrls: ['./icon-triggered-context-menu.component.sass'],
 })
 export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly opModalService:OpModalService,
-              readonly injector:Injector,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly opModalService:OpModalService,
+    readonly injector:Injector,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(elementRef, opContextMenu);
   }
 

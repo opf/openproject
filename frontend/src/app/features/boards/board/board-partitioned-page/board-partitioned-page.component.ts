@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector } from "@angular/core";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector,
+} from "@angular/core";
 import {
   DynamicComponentDefinition,
   ToolbarButtonComponentDefinition,
-  ViewPartitionState
+  ViewPartitionState,
 } from "core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
 import { StateService, TransitionService } from "@uirouter/core";
 import { BoardFilterComponent } from "core-app/features/boards/board/board-filter/board-filter.component";
@@ -39,10 +41,9 @@ export function boardCardViewHandlerFactory(injector:Injector) {
   providers: [
     DragAndDropService,
     BoardFiltersService,
-  ]
+  ],
 })
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
-
   text = {
     button_more: this.I18n.t('js.button_more'),
     delete: this.I18n.t('js.button_delete'),
@@ -75,6 +76,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
 
   /** Current query title to render */
   selectedTitle?:string;
+
   currentQuery:QueryResource|undefined;
 
   /** Whether we're saving the board */
@@ -99,7 +101,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   filterContainerDefinition:DynamicComponentDefinition = {
     component: BoardFilterComponent,
     inputs: {
-      board$: this.board$
+      board$: this.board$,
     },
   };
 
@@ -110,9 +112,9 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
       return this.Boards
         .save(board)
         .pipe(
-          finalize(() => this.toolbarDisabled = false)
+          finalize(() => this.toolbarDisabled = false),
         );
-    }
+    },
   );
 
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
@@ -129,21 +131,21 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
       containerClasses: 'hidden-for-mobile',
       show: () => this.editable,
       inputs: {
-        board$: this.board$
-      }
-    }
+        board$: this.board$,
+      },
+    },
   ];
 
   constructor(readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly $transitions:TransitionService,
-              readonly state:StateService,
-              readonly notifications:NotificationsService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly injector:Injector,
-              readonly apiV3Service:APIV3Service,
-              readonly boardFilters:BoardFiltersService,
-              readonly Boards:BoardService) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly $transitions:TransitionService,
+    readonly state:StateService,
+    readonly notifications:NotificationsService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly injector:Injector,
+    readonly apiV3Service:APIV3Service,
+    readonly boardFilters:BoardFiltersService,
+    readonly Boards:BoardService) {
     super();
   }
 
@@ -157,7 +159,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
         (board:Board) => {
           this.notifications.addSuccess(this.text.updateSuccessful);
         },
-        (error:unknown) => this.halNotification.handleRawError(error)
+        (error:unknown) => this.halNotification.handleRawError(error),
       );
 
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
@@ -171,7 +173,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
 
     this.board$
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(board => {
         const queryProps = this.state.params.query_props;

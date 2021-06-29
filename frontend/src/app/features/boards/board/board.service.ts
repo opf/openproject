@@ -18,7 +18,6 @@ export interface CreateBoardParams {
 
 @Injectable({ providedIn: 'root' })
 export class BoardService {
-
   public currentBoard$:BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
 
   private loadAllPromise:Promise<Board[]>|undefined;
@@ -31,12 +30,12 @@ export class BoardService {
   };
 
   constructor(protected apiV3Service:APIV3Service,
-              protected PathHelper:PathHelperService,
-              protected CurrentProject:CurrentProjectService,
-              protected halResourceService:HalResourceService,
-              protected boardActions:BoardActionsRegistryService,
-              protected I18n:I18nService,
-              protected boardsList:BoardListsService) {
+    protected PathHelper:PathHelperService,
+    protected CurrentProject:CurrentProjectService,
+    protected halResourceService:HalResourceService,
+    protected boardActions:BoardActionsRegistryService,
+    protected I18n:I18nService,
+    protected boardsList:BoardListsService) {
   }
 
   /**
@@ -62,7 +61,6 @@ export class BoardService {
   public canManage(board:Board):boolean {
     return !!board.grid.$links.delete;
   }
-
 
   /**
    * Save the changes to the board

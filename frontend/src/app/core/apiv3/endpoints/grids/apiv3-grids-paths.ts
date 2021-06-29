@@ -36,7 +36,7 @@ import { Observable } from "rxjs";
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
-  listParamsString
+  listParamsString,
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
 
@@ -44,7 +44,7 @@ export class Apiv3GridsPaths
   extends APIv3ResourceCollection<GridResource, Apiv3GridPaths>
   implements Apiv3ListResourceInterface<GridResource> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'grids', Apiv3GridPaths);
   }
 
@@ -71,7 +71,7 @@ export class Apiv3GridsPaths
       .halResourceService
       .post<GridResource>(
         this.path,
-        this.form.extractPayload(resource, schema)
+        this.form.extractPayload(resource, schema),
       );
   }
 }

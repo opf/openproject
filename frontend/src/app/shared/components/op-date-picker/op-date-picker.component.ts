@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild,
+} from '@angular/core';
 import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
 import { Instance } from "flatpickr/dist/types/instance";
 import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
@@ -41,15 +43,23 @@ import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker
 })
 export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
   @Output() public onChange = new DebouncedEventEmitter<string>(componentDestroyed(this));
+
   @Output() public onCancel = new EventEmitter<string>();
 
   @Input() public initialDate = '';
+
   @Input() public appendTo?:HTMLElement;
+
   @Input() public classes = '';
+
   @Input() public id = '';
+
   @Input() public name = '';
+
   @Input() public required = false;
+
   @Input() public size = 20;
+
   @Input() public disabled = false;
 
   @ViewChild('dateInput') dateInput:ElementRef;
@@ -87,8 +97,8 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   }
 
   closeOnOutsideClick(event:any) {
-    if (!(event.relatedTarget &&
-      this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
+    if (!(event.relatedTarget
+      && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
       this.close();
     }
   }
@@ -110,14 +120,14 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   }
 
   protected inputIsValidDate():boolean {
-    return this.currentValue.match(/\d{4}-\d{2}-\d{2}/) !== null;
+    return (/\d{4}-\d{2}-\d{2}/.exec(this.currentValue)) !== null;
   }
 
   protected initializeDatepicker() {
     const options:any = {
       allowInput: true,
       appendTo: this.appendTo,
-      onChange:(selectedDates:Date[], dateStr:string) => {
+      onChange: (selectedDates:Date[], dateStr:string) => {
         const val:string = dateStr;
 
         if (this.isEmpty()) {
@@ -131,7 +141,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
         if (data.which == keyCodes.ESCAPE) {
           this.onCancel.emit();
         }
-      }
+      },
     };
 
     let initialValue;
@@ -144,7 +154,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     this.datePickerInstance = new DatePicker(
       '#' + this.id,
       initialValue,
-      options
+      options,
     );
   }
 }

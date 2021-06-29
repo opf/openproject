@@ -33,7 +33,6 @@ import { APIV3WorkPackagesPaths } from "core-app/core/apiv3/endpoints/work_packa
 import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
 
 export class APIV3WorkPackagePaths extends CachableAPIV3Resource<WorkPackageResource> {
-
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
   public readonly relations = this.subResource('relations', Apiv3RelationsPaths);
 

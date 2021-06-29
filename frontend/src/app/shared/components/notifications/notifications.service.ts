@@ -47,7 +47,6 @@ export interface INotification {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsService {
-
   // The current stack of notifications
   private stack = input<INotification[]>([]);
 
@@ -72,9 +71,7 @@ export class NotificationsService {
 
     this.stack.doModify((current) => {
       const nextValue = [notification].concat(current);
-      _.remove(nextValue, (n, i) =>
-        i > 0 && (n.type === 'success' || n.type === 'error')
-      );
+      _.remove(nextValue, (n, i) => i > 0 && (n.type === 'success' || n.type === 'error'));
       return nextValue;
     });
 
@@ -125,11 +122,10 @@ export class NotificationsService {
   }
 
   private createNotification(message:INotification|string, type:NotificationType):INotification {
-    if (typeof message === 'string') {
-      return { message: message, type: type };
-    } else {
-      message.type = type;
+    if (typeof message === "string") {
+      return { message, type };
     }
+    message.type = type;
 
     return message;
   }

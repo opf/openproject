@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { ColorsService } from "core-app/shared/components/colors/colors.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Injectable } from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { ColorsService } from 'core-app/shared/components/colors/colors.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
+import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { PrincipalLike } from "./principal-types";
 import { PrincipalHelper } from "./principal-helper";
 import PrincipalType = PrincipalHelper.PrincipalType;
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
 export type AvatarSize = 'default'|'medium'|'mini';
 
@@ -22,10 +22,9 @@ export interface NameOptions {
 
 @Injectable({ providedIn: 'root' })
 export class PrincipalRendererService {
-
   constructor(private pathHelper:PathHelperService,
-              private apiV3Service:APIV3Service,
-              private colors:ColorsService) {
+    private apiV3Service:APIV3Service,
+    private colors:ColorsService) {
 
   }
 
@@ -34,7 +33,7 @@ export class PrincipalRendererService {
     users:PrincipalLike[],
     name:NameOptions = { hide: false, link: false },
     avatar:AvatarOptions = { hide: false, size: 'default' },
-    multiLine:boolean = false,
+    multiLine = false,
   ) {
     container.classList.add('op-principal');
     const list = document.createElement('span');

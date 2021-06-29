@@ -38,10 +38,13 @@ export interface ButtonControllerText {
 
 export abstract class AbstractWorkPackageButtonComponent extends UntilDestroyedMixin {
   public disabled:boolean;
+
   public buttonId:string;
+
   public iconClass:string;
 
   public accessKey:number;
+
   public isActive = false;
 
   protected text:ButtonControllerText;
@@ -74,11 +77,11 @@ export abstract class AbstractWorkPackageButtonComponent extends UntilDestroyedM
   }
 
   protected get activationPrefix():string {
-    return !this.isActive ? this.text.activate + ' ' : '';
+    return !this.isActive ? `${this.text.activate} ` : '';
   }
 
   protected get deactivationPrefix():string {
-    return this.isActive ? this.text.deactivate + ' ' : '';
+    return this.isActive ? `${this.text.deactivate} ` : '';
   }
 
   protected get prefix():string {

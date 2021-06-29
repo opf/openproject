@@ -41,13 +41,16 @@ export interface QueryFilterInstanceSchemaResourceLinks {
 }
 
 export class QueryFilterInstanceSchemaResource extends SchemaResource {
-
   public $links:QueryFilterInstanceSchemaResourceLinks;
 
   public operator:SchemaAttributeObject;
+
   public filter:SchemaAttributeObject<QueryFilterResource>;
+
   public dependency:SchemaDependencyResource;
+
   public values:SchemaAttributeObject|null;
+
   public type = 'QueryFilterInstanceSchema';
 
   public get availableOperators():HalResource[] | CollectionResource {
@@ -78,8 +81,8 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
       _links: {
         filter: filter.$source._links.self,
         schema: this.$source._links.self,
-        operator: operator.$source._links.self
-      }
+        operator: operator.$source._links.self,
+      },
     };
 
     if (this.definesAllowedValues()) {

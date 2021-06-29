@@ -27,7 +27,9 @@
 //++
 
 import { StateService, TransitionService } from '@uirouter/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit,
+} from '@angular/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
 import { Observable } from "rxjs";
@@ -42,26 +44,31 @@ import { CurrentProjectService } from "core-app/core/current-project/current-pro
 })
 export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input('allowed') allowedWhen:string[];
+
   @Input('stateName$') stateName$:Observable<string>;
 
   allowed:boolean;
+
   disabled:boolean;
+
   projectIdentifier:string|null;
+
   types:any;
+
   transitionUnregisterFn:Function;
 
   text = {
     createWithDropdown: this.I18n.t('js.work_packages.create.button'),
     createButton: this.I18n.t('js.label_work_package'),
-    explanation: this.I18n.t('js.label_create_work_package')
+    explanation: this.I18n.t('js.label_create_work_package'),
   };
 
   constructor(readonly $state:StateService,
-              readonly currentProject:CurrentProjectService,
-              readonly authorisationService:AuthorisationService,
-              readonly transition:TransitionService,
-              readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly currentProject:CurrentProjectService,
+    readonly authorisationService:AuthorisationService,
+    readonly transition:TransitionService,
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -81,7 +88,6 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
 
         this.updateDisabledState();
       });
-
 
     this.transitionUnregisterFn = this.transition.onSuccess({}, this.updateDisabledState.bind(this));
   }

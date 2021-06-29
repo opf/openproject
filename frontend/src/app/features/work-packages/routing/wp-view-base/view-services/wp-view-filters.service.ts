@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { Injectable } from '@angular/core';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { combine, input, InputState } from 'reactivestates';
-import { States } from "core-app/core/states/states.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { mapTo, take } from "rxjs/operators";
-import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { cloneHalResourceCollection } from "core-app/features/hal/helpers/hal-resource-builder";
-import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
-import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
+import { Injectable } from "@angular/core";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { combine, input, InputState } from "reactivestates";
+import { States } from 'core-app/core/states/states.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { mapTo, take } from 'rxjs/operators';
+import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
+import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
@@ -67,7 +67,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   private incomplete = input<boolean>(false);
 
   constructor(protected readonly states:States,
-              readonly querySpace:IsolatedQuerySpace) {
+    readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
 
@@ -87,7 +87,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * Return whether the filters are empty
    */
   public get isEmpty() {
-    const value = this.lastUpdatedState.value;
+    const { value } = this.lastUpdatedState;
     return !value || value.length === 0;
   }
 
@@ -99,7 +99,6 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public get incomplete$() {
     return this.incomplete.values$();
   }
-
 
   /**
    * Add a filter instantiation from the set of available filter schemas
@@ -158,7 +157,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
 
     const schema = _.find(
       this.availableSchemas,
-      schema => (schema.filter.allowedValues as HalResource)[0].id === id
+      schema => (schema.filter.allowedValues as HalResource)[0].id === id,
     )!;
 
     return schema.getFilter();
@@ -169,11 +168,11 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * @param filters Filters to be removed
    */
   public remove(...filters:(QueryFilterInstanceResource|string)[]) {
-    const mapper = (f:QueryFilterInstanceResource|string) => (f instanceof QueryFilterInstanceResource) ? f.id : f;
+    const mapper = (f:QueryFilterInstanceResource|string) => ((f instanceof QueryFilterInstanceResource) ? f.id : f);
     const set = new Set<string>(filters.map(mapper));
 
     this.update(
-      this.rawFilters.filter(f => !set.has(mapper(f)))
+      this.rawFilters.filter(f => !set.has(mapper(f))),
     );
   }
 
@@ -216,7 +215,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
 
     return !_.isEqual(
       comparer(query.filters),
-      comparer(this.rawFilters)
+      comparer(this.rawFilters),
     );
   }
 
@@ -309,7 +308,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
       .values$()
       .pipe(
         take(1),
-        mapTo(null)
+        mapTo(null),
       )
       .toPromise();
   }

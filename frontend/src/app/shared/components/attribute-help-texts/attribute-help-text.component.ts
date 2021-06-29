@@ -33,7 +33,7 @@ import {
   ElementRef,
   Injector,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -50,10 +50,12 @@ export const attributeHelpTextSelector = 'attribute-help-text';
 export class AttributeHelpTextComponent implements OnInit {
   // Attribute to show help text for
   @Input() public attribute:string;
+
   @Input() public additionalLabel?:string;
 
   // Scope to search for
   @Input() public attributeScope:string;
+
   // Load single id entry if given
   @Input() public helpTextId?:string;
 
@@ -61,16 +63,16 @@ export class AttributeHelpTextComponent implements OnInit {
 
   readonly text = {
     open_dialog: this.I18n.t('js.help_texts.show_modal'),
-    'edit': this.I18n.t('js.button_edit'),
-    'close': this.I18n.t('js.button_close')
+    edit: this.I18n.t('js.button_edit'),
+    close: this.I18n.t('js.button_close'),
   };
 
   constructor(protected elementRef:ElementRef,
-              protected attributeHelpTexts:AttributeHelpTextsService,
-              protected opModalService:OpModalService,
-              protected cdRef:ChangeDetectorRef,
-              protected injector:Injector,
-              protected I18n:I18nService) {
+    protected attributeHelpTexts:AttributeHelpTextsService,
+    protected opModalService:OpModalService,
+    protected cdRef:ChangeDetectorRef,
+    protected injector:Injector,
+    protected I18n:I18nService) {
   }
 
   ngOnInit() {
@@ -104,9 +106,7 @@ export class AttributeHelpTextComponent implements OnInit {
   private load() {
     if (this.helpTextId) {
       return this.attributeHelpTexts.requireById(this.helpTextId);
-    } else {
-      return this.attributeHelpTexts.require(this.attribute, this.attributeScope);
     }
+    return this.attributeHelpTexts.require(this.attribute, this.attributeScope);
   }
 }
-

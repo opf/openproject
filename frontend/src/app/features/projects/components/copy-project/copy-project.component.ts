@@ -19,6 +19,7 @@ import { StateService } from "@uirouter/core";
 })
 export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit {
   dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
+
   fieldGroups:IDynamicFieldGroupConfig[];
 
   formUrl:string;
@@ -67,7 +68,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   private fieldSettingsPipe(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
-    return dynamicFieldsSettings.map(field => ({...field, hide: this.isHiddenField(field.key)}))
+    return dynamicFieldsSettings.map(field => ({ ...field, hide: this.isHiddenField(field.key) }));
   }
 
   private isPrimaryAttribute(to?:IOPFormlyTemplateOptions):boolean {
@@ -75,10 +76,10 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
       return false;
     }
 
-    return (to.required &&
-      !to.hasDefault &&
-      to.payloadValue == null) ||
-      to.property === 'name' ||
+    return (to.required
+      && !to.hasDefault
+      && to.payloadValue == null)
+      || to.property === 'name' ||
       to.property === 'parent';
   }
 

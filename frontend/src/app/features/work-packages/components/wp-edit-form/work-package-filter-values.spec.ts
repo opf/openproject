@@ -70,7 +70,7 @@ describe('WorkPackageFilterValues', () => {
     TestBed.configureTestingModule({
       imports: [
         UIRouterModule.forRoot({}),
-        HttpClientModule
+        HttpClientModule,
       ],
       providers: [
         I18nService,
@@ -93,7 +93,7 @@ describe('WorkPackageFilterValues', () => {
         WorkPackageCreateService,
         HalResourceEditingService,
         WorkPackagesActivityService,
-      ]
+      ],
     }).compileComponents();
 
     injector = TestBed.inject(Injector);
@@ -104,19 +104,19 @@ describe('WorkPackageFilterValues', () => {
 
     const type1 = halResourceService.createHalResourceOfClass(
       TypeResource,
-      { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } }
+      { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } },
     );
     const type2 = halResourceService.createHalResourceOfClass(
       TypeResource,
-      { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } }
+      { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } },
     );
 
     filters = [
       {
         id: 'type',
         operator: { id: '=' },
-        values: [type1, type2]
-      }
+        values: [type1, type2],
+      },
     ];
 
     subject = new WorkPackageFilterValues(injector, filters);
@@ -132,8 +132,8 @@ describe('WorkPackageFilterValues', () => {
             type: {
               href: '/api/v3/types/1',
               name: 'Task'
-            }
-          }
+            },
+          },
         };
 
         setupTestBed();
@@ -155,8 +155,8 @@ describe('WorkPackageFilterValues', () => {
             type: {
               href: '/api/v3/types/2',
               name: 'Bug'
-            }
-          }
+            },
+          },
         };
 
         setupTestBed();
@@ -169,9 +169,5 @@ describe('WorkPackageFilterValues', () => {
         expect(changeset.value('type').href).toEqual('/api/v3/types/2');
       }));
     });
-
   });
 });
-
-
-

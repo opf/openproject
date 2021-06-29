@@ -35,10 +35,13 @@ import { Subject } from "rxjs";
 @Injectable()
 export class QueryParamListenerService {
   readonly wpListChecksumService:WorkPackagesListChecksumService = this.injector.get(WorkPackagesListChecksumService);
+
   readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
+
   readonly $transitions:TransitionService = this.injector.get(TransitionService);
 
   public observe$ = new Subject<any>();
+
   public queryChangeListener:Function;
 
   constructor(readonly injector:Injector) {

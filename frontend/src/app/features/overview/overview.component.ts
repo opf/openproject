@@ -6,7 +6,7 @@ import { GRID_PROVIDERS } from "core-app/shared/components/grids/grid/grid.compo
   selector: 'overview',
   templateUrl: '../../shared/components/grids/grid/page/grid-page.component.html',
   styleUrls: ['../../shared/components/grids/grid/page/grid-page.component.sass'],
-  providers: GRID_PROVIDERS
+  providers: GRID_PROVIDERS,
 })
 export class OverviewComponent extends GridPageComponent {
   protected i18nNamespace():string {

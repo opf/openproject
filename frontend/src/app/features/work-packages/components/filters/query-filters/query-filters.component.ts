@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
@@ -41,23 +43,26 @@ import { QueryFilterResource } from "core-app/features/hal/resources/query-filte
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
-
 @Component({
   selector: 'query-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './query-filters.component.html'
 })
 export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit, OnChanges {
-
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+
   @Input() public filters:QueryFilterInstanceResource[];
+
   @Input() public showCloseFilter = false;
+
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
-
   public remainingFilters:any[] = [];
+
   public eeShowBanners = false;
+
   public focusElementIndex = 0;
+
   public trackByName = AngularTrackingHelpers.trackByName;
 
   public text = {
@@ -70,13 +75,13 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     selected_filter_list: this.I18n.t('js.label_selected_filter_list'),
     button_delete: this.I18n.t('js.button_delete'),
     please_select: this.I18n.t('js.placeholders.selection'),
-    filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text')
+    filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
   };
 
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly wpFiltersService:WorkPackageFiltersService,
-              readonly I18n:I18nService,
-              readonly bannerService:BannersService) {
+    readonly wpFiltersService:WorkPackageFiltersService,
+    readonly I18n:I18nService,
+    readonly bannerService:BannersService) {
     super();
   }
 
@@ -148,8 +153,8 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public isFilterAvailable(filter:QueryFilterResource):boolean {
-    return (this.wpTableFilters.availableFilters.some(availableFilter => availableFilter.id === filter.id) &&
-     !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
+    return (this.wpTableFilters.availableFilters.some(availableFilter => availableFilter.id === filter.id)
+     && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
   }
 
   public onOpen() {

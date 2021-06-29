@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit,
+} from "@angular/core";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -26,22 +28,27 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
-    TimeEntryEditService
-  ]
+    TimeEntryEditService,
+  ],
 })
 export class TriggerActionsEntryComponent {
   @InjectField() readonly timeEntryEditService:TimeEntryEditService;
+
   @InjectField() readonly apiv3Service:APIV3Service;
+
   @InjectField() readonly notificationsService:NotificationsService;
+
   @InjectField() readonly elementRef:ElementRef;
+
   @InjectField() i18n!:I18nService;
+
   @InjectField() readonly cdRef:ChangeDetectorRef;
 
   public text = {
     edit: this.i18n.t('js.button_edit'),
     delete: this.i18n.t('js.button_delete'),
     error: this.i18n.t('js.error.internal'),
-    areYouSure: this.i18n.t('js.text_are_you_sure')
+    areYouSure: this.i18n.t('js.text_are_you_sure'),
   };
 
   constructor(readonly injector:Injector) {
@@ -75,7 +82,7 @@ export class TriggerActionsEntryComponent {
           .delete()
           .subscribe(
             () => window.location.reload(),
-            error => this.notificationsService.addError(error || this.text.error)
+            error => this.notificationsService.addError(error || this.text.error),
           );
       });
   }

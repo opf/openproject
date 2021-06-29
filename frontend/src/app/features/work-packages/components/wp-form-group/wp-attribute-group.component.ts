@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Injector, Input, AfterViewInit } from '@angular/core';
+import {
+  Component, Injector, Input, AfterViewInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
@@ -44,11 +46,12 @@ import {
 })
 export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public group:GroupDescriptor;
 
   constructor(readonly I18n:I18nService,
-              public wpEditForm:EditFormComponent,
-              protected injector:Injector) {
+    public wpEditForm:EditFormComponent,
+    protected injector:Injector) {
     super();
   }
 
@@ -59,7 +62,7 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
     fromEvent(window, 'resize', { passive: true })
       .pipe(
         this.untilDestroyed(),
-        debounceTime(250)
+        debounceTime(250),
       )
       .subscribe(() => {
         this.fixColumns();
@@ -80,11 +83,10 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
   }
 
   public fieldName(name:string) {
-    if (name === 'startDate') {
-      return 'combinedDate';
-    } else {
-      return name;
+    if (name === "startDate") {
+      return "combinedDate";
     }
+    return name;
   }
 
   /**
@@ -96,7 +98,7 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
     // Find corresponding HTML of attribute fields for each group
     const htmlAttributes = jQuery('div.attributes-group:contains(' + this.group.name + ')').find('.attributes-key-value');
 
-    htmlAttributes.each(function() {
+    htmlAttributes.each(function () {
       const offset = jQuery(this).position().top;
 
       if (offset < lastOffset) {

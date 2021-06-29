@@ -23,5 +23,4 @@ export class OpTitleService {
 
     this.titleService.setTitle(parts.join(titlePartsSeparator));
   }
-
 }

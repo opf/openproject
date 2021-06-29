@@ -41,12 +41,13 @@ export const globalSearchTabsSelector = 'global-search-tabs';
 
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {
   private currentTabSub:Subscription;
+
   private tabsSub:Subscription;
 
   public classes:string[] = ['global-search--tabs', 'scrollable-tabs'];
 
   constructor(readonly globalSearchService:GlobalSearchService,
-              cdRef:ChangeDetectorRef) {
+    cdRef:ChangeDetectorRef) {
     super(cdRef);
   }
 

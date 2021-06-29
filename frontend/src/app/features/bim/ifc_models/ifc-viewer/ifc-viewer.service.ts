@@ -2,15 +2,16 @@ import { Injectable, Inject, Injector } from '@angular/core';
 import { XeokitServer } from "core-app/features/bim/ifc_models/xeokit/xeokit-server";
 import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { BehaviorSubject, Observable, Subject , of } from "rxjs";
+import {
+  BehaviorSubject, Observable, Subject, of,
+} from "rxjs";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
-import { CurrentProjectService} from "core-app/core/current-project/current-project.service";
+import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { HttpClient } from "@angular/common/http";
-
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -36,13 +37,19 @@ export interface BCFLoadOptions {
 @Injectable()
 export class IFCViewerService extends ViewerBridgeService {
   public shouldShowViewer = true;
+
   public viewerVisible$ = new BehaviorSubject<boolean>(false);
+
   private _viewer:any;
 
   @InjectField() pathHelper:PathHelperService;
+
   @InjectField() bcfApi:BcfApiService;
+
   @InjectField() viewpointsService:ViewpointsService;
+
   @InjectField() currentProjectService:CurrentProjectService;
+
   @InjectField() httpClient:HttpClient;
 
   constructor(readonly injector:Injector) {
@@ -75,7 +82,7 @@ export class IFCViewerService extends ViewerBridgeService {
         const formData = new FormData();
         formData.append(
           'authenticity_token',
-          jQuery('meta[name=csrf-token]').attr('content') as string
+          jQuery('meta[name=csrf-token]').attr('content') as string,
         );
         formData.append(
           '_method',
@@ -84,16 +91,17 @@ export class IFCViewerService extends ViewerBridgeService {
 
         this.httpClient.post(
           this.pathHelper.ifcModelsDeletePath(
-            this.currentProjectService.identifier as string, event.modelId),
-            formData
-          )
+            this.currentProjectService.identifier as string, event.modelId,
+          ),
+          formData,
+        )
           .subscribe()
           .add(() => {
             // Ensure we reload after every request.
             // We need to reload to get a fresh CSRF token for a successive
             // model deletion placed as a META element into the HTML HEAD.
-            window.location.reload()
-          })
+            window.location.reload();
+          });
       });
 
       this.viewer = viewerUI;
@@ -137,7 +145,7 @@ export class IFCViewerService extends ViewerBridgeService {
     // ('bim.partitioned.split')
     if (this.routeWithViewer) {
       if (this.viewer) {
-        let viewpointOptions = { updateCompositeObjects: true };
+        const viewpointOptions = { updateCompositeObjects: true };
         this.viewpointsService
           .getViewPoint$(workPackage, index)
           .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, viewpointOptions));
@@ -149,7 +157,7 @@ export class IFCViewerService extends ViewerBridgeService {
       window.location.href = this.pathHelper.bimDetailsPath(
         workPackage.project.idFromLink,
         workPackage.id!,
-        index
+        index,
       );
     }
   }

@@ -32,13 +32,12 @@ export class ProgressDisplayField extends DisplayField {
   public get value() {
     if (this.schema) {
       return this.resource[this.name] || 0;
-    } else {
-      return null;
     }
+    return null;
   }
 
   public get percentLabel() {
-    return this.roundedProgress + '%';
+    return `${this.roundedProgress}%`;
   }
 
   public get roundedProgress() {

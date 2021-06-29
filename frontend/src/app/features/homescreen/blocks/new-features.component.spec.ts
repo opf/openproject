@@ -42,11 +42,10 @@ describe('shows edition-specific content', () => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       declarations: [
-        HomescreenNewFeaturesBlockComponent
+        HomescreenNewFeaturesBlockComponent,
       ],
-      providers: [I18nService]
+      providers: [I18nService],
     }).compileComponents();
-
 
     fixture = TestBed.createComponent(HomescreenNewFeaturesBlockComponent);
     app = fixture.debugElement.componentInstance;

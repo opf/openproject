@@ -35,13 +35,12 @@ import { BACKLOGS_ROUTES } from "core-app/features/backlogs/openproject-backlogs
   imports: [
     // Routes for /backlogs
     UIRouterModule.forChild({
-      states: BACKLOGS_ROUTES
+      states: BACKLOGS_ROUTES,
     }),
   ],
   declarations: [
-    BacklogsPageComponent
-  ]
+    BacklogsPageComponent,
+  ],
 })
 export class OpenprojectBacklogsModule {
 }
-

@@ -11,7 +11,7 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
@@ -26,6 +26,7 @@ import { ResourceChangeset } from "core-app/shared/components/fields/changeset/r
 })
 export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() changeset:ResourceChangeset<TimeEntryResource>;
+
   @Input() showWorkPackageField = true;
 
   @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
@@ -40,15 +41,16 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
       workPackage: this.i18n.t('js.time_entry.work_package'),
       spentOn: this.i18n.t('js.time_entry.spent_on'),
     },
-    wpRequired: this.i18n.t('js.time_entry.work_package_required')
+    wpRequired: this.i18n.t('js.time_entry.work_package_required'),
   };
 
   public workPackageSelected = false;
+
   public customFields:{ key:string, label:string }[] = [];
 
   constructor(readonly halEditing:HalResourceEditingService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly i18n:I18nService) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly i18n:I18nService) {
     super();
   }
 
@@ -57,7 +59,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
       .temporaryEditResource(this.changeset.projectedResource)
       .values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(changeset => {
         if (changeset && changeset.workPackage) {
@@ -91,17 +93,16 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
   public isRequired(field:string) {
     // Other than defined in the schema, we consider the work package to be required.
     // Remove once the schema requires it explicitly.
-    if (field === 'workPackage') {
+    if (field === "workPackage") {
       return true;
-    } else {
-      return this.schema.ofProperty(field).required;
     }
+    return this.schema.ofProperty(field).required;
   }
 
   private setCustomFields() {
     Object.entries(this.schema).forEach(([key, keySchema]) => {
-      if (key.match(/customField\d+/)) {
-        this.customFields.push({ key: key, label: keySchema.name });
+      if (/customField\d+/.exec(key)) {
+        this.customFields.push({ key, label: keySchema.name });
       }
     });
   }

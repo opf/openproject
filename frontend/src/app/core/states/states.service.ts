@@ -1,4 +1,6 @@
-import { input, InputState, multiInput, MultiInputState, StatesGroup } from 'reactivestates';
+import {
+  input, InputState, multiInput, MultiInputState, StatesGroup,
+} from 'reactivestates';
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { Subject } from "rxjs";
 import { WorkPackageDisplayRepresentationValue } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
@@ -58,7 +60,6 @@ export class States extends StatesGroup {
   /* /api/v3/roles */
   roles = multiInput<RoleResource>();
 
-
   // Work Package query states
   queries = new QueryAvailableDataStates();
 
@@ -75,11 +76,11 @@ export class States extends StatesGroup {
       state = this.additional[stateName] = multiInput<T>();
     }
 
-    return state as any;
+    return state;
   }
 
   forResource<T extends HalResource = HalResource>(resource:T):InputState<T>|undefined {
-    const stateName = _.camelCase(resource._type) + 's';
+    const stateName = `${_.camelCase(resource._type)}s`;
     const state = this.forType<T>(stateName);
 
     return state && state.get(resource.id!);

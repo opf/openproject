@@ -8,13 +8,12 @@ export function listenToSettingChanges() {
     jQuery('#settings_session_ttl_container').toggle(jQuery(this).is(':checked'));
   }).trigger('change');
 
-
   /** Sync SCM vendor select when enabled SCMs are changed */
   jQuery('[name="settings[enabled_scm][]"]').change(function (this:HTMLInputElement) {
-    var wasDisabled = !this.checked,
-      vendor = this.value,
-      select = jQuery('#settings_repositories_automatic_managed_vendor'),
-      option = select.find('option[value="' + vendor + '"]');
+    var wasDisabled = !this.checked;
+    var vendor = this.value;
+    var select = jQuery("#settings_repositories_automatic_managed_vendor");
+    var option = select.find(`option[value="${vendor}"]`);
 
     // Skip non-manageable SCMs
     if (option.length === 0) {
@@ -36,7 +35,9 @@ export function listenToSettingChanges() {
     const textArea = jQuery(`#settings-${settingName}`);
     const editor = textArea.siblings('ckeditor-augmented-textarea').data('editor');
 
-    return { id: id, settingName: settingName, newLang: newLang, textArea: textArea, editor: editor };
+    return {
+      id, settingName, newLang, textArea, editor,
+    };
   };
 
   // Upon focusing:
@@ -61,7 +62,7 @@ export function listenToSettingChanges() {
     });
   /* end Javascript for Settings::TextSettingCell */
 
-  jQuery('.admin-settings--form').submit(function () {
+  jQuery('.admin-settings--form').submit(() => {
     /* Update consent time if consent required */
     if (jQuery('#settings_consent_required').is(':checked') && jQuery('#toggle_consent_time').is(':checked')) {
       jQuery('#settings_consent_time')
@@ -88,8 +89,8 @@ export function listenToSettingChanges() {
 
   /** Toggle repository checkout fieldsets required when option is disabled */
   jQuery('.settings-repositories--checkout-toggle').change(function (this:HTMLInputElement) {
-    var wasChecked = this.checked,
-      fieldset = jQuery(this).closest('fieldset');
+    var wasChecked = this.checked;
+    var fieldset = jQuery(this).closest('fieldset');
 
     fieldset
       .find('input,select')
@@ -112,7 +113,7 @@ export function listenToSettingChanges() {
   if (jQuery(".settings--highlighted-attributes input[type='checkbox']:checked").length === 0) {
     jQuery(".settings--highlighted-attributes input[type='checkbox']").prop("checked", true);
   }
-  jQuery('#tab-content-work_packages form').submit(function () {
+  jQuery('#tab-content-work_packages form').submit(() => {
     var availableAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']");
     var selectedAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']:checked");
     if (selectedAttributes.length === availableAttributes.length) {

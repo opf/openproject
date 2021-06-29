@@ -34,9 +34,8 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 @Injectable()
 export class WorkPackageNotificationService extends HalResourceNotificationService {
-
   constructor(readonly injector:Injector,
-              readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:APIV3Service) {
     super(injector);
   }
 
@@ -57,8 +56,8 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
         type: 'error',
         link: {
           text: this.I18n.t('js.hal.error.update_conflict_refresh'),
-          target: () => this.apiV3Service.work_packages.id(resource).refresh()
-        }
+          target: () => this.apiV3Service.work_packages.id(resource).refresh(),
+        },
       });
 
       return true;
@@ -71,9 +70,8 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     // Don't show the 'Show in full screen' link  if we're there already
     if (!this.$state.includes('work-packages.show')) {
       message.link = {
-        target: () =>
-          this.$state.go('work-packages.show.tabs', { tabIdentifier: 'activity', workPackageId: resource.id }),
-        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+        target: () => this.$state.go('work-packages.show.tabs', { tabIdentifier: 'activity', workPackageId: resource.id }),
+        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
       };
     }
   }

@@ -47,20 +47,14 @@ function setupMocks(paginationService:PaginationService) {
     perPage: 0,
     perPageOptions: [10, 50],
     maxVisiblePageOptions: 1,
-    optionsTruncationSize: 6
+    optionsTruncationSize: 6,
   };
 
-  spyOn(paginationService, 'getMaxVisiblePageOptions').and.callFake(() => {
-    return options.maxVisiblePageOptions;
-  });
+  spyOn(paginationService, 'getMaxVisiblePageOptions').and.callFake(() => options.maxVisiblePageOptions);
 
-  spyOn(paginationService, 'getOptionsTruncationSize').and.callFake(() => {
-    return options.optionsTruncationSize;
-  });
+  spyOn(paginationService, 'getOptionsTruncationSize').and.callFake(() => options.optionsTruncationSize);
 
-  spyOn(paginationService, 'loadPaginationOptions').and.callFake(() => {
-    return Promise.resolve(options);
-  });
+  spyOn(paginationService, 'loadPaginationOptions').and.callFake(() => Promise.resolve(options));
 }
 
 function pageString(element:JQuery) {
@@ -68,18 +62,17 @@ function pageString(element:JQuery) {
 }
 
 describe('wpTablePagination Directive', () => {
-
   beforeEach(waitForAsync(() => {
     window.OpenProject = new OpenProject();
 
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
-        HttpClientModule
+        HttpClientModule,
       ],
       declarations: [
         WorkPackageTablePaginationComponent,
-        OpIconComponent
+        OpIconComponent,
       ],
       providers: [
         States,
@@ -90,13 +83,12 @@ describe('wpTablePagination Directive', () => {
         HalResourceService,
         ConfigurationService,
         IsolatedQuerySpace,
-        I18nService
-      ]
+        I18nService,
+      ],
     }).compileComponents();
   }));
 
-  describe('page ranges and links', function() {
-
+  describe('page ranges and links', () => {
     it('should display the correct page range',
       inject([PaginationService], (paginationService:PaginationService) => {
         setupMocks(paginationService);
@@ -115,7 +107,7 @@ describe('wpTablePagination Directive', () => {
         expect(pageString(element)).toEqual('(1 - 10/11)');
       }));
 
-    describe('"next" link', function() {
+    describe('"next" link', () => {
       it('hidden on the last page',
         inject([PaginationService], (paginationService:PaginationService) => {
           setupMocks(paginationService);
@@ -161,7 +153,3 @@ describe('wpTablePagination Directive', () => {
       }));
   });
 });
-
-
-
-

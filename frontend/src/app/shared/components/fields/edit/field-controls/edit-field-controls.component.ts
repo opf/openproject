@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component, Input, Output, EventEmitter,
+} from "@angular/core";
 import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
 
 @Component({
@@ -35,9 +37,13 @@ import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-
 })
 export class EditFieldControlsComponent {
   @Input() public cancelTitle:string;
+
   @Input() public saveTitle:string;
+
   @Input('fieldController') public field:EditFieldComponent;
+
   @Output() public onSave = new EventEmitter<void>();
+
   @Output() public onCancel = new EventEmitter<void>();
 
   public save() {

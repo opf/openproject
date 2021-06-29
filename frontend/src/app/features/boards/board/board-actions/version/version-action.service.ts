@@ -17,6 +17,7 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {
   @InjectField() state:StateService;
+
   @InjectField() halNotification:HalResourceNotificationService;
 
   filterName = 'version';
@@ -54,19 +55,17 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return this
       .loadValues()
       .toPromise()
-      .then((results) => {
-        return Promise.all<unknown>(
-          results.map((version:VersionResource) => {
-            const definingName = _.get(version, 'definingProject.name', null);
-            if (version.isOpen() && definingName && definingName === this.currentProject.name) {
-              return this.addColumnWithActionAttribute(board, version);
-            }
+      .then((results) => Promise.all<unknown>(
+        results.map((version:VersionResource) => {
+          const definingName = _.get(version, "definingProject.name", null);
+          if (version.isOpen() && definingName && definingName === this.currentProject.name) {
+            return this.addColumnWithActionAttribute(board, version);
+          }
 
-            return Promise.resolve(board);
-          })
-        )
-          .then(() => board);
-      });
+          return Promise.resolve(board);
+        }),
+      )
+        .then(() => board));
   }
 
   /**
@@ -80,9 +79,8 @@ export class BoardVersionActionService extends CachedBoardActionService {
       .then((version:VersionResource) => {
         if (version) {
           return this.buildItemsForVersion(version);
-        } else {
-          return [];
         }
+        return [];
       });
   }
 
@@ -97,11 +95,10 @@ export class BoardVersionActionService extends CachedBoardActionService {
   public disabledAddButtonPlaceholder(version:VersionResource) {
     if (version.isLocked()) {
       return { icon: 'locked', text: this.I18n.t('js.boards.version.locked') };
-    } else if (version.isClosed()) {
+    } if (version.isClosed()) {
       return { icon: 'not-supported', text: this.I18n.t('js.boards.version.closed') };
-    } else {
-      return undefined;
     }
+    return undefined;
   }
 
   public dragIntoAllowed(query:QueryResource, value:HalResource|undefined) {
@@ -116,7 +113,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return this
       .apiV3Service
       .projects
-      .id(this.currentProject.id!)
+      .id(this.currentProject.id)
       .versions
       .get()
       .toPromise()
@@ -132,7 +129,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
         version => {
           this.state.go('.', {}, { reload: true });
         },
-        error => this.halNotification.handleRawError(error)
+        error => this.halNotification.handleRawError(error),
       );
   }
 
@@ -146,7 +143,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
         onClick: () => {
           this.patchVersionStatus(version, 'locked');
           return true;
-        }
+        },
       },
       {
         // Unlock version
@@ -155,7 +152,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
         onClick: () => {
           this.patchVersionStatus(version, 'open');
           return true;
-        }
+        },
       },
       {
         // Close version
@@ -164,7 +161,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
         onClick: () => {
           this.patchVersionStatus(version, 'closed');
           return true;
-        }
+        },
       },
       {
         // Open version
@@ -173,7 +170,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
         onClick: () => {
           this.patchVersionStatus(version, 'open');
           return true;
-        }
+        },
       },
       {
         // Show link
@@ -186,7 +183,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
           }
 
           return false;
-        }
+        },
       },
       {
         // Edit link
@@ -200,8 +197,8 @@ export class BoardVersionActionService extends CachedBoardActionService {
           }
 
           return false;
-        }
-      }
+        },
+      },
     ];
   }
 }

@@ -36,16 +36,14 @@ export class ResourcesDisplayField extends DisplayField {
   public get value() {
     const cf = this.resource[this.name];
     if (this.schema && cf) {
-
       if (cf.elements) {
         return cf.elements.map((e:any) => e.name);
-      } else if (cf.map) {
+      } if (cf.map) {
         return cf.map((e:any) => e.name);
-      } else if (cf.name) {
+      } if (cf.name) {
         return [cf.name];
-      } else {
-        return ["error: " + JSON.stringify(cf)];
       }
+      return ['error: ' + JSON.stringify(cf)];
     }
 
     return [];

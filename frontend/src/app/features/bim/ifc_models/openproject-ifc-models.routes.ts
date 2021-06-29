@@ -48,8 +48,8 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       // Use custom encoder/decoder that ensures validity of URL string
       query_props: { type: 'opQueryString', dynamic: true },
       models: { type: 'opQueryString', dynamic: true },
-      viewpoint: { type: 'int', dynamic: true }
-    }
+      viewpoint: { type: 'int', dynamic: true },
+    },
   },
   {
     name: 'bim.partitioned',
@@ -58,16 +58,16 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     redirectTo: (transition) => {
       const viewerBridgeService = transition.injector().get(ViewerBridgeService);
 
-      return viewerBridgeService.shouldShowViewer ?
-        'bim.partitioned.split' :
-        'bim.partitioned.list';
+      return viewerBridgeService.shouldShowViewer
+        ? "bim.partitioned.split"
+        : "bim.partitioned.list";
     },
   },
   {
     name: 'bim.partitioned.list',
     url: '/list?{cards:bool}',
     params: {
-      cards: true
+      cards: true,
     },
     data: {
       baseRoute: 'bim.partitioned.list',
@@ -76,14 +76,14 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     },
     reloadOnSearch: false,
     views: {
-      'content-left': { component: BcfListContainerComponent }
-    }
+      'content-left': { component: BcfListContainerComponent },
+    },
   },
   {
     name: 'bim.partitioned.split',
     url: '/split?{cards:bool}',
     params: {
-      cards: true
+      cards: true,
     },
     data: {
       baseRoute: 'bim.partitioned.split',
@@ -94,8 +94,8 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     views: {
       'content-left': { component: IFCViewerComponent },
-      'content-right': { component: BcfListContainerComponent }
-    }
+      'content-right': { component: BcfListContainerComponent },
+    },
   },
   {
     name: 'bim.partitioned.model',
@@ -109,8 +109,8 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state{
       'content-right': { component: EmptyComponent },
-      'content-left': { component: IFCViewerComponent }
-    }
+      'content-left': { component: IFCViewerComponent },
+    },
   },
   {
     name: 'bim.partitioned.new',
@@ -121,7 +121,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       allowMovingInEditMode: true,
       partition: '-left-only',
     },
-    views: { 'content-left': { component:WorkPackageNewFullViewComponent } }
+    views: { 'content-left': { component: WorkPackageNewFullViewComponent } },
   },
   {
     name: 'bim.partitioned.show',
@@ -146,19 +146,18 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   ...makeSplitViewRoutes(
     'bim.partitioned.list',
     undefined,
-    WorkPackageSplitViewComponent
+    WorkPackageSplitViewComponent,
   ),
   // BCF single view for split
   ...makeSplitViewRoutes(
     'bim.partitioned.split',
     undefined,
-    WorkPackageSplitViewComponent
+    WorkPackageSplitViewComponent,
   ),
   // BCF single view for model-only
   ...makeSplitViewRoutes(
     'bim.partitioned.model',
     undefined,
-    WorkPackageSplitViewComponent
+    WorkPackageSplitViewComponent,
   ),
 ];
-

@@ -8,11 +8,12 @@ import { StateService } from "@uirouter/core";
 export const detailsLinkClassName = 'wp-table--details-link';
 
 export class OpDetailsTableAction extends OpTableAction {
-
   public readonly identifier = 'open-details-action';
+
   private uiStatebuilder = new UiStateLinkBuilder(this.injector.get(StateService), this.injector.get(KeepTabService));
+
   private text = {
-    button: this.I18n.t('js.button_open_details')
+    button: this.I18n.t('js.button_open_details'),
   };
 
   public buildElement() {

@@ -5,7 +5,6 @@ import { debugLog } from "core-app/shared/helpers/debug_output";
 
 @Injectable({ providedIn: 'root' })
 export class ActiveWindowService {
-
   private activeState$ = new BehaviorSubject<boolean>(true);
 
   constructor(@Inject(DOCUMENT) document:Document) {

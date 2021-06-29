@@ -9,7 +9,6 @@ import { UserPreferencesStore } from "core-app/features/user-preferences/state/u
 
 @Injectable({ providedIn: 'root' })
 export class UserPreferencesService {
-
   constructor(
     private store:UserPreferencesStore,
     private http:HttpClient,
@@ -25,10 +24,10 @@ export class UserPreferencesService {
       .get()
       .subscribe(
         prefs => this.store.update(prefs),
-        error => this.notifications.addError(error)
+        error => this.notifications.addError(error),
       )
       .add(
-        () => this.store.setLoading(false)
+        () => this.store.setLoading(false),
       );
   }
 

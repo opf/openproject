@@ -39,7 +39,9 @@ export interface QuerySortByResourceEmbedded {
 
 export class QuerySortByResource extends HalResource {
   public $embedded:QuerySortByResourceEmbedded;
+
   public column:QueryColumn;
+
   public direction:QuerySortByDirection;
 }
 

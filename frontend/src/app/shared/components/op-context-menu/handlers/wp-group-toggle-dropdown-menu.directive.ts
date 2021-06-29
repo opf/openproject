@@ -33,7 +33,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
-  wpDisplayListRepresentation
+  wpDisplayListRepresentation,
 } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
@@ -43,9 +43,9 @@ import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-pa
 })
 export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly I18n:I18nService,
-              readonly wpViewCollapsedGroups:WorkPackageViewCollapsedGroupsService) {
+    readonly opContextMenu:OPContextMenuService,
+    readonly I18n:I18nService,
+    readonly wpViewCollapsedGroups:WorkPackageViewCollapsedGroupsService) {
     super(elementRef, opContextMenu);
   }
 
@@ -71,7 +71,7 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
           this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(true);
 
           return true;
-        }
+        },
       },
       {
         disabled: this.wpViewCollapsedGroups.allGroupsAreExpanded,
@@ -81,9 +81,8 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
           this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(false);
 
           return true;
-        }
-      }
+        },
+      },
     ];
   }
 }
-

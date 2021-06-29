@@ -72,8 +72,8 @@ import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproje
 
     // Embedded graphs
     WorkPackageEmbeddedGraphComponent,
-    WorkPackageOverviewGraphComponent
-  ]
+    WorkPackageOverviewGraphComponent,
+  ],
 })
 export class OpenprojectWorkPackageGraphsModule {
   constructor() {

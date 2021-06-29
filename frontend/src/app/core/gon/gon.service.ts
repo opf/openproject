@@ -36,8 +36,8 @@ declare global {
 }
 
 export interface GonType {
- [key:string]:unknown;
- ifc_models:IFCGonDefinition;
+  [key:string]:unknown;
+  ifc_models:IFCGonDefinition;
 }
 
 @Injectable({ providedIn: 'root' })

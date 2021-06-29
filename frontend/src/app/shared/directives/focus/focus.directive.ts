@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, Directive, ElementRef, Input } from "@angular/core";
+import {
+  AfterViewInit, Directive, ElementRef, Input,
+} from "@angular/core";
 import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
 
 @Directive({
@@ -34,10 +36,11 @@ import { FocusHelperService } from "core-app/shared/directives/focus/focus-helpe
 })
 export class FocusDirective implements AfterViewInit {
   @Input('focus') condition:boolean;
+
   @Input('focusPriority') priority?:number = 0;
 
   constructor(readonly FocusHelper:FocusHelperService,
-              readonly elementRef:ElementRef) {
+    readonly elementRef:ElementRef) {
   }
 
   ngAfterViewInit() {

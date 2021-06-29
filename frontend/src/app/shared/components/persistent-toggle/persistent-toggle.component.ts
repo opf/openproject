@@ -35,7 +35,6 @@ export const persistentToggleSelector = 'persistent-toggle';
   template: ''
 })
 export class PersistentToggleComponent implements OnInit {
-
   /** Unique identifier of the toggle */
   private identifier:string;
 
@@ -44,6 +43,7 @@ export class PersistentToggleComponent implements OnInit {
 
   /** Element reference */
   private $element:JQuery;
+
   private $targetNotification:JQuery;
 
   constructor(private elementRef:ElementRef) {
@@ -53,7 +53,7 @@ export class PersistentToggleComponent implements OnInit {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.$targetNotification = this.getTargetNotification();
 
-    this.identifier =  this.$element.data('identifier');
+    this.identifier = this.$element.data('identifier');
     this.isHidden = window.OpenProject.guardedLocalStorage(this.identifier) === 'true';
 
     // Set initial state
@@ -69,7 +69,6 @@ export class PersistentToggleComponent implements OnInit {
     this.$targetNotification
       .find('.notification-box--close')
       .on('click', () => this.toggle(true));
-
   }
 
   private getTargetNotification() {

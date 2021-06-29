@@ -27,8 +27,6 @@
 //++
 
 import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { SelectionHelpers } from '../../../../helpers/selection-helpers';
-import { debugLog } from '../../../../helpers/debug_output';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -38,7 +36,7 @@ import {
   Input,
   OnDestroy,
   OnInit, Optional,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
@@ -53,9 +51,11 @@ import { ISchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
 import {
   displayClassName,
   DisplayFieldRenderer,
-  editFieldContainerClass
+  editFieldContainerClass,
 } from "core-app/shared/components/fields/display/display-field-renderer";
 import { States } from "core-app/core/states/states.service";
+import { debugLog } from '../../../../helpers/debug_output';
+import { SelectionHelpers } from "../../../../helpers/selection-helpers";
 import ClickEvent = JQuery.ClickEvent;
 
 @Component({
@@ -65,34 +65,43 @@ import ClickEvent = JQuery.ClickEvent;
 })
 export class EditableAttributeFieldComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() public fieldName:string;
+
   @Input() public resource:HalResource;
+
   @Input() public wrapperClasses?:string;
+
   @Input() public displayFieldOptions:any = {};
+
   @Input() public displayPlaceholder?:string;
+
   @Input() public isDropTarget?:boolean = false;
 
   @ViewChild('displayContainer', { static: true }) readonly displayContainer:ElementRef;
+
   @ViewChild('editContainer', { static: true }) readonly editContainer:ElementRef;
 
   public fieldRenderer:DisplayFieldRenderer;
+
   public editFieldContainerClass = editFieldContainerClass;
+
   public active = false;
+
   private $element:JQuery;
 
   public destroyed = false;
 
   constructor(protected states:States,
-              protected injector:Injector,
-              protected elementRef:ElementRef,
-              protected ConfigurationService:ConfigurationService,
-              protected opContextMenu:OPContextMenuService,
-              protected halEditing:HalResourceEditingService,
-              protected schemaCache:SchemaCacheService,
-              // Get parent field group from injector if we're in a form
-              @Optional() protected editForm:EditFormComponent,
-              protected NotificationsService:NotificationsService,
-              protected cdRef:ChangeDetectorRef,
-              protected I18n:I18nService) {
+    protected injector:Injector,
+    protected elementRef:ElementRef,
+    protected ConfigurationService:ConfigurationService,
+    protected opContextMenu:OPContextMenuService,
+    protected halEditing:HalResourceEditingService,
+    protected schemaCache:SchemaCacheService,
+    // Get parent field group from injector if we're in a form
+    @Optional() protected editForm:EditFormComponent,
+    protected NotificationsService:NotificationsService,
+    protected cdRef:ChangeDetectorRef,
+    protected I18n:I18nService) {
     super();
   }
 
@@ -114,7 +123,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       .temporaryEditResource(this.resource)
       .values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(resource => {
         this.resource = resource;
@@ -215,8 +224,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   private get schema() {
     if (this.halEditing.typedState(this.resource).hasValue()) {
       return this.halEditing.typedState(this.resource).value!.schema;
-    } else {
-      return this.schemaCache.of(this.resource) as ISchemaProxy;
     }
+    return this.schemaCache.of(this.resource);
   }
 }

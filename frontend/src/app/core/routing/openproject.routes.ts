@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateDeclaration, StateService, Transition, TransitionService, UIRouter } from '@uirouter/core';
+import {
+  StateDeclaration, StateService, Transition, TransitionService, UIRouter,
+} from '@uirouter/core';
 import { INotification, NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { Injector } from "@angular/core";
@@ -40,7 +42,7 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'new_project.**',
     url: '/projects/new',
-    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule),
   },
   {
     name: 'root',
@@ -54,58 +56,58 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
       projects: { type: 'path', value: null, squash: true },
 
       // Allow passing of flash messages after routes load
-      flash_message: { dynamic: true, value: null, inherit: false }
-    }
+      flash_message: { dynamic: true, value: null, inherit: false },
+    },
   },
   {
     name: 'boards.**',
     parent: 'root',
     url: '/boards',
-    loadChildren: () => import('../../features/boards/openproject-boards.module').then(m => m.OpenprojectBoardsModule)
+    loadChildren: () => import('../../features/boards/openproject-boards.module').then(m => m.OpenprojectBoardsModule),
   },
   {
     name: 'bim.**',
     parent: 'root',
     url: '/bcf',
-    loadChildren: () => import('../../features/bim/ifc_models/openproject-ifc-models.module').then(m => m.OpenprojectIFCModelsModule)
+    loadChildren: () => import('../../features/bim/ifc_models/openproject-ifc-models.module').then(m => m.OpenprojectIFCModelsModule),
   },
   {
     name: 'backlogs.**',
     parent: 'root',
     url: '/backlogs',
-    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
+    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule),
   },
   {
     name: 'backlogs_sprint.**',
     parent: 'root',
     url: '/sprints',
-    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule)
+    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then(m => m.OpenprojectBacklogsModule),
   },
   {
     name: 'reporting.**',
     parent: 'root',
     url: '/cost_reports',
-    loadChildren: () => import('../../features/reporting/openproject-reporting.module').then(m => m.OpenprojectReportingModule)
+    loadChildren: () => import('../../features/reporting/openproject-reporting.module').then(m => m.OpenprojectReportingModule),
   },
   {
     name: 'job-statuses.**',
     parent: 'root',
     url: '/job_statuses',
-    loadChildren: () => import('../../features/job-status/openproject-job-status.module').then(m => m.OpenProjectJobStatusModule)
+    loadChildren: () => import('../../features/job-status/openproject-job-status.module').then(m => m.OpenProjectJobStatusModule),
   },
   {
     name: 'project_settings.**',
     parent: 'root',
     url: '/settings/generic',
-    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule),
   },
   {
     name: 'project_copy.**',
     parent: 'root',
     url: '/copy',
-    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule)
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then(m => m.OpenprojectProjectsModule),
   },
-  ...MY_ACCOUNT_LAZY_ROUTES
+  ...MY_ACCOUNT_LAZY_ROUTES,
 ];
 
 /**
@@ -164,7 +166,7 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
       dynamic: true,
       is: (val:unknown) => typeof (val) === 'string',
       equals: (a:any, b:any) => _.isEqual(a, b),
-    }
+    },
   );
 }
 
@@ -189,7 +191,7 @@ export function initializeUiRouterListeners(injector:Injector) {
   // but since AOT doesn't allow anonymous functions, we can't re-use them now.
   // The transition will only return the target state on `transition.to()`,
   // however the second parameter has the currently (e.g., parent) entering state chain.
-  $transitions.onEnter({}, function (transition:Transition, state:StateDeclaration) {
+  $transitions.onEnter({}, (transition:Transition, state:StateDeclaration) => {
     // Add body class when entering this state
     bodyClass(_.get(state, 'data.bodyClasses'), 'add');
     if (transition.from().data && _.get(state, 'data.menuItem') !== transition.from().data.menuItem) {
@@ -200,7 +202,7 @@ export function initializeUiRouterListeners(injector:Injector) {
     window.scrollTo(0, 0);
   });
 
-  $transitions.onExit({}, function (transition:Transition, state:StateDeclaration) {
+  $transitions.onExit({}, (transition:Transition, state:StateDeclaration) => {
     // Remove body class when leaving this state
     bodyClass(_.get(state, 'data.bodyClasses'), 'remove');
     if (transition.to().data && _.get(state, 'data.menuItem') !== transition.to().data.menuItem) {
@@ -208,7 +210,7 @@ export function initializeUiRouterListeners(injector:Injector) {
     }
   });
 
-  $transitions.onStart({}, function (transition:Transition) {
+  $transitions.onStart({}, (transition:Transition) => {
     const $state = transition.router.stateService;
     const toParams = transition.params('to');
     const fromState = transition.from();
@@ -216,7 +218,7 @@ export function initializeUiRouterListeners(injector:Injector) {
 
     // Remove start_onboarding_tour param if set
     if (toParams.start_onboarding_tour && toState.name !== 'work-packages.partitioned.list') {
-      const paramsCopy = Object.assign({}, transition.params());
+      const paramsCopy = { ...transition.params() };
       paramsCopy.start_onboarding_tour = undefined;
       return $state.target(transition.to(), paramsCopy);
     }
@@ -244,7 +246,6 @@ export function initializeUiRouterListeners(injector:Injector) {
     // but for pages without any angular routes, this will stay empty.
     // So we also allow routes to happen after some delay
     if (wpBase === null) {
-
       // Get the current path and compare
       const path = window.location.pathname;
       const pathWithSearch = path + window.location.search;

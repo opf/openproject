@@ -2,7 +2,7 @@ import { Injector } from "@angular/core";
 import {
   OpEditingPortalChangesetToken,
   OpEditingPortalHandlerToken,
-  OpEditingPortalSchemaToken
+  OpEditingPortalSchemaToken,
 } from "core-app/shared/components/fields/edit/edit-field.component";
 import { PortalInjector } from "@angular/cdk/portal";
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";

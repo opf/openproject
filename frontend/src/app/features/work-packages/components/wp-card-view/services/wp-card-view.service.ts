@@ -24,13 +24,11 @@ export class WorkPackageCardViewService {
 
   public updateRenderedCardsValues(workPackages:WorkPackageResource[]) {
     this.querySpace.tableRendered.putValue(
-      workPackages.map((wp) => {
-        return {
-          classIdentifier: this.classIdentifier(wp),
-          workPackageId: wp.id,
-          hidden: false
-        };
-      })
+      workPackages.map((wp) => ({
+        classIdentifier: this.classIdentifier(wp),
+        workPackageId: wp.id,
+        hidden: false,
+      })),
     );
   }
 }

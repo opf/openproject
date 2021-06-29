@@ -10,8 +10,8 @@ export class BcfTopicCollectionPath extends BcfResourceCollectionPath<BcfTopicPa
   readonly bcfTopicService = new BcfApiRequestService<BcfTopicResource>(this.injector, BcfTopicResource);
 
   constructor(readonly injector:Injector,
-              protected basePath:string,
-              segment:string) {
+    protected basePath:string,
+    segment:string) {
     super(injector, basePath, segment, BcfTopicPaths);
   }
 
@@ -28,7 +28,7 @@ export class BcfTopicCollectionPath extends BcfResourceCollectionPath<BcfTopicPa
       .request(
         'post',
         this.toPath(),
-        payload
+        payload,
       );
   }
 }

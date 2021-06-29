@@ -7,4 +7,3 @@ export const internalSortColumn = {
 export const internalContextMenuColumn = {
   id: '__internal-contextMenu'
 } as QueryColumn;
-

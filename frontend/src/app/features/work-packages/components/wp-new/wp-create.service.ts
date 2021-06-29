@@ -33,7 +33,7 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageFilterValues } from "core-app/features/work-packages/components/wp-edit-form/work-package-filter-values";
 import {
   HalResourceEditingService,
-  ResourceChangesetCommit
+  ResourceChangesetCommit,
 } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
 import { filter } from "rxjs/operators";
@@ -48,7 +48,6 @@ import { SchemaResource } from "core-app/features/hal/resources/schema-resource"
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 
-
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
 @Injectable()
@@ -59,21 +58,21 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
   constructor(protected injector:Injector,
-              protected hooks:HookService,
-              protected apiV3Service:APIV3Service,
-              protected halResourceService:HalResourceService,
-              protected querySpace:IsolatedQuerySpace,
-              protected authorisationService:AuthorisationService,
-              protected halEditing:HalResourceEditingService,
-              protected schemaCache:SchemaCacheService,
-              protected halEvents:HalEventsService) {
+    protected hooks:HookService,
+    protected apiV3Service:APIV3Service,
+    protected halResourceService:HalResourceService,
+    protected querySpace:IsolatedQuerySpace,
+    protected authorisationService:AuthorisationService,
+    protected halEditing:HalResourceEditingService,
+    protected schemaCache:SchemaCacheService,
+    protected halEvents:HalEventsService) {
     super();
 
     this.halEditing
       .committedChanges
       .pipe(
         this.untilDestroyed(),
-        filter(commit => commit.resource._type === 'WorkPackage' && commit.wasNew)
+        filter(commit => commit.resource._type === 'WorkPackage' && commit.wasNew),
       )
       .subscribe((commit:ResourceChangesetCommit<WorkPackageResource>) => {
         this.newWorkPackageCreated(commit.resource);
@@ -83,7 +82,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .changes$(newWorkPackageHref)
       .pipe(
         this.untilDestroyed(),
-        filter(changeset => !changeset)
+        filter(changeset => !changeset),
       )
       .subscribe(() => {
         this.reset();
@@ -107,9 +106,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .form
       .forPayload(payload)
       .toPromise()
-      .then((form:FormResource) => {
-        return this.fromCreateForm(form);
-      });
+      .then((form:FormResource) => this.fromCreateForm(form));
   }
 
   public fromCreateForm(form:FormResource):WorkPackageChangeset {
@@ -152,7 +149,6 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this.halEditing.edit(wp, form);
   }
 
-
   public getEmptyForm(projectIdentifier:string|null|undefined):Promise<FormResource> {
     if (!this.form) {
       this.form = this
@@ -164,7 +160,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
         .toPromise();
     }
 
-    return this.form as Promise<FormResource>;
+    return this.form;
   }
 
   public cancelCreation() {
@@ -307,9 +303,8 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
           this.toApiPayload(fromFilter, form.schema);
           return fromFilter;
         });
-    } else {
-      return Promise.resolve(fromFilter);
     }
+    return Promise.resolve(fromFilter);
   }
 
   private toApiPayload(payload:HalSource, schema:SchemaResource) {
@@ -369,9 +364,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     // Set update link to form
     wp['update'] = wp.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
-    wp['updateImmediately'] = wp.$links.updateImmediately = (payload) => {
-      return this.apiV3Service.work_packages.post(payload).toPromise();
-    };
+    wp['updateImmediately'] = wp.$links.updateImmediately = (payload) => this.apiV3Service.work_packages.post(payload).toPromise();
 
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
     // the editability.

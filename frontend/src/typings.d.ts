@@ -13,4 +13,3 @@ declare module 'dom-plane' {
 interface NodeModule {
   id:string;
 }
-

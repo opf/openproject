@@ -43,7 +43,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
   @InjectField() private queryFilters:QueryFiltersService;
 
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'queries', APIv3QueryPaths);
   }
 
@@ -88,7 +88,6 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
       .get<QueryResource>(path, queryData);
   }
 
-
   /**
    * Stream the response for the given query request
    *
@@ -98,7 +97,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
     return this.halResourceService
       .get<QueryResource>(
         this.default.path,
-        params
+        params,
       );
   }
 
@@ -118,7 +117,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
     return this
       .halResourceService
       .post<QueryResource>(
-        this.apiRoot.queries.path, payload
+        this.apiRoot.queries.path, payload,
       );
   }
 
@@ -130,9 +129,8 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
   public toggleStarred(query:QueryResource):Promise<unknown> {
     if (query.starred) {
       return query.unstar();
-    } else {
-      return query.star();
     }
+    return query.star();
   }
 
   /**
@@ -142,7 +140,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
    */
   public filterNonHidden(projectIdentifier?:string|null):Observable<CollectionResource<QueryResource>> {
     const listParams:Apiv3ListParameters = {
-      filters: [['hidden', '=', ['f']]]
+      filters: [['hidden', '=', ['f']]],
     };
 
     if (projectIdentifier) {

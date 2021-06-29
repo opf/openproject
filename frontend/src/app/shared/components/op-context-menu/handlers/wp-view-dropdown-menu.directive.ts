@@ -33,7 +33,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
-  wpDisplayListRepresentation
+  wpDisplayListRepresentation,
 } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 
@@ -42,11 +42,10 @@ import { WorkPackageViewTimelineService } from "core-app/features/work-packages/
 })
 export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly I18n:I18nService,
-              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
-              readonly wpTableTimeline:WorkPackageViewTimelineService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly I18n:I18nService,
+    readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
+    readonly wpTableTimeline:WorkPackageViewTimelineService) {
     super(elementRef, opContextMenu);
   }
 
@@ -78,8 +77,9 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
               this.wpTableTimeline.toggle();
             }
             return true;
-          }
-        });
+          },
+        },
+      );
     }
 
     if (this.wpTableTimeline.isVisible || this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation) {
@@ -94,8 +94,9 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
               this.wpTableTimeline.toggle();
             }
             return true;
-          }
-        });
+          },
+        },
+      );
     }
 
     if (!this.wpTableTimeline.isVisible || this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation) {
@@ -110,9 +111,9 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
             }
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
             return true;
-          }
-        });
+          },
+        },
+      );
     }
   }
 }
-

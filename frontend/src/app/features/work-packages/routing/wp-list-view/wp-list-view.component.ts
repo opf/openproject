@@ -33,14 +33,14 @@ import {
   Injector,
   OnInit,
   ElementRef,
-  NgZone
+  NgZone,
 } from "@angular/core";
 import { take } from "rxjs/operators";
 import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
 import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
 import {
   WorkPackageViewDisplayRepresentationService,
-  wpDisplayCardRepresentation
+  wpDisplayCardRepresentation,
 } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { WorkPackageTableConfigurationObject } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
 import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
@@ -59,20 +59,19 @@ import { KeepTabService } from "core-app/features/work-packages/components/wp-si
   selector: 'wp-list-view',
   templateUrl: './wp-list-view.component.html',
   styleUrls: ['./wp-list-view.component.sass'],
-  host: { 'class': 'work-packages-split-view--tabletimeline-side' },
+  host: { class: 'work-packages-split-view--tabletimeline-side' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
-    CausedUpdatesService
-  ]
+    CausedUpdatesService,
+  ],
 })
 export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
-
   text = {
-    'jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.pagination'),
-    'text_jump_to_pagination': this.I18n.t('js.work_packages.jump_marks.label_pagination'),
-    'button_settings': this.I18n.t('js.button_settings')
+    jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
+    text_jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.label_pagination'),
+    button_settings: this.I18n.t('js.button_settings'),
   };
 
   /** Switch between list and card view */
@@ -89,21 +88,21 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
 
   /** */
   readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
-    dragAndDropEnabled: true
+    dragAndDropEnabled: true,
   };
 
   constructor(readonly I18n:I18nService,
-              readonly injector:Injector,
-              readonly $state:StateService,
-              readonly keepTab:KeepTabService,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly wpViewFilters:WorkPackageViewFiltersService,
-              readonly deviceService:DeviceService,
-              readonly CurrentProject:CurrentProjectService,
-              readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef,
-              private ngZone:NgZone) {
+    readonly injector:Injector,
+    readonly $state:StateService,
+    readonly keepTab:KeepTabService,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly wpViewFilters:WorkPackageViewFiltersService,
+    readonly deviceService:DeviceService,
+    readonly CurrentProject:CurrentProjectService,
+    readonly wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef,
+    private ngZone:NgZone) {
     super();
   }
 
@@ -112,7 +111,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     this.setupInformationLoadedListener();
 
     this.querySpace.query.values$().pipe(
-      this.untilDestroyed()
+      this.untilDestroyed(),
     ).subscribe((query) => {
       // Update the visible representation
       this.updateViewRepresentation(query);
@@ -162,8 +161,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   }
 
   protected updateViewRepresentation(query:QueryResource) {
-    this.showTableView = !(this.deviceService.isMobile ||
-      this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
+    this.showTableView = !(this.deviceService.isMobile
+      || this.wpDisplayRepresentation.valueFromQuery(query) === wpDisplayCardRepresentation);
   }
 
   handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
@@ -200,7 +199,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   private openInFullView(workPackageId:string) {
     this.$state.go(
       'work-packages.show',
-      { workPackageId: workPackageId }
+      { workPackageId },
     );
   }
 }

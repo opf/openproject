@@ -26,14 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 import { Inject, Injectable } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { debugLog } from "core-app/shared/helpers/debug_output";
 
 @Injectable({ providedIn: 'root' })
 export class PathScriptAugmentService {
-
   constructor(@Inject(DOCUMENT) protected documentElement:Document) {
   }
 

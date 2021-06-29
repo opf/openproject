@@ -27,8 +27,6 @@
 //++
 
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageViewColumnsService } from './wp-view-columns.service';
-import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
 import { Injectable } from '@angular/core';
 import { RelationsStateValue, WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
@@ -39,18 +37,19 @@ import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 import { RelationResource } from "core-app/features/hal/resources/relation-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
+import { WorkPackageViewColumnsService } from "./wp-view-columns.service";
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
-
   constructor(readonly querySpace:IsolatedQuerySpace,
-              readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
-              readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly notificationService:WorkPackageNotificationService,
-              readonly halResourceService:HalResourceService,
-              readonly apiV3Service:APIV3Service,
-              readonly schemaCache:SchemaCacheService,
-              readonly wpRelations:WorkPackageRelationsService) {
+    readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly notificationService:WorkPackageNotificationService,
+    readonly halResourceService:HalResourceService,
+    readonly apiV3Service:APIV3Service,
+    readonly schemaCache:SchemaCacheService,
+    readonly wpRelations:WorkPackageRelationsService) {
   }
 
   public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
@@ -60,7 +59,7 @@ export class WorkPackageViewAdditionalElementsService {
     Promise.all([
       this.requireInvolvedRelations(rows.map(el => el.id!)),
       this.requireHierarchyElements(rows),
-      this.requireSumsSchema(results)
+      this.requireSumsSchema(results),
     ]).then((results:string[][]) => {
       this.loadAdditional(_.flatten(results));
     });
@@ -85,16 +84,13 @@ export class WorkPackageViewAdditionalElementsService {
    * as the `to` work packages returned from the relations
    */
   private requireInvolvedRelations(rows:string[]):Promise<string[]> {
-
     if (!this.wpTableColumns.hasRelationColumns()) {
       return Promise.resolve([]);
     }
     return this.wpRelations
       .requireAll(rows)
       .then(() => {
-        const ids = this.getInvolvedWorkPackages(rows.map(id => {
-          return this.wpRelations.state(id).value!;
-        }));
+        const ids = this.getInvolvedWorkPackages(rows.map(id => this.wpRelations.state(id).value!));
         return _.flatten(ids);
       });
   }

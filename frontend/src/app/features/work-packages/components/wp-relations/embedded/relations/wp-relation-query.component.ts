@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import {
+  Component, Inject, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
@@ -47,13 +49,14 @@ import { GroupDescriptor } from "core-app/features/work-packages/components/wp-s
   selector: 'wp-relation-query',
   templateUrl: '../wp-relation-query.html',
   providers: [
-    { provide: WorkPackageInlineCreateService, useClass: WpRelationInlineCreateService }
-  ]
+    { provide: WorkPackageInlineCreateService, useClass: WpRelationInlineCreateService },
+  ],
 })
 export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryBase implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
   @Input() public query:QueryResource;
+
   @Input() public group:GroupDescriptor;
 
   public tableActions:OpTableActionFactory[] = [
@@ -66,17 +69,17 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
           .then(() => this.refreshTable())
           .catch((error) => this.notificationService.handleRawError(error, this.workPackage));
       },
-      (child:WorkPackageResource) => !!child.changeParent
-    )
+      (child:WorkPackageResource) => !!child.changeParent,
+    ),
   ];
 
   constructor(protected readonly PathHelper:PathHelperService,
-              @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
-              protected readonly wpRelations:WorkPackageRelationsService,
-              protected readonly halEvents:HalEventsService,
-              protected readonly queryUrlParamsHelper:UrlParamsHelperService,
-              protected readonly notificationService:WorkPackageNotificationService,
-              protected readonly I18n:I18nService) {
+    @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
+    protected readonly wpRelations:WorkPackageRelationsService,
+    protected readonly halEvents:HalEventsService,
+    protected readonly queryUrlParamsHelper:UrlParamsHelperService,
+    protected readonly notificationService:WorkPackageNotificationService,
+    protected readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
   }
 
@@ -93,7 +96,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     // Wire the successful saving of a new addition to refreshing the embedded table
     this.wpInlineCreate.newInlineWorkPackageCreated
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((toId:string) => this.addRelation(toId));
 
@@ -101,7 +104,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     this.wpRelations.observe(this.workPackage.id!)
       .pipe(
         filter(val => !_.isEmpty(val)),
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => this.refreshTable());
   }
@@ -113,7 +116,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
         this.halEvents.push(this.workPackage, {
           eventType: 'association',
           relatedWorkPackage: toId,
-          relationType: this.getRelationTypeFromQuery()
+          relationType: this.getRelationTypeFromQuery(),
         });
       })
       .catch(error => this.notificationService.handleRawError(error, this.workPackage));

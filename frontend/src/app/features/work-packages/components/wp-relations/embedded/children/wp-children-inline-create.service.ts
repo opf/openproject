@@ -36,10 +36,9 @@ import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 
 @Injectable()
 export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface {
-
   constructor(readonly injector:Injector,
-              protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected readonly schemaCache:SchemaCacheService) {
+    protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
+    protected readonly schemaCache:SchemaCacheService) {
     super(injector);
   }
 
@@ -89,7 +88,7 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
    */
   public readonly buttonTexts = {
     reference: this.I18n.t('js.relation_buttons.add_existing_child'),
-    create: this.I18n.t('js.relation_buttons.add_new_child')
+    create: this.I18n.t('js.relation_buttons.add_new_child'),
   };
 
   private get schema() {

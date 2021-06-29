@@ -172,7 +172,6 @@ import { FilterIntegerValueComponent } from "core-app/features/work-packages/com
 import { WorkPackageFilterContainerComponent } from "core-app/features/work-packages/components/filters/filter-container/filter-container.directive";
 import { FilterBooleanValueComponent } from "core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component";
 
-
 @NgModule({
   imports: [
     // Commons
@@ -347,7 +346,6 @@ import { FilterBooleanValueComponent } from "core-app/features/work-packages/com
     WorkPackageRelationsAutocomplete,
     WorkPackageBreadcrumbParentComponent,
 
-
     // Split view
     WorkPackageDetailsViewButtonComponent,
     WorkPackageSplitViewComponent,
@@ -390,7 +388,6 @@ import { FilterBooleanValueComponent } from "core-app/features/work-packages/com
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButton,
 
-
   ],
   exports: [
     WorkPackagesTableComponent,
@@ -423,7 +420,7 @@ import { FilterBooleanValueComponent } from "core-app/features/work-packages/com
     WorkPackageSingleViewComponent,
     WorkPackageSplitViewComponent,
     BackButtonComponent,
-  ]
+  ],
 })
 export class OpenprojectWorkPackagesModule {
   static bootstrapAttributeGroupsCalled = false;
@@ -445,24 +442,19 @@ export class OpenprojectWorkPackagesModule {
     const hookService = injector.get(HookService);
 
     hookService.register('attributeGroupComponent', (group:GroupDescriptor, workPackage:WorkPackageResource) => {
-      if (group.type === 'WorkPackageFormAttributeGroup') {
+      if (group.type === "WorkPackageFormAttributeGroup") {
         return WorkPackageFormAttributeGroupComponent;
-      } else if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
+      } if (!workPackage.isNew && group.type === "WorkPackageFormChildrenQueryGroup") {
         return WorkPackageChildrenQueryComponent;
-      } else if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
+      } if (!workPackage.isNew && group.type === "WorkPackageFormRelationQueryGroup") {
         return WorkPackageRelationQueryComponent;
-      } else {
-        return null;
       }
+      return null;
     });
 
-    hookService.register('workPackageAttachmentUploadComponent', (workPackage:WorkPackageResource) => {
-      return AttachmentsUploadComponent;
-    });
+    hookService.register('workPackageAttachmentUploadComponent', (workPackage:WorkPackageResource) => AttachmentsUploadComponent);
 
-    hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => {
-      return AttachmentListComponent;
-    });
+    hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => AttachmentListComponent);
 
     /** Return specialized work package changeset for editing service */
     hookService.register('halResourceChangesetClass', (resource:HalResource) => {

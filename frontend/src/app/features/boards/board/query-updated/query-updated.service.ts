@@ -8,9 +8,8 @@ const POLLING_INTERVAL = 2000;
 
 @Injectable()
 export class QueryUpdatedService {
-
   constructor(readonly activeWindow:ActiveWindowService,
-              readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:APIV3Service) {
   }
 
   public monitor(ids:string[]) {
@@ -28,7 +27,7 @@ export class QueryUpdatedService {
 
           return result;
         }),
-        filter((collection) => collection.count > 0)
+        filter((collection) => collection.count > 0),
       );
   }
 
@@ -38,7 +37,7 @@ export class QueryUpdatedService {
       .queries
       .list({
         filters: [["id", "=", ids],
-          ["updatedAt", "<>d", [updatedAfter.toISOString()]]]
+          ["updatedAt", "<>d", [updatedAfter.toISOString()]]],
       });
   }
 }

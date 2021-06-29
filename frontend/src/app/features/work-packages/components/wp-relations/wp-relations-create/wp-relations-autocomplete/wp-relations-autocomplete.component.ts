@@ -56,26 +56,32 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 
   // Allow styling the embedded ng-select
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./wp-relations-autocomplete.sass']
+  styleUrls: ['./wp-relations-autocomplete.sass'],
 })
 export class WorkPackageRelationsAutocomplete {
   readonly text = {
-    placeholder: this.I18n.t('js.relations_autocomplete.placeholder')
+    placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
   };
 
   @Input() inputPlaceholder:string = this.text.placeholder;
+
   @Input() workPackage:WorkPackageResource;
+
   @Input() selectedRelationType:string;
+
   @Input() filterCandidatesFor:string;
 
   /** Do we take the current query filters into account? */
   @Input() additionalFilters:ApiV3Filter[] = [];
 
   @Input() hiddenOverflowContainer = 'body';
+
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
   @Output() onCancel = new EventEmitter<undefined>();
+
   @Output() onSelected = new EventEmitter<WorkPackageResource>();
+
   @Output() onEmptySelected = new EventEmitter<undefined>();
 
   // Whether we're currently loading
@@ -93,10 +99,10 @@ export class WorkPackageRelationsAutocomplete {
 
     return from(
       this.workPackage.availableRelationCandidates.$link.$fetch({
-        query: query,
+        query,
         filters: JSON.stringify(this.additionalFilters),
-        type: this.filterCandidatesFor || this.selectedRelationType
-      }) as Promise<WorkPackageCollectionResource>
+        type: this.filterCandidatesFor || this.selectedRelationType,
+      }) as Promise<WorkPackageCollectionResource>,
     )
       .pipe(
         map(collection => collection.elements),
@@ -104,25 +110,26 @@ export class WorkPackageRelationsAutocomplete {
           this.notificationService.handleRawError(error);
           return of([]);
         }),
-        tap(() => this.isLoading = false)
+        tap(() => this.isLoading = false),
       );
   };
+
   public autocompleterOptions = {
-    resource:'work_packages',
-    getOptionsFn: this.getAutocompleterData
+    resource: "work_packages",
+    getOptionsFn: this.getAutocompleterData,
   };
 
   public appendToContainer = 'body';
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
-              private readonly pathHelper:PathHelperService,
-              private readonly notificationService:WorkPackageNotificationService,
-              private readonly CurrentProject:CurrentProjectService,
-              private readonly halResourceService:HalResourceService,
-              private readonly schemaCacheService:SchemaCacheService,
-              private readonly cdRef:ChangeDetectorRef,
-              private readonly ngZone:NgZone,
-              private readonly I18n:I18nService) {
+    private readonly pathHelper:PathHelperService,
+    private readonly notificationService:WorkPackageNotificationService,
+    private readonly CurrentProject:CurrentProjectService,
+    private readonly halResourceService:HalResourceService,
+    private readonly schemaCacheService:SchemaCacheService,
+    private readonly cdRef:ChangeDetectorRef,
+    private readonly ngZone:NgZone,
+    private readonly I18n:I18nService) {
   }
 
   @HostListener('keydown.escape')

@@ -42,15 +42,15 @@ describe('keepTab service', () => {
       current: {
         name: 'whatever',
       },
-      includes: includes
+      includes,
     };
 
     $transitions = {
-      onSuccess: (criteria:any, cb:(transition:any) => void) => callback = cb
+      onSuccess: (criteria:any, cb:(transition:any) => void) => callback = cb,
     };
 
     uiRouterGlobals = {
-      params: { tabIdentifier: 'activity' }
+      params: { tabIdentifier: 'activity' },
     };
 
     keepTab = new KeepTabService($state, uiRouterGlobals, $transitions);
@@ -75,9 +75,7 @@ describe('keepTab service', () => {
     var currentPathPrefix = 'work-packages.show.*';
 
     beforeEach(() => {
-      spyOn($state, 'includes').and.callFake((path:string) => {
-        return path === currentPathPrefix;
-      });
+      spyOn($state, 'includes').and.callFake((path:string) => path === currentPathPrefix);
 
       $state.current.name = 'work-packages.show.tabs';
       uiRouterGlobals.params.tabIdentifier = 'relations';
@@ -118,9 +116,7 @@ describe('keepTab service', () => {
 
   describe('when opening show#activity', () => {
     beforeEach(() => {
-      spyOn($state, 'includes').and.callFake((path:string) => {
-        return path === 'work-packages.show.*';
-      });
+      spyOn($state, 'includes').and.callFake((path:string) => path === "work-packages.show.*");
 
       uiRouterGlobals.params.tabIdentifier = 'activity';
       $state.current.name = 'work-packages.show.tabs';
@@ -134,9 +130,7 @@ describe('keepTab service', () => {
 
   describe('when opening a details route', () => {
     beforeEach(() => {
-      spyOn($state, 'includes').and.callFake((path:string) => {
-        return path === '**.details.*';
-      });
+      spyOn($state, 'includes').and.callFake((path:string) => path === "**.details.*");
 
       uiRouterGlobals.params.tabIdentifier = 'activity';
       $state.current.name = 'work-packages.partitioned.list.details.tabs';
@@ -167,6 +161,5 @@ describe('keepTab service', () => {
 
       expect(cb.calls.count()).toEqual(2);
     });
-
   });
 });

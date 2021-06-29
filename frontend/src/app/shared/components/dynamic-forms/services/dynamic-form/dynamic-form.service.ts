@@ -6,11 +6,11 @@ import { Observable } from "rxjs";
 import {
   map,
 } from "rxjs/operators";
+import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
+import { FormsService } from 'core-app/core/forms/forms.service';
 import {
   IOPDynamicFormSettings,
-} from "../../typings";
-import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
-import { FormsService } from "core-app/core/forms/forms.service";
+} from '../../typings';
 @Injectable()
 export class DynamicFormService {
   dynamicForm:FormlyForm;
@@ -25,7 +25,7 @@ export class DynamicFormService {
     this.dynamicForm = dynamicForm;
   }
 
-  getSettingsFromBackend$(formEndpoint?:string, resourceId?:string, payload:Object = {}):Observable<IOPDynamicFormSettings>{
+  getSettingsFromBackend$(formEndpoint?:string, resourceId?:string, payload:Object = {}):Observable<IOPDynamicFormSettings> {
     const resourcePath = resourceId ? `/${resourceId}` : '';
     const formPath = formEndpoint?.endsWith('/form') ? '' : '/form';
     const url = `${formEndpoint}${resourcePath}${formPath}`;
@@ -37,7 +37,7 @@ export class DynamicFormService {
         {
           withCredentials: true,
           responseType: 'json'
-        }
+        },
       )
       .pipe(
         map((formConfig => this.getSettings(formConfig))),
@@ -56,7 +56,7 @@ export class DynamicFormService {
     return dynamicForm;
   }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch') {
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:"post" | 'patch') {
     return this._formsService.submit$(form, resourceEndpoint, resourceId, formHttpMethod);
   }
 }

@@ -26,9 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ApplicationRef, ChangeDetectorRef, Component, ElementRef, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-
 
 export const customDateActionAdminSelector = 'custom-date-action-admin';
 
@@ -38,24 +39,30 @@ export const customDateActionAdminSelector = 'custom-date-action-admin';
 })
 export class CustomDateActionAdminComponent implements OnInit {
   public valueVisible = false;
+
   public fieldName:string;
+
   public fieldValue:string;
+
   public visibleValue:string;
+
   public selectedOperator:any;
 
   private onKey = 'on';
+
   private currentKey = 'current';
+
   private currentFieldValue = '%CURRENT_DATE%';
 
   public operators = [
     { key: this.onKey, label: this.I18n.t('js.custom_actions.date.specific') },
-    { key: this.currentKey, label: this.I18n.t('js.custom_actions.date.current_date') }
+    { key: this.currentKey, label: this.I18n.t('js.custom_actions.date.current_date') },
   ];
 
   constructor(private elementRef:ElementRef,
-              private cdRef:ChangeDetectorRef,
-              public appRef:ApplicationRef,
-              private I18n:I18nService) {
+    private cdRef:ChangeDetectorRef,
+    public appRef:ApplicationRef,
+    private I18n:I18nService) {
   }
 
   // cannot use $onInit as it would be called before the operators gets filled
@@ -103,5 +110,3 @@ export class CustomDateActionAdminComponent implements OnInit {
     this.cdRef.detectChanges();
   }
 }
-
-

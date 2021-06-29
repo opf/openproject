@@ -42,10 +42,10 @@ export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
     // cf., https://community.openproject.com/wp/29754
     url: '/',
     data: {
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
     },
-    component: OverviewComponent
-  }
+    component: OverviewComponent,
+  },
 ];
 
 export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
@@ -54,7 +54,7 @@ export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
   uiRouter.urlService.rules
     .when(
       new RegExp("^/projects(?!/new$)/([^/]+)$"),
-      match => `/projects/${match[1]}/`
+      match => `/projects/${match[1]}/`,
     );
 }
 
@@ -66,15 +66,14 @@ export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
 
     UIRouterModule.forChild({
       states: OVERVIEW_ROUTES,
-      config: uiRouterOverviewConfiguration
+      config: uiRouterOverviewConfiguration,
     }),
   ],
   providers: [
   ],
   declarations: [
-    OverviewComponent
-  ]
+    OverviewComponent,
+  ],
 })
 export class OpenprojectOverviewModule {
 }
-

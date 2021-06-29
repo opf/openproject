@@ -38,13 +38,13 @@ export interface ISchemaProxy extends SchemaResource {
 
 export class SchemaProxy implements ProxyHandler<SchemaResource> {
   constructor(protected schema:SchemaResource,
-              protected resource:HalResource) {
+    protected resource:HalResource) {
   }
 
   static create(schema:SchemaResource, resource:HalResource) {
     return new Proxy(
       schema,
-      new this(schema, resource)
+      new this(schema, resource),
     ) as ISchemaProxy;
   }
 
@@ -82,10 +82,9 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
     const propertySchema = this.schema[this.mappedName(property)];
 
     if (propertySchema) {
-      return Object.assign({}, propertySchema, { writable: this.isEditable && propertySchema && propertySchema.writable });
-    } else {
-      return null;
+      return { ...propertySchema, writable: this.isEditable && propertySchema && propertySchema.writable };
     }
+    return null;
   }
 
   /**
@@ -122,9 +121,9 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
     // Returning a Proxy here so that the call is bound
     // to the SchemaProxy instance.
     return new Proxy(method, {
-      apply: function (_, __, argumentsList) {
+      apply(_, __, argumentsList) {
         return method.apply(self, [argumentsList[0]]);
-      }
+      },
     });
   }
 }

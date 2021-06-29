@@ -12,14 +12,14 @@ export class WorkPackagesTableConfigMenu implements OnInit {
   public text:any;
 
   constructor(readonly I18n:I18nService,
-              readonly injector:Injector,
-              readonly opModalService:OpModalService,
-              readonly opContextMenu:OPContextMenuService) {
+    readonly injector:Injector,
+    readonly opModalService:OpModalService,
+    readonly opContextMenu:OPContextMenuService) {
   }
 
   ngOnInit():void {
     this.text = {
-      configureTable: I18n.t('js.toolbar.settings.configure_view')
+      configureTable: I18n.t('js.toolbar.settings.configure_view'),
     };
   }
 

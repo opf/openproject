@@ -14,31 +14,29 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Injectable()
 export class GridAddWidgetService {
-
   text = { add: this.i18n.t('js.grid.add_widget') };
 
   constructor(readonly opModalService:OpModalService,
-              readonly injector:Injector,
-              readonly halResource:HalResourceService,
-              readonly layout:GridAreaService,
-              readonly drag:GridDragAndDropService,
-              readonly move:GridMoveService,
-              readonly resize:GridResizeService,
-              readonly i18n:I18nService) {
+    readonly injector:Injector,
+    readonly halResource:HalResourceService,
+    readonly layout:GridAreaService,
+    readonly drag:GridDragAndDropService,
+    readonly move:GridMoveService,
+    readonly resize:GridResizeService,
+    readonly i18n:I18nService) {
   }
 
   public isAddable(area:GridArea) {
-    return !this.drag.currentlyDragging &&
-      !this.resize.currentlyResizing &&
-      (this.layout.mousedOverArea === area || this.layout.isSingleCell || this.layout.inHelpMode) &&
-      this.isAllowed;
+    return !this.drag.currentlyDragging
+      && !this.resize.currentlyResizing
+      && (this.layout.mousedOverArea === area || this.layout.isSingleCell || this.layout.inHelpMode)
+      && this.isAllowed;
   }
 
   public widget(area:GridArea) {
     this
       .select(area)
       .then((widgetResource) => {
-
         if (this.layout.isGap(area)) {
           this.addLine(area as GridGap);
         }
@@ -76,10 +74,10 @@ export class GridAddWidgetService {
           endRow: area.endRow,
           startColumn: area.startColumn,
           endColumn: area.endColumn,
-          options: registered.properties || {}
+          options: registered.properties || {},
         };
 
-        const resource = this.halResource.createHalResource(source) as GridWidgetResource;
+        const resource = this.halResource.createHalResource(source);
 
         resource.grid = this.layout.gridResource;
 

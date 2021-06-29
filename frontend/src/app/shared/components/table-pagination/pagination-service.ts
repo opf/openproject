@@ -31,7 +31,7 @@ import { ConfigurationService } from "core-app/core/config/configuration.service
 
 export const DEFAULT_PAGINATION_OPTIONS = {
   maxVisiblePageOptions: 6,
-  optionsTruncationSize: 1
+  optionsTruncationSize: 1,
 };
 
 export interface IPaginationOptions {
@@ -45,7 +45,6 @@ export interface PaginationObject {
   pageSize:number;
   offset:number;
 }
-
 
 @Injectable()
 export class PaginationService {
@@ -71,13 +70,12 @@ export class PaginationService {
   }
 
   private get localStoragePerPage() {
-    const value = window.OpenProject.guardedLocalStorage('pagination.perPage') as string;
+    const value = window.OpenProject.guardedLocalStorage("pagination.perPage") as string;
 
     if (value !== undefined) {
       return parseInt(value, 10);
-    } else {
-      return null;
     }
+    return null;
   }
 
   public getPaginationOptions() {
@@ -119,7 +117,7 @@ export class PaginationService {
         perPage: this.getCachedPerPage(this.configuration.perPageOptions),
         perPageOptions: this.configuration.perPageOptions,
         maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
-        optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
+        optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize,
       };
 
       return this.paginationOptions;

@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { CurrentUserService } from "core-app/core/current-user/current-user.service";
 import { take } from "rxjs/internal/operators/take";
@@ -25,7 +27,7 @@ export class NotificationsSettingsPageComponent implements OnInit {
     inApp: this.I18n.t('js.notifications.in_app'),
     default_all_projects: this.I18n.t('js.notifications.settings.default_all_projects'),
     advanced_settings: this.I18n.t('js.forms.advanced_settings'),
-    self_notify: this.I18n.t('js.notifications.settings.self_notify')
+    self_notify: this.I18n.t('js.notifications.settings.self_notify'),
   };
 
   constructor(
@@ -34,7 +36,7 @@ export class NotificationsSettingsPageComponent implements OnInit {
     private store:UserPreferencesStore,
     private query:UserPreferencesQuery,
     private currentUserService:CurrentUserService,
-    private uiRouterGlobals:UIRouterGlobals
+    private uiRouterGlobals:UIRouterGlobals,
   ) {
   }
 

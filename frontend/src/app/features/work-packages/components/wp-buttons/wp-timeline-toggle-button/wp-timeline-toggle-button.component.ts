@@ -26,11 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AbstractWorkPackageButtonComponent, ButtonControllerText } from '../wp-buttons.module';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
+} from "@angular/core";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
+import { AbstractWorkPackageButtonComponent, ButtonControllerText } from "../wp-buttons.module";
 
 export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
@@ -42,28 +44,32 @@ export interface TimelineButtonText extends ButtonControllerText {
   templateUrl: './wp-timeline-toggle-button.html',
   styleUrls: ['./wp-timeline-toggle-button.sass'],
   selector: 'wp-timeline-toggle-button',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   public buttonId = 'work-packages-timeline-toggle-button';
+
   public iconClass = 'icon-view-timeline';
 
   private activateLabel:string;
+
   private deactivateLabel:string;
 
   public text:TimelineButtonText;
 
   public minZoomLevel:TimelineZoomLevel = 'days';
+
   public maxZoomLevel:TimelineZoomLevel = 'years';
 
   public isAutoZoom = false;
 
   public isMaxLevel = false;
+
   public isMinLevel = false;
 
   constructor(readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              public wpTableTimeline:WorkPackageViewTimelineService) {
+    readonly cdRef:ChangeDetectorRef,
+    public wpTableTimeline:WorkPackageViewTimelineService) {
     super(I18n);
 
     this.activateLabel = I18n.t('js.timelines.button_activate');
@@ -78,7 +84,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     this.wpTableTimeline
       .live$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.isAutoZoom = this.wpTableTimeline.isAutoZoom();
@@ -90,7 +96,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
       .appliedZoomLevel$
       .values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((current) => {
         this.isMaxLevel = current === this.maxZoomLevel;
@@ -102,9 +108,8 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
   public get label():string {
     if (this.isActive) {
       return this.deactivateLabel;
-    } else {
-      return this.activateLabel;
     }
+    return this.activateLabel;
   }
 
   public isToggle():boolean {

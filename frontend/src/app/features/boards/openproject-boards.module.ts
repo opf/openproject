@@ -52,11 +52,11 @@ import { BoardPartitionedPageComponent } from "core-app/features/boards/board/bo
 import { BoardListContainerComponent } from "core-app/features/boards/board/board-partitioned-page/board-list-container.component";
 import { BoardsMenuButtonComponent } from "core-app/features/boards/board/toolbar-menu/boards-menu-button.component";
 import { AssigneeBoardHeaderComponent } from "core-app/features/boards/board/board-actions/assignee/assignee-board-header.component";
-import { TileViewComponent } from './tile-view/tile-view.component';
-import { SubprojectBoardHeaderComponent } from "core-app/features/boards/board/board-actions/subproject/subproject-board-header.component";
-import { SubtasksBoardHeaderComponent } from "core-app/features/boards/board/board-actions/subtasks/subtasks-board-header.component";
-import { StatusBoardHeaderComponent } from "core-app/features/boards/board/board-actions/status/status-board-header.component";
-import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
+import { SubprojectBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/subproject/subproject-board-header.component';
+import { SubtasksBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/subtasks/subtasks-board-header.component';
+import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';
+import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
+import { TileViewComponent } from "./tile-view/tile-view.component";
 
 @NgModule({
   imports: [
@@ -72,7 +72,7 @@ import { OpenprojectAutocompleterModule } from "core-app/shared/components/autoc
     // Routes for /boards
     UIRouterModule.forChild({
       states: BOARDS_ROUTES,
-      config: uiRouterBoardsConfiguration
+      config: uiRouterBoardsConfiguration,
     }),
   ],
   declarations: [
@@ -98,8 +98,7 @@ import { OpenprojectAutocompleterModule } from "core-app/shared/components/autoc
     SubtasksBoardHeaderComponent,
     StatusBoardHeaderComponent,
     TileViewComponent,
-  ]
+  ],
 })
 export class OpenprojectBoardsModule {
 }
-

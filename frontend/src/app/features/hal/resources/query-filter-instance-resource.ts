@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
@@ -37,18 +36,22 @@ import { QueryFilterResource } from "core-app/features/hal/resources/query-filte
 
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;
+
   public operator:QueryOperatorResource;
+
   public values:HalResource[]|string[];
+
   private memoizedCurrentSchemas:{ [key:string]:QueryFilterInstanceSchemaResource } = {};
 
   @InjectField(SchemaCacheService) schemaCache:SchemaCacheService;
+
   @InjectField(PathHelperService) pathHelper:PathHelperService;
 
   public $initialize(source:any) {
     super.$initialize(source);
 
     this.$links['schema'] = {
-      href: this.pathHelper.api.v3.apiV3Base + '/queries/filter_instance_schemas/' + this.filter.idFromLink
+      href: `${this.pathHelper.api.v3.apiV3Base}/queries/filter_instance_schemas/${this.filter.idFromLink}`,
     };
   }
 
@@ -77,7 +80,7 @@ export class QueryFilterInstanceResource extends HalResource {
     if (this.memoizedCurrentSchemas[key] === undefined) {
       try {
         this.memoizedCurrentSchemas[key] = this.schemaCache.of(this).resultingSchema(this.operator);
-      } catch(e) {
+      } catch (e) {
         console.error("Failed to access filter schema" + e);
       }
     }

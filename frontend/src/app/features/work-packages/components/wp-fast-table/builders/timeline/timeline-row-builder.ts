@@ -1,20 +1,20 @@
 import { Injector } from '@angular/core';
 import { States } from "core-app/core/states/states.service";
-import { WorkPackageTable } from '../../wp-fast-table';
-import { commonRowClassName } from '../rows/single-row-builder';
 import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { commonRowClassName } from '../rows/single-row-builder';
+import { WorkPackageTable } from "../../wp-fast-table";
 
 export const timelineCellClassName = 'wp-timeline-cell';
 
 export class TimelineRowBuilder {
-
   @InjectField() public states:States;
+
   @InjectField() public wpTableTimeline:WorkPackageViewTimelineService;
 
   constructor(public readonly injector:Injector,
-              protected workPackageTable:WorkPackageTable) {
+    protected workPackageTable:WorkPackageTable) {
   }
 
   public build(workPackageId:string|null) {
@@ -37,7 +37,6 @@ export class TimelineRowBuilder {
   public insert(workPackageId:string|null,
     timelineBody:DocumentFragment|HTMLElement,
     rowClasses:string[] = []) {
-
     const cell = this.build(workPackageId);
     cell.classList.add(...rowClasses);
 

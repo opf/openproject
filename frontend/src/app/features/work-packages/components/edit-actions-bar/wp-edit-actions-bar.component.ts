@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
 
@@ -37,17 +39,19 @@ import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-f
 })
 export class WorkPackageEditActionsBarComponent {
   @Output('onSave') public onSave = new EventEmitter<void>();
+
   @Output('onCancel') public onCancel = new EventEmitter<void>();
+
   public _saving = false;
 
   public text = {
     save: this.I18n.t('js.button_save'),
-    cancel: this.I18n.t('js.button_cancel')
+    cancel: this.I18n.t('js.button_cancel'),
   };
 
   constructor(private I18n:I18nService,
-              private editForm:EditFormComponent,
-              private cdRef:ChangeDetectorRef) {
+    private editForm:EditFormComponent,
+    private cdRef:ChangeDetectorRef) {
   }
 
   public set saving(active:boolean) {

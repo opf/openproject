@@ -1,5 +1,7 @@
 import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { ElementRef, Injector, OnInit, Directive } from "@angular/core";
+import {
+  ElementRef, Injector, OnInit, Directive,
+} from "@angular/core";
 import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 import { Subject } from "rxjs";
 import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
@@ -8,9 +10,13 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 @Directive()
 export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler implements OnInit {
   public fieldName = 'comment';
+
   public handler = this;
+
   public active = false;
+
   public inEditMode = false;
+
   public inFlight = false;
 
   public change:WorkPackageChangeset;
@@ -19,7 +25,7 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   public onDestroy = new Subject<void>();
 
   constructor(protected elementRef:ElementRef,
-              protected injector:Injector) {
+    protected injector:Injector) {
     super();
   }
 
@@ -48,7 +54,7 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
       writable: true,
       required: false,
       type: '_comment',
-      hasDefault: false
+      hasDefault: false,
     };
   }
 

@@ -42,20 +42,23 @@ interface ProjectStatusOption {
 
 @Component({
   templateUrl: './project-status-edit-field.component.html',
-  styleUrls: ['./project-status-edit-field.component.sass']
+  styleUrls: ['./project-status-edit-field.component.sass'],
 })
 export class ProjectStatusEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
+
   @InjectField() I18n!:I18nService;
 
   public availableStatuses:ProjectStatusOption[] = [{
-      href: 'not_set',
-      name: projectStatusI18n('not_set', this.I18n),
-      colorClass: projectStatusCodeCssClass('not_set')
-    }];
+    href: 'not_set',
+    name: projectStatusI18n('not_set', this.I18n),
+    colorClass: projectStatusCodeCssClass('not_set'),
+  }];
 
   public currentStatusCode:string;
+
   public hiddenOverflowContainer = '#content-wrapper';
+
   public appendToContainer = 'body';
 
   ngOnInit() {
@@ -64,17 +67,17 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
     this.change.getForm().then((form) => {
       form.schema['status'].allowedValues.forEach((status:HalResource) => {
         this.availableStatuses = [...this.availableStatuses,
-                                  {
-                                    href: status.href!,
-                                    name: status.name,
-                                    colorClass: projectStatusCodeCssClass(status.id)
-                                  }];
+          {
+            href: status.href!,
+            name: status.name,
+            colorClass: projectStatusCodeCssClass(status.id),
+          }];
       });
 
       // The timeout takes care that the opening is added to the end of the current call stack.
       // Thus we can be sure that the select box is rendered and ready to be opened.
       const that = this;
-      window.setTimeout(function () {
+      window.setTimeout(() => {
         that.ngSelectComponent.open();
       }, 0);
     });

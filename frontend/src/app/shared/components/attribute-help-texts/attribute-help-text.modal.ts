@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
@@ -35,10 +37,9 @@ import { HelpTextResource } from "core-app/features/hal/resources/help-text-reso
 
 @Component({
   templateUrl: './help-text.modal.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttributeHelpTextModal extends OpModalComponent implements OnInit {
-
   /* Close on escape? */
   public closeOnEscape = true;
 
@@ -46,16 +47,16 @@ export class AttributeHelpTextModal extends OpModalComponent implements OnInit {
   public closeOnOutsideClick = false;
 
   readonly text = {
-    'edit': this.I18n.t('js.button_edit'),
-    'close': this.I18n.t('js.button_close')
+    edit: this.I18n.t('js.button_edit'),
+    close: this.I18n.t('js.button_close'),
   };
 
   public helpText:HelpTextResource = this.locals.helpText!;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef) {
     super(locals, cdRef, elementRef);
   }
 
@@ -76,7 +77,5 @@ export class AttributeHelpTextModal extends OpModalComponent implements OnInit {
     }
 
     return '';
-
   }
 }
-

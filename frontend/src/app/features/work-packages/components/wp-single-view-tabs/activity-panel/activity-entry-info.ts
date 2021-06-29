@@ -26,16 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 export class ActivityEntryInfo {
-
   constructor(public timezoneService:TimezoneService,
-              public isReversed:boolean,
-              public activities:any[],
-              public activity:any,
-              public index:number) {
+    public isReversed:boolean,
+    public activities:any[],
+    public activity:any,
+    public index:number) {
   }
 
   public number(forceReverse = false) {

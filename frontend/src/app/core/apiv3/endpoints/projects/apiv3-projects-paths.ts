@@ -33,7 +33,7 @@ import { SchemaResource } from "core-app/features/hal/resources/schema-resource"
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
-  listParamsString
+  listParamsString,
 } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
 import { Observable } from "rxjs";
 import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
@@ -45,7 +45,7 @@ export class APIv3ProjectsPaths
   extends CachableAPIV3Collection<ProjectResource, APIv3ProjectPaths>
   implements Apiv3ListResourceInterface<ProjectResource> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'projects', APIv3ProjectPaths);
   }
 
@@ -62,7 +62,7 @@ export class APIv3ProjectsPaths
       .halResourceService
       .get<CollectionResource<ProjectResource>>(this.path + listParamsString(params))
       .pipe(
-        this.cacheResponse()
+        this.cacheResponse(),
       );
   }
 

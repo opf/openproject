@@ -45,7 +45,7 @@ export class HalEventsService {
       .events$
       .pipe(
         filter((event:HalEvent) => event.resourceType === resourceType),
-        buffer(this.events$.pipe(debounceTime(debounceTimeInMs)))
+        buffer(this.events$.pipe(debounceTime(debounceTimeInMs))),
       );
   }
 

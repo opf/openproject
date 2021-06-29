@@ -35,7 +35,7 @@ import { Moment } from 'moment';
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
   constructor(readonly ConfigurationService:ConfigurationService,
-              readonly I18n:I18nService) {
+    readonly I18n:I18nService) {
     this.setupLocale();
   }
 
@@ -133,7 +133,7 @@ export class TimezoneService {
 
   public formattedDatetime(datetimeString:string) {
     var c = this.formattedDatetimeComponents(datetimeString);
-    return c[0] + ' ' + c[1];
+    return `${c[0]} ${c[1]}`;
   }
 
   public formattedRelativeDateTime(datetimeString:string) {
@@ -145,7 +145,7 @@ export class TimezoneService {
     var d = this.parseDatetime(datetimeString);
     return [
       d.format(this.getDateFormat()),
-      d.format(this.getTimeFormat())
+      d.format(this.getTimeFormat()),
     ];
   }
 

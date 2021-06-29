@@ -46,7 +46,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     ReactiveFormsModule,
   ],
   providers: [
-    EnterpriseTrialService
+    EnterpriseTrialService,
   ],
   declarations: [
     EnterpriseBaseComponent,
@@ -55,7 +55,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     EETrialWaitingComponent,
     EEActiveTrialComponent,
     EEActiveSavedTrialComponent,
-  ]
+  ],
 })
 export class OpenprojectEnterpriseModule {
 }

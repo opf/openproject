@@ -29,9 +29,8 @@
 import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
 
 export class WorkPackageDisplayField extends DisplayField {
-
   public text = {
-    none: this.I18n.t('js.filter.noneElement')
+    none: this.I18n.t('js.filter.noneElement'),
   };
 
   public get value() {
@@ -41,9 +40,8 @@ export class WorkPackageDisplayField extends DisplayField {
   public get title() {
     if (this.isEmpty()) {
       return this.text.none;
-    } else {
-      return this.value.name;
     }
+    return this.value.name;
   }
 
   public get wpId() {
@@ -61,7 +59,7 @@ export class WorkPackageDisplayField extends DisplayField {
 
   public get valueString() {
     // cannot display the type name easily here as it may not be loaded
-    return `#${ this.wpId } ${ this.title }`;
+    return `#${this.wpId} ${this.title}`;
   }
 
   public isEmpty():boolean {

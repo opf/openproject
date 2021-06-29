@@ -11,7 +11,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
@@ -20,7 +20,7 @@ import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
-  TabPortalOutlet
+  TabPortalOutlet,
 } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
@@ -38,8 +38,7 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
 @Component({
   templateUrl: './wp-table-configuration.modal.html'
 })
-export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
-
+export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   /* Close on escape? */
   public closeOnEscape = false;
 
@@ -59,36 +58,38 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     cancelButton: this.I18n.t('js.modals.button_cancel'),
 
     upsaleRelationColumns: this.I18n.t('js.modals.upsale_relation_columns'),
-    upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link')
+    upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link'),
   };
 
   public onDataUpdated = new EventEmitter<void>();
+
   public selectedColumnMap:{ [id:string]:boolean } = {};
 
   // Get the view child we'll use as the portal host
   @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
   // Try to load an optional provided configuration service, and fall back to the default one
   private wpTableConfigurationService:WpTableConfigurationService =
-    this.injector.get(WpTableConfigurationService, new WpTableConfigurationService(this.I18n));
+  this.injector.get(WpTableConfigurationService, new WpTableConfigurationService(this.I18n));
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
-              readonly I18n:I18nService,
-              readonly injector:Injector,
-              readonly appRef:ApplicationRef,
-              readonly componentFactoryResolver:ComponentFactoryResolver,
-              readonly loadingIndicator:LoadingIndicatorService,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-              readonly apiV3Service:APIV3Service,
-              readonly notificationService:WorkPackageNotificationService,
-              readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly ConfigurationService:ConfigurationService,
-              readonly elementRef:ElementRef) {
+    @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
+    readonly I18n:I18nService,
+    readonly injector:Injector,
+    readonly appRef:ApplicationRef,
+    readonly componentFactoryResolver:ComponentFactoryResolver,
+    readonly loadingIndicator:LoadingIndicatorService,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
+    readonly apiV3Service:APIV3Service,
+    readonly notificationService:WorkPackageNotificationService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly ConfigurationService:ConfigurationService,
+    readonly elementRef:ElementRef) {
     super(locals, cdRef, elementRef);
   }
 
@@ -100,7 +101,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       this.tabContentOutlet.nativeElement,
       this.componentFactoryResolver,
       this.appRef,
-      this.injector
+      this.injector,
     );
 
     this.loadingIndicator.indicator('modal').promise = this.loadForm()

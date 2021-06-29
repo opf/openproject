@@ -26,11 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ResourcesDisplayField } from "./resources-display-field.module";
-import { cssClassCustomOption } from "core-app/shared/components/fields/display/display-field.module";
+import { cssClassCustomOption } from 'core-app/shared/components/fields/display/display-field.module';
+import { ResourcesDisplayField } from './resources-display-field.module';
 
 export class MultipleLinesCustomOptionsDisplayField extends ResourcesDisplayField {
-
   public render(element:HTMLElement, displayText:string):void {
     const values = this.value;
     element.setAttribute('title', displayText);

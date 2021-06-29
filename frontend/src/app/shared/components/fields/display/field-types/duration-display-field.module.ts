@@ -55,9 +55,8 @@ export class DurationDisplayField extends DisplayField {
 
     if (value) {
       return this.timezoneService.formattedDuration(value);
-    } else {
-      return this.placeholder;
     }
+    return this.placeholder;
   }
 
   public render(element:HTMLElement, displayText:string):void {
@@ -67,7 +66,7 @@ export class DurationDisplayField extends DisplayField {
     }
 
     element.classList.add('split-time-field');
-    const value = this.value;
+    const { value } = this;
     const actual:number = (value && this.timezoneService.toHours(value)) || 0;
 
     if (actual !== 0) {
@@ -110,12 +109,11 @@ export class DurationDisplayField extends DisplayField {
   }
 
   public isEmpty():boolean {
-    const value = this.value;
+    const { value } = this;
     const derived = this.derivedValue;
 
     const valueEmpty = !value || this.timezoneService.toHours(value) === 0;
     const derivedEmpty = !derived || this.timezoneService.toHours(derived) === 0;
-
 
     return valueEmpty && derivedEmpty;
   }

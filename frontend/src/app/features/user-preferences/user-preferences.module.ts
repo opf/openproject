@@ -35,8 +35,8 @@ import { NotificationSettingsTableComponent } from './notifications-settings/tab
     ReactiveFormsModule,
     // Routes for /my/*
     UIRouterModule.forChild({
-      states: MY_ACCOUNT_ROUTES
+      states: MY_ACCOUNT_ROUTES,
     }),
-  ]
+  ],
 })
 export class OpenProjectMyAccountModule { }

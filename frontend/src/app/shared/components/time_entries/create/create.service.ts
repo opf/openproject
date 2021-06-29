@@ -15,7 +15,6 @@ import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-re
 
 @Injectable()
 export class TimeEntryCreateService {
-
   constructor(readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly halResource:HalResourceService,
@@ -30,7 +29,7 @@ export class TimeEntryCreateService {
       this
         .createNewTimeEntry(date, wp)
         .then(changeset => {
-          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { changeset: changeset, showWorkPackageField: showWorkPackageField });
+          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { changeset, showWorkPackageField });
 
           modal
             .closingEvent
@@ -48,14 +47,14 @@ export class TimeEntryCreateService {
 
   public createNewTimeEntry(date:Moment, wp?:WorkPackageResource) {
     const payload:any = {
-      spentOn: date.format('YYYY-MM-DD')
+      spentOn: date.format('YYYY-MM-DD'),
     };
 
     if (wp) {
       payload['_links'] = {
         workPackage: {
-          href: wp.href
-        }
+          href: wp.href,
+        },
       };
     }
 
@@ -65,9 +64,7 @@ export class TimeEntryCreateService {
       .form
       .post(payload)
       .toPromise()
-      .then(form => {
-        return this.fromCreateForm(form);
-      });
+      .then(form => this.fromCreateForm(form));
   }
 
   public fromCreateForm(form:FormResource):ResourceChangeset {
@@ -88,13 +85,11 @@ export class TimeEntryCreateService {
     // Set update link to form
     entry['update'] = entry.$links['update'] = form.$links.self;
     // Use POST /work_packages for saving link
-    entry['updateImmediately'] = entry.$links['updateImmediately'] = (payload:{}) => {
-      return this
-        .apiV3Service
-        .time_entries
-        .post(payload)
-        .toPromise();
-    };
+    entry['updateImmediately'] = entry.$links['updateImmediately'] = (payload:{}) => this
+      .apiV3Service
+      .time_entries
+      .post(payload)
+      .toPromise();
 
     entry.state.putValue(entry);
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine

@@ -32,18 +32,17 @@ import { mapTo } from 'rxjs/operators';
 import { QueryResource } from "core-app/features/hal/resources/query-resource";
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
-import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { Observable } from 'rxjs';
-import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
+import { Observable } from "rxjs";
+import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageQueryStateService } from "./wp-view-base.service";
 
 @Injectable()
 export class WorkPackageViewSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
-
   constructor(protected readonly states:States,
-              protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly pathHelper:PathHelperService) {
+    protected readonly querySpace:IsolatedQuerySpace,
+    protected readonly pathHelper:PathHelperService) {
     super(querySpace);
   }
 
@@ -55,7 +54,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
     return combine(this.pristineState, this.states.queries.sortBy)
       .values$()
       .pipe(
-        mapTo(null)
+        mapTo(null),
       );
   }
 
@@ -64,7 +63,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
 
     return !_.isEqual(
       comparer(query.sortBy),
-      comparer(this.current)
+      comparer(this.current),
     );
   }
 
@@ -80,7 +79,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public isSortable(column:QueryColumn):boolean {
     return !!_.find(
       this.available,
-      (candidate) => candidate.column.href === column.href
+      (candidate) => candidate.column.href === column.href,
     );
   }
 
@@ -103,8 +102,8 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public findAvailableDirection(column:QueryColumn, direction:string):QuerySortByResource | undefined {
     return _.find(
       this.available,
-      (candidate) => (candidate.column.href === column.href &&
-        candidate.direction.href === direction)
+      (candidate) => (candidate.column.href === column.href
+        && candidate.direction.href === direction),
     );
   }
 
@@ -121,17 +120,15 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public switchToManualSorting(query:QueryResource):boolean {
-    const manualSortObject =  this.manualSortObject;
+    const { manualSortObject } = this;
     if (manualSortObject && !this.isManualSortingMode) {
-
       if (query && query.persisted) {
         // Save the query if it is persisted
         query.sortBy = [manualSortObject];
         return true;
-      } else {
-        // Query cannot be saved, just update the props for now
-        this.update([manualSortObject]);
       }
+      // Query cannot be saved, just update the props for now
+      this.update([manualSortObject]);
     }
 
     return false;
@@ -158,8 +155,6 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   private get manualSortObject() {
-    return _.find(this.available, sort => {
-      return sort.column.href!.endsWith('/manualSorting');
-    });
+    return _.find(this.available, sort => sort.column.href!.endsWith("/manualSorting"));
   }
 }

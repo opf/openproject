@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -113,21 +112,35 @@ export interface WorkPackageLinksObject extends WorkPackageResourceLinks {
 
 export class WorkPackageBaseResource extends HalResource {
   public $embedded:WorkPackageResourceEmbedded;
+
   public $links:WorkPackageLinksObject;
+
   public subject:string;
+
   public updatedAt:Date;
+
   public lockVersion:number;
+
   public description:any;
+
   public activities:CollectionResource;
+
   public attachments:AttachmentCollectionResource;
 
   @InjectField() I18n!:I18nService;
+
   @InjectField() states:States;
+
   @InjectField() wpActivity:WorkPackagesActivityService;
+
   @InjectField() apiV3Service:APIV3Service;
+
   @InjectField() NotificationsService:NotificationsService;
+
   @InjectField() workPackageNotificationService:WorkPackageNotificationService;
+
   @InjectField() pathHelper:PathHelperService;
+
   @InjectField() opFileUpload:OpenProjectFileUploadService;
 
   readonly attachmentsBackend = true;
@@ -136,7 +149,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return the ids of all its ancestors, if any
    */
   public get ancestorIds():string[] {
-    const ancestors = (this as any).ancestors;
+    const { ancestors } = this as any;
     return ancestors.map((el:WorkPackageResource) => el.id!);
   }
 
@@ -161,16 +174,15 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public get isLeaf():boolean {
-    const children = this.$links.children;
+    const { children } = this.$links;
     return !(children && children.length > 0);
   }
 
   public previewPath() {
     if (!this.isNew) {
       return this.apiV3Service.work_packages.id(this.id!).path;
-    } else {
-      return super.previewPath();
     }
+    return super.previewPath();
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
@@ -236,7 +248,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Update the state
    */
   public push(newValue:this):Promise<unknown> {
-    this.wpActivity.clear(newValue.id!);
+    this.wpActivity.clear(newValue.id);
 
     // If there is a parent, its view has to be updated as well
     if (newValue.parent) {

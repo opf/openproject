@@ -45,4 +45,3 @@ export class VersionResource extends HalResource {
     return this.status === 'closed';
   }
 }
-

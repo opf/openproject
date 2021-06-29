@@ -14,7 +14,6 @@ import { WorkPackageNotificationService } from "core-app/features/work-packages/
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
-
   private _workPackages:WorkPackageResource[];
 
   /** Whether the card view has an active inline created wp */
@@ -23,16 +22,15 @@ export class WorkPackageCardDragAndDropService {
   /** A reference to the component in use, to have access to the current input variables */
   public cardView:WorkPackageCardViewComponent;
 
-
   public constructor(readonly states:States,
-                     readonly injector:Injector,
-                     readonly reorderService:WorkPackageViewOrderService,
-                     readonly wpCreate:WorkPackageCreateService,
-                     readonly notificationService:WorkPackageNotificationService,
-                     readonly apiV3Service:APIV3Service,
-                     readonly currentProject:CurrentProjectService,
-                     @Optional() readonly dragService:DragAndDropService,
-                     readonly wpInlineCreate:WorkPackageInlineCreateService) {
+    readonly injector:Injector,
+    readonly reorderService:WorkPackageViewOrderService,
+    readonly wpCreate:WorkPackageCreateService,
+    readonly notificationService:WorkPackageNotificationService,
+    readonly apiV3Service:APIV3Service,
+    readonly currentProject:CurrentProjectService,
+    @Optional() readonly dragService:DragAndDropService,
+    readonly wpInlineCreate:WorkPackageInlineCreateService) {
 
   }
 
@@ -95,7 +93,7 @@ export class WorkPackageCardDragAndDropService {
         }
 
         return result;
-      }
+      },
     });
   }
 
@@ -143,14 +141,12 @@ export class WorkPackageCardDragAndDropService {
     newOrder = _.uniq(newOrder);
 
     Promise
-      .all(newOrder.map(id =>
-        this
-          .apiV3Service
-          .work_packages
-          .id(id)
-          .get()
-          .toPromise()
-      ))
+      .all(newOrder.map(id => this
+        .apiV3Service
+        .work_packages
+        .id(id)
+        .get()
+        .toPromise()))
       .then((workPackages:WorkPackageResource[]) => {
         this.workPackages = workPackages;
         this.cardView.cdRef.detectChanges();

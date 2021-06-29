@@ -15,7 +15,6 @@ export const ORDER_DISTANCE = 16384;
  * operation and order
  */
 export class ReorderDeltaBuilder {
-
   // We are building a delta of positions we need to update
   // ideally this will only be one, but more may need to be set (initially)
   // or shifted in case of spacing issues
@@ -31,15 +30,14 @@ export class ReorderDeltaBuilder {
    * @param fromIndex If moved within the order, the previous index used for movement optimzation
    */
   constructor(readonly order:string[],
-              readonly positions:QueryOrder,
-              readonly wpId:string,
-              readonly index:number,
-              readonly fromIndex:number|null) {
+    readonly positions:QueryOrder,
+    readonly wpId:string,
+    readonly index:number,
+    readonly fromIndex:number|null) {
   }
 
   public buildDelta():QueryOrder {
     timeOutput(`Building delta for ${this.wpId}@${this.index}`, () => {
-
       // Ensure positions are strictly ascending. There may be cases were this does not happen
       // e.g., having a flat sorted list and turning on hierarchy mode
       if (!this.isAscendingOrder()) {
@@ -54,7 +52,6 @@ export class ReorderDeltaBuilder {
 
     return this.delta;
   }
-
 
   /**
    * Ensure +order+ is already ascending with the exception of +index+,
@@ -123,7 +120,7 @@ export class ReorderDeltaBuilder {
 
     // Ensure we reorder when predecessor is at max already
     if (predecessorPosition >= MAX_ORDER) {
-      debugLog(`Predecessor position is at max order, need to reorder`);
+      debugLog('Predecessor position is at max order, need to reorder');
       return this.reorderedInsert();
     }
 
@@ -139,7 +136,7 @@ export class ReorderDeltaBuilder {
 
     // Ensure we reorder when successor is at max already
     if (successorPosition >= MAX_ORDER) {
-      debugLog(`Successor position is at max order, need to reorder`);
+      debugLog('Successor position is at max order, need to reorder');
       return this.reorderedInsert();
     }
 
@@ -176,7 +173,7 @@ export class ReorderDeltaBuilder {
    * we can swap the positions.
    */
   private positionSwap():boolean {
-    const myPosition = this.positionFor(this.index!);
+    const myPosition = this.positionFor(this.index);
     const neighbor = this.order[this.fromIndex!];
     const neighborPosition = this.positionFor(this.fromIndex!);
 
@@ -192,7 +189,6 @@ export class ReorderDeltaBuilder {
 
     return true;
   }
-
 
   /**
    * Builds any previous unset position from 0 .. index
@@ -242,7 +238,7 @@ export class ReorderDeltaBuilder {
   private reorderedInsert() {
     // Get the current distance between orders
     // Both must be set by now due to +buildUpPredecessorPosition+ having run.
-    const min = this.firstPosition!;
+    const min = this.firstPosition;
     const max = this.lastPosition!;
 
     this.redistribute(min, max);
@@ -307,11 +303,9 @@ export class ReorderDeltaBuilder {
 
     if (any && min !== max) {
       return [min, max];
-    } else {
-      return [DEFAULT_ORDER, this.order.length * ORDER_DISTANCE];
     }
+    return [DEFAULT_ORDER, this.order.length * ORDER_DISTANCE];
   }
-
 
   /**
    * Returns the minimal position assigned currently
@@ -335,7 +329,5 @@ export class ReorderDeltaBuilder {
         return position;
       }
     }
-
-    return;
   }
 }

@@ -35,5 +35,5 @@ import { StateService } from "@uirouter/angular";
  */
 export function splitViewRoute(state:StateService):string {
   const baseRoute = state.current.data.baseRoute || '';
-  return baseRoute + '.details';
+  return `${baseRoute}.details`;
 }

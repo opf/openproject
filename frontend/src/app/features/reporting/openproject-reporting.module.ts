@@ -37,13 +37,12 @@ import { ReportingPageComponent } from "core-app/features/reporting/reporting-pa
   imports: [
     // Routes for /cost_reports
     UIRouterModule.forChild({
-      states: REPORTING_ROUTES
+      states: REPORTING_ROUTES,
     }),
   ],
   declarations: [
-    ReportingPageComponent
-  ]
+    ReportingPageComponent,
+  ],
 })
 export class OpenprojectReportingModule {
 }
-

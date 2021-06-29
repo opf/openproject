@@ -34,6 +34,7 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 
 export class WorkPackageIdDisplayField extends IdDisplayField {
   @InjectField() $state!:StateService;
+
   @InjectField() keepTab!:KeepTabService;
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
@@ -45,7 +46,7 @@ export class WorkPackageIdDisplayField extends IdDisplayField {
     const link = this.uiStateBuilder.linkToShow(
       this.value,
       displayText,
-      this.value
+      this.value,
     );
 
     element.appendChild(link);

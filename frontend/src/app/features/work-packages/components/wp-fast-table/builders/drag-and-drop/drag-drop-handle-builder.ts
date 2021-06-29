@@ -9,7 +9,6 @@ import { internalSortColumn } from "core-app/features/work-packages/components/w
 const RENDER_DRAG_AND_DROP_POSITION = false;
 
 export class DragDropHandleBuilder {
-
   // Injections
   private actionService:TableDragActionService;
 
@@ -31,7 +30,7 @@ export class DragDropHandleBuilder {
       return td;
     }
 
-    td.classList.add('wp-table--sort-td', internalSortColumn.id,  'hide-when-print');
+    td.classList.add('wp-table--sort-td', internalSortColumn.id, "hide-when-print");
 
     // Wrap handle as span
     const span = document.createElement('span');

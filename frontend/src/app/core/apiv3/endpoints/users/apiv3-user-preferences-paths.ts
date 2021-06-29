@@ -35,7 +35,6 @@ import { UserPreferencesModel } from "core-app/features/user-preferences/state/u
 export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferencesModel> {
   @InjectField() http:HttpClient;
 
-
   /**
    * Perform a request to the backend to load preferences
    */
@@ -56,7 +55,7 @@ export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferences
       .patch<UserPreferencesModel>(
         this.path,
         payload,
-        { withCredentials: true, responseType: 'json' }
+        { withCredentials: true, responseType: 'json' },
       );
   }
 }

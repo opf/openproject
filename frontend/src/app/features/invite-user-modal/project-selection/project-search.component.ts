@@ -15,8 +15,8 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
 
 interface NgSelectProjectOption {
-  project: ProjectResource,
-  disabled: boolean;
+  project:ProjectResource,
+  disabled:boolean;
 }
 
 @Component({
@@ -32,6 +32,7 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
   };
 
   public input$ = new BehaviorSubject<string|null>('');
+
   public items$ = combineLatest([
     this.input$.pipe(
       debounceTime(100),
@@ -45,24 +46,24 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
           .filtered(filters)
           .get()
           .pipe(map(collection => collection.elements));
-      })
+      }),
     ),
     this.currentUserService.capabilities$.pipe(
-      map(capabilities => capabilities.filter(c => c.action.href.endsWith('/memberships/create')))
+      map(capabilities => capabilities.filter(c => c.action.href.endsWith('/memberships/create'))),
     ),
   ])
     .pipe(
       this.untilDestroyed(),
-      map(([ projects, projectInviteCapabilities ]) => {
-        const mapped = projects.map((project: ProjectResource) => ({
+      map(([projects, projectInviteCapabilities]) => {
+        const mapped = projects.map((project:ProjectResource) => ({
           project,
           disabled: !projectInviteCapabilities.find(cap => cap.context.id === project.id),
         }));
         mapped.sort(
-          (a: NgSelectProjectOption, b: NgSelectProjectOption) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
+          (a:NgSelectProjectOption, b:NgSelectProjectOption) => (a.disabled ? 1 : 0) - (b.disabled ? 1 : 0),
         );
         return mapped;
-      })
+      }),
     );
 
   constructor(
@@ -79,7 +80,5 @@ export class ProjectSearchComponent extends UntilDestroyedMixin implements OnIni
     setTimeout(() => this.input$.next(''));
   }
 
-  compareWith = (a: NgSelectProjectOption, b: ProjectResource) => {
-    return a.project.id === b.id;
-  }
+  compareWith = (a:NgSelectProjectOption, b:ProjectResource) => a.project.id === b.id;
 }

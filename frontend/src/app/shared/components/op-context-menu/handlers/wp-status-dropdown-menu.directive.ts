@@ -48,14 +48,13 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   @Input('wpStatusDropdown-workPackage') public workPackage:WorkPackageResource;
 
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly $state:StateService,
-              protected workPackageNotificationService:WorkPackageNotificationService,
-              protected halEditing:HalResourceEditingService,
-              protected notificationService:NotificationsService,
-              protected I18n:I18nService,
-              protected halEvents:HalEventsService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly $state:StateService,
+    protected workPackageNotificationService:WorkPackageNotificationService,
+    protected halEditing:HalResourceEditingService,
+    protected notificationService:NotificationsService,
+    protected I18n:I18nService,
+    protected halEvents:HalEventsService) {
     super(elementRef, opContextMenu);
   }
 
@@ -66,7 +65,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
       const statuses = form.schema.status.allowedValues;
       this.buildItems(statuses);
 
-      const writable = change.schema.status.writable;
+      const { writable } = change.schema.status;
       if (!writable) {
         this.notificationService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
       } else {
@@ -96,19 +95,16 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   }
 
   private buildItems(statuses:CollectionResource<HalResource>) {
-    this.items = statuses.map((status:HalResource) => {
-      return {
-        disabled: false,
-        linkText: status.name,
-        postIcon: status.isReadonly ? 'icon-locked' : null,
-        postIconTitle: this.I18n.t('js.work_packages.message_work_package_read_only'),
-        class: Highlighting.inlineClass('status', status.id!),
-        onClick: () => {
-          this.updateStatus(status);
-          return true;
-        }
-      };
-    });
+    this.items = statuses.map((status:HalResource) => ({
+      disabled: false,
+      linkText: status.name,
+      postIcon: status.isReadonly ? "icon-locked" : null,
+      postIconTitle: this.I18n.t("js.work_packages.message_work_package_read_only"),
+      class: Highlighting.inlineClass("status", status.id!),
+      onClick: () => {
+        this.updateStatus(status);
+        return true;
+      },
+    }));
   }
 }
-

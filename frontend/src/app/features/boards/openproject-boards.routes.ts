@@ -45,14 +45,14 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     url: '/boards/?query_props',
     data: {
       bodyClasses: 'router--boards-view-base',
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
     },
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
-      query_props: { type: 'opQueryString', dynamic: true }
+      query_props: { type: 'opQueryString', dynamic: true },
     },
     redirectTo: 'boards.list',
-    component: BoardsRootComponent
+    component: BoardsRootComponent,
   },
   {
     name: 'boards.list',
@@ -60,20 +60,20 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
     data: {
       parent: 'boards',
       bodyClasses: 'router--boards-list-view',
-      menuItem: menuItemClass
-    }
+      menuItem: menuItemClass,
+    },
   },
   {
     name: 'boards.partitioned',
     url: '{board_id}',
     params: {
       board_id: { type: 'int' },
-      isNew: { type: 'bool', inherit: false, dynamic: true }
+      isNew: { type: 'bool', inherit: false, dynamic: true },
     },
     data: {
       parent: 'boards',
       bodyClasses: 'router--boards-full-view',
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
     },
     reloadOnSearch: false,
     component: BoardPartitionedPageComponent,
@@ -86,14 +86,14 @@ export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
       baseRoute: 'boards.partitioned.show'
     },
     views: {
-      'content-left': { component: BoardListContainerComponent }
-    }
+      'content-left': { component: BoardListContainerComponent },
+    },
   },
   ...makeSplitViewRoutes(
     'boards.partitioned.show',
     menuItemClass,
-    WorkPackageSplitViewComponent
-  )
+    WorkPackageSplitViewComponent,
+  ),
 ];
 
 export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
@@ -102,6 +102,6 @@ export function uiRouterBoardsConfiguration(uiRouter:UIRouter) {
   uiRouter.urlService.rules
     .when(
       new RegExp("^/projects/(.*)/boards$"),
-      match => `/projects/${match[1]}/boards/`
+      match => `/projects/${match[1]}/boards/`,
     );
 }

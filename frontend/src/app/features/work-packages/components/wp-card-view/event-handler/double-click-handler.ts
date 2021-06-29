@@ -7,6 +7,7 @@ import { InjectField } from "core-app/shared/helpers/angular/inject-field.decora
 
 export class CardDblClickHandler implements CardEventHandler {
   @InjectField() $state:StateService;
+
   @InjectField() wpTableSelection:WorkPackageViewSelectionService;
 
   constructor(public readonly injector:Injector,
@@ -45,4 +46,3 @@ export class CardDblClickHandler implements CardEventHandler {
     return false;
   }
 }
-

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
 import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
 
-
 @Injectable()
 export class GridMoveService {
   constructor(private layout:GridAreaService) {}
@@ -12,21 +11,15 @@ export class GridMoveService {
     let remainingAreas:GridWidgetArea[] = this.layout.widgetAreas.slice(0);
 
     if (ignoreArea) {
-      remainingAreas = remainingAreas.filter((area) => {
-        return area.guid !== ignoreArea.guid;
-      });
+      remainingAreas = remainingAreas.filter((area) => area.guid !== ignoreArea.guid);
     }
 
-    remainingAreas.sort((a, b) => {
-      return b.startRow - a.startRow;
-    });
+    remainingAreas.sort((a, b) => b.startRow - a.startRow);
 
     while (movedArea !== null) {
-      movedAreas.push(movedArea!);
+      movedAreas.push(movedArea);
 
-      remainingAreas = remainingAreas.filter((area) => {
-        return area.guid !== movedArea!.guid;
-      });
+      remainingAreas = remainingAreas.filter((area) => area.guid !== movedArea!.guid);
 
       movedArea = this.moveOneDown(movedAreas, remainingAreas);
     }
@@ -36,8 +29,8 @@ export class GridMoveService {
     const moveSpecification = this.firstAreaToMove(anchorAreas, movableAreas);
 
     if (moveSpecification) {
-      const toMoveArea = moveSpecification[0] as GridWidgetArea;
-      const anchorArea = moveSpecification[1] as GridWidgetArea;
+      const toMoveArea = moveSpecification[0];
+      const anchorArea = moveSpecification[1];
 
       const areaHeight = toMoveArea.widget.height;
 
@@ -49,9 +42,8 @@ export class GridMoveService {
       }
 
       return toMoveArea;
-    } else {
-      return null;
     }
+    return null;
   }
 
   // Return first area that needs to move as it overlaps another area.
@@ -74,12 +66,11 @@ export class GridMoveService {
         if (anchorArea.overlaps(movableArea)) {
           overlappingArea = anchorArea;
           toMoveArea = movableArea;
-          return;
         }
       });
 
       if (toMoveArea) {
-        return;
+
       }
     });
 
@@ -93,8 +84,7 @@ export class GridMoveService {
       });
 
       return [toMoveArea, referenceArea];
-    } else {
-      return null;
     }
+    return null;
   }
 }

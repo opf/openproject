@@ -3,7 +3,7 @@ import { DOCUMENT } from "@angular/common";
 
 @Injectable()
 export class BcfDetectorService {
-  constructor (@Inject(DOCUMENT) private documentElement:Document) {
+  constructor(@Inject(DOCUMENT) private documentElement:Document) {
   }
 
   /**
