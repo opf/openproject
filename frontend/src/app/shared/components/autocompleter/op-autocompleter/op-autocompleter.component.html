@@ -88,14 +88,12 @@
   <ng-container *ngSwitchCase="resource === 'work_packages' || resource === 'parent-child'">
     <div class="op-autocompleter--option-wrapper">
       <op-principal
+        class="op-autocompleter--option-principal"
         *ngIf="item.author && item.author.href"
-        data-class-list="avatar op-autocompleter-author-avatar hidden-for-mobile"
         [principal]="item.author"
         [hide-name]="true"
       ></op-principal>
-      <span class="op-autocompleter-wp-subject"> 
-      {{item.subject}} 
-      </span>
+      <span class="op-autocompleter--wp-subject">{{item.subject}}</span>
 
       <div class="op-autocompleter--wp-content">
         <span
@@ -103,10 +101,7 @@
           class="op-autocompleter--wp-project"
         ></span>
 
-        <a
-          class="op-autocompleter--wp-id"
-          [ngClass]="uiStateLinkClass"
-        >#{{item.id}}</a>
+        <span class="op-autocompleter--wp-id">#{{item.id}}</span>
 
         <span
           [textContent]="item.status?.name"
