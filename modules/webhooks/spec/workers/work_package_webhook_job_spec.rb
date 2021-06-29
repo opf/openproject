@@ -39,7 +39,7 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
 
   shared_examples "a work package webhook call" do
     let(:event) { "work_package:created" }
-    let(:job) { WorkPackageWebhookJob.new webhook.id, work_package.journals.last.id, event }
+    let(:job) { described_class.perform_now webhook.id, work_package, event }
 
     let(:stubbed_url) { request_url }
 
@@ -72,12 +72,7 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
         )
     end
 
-    subject do
-      job.perform
-    rescue StandardError
-      # ignoring it as it's expected to throw exceptions in certain scenarios
-      nil
-    end
+    subject { job }
 
     before do
       allow(::Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)

@@ -42,8 +42,15 @@ class Attachments::CreateService
   #
   # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
   def call(uploaded_file:, description:)
+    create_attachment(uploaded_file, description)
+      .tap(&method(:created_event))
+  end
+
+  private
+
+  def create_attachment(uploaded_file, description)
     if container.nil?
-      create_attachment(uploaded_file, description)
+      save_attachment(uploaded_file, description)
     elsif container.class.journaled?
       create_journalized(uploaded_file, description)
     else
@@ -51,11 +58,9 @@ class Attachments::CreateService
     end
   end
 
-  private
-
   def create_journalized(uploaded_file, description)
     OpenProject::Mutex.with_advisory_lock_transaction(container) do
-      create_attachment(uploaded_file, description).tap do
+      save_attachment(uploaded_file, description).tap do
         # Get the latest attachments to ensure having them all for journalization.
         # We just created an attachment and a different worker might have added attachments
         # in the meantime, e.g when bulk uploading.
@@ -67,12 +72,12 @@ class Attachments::CreateService
   end
 
   def create_unjournalized(uploaded_file, description)
-    create_attachment(uploaded_file, description).tap do
+    save_attachment(uploaded_file, description).tap do
       touch(container)
     end
   end
 
-  def create_attachment(uploaded_file, description)
+  def save_attachment(uploaded_file, description)
     attachment = Attachment.new(file: uploaded_file,
                                 container: container,
                                 description: description,
@@ -83,6 +88,16 @@ class Attachments::CreateService
   end
 
   def build_attachment(uploaded_file, description)
-    container.attachments.build(file: uploaded_file, description: description, author: author)
+    container.attachments.build(file: uploaded_file,
+                                description: description,
+                                content_type: uploaded_file.content_type,
+                                author: author)
+  end
+
+  def created_event(attachment)
+    OpenProject::Notifications.send(
+      OpenProject::Events::ATTACHMENT_CREATED,
+      attachment: attachment
+    )
   end
 end
