@@ -88,9 +88,9 @@ jobs:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository == 'opf/openproject'
     runs-on: [ubuntu-latest]
-    steps:
-    - uses: ruby/setup-ruby@v1
+    steps:    
     - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
     - uses: actions/setup-node@v2
       with:
         node-version: '14'
