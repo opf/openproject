@@ -4,4 +4,4 @@ require 'pathname'
 
 path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
 
-%x`npx @redocly/openapi-cli lint #{path}`
+`npx @redocly/openapi-cli lint #{path}`
