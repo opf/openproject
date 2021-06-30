@@ -10,7 +10,7 @@ import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 import { HalLink } from "core-app/features/hal/hal-link/hal-link";
 import { I18nService } from "core-app/core/i18n/i18n.service";
-
+import { FormsService } from "core-app/core/forms/forms.service";
 
 @Injectable()
 export class DynamicFieldsService {
@@ -117,6 +117,7 @@ export class DynamicFieldsService {
   constructor(
     private httpClient:HttpClient,
     private I18n:I18nService,
+    private formsService:FormsService,
   ) {
   }
 
@@ -135,28 +136,7 @@ export class DynamicFieldsService {
   }
 
   getModel(formPayload:IOPFormModel):IOPFormModel {
-    return this.getFormattedFieldsModel(formPayload);
-  }
-
-  getFormattedFieldsModel(formModel:IOPFormModel = {}):IOPFormModel {
-    const { _links: resourcesModel, _meta: metaModel, ...otherElements } = formModel;
-    const otherElementsModel = Object.keys(otherElements).reduce((model, key) => {
-      const elementValue = otherElements[key];
-
-      if (this.isValue(elementValue)) {
-        model = { ...model, [key]: elementValue }
-      }
-
-      return model;
-    }, {})
-
-    const model = {
-      ...otherElementsModel,
-      _meta: metaModel,
-      _links: this.getFormattedResourcesModel(resourcesModel),
-    };
-
-    return model;
+    return this.formsService.formatModelToEdit(formPayload);
   }
 
   getFormlyFormWithFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
@@ -185,7 +165,6 @@ export class DynamicFieldsService {
 
   private getAttributeKey(fieldSchema:IOPFieldSchema, key:string):string {
     switch (fieldSchema.location) {
-      case "_links":
       case "_meta":
         return `${fieldSchema.location}.${key}`;
       default:
@@ -195,27 +174,6 @@ export class DynamicFieldsService {
 
   private isFieldSchema(schemaValue:IOPFieldSchemaWithKey|any):boolean {
     return !!schemaValue?.type;
-  }
-
-  private getFormattedResourcesModel(resourcesModel:IOPFormModel['_links'] = {}):IOPFormModel['_links'] {
-    return Object.keys(resourcesModel).reduce((result, resourceKey) => {
-      const resource = resourcesModel[resourceKey];
-      // ng-select needs a 'name' in order to show the label
-      // We need to add it in case of the form payload (HalLinkSource)
-      const resourceModel = Array.isArray(resource) ?
-        resource.map(resourceElement => resourceElement?.href && {
-          ...resourceElement,
-          name: resourceElement?.name || resourceElement?.title
-        }) :
-        resource?.href && { ...resource, name: resource?.name || resource?.title };
-
-      result = {
-        ...result,
-        ...this.isValue(resourceModel) && { [resourceKey]: resourceModel },
-      };
-
-      return result;
-    }, {});
   }
 
   private getFormlyFieldConfig(fieldSchema:IOPFieldSchemaWithKey, formPayload:IOPFormModel):IOPFormlyFieldSettings|null {
@@ -428,10 +386,6 @@ export class DynamicFieldsService {
 
   private isMultiSelectField(field:IOPFieldSchemaWithKey) {
     return field?.type?.startsWith('[]');
-  }
-
-  private isValue(value:any) {
-    return ![null, undefined, ''].includes(value);
   }
 }
 
