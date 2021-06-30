@@ -144,7 +144,7 @@ export class AttributeModelLoaderService {
       .apiV3Service
       .withOptionalProject(this.currentProject.id)
       .work_packages
-      .filterBySubjectOrId(id, false, { pageSize: '1' })
+      .filterByTypeaheadOrId(id, false, { pageSize: '1' })
       .get()
       .pipe(
         take(1),

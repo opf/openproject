@@ -60,7 +60,7 @@ describe 'API v3 Work package resource',
     let(:other_work_package) { FactoryBot.create(:work_package) }
     let(:work_packages) { [work_package, other_work_package] }
 
-    before(:each) do
+    before do
       work_packages
       get path
     end
@@ -79,7 +79,31 @@ describe 'API v3 Work package resource',
               .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
     end
 
-    context 'user not seeing any work packages' do
+    context 'with filtering by typeahead' do
+      let(:path) { api_v3_paths.path_for :work_packages, filters: filters }
+      let(:filters) do
+        [
+          {
+            "typeahead": {
+              "operator": "**",
+              "values": "lorem ipsum"
+            }
+          }
+        ]
+      end
+
+      let(:lorem_ipsum_work_package) { FactoryBot.create(:work_package, project: project, subject: "lorem ipsum") }
+      let(:lorem_project) { FactoryBot.create(:project, members: { current_user => role }, name: "lorem other") }
+      let(:ipsum_work_package) { FactoryBot.create(:work_package, subject: "other ipsum", project: lorem_project) }
+      let(:other_lorem_work_package) { FactoryBot.create(:work_package, subject: "lorem", project: lorem_project) }
+      let(:work_packages) { [work_package, lorem_ipsum_work_package, ipsum_work_package, other_lorem_work_package] }
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+        let(:elements) { [lorem_ipsum_work_package, ipsum_work_package] }
+      end
+    end
+
+    context 'with a user not seeing any work packages' do
       include_context 'with non-member permissions from non_member_permissions'
       let(:current_user) { FactoryBot.create(:user) }
       let(:non_member_permissions) { [:view_work_packages] }
@@ -92,7 +116,7 @@ describe 'API v3 Work package resource',
         expect(subject.body).to be_json_eql(0.to_json).at_path('total')
       end
 
-      context 'because he is not allowed to see work packages in general' do
+      context 'with the user not allowed to see work packages in general' do
         let(:non_member_permissions) { [] }
 
         it_behaves_like 'unauthorized access'
@@ -143,7 +167,7 @@ describe 'API v3 Work package resource',
                 .at_path('_embedded/elements/0/id')
       end
 
-      context 'non zlibbed' do
+      context 'without zlibbed' do
         let(:props) do
           eprops = {
             filters: [{ id: { operator: '=', values: [work_package.id.to_s, other_visible_work_package.id.to_s] } }].to_json,

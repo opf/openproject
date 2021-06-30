@@ -108,13 +108,13 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    * @param idOnly
    * @param additionalParams Additional set of params to the API
    */
-  public filterBySubjectOrId(term:string, idOnly = false, additionalParams:{ [key:string]:string } = {}):ApiV3WorkPackageCachedSubresource {
+  public filterByTypeaheadOrId(term:string, idOnly = false, additionalParams:{ [key:string]:string } = {}):ApiV3WorkPackageCachedSubresource {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
     if (idOnly) {
       filters.add('id', '=', [term]);
     } else {
-      filters.add('subjectOrId', '**', [term]);
+      filters.add('typeahead', '**', [term]);
     }
 
     const params = {
