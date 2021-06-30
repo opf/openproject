@@ -79,7 +79,7 @@ export class SentryReporter implements ErrorReporter {
   private loadSentry(sentryElement:HTMLElement) {
     const dsn = sentryElement.dataset.dsn || '';
     const version = sentryElement.dataset.version || 'unknown';
-    const traceRate = parseFloat(sentryElement.dataset.tracesSampleRate || '0.1');
+    const traceFactor = parseFloat(sentryElement.dataset.tracingFactor || '0.0');
 
     import('./sentry-dependency').then((imported) => {
       const sentry = imported.Sentry;
@@ -92,8 +92,17 @@ export class SentryReporter implements ErrorReporter {
         // Integrations
         integrations: [new imported.Integrations.BrowserTracing()],
 
-        // Tracing rate for performance
-        tracesSampleRate: traceRate,
+        tracesSampler: (samplingContext) => {
+          switch (samplingContext.transactionContext.op) {
+          case 'op':
+          case 'navigation':
+            // Trace 1% of page loads and navigation events
+            return Math.min(0.01 * traceFactor, 1.0);
+          default:
+            // Trace 0.1% of requests
+            return Math.min(0.001 * traceFactor, 1.0);
+          }
+        },
 
         ignoreErrors: [
           // Transition movements,
