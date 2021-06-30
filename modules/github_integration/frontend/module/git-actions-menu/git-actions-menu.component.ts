@@ -88,8 +88,8 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
     this.workPackage = this.locals.workPackage;
   }
 
-  public async onCopyButtonClick(snippet:ISnippet):Promise<void> {
-    const success = copy(await snippet.textToCopy());
+  public onCopyButtonClick(snippet:ISnippet):void {
+    const success = copy(snippet.textToCopy());
 
     if (success) {
       this.lastCopyResult = this.text.copyResult.success;

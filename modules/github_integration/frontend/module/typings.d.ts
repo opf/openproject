@@ -3,7 +3,7 @@ import { HalResourceClass } from "core-app/modules/hal/resources/hal-resource";
 export interface ISnippet {
   id: string;
   name: string;
-  textToCopy: () => Promise<string>;
+  textToCopy: ()=>string
 }
 
 export interface IGithubPullRequestResource extends HalResourceClass {
