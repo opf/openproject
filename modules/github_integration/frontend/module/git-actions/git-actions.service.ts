@@ -28,25 +28,30 @@
 
 import {Injectable} from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import formatter from 'tickety-tick-formatter';
 
 // probably not providable in root when we want to cache the formatter and set custom templates
 @Injectable({
   providedIn: 'root',
 })
 export class GitActionsService {
-  private formatter = formatter();
-
-  public branchName(workPackage:WorkPackageResource):string {
-    return(this.formatter.branch(this.formattingInput(workPackage)));
+  formatter: any = null;
+  constructor() {
+    this.formatter = import('tickety-tick-formatter').then(t => t.default());
   }
 
-  public commitMessage(workPackage:WorkPackageResource):string {
-    return(this.formatter.commit(this.formattingInput(workPackage)));
+  public async branchName(workPackage:WorkPackageResource):Promise<string> {
+    const formatter = await this.formatter;
+    return(formatter.branch(this.formattingInput(workPackage)));
   }
 
-  public gitCommand(workPackage:WorkPackageResource):string {
-    return(this.formatter.command(this.formattingInput(workPackage)));
+  public async commitMessage(workPackage:WorkPackageResource):Promise<string> {
+    const formatter = await this.formatter;
+    return(formatter.commit(this.formattingInput(workPackage)));
+  }
+
+  public async gitCommand(workPackage:WorkPackageResource):Promise<string> {
+    const formatter = await this.formatter;
+    return(formatter.command(this.formattingInput(workPackage)));
   }
 
   private formattingInput(workPackage: WorkPackageResource) {

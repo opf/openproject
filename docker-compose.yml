@@ -70,6 +70,7 @@ services:
       - "../commonmark-ckeditor-augmented-textarea-build/build/:/home/dev/openproject/frontend/src/vendor/ckeditor-augmented-textarea/"
     ports:
       - "4200:4200"
+      - "9999:9999"
     environment:
       PROXY_HOSTNAME: backend
     networks:
