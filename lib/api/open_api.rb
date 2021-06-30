@@ -30,9 +30,10 @@ module API
     end
 
     def substitute_refs(spec, path:, root_path:, root_spec: spec)
-      if spec.is_a?(Hash)
+      case spec
+      when Hash
         substitute_refs_in_hash spec, path: path, root_path: root_path, root_spec: root_spec
-      elsif spec.is_a?(Array)
+      when Array
         spec.map { |s| substitute_refs s, path: path, root_path: root_path, root_spec: root_spec }
       else
         spec
@@ -51,9 +52,10 @@ module API
     end
 
     def resolve_refs(spec, path:, root_path:, root_spec:)
-      if spec.is_a?(Hash)
+      case spec
+      when Hash
         resolve_refs_in_hash spec, path: path, root_path: root_path, root_spec: root_spec
-      elsif spec.is_a?(Array)
+      when Array
         spec.map { |v| resolve_refs v, path: path, root_path: root_path, root_spec: root_spec }
       else
         spec
@@ -72,15 +74,31 @@ module API
       ref_path = spec.values.first
 
       if ref_path.start_with?(".")
-        schema_file = path.join(ref_path).to_s.sub(root_path.to_s, ".")
-        schema_path = path.join(ref_path).parent.to_s.sub(root_path.to_s, "").split("/").drop(1)
-        schema_name = root_spec.dig(*schema_path).find { |_k, v| v["$ref"] == schema_file }.first
-        schema_ref = path.join(ref_path).parent.join(schema_name).to_s.sub(root_path.to_s, "#")
-
-        { spec.keys.first => schema_ref }
+        { spec.keys.first => schema_ref(ref_path, path: path, root_path: root_path, root_spec: root_spec) }
       else
         spec
       end
+    end
+
+    def schema_ref(ref_path, path:, root_path:, root_spec:)
+      name = schema_name ref_path, path: path, root_path: root_path, root_spec: root_spec
+
+      path.join(ref_path).parent.join(name).to_s.sub(root_path.to_s, "#")
+    end
+
+    def schema_file(ref_path, path:, root_path:)
+      path.join(ref_path).to_s.sub root_path.to_s, "."
+    end
+
+    def schema_path(ref_path, path:, root_path:)
+      path.join(ref_path).parent.to_s.sub(root_path.to_s, "").split("/").drop 1
+    end
+
+    def schema_name(ref_path, path:, root_path:, root_spec:)
+      file = schema_file ref_path, path: path, root_path: root_path
+      spec_path = schema_path ref_path, path: path, root_path: root_path
+
+      root_spec.dig(*spec_path).find { |_k, v| v["$ref"] == file }.first
     end
   end
 end
