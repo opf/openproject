@@ -132,7 +132,7 @@ post:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/view_user_model.yml"
+            "$ref": "../components/schemas/user_model.yml"
       description: Created
       headers: {}
     '400':

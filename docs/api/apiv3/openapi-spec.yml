@@ -687,8 +687,6 @@ components:
       "$ref": "./components/schemas/view_time_entry_model.yml"
     View_time_entry_schemaModel:
       "$ref": "./components/schemas/view_time_entry_schema_model.yml"
-    View_userModel:
-      "$ref": "./components/schemas/view_user_model.yml"
     View_user_schemaModel:
       "$ref": "./components/schemas/view_user_schema_model.yml"
     WatchersModel:

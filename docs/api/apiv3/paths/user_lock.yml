@@ -45,7 +45,7 @@ delete:
                 status: active
                 updatedAt: '2014-05-21T08:51:20Z'
           schema:
-            "$ref": "../components/schemas/view_user_model.yml"
+            "$ref": "../components/schemas/user_model.yml"
       description: OK
       headers: {}
     '400':
@@ -137,7 +137,7 @@ post:
                 status: active
                 updatedAt: '2014-05-21T08:51:20Z'
           schema:
-            "$ref": "../components/schemas/view_user_model.yml"
+            "$ref": "../components/schemas/user_model.yml"
       description: OK
       headers: {}
     '400':
