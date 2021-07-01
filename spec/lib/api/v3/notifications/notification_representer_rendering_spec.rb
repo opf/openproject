@@ -44,8 +44,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
                              resource: resource,
                              journal: journal,
                              actor: actor,
-                             read_ian: read_ian,
-                             read_email: read_email
+                             read_ian: read_ian
   end
   let(:representer) do
     described_class.create notification,
@@ -55,7 +54,6 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
   let(:embed_links) { false }
   let(:read_ian) { false }
-  let(:read_email) { false }
 
   subject(:generated) { representer.to_json }
 
@@ -95,34 +93,6 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
   end
 
-  describe 'Email read and unread links' do
-    context 'when unread' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'readEmail' }
-        let(:href) { api_v3_paths.notification_read_email notification.id }
-        let(:method) { :post }
-      end
-
-      it_behaves_like 'has no link' do
-        let(:link) { 'unreadEmail' }
-      end
-    end
-
-    context 'when read' do
-      let(:read_email) { true }
-
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'unreadEmail' }
-        let(:href) { api_v3_paths.notification_unread_email notification.id }
-        let(:method) { :post }
-      end
-
-      it_behaves_like 'has no link' do
-        let(:link) { 'readEmail' }
-      end
-    end
-  end
-
   describe 'properties' do
     it_behaves_like 'property', :_type do
       let(:value) { 'Notification' }
@@ -137,7 +107,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     it_behaves_like 'property', :reason do
-      let(:value) { notification.reason }
+      let(:value) { notification.reason_ian }
     end
 
     it_behaves_like 'datetime property', :createdAt do

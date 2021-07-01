@@ -33,13 +33,47 @@ class Notifications::CreateService < ::BaseServices::Create
 
   def after_perform(call)
     super.tap do |super_call|
-      # Explicitly checking for false here as the nil value means that no
-      # notification should be sent at all.
-      if super_call.success? && super_call.result.read_email == false
-        Mails::NotificationJob
-          .set(wait: Setting.notification_email_delay_minutes.minutes)
-          .perform_later(super_call.result)
-      end
+      schedule_mail_jobs(super_call.result) if super_call.success?
     end
+  end
+
+  def schedule_mail_jobs(notification)
+    # Explicitly checking for false here as the nil value means that no
+    # notification should be sent at all.
+    schedule_direct_mail_job(notification) if notification.read_mail == false
+    schedule_digest_mail_job(notification) if notification.read_mail_digest == false
+  end
+
+  def schedule_direct_mail_job(notification)
+    Mails::NotificationJob
+      .set(wait: Setting.notification_email_delay_minutes.minutes)
+      .perform_later(notification)
+  end
+
+  def schedule_digest_mail_job(notification)
+    # This alone is vulnerable to the edge case of the Mails::DigestJob
+    # having started but not completed when a new digest notification is generated.
+    # To cope with it, the Mails::DigestJob as its first action sets all digest notifications
+    # to being handled even though they are still processed.
+    # See the DigestJob for more details.
+    return if digest_job_already_scheduled?(notification)
+
+    Mails::DigestJob
+      .set(wait_until: digest_job_execution_time(notification.recipient))
+      .perform_later(notification.recipient)
+  end
+
+  def digest_job_already_scheduled?(notification)
+    Notification
+      .mail_digest_before(recipient: notification.recipient,
+                          time: notification.created_at)
+      .where.not(id: notification.id)
+      .exists?
+  end
+
+  def digest_job_execution_time(recipient)
+    Time.now.in_time_zone(recipient.time_zone).beginning_of_day +
+      1.day +
+      Setting.notification_email_digest_time.minutes
   end
 end

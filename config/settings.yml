@@ -388,3 +388,7 @@ notification_retention_period_days:
 notification_email_delay_minutes:
   default: 15
   format: int
+# Time, the email digest is run in minutes after midnight.
+notification_email_digest_time:
+  default: 480
+  format: int

@@ -33,19 +33,7 @@ module Notifications
     def set_default_attributes(params)
       super
 
-      set_default_subject unless model.subject
       set_default_project unless model.project
-    end
-
-    def set_default_subject
-      # TODO: Work package journal specific.
-      # Extract into strategy per event resource
-      journable = model.resource
-
-      class_name = journable.class.name.underscore
-
-      model.subject = I18n.t("notifications.#{class_name.pluralize}.subject.#{model.reason}",
-                             **{ class_name.to_sym => journable.to_s })
     end
 
     ##

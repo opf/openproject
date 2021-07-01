@@ -60,7 +60,8 @@ FactoryBot.define do
       if user.notification_settings.empty?
         user.notification_settings = [
           FactoryBot.create(:mail_notification_setting, user: user, all: true),
-          FactoryBot.create(:in_app_notification_setting, user: user, all: true)
+          FactoryBot.create(:in_app_notification_setting, user: user, all: true),
+          FactoryBot.create(:mail_digest_notification_setting, user: user),
         ]
       end
 

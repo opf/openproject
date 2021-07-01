@@ -30,8 +30,6 @@ export class NotificationSettingsTableComponent {
 
   text = {
     save: this.I18n.t('js.button_save'),
-    email: this.I18n.t('js.notifications.email'),
-    inApp: this.I18n.t('js.notifications.in_app'),
     involved_header: this.I18n.t('js.notifications.settings.involved'),
     channel_header: this.I18n.t('js.notifications.channel'),
     mentioned_header: this.I18n.t('js.notifications.settings.mentioned'),
@@ -64,6 +62,7 @@ export class NotificationSettingsTableComponent {
     const added:NotificationSetting[] = [
       buildNotificationSetting(project, { channel: 'in_app' }),
       buildNotificationSetting(project, { channel: 'mail' }),
+      buildNotificationSetting(project, { channel: 'mail_digest' }),
     ];
 
     this.store.update(

@@ -1,0 +1,56 @@
+<div style="color: #777; font-weight: bold">
+  <%= digest_timespan_text %>
+</div>
+
+<% @notifications_by_project.each do |project, notifications_by_work_package| %>
+  <section style="margin-bottom: 3em; margin-top: 5em">
+    <h1 style="font-size: 2em; margin-bottom: 1.5em"><%= link_to_project(project, only_path: false) %></h1>
+
+    <% notifications_by_work_package.each do |work_package, notifications| %>
+        <section style="margin-bottom: 3em;">
+          <h2 style="margin-bottom: 1em; font-size: 1.5em;"><%= link_to_work_package work_package, only_path: false %></h2>
+
+          <% notifications.sort_by(&:created_at).each do |notification| %>
+
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="20px"></td>
+                <td style="font-weight: normal; font-size: 1.1em;">
+                  <%= digest_notification_timestamp_text(notification) %>
+                </td>
+                <td style="text-align: right">
+                  <%= I18n.t(:"mail.digests.work_packages.reason.#{notification.reason_mail_digest}") %>
+                </td>
+                <td width="20px"></td>
+              </tr>
+            </table>
+
+            <% journal = notification.journal %>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="20px"></td>
+                <td>
+                  <%= format_text(journal.notes,
+                                  only_path: false,
+                                  object: notification.resource,
+                                  project: notification.project) %>
+
+                  <% if journal.notes.present? && journal.details.any? %>
+                    <div style="margin-bottom: 2em"></div>
+                  <% end %>
+
+                  <ul>
+                    <% journal.details.each do |detail| %>
+                      <li><%= journal.render_detail(detail, only_path: false) %></li>
+                    <% end %>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+
+            <div style="margin-bottom: 3em"></div>
+          <% end %>
+        </section>
+    <% end %>
+  </section>
+<% end %>

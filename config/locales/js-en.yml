@@ -564,6 +564,7 @@ en:
       channels:
         in_app: "In-app"
         mail: "Email"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
