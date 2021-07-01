@@ -89,7 +89,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     let classes = this.isSelected(this.workPackage) ? checkedClassName : '';
     classes += this.draggable ? ' -draggable' : '';
     classes += this.workPackage.isNew ? ' -new' : '';
-    classes += ' wp-card-' + this.workPackage.id;
+    classes += ' op-wp-single-card-' + this.workPackage.id;
     classes += ' -' + this.orientation;
     classes += this.shrinkOnMobile ? ' -shrink' : '';
     return classes;

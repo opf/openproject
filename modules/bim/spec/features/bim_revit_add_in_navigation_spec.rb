@@ -99,10 +99,10 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     it 'shows work package details page in full view on Cards display mode' do
-      card_element = page.find('.wp-card')
+      card_element = page.find('[data-qa-selector]="op-wp-single-card"')
 
       card_element.hover
-      card_element.find('.wp-card--details-button').click
+      card_element.find('[data-qa-selector]="op-wp-single-card--details-button"').click
 
       expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
