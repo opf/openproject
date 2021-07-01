@@ -36,6 +36,10 @@ class Apiv3Paths {
     this.apiV3Base = basePath + '/api/v3';
   }
 
+  public get openApiSpecPath():string {
+    return this.apiV3Base + '/spec.json';
+  }
+
   /**
    * Preview markup path
    *

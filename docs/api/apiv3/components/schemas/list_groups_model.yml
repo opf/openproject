@@ -1,0 +1,46 @@
+# Schema: List_groupsModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/groups"
+  total: 2
+  count: 2
+  _type: Collection
+  _embedded:
+    elements:
+    - _type: Group
+      id: 9
+      name: The group
+      createdAt: '2015-09-23T11:06:36Z'
+      updatedAt: '2015-09-23T11:06:36Z'
+      _links:
+        self:
+          href: "/api/v3/groups/9"
+          title: The group
+        memberships:
+          href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]
+          title: Memberships
+        members:
+        - href: "/api/v3/users/363"
+          title: First user
+        - href: "/api/v3/users/60"
+          title: Second user
+    - _type: Group
+      id: 123
+      name: Another group
+      createdAt: '2018-09-23T11:06:36Z'
+      updatedAt: '2019-09-23T11:06:36Z'
+      _links:
+        self:
+          href: "/api/v3/groups/123"
+          title: Another group
+        memberships:
+          href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["123"]}}]
+          title: Memberships
+        members:
+        - href: "/api/v3/users/343"
+          title: Third user
+        - href: "/api/v3/users/60"
+          title: Second user

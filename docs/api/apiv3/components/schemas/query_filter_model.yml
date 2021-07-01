@@ -1,0 +1,16 @@
+# Schema: Query_FilterModel
+---
+type: object
+required:
+- id
+properties:
+  id:
+    type: string
+    description: QueryFilter id
+example:
+  _type: QueryFilter
+  id: status
+  _links:
+    self:
+      href: "/api/v3/queries/filters/status"
+      title: Status
