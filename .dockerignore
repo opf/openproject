@@ -15,6 +15,7 @@ Guardfile
 docker-compose.*
 browserslist
 docs
+!docs/api/apiv3/openapi-spec.yml
 extra
 features
 help
