@@ -66,7 +66,7 @@ describe 'Work Package boards spec', type: :feature, js: true do
     wp = WorkPackage.last
     expect(wp.subject).to eq 'Task 1'
     # Double click leads to the full view
-    click_target = board_page.find('[data-qa-selector]="op-wp-single-card--content-type"')
+    click_target = board_page.find('[data-qa-selector="op-wp-single-card--content-type"]')
     page.driver.browser.action.double_click(click_target.native).perform
 
     expect(page).to have_current_path project_work_package_path(project, wp.id, 'activity')

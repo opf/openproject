@@ -79,7 +79,7 @@ describe 'Work Package table hierarchy and sorting', js: true do
     wp_table.expect_work_package_listed(wp_root, wp_child1, wp_child2, wp_child3)
 
     representation.switch_to_card_layout
-    expect(page).to have_selector('[data-qa-selector]="op-wp-single-card"', count: 4)
+    expect(page).to have_selector('[data-qa-selector="op-wp-single-card"]', count: 4)
 
     # Expect indent-able for none
     hierarchy.expect_indent(wp_root, indent: false, outdent: false)

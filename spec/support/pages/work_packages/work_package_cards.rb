@@ -75,7 +75,7 @@ module Pages
       element = card(work_package)
       scroll_to_element(element)
       element.hover
-      element.find('[data-qa-selector]="op-wp-single-card--details-button"').click
+      element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
 
       ::Pages::SplitWorkPackage.new(work_package, project)
     end
