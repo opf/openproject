@@ -35,12 +35,6 @@ module API
   module V3
     module Attachments
       class AttachmentParsingRepresenter < ::API::Decorators::Single
-        property :file,
-                 setter: ->(fragment:, **) {
-                   self.file = OpenProject::Files.build_uploaded_file fragment[:tempfile],
-                                                                      fragment[:type]
-                 }
-
         nested :metadata do
           property :filename,
                    as: :fileName
@@ -63,6 +57,14 @@ module API
           property :digest,
                    render_nil: false
         end
+
+        property :file,
+                 setter: ->(fragment:, represented:, doc:, **) {
+                   filename = represented.filename || doc.dig('metadata', 'fileName')
+                   self.file = OpenProject::Files.build_uploaded_file fragment[:tempfile],
+                                                                      fragment[:type],
+                                                                      file_name: filename
+                 }
       end
     end
   end
