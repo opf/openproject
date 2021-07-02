@@ -255,7 +255,9 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
     context 'metadata section is missing' do
       let(:request_parts) { { file: file } }
 
-      it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
+      it_behaves_like 'constraint violation' do
+        let(:message) { "File #{I18n.t('activerecord.errors.messages.blank')}" }
+      end
     end
 
     context 'file section is missing' do
