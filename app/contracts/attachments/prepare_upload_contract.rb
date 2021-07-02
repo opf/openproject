@@ -29,39 +29,15 @@
 #++
 
 module Attachments
-  class CreateContract < ::ModelContract
-    attribute :file
-    attribute :filename
-    attribute :filesize
-    attribute :digest
-    attribute :description
-    attribute :content_type
-    attribute :container
-    attribute :container_type
-    attribute :author
-
-    validate :validate_attachments_addable
-    validate :validate_container_addable
-    validate :validate_author
+  class PrepareUploadContract < CreateContract
+    validate :validate_direct_uploads_active
+    # prepared uploads require a filesize to be present
+    validates :filesize, presence: true
 
     private
 
-    def validate_attachments_addable
-      if Redmine::Acts::Attachable.attachables.none?(&:attachments_addable?)
-        errors.add(:base, :error_unauthorized)
-      end
-    end
-
-    def validate_author
-      unless model.author == user
-        errors.add(:author, :invalid)
-      end
-    end
-
-    def validate_container_addable
-      return unless model.container
-
-      errors.add(:base, :error_unauthorized) unless model.container.attachments_addable?(user)
+    def validate_direct_uploads_active
+      errors.add :base, :not_available unless OpenProject::Configuration.direct_uploads?
     end
   end
 end
