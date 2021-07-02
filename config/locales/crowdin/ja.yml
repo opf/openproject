@@ -222,7 +222,7 @@ ja:
         no_results_title_text: 現在、プロジェクトのバージョンはありません。
         no_results_content_text: 新しいバージョンを作成
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: このプロジェクトによって使用される追加のディスク領域はありません。
   members:
     index:
       no_results_title_text: 現在、このプロジェクトのメンバーはいません。
