@@ -276,7 +276,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       let(:metadata) { Hash.new }
 
       it_behaves_like 'constraint violation' do
-        let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }
+        let(:message) { "File #{I18n.t('activerecord.errors.messages.blank')}" }
       end
     end
 
