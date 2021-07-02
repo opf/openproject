@@ -2249,6 +2249,10 @@ bg:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) позволява разрешения"
   setting_apiv3_cors_origins_text_html: >
     Ако CORS е активиран, това са източниците, на които е разрешен достъп до API на OpenProject. <br/> Моля, проверете <a href="%{origin_link}" target="_blank"> Документацията в заглавието Origin </a> за това как да посочите очакваните стойности.
+  setting_apiv3_docs: "Документация"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Метод за доставка на имейл"
   setting_sendmail_location: "Местоположение на sendmail програма"
   setting_smtp_enable_starttls_auto: "Автоматично използвай STARTTLS ако е налично"
