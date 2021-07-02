@@ -47,37 +47,11 @@ module API
             request.env['REQUEST_METHOD'] == 'POST'
           end
 
-          def parse_and_prepare
-            metadata = nil
-
-            unless metadata
-              raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.multipart_body_error'))
-            end
-
-            create_attachment metadata
-          end
-
-          def create_attachment(metadata)
-            Attachment.create_pending_direct_upload(
-              file_name: metadata.file_name,
-              container: container,
-              author: current_user,
-              content_type: metadata.content_type,
-              file_size: metadata.file_size
-            )
-          end
-
           ##
           # Additionally to what would be checked by the contract,
           # we need to restrict permissions in some use cases of the mounts of this endpoint.
           def restrict_permissions(permissions)
             authorize_any(permissions, projects: container.project) unless permissions.empty?
-          end
-
-          def require_direct_uploads
-            unless OpenProject::Configuration.direct_uploads?
-              raise API::Errors::NotFound, message: "Only available if direct uploads are enabled."
-            end
           end
 
           def parse_multipart(request)
@@ -113,14 +87,14 @@ module API
 
         def self.prepare(permissions = [])
           -> do
-            require_direct_uploads
             restrict_permissions permissions
 
             instance_exec &::API::V3::Utilities::Endpoints::Create
                .new(model: ::Attachment,
                     parse_representer: AttachmentParsingRepresenter,
-                    process_service: nil, # TODO prepare service
-                    params_getter: ->(request) { request.params },
+                    process_service: ::Attachments::PrepareUploadService,
+                    process_contract: ::Attachments::PrepareUploadContract,
+                    params_getter: method(:parse_multipart),
                     params_modifier: ->(params) do
                       params.merge(container: container)
                     end)
