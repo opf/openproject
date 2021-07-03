@@ -94,6 +94,7 @@ module API
             instance_exec &::API::V3::Utilities::Endpoints::Create
                .new(model: ::Attachment,
                     parse_representer: AttachmentParsingRepresenter,
+                    render_representer: AttachmentUploadRepresenter,
                     process_service: ::Attachments::PrepareUploadService,
                     process_contract: ::Attachments::PrepareUploadContract,
                     params_getter: method(:parse_multipart),
