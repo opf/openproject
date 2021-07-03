@@ -31,8 +31,6 @@
 module Attachments
   class PrepareUploadContract < CreateContract
     validate :validate_direct_uploads_active
-    # prepared uploads require a filesize to be present
-    validates :filesize, presence: true
 
     private
 
