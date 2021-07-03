@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,22 +29,36 @@
 #++
 
 module Attachments
-  class PrepareUploadService < ::BaseServices::Create
-    def persist(call)
-      attachment = call.result
+  class SetPreparedAttributesService < SetAttributesService
+    private
 
-      if attachment.save
-        attachment.reload # necessary so that the fog file uploader path is correct
-        ServiceResult.new success: true, result: attachment
-      else
-        ServiceResult.new success: false, result: attachment
+    def set_attributes(params)
+      super
+
+      set_prepared_attributes params
+    end
+
+    def set_prepared_attributes(params)
+      # We need to do it like this because `file` is an uploader which expects a File (not a string)
+      # to upload usually. But in this case the data has already been uploaded and we just point to it.
+      model[:file] = pending_direct_upload_filename(params[:filename])
+
+      # Explicitly set the filesize from metadata
+      # as the provided file is not actually uploaded
+      model.filesize = params[:filesize]
+
+      model.extend(OpenProject::ChangedBySystem)
+      model.change_by_system do
+        model.downloads = -1
+        model.content_type = params[:content_type] || 'application/octet-stream'
       end
     end
 
-    private
-
-    def attributes_service_class
-      SetPreparedAttributesService
+    # The name has to be in the same format as what Carrierwave will produce later on. If they are different,
+    # Carrierwave will alter the name (both local and remote) whenever the attachment is saved with the remote
+    # file loaded.
+    def pending_direct_upload_filename(filename)
+      CarrierWave::SanitizedFile.new(nil).send(:sanitize, filename)
     end
   end
 end

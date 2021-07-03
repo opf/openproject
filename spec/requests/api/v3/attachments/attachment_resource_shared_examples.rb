@@ -69,10 +69,15 @@ shared_examples 'it supports direct uploads' do
 
       context 'with no filesize metadata' do
         let(:metadata) { { fileName: 'cat.png' } }
+        let(:json) { JSON.parse subject.body }
 
         it 'should respond with 422 due to missing file size metadata' do
           expect(subject.status).to eq(422)
-          expect(subject.body).to include 'fileSize'
+          expect(subject.body).to include 'Size'
+        end
+
+        it_behaves_like 'constraint violation' do
+          let(:message) { "Size #{I18n.t('activerecord.errors.messages.blank')}" }
         end
       end
 
