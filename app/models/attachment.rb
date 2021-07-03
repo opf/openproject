@@ -148,7 +148,7 @@ class Attachment < ApplicationRecord
   end
 
   def filename
-    attributes['file']
+    attributes['file'] || super
   end
 
   ##
