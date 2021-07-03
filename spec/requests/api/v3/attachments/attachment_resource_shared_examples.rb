@@ -289,6 +289,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
     context 'file is too large' do
       let(:file) { mock_uploaded_file(content: 'a' * 2.kilobytes) }
+
       let(:expanded_localization) do
         I18n.t('activerecord.errors.messages.file_too_large', count: max_file_size.kilobytes)
       end
