@@ -45,6 +45,7 @@ shared_examples 'it supports direct uploads' do
     let(:request_parts) { { metadata: metadata.to_json, file: file } }
     let(:metadata) { { fileName: 'cat.png', fileSize: file.size, contentType: 'image/png' } }
     let(:file) { mock_uploaded_file(name: 'original-filename.txt') }
+    let(:json_response) { JSON.parse last_response.body }
 
     def request!
       post request_path, request_parts
@@ -57,8 +58,12 @@ shared_examples 'it supports direct uploads' do
         request!
       end
 
-      it 'should respond with HTTP Not Found' do
-        expect(subject.status).to eq(404)
+      it 'should respond with validation error' do
+        expect(subject.status).to eq(422)
+      end
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { "is not available due to a system configuration" }
       end
     end
 
@@ -270,7 +275,9 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       # however as long as we depend on correctly named sections this test should do just fine
       let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
-      it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
+      it_behaves_like 'constraint violation' do
+        let(:message) { "Content type #{I18n.t('activerecord.errors.messages.blank')}" }
+      end
     end
 
     context 'metadata section is no valid JSON' do
@@ -546,7 +553,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       context 'metadata section is missing' do
         let(:request_parts) { { file: file } }
 
-        it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
+        it_behaves_like 'constraint violation' do
+          # File here is the localized name for fileName property
+          # which is derived from the missing metadata
+          let(:message) { "File #{I18n.t('activerecord.errors.messages.blank')}" }
+        end
       end
 
       context 'file section is missing' do
@@ -554,7 +565,9 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         # however as long as we depend on correctly named sections this test should do just fine
         let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
-        it_behaves_like 'invalid request body', I18n.t('api_v3.errors.multipart_body_error')
+        it_behaves_like 'constraint violation' do
+          let(:message) { "Content type #{I18n.t('activerecord.errors.messages.blank')}" }
+        end
       end
 
       context 'metadata section is no valid JSON' do
@@ -567,7 +580,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:metadata) { Hash.new }
 
         it_behaves_like 'constraint violation' do
-          let(:message) { "fileName #{I18n.t('activerecord.errors.messages.blank')}" }
+          let(:message) { "File #{I18n.t('activerecord.errors.messages.blank')}" }
         end
       end
 
