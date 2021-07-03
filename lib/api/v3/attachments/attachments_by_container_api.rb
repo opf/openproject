@@ -59,7 +59,7 @@ module API
               params[:metadata] = JSON.parse(params[:metadata]) if params.key?(:metadata)
             end
           rescue JSON::ParserError
-            raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.multipart_body_error'))
+            raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
           end
         end
 
