@@ -29,7 +29,7 @@
 #++
 
 module BaseServices
-  class BaseContracted < BaseCallable
+class BaseContracted < BaseCallable
     include Contracted
     include Shared::ServiceContext
 
