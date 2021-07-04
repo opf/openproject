@@ -120,17 +120,24 @@ class BackupJob < ::ApplicationJob
 
   def store_backup(file_name, backup:, user:)
     File.open(file_name) do |file|
-      attachment = Attachments::CreateService
-        .new(backup, author: user)
-        .call(uploaded_file: file, description: 'OpenProject backup')
+      call = Attachments::CreateService
+        .new(user: user)
+        .call(container: backup, filename: file_name, file: file, description: 'OpenProject backup')
 
-      download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(attachment.id)
+      call.on_success do
+        download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
 
-      upsert_status(
-        status: :success,
-        message: I18n.t('export.succeeded'),
-        payload: download_payload(download_url)
-      )
+        upsert_status(
+          status: :success,
+          message: I18n.t('export.succeeded'),
+          payload: download_payload(download_url)
+        )
+      end
+
+      call.on_failure do
+        upsert_status status: :failure,
+                      message: I18n.t('export.failed', message: call.message)
+      end
     end
   end
 

@@ -29,7 +29,7 @@
 #++
 
 module BaseServices
-class BaseContracted < BaseCallable
+  class BaseContracted < BaseCallable
     include Contracted
     include Shared::ServiceContext
 
@@ -92,6 +92,7 @@ class BaseContracted < BaseCallable
       # nothing for now but subclasses can override
       call
     end
+
     alias_method :after_save, :after_perform
 
     def persist(call)
