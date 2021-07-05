@@ -92,7 +92,7 @@
         </ng-container>
       </div>
     </ng-container>
-    <ul class="work-package-details-activities-messages" *ngIf="notification.details">
+    <ul class="work-package-details-activities-messages" *ngIf="notification.details.length > 1">
       <ng-container *ngFor="let detail of details">
         <li *ngIf="detail.html && detail.html !== ''">
           <span
