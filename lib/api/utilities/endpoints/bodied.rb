@@ -46,7 +46,7 @@ module API
           end
         end
 
-        def default_params_getter
+        def default_params_source
           ->(request) do
             request.request_body
           end
@@ -56,7 +56,7 @@ module API
                        api_name: model.name.demodulize,
                        instance_generator: default_instance_generator(model),
                        params_modifier: default_params_modifier,
-                       params_getter: default_params_getter,
+                       params_source: default_params_source,
                        process_state: default_process_state,
                        parse_representer: nil,
                        render_representer: nil,
@@ -67,7 +67,7 @@ module API
           self.api_name = api_name
           self.instance_generator = instance_generator
           self.params_modifier = params_modifier
-          self.params_getter = params_getter
+          self.params_source = params_source
           self.process_state = process_state
           self.parse_representer = parse_representer || deduce_parse_representer
           self.render_representer = render_representer || deduce_render_representer
@@ -94,7 +94,7 @@ module API
             .new(request.current_user,
                  model: model,
                  representer: parse_representer)
-            .call(params_getter.call(request))
+            .call(params_source.call(request))
             .result
         end
 
@@ -129,7 +129,7 @@ module API
                       :instance_generator,
                       :parse_representer,
                       :render_representer,
-                      :params_getter,
+                      :params_source,
                       :params_modifier,
                       :process_contract,
                       :process_service,
