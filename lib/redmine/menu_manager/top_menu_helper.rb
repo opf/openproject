@@ -126,7 +126,7 @@ module Redmine::MenuManager::TopMenuHelper
         label: '',
         label_options: { icon: 'icon-menu', title: I18n.t('label_modules') },
         items: items,
-        options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ' }
+        options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: 'hidden-for-mobile' }
       )
     end
   end
