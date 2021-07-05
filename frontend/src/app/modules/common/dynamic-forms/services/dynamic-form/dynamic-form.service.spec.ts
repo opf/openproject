@@ -11,7 +11,7 @@ describe('DynamicFormService', () => {
   let httpClient:HttpClient;
   let httpTestingController:HttpTestingController;
   let dynamicFormService:DynamicFormService;
-  let formsService:jasmine.SpyObj<FormsService>;
+  let formsService:FormsService;
   const testFormUrl = 'http://op.com/form';
   const formSchema = {
     "_type": "Form",
@@ -105,12 +105,10 @@ describe('DynamicFormService', () => {
     ],
     "model": {
       "name": "Project 1",
-      "_links": {
-        "parent": {
-          "href": "/api/v3/projects/26",
-          "title": "Parent project",
-          "name": "Parent project"
-        }
+      "parent": {
+        "href": "/api/v3/projects/26",
+        "title": "Parent project",
+        "name": "Parent project"
       },
       "_meta": undefined
     },
@@ -118,8 +116,6 @@ describe('DynamicFormService', () => {
   };
 
   beforeEach(() => {
-    const formServiceSpy = jasmine.createSpyObj('FormsService', ['submit$']);
-
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -127,13 +123,13 @@ describe('DynamicFormService', () => {
       providers: [
         DynamicFormService,
         DynamicFieldsService,
-        { provide: FormsService, useValue: formServiceSpy }
+        FormsService,
       ]
     });
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
     dynamicFormService = TestBed.inject(DynamicFormService);
-    formsService = TestBed.inject(FormsService) as jasmine.SpyObj<FormsService>;
+    formsService = TestBed.inject(FormsService);
   });
 
   it('should be created', () => {
@@ -157,17 +153,5 @@ describe('DynamicFormService', () => {
     expect(req.request.method).toEqual('POST');
     req.flush(formSchema);
     httpTestingController.verify();
-  });
-
-  it('should submit the dynamic form value', () => {
-    const dynamicForm = dynamicFormConfig.form;
-
-    formsService.submit$.and.returnValue(of('ok response'));
-
-    dynamicFormService
-      .submit$(dynamicForm, testFormUrl)
-      .subscribe();
-
-    expect(formsService.submit$).toHaveBeenCalledWith(dynamicForm, testFormUrl, undefined, undefined, undefined);
   });
 });
