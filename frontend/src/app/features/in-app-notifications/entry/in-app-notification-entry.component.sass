@@ -65,7 +65,6 @@
   &--date,
   &--actor
     flex-grow: 0
-    text-align: right
     margin-left: 0.5rem
 
   &--reason,
@@ -74,9 +73,15 @@
     max-width: 90px
     color: var(--gray-dark)
 
+  &--date
+    text-align: right
+
   &--actor
     width: 20%
     max-width: 200px
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
 
     @media screen and (max-width: 680px)
       width: 28px
