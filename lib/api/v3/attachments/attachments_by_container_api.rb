@@ -79,7 +79,7 @@ module API
             instance_exec &::API::V3::Utilities::Endpoints::Create
               .new(model: ::Attachment,
                    parse_representer: AttachmentParsingRepresenter,
-                   params_getter: method(:parse_multipart),
+                   params_source: method(:parse_multipart),
                    params_modifier: ->(params) do
                      params.merge(container: container)
                    end)
@@ -97,7 +97,7 @@ module API
                     render_representer: AttachmentUploadRepresenter,
                     process_service: ::Attachments::PrepareUploadService,
                     process_contract: ::Attachments::PrepareUploadContract,
-                    params_getter: method(:parse_multipart),
+                    params_source: method(:parse_multipart),
                     params_modifier: ->(params) do
                       params.merge(container: container)
                     end)
