@@ -1,14 +1,14 @@
-<div class="pagination" *ngIf="pagination && isVisible && pagination.total">
-  <nav class="pagination--pages">
-    <ul class="pagination--items">
+<div class="op-pagination" *ngIf="pagination && isVisible && pagination.total">
+  <nav class="op-pagination--pages">
+    <ul class="op-pagination--items">
 
-      <li [hidden]="pagination.page == 1 || !showPageSelections" class="pagination--item">
+      <li [hidden]="pagination.page == 1 || !showPageSelections" class="op-pagination--item">
         <button
           type="button"
           (click)="showPage(pagination.page - 1)"
           rel="prev start"
           [attr.aria-label]="text.label_previous"
-          id="pagination--prev-link"
+          id="op-pagination--prev-link"
         >
           &#60;
         </button>
@@ -16,7 +16,7 @@
 
       <ng-container *ngIf="prePageNumbers.length > 0">
         <li *ngFor="let pageNumber of prePageNumbers"
-            class="pagination--item">
+            class="op-pagination--item">
           <button
             type="button"
             (click)="showPage(pageNumber)"
@@ -24,13 +24,13 @@
             [textContent]="pageNumber"
           ></button>
         </li>
-        <li class="pagination--space">…</li>
+        <li class="op-pagination--space">…</li>
       </ng-container>
 
       <ng-container *ngIf="pageNumbers.length > 1">
         <li *ngFor="let pageNumber of pageNumbers"
-            [ngClass]="{ '-current': pageNumber == pagination.page }"
-            class="pagination--item pagination-number">
+            [ngClass]="{ 'op-pagination--item_current': pageNumber == pagination.page }"
+            class="op-pagination--item">
           <em *ngIf="pageNumber == pagination.page">{{ pageNumber }}</em>
           <button
             type="button"
@@ -41,11 +41,11 @@
           ></button>
         </li>
 
-        <li *ngIf="postPageNumbers.length" class="pagination--space">…</li>
+        <li *ngIf="postPageNumbers.length" class="op-pagination--space">…</li>
       </ng-container>
 
       <ng-container *ngIf="postPageNumbers.length">
-        <li *ngFor="let pageNumber of postPageNumbers" class="pagination--item pagination-number">
+        <li *ngFor="let pageNumber of postPageNumbers" class="op-pagination--item">
           <button
             type="button"
             (click)="showPage(pageNumber)"
@@ -56,29 +56,29 @@
       </ng-container>
 
       <li [hidden]="!(pagination.total && pagination.page < pageNumbers[pageNumbers.length - 1])"
-          class="pagination--item">
+          class="op-pagination--item">
         <button
           type="button"
           (click)="showPage(pagination.page + 1)"
           rel="next"
-          class="pagination--next-link"
+          class="op-pagination--next-link"
           [attr.aria-label]="text.label_next"
-          id="pagination--next-link"
+          id="op-pagination--next-link"
         >
           &#62;
         </button>
       </li>
 
-      <li class="pagination--range">
+      <li class="op-pagination--range">
         <span [textContent]="currentRange"></span>
         <span *ngIf="pageNumbers.length === 1"
-              id="pagination-empty-text"
+              id="op-pagination-empty-text"
               tabindex="0"
               class="hidden-for-sighted"
               [textContent]="text.no_other_page"></span>
       </li>
 
-      <li class="pagination--info"
+      <li class="op-pagination--info"
           *ngIf="infoText">
         <op-icon icon-classes="icon-info1 icon-context"></op-icon>
         <span [textContent]="infoText">
@@ -88,14 +88,14 @@
     </ul>
   </nav>
 
-  <div class="pagination--options"
+  <div class="op-pagination--options"
        *ngIf="showPerPageOptions()">
-    <ul class="pagination--items">
-      <li class="pagination--label" [textContent]="text.per_page" title="{{ text.per_page }}"></li>
+    <ul class="op-pagination--items">
+      <li class="op-pagination--label" [textContent]="text.per_page" title="{{ text.per_page }}"></li>
 
       <li *ngFor="let perPageOption of perPageOptions"
-          [ngClass]="{ '-current': perPageOption == pagination.perPage }"
-          class="pagination--item">
+          [ngClass]="{ 'op-pagination--item_current': perPageOption == pagination.perPage }"
+          class="op-pagination--item">
 
        <span *ngIf="perPageOption != pagination.perPage">
          <button
