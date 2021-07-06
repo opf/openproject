@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -24,29 +24,29 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++    Ng1FieldControlsWrapper,
+// ++    Ng1FieldControlsWrapper,
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector,
-} from "@angular/core";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { DateDisplayField } from "core-app/shared/components/fields/display/field-types/date-display-field.module";
-import { CombinedDateDisplayField } from "core-app/shared/components/fields/display/field-types/combined-date-display.field";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+} from '@angular/core';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { DateDisplayField } from 'core-app/shared/components/fields/display/field-types/date-display-field.module';
+import { CombinedDateDisplayField } from 'core-app/shared/components/fields/display/field-types/combined-date-display.field';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
-export const quickInfoMacroSelector = "macro.macro--wp-quickinfo";
+export const quickInfoMacroSelector = 'macro.macro--wp-quickinfo';
 
 @Component({
   selector: quickInfoMacroSelector,
-  templateUrl: "./work-package-quickinfo-macro.html",
-  styleUrls: ["./work-package-quickinfo-macro.sass"],
+  templateUrl: './work-package-quickinfo-macro.html',
+  styleUrls: ['./work-package-quickinfo-macro.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
@@ -57,11 +57,11 @@ export class WorkPackageQuickinfoMacroComponent {
   error:string|null = null;
 
   text = {
-    not_found: this.I18n.t("js.editor.macro.attribute_reference.not_found"),
-    help: this.I18n.t("js.editor.macro.attribute_reference.macro_help_tooltip"),
+    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
+    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
   };
 
-  @HostBinding("title") hostTitle = this.text.help;
+  @HostBinding('title') hostTitle = this.text.help;
 
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;
@@ -86,7 +86,7 @@ export class WorkPackageQuickinfoMacroComponent {
   ngOnInit() {
     const element = this.elementRef.nativeElement as HTMLElement;
     const id:string = element.dataset.id!;
-    this.detailed = element.dataset.detailed === "true";
+    this.detailed = element.dataset.detailed === 'true';
     this.workPackageLink = this.pathHelper.workPackagePath(id);
 
     this.workPackage$ = this
@@ -101,7 +101,7 @@ export class WorkPackageQuickinfoMacroComponent {
 
   markError(message:string) {
     console.error(`Failed to render macro ${message}`);
-    this.error = this.I18n.t("js.editor.macro.error", { message });
+    this.error = this.I18n.t('js.editor.macro.error', { message });
     this.cdRef.detectChanges();
   }
 }

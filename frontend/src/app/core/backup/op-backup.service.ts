@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { Observable } from "rxjs";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { Observable } from 'rxjs';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class OpenProjectBackupService {
   constructor(protected http:HttpClient,
     protected halResource:HalResourceService) {
@@ -42,13 +42,13 @@ export class OpenProjectBackupService {
     return this
       .http
       .request<HalResource>(
-        "post",
-        "/api/v3/backups",
-        {
-          body: { backupToken, attachments: includeAttachments },
-          withCredentials: true,
-          responseType: "json" as any,
-        },
-      );
+      'post',
+      '/api/v3/backups',
+      {
+        body: { backupToken, attachments: includeAttachments },
+        withCredentials: true,
+        responseType: 'json' as any,
+      },
+    );
   }
 }

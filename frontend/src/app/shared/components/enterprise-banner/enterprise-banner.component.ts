@@ -1,10 +1,10 @@
-import { Component, Input } from "@angular/core";
-import { BannersService } from "core-app/core/enterprise/banners.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Component, Input } from '@angular/core';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  selector: "enterprise-banner",
-  styleUrls: ["./enterprise-banner.component.sass"],
+  selector: 'enterprise-banner',
+  styleUrls: ['./enterprise-banner.component.sass'],
   template: `
       <div class="notification-box -ee-upsale"
            [ngClass]="{'-left-margin': leftMargin }">
@@ -28,7 +28,7 @@ export class EnterpriseBannerComponent {
   @Input() public opReferrer:string;
 
   public text:any = {
-    enterpriseFeature: this.I18n.t("js.upsale.ee_only"),
+    enterpriseFeature: this.I18n.t('js.upsale.ee_only'),
   };
 
   constructor(

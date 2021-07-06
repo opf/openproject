@@ -1,10 +1,10 @@
-import { Injectable, Injector } from "@angular/core";
+import { Injectable, Injector } from '@angular/core';
 import {
   OpTableActionFactory,
-} from "core-app/features/work-packages/components/wp-table/table-actions/table-action";
-import { OpDetailsTableAction } from "core-app/features/work-packages/components/wp-table/table-actions/actions/details-table-action";
-import { OpContextMenuTableAction } from "core-app/features/work-packages/components/wp-table/table-actions/actions/context-menu-table-action";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+} from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
+import { OpDetailsTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/details-table-action';
+import { OpContextMenuTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/context-menu-table-action';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Injectable()
 export class OpTableActionsService {

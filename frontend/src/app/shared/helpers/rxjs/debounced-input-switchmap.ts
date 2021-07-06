@@ -1,6 +1,6 @@
 import {
   concat, Observable, of, Subject,
-} from "rxjs";
+} from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -8,10 +8,10 @@ import {
   switchMap,
   takeUntil,
   tap,
-} from "rxjs/operators";
-import { RequestSwitchmapHandler } from "core-app/shared/helpers/rxjs/request-switchmap";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+} from 'rxjs/operators';
+import { RequestSwitchmapHandler } from 'core-app/shared/helpers/rxjs/request-switchmap';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export type RequestErrorHandler = (error:unknown) => void;
 
@@ -49,7 +49,7 @@ export class DebouncedRequestSwitchmap<T, R = HalResource> {
     this.output$ = concat(
       of([]),
       this.input$.pipe(
-        filter(val => !preFilterNull || (val !== undefined && val !== null)),
+        filter((val) => !preFilterNull || (val !== undefined && val !== null)),
         distinctUntilChanged(),
         debounceTime(debounceMs),
         tap((val:T) => {
@@ -57,7 +57,7 @@ export class DebouncedRequestSwitchmap<T, R = HalResource> {
           this.lastResult = [];
           this.loading$.next(true);
         }),
-        switchMap(term => this.requestHandler(term)
+        switchMap((term) => this.requestHandler(term)
           .pipe(
             catchError((error) => {
               this.errorHandler(error);

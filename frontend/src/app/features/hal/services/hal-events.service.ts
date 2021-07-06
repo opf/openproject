@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import { buffer, debounceTime, filter } from "rxjs/operators";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ResourceChangesetCommit } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { buffer, debounceTime, filter } from 'rxjs/operators';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 
 export interface HalEvent {
   id:string;
@@ -12,27 +12,27 @@ export interface HalEvent {
 }
 
 export interface HalCreatedEvent extends HalEvent {
-  eventType:"created";
+  eventType:'created';
 }
 
 export interface HalUpdatedEvent extends HalEvent {
-  eventType:"updated";
+  eventType:'updated';
 }
 
 export interface RelatedWorkPackageEvent extends HalEvent {
-  eventType:"association";
+  eventType:'association';
   relatedWorkPackage:string|null;
   relationType:string;
 }
 
 export interface HalDeletedEvent extends HalEvent {
-  eventType:"deleted";
+  eventType:'deleted';
 }
 
 export type HalEventTypes =
   HalCreatedEvent|HalUpdatedEvent|RelatedWorkPackageEvent|HalDeletedEvent;
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class HalEventsService {
   private _events = new Subject<HalEvent>();
 

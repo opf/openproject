@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -32,12 +32,12 @@
     init() {
       if (global_roles.script_applicable()) {
         global_roles.toggle_forms_on_click();
-        global_roles.activation_and_visibility_based_on_checked($("#global_role"));
+        global_roles.activation_and_visibility_based_on_checked($('#global_role'));
       }
     },
 
     toggle_forms_on_click() {
-      $("#global_role").on("click", global_roles.toggle_forms);
+      $('#global_role').on('click', global_roles.toggle_forms);
     },
 
     toggle_forms(event:any) {
@@ -45,7 +45,7 @@
     },
 
     activation_and_visibility_based_on_checked(element:any) {
-      if ($(element).prop("checked")) {
+      if ($(element).prop('checked')) {
         global_roles.show_global_forms();
         global_roles.hide_member_forms();
         global_roles.enable_global_forms();
@@ -59,57 +59,57 @@
     },
 
     show_global_forms() {
-      $("#global_permissions").show();
+      $('#global_permissions').show();
     },
 
     show_member_forms() {
-      $("#member_attributes").show();
-      $("#member_permissions").show();
+      $('#member_attributes').show();
+      $('#member_permissions').show();
     },
 
     hide_global_forms() {
-      $("#global_permissions").hide();
+      $('#global_permissions').hide();
     },
 
     hide_member_forms() {
-      $("#member_attributes").hide();
-      $("#member_permissions").hide();
+      $('#member_attributes').hide();
+      $('#member_permissions').hide();
     },
 
     enable_global_forms() {
-      $("#global_attributes input, #global_attributes input, #global_permissions input").each((ix, el) => {
+      $('#global_attributes input, #global_attributes input, #global_permissions input').each((ix, el) => {
         global_roles.enable_element(el);
       });
     },
 
     enable_member_forms() {
-      $("#member_attributes input, #member_attributes input, #member_permissions input").each((ix, el) => {
+      $('#member_attributes input, #member_attributes input, #member_permissions input').each((ix, el) => {
         global_roles.enable_element(el);
       });
     },
 
     enable_element(element:any) {
-      $(element).prop("disabled", false);
+      $(element).prop('disabled', false);
     },
 
     disable_global_forms() {
-      $("#global_attributes input, #global_attributes input, #global_permissions input").each((ix, el) => {
+      $('#global_attributes input, #global_attributes input, #global_permissions input').each((ix, el) => {
         global_roles.disable_element(el);
       });
     },
 
     disable_member_forms() {
-      $("#member_attributes input, #member_attributes input, #member_permissions input").each((ix, el) => {
+      $('#member_attributes input, #member_attributes input, #member_permissions input').each((ix, el) => {
         global_roles.disable_element(el);
       });
     },
 
     disable_element(element:any) {
-      $(element).prop("disabled", true);
+      $(element).prop('disabled', true);
     },
 
     script_applicable() {
-      return $("body.controller-roles.action-new, body.controller-roles.action-create").length === 1;
+      return $('body.controller-roles.action-new, body.controller-roles.action-create').length === 1;
     },
   };
   $(document).ready(global_roles.init);

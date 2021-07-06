@@ -3,18 +3,18 @@
  */
 import {
   ApplicationRef, ComponentFactoryResolver, Injectable, Injector,
-} from "@angular/core";
-import { ComponentPortal, DomPortalOutlet } from "@angular/cdk/portal";
-import { EditFormPortalComponent } from "core-app/shared/components/fields/edit/editing-portal/edit-form-portal.component";
-import { createLocalInjector } from "core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector";
-import { take } from "rxjs/operators";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { HalResourceEditFieldHandler } from "core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler";
+} from '@angular/core';
+import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
+import { EditFormPortalComponent } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.component';
+import { createLocalInjector } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector';
+import { take } from 'rxjs/operators';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class EditingPortalService {
   constructor(private readonly appRef:ApplicationRef,
     private readonly componentFactoryResolver:ComponentFactoryResolver,
@@ -55,7 +55,7 @@ export class EditingPortalService {
     const portal = new ComponentPortal(EditFormPortalComponent, null, localInjector);
 
     // Clear the container
-    container.innerHTML = "";
+    container.innerHTML = '';
 
     // Attach the portal to the outlet
     const ref = outlet.attachComponentPortal(portal);

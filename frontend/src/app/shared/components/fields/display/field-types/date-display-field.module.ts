@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { HighlightableDisplayField } from "core-app/shared/components/fields/display/field-types/highlightable-display-field.module";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { HighlightableDisplayField } from 'core-app/shared/components/fields/display/field-types/highlightable-display-field.module';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export class DateDisplayField extends HighlightableDisplayField {
   @InjectField() timezoneService:TimezoneService;
@@ -42,11 +42,11 @@ export class DateDisplayField extends HighlightableDisplayField {
 
     // Show scheduling mode in front of the start date field
     if (this.showSchedulingMode()) {
-      const schedulingIcon = document.createElement("span");
-      schedulingIcon.classList.add("icon-context");
+      const schedulingIcon = document.createElement('span');
+      schedulingIcon.classList.add('icon-context');
 
       if (this.resource.scheduleManually) {
-        schedulingIcon.classList.add("icon-pin");
+        schedulingIcon.classList.add('icon-pin');
       }
 
       element.prepend(schedulingIcon);
@@ -71,17 +71,17 @@ export class DateDisplayField extends HighlightableDisplayField {
   }
 
   public get canOverdue():boolean {
-    return ["dueDate", "date"].indexOf(this.name) !== -1;
+    return ['dueDate', 'date'].indexOf(this.name) !== -1;
   }
 
   public get valueString() {
     if (this.value) {
       return this.timezoneService.formattedDate(this.value);
     }
-    return "";
+    return '';
   }
 
   private showSchedulingMode():boolean {
-    return this.name === "startDate" || this.name === "date";
+    return this.name === 'startDate' || this.name === 'date';
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,16 +28,16 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
   wpDisplayListRepresentation,
-} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { combineLatest } from "rxjs";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { combineLatest } from 'rxjs';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
   template: `
@@ -53,15 +53,15 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: "wp-view-toggle-button",
+  selector: 'wp-view-toggle-button',
 })
 export class WorkPackageViewToggleButton extends UntilDestroyedMixin implements OnInit {
   public view:string;
 
   public text:any = {
-    card: this.I18n.t("js.views.card"),
-    list: this.I18n.t("js.views.list"),
-    timeline: this.I18n.t("js.views.timeline"),
+    card: this.I18n.t('js.views.card'),
+    list: this.I18n.t('js.views.list'),
+    timeline: this.I18n.t('js.views.timeline'),
   };
 
   constructor(readonly I18n:I18nService,
@@ -92,7 +92,7 @@ export class WorkPackageViewToggleButton extends UntilDestroyedMixin implements 
     }
 
     if (timelineVisible) {
-      this.view = "timeline";
+      this.view = 'timeline';
     } else {
       this.view = wpDisplayListRepresentation;
     }

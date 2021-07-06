@@ -1,23 +1,23 @@
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import {
   Component, OnInit, ChangeDetectorRef, Injector, ChangeDetectionStrategy,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Apiv3ListParameters } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
-  templateUrl: "./subprojects.component.html",
+  templateUrl: './subprojects.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetSubprojectsComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    noResults: this.i18n.t("js.grid.widgets.subprojects.no_results"),
+    noResults: this.i18n.t('js.grid.widgets.subprojects.no_results'),
   };
 
   public projects:ProjectResource[];
@@ -63,8 +63,8 @@ export class WidgetSubprojectsComponent extends AbstractWidgetComponent implemen
 
   private get projectListParams():Apiv3ListParameters {
     return {
-      sortBy: [["name", "asc"]],
-      filters: [["parent_id", "=", [this.currentProject.id!]]],
+      sortBy: [['name', 'asc']],
+      filters: [['parent_id', '=', [this.currentProject.id!]]],
     };
   }
 }

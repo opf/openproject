@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { AbstractFieldService, IFieldType } from "core-app/shared/components/fields/field.service";
-import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
+import { Injectable } from '@angular/core';
+import { AbstractFieldService, IFieldType } from 'core-app/shared/components/fields/field.service';
+import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 
 export interface IEditFieldType extends IFieldType<EditFieldComponent> {
   new():EditFieldComponent;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class EditFieldService extends AbstractFieldService<EditFieldComponent, IEditFieldType> {
 }

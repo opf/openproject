@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,33 +26,33 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { States } from "core-app/core/states/states.service";
-import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { StateService } from "@uirouter/core";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { Injectable } from "@angular/core";
-import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { from, Observable, of } from "rxjs";
-import { input } from "reactivestates";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { States } from 'core-app/core/states/states.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { StateService } from '@uirouter/core';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { Injectable } from '@angular/core';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { from, Observable, of } from 'rxjs';
+import { input } from 'reactivestates';
 import {
   catchError, mergeMap, share, switchMap, take,
-} from "rxjs/operators";
+} from 'rxjs/operators';
 import {
   PaginationUpdateObject,
   WorkPackageViewPaginationService,
-} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";
-import { APIv3QueryPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-query-paths";
-import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
-import { ErrorResource } from "core-app/features/hal/resources/error-resource";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { WorkPackageStatesInitializationService } from "./wp-states-initialization.service";
-import { WorkPackagesListInvalidQueryService } from "./wp-list-invalid-query.service";
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { APIv3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
+import { APIv3QueryPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-paths';
+import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
+import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -238,8 +238,8 @@ export class WorkPackagesListService {
       .toPromise();
 
     promise
-      .then(query => {
-        this.NotificationsService.addSuccess(this.I18n.t("js.notice_successful_create"));
+      .then((query) => {
+        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
 
         // Reload the query, and then reload the menu
         this.reloadQuery(query).subscribe(() => {
@@ -267,11 +267,11 @@ export class WorkPackagesListService {
 
     promise
       .then(() => {
-        this.NotificationsService.addSuccess(this.I18n.t("js.notice_successful_delete"));
+        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_delete'));
 
         let id;
         if (query.project) {
-          id = query.project.href!.split("/").pop();
+          id = query.project.href!.split('/').pop();
         }
 
         this.loadDefaultQuery(id);
@@ -296,9 +296,9 @@ export class WorkPackagesListService {
 
     promise
       .then(() => {
-        this.NotificationsService.addSuccess(this.I18n.t("js.notice_successful_update"));
+        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-        this.$state.go(".", { query_id: query!.id, query_props: null }, { reload: true });
+        this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
         this.states.changes.queries.next(query!.id!);
       })
       .catch((error:ErrorResource) => {
@@ -317,7 +317,7 @@ export class WorkPackagesListService {
     promise.then((query:QueryResource) => {
       this.querySpace.query.putValue(query);
 
-      this.NotificationsService.addSuccess(this.I18n.t("js.notice_successful_update"));
+      this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
       this.states.changes.queries.next(query.id!);
     });
@@ -339,7 +339,7 @@ export class WorkPackagesListService {
 
   private updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
     promise
-      .then(query => {
+      .then((query) => {
         this.wpStatesInitialization.initialize(query, query.results);
         return query;
       });
@@ -352,7 +352,7 @@ export class WorkPackagesListService {
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
-    this.NotificationsService.addError(this.I18n.t("js.work_packages.faulty_query.description"), error.message);
+    this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
       this

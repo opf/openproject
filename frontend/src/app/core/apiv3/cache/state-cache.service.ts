@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { MultiInputState, State } from "reactivestates";
-import { Observable } from "rxjs";
+import { MultiInputState, State } from 'reactivestates';
+import { Observable } from 'rxjs';
 import {
   auditTime, map, share, startWith, take,
-} from "rxjs/operators";
+} from 'rxjs/operators';
 
 export interface HasId {
   id:string|null;
@@ -55,7 +55,7 @@ export class StateCacheService<T> {
    */
   public touch(id:string):void {
     const state = this.multiState.get(id);
-    state.putValue(state.value, "Touching the state");
+    state.putValue(state.value, 'Touching the state');
   }
 
   /**
@@ -145,7 +145,7 @@ export class StateCacheService<T> {
    * @param ids
    */
   public clearSome(...ids:string[]) {
-    ids.forEach(id => this.multiState.get(id).clear());
+    ids.forEach((id) => this.multiState.get(id).clear());
   }
 
   /**

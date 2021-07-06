@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,15 +28,15 @@
 
 import {
   Component, ElementRef, Input, OnInit,
-} from "@angular/core";
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
+} from '@angular/core';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 
 @Component({
-  selector: "wp-replacement-label",
-  templateUrl: "./wp-replacement-label.html",
+  selector: 'wp-replacement-label',
+  templateUrl: './wp-replacement-label.html',
 })
 export class WorkPackageReplacementLabelComponent implements OnInit {
-  @Input("fieldName") public fieldName:string;
+  @Input('fieldName') public fieldName:string;
 
   private $element:JQuery;
 
@@ -51,7 +51,7 @@ export class WorkPackageReplacementLabelComponent implements OnInit {
   public activate(evt:JQuery.TriggeredEvent) {
     // Skip clicks on help texts
     const target = jQuery(evt.target);
-    if (target.closest(".help-text--entry").length) {
+    if (target.closest('.help-text--entry').length) {
       return true;
     }
 

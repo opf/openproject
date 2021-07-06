@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { QueryOperatorResource } from "core-app/features/hal/resources/query-operator-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
-import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 export class QueryFilterInstanceResource extends HalResource {
   public filter:QueryFilterResource;
@@ -50,7 +50,7 @@ export class QueryFilterInstanceResource extends HalResource {
   public $initialize(source:any) {
     super.$initialize(source);
 
-    this.$links["schema"] = {
+    this.$links.schema = {
       href: `${this.pathHelper.api.v3.apiV3Base}/queries/filter_instance_schemas/${this.filter.idFromLink}`,
     };
   }
@@ -99,8 +99,8 @@ export class QueryFilterInstanceResource extends HalResource {
   public isTemplated() {
     let flag = false;
     (this.values as any[]).find((value:any) => {
-      const href:string = value?.href || value.toString() || "";
-      flag = href.includes("{id}");
+      const href:string = value?.href || value.toString() || '';
+      flag = href.includes('{id}');
     });
     return flag;
   }

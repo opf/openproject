@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit } from "@angular/core";
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export const colorsAutocompleterSelector = "colors-autocompleter";
+export const colorsAutocompleterSelector = 'colors-autocompleter';
 
 @Component({
   template: `
@@ -82,7 +82,7 @@ export class ColorsAutocompleter implements OnInit {
 
   private setColorOptions() {
     this.options = JSON.parse(this.elementRef.nativeElement.dataset.colors);
-    this.options.unshift({ name: this.I18n.t("js.label_no_color"), value: "" });
+    this.options.unshift({ name: this.I18n.t('js.label_no_color'), value: '' });
 
     this.selectedOption = this.options.find((item) => item.selected === true);
 
@@ -91,20 +91,20 @@ export class ColorsAutocompleter implements OnInit {
     } else {
       // Differentiate between "No color" and a color that is now not selectable any more
       this.selectedColorId = this.elementRef.nativeElement.dataset.selectedColor;
-      this.selectedOption = this.selectedColorId ? this.selectedColorId : "";
+      this.selectedOption = this.selectedColorId ? this.selectedColorId : '';
     }
   }
 
   private highlightColor(item:any) {
-    if (item.value === "") {
+    if (item.value === '') {
       return;
     }
 
     let highlightingClass;
     if (this.highlightTextInline) {
-      highlightingClass = "__hl_inline_type_ ";
+      highlightingClass = '__hl_inline_type_ ';
     } else {
-      highlightingClass = "__hl_inline_ ";
+      highlightingClass = '__hl_inline_ ';
     }
     return highlightingClass + Highlighting.colorClass(this.highlightTextInline, item.value);
   }

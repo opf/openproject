@@ -7,14 +7,14 @@ import {
   OnInit,
   Output,
   ViewChild,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { DragulaService, Group } from "ng2-dragula";
-import { DomAutoscrollService } from "core-app/shared/helpers/drag-and-drop/dom-autoscroll.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { merge } from "rxjs";
-import { DomHelpers } from "core-app/shared/helpers/dom/set-window-cursor.helper";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { DragulaService, Group } from 'ng2-dragula';
+import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { merge } from 'rxjs';
+import { DomHelpers } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 
 export interface DraggableOption {
   name:string;
@@ -22,9 +22,9 @@ export interface DraggableOption {
 }
 
 @Component({
-  selector: "draggable-autocompleter",
-  templateUrl: "./draggable-autocomplete.component.html",
-  styleUrls: ["./draggable-autocomplete.component.sass"],
+  selector: 'draggable-autocompleter',
+  templateUrl: './draggable-autocomplete.component.html',
+  styleUrls: ['./draggable-autocomplete.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DraggableAutocompleteComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
@@ -35,7 +35,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   @Input() autofocus = true;
 
   /** Order list of selected items */
-  @Input("selected") _selected:DraggableOption[] = [];
+  @Input('selected') _selected:DraggableOption[] = [];
 
   /** Output when autocompleter changes values or items removed */
   @Output() onChange = new EventEmitter<DraggableOption[]>();
@@ -47,10 +47,10 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
   private columnsGroup:Group;
 
-  @ViewChild("ngSelectComponent") public ngSelectComponent:NgSelectComponent;
+  @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
 
   text = {
-    placeholder: this.I18n.t("js.label_add_columns"),
+    placeholder: this.I18n.t('js.label_add_columns'),
   };
 
   constructor(readonly I18n:I18nService,
@@ -62,26 +62,26 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     this.updateAvailableOptions();
 
     // Setup groups
-    this.columnsGroup = this.dragula.createGroup("columns", {});
+    this.columnsGroup = this.dragula.createGroup('columns', {});
 
     // Set cursor when dragging
-    this.dragula.drag("columns")
+    this.dragula.drag('columns')
       .pipe(this.untilDestroyed())
-      .subscribe(() => DomHelpers.setBodyCursor("move", "important"));
+      .subscribe(() => DomHelpers.setBodyCursor('move', 'important'));
 
     // Reset cursor when cancel or dropped
     merge(
-      this.dragula.drop("columns"),
-      this.dragula.cancel("columns"),
+      this.dragula.drop('columns'),
+      this.dragula.cancel('columns'),
     )
       .pipe(this.untilDestroyed())
-      .subscribe(() => DomHelpers.setBodyCursor("auto"));
+      .subscribe(() => DomHelpers.setBodyCursor('auto'));
 
     // Setup autoscroll
     const that = this;
     this.autoscroll = new DomAutoscrollService(
       [
-        document.getElementById("content-wrapper")!,
+        document.getElementById('content-wrapper')!,
       ],
       {
         margin: 25,
@@ -103,7 +103,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   ngOnDestroy():void {
     super.ngOnDestroy();
 
-    this.dragula.destroy("columns");
+    this.dragula.destroy('columns');
   }
 
   select(item:DraggableOption|undefined) {
@@ -118,7 +118,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   }
 
   remove(item:DraggableOption) {
-    this.selected = this.selected.filter(selected => selected.id !== item.id);
+    this.selected = this.selected.filter((selected) => selected.id !== item.id);
   }
 
   get selected() {
@@ -145,6 +145,6 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
   private updateAvailableOptions() {
     this.availableOptions = this.options
-      .filter(item => !this.selected.find(selected => selected.id === item.id));
+      .filter((item) => !this.selected.find((selected) => selected.id === item.id));
   }
 }

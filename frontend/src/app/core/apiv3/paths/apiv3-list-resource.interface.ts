@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { Observable } from "rxjs";
-import { ApiV3FilterBuilder, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { Observable } from 'rxjs';
+import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export type ApiV3ListFilter = [string, FilterOperator, boolean|string[]];
 
@@ -70,10 +70,10 @@ export function listParamsString(params?:Apiv3ListParameters):string {
     queryProps.push(filters.toParams());
   }
 
-  let queryPropsString = "";
+  let queryPropsString = '';
 
   if (queryProps.length) {
-    queryPropsString = `?${queryProps.join("&")}`;
+    queryPropsString = `?${queryProps.join('&')}`;
   }
 
   return queryPropsString;

@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, HostListener, Input, OnDestroy, Output,
-} from "@angular/core";
-import { DomHelpers } from "core-app/shared/helpers/dom/set-window-cursor.helper";
+} from '@angular/core';
+import { DomHelpers } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 
 export interface ResizeDelta {
   origin:any;
@@ -20,8 +20,8 @@ export interface ResizeDelta {
 }
 
 @Component({
-  selector: "resizer",
-  templateUrl: "./resizer.component.html",
+  selector: 'resizer',
+  templateUrl: './resizer.component.html',
 })
 export class ResizerComponent implements OnDestroy {
   private startX:number;
@@ -50,16 +50,16 @@ export class ResizerComponent implements OnDestroy {
 
   @Input() customHandler = false;
 
-  @Input() cursorClass = "nwse-resize";
+  @Input() cursorClass = 'nwse-resize';
 
-  @Input() resizerClass = "resizer";
+  @Input() resizerClass = 'resizer';
 
   ngOnDestroy() {
     this.removeEventListener();
   }
 
-  @HostListener("mousedown", ["$event"])
-  @HostListener("touchstart", ["$event"])
+  @HostListener('mousedown', ['$event'])
+  @HostListener('touchstart', ['$event'])
   public startResize(event:any) {
     event.preventDefault();
     event.stopPropagation();
@@ -107,25 +107,25 @@ export class ResizerComponent implements OnDestroy {
     this.mouseMoveHandler = this.onMouseMove.bind(this);
     this.mouseUpHandler = this.onMouseUp.bind(this);
 
-    window.addEventListener("mousemove", this.mouseMoveHandler);
-    window.addEventListener("touchmove", this.mouseMoveHandler);
-    window.addEventListener("mouseup", this.mouseUpHandler);
-    window.addEventListener("touchend", this.mouseUpHandler);
+    window.addEventListener('mousemove', this.mouseMoveHandler);
+    window.addEventListener('touchmove', this.mouseMoveHandler);
+    window.addEventListener('mouseup', this.mouseUpHandler);
+    window.addEventListener('touchend', this.mouseUpHandler);
   }
 
   private removeEventListener() {
-    window.removeEventListener("touchmove", this.mouseMoveHandler);
-    window.removeEventListener("mousemove", this.mouseMoveHandler);
-    window.removeEventListener("mouseup", this.mouseUpHandler);
-    window.removeEventListener("touchend", this.mouseUpHandler);
+    window.removeEventListener('touchmove', this.mouseMoveHandler);
+    window.removeEventListener('mousemove', this.mouseMoveHandler);
+    window.removeEventListener('mouseup', this.mouseUpHandler);
+    window.removeEventListener('touchend', this.mouseUpHandler);
   }
 
   private setResizeCursor() {
-    DomHelpers.setBodyCursor(this.cursorClass, "important");
+    DomHelpers.setBodyCursor(this.cursorClass, 'important');
   }
 
   private setAutoCursor() {
-    DomHelpers.setBodyCursor("auto");
+    DomHelpers.setBodyCursor('auto');
   }
 
   private buildDelta(event:any):ResizeDelta {

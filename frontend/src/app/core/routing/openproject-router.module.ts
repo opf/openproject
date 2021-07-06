@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector, NgModule } from "@angular/core";
-import { FirstRouteService } from "core-app/core/routing/first-route-service";
-import { UIRouterModule } from "@uirouter/angular";
-import { ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";
+import { Injector, NgModule } from '@angular/core';
+import { FirstRouteService } from 'core-app/core/routing/first-route-service';
+import { UIRouterModule } from '@uirouter/angular';
+import { ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import {
   initializeUiRouterListeners,
   OPENPROJECT_ROUTES,
   uiRouterConfiguration,
-} from "core-app/core/routing/openproject.routes";
+} from 'core-app/core/routing/openproject.routes';
 
 @NgModule({
   imports: [

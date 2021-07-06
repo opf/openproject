@@ -1,17 +1,17 @@
 import {
   ComponentFixture, fakeAsync, TestBed, tick,
-} from "@angular/core/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { DebugElement, NO_ERRORS_SCHEMA } from "@angular/core";
-import { of } from "rxjs";
-import { NgSelectComponent, NgSelectModule } from "@ng-select/ng-select";
+} from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
+import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
 
-import { By } from "@angular/platform-browser";
-import { OpAutocompleterService } from "./services/op-autocompleter.service";
-import { OpAutocompleterComponent } from "./op-autocompleter.component";
+import { By } from '@angular/platform-browser';
+import { OpAutocompleterService } from './services/op-autocompleter.service';
+import { OpAutocompleterComponent } from './op-autocompleter.component';
 
-function triggerKeyDownEvent(element:DebugElement, which:number, key = ""):void {
-  element.triggerEventHandler("keydown", {
+function triggerKeyDownEvent(element:DebugElement, which:number, key = ''):void {
+  element.triggerEventHandler('keydown', {
     which,
     key,
     preventDefault: () => {
@@ -20,53 +20,53 @@ function triggerKeyDownEvent(element:DebugElement, which:number, key = ""):void 
 }
 
 function getNgSelectElement(fixture:ComponentFixture<any>):DebugElement {
-  return fixture.debugElement.query(By.css("ng-select"));
+  return fixture.debugElement.query(By.css('ng-select'));
 }
 
-describe("autocompleter", () => {
+describe('autocompleter', () => {
   let fixture:ComponentFixture<OpAutocompleterComponent>;
   let opAutocompleterServiceSpy:jasmine.SpyObj<OpAutocompleterService>;
   const workPackagesStub = [
     {
       id: 1,
-      subject: "Workpackage 1",
-      name: "Workpackage 1",
+      subject: 'Workpackage 1',
+      name: 'Workpackage 1',
       author: {
-        href: "/api/v3/users/1",
-        name: "Author1",
+        href: '/api/v3/users/1',
+        name: 'Author1',
       },
       description: {
-        format: "markdown",
-        raw: "Description of WP1",
-        html: "<p>Description of WP1</p>",
+        format: 'markdown',
+        raw: 'Description of WP1',
+        html: '<p>Description of WP1</p>',
       },
-      createdAt: "2021-03-26T10:42:14Z",
-      updatedAt: "2021-03-26T10:42:14Z",
-      dueDate: "2021-03-26T10:42:14Z",
-      startDate: "2021-03-26T10:42:14Z",
+      createdAt: '2021-03-26T10:42:14Z',
+      updatedAt: '2021-03-26T10:42:14Z',
+      dueDate: '2021-03-26T10:42:14Z',
+      startDate: '2021-03-26T10:42:14Z',
     },
     {
       id: 2,
-      subject: "Workpackage 2",
-      name: "Workpackage 2",
+      subject: 'Workpackage 2',
+      name: 'Workpackage 2',
       author: {
-        href: "/api/v3/users/2",
-        name: "Author2",
+        href: '/api/v3/users/2',
+        name: 'Author2',
       },
       description: {
-        format: "markdown",
-        raw: "Description of WP2",
-        html: "<p>Description of WP2</p>",
+        format: 'markdown',
+        raw: 'Description of WP2',
+        html: '<p>Description of WP2</p>',
       },
-      createdAt: "2021-03-26T10:42:14Z",
-      updatedAt: "2021-03-26T10:42:14Z",
-      dueDate: "2021-03-26T10:42:14Z",
-      startDate: "2021-03-26T10:42:14Z",
+      createdAt: '2021-03-26T10:42:14Z',
+      updatedAt: '2021-03-26T10:42:14Z',
+      dueDate: '2021-03-26T10:42:14Z',
+      startDate: '2021-03-26T10:42:14Z',
     },
   ];
 
   beforeEach(() => {
-    opAutocompleterServiceSpy = jasmine.createSpyObj("OpAutocompleterService", ["loadData"]);
+    opAutocompleterServiceSpy = jasmine.createSpyObj('OpAutocompleterService', ['loadData']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -85,47 +85,47 @@ describe("autocompleter", () => {
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
 
-    fixture.componentInstance.resource = "work_packages" as resource;
+    fixture.componentInstance.resource = 'work_packages' as resource;
     fixture.componentInstance.filters = [];
-    fixture.componentInstance.searchKey = "subjectOrId";
-    fixture.componentInstance.appendTo = "body";
+    fixture.componentInstance.searchKey = 'subjectOrId';
+    fixture.componentInstance.appendTo = 'body';
     fixture.componentInstance.multiple = false;
     fixture.componentInstance.closeOnSelect = true;
     fixture.componentInstance.virtualScroll = true;
-    fixture.componentInstance.classes = "wp-inline-create--reference-autocompleter";
+    fixture.componentInstance.classes = 'wp-inline-create--reference-autocompleter';
     fixture.componentInstance.defaulData = true;
 
     // @ts-ignore
     opAutocompleterServiceSpy.loadData.and.returnValue(of(workPackagesStub));
   });
 
-  it("should load the ng-select correctly", () => {
+  it('should load the ng-select correctly', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      const autocompleter = document.querySelector(".ng-select-container");
+      const autocompleter = document.querySelector('.ng-select-container');
       expect(document.contains(autocompleter)).toBeTruthy();
     });
   });
 
-  it("should load WorkPackages", fakeAsync(() => {
+  it('should load WorkPackages', fakeAsync(() => {
     tick();
     fixture.detectChanges();
     fixture.componentInstance.ngAfterViewInit();
     tick(1000);
     fixture.detectChanges();
-    var select = fixture.componentInstance.ngSelectInstance;
+    const select = fixture.componentInstance.ngSelectInstance;
     expect(fixture.componentInstance.ngSelectInstance.isOpen).toBeFalse();
     fixture.componentInstance.ngSelectInstance.open();
     fixture.componentInstance.ngSelectInstance.focus();
     expect(fixture.componentInstance.ngSelectInstance.isOpen).toBeTrue();
-    select.filter("a");
+    select.filter('a');
 
     fixture.detectChanges();
     tick(1000);
     fixture.detectChanges();
     tick(1000);
 
-    expect(opAutocompleterServiceSpy.loadData).toHaveBeenCalledWith("a",
+    expect(opAutocompleterServiceSpy.loadData).toHaveBeenCalledWith('a',
       fixture.componentInstance.resource, fixture.componentInstance.filters, fixture.componentInstance.searchKey);
 
     expect(fixture.componentInstance.ngSelectInstance.itemsList.items.length).toEqual(2);

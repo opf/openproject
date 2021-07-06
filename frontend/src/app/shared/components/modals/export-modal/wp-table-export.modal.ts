@@ -1,19 +1,19 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from "@angular/core";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { HalLink } from "core-app/features/hal/hal-link/hal-link";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import * as URI from "urijs";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
+} from '@angular/core';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import * as URI from 'urijs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { JobStatusModal } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 
 interface ExportLink extends HalLink {
   identifier:string;
@@ -24,8 +24,8 @@ interface ExportLink extends HalLink {
  The modal might also be used to only display the progress of an export. This will happen if a link for exporting is provided via the locals.
  */
 @Component({
-  templateUrl: "./wp-table-export.modal.html",
-  styleUrls: ["./wp-table-export.modal.sass"],
+  templateUrl: './wp-table-export.modal.html',
+  styleUrls: ['./wp-table-export.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpTableExportModal extends OpModalComponent implements OnInit {
@@ -40,9 +40,9 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   public exportOptions:{ identifier:string, label:string, url:string }[];
 
   public text = {
-    title: this.I18n.t("js.label_export"),
-    closePopup: this.I18n.t("js.close_popup_title"),
-    exportPreparing: this.I18n.t("js.label_export_preparing"),
+    title: this.I18n.t('js.label_export'),
+    closePopup: this.I18n.t('js.close_popup_title'),
+    exportPreparing: this.I18n.t('js.label_export_preparing'),
   };
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -70,7 +70,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   }
 
   private buildExportOptions(results:WorkPackageCollectionResource) {
-    return results.representations.map(format => {
+    return results.representations.map((format) => {
       const link = format.$link as ExportLink;
 
       return {
@@ -94,15 +94,15 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   private requestExport(url:string):void {
     this
       .httpClient
-      .get(url, { observe: "body", responseType: "json" })
+      .get(url, { observe: 'body', responseType: 'json' })
       .subscribe(
         (json:{ job_id:string }) => this.replaceWithJobModal(json.job_id),
-        error => this.handleError(error),
+        (error) => this.handleError(error),
       );
   }
 
   private replaceWithJobModal(jobId:string) {
-    this.service.show(JobStatusModal, "global", { jobId });
+    this.service.show(JobStatusModal, 'global', { jobId });
   }
 
   private handleError(error:HttpErrorResponse) {
@@ -119,7 +119,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   }
 
   private showError(error:HttpErrorResponse) {
-    this.notifications.addError(error.message || this.I18n.t("js.error.internal"));
+    this.notifications.addError(error.message || this.I18n.t('js.error.internal'));
   }
 
   private addColumnsToHref(href:string) {
@@ -129,13 +129,13 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
 
     const url = URI(href);
     // Remove current columns
-    url.removeSearch("columns[]");
-    url.addSearch("columns[]", columnIds);
+    url.removeSearch('columns[]');
+    url.addSearch('columns[]', columnIds);
 
     return url.toString();
   }
 
   protected get afterFocusOn():JQuery {
-    return jQuery("#work-packages-settings-button");
+    return jQuery('#work-packages-settings-button');
   }
 }

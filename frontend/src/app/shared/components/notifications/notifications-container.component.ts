@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,11 +28,11 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
-} from "@angular/core";
-import { INotification, NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+} from '@angular/core';
+import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const notificationsContainerSelector = "notifications-container";
+export const notificationsContainerSelector = 'notifications-container';
 
 @Component({
   template: `
@@ -56,11 +56,11 @@ export class NotificationsContainerComponent extends UntilDestroyedMixin impleme
   ngOnInit():void {
     this.notificationsService
       .current
-      .values$("Subscribing to changes in the notification stack")
+      .values$('Subscribing to changes in the notification stack')
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(stack => {
+      .subscribe((stack) => {
         this.stack = stack;
         this.cdRef.detectChanges();
       });

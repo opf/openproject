@@ -1,5 +1,5 @@
 export interface IHALCollection<T> {
-  _type:"Collection";
+  _type:'Collection';
   count:number;
   total:number;
   pageSize:number;

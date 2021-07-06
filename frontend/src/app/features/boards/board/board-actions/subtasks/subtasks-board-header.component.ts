@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,22 +25,22 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { Component, Input, OnInit } from "@angular/core";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
+import { Component, Input, OnInit } from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 @Component({
-  templateUrl: "./subtasks-board-header.html",
-  styleUrls: ["./subtasks-board-header.sass"],
-  host: { class: "title-container -small" },
+  templateUrl: './subtasks-board-header.html',
+  styleUrls: ['./subtasks-board-header.sass'],
+  host: { class: 'title-container -small' },
 })
 export class SubtasksBoardHeaderComponent implements OnInit {
   @Input() public resource:WorkPackageResource;
 
   text = {
-    workPackage: this.I18n.t("js.label_work_package_parent"),
+    workPackage: this.I18n.t('js.label_work_package_parent'),
   };
 
   typeHighlightingClass:string;
@@ -50,6 +50,6 @@ export class SubtasksBoardHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.typeHighlightingClass = Highlighting.inlineClass("type", this.resource.type.id!);
+    this.typeHighlightingClass = Highlighting.inlineClass('type', this.resource.type.id!);
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,17 +28,17 @@
 
 import {
   Component, OnDestroy, OnInit, Injector,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { StateService } from "@uirouter/core";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { StateService } from '@uirouter/core';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { WpTableExportModal } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 
 @Component({
   template: `
@@ -50,12 +50,12 @@ import { WpTableExportModal } from "core-app/shared/components/modals/export-mod
       <span class="button--text"> {{text.export}} </span>
     </a>
   `,
-  selector: "bcf-export-button",
+  selector: 'bcf-export-button',
 })
 export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   public text = {
-    export: this.I18n.t("js.bcf.export"),
-    export_hover: this.I18n.t("js.bcf.export_bcf_xml_file"),
+    export: this.I18n.t('js.bcf.export'),
+    export_hover: this.I18n.t('js.bcf.export_bcf_xml_file'),
   };
 
   public query:QueryResource;

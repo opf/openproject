@@ -1,41 +1,41 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector,
-} from "@angular/core";
+} from '@angular/core';
 import {
   DynamicComponentDefinition,
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
-} from "core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
-import { StateService, TransitionService } from "@uirouter/core";
-import { BoardFilterComponent } from "core-app/features/boards/board/board-filter/board-filter.component";
-import { Board } from "core-app/features/boards/board/board";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { BoardService } from "core-app/features/boards/board/board.service";
-import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
-import { WorkPackageFilterButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component";
-import { ZenModeButtonComponent } from "core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
-import { BoardsMenuButtonComponent } from "core-app/features/boards/board/toolbar-menu/boards-menu-button.component";
-import { RequestSwitchmap } from "core-app/shared/helpers/rxjs/request-switchmap";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { finalize, take } from "rxjs/operators";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { Ng2StateDeclaration } from "@uirouter/angular";
-import { BoardFiltersService } from "core-app/features/boards/board/board-filter/board-filters.service";
-import { CardViewHandlerRegistry } from "core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+} from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
+import { StateService, TransitionService } from '@uirouter/core';
+import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
+import { Board } from 'core-app/features/boards/board/board';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { BoardService } from 'core-app/features/boards/board/board.service';
+import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
+import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
+import { BoardsMenuButtonComponent } from 'core-app/features/boards/board/toolbar-menu/boards-menu-button.component';
+import { RequestSwitchmap } from 'core-app/shared/helpers/rxjs/request-switchmap';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { finalize, take } from 'rxjs/operators';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { Ng2StateDeclaration } from '@uirouter/angular';
+import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
+import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
 }
 
 @Component({
-  templateUrl: "../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html",
+  templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
-    "../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass",
-    "./board-partitioned-page.component.sass",
+    '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
+    './board-partitioned-page.component.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -45,17 +45,17 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 })
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   text = {
-    button_more: this.I18n.t("js.button_more"),
-    delete: this.I18n.t("js.button_delete"),
-    areYouSure: this.I18n.t("js.text_are_you_sure"),
-    deleteSuccessful: this.I18n.t("js.notice_successful_delete"),
-    updateSuccessful: this.I18n.t("js.notice_successful_update"),
-    unnamedBoard: this.I18n.t("js.boards.label_unnamed_board"),
-    loadingError: "No such board found",
-    addList: this.I18n.t("js.boards.add_list"),
-    upsaleBoards: this.I18n.t("js.boards.upsale.teaser_text"),
-    upsaleCheckOutLink: this.I18n.t("js.work_packages.table_configuration.upsale.check_out_link"),
-    unnamed_list: this.I18n.t("js.boards.label_unnamed_list"),
+    button_more: this.I18n.t('js.button_more'),
+    delete: this.I18n.t('js.button_delete'),
+    areYouSure: this.I18n.t('js.text_are_you_sure'),
+    deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
+    updateSuccessful: this.I18n.t('js.notice_successful_update'),
+    unnamedBoard: this.I18n.t('js.boards.label_unnamed_board'),
+    loadingError: 'No such board found',
+    addList: this.I18n.t('js.boards.add_list'),
+    upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
+    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
+    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 
   /** Board observable */
@@ -72,7 +72,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   editable:boolean;
 
   /** Go back to boards using back-button */
-  backButtonCallback = () => this.state.go("boards");
+  backButtonCallback = () => this.state.go('boards');
 
   /** Current query title to render */
   selectedTitle?:string;
@@ -94,7 +94,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   filterAllowed = true;
 
   /** We need to pass the correct partition state to the view to manage the grid */
-  currentPartition:ViewPartitionState = "-split";
+  currentPartition:ViewPartitionState = '-split';
 
   /** We need to apply our own board filter component */
   /** Which filter container component to mount */
@@ -120,15 +120,15 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageFilterButtonComponent,
-      containerClasses: "hidden-for-mobile",
+      containerClasses: 'hidden-for-mobile',
     },
     {
       component: ZenModeButtonComponent,
-      containerClasses: "hidden-for-mobile",
+      containerClasses: 'hidden-for-mobile',
     },
     {
       component: BoardsMenuButtonComponent,
-      containerClasses: "hidden-for-mobile",
+      containerClasses: 'hidden-for-mobile',
       show: () => this.editable,
       inputs: {
         board$: this.board$,
@@ -164,7 +164,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
 
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
       const toState = transition.to();
-      const params = transition.params("to");
+      const params = transition.params('to');
 
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
@@ -175,7 +175,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(board => {
+      .subscribe((board) => {
         const queryProps = this.state.params.query_props;
         this.editable = board.editable;
         this.selectedTitle = board.name;
@@ -192,12 +192,12 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   changeChangesFromTitle(newName:string) {
     this.board$
       .pipe(take(1))
-      .subscribe(board => {
+      .subscribe((board) => {
         board.name = newName;
         board.filters = this.boardFilters.current;
 
         const params = { isNew: false, query_props: null };
-        this.state.go(".", params, { custom: { notify: false } });
+        this.state.go('.', params, { custom: { notify: false } });
 
         this.boardSaver.request(board);
       });
@@ -219,6 +219,6 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
    * @param state The current or entering state
    */
   protected setPartition(state:Ng2StateDeclaration) {
-    this.currentPartition = (state.data && state.data.partition) ? state.data.partition : "-split";
+    this.currentPartition = (state.data && state.data.partition) ? state.data.partition : '-split';
   }
 }

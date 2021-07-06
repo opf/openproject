@@ -1,22 +1,22 @@
-import { Injector } from "@angular/core";
+import { Injector } from '@angular/core';
 import {
   WorkPackageAction,
   WorkPackageContextMenuHelperService,
-} from "core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service";
-import { States } from "core-app/core/states/states.service";
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
-import { OpContextMenuHandler } from "core-app/shared/components/op-context-menu/op-context-menu-handler";
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { OpContextMenuItem, OpContextMenuLocalsMap } from "core-app/shared/components/op-context-menu/op-context-menu.types";
-import { PERMITTED_CONTEXT_MENU_ACTIONS } from "core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { StateService } from "@uirouter/core";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
-import { splitViewRoute } from "core-app/features/work-packages/routing/split-view-routes.helper";
-import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
+} from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpContextMenuItem, OpContextMenuLocalsMap } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { StateService } from '@uirouter/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { WpDestroyModal } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @InjectField() protected states!:States;
@@ -57,7 +57,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   }
 
   public get locals():OpContextMenuLocalsMap {
-    return { contextMenuId: "work-package-context-menu", items: this.items };
+    return { contextMenuId: 'work-package-context-menu', items: this.items };
   }
 
   public positionArgs(evt:JQuery.TriggeredEvent) {
@@ -71,23 +71,23 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     const { link } = action;
 
     switch (action.key) {
-      case "delete":
+      case 'delete':
         this.deleteSelectedWorkPackages();
         break;
 
-      case "edit":
+      case 'edit':
         this.editSelectedWorkPackages(link!);
         break;
 
-      case "copy":
+      case 'copy':
         this.copySelectedWorkPackages(link!);
         break;
 
-      case "relation-new-child":
+      case 'relation-new-child':
         this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
         break;
 
-      case "log_time":
+      case 'log_time':
         this.logTimeForSelectedWorkPackage();
         break;
 
@@ -167,17 +167,17 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     if (!this.workPackage.isNew) {
       items.unshift({
         disabled: false,
-        icon: "icon-view-fullscreen",
-        class: "openFullScreenView",
-        href: this.$state.href("work-packages.show", { workPackageId: this.workPackageId }),
-        linkText: I18n.t("js.button_open_fullscreen"),
+        icon: 'icon-view-fullscreen',
+        class: 'openFullScreenView',
+        href: this.$state.href('work-packages.show', { workPackageId: this.workPackageId }),
+        linkText: I18n.t('js.button_open_fullscreen'),
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (LinkHandling.isClickedWithModifier($event)) {
             return false;
           }
 
           this.$state.go(
-            "work-packages.show",
+            'work-packages.show',
             { workPackageId: this.workPackageId },
           );
           return true;
@@ -187,13 +187,13 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       if (this.allowSplitScreenActions) {
         items.unshift({
           disabled: false,
-          icon: "icon-view-split",
-          class: "detailsViewMenuItem",
+          icon: 'icon-view-split',
+          class: 'detailsViewMenuItem',
           href: this.$state.href(
             `${splitViewRoute(this.$state)}.tabs`,
-            { workPackageId: this.workPackageId, tabIdentifier: "overview" },
+            { workPackageId: this.workPackageId, tabIdentifier: 'overview' },
           ),
-          linkText: I18n.t("js.button_open_details"),
+          linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQuery.TriggeredEvent) => {
             if (LinkHandling.isClickedWithModifier($event)) {
               return false;
@@ -201,7 +201,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
             this.$state.go(
               `${splitViewRoute(this.$state)}.tabs`,
-              { workPackageId: this.workPackageId, tabIdentifier: "overview" },
+              { workPackageId: this.workPackageId, tabIdentifier: 'overview' },
             );
             return true;
           },

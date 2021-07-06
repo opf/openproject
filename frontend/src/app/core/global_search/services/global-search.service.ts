@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,26 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { Injectable, Injector } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Injectable()
 export class GlobalSearchService {
-  private _searchTerm = new BehaviorSubject<string>("");
+  private _searchTerm = new BehaviorSubject<string>('');
 
   public searchTerm$ = this._searchTerm.asObservable();
 
   // Default selected tab is Work Packages
-  private _currentTab = new BehaviorSubject<any>("work_packages");
+  private _currentTab = new BehaviorSubject<any>('work_packages');
 
   public currentTab$ = this._currentTab.asObservable();
 
   // Default project scope is "this project and all subprojets"
-  private _projectScope = new BehaviorSubject<any>("");
+  private _projectScope = new BehaviorSubject<any>('');
 
   public projectScope$ = this._projectScope.asObservable();
 
@@ -81,7 +81,7 @@ export class GlobalSearchService {
       if (initialData.project_scope) {
         this._projectScope.next(initialData.project_scope);
       } else if (!this.currentProjectService.path) {
-        this._projectScope.next("all");
+        this._projectScope.next('all');
       }
     }
   }
@@ -103,7 +103,7 @@ export class GlobalSearchService {
 
   public searchPath() {
     let searchPath:string = this.PathHelper.staticBase;
-    if (this.currentProjectService.path && this.projectScope !== "all") {
+    if (this.currentProjectService.path && this.projectScope !== 'all') {
       searchPath = this.currentProjectService.path;
     }
     searchPath += `/search?${this.searchQueryParams()}`;
@@ -151,7 +151,7 @@ export class GlobalSearchService {
 
     params = `q=${encodeURIComponent(this.searchTerm)}`;
 
-    if (this.currentTab.length > 0 && this.currentTab !== "all") {
+    if (this.currentTab.length > 0 && this.currentTab !== 'all') {
       params = `${params}&${this.currentTab}=1`;
     }
     if (this.projectScope.length > 0) {
@@ -162,6 +162,6 @@ export class GlobalSearchService {
   }
 
   public isAfterSearch():boolean {
-    return (jQuery("body.controller-search").length > 0);
+    return (jQuery('body.controller-search').length > 0);
   }
 }

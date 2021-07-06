@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input, OnInit } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { WorkPackageWatchersTabComponent } from "./watchers-tab.component";
+import { Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { WorkPackageWatchersTabComponent } from './watchers-tab.component';
 
 @Component({
-  templateUrl: "./wp-watcher-entry.html",
-  selector: "wp-watcher-entry",
+  templateUrl: './wp-watcher-entry.html',
+  selector: 'wp-watcher-entry',
 })
 export class WorkPackageWatcherEntryComponent implements OnInit {
-  @Input("watcher") public watcher:UserResource;
+  @Input('watcher') public watcher:UserResource;
 
   public deleting = false;
 
@@ -48,7 +48,7 @@ export class WorkPackageWatcherEntryComponent implements OnInit {
 
   ngOnInit() {
     this.text = {
-      remove: this.I18n.t("js.label_remove_watcher", { name: this.watcher.name }),
+      remove: this.I18n.t('js.label_remove_watcher', { name: this.watcher.name }),
     };
   }
 

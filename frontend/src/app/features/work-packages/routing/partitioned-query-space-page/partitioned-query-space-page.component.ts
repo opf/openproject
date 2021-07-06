@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,21 +28,21 @@
 
 import {
   ChangeDetectionStrategy, Component, OnDestroy, OnInit,
-} from "@angular/core";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { OpTitleService } from "core-app/core/html/op-title.service";
-import { WorkPackagesViewBase } from "core-app/features/work-packages/routing/wp-view-base/work-packages-view.base";
-import { take } from "rxjs/operators";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { QueryParamListenerService } from "core-app/features/work-packages/components/wp-query/query-param-listener.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { ComponentType } from "@angular/cdk/overlay";
-import { Ng2StateDeclaration } from "@uirouter/angular";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { InviteUserModalComponent } from "core-app/features/invite-user-modal/invite-user.component";
-import { WorkPackageFilterContainerComponent } from "core-app/features/work-packages/components/filters/filter-container/filter-container.directive";
+} from '@angular/core';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
+import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
+import { take } from 'rxjs/operators';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { ComponentType } from '@angular/cdk/overlay';
+import { Ng2StateDeclaration } from '@uirouter/angular';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/invite-user.component';
+import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -55,12 +55,12 @@ export interface ToolbarButtonComponentDefinition extends DynamicComponentDefini
   show?:() => boolean;
 }
 
-export type ViewPartitionState = "-split"|"-left-only"|"-right-only";
+export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
 
 @Component({
-  selector: "partitioned-query-space-page",
-  templateUrl: "./partitioned-query-space-page.component.html",
-  styleUrls: ["./partitioned-query-space-page.component.sass"],
+  selector: 'partitioned-query-space-page',
+  templateUrl: './partitioned-query-space-page.component.html',
+  styleUrls: ['./partitioned-query-space-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
@@ -78,8 +78,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() opModalService:OpModalService;
 
   text:{ [key:string]:string } = {
-    jump_to_pagination: this.I18n.t("js.work_packages.jump_marks.pagination"),
-    text_jump_to_pagination: this.I18n.t("js.work_packages.jump_marks.label_pagination"),
+    jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
+    text_jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.label_pagination'),
   };
 
   /** Whether the title can be edited */
@@ -111,7 +111,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   filterAllowed = true;
 
   /** We need to pass the correct partition state to the view to manage the grid */
-  currentPartition:ViewPartitionState = "-split";
+  currentPartition:ViewPartitionState = '-split';
 
   /** What route (if any) should we go back to using the back button left of the title? */
   backButtonCallback:Function|undefined;
@@ -127,7 +127,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.showToolbarSaveButton = !!this.$state.params.query_props;
     this.setPartition(this.$state.current);
     this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
-      const params = transition.params("to");
+      const params = transition.params('to');
       const toState = transition.to();
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
@@ -171,7 +171,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
    * @param state The current or entering state
    */
   protected setPartition(state:Ng2StateDeclaration) {
-    this.currentPartition = (state.data && state.data.partition) ? state.data.partition : "-split";
+    this.currentPartition = (state.data && state.data.partition) ? state.data.partition : '-split';
   }
 
   protected setupInformationLoadedListener() {
@@ -232,7 +232,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       this.selectedTitle = this.wpStaticQueries.getStaticName(query);
     }
 
-    this.titleEditingEnabled = this.authorisationService.can("query", "updateImmediately");
+    this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
     // Update the title if we're in the list state alone
     if (this.shouldUpdateHtmlTitle()) {
@@ -268,9 +268,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   protected inviteModal = InviteUserModalComponent;
 
   openInviteUserModal() {
-    const inviteModal = this.opModalService.show(this.inviteModal, "global");
+    const inviteModal = this.opModalService.show(this.inviteModal, 'global');
     inviteModal.closingEvent.subscribe((modal:any) => {
-      console.log("Modal closed!", modal);
+      console.log('Modal closed!', modal);
     });
   }
 

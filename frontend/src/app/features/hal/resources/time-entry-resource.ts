@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class TimeEntryResource extends HalResource {
   public get state() {
@@ -40,6 +40,6 @@ export class TimeEntryResource extends HalResource {
    * Exclude the schema _link from the linkable Resources.
    */
   public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), "schema");
+    return _.without(super.$linkableKeys(), 'schema');
   }
 }

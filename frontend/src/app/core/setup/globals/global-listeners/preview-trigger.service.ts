@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector, NgZone } from "@angular/core";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WpPreviewModal } from "core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
+import { Injectable, Injector, NgZone } from '@angular/core';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { WpPreviewModal } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {
   private previewModal:WpPreviewModal;
 
@@ -44,11 +44,11 @@ export class PreviewTriggerService {
   }
 
   setupListener() {
-    jQuery(document.body).on("mouseover", ".preview-trigger", (e) => {
+    jQuery(document.body).on('mouseover', '.preview-trigger', (e) => {
       e.preventDefault();
       e.stopPropagation();
       const el = jQuery(e.target);
-      const href = el.attr("href");
+      const href = el.attr('href');
 
       if (!href) {
         return;
@@ -64,16 +64,16 @@ export class PreviewTriggerService {
       this.previewModal.reposition(jQuery(this.modalElement), el);
     });
 
-    jQuery(document.body).on("mouseleave", ".preview-trigger", () => {
+    jQuery(document.body).on('mouseleave', '.preview-trigger', () => {
       this.closeAfterTimeout();
     });
 
-    jQuery(document.body).on("mouseleave", ".preview-modal--container", () => {
+    jQuery(document.body).on('mouseleave', '.preview-modal--container', () => {
       this.mouseInModal = false;
       this.closeAfterTimeout();
     });
 
-    jQuery(document.body).on("mouseenter", ".preview-modal--container", () => {
+    jQuery(document.body).on('mouseenter', '.preview-modal--container', () => {
       this.mouseInModal = true;
     });
   }

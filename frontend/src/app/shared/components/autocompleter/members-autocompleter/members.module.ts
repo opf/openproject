@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from "@angular/core";
-import { MembersAutocompleterComponent } from "core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { OPSharedModule } from "core-app/shared/shared.module";
+import { NgModule } from '@angular/core';
+import { MembersAutocompleterComponent } from 'core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { OPSharedModule } from 'core-app/shared/shared.module';
 
 @NgModule({
   imports: [

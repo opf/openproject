@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { interval } from "rxjs";
-import { startWith, switchMap, filter } from "rxjs/operators";
-import { ActiveWindowService } from "core-app/core/active-window/active-window.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Injectable } from '@angular/core';
+import { interval } from 'rxjs';
+import { startWith, switchMap, filter } from 'rxjs/operators';
+import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 const POLLING_INTERVAL = 2000;
 
@@ -36,8 +36,8 @@ export class QueryUpdatedService {
       .apiV3Service
       .queries
       .list({
-        filters: [["id", "=", ids],
-          ["updatedAt", "<>d", [updatedAfter.toISOString()]]],
+        filters: [['id', '=', ids],
+          ['updatedAt', '<>d', [updatedAfter.toISOString()]]],
       });
   }
 }

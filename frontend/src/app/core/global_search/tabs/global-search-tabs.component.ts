@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
-import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
-import { ScrollableTabsComponent } from "core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component";
-import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
+import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 
-export const globalSearchTabsSelector = "global-search-tabs";
+export const globalSearchTabsSelector = 'global-search-tabs';
 
 @Component({
   selector: globalSearchTabsSelector,
-  templateUrl: "../../../shared/components/tabs/scrollable-tabs/scrollable-tabs.component.html",
+  templateUrl: '../../../shared/components/tabs/scrollable-tabs/scrollable-tabs.component.html',
 })
 
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnDestroy {
@@ -44,7 +44,7 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
 
   private tabsSub:Subscription;
 
-  public classes:string[] = ["global-search--tabs", "scrollable-tabs"];
+  public classes:string[] = ['global-search--tabs', 'scrollable-tabs'];
 
   constructor(readonly globalSearchService:GlobalSearchService,
     cdRef:ChangeDetectorRef) {
@@ -62,7 +62,7 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
       .tabs$
       .subscribe((tabs) => {
         this.tabs = tabs;
-        this.tabs.map((tab) => tab.path = "#");
+        this.tabs.map((tab) => tab.path = '#');
       });
   }
 

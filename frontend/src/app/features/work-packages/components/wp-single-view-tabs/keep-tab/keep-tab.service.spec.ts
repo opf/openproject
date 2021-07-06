@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { KeepTabService } from "./keep-tab.service";
+import { KeepTabService } from './keep-tab.service';
 
-describe("keepTab service", () => {
+describe('keepTab service', () => {
   let callback:(transition:any) => void;
   const includes = (path:string) => false;
   let $state:any;
@@ -40,7 +40,7 @@ describe("keepTab service", () => {
   beforeEach(() => {
     $state = {
       current: {
-        name: "whatever",
+        name: 'whatever',
       },
       includes,
     };
@@ -50,108 +50,108 @@ describe("keepTab service", () => {
     };
 
     uiRouterGlobals = {
-      params: { tabIdentifier: "activity" },
+      params: { tabIdentifier: 'activity' },
     };
 
     keepTab = new KeepTabService($state, uiRouterGlobals, $transitions);
 
     defaults = {
-      showTab: "work-packages.show.tabs",
-      detailsTab: "work-packages.partitioned.list.details.tabs",
+      showTab: 'work-packages.show.tabs',
+      detailsTab: 'work-packages.partitioned.list.details.tabs',
     };
   });
 
-  describe("when initially invoked, or when an unsupported route is opened", () => {
-    it("should have the correct default value for the currentShowTab", () => {
-      expect(keepTab.currentShowTab).toEqual("activity");
+  describe('when initially invoked, or when an unsupported route is opened', () => {
+    it('should have the correct default value for the currentShowTab', () => {
+      expect(keepTab.currentShowTab).toEqual('activity');
     });
 
-    it("should have the correct default value for the currentDetailsTab", () => {
-      expect(keepTab.currentDetailsTab).toEqual("overview");
+    it('should have the correct default value for the currentDetailsTab', () => {
+      expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
 
-  describe("when opening a show route", () => {
-    var currentPathPrefix = "work-packages.show.*";
+  describe('when opening a show route', () => {
+    let currentPathPrefix = 'work-packages.show.*';
 
     beforeEach(() => {
-      spyOn($state, "includes").and.callFake((path:string) => path === currentPathPrefix);
+      spyOn($state, 'includes').and.callFake((path:string) => path === currentPathPrefix);
 
-      $state.current.name = "work-packages.show.tabs";
-      uiRouterGlobals.params.tabIdentifier = "relations";
+      $state.current.name = 'work-packages.show.tabs';
+      uiRouterGlobals.params.tabIdentifier = 'relations';
       keepTab.updateTabs();
     });
 
-    it("should update the currentShowTab value", () => {
-      expect(keepTab.currentShowTab).toEqual("relations");
+    it('should update the currentShowTab value', () => {
+      expect(keepTab.currentShowTab).toEqual('relations');
     });
 
-    it("should also update the value of currentDetailsTab", () => {
-      expect(keepTab.currentShowTab).toEqual("relations");
+    it('should also update the value of currentDetailsTab', () => {
+      expect(keepTab.currentShowTab).toEqual('relations');
     });
 
-    it("should propagate the previous change", () => {
-      var cb = jasmine.createSpy();
+    it('should propagate the previous change', () => {
+      const cb = jasmine.createSpy();
 
-      var expected = {
-        active: "relations",
-        show: "relations",
-        details: "relations",
+      const expected = {
+        active: 'relations',
+        show: 'relations',
+        details: 'relations',
       };
 
       keepTab.observable.subscribe(cb);
       expect(cb).toHaveBeenCalledWith(expected);
     });
 
-    it("should correctly change when switching back", () => {
-      currentPathPrefix = "**.details.*";
+    it('should correctly change when switching back', () => {
+      currentPathPrefix = '**.details.*';
 
-      uiRouterGlobals.params.tabIdentifier = "overview";
+      uiRouterGlobals.params.tabIdentifier = 'overview';
       keepTab.updateTabs();
 
-      expect(keepTab.currentShowTab).toEqual("activity");
-      expect(keepTab.currentDetailsTab).toEqual("overview");
+      expect(keepTab.currentShowTab).toEqual('activity');
+      expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
 
-  describe("when opening show#activity", () => {
+  describe('when opening show#activity', () => {
     beforeEach(() => {
-      spyOn($state, "includes").and.callFake((path:string) => path === "work-packages.show.*");
+      spyOn($state, 'includes').and.callFake((path:string) => path === 'work-packages.show.*');
 
-      uiRouterGlobals.params.tabIdentifier = "activity";
-      $state.current.name = "work-packages.show.tabs";
-      keepTab.updateTabs("activity");
+      uiRouterGlobals.params.tabIdentifier = 'activity';
+      $state.current.name = 'work-packages.show.tabs';
+      keepTab.updateTabs('activity');
     });
 
-    it("should set the tab to overview", () => {
-      expect(keepTab.currentDetailsTab).toEqual("overview");
+    it('should set the tab to overview', () => {
+      expect(keepTab.currentDetailsTab).toEqual('overview');
     });
   });
 
-  describe("when opening a details route", () => {
+  describe('when opening a details route', () => {
     beforeEach(() => {
-      spyOn($state, "includes").and.callFake((path:string) => path === "**.details.*");
+      spyOn($state, 'includes').and.callFake((path:string) => path === '**.details.*');
 
-      uiRouterGlobals.params.tabIdentifier = "activity";
-      $state.current.name = "work-packages.partitioned.list.details.tabs";
+      uiRouterGlobals.params.tabIdentifier = 'activity';
+      $state.current.name = 'work-packages.partitioned.list.details.tabs';
       keepTab.updateTabs();
     });
 
-    it("should update the currentShowTab value", () => {
-      expect(keepTab.currentDetailsTab).toEqual("activity");
+    it('should update the currentShowTab value', () => {
+      expect(keepTab.currentDetailsTab).toEqual('activity');
     });
 
-    it("should also update the value of currentDetailsTab", () => {
-      expect(keepTab.currentShowTab).toEqual("activity");
+    it('should also update the value of currentDetailsTab', () => {
+      expect(keepTab.currentShowTab).toEqual('activity');
     });
 
-    it("should propagate the previous and next change", () => {
-      var cb = jasmine.createSpy();
+    it('should propagate the previous and next change', () => {
+      const cb = jasmine.createSpy();
 
-      var expected = {
-        active: "activity",
-        details: "activity",
-        show: "activity",
+      const expected = {
+        active: 'activity',
+        details: 'activity',
+        show: 'activity',
       };
 
       keepTab.observable.subscribe(cb);

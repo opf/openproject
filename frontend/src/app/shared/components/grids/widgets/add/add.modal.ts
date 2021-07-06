@@ -1,23 +1,23 @@
 import {
   Component, ElementRef, Inject, ChangeDetectorRef,
-} from "@angular/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { WidgetRegistration } from "core-app/shared/components/grids/grid/grid.component";
-import { GridWidgetsService } from "core-app/shared/components/grids/widgets/widgets.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { BannersService } from "core-app/core/enterprise/banners.service";
+} from '@angular/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { WidgetRegistration } from 'core-app/shared/components/grids/grid/grid.component';
+import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 @Component({
-  templateUrl: "./add.modal.html",
+  templateUrl: './add.modal.html',
 })
 export class AddGridWidgetModal extends OpModalComponent {
   text = {
-    title: this.i18n.t("js.grid.add_widget"),
-    close_popup: this.i18n.t("js.button_close"),
-    upsale_link: this.i18n.t("js.grid.upsale.link"),
-    upsale_text: this.i18n.t("js.grid.upsale.text"),
+    title: this.i18n.t('js.grid.add_widget'),
+    close_popup: this.i18n.t('js.button_close'),
+    upsale_link: this.i18n.t('js.grid.upsale.link'),
+    upsale_text: this.i18n.t('js.grid.upsale.text'),
   };
 
   public chosenWidget:WidgetRegistration;

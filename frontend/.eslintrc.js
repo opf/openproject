@@ -26,12 +26,12 @@ module.exports = {
         createDefaultProgram: true
       },
       extends: [
-        "airbnb-typescript",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
         "plugin:@angular-eslint/recommended",
         // This is required if you use inline templates in Components
         "plugin:@angular-eslint/template/process-inline-templates",
+        "airbnb-typescript",
       ],
       rules: {
         /**
@@ -46,100 +46,32 @@ module.exports = {
           "error",
           { "type": "element", "prefix": "op", "style": "kebab-case" }
         ],
-        "@typescript-eslint/dot-notation": "off",
-        "@typescript-eslint/naming-convention": "off",
-        "@typescript-eslint/no-empty-function": "error",
 
-        // note you must disable the base rule as it can report incorrect errors
-        semi: "off",
-        "@typescript-eslint/semi": ["error", "always", { "omitLastInOneLineBlock": true}],
-        "brace-style": [
-          "error",
-          "1tbs",
-        ],
-
-        curly: "error",
-        "eol-last": "off",
-        eqeqeq: [
-          "error",
-          "smart",
-        ],
-        "guard-for-in": "error",
-        "id-blacklist": "off",
-        "id-match": "off",
-        "max-len": [
-          "off",
-          {
-            code: 140,
-          },
-        ],
-        "no-bitwise": "off",
-        "no-caller": "error",
         "no-console": [
           "error",
           {
             allow: [
-              "log",
               "warn",
-              "dir",
-              "timeLog",
-              "assert",
-              "clear",
-              "count",
-              "countReset",
-              "group",
-              "groupEnd",
-              "table",
-              "dirxml",
               "error",
-              "groupCollapsed",
-              "Console",
-              "profile",
-              "profileEnd",
-              "timeStamp",
-              "context",
             ],
           },
         ],
-        "no-debugger": "error",
-        "no-empty": "error",
-        "no-eval": "error",
-        "no-new-wrappers": "error",
-        "no-redeclare": "error",
-        "no-trailing-spaces": "error",
-        "no-underscore-dangle": "off",
-        "no-unused-labels": "error",
-        "no-var": "off",
-        radix: "off",
-        // Disable required spaces in license comments
-        "spaced-comment": "off",
 
-        // Force double quotes to align with ruby
+        // Who cares about line lenght
+        "max-len": "off",
+
+        // Force single quotes to align with ruby
         quotes: "off",
-        "@typescript-eslint/quotes": ["error", "double", { avoidEscape: true }],
-
-        // Disable consistent return as typescript checks return type
-        "consistent-return": "off",
-
-        // Disable forcing arrow function params for one
-        "arrow-parens": "off",
-
-        // Disable enforce class methods use this
-        "class-methods-use-this": "off",
+        "@typescript-eslint/quotes": ["error", "single", { avoidEscape: true }],
 
         // Disable webpack loader definitions
         "import/no-webpack-loader-syntax": "off",
 
+        /*
         // Disable use before define, as irrelevant for TS interfaces
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": "off",
-
-        // Allow object.hasOwnProperty calls
-        "no-prototype-builtins": "off",
-
-        // We need to redeclare interface with the same name
-        // as a class or constant for type ducking
-        "no-redeclare": "off",
+        */
 
         // Whitespace configuration
         "@typescript-eslint/type-annotation-spacing": [
@@ -159,11 +91,24 @@ module.exports = {
         // Allow empty interfaces for naming purposes (HAL resources)
         "@typescript-eslint/no-empty-interface": "off",
 
-        // Force spaces in objects
-        "object-curly-spacing": ["error", "always"],
+        "import/prefer-default-export": "off",
 
-        // Force indent to 2space
-        indent: ["error", 2],
+        //////////////////////////////////////////////////////////////////////
+        // Anything below this line should be turned on again at some point //
+        //////////////////////////////////////////////////////////////////////
+
+        // It's common in Angular to wrap even pure functions in classes for injection purposes
+        // TODO: Should probably be turned off and pure unit tests should be used at some point
+        "class-methods-use-this": "warn",
+
+        // There's too much interop with legacy code that is `any`-typed for this to be an error in any practical sense
+        // TODO: Actually type everything
+        "@typescript-eslint/no-unsafe-member-access": "warn",
+        "@typescript-eslint/no-unsafe-assignment": "warn",
+        "@typescript-eslint/no-unsafe-call": "warn",
+
+        // This is probably the first rule that should be fixed. It had 309 errors last time we checked
+        "@typescript-eslint/no-unsafe-return": "warn",
       }
     },
     {

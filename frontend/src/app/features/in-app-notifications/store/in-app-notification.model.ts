@@ -1,10 +1,10 @@
-import { ID } from "@datorama/akita";
+import { ID } from '@datorama/akita';
 
 export interface HalResourceLink {
   href:string;
   title:string;
 }
-export type InAppNotificationFormat = "markdown"|"custom";
+export type InAppNotificationFormat = 'markdown'|'custom';
 
 export const NOTIFICATIONS_MAX_SIZE = 100;
 

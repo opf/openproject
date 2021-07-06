@@ -9,7 +9,7 @@ export namespace DragAndDropHelpers {
   }
 
   export function reinsert(el:HTMLElement, previousIndex:number|string, container:HTMLElement) {
-    previousIndex = typeof previousIndex === "string" ? parseInt(previousIndex, 10) : previousIndex;
+    previousIndex = typeof previousIndex === 'string' ? parseInt(previousIndex, 10) : previousIndex;
     const currentIndex = el.parentNode && Array.from(el.parentNode.children).indexOf(el) || null;
     const children = Array.from(container.children);
     let pointOfInsertion;

@@ -1,17 +1,17 @@
-import { Injectable, Inject, Injector } from "@angular/core";
-import { XeokitServer } from "core-app/features/bim/ifc_models/xeokit/xeokit-server";
-import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+import { Injectable, Inject, Injector } from '@angular/core';
+import { XeokitServer } from 'core-app/features/bim/ifc_models/xeokit/xeokit-server';
+import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
+import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import {
   BehaviorSubject, Observable, Subject, of,
-} from "rxjs";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { HttpClient } from "@angular/common/http";
+} from 'rxjs';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { HttpClient } from '@angular/common/http';
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -57,36 +57,36 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public newViewer(elements:XeokitElements, projects:any[]) {
-    import("@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es").then((XeokitViewerModule:any) => {
+    import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
       const server = new XeokitServer(this.pathHelper);
       const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
-      viewerUI.on("queryPicked", (event:any) => {
+      viewerUI.on('queryPicked', (event:any) => {
         alert(`IFC Name = "${event.objectName}"\nIFC class = "${event.objectType}"\nIFC GUID = ${event.objectId}`);
       });
 
-      viewerUI.on("modelLoaded", () => this.viewerVisible$.next(true));
+      viewerUI.on('modelLoaded', () => this.viewerVisible$.next(true));
 
-      viewerUI.loadProject(projects[0]["id"]);
+      viewerUI.loadProject(projects[0].id);
 
-      viewerUI.on("addModel", (event:Event) => { // "Add" selected in Models tab's context menu
+      viewerUI.on('addModel', (event:Event) => { // "Add" selected in Models tab's context menu
         window.location.href = this.pathHelper.ifcModelsNewPath(this.currentProjectService.identifier as string);
       });
 
-      viewerUI.on("editModel", (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
+      viewerUI.on('editModel', (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
         window.location.href = this.pathHelper.ifcModelsEditPath(this.currentProjectService.identifier as string, event.modelId);
       });
 
-      viewerUI.on("deleteModel", (event:{ modelId:number|string }) => { // "Delete" selected in Models tab's context menu
+      viewerUI.on('deleteModel', (event:{ modelId:number|string }) => { // "Delete" selected in Models tab's context menu
         // We don't have an API for IFC models yet. We need to use the normal Rails form posts for deletion.
         const formData = new FormData();
         formData.append(
-          "authenticity_token",
-          jQuery("meta[name=csrf-token]").attr("content") as string,
+          'authenticity_token',
+          jQuery('meta[name=csrf-token]').attr('content') as string,
         );
         formData.append(
-          "_method",
-          "delete",
+          '_method',
+          'delete',
         );
 
         this.httpClient.post(
@@ -148,7 +148,7 @@ export class IFCViewerService extends ViewerBridgeService {
         const viewpointOptions = { updateCompositeObjects: true };
         this.viewpointsService
           .getViewPoint$(workPackage, index)
-          .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, viewpointOptions));
+          .subscribe((viewpoint) => this.viewer.loadBCFViewpoint(viewpoint, viewpointOptions));
       }
     } else {
       // Reload the whole app to get the correct menus and GON data

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -34,32 +34,32 @@ import {
   OnInit,
   ElementRef,
   NgZone,
-} from "@angular/core";
-import { take } from "rxjs/operators";
-import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
-import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
+} from '@angular/core';
+import { take } from 'rxjs/operators';
+import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
+import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
-} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageTableConfigurationObject } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { DeviceService } from "core-app/core/browser/device.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { StateService } from "@uirouter/core";
-import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { StateService } from '@uirouter/core';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 
 @Component({
-  selector: "wp-list-view",
-  templateUrl: "./wp-list-view.component.html",
-  styleUrls: ["./wp-list-view.component.sass"],
-  host: { class: "work-packages-split-view--tabletimeline-side" },
+  selector: 'wp-list-view',
+  templateUrl: './wp-list-view.component.html',
+  styleUrls: ['./wp-list-view.component.sass'],
+  host: { class: 'work-packages-split-view--tabletimeline-side' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
@@ -69,9 +69,9 @@ import { KeepTabService } from "core-app/features/work-packages/components/wp-si
 })
 export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
   text = {
-    jump_to_pagination: this.I18n.t("js.work_packages.jump_marks.pagination"),
-    text_jump_to_pagination: this.I18n.t("js.work_packages.jump_marks.label_pagination"),
-    button_settings: this.I18n.t("js.button_settings"),
+    jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
+    text_jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.label_pagination'),
+    button_settings: this.I18n.t('js.button_settings'),
   };
 
   /** Switch between list and card view */
@@ -128,17 +128,17 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     // detection on the entire app
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        const selectedRow = this.elementRef.nativeElement.querySelector(".wp-table--row.-checked");
-        const selectedCard = this.elementRef.nativeElement.querySelector(".wp-card.-checked");
+        const selectedRow = this.elementRef.nativeElement.querySelector('.wp-table--row.-checked');
+        const selectedCard = this.elementRef.nativeElement.querySelector('.wp-card.-checked');
 
         // The header of the table hides the scrolledIntoView element
         // so we scrollIntoView the previous element, if any
         if (selectedRow && selectedRow.previousSibling) {
-          selectedRow.previousSibling.scrollIntoView({ block: "start" });
+          selectedRow.previousSibling.scrollIntoView({ block: 'start' });
         }
 
         if (selectedCard) {
-          selectedCard.scrollIntoView({ block: "start" });
+          selectedCard.scrollIntoView({ block: 'start' });
         }
       }, 0);
     });
@@ -171,13 +171,13 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     }
   }
 
-  openStateLink(event:{ workPackageId:string; requestedState:"show"|"split" }) {
+  openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }) {
     const params = {
       workPackageId: event.workPackageId,
       focus: true,
     };
 
-    if (event.requestedState === "split") {
+    if (event.requestedState === 'split') {
       this.keepTab.goCurrentDetailsState(params);
     } else {
       this.keepTab.goCurrentShowState(params);
@@ -198,7 +198,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
 
   private openInFullView(workPackageId:string) {
     this.$state.go(
-      "work-packages.show",
+      'work-packages.show',
       { workPackageId },
     );
   }

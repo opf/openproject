@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { IFCGonDefinition } from "../../features/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import { Injectable } from '@angular/core';
+import { IFCGonDefinition } from '../../features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 
 declare global {
   interface Window {
@@ -40,7 +40,7 @@ export interface GonType {
   ifc_models:IFCGonDefinition;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class GonService {
   get(...path:string[]):unknown|null {
     return _.get(window.gon, path, null);

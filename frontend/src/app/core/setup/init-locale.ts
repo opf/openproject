@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import * as moment from "moment";
+import * as moment from 'moment';
 
 export function initializeLocale() {
-  const meta = document.querySelector("meta[name=openproject_initializer]") as HTMLMetaElement;
-  const locale = meta.dataset.locale || "en";
-  const firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek || "", 10);
-  const firstWeekOfYear = parseInt(meta.dataset.firstWeekOfYear || "", 10);
+  const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
+  const locale = meta.dataset.locale || 'en';
+  const firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek || '', 10);
+  const firstWeekOfYear = parseInt(meta.dataset.firstWeekOfYear || '', 10);
 
   I18n.locale = locale;
   I18n.firstDayOfWeek = firstDayOfWeek;
@@ -49,14 +49,14 @@ export function initializeLocale() {
   // Override the default pluralization function to allow
   // "other" to be used as a fallback for "one" in languages where one is not set
   // (japanese, for example)
-  I18n.pluralization["default"] = function (count:number) {
+  I18n.pluralization.default = function (count:number) {
     switch (count) {
       case 0:
-        return ["zero", "other"];
+        return ['zero', 'other'];
       case 1:
-        return ["one", "other"];
+        return ['one', 'other'];
       default:
-        return ["other"];
+        return ['other'];
     }
   };
 

@@ -1,4 +1,4 @@
-import { NotificationSetting } from "core-app/features/user-preferences/state/notification-setting.model";
+import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
 export interface UserPreferencesModel {
   autoHidePopups:boolean;

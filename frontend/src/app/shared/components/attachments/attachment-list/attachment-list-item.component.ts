@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,16 +28,16 @@
 
 import {
   Component, EventEmitter, Input, Output,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { States } from "core-app/core/states/states.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { States } from 'core-app/core/states/states.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 @Component({
-  selector: "attachment-list-item",
-  templateUrl: "./attachment-list-item.html",
+  selector: 'attachment-list-item',
+  templateUrl: './attachment-list-item.html',
 })
 export class AttachmentListItemComponent {
   @Input() public resource:HalResource;
@@ -50,12 +50,12 @@ export class AttachmentListItemComponent {
 
   @Output() public removeAttachment = new EventEmitter<void>();
 
-  static imageFileExtensions:string[] = ["jpeg", "jpg", "gif", "bmp", "png"];
+  static imageFileExtensions:string[] = ['jpeg', 'jpg', 'gif', 'bmp', 'png'];
 
   public text = {
-    dragHint: this.I18n.t("js.attachments.draggable_hint"),
-    destroyConfirmation: this.I18n.t("js.text_attachment_destroy_confirmation"),
-    removeFile: (arg:any) => this.I18n.t("js.label_remove_file", arg),
+    dragHint: this.I18n.t('js.attachments.draggable_hint'),
+    destroyConfirmation: this.I18n.t('js.text_attachment_destroy_confirmation'),
+    removeFile: (arg:any) => this.I18n.t('js.label_remove_file', arg),
   };
 
   constructor(protected halNotification:HalResourceNotificationService,
@@ -72,9 +72,9 @@ export class AttachmentListItemComponent {
     const url = this.downloadPath;
     const previewElement = this.draggableHTML(url);
 
-    evt.dataTransfer!.setData("text/plain", url);
-    evt.dataTransfer!.setData("text/html", previewElement.outerHTML);
-    evt.dataTransfer!.setData("text/uri-list", url);
+    evt.dataTransfer!.setData('text/plain', url);
+    evt.dataTransfer!.setData('text/html', previewElement.outerHTML);
+    evt.dataTransfer!.setData('text/uri-list', url);
     evt.dataTransfer!.setDragImage(previewElement, 0, 0);
   }
 
@@ -82,11 +82,11 @@ export class AttachmentListItemComponent {
     let el:HTMLImageElement|HTMLAnchorElement;
 
     if (this.isImage) {
-      el = document.createElement("img");
+      el = document.createElement('img');
       el.src = url;
       el.textContent = this.fileName;
     } else {
-      el = document.createElement("a");
+      el = document.createElement('a');
       el.href = url;
       el.textContent = this.fileName;
     }
@@ -99,7 +99,7 @@ export class AttachmentListItemComponent {
   }
 
   public get isImage() {
-    const ext = this.fileName.split(".").pop() || "";
+    const ext = this.fileName.split('.').pop() || '';
     return AttachmentListItemComponent.imageFileExtensions.indexOf(ext.toLowerCase()) > -1;
   }
 

@@ -1,13 +1,13 @@
 import {
   derive, input, InputState, State, StatesGroup,
-} from "reactivestates";
-import { Subject } from "rxjs";
-import { Injectable } from "@angular/core";
-import { map } from "rxjs/operators";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
-import { GroupObject, WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+} from 'reactivestates';
+import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { GroupObject, WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
@@ -15,7 +15,7 @@ export class IsolatedQuerySpace extends StatesGroup {
     super();
   }
 
-  name = "IsolatedQuerySpace";
+  name = 'IsolatedQuerySpace';
 
   // The query that results in this table state
   query:InputState<QueryResource> = input<QueryResource>();
@@ -41,12 +41,12 @@ export class IsolatedQuerySpace extends StatesGroup {
   // Event to be raised when the timeline is up to date
   timelineRendered = new Subject<null>();
 
-  renderedWorkPackages:State<RenderedWorkPackage[]> = derive(this.tableRendered, $ => $.pipe(
-    map(rows => rows.filter(row => !!row.workPackageId)),
+  renderedWorkPackages:State<RenderedWorkPackage[]> = derive(this.tableRendered, ($) => $.pipe(
+    map((rows) => rows.filter((row) => !!row.workPackageId)),
   ));
 
-  renderedWorkPackageIds:State<string[]> = derive(this.renderedWorkPackages, $ => $.pipe(
-    map(rows => rows.map(row => row.workPackageId!.toString())),
+  renderedWorkPackageIds:State<string[]> = derive(this.renderedWorkPackages, ($) => $.pipe(
+    map((rows) => rows.map((row) => row.workPackageId!.toString())),
   ));
 
   // Subject used to unregister all listeners of states above.

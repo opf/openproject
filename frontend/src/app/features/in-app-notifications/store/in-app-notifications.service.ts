@@ -1,16 +1,16 @@
-import { Injectable } from "@angular/core";
-import { applyTransaction, ID, transaction } from "@datorama/akita";
-import { forkJoin, Observable } from "rxjs";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { map, switchMap, tap } from "rxjs/operators";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/store/in-app-notifications.query";
-import { take } from "rxjs/internal/operators/take";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { InAppNotificationsStore } from "./in-app-notifications.store";
-import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from "./in-app-notification.model";
+import { Injectable } from '@angular/core';
+import { applyTransaction, ID, transaction } from '@datorama/akita';
+import { forkJoin, Observable } from 'rxjs';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { take } from 'rxjs/internal/operators/take';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { InAppNotificationsStore } from './in-app-notifications.store';
+import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class InAppNotificationsService {
   constructor(
     private store:InAppNotificationsStore,
@@ -30,16 +30,16 @@ export class InAppNotificationsService {
       .notifications
       .facet(facet, { pageSize: NOTIFICATIONS_MAX_SIZE })
       .pipe(
-        tap(events => this.sideLoadInvolvedWorkPackages(events._embedded.elements)),
+        tap((events) => this.sideLoadInvolvedWorkPackages(events._embedded.elements)),
       )
       .subscribe(
-        events => {
+        (events) => {
           applyTransaction(() => {
             this.store.set(events._embedded.elements);
             this.store.update({ count: events.total, notShowing: events.total - events.count });
           });
         },
-        error => {
+        (error) => {
           this.notifications.addError(error);
         },
       )
@@ -54,15 +54,15 @@ export class InAppNotificationsService {
       .notifications
       .unread({ pageSize: 0 })
       .pipe(
-        map(events => events.total),
-        tap(count => this.store.update({ count })),
+        map((events) => events.total),
+        tap((count) => this.store.update({ count })),
       );
   }
 
   @transaction()
   add(inAppNotification:InAppNotification):void {
     this.store.add(inAppNotification);
-    this.store.update(state => ({ ...state, count: state.count + 1 }));
+    this.store.update((state) => ({ ...state, count: state.count + 1 }));
   }
 
   update(id:ID, inAppNotification:Partial<InAppNotification>):void {
@@ -72,11 +72,11 @@ export class InAppNotificationsService {
   @transaction()
   remove(id:ID):void {
     this.store.remove(id);
-    this.store.update(state => ({ ...state, count: state.count + 1 }));
+    this.store.update((state) => ({ ...state, count: state.count + 1 }));
   }
 
   setActiveFacet(facet:string) {
-    this.store.update(state => ({ ...state, activeFacet: facet }));
+    this.store.update((state) => ({ ...state, activeFacet: facet }));
   }
 
   markAllRead():void {
@@ -84,7 +84,7 @@ export class InAppNotificationsService {
       .unread$
       .pipe(
         take(1),
-        switchMap(events => this.apiV3Service.notifications.markRead(events.map(event => event.id))),
+        switchMap((events) => this.apiV3Service.notifications.markRead(events.map((event) => event.id))),
       )
       .subscribe(() => {
         applyTransaction(() => {
@@ -95,9 +95,9 @@ export class InAppNotificationsService {
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]) {
-    const wpIds = elements.map(element => {
+    const wpIds = elements.map((element) => {
       const href = element._links.resource?.href;
-      return href && HalResource.matchFromLink(href, "work_packages");
+      return href && HalResource.matchFromLink(href, 'work_packages');
     });
 
     this

@@ -4,25 +4,25 @@ import {
   HostBinding,
   ContentChild,
   Optional,
-} from "@angular/core";
+} from '@angular/core';
 import {
   NgControl,
   AbstractControl,
   FormGroupDirective,
-} from "@angular/forms";
+} from '@angular/forms';
 
 @Component({
-  selector: "op-form-field",
-  templateUrl: "./form-field.component.html",
+  selector: 'op-form-field',
+  templateUrl: './form-field.component.html',
 })
 export class OpFormFieldComponent {
-  @HostBinding("class.op-form-field") className = true;
+  @HostBinding('class.op-form-field') className = true;
 
-  @HostBinding("class.op-form-field_invalid") get errorClassName() {
+  @HostBinding('class.op-form-field_invalid') get errorClassName() {
     return this.showErrorMessage;
   }
 
-  @Input() label = "";
+  @Input() label = '';
 
   @Input() noWrapLabel = true;
 
@@ -30,7 +30,7 @@ export class OpFormFieldComponent {
 
   @Input() hidden = false;
 
-  @Input() showValidationErrorOn:"change" | "blur" | "submit" | "never" = "submit";
+  @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
 
   @Input() control?:AbstractControl;
 
@@ -63,11 +63,11 @@ export class OpFormFieldComponent {
       return false;
     }
 
-    if (this.showValidationErrorOn === "submit") {
+    if (this.showValidationErrorOn === 'submit') {
       return this.formControl.invalid && this._formGroupDirective?.submitted;
-    } if (this.showValidationErrorOn === "blur") {
+    } if (this.showValidationErrorOn === 'blur') {
       return this.formControl.invalid && this.formControl.touched;
-    } if (this.showValidationErrorOn === "change") {
+    } if (this.showValidationErrorOn === 'change') {
       return this.formControl.invalid && this.formControl.dirty;
     }
 

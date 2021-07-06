@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { from, Observable } from "rxjs";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { map } from "rxjs/operators";
-import { buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { from, Observable } from 'rxjs';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { map } from 'rxjs/operators';
+import { buildApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export class Apiv3RelationsPaths extends APIv3ResourceCollection<RelationResource, APIv3GettableResource<RelationResource>> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, "relations");
+    super(apiRoot, basePath, 'relations');
   }
 
   /**
@@ -50,17 +50,17 @@ export class Apiv3RelationsPaths extends APIv3ResourceCollection<RelationResourc
   }
 
   public loadInvolved(workPackageIds:string[]):Observable<RelationResource[]> {
-    const validIds = _.filter(workPackageIds, id => /\d+/.test(id));
+    const validIds = _.filter(workPackageIds, (id) => /\d+/.test(id));
 
     if (validIds.length === 0) {
       return from([]);
     }
 
     return this
-      .filtered(buildApiV3Filter("involved", "=", validIds))
+      .filtered(buildApiV3Filter('involved', '=', validIds))
       .get()
       .pipe(
-        map(collection => collection.elements),
+        map((collection) => collection.elements),
       );
   }
 }

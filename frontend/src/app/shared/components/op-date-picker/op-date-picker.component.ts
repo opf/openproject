@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,33 +28,33 @@
 
 import {
   AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild,
-} from "@angular/core";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { Instance } from "flatpickr/dist/types/instance";
-import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
-import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker";
+} from '@angular/core';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { Instance } from 'flatpickr/dist/types/instance';
+import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 
 @Component({
-  selector: "op-date-picker",
-  templateUrl: "./op-date-picker.component.html",
+  selector: 'op-date-picker',
+  templateUrl: './op-date-picker.component.html',
 })
 export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
   @Output() public onChange = new DebouncedEventEmitter<string>(componentDestroyed(this));
 
   @Output() public onCancel = new EventEmitter<string>();
 
-  @Input() public initialDate = "";
+  @Input() public initialDate = '';
 
   @Input() public appendTo?:HTMLElement;
 
-  @Input() public classes = "";
+  @Input() public classes = '';
 
-  @Input() public id = "";
+  @Input() public id = '';
 
-  @Input() public name = "";
+  @Input() public name = '';
 
   @Input() public required = false;
 
@@ -62,7 +62,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
 
   @Input() public disabled = false;
 
-  @ViewChild("dateInput") dateInput:ElementRef;
+  @ViewChild('dateInput') dateInput:ElementRef;
 
   protected datePickerInstance:DatePicker;
 
@@ -92,7 +92,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     if (this.inputIsValidDate()) {
       this.onChange.emit(this.currentValue);
     } else {
-      this.onChange.emit("");
+      this.onChange.emit('');
     }
   }
 
@@ -108,11 +108,11 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
   }
 
   protected isEmpty():boolean {
-    return this.currentValue.trim() === "";
+    return this.currentValue.trim() === '';
   }
 
   protected get currentValue():string {
-    return this.inputElement?.value || "";
+    return this.inputElement?.value || '';
   }
 
   protected get inputElement():HTMLInputElement {

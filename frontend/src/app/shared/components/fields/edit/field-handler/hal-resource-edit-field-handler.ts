@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { Injector } from "@angular/core";
-import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { ClickPositionMapper } from "core-app/shared/helpers/set-click-position/set-click-position";
-import { debugLog } from "core-app/shared/helpers/debug_output";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { Subject } from "rxjs";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { Injector } from '@angular/core';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { ClickPositionMapper } from 'core-app/shared/helpers/set-click-position/set-click-position';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { Subject } from 'rxjs';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
@@ -89,7 +89,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   }
 
   public focus(setClickOffset?:number) {
-    const target = this.element.querySelector(".inline-edit--field") as HTMLElement;
+    const target = this.element.querySelector('.inline-edit--field') as HTMLElement;
 
     if (!target) {
       debugLog(`Tried to focus on ${this.fieldName}, but element does not (yet) exist.`);
@@ -100,7 +100,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     target.focus();
 
     // Set selection state if input element
-    if (setClickOffset && target.tagName === "INPUT") {
+    if (setClickOffset && target.tagName === 'INPUT') {
       ClickPositionMapper.setPosition(target as HTMLInputElement, setClickOffset);
     }
   }
@@ -115,7 +115,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public setErrors(newErrors:string[]) {
     this.errors = newErrors;
-    this.element.classList.toggle("-error", this.isErrorenous);
+    this.element.classList.toggle('-error', this.isErrorenous);
   }
 
   /**
@@ -215,10 +215,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public errorMessageOnLabel() {
     if (!this.isErrorenous) {
-      return "";
+      return '';
     }
-    return this.I18n.t("js.inplace.errors.messages_on_field",
-      { messages: this.errors.join(" ") });
+    return this.I18n.t('js.inplace.errors.messages_on_field',
+      { messages: this.errors.join(' ') });
   }
 
   public previewContext(resource:HalResource) {

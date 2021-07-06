@@ -1,21 +1,21 @@
-import { Injector } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { States } from "core-app/core/states/states.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
-import { WorkPackageTableConfiguration } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
-import { debugLog } from "core-app/shared/helpers/debug_output";
-import { WorkPackageTimelineTableController } from "../wp-table/timeline/container/wp-timeline-container.directive";
-import { GroupedRowsBuilder } from "./builders/modes/grouped/grouped-rows-builder";
-import { HierarchyRowsBuilder } from "./builders/modes/hierarchy/hierarchy-rows-builder";
-import { PlainRowsBuilder } from "./builders/modes/plain/plain-rows-builder";
-import { RowsBuilder } from "./builders/modes/rows-builder";
-import { PrimaryRenderPass } from "./builders/primary-render-pass";
-import { WorkPackageTableEditingContext } from "./wp-table-editing";
-import { WorkPackageTableRow } from "./wp-table.interfaces";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { States } from 'core-app/core/states/states.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { WorkPackageTimelineTableController } from '../wp-table/timeline/container/wp-timeline-container.directive';
+import { GroupedRowsBuilder } from './builders/modes/grouped/grouped-rows-builder';
+import { HierarchyRowsBuilder } from './builders/modes/hierarchy/hierarchy-rows-builder';
+import { PlainRowsBuilder } from './builders/modes/plain/plain-rows-builder';
+import { RowsBuilder } from './builders/modes/rows-builder';
+import { PrimaryRenderPass } from './builders/primary-render-pass';
+import { WorkPackageTableEditingContext } from './wp-table-editing';
+import { WorkPackageTableRow } from './wp-table.interfaces';
 
 export class WorkPackageTable {
   @InjectField() querySpace:IsolatedQuerySpace;
@@ -110,8 +110,8 @@ export class WorkPackageTable {
 
     // Insert timeline body
     requestAnimationFrame(() => {
-      this.tbody.innerHTML = "";
-      this.timelineBody.innerHTML = "";
+      this.tbody.innerHTML = '';
+      this.timelineBody.innerHTML = '';
       this.tbody.appendChild(renderPass.tableBody);
       this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
@@ -134,7 +134,7 @@ export class WorkPackageTable {
   public refreshRows(workPackage:WorkPackageResource) {
     const pass = this.lastRenderPass;
     if (!pass) {
-      debugLog("Trying to refresh a singular row without a previous render pass.");
+      debugLog('Trying to refresh a singular row without a previous render pass.');
       return;
     }
 
@@ -167,7 +167,7 @@ export class WorkPackageTable {
     // Insert table body
     if (insert) {
       requestAnimationFrame(() => {
-        this.tbody.innerHTML = "";
+        this.tbody.innerHTML = '';
         this.tbody.appendChild(renderPass.tableBody);
       });
     }

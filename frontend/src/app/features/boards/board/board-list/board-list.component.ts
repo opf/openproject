@@ -10,51 +10,51 @@ import {
   OnInit,
   Output,
   ViewChild,
-} from "@angular/core";
+} from '@angular/core';
 import {
   LoadingIndicatorService,
   withLoadingIndicator,
-} from "core-app/core/loading-indicator/loading-indicator.service";
-import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
-import { BoardInlineCreateService } from "core-app/features/boards/board/board-list/board-inline-create.service";
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { Board } from "core-app/features/boards/board/board";
-import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { WorkPackageCardViewComponent } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
-import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
-import { BoardService } from "core-app/features/boards/board/board.service";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { ComponentType } from "@angular/cdk/portal";
-import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
-import { BoardListMenuComponent } from "core-app/features/boards/board/board-list/board-list-menu.component";
-import { debugLog } from "core-app/shared/helpers/debug_output";
-import { WorkPackageCardDragAndDropService } from "core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { BoardFiltersService } from "core-app/features/boards/board/board-filter/board-filters.service";
-import { StateService, TransitionService } from "@uirouter/core";
-import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { BoardListCrossSelectionService } from "core-app/features/boards/board/board-list/board-list-cross-selection.service";
+} from 'core-app/core/loading-indicator/loading-indicator.service';
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { BoardInlineCreateService } from 'core-app/features/boards/board/board-list/board-inline-create.service';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { Board } from 'core-app/features/boards/board/board';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
+import { BoardService } from 'core-app/features/boards/board/board.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
+import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
+import { ComponentType } from '@angular/cdk/portal';
+import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
+import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
+import { StateService, TransitionService } from '@uirouter/core';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
 import {
   debounceTime, filter, map, retry,
-} from "rxjs/operators";
-import { ChangeItem } from "core-app/shared/components/fields/changeset/changeset";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { HalEvent, HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+} from 'rxjs/operators';
+import { ChangeItem } from 'core-app/shared/components/fields/changeset/changeset';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -62,9 +62,9 @@ export interface DisabledButtonPlaceholder {
 }
 
 @Component({
-  selector: "board-list",
-  templateUrl: "./board-list.component.html",
-  styleUrls: ["./board-list.component.sass"],
+  selector: 'board-list',
+  templateUrl: './board-list.component.html',
+  styleUrls: ['./board-list.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: WorkPackageInlineCreateService, useClass: BoardInlineCreateService },
@@ -80,7 +80,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   @Input() public board:Board;
 
   /** Access to the loading indicator element */
-  @ViewChild("loadingIndicator", { static: true }) indicator:ElementRef;
+  @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef;
 
   /** Access to the card view */
   @ViewChild(WorkPackageCardViewComponent) cardView:WorkPackageCardViewComponent;
@@ -94,7 +94,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** The action attribute resource if any */
   public actionResource:HalResource|undefined;
 
-  public actionResourceClass = "";
+  public actionResourceClass = '';
 
   public headerComponent:ComponentType<unknown>|undefined;
 
@@ -107,11 +107,11 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   public columnsQueryProps:any;
 
   public text = {
-    addCard: this.I18n.t("js.boards.add_card"),
-    updateSuccessful: this.I18n.t("js.notice_successful_update"),
-    areYouSure: this.I18n.t("js.text_are_you_sure"),
-    unnamed_list: this.I18n.t("js.boards.label_unnamed_list"),
-    click_to_remove: this.I18n.t("js.boards.click_to_remove_list"),
+    addCard: this.I18n.t('js.boards.add_card'),
+    updateSuccessful: this.I18n.t('js.notice_successful_update'),
+    areYouSure: this.I18n.t('js.text_are_you_sure'),
+    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
+    click_to_remove: this.I18n.t('js.boards.click_to_remove_list'),
   };
 
   /** Are we allowed to remove and drag & drop elements ? */
@@ -204,7 +204,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(selection => {
+      .subscribe((selection) => {
         this.wpViewSelectionService.initializeSelection(selection.allSelected);
       });
 
@@ -238,7 +238,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public get errorMessage() {
-    return this.I18n.t("js.boards.error_loading_the_list", { error_message: this.loadingError });
+    return this.I18n.t('js.boards.error_loading_the_list', { error_message: this.loadingError });
   }
 
   public canMove(workPackage:WorkPackageResource) {
@@ -304,7 +304,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     if (value && value.id) {
       return Highlighting.backgroundClass(attribute, value.id);
     }
-    return "";
+    return '';
   }
 
   public get listName() {
@@ -344,7 +344,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     }
 
     // Load the resource
-    actionService.getLoadedActionValue(query).then(async resource => {
+    actionService.getLoadedActionValue(query).then(async (resource) => {
       this.actionResource = resource;
       this.headerComponent = actionService.headerComponent();
       this.buttonPlaceholder = actionService.disabledAddButtonPlaceholder(resource);
@@ -409,8 +409,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     observable
       .subscribe(
-        query => this.wpStatesInitialization.updateQuerySpace(query, query.results),
-        error => {
+        (query) => this.wpStatesInitialization.updateQuerySpace(query, query.results),
+        (error) => {
           this.loadingError = this.halNotification.retrieveErrorMessage(error);
           this.cdRef.detectChanges();
         },
@@ -426,7 +426,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     const newFilters = existingFilters.concat(filters);
     const newColumnsQueryProps:any = {
-      "columns[]": ["id", "subject"],
+      'columns[]': ['id', 'subject'],
       showHierarchies: false,
       pageSize: 500,
       filters: JSON.stringify(newFilters),
@@ -446,12 +446,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.halEvents
       .events$
       .pipe(
-        filter(event => event.resourceType === "WorkPackage"),
+        filter((event) => event.resourceType === 'WorkPackage'),
         // Only allow updates, otherwise this causes an error reloading the list
         // before the work package can be added to the query order
-        filter(event => event.eventType === "updated"),
+        filter((event) => event.eventType === 'updated'),
         map((event:HalEvent) => event.commit?.changes[this.actionService!.filterName]),
-        filter(value => !!value),
+        filter((value) => !!value),
         filter((value:ChangeItem) => {
           // Compare the from and to values from the committed changes
           // with the current actionResource
@@ -469,7 +469,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   openFullViewOnDoubleClick(event:{ workPackageId:string, double:boolean }) {
     if (event.double) {
       this.state.go(
-        "work-packages.show",
+        'work-packages.show',
         { workPackageId: event.workPackageId },
       );
     }
@@ -478,7 +478,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   openStateLink(event:{ workPackageId:string; requestedState:string }) {
     const params = { workPackageId: event.workPackageId };
 
-    if (event.requestedState === "split") {
+    if (event.requestedState === 'split') {
       this.keepTab.goCurrentDetailsState(params);
     } else {
       this.keepTab.goCurrentShowState(params);

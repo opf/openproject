@@ -21,18 +21,18 @@ export namespace Highlighting {
    */
   export function overdueDate(diff:number):string {
     if (diff === 0) {
-      return "__hl_date_due_today";
+      return '__hl_date_due_today';
     }
     // At least one day
     if (diff <= -1) {
-      return "__hl_date_overdue";
+      return '__hl_date_overdue';
     }
 
-    return "__hl_date_not_overdue";
+    return '__hl_date_not_overdue';
   }
 
   export function isBright(styles:CSSStyleDeclaration, property:string, id:string|number) {
     const variable = `--hl-${property}-${id}-dark`;
-    return styles.getPropertyValue(variable) !== "";
+    return styles.getPropertyValue(variable) !== '';
   }
 }

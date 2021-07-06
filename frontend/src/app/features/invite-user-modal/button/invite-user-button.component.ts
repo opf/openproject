@@ -1,15 +1,15 @@
-import { Component, Input } from "@angular/core";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { Observable } from "rxjs";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
+import { Component, Input } from '@angular/core';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { Observable } from 'rxjs';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
 
 @Component({
-  selector: "op-invite-user-button",
-  templateUrl: "./invite-user-button.component.html",
-  styleUrls: ["./invite-user-button.component.sass"],
+  selector: 'op-invite-user-button',
+  templateUrl: './invite-user-button.component.html',
+  styleUrls: ['./invite-user-button.component.sass'],
 })
 export class InviteUserButtonComponent {
   @Input() projectId:string|null;
@@ -20,7 +20,7 @@ export class InviteUserButtonComponent {
    * and subscribe to the `close` event there.
    */
   text = {
-    button: this.I18n.t("js.invite_user_modal.invite"),
+    button: this.I18n.t('js.invite_user_modal.invite'),
   };
 
   canInviteUsersToProject$:Observable<boolean>;
@@ -37,7 +37,7 @@ export class InviteUserButtonComponent {
   public ngOnInit():void {
     this.projectId = this.projectId || this.currentProjectService.id;
     this.canInviteUsersToProject$ = this.currentUserService.hasCapabilities$(
-      "memberships/create",
+      'memberships/create',
       this.projectId || undefined,
     );
   }

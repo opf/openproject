@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component } from "@angular/core";
-import { StateService } from "@uirouter/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Component } from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
-  templateUrl: "./overview-tab.html",
-  selector: "wp-overview-tab",
+  templateUrl: './overview-tab.html',
+  selector: 'wp-overview-tab',
 })
 export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin {
   public workPackageId:string;
 
   public workPackage:WorkPackageResource;
 
-  public tabName = this.I18n.t("js.label_latest_activity");
+  public tabName = this.I18n.t('js.label_latest_activity');
 
   public constructor(readonly I18n:I18nService,
     readonly $state:StateService,

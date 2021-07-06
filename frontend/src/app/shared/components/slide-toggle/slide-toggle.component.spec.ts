@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ChangeDetectionStrategy, DebugElement } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { SlideToggleComponent } from "./slide-toggle.component";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SlideToggleComponent } from './slide-toggle.component';
 
-describe("slide toggler", () => {
+describe('slide toggler', () => {
   let app:SlideToggleComponent;
   let fixture:ComponentFixture<SlideToggleComponent>;
   let element:DebugElement;
@@ -22,27 +22,27 @@ describe("slide toggler", () => {
     element = fixture.debugElement;
   });
 
-  it("should set the input correctly", (() => {
+  it('should set the input correctly', (() => {
     app.active = false;
     fixture.detectChanges();
 
-    const container = document.querySelector(".slide-toggle")!;
-    expect(container.classList.contains("-active")).toBeFalse();
+    const container = document.querySelector('.slide-toggle')!;
+    expect(container.classList.contains('-active')).toBeFalse();
     expect(document.contains(container)).toBeTruthy();
   }));
 
-  it("should emit the value correctly", (() => {
+  it('should emit the value correctly', (() => {
     app.active = true;
     fixture.detectChanges();
 
-    let container = document.querySelector(".slide-toggle")!;
-    expect(container.classList.contains("-active")).toBeTrue();
+    let container = document.querySelector('.slide-toggle')!;
+    expect(container.classList.contains('-active')).toBeTrue();
 
     app.active = false;
     fixture.detectChanges();
 
     expect(app.active).toBeFalse();
-    container = document.querySelector(".slide-toggle")!;
-    expect(container.classList.contains("-active")).toBeFalse();
+    container = document.querySelector('.slide-toggle')!;
+    expect(container.classList.contains('-active')).toBeFalse();
   }));
 });

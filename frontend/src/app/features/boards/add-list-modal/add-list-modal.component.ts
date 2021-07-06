@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,28 +28,28 @@
 
 import {
   ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from "@angular/core";
-import { StateService } from "@uirouter/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
+} from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import {
   DebouncedRequestSwitchmap,
   errorNotificationHandler,
-} from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { Board } from "core-app/features/boards/board/board";
-import { BoardService } from "core-app/features/boards/board/board.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
-import { ValueOption } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { Board } from 'core-app/features/boards/board/board';
+import { BoardService } from 'core-app/features/boards/board/board.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
+import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
+import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 @Component({
-  templateUrl: "./add-list-modal.html",
+  templateUrl: './add-list-modal.html',
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** Keep a switchmap for search term and loading state */
@@ -86,23 +86,23 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   public warningText:string|undefined;
 
   public text:any = {
-    title: this.I18n.t("js.boards.add_list"),
-    button_add: this.I18n.t("js.button_add"),
-    button_cancel: this.I18n.t("js.button_cancel"),
-    close_popup: this.I18n.t("js.close_popup_title"),
+    title: this.I18n.t('js.boards.add_list'),
+    button_add: this.I18n.t('js.button_add'),
+    button_cancel: this.I18n.t('js.button_cancel'),
+    close_popup: this.I18n.t('js.close_popup_title'),
 
-    free_board: this.I18n.t("js.boards.board_type.free"),
-    free_board_text: this.I18n.t("js.boards.board_type.free_text"),
+    free_board: this.I18n.t('js.boards.board_type.free'),
+    free_board_text: this.I18n.t('js.boards.board_type.free_text'),
 
-    action_board: this.I18n.t("js.boards.board_type.action"),
-    action_board_text: this.I18n.t("js.boards.board_type.action_text"),
-    select_attribute: this.I18n.t("js.boards.board_type.select_attribute"),
-    placeholder: this.I18n.t("js.placeholders.selection"),
+    action_board: this.I18n.t('js.boards.board_type.action'),
+    action_board_text: this.I18n.t('js.boards.board_type.action_text'),
+    select_attribute: this.I18n.t('js.boards.board_type.select_attribute'),
+    placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
   public referenceOutputs = {
     onCreate: (value:HalResource) => this.onNewActionCreated(value),
-    onOpen: () => this.requests.input$.next(""),
+    onOpen: () => this.requests.input$.next(''),
     onChange: (value:HalResource) => this.onModelChange(value),
     onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField(),
   };
@@ -140,7 +140,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .subscribe((values:unknown[]) => {
         let hasMember = false;
         if (values.length === 0) {
-          if (this.requests.lastRequestedValue !== undefined && this.requests.lastRequestedValue !== "") {
+          if (this.requests.lastRequestedValue !== undefined && this.requests.lastRequestedValue !== '') {
             hasMember = true;
           } else {
             hasMember = false;
@@ -159,7 +159,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       });
 
     // Request an empty value to load warning early on
-    this.requests.input$.next("");
+    this.requests.input$.next('');
   }
 
   onModelChange(element:HalResource) {
@@ -170,11 +170,11 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.inFlight = true;
     this.actionService
       .addColumnWithActionAttribute(this.board, this.selectedAttribute!)
-      .then(board => this.boardService.save(board).toPromise())
+      .then((board) => this.boardService.save(board).toPromise())
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
-        this.state.go("boards.partitioned.show", { board_id: board.id, isNew: true });
+        this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
       .catch(() => this.inFlight = false);
   }

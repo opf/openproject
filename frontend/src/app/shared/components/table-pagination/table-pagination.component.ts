@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -34,16 +34,16 @@ import {
   Input,
   OnInit,
   Output,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { PaginationInstance } from "core-app/shared/components/table-pagination/pagination-instance";
-import { IPaginationOptions, PaginationService } from "./pagination-service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { PaginationInstance } from 'core-app/shared/components/table-pagination/pagination-instance';
+import { IPaginationOptions, PaginationService } from './pagination-service';
 
 @Component({
-  selector: "[tablePagination]",
+  selector: '[tablePagination]',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./table-pagination.component.html",
+  templateUrl: './table-pagination.component.html',
 })
 export class TablePaginationComponent extends UntilDestroyedMixin implements OnInit {
   @Input() totalEntries:string;
@@ -61,13 +61,13 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
   public pagination:PaginationInstance;
 
   public text = {
-    label_previous: this.I18n.t("js.pagination.pages.previous"),
-    label_next: this.I18n.t("js.pagination.pages.next"),
-    per_page: this.I18n.t("js.label_per_page"),
-    no_other_page: this.I18n.t("js.pagination.no_other_page"),
+    label_previous: this.I18n.t('js.pagination.pages.previous'),
+    label_next: this.I18n.t('js.pagination.pages.next'),
+    per_page: this.I18n.t('js.label_per_page'),
+    no_other_page: this.I18n.t('js.pagination.no_other_page'),
   };
 
-  public currentRange = "";
+  public currentRange = '';
 
   public pageNumbers:number[] = [];
 
@@ -136,7 +136,7 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
 
       this.currentRange = `(${lowerBound} - ${upperBound}/${totalItems})`;
     } else {
-      this.currentRange = "(0 - 0/0)";
+      this.currentRange = '(0 - 0/0)';
     }
   }
 
@@ -152,20 +152,20 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
       return;
     }
 
-    var maxVisible = this.paginationService.getMaxVisiblePageOptions();
-    var truncSize = this.paginationService.getOptionsTruncationSize();
+    const maxVisible = this.paginationService.getMaxVisiblePageOptions();
+    const truncSize = this.paginationService.getOptionsTruncationSize();
 
-    var pageNumbers = [];
+    const pageNumbers = [];
 
     const { perPage } = this.pagination;
     const currentPage = this.pagination.page;
     if (perPage) {
-      for (var i = 1; i <= Math.ceil(this.pagination.total / perPage); i++) {
+      for (let i = 1; i <= Math.ceil(this.pagination.total / perPage); i++) {
         pageNumbers.push(i);
       }
 
       // This avoids a truncation when there are not enough elements to truncate for the first elements
-      var startingDiff = currentPage - 2 * truncSize;
+      const startingDiff = currentPage - 2 * truncSize;
       if (startingDiff >= 0 && startingDiff <= 1) {
         this.postPageNumbers = this.truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible + truncSize, pageNumbers.length, 0);
       } else {
@@ -185,8 +185,8 @@ export class TablePaginationComponent extends UntilDestroyedMixin implements OnI
 
   private truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {
     if (perform) {
-      var truncationSize = this.paginationService.getOptionsTruncationSize();
-      var truncatedNums = pageNumbers.splice(disectFrom, disectLength);
+      const truncationSize = this.paginationService.getOptionsTruncationSize();
+      const truncatedNums = pageNumbers.splice(disectFrom, disectLength);
       if (truncatedNums.length >= truncationSize * 2) {
         truncatedNums.splice(truncateFrom, truncatedNums.length - truncationSize);
       }

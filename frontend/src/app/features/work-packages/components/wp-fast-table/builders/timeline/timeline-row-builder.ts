@@ -1,12 +1,12 @@
-import { Injector } from "@angular/core";
-import { States } from "core-app/core/states/states.service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { commonRowClassName } from "../rows/single-row-builder";
-import { WorkPackageTable } from "../../wp-fast-table";
+import { Injector } from '@angular/core';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { commonRowClassName } from '../rows/single-row-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
 
-export const timelineCellClassName = "wp-timeline-cell";
+export const timelineCellClassName = 'wp-timeline-cell';
 
 export class TimelineRowBuilder {
   @InjectField() public states:States;
@@ -18,11 +18,11 @@ export class TimelineRowBuilder {
   }
 
   public build(workPackageId:string|null) {
-    const cell = document.createElement("div");
+    const cell = document.createElement('div');
     cell.classList.add(timelineCellClassName, commonRowClassName);
 
     if (workPackageId) {
-      cell.dataset["workPackageId"] = workPackageId;
+      cell.dataset.workPackageId = workPackageId;
     }
 
     return cell;

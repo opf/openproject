@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,8 +28,8 @@
 
 import {
   ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector,
-} from "@angular/core";
-import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
+} from '@angular/core';
+import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 
 @Injectable()
 export class CKEditorPreviewService {
@@ -66,12 +66,12 @@ export class CKEditorPreviewService {
       });
 
     return () => {
-      refs.forEach(ref => {
+      refs.forEach((ref) => {
         this.appRef.detachView(ref.hostView);
         ref.destroy();
       });
       refs.length = 0;
-      hostElement.innerHTML = "";
+      hostElement.innerHTML = '';
     };
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Directive, OnInit } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ActivityEntryInfo } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info";
-import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Transition } from "@uirouter/core";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
+import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Transition } from '@uirouter/core';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -57,8 +57,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   public togglerText:string;
 
   public text = {
-    commentsOnly: this.I18n.t("js.label_activity_show_only_comments"),
-    showAll: this.I18n.t("js.label_activity_show_all"),
+    commentsOnly: this.I18n.t('js.label_activity_show_only_comments'),
+    showAll: this.I18n.t('js.label_activity_show_all'),
   };
 
   constructor(readonly apiV3Service:APIV3Service,
@@ -116,7 +116,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   protected getActivitiesWithComments() {
     return this.unfilteredActivities
-      .filter((activity:HalResource) => !!_.get(activity, "comment.html"));
+      .filter((activity:HalResource) => !!_.get(activity, 'comment.html'));
   }
 
   public toggleComments() {

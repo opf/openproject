@@ -5,23 +5,23 @@ import {
   OnInit,
   Output,
   ElementRef,
-} from "@angular/core";
-import { FormControl } from "@angular/forms";
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
 import {
   Observable, BehaviorSubject, combineLatest, forkJoin,
-} from "rxjs";
+} from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, share, map, shareReplay, switchMap,
-} from "rxjs/operators";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { PrincipalLike } from "core-app/shared/components/principal/principal-types";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { PrincipalType } from "../invite-user.component";
+} from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { PrincipalType } from '../invite-user.component';
 
 interface NgSelectPrincipalOption {
   principal:PrincipalLike,
@@ -29,11 +29,11 @@ interface NgSelectPrincipalOption {
 }
 
 @Component({
-  selector: "op-ium-principal-search",
-  templateUrl: "./principal-search.component.html",
+  selector: 'op-ium-principal-search',
+  templateUrl: './principal-search.component.html',
 })
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input("opFormBinding") principalControl:FormControl;
+  @Input('opFormBinding') principalControl:FormControl;
 
   @Input() type:PrincipalType;
 
@@ -41,9 +41,9 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
 
   @Output() createNew = new EventEmitter<PrincipalLike>();
 
-  public input$ = new BehaviorSubject<string>("");
+  public input$ = new BehaviorSubject<string>('');
 
-  public input = "";
+  public input = '';
 
   public items$:Observable<NgSelectPrincipalOption[]> = this.input$.pipe(
     this.untilDestroyed(),
@@ -58,7 +58,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public canInviteByEmail$ = combineLatest(
     this.items$,
     this.input$,
-    this.currentUserService.hasCapabilities$("users/create"),
+    this.currentUserService.hasCapabilities$('users/create'),
   ).pipe(
     map(([elements, input, canCreateUsers]) => canCreateUsers
         && this.type === PrincipalType.User
@@ -70,7 +70,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public canCreateNewPlaceholder$ = combineLatest(
     this.items$,
     this.input$,
-    this.currentUserService.hasCapabilities$("placeholder_users/create"),
+    this.currentUserService.hasCapabilities$('placeholder_users/create'),
   ).pipe(
     map(([elements, input, hasCapability]) => {
       if (!hasCapability) {
@@ -88,15 +88,15 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public showAddTag = false;
 
   public text = {
-    alreadyAMember: () => this.I18n.t("js.invite_user_modal.principal.already_member_message", {
+    alreadyAMember: () => this.I18n.t('js.invite_user_modal.principal.already_member_message', {
       project: this.project?.name,
     }),
-    inviteNewUser: this.I18n.t("js.invite_user_modal.principal.invite_user"),
-    createNewPlaceholder: this.I18n.t("js.invite_user_modal.principal.create_new_placeholder"),
+    inviteNewUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
+    createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
     noResults: {
-      User: this.I18n.t("js.invite_user_modal.principal.no_results_user"),
-      PlaceholderUser: this.I18n.t("js.invite_user_modal.principal.no_results_placeholder"),
-      Group: this.I18n.t("js.invite_user_modal.principal.no_results_group"),
+      User: this.I18n.t('js.invite_user_modal.principal.no_results_user'),
+      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.no_results_placeholder'),
+      Group: this.I18n.t('js.invite_user_modal.principal.no_results_group'),
     },
   };
 
@@ -117,14 +117,14 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
       this.canCreateNewPlaceholder$,
     ).pipe(
       map(([canInviteByEmail, canCreateNewPlaceholder]:boolean[]) => canInviteByEmail || canCreateNewPlaceholder),
-    ).subscribe(showAddTag => {
+    ).subscribe((showAddTag) => {
       this.showAddTag = showAddTag;
     });
   }
 
   ngOnInit() {
     // Make sure we have initial data
-    setTimeout(() => this.input$.next(""));
+    setTimeout(() => this.input$.next(''));
   }
 
   public createNewFromInput() {
@@ -134,20 +134,20 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   private loadPrincipalData(searchTerm:string) {
     const nonMemberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {
-      nonMemberFilter.add("any_name_attribute", "~", [searchTerm]);
+      nonMemberFilter.add('any_name_attribute', '~', [searchTerm]);
     }
-    nonMemberFilter.add("status", "!", [3]);
-    nonMemberFilter.add("type", "=", [this.type]);
-    nonMemberFilter.add("member", "!", [this.project?.id]);
+    nonMemberFilter.add('status', '!', [3]);
+    nonMemberFilter.add('type', '=', [this.type]);
+    nonMemberFilter.add('member', '!', [this.project?.id]);
     const nonMembers = this.apiV3Service.principals.filtered(nonMemberFilter).get();
 
     const memberFilter = new ApiV3FilterBuilder();
     if (searchTerm) {
-      memberFilter.add("any_name_attribute", "~", [searchTerm]);
+      memberFilter.add('any_name_attribute', '~', [searchTerm]);
     }
-    memberFilter.add("status", "!", [3]);
-    memberFilter.add("type", "=", [this.type]);
-    memberFilter.add("member", "=", [this.project?.id]);
+    memberFilter.add('status', '!', [3]);
+    memberFilter.add('type', '=', [this.type]);
+    memberFilter.add('member', '=', [this.project?.id]);
     const members = this.apiV3Service.principals.filtered(memberFilter).get();
 
     return forkJoin({

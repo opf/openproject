@@ -1,5 +1,5 @@
-import { debugLog, timeOutput } from "core-app/shared/helpers/debug_output";
-import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
+import { debugLog, timeOutput } from 'core-app/shared/helpers/debug_output';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 
 // min allowed position
 export const MIN_ORDER = -2147483647;
@@ -48,7 +48,7 @@ export class ReorderDeltaBuilder {
       }
     });
 
-    debugLog("Order DELTA was built as %O", this.delta);
+    debugLog('Order DELTA was built as %O', this.delta);
 
     return this.delta;
   }
@@ -120,7 +120,7 @@ export class ReorderDeltaBuilder {
 
     // Ensure we reorder when predecessor is at max already
     if (predecessorPosition >= MAX_ORDER) {
-      debugLog("Predecessor position is at max order, need to reorder");
+      debugLog('Predecessor position is at max order, need to reorder');
       return this.reorderedInsert();
     }
 
@@ -136,7 +136,7 @@ export class ReorderDeltaBuilder {
 
     // Ensure we reorder when successor is at max already
     if (successorPosition >= MAX_ORDER) {
-      debugLog("Successor position is at max order, need to reorder");
+      debugLog('Successor position is at max order, need to reorder');
       return this.reorderedInsert();
     }
 
@@ -146,7 +146,7 @@ export class ReorderDeltaBuilder {
 
     // If there is no space to insert, we're going to optimize the available space
     if (distance < 1) {
-      debugLog("Cannot insert at optimal position, no space left. Need to reorder");
+      debugLog('Cannot insert at optimal position, no space left. Need to reorder');
       return this.reorderedInsert();
     }
 
@@ -262,7 +262,7 @@ export class ReorderDeltaBuilder {
         min -= itemsToDistribute;
       } else {
         // This should not happen in a 4-byte integer with our frontend
-        throw "Elements cannot be moved further and no space is left. Too many elements";
+        throw 'Elements cannot be moved further and no space is left. Too many elements';
       }
 
       // Rebuild space

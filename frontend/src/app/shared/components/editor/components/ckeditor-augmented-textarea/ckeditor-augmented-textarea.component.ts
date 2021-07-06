@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,29 +28,29 @@
 
 import {
   Component, ElementRef, OnInit, ViewChild,
-} from "@angular/core";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { States } from "core-app/core/states/states.service";
-import { filter, takeUntil } from "rxjs/operators";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+} from '@angular/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { States } from 'core-app/core/states/states.service';
+import { filter, takeUntil } from 'rxjs/operators';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ICKEditorContext,
   ICKEditorInstance,
   ICKEditorType,
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const ckeditorAugmentedTextareaSelector = "ckeditor-augmented-textarea";
+export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
 @Component({
   selector: ckeditorAugmentedTextareaSelector,
-  templateUrl: "./ckeditor-augmented-textarea.html",
+  templateUrl: './ckeditor-augmented-textarea.html',
 })
 export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin implements OnInit {
   public textareaSelector:string;
@@ -100,36 +100,36 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.$element = jQuery(this.elementRef.nativeElement);
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
-    this.textareaSelector = this.$element.attr("textarea-selector")!;
-    this.previewContext = this.$element.attr("preview-context")!;
-    this.macros = this.$element.attr("macros") !== "false";
-    const editorType = (this.$element.attr("editor-type") || "full") as ICKEditorType;
+    this.textareaSelector = this.$element.attr('textarea-selector')!;
+    this.previewContext = this.$element.attr('preview-context')!;
+    this.macros = this.$element.attr('macros') !== 'false';
+    const editorType = (this.$element.attr('editor-type') || 'full') as ICKEditorType;
 
     // Parse the resource if any exists
-    const source = this.$element.data("resource");
+    const source = this.$element.data('resource');
     this.resource = source ? this.halResourceService.createHalResource(source, true) : undefined;
 
-    this.formElement = this.$element.closest("form");
+    this.formElement = this.$element.closest('form');
     this.wrappedTextArea = this.formElement.find(this.textareaSelector);
     this.wrappedTextArea
-      .removeAttr("required")
+      .removeAttr('required')
       .hide();
     this.initialContent = this.wrappedTextArea.val() as string;
 
-    this.$attachmentsElement = this.formElement.find("#attachments_fields");
+    this.$attachmentsElement = this.formElement.find('#attachments_fields');
     this.context = {
       type: editorType,
       resource: this.resource,
       previewContext: this.previewContext,
     };
     if (!this.macros) {
-      this.context["macros"] = "none";
+      this.context.macros = 'none';
     }
   }
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.formElement.off("submit.ckeditor");
+    this.formElement.off('submit.ckeditor');
   }
 
   public markEdited() {
@@ -139,7 +139,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   public setup(editor:ICKEditorInstance) {
     // Have a hacky way to access the editor from outside of angular.
     // This is e.g. employed to set the text from outside to reuse the same editor for different languages.
-    this.$element.data("editor", editor);
+    this.$element.data('editor', editor);
 
     if (this.resource && this.resource.attachments) {
       this.setupAttachmentAddedCallback(editor);
@@ -147,12 +147,12 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     // Listen for form submission to set textarea content
-    this.formElement.on("submit.ckeditor change.ckeditor", () => {
+    this.formElement.on('submit.ckeditor change.ckeditor', () => {
       try {
         this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
       } catch (e) {
         console.error(`Failed to save CKEditor body to textarea: ${e}.`);
-        this.Notifications.addError(e || this.I18n.t("js.error.internal"));
+        this.Notifications.addError(e || this.I18n.t('js.error.internal'));
 
         // Avoid submission of the form
         return false;
@@ -170,7 +170,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   }
 
   private setupAttachmentAddedCallback(editor:ICKEditorInstance) {
-    editor.model.on("op:attachment-added", () => {
+    editor.model.on('op:attachment-added', () => {
       this.states.forResource(this.resource!)!.putValue(this.resource);
     });
   }
@@ -181,16 +181,16 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.states.forResource(this.resource!)!.changes$()
       .pipe(
         takeUntil(componentDestroyed(this)),
-        filter(resource => !!resource),
-      ).subscribe(resource => {
+        filter((resource) => !!resource),
+      ).subscribe((resource) => {
         const missingAttachments = _.differenceBy(this.attachments,
           resource!.attachments.elements,
           (attachment:HalResource) => attachment.id);
 
-        const removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.href);
+        const removedUrls = missingAttachments.map((attachment) => attachment.downloadLocation.href);
 
         if (removedUrls.length) {
-          editor.model.fire("op:attachment-removed", removedUrls);
+          editor.model.fire('op:attachment-removed', removedUrls);
         }
 
         this.attachments = _.clone(resource!.attachments.elements);
@@ -201,10 +201,10 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     const textareaId = this.textareaSelector.substring(1);
     const label = jQuery(`label[for=${textareaId}]`);
 
-    const ckContent = this.$element.find(".ck-content");
+    const ckContent = this.$element.find('.ck-content');
 
-    ckContent.attr("aria-label", null);
-    ckContent.attr("aria-labelledby", textareaId);
+    ckContent.attr('aria-label', null);
+    ckContent.attr('aria-labelledby', textareaId);
 
     label.click(() => {
       ckContent.focus();
@@ -217,7 +217,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     }
 
     const takenIds = this.$attachmentsElement.find("input[type='file']").map((index, input) => {
-      const match = /attachments\[(\d+)\]\[(?:file|id)\]/.exec((input.getAttribute("name") || ""));
+      const match = /attachments\[(\d+)\]\[(?:file|id)\]/.exec((input.getAttribute('name') || ''));
 
       if (match) {
         return parseInt(match[1]);

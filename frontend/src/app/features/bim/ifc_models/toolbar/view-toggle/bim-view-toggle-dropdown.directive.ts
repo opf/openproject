@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { Directive, ElementRef } from "@angular/core";
-import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { StateService } from "@uirouter/core";
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { Directive, ElementRef } from '@angular/core';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { StateService } from '@uirouter/core';
 import {
   bimListViewIdentifier, bimSplitViewListIdentifier, bimSplitViewCardsIdentifier, bimTableViewIdentifier,
   bimViewerViewIdentifier,
   BimViewService,
-} from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
-import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
+} from 'core-app/features/bim/ifc_models/pages/viewer/bim-view.service';
+import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import {
   WorkPackageViewDisplayRepresentationService,
-} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
 
 @Directive({
-  selector: "[bimViewDropdown]",
+  selector: '[bimViewDropdown]',
 })
 export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
@@ -65,7 +65,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
   public get locals() {
     return {
       items: this.items,
-      contextMenuId: "bim-view-context-menu",
+      contextMenuId: 'bim-view-context-menu',
     };
   }
 
@@ -76,7 +76,7 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
       : [bimListViewIdentifier, bimTableViewIdentifier];
 
     this.items = items
-      .map(key => ({
+      .map((key) => ({
         hidden: key === current,
         linkText: this.bimView.text[key],
         icon: this.bimView.icon[key],
@@ -98,21 +98,21 @@ export class BimViewToggleDropdownDirective extends OpContextMenuTrigger {
           // a different transition...). To avoid this error, we are passing
           // a cards params to inform the view about the display representation mode
           // it has to show (cards or list).
-          case bimListViewIdentifier:
-            this.state.go("bim.partitioned.list", { cards: true });
-            break;
-          case bimTableViewIdentifier:
-            this.state.go("bim.partitioned.list", { cards: false });
-            break;
-          case bimViewerViewIdentifier:
-            this.state.go("bim.partitioned.model");
-            break;
-          case bimSplitViewCardsIdentifier:
-            this.state.go("bim.partitioned.split", { cards: true });
-            break;
-          case bimSplitViewListIdentifier:
-            this.state.go("bim.partitioned.split", { cards: false });
-            break;
+            case bimListViewIdentifier:
+              this.state.go('bim.partitioned.list', { cards: true });
+              break;
+            case bimTableViewIdentifier:
+              this.state.go('bim.partitioned.list', { cards: false });
+              break;
+            case bimViewerViewIdentifier:
+              this.state.go('bim.partitioned.model');
+              break;
+            case bimSplitViewCardsIdentifier:
+              this.state.go('bim.partitioned.split', { cards: true });
+              break;
+            case bimSplitViewListIdentifier:
+              this.state.go('bim.partitioned.split', { cards: false });
+              break;
           }
 
           return true;

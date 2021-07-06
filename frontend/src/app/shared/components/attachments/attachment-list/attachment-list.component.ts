@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,17 +28,17 @@
 
 import {
   ChangeDetectorRef, Component, ElementRef, Input, OnInit,
-} from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { filter } from "rxjs/operators";
-import { States } from "core-app/core/states/states.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+} from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { filter } from 'rxjs/operators';
+import { States } from 'core-app/core/states/states.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
-  selector: "attachment-list",
-  templateUrl: "./attachment-list.html",
+  selector: 'attachment-list',
+  templateUrl: './attachment-list.html',
 })
 export class AttachmentListComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public resource:HalResource;
@@ -78,7 +78,7 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
       .values$()
       .pipe(
         this.untilDestroyed(),
-        filter(newResource => !!newResource),
+        filter((newResource) => !!newResource),
       )
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;
@@ -91,7 +91,7 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
   ngOnDestroy():void {
     super.ngOnDestroy();
     if (!this.destroyImmediately) {
-      this.$formElement.off("submit.attachment-component");
+      this.$formElement.off('submit.attachment-component');
     }
   }
 
@@ -112,8 +112,8 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
   }
 
   public setupAttachmentDeletionCallback() {
-    this.$formElement = this.$element.closest("form");
-    this.$formElement.on("submit.attachment-component", () => {
+    this.$formElement = this.$element.closest('form');
+    this.$formElement.on('submit.attachment-component', () => {
       this.destroyRemovedAttachments();
     });
   }

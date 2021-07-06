@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { take } from "rxjs/operators";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageCreateComponent } from "core-app/features/work-packages/components/wp-new/wp-create.component";
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
+import { take } from 'rxjs/operators';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { Directive } from "@angular/core";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { Directive } from '@angular/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Directive()
 export class WorkPackageCopyController extends WorkPackageCreateComponent {
@@ -58,7 +58,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
       )
       .subscribe((wp:WorkPackageResource) => {
         if (wp.__initialized_at === this.__initialized_at) {
-          this.wpRelations.addCommonRelation(wp.id!, "relates", this.copiedWorkPackageId);
+          this.wpRelations.addCommonRelation(wp.id!, 'relates', this.copiedWorkPackageId);
         }
       });
   }
@@ -81,7 +81,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
   }
 
   protected setTitle() {
-    this.titleService.setFirstPart(this.I18n.t("js.work_packages.copy.title"));
+    this.titleService.setFirstPart(this.I18n.t('js.work_packages.copy.title'));
   }
 
   private createCopyFrom(wp:WorkPackageResource) {
@@ -98,7 +98,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
           .cache
           .updateWorkPackage(copyChangeset.pristineResource, true);
 
-        this.halEditing.updateValue("new", copyChangeset);
+        this.halEditing.updateValue('new', copyChangeset);
 
         return copyChangeset;
       });

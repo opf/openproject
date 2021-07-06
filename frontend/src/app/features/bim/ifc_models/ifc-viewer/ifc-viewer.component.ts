@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -34,17 +34,17 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-} from "@angular/core";
-import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
-import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+} from '@angular/core';
+import { IFCViewerService } from 'core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service';
+import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({
-  selector: "ifc-viewer",
-  templateUrl: "./ifc-viewer.component.html",
-  styleUrls: ["./ifc-viewer.component.sass"],
+  selector: 'ifc-viewer',
+  templateUrl: './ifc-viewer.component.html',
+  styleUrls: ['./ifc-viewer.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
@@ -52,19 +52,19 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   modelCount:number;
 
-  canManage = this.ifcData.allowed("manage_ifc_models");
+  canManage = this.ifcData.allowed('manage_ifc_models');
 
   text = {
-    empty_warning: this.I18n.t("js.ifc_models.empty_warning"),
-    use_this_link_to_manage: this.I18n.t("js.ifc_models.use_this_link_to_manage"),
-    keyboard_input_disabled: this.I18n.t("js.ifc_models.keyboard_input_disabled"),
+    empty_warning: this.I18n.t('js.ifc_models.empty_warning'),
+    use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage'),
+    keyboard_input_disabled: this.I18n.t('js.ifc_models.keyboard_input_disabled'),
   };
 
   keyboardEnabled = false;
 
-  @ViewChild("outerContainer") outerContainer:ElementRef;
+  @ViewChild('outerContainer') outerContainer:ElementRef;
 
-  @ViewChild("modelCanvas") modelCanvas:ElementRef;
+  @ViewChild('modelCanvas') modelCanvas:ElementRef;
 
   constructor(private I18n:I18nService,
     private elementRef:ElementRef,
@@ -86,19 +86,19 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
     this.currentUserService
       .hasCapabilities$(
         [
-          "ifc_models/create",
-          "ifc_models/update",
-          "ifc_models/destroy",
+          'ifc_models/create',
+          'ifc_models/update',
+          'ifc_models/destroy',
         ],
         this.currentProjectService.id as string,
       ).subscribe((manageIfcModelsAllowed) => {
         this.ifcViewer.newViewer(
           {
-            canvasElement: element.find(".ifc-model-viewer--model-canvas")[0], // WebGL canvas
-            explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
-            toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
-            navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
-            busyModelBackdropElement: element.find(".xeokit-busy-modal-backdrop")[0],
+            canvasElement: element.find('.ifc-model-viewer--model-canvas')[0], // WebGL canvas
+            explorerElement: jQuery('.ifc-model-viewer--tree-panel')[0], // Left panel
+            toolbarElement: element.find('.ifc-model-viewer--toolbar-container')[0], // Toolbar
+            navCubeCanvasElement: element.find('.ifc-model-viewer--nav-cube-canvas')[0],
+            busyModelBackdropElement: element.find('.xeokit-busy-modal-backdrop')[0],
             enableEditModels: manageIfcModelsAllowed,
           },
           this.ifcData.projects,
@@ -110,7 +110,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
     this.ifcViewer.destroy();
   }
 
-  @HostListener("mousedown")
+  @HostListener('mousedown')
   enableKeyBoard() {
     if (this.modelCount) {
       this.keyboardEnabled = true;
@@ -118,7 +118,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener("window:mousedown", ["$event.target"])
+  @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:Element) {
     if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;

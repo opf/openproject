@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from '@angular/core';
 
-export const persistentToggleSelector = "persistent-toggle";
+export const persistentToggleSelector = 'persistent-toggle';
 
 @Component({
   selector: persistentToggleSelector,
-  template: "",
+  template: '',
 })
 export class PersistentToggleComponent implements OnInit {
   /** Unique identifier of the toggle */
@@ -53,28 +53,28 @@ export class PersistentToggleComponent implements OnInit {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.$targetNotification = this.getTargetNotification();
 
-    this.identifier = this.$element.data("identifier");
-    this.isHidden = window.OpenProject.guardedLocalStorage(this.identifier) === "true";
+    this.identifier = this.$element.data('identifier');
+    this.isHidden = window.OpenProject.guardedLocalStorage(this.identifier) === 'true';
 
     // Set initial state
-    this.$targetNotification.prop("hidden", !!this.isHidden);
+    this.$targetNotification.prop('hidden', !!this.isHidden);
 
     // Register click handler
     this.$element
       .parent()
-      .find(".persistent-toggle--click-handler")
-      .on("click", () => this.toggle(!this.isHidden));
+      .find('.persistent-toggle--click-handler')
+      .on('click', () => this.toggle(!this.isHidden));
 
     // Register target notification close icon
     this.$targetNotification
-      .find(".notification-box--close")
-      .on("click", () => this.toggle(true));
+      .find('.notification-box--close')
+      .on('click', () => this.toggle(true));
   }
 
   private getTargetNotification() {
     return this.$element
       .parent()
-      .find(".persistent-toggle--notification");
+      .find('.persistent-toggle--notification');
   }
 
   private toggle(isNowHidden:boolean) {
@@ -84,11 +84,11 @@ export class PersistentToggleComponent implements OnInit {
     if (isNowHidden) {
       this.$targetNotification.slideUp(400, () => {
         // Set hidden only after animation completed
-        this.$targetNotification.prop("hidden", true);
+        this.$targetNotification.prop('hidden', true);
       });
     } else {
       this.$targetNotification.slideDown(400);
-      this.$targetNotification.prop("hidden", false);
+      this.$targetNotification.prop('hidden', false);
     }
   }
 }

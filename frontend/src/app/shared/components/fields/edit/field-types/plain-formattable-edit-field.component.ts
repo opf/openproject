@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component } from "@angular/core";
-import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
+import { Component } from '@angular/core';
+import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 
 @Component({
-  templateUrl: "./text-edit-field.component.html",
+  templateUrl: './text-edit-field.component.html',
 })
 export class PlainFormattableEditFieldComponent extends EditFieldComponent {
   // only exists because the template is reused and the property is required there.
@@ -38,11 +38,11 @@ export class PlainFormattableEditFieldComponent extends EditFieldComponent {
 
   public get value() {
     if (!this.schema) {
-      return "";
+      return '';
     }
     const element = this.resource[this.name];
 
-    return element && element.raw || "";
+    return element && element.raw || '';
   }
 
   public set value(newValue:string) {

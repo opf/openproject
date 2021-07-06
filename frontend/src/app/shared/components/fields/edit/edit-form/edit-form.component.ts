@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,38 +28,38 @@
 
 import {
   Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Optional, Output,
-} from "@angular/core";
-import { StateService, Transition, TransitionService } from "@uirouter/core";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { EditableAttributeFieldComponent } from "core-app/shared/components/fields/edit/field/editable-attribute-field.component";
-import { input } from "reactivestates";
-import { filter, map, take } from "rxjs/operators";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+} from '@angular/core';
+import { StateService, Transition, TransitionService } from '@uirouter/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
+import { input } from 'reactivestates';
+import { filter, map, take } from 'rxjs/operators';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   activeFieldClassName,
   activeFieldContainerClassName,
   EditForm,
-} from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { EditingPortalService } from "core-app/shared/components/fields/edit/editing-portal/editing-portal-service";
-import { EditFormRoutingService } from "core-app/shared/components/fields/edit/edit-form/edit-form-routing.service";
-import { ResourceChangesetCommit } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { GlobalEditFormChangesTrackerService } from "core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service";
+} from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
+import { EditFormRoutingService } from 'core-app/shared/components/fields/edit/edit-form/edit-form-routing.service';
+import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 
 @Component({
-  selector: "edit-form,[edit-form]",
-  template: "<ng-content></ng-content>",
+  selector: 'edit-form,[edit-form]',
+  template: '<ng-content></ng-content>',
 })
 export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
-  @Input("resource") resource:HalResource;
+  @Input('resource') resource:HalResource;
 
-  @Input("inEditMode") initializeEditMode = false;
+  @Input('inEditMode') initializeEditMode = false;
 
-  @Input("skippedFields") skippedFields:string[] = [];
+  @Input('skippedFields') skippedFields:string[] = [];
 
-  @Output("onSaved") onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
+  @Output('onSaved') onSavedEmitter = new EventEmitter<{ savedResource:HalResource, isInitial:boolean }>();
 
   public fields:{ [attribute:string]:EditableAttributeFieldComponent } = {};
 
@@ -78,7 +78,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     private globalEditFormChangesTrackerService:GlobalEditFormChangesTrackerService) {
     super(injector);
 
-    const confirmText = I18n.t("js.work_packages.confirm_edit_cancel");
+    const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
     this.unregisterListener = $transitions.onBefore({}, (transition:Transition) => {
@@ -142,7 +142,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
   public cancel(reset = false) {
     this.editMode = false;
-    this.closeEditFields("all", reset);
+    this.closeEditFields('all', reset);
 
     if (reset) {
       this.halEditing.reset(this.change);
@@ -181,7 +181,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     return this.registeredFields
       .values$()
       .pipe(
-        filter(keys => keys.indexOf(name) >= 0),
+        filter((keys) => keys.indexOf(name) >= 0),
         take(1),
         map(() => this.fields[name]),
       )
@@ -189,7 +189,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
   }
 
   public start() {
-    _.each(this.fields, ctrl => this.activate(ctrl.fieldName));
+    _.each(this.fields, (ctrl) => this.activate(ctrl.fieldName));
   }
 
   protected focusOnFirstError():void {
@@ -197,7 +197,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     jQuery(this.elementRef.nativeElement)
       .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
       .first()
-      .trigger("focus");
+      .trigger('focus');
   }
 
   private skipField(field:EditableAttributeFieldComponent) {

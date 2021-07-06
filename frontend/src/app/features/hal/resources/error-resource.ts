@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HttpErrorResponse } from "@angular/common/http";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HttpErrorResponse } from '@angular/common/http';
 
-export const v3ErrorIdentifierQueryInvalid = "urn:openproject-org:api:v3:errors:InvalidQuery";
-export const v3ErrorIdentifierMultipleErrors = "urn:openproject-org:api:v3:errors:MultipleErrors";
+export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';
+export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:errors:MultipleErrors';
 
 export class ErrorResource extends HalResource {
   public errors:any[];
@@ -56,7 +56,7 @@ export class ErrorResource extends HalResource {
 
   public get errorMessages():string[] {
     if (this.isMultiErrorMessage()) {
-      return this.errors.map(error => error.message);
+      return this.errors.map((error) => error.message);
     }
 
     return [this.message];
@@ -67,7 +67,7 @@ export class ErrorResource extends HalResource {
   }
 
   public getInvolvedAttributes():string[] {
-    var columns = [];
+    let columns = [];
 
     if (this.details) {
       columns = [{ details: this.details }];

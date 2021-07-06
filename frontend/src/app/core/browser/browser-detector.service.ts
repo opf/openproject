@@ -1,7 +1,7 @@
-import { Inject, Injectable } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class BrowserDetector {
   constructor(@Inject(DOCUMENT) private documentElement:Document) {
   }
@@ -11,14 +11,14 @@ export class BrowserDetector {
    * and resulting body class.
    */
   public get isMobile() {
-    return this.hasBodyClass("-browser-mobile");
+    return this.hasBodyClass('-browser-mobile');
   }
 
   /**
    * ToDo: Remove all occurences once Edge on Chromium is released
    */
   public get isEdge() {
-    return this.hasBodyClass("-browser-edge");
+    return this.hasBodyClass('-browser-edge');
   }
 
   private hasBodyClass(name:string):boolean {

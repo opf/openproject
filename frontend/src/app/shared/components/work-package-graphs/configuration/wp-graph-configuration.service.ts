@@ -1,19 +1,19 @@
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WpGraphConfigurationSettingsTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { TabInterface } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
-import { Injectable } from "@angular/core";
-import { WpGraphConfigurationFiltersTab } from "core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component";
-import { ChartOptions, ChartType } from "chart.js";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WpGraphConfigurationSettingsTab } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { TabInterface } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
+import { Injectable } from '@angular/core';
+import { WpGraphConfigurationFiltersTab } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component';
+import { ChartOptions, ChartType } from 'chart.js';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
   WpGraphConfiguration,
   WpGraphQueryParams,
-} from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageEmbeddedGraphDataset } from "core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component";
+} from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageEmbeddedGraphDataset } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 
 @Injectable()
 export class WpGraphConfigurationService {
@@ -36,15 +36,15 @@ export class WpGraphConfigurationService {
   }
 
   public persistChanges():Promise<unknown> {
-    const promises = this.queries.map(query => this.saveQuery(query));
+    const promises = this.queries.map((query) => this.saveQuery(query));
 
     return Promise.all(promises);
   }
 
   public get datasets():WorkPackageEmbeddedGraphDataset[] {
-    return this.queries.map(query => ({
+    return this.queries.map((query) => ({
       groups: query.results.groups,
-      queryProps: "",
+      queryProps: '',
       label: query.name,
     }));
   }
@@ -87,7 +87,7 @@ export class WpGraphConfigurationService {
   }
 
   private loadQueries() {
-    const queryPromises = this.queryParams.map(queryParam => this.loadQuery(queryParam));
+    const queryPromises = this.queryParams.map((queryParam) => this.loadQuery(queryParam));
 
     return Promise.all(queryPromises);
   }
@@ -102,7 +102,7 @@ export class WpGraphConfigurationService {
         this.currentProject.identifier,
       )
       .toPromise()
-      .then(query => {
+      .then((query) => {
         if (params.name) {
           query.name = params.name;
         }
@@ -112,7 +112,7 @@ export class WpGraphConfigurationService {
 
   private async saveQuery(query:QueryResource) {
     return this.formFor(query)
-      .then(form => this
+      .then((form) => this
         .apiv3Service
         .queries
         .id(query)
@@ -138,15 +138,15 @@ export class WpGraphConfigurationService {
   public get tabs():TabInterface[] {
     const tabs:TabInterface[] = [
       {
-        id: "graph-settings",
-        name: this.I18n.t("js.chart.tabs.graph_settings"),
+        id: 'graph-settings',
+        name: this.I18n.t('js.chart.tabs.graph_settings'),
         componentClass: WpGraphConfigurationSettingsTab,
       },
     ];
 
     const queryTabs = this.configuration.queries.map((query) => ({
       id: query.id as string,
-      name: this.I18n.t("js.work_packages.query.filters"),
+      name: this.I18n.t('js.work_packages.query.filters'),
       componentClass: WpGraphConfigurationFiltersTab,
     }));
 

@@ -1,18 +1,18 @@
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { ElementRef, Injector, Injectable } from "@angular/core";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { BehaviorSubject } from "rxjs";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { UploadFile } from "core-app/core/file-upload/op-file-upload.service";
-import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { ElementRef, Injector, Injectable } from '@angular/core';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { BehaviorSubject } from 'rxjs';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
+import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
-  public fieldName = "text";
+  public fieldName = 'text';
 
   public valueChanged$:BehaviorSubject<string>;
 
@@ -33,7 +33,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
 
   public initialize(value:GridWidgetResource) {
     this.initializeChangeset(value);
-    this.valueChanged$ = new BehaviorSubject(value.options["text"] as string);
+    this.valueChanged$ = new BehaviorSubject(value.options.text as string);
   }
 
   public reinitialize(value:GridWidgetResource) {
@@ -47,9 +47,9 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     return this.update();
   }
 
-  public reset(withText = "") {
+  public reset(withText = '') {
     if (withText.length > 0) {
-      withText += "\n";
+      withText += '\n';
     }
 
     this.changeset.setValue(this.fieldName, { raw: withText });
@@ -57,10 +57,10 @@ export class CustomTextEditFieldService extends EditFieldHandler {
 
   public get schema():IFieldSchema {
     return {
-      name: I18n.t("js.grid.widgets.custom_text.title"),
+      name: I18n.t('js.grid.widgets.custom_text.title'),
       writable: true,
       required: false,
-      type: "Formattable",
+      type: 'Formattable',
       hasDefault: false,
     };
   }
@@ -75,11 +75,11 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   public get rawText() {
-    return _.get(this.textValue, "raw", "");
+    return _.get(this.textValue, 'raw', '');
   }
 
   public get htmlText() {
-    return _.get(this.textValue, "html", "");
+    return _.get(this.textValue, 'html', '');
   }
 
   public get textValue() {
@@ -108,7 +108,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   focus():void {
-    const trigger = this.elementRef.nativeElement.querySelector(".inplace-editing--trigger-container");
+    const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
     trigger && trigger.focus();
   }
 
@@ -133,12 +133,12 @@ export class CustomTextEditFieldService extends EditFieldHandler {
    * @param value
    */
   private initializeChangeset(value:GridWidgetResource) {
-    const schemaHref = "customtext-schema";
+    const schemaHref = 'customtext-schema';
     const resourceSource = {
       text: value.options.text,
       getEditorContext: () => ({
-        type: "full",
-        macros: "resource",
+        type: 'full',
+        macros: 'resource',
       } as ICKEditorContext),
       canAddAttachments: value.grid.canAddAttachments,
       uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files),

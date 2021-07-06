@@ -1,9 +1,9 @@
-import { Injector } from "@angular/core";
-import { combineLatest, Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
+import { Injector } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 
 export function workPackageRelationsCount(
   workPackage:WorkPackageResource,

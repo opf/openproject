@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,17 +25,17 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { State } from "reactivestates";
-import { Injectable } from "@angular/core";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { Observable } from "rxjs";
-import { take } from "rxjs/operators";
-import { States } from "core-app/core/states/states.service";
-import { ISchemaProxy, SchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { WorkPackageSchemaProxy } from "core-app/features/hal/schemas/work-package-schema-proxy";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { State } from 'reactivestates';
+import { Injectable } from '@angular/core';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { States } from 'core-app/core/states/states.service';
+import { ISchemaProxy, SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {
@@ -62,7 +62,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
       throw `Schema for resource ${resource} was expected to be loaded but isn't.`;
     }
 
-    if (resource._type === "WorkPackage") {
+    if (resource._type === 'WorkPackage') {
       return WorkPackageSchemaProxy.create(schema, resource);
     }
     return SchemaProxy.create(schema, resource);
@@ -128,7 +128,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   }
 
   protected loadAll(hrefs:string[]):Promise<unknown|undefined> {
-    return Promise.all(hrefs.map(href => this.load(href)));
+    return Promise.all(hrefs.map((href) => this.load(href)));
   }
 
   /**

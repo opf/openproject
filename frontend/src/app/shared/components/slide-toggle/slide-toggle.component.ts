@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -35,14 +35,14 @@ import {
   Input, OnChanges,
   OnInit,
   Output, SimpleChanges,
-} from "@angular/core";
+} from '@angular/core';
 
-export const slideToggleSelector = "slide-toggle";
+export const slideToggleSelector = 'slide-toggle';
 
 @Component({
-  templateUrl: "./slide-toggle.component.html",
+  templateUrl: './slide-toggle.component.html',
   selector: slideToggleSelector,
-  styleUrls: ["./slide-toggle.component.sass"],
+  styleUrls: ['./slide-toggle.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
@@ -76,7 +76,7 @@ export class SlideToggleComponent implements OnInit, OnChanges {
       this.containerClasses = dataset.containerClasses;
       this.inputId = dataset.inputId;
       this.inputName = dataset.inputName;
-      this.active = dataset.active.toString() === "true";
+      this.active = dataset.active.toString() === 'true';
     }
   }
 

@@ -1,16 +1,16 @@
 import {
   Component, forwardRef, Input, OnInit, ViewChild,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { FormlyTemplateOptions } from "@ngx-formly/core";
-import { ICKEditorContext, ICKEditorInstance } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { FormlyTemplateOptions } from '@ngx-formly/core';
+import { ICKEditorContext, ICKEditorInstance } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 
 @Component({
-  selector: "op-formattable-control",
-  templateUrl: "./formattable-control.component.html",
-  styleUrls: ["./formattable-control.component.scss"],
+  selector: 'op-formattable-control',
+  templateUrl: './formattable-control.component.html',
+  styleUrls: ['./formattable-control.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -42,7 +42,7 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
   public get ckEditorContext():ICKEditorContext {
     return {
       type: this.templateOptions.editorType,
-      macros: "none",
+      macros: 'none',
       options: { rtl: this.templateOptions?.rtl },
     };
   }
@@ -54,9 +54,9 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
 
   ngOnInit():void {
     this.text = {
-      attachmentLabel: this.I18n.t("js.label_formattable_attachment_hint"),
-      save: this.I18n.t("js.inplace.button_save", { attribute: this.templateOptions?.name }),
-      cancel: this.I18n.t("js.inplace.button_cancel", { attribute: this.templateOptions?.name }),
+      attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
+      save: this.I18n.t('js.inplace.button_save', { attribute: this.templateOptions?.name }),
+      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.templateOptions?.name }),
     };
   }
 
@@ -86,7 +86,7 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
 
   onCkeditorSetup(_editor:ICKEditorInstance) {
     this.editor.ckEditorInstance.ui.focusTracker.on(
-      "change:isFocused",
+      'change:isFocused',
       (evt:unknown, name:unknown, isFocused:unknown) => {
         if (!isFocused && !this.touched) {
           this.touched = true;

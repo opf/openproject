@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { Component, Input, Output } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
-import * as moment from "moment";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { Component, Input, Output } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
+import * as moment from 'moment';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 @Component({
-  selector: "filter-dates-value",
-  templateUrl: "./filter-dates-value.component.html",
+  selector: 'filter-dates-value',
+  templateUrl: './filter-dates-value.component.html',
 })
 export class FilterDatesValueComponent extends UntilDestroyedMixin {
   @Input() public shouldFocus = false;
@@ -48,7 +48,7 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
   readonly text = {
-    spacer: this.I18n.t("js.filter.value_spacer"),
+    spacer: this.I18n.t('js.filter.value_spacer'),
   };
 
   constructor(readonly timezoneService:TimezoneService,
@@ -61,7 +61,7 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
   }
 
   public set begin(val:any) {
-    this.filter.values[0] = val || "";
+    this.filter.values[0] = val || '';
     this.filterChanged.emit(this.filter);
   }
 
@@ -70,20 +70,20 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
   }
 
   public set end(val) {
-    this.filter.values[1] = val || "";
+    this.filter.values[1] = val || '';
     this.filterChanged.emit(this.filter);
   }
 
   public parser(data:any) {
-    if (moment(data, "YYYY-MM-DD", true).isValid()) {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
     }
     return null;
   }
 
   public formatter(data:any) {
-    if (moment(data, "YYYY-MM-DD", true).isValid()) {
-      var d = this.timezoneService.parseDate(data);
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      const d = this.timezoneService.parseDate(data);
       return this.timezoneService.formattedISODate(d);
     }
     return null;

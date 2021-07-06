@@ -1,33 +1,33 @@
-import { Injectable } from "@angular/core";
-import { AssigneeBoardHeaderComponent } from "core-app/features/boards/board/board-actions/assignee/assignee-board-header.component";
-import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
-import { Board } from "core-app/features/boards/board/board";
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
-import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+import { Injectable } from '@angular/core';
+import { AssigneeBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/assignee/assignee-board-header.component';
+import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
+import { Board } from 'core-app/features/boards/board/board';
+import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 @Injectable()
 export class BoardAssigneeActionService extends CachedBoardActionService {
-  filterName = "assignee";
+  filterName = 'assignee';
 
-  text = this.I18n.t("js.boards.board_type.board_type_title.assignee");
+  text = this.I18n.t('js.boards.board_type.board_type_title.assignee');
 
-  description = this.I18n.t("js.boards.board_type.action_text_assignee");
+  description = this.I18n.t('js.boards.board_type.action_text_assignee');
 
-  label = this.I18n.t("js.boards.add_list_modal.labels.assignee");
+  label = this.I18n.t('js.boards.add_list_modal.labels.assignee');
 
-  icon = "icon-user";
+  icon = 'icon-user';
 
-  image = ImageHelpers.imagePath("board_creation_modal/assignees.svg");
+  image = ImageHelpers.imagePath('board_creation_modal/assignees.svg');
 
   readonly unassignedUser:any = {
     id: null,
     href: null,
-    name: this.I18n.t("js.filter.noneElement"),
+    name: this.I18n.t('js.filter.noneElement'),
   };
 
   /**
@@ -43,14 +43,14 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
     if (value.id === null) {
       filter = {
         assignee: {
-          operator: "!*",
+          operator: '!*',
           values: [],
         },
       };
     } else {
       filter = {
         assignee: {
-          operator: "=",
+          operator: '=',
           values: [value.idFromLink],
         },
       };
@@ -68,14 +68,14 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
     const filter = this.getActionFilter(query);
 
     // Return the special unassigned user
-    if (filter && filter.operator.id === "!*") {
+    if (filter && filter.operator.id === '!*') {
       return Promise.resolve(this.unassignedUser);
     }
 
     return super.getLoadedActionValue(query);
   }
 
-  localizedName = this.I18n.t("js.work_packages.properties.assignee");
+  localizedName = this.I18n.t('js.work_packages.properties.assignee');
 
   public headerComponent() {
     return AssigneeBoardHeaderComponent;
@@ -83,8 +83,8 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   public warningTextWhenNoOptionsAvailable(hasMember?:boolean) {
     let text = hasMember
-      ? this.I18n.t("js.boards.add_list_modal.warning.assignee")
-      : this.I18n.t("js.boards.add_list_modal.warning.no_member");
+      ? this.I18n.t('js.boards.add_list_modal.warning.assignee')
+      : this.I18n.t('js.boards.add_list_modal.warning.no_member');
 
     return this
       .apiV3Service
@@ -95,7 +95,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       .then((project:ProjectResource) => {
         if (project.memberships) {
           text = text.concat(
-            this.I18n.t("js.boards.add_list_modal.warning.add_members", {
+            this.I18n.t('js.boards.add_list_modal.warning.add_members', {
               link: this.pathHelper.projectMembershipsPath(this.currentProject.identifier!),
             }),
           );

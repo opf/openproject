@@ -1,26 +1,26 @@
 import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild,
-} from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import {
   FormGroup,
   FormControl,
   Validators,
-} from "@angular/forms";
-import { take } from "rxjs/internal/operators/take";
-import { map } from "rxjs/operators";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component";
-import { PrincipalData, PrincipalLike } from "core-app/shared/components/principal/principal-types";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { PrincipalType } from "../invite-user.component";
+} from '@angular/forms';
+import { take } from 'rxjs/internal/operators/take';
+import { map } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
+import { PrincipalData, PrincipalLike } from 'core-app/shared/components/principal/principal-types';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { PrincipalType } from '../invite-user.component';
 
-function extractCustomFieldsFromSchema(schema:IOPFormSettings["_embedded"]["schema"]) {
+function extractCustomFieldsFromSchema(schema:IOPFormSettings['_embedded']['schema']) {
   return Object.keys(schema)
     .reduce((fields, name) => {
-      if (name.startsWith("customField") && schema[name].required) {
+      if (name.startsWith('customField') && schema[name].required) {
         return {
           ...fields,
           [name]: schema[name],
@@ -32,9 +32,9 @@ function extractCustomFieldsFromSchema(schema:IOPFormSettings["_embedded"]["sche
 }
 
 @Component({
-  selector: "op-ium-principal",
-  templateUrl: "./principal.component.html",
-  styleUrls: ["./principal.component.sass"],
+  selector: 'op-ium-principal',
+  templateUrl: './principal.component.html',
+  styleUrls: ['./principal.component.sass'],
 })
 export class PrincipalComponent implements OnInit {
   @Input() principalData:PrincipalData;
@@ -54,26 +54,26 @@ export class PrincipalComponent implements OnInit {
   public PrincipalType = PrincipalType;
 
   public text = {
-    title: () => this.I18n.t("js.invite_user_modal.title.invite_to_project", {
+    title: () => this.I18n.t('js.invite_user_modal.title.invite_to_project', {
       type: this.I18n.t(`js.invite_user_modal.title.${this.type}`),
       project: this.project.name,
     }),
     label: {
-      User: this.I18n.t("js.invite_user_modal.principal.label.name_or_email"),
-      PlaceholderUser: this.I18n.t("js.invite_user_modal.principal.label.name"),
-      Group: this.I18n.t("js.invite_user_modal.principal.label.name"),
-      Email: this.I18n.t("js.label_email"),
+      User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
+      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
+      Email: this.I18n.t('js.label_email'),
     },
-    change: this.I18n.t("js.label_change"),
-    inviteUser: this.I18n.t("js.invite_user_modal.principal.invite_user"),
-    createNewPlaceholder: this.I18n.t("js.invite_user_modal.principal.create_new_placeholder"),
+    change: this.I18n.t('js.label_change'),
+    inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
+    createNewPlaceholder: this.I18n.t('js.invite_user_modal.principal.create_new_placeholder'),
     required: {
-      User: this.I18n.t("js.invite_user_modal.principal.required.user"),
-      PlaceholderUser: this.I18n.t("js.invite_user_modal.principal.required.placeholder"),
-      Group: this.I18n.t("js.invite_user_modal.principal.required.group"),
+      User: this.I18n.t('js.invite_user_modal.principal.required.user'),
+      PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.required.placeholder'),
+      Group: this.I18n.t('js.invite_user_modal.principal.required.group'),
     },
-    backButton: this.I18n.t("js.invite_user_modal.back"),
-    nextButton: this.I18n.t("js.invite_user_modal.principal.next_button"),
+    backButton: this.I18n.t('js.invite_user_modal.back'),
+    nextButton: this.I18n.t('js.invite_user_modal.principal.next_button'),
   };
 
   public principalForm = new FormGroup({
@@ -82,15 +82,15 @@ export class PrincipalComponent implements OnInit {
   });
 
   public userDynamicFieldConfig:{
-    payload:IOPFormSettings["_embedded"]["payload"]|null,
-    schema:IOPFormSettings["_embedded"]["schema"]|null,
+    payload:IOPFormSettings['_embedded']['payload']|null,
+    schema:IOPFormSettings['_embedded']['schema']|null,
   } = {
     payload: null,
     schema: null,
   };
 
   get principalControl() {
-    return this.principalForm.get("principal");
+    return this.principalForm.get('principal');
   }
 
   get principal():PrincipalLike|undefined {
@@ -98,7 +98,7 @@ export class PrincipalComponent implements OnInit {
   }
 
   get dynamicFieldsControl() {
-    return this.principalForm.get("userDynamicFields");
+    return this.principalForm.get('userDynamicFields');
   }
 
   get customFields():{ [key:string]:any } {
@@ -145,7 +145,7 @@ export class PrincipalComponent implements OnInit {
           take(1),
           // The subsequent code expects to not work with a HalResource but rather with the raw
           // api response.
-          map(formResource => formResource.$source),
+          map((formResource) => formResource.$source),
         )
         .subscribe((formConfig) => {
           this.userDynamicFieldConfig.schema = extractCustomFieldsFromSchema(formConfig._embedded?.schema);

@@ -5,11 +5,11 @@ import {
   EventEmitter,
   HostBinding,
   forwardRef,
-} from "@angular/core";
+} from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
-} from "@angular/forms";
+} from '@angular/forms';
 
 export interface IOpOptionListOption<T> {
   value:T;
@@ -22,8 +22,8 @@ export type IOpOptionListValue<T> = T|null;
 
 @Component({
   // Style is imported globally
-  templateUrl: "./option-list.component.html",
-  selector: "op-option-list",
+  templateUrl: './option-list.component.html',
+  selector: 'op-option-list',
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => OpOptionListComponent),
@@ -31,7 +31,7 @@ export type IOpOptionListValue<T> = T|null;
   }],
 })
 export class OpOptionListComponent<T> implements ControlValueAccessor {
-  @HostBinding("class.op-option-list") className = true;
+  @HostBinding('class.op-option-list') className = true;
 
   @Input() options:IOpOptionListOption<T>[] = [];
 
@@ -52,9 +52,9 @@ export class OpOptionListComponent<T> implements ControlValueAccessor {
 
   getClassListForItem(option:IOpOptionListOption<T>) {
     return {
-      "op-option-list--item": true,
-      "op-option-list--item_selected": this.selected === option.value,
-      "op-option-list--item_disabled": !!option.disabled,
+      'op-option-list--item': true,
+      'op-option-list--item_selected': this.selected === option.value,
+      'op-option-list--item_disabled': !!option.disabled,
     };
   }
 

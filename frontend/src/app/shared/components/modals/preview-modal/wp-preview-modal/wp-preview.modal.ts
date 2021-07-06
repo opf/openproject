@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,26 +28,26 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from "@angular/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken, OpModalService } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { StateService } from "@uirouter/core";
+} from '@angular/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { StateService } from '@uirouter/core';
 
 @Component({
-  templateUrl: "./wp-preview.modal.html",
-  styleUrls: ["./wp-preview.modal.sass"],
+  templateUrl: './wp-preview.modal.html',
+  styleUrls: ['./wp-preview.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpPreviewModal extends OpModalComponent implements OnInit {
   public workPackage:WorkPackageResource;
 
   public text = {
-    created_by: this.i18n.t("js.label_created_by"),
+    created_by: this.i18n.t('js.label_created_by'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -74,17 +74,17 @@ export class WpPreviewModal extends OpModalComponent implements OnInit {
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
 
-        const modal = jQuery(this.elementRef.nativeElement).find(".preview-modal--container");
+        const modal = jQuery(this.elementRef.nativeElement).find('.preview-modal--container');
         this.reposition(modal, this.locals.event.target);
       });
   }
 
   public reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
     element.position({
-      my: "right top",
-      at: "right bottom",
+      my: 'right top',
+      at: 'right bottom',
       of: target,
-      collision: "flipfit",
+      collision: 'flipfit',
     });
   }
 

@@ -1,31 +1,31 @@
 import {
   ChangeDetectorRef, Injector, OnInit, Directive,
-} from "@angular/core";
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
+} from '@angular/core';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    activity: this.i18n.t("js.time_entry.activity"),
-    comment: this.i18n.t("js.time_entry.comment"),
-    hour: this.i18n.t("js.time_entry.hours"),
-    workPackage: this.i18n.t("js.label_work_package"),
-    edit: this.i18n.t("js.button_edit"),
-    delete: this.i18n.t("js.button_delete"),
+    activity: this.i18n.t('js.time_entry.activity'),
+    comment: this.i18n.t('js.time_entry.comment'),
+    hour: this.i18n.t('js.time_entry.hours'),
+    workPackage: this.i18n.t('js.label_work_package'),
+    edit: this.i18n.t('js.button_edit'),
+    delete: this.i18n.t('js.button_delete'),
     confirmDelete: {
-      text: this.i18n.t("js.modals.destroy_time_entry.text"),
-      title: this.i18n.t("js.modals.destroy_time_entry.title"),
+      text: this.i18n.t('js.modals.destroy_time_entry.text'),
+      title: this.i18n.t('js.modals.destroy_time_entry.title'),
     },
-    noResults: this.i18n.t("js.grid.widgets.time_entries_list.no_results"),
+    noResults: this.i18n.t('js.grid.widgets.time_entries_list.no_results'),
   };
 
   public entries:TimeEntryResource[] = [];
@@ -63,7 +63,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   public get total() {
     const duration = this.entries.reduce((current, entry) => current + this.timezone.toHours(entry.hours), 0);
 
-    return this.i18n.t("js.units.hour", { count: this.formatNumber(duration) });
+    return this.i18n.t('js.units.hour', { count: this.formatNumber(duration) });
   }
 
   public get anyEntries() {
@@ -112,7 +112,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
         this.timeEntryEditService
           .edit(loadedEntry)
           .then((changedEntry) => {
-            const oldEntryIndex:number = this.entries.findIndex(el => el.id === changedEntry.entry.id);
+            const oldEntryIndex:number = this.entries.findIndex((el) => el.id === changedEntry.entry.id);
             const newEntries = this.entries;
             newEntries[oldEntryIndex] = changedEntry.entry;
 
@@ -134,7 +134,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       passedData: [
         `#${entry.workPackage?.idFromLink} ${entry.workPackage?.name}`,
         `${this.i18n.t(
-          "js.units.hour",
+          'js.units.hour',
           { count: this.timezone.toHours(entry.hours) },
         )} (${entry.activity?.name})`,
       ],
@@ -179,7 +179,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
       this.rows.push({ date: currentDate!, entry });
     });
-    //entries
+    // entries
   }
 
   protected formatNumber(value:number):string {

@@ -1,9 +1,9 @@
-import { Injector, Injectable } from "@angular/core";
-import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import { Observable } from "rxjs";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { StateService } from "@uirouter/core";
+import { Injector, Injectable } from '@angular/core';
+import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
+import { Observable } from 'rxjs';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { StateService } from '@uirouter/core';
 
 @Injectable()
 export abstract class ViewerBridgeService {
@@ -20,7 +20,7 @@ export abstract class ViewerBridgeService {
    * where the viewer could be shown
    */
   get routeWithViewer():boolean {
-    return this.state.includes("bim.partitioned.split");
+    return this.state.includes('bim.partitioned.split');
   }
 
   constructor(readonly injector:Injector) {}

@@ -1,14 +1,14 @@
 import {
   AfterViewInit, ChangeDetectorRef, Component, forwardRef, NgZone,
-} from "@angular/core";
-import { OpDatePickerComponent } from "core-app/shared/components/op-date-picker/op-date-picker.component";
-import * as moment from "moment";
-import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+} from '@angular/core';
+import { OpDatePickerComponent } from 'core-app/shared/components/op-date-picker/op-date-picker.component';
+import * as moment from 'moment';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
-  selector: "op-date-picker-adapter",
-  templateUrl: "../../../../../../op-date-picker/op-date-picker.component.html",
+  selector: 'op-date-picker-adapter',
+  templateUrl: '../../../../../../op-date-picker/op-date-picker.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -71,18 +71,18 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
   }
 
   public parser(data:any) {
-    if (moment(data, "YYYY-MM-DD", true).isValid()) {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
     }
     return null;
   }
 
   public formatter(data:any):string {
-    if (moment(data, "YYYY-MM-DD", true).isValid()) {
-      var d = this.timezoneService.parseDate(data);
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      const d = this.timezoneService.parseDate(data);
 
       return this.timezoneService.formattedISODate(d);
     }
-    return "";
+    return '';
   }
 }

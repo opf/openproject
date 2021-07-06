@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourcePath } from "core-app/core/apiv3/paths/apiv3-resource";
-import { Observable } from "rxjs";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HttpClient } from "@angular/common/http";
-import { UserPreferencesModel } from "core-app/features/user-preferences/state/user-preferences.model";
+import { APIv3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { Observable } from 'rxjs';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HttpClient } from '@angular/common/http';
+import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
 
 export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferencesModel> {
   @InjectField() http:HttpClient;
@@ -42,8 +42,8 @@ export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferences
     return this
       .http
       .get<UserPreferencesModel>(
-        this.path,
-      );
+      this.path,
+    );
   }
 
   /**
@@ -53,9 +53,9 @@ export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferences
     return this
       .http
       .patch<UserPreferencesModel>(
-        this.path,
-        payload,
-        { withCredentials: true, responseType: "json" },
-      );
+      this.path,
+      payload,
+      { withCredentials: true, responseType: 'json' },
+    );
   }
 }

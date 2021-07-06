@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -34,25 +34,25 @@ import {
   Injector,
   OnInit,
   ViewChild,
-} from "@angular/core";
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { Observable } from "rxjs";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+} from '@angular/core';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { Observable } from 'rxjs';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
-  templateUrl: "./project-details.component.html",
+  templateUrl: './project-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
   ],
 })
 export class WidgetProjectDetailsComponent extends AbstractWidgetComponent implements OnInit {
-  @ViewChild("contentContainer", { static: true }) readonly contentContainer:ElementRef;
+  @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
 
   public customFields:{ key:string, label:string }[] = [];
 

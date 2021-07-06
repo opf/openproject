@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
-import { Apiv3TimeEntriesPaths } from "core-app/core/apiv3/endpoints/time-entries/apiv3-time-entries-paths";
-import { HalPayloadHelper } from "core-app/features/hal/schemas/hal-payload.helper";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Apiv3TimeEntriesPaths } from 'core-app/core/apiv3/endpoints/time-entries/apiv3-time-entries-paths';
+import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource> {
   // Static paths
-  readonly form = this.subResource("form", APIv3FormResource);
+  readonly form = this.subResource('form', APIv3FormResource);
 
   /**
    * Update the time entry with the given payload.
@@ -54,7 +54,7 @@ export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource
       .halResourceService
       .patch<TimeEntryResource>(this.path, this.extractPayload(payload, schema))
       .pipe(
-        tap(resource => this.touch(resource)),
+        tap((resource) => this.touch(resource)),
       );
   }
 

@@ -1,16 +1,16 @@
 import {
   Component, Injector, ChangeDetectionStrategy, ChangeDetectorRef,
-} from "@angular/core";
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { DisplayedDays } from "core-app/shared/components/calendar/te-calendar/te-calendar.component";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+} from '@angular/core';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { DisplayedDays } from 'core-app/shared/components/calendar/te-calendar/te-calendar.component';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
-  templateUrl: "./time-entries-current-user.component.html",
+  templateUrl: './time-entries-current-user.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetComponent {
@@ -40,9 +40,9 @@ export class WidgetTimeEntriesCurrentUserComponent extends AbstractWidgetCompone
     const duration = this.entries.reduce((current, entry) => current + this.timezone.toHours(entry.hours), 0);
 
     if (duration > 0) {
-      return this.i18n.t("js.units.hour", { count: this.formatNumber(duration) });
+      return this.i18n.t('js.units.hour', { count: this.formatNumber(duration) });
     }
-    return this.i18n.t("js.placeholders.default");
+    return this.i18n.t('js.placeholders.default');
   }
 
   public get isEditable() {

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
-import { HalLink } from "core-app/features/hal/hal-link/hal-link";
-import { Injectable } from "@angular/core";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { ApiV3Filter, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { Injectable } from '@angular/core';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { ApiV3Filter, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class UrlParamsHelperService {
   public constructor(public paginationService:PaginationService) {
   }
@@ -55,7 +55,7 @@ export class UrlParamsHelperService {
       }
 
       _.each(value, (v) => {
-        if (v !== null && typeof v === "object") {
+        if (v !== null && typeof v === 'object') {
           v = JSON.stringify(v);
         }
         parts.push(`${encodeURIComponent(key)}=${
@@ -63,7 +63,7 @@ export class UrlParamsHelperService {
       });
     });
 
-    return parts.join("&");
+    return parts.join('&');
   }
 
   public encodeQueryJsonParams(query:QueryResource, additional:any = {}) {
@@ -75,7 +75,7 @@ export class UrlParamsHelperService {
     paramsData = this.encodeHighlightingMode(paramsData, query);
     paramsData = this.encodeHighlightedAttributes(paramsData, query);
     paramsData.hi = !!query.showHierarchies;
-    paramsData.g = _.get(query.groupBy, "id", "");
+    paramsData.g = _.get(query.groupBy, 'id', '');
     paramsData = this.encodeSortBy(paramsData, query);
     paramsData = this.encodeFilters(paramsData, query.filters);
     paramsData.pa = additional.page;
@@ -99,16 +99,16 @@ export class UrlParamsHelperService {
   }
 
   private encodeHighlightingMode(paramsData:any, query:QueryResource) {
-    if (query.highlightingMode && (query.persisted || query.highlightingMode !== "inline")) {
+    if (query.highlightingMode && (query.persisted || query.highlightingMode !== 'inline')) {
       paramsData.hl = query.highlightingMode;
     }
     return paramsData;
   }
 
   private encodeHighlightedAttributes(paramsData:any, query:QueryResource) {
-    if (query.highlightingMode === "inline") {
+    if (query.highlightingMode === 'inline') {
       if (Array.isArray(query.highlightedAttributes) && query.highlightedAttributes.length > 0) {
-        paramsData.hla = query.highlightedAttributes.map(el => el.id);
+        paramsData.hla = query.highlightedAttributes.map((el) => el.id);
       }
     }
     return paramsData;
@@ -118,7 +118,7 @@ export class UrlParamsHelperService {
     if (query.sortBy) {
       paramsData.t = query
         .sortBy
-        .map((sort:QuerySortByResource) => sort.id!.replace("-", ":"))
+        .map((sort:QuerySortByResource) => sort.id!.replace('-', ':'))
         .join();
     }
     return paramsData;
@@ -128,9 +128,9 @@ export class UrlParamsHelperService {
     if (filters && filters.length > 0) {
       paramsData.f = filters
         .map((filter:any) => {
-          var { id } = filter;
+          const { id } = filter;
 
-          var operator = filter.operator.id;
+          const operator = filter.operator.id;
 
           return {
             n: id,
@@ -160,7 +160,7 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetQueryFromJsonParams(updateJson:string|null) {
-    var queryData:any = {
+    const queryData:any = {
       pageSize: this.paginationService.getPerPage(),
     };
 
@@ -168,10 +168,10 @@ export class UrlParamsHelperService {
       return queryData;
     }
 
-    var properties = JSON.parse(updateJson);
+    const properties = JSON.parse(updateJson);
 
     if (properties.c) {
-      queryData["columns[]"] = properties.c.map((column:any) => column);
+      queryData['columns[]'] = properties.c.map((column:any) => column);
     }
     if (properties.s) {
       queryData.showSums = properties.s;
@@ -198,25 +198,25 @@ export class UrlParamsHelperService {
     }
 
     if (properties.hla) {
-      queryData["highlightedAttributes[]"] = properties.hla.map((column:any) => column);
+      queryData['highlightedAttributes[]'] = properties.hla.map((column:any) => column);
     }
 
     if (properties.hi === false || properties.hi === true) {
       queryData.showHierarchies = properties.hi;
     }
 
-    queryData.groupBy = _.get(properties, "g", "");
+    queryData.groupBy = _.get(properties, 'g', '');
 
     // Filters
     if (properties.f) {
-      var filters = properties.f.map((urlFilter:any) => {
-        var attributes = {
+      const filters = properties.f.map((urlFilter:any) => {
+        const attributes = {
           operator: decodeURIComponent(urlFilter.o),
         };
         if (urlFilter.v) {
           // the array check is only there for backwards compatibility reasons.
           // Nowadays, it will always be an array;
-          var vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
+          const vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
           _.extend(attributes, { values: vs });
         }
         const filterData:any = {};
@@ -230,7 +230,7 @@ export class UrlParamsHelperService {
 
     // Sortation
     if (properties.t) {
-      queryData.sortBy = JSON.stringify(properties.t.split(",").map((sort:any) => sort.split(":")));
+      queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort:any) => sort.split(':')));
     }
 
     // Pagination
@@ -245,9 +245,9 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetQueryFromQueryResource(query:QueryResource, additionalParams:any = {}, contextual:any = {}) {
-    var queryData:any = {};
+    const queryData:any = {};
 
-    queryData["columns[]"] = this.buildV3GetColumnsFromQueryResource(query);
+    queryData['columns[]'] = this.buildV3GetColumnsFromQueryResource(query);
     queryData.showSums = query.sums;
     queryData.timelineVisible = !!query.timelineVisible;
 
@@ -260,8 +260,8 @@ export class UrlParamsHelperService {
       queryData.highlightingMode = query.highlightingMode;
     }
 
-    if (query.highlightedAttributes && query.highlightingMode === "inline") {
-      queryData["highlightedAttributes[]"] = query.highlightedAttributes.map(el => el.href);
+    if (query.highlightedAttributes && query.highlightingMode === 'inline') {
+      queryData['highlightedAttributes[]'] = query.highlightedAttributes.map((el) => el.href);
     }
 
     if (query.displayRepresentation) {
@@ -269,7 +269,7 @@ export class UrlParamsHelperService {
     }
 
     queryData.showHierarchies = !!query.showHierarchies;
-    queryData.groupBy = _.get(query.groupBy, "id", "");
+    queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
     queryData.filters = this.buildV3GetFiltersAsJson(query.filters, contextual);
@@ -281,16 +281,16 @@ export class UrlParamsHelperService {
   }
 
   public queryFilterValueToParam(value:any) {
-    if (typeof (value) === "boolean") {
-      return value ? "t" : "f";
+    if (typeof (value) === 'boolean') {
+      return value ? 't' : 'f';
     }
 
     if (!value) {
-      return "";
+      return '';
     } if (value.id) {
       return value.id.toString();
     } if (value.href) {
-      return value.href.split("/").pop().toString();
+      return value.href.split('/').pop().toString();
     }
     return value.toString();
   }
@@ -311,7 +311,7 @@ export class UrlParamsHelperService {
     const newFilters = filters.map((filter:QueryFilterInstanceResource) => {
       const id = this.buildV3GetFilterIdFromFilter(filter);
       const operator = this.buildV3GetOperatorIdFromFilter(filter);
-      const values = this.buildV3GetValuesFromFilter(filter).map(value => {
+      const values = this.buildV3GetValuesFromFilter(filter).map((value) => {
         _.each(replacements, (val:string, key:string) => {
           value = value.replace(`{${key}}`, val);
         });
@@ -367,11 +367,11 @@ export class UrlParamsHelperService {
       return id;
     });
 
-    return JSON.stringify(sortByIds.map((id:string) => id.split("-")));
+    return JSON.stringify(sortByIds.map((id:string) => id.split('-')));
   }
 
   private idFromHref(href:string) {
-    const id = href.substring(href.lastIndexOf("/") + 1, href.length);
+    const id = href.substring(href.lastIndexOf('/') + 1, href.length);
 
     return decodeURIComponent(id);
   }

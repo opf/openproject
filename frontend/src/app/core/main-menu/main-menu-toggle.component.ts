@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,21 +28,21 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit,
-} from "@angular/core";
-import { distinctUntilChanged } from "rxjs/operators";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { DeviceService } from "core-app/core/browser/device.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { MainMenuToggleService } from "./main-menu-toggle.service";
+} from '@angular/core';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { MainMenuToggleService } from './main-menu-toggle.service';
 
-export const mainMenuToggleSelector = "main-menu-toggle";
+export const mainMenuToggleSelector = 'main-menu-toggle';
 
 @Component({
   selector: mainMenuToggleSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: "op-app-menu op-main-menu-toggle",
+    class: 'op-app-menu op-main-menu-toggle',
   },
   template: `
     <button
@@ -61,7 +61,7 @@ export const mainMenuToggleSelector = "main-menu-toggle";
 })
 
 export class MainMenuToggleComponent extends UntilDestroyedMixin implements OnInit {
-  toggleTitle = "";
+  toggleTitle = '';
 
   @InjectField() currentProject:CurrentProjectService;
 
@@ -80,7 +80,7 @@ export class MainMenuToggleComponent extends UntilDestroyedMixin implements OnIn
         distinctUntilChanged(),
         this.untilDestroyed(),
       )
-      .subscribe(setToggleTitle => {
+      .subscribe((setToggleTitle) => {
         this.toggleTitle = setToggleTitle;
         this.cdRef.detectChanges();
       });

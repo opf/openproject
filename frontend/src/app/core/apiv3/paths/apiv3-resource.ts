@@ -1,12 +1,12 @@
-import { Constructor } from "@angular/cdk/table";
-import { SimpleResource, SimpleResourceCollection } from "core-app/core/apiv3/paths/path-resources";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { Observable } from "rxjs";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { Constructor } from '@angular/cdk/table';
+import { SimpleResource, SimpleResourceCollection } from 'core-app/core/apiv3/paths/path-resources';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { Observable } from 'rxjs';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 export class APIv3ResourcePath<T = HalResource> extends SimpleResource {
   readonly injector = this.apiRoot.injector;
@@ -60,7 +60,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    */
   public id(input:string|number|{ id:string|null }):T {
     let id:string;
-    if (typeof input === "string" || typeof input === "number") {
+    if (typeof input === 'string' || typeof input === 'number') {
       id = input.toString();
     } else {
       id = input.id!;

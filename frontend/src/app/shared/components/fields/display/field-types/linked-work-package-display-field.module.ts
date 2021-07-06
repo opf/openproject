@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateService } from "@uirouter/core";
-import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import { UiStateLinkBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder";
-import { WorkPackageDisplayField } from "core-app/shared/components/fields/display/field-types/work-package-display-field.module";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { StateService } from '@uirouter/core';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { WorkPackageDisplayField } from 'core-app/shared/components/fields/display/field-types/work-package-display-field.module';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
   public text = {
-    linkTitle: this.I18n.t("js.work_packages.message_successful_show_in_fullscreen"),
-    none: this.I18n.t("js.filter.noneElement"),
+    linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
+    none: this.I18n.t('js.filter.noneElement'),
   };
 
   @InjectField() $state!:StateService;
@@ -56,10 +56,10 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
       this.valueString,
     );
 
-    const title = document.createElement("span");
+    const title = document.createElement('span');
     title.textContent = ` ${_.truncate(this.title, { length: 40 })}`;
 
-    element.innerHTML = "";
+    element.innerHTML = '';
     element.appendChild(link);
     element.appendChild(title);
   }

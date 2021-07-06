@@ -10,32 +10,32 @@ import {
   SecurityContext,
   ViewChild,
   ViewEncapsulation,
-} from "@angular/core";
-import { FullCalendarComponent } from "@fullcalendar/angular";
-import { States } from "core-app/core/states/states.service";
-import * as moment from "moment";
-import { Moment } from "moment";
-import { StateService } from "@uirouter/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { DomSanitizer } from "@angular/platform-browser";
-import timeGrid from "@fullcalendar/timegrid";
+} from '@angular/core';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { States } from 'core-app/core/states/states.service';
+import * as moment from 'moment';
+import { Moment } from 'moment';
+import { StateService } from '@uirouter/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import timeGrid from '@fullcalendar/timegrid';
 import {
   CalendarOptions, Duration, EventApi, EventInput,
-} from "@fullcalendar/core";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import interactionPlugin from "@fullcalendar/interaction";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
-import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
-import { ColorsService } from "core-app/shared/components/colors/colors.service";
-import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+} from '@fullcalendar/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import interactionPlugin from '@fullcalendar/interaction';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
+import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
+import { ColorsService } from 'core-app/shared/components/colors/colors.service';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -53,16 +53,16 @@ interface CalendarMoveEvent {
 // An array of all the days that are displayed. The zero index represents Monday.
 export type DisplayedDays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 
-const TIME_ENTRY_CLASS_NAME = "te-calendar--time-entry";
-const DAY_SUM_CLASS_NAME = "te-calendar--day-sum";
-const ADD_ENTRY_CLASS_NAME = "te-calendar--add-entry";
-const ADD_ICON_CLASS_NAME = "te-calendar--add-icon";
-const ADD_ENTRY_PROHIBITED_CLASS_NAME = "-prohibited";
+const TIME_ENTRY_CLASS_NAME = 'te-calendar--time-entry';
+const DAY_SUM_CLASS_NAME = 'te-calendar--day-sum';
+const ADD_ENTRY_CLASS_NAME = 'te-calendar--add-entry';
+const ADD_ICON_CLASS_NAME = 'te-calendar--add-icon';
+const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
 
 @Component({
-  templateUrl: "./te-calendar.template.html",
-  styleUrls: ["./te-calendar.component.sass"],
-  selector: "te-calendar",
+  templateUrl: './te-calendar.template.html',
+  styleUrls: ['./te-calendar.component.sass'],
+  selector: 'te-calendar',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -102,7 +102,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   public hiddenDays:number[] = [];
 
   public text = {
-    logTime: this.i18n.t("js.button_log_time"),
+    logTime: this.i18n.t('js.button_log_time'),
   };
 
   calendarOptions:CalendarOptions = {
@@ -110,11 +110,11 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     locale: this.i18n.locale,
     fixedWeekCount: false,
     headerToolbar: {
-      right: "",
-      center: "title",
-      left: "prev,next today",
+      right: '',
+      center: 'title',
+      left: 'prev,next today',
     },
-    initialView: "timeGridWeek",
+    initialView: 'timeGridWeek',
     firstDay: this.configuration.startOfWeek(),
     hiddenDays: [],
     contentHeight: 605,
@@ -151,16 +151,16 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     // The full-calendar component's outputs do not seem to work
     // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
     // Therefore, setting the outputs via the underlying API
-    this.ucCalendar.getApi().setOption("eventDidMount", (event:CalendarViewEvent) => {
+    this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
       this.alterEventEntry(event);
     });
-    this.ucCalendar.getApi().setOption("eventWillUnmount", (event:CalendarViewEvent) => {
+    this.ucCalendar.getApi().setOption('eventWillUnmount', (event:CalendarViewEvent) => {
       this.beforeEventRemove(event);
     });
-    this.ucCalendar.getApi().setOption("eventClick", (event:CalendarViewEvent) => {
+    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
       this.dispatchEventClick(event);
     });
-    this.ucCalendar.getApi().setOption("eventDrop", (event:CalendarMoveEvent) => {
+    this.ucCalendar.getApi().setOption('eventDrop', (event:CalendarMoveEvent) => {
       this.moveEvent(event);
     });
   }
@@ -185,7 +185,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
         .time_entries
         .list({ filters: this.dmFilters(start, end), pageSize: 500 })
         .toPromise()
-        .then(collection => {
+        .then((collection) => {
           this.memoizedCreateAllowed = !!collection.createTimeEntry;
 
           return collection;
@@ -222,7 +222,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       // We already set the same function (different object) via angular.
       // But it will trigger repainting the calendar.
       // Weirdly, this.ucCalendar.getApi().rerender() does not.
-      this.ucCalendar.getApi().setOption("slotLabelFormat", (info:any) => {
+      this.ucCalendar.getApi().setOption('slotLabelFormat', (info:any) => {
         const val = (this.maxHour - info.date.hour) / this.scaleRatio;
         return val.toString();
       });
@@ -238,11 +238,11 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       const hours = this.timezone.toHours(entry.hours) * this.scaleRatio;
 
       if (hoursDistribution[entry.spentOn]) {
-        start = hoursDistribution[entry.spentOn].clone().subtract(hours, "h");
+        start = hoursDistribution[entry.spentOn].clone().subtract(hours, 'h');
         end = hoursDistribution[entry.spentOn].clone();
       } else {
-        start = moment(entry.spentOn).add(this.maxHour - hours, "h");
-        end = moment(entry.spentOn).add(this.maxHour, "h");
+        start = moment(entry.spentOn).add(this.maxHour - hours, 'h');
+        end = moment(entry.spentOn).add(this.maxHour, 'h');
       }
 
       hoursDistribution[entry.spentOn] = start;
@@ -258,8 +258,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
     const calendarEntries:EventInput[] = [];
 
-    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, "days") <= 0; m.add(1, "days")) {
-      const duration = dateSums[m.format("YYYY-MM-DD")] || 0;
+    for (let m = moment(fetchInfo.start); m.diff(fetchInfo.end, 'days') <= 0; m.add(1, 'days')) {
+      const duration = dateSums[m.format('YYYY-MM-DD')] || 0;
 
       calendarEntries.push(this.sumEntry(m, duration));
 
@@ -292,14 +292,14 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
     const classNames = [TIME_ENTRY_CLASS_NAME];
 
-    const span = end.diff(start, "m");
+    const span = end.diff(start, 'm');
 
     if (span < 40) {
-      classNames.push("-no-fadeout");
+      classNames.push('-no-fadeout');
     }
 
     return {
-      title: span < 20 ? "" : this.entryName(entry),
+      title: span < 20 ? '' : this.entryName(entry),
       startEditable: !!entry.update,
       start: start.format(),
       end: end.format(),
@@ -312,12 +312,12 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
   protected sumEntry(date:Moment, duration:number) {
     return {
-      start: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 0.5) - 0.5, "h").format(),
-      end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), "h").format(),
+      start: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 0.5) - 0.5, 'h').format(),
+      end: date.clone().add(this.maxHour - Math.min(((duration + 0.05) * this.scaleRatio), this.maxHour - 0.5), 'h').format(),
       classNames: DAY_SUM_CLASS_NAME,
-      rendering: "background" as const,
+      rendering: 'background' as const,
       startEditable: false,
-      sum: this.i18n.t("js.units.hour", { count: this.formatNumber(duration) }),
+      sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
     };
   }
 
@@ -330,17 +330,17 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
     return {
       start: date.clone().format(),
-      end: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 1) - 0.5, "h").format(),
-      rendering: "background" as const,
+      end: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 1) - 0.5, 'h').format(),
+      rendering: 'background' as const,
       classNames,
     };
   }
 
   protected dmFilters(start:Date, end:Date):Array<[string, FilterOperator, string[]]> {
-    const startDate = moment(start).format("YYYY-MM-DD");
-    const endDate = moment(end).subtract(1, "d").format("YYYY-MM-DD");
-    return [["spentOn", "<>d", [startDate, endDate]] as [string, FilterOperator, string[]],
-      ["user_id", "=", ["me"]] as [string, FilterOperator, [string]]];
+    const startDate = moment(start).format('YYYY-MM-DD');
+    const endDate = moment(end).subtract(1, 'd').format('YYYY-MM-DD');
+    return [['spentOn', '<>d', [startDate, endDate]] as [string, FilterOperator, string[]],
+      ['user_id', '=', ['me']] as [string, FilterOperator, [string]]];
   }
 
   private dispatchEventClick(event:CalendarViewEvent) {
@@ -355,7 +355,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     this
       .timeEntryEdit
       .edit(entry)
-      .then(modificationAction => {
+      .then((modificationAction) => {
         this.updateEventSet(modificationAction.entry, modificationAction.action);
       })
       .catch(() => {
@@ -368,20 +368,20 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
     // Use end instead of start as when dragging, the event might be too long and would thus be start
     // on the day before by fullcalendar.
-    entry.spentOn = moment(event.event.end!).format("YYYY-MM-DD");
+    entry.spentOn = moment(event.event.end!).format('YYYY-MM-DD');
 
     this
       .schemaCache
       .ensureLoaded(entry)
-      .then(schema => {
+      .then((schema) => {
         this
           .apiV3Service
           .time_entries
           .id(entry)
           .patch(entry, schema)
           .subscribe(
-            event => this.updateEventSet(event, "update"),
-            e => {
+            (event) => this.updateEventSet(event, 'update'),
+            (e) => {
               this.notifications.handleRawError(e);
               event.revert();
             },
@@ -401,7 +401,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     this
       .timeEntryCreate
       .create(date)
-      .then(modificationAction => {
+      .then((modificationAction) => {
         this.updateEventSet(modificationAction.entry, modificationAction.action);
       })
       .catch(() => {
@@ -409,26 +409,26 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       });
   }
 
-  private updateEventSet(event:TimeEntryResource, action:"update"|"destroy"|"create") {
-    this.memoizedTimeEntries.entries.then(collection => {
-      const foundIndex = collection.elements.findIndex(x => x.id === event.id);
+  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create') {
+    this.memoizedTimeEntries.entries.then((collection) => {
+      const foundIndex = collection.elements.findIndex((x) => x.id === event.id);
 
       switch (action) {
-      case "update":
-        collection.elements[foundIndex] = event;
-        break;
-      case "destroy":
-        collection.elements.splice(foundIndex, 1);
-        break;
-      case "create":
-        this
-          .apiV3Service
-          .time_entries
-          .cache
-          .updateFor(event);
+        case 'update':
+          collection.elements[foundIndex] = event;
+          break;
+        case 'destroy':
+          collection.elements.splice(foundIndex, 1);
+          break;
+        case 'create':
+          this
+            .apiV3Service
+            .time_entries
+            .cache
+            .updateFor(event);
 
-        collection.elements.push(event);
-        break;
+          collection.elements.push(event);
+          break;
       }
 
       this.ucCalendar.getApi().refetchEvents();
@@ -453,9 +453,9 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       return;
     }
 
-    const addIcon = document.createElement("div");
+    const addIcon = document.createElement('div');
     addIcon.classList.add(ADD_ICON_CLASS_NAME);
-    addIcon.innerText = "+";
+    addIcon.innerText = '+';
     event.el.append(addIcon);
   }
 
@@ -472,16 +472,16 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.entry),
-      items: ".fc-event",
+      items: '.fc-event',
       close() {
-        jQuery(".ui-helper-hidden-accessible").remove();
+        jQuery('.ui-helper-hidden-accessible').remove();
       },
       track: true,
     });
   }
 
   private removeTooltip(event:CalendarViewEvent) {
-    jQuery(event.el).tooltip("disable");
+    jQuery(event.el).tooltip('disable');
   }
 
   private prependDuration(event:CalendarViewEvent) {
@@ -494,7 +494,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     const formattedDuration = this.timezone.formattedDuration(timeEntry.hours);
 
     jQuery(event.el)
-      .find(".fc-event-title")
+      .find('.fc-event-title')
       .prepend(`<div class="fc-duration">${formattedDuration}</div>`);
   }
 
@@ -520,10 +520,10 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     const hslaStart = this.colors.toHsla(this.entryName(timeEntry), 0);
     const hslaEnd = this.colors.toHsla(this.entryName(timeEntry), 100);
 
-    fadeout.css("background", `-webkit-linear-gradient(${hslaStart} 0%, ${hslaEnd} 100%`);
+    fadeout.css('background', `-webkit-linear-gradient(${hslaStart} 0%, ${hslaEnd} 100%`);
 
-    ["-moz-linear-gradient", "-o-linear-gradient", "linear-gradient", "-ms-linear-gradient"].forEach((style => {
-      fadeout.css("background-image", `${style}(${hslaStart} 0%, ${hslaEnd} 100%`);
+    ['-moz-linear-gradient', '-o-linear-gradient', 'linear-gradient', '-ms-linear-gradient'].forEach(((style) => {
+      fadeout.css('background-image', `${style}(${hslaStart} 0%, ${hslaEnd} 100%`);
     }));
 
     $element
@@ -544,7 +544,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       name += ` - ${this.workPackageName(entry)}`;
     }
 
-    return name || "-";
+    return name || '-';
   }
 
   private workPackageName(entry:TimeEntryResource) {
@@ -555,24 +555,24 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     return `
         <ul class="tooltip--map">
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t("js.time_entry.project")}:</span>
+            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.project')}:</span>
             <span class="tooltip--map--value">${this.sanitizedValue(entry.project.name)}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t("js.time_entry.work_package")}:</span>
-            <span class="tooltip--map--value">${entry.workPackage ? this.sanitizedValue(this.workPackageName(entry)) : this.i18n.t("js.placeholders.default")}</span>
+            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.work_package')}:</span>
+            <span class="tooltip--map--value">${entry.workPackage ? this.sanitizedValue(this.workPackageName(entry)) : this.i18n.t('js.placeholders.default')}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t("js.time_entry.activity")}:</span>
+            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.activity')}:</span>
             <span class="tooltip--map--value">${this.sanitizedValue(entry.activity.name)}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t("js.time_entry.hours")}:</span>
+            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.hours')}:</span>
             <span class="tooltip--map--value">${this.timezone.formattedDuration(entry.hours)}</span>
           </li>
           <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.i18n.t("js.time_entry.comment")}:</span>
-            <span class="tooltip--map--value">${entry.comment.raw || this.i18n.t("js.placeholders.default")}</span>
+            <span class="tooltip--map--key">${this.i18n.t('js.time_entry.comment')}:</span>
+            <span class="tooltip--map--value">${entry.comment.raw || this.i18n.t('js.placeholders.default')}</span>
           </li>
         `;
   }

@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { Component, Input, OnInit } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
-  selector: "activity-link",
+  selector: 'activity-link',
   template: `
     <a id ="{{ activityHtmlId }}-link"
        [textContent]="activityLabel"
@@ -28,7 +28,7 @@ export class ActivityLinkComponent implements OnInit {
 
 function activityLink() {
   return {
-    restrict: "E",
+    restrict: 'E',
     template: `
     `,
     scope: {

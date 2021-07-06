@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,12 +28,12 @@
 
 import {
   Component, ElementRef, OnInit, ViewChild,
-} from "@angular/core";
-import { NgSelectComponent } from "@ng-select/ng-select";
+} from '@angular/core';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 type SelectItem = { label:string, value:string, selected?:boolean };
 
-export const autocompleteSelectDecorationSelector = "autocomplete-select-decoration";
+export const autocompleteSelectDecorationSelector = 'autocomplete-select-decoration';
 
 @Component({
   template: `
@@ -77,14 +77,14 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     const element = this.elementRef.nativeElement;
 
     // Set options
-    this.multiselect = element.dataset.multiselect === "true";
+    this.multiselect = element.dataset.multiselect === 'true';
     this.labelForId = element.dataset.inputId!;
 
     // Get the sync target
     this.syncInputFieldName = element.dataset.inputName;
     // Add Rails multiple identifier if multiselect
     if (this.multiselect) {
-      this.syncInputFieldName += "[]";
+      this.syncInputFieldName += '[]';
     }
 
     // Prepare and build the options
@@ -105,7 +105,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
   }
 
   setInitialSelection(data:SelectItem[]) {
-    this.updateSelection(data.filter(element => element.selected));
+    this.updateSelection(data.filter((element) => element.selected));
   }
 
   updateSelection(items:SelectItem|SelectItem[]) {
@@ -122,7 +122,7 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
     const element = jQuery(this.elementRef.nativeElement);
     element
       .parent()
-      .append(`<input type="hidden" name="${this.syncInputFieldName || ""}" value="${value}" />`);
+      .append(`<input type="hidden" name="${this.syncInputFieldName || ''}" value="${value}" />`);
   }
 
   removeCurrentSyncedFields() {

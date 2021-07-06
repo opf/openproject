@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { IconModule } from "core-app/shared/components/icon/icon.module";
-import { OpenprojectAccessibilityModule } from "core-app/shared/directives/a11y/openproject-a11y.module";
+import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpenprojectAccessibilityModule } from 'core-app/shared/directives/a11y/openproject-a11y.module';
 
-import { AttachmentsComponent } from "./attachments.component";
-import { AttachmentListComponent } from "./attachment-list/attachment-list.component";
-import { AttachmentListItemComponent } from "./attachment-list/attachment-list-item.component";
-import { AttachmentsUploadComponent } from "./attachments-upload/attachments-upload.component";
-import { AuthoringComponent } from "./authoring/authoring.component";
+import { AttachmentsComponent } from './attachments.component';
+import { AttachmentListComponent } from './attachment-list/attachment-list.component';
+import { AttachmentListItemComponent } from './attachment-list/attachment-list-item.component';
+import { AttachmentsUploadComponent } from './attachments-upload/attachments-upload.component';
+import { AuthoringComponent } from './authoring/authoring.component';
 
 @NgModule({
   imports: [

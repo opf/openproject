@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,102 +26,102 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+/* jshint expr: true */
 
-import { TestBed, getTestBed } from "@angular/core/testing";
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
-import { States } from "core-app/core/states/states.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { CurrentUserService } from "./current-user.service";
-import { CurrentUserStore, CurrentUser } from "./current-user.store";
-import { CurrentUserQuery } from "./current-user.query";
+import { TestBed, getTestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { States } from 'core-app/core/states/states.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { CurrentUserService } from './current-user.service';
+import { CurrentUserStore, CurrentUser } from './current-user.store';
+import { CurrentUserQuery } from './current-user.query';
 
 const globalCapability = {
-  _type: "Capability",
-  id: "placeholder_users/read/g-3",
+  _type: 'Capability',
+  id: 'placeholder_users/read/g-3',
   _links: {
     self: {
-      href: "/api/v3/capabilities/placeholder_users/read/g-3",
+      href: '/api/v3/capabilities/placeholder_users/read/g-3',
     },
     action: {
-      href: "/api/v3/actions/placeholder_users/read",
+      href: '/api/v3/actions/placeholder_users/read',
     },
     context: {
-      href: "/api/v3/capabilities/contexts/global",
-      title: "Global",
+      href: '/api/v3/capabilities/contexts/global',
+      title: 'Global',
     },
     principal: {
-      href: "/api/v3/users/1",
-      title: "OpenProject Admin",
+      href: '/api/v3/users/1',
+      title: 'OpenProject Admin',
     },
   },
 };
 
 const projectCapabilityp63Update = {
-  _type: "Capability",
-  id: "memberships/update/p6-3",
+  _type: 'Capability',
+  id: 'memberships/update/p6-3',
   _links: {
     self: {
-      href: "/api/v3/capabilities/memberships/update/p6-3",
+      href: '/api/v3/capabilities/memberships/update/p6-3',
     },
     action: {
-      href: "/api/v3/actions/memberships/update",
+      href: '/api/v3/actions/memberships/update',
     },
     context: {
-      href: "/api/v3/projects/6",
-      title: "Project 6",
+      href: '/api/v3/projects/6',
+      title: 'Project 6',
     },
     principal: {
-      href: "/api/v3/users/1",
-      title: "OpenProject Admin",
+      href: '/api/v3/users/1',
+      title: 'OpenProject Admin',
     },
   },
 };
 
 const projectCapabilityp63Read = {
-  _type: "Capability",
-  id: "memberships/read/p6-3",
+  _type: 'Capability',
+  id: 'memberships/read/p6-3',
   _links: {
     self: {
-      href: "/api/v3/capabilities/memberships/read/p6-3",
+      href: '/api/v3/capabilities/memberships/read/p6-3',
     },
     action: {
-      href: "/api/v3/actions/memberships/read",
+      href: '/api/v3/actions/memberships/read',
     },
     context: {
-      href: "/api/v3/projects/6",
-      title: "Project 6",
+      href: '/api/v3/projects/6',
+      title: 'Project 6',
     },
     principal: {
-      href: "/api/v3/users/1",
-      title: "OpenProject Admin",
+      href: '/api/v3/users/1',
+      title: 'OpenProject Admin',
     },
   },
 };
 
 const projectCapabilityp53Update = {
-  _type: "Capability",
-  id: "memberships/update/p5-3",
+  _type: 'Capability',
+  id: 'memberships/update/p5-3',
   _links: {
     self: {
-      href: "/api/v3/capabilities/memberships/update/p5-3",
+      href: '/api/v3/capabilities/memberships/update/p5-3',
     },
     action: {
-      href: "/api/v3/actions/memberships/update",
+      href: '/api/v3/actions/memberships/update',
     },
     context: {
-      href: "/api/v3/projects/5",
-      title: "Project 5",
+      href: '/api/v3/projects/5',
+      title: 'Project 5',
     },
     principal: {
-      href: "/api/v3/users/1",
-      title: "OpenProject Admin",
+      href: '/api/v3/users/1',
+      title: 'OpenProject Admin',
     },
   },
 };
 
-describe("CurrentUserService", () => {
+describe('CurrentUserService', () => {
   let injector:TestBed;
   let currentUserService:CurrentUserService;
   let httpMock:HttpTestingController;
@@ -151,11 +151,11 @@ describe("CurrentUserService", () => {
 
   const mockRequest = () => {
     httpMock
-      .match((req) => req.url.includes("/api/v3/capabilities"))
+      .match((req) => req.url.includes('/api/v3/capabilities'))
       .forEach((req) => {
-        expect(req.request.method).toBe("GET");
+        expect(req.request.method).toBe('GET');
         req.flush({
-          _type: "Collection",
+          _type: 'Collection',
           count: 4,
           total: 4,
           pageSize: 1000,
@@ -176,10 +176,10 @@ describe("CurrentUserService", () => {
     httpMock.verify();
   });
 
-  describe("When not logged in", () => {
+  describe('When not logged in', () => {
     beforeEach(() => compile({ id: null, name: null, mail: null }));
 
-    it("Should have no capabilities", () => {
+    it('Should have no capabilities', () => {
       currentUserService.capabilities$.subscribe((caps) => {
         console.log(caps);
         expect(caps.length).toEqual(0);
@@ -188,7 +188,7 @@ describe("CurrentUserService", () => {
       mockRequest();
     });
 
-    it("Should not think it is", () => {
+    it('Should not think it is', () => {
       currentUserService.isLoggedIn$.subscribe((loggedIn) => {
         expect(loggedIn).toEqual(false);
       });
@@ -197,10 +197,10 @@ describe("CurrentUserService", () => {
     });
   });
 
-  describe("When logged in", () => {
-    beforeEach(() => compile({ id: "1", name: "Admin", mail: "admin@example.com" }));
+  describe('When logged in', () => {
+    beforeEach(() => compile({ id: '1', name: 'Admin', mail: 'admin@example.com' }));
 
-    it("Should know it is", () => {
+    it('Should know it is', () => {
       currentUserService.isLoggedIn$.subscribe((loggedIn) => {
         expect(loggedIn).toEqual(true);
       });
@@ -208,7 +208,7 @@ describe("CurrentUserService", () => {
       mockRequest();
     });
 
-    it("Should have all capabilities", () => {
+    it('Should have all capabilities', () => {
       currentUserService.capabilities$.subscribe((caps) => {
         expect(caps.length).toEqual(4);
       });
@@ -216,48 +216,48 @@ describe("CurrentUserService", () => {
       mockRequest();
     });
 
-    it("Should filter by context", () => {
-      currentUserService.capabilitiesForContext$("global").subscribe((caps) => {
+    it('Should filter by context', () => {
+      currentUserService.capabilitiesForContext$('global').subscribe((caps) => {
         expect(caps.length).toEqual(1);
       });
-      currentUserService.capabilitiesForContext$("6").subscribe((caps) => {
+      currentUserService.capabilitiesForContext$('6').subscribe((caps) => {
         expect(caps.length).toEqual(2);
       });
-      currentUserService.capabilitiesForContext$("5").subscribe((caps) => {
+      currentUserService.capabilitiesForContext$('5').subscribe((caps) => {
         expect(caps.length).toEqual(1);
       });
 
       mockRequest();
     });
 
-    it("Should filter by context and all actions", () => {
-      currentUserService.hasCapabilities$("asdf/asdf").subscribe((hasCaps) => {
+    it('Should filter by context and all actions', () => {
+      currentUserService.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
-      currentUserService.hasCapabilities$("placeholder_users/read").subscribe((hasCaps) => {
+      currentUserService.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasCapabilities$(["memberships/update", "memberships/read"], "6").subscribe((hasCaps) => {
+      currentUserService.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasCapabilities$(["memberships/update", "memberships/nonexistent"], "6").subscribe((hasCaps) => {
+      currentUserService.hasCapabilities$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
 
       mockRequest();
     });
 
-    it("Should filter by context and any of the actions", () => {
-      currentUserService.hasAnyCapabilityOf$("memberships/update", "6").subscribe((hasCaps) => {
+    it('Should filter by context and any of the actions', () => {
+      currentUserService.hasAnyCapabilityOf$('memberships/update', '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasAnyCapabilityOf$(["memberships/update", "memberships/read"], "6").subscribe((hasCaps) => {
+      currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasAnyCapabilityOf$(["memberships/update", "memberships/nonexistent"], "6").subscribe((hasCaps) => {
+      currentUserService.hasAnyCapabilityOf$(['memberships/update', 'memberships/nonexistent'], '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
-      currentUserService.hasAnyCapabilityOf$("memberships/nonexistent", "6").subscribe((hasCaps) => {
+      currentUserService.hasAnyCapabilityOf$('memberships/nonexistent', '6').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
 

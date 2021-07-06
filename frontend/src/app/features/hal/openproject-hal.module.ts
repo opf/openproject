@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APP_INITIALIZER, ErrorHandler, NgModule } from "@angular/core";
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
-import { CommonModule } from "@angular/common";
-import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openproject-header-interceptor";
-import { HalAwareErrorHandler } from "core-app/features/hal/services/hal-aware-error-handler";
-import { initializeHalResourceConfig } from "core-app/features/hal/services/hal-resource.config";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { HalAwareErrorHandler } from 'core-app/features/hal/services/hal-aware-error-handler';
+import { initializeHalResourceConfig } from 'core-app/features/hal/services/hal-resource.config';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 @NgModule({
   imports: [

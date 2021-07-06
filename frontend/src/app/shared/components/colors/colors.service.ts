@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class ColorsService {
   public toHsl(value:string) {
     return `hsl(${this.valueHash(value)}, 50%, 50%)`;

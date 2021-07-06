@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -36,25 +36,25 @@ import {
   Inject,
   Injector, ViewChild,
   ViewEncapsulation,
-} from "@angular/core";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { DatePickerModalHelper } from "core-app/shared/components/datepicker/datepicker.modal.helper";
-import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+} from '@angular/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { DatePickerModalHelper } from 'core-app/shared/components/datepicker/datepicker.modal.helper';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
-export type DateKeys = "date"|"start"|"end";
+export type DateKeys = 'date'|'start'|'end';
 
 @Component({
-  templateUrl: "./datepicker.modal.html",
-  styleUrls: ["./datepicker.modal.sass", "./datepicker_mobile.modal.sass"],
+  templateUrl: './datepicker.modal.html',
+  styleUrls: ['./datepicker.modal.sass', './datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
@@ -69,20 +69,20 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   @InjectField() browserDetector:BrowserDetector;
 
-  @ViewChild("modalContainer") modalContainer:ElementRef<HTMLElement>;
+  @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
   text = {
-    save: this.I18n.t("js.button_save"),
-    cancel: this.I18n.t("js.button_cancel"),
-    clear: this.I18n.t("js.work_packages.button_clear"),
-    manualScheduling: this.I18n.t("js.scheduling.manual"),
-    date: this.I18n.t("js.work_packages.properties.date"),
-    startDate: this.I18n.t("js.work_packages.properties.startDate"),
-    endDate: this.I18n.t("js.work_packages.properties.dueDate"),
-    placeholder: this.I18n.t("js.placeholders.default"),
-    today: this.I18n.t("js.label_today"),
-    isParent: this.I18n.t("js.work_packages.scheduling.is_parent"),
-    isSwitchedFromManualToAutomatic: this.I18n.t("js.work_packages.scheduling.is_switched_from_manual_to_automatic"),
+    save: this.I18n.t('js.button_save'),
+    cancel: this.I18n.t('js.button_cancel'),
+    clear: this.I18n.t('js.work_packages.button_clear'),
+    manualScheduling: this.I18n.t('js.scheduling.manual'),
+    date: this.I18n.t('js.work_packages.properties.date'),
+    startDate: this.I18n.t('js.work_packages.properties.startDate'),
+    endDate: this.I18n.t('js.work_packages.properties.dueDate'),
+    placeholder: this.I18n.t('js.placeholders.default'),
+    today: this.I18n.t('js.label_today'),
+    isParent: this.I18n.t('js.work_packages.scheduling.is_parent'),
+    isSwitchedFromManualToAutomatic: this.I18n.t('js.work_packages.scheduling.is_switched_from_manual_to_automatic'),
   };
 
   public onDataUpdated = new EventEmitter<string>();
@@ -91,12 +91,12 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   public scheduleManually = false;
 
-  public htmlId = "";
+  public htmlId = '';
 
   public dates:{ [key in DateKeys]:string } = {
-    date: "",
-    start: "",
-    end: "",
+    date: '',
+    start: '',
+    end: '',
   };
 
   private changeset:ResourceChangeset;
@@ -112,15 +112,15 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     this.changeset = locals.changeset;
     this.htmlId = `wp-datepicker-${locals.fieldName}`;
 
-    this.singleDate = this.changeset.isWritable("date");
-    this.scheduleManually = this.changeset.value("scheduleManually");
+    this.singleDate = this.changeset.isWritable('date');
+    this.scheduleManually = this.changeset.value('scheduleManually');
 
     if (this.singleDate) {
-      this.dates.date = this.changeset.value("date");
-      this.datepickerHelper.setCurrentActivatedField("date");
+      this.dates.date = this.changeset.value('date');
+      this.datepickerHelper.setCurrentActivatedField('date');
     } else {
-      this.dates.start = this.changeset.value("startDate");
-      this.dates.end = this.changeset.value("dueDate");
+      this.dates.start = this.changeset.value('startDate');
+      this.dates.end = this.changeset.value('dueDate');
       this.datepickerHelper.setCurrentActivatedField(this.initialActivatedField());
     }
   }
@@ -151,15 +151,15 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
     }
 
     // Apply the changed scheduling mode if any
-    this.changeset.setValue("scheduleManually", this.scheduleManually);
+    this.changeset.setValue('scheduleManually', this.scheduleManually);
 
     // Apply the dates if they could be changed
     if (this.isSchedulable) {
       if (this.singleDate) {
-        this.changeset.setValue("date", this.datepickerHelper.mappedDate(this.dates.date));
+        this.changeset.setValue('date', this.datepickerHelper.mappedDate(this.dates.date));
       } else {
-        this.changeset.setValue("startDate", this.datepickerHelper.mappedDate(this.dates.start));
-        this.changeset.setValue("dueDate", this.datepickerHelper.mappedDate(this.dates.end));
+        this.changeset.setValue('startDate', this.datepickerHelper.mappedDate(this.dates.start));
+        this.changeset.setValue('dueDate', this.datepickerHelper.mappedDate(this.dates.end));
       }
     }
 
@@ -171,7 +171,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   clear(key:DateKeys):void {
-    this.dates[key] = "";
+    this.dates[key] = '';
     this.enforceManualChangesToDatepicker();
   }
 
@@ -194,10 +194,10 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
     element.position({
-      my: "left top",
-      at: "left bottom",
+      my: 'left top',
+      at: 'left bottom',
       of: target,
-      collision: "flipfit",
+      collision: 'flipfit',
     });
   }
 
@@ -212,7 +212,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
       return false;
     }
 
-    if (key === "start") {
+    if (key === 'start') {
       return this.datepickerHelper.parseDate(new Date()) <= this.datepickerHelper.parseDate(this.dates.end);
     }
     return this.datepickerHelper.parseDate(new Date()) >= this.datepickerHelper.parseDate(this.dates.start);
@@ -242,7 +242,7 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   get isSwitchedFromManualToAutomatic():boolean {
-    return !this.scheduleManually && this.changeset.value("scheduleManually");
+    return !this.scheduleManually && this.changeset.value('scheduleManually');
   }
 
   private showDateSelection() {
@@ -258,10 +258,10 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   private initializeDatepicker() {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
-      "#flatpickr-input",
+      '#flatpickr-input',
       this.singleDate ? this.dates.date : [this.dates.start, this.dates.end],
       {
-        mode: this.singleDate ? "single" : "multiple",
+        mode: this.singleDate ? 'single' : 'multiple',
         showMonths: this.browserDetector.isMobile ? 1 : 2,
         inline: true,
         onChange: (dates:Date[]) => {
@@ -295,74 +295,74 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
 
   private handleDatePickerChange(dates:Date[]) {
     switch (dates.length) {
-    case 0: {
+      case 0: {
       // In case we removed the only value by clicking on a already selected date within the datepicker:
-      if (this.dates.start || this.dates.end) {
-        this.setDateAndToggleActiveField(this.dates.start || this.dates.end);
+        if (this.dates.start || this.dates.end) {
+          this.setDateAndToggleActiveField(this.dates.start || this.dates.end);
+        }
+
+        break;
       }
-
-      break;
-    }
-    case 1: {
-      if (this.singleDate) {
-        this.dates.date = this.timezoneService.formattedISODate(dates[0]);
-      } else {
+      case 1: {
+        if (this.singleDate) {
+          this.dates.date = this.timezoneService.formattedISODate(dates[0]);
+        } else {
         // In case we removed a value by clicking on a already selected date within the datepicker:
-        if (this.dates.start && this.dates.end) {
+          if (this.dates.start && this.dates.end) {
           // Both dates are the same, so it is correct to only highlight one date
-          if (this.dates.start === this.dates.end) {
-            return;
-          }
+            if (this.dates.start === this.dates.end) {
+              return;
+            }
 
-          // I wanted to set the new start date to the preselected endDate OR
-          // I wanted to set the new end date to the preselected startDate
-          if ((this.datepickerHelper.isStateOfCurrentActivatedField("start") && this.datepickerHelper.areDatesEqual(this.dates.start, dates[0]))
-                || (this.datepickerHelper.isStateOfCurrentActivatedField("end") && this.datepickerHelper.areDatesEqual(this.dates.end, dates[0]))) {
-              const otherDateIndex:DateKeys = this.datepickerHelper.isStateOfCurrentActivatedField("start") ? "end" : "start";
-            this.setDateAndToggleActiveField(this.dates[otherDateIndex]);
-          } else {
+            // I wanted to set the new start date to the preselected endDate OR
+            // I wanted to set the new end date to the preselected startDate
+            if ((this.datepickerHelper.isStateOfCurrentActivatedField('start') && this.datepickerHelper.areDatesEqual(this.dates.start, dates[0]))
+                || (this.datepickerHelper.isStateOfCurrentActivatedField('end') && this.datepickerHelper.areDatesEqual(this.dates.end, dates[0]))) {
+              const otherDateIndex:DateKeys = this.datepickerHelper.isStateOfCurrentActivatedField('start') ? 'end' : 'start';
+              this.setDateAndToggleActiveField(this.dates[otherDateIndex]);
+            } else {
             // I clicked on the already set start or end date (and thus removed it):
             // We restore both values
-            this.enforceManualChangesToDatepicker(true);
-          }
-        } else {
+              this.enforceManualChangesToDatepicker(true);
+            }
+          } else {
           // It is the first value we set (either start or end date)
-          this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[0]), false);
+            this.setDateAndToggleActiveField(this.timezoneService.formattedISODate(dates[0]), false);
+          }
         }
-      }
 
-      break;
-    }
-    case 2: {
-      if ((!this.dates.end && this.datepickerHelper.isStateOfCurrentActivatedField("start"))
-            || (!this.dates.start && this.datepickerHelper.isStateOfCurrentActivatedField("end"))) {
+        break;
+      }
+      case 2: {
+        if ((!this.dates.end && this.datepickerHelper.isStateOfCurrentActivatedField('start'))
+            || (!this.dates.start && this.datepickerHelper.isStateOfCurrentActivatedField('end'))) {
         // If we change a start date when no end date is set, we keep only the newly clicked value and not both
-        this.overwriteDatePickerWithNewDates([dates[1]]);
-      } else {
+          this.overwriteDatePickerWithNewDates([dates[1]]);
+        } else {
         // Sort dates so that the start date is always first
-        if (dates[0] > dates[1]) {
-          dates = this.datepickerHelper.sortDates(dates);
-          this.datepickerHelper.setDates(dates, this.datePickerInstance);
+          if (dates[0] > dates[1]) {
+            dates = this.datepickerHelper.sortDates(dates);
+            this.datepickerHelper.setDates(dates, this.datePickerInstance);
+          }
+
+          const index = this.datepickerHelper.isStateOfCurrentActivatedField('start') ? 0 : 1;
+          this.dates[this.datepickerHelper.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
+
+          this.setRangeClassesAndToggleActiveField();
         }
 
-        const index = this.datepickerHelper.isStateOfCurrentActivatedField("start") ? 0 : 1;
-        this.dates[this.datepickerHelper.currentlyActivatedDateField] = this.timezoneService.formattedISODate(dates[index]);
-
-        this.setRangeClassesAndToggleActiveField();
+        break;
       }
-
-      break;
-    }
-    default: {
+      default: {
       // Reset the date picker with the two new values
-      if (this.datepickerHelper.isStateOfCurrentActivatedField("start")) {
-        this.overwriteDatePickerWithNewDates([dates[2], dates[1]]);
-      } else {
-        this.overwriteDatePickerWithNewDates([dates[0], dates[2]]);
-      }
+        if (this.datepickerHelper.isStateOfCurrentActivatedField('start')) {
+          this.overwriteDatePickerWithNewDates([dates[2], dates[1]]);
+        } else {
+          this.overwriteDatePickerWithNewDates([dates[0], dates[2]]);
+        }
 
-      break;
-    }
+        break;
+      }
     }
 
     this.cdRef.detectChanges();
@@ -389,15 +389,15 @@ export class DatePickerModal extends OpModalComponent implements AfterViewInit {
   }
 
   private onDataChange() {
-    const date = this.dates.date || "";
-    const start = this.dates.start || "";
-    const end = this.dates.end || "";
+    const date = this.dates.date || '';
+    const start = this.dates.start || '';
+    const end = this.dates.end || '';
 
     const output = this.singleDate ? date : `${start} - ${end}`;
     this.onDataUpdated.emit(output);
   }
 
   private initialActivatedField():DateKeys {
-    return this.locals.fieldName === "dueDate" || (this.dates.start && !this.dates.end) ? "end" : "start";
+    return this.locals.fieldName === 'dueDate' || (this.dates.start && !this.dates.end) ? 'end' : 'start';
   }
 }

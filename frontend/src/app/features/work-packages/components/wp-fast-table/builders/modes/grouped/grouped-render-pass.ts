@@ -1,17 +1,17 @@
-import { Injector } from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { collapsedRowClass } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import { GroupSumsBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder";
-import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
-import { WorkPackageTable } from "../../../wp-fast-table";
-import { WorkPackageTableRow } from "../../../wp-table.interfaces";
-import { SingleRowBuilder } from "../../rows/single-row-builder";
-import { PlainRenderPass } from "../plain/plain-render-pass";
-import { groupClassNameFor, GroupHeaderBuilder } from "./group-header-builder";
-import { groupByProperty, groupedRowClassName } from "./grouped-rows-helpers";
+import { Injector } from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { collapsedRowClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
+import { GroupSumsBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder';
+import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
+import { WorkPackageTable } from '../../../wp-fast-table';
+import { WorkPackageTableRow } from '../../../wp-table.interfaces';
+import { SingleRowBuilder } from '../../rows/single-row-builder';
+import { PlainRenderPass } from '../plain/plain-render-pass';
+import { groupClassNameFor, GroupHeaderBuilder } from './group-header-builder';
+import { groupByProperty, groupedRowClassName } from './grouped-rows-helpers';
 
-export const groupRowClass = "-group-row";
+export const groupRowClass = '-group-row';
 
 export class GroupedRenderPass extends PlainRenderPass {
   private sumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
@@ -76,18 +76,18 @@ export class GroupedRenderPass extends PlainRenderPass {
         return this.matchesMultiValue(property as HalResource[], group);
       }
 
-      //// If its a linked resource, compare the href,
-      //// which is an array of links the resource offers
+      /// / If its a linked resource, compare the href,
+      /// / which is an array of links the resource offers
       if (property && property.href) {
         return !!_.find(group._links.valueLink, (l:any):any => property.href === l.href);
       }
 
       // Otherwise, fall back to simple value comparison.
-      let value = group.value === "" ? null : group.value;
+      let value = group.value === '' ? null : group.value;
 
       if (value) {
         // For matching we have to remove the % sign which is shown when grouping after progress
-        value = value.replace("%", "");
+        value = value.replace('%', '');
       }
 
       // Values provided by the API are always string
@@ -102,7 +102,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       return false;
     }
 
-    const joinedOrderedHrefs = (objects:any[]) => _.map(objects, object => object.href).sort().join(", ");
+    const joinedOrderedHrefs = (objects:any[]) => _.map(objects, (object) => object.href).sort().join(', ');
 
     return _.isEqualWith(
       property,

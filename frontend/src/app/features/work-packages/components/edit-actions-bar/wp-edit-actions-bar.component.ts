@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,25 +28,25 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 
 @Component({
-  templateUrl: "./wp-edit-actions-bar.html",
+  templateUrl: './wp-edit-actions-bar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: "wp-edit-actions-bar",
+  selector: 'wp-edit-actions-bar',
 })
 export class WorkPackageEditActionsBarComponent {
-  @Output("onSave") public onSave = new EventEmitter<void>();
+  @Output('onSave') public onSave = new EventEmitter<void>();
 
-  @Output("onCancel") public onCancel = new EventEmitter<void>();
+  @Output('onCancel') public onCancel = new EventEmitter<void>();
 
   public _saving = false;
 
   public text = {
-    save: this.I18n.t("js.button_save"),
-    cancel: this.I18n.t("js.button_cancel"),
+    save: this.I18n.t('js.button_save'),
+    cancel: this.I18n.t('js.button_cancel'),
   };
 
   constructor(private I18n:I18nService,

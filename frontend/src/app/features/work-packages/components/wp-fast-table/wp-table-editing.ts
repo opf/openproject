@@ -1,11 +1,11 @@
-import { Injector } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { TableEditForm } from "core-app/features/work-packages/components/wp-edit-form/table-edit-form";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class WorkPackageTableEditingContext {
   @InjectField() public halEditing:HalResourceEditingService;

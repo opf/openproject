@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
-import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
-import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";
-import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
-import { GridMoveService } from "core-app/shared/components/grids/grid/move.service";
-import { GridDragAndDropService } from "core-app/shared/components/grids/grid/drag-and-drop.service";
+import { Injectable } from '@angular/core';
+import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
+import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
+import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
+import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
+import { GridMoveService } from 'core-app/shared/components/grids/grid/move.service';
+import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
 
 @Injectable()
 export class GridResizeService {
@@ -63,7 +63,7 @@ export class GridResizeService {
     });
 
     this.targetIds = resizeTargets
-      .map(area => area.guid);
+      .map((area) => area.guid);
   }
 
   public moving(deltas:ResizeDelta) {

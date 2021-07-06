@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   Component, ElementRef, Input, ViewChild, OnInit,
-} from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { UploadFile } from "core-app/core/file-upload/op-file-upload.service";
+} from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 
 @Component({
-  selector: "attachments-upload",
-  templateUrl: "./attachments-upload.html",
+  selector: 'attachments-upload',
+  templateUrl: './attachments-upload.html',
 })
 export class AttachmentsUploadComponent implements OnInit {
   @Input() public resource:HalResource;
 
-  @ViewChild("hiddenFileInput") public filePicker:ElementRef;
+  @ViewChild('hiddenFileInput') public filePicker:ElementRef;
 
   public draggingOver = false;
 
@@ -59,10 +59,10 @@ export class AttachmentsUploadComponent implements OnInit {
     protected elementRef:ElementRef,
     protected halResourceService:HalResourceService) {
     this.text = {
-      uploadLabel: I18n.t("js.label_add_attachments"),
-      dropFiles: I18n.t("js.label_drop_files"),
-      dropFilesHint: I18n.t("js.label_drop_files_hint"),
-      foldersWarning: I18n.t("js.label_drop_folders_hint"),
+      uploadLabel: I18n.t('js.label_add_attachments'),
+      dropFiles: I18n.t('js.label_drop_files'),
+      dropFilesHint: I18n.t('js.label_drop_files_hint'),
+      foldersWarning: I18n.t('js.label_drop_folders_hint'),
     };
   }
 
@@ -81,7 +81,7 @@ export class AttachmentsUploadComponent implements OnInit {
   }
 
   public onDropFiles(event:DragEvent) {
-    event.dataTransfer!.dropEffect = "copy";
+    event.dataTransfer!.dropEffect = 'copy';
     event.preventDefault();
     event.stopPropagation();
 
@@ -99,7 +99,7 @@ export class AttachmentsUploadComponent implements OnInit {
 
   public onDragOver(event:DragEvent) {
     if (this.containsFiles(event.dataTransfer)) {
-      event.dataTransfer!.dropEffect = "copy";
+      event.dataTransfer!.dropEffect = 'copy';
       this.draggingOver = true;
     }
 
@@ -120,9 +120,9 @@ export class AttachmentsUploadComponent implements OnInit {
 
   private containsFiles(dataTransfer:any) {
     if (dataTransfer.types.contains) {
-      return dataTransfer.types.contains("Files");
+      return dataTransfer.types.contains('Files');
     }
-    return (dataTransfer as DataTransfer).types.indexOf("Files") >= 0;
+    return (dataTransfer as DataTransfer).types.indexOf('Files') >= 0;
   }
 
   protected uploadFiles(files:UploadFile[]):void {
@@ -150,7 +150,7 @@ export class AttachmentsUploadComponent implements OnInit {
   protected filterFolders(files:UploadFile[]) {
     return files.filter((file) => {
       // Folders never have a mime type
-      if (file.type !== "") {
+      if (file.type !== '') {
         return true;
       }
 

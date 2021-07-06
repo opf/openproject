@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HighlightingMode } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { QuerySortByResource } from "core-app/features/hal/resources/query-sort-by-resource";
-import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 export interface QueryResourceEmbedded {
   results:WorkPackageCollectionResource;
@@ -45,7 +45,7 @@ export interface QueryResourceEmbedded {
   filters:QueryFilterInstanceResource[];
 }
 
-export type TimelineZoomLevel = "days"|"weeks"|"months"|"quarters"|"years"|"auto";
+export type TimelineZoomLevel = 'days'|'weeks'|'months'|'quarters'|'years'|'auto';
 
 export interface TimelineLabels {
   left:string|null;
@@ -104,7 +104,7 @@ export class QueryResource extends HalResource {
         filter,
         true,
         this.halInitializer,
-        "QueryFilterInstance",
+        'QueryFilterInstance',
       ));
   }
 }

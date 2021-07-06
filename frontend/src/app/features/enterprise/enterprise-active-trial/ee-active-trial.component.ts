@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,18 +28,18 @@
 
 import {
   ChangeDetectorRef, Component, ElementRef, OnInit,
-} from "@angular/core";
-import { distinctUntilChanged } from "rxjs/operators";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { EnterpriseTrialService } from "core-app/features/enterprise/enterprise-trial.service";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { EEActiveTrialBase } from "core-app/features/enterprise/enterprise-active-trial/ee-active-trial.base";
-import { GonService } from "core-app/core/gon/gon.service";
+} from '@angular/core';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { EEActiveTrialBase } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-trial.base';
+import { GonService } from 'core-app/core/gon/gon.service';
 
 @Component({
-  selector: "enterprise-active-trial",
-  templateUrl: "./ee-active-trial.component.html",
-  styleUrls: ["./ee-active-trial.component.sass"],
+  selector: 'enterprise-active-trial',
+  templateUrl: './ee-active-trial.component.html',
+  styleUrls: ['./ee-active-trial.component.sass'],
 })
 export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit {
   public subscriber:string;
@@ -73,7 +73,7 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
           distinctUntilChanged(),
           this.untilDestroyed(),
         )
-        .subscribe(userForm => {
+        .subscribe((userForm) => {
           this.formatUserData(userForm);
           this.cdRef.detectChanges();
         });
@@ -83,7 +83,7 @@ export class EEActiveTrialComponent extends EEActiveTrialBase implements OnInit 
   }
 
   private initialize():void {
-    const eeTrialKey = this.Gon.get("ee_trial_key") as any;
+    const eeTrialKey = this.Gon.get('ee_trial_key') as any;
 
     if (eeTrialKey && !this.eeTrialService.userData$.hasValue()) {
       // after reload: get data from Augur using the trial key saved in gon

@@ -1,8 +1,8 @@
-import * as ObservableArray from "observable-array";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalLink } from "core-app/features/hal/hal-link/hal-link";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { OpenprojectHalModuleHelpers } from "core-app/features/hal/helpers/lazy-accessor";
+import * as ObservableArray from 'observable-array';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { OpenprojectHalModuleHelpers } from 'core-app/features/hal/helpers/lazy-accessor';
 
 interface HalSource {
   _links:any;
@@ -15,7 +15,7 @@ export function cloneHalResourceCollection<T extends HalResource>(values:T[]|und
   if (_.isNil(values)) {
     return [];
   }
-  return values.map(v => v.$copy<T>());
+  return values.map((v) => v.$copy<T>());
 }
 
 export function cloneHalResource<T extends HalResource>(value:T|undefined):T|undefined {
@@ -80,24 +80,24 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
           const link:any = halResource.$links[linkName].$link || halResource.$links[linkName];
 
           if (Array.isArray(link)) {
-            var items = link.map(item => halResourceService.createLinkedResource(halResource,
+            const items = link.map((item) => halResourceService.createLinkedResource(halResource,
               linkName,
               item.$link));
-            var property:HalResource[] = new ObservableArray(...items).on("change", () => {
-              property.forEach(item => {
+            var property:HalResource[] = new ObservableArray(...items).on('change', () => {
+              property.forEach((item) => {
                 if (!item.$link) {
                   property.splice(property.indexOf(item), 1);
                 }
               });
 
-              halResource.$source._links[linkName] = property.map(item => item.$link);
+              halResource.$source._links[linkName] = property.map((item) => item.$link);
             });
 
             return property;
           }
 
           if (link.href) {
-            if (link.method !== "get") {
+            if (link.method !== 'get') {
               return HalLink.fromObject(halResourceService, link).$callable();
             }
 
@@ -115,7 +115,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       return;
     }
 
-    Object.keys(halResource.$source._embedded).forEach(name => {
+    Object.keys(halResource.$source._embedded).forEach((name) => {
       OpenprojectHalModuleHelpers.lazy(halResource,
         name,
         () => halResource.$embedded[name],
@@ -129,7 +129,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     const sourceObj:any = halResource.$source[sourceName];
 
     if (_.isObject(sourceObj)) {
-      Object.keys(sourceObj).forEach(propName => {
+      Object.keys(sourceObj).forEach((propName) => {
         OpenprojectHalModuleHelpers.lazy((halResource)[instanceName],
           propName,
           () => callback((sourceObj as any)[propName]));
@@ -138,17 +138,17 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
   }
 
   function setupLinks() {
-    setupProperty("links",
+    setupProperty('links',
       (link) => {
         if (Array.isArray(link)) {
-          return link.map(l => HalLink.fromObject(halResourceService, l).$callable());
+          return link.map((l) => HalLink.fromObject(halResourceService, l).$callable());
         }
         return HalLink.fromObject(halResourceService, link).$callable();
       });
   }
 
   function setupEmbedded() {
-    setupProperty("embedded", (element:any) => {
+    setupProperty('embedded', (element:any) => {
       if (Array.isArray(element)) {
         return element.map((source) => asHalResource(source, true));
       }
@@ -174,13 +174,13 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       halResource.$source._links[linkName] = { href: null };
     } else if (isArray) {
       halResource.$source._links[linkName] = (val as HalResource[]).map((el:any) => ({ href: el.href }));
-    } else if (val.hasOwnProperty("$link")) {
+    } else if (val.hasOwnProperty('$link')) {
       const link = (val as HalResource).$link;
 
       if (link.href) {
         halResource.$source._links[linkName] = link;
       }
-    } else if ("href" in val) {
+    } else if ('href' in val) {
       halResource.$source._links[linkName] = { href: val.href };
     }
 
@@ -188,9 +188,9 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       halResource.$embedded[linkName] = val;
 
       if (isArray) {
-        halResource.$source._embedded[linkName] = (val as HalResource[]).map(el => el.$source);
+        halResource.$source._embedded[linkName] = (val as HalResource[]).map((el) => el.$source);
       } else {
-        halResource.$source._embedded[linkName] = _.get(val, "$source", val);
+        halResource.$source._embedded[linkName] = _.get(val, '$source', val);
       }
     }
 

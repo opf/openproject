@@ -1,24 +1,24 @@
 import {
   Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy,
-} from "@angular/core";
+} from '@angular/core';
 import {
   WorkPackageEmbeddedGraphComponent,
   WorkPackageEmbeddedGraphDataset,
-} from "core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ChartOptions } from "chart.js";
-import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
+} from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ChartOptions } from 'chart.js';
+import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import {
   WpGraphConfiguration,
   WpGraphQueryParams,
-} from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
+} from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 
-export const wpOverviewGraphSelector = "wp-overview-graph";
+export const wpOverviewGraphSelector = 'wp-overview-graph';
 
 @Component({
   selector: wpOverviewGraphSelector,
-  templateUrl: "./wp-overview-graph.template.html",
-  styleUrls: ["./wp-overview-graph.component.sass"],
+  templateUrl: './wp-overview-graph.template.html',
+  styleUrls: ['./wp-overview-graph.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     WpGraphConfigurationService,
@@ -28,11 +28,11 @@ export const wpOverviewGraphSelector = "wp-overview-graph";
 export class WorkPackageOverviewGraphComponent implements OnInit {
   @Input() additionalFilter:any;
 
-  @ViewChild("wpEmbeddedGraphMulti") private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
+  @ViewChild('wpEmbeddedGraphMulti') private embeddedGraphMulti:WorkPackageEmbeddedGraphComponent;
 
-  @ViewChild("wpEmbeddedGraphSingle") private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
+  @ViewChild('wpEmbeddedGraphSingle') private embeddedGraphSingle:WorkPackageEmbeddedGraphComponent;
 
-  @Input() groupBy = "status";
+  @Input() groupBy = 'status';
 
   @Input() chartOptions:ChartOptions = { maintainAspectRatio: false };
 
@@ -48,17 +48,17 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     readonly I18n:I18nService,
     readonly graphConfigurationService:WpGraphConfigurationService,
     protected readonly cdr:ChangeDetectorRef) {
-    this.availableGroupBy = [{ label: I18n.t("js.work_packages.properties.category"), key: "category" },
-      { label: I18n.t("js.work_packages.properties.type"), key: "type" },
-      { label: I18n.t("js.work_packages.properties.status"), key: "status" },
-      { label: I18n.t("js.work_packages.properties.priority"), key: "priority" },
-      { label: I18n.t("js.work_packages.properties.author"), key: "author" },
-      { label: I18n.t("js.work_packages.properties.assignee"), key: "assignee" }];
+    this.availableGroupBy = [{ label: I18n.t('js.work_packages.properties.category'), key: 'category' },
+      { label: I18n.t('js.work_packages.properties.type'), key: 'type' },
+      { label: I18n.t('js.work_packages.properties.status'), key: 'status' },
+      { label: I18n.t('js.work_packages.properties.priority'), key: 'priority' },
+      { label: I18n.t('js.work_packages.properties.author'), key: 'author' },
+      { label: I18n.t('js.work_packages.properties.assignee'), key: 'assignee' }];
   }
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;
-    this.additionalFilter = JSON.parse(element.getAttribute("additional-filter"));
+    this.additionalFilter = JSON.parse(element.getAttribute('additional-filter'));
 
     this.setQueryProps();
   }
@@ -68,7 +68,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
 
     const params = this.graphParams;
 
-    this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, "horizontalBar");
+    this.graphConfigurationService.configuration = new WpGraphConfiguration(params, {}, 'horizontalBar');
 
     // 'finally' was not available yet so the code for the change detection is duplicated
     this
@@ -80,7 +80,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
         this.cdr.detectChanges();
       })
       .catch(() => {
-        this.error = this.I18n.t("js.chart.errors.could_not_load");
+        this.error = this.I18n.t('js.chart.errors.could_not_load');
 
         this.cdr.detectChanges();
       });
@@ -89,15 +89,15 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   public get graphParams() {
     const params = [];
 
-    if (this.groupBy === "status") {
+    if (this.groupBy === 'status') {
       this.displayModeSingle = true;
 
-      params.push({ name: this.I18n.t("js.label_all"), props: this.propsBoth });
+      params.push({ name: this.I18n.t('js.label_all'), props: this.propsBoth });
     } else {
       this.displayModeSingle = false;
 
-      params.push({ name: this.I18n.t("js.label_open_work_packages"), props: this.propsOpen });
-      params.push({ name: this.I18n.t("js.label_closed_work_packages"), props: this.propsClosed });
+      params.push({ name: this.I18n.t('js.label_open_work_packages'), props: this.propsOpen });
+      params.push({ name: this.I18n.t('js.label_closed_work_packages'), props: this.propsClosed });
     }
 
     return params;
@@ -114,15 +114,15 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
   }
 
   public get propsOpen() {
-    return this.baseProps({ status: { operator: "o", values: [] } });
+    return this.baseProps({ status: { operator: 'o', values: [] } });
   }
 
   public get propsClosed() {
-    return this.baseProps({ status: { operator: "c", values: [] } });
+    return this.baseProps({ status: { operator: 'c', values: [] } });
   }
 
   private baseProps(filter?:any) {
-    const filters = [{ subprojectId: { operator: "*", values: [] } }];
+    const filters = [{ subprojectId: { operator: '*', values: [] } }];
 
     if (filter) {
       filters.push(filter);
@@ -133,7 +133,7 @@ export class WorkPackageOverviewGraphComponent implements OnInit {
     }
 
     return {
-      "columns[]": [],
+      'columns[]': [],
       filters: JSON.stringify(filters),
       group_by: this.groupBy,
       pageSize: 0,

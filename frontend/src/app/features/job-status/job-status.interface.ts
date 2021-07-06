@@ -1,4 +1,4 @@
-export type JobStatusEnum = "in_queue"|"error"|"in_process"|"success"|"failure"|"cancelled";
+export type JobStatusEnum = 'in_queue'|'error'|'in_process'|'success'|'failure'|'cancelled';
 
 export interface JobStatusInterface {
   /**

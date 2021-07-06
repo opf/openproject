@@ -1,4 +1,4 @@
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export namespace AngularTrackingHelpers {
   export function halHref<T extends HalResource>(_index:number, item:T):string|null {
@@ -6,7 +6,7 @@ export namespace AngularTrackingHelpers {
   }
 
   export function compareByName<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {
-    return compareByAttribute("name")(a, b);
+    return compareByAttribute('name')(a, b);
   }
 
   export function compareByAttribute(attribute:string) {
@@ -17,11 +17,11 @@ export namespace AngularTrackingHelpers {
   }
 
   export function trackByName(i:number, item:any) {
-    return _.get(item, "name");
+    return _.get(item, 'name');
   }
 
   export function trackByHref(i:number, item:{ href?:unknown }) {
-    return _.get(item, "href");
+    return _.get(item, 'href');
   }
 
   export function trackByProperty(prop:string) {
@@ -30,15 +30,15 @@ export namespace AngularTrackingHelpers {
 
   export function trackByHrefAndProperty(propertyName:string) {
     return (i:number, item:HalResource) => {
-      const href = _.get(item, "href");
-      const prop = _.get(item, propertyName, "none");
+      const href = _.get(item, 'href');
+      const prop = _.get(item, propertyName, 'none');
 
       return `${href}#${propertyName}=${prop}`;
     };
   }
 
   export function trackByTrackingIdentifier(i:number, item:any) {
-    return _.get(item, "trackingIdentifier", item && item.href);
+    return _.get(item, 'trackingIdentifier', item && item.href);
   }
 
   export function compareByHref<T extends HalResource>(a:T|undefined|null, b:T|undefined|null):boolean {

@@ -1,26 +1,26 @@
-import { Injectable } from "@angular/core";
-import { Board } from "core-app/features/boards/board/board";
-import { StatusResource } from "core-app/features/hal/resources/status-resource";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
-import { StatusBoardHeaderComponent } from "core-app/features/boards/board/board-actions/status/status-board-header.component";
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
+import { Injectable } from '@angular/core';
+import { Board } from 'core-app/features/boards/board/board';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
+import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
+import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
+import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';
+import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
 
 @Injectable()
 export class BoardStatusActionService extends CachedBoardActionService {
-  filterName = "status";
+  filterName = 'status';
 
-  text = this.I18n.t("js.boards.board_type.board_type_title.status");
+  text = this.I18n.t('js.boards.board_type.board_type_title.status');
 
-  description = this.I18n.t("js.boards.board_type.action_text_status");
+  description = this.I18n.t('js.boards.board_type.action_text_status');
 
-  label = this.I18n.t("js.boards.add_list_modal.labels.status");
+  label = this.I18n.t('js.boards.add_list_modal.labels.status');
 
-  icon = "icon-workflow";
+  icon = 'icon-workflow';
 
-  image = ImageHelpers.imagePath("board_creation_modal/status.svg");
+  image = ImageHelpers.imagePath('board_creation_modal/status.svg');
 
-  localizedName = this.I18n.t("js.work_packages.properties.status");
+  localizedName = this.I18n.t('js.work_packages.properties.status');
 
   headerComponent() {
     return StatusBoardHeaderComponent;
@@ -43,7 +43,7 @@ export class BoardStatusActionService extends CachedBoardActionService {
   }
 
   public warningTextWhenNoOptionsAvailable() {
-    return Promise.resolve(this.I18n.t("js.boards.add_list_modal.warning.status"));
+    return Promise.resolve(this.I18n.t('js.boards.add_list_modal.warning.status'));
   }
 
   protected loadUncached():Promise<StatusResource[]> {
@@ -52,6 +52,6 @@ export class BoardStatusActionService extends CachedBoardActionService {
       .statuses
       .get()
       .toPromise()
-      .then(collection => collection.elements);
+      .then((collection) => collection.elements);
   }
 }

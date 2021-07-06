@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector, OnDestroy } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
-import { WpRelationInlineAddExistingComponent } from "core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
-import { WpRelationInlineCreateServiceInterface } from "core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { Injectable, Injector, OnDestroy } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { WpRelationInlineAddExistingComponent } from 'core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component';
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { WpRelationInlineCreateServiceInterface } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Injectable()
 export class WpRelationInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface, OnDestroy {
@@ -50,7 +50,7 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
   /**
    * Defines the relation type for the relations inline create
    */
-  public relationType = "";
+  public relationType = '';
 
   /**
    * Add a new relation of the above type
@@ -89,7 +89,7 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
    * Reference button text
    */
   public readonly buttonTexts = {
-    reference: this.I18n.t("js.relation_buttons.add_existing"),
-    create: this.I18n.t("js.relation_buttons.create_new"),
+    reference: this.I18n.t('js.relation_buttons.add_existing'),
+    create: this.I18n.t('js.relation_buttons.create_new'),
   };
 }

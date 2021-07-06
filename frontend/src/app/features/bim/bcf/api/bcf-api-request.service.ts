@@ -1,17 +1,17 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { Injector } from "@angular/core";
-import { TypedJSON } from "typedjson";
-import { Constructor } from "@angular/cdk/table";
-import { Observable, throwError } from "rxjs";
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Injector } from '@angular/core';
+import { TypedJSON } from 'typedjson';
+import { Constructor } from '@angular/cdk/table';
+import { Observable, throwError } from 'rxjs';
 import {
   HTTPClientHeaders,
   HTTPClientOptions,
   HTTPClientParamMap,
   HTTPSupportedMethods,
-} from "core-app/features/hal/http/http.interfaces";
-import { catchError, map } from "rxjs/operators";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { URLParamsEncoder } from "core-app/features/hal/services/url-params-encoder";
+} from 'core-app/features/hal/http/http.interfaces';
+import { catchError, map } from 'rxjs/operators';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { URLParamsEncoder } from 'core-app/features/hal/services/url-params-encoder';
 
 export class BcfApiRequestService<T> {
   @InjectField() http:HttpClient;
@@ -39,10 +39,10 @@ export class BcfApiRequestService<T> {
       headers,
       params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: params }),
       withCredentials: true,
-      responseType: "json",
+      responseType: 'json',
     };
 
-    return this._request("get", path, config);
+    return this._request('get', path, config);
   }
 
   /**
@@ -56,7 +56,7 @@ export class BcfApiRequestService<T> {
   public request(method:HTTPSupportedMethods, path:string, data:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}):Observable<T> {
     // HttpClient requires us to create HttpParams instead of passing data for get
     // so forward to that method instead.
-    if (method === "get") {
+    if (method === 'get') {
       return this.get(path, data, headers);
     }
 
@@ -64,7 +64,7 @@ export class BcfApiRequestService<T> {
       body: data || {},
       headers,
       withCredentials: true,
-      responseType: "json",
+      responseType: 'json',
     };
 
     return this._request(method, path, config);

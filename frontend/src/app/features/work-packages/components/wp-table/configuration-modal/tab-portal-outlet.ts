@@ -2,15 +2,15 @@
  * A PortalOutlet that lets multiple components live for the lifetime of the outlet,
  * allowing faster switching and persistent data.
  */
-import { ComponentPortal } from "@angular/cdk/portal";
+import { ComponentPortal } from '@angular/cdk/portal';
 import {
   ApplicationRef,
   ComponentFactoryResolver,
   ComponentRef,
   EmbeddedViewRef,
   Injector,
-} from "@angular/core";
-import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";
+} from '@angular/core';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 
 export interface TabInterface extends TabDefinition {
   componentClass:{ new(...args:any[]):TabComponent };
@@ -60,7 +60,7 @@ export class TabPortalOutlet {
 
     // At this point the component has been instantiated, so we move it to the location in the DOM
     // where we want it to be rendered.
-    this.outletElement.innerHTML = "";
+    this.outletElement.innerHTML = '';
     this.outletElement.appendChild(this._getComponentRootNode(instance.componentRef));
     this.outletElement.dataset.tabName = tab.name;
     this.currentTab = instance;
@@ -79,7 +79,7 @@ export class TabPortalOutlet {
    */
   dispose():void {
     // Dispose all active tabs
-    _.each(this.activeTabs, active => active.dispose());
+    _.each(this.activeTabs, (active) => active.dispose());
 
     // Remove outlet element
     if (this.outletElement.parentNode != null) {

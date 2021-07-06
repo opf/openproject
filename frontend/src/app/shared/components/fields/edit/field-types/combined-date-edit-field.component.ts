@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { take } from "rxjs/operators";
-import { DateEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { DatePickerModal } from "core-app/shared/components/datepicker/datepicker.modal";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { take } from 'rxjs/operators';
+import { DateEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { DatePickerModal } from 'core-app/shared/components/datepicker/datepicker.modal';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   template: `
@@ -48,11 +48,11 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
 
   @InjectField() opModalService:OpModalService;
 
-  dates = "";
+  dates = '';
 
-  text_no_start_date = this.I18n.t("js.label_no_start_date");
+  text_no_start_date = this.I18n.t('js.label_no_start_date');
 
-  text_no_due_date = this.I18n.t("js.label_no_due_date");
+  text_no_due_date = this.I18n.t('js.label_no_due_date');
 
   private modal:OpModalComponent;
 
@@ -84,7 +84,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       .show(DatePickerModal, this.injector, { changeset: this.change, fieldName: this.name }, true);
 
     setTimeout(() => {
-      const modalElement = jQuery(modal.elementRef.nativeElement).find(".datepicker-modal");
+      const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');
       const field = jQuery(this.elementRef.nativeElement);
       modal.reposition(modalElement, field);
     });

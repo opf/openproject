@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,21 +28,21 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output,
-} from "@angular/core";
-import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import { CardViewOrientation } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
-import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { distinctUntilChanged, takeUntil } from "rxjs/operators";
-import { HighlightingMode } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
-import { WorkPackageCardDragAndDropService } from "core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service";
-import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
-import { WorkPackageTableConfiguration } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
-import { WorkPackageViewOutputs } from "core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry";
+} from '@angular/core';
+import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { CardViewOrientation } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { HighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 @Component({
-  selector: "wp-grid",
+  selector: 'wp-grid',
   template: `
     <wp-card-view [dragOutOfHandler]="canDragOutOf"
                   [dragInto]="dragInto"
@@ -76,9 +76,9 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
 
   @Input() public showResizer = false;
 
-  @Input() public resizerClass = "";
+  @Input() public resizerClass = '';
 
-  @Input() public resizerStorageKey = "";
+  @Input() public resizerStorageKey = '';
 
   @Output() selectionChanged = new EventEmitter<string[]>();
 
@@ -90,9 +90,9 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs {
 
   public dragInto:boolean;
 
-  public gridOrientation:CardViewOrientation = "horizontal";
+  public gridOrientation:CardViewOrientation = 'horizontal';
 
-  public highlightingMode:HighlightingMode = "none";
+  public highlightingMode:HighlightingMode = 'none';
 
   constructor(readonly wpTableHighlight:WorkPackageViewHighlightingService,
     readonly wpTableSortBy:WorkPackageViewSortByService,

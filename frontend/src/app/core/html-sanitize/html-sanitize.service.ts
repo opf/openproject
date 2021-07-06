@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, SecurityContext } from "@angular/core";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { Injectable, SecurityContext } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class HTMLSanitizeService {
   public constructor(readonly sanitizer:DomSanitizer) { }
 
   public sanitize(string:string):SafeHtml {
-    return this.sanitizer.sanitize(SecurityContext.HTML, string) || "";
+    return this.sanitizer.sanitize(SecurityContext.HTML, string) || '';
   }
 }

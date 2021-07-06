@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { Injectable, Injector } from "@angular/core";
-import { WpButtonMacroModal } from "core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
-import { WikiIncludePageMacroModal } from "core-app/shared/components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
-import { CodeBlockMacroModal } from "core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal";
-import { ChildPagesMacroModal } from "core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { Injectable, Injector } from '@angular/core';
+import { WpButtonMacroModal } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
+import { WikiIncludePageMacroModal } from 'core-app/shared/components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
+import { CodeBlockMacroModal } from 'core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal';
+import { ChildPagesMacroModal } from 'core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
 
 @Injectable()
 export class EditorMacrosService {
@@ -60,7 +60,7 @@ export class EditorMacrosService {
    */
   public configureWikiPageInclude(page:string):Promise<string> {
     return new Promise<string>((resolve, _) => {
-      const pageValue = page || "";
+      const pageValue = page || '';
       const modal = this.opModalService.show(WikiIncludePageMacroModal, this.injector, { page: pageValue });
       modal.closingEvent.subscribe((modal:WikiIncludePageMacroModal) => {
         if (modal.changed) {

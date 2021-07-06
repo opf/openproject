@@ -1,10 +1,10 @@
-import { environment } from "../../../environments/environment";
+import { environment } from '../../../environments/environment';
 
 /**
  * Execute the callback when DEBUG is defined
  * through webpack.
  */
-export function whenDebugging(cb:Function) {
+export function whenDebugging(cb:() => void) {
   if (!environment.production) {
     cb();
   }
@@ -20,12 +20,12 @@ export function debugLog(message:string, ...args:any[]) {
 
 export function timeOutput(msg:string, cb:() => void):any {
   if (!environment.production) {
-    var t0 = performance.now();
+    const t0 = performance.now();
 
-    var results = cb();
+    const results = cb();
 
-    var t1 = performance.now();
-    console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, "color:#00A093;");
+    const t1 = performance.now();
+    console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, 'color:#00A093;');
 
     return results;
   }
@@ -34,11 +34,11 @@ export function timeOutput(msg:string, cb:() => void):any {
 
 export function asyncTimeOutput(msg:string, promise:Promise<any>):any {
   if (!environment.production) {
-    var t0 = performance.now();
+    const t0 = performance.now();
 
     return promise.then(() => {
-      var t1 = performance.now();
-      console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, "color:#00A093;");
+      const t1 = performance.now();
+      console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, 'color:#00A093;');
     });
   }
   return promise;

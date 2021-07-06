@@ -1,13 +1,13 @@
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { WorkPackageSchemaProxy } from "core-app/features/hal/schemas/work-package-schema-proxy";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
 
 export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource> {
   public setValue(key:string, val:any) {
     super.setValue(key, val);
 
-    if (key === "project" || key === "type") {
+    if (key === 'project' || key === 'type') {
       this.updateForm();
     }
   }
@@ -24,7 +24,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
   protected setNewDefaultFor(key:string, val:unknown) {
     // Special handling for taking over the description
     // to the pristine resource
-    if (key === "description" && this.pristineResource.isNew) {
+    if (key === 'description' && this.pristineResource.isNew) {
       this.pristineResource.description = val;
       return;
     }

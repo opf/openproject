@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { of, forkJoin } from "rxjs";
+import { Injectable } from '@angular/core';
+import { of, forkJoin } from 'rxjs';
 import {
   take, map, mergeMap, distinctUntilChanged, tap,
-} from "rxjs/operators";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { CurrentUserStore, CurrentUser } from "./current-user.store";
-import { CurrentUserQuery } from "./current-user.query";
+} from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { CurrentUserStore, CurrentUser } from './current-user.store';
+import { CurrentUserQuery } from './current-user.query';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class CurrentUserService {
   private PAGE_FETCH_SIZE = 1000;
 
@@ -62,7 +62,7 @@ export class CurrentUserService {
    * This refetches the global and current project capabilities
    */
   public setUser(user:CurrentUser) {
-    this.currentUserStore.update(state => ({
+    this.currentUserStore.update((state) => ({
       ...state,
       ...user,
     }));
@@ -76,7 +76,7 @@ export class CurrentUserService {
   public fetchCapabilities(contexts:string[] = []) {
     this.user$.pipe(take(1)).subscribe((user) => {
       if (!user.id) {
-        this.currentUserStore.update(state => ({
+        this.currentUserStore.update((state) => ({
           ...state,
           capabilities: [],
         }));
@@ -84,9 +84,9 @@ export class CurrentUserService {
         return;
       }
 
-      const filters:[string, FilterOperator, string[]][] = [["principal", "=", [user.id]]];
+      const filters:[string, FilterOperator, string[]][] = [['principal', '=', [user.id]]];
       if (contexts.length) {
-        filters.push(["context", "=", contexts.map(context => (context === "global" ? "g" : `p${context}`))]);
+        filters.push(['context', '=', contexts.map((context) => (context === 'global' ? 'g' : `p${context}`))]);
       }
 
       this.apiV3Service.capabilities.list({
@@ -126,11 +126,11 @@ export class CurrentUserService {
           }),
         )
         .subscribe((capabilities) => {
-          this.currentUserStore.update(state => ({
+          this.currentUserStore.update((state) => ({
             ...state,
             capabilities: [
               ...capabilities,
-              ...(state.capabilities || []).filter(cap => !!capabilities.find(newCap => newCap.id === cap.id)),
+              ...(state.capabilities || []).filter((cap) => !!capabilities.find((newCap) => newCap.id === cap.id)),
             ],
           }));
         });
@@ -144,7 +144,7 @@ export class CurrentUserService {
    */
   public capabilitiesForContext$(contextId:string) {
     return this.capabilities$.pipe(
-      map((capabilities) => capabilities.filter(cap => cap.context.href.endsWith(`/${contextId}`))),
+      map((capabilities) => capabilities.filter((cap) => cap.context.href.endsWith(`/${contextId}`))),
       distinctUntilChanged(),
     );
   }
@@ -152,11 +152,11 @@ export class CurrentUserService {
   /**
    * Returns an Observable<boolean> indicating whether the user has the required capabilities in the provided context.
    */
-  public hasCapabilities$(action:string|string[], contextId = "global") {
+  public hasCapabilities$(action:string|string[], contextId = 'global') {
     const actions = _.castArray(action);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => actions.reduce(
-        (acc, action) => acc && !!capabilities.find(cap => cap.action.href.endsWith(`/api/v3/actions/${action}`)),
+        (acc, action) => acc && !!capabilities.find((cap) => cap.action.href.endsWith(`/api/v3/actions/${action}`)),
         capabilities.length > 0,
       )),
       distinctUntilChanged(),
@@ -166,11 +166,11 @@ export class CurrentUserService {
   /**
    * Returns an Observable<boolean> indicating whether the user has any of the required capabilities in the provided context.
    */
-  public hasAnyCapabilityOf$(actions:string|string[], contextId = "global") {
+  public hasAnyCapabilityOf$(actions:string|string[], contextId = 'global') {
     const actionsToFilter = _.castArray(actions);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => capabilities.reduce(
-        (acc, cap) => acc || !!actionsToFilter.find(action => cap.action.href.endsWith(`/api/v3/actions/${action}`)),
+        (acc, cap) => acc || !!actionsToFilter.find((action) => cap.action.href.endsWith(`/api/v3/actions/${action}`)),
         false,
       )),
       distinctUntilChanged(),
@@ -180,8 +180,8 @@ export class CurrentUserService {
   // Everything below this is deprecated legacy interfacing and should not be used
 
   private setupLegacyDataListeners() {
-    this.currentUserQuery.user$.subscribe(user => this._user = user);
-    this.currentUserQuery.isLoggedIn$.subscribe(isLoggedIn => this._isLoggedIn = isLoggedIn);
+    this.currentUserQuery.user$.subscribe((user) => this._user = user);
+    this.currentUserQuery.isLoggedIn$.subscribe((isLoggedIn) => this._isLoggedIn = isLoggedIn);
   }
 
   private _isLoggedIn = false;
@@ -199,17 +199,17 @@ export class CurrentUserService {
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get userId() {
-    return this._user.id || "";
+    return this._user.id || '';
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get name() {
-    return this._user.name || "";
+    return this._user.name || '';
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
   public get mail() {
-    return this._user.mail || "";
+    return this._user.mail || '';
   }
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
@@ -219,6 +219,6 @@ export class CurrentUserService {
 
   /** @deprecated Use `I18nService.locale` instead */
   public get language() {
-    return I18n.locale || "en";
+    return I18n.locale || 'en';
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,17 +27,17 @@
 //++
 
 export function refreshOnFormChanges() {
-  const matches = document.querySelectorAll(".augment--refresh-on-form-changes");
+  const matches = document.querySelectorAll('.augment--refresh-on-form-changes');
 
   for (let i = 0; i < matches.length; i++) {
     const element = matches[i];
     const form = jQuery(element);
-    const url = form.data("refreshUrl");
-    const inputId = form.data("inputSelector");
+    const url = form.data('refreshUrl');
+    const inputId = form.data('inputSelector');
 
     form
       .find(inputId)
-      .on("change", () => {
+      .on('change', () => {
         window.location.href = `${url}?${form.serialize()}`;
       });
   }

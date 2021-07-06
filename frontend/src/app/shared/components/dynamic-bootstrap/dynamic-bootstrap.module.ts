@@ -1,5 +1,5 @@
-import { NgModule } from "@angular/core";
-import { DynamicBootstrapComponent } from "./component/dynamic-bootstrap/dynamic-bootstrap.component";
+import { NgModule } from '@angular/core';
+import { DynamicBootstrapComponent } from './component/dynamic-bootstrap/dynamic-bootstrap.component';
 
 @NgModule({
   declarations: [DynamicBootstrapComponent],

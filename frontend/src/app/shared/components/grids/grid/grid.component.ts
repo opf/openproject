@@ -5,21 +5,21 @@ import {
   OnInit,
   Input,
   HostListener,
-} from "@angular/core";
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { DomSanitizer } from "@angular/platform-browser";
-import { GridWidgetsService } from "core-app/shared/components/grids/widgets/widgets.service";
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
-import { GridMoveService } from "core-app/shared/components/grids/grid/move.service";
-import { GridDragAndDropService } from "core-app/shared/components/grids/grid/drag-and-drop.service";
-import { GridResizeService } from "core-app/shared/components/grids/grid/resize.service";
-import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
-import { GridAddWidgetService } from "core-app/shared/components/grids/grid/add-widget.service";
-import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
-import { WidgetWpGraphComponent } from "core-app/shared/components/grids/widgets/wp-graph/wp-graph.component";
-import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
-import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
+} from '@angular/core';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { DomSanitizer } from '@angular/platform-browser';
+import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
+import { GridMoveService } from 'core-app/shared/components/grids/grid/move.service';
+import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
+import { GridResizeService } from 'core-app/shared/components/grids/grid/resize.service';
+import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
+import { GridAddWidgetService } from 'core-app/shared/components/grids/grid/add-widget.service';
+import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
+import { WidgetWpGraphComponent } from 'core-app/shared/components/grids/widgets/wp-graph/wp-graph.component';
+import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 
 export interface WidgetRegistration {
   identifier:string;
@@ -38,15 +38,15 @@ export const GRID_PROVIDERS = [
 ];
 
 @Component({
-  templateUrl: "./grid.component.html",
-  selector: "grid",
+  templateUrl: './grid.component.html',
+  selector: 'grid',
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
 
-  public GRID_AREA_HEIGHT = "auto";
+  public GRID_AREA_HEIGHT = 'auto';
 
-  public GRID_GAP_DIMENSION = "20px";
+  public GRID_GAP_DIMENSION = '20px';
 
   public component = WidgetWpGraphComponent;
 
@@ -70,9 +70,9 @@ export class GridComponent implements OnDestroy, OnInit {
     this.uiWidgets.forEach((widget) => widget.destroy());
   }
 
-  @HostListener("window:keyup", ["$event"])
+  @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event:KeyboardEvent) {
-    if (event.key !== "Escape") {
+    if (event.key !== 'Escape') {
 
     } else if (this.drag.currentlyDragging) {
       this.drag.abort();
@@ -129,7 +129,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   private gridStyle(amount:number, itemStyle:string) {
-    let style = "";
+    let style = '';
     for (let i = 0; i < amount; i++) {
       style += `${this.GRID_GAP_DIMENSION} ${itemStyle} `;
     }

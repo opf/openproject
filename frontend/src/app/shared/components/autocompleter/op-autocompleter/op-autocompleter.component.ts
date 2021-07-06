@@ -1,25 +1,25 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild, TemplateRef, ContentChild, AfterViewInit, NgZone,
-} from "@angular/core";
-import { DropdownPosition, NgSelectComponent } from "@ng-select/ng-select";
-import { Observable, of, Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
-import { GroupValueFn } from "@ng-select/ng-select/lib/ng-select.component";
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { OpAutocompleterFooterTemplateDirective } from "core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive";
-import { OpAutocompleterService } from "./services/op-autocompleter.service";
-import { OpAutocompleterHeaderTemplateDirective } from "./directives/op-autocompleter-header-template.directive";
-import { OpAutocompleterLabelTemplateDirective } from "./directives/op-autocompleter-label-template.directive";
-import { OpAutocompleterOptionTemplateDirective } from "./directives/op-autocompleter-option-template.directive";
+} from '@angular/core';
+import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
+import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
+import { OpAutocompleterService } from './services/op-autocompleter.service';
+import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocompleter-header-template.directive';
+import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
+import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
 
 @Component({
-  selector: "op-autocompleter",
+  selector: 'op-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./op-autocompleter.component.html",
-  styleUrls: ["./op-autocompleter.component.sass"],
+  templateUrl: './op-autocompleter.component.html',
+  styleUrls: ['./op-autocompleter.component.sass'],
   providers: [OpAutocompleterService],
 })
 // It is component that you can use whenever you need an autocompleter
@@ -33,7 +33,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public model?:any;
 
-  @Input() public searchKey?:string = "";
+  @Input() public searchKey?:string = '';
 
   @Input() public defaulData?:boolean = false;
 
@@ -73,11 +73,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public markFirst ? = true;
 
-  @Input() public placeholder?:string = this.I18n.t("js.autocompleter.placeholder");
+  @Input() public placeholder?:string = this.I18n.t('js.autocompleter.placeholder');
 
-  @Input() public notFoundText?:string = this.I18n.t("js.autocompleter.notFoundText");
+  @Input() public notFoundText?:string = this.I18n.t('js.autocompleter.notFoundText');
 
-  @Input() public typeToSearchText?:string = this.I18n.t("js.autocompleter.typeToSearchText");
+  @Input() public typeToSearchText?:string = this.I18n.t('js.autocompleter.typeToSearchText');
 
   @Input() public addTagText?:string;
 
@@ -87,7 +87,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public appearance?:string;
 
-  @Input() public dropdownPosition?:DropdownPosition = "auto";
+  @Input() public dropdownPosition?:DropdownPosition = 'auto';
 
   @Input() public appendTo?:string;
 
@@ -176,7 +176,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public isLoading = false;
 
-  @ViewChild("ngSelectInstance") ngSelectInstance:NgSelectComponent;
+  @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   optionTemplate:TemplateRef<any>;
@@ -209,20 +209,20 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         this.results$ = this.configOptions ? (this.searchInput$.pipe(
           debounceTime(250),
           distinctUntilChanged(),
-          switchMap(queryString => this.getOptionsItems(queryString)),
+          switchMap((queryString) => this.getOptionsItems(queryString)),
         )) : this.defaulData ? (this.searchInput$.pipe(
           debounceTime(250),
           distinctUntilChanged(),
-          switchMap(queryString => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey)),
+          switchMap((queryString) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey)),
         )) : (this.searchInput$.pipe(
           debounceTime(250),
           distinctUntilChanged(),
-          switchMap(queryString => this.getOptionsFn(queryString)),
+          switchMap((queryString) => this.getOptionsFn(queryString)),
         ));
         if (this.fetchDataDirectly) {
           this.results$ = this.defaulData
-            ? (this.opAutocompleterService.loadData("", this.resource, this.filters, this.searchKey))
-            : (this.getOptionsFn(""));
+            ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
+            : (this.getOptionsFn(''));
         }
         if (this.openDirectly) {
           this.ngSelectInstance.open();
@@ -249,15 +249,15 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   public opened(val:any) {
     if (this.openDirectly) {
       this.results$ = this.defaulData
-        ? (this.opAutocompleterService.loadData("", this.resource, this.filters, this.searchKey))
-        : (this.getOptionsFn(""));
+        ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
+        : (this.getOptionsFn(''));
     }
     this.repositionDropdown();
     this.open.emit();
   }
 
   public getOptionsItems(searchKey:string):Observable<any> {
-    return of(this.configOptions?.filter(element => element.name.includes(searchKey)));
+    return of(this.configOptions?.filter((element) => element.name.includes(searchKey)));
   }
 
   public closeSelect() {

@@ -6,15 +6,15 @@ import {
   Inject,
   OnInit,
   ViewEncapsulation,
-} from "@angular/core";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { PrincipalData } from "core-app/shared/components/principal/principal-types";
-import { RoleResource } from "core-app/features/hal/resources/role-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+} from '@angular/core';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { PrincipalData } from 'core-app/shared/components/principal/principal-types';
+import { RoleResource } from 'core-app/features/hal/resources/role-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 enum Steps {
   ProjectSelection,
@@ -26,14 +26,14 @@ enum Steps {
 }
 
 export enum PrincipalType {
-  User = "User",
-  Placeholder = "PlaceholderUser",
-  Group = "Group",
+  User = 'User',
+  Placeholder = 'PlaceholderUser',
+  Group = 'Group',
 }
 
 @Component({
-  templateUrl: "./invite-user.component.html",
-  styleUrls: ["./invite-user.component.sass"],
+  templateUrl: './invite-user.component.html',
+  styleUrls: ['./invite-user.component.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -59,7 +59,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
   public role:RoleResource|null = null;
 
-  public message = "";
+  public message = '';
 
   public createdNewPrincipal = false;
 
@@ -81,7 +81,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
     if (this.locals.projectId) {
       this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(
-        data => {
+        (data) => {
           this.project = data;
           this.cdRef.markForCheck();
         },

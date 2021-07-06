@@ -27,16 +27,16 @@
 
 import {
   Component, OnInit, ViewChild, ChangeDetectionStrategy,
-} from "@angular/core";
-import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
-import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
+} from '@angular/core';
+import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {
   ICKEditorContext,
   ICKEditorInstance,
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
 @Component({
-  templateUrl: "./formattable-edit-field.component.html",
+  templateUrl: './formattable-edit-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
@@ -50,7 +50,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   // Values used in template
   public isPreview = false;
 
-  public previewHtml = "";
+  public previewHtml = '';
 
   public text:Record<string, string> = {};
 
@@ -58,10 +58,10 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   public ckEditorContext:ICKEditorContext = {
     resource: this.change.pristineResource,
-    macros: "none" as const,
+    macros: 'none' as const,
     previewContext: this.previewContext,
     options: { rtl: this.schema.options && this.schema.options.rtl },
-    type: "constrained",
+    type: 'constrained',
     ...this.resource.getEditorContext(this.field.name),
   };
 
@@ -70,9 +70,9 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
     this.handler.registerOnSubmit(() => this.getCurrentValue());
     this.text = {
-      attachmentLabel: this.I18n.t("js.label_formattable_attachment_hint"),
-      save: this.I18n.t("js.inplace.button_save", { attribute: this.schema.name }),
-      cancel: this.I18n.t("js.inplace.button_cancel", { attribute: this.schema.name }),
+      attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
+      save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
+      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
     };
   }
 
@@ -123,7 +123,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     if (this.value && this.value.raw) {
       return this.value.raw;
     }
-    return "";
+    return '';
   }
 
   public set rawValue(val:string) {

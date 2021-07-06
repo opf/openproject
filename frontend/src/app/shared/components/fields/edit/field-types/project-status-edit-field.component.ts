@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/shared/components/fields/helpers/project-status-helper";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { projectStatusCodeCssClass, projectStatusI18n } from 'core-app/shared/components/fields/helpers/project-status-helper';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 interface ProjectStatusOption {
   href:string
@@ -41,8 +41,8 @@ interface ProjectStatusOption {
 }
 
 @Component({
-  templateUrl: "./project-status-edit-field.component.html",
-  styleUrls: ["./project-status-edit-field.component.sass"],
+  templateUrl: './project-status-edit-field.component.html',
+  styleUrls: ['./project-status-edit-field.component.sass'],
 })
 export class ProjectStatusEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
@@ -50,22 +50,22 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   @InjectField() I18n!:I18nService;
 
   public availableStatuses:ProjectStatusOption[] = [{
-    href: "not_set",
-    name: projectStatusI18n("not_set", this.I18n),
-    colorClass: projectStatusCodeCssClass("not_set"),
+    href: 'not_set',
+    name: projectStatusI18n('not_set', this.I18n),
+    colorClass: projectStatusCodeCssClass('not_set'),
   }];
 
   public currentStatusCode:string;
 
-  public hiddenOverflowContainer = "#content-wrapper";
+  public hiddenOverflowContainer = '#content-wrapper';
 
-  public appendToContainer = "body";
+  public appendToContainer = 'body';
 
   ngOnInit() {
-    this.currentStatusCode = this.resource["status"] === null ? this.availableStatuses[0].href : this.resource["status"].href;
+    this.currentStatusCode = this.resource.status === null ? this.availableStatuses[0].href : this.resource.status.href;
 
     this.change.getForm().then((form) => {
-      form.schema["status"].allowedValues.forEach((status:HalResource) => {
+      form.schema.status.allowedValues.forEach((status:HalResource) => {
         this.availableStatuses = [...this.availableStatuses,
           {
             href: status.href!,
@@ -84,7 +84,7 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   }
 
   public onChange() {
-    this.resource["status"] = this.currentStatusCode === this.availableStatuses[0].href ? null : { href: this.currentStatusCode };
+    this.resource.status = this.currentStatusCode === this.availableStatuses[0].href ? null : { href: this.currentStatusCode };
     this.handler.handleUserSubmit();
   }
 
@@ -97,13 +97,13 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
         component.dropdownPanel._updatePosition();
       }
 
-      jQuery(this.hiddenOverflowContainer).one("scroll.autocompleteContainer", () => {
+      jQuery(this.hiddenOverflowContainer).one('scroll.autocompleteContainer', () => {
         this.ngSelectComponent.close();
       });
     }, 25);
   }
 
   public onClose() {
-    jQuery(this.hiddenOverflowContainer).off("scroll.autocompleteContainer");
+    jQuery(this.hiddenOverflowContainer).off('scroll.autocompleteContainer');
   }
 }

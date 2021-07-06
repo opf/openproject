@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { Board, BoardType } from "core-app/features/boards/board/board";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
-import { BehaviorSubject, Observable } from "rxjs";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Injectable } from '@angular/core';
+import { BoardListsService } from 'core-app/features/boards/board/board-list/board-lists.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { Board, BoardType } from 'core-app/features/boards/board/board';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export interface CreateBoardParams {
   type:BoardType;
@@ -16,17 +16,17 @@ export interface CreateBoardParams {
   attribute?:string;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class BoardService {
   public currentBoard$:BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
 
   private loadAllPromise:Promise<Board[]>|undefined;
 
   private text = {
-    unnamed_board: this.I18n.t("js.boards.label_unnamed_board"),
-    action_board: (attr:string) => this.I18n.t("js.boards.board_type.action_by_attribute",
+    unnamed_board: this.I18n.t('js.boards.label_unnamed_board'),
+    action_board: (attr:string) => this.I18n.t('js.boards.board_type.action_by_attribute',
       { attribute: this.I18n.t(`js.boards.board_type.action_type.${attr}`) }),
-    unnamed_list: this.I18n.t("js.boards.label_unnamed_list"),
+    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 
   constructor(protected apiV3Service:APIV3Service,
@@ -84,7 +84,7 @@ export class BoardService {
       .boards
       .create(params.type, this.boardName(params), this.CurrentProject.identifier!, params.attribute).toPromise();
 
-    if (params.type === "free") {
+    if (params.type === 'free') {
       await this.boardsList.addFreeQuery(board, { name: this.text.unnamed_list });
     } else {
       await this.boardActions.get(params.attribute!).addInitialColumnsForAction(board);
@@ -112,7 +112,7 @@ export class BoardService {
       return params.boardName;
     }
 
-    if (params.type === "action") {
+    if (params.type === 'action') {
       return this.text.action_board(params.attribute!);
     }
 

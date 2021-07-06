@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input, HostBinding } from "@angular/core";
+import { Component, Input, HostBinding } from '@angular/core';
 
 @Component({
-  templateUrl: "./no-results.component.html",
-  selector: "no-results",
+  templateUrl: './no-results.component.html',
+  selector: 'no-results',
 })
 
 export class NoResultsComponent {
@@ -38,5 +38,5 @@ export class NoResultsComponent {
 
   @Input() description:string;
 
-  @HostBinding("class.generic-table--no-results-container") setHostClass = true;
+  @HostBinding('class.generic-table--no-results-container') setHostClass = true;
 }

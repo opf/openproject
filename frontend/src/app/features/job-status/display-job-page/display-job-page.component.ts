@@ -1,14 +1,14 @@
 import {
   AfterViewInit, Component, Injector, OnDestroy,
-} from "@angular/core";
-import { StateService } from "@uirouter/core";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
-import { take } from "rxjs/operators";
+} from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { JobStatusModal } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { take } from 'rxjs/operators';
 
 @Component({
-  template: "",
+  template: '',
 })
 export class DisplayJobPageComponent implements AfterViewInit, OnDestroy {
   private modal?:OpModalComponent;
@@ -18,7 +18,7 @@ export class DisplayJobPageComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.modal = this.modalService.show(JobStatusModal, "global", { jobId: this.$state.params.jobId });
+    this.modal = this.modalService.show(JobStatusModal, 'global', { jobId: this.$state.params.jobId });
     this.modal
       .closingEvent
       .pipe(

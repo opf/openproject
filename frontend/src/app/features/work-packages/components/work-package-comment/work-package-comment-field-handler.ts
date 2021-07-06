@@ -1,15 +1,15 @@
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import {
   ElementRef, Injector, OnInit, Directive,
-} from "@angular/core";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { Subject } from "rxjs";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+} from '@angular/core';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { Subject } from 'rxjs';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Directive()
 export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler implements OnInit {
-  public fieldName = "comment";
+  public fieldName = 'comment';
 
   public handler = this;
 
@@ -40,30 +40,30 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
 
   public abstract get workPackage():WorkPackageResource;
 
-  public reset(withText = "") {
+  public reset(withText = '') {
     if (withText.length > 0) {
-      withText += "\n";
+      withText += '\n';
     }
 
-    this.change.setValue("comment", { raw: withText });
+    this.change.setValue('comment', { raw: withText });
   }
 
   public get schema():IFieldSchema {
     return {
-      name: I18n.t("js.label_comment"),
+      name: I18n.t('js.label_comment'),
       writable: true,
       required: false,
-      type: "_comment",
+      type: '_comment',
       hasDefault: false,
     };
   }
 
   public get rawComment() {
-    return _.get(this.commentValue, "raw", "");
+    return _.get(this.commentValue, 'raw', '');
   }
 
   public get commentValue() {
-    return this.change.value("comment");
+    return this.change.value('comment');
   }
 
   public handleUserCancel() {
@@ -82,7 +82,7 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   }
 
   focus():void {
-    const trigger = this.elementRef.nativeElement.querySelector(".inplace-editing--trigger-container");
+    const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
     trigger && trigger.focus();
   }
 

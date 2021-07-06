@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { Injectable } from '@angular/core';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 class Apiv3Paths {
   readonly apiV3Base:string;
@@ -63,28 +63,28 @@ class Apiv3Paths {
   public principals(projectId:string|number, term:string|null) {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     // Only real and activated users:
-    filters.add("status", "!", ["3"]);
+    filters.add('status', '!', ['3']);
     // that are members of that project:
-    filters.add("member", "=", [projectId.toString()]);
+    filters.add('member', '=', [projectId.toString()]);
     // That are users:
-    filters.add("type", "=", ["User", "Group"]);
+    filters.add('type', '=', ['User', 'Group']);
     // That are not the current user:
-    filters.add("id", "!", ["me"]);
+    filters.add('id', '!', ['me']);
 
     if (term && term.length > 0) {
       // Containing the that substring:
-      filters.add("name", "~", [term]);
+      filters.add('name', '~', [term]);
     }
 
     return `${this.apiV3Base
     }/principals?${
-      filters.toParams({ sortBy: '[["name","asc"]]', offset: "1", pageSize: "10" })}`;
+      filters.toParams({ sortBy: '[["name","asc"]]', offset: '1', pageSize: '10' })}`;
   }
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class PathHelperService {
-  public readonly appBasePath = window.appBasePath || "";
+  public readonly appBasePath = window.appBasePath || '';
 
   public readonly api = {
     v3: new Apiv3Paths(this.appBasePath),
@@ -221,7 +221,7 @@ export class PathHelperService {
   }
 
   public timeEntriesPath(workPackageId:string|number) {
-    const suffix = "/time_entries";
+    const suffix = '/time_entries';
 
     if (workPackageId) {
       return this.workPackagePath(workPackageId) + suffix;

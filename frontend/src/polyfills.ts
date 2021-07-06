@@ -14,7 +14,7 @@
  * Learn more in https://angular.io/guide/browser-support
  */
 
-/***************************************************************************************************
+/** *************************************************************************************************
 * BROWSER POLYFILLS
 */
 
@@ -25,10 +25,10 @@
  */
 // (window as any).__Zone_enable_cross_context_check = true;
 
-/***************************************************************************************************
+/** *************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import "zone.js";
+import 'zone.js';
 
 (window as any).global = window;
 
@@ -38,14 +38,14 @@ import "zone.js";
 /** IE10 and IE11 requires the following for the Reflect API. */
 // import 'core-js/es6/reflect';
 
-/** Evergreen browsers require these. **/
+/** Evergreen browsers require these. * */
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 // import 'core-js/es7/reflect';
 
 /**
  * Required to support Web Animations `@angular/platform-browser/animations`.
  * Needed for: All but Chrome, Firefox and Opera. http://caniuse.com/#feat=web-animation
- **/
+ * */
 // import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
 /**
@@ -55,8 +55,8 @@ import "zone.js";
 
 // (window as any).__Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
 // (window as any).__Zone_disable_on_property = true; // disable patch onProperty such as onclick
-(window as any).__zone_symbol__BLACK_LISTED_EVENTS = ["scroll", "mousemove", "mouseover", "mouseout", "mousewheel"]; // Included with Angular CLI.
+(window as any).__zone_symbol__BLACK_LISTED_EVENTS = ['scroll', 'mousemove', 'mouseover', 'mouseout', 'mousewheel']; // Included with Angular CLI.
 
-/***************************************************************************************************
+/** *************************************************************************************************
  * APPLICATION IMPORTS
  */

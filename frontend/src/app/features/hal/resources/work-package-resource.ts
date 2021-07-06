@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { States } from "core-app/core/states/states.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { InputState } from "reactivestates";
-import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
-import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-import { AttachmentCollectionResource } from "core-app/features/hal/resources/attachment-collection-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { TypeResource } from "core-app/features/hal/resources/type-resource";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { Attachable } from "core-app/features/hal/resources/mixins/attachable-mixin";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { States } from 'core-app/core/states/states.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { InputState } from 'reactivestates';
+import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
+import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { TypeResource } from 'core-app/features/hal/resources/type-resource';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -157,7 +157,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return "<type name>: <subject> (#<id>)" if type and id are known.
    */
   public subjectWithType(truncateSubject = 40):string {
-    const type = this.type ? `${this.type.name}: ` : "";
+    const type = this.type ? `${this.type.name}: ` : '';
     const subject = this.subjectWithId(truncateSubject);
 
     return `${type}${subject}`;
@@ -167,7 +167,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return "<subject> (#<id>)" if the id is known.
    */
   public subjectWithId(truncateSubject = 40):string {
-    const id = this.isNew ? "" : ` (#${this.id})`;
+    const id = this.isNew ? '' : ` (#${this.id})`;
     const subject = _.truncate(this.subject, { length: truncateSubject });
 
     return `${subject}${id}`;
@@ -186,7 +186,7 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
-    return { type: fieldName === "description" ? "full" : "constrained", macros: false };
+    return { type: fieldName === 'description' ? 'full' : 'constrained', macros: false };
   }
 
   public isParentOf(otherWorkPackage:WorkPackageResource) {
@@ -203,7 +203,7 @@ export class WorkPackageBaseResource extends HalResource {
   public updateLinkedResources(...resourceNames:string[]):Promise<any> {
     const resources:{ [id:string]:Promise<HalResource> } = {};
 
-    resourceNames.forEach(name => {
+    resourceNames.forEach((name) => {
       const linked = this[name];
       resources[name] = linked ? linked.$update() : Promise.reject(undefined);
     });
@@ -223,10 +223,10 @@ export class WorkPackageBaseResource extends HalResource {
     this.attachments = new AttachmentCollectionResource(
       this.injector,
       // Attachments MAY be an array if we're building from a form
-      _.get(attachments, "$source", attachments),
+      _.get(attachments, '$source', attachments),
       false,
       this.halInitializer,
-      "HalResource",
+      'HalResource',
     );
   }
 
@@ -234,7 +234,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Exclude the schema _link from the linkable Resources.
    */
   public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), "schema");
+    return _.without(super.$linkableKeys(), 'schema');
   }
 
   /**

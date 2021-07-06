@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { States } from "core-app/core/states/states.service";
-import { StateService } from "@uirouter/core";
-import { Injectable } from "@angular/core";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { States } from 'core-app/core/states/states.service';
+import { StateService } from '@uirouter/core';
+import { Injectable } from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
@@ -52,13 +52,13 @@ export class WorkPackageRelationsHierarchyService {
     };
 
     if (parentId) {
-      payload["_links"] = {
+      payload._links = {
         parent: {
           href: this.apiV3Service.work_packages.id(parentId).path,
         },
       };
     } else {
-      payload["_links"] = {
+      payload._links = {
         parent: {
           href: null,
         },
@@ -75,9 +75,9 @@ export class WorkPackageRelationsHierarchyService {
           .updateWorkPackage(wp);
         this.notificationService.showSave(wp);
         this.halEvents.push(workPackage, {
-          eventType: "association",
+          eventType: 'association',
           relatedWorkPackage: parentId,
-          relationType: "parent",
+          relationType: 'parent',
         });
 
         return wp;
@@ -100,7 +100,7 @@ export class WorkPackageRelationsHierarchyService {
       .get()
       .toPromise()
       .then((wpToBecomeChild:WorkPackageResource|undefined) => this.changeParent(wpToBecomeChild!, workPackage.id)
-        .then(wp => {
+        .then((wp) => {
           // Reload work package
           this
             .apiV3Service
@@ -109,9 +109,9 @@ export class WorkPackageRelationsHierarchyService {
             .refresh();
 
           this.halEvents.push(workPackage, {
-            eventType: "association",
+            eventType: 'association',
             relatedWorkPackage: wpToBecomeChild!.id!,
-            relationType: "child",
+            relationType: 'child',
           });
 
           return wp;
@@ -128,8 +128,8 @@ export class WorkPackageRelationsHierarchyService {
           },
         ];
 
-        if (this.$state.includes("work-packages.show")) {
-          args[0] = "work-packages.new";
+        if (this.$state.includes('work-packages.show')) {
+          args[0] = 'work-packages.new';
         }
 
         (<any> this.$state).go(...args);
@@ -146,7 +146,7 @@ export class WorkPackageRelationsHierarchyService {
           },
         },
         lockVersion: childWorkPackage.lockVersion,
-      }).then(wp => {
+      }).then((wp) => {
         if (parentWorkPackage) {
           this
             .apiV3Service
@@ -155,9 +155,9 @@ export class WorkPackageRelationsHierarchyService {
             .refresh()
             .then((wp) => {
               this.halEvents.push(wp, {
-                eventType: "association",
+                eventType: 'association',
                 relatedWorkPackage: null,
-                relationType: "child",
+                relationType: 'child',
               });
             });
         }

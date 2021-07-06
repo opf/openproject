@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,23 +28,23 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit,
-} from "@angular/core";
-import { Transition } from "@uirouter/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageWatchersService } from "core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+} from '@angular/core';
+import { Transition } from '@uirouter/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
-  templateUrl: "./watchers-tab.html",
+  templateUrl: './watchers-tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: "wp-watchers-tab",
+  selector: 'wp-watchers-tab',
 })
 export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin implements OnInit {
   public workPackageId:string;
@@ -70,10 +70,10 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
   public watching:any[] = [];
 
   public text = {
-    loading: this.I18n.t("js.watchers.label_loading"),
-    loadingError: this.I18n.t("js.watchers.label_error_loading"),
+    loading: this.I18n.t('js.watchers.label_loading'),
+    loadingError: this.I18n.t('js.watchers.label_error_loading'),
     autocomplete: {
-      placeholder: this.I18n.t("js.watchers.typeahead_placeholder"),
+      placeholder: this.I18n.t('js.watchers.typeahead_placeholder'),
     },
   };
 
@@ -92,7 +92,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
   public ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
-    this.workPackageId = this.$transition.params("to").workPackageId;
+    this.workPackageId = this.$transition.params('to').workPackageId;
     this
       .apiV3Service
       .work_packages

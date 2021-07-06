@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { Store, StoreConfig } from "@datorama/akita";
-import { UserPreferencesModel } from "core-app/features/user-preferences/state/user-preferences.model";
+import { Injectable } from '@angular/core';
+import { Store, StoreConfig } from '@datorama/akita';
+import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
 
 function createInitialState():UserPreferencesModel {
   return {
@@ -43,7 +43,7 @@ function createInitialState():UserPreferencesModel {
 }
 
 @Injectable()
-@StoreConfig({ name: "notification-settings" })
+@StoreConfig({ name: 'notification-settings' })
 export class UserPreferencesStore extends Store<UserPreferencesModel> {
   constructor() {
     super(createInitialState());

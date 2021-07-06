@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,11 +28,11 @@
 
 import {
   ChangeDetectorRef, Component, ElementRef, Inject,
-} from "@angular/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+} from '@angular/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export interface ConfirmDialogOptions {
   text:{
@@ -49,7 +49,7 @@ export interface ConfirmDialogOptions {
 }
 
 @Component({
-  templateUrl: "./confirm-dialog.modal.html",
+  templateUrl: './confirm-dialog.modal.html',
 })
 export class ConfirmDialogModal extends OpModalComponent {
   public showClose:boolean;
@@ -59,11 +59,11 @@ export class ConfirmDialogModal extends OpModalComponent {
   private options:ConfirmDialogOptions;
 
   public text:any = {
-    title: this.I18n.t("js.modals.form_submit.title"),
-    text: this.I18n.t("js.modals.form_submit.text"),
-    button_continue: this.I18n.t("js.button_continue"),
-    button_cancel: this.I18n.t("js.button_cancel"),
-    close_popup: this.I18n.t("js.close_popup_title"),
+    title: this.I18n.t('js.modals.form_submit.title'),
+    text: this.I18n.t('js.modals.form_submit.text'),
+    button_continue: this.I18n.t('js.button_continue'),
+    button_cancel: this.I18n.t('js.button_cancel'),
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   public passedData:string[];

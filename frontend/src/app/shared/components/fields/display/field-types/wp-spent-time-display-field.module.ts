@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import * as URI from "urijs";
-import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { DurationDisplayField } from "./duration-display-field.module";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import * as URI from 'urijs';
+import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { DurationDisplayField } from './duration-display-field.module';
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
   public text = {
-    linkTitle: this.I18n.t("js.work_packages.message_view_spent_time"),
-    logTime: this.I18n.t("js.button_log_time"),
+    linkTitle: this.I18n.t('js.work_packages.message_view_spent_time'),
+    logTime: this.I18n.t('js.button_log_time'),
   };
 
   @InjectField() PathHelper:PathHelperService;
@@ -52,10 +52,10 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
       return;
     }
 
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.textContent = displayText;
-    link.setAttribute("title", this.text.linkTitle);
-    link.setAttribute("class", "time-logging--value");
+    link.setAttribute('title', this.text.linkTitle);
+    link.setAttribute('class', 'time-logging--value');
 
     if (this.resource.project) {
       const wpID = this.resource.id.toString();
@@ -74,7 +74,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
         });
     }
 
-    element.innerHTML = "";
+    element.innerHTML = '';
     element.appendChild(link);
 
     this.appendTimelogLink(element);
@@ -82,14 +82,14 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
   private appendTimelogLink(element:HTMLElement) {
     if (this.timeEntryCreateService && this.resource.logTime) {
-      const timelogElement = document.createElement("a");
-      timelogElement.setAttribute("class", "icon icon-time");
-      timelogElement.setAttribute("href", "");
-      timelogElement.setAttribute("title", this.text.logTime);
+      const timelogElement = document.createElement('a');
+      timelogElement.setAttribute('class', 'icon icon-time');
+      timelogElement.setAttribute('href', '');
+      timelogElement.setAttribute('title', this.text.logTime);
 
       element.appendChild(timelogElement);
 
-      timelogElement.addEventListener("click", this.showTimelogWidget.bind(this, this.resource));
+      timelogElement.addEventListener('click', this.showTimelogWidget.bind(this, this.resource));
     }
   }
 

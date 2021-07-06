@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -38,23 +38,23 @@ import {
   OnInit,
   Output,
   ViewChild,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { HalResourceSortingService } from "core-app/features/hal/services/hal-resource-sorting.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { RootResource } from "core-app/features/hal/resources/root-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { RootResource } from 'core-app/features/hal/resources/root-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 @Component({
-  selector: "filter-toggled-multiselect-value",
+  selector: 'filter-toggled-multiselect-value',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./filter-toggled-multiselect-value.component.html",
+  templateUrl: './filter-toggled-multiselect-value.component.html',
 })
 export class FilterToggledMultiselectValueComponent implements OnInit, AfterViewInit {
   @Input() public shouldFocus = false;
@@ -63,7 +63,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
-  @ViewChild("ngSelectInstance", { static: true }) ngSelectInstance:NgSelectComponent;
+  @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   public _availableOptions:HalResource[] = [];
 
@@ -72,7 +72,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   private _isEmpty:boolean;
 
   readonly text = {
-    placeholder: this.I18n.t("js.placeholders.selection"),
+    placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
   constructor(readonly halResourceService:HalResourceService,
@@ -128,12 +128,12 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   private get isUserResource() {
-    const type = _.get(this.filter.currentSchema, "values.type", null);
-    return type && type.indexOf("User") > 0;
+    const type = _.get(this.filter.currentSchema, 'values.type', null);
+    return type && type.indexOf('User') > 0;
   }
 
   private fetchAllowedValues() {
-    if ((this.filter.currentSchema!.values!.allowedValues as CollectionResource)["$load"]) {
+    if ((this.filter.currentSchema!.values!.allowedValues as CollectionResource).$load) {
       this.loadAllowedValues();
     } else {
       this.availableOptions = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
@@ -159,7 +159,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
         this.availableOptions = options;
 
-        if (this.isUserResource && this.filter.filter.id !== "memberOfGroup") {
+        if (this.isUserResource && this.filter.filter.id !== 'memberOfGroup') {
           this.addMeValue((resources[1] as RootResource).user);
         }
       }));
@@ -175,7 +175,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
         _links: {
           self: {
             href: this.apiV3Service.users.me.path,
-            title: this.I18n.t("js.label_me"),
+            title: this.I18n.t('js.label_me'),
           },
         },
       }, true,

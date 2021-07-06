@@ -1,5 +1,5 @@
-import { FormlyFieldConfig, FormlyTemplateOptions } from "@ngx-formly/core";
-import { FormGroup } from "@angular/forms";
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
+import { FormGroup } from '@angular/forms';
 
 export interface IOPDynamicFormSettings {
   fields:IOPFormlyFieldSettings[];
@@ -24,12 +24,12 @@ export interface IOPFormlyTemplateOptions extends FormlyTemplateOptions {
   collapsibleFieldGroups?:boolean;
   collapsibleFieldGroupsCollapsed?:boolean;
   helpTextAttributeScope?:string;
-  showValidationErrorOn?:"change" | "blur" | "submit" | "never";
+  showValidationErrorOn?:'change' | 'blur' | 'submit' | 'never';
   showAddNewUserButton?:boolean;
 }
 
-type OPInputType = "formattableInput"|"selectInput"|"textInput"|"integerInput"|
-"booleanInput"|"dateInput"|"formly-group"|"selectProjectStatusInput";
+type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|
+'booleanInput'|'dateInput'|'formly-group'|'selectProjectStatusInput';
 
 export interface IOPDynamicInputTypeSettings {
   config:IOPFormlyFieldSettings,

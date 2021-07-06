@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input, OnInit } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { take } from "rxjs/operators";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { take } from 'rxjs/operators';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
-  selector: "wp-relations-hierarchy",
-  templateUrl: "./wp-relations-hierarchy.template.html",
+  selector: 'wp-relations-hierarchy',
+  templateUrl: './wp-relations-hierarchy.template.html',
 })
 export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -64,8 +64,8 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
   }
 
   public text = {
-    parentHeadline: this.I18n.t("js.relations_hierarchy.parent_headline"),
-    childrenHeadline: this.I18n.t("js.relations_hierarchy.children_headline"),
+    parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),
+    childrenHeadline: this.I18n.t('js.relations_hierarchy.children_headline'),
   };
 
   ngOnInit() {
@@ -74,8 +74,8 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
     this.canAddRelation = !!this.workPackage.addRelation;
 
     this.childrenQueryProps = {
-      filters: JSON.stringify([{ parent: { operator: "=", values: [this.workPackage.id] } }]),
-      "columns[]": ["id", "type", "subject", "status"],
+      filters: JSON.stringify([{ parent: { operator: '=', values: [this.workPackage.id] } }]),
+      'columns[]': ['id', 'type', 'subject', 'status'],
       showHierarchies: false,
     };
 

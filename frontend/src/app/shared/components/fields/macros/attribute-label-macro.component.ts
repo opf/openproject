@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++    Ng1FieldControlsWrapper,
+// ++    Ng1FieldControlsWrapper,
 
 import {
   ChangeDetectionStrategy,
@@ -34,30 +34,30 @@ import {
   HostBinding,
   Injector,
   ViewChild,
-} from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { NEVER, Observable } from "rxjs";
+} from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { NEVER, Observable } from 'rxjs';
 import {
   filter, map, take, tap,
-} from "rxjs/operators";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+} from 'rxjs/operators';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   AttributeModelLoaderService,
   SupportedAttributeModels,
-} from "core-app/shared/components/fields/macros/attribute-model-loader.service";
-import { StringHelpers } from "core-app/shared/helpers/string-helpers";
+} from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
+import { StringHelpers } from 'core-app/shared/helpers/string-helpers';
 
-export const attributeLabelMacro = "macro.macro--attribute-label";
+export const attributeLabelMacro = 'macro.macro--attribute-label';
 
 @Component({
   selector: attributeLabelMacro,
-  templateUrl: "./attribute-label-macro.html",
-  styleUrls: ["./attribute-macro.sass"],
+  templateUrl: './attribute-label-macro.html',
+  styleUrls: ['./attribute-macro.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
@@ -68,12 +68,12 @@ export class AttributeLabelMacroComponent {
   error:string|null = null;
 
   text = {
-    help: this.I18n.t("js.editor.macro.attribute_reference.macro_help_tooltip"),
-    not_found: this.I18n.t("js.editor.macro.attribute_reference.not_found"),
-    invalid_attribute: (attr:string) => this.I18n.t("js.editor.macro.attribute_reference.invalid_attribute", { name: attr }),
+    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
+    invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  @HostBinding("title") hostTitle = this.text.help;
+  @HostBinding('title') hostTitle = this.text.help;
 
   // The loaded resource, required for help text
   resource:HalResource|null = null;
@@ -134,7 +134,7 @@ export class AttributeLabelMacroComponent {
   }
 
   markError(message:string) {
-    this.error = this.I18n.t("js.editor.macro.error", { message });
+    this.error = this.I18n.t('js.editor.macro.error', { message });
     this.cdRef.detectChanges();
   }
 }

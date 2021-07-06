@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Injectable } from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class HalResourceSortingService {
   /**
    * List of sortable properties by HAL type
    */
   private config:{ [typeName:string]:string } = {
-    user: "name",
-    project: "name",
+    user: 'name',
+    project: 'name',
   };
 
   constructor() {
@@ -62,7 +62,7 @@ export class HalResourceSortingService {
 
     const property = this.sortingProperty(halType);
     if (property) {
-      return _.sortBy<T>(elements, v => v[property].toLowerCase());
+      return _.sortBy<T>(elements, (v) => v[property].toLowerCase());
     }
     return elements;
   }
@@ -80,7 +80,7 @@ export class HalResourceSortingService {
     // Remove multi identifier and map to lowercase
     type = type
       .toLowerCase()
-      .replace(/^\[\]/, "");
+      .replace(/^\[\]/, '');
 
     return this.config[type];
   }

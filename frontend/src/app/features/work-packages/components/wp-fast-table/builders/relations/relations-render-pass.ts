@@ -1,17 +1,17 @@
-import { Injector } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
+import { Injector } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {
   RelationColumnType,
   WorkPackageViewRelationColumnsService,
-} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { relationGroupClass, RelationRowBuilder } from "./relation-row-builder";
-import { PrimaryRenderPass, RowRenderInfo } from "../primary-render-pass";
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
+import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{
@@ -85,10 +85,10 @@ export class RelationsRenderPass {
             `.${this.relationRowBuilder.classIdentifier(workPackage)},.${relationGroupClass(fromId)}`,
             {
               classIdentifier: this.relationRowBuilder.relationClassIdentifier(workPackage, target),
-              additionalClasses: row.additionalClasses.concat(["wp-table--relations-aditional-row"]),
+              additionalClasses: row.additionalClasses.concat(['wp-table--relations-aditional-row']),
               workPackage: target,
               belongsTo: workPackage,
-              renderType: "relations",
+              renderType: 'relations',
               hidden: row.hidden,
               data: {
                 relation,

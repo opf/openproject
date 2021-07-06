@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { HalPayloadHelper } from "core-app/features/hal/schemas/hal-payload.helper";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { MembershipResource, MembershipResourceEmbedded } from "core-app/features/hal/resources/membership-resource";
+import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { MembershipResource, MembershipResourceEmbedded } from 'core-app/features/hal/resources/membership-resource';
 
 export class Apiv3MembershipsForm extends APIv3FormResource {
   /**
@@ -45,7 +45,7 @@ export class Apiv3MembershipsForm extends APIv3FormResource {
       _links: {
         project: { href: resource.project.href },
         principal: { href: resource.principal.href },
-        roles: resource.roles.map(role => ({ href: role.href })),
+        roles: resource.roles.map((role) => ({ href: role.href })),
       },
       _meta: {
         notificationMessage: {

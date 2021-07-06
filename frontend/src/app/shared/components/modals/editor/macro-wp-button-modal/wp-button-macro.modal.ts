@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -33,18 +33,18 @@ import {
   ElementRef,
   Inject,
   ViewChild,
-} from "@angular/core";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { TypeResource } from "core-app/features/hal/resources/type-resource";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
+} from '@angular/core';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TypeResource } from 'core-app/features/hal/resources/type-resource';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
 
 @Component({
-  templateUrl: "./wp-button-macro.modal.html",
+  templateUrl: './wp-button-macro.modal.html',
 })
 export class WpButtonMacroModal extends OpModalComponent implements AfterViewInit {
   public changed = false;
@@ -61,21 +61,21 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
 
   public availableTypes:TypeResource[];
 
-  public type = "";
+  public type = '';
 
-  public classes = "";
+  public classes = '';
 
-  @ViewChild("typeSelect", { static: true }) typeSelect:ElementRef;
+  @ViewChild('typeSelect', { static: true }) typeSelect:ElementRef;
 
   public text:any = {
-    title: this.I18n.t("js.editor.macro.work_package_button.button"),
-    none: this.I18n.t("js.label_none"),
-    selected_type: this.I18n.t("js.editor.macro.work_package_button.type"),
-    button_style: this.I18n.t("js.editor.macro.work_package_button.button_style"),
-    button_style_hint: this.I18n.t("js.editor.macro.work_package_button.button_style_hint"),
-    button_save: this.I18n.t("js.button_save"),
-    button_cancel: this.I18n.t("js.button_cancel"),
-    close_popup: this.I18n.t("js.close_popup_title"),
+    title: this.I18n.t('js.editor.macro.work_package_button.button'),
+    none: this.I18n.t('js.label_none'),
+    selected_type: this.I18n.t('js.editor.macro.work_package_button.type'),
+    button_style: this.I18n.t('js.editor.macro.work_package_button.button_style'),
+    button_style_hint: this.I18n.t('js.editor.macro.work_package_button.button_style_hint'),
+    button_save: this.I18n.t('js.button_save'),
+    button_cancel: this.I18n.t('js.button_cancel'),
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -87,7 +87,7 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
     super(locals, cdRef, elementRef);
     this.selectedType = this.type = this.locals.type;
     this.classes = this.locals.classes;
-    this.buttonStyle = this.classes === "button";
+    this.buttonStyle = this.classes === 'button';
 
     this
       .apiV3Service
@@ -102,7 +102,7 @@ export class WpButtonMacroModal extends OpModalComponent implements AfterViewIni
 
   public applyAndClose(evt:JQuery.TriggeredEvent) {
     this.changed = true;
-    this.classes = this.buttonStyle ? "button" : "";
+    this.classes = this.buttonStyle ? 'button' : '';
     this.type = this.selectedType;
     this.closeMe(evt);
   }

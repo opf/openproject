@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,17 +28,17 @@
 
 import {
   AfterViewInit, Component, ElementRef, Input, OnInit, ChangeDetectionStrategy,
-} from "@angular/core";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import { TransitionService } from "@uirouter/core";
-import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";
-import { fromEvent } from "rxjs";
-import { MainMenuToggleService } from "core-app/core/main-menu/main-menu-toggle.service";
+} from '@angular/core';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { TransitionService } from '@uirouter/core';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
+import { fromEvent } from 'rxjs';
+import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.service';
 
 @Component({
-  selector: "wp-resizer",
+  selector: 'wp-resizer',
   template: `
     <resizer [customHandler]="false"
              [resizerClass]="resizerClass"
@@ -58,7 +58,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   @Input() localStorageKey:string;
 
-  @Input() resizeStyle:"flexBasis"|"width" = "flexBasis";
+  @Input() resizeStyle:'flexBasis'|'width' = 'flexBasis';
 
   private resizingElement:HTMLElement;
 
@@ -73,7 +73,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   public moving = false;
 
-  public resizerClass = "work-packages--resizer icon-resizer-vertical-lines";
+  public resizerClass = 'work-packages--resizer icon-resizer-vertical-lines';
 
   constructor(readonly toggleService:MainMenuToggleService,
     private elementRef:ElementRef,
@@ -110,12 +110,12 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
         distinctUntilChanged(),
         this.untilDestroyed(),
       )
-      .subscribe(changeData => {
+      .subscribe((changeData) => {
         this.toggleFullscreenColumns();
       });
 
     // Listen to event
-    fromEvent(window, "resize", { passive: true })
+    fromEvent(window, 'resize', { passive: true })
       .pipe(
         this.untilDestroyed(),
         debounceTime(250),
@@ -133,7 +133,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   ngOnDestroy() {
     super.ngOnDestroy();
     // Reset the style when killing this directive, otherwise the style remains
-    this.resizingElement.style[this.resizeStyle] = "";
+    this.resizingElement.style[this.resizeStyle] = '';
   }
 
   resizeStart() {
@@ -188,9 +188,9 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   private parseLocalStorageValue():number|undefined {
     const localStorageValue = window.OpenProject.guardedLocalStorage(this.localStorageKey);
-    const number = parseInt(localStorageValue || "", 10);
+    const number = parseInt(localStorageValue || '', 10);
 
-    if (typeof number === "number" && number !== NaN) {
+    if (typeof number === 'number' && number !== NaN) {
       return number;
     }
 
@@ -199,7 +199,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
 
   private applyColumnLayout(element:HTMLElement, newWidth:number) {
     // Apply two column layout in fullscreen view of a workpackage
-    if (element === jQuery(".work-packages-full-view--split-right")[0]) {
+    if (element === jQuery('.work-packages-full-view--split-right')[0]) {
       this.toggleFullscreenColumns();
     }
     // Apply two column layout when details view of wp is open
@@ -211,22 +211,22 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   private toggleColumns(element:HTMLElement, checkWidth = 750) {
     // Disable two column layout for MS Edge (#29941)
     if (element && !this.browserDetector.isEdge) {
-      jQuery(element).toggleClass("-can-have-columns", element.offsetWidth > checkWidth);
+      jQuery(element).toggleClass('-can-have-columns', element.offsetWidth > checkWidth);
     }
   }
 
   private toggleFullscreenColumns() {
-    const fullScreenLeftView = jQuery(".work-packages-full-view--split-left")[0];
+    const fullScreenLeftView = jQuery('.work-packages-full-view--split-left')[0];
     this.toggleColumns(fullScreenLeftView);
   }
 
   private manageErrorClass(shouldBePresent:boolean) {
-    if (shouldBePresent && !this.resizer.classList.contains("-error-font")) {
-      this.resizer.classList.add("-error-font");
+    if (shouldBePresent && !this.resizer.classList.contains('-error-font')) {
+      this.resizer.classList.add('-error-font');
     }
 
-    if (!shouldBePresent && this.resizer.classList.contains("-error-font")) {
-      this.resizer.classList.remove("-error-font");
+    if (!shouldBePresent && this.resizer.classList.contains('-error-font')) {
+      this.resizer.classList.remove('-error-font');
     }
   }
 }

@@ -1,7 +1,7 @@
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { Injectable } from "@angular/core";
-import { WorkPackageViewHierarchies } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies";
-import { WorkPackageQueryStateService } from "./wp-view-base.service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { Injectable } from '@angular/core';
+import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateService<WorkPackageViewHierarchies> {

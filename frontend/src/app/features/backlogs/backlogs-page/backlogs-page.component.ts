@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-export const backlogsPageComponentSelector = "op-backlogs-page";
+export const backlogsPageComponentSelector = 'op-backlogs-page';
 
 @Component({
   selector: backlogsPageComponentSelector,
   // Empty wrapper around legacy backlogs for CSS loading
   // that got removed in the Rails assets pipeline
   encapsulation: ViewEncapsulation.None,
-  template: "",
+  template: '',
   styleUrls: [
-    "./styles/backlogs.sass",
+    './styles/backlogs.sass',
   ],
 })
 export class BacklogsPageComponent implements OnInit {
   ngOnInit() {
-    document.getElementById("projected-content")!.hidden = false;
+    document.getElementById('projected-content')!.hidden = false;
   }
 }

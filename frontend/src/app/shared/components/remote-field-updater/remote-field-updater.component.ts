@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit } from "@angular/core";
-import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
-import { HttpClient } from "@angular/common/http";
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { HttpClient } from '@angular/common/http';
 
-export const remoteFieldUpdaterSelector = "remote-field-updater";
+export const remoteFieldUpdaterSelector = 'remote-field-updater';
 
 @Component({
   selector: remoteFieldUpdaterSelector,
-  template: "",
+  template: '',
 })
 export class RemoteFieldUpdaterComponent implements OnInit {
   constructor(private elementRef:ElementRef,
@@ -52,13 +52,13 @@ export class RemoteFieldUpdaterComponent implements OnInit {
   ngOnInit():void {
     const $element = jQuery(this.elementRef.nativeElement);
     const $form = $element.parent();
-    this.inputs = $form.find(".remote-field--input");
-    this.target = $form.find(".remote-field--target");
+    this.inputs = $form.find('.remote-field--input');
+    this.target = $form.find('.remote-field--target');
 
-    this.url = $element.data("url");
-    this.htmlMode = $element.data("mode") === "html";
+    this.url = $element.data('url');
+    this.htmlMode = $element.data('mode') === 'html';
 
-    this.inputs.on("keyup change", _.debounce((event:JQuery.TriggeredEvent) => {
+    this.inputs.on('keyup change', _.debounce((event:JQuery.TriggeredEvent) => {
       // This prevents an update of the result list when
       // tabbing to the result list (9),
       // pressing enter (13)
@@ -66,7 +66,7 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       // special cases where the tab code is not correctly recognized (undefined).
       // Thus the focus is kept on the first element of the result list.
       const keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
-      if (event.type === "change" || (event.which && keyCodesArray.indexOf(event.which) === -1)) {
+      if (event.type === 'change' || (event.which && keyCodesArray.indexOf(event.which) === -1)) {
         this.updater();
       }
     }, 500));
@@ -77,9 +77,9 @@ export class RemoteFieldUpdaterComponent implements OnInit {
 
     // In HTML mode, expect html response
     if (this.htmlMode) {
-      headers["Accept"] = "text/html";
+      headers.Accept = 'text/html';
     } else {
-      headers["Accept"] = "application/json";
+      headers.Accept = 'application/json';
     }
 
     return this.http
@@ -88,7 +88,7 @@ export class RemoteFieldUpdaterComponent implements OnInit {
         {
           params,
           headers,
-          responseType: (this.htmlMode ? "text" : "json") as any,
+          responseType: (this.htmlMode ? 'text' : 'json') as any,
           withCredentials: true,
         },
       );

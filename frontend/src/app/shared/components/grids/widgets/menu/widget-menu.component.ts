@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component } from "@angular/core";
-import { WidgetAbstractMenuComponent } from "core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component";
+import { Component } from '@angular/core';
+import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
 
 @Component({
-  selector: "widget-menu",
-  templateUrl: "./widget-menu.component.html",
-  styleUrls: ["./widget-menu.component.css"],
+  selector: 'widget-menu',
+  templateUrl: './widget-menu.component.html',
+  styleUrls: ['./widget-menu.component.css'],
 })
 export class WidgetMenuComponent extends WidgetAbstractMenuComponent {
 }

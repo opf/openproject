@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, OnInit } from "@angular/core";
-import * as moment from "moment";
-import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   template: `
@@ -66,15 +66,15 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
   }
 
   public parser(data:any) {
-    if (moment(data, "YYYY-MM-DD", true).isValid()) {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
     }
     return null;
   }
 
   public formatter(data:any) {
-    if (moment(data, "YYYY-MM-DD", true).isValid()) {
-      var d = this.timezoneService.parseDate(data);
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      const d = this.timezoneService.parseDate(data);
       return this.timezoneService.formattedISODate(d);
     }
     return null;

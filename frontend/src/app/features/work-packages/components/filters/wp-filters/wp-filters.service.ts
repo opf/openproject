@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { input } from "reactivestates";
-import { Observable } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { input } from 'reactivestates';
+import { Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class WorkPackageFiltersService {

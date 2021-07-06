@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, Injector, OnDestroy } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Subject } from "rxjs";
-import { ComponentType } from "@angular/cdk/portal";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { Injectable, Injector, OnDestroy } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Subject } from 'rxjs';
+import { ComponentType } from '@angular/cdk/portal';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Injectable()
 export class WorkPackageInlineCreateService implements OnDestroy {
@@ -57,12 +57,12 @@ export class WorkPackageInlineCreateService implements OnDestroy {
    * Reference button text
    */
   public readonly buttonTexts = {
-    reference: "",
-    create: this.I18n.t("js.label_create_work_package"),
+    reference: '',
+    create: this.I18n.t('js.label_create_work_package'),
   };
 
   public get canAdd() {
-    return this.canCreateWorkPackages || this.authorisationService.can("work_package", "addChild");
+    return this.canCreateWorkPackages || this.authorisationService.can('work_package', 'addChild');
   }
 
   public get canReference() {
@@ -70,8 +70,8 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   }
 
   public get canCreateWorkPackages() {
-    return this.authorisationService.can("work_packages", "createWorkPackage")
-      && this.authorisationService.can("work_packages", "editWorkPackage");
+    return this.authorisationService.can('work_packages', 'createWorkPackage')
+      && this.authorisationService.can('work_packages', 'editWorkPackage');
   }
 
   /** Allow callbacks to happen on newly created inline work packages */

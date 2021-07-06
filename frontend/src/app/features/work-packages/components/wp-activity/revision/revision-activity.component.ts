@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,18 +27,18 @@
 //++
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
-  selector: "revision-activity",
+  selector: 'revision-activity',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./revision-activity.component.html",
+  templateUrl: './revision-activity.component.html',
 })
 export class RevisionActivityComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -83,15 +83,15 @@ export class RevisionActivityComponent implements OnInit {
     const revisionPath = this.activity.showRevision.$link.href;
     const formattedRevision = this.activity.formattedIdentifier;
 
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = revisionPath;
     link.title = this.revision;
     link.textContent = this.I18n.t(
-      "js.label_committed_link",
+      'js.label_committed_link',
       { revision_identifier: formattedRevision },
     );
 
-    this.revisionLink = this.I18n.t("js.label_committed_at",
+    this.revisionLink = this.I18n.t('js.label_committed_at',
       {
         committed_revision_link: link.outerHTML,
         date: this.timezoneService.formattedDatetime(this.activity.createdAt),
@@ -113,7 +113,7 @@ export class RevisionActivityComponent implements OnInit {
           this.userActive = user.isActive;
           this.userAvatar = user.avatar;
           this.userPath = user.showUser.href;
-          this.userLabel = this.I18n.t("js.label_author", { user: this.userName });
+          this.userLabel = this.I18n.t('js.label_author', { user: this.userName });
           this.cdRef.detectChanges();
         });
     }

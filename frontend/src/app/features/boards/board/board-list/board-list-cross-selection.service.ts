@@ -1,6 +1,6 @@
-import { Observable, Subject } from "rxjs";
-import { filter } from "rxjs/operators";
-import { Injectable } from "@angular/core";
+import { Observable, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 export interface BoardSelection {
   /** The query that the selection happened in */
@@ -42,7 +42,7 @@ export class BoardListCrossSelectionService {
     return this
       .selections$
       .pipe(
-        filter(selection => selection.withinQuery !== id),
+        filter((selection) => selection.withinQuery !== id),
       );
   }
 

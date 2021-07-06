@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,14 +25,14 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Injectable } from "@angular/core";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { HookService } from "core-app/features/plugins/hook-service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
-import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Injectable } from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
+import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
 
 export type WorkPackageAction = {
   text:string;
@@ -47,27 +47,27 @@ export type WorkPackageAction = {
 export class WorkPackageContextMenuHelperService {
   private BULK_ACTIONS = [
     {
-      text: I18n.t("js.work_packages.bulk_actions.edit"),
-      key: "edit",
-      link: "update",
+      text: I18n.t('js.work_packages.bulk_actions.edit'),
+      key: 'edit',
+      link: 'update',
       href: `${this.PathHelper.staticBase}/work_packages/bulk/edit`,
     },
     {
-      text: I18n.t("js.work_packages.bulk_actions.move"),
-      key: "move",
-      link: "move",
+      text: I18n.t('js.work_packages.bulk_actions.move'),
+      key: 'move',
+      link: 'move',
       href: `${this.PathHelper.staticBase}/work_packages/move/new`,
     },
     {
-      text: I18n.t("js.work_packages.bulk_actions.copy"),
-      key: "copy",
-      link: "copy",
+      text: I18n.t('js.work_packages.bulk_actions.copy'),
+      key: 'copy',
+      link: 'copy',
       href: `${this.PathHelper.staticBase}/work_packages/move/new?copy=true`,
     },
     {
-      text: I18n.t("js.work_packages.bulk_actions.delete"),
-      key: "delete",
-      link: "delete",
+      text: I18n.t('js.work_packages.bulk_actions.delete'),
+      key: 'delete',
+      link: 'delete',
       href: `${this.PathHelper.staticBase}/work_packages/bulk?_method=delete`,
     },
   ];
@@ -119,15 +119,15 @@ export class WorkPackageContextMenuHelperService {
 
   public getBulkActionLink(action:any, workPackages:any) {
     const workPackageIdParams = {
-      "ids[]": workPackages.map((wp:any) => wp.id),
+      'ids[]': workPackages.map((wp:any) => wp.id),
     };
     const serializedIdParams = this.UrlParamsHelper.buildQueryString(workPackageIdParams);
 
-    const linkAndQueryString = action.href.split("?");
+    const linkAndQueryString = action.href.split('?');
     const link = linkAndQueryString.shift();
     const queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
 
-    return `${link}?${queryParts.join("&")}`;
+    return `${link}?${queryParts.join('&')}`;
   }
 
   private getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
@@ -140,7 +140,7 @@ export class WorkPackageContextMenuHelperService {
       }
     });
 
-    _.each(this.HookService.call("workPackageTableContextMenu"), (action) => {
+    _.each(this.HookService.call('workPackageTableContextMenu'), (action) => {
       if (workPackage.hasOwnProperty(action.link)) {
         const index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action);
@@ -161,18 +161,18 @@ export class WorkPackageContextMenuHelperService {
     // Can only outdent this item if it has ancestors
     if (this.wpViewIndent.canOutdent(workPackage)) {
       actions.push({
-        key: "hierarchy-outdent",
-        icon: "icon-paragraph-left",
-        text: I18n.t("js.relation_buttons.hierarchy_outdent"),
+        key: 'hierarchy-outdent',
+        icon: 'icon-paragraph-left',
+        text: I18n.t('js.relation_buttons.hierarchy_outdent'),
       });
     }
 
     // Can only indent if not first and immediate predecessor is not the parent
     if (this.wpViewIndent.canIndent(workPackage)) {
       actions.push({
-        key: "hierarchy-indent",
-        icon: "icon-paragraph-right",
-        text: I18n.t("js.relation_buttons.hierarchy_indent"),
+        key: 'hierarchy-indent',
+        icon: 'icon-paragraph-right',
+        text: I18n.t('js.relation_buttons.hierarchy_indent'),
       });
     }
 
@@ -184,22 +184,22 @@ export class WorkPackageContextMenuHelperService {
 
     if (!!workPackage.addRelation && this.wpViewTimeline.isVisible) {
       allowedActions.push({
-        key: "relation-precedes",
-        text: I18n.t("js.relation_buttons.add_predecessor"),
-        link: "addRelation",
+        key: 'relation-precedes',
+        text: I18n.t('js.relation_buttons.add_predecessor'),
+        link: 'addRelation',
       });
       allowedActions.push({
-        key: "relation-follows",
-        text: I18n.t("js.relation_buttons.add_follower"),
-        link: "addRelation",
+        key: 'relation-follows',
+        text: I18n.t('js.relation_buttons.add_follower'),
+        link: 'addRelation',
       });
     }
 
     if (!!workPackage.addChild && allowSplitScreenActions) {
       allowedActions.push({
-        key: "relation-new-child",
-        text: I18n.t("js.relation_buttons.add_new_child"),
-        link: "addChild",
+        key: 'relation-new-child',
+        text: I18n.t('js.relation_buttons.add_new_child'),
+        link: 'addChild',
       });
     }
 

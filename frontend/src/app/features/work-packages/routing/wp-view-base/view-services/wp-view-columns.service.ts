@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { States } from "core-app/core/states/states.service";
-import { Injectable } from "@angular/core";
-import { QueryColumn, queryColumnTypes } from "core-app/features/work-packages/components/wp-query/query-column";
-import { combine } from "reactivestates";
-import { mapTo, take } from "rxjs/operators";
-import { cloneHalResourceCollection } from "core-app/features/hal/helpers/hal-resource-builder";
-import { WorkPackageQueryStateService } from "./wp-view-base.service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { States } from 'core-app/core/states/states.service';
+import { Injectable } from '@angular/core';
+import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { combine } from 'reactivestates';
+import { mapTo, take } from 'rxjs/operators';
+import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
@@ -55,7 +55,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
   }
 
   public isCurrentlyEqualTo(a:QueryColumn[]) {
-    const comparer = (columns:QueryColumn[]) => columns.map(c => c.href);
+    const comparer = (columns:QueryColumn[]) => columns.map((c) => c.href);
 
     return _.isEqual(
       comparer(a),
@@ -66,8 +66,8 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
   public applyToQuery(query:QueryResource) {
     const toApply = this.getColumns();
 
-    const oldColumns = query.columns.map(el => el.id);
-    const newColumns = toApply.map(el => el.id);
+    const oldColumns = query.columns.map((el) => el.id);
+    const newColumns = toApply.map((el) => el.id);
     query.columns = cloneHalResourceCollection<QueryColumn>(toApply);
 
     // We can avoid reloading even with relation columns if we only removed columns
@@ -97,7 +97,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * Return the index of the given column or -1 if it is not contained.
    */
   public index(id:string):number {
-    return _.findIndex(this.getColumns(), column => column.id === id);
+    return _.findIndex(this.getColumns(), (column) => column.id === id);
   }
 
   /**
@@ -105,7 +105,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * @param id
    */
   public findById(id:string):QueryColumn|undefined {
-    return _.find(this.getColumns(), column => column.id === id);
+    return _.find(this.getColumns(), (column) => column.id === id);
   }
 
   /**
@@ -163,7 +163,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
   }
 
   public setColumnsById(columnIds:string[]) {
-    const mapped = columnIds.map(id => _.find(this.all, c => c.id === id));
+    const mapped = columnIds.map((id) => _.find(this.all, (c) => c.id === id));
     this.setColumns(_.compact(mapped));
   }
 
@@ -217,7 +217,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
       const newColumn = _.find(this.all, (column) => column.id === id);
 
       if (!newColumn) {
-        throw "Column with provided name is not found";
+        throw 'Column with provided name is not found';
       }
 
       columns.splice(position, 0, newColumn);
@@ -272,7 +272,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * Get columns not yet selected
    */
   public get unused():QueryColumn[] {
-    return _.differenceBy(this.all, this.getColumns(), "$href");
+    return _.differenceBy(this.all, this.getColumns(), '$href');
   }
 
   /**

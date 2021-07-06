@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,25 +28,25 @@
 
 import {
   ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { DebouncedEventEmitter } from "core-app/shared/helpers/rxjs/debounced-event-emitter";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { BannersService } from "core-app/core/enterprise/banners.service";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
 @Component({
-  selector: "query-filters",
+  selector: 'query-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./query-filters.component.html",
+  templateUrl: './query-filters.component.html',
 })
 export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit, OnChanges {
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
@@ -66,16 +66,16 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   public trackByName = AngularTrackingHelpers.trackByName;
 
   public text = {
-    open_filter: this.I18n.t("js.filter.description.text_open_filter"),
-    label_filter_add: this.I18n.t("js.work_packages.label_filter_add"),
-    close_filter: this.I18n.t("js.filter.description.text_close_filter"),
-    upsale_for_more: this.I18n.t("js.filter.upsale_for_more"),
-    upsale_link: this.I18n.t("js.filter.upsale_link"),
-    close_form: this.I18n.t("js.close_form_title"),
-    selected_filter_list: this.I18n.t("js.label_selected_filter_list"),
-    button_delete: this.I18n.t("js.button_delete"),
-    please_select: this.I18n.t("js.placeholders.selection"),
-    filter_by_text: this.I18n.t("js.work_packages.label_filter_by_text"),
+    open_filter: this.I18n.t('js.filter.description.text_open_filter'),
+    label_filter_add: this.I18n.t('js.work_packages.label_filter_add'),
+    close_filter: this.I18n.t('js.filter.description.text_close_filter'),
+    upsale_for_more: this.I18n.t('js.filter.upsale_for_more'),
+    upsale_link: this.I18n.t('js.filter.upsale_link'),
+    close_form: this.I18n.t('js.close_form_title'),
+    selected_filter_list: this.I18n.t('js.label_selected_filter_list'),
+    button_delete: this.I18n.t('js.button_delete'),
+    please_select: this.I18n.t('js.placeholders.selection'),
+    filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
   };
 
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
@@ -113,7 +113,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
 
   public deactivateFilter(removedFilter:QueryFilterInstanceResource) {
     const index = this.filters.indexOf(removedFilter);
-    _.remove(this.filters, f => f.id === removedFilter.id);
+    _.remove(this.filters, (f) => f.id === removedFilter.id);
 
     this.filtersChanged.emit(this.filters);
 
@@ -122,14 +122,14 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public get isSecondSpacerVisible():boolean {
-    const hasSearch = !!_.find(this.filters, (f) => f.id === "search");
-    const hasAvailableFilter = !!this.filters.find((f) => f.id !== "search" && this.isFilterAvailable(f));
+    const hasSearch = !!_.find(this.filters, (f) => f.id === 'search');
+    const hasAvailableFilter = !!this.filters.find((f) => f.id !== 'search' && this.isFilterAvailable(f));
 
     return hasSearch && hasAvailableFilter;
   }
 
   private updateRemainingFilters() {
-    this.remainingFilters = _.sortBy(this.wpTableFilters.remainingVisibleFilters(this.filters), "name");
+    this.remainingFilters = _.sortBy(this.wpTableFilters.remainingVisibleFilters(this.filters), 'name');
   }
 
   private updateFilterFocus(index:number) {
@@ -153,7 +153,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public isFilterAvailable(filter:QueryFilterResource):boolean {
-    return (this.wpTableFilters.availableFilters.some(availableFilter => availableFilter.id === filter.id)
+    return (this.wpTableFilters.availableFilters.some((availableFilter) => availableFilter.id === filter.id)
      && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
   }
 

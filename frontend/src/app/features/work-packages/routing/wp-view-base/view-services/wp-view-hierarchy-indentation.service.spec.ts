@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+/* jshint expr: true */
 
-import { TestBed, waitForAsync } from "@angular/core/testing";
-import { States } from "core-app/core/states/states.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
-import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { of } from "rxjs";
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { States } from 'core-app/core/states/states.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
+import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { of } from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 
-describe("WorkPackageViewIndentation service", () => {
+describe('WorkPackageViewIndentation service', () => {
   let service:WorkPackageViewHierarchyIdentationService;
   let states:States;
   let querySpace:IsolatedQuerySpace;
@@ -62,8 +62,8 @@ describe("WorkPackageViewIndentation service", () => {
 
   beforeEach(waitForAsync(() => {
     parentServiceSpy = jasmine.createSpyObj(
-      "WorkPackageRelationHierarchyService",
-      ["changeParent"],
+      'WorkPackageRelationHierarchyService',
+      ['changeParent'],
     );
 
     parentServiceSpy.changeParent.and.returnValue(Promise.resolve());
@@ -89,168 +89,168 @@ describe("WorkPackageViewIndentation service", () => {
       });
   }));
 
-  describe("canIndent", () => {
-    it("Cannot indent without changeParent link", () => {
-      const workPackage:any = { id: "1234" };
+  describe('canIndent', () => {
+    it('Cannot indent without changeParent link', () => {
+      const workPackage:any = { id: '1234' };
       expect(service.canIndent(workPackage)).toBeFalsy();
     });
 
-    it("Cannot indent when is first index", () => {
+    it('Cannot indent when is first index', () => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "2345", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: "1234", changeParent: () => "foo" };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo' };
       expect(service.canIndent(workPackage)).toBeFalsy();
     });
 
-    it("Can indent as second when it has no ancestors", () => {
+    it('Can indent as second when it has no ancestors', () => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "2345", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: "1234", changeParent: () => "foo", ancestorIds: [] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
       expect(service.canIndent(workPackage)).toBeTruthy();
     });
 
-    it("Cannot indent when possible but hierarchy disabled", () => {
+    it('Cannot indent when possible but hierarchy disabled', () => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "2345", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      spyOnProperty(hierarchyServiceStub, "isEnabled", "get")
+      spyOnProperty(hierarchyServiceStub, 'isEnabled', 'get')
         .and.returnValue(false);
 
-      const workPackage:any = { id: "1234", changeParent: () => "foo", ancestorIds: [] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
       expect(service.canIndent(workPackage)).toBeFalsy();
     });
 
-    it("Can not indent with a predecessor that is an ancestor already", () => {
+    it('Can not indent with a predecessor that is an ancestor already', () => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "2345", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: "1234", changeParent: () => "foo", ancestorIds: ["2345"] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['2345'] };
       expect(service.canIndent(workPackage)).toBeFalsy();
     });
 
-    it("Can indent with a predecessor that is NOT an ancestor already", () => {
+    it('Can indent with a predecessor that is NOT an ancestor already', () => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "2345", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "5555", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: "1234", changeParent: () => "foo", ancestorIds: ["2345"] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['2345'] };
       expect(service.canIndent(workPackage)).toBeTruthy();
     });
   });
 
-  describe("canOutdent", () => {
-    it("Cannot outdent without changeParent link", () => {
-      const workPackage:any = { id: "1234" };
+  describe('canOutdent', () => {
+    it('Cannot outdent without changeParent link', () => {
+      const workPackage:any = { id: '1234' };
       expect(service.canOutdent(workPackage)).toBeFalsy();
     });
 
-    it("Cannot outdent with changeParent link but disabled", () => {
-      const workPackage:any = { id: "1234", changeParent: () => "foo", parent: { id: "2345" } };
+    it('Cannot outdent with changeParent link but disabled', () => {
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: { id: '2345' } };
 
-      spyOnProperty(hierarchyServiceStub, "isEnabled", "get")
+      spyOnProperty(hierarchyServiceStub, 'isEnabled', 'get')
         .and.returnValue(false);
 
       expect(service.canOutdent(workPackage)).toBeFalsy();
     });
 
-    it("can outdent with changeParent link", () => {
-      const workPackage:any = { id: "1234", changeParent: () => "foo", parent: { id: "2345" } };
+    it('can outdent with changeParent link', () => {
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: { id: '2345' } };
 
       expect(service.canOutdent(workPackage)).toBeTruthy();
     });
   });
 
-  describe("indent", () => {
-    it("Can indent with a predecessor that is NOT an ancestor already", (done) => {
+  describe('indent', () => {
+    it('Can indent with a predecessor that is NOT an ancestor already', (done) => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "5555", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "2345", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: "1234", changeParent: () => "foo", ancestorIds: [] };
-      const predecessor:any = { id: "2345", changeParent: () => "foo", ancestorIds: [] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
+      const predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: [] };
 
-      states.workPackages.get("2345").putValue(predecessor);
+      states.workPackages.get('2345').putValue(predecessor);
 
       service.indent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, "2345");
+        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
         done();
       });
     });
 
-    it("Can indent with a predecessor that shares an ancestor chain", (done) => {
+    it('Can indent with a predecessor that shares an ancestor chain', (done) => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "5555", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "2345", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: "1234", changeParent: () => "foo", ancestorIds: [] };
-      const predecessor:any = { id: "2345", changeParent: () => "foo", ancestorIds: ["5555"] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
+      const predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: ['5555'] };
 
-      states.workPackages.get("2345").putValue(predecessor);
+      states.workPackages.get('2345').putValue(predecessor);
 
       service.indent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, "5555");
+        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '5555');
         done();
       });
     });
 
-    it("Can indent with a predecessor that shares an ancestor chain", (done) => {
+    it('Can indent with a predecessor that shares an ancestor chain', (done) => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "5555", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "2345", hidden: false, classIdentifier: "foo" },
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: "1234", changeParent: () => "foo", ancestorIds: ["5555"] };
-      const predecessor:any = { id: "2345", changeParent: () => "foo", ancestorIds: ["5555"] };
+      const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['5555'] };
+      const predecessor:any = { id: '2345', changeParent: () => 'foo', ancestorIds: ['5555'] };
 
-      states.workPackages.get("2345").putValue(predecessor);
+      states.workPackages.get('2345').putValue(predecessor);
 
       service.indent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, "2345");
+        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
         done();
       });
     });
   });
 
-  describe("outdent", () => {
-    it("will outdent to the previous last ancestorId", (done) => {
+  describe('outdent', () => {
+    it('will outdent to the previous last ancestorId', (done) => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = {
-        id: "1234", changeParent: () => "foo", parent: "5555", ancestorIds: ["2345", "5555"],
+        id: '1234', changeParent: () => 'foo', parent: '5555', ancestorIds: ['2345', '5555'],
       };
 
       service.outdent(workPackage).then(() => {
-        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, "2345");
+        expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
         done();
       });
     });
 
-    it("will outdent to null in case of ancestorIds.length < 2", (done) => {
+    it('will outdent to null in case of ancestorIds.length < 2', (done) => {
       querySpace.tableRendered.putValue([
-        { workPackageId: "1234", hidden: false, classIdentifier: "foo" },
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = {
-        id: "1234", changeParent: () => "foo", parent: "2345", ancestorIds: ["2345"],
+        id: '1234', changeParent: () => 'foo', parent: '2345', ancestorIds: ['2345'],
       };
 
       service.outdent(workPackage).then(() => {

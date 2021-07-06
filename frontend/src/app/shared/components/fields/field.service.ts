@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector } from "@angular/core";
-import { Field } from "core-app/shared/components/fields/field.base";
+import { Injector } from '@angular/core';
+import { Field } from 'core-app/shared/components/fields/field.base';
 
 export interface IFieldType<T extends Field> {
   fieldType:string;
@@ -62,12 +62,12 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    * @param {string} fieldName
    * @returns {C}
    */
-  public getClassFor(fieldName:string, type = "unknown"):C {
+  public getClassFor(fieldName:string, type = 'unknown'):C {
     const key = this.fieldType(fieldName) || this.fieldType(type) || this.defaultFieldType;
     return this.classes[key];
   }
 
-  public getSpecificClassFor(resourceType:string, fieldName:string, type = "unknown"):C {
+  public getSpecificClassFor(resourceType:string, fieldName:string, type = 'unknown'):C {
     const key = this.fieldType(`${resourceType}-${fieldName}`)
               || this.fieldType(`${resourceType}-${type}`);
 

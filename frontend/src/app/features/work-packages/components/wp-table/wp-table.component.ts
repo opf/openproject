@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -36,50 +36,50 @@ import {
   NgZone,
   OnInit, Output,
   ViewEncapsulation,
-} from "@angular/core";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { TableEventComponent, TableHandlerRegistry } from "core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { combineLatest } from "rxjs";
-import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
-import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { createScrollSync } from "core-app/features/work-packages/components/wp-table/wp-table-scroll-sync";
-import { WpTableHoverSync } from "core-app/features/work-packages/components/wp-table/wp-table-hover-sync";
-import { WorkPackageTimelineTableController } from "core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { WorkPackageViewSumService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service";
+} from '@angular/core';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TableEventComponent, TableHandlerRegistry } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { combineLatest } from 'rxjs';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { createScrollSync } from 'core-app/features/work-packages/components/wp-table/wp-table-scroll-sync';
+import { WpTableHoverSync } from 'core-app/features/work-packages/components/wp-table/wp-table-hover-sync';
+import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject,
-} from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
-import { States } from "core-app/core/states/states.service";
-import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
+} from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { States } from 'core-app/core/states/states.service';
+import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
   workPackageId:string;
   /** Through what action did the focus happen */
-  through:"row-double-click"|"id-click"|"details-icon";
+  through:'row-double-click'|'id-click'|'details-icon';
 }
 
 @Component({
-  templateUrl: "./wp-table.directive.html",
-  styleUrls: ["./wp-table.styles.sass"],
+  templateUrl: './wp-table.directive.html',
+  styleUrls: ['./wp-table.styles.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: "wp-table",
+  selector: 'wp-table',
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent {
   @Input() projectIdentifier:string;
 
-  @Input("configuration") configurationObject:WorkPackageTableConfigurationObject;
+  @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
 
   @Output() selectionChanged = new EventEmitter<string[]>();
 
@@ -156,18 +156,18 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     this.locale = I18n.locale;
 
     this.text = {
-      cancel: I18n.t("js.button_cancel"),
+      cancel: I18n.t('js.button_cancel'),
       noResults: {
-        title: I18n.t("js.work_packages.no_results.title"),
-        description: I18n.t("js.work_packages.no_results.description"),
+        title: I18n.t('js.work_packages.no_results.title'),
+        description: I18n.t('js.work_packages.no_results.description'),
       },
-      limitedResults: (count:number, total:number) => I18n.t("js.work_packages.limited_results", { count, total }),
-      tableSummary: I18n.t("js.work_packages.table.summary"),
+      limitedResults: (count:number, total:number) => I18n.t('js.work_packages.limited_results', { count, total }),
+      tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
-        I18n.t("js.work_packages.table.text_inline_edit"),
-        I18n.t("js.work_packages.table.text_select_hint"),
-        I18n.t("js.work_packages.table.text_sort_hint"),
-      ].join(" "),
+        I18n.t('js.work_packages.table.text_inline_edit'),
+        I18n.t('js.work_packages.table.text_select_hint'),
+        I18n.t('js.work_packages.table.text_sort_hint'),
+      ].join(' '),
     };
 
     const statesCombined = combineLatest([
@@ -213,8 +213,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   }
 
   public registerTimeline(controller:WorkPackageTimelineTableController, timelineBody:HTMLElement) {
-    const tbody = this.$element.find(".work-package--results-tbody");
-    const scrollContainer = this.$element.find(".work-package-table--container")[0];
+    const tbody = this.$element.find('.work-package--results-tbody');
+    const scrollContainer = this.$element.find('.work-package-table--container')[0];
     this.workPackageTable = new WorkPackageTable(
       this.injector,
       // Outer container for both table + Timeline
@@ -255,11 +255,11 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   }
 
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {
-    const $tableSide = this.$element.find(".work-packages-tabletimeline--table-side");
-    const $timelineSide = this.$element.find(".work-packages-tabletimeline--timeline-side");
+    const $tableSide = this.$element.find('.work-packages-tabletimeline--table-side');
+    const $timelineSide = this.$element.find('.work-packages-tabletimeline--timeline-side');
 
     if ($timelineSide.length === 0 || $tableSide.length === 0) {
-      throw new Error("invalid state");
+      throw new Error('invalid state');
     }
 
     return [$tableSide[0], $timelineSide[0]];

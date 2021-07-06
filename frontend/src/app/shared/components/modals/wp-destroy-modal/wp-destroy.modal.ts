@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
-import { States } from "core-app/core/states/states.service";
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { States } from 'core-app/core/states/states.service';
 import {
   ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from "@angular/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { StateService } from "@uirouter/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { BackRoutingService } from "core-app/features/work-packages/components/back-routing/back-routing.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { WorkPackageService } from "core-app/features/work-packages/services/work-package.service";
+} from '@angular/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { StateService } from '@uirouter/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { WorkPackageService } from 'core-app/features/work-packages/services/work-package.service';
 
 @Component({
-  templateUrl: "./wp-destroy.modal.html",
+  templateUrl: './wp-destroy.modal.html',
 })
 export class WpDestroyModal extends OpModalComponent implements OnInit {
   // When deleting multiple
@@ -62,13 +62,13 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   public childrenDeletionConfirmed = false;
 
   public text:any = {
-    label_visibility_settings: this.I18n.t("js.label_visibility_settings"),
-    button_save: this.I18n.t("js.modals.button_save"),
-    confirm: this.I18n.t("js.button_confirm"),
-    warning: this.I18n.t("js.label_warning"),
-    cancel: this.I18n.t("js.button_cancel"),
-    close: this.I18n.t("js.close_popup_title"),
-    label_confirm_children_deletion: this.I18n.t("js.modals.destroy_work_package.confirm_deletion_children"),
+    label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
+    button_save: this.I18n.t('js.modals.button_save'),
+    confirm: this.I18n.t('js.button_confirm'),
+    warning: this.I18n.t('js.label_warning'),
+    cancel: this.I18n.t('js.button_cancel'),
+    close: this.I18n.t('js.close_popup_title'),
+    label_confirm_children_deletion: this.I18n.t('js.modals.destroy_work_package.confirm_deletion_children'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -89,7 +89,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     super.ngOnInit();
 
     this.workPackages = this.locals.workPackages;
-    this.workPackageLabel = this.I18n.t("js.units.workPackage", { count: this.workPackages.length });
+    this.workPackageLabel = this.I18n.t('js.units.workPackage', { count: this.workPackages.length });
 
     // Ugly way to provide the same view bindings as the ng-init in the previous template.
     if (this.workPackages.length === 1) {
@@ -97,20 +97,20 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       this.singleWorkPackageChildren = this.singleWorkPackage.children;
     }
 
-    this.text.title = this.I18n.t("js.modals.destroy_work_package.title", { label: this.workPackageLabel }),
-    this.text.text = this.I18n.t("js.modals.destroy_work_package.text", {
+    this.text.title = this.I18n.t('js.modals.destroy_work_package.title', { label: this.workPackageLabel }),
+    this.text.text = this.I18n.t('js.modals.destroy_work_package.text', {
       label: this.workPackageLabel,
       count: this.workPackages.length,
     });
 
     this.text.childCount = (wp:WorkPackageResource) => {
       const count = this.children(wp).length;
-      return this.I18n.t("js.units.child_work_packages", { count });
+      return this.I18n.t('js.units.child_work_packages', { count });
     };
 
-    this.text.hasChildren = (wp:WorkPackageResource) => this.I18n.t("js.modals.destroy_work_package.has_children", { childUnits: this.text.childCount(wp) }),
+    this.text.hasChildren = (wp:WorkPackageResource) => this.I18n.t('js.modals.destroy_work_package.has_children', { childUnits: this.text.childCount(wp) }),
 
-    this.text.deletesChildren = this.I18n.t("js.modals.destroy_work_package.deletes_children");
+    this.text.deletesChildren = this.I18n.t('js.modals.destroy_work_package.deletes_children');
   }
 
   public get blockedDueToUnconfirmedChildren() {
@@ -124,7 +124,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
       const result = this.singleWorkPackageChildren.length > 0;
     }
 
-    return result || !!_.find(this.workPackages, wp => wp.children && wp.children.length > 0);
+    return result || !!_.find(this.workPackages, (wp) => wp.children && wp.children.length > 0);
   }
 
   public confirmDeletion($event:JQuery.TriggeredEvent) {
@@ -133,11 +133,11 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
     }
 
     this.busy = true;
-    this.WorkPackageService.performBulkDelete(this.workPackages.map(el => el.id!), true)
+    this.WorkPackageService.performBulkDelete(this.workPackages.map((el) => el.id!), true)
       .then(() => {
         this.busy = false;
         this.closeMe($event);
-        this.wpTableFocus.clear("Clearing after destroying work packages");
+        this.wpTableFocus.clear('Clearing after destroying work packages');
 
         // Go back to a previous list state if we're in a split or full view
         if (this.$state.current.data.baseRoute) {
@@ -152,7 +152,7 @@ export class WpDestroyModal extends OpModalComponent implements OnInit {
   }
 
   public children(workPackage:WorkPackageResource) {
-    if (workPackage.hasOwnProperty("children")) {
+    if (workPackage.hasOwnProperty('children')) {
       return workPackage.children;
     }
     return [];

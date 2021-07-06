@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Constructor } from "@angular/cdk/table";
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Observable } from "rxjs";
-import { Apiv3ListParameters, listParamsString } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { Board, BoardType } from "core-app/features/boards/board/board";
-import { map, switchMap, tap } from "rxjs/operators";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { MultiInputState } from "reactivestates";
-import { APIv3BoardPath } from "core-app/core/apiv3/virtual/apiv3-board-path";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
+import { Constructor } from '@angular/cdk/table';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Observable } from 'rxjs';
+import { Apiv3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { Board, BoardType } from 'core-app/features/boards/board/board';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { CachableAPIV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { MultiInputState } from 'reactivestates';
+import { APIv3BoardPath } from 'core-app/core/apiv3/virtual/apiv3-board-path';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 
 export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardPath> {
   @InjectField() private authorisationService:AuthorisationService;
@@ -50,7 +50,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
 
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, "grids", APIv3BoardPath);
+    super(apiRoot, basePath, 'grids', APIv3BoardPath);
   }
 
   /**
@@ -62,8 +62,8 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
       .halResourceService
       .get<CollectionResource<GridResource>>(this.path + listParamsString(params))
       .pipe(
-        tap(collection => this.authorisationService.initModelAuth("boards", collection.$links)),
-        map(collection => collection.elements.map(grid => {
+        tap((collection) => this.authorisationService.initModelAuth('boards', collection.$links)),
+        map((collection) => collection.elements.map((grid) => {
           const board = new Board(grid);
           board.sortWidgets();
           this.touch(board);
@@ -80,7 +80,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
    */
   public allInScope(projectIdentifier:string):Observable<Board[]> {
     const path = this.boardPath(projectIdentifier);
-    return this.list({ filters: [["scope", "=", [path]]] });
+    return this.list({ filters: [['scope', '=', [path]]] });
   }
 
   /**
@@ -94,7 +94,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
     return this
       .createGrid(type, name, scope, actionAttribute)
       .pipe(
-        map(grid => new Board(grid)),
+        map((grid) => new Board(grid)),
       );
   }
 
@@ -108,12 +108,12 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
   }
 
   protected createCache():StateCacheService<Board> {
-    const state = this.states.forType<Board>("boards");
+    const state = this.states.forType<Board>('boards');
     return new StateCacheService<Board>(state);
   }
 
   private createGrid(type:BoardType, name:string, scope:string, actionAttribute?:string):Observable<GridResource> {
-    const payload:any = _.set({ name }, "_links.scope.href", scope);
+    const payload:any = _.set({ name }, '_links.scope.href', scope);
     payload.options = {
       type,
     };

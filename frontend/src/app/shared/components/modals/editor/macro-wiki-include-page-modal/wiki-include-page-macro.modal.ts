@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,14 +28,14 @@
 
 import {
   AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
-} from "@angular/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+} from '@angular/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  templateUrl: "./wiki-include-page-macro.modal.html",
+  templateUrl: './wiki-include-page-macro.modal.html',
 })
 export class WikiIncludePageMacroModal extends OpModalComponent implements AfterViewInit {
   public changed = false;
@@ -48,17 +48,17 @@ export class WikiIncludePageMacroModal extends OpModalComponent implements After
 
   public selectedPage:string;
 
-  public page = "";
+  public page = '';
 
-  @ViewChild("selectedPageInput", { static: true }) selectedPageInput:ElementRef;
+  @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef;
 
   public text:any = {
-    title: this.I18n.t("js.editor.macro.wiki_page_include.button"),
-    hint: this.I18n.t("js.editor.macro.wiki_page_include.hint"),
-    page: this.I18n.t("js.editor.macro.wiki_page_include.page"),
-    button_save: this.I18n.t("js.button_save"),
-    button_cancel: this.I18n.t("js.button_cancel"),
-    close_popup: this.I18n.t("js.close_popup_title"),
+    title: this.I18n.t('js.editor.macro.wiki_page_include.button'),
+    hint: this.I18n.t('js.editor.macro.wiki_page_include.hint'),
+    page: this.I18n.t('js.editor.macro.wiki_page_include.page'),
+    button_save: this.I18n.t('js.button_save'),
+    button_cancel: this.I18n.t('js.button_cancel'),
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,

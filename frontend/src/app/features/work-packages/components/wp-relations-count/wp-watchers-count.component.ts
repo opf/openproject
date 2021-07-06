@@ -1,18 +1,18 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
-} from "@angular/core";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageWatchersService } from "core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service";
+} from '@angular/core';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 
 @Component({
-  templateUrl: "./wp-relations-count.html",
-  selector: "wp-watchers-count",
+  templateUrl: './wp-relations-count.html',
+  selector: 'wp-watchers-count',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin implements OnInit {
-  @Input("wpId") wpId:string;
+  @Input('wpId') wpId:string;
 
   public count = 0;
 

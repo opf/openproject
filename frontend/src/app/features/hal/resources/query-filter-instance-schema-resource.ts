@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalLink } from "core-app/features/hal/hal-link/hal-link";
-import { QueryOperatorResource } from "core-app/features/hal/resources/query-operator-resource";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { SchemaAttributeObject, SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
-import { SchemaDependencyResource } from "core-app/features/hal/resources/schema-dependency-resource";
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { SchemaAttributeObject, SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { SchemaDependencyResource } from 'core-app/features/hal/resources/schema-dependency-resource';
 
 export interface QueryFilterInstanceSchemaResourceLinks {
   self:HalLink;
@@ -51,7 +51,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
 
   public values:SchemaAttributeObject|null;
 
-  public type = "QueryFilterInstanceSchema";
+  public type = 'QueryFilterInstanceSchema';
 
   public get availableOperators():HalResource[] | CollectionResource {
     return this.operator.allowedValues;
@@ -69,7 +69,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     super.$initialize(source);
 
     if (source._dependencies) {
-      this.dependency = new SchemaDependencyResource(this.injector, source._dependencies[0], true, this.halInitializer, "SchemaDependency");
+      this.dependency = new SchemaDependencyResource(this.injector, source._dependencies[0], true, this.halInitializer, 'SchemaDependency');
     }
   }
 
@@ -86,12 +86,12 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     };
 
     if (this.definesAllowedValues()) {
-      source._links["values"] = [];
+      source._links.values = [];
     } else {
-      source["values"] = [];
+      source.values = [];
     }
 
-    return new QueryFilterInstanceResource(this.injector, source, true, this.halInitializer, "QueryFilterInstance");
+    return new QueryFilterInstanceResource(this.injector, source, true, this.halInitializer, 'QueryFilterInstance');
   }
 
   public isValueRequired():boolean {
@@ -109,7 +109,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
 
     _.merge(resultingSchema, staticSchema, dependentSchema);
 
-    return new QueryFilterInstanceSchemaResource(this.injector, resultingSchema, true, this.halInitializer, "QueryFilterInstanceSchema");
+    return new QueryFilterInstanceSchemaResource(this.injector, resultingSchema, true, this.halInitializer, 'QueryFilterInstanceSchema');
   }
 
   private definesAllowedValues() {

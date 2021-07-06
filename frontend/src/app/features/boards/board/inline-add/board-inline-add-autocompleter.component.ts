@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -35,35 +35,35 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Observable, of } from "rxjs";
-import { catchError, map, tap } from "rxjs/operators";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { WorkPackageCardDragAndDropService } from "core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 @Component({
-  selector: "board-inline-add-autocompleter",
-  templateUrl: "./board-inline-add-autocompleter.html",
+  selector: 'board-inline-add-autocompleter',
+  templateUrl: './board-inline-add-autocompleter.html',
 
   // Allow styling the embedded ng-select
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ["./board-inline-add-autocompleter.sass"],
+  styleUrls: ['./board-inline-add-autocompleter.sass'],
 })
 
 export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   readonly text = {
-    placeholder: this.I18n.t("js.relations_autocomplete.placeholder"),
+    placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
   };
 
   // Whether we're currently loading
@@ -79,16 +79,16 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     const results = this.querySpace.results.value;
 
-    filters.add("subjectOrId", "**", [searchString]);
+    filters.add('subjectOrId', '**', [searchString]);
 
     if (results && results.elements.length > 0) {
-      filters.add("id", "!", results.elements.map((wp:WorkPackageResource) => wp.id!));
+      filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
     // Add the subproject filter, if any
     const query = this.querySpace.query.value;
     if (query?.filters) {
       const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
-      filters.merge(currentFilters, "subprojectId");
+      filters.merge(currentFilters, 'subprojectId');
     }
 
     return this
@@ -98,7 +98,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
       .filtered(filters)
       .get()
       .pipe(
-        map(collection => collection.elements),
+        map((collection) => collection.elements),
         catchError((error:unknown) => {
           this.notificationService.handleRawError(error);
           return of([]);
@@ -108,11 +108,11 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   };
 
   public autocompleterOptions = {
-    resource: "work_packages",
+    resource: 'work_packages',
     getOptionsFn: this.getAutocompleterData,
   };
 
-  @Input() appendToContainer = "body";
+  @Input() appendToContainer = 'body';
 
   @ViewChild(OpAutocompleterComponent) public ngSelectComponent:OpAutocompleterComponent;
 

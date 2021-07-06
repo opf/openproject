@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HTTPSupportedMethods } from "core-app/features/hal/http/http.interfaces";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HTTPSupportedMethods } from 'core-app/features/hal/http/http.interfaces';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 export interface HalLinkInterface {
   href:string|null;
@@ -53,11 +53,11 @@ export interface CallableHalLink extends HalLinkInterface {
 export class HalLink implements HalLinkInterface {
   constructor(public requestMethod:(method:HTTPSupportedMethods, href:string, data:any, headers:any) => Promise<HalResource>,
     public href:string|null = null,
-    public title:string = "",
-    public method:HTTPSupportedMethods = "get",
+    public title:string = '',
+    public method:HTTPSupportedMethods = 'get',
     public templated:boolean = false,
     public payload?:any,
-    public type:string = "application/json",
+    public type:string = 'application/json',
     public identifier?:string) {
   }
 
@@ -95,7 +95,7 @@ export class HalLink implements HalLinkInterface {
       throw `The link ${this.href} is not templated.`;
     }
 
-    let href = _.clone(this.href) || "";
+    let href = _.clone(this.href) || '';
     _.each(templateValues, (value:string, key:string) => {
       const regexp = new RegExp(`{${key}}`);
       href = href.replace(regexp, value);

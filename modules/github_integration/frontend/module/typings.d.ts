@@ -1,4 +1,4 @@
-import { HalResourceClass } from "core-app/modules/hal/resources/hal-resource";
+import { HalResourceClass } from 'core-app/modules/hal/resources/hal-resource';
 
 export interface ISnippet {
   id:string;

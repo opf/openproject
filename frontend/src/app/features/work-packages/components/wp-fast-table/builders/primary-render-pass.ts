@@ -1,18 +1,18 @@
-import { Injector } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { HighlightingRenderPass } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/row-highlight-render-pass";
-import { DragDropHandleRenderPass } from "core-app/features/work-packages/components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-app/core/states/states.service";
-import { timeOutput } from "core-app/shared/helpers/debug_output";
-import { TimelineRenderPass } from "./timeline/timeline-render-pass";
-import { SingleRowBuilder } from "./rows/single-row-builder";
-import { RelationRenderInfo, RelationsRenderPass } from "./relations/relations-render-pass";
-import { WorkPackageTable } from "../wp-fast-table";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HighlightingRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/row-highlight-render-pass';
+import { DragDropHandleRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-render-pass';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { States } from 'core-app/core/states/states.service';
+import { timeOutput } from 'core-app/shared/helpers/debug_output';
+import { TimelineRenderPass } from './timeline/timeline-render-pass';
+import { SingleRowBuilder } from './rows/single-row-builder';
+import { RelationRenderInfo, RelationsRenderPass } from './relations/relations-render-pass';
+import { WorkPackageTable } from '../wp-fast-table';
 
-export type RenderedRowType = "primary"|"relations";
+export type RenderedRowType = 'primary'|'relations';
 
 export interface RowRenderInfo {
   // The rendered row
@@ -70,7 +70,7 @@ export abstract class PrimaryRenderPass {
    * @return {PrimaryRenderPass}
    */
   public render():this {
-    timeOutput("Primary render pass", () => {
+    timeOutput('Primary render pass', () => {
       // Prepare and reset the render pass
       this.prepare();
 
@@ -85,16 +85,16 @@ export abstract class PrimaryRenderPass {
     // that may modify the structure of the table
     this.highlighting.render();
 
-    timeOutput("Relations render pass", () => {
+    timeOutput('Relations render pass', () => {
       this.relations.render();
     });
 
-    timeOutput("Drag handle render pass", () => {
+    timeOutput('Drag handle render pass', () => {
       this.dragDropHandle.render();
     });
 
     // Synchronize the rows to timeline
-    timeOutput("Timelines render pass", () => {
+    timeOutput('Timelines render pass', () => {
       this.timeline.render();
     });
 
@@ -110,11 +110,11 @@ export abstract class PrimaryRenderPass {
     let replacement:JQuery|null = null;
 
     switch (row.renderType) {
-    case "primary":
-      replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
-      break;
-    case "relations":
-      replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
+      case 'primary':
+        replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
+        break;
+      case 'relations':
+        replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
     }
 
     if (replacement !== null && oldRow.length) {
@@ -190,7 +190,7 @@ export abstract class PrimaryRenderPass {
       classIdentifier: this.rowBuilder.classIdentifier(workPackage),
       additionalClasses,
       workPackage,
-      renderType: "primary",
+      renderType: 'primary',
       element: row,
       hidden,
     });
@@ -214,7 +214,7 @@ export abstract class PrimaryRenderPass {
       classIdentifier: classIdentifer,
       additionalClasses,
       workPackage: null,
-      renderType: "primary",
+      renderType: 'primary',
       hidden,
     });
   }

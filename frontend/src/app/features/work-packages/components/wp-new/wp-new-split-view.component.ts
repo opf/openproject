@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageCreateComponent } from "core-app/features/work-packages/components/wp-new/wp-create.component";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: "wp-new-split-view",
-  templateUrl: "./wp-new-split-view.html",
+  selector: 'wp-new-split-view',
+  templateUrl: './wp-new-split-view.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent {

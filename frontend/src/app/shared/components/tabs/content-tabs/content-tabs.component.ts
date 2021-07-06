@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -30,14 +30,14 @@ import {
   Component,
   ElementRef,
   ChangeDetectionStrategy, ChangeDetectorRef,
-} from "@angular/core";
-import { GonService } from "core-app/core/gon/gon.service";
-import { StateService } from "@uirouter/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ScrollableTabsComponent } from "core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component";
-import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";
+} from '@angular/core';
+import { GonService } from 'core-app/core/gon/gon.service';
+import { StateService } from '@uirouter/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 
-export const contentTabsSelector = "content-tabs";
+export const contentTabsSelector = 'content-tabs';
 
 interface GonTab extends TabDefinition {
   partial:string;
@@ -45,14 +45,14 @@ interface GonTab extends TabDefinition {
 }
 
 @Component({
-  selector: "op-content-tabs",
-  templateUrl: "../scrollable-tabs/scrollable-tabs.component.html",
-  styleUrls: ["./content-tabs.component.sass"],
+  selector: 'op-content-tabs',
+  templateUrl: '../scrollable-tabs/scrollable-tabs.component.html',
+  styleUrls: ['./content-tabs.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class ContentTabsComponent extends ScrollableTabsComponent {
-  public classes:string[] = ["content--tabs", "scrollable-tabs"];
+  public classes:string[] = ['content--tabs', 'scrollable-tabs'];
 
   constructor(readonly elementRef:ElementRef,
     readonly $state:StateService,
@@ -61,8 +61,8 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
     readonly I18n:I18nService) {
     super(cdRef);
 
-    const gonTabs = JSON.parse((this.gon.get("contentTabs") as any).tabs);
-    const currentTab = JSON.parse((this.gon.get("contentTabs") as any).selected);
+    const gonTabs = JSON.parse((this.gon.get('contentTabs') as any).tabs);
+    const currentTab = JSON.parse((this.gon.get('contentTabs') as any).selected);
 
     // parse tabs from backend and map them to scrollable tabs structure
     this.tabs = gonTabs.map((tab:GonTab) => ({

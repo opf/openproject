@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-export const selectorTableSide = ".work-packages-tabletimeline--table-side";
-export const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side";
-const jQueryScrollSyncEventNamespace = ".scroll-sync";
+export const selectorTableSide = '.work-packages-tabletimeline--table-side';
+export const selectorTimelineSide = '.work-packages-tabletimeline--timeline-side';
+const jQueryScrollSyncEventNamespace = '.scroll-sync';
 const scrollStep = 15;
 
 function getXandYScrollDeltas(ev:WheelEvent):[number, number] {
@@ -85,13 +85,13 @@ function syncWheelEvent(jev:JQuery.TriggeredEvent, elementTable:JQuery, elementT
  * @param $element true if the timeline is visible, false otherwise.
  */
 export function createScrollSync($element:JQuery) {
-  var elTable = jQuery($element).find(selectorTableSide);
-  var elTimeline = jQuery($element).find(selectorTimelineSide);
+  const elTable = jQuery($element).find(selectorTableSide);
+  const elTimeline = jQuery($element).find(selectorTimelineSide);
 
   return (timelineVisible:boolean) => {
     // state vars
-    var syncedLeft = false;
-    var syncedRight = false;
+    let syncedLeft = false;
+    let syncedRight = false;
 
     if (timelineVisible) {
       // setup event listener for table

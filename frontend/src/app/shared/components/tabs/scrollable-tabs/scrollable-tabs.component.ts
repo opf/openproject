@@ -7,24 +7,24 @@ import {
   Input, OnChanges,
   Output, SimpleChanges,
   ViewChild,
-} from "@angular/core";
-import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
+} from '@angular/core';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
 
 @Component({
-  templateUrl: "scrollable-tabs.component.html",
-  selector: "op-scrollable-tabs",
+  templateUrl: 'scrollable-tabs.component.html',
+  selector: 'op-scrollable-tabs',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
-  @ViewChild("scrollContainer", { static: true }) scrollContainer:ElementRef;
+  @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
 
-  @ViewChild("scrollPane", { static: true }) scrollPane:ElementRef;
+  @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
 
-  @ViewChild("scrollRightBtn", { static: true }) scrollRightBtn:ElementRef;
+  @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef;
 
-  @ViewChild("scrollLeftBtn", { static: true }) scrollLeftBtn:ElementRef;
+  @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef;
 
   @Input() public currentTabId:string|null = null;
 
@@ -38,7 +38,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   @Output() public tabSelected = new EventEmitter<TabDefinition>();
 
-  trackById = AngularTrackingHelpers.trackByProperty("id");
+  trackById = AngularTrackingHelpers.trackByProperty('id');
 
   private container:Element;
 
@@ -98,7 +98,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
   }
 
   public tabTitle(tab:TabDefinition):string {
-    return (typeof tab.disable === "string") ? tab.disable : tab.name;
+    return (typeof tab.disable === 'string') ? tab.disable : tab.name;
   }
 
   private scrollIntoVisibleArea(tabId:string) {

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Inject, Injectable, Injector } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { DynamicContentModal } from "core-app/shared/components/modals/modal-wrapper/dynamic-content.modal";
+import { Inject, Injectable, Injector } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { DynamicContentModal } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
 
-const iframeSelector = ".iframe-target-wrapper";
+const iframeSelector = '.iframe-target-wrapper';
 
 /**
  * This service takes modals that are rendered by the rails backend,
  * and re-renders them with the angular op-modal service
  */
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class OpModalWrapperAugmentService {
   constructor(@Inject(DOCUMENT) protected documentElement:Document,
     protected injector:Injector,
@@ -48,7 +48,7 @@ export class OpModalWrapperAugmentService {
    * Create initial listeners for Rails-rendered modals
    */
   public setupListener() {
-    const matches = this.documentElement.querySelectorAll("section[data-augmented-model-wrapper]");
+    const matches = this.documentElement.querySelectorAll('section[data-augmented-model-wrapper]');
     for (let i = 0; i < matches.length; ++i) {
       this.wrapElement(jQuery(matches[i]) as JQuery);
     }
@@ -59,10 +59,10 @@ export class OpModalWrapperAugmentService {
    */
   public wrapElement(element:JQuery) {
     // Find activation link
-    const activationSelector = element.data("activationSelector") || ".modal-delivery-element--activation-link";
+    const activationSelector = element.data('activationSelector') || '.modal-delivery-element--activation-link';
     const activationLink = jQuery(activationSelector);
 
-    const initializeNow = element.data("modalInitializeNow");
+    const initializeNow = element.data('modalInitializeNow');
 
     if (initializeNow) {
       this.show(element);
@@ -76,12 +76,12 @@ export class OpModalWrapperAugmentService {
 
   private show(element:JQuery) {
     // Set modal class name
-    const modalClassName = element.data("modalClassName");
+    const modalClassName = element.data('modalClassName');
     // Append CSP-whitelisted IFrame for onboarding
-    const iframeUrl = element.data("modalIframeUrl");
+    const iframeUrl = element.data('modalIframeUrl');
 
     // Set template from wrapped element
-    const wrappedElement = element.find(".modal-delivery-element");
+    const wrappedElement = element.find('.modal-delivery-element');
     let modalBody = wrappedElement.html();
 
     if (iframeUrl) {
@@ -101,7 +101,7 @@ export class OpModalWrapperAugmentService {
   private appendIframe(body:string, url:string) {
     const subdom = jQuery(body);
     const iframe = jQuery('<iframe frameborder="0" height="400" allowfullscreen>></iframe>');
-    iframe.attr("src", url);
+    iframe.attr('src', url);
 
     subdom.find(iframeSelector).append(iframe);
 

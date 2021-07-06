@@ -1,9 +1,9 @@
-import { Title } from "@angular/platform-browser";
-import { Injectable } from "@angular/core";
+import { Title } from '@angular/platform-browser';
+import { Injectable } from '@angular/core';
 
-const titlePartsSeparator = " | ";
+const titlePartsSeparator = ' | ';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class OpTitleService {
   constructor(private titleService:Title) {
 

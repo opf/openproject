@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export class DurationDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
 
-  private derivedText = this.I18n.t("js.label_value_derived_from_children");
+  private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
   public get valueString() {
     return this.timezoneService.formattedDuration(this.value);
@@ -65,7 +65,7 @@ export class DurationDisplayField extends DisplayField {
       return;
     }
 
-    element.classList.add("split-time-field");
+    element.classList.add('split-time-field');
     const { value } = this;
     const actual:number = (value && this.timezoneService.toHours(value)) || 0;
 
@@ -80,25 +80,25 @@ export class DurationDisplayField extends DisplayField {
   }
 
   public renderActual(element:HTMLElement, displayText:string):void {
-    const span = document.createElement("span");
+    const span = document.createElement('span');
 
     span.textContent = displayText;
     span.title = this.valueString;
-    span.classList.add("-actual-value");
+    span.classList.add('-actual-value');
 
     element.appendChild(span);
   }
 
   public renderDerived(element:HTMLElement, displayText:string, actualPresent:boolean):void {
-    const span = document.createElement("span");
+    const span = document.createElement('span');
 
-    span.setAttribute("title", this.texts.empty);
-    span.textContent = `(${actualPresent ? "+" : ""}${displayText})`;
+    span.setAttribute('title', this.texts.empty);
+    span.textContent = `(${actualPresent ? '+' : ''}${displayText})`;
     span.title = `${this.derivedValueString} ${this.derivedText}`;
-    span.classList.add("-derived-value");
+    span.classList.add('-derived-value');
 
     if (actualPresent) {
-      span.classList.add("-with-actual-value");
+      span.classList.add('-with-actual-value');
     }
 
     element.appendChild(span);

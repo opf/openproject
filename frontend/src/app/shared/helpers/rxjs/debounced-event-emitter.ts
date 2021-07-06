@@ -1,6 +1,6 @@
-import { EventEmitter } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import { debounceTime, takeUntil } from "rxjs/operators";
+import { EventEmitter } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 export class DebouncedEventEmitter<T> {
   private emitter = new EventEmitter<T>();

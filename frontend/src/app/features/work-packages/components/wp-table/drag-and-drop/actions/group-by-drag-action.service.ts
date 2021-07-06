@@ -1,15 +1,15 @@
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { TableDragActionService } from "core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
+import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { rowGroupClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import { locatePredecessorBySelector } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers";
-import { groupIdentifier } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { rowGroupClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
+import { locatePredecessorBySelector } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
+import { groupIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 export class GroupByDragActionService extends TableDragActionService {
   @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
@@ -41,13 +41,13 @@ export class GroupByDragActionService extends TableDragActionService {
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.halEditing
       .save(changeset)
-      .then((saved) => this.halEvents.push(saved.resource, { eventType: "updated" }))
-      .catch(e => this.halNotification.handleRawError(e, workPackage));
+      .then((saved) => this.halEvents.push(saved.resource, { eventType: 'updated' }))
+      .catch((e) => this.halNotification.handleRawError(e, workPackage));
   }
 
   private getValueForGroup(el:HTMLElement):unknown|null {
     const groupHeader = locatePredecessorBySelector(el, `.${rowGroupClassName}`)!;
-    const match = this.groups.find(group => groupIdentifier(group) === groupHeader.dataset.groupIdentifier);
+    const match = this.groups.find((group) => groupIdentifier(group) === groupHeader.dataset.groupIdentifier);
 
     if (!match) {
       return null;

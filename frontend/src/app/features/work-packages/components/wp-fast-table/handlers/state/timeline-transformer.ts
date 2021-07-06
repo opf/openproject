@@ -1,10 +1,10 @@
-import { Injector } from "@angular/core";
-import { takeUntil } from "rxjs/operators";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { WorkPackageTimelineState } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { WorkPackageTable } from "../../wp-fast-table";
+import { Injector } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageTimelineState } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { WorkPackageTable } from '../../wp-fast-table';
 
 export class TimelineTransformer {
   @InjectField() public querySpace:IsolatedQuerySpace;
@@ -28,7 +28,7 @@ export class TimelineTransformer {
    */
   private renderVisibility(visible:boolean) {
     const container = jQuery(this.table.tableAndTimelineContainer).parent();
-    container.find(".work-packages-tabletimeline--timeline-side").toggle(visible);
-    container.find(".work-packages-tabletimeline--table-side").toggleClass("-timeline-visible", visible);
+    container.find('.work-packages-tabletimeline--timeline-side').toggle(visible);
+    container.find('.work-packages-tabletimeline--table-side').toggleClass('-timeline-visible', visible);
   }
 }

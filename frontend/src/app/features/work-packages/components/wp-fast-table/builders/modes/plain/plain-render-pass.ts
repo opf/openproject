@@ -1,7 +1,7 @@
-import { Injector } from "@angular/core";
-import { WorkPackageTable } from "../../../wp-fast-table";
-import { PrimaryRenderPass } from "../../primary-render-pass";
-import { SingleRowBuilder } from "../../rows/single-row-builder";
+import { Injector } from '@angular/core';
+import { WorkPackageTable } from '../../../wp-fast-table';
+import { PrimaryRenderPass } from '../../primary-render-pass';
+import { SingleRowBuilder } from '../../rows/single-row-builder';
 
 export class PlainRenderPass extends PrimaryRenderPass {
   constructor(public readonly injector:Injector,

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,80 +26,80 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { CustomActionResource } from "core-app/features/hal/resources/custom-action-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { WikiPageResource } from "core-app/features/hal/resources/wiki-page-resource";
-import { MeetingContentResource } from "core-app/features/hal/resources/meeting-content-resource";
-import { PostResource } from "core-app/features/hal/resources/post-resource";
-import { StatusResource } from "core-app/features/hal/resources/status-resource";
-import { AttachmentCollectionResource } from "core-app/features/hal/resources/attachment-collection-resource";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
-import { NewsResource } from "core-app/features/hal/resources/news-resource";
-import { VersionResource } from "core-app/features/hal/resources/version-resource";
-import { MembershipResource } from "core-app/features/hal/resources/membership-resource";
-import { RoleResource } from "core-app/features/hal/resources/role-resource";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { GroupResource } from "core-app/features/hal/resources/group-resource";
-import { RootResource } from "core-app/features/hal/resources/root-resource";
-import { TypeResource } from "core-app/features/hal/resources/type-resource";
-import { QueryOperatorResource } from "core-app/features/hal/resources/query-operator-resource";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { HelpTextResource } from "core-app/features/hal/resources/help-text-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WikiPageResource } from 'core-app/features/hal/resources/wiki-page-resource';
+import { MeetingContentResource } from 'core-app/features/hal/resources/meeting-content-resource';
+import { PostResource } from 'core-app/features/hal/resources/post-resource';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
+import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { NewsResource } from 'core-app/features/hal/resources/news-resource';
+import { VersionResource } from 'core-app/features/hal/resources/version-resource';
+import { MembershipResource } from 'core-app/features/hal/resources/membership-resource';
+import { RoleResource } from 'core-app/features/hal/resources/role-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { GroupResource } from 'core-app/features/hal/resources/group-resource';
+import { RootResource } from 'core-app/features/hal/resources/root-resource';
+import { TypeResource } from 'core-app/features/hal/resources/type-resource';
+import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { HelpTextResource } from 'core-app/features/hal/resources/help-text-resource';
 import {
   HalResourceFactoryConfigInterface,
   HalResourceService,
-} from "core-app/features/hal/services/hal-resource.service";
-import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
-import { ErrorResource } from "core-app/features/hal/resources/error-resource";
-import { SchemaDependencyResource } from "core-app/features/hal/resources/schema-dependency-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+} from 'core-app/features/hal/services/hal-resource.service';
+import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
+import { SchemaDependencyResource } from 'core-app/features/hal/resources/schema-dependency-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInterface } = {
   WorkPackage: {
     cls: WorkPackageResource,
     attrTypes: {
-      parent: "WorkPackage",
-      ancestors: "WorkPackage",
-      children: "WorkPackage",
-      relations: "Relation",
-      schema: "Schema",
-      status: "Status",
-      type: "Type",
+      parent: 'WorkPackage',
+      ancestors: 'WorkPackage',
+      children: 'WorkPackage',
+      relations: 'Relation',
+      schema: 'Schema',
+      status: 'Status',
+      type: 'Type',
     },
   },
   Activity: {
     cls: HalResource,
     attrTypes: {
-      user: "User",
+      user: 'User',
     },
   },
-  "Activity::Comment": {
+  'Activity::Comment': {
     cls: HalResource,
     attrTypes: {
-      user: "User",
+      user: 'User',
     },
   },
-  "Activity::Revision": {
+  'Activity::Revision': {
     cls: HalResource,
     attrTypes: {
-      user: "User",
+      user: 'User',
     },
   },
   Relation: {
     cls: RelationResource,
     attrTypes: {
-      from: "WorkPackage",
-      to: "WorkPackage",
+      from: 'WorkPackage',
+      to: 'WorkPackage',
     },
   },
   Schema: {
@@ -135,27 +135,27 @@ const halResourceDefaultConfig:{ [typeName:string]:HalResourceFactoryConfigInter
   Query: {
     cls: QueryResource,
     attrTypes: {
-      filters: "QueryFilterInstance",
+      filters: 'QueryFilterInstance',
     },
   },
   Form: {
     cls: FormResource,
     attrTypes: {
-      payload: "FormPayload",
+      payload: 'FormPayload',
     },
   },
   FormPayload: {
     cls: HalResource,
     attrTypes: {
-      attachments: "AttachmentsCollection",
+      attachments: 'AttachmentsCollection',
     },
   },
   QueryFilterInstance: {
     cls: QueryFilterInstanceResource,
     attrTypes: {
-      schema: "QueryFilterInstanceSchema",
-      filter: "QueryFilter",
-      operator: "QueryOperator",
+      schema: 'QueryFilterInstanceSchema',
+      filter: 'QueryFilter',
+      operator: 'QueryOperator',
     },
   },
   QueryFilterInstanceSchema: {

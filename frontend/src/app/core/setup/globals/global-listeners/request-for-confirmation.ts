@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { PasswordConfirmationModal } from "core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal";
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { PasswordConfirmationModal } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
 
 function registerListener(
   form:JQuery,
@@ -35,25 +35,25 @@ function registerListener(
   opModalService:OpModalService,
   modal:typeof PasswordConfirmationModal,
 ) {
-  const passwordConfirm = form.find("_password_confirmation");
+  const passwordConfirm = form.find('_password_confirmation');
 
   if (passwordConfirm.length > 0) {
     return true;
   }
 
   $event.preventDefault();
-  const confirmModal = opModalService.show(modal, "global");
+  const confirmModal = opModalService.show(modal, 'global');
   confirmModal.closingEvent.subscribe((modal:any) => {
     if (modal.confirmed) {
-      jQuery("<input>")
+      jQuery('<input>')
         .attr({
-          type: "hidden",
-          name: "_password_confirmation",
+          type: 'hidden',
+          name: '_password_confirmation',
           value: modal.password_confirmation,
         })
         .appendTo(form);
 
-      form.trigger("submit");
+      form.trigger('submit');
     }
   });
 
@@ -68,8 +68,8 @@ export function registerRequestForConfirmation($:JQueryStatic) {
       const passwordConfirmationModal = context.classes.modals.passwordConfirmation;
 
       $(document).on(
-        "submit",
-        "form[data-request-for-confirmation]",
+        'submit',
+        'form[data-request-for-confirmation]',
         function (this:any, $event:JQuery.TriggeredEvent) {
           const form = jQuery(this);
 

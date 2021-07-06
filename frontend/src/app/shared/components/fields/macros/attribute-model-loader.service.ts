@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -24,26 +24,26 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++    Ng1FieldControlsWrapper,
+// ++    Ng1FieldControlsWrapper,
 
-import { Injectable } from "@angular/core";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { NEVER, Observable, throwError } from "rxjs";
+import { Injectable } from '@angular/core';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { NEVER, Observable, throwError } from 'rxjs';
 import {
   filter, map, take, tap,
-} from "rxjs/operators";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { multiInput } from "reactivestates";
-import { TransitionService } from "@uirouter/core";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+} from 'rxjs/operators';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { multiInput } from 'reactivestates';
+import { TransitionService } from '@uirouter/core';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-export type SupportedAttributeModels = "project"|"workPackage";
+export type SupportedAttributeModels = 'project'|'workPackage';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class AttributeModelLoaderService {
   text = {
-    not_found: this.I18n.t("js.editor.macro.attribute_reference.not_found"),
+    not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
   };
 
   // Cache the required model/id values because
@@ -77,7 +77,7 @@ export class AttributeModelLoaderService {
       const promise = this
         .load(model, id)
         .pipe(
-          filter(response => !!response),
+          filter((response) => !!response),
         )
         .toPromise();
       state.clearAndPutFromPromise(promise as PromiseLike<HalResource>);
@@ -89,19 +89,19 @@ export class AttributeModelLoaderService {
       .values$()
       .pipe(
         take(1),
-        tap(val => console.log(`VAL ${val}`), err => console.error(`ERR ${err}`)),
+        tap((val) => console.log(`VAL ${val}`), (err) => console.error(`ERR ${err}`)),
       )
       .toPromise();
   }
 
   private load(model:SupportedAttributeModels, id?:string|undefined|null):Observable<HalResource|null> {
     switch (model) {
-    case "workPackage":
-      return this.loadWorkPackage(id);
-    case "project":
-      return this.loadProject(id);
-    default:
-      return NEVER;
+      case 'workPackage':
+        return this.loadWorkPackage(id);
+      case 'project':
+        return this.loadProject(id);
+      default:
+        return NEVER;
     }
   }
 
@@ -144,11 +144,11 @@ export class AttributeModelLoaderService {
       .apiV3Service
       .withOptionalProject(this.currentProject.id)
       .work_packages
-      .filterBySubjectOrId(id, false, { pageSize: "1" })
+      .filterBySubjectOrId(id, false, { pageSize: '1' })
       .get()
       .pipe(
         take(1),
-        map(collection => collection.elements[0] || null),
+        map((collection) => collection.elements[0] || null),
       );
   }
 }

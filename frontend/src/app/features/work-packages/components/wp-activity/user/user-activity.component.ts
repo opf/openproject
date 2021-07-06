@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   ApplicationRef,
   ChangeDetectionStrategy,
@@ -37,22 +37,22 @@ import {
   Injector,
   Input, NgZone,
   OnInit,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageCommentFieldHandler } from "core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler";
-import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { CommentService } from "core-app/features/work-packages/components/wp-activity/comment-service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageCommentFieldHandler } from 'core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler';
+import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
-  selector: "user-activity",
+  selector: 'user-activity',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./user-activity.component.html",
-  styleUrls: ["./user-activity.component.sass"],
+  templateUrl: './user-activity.component.html',
+  styleUrls: ['./user-activity.component.sass'],
 })
 export class UserActivityComponent extends WorkPackageCommentFieldHandler implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -86,10 +86,10 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   public focused = false;
 
   public text = {
-    label_created_on: this.I18n.t("js.label_created_on"),
-    label_updated_on: this.I18n.t("js.label_updated_on"),
-    quote_comment: this.I18n.t("js.label_quote_comment"),
-    edit_comment: this.I18n.t("js.label_edit_comment"),
+    label_created_on: this.I18n.t('js.label_created_on'),
+    label_updated_on: this.I18n.t('js.label_updated_on'),
+    quote_comment: this.I18n.t('js.label_quote_comment'),
+    edit_comment: this.I18n.t('js.label_edit_comment'),
   };
 
   private $element:JQuery;
@@ -114,16 +114,16 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
     this.htmlId = `user_activity_edit_field_${this.activityNo}`;
     this.updateCommentText();
-    this.isComment = this.activity._type === "Activity::Comment";
-    this.isBcfComment = this.activity._type === "Activity::BcfComment";
+    this.isComment = this.activity._type === 'Activity::Comment';
+    this.isBcfComment = this.activity._type === 'Activity::BcfComment';
 
     this.$element = jQuery(this.elementRef.nativeElement);
     this.reset();
     this.userCanEdit = !!this.activity.update;
     this.userCanQuote = !!this.workPackage.addComment;
 
-    this.$element.bind("focusin", this.focus.bind(this));
-    this.$element.bind("focusout", this.blur.bind(this));
+    this.$element.bind('focusin', this.focus.bind(this));
+    this.$element.bind('focusout', this.blur.bind(this));
 
     _.each(this.activity.details, (detail:any) => {
       this.details.push(detail.html);
@@ -172,8 +172,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public get bcfSnapshotUrl() {
-    if (_.get(this.activity, "bcfViewpoints[0]")) {
-      return `${_.get(this.activity, "bcfViewpoints[0]").href}/snapshot`;
+    if (_.get(this.activity, 'bcfViewpoints[0]')) {
+      return `${_.get(this.activity, 'bcfViewpoints[0]').href}/snapshot`;
     }
     return null;
   }
@@ -182,7 +182,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.inFlight = true;
 
     await this.onSubmit();
-    return this.commentService.updateComment(this.activity, this.rawComment || "")
+    return this.commentService.updateComment(this.activity, this.rawComment || '')
       .then((newActivity:HalResource) => {
         this.activity = newActivity;
         this.updateCommentText();
@@ -222,9 +222,9 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public quotedText(rawComment:string) {
-    const quoted = rawComment.split("\n")
+    const quoted = rawComment.split('\n')
       .map((line:string) => `\n> ${line}`)
-      .join("");
+      .join('');
     return `${this.userName} wrote:\n${quoted}`;
   }
 

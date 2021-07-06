@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { GonService } from "core-app/core/gon/gon.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { Injectable } from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { GonService } from 'core-app/core/gon/gon.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export interface IFCPermissionMap {
   manage_ifc_models:boolean;
@@ -53,7 +53,7 @@ export class IfcModelsDataService {
   public isDefaults():boolean {
     return !this
       .models
-      .find(item => item.default && this.shownModels.indexOf(item.id) === -1);
+      .find((item) => item.default && this.shownModels.indexOf(item.id) === -1);
   }
 
   public get manageIFCPath() {
@@ -65,6 +65,6 @@ export class IfcModelsDataService {
   }
 
   private get gonIFC():IFCGonDefinition {
-    return (this.gon.get("ifc_models") as IFCGonDefinition);
+    return (this.gon.get('ifc_models') as IFCGonDefinition);
   }
 }

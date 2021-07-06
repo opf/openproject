@@ -1,20 +1,20 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { FormGroup } from "@angular/forms";
-import { catchError, map } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { FormGroup } from '@angular/forms';
+import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class FormsService {
   constructor(
     private _httpClient:HttpClient,
   ) { }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:"post" | "patch"):Observable<any> {
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:'post' | 'patch'):Observable<any> {
     const modelToSubmit = this.formatModelToSubmit(form.getRawValue());
-    const httpMethod = resourceId ? "patch" : (formHttpMethod || "post");
+    const httpMethod = resourceId ? 'patch' : (formHttpMethod || 'post');
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
 
     return this._httpClient
@@ -23,7 +23,7 @@ export class FormsService {
         modelToSubmit,
         {
           withCredentials: true,
-          responseType: "json",
+          responseType: 'json',
         },
       )
       .pipe(
@@ -46,7 +46,7 @@ export class FormsService {
         modelToSubmit,
         {
           withCredentials: true,
-          responseType: "json",
+          responseType: 'json',
         },
       )
       .pipe(
@@ -64,9 +64,9 @@ export class FormsService {
         modelToSubmit,
         {
           withCredentials: true,
-          responseType: "json",
+          responseType: 'json',
           headers: {
-            "content-type": "application/json; charset=utf-8",
+            'content-type': 'application/json; charset=utf-8',
           },
         },
       )
@@ -85,7 +85,7 @@ export class FormsService {
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface
         const resourceValue = Array.isArray(resource)
-          ? resource.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href }))
+          ? resource.map((resourceElement) => ({ href: resourceElement?.href || resourceElement?._links?.self?.href }))
           : { href: resource?.href || resource?._links?.self?.href };
 
         return {
@@ -110,7 +110,7 @@ export class FormsService {
 
   private setFormValidationErrors(errors:IFormattedValidationError[], form:FormGroup) {
     errors.forEach((err:any) => {
-      const formControl = form.get(err.key) || form.get("_links")?.get(err.key);
+      const formControl = form.get(err.key) || form.get('_links')?.get(err.key);
 
       formControl?.setErrors({ [err.key]: { message: err.message } });
     });
@@ -120,7 +120,7 @@ export class FormsService {
     const errors = Object.values(validationErrors);
     const keysToValidate = Array.isArray(formControlKeys) ? formControlKeys : [formControlKeys];
     const formErrors = this.getFormattedErrors(errors)
-      .filter(error => {
+      .filter((error) => {
         if (!formControlKeys) {
           return true;
         }
@@ -135,7 +135,7 @@ export class FormsService {
   }
 
   private getFormattedErrors(errors:IOPFormError[]):IFormattedValidationError[] {
-    const formattedErrors = errors.map(err => ({
+    const formattedErrors = errors.map((err) => ({
       key: err._embedded.details.attribute,
       message: err.message,
     }));

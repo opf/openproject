@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -36,40 +36,40 @@ import {
   Input,
   EventEmitter,
   OnInit, Output,
-} from "@angular/core";
-import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { filter } from "rxjs/operators";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
-import { Subscription } from "rxjs";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+} from '@angular/core';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { filter } from 'rxjs/operators';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { Subscription } from 'rxjs';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   inlineCreateCancelClassName,
   InlineCreateRowBuilder,
   inlineCreateRowClassName,
-} from "./inline-create-row-builder";
-import { WorkPackageCreateService } from "../wp-new/wp-create.service";
-import { WorkPackageTable } from "../wp-fast-table/wp-fast-table";
-import { onClickOrEnter } from "../wp-fast-table/handlers/click-or-enter-handler";
+} from './inline-create-row-builder';
+import { WorkPackageCreateService } from '../wp-new/wp-create.service';
+import { WorkPackageTable } from '../wp-fast-table/wp-fast-table';
+import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler';
 
 @Component({
-  selector: "[wpInlineCreate]",
-  templateUrl: "./wp-inline-create.component.html",
+  selector: '[wpInlineCreate]',
+  templateUrl: './wp-inline-create.component.html',
 })
 export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
-  @Input("wp-inline-create--table") table:WorkPackageTable;
+  @Input('wp-inline-create--table') table:WorkPackageTable;
 
-  @Input("wp-inline-create--project-identifier") projectIdentifier:string;
+  @Input('wp-inline-create--project-identifier') projectIdentifier:string;
 
-  @Output("wp-inline-create--showing") showing = new EventEmitter<boolean>();
+  @Output('wp-inline-create--showing') showing = new EventEmitter<boolean>();
 
   // inner state
   public canAdd = false;
@@ -77,7 +77,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public canReference = false;
 
   // Inline create / reference row is active
-  public mode:"inactive"|"create"|"reference" = "inactive";
+  public mode:'inactive'|'create'|'reference' = 'inactive';
 
   public focus = false;
 
@@ -92,7 +92,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   private $element:JQuery;
 
   get isActive():boolean {
-    return this.mode !== "inactive";
+    return this.mode !== 'inactive';
   }
 
   constructor(public readonly injector:Injector,
@@ -139,7 +139,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
    * which is dynamically inserted into the action row by the inline create renderer.
    */
   private registerCancelHandler() {
-    this.$element.on("click keydown", `.${inlineCreateCancelClassName}`, (evt:JQuery.TriggeredEvent) => {
+    this.$element.on('click keydown', `.${inlineCreateCancelClassName}`, (evt:JQuery.TriggeredEvent) => {
       onClickOrEnter(evt, () => {
         this.resetRow();
       });
@@ -202,7 +202,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   public handleReferenceClick() {
-    this.mode = "reference";
+    this.mode = 'reference';
     return false;
   }
 
@@ -278,7 +278,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   /**
    * Reset the new work package row and refocus on the button
    */
-  @HostListener("keydown.escape")
+  @HostListener('keydown.escape')
   public resetRow() {
     this.focus = true;
     this.removeWorkPackageRow();
@@ -292,19 +292,19 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public removeWorkPackageRow() {
     this.wpCreate.cancelCreation();
     this.currentWorkPackage = null;
-    this.$element.find(".wp-row-new").remove();
+    this.$element.find('.wp-row-new').remove();
     if (this.editingSubscription) {
       this.editingSubscription.unsubscribe();
     }
   }
 
   public showRow() {
-    this.mode = "inactive";
+    this.mode = 'inactive';
     this.cdRef.detectChanges();
   }
 
   public hideRow() {
-    this.mode = "create";
+    this.mode = 'create';
     this.cdRef.detectChanges();
   }
 

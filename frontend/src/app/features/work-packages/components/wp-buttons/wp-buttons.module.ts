@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 export interface ButtonControllerText {
   activate:string;
@@ -53,10 +53,10 @@ export abstract class AbstractWorkPackageButtonComponent extends UntilDestroyedM
     super();
 
     this.text = {
-      activate: this.I18n.t("js.label_activate"),
-      deactivate: this.I18n.t("js.label_deactivate"),
-      label: this.labelKey ? this.I18n.t(this.labelKey) : "",
-      buttonText: this.textKey ? this.I18n.t(this.textKey) : "",
+      activate: this.I18n.t('js.label_activate'),
+      deactivate: this.I18n.t('js.label_deactivate'),
+      label: this.labelKey ? this.I18n.t(this.labelKey) : '',
+      buttonText: this.textKey ? this.I18n.t(this.textKey) : '',
     };
   }
 
@@ -69,19 +69,19 @@ export abstract class AbstractWorkPackageButtonComponent extends UntilDestroyedM
   }
 
   public get labelKey():string {
-    return "";
+    return '';
   }
 
   public get textKey():string {
-    return "";
+    return '';
   }
 
   protected get activationPrefix():string {
-    return !this.isActive ? `${this.text.activate} ` : "";
+    return !this.isActive ? `${this.text.activate} ` : '';
   }
 
   protected get deactivationPrefix():string {
-    return this.isActive ? `${this.text.deactivate} ` : "";
+    return this.isActive ? `${this.text.deactivate} ` : '';
   }
 
   protected get prefix():string {

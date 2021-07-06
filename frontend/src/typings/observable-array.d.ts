@@ -1,1 +1,1 @@
-declare module "observable-array";
+declare module 'observable-array';

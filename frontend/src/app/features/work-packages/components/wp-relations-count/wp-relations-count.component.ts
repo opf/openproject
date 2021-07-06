@@ -1,15 +1,15 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { combineLatest } from "rxjs";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { combineLatest } from 'rxjs';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 
 @Component({
-  templateUrl: "./wp-relations-count.html",
-  selector: "wp-relations-count",
+  templateUrl: './wp-relations-count.html',
+  selector: 'wp-relations-count',
 })
 export class WorkPackageRelationsCountComponent extends UntilDestroyedMixin implements OnInit {
-  @Input("wpId") wpId:string;
+  @Input('wpId') wpId:string;
 
   public count = 0;
 

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { Directive, ElementRef } from "@angular/core";
-import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { Directive, ElementRef } from '@angular/core';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
   wpDisplayListRepresentation,
-} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 
 @Directive({
-  selector: "[wpGroupToggleDropdown]",
+  selector: '[wpGroupToggleDropdown]',
 })
 export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
@@ -57,7 +57,7 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
   public get locals() {
     return {
       items: this.items,
-      contextMenuId: "wp-group-fold-context-menu",
+      contextMenuId: 'wp-group-fold-context-menu',
     };
   }
 
@@ -65,8 +65,8 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
     this.items = [
       {
         disabled: this.wpViewCollapsedGroups.allGroupsAreCollapsed,
-        linkText: this.I18n.t("js.button_collapse_all"),
-        icon: "icon-minus2",
+        linkText: this.I18n.t('js.button_collapse_all'),
+        icon: 'icon-minus2',
         onClick: (evt:JQuery.TriggeredEvent) => {
           this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(true);
 
@@ -75,8 +75,8 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
       },
       {
         disabled: this.wpViewCollapsedGroups.allGroupsAreExpanded,
-        linkText: this.I18n.t("js.button_expand_all"),
-        icon: "icon-plus",
+        linkText: this.I18n.t('js.button_expand_all'),
+        icon: 'icon-plus',
         onClick: (evt:JQuery.TriggeredEvent) => {
           this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(false);
 

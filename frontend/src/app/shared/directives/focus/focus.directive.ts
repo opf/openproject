@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,16 +28,16 @@
 
 import {
   AfterViewInit, Directive, ElementRef, Input,
-} from "@angular/core";
-import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
+} from '@angular/core';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 @Directive({
-  selector: "[focus]",
+  selector: '[focus]',
 })
 export class FocusDirective implements AfterViewInit {
-  @Input("focus") condition:boolean;
+  @Input('focus') condition:boolean;
 
-  @Input("focusPriority") priority?:number = 0;
+  @Input('focusPriority') priority?:number = 0;
 
   constructor(readonly FocusHelper:FocusHelperService,
     readonly elementRef:ElementRef) {

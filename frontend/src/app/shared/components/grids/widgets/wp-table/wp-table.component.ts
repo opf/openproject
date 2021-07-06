@@ -1,20 +1,20 @@
-import { ChangeDetectionStrategy, Component, Injector } from "@angular/core";
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageTableConfiguration } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
-import { Observable } from "rxjs";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { StateService } from "@uirouter/core";
-import { finalize, publish, skip } from "rxjs/operators";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { Observable } from 'rxjs';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { StateService } from '@uirouter/core';
+import { finalize, publish, skip } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
-  selector: "widget-wp-table",
-  templateUrl: "./wp-table.component.html",
-  styleUrls: ["./wp-table.component.sass"],
+  selector: 'widget-wp-table',
+  templateUrl: './wp-table.component.html',
+  styleUrls: ['./wp-table.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetWpTableComponent extends AbstractWidgetComponent {
@@ -76,7 +76,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
   }
 
   public static get identifier():string {
-    return "work_packages_table";
+    return 'work_packages_table';
   }
 
   private ensureFormAndSaveQuery(query:QueryResource) {
@@ -110,7 +110,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
   }
 
   private createInitial():Promise<QueryResource> {
-    const projectIdentifier = this.state.params["projectPath"];
+    const projectIdentifier = this.state.params.projectPath;
     const initializationProps = this.resource.options.queryProps;
     const queryProps = { pageSize: 0, ...initializationProps };
 
@@ -141,7 +141,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
     // On the MyPage, the queries should be non public, on a project dashboard, they should be public.
     // This will not longer work, when global dashboards are implemented as the tables then need to
     // be public as well.
-    const projectIdentifier = this.state.params["projectPath"];
+    const projectIdentifier = this.state.params.projectPath;
 
     return {
       hidden: true,

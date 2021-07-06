@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,19 +28,19 @@
 
 import {
   Component, EventEmitter, Input, OnInit, Output,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { BannersService } from "core-app/core/enterprise/banners.service";
-import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 @Component({
-  selector: "[query-filter]",
-  templateUrl: "./query-filter.component.html",
+  selector: '[query-filter]',
+  templateUrl: './query-filter.component.html',
 })
 export class QueryFilterComponent implements OnInit {
   @Input() public shouldFocus = false;
@@ -62,12 +62,12 @@ export class QueryFilterComponent implements OnInit {
   public compareByHref = AngularTrackingHelpers.compareByHref;
 
   public text = {
-    open_filter: this.I18n.t("js.filter.description.text_open_filter"),
-    close_filter: this.I18n.t("js.filter.description.text_close_filter"),
-    label_filter_add: this.I18n.t("js.work_packages.label_filter_add"),
-    upsale_for_more: this.I18n.t("js.filter.upsale_for_more"),
-    upsale_link: this.I18n.t("js.filter.upsale_link"),
-    button_delete: this.I18n.t("js.button_delete"),
+    open_filter: this.I18n.t('js.filter.description.text_open_filter'),
+    close_filter: this.I18n.t('js.filter.description.text_close_filter'),
+    label_filter_add: this.I18n.t('js.work_packages.label_filter_add'),
+    upsale_for_more: this.I18n.t('js.filter.upsale_for_more'),
+    upsale_link: this.I18n.t('js.filter.upsale_link'),
+    button_delete: this.I18n.t('js.button_delete'),
   };
 
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
@@ -102,6 +102,6 @@ export class QueryFilterComponent implements OnInit {
   }
 
   private showValues(filter:QueryFilterInstanceResource) {
-    return this.filter.currentSchema!.isValueRequired() && this.filter.currentSchema!.values!.type !== "[1]Boolean";
+    return this.filter.currentSchema!.isValueRequired() && this.filter.currentSchema!.values!.type !== '[1]Boolean';
   }
 }

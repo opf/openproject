@@ -1,14 +1,14 @@
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { TableDragActionService } from "core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service";
-import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {
   hierarchyGroupClass,
   hierarchyRootClass,
-} from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
-import { relationRowClass, isInsideCollapsedGroup } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+} from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
+import { relationRowClass, isInsideCollapsedGroup } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class HierarchyDragActionService extends TableDragActionService {
   @InjectField() private wpTableHierarchies:WorkPackageViewHierarchiesService;
@@ -87,17 +87,17 @@ export class HierarchyDragActionService extends TableDragActionService {
   }
 
   private droppedIntoGroup(element:Element, previous:Element, next:Element | null):boolean {
-    const inGroup = previous.className.indexOf(hierarchyGroupClass("")) >= 0;
-    const isRoot = previous.className.indexOf(hierarchyRootClass("")) >= 0;
+    const inGroup = previous.className.indexOf(hierarchyGroupClass('')) >= 0;
+    const isRoot = previous.className.indexOf(hierarchyRootClass('')) >= 0;
     let skipDroppedIntoGroup;
 
     if (inGroup || isRoot) {
-      const elementGroups = Array.from(element.classList).filter(listClass => listClass.includes("__hierarchy-group-")) || [];
-      const previousGroups = Array.from(previous.classList).filter(listClass => listClass.includes("__hierarchy-group-")) || [];
-      const nextGroups = next && Array.from(next.classList).filter(listClass => listClass.includes("__hierarchy-group-")) || [];
+      const elementGroups = Array.from(element.classList).filter((listClass) => listClass.includes('__hierarchy-group-')) || [];
+      const previousGroups = Array.from(previous.classList).filter((listClass) => listClass.includes('__hierarchy-group-')) || [];
+      const nextGroups = next && Array.from(next.classList).filter((listClass) => listClass.includes('__hierarchy-group-')) || [];
       const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
-      const isLastElementOfGroup = !nextGroups.some(nextGroup => previousGroups.includes(nextGroup)) && !nextGroups.includes(hierarchyGroupClass(previousWpId));
-      const elementAlreadyBelongsToGroup = elementGroups.some(elementGroup => previousGroups.includes(elementGroup))
+      const isLastElementOfGroup = !nextGroups.some((nextGroup) => previousGroups.includes(nextGroup)) && !nextGroups.includes(hierarchyGroupClass(previousWpId));
+      const elementAlreadyBelongsToGroup = elementGroups.some((elementGroup) => previousGroups.includes(elementGroup))
                                            || elementGroups.includes(hierarchyGroupClass(previousWpId));
 
       skipDroppedIntoGroup = isLastElementOfGroup && !elementAlreadyBelongsToGroup;

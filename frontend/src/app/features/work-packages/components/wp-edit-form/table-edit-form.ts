@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,25 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector } from "@angular/core";
-import { Subscription } from "rxjs";
-import { States } from "core-app/core/states/states.service";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { Injector } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { States } from 'core-app/core/states/states.service';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
-import { EditingPortalService } from "core-app/shared/components/fields/edit/editing-portal/editing-portal-service";
-import { CellBuilder, editCellContainer, tdClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/cell-builder";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { editModeClassName } from "core-app/shared/components/fields/edit/edit-field.component";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
+import { CellBuilder, editCellContainer, tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-export const activeFieldContainerClassName = "inline-edit--active-field";
-export const activeFieldClassName = "inline-edit--field";
+export const activeFieldContainerClassName = 'inline-edit--active-field';
+export const activeFieldClassName = 'inline-edit--field';
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
   @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
@@ -95,10 +95,10 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
         // To avoid flickering content, the padding is removed, too.
         const td = this.findCell(fieldName);
         td.addClass(editModeClassName);
-        let width = parseInt(td.css("width"));
+        let width = parseInt(td.css('width'));
         width = width > 150 ? width - 10 : 150;
-        td.css("max-width", `${width}px`);
-        td.css("width", `${width}px`);
+        td.css('max-width', `${width}px`);
+        td.css('width', `${width}px`);
 
         return this.editingPortalService.create(
           cell,
@@ -116,8 +116,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     const td = this.findCell(fieldName);
 
     if (cell.length) {
-      this.findCell(fieldName).css("width", "");
-      this.findCell(fieldName).css("max-width", "");
+      this.findCell(fieldName).css('width', '');
+      this.findCell(fieldName).css('max-width', '');
       this.cellBuilder.refresh(cell[0], this.resource, fieldName);
       td.removeClass(editModeClassName);
 
@@ -137,7 +137,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     jQuery(this.table.tableAndTimelineContainer)
       .find(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
       .first()
-      .trigger("focus");
+      .trigger('focus');
   }
 
   /**
@@ -147,8 +147,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
    */
   protected loadFieldSchema(fieldName:string, noWarnings = false):Promise<IFieldSchema> {
     // We need to handle start/due date cases like they were combined dates
-    if (["startDate", "dueDate", "date"].includes(fieldName)) {
-      fieldName = "combinedDate";
+    if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
+      fieldName = 'combinedDate';
     }
 
     return super.loadFieldSchema(fieldName, noWarnings);

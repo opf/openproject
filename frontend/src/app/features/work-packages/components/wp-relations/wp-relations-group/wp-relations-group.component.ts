@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
   Component, ElementRef, EventEmitter, Input, Output, ViewChild,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  selector: "wp-relations-group",
-  templateUrl: "./wp-relations-group.template.html",
+  selector: 'wp-relations-group',
+  templateUrl: './wp-relations-group.template.html',
 })
 export class WorkPackageRelationsGroupComponent {
   @Input() public relatedWorkPackages:WorkPackageResource[];
@@ -49,11 +49,11 @@ export class WorkPackageRelationsGroupComponent {
 
   @Output() public onToggleGroupBy = new EventEmitter<undefined>();
 
-  @ViewChild("wpRelationGroupByToggler") readonly toggleElement:ElementRef;
+  @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef;
 
   public text = {
-    groupByType: this.I18n.t("js.relation_buttons.group_by_wp_type"),
-    groupByRelation: this.I18n.t("js.relation_buttons.group_by_relation_type"),
+    groupByType: this.I18n.t('js.relation_buttons.group_by_wp_type'),
+    groupByRelation: this.I18n.t('js.relation_buttons.group_by_relation_type'),
   };
 
   constructor(

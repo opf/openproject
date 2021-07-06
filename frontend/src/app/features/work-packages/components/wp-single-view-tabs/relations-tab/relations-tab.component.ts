@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Transition } from "@uirouter/core";
-import { Component, Input, OnInit } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Transition } from '@uirouter/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
-  templateUrl: "./relations-tab.html",
-  selector: "wp-relations-tab",
+  templateUrl: './relations-tab.html',
+  selector: 'wp-relations-tab',
 })
 export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackageId?:string;
@@ -49,7 +49,7 @@ export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implem
   }
 
   ngOnInit() {
-    const wpId = this.workPackageId || this.$transition.params("to").workPackageId;
+    const wpId = this.workPackageId || this.$transition.params('to').workPackageId;
     this
       .apiV3Service
       .work_packages

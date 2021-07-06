@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-app/core/states/states.service";
-import { HasId, StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
+import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { States } from 'core-app/core/states/states.service';
+import { HasId, StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import {
   concat, from, merge, Observable, of,
-} from "rxjs";
+} from 'rxjs';
 import {
   mapTo, publish, share, shareReplay, switchMap, take, tap,
-} from "rxjs/operators";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+} from 'rxjs/operators';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export abstract class CachableAPIV3Resource<T extends HasId = HalResource>
   extends APIv3GettableResource<T> {

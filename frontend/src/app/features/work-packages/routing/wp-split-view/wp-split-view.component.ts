@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,22 +28,22 @@
 
 import {
   ChangeDetectionStrategy, Component, Injector, OnInit,
-} from "@angular/core";
-import { StateService } from "@uirouter/core";
-import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { States } from "core-app/core/states/states.service";
-import { FirstRouteService } from "core-app/core/routing/first-route-service";
-import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { WorkPackageSingleViewBase } from "core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { BackRoutingService } from "core-app/features/work-packages/components/back-routing/back-routing.service";
+} from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { States } from 'core-app/core/states/states.service';
+import { FirstRouteService } from 'core-app/core/routing/first-route-service';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 
 @Component({
-  templateUrl: "./wp-split-view.html",
+  templateUrl: './wp-split-view.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: "wp-split-view-entry",
+  selector: 'wp-split-view-entry',
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
   ],
@@ -60,13 +60,13 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
     public wpTableFocus:WorkPackageViewFocusService,
     readonly $state:StateService,
     readonly backRouting:BackRoutingService) {
-    super(injector, $state.params["workPackageId"]);
+    super(injector, $state.params.workPackageId);
   }
 
   ngOnInit():void {
     this.observeWorkPackage();
 
-    const wpId = this.$state.params["workPackageId"];
+    const wpId = this.$state.params.workPackageId;
     const focusedWP = this.wpTableFocus.focusedWorkPackage;
 
     if (!focusedWP) {
@@ -86,7 +86,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(newId => {
+      .subscribe((newId) => {
         const idSame = wpId.toString() === newId.toString();
         if (!idSame && this.$state.includes(`${this.baseRoute}.details`)) {
           this.$state.go(
@@ -102,7 +102,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   }
 
   public showBackButton():boolean {
-    return this.baseRoute.includes("bim");
+    return this.baseRoute.includes('bim');
   }
 
   public backToList() {

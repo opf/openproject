@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageCreateComponent } from "core-app/features/work-packages/components/wp-new/wp-create.component";
-import { Component } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
+import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
+import { Component } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { IFCViewerService } from 'core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service';
 
 @Component({
-  selector: "bcf-new-split",
-  templateUrl: "./bcf-new-split.component.html",
+  selector: 'bcf-new-split',
+  templateUrl: './bcf-new-split.component.html',
 })
 export class BCFNewSplitComponent extends WorkPackageCreateComponent {
-  public cancelState = "^";
+  public cancelState = '^';
 
   @InjectField()
   readonly viewer:IFCViewerService;

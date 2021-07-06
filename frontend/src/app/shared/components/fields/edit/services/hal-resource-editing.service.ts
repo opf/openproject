@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,20 +28,20 @@
 
 import {
   combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup,
-} from "reactivestates";
-import { filter, map } from "rxjs/operators";
-import { Injectable, Injector } from "@angular/core";
-import { Subject } from "rxjs";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { ChangeMap } from "core-app/shared/components/fields/changeset/changeset";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HookService } from "core-app/features/plugins/hook-service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
+} from 'reactivestates';
+import { filter, map } from 'rxjs/operators';
+import { Injectable, Injector } from '@angular/core';
+import { Subject } from 'rxjs';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { ChangeMap } from 'core-app/shared/components/fields/changeset/changeset';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 
 class ChangesetStates extends StatesGroup {
-  name = "Changesets";
+  name = 'Changesets';
 
   changesets = multiInput<ResourceChangeset>();
 
@@ -125,7 +125,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     this.committedChanges.next(commit);
     this.reset(change);
 
-    const eventType = commit.wasNew ? "created" : "updated";
+    const eventType = commit.wasNew ? 'created' : 'updated';
     this.halEvents.push(commit.resource, { eventType, commit });
 
     return commit;
@@ -169,7 +169,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
   protected newChangeset<V extends HalResource, T extends ResourceChangeset<V>>(resource:V, state:InputState<T>, form?:FormResource):T {
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
-    const cls = this.hook.call("halResourceChangesetClass", resource).pop() || ResourceChangeset;
+    const cls = this.hook.call('halResourceChangesetClass', resource).pop() || ResourceChangeset;
     return new cls(resource, state, form) as T;
   }
 
@@ -197,7 +197,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
       return this.edit<V, T>(resource);
     }
 
-    if (resource.hasOwnProperty("lockVersion") && changeset.pristineResource.lockVersion < resource.lockVersion) {
+    if (resource.hasOwnProperty('lockVersion') && changeset.pristineResource.lockVersion < resource.lockVersion) {
       return this.edit<V, T>(resource);
     }
 

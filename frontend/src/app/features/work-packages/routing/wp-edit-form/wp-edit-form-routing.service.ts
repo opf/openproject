@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Transition } from "@uirouter/core";
-import { Injectable } from "@angular/core";
-import { EditFormRoutingService } from "core-app/shared/components/fields/edit/edit-form/edit-form-routing.service";
+import { Transition } from '@uirouter/core';
+import { Injectable } from '@angular/core';
+import { EditFormRoutingService } from 'core-app/shared/components/fields/edit/edit-form/edit-form-routing.service';
 
 @Injectable()
 export class WorkPackageEditFormRoutingService extends EditFormRoutingService {
@@ -41,8 +41,8 @@ export class WorkPackageEditFormRoutingService extends EditFormRoutingService {
   public blockedTransition(transition:Transition):boolean {
     const toState = transition.to();
     const fromState = transition.from();
-    const fromParams = transition.params("from");
-    const toParams = transition.params("to");
+    const fromParams = transition.params('from');
+    const toParams = transition.params('to');
 
     // In new/copy mode, transitions to the same controller are allowed
     if (fromState.name && (/\.(new|copy)$/.exec(fromState.name))) {

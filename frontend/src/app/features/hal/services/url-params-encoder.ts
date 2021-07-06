@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HttpParameterCodec } from "@angular/common/http";
+import { HttpParameterCodec } from '@angular/common/http';
 
 export class URLParamsEncoder implements HttpParameterCodec {
   encodeKey(key:string):string {

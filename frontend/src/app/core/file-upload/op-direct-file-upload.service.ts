@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { HttpEvent, HttpResponse } from "@angular/common/http";
-import { from, Observable, of } from "rxjs";
-import { share, switchMap } from "rxjs/operators";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Injectable } from '@angular/core';
+import { HttpEvent, HttpResponse } from '@angular/common/http';
+import { from, Observable, of } from 'rxjs';
+import { share, switchMap } from 'rxjs/operators';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
   OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress,
-} from "./op-file-upload.service";
+} from './op-file-upload.service';
 
 interface PrepareUploadResult {
   url:string;
@@ -49,7 +49,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
    * @param {UploadFile} file
    * @param {string} method
    */
-  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = "post", responseType:"text"|"json" = "text") {
+  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = 'post', responseType:'text'|'json' = 'text') {
     const observable = from(this.getDirectUploadFormFrom(url, file))
       .pipe(
         switchMap(this.uploadToExternal(file, method, responseType)),
@@ -60,39 +60,39 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
   }
 
   private uploadToExternal(file:UploadFile|UploadBlob, method:string, responseType:string):(result:PrepareUploadResult) => Observable<HttpEvent<unknown>> {
-    return result => {
-      result.form.append("file", file, file.customName || file.name);
+    return (result) => {
+      result.form.append('file', file, file.customName || file.name);
 
       return this
         .http
         .request<HalResource>(
-          method,
-          result.url,
-          {
-            body: result.form,
-            // Observe the response, not the body
-            observe: "events",
-            // This is important as the CORS policy for the bucket is * and you can't use credentals then,
-            // besides we don't need them here anyway.
-            withCredentials: false,
-            responseType: responseType as any,
-            // Subscribe to progress events. subscribe() will fire multiple times!
-            reportProgress: true,
-          },
-        )
+        method,
+        result.url,
+        {
+          body: result.form,
+          // Observe the response, not the body
+          observe: 'events',
+          // This is important as the CORS policy for the bucket is * and you can't use credentals then,
+          // besides we don't need them here anyway.
+          withCredentials: false,
+          responseType: responseType as any,
+          // Subscribe to progress events. subscribe() will fire multiple times!
+          reportProgress: true,
+        },
+      )
         .pipe(switchMap(this.finishUpload(result)));
     };
   }
 
   private finishUpload(result:PrepareUploadResult):(result:HttpEvent<unknown>) => Observable<HttpEvent<unknown>> {
-    return event => {
+    return (event) => {
       if (event instanceof HttpResponse) {
         return this
           .http
           .get(
             result.response._links.completeUpload.href,
             {
-              observe: "response",
+              observe: 'response',
             },
           );
       }
@@ -119,21 +119,21 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
 
     // add the metadata object
     formData.append(
-      "metadata",
+      'metadata',
       JSON.stringify(metadata),
     );
 
     const result = this
       .http
       .request<HalResource>(
-        "post",
-        url,
-        {
-          body: formData,
-          withCredentials: true,
-          responseType: "json" as any,
-        },
-      )
+      'post',
+      url,
+      {
+        body: formData,
+        withCredentials: true,
+        responseType: 'json' as any,
+      },
+    )
       .toPromise()
       .then((res) => {
         const form = new FormData();

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
+import { Injectable } from '@angular/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const DEFAULT_PAGINATION_OPTIONS = {
   maxVisiblePageOptions: 6,
@@ -70,7 +70,7 @@ export class PaginationService {
   }
 
   private get localStoragePerPage() {
-    const value = window.OpenProject.guardedLocalStorage("pagination.perPage") as string;
+    const value = window.OpenProject.guardedLocalStorage('pagination.perPage') as string;
 
     if (value !== undefined) {
       return parseInt(value, 10);
@@ -91,15 +91,15 @@ export class PaginationService {
   }
 
   public getMaxVisiblePageOptions() {
-    return _.get(this.paginationOptions, "maxVisiblePageOptions", DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions);
+    return _.get(this.paginationOptions, 'maxVisiblePageOptions', DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions);
   }
 
   public getOptionsTruncationSize() {
-    return _.get(this.paginationOptions, "optionsTruncationSize", DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize);
+    return _.get(this.paginationOptions, 'optionsTruncationSize', DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize);
   }
 
   public setPerPage(perPage:number) {
-    window.OpenProject.guardedLocalStorage("pagination.perPage", perPage.toString());
+    window.OpenProject.guardedLocalStorage('pagination.perPage', perPage.toString());
     this.paginationOptions.perPage = perPage;
   }
 

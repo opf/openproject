@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Ng2StateDeclaration, UIRouter } from "@uirouter/angular";
-import { ReportingPageComponent } from "core-app/features/reporting/reporting-page/reporting-page.component";
+import { Ng2StateDeclaration, UIRouter } from '@uirouter/angular';
+import { ReportingPageComponent } from 'core-app/features/reporting/reporting-page/reporting-page.component';
 
 export const REPORTING_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: "reporting",
-    parent: "root",
-    url: "/cost_reports",
+    name: 'reporting',
+    parent: 'root',
+    url: '/cost_reports',
     component: ReportingPageComponent,
   },
   {
-    name: "reporting.show",
-    url: "/:id",
+    name: 'reporting.show',
+    url: '/:id',
     component: ReportingPageComponent,
   },
 ];

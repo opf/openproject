@@ -1,6 +1,6 @@
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 /**
  * Interface passed to CM service to open a particular context menu.
@@ -19,11 +19,11 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    * Called when the service closes this context menu
    */
   public onClose() {
-    this.afterFocusOn.trigger("focus");
+    this.afterFocusOn.trigger('focus');
   }
 
   public onOpen(menu:JQuery) {
-    menu.find(".menu-item").first().trigger("focus");
+    menu.find('.menu-item').first().trigger('focus');
   }
 
   /**
@@ -33,10 +33,10 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    */
   public positionArgs(openerEvent:JQuery.TriggeredEvent):any {
     return {
-      my: "left top",
-      at: "right bottom",
+      my: 'left top',
+      at: 'right bottom',
       of: openerEvent,
-      collision: "flipfit",
+      collision: 'flipfit',
     };
   }
 

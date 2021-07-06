@@ -1,5 +1,5 @@
 interface IOPFormSettingsResource {
-  _type?:"Form";
+  _type?:'Form';
   _embedded:IOPFormSettings;
   _links?:{
     self:IOPApiCall;
@@ -17,7 +17,7 @@ interface IOPFormSettings {
 }
 
 interface IOPFormSchema {
-  _type?:"Schema";
+  _type?:'Schema';
   _dependencies?:unknown[];
   _attributeGroups?:IOPAttributeGroup[];
   lockVersion?:number;
@@ -49,7 +49,7 @@ interface IOPFieldSchema {
   minLength?:number,
   maxLength?:number,
   attributeGroup?:string;
-  location?:"_meta"|"_links"|undefined;
+  location?:'_meta'|'_links'|undefined;
   options:{
     [key:string]:any;
   };
@@ -85,9 +85,9 @@ interface IOPApiOption {
 }
 
 interface IOPAttributeGroup {
-  _type:| "WorkPackageFormAttributeGroup"
-  | "WorkPackageFormChildrenQueryGroup"
-  | "WorkPackageFormRelationQueryGroup"
+  _type:| 'WorkPackageFormAttributeGroup'
+  | 'WorkPackageFormChildrenQueryGroup'
+  | 'WorkPackageFormRelationQueryGroup'
   | unknown;
   name:string;
   attributes:string[];
@@ -103,9 +103,9 @@ interface IOPAllowedValue {
   };
 }
 
-type OPFieldType = "String" | "Integer" | "Float" | "Boolean" | "Date" | "DateTime" | "Formattable" |
-"Priority" | "Status" | "Type" | "User" | "Version" | "TimeEntriesActivity" | "Category" |
-"CustomOption" | "Project" | "ProjectStatus" | "Password";
+type OPFieldType = 'String' | 'Integer' | 'Float' | 'Boolean' | 'Date' | 'DateTime' | 'Formattable' |
+'Priority' | 'Status' | 'Type' | 'User' | 'Version' | 'TimeEntriesActivity' | 'Category' |
+'CustomOption' | 'Project' | 'ProjectStatus' | 'Password';
 
 interface IOPFormError {
   errorIdentifier:string;

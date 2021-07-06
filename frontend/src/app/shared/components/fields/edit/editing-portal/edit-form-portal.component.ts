@@ -8,21 +8,21 @@ import {
   OnDestroy,
   OnInit,
   Output,
-} from "@angular/core";
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
+} from '@angular/core';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import {
   OpEditingPortalChangesetToken,
   OpEditingPortalHandlerToken,
   OpEditingPortalSchemaToken,
-} from "core-app/shared/components/fields/edit/edit-field.component";
-import { createLocalInjector } from "core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { EditFieldService, IEditFieldType } from "core-app/shared/components/fields/edit/edit-field.service";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
+} from 'core-app/shared/components/fields/edit/edit-field.component';
+import { createLocalInjector } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { EditFieldService, IEditFieldType } from 'core-app/shared/components/fields/edit/edit-field.service';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Component({
-  selector: "edit-form-portal",
-  templateUrl: "./edit-form-portal.component.html",
+  selector: 'edit-form-portal',
+  templateUrl: './edit-form-portal.component.html',
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() schemaInput:IFieldSchema;

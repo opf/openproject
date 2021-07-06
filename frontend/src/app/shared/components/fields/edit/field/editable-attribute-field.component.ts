@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -37,31 +37,31 @@ import {
   OnDestroy,
   OnInit, Optional,
   ViewChild,
-} from "@angular/core";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ClickPositionMapper } from "core-app/shared/helpers/set-click-position/set-click-position";
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { ISchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
+} from '@angular/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ClickPositionMapper } from 'core-app/shared/helpers/set-click-position/set-click-position';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import {
   displayClassName,
   DisplayFieldRenderer,
   editFieldContainerClass,
-} from "core-app/shared/components/fields/display/display-field-renderer";
-import { States } from "core-app/core/states/states.service";
-import { debugLog } from "../../../../helpers/debug_output";
-import { SelectionHelpers } from "../../../../helpers/selection-helpers";
+} from 'core-app/shared/components/fields/display/display-field-renderer';
+import { States } from 'core-app/core/states/states.service';
+import { debugLog } from '../../../../helpers/debug_output';
+import { SelectionHelpers } from '../../../../helpers/selection-helpers';
 import ClickEvent = JQuery.ClickEvent;
 
 @Component({
-  selector: "editable-attribute-field",
+  selector: 'editable-attribute-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: "./editable-attribute-field.component.html",
+  templateUrl: './editable-attribute-field.component.html',
 })
 export class EditableAttributeFieldComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() public fieldName:string;
@@ -76,9 +76,9 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
   @Input() public isDropTarget?:boolean = false;
 
-  @ViewChild("displayContainer", { static: true }) readonly displayContainer:ElementRef;
+  @ViewChild('displayContainer', { static: true }) readonly displayContainer:ElementRef;
 
-  @ViewChild("editContainer", { static: true }) readonly editContainer:ElementRef;
+  @ViewChild('editContainer', { static: true }) readonly editContainer:ElementRef;
 
   public fieldRenderer:DisplayFieldRenderer;
 
@@ -113,7 +113,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   public ngOnInit() {
-    this.fieldRenderer = new DisplayFieldRenderer(this.injector, "single-view", this.displayFieldOptions);
+    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view', this.displayFieldOptions);
     this.$element = jQuery(this.elementRef.nativeElement);
 
     // Register on the form if we're in an editable context
@@ -125,7 +125,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(resource => {
+      .subscribe((resource) => {
         this.resource = resource;
         this.render();
       });
@@ -144,12 +144,12 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
   public render() {
     const el = this.fieldRenderer.render(this.resource, this.fieldName, null, this.displayPlaceholder);
-    this.displayContainer.nativeElement.innerHTML = "";
+    this.displayContainer.nativeElement.innerHTML = '';
     this.displayContainer.nativeElement.appendChild(el);
   }
 
   public deactivate(focus = false) {
-    this.editContainer.nativeElement.innerHTML = "";
+    this.editContainer.nativeElement.innerHTML = '';
     this.editContainer.nativeElement.hidden = true;
     this.setActive(false);
 
@@ -171,7 +171,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
     // Skip activation if the user clicked on a link or within a macro
     const target = jQuery(event.target as HTMLElement);
-    if (target.closest("a,macro", this.displayContainer.nativeElement).length > 0) {
+    if (target.closest('a,macro', this.displayContainer.nativeElement).length > 0) {
       return true;
     }
 
@@ -198,7 +198,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   public handleUserActivate(evt:MouseEvent|KeyboardEvent|null) {
     let positionOffset = 0;
 
-    if (evt?.type === "click") {
+    if (evt?.type === 'click') {
       // Get the position where the user clicked.
       positionOffset = ClickPositionMapper.getPosition(evt);
     }

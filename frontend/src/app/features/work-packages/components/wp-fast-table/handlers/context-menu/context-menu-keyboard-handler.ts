@@ -1,8 +1,8 @@
-import { Injector } from "@angular/core";
-import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
-import { TableEventComponent } from "core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry";
-import { WorkPackageTable } from "../../wp-fast-table";
-import { ContextMenuHandler } from "./context-menu-handler";
+import { Injector } from '@angular/core';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { ContextMenuHandler } from './context-menu-handler';
 
 export class ContextMenuKeyboardHandler extends ContextMenuHandler {
   constructor(public readonly injector:Injector) {
@@ -10,7 +10,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
   }
 
   public get EVENT() {
-    return "keydown.table.contextmenu";
+    return 'keydown.table.contextmenu';
   }
 
   public get SELECTOR() {
@@ -33,10 +33,10 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
 
     // Locate the row from event
     const element = target.closest(this.SELECTOR);
-    const wpId = element.data("workPackageId");
+    const wpId = element.data('workPackageId');
 
     // Set position args to open at element
-    const position = { my: "left top", at: "left bottom", of: target };
+    const position = { my: 'left top', at: 'left bottom', of: target };
 
     super.openContextMenu(component.workPackageTable, evt, wpId, position);
 

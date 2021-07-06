@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input, OnInit } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  selector: "activity-entry",
-  templateUrl: "./activity-entry.component.html",
+  selector: 'activity-entry',
+  templateUrl: './activity-entry.component.html',
 })
 export class ActivityEntryComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;

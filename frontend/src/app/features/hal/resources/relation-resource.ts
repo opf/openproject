@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export interface RelationResourceLinks {
   delete():Promise<any>;
@@ -38,21 +38,21 @@ export interface RelationResourceLinks {
 export class RelationResource extends HalResource {
   static RELATION_TYPES(includeParentChild = true):string[] {
     const types = [
-      "relates",
-      "duplicates",
-      "duplicated",
-      "blocks",
-      "blocked",
-      "precedes",
-      "follows",
-      "includes",
-      "partof",
-      "requires",
-      "required",
+      'relates',
+      'duplicates',
+      'duplicated',
+      'blocks',
+      'blocked',
+      'precedes',
+      'follows',
+      'includes',
+      'partof',
+      'requires',
+      'required',
     ];
 
     if (includeParentChild) {
-      types.push("parent", "children");
+      types.push('parent', 'children');
     }
 
     return types;
@@ -65,7 +65,7 @@ export class RelationResource extends HalResource {
   }
 
   static DEFAULT() {
-    return "relates";
+    return 'relates';
   }
 
   // Properties
@@ -93,13 +93,13 @@ export class RelationResource extends HalResource {
    * @return {{id, href, relationType: string, workPackageType}}
    */
   public denormalized(workPackage:WorkPackageResource):DenormalizedRelationData {
-    const target = (this.to.href === workPackage.href) ? "from" : "to";
+    const target = (this.to.href === workPackage.href) ? 'from' : 'to';
 
     return {
       target: this[target],
       targetId: this[target].id!,
-      relationType: target === "from" ? this.reverseType : this.type,
-      reverseRelationType: target === "from" ? this.type : this.reverseType,
+      relationType: target === 'from' ? this.reverseType : this.type,
+      reverseRelationType: target === 'from' ? this.type : this.reverseType,
     };
   }
 

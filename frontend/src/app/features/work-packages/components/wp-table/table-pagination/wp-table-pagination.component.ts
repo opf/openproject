@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,21 +28,21 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageViewPaginationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import { WorkPackageViewPagination } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination";
-import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { combineLatest } from "rxjs";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { TablePaginationComponent } from "core-app/shared/components/table-pagination/table-pagination.component";
-import { IPaginationOptions, PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { WorkPackageViewPagination } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { combineLatest } from 'rxjs';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
+import { IPaginationOptions, PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 
 @Component({
-  templateUrl: "../../../../../shared/components/table-pagination/table-pagination.component.html",
+  templateUrl: '../../../../../shared/components/table-pagination/table-pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: "wp-table-pagination",
+  selector: 'wp-table-pagination',
 })
 export class WorkPackageTablePaginationComponent extends TablePaginationComponent implements OnInit, OnDestroy {
   constructor(protected paginationService:PaginationService,
@@ -101,7 +101,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   public paginationInfoText(work_packages:WorkPackageCollectionResource) {
     if (this.isManualSortingMode && (work_packages.count < work_packages.total)) {
-      return I18n.t("js.work_packages.limited_results",
+      return I18n.t('js.work_packages.limited_results',
         { count: work_packages.count });
     }
     return undefined;

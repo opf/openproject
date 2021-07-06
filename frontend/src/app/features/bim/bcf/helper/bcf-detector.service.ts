@@ -1,5 +1,5 @@
-import { Inject, Injectable } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export class BcfDetectorService {
@@ -11,7 +11,7 @@ export class BcfDetectorService {
    * resulting in a body class.
    */
   public get isBcfActivated() {
-    return this.hasBodyClass("bcf-activated");
+    return this.hasBodyClass('bcf-activated');
   }
 
   private hasBodyClass(name:string):boolean {

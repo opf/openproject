@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector } from "@angular/core";
-import { States } from "core-app/core/states/states.service";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { Injector } from '@angular/core';
+import { States } from 'core-app/core/states/states.service';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   HalResourceEditingService,
   ResourceChangesetCommit,
-} from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { ErrorResource } from "core-app/features/hal/resources/error-resource";
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 
-export const activeFieldContainerClassName = "inline-edit--active-field";
-export const activeFieldClassName = "inline-edit--field";
+export const activeFieldContainerClassName = 'inline-edit--active-field';
+export const activeFieldClassName = 'inline-edit--field';
 
 export abstract class EditForm<T extends HalResource = HalResource> {
   // Injections
@@ -146,7 +146,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   public activateMissingFields() {
     this.change.getForm().then((form:any) => {
       _.each(form.validationErrors, (val:any, key:string) => {
-        if (key === "id") {
+        if (key === 'id') {
           return;
         }
         this.activateWhenNeeded(key);
@@ -178,7 +178,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
     return new Promise<T>((resolve, reject) => {
       this.halEditing.save<T, ResourceChangeset<T>>(this.change)
-        .then(result => {
+        .then((result) => {
           // Close all current fields
           this.closeEditFields(openFields);
 
@@ -210,8 +210,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @param {string[]} fields
    * @param resetChange whether to undo any changes made
    */
-  public closeEditFields(fields:string[]|"all" = "all", resetChange = true) {
-    if (fields === "all") {
+  public closeEditFields(fields:string[]|'all' = 'all', resetChange = true) {
+    if (fields === 'all') {
       fields = _.keys(this.activeFields);
     }
 
@@ -258,7 +258,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
         setTimeout(() => this.focusOnFirstError());
       })
       .catch(() => {
-        console.error("Failed to activate all erroneous fields.");
+        console.error('Failed to activate all erroneous fields.');
       });
   }
 
@@ -298,7 +298,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
         }
       })
       .catch((error:any) => {
-        console.error("Failed to build edit field: %o", error);
+        console.error('Failed to build edit field: %o', error);
         this.halNotification.handleRawError(error, this.resource);
         this.closeEditFields([fieldName]);
       });

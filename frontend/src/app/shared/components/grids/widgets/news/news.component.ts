@@ -1,24 +1,24 @@
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import {
   ChangeDetectionStrategy, Component, Injector, OnInit, ChangeDetectorRef,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { NewsResource } from "core-app/features/hal/resources/news-resource";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Apiv3ListParameters } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { NewsResource } from 'core-app/features/hal/resources/news-resource';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
-  templateUrl: "./news.component.html",
+  templateUrl: './news.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetNewsComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    at: this.i18n.t("js.grid.widgets.news.at"),
-    noResults: this.i18n.t("js.grid.widgets.news.no_results"),
-    addedBy: (news:NewsResource) => this.i18n.t("js.label_added_time_by",
+    at: this.i18n.t('js.grid.widgets.news.at'),
+    noResults: this.i18n.t('js.grid.widgets.news.no_results'),
+    addedBy: (news:NewsResource) => this.i18n.t('js.label_added_time_by',
       { author: this.newsAuthorName(news), age: this.newsCreated(news), authorLink: this.newsAuthorPath(news) }),
   };
 
@@ -44,7 +44,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
       .apiV3Service
       .news
       .list(this.newsDmParams)
-      .subscribe(collection => this.setupNews(collection.elements));
+      .subscribe((collection) => this.setupNews(collection.elements));
   }
 
   public setupNews(news:any[]) {
@@ -87,12 +87,12 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
 
   private get newsDmParams() {
     const params:Apiv3ListParameters = {
-      sortBy: [["created_at", "desc"]],
+      sortBy: [['created_at', 'desc']],
       pageSize: 3,
     };
 
     if (this.currentProject.id) {
-      params["filters"] = [["project_id", "=", [this.currentProject.id]]];
+      params.filters = [['project_id', '=', [this.currentProject.id]]];
     }
 
     return params;

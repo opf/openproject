@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Observable } from "rxjs";
-import { Apiv3ListParameters, listParamsString } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { InAppNotification } from "core-app/features/in-app-notifications/store/in-app-notification.model";
-import { Apiv3NotificationPaths } from "core-app/core/apiv3/endpoints/notifications/apiv3-notification-paths";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HttpClient } from "@angular/common/http";
-import { IHALCollection } from "core-app/core/apiv3/types/hal-collection.type";
-import { ID } from "@datorama/akita";
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Observable } from 'rxjs';
+import { Apiv3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { Apiv3NotificationPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notification-paths';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HttpClient } from '@angular/common/http';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { ID } from '@datorama/akita';
 
 export class Apiv3NotificationsPaths
   extends APIv3ResourceCollection<InAppNotification, Apiv3NotificationPaths> {
@@ -43,11 +43,11 @@ export class Apiv3NotificationsPaths
 
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, "notifications", Apiv3NotificationPaths);
+    super(apiRoot, basePath, 'notifications', Apiv3NotificationPaths);
   }
 
   public facet(facet:string, params?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
-    if (facet === "unread") {
+    if (facet === 'unread') {
       return this.unread(params);
     }
     return this.list(params);
@@ -69,7 +69,7 @@ export class Apiv3NotificationsPaths
   public unread(additional?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
     const params:Apiv3ListParameters = {
       ...additional,
-      filters: [["readIAN", "=", false]],
+      filters: [['readIAN', '=', false]],
     };
 
     return this.list(params);
@@ -83,11 +83,11 @@ export class Apiv3NotificationsPaths
     return this
       .http
       .post(
-        `${this.path}/read_ian${listParamsString({ filters: [["id", "=", ids.map(id => id.toString())]] })}`,
+        `${this.path}/read_ian${listParamsString({ filters: [['id', '=', ids.map((id) => id.toString())]] })}`,
         {},
         {
           withCredentials: true,
-          responseType: "json",
+          responseType: 'json',
         },
       );
   }

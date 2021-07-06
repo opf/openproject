@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { Directive, ElementRef } from "@angular/core";
-import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { States } from "core-app/core/states/states.service";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { Directive, ElementRef } from '@angular/core';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { States } from 'core-app/core/states/states.service';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
 
 @Directive({
-  selector: "[wpCreateSettingsMenu]",
+  selector: '[wpCreateSettingsMenu]',
 })
 export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
@@ -45,7 +45,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
   }
 
   protected open(evt:JQuery.TriggeredEvent) {
-    const wp = this.states.workPackages.get("new").value;
+    const wp = this.states.workPackages.get('new').value;
 
     if (wp) {
       const change = this.halEditing.changeFor(wp);
@@ -65,8 +65,8 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
    */
   public positionArgs(evt:JQuery.TriggeredEvent) {
     const additionalPositionArgs = {
-      my: "right top",
-      at: "right bottom",
+      my: 'right top',
+      at: 'right bottom',
     };
 
     const position = super.positionArgs(evt);
@@ -83,7 +83,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     if (queryCustomFields) {
       this.items.push({
         href: queryCustomFields.href,
-        icon: "icon-custom-fields",
+        icon: 'icon-custom-fields',
         linkText: queryCustomFields.name,
         onClick: () => false,
       });
@@ -92,7 +92,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     if (configureFormLink) {
       this.items.push({
         href: configureFormLink.href,
-        icon: "icon-settings3",
+        icon: 'icon-settings3',
         linkText: configureFormLink.name,
         onClick: () => false,
       });

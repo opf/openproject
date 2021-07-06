@@ -1,14 +1,14 @@
-import { Injectable, Injector } from "@angular/core";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { BcfViewpointPaths } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
-import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { switchMap, map, tap } from "rxjs/operators";
-import { of, forkJoin, Observable } from "rxjs";
-import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import { BcfTopicResource } from "core-app/features/bim/bcf/api/topics/bcf-topic.resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Injectable, Injector } from '@angular/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { BcfViewpointPaths } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.paths';
+import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
+import { switchMap, map, tap } from 'rxjs/operators';
+import { of, forkJoin, Observable } from 'rxjs';
+import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
+import { BcfTopicResource } from 'core-app/features/bim/bcf/api/topics/bcf-topic.resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable()
 export class ViewpointsService {
@@ -58,7 +58,7 @@ export class ViewpointsService {
       viewpoint: viewpoint$,
     })
       .pipe(
-        switchMap(results => this.bcfApi
+        switchMap((results) => this.bcfApi
           .projects.id(wpProjectId)
           .topics.id(results.topicUUID)
           .viewpoints
@@ -77,7 +77,7 @@ export class ViewpointsService {
       ? of(this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id)
       : this.createBcfTopic$(workPackage);
 
-    return topicUUID$.pipe(map(topicUUID => this.topicUUID = topicUUID));
+    return topicUUID$.pipe(map((topicUUID) => this.topicUUID = topicUUID));
   }
 
   private createBcfTopic$(workPackage:WorkPackageResource):Observable<string> {

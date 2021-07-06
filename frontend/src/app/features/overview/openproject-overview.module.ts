@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from "@angular/core";
-import { OPSharedModule } from "core-app/shared/shared.module";
-import { Ng2StateDeclaration, UIRouter, UIRouterModule } from "@uirouter/angular";
-import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
-import { OverviewComponent } from "core-app/features/overview/overview.component";
+import { NgModule } from '@angular/core';
+import { OPSharedModule } from 'core-app/shared/shared.module';
+import { Ng2StateDeclaration, UIRouter, UIRouterModule } from '@uirouter/angular';
+import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
+import { OverviewComponent } from 'core-app/features/overview/overview.component';
 
-const menuItemClass = "overview-menu-item";
+const menuItemClass = 'overview-menu-item';
 
 export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: "overview",
-    parent: "root",
+    name: 'overview',
+    parent: 'root',
     // The trailing slash is important
     // cf., https://community.openproject.com/wp/29754
-    url: "/",
+    url: '/',
     data: {
       menuItem: menuItemClass,
     },
@@ -53,8 +53,8 @@ export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
   // cf., https://community.openproject.com/wp/29754
   uiRouter.urlService.rules
     .when(
-      new RegExp("^/projects(?!/new$)/([^/]+)$"),
-      match => `/projects/${match[1]}/`,
+      new RegExp('^/projects(?!/new$)/([^/]+)$'),
+      (match) => `/projects/${match[1]}/`,
     );
 }
 

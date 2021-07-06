@@ -1,29 +1,29 @@
-import { EventEmitter, Injector } from "@angular/core";
-import { HighlightingTransformer } from "core-app/features/work-packages/components/wp-fast-table/handlers/state/highlighting-transformer";
-import { DragAndDropTransformer } from "core-app/features/work-packages/components/wp-fast-table/handlers/state/drag-and-drop-transformer";
+import { EventEmitter, Injector } from '@angular/core';
+import { HighlightingTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/highlighting-transformer';
+import { DragAndDropTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/drag-and-drop-transformer';
 import {
   WorkPackageViewEventHandler, WorkPackageViewOutputs,
   WorkPackageViewHandlerRegistry,
-} from "core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry";
-import { WorkPackageFocusContext } from "core-app/features/work-packages/components/wp-table/wp-table.component";
-import { GroupFoldTransformer } from "core-app/features/work-packages/components/wp-fast-table/handlers/state/group-fold-transformer";
-import { WorkPackageTable } from "../wp-fast-table";
-import { EditCellHandler } from "./cell/edit-cell-handler";
-import { RelationsCellHandler } from "./cell/relations-cell-handler";
-import { ContextMenuClickHandler } from "./context-menu/context-menu-click-handler";
-import { ContextMenuKeyboardHandler } from "./context-menu/context-menu-keyboard-handler";
-import { ContextMenuRightClickHandler } from "./context-menu/context-menu-rightclick-handler";
-import { RowClickHandler } from "./row/click-handler";
-import { RowDoubleClickHandler } from "./row/double-click-handler";
-import { GroupRowHandler } from "./row/group-row-handler";
-import { HierarchyClickHandler } from "./row/hierarchy-click-handler";
-import { WorkPackageStateLinksHandler } from "./row/wp-state-links-handler";
-import { ColumnsTransformer } from "./state/columns-transformer";
-import { HierarchyTransformer } from "./state/hierarchy-transformer";
-import { RelationsTransformer } from "./state/relations-transformer";
-import { RowsTransformer } from "./state/rows-transformer";
-import { SelectionTransformer } from "./state/selection-transformer";
-import { TimelineTransformer } from "./state/timeline-transformer";
+} from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { WorkPackageFocusContext } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
+import { GroupFoldTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/group-fold-transformer';
+import { WorkPackageTable } from '../wp-fast-table';
+import { EditCellHandler } from './cell/edit-cell-handler';
+import { RelationsCellHandler } from './cell/relations-cell-handler';
+import { ContextMenuClickHandler } from './context-menu/context-menu-click-handler';
+import { ContextMenuKeyboardHandler } from './context-menu/context-menu-keyboard-handler';
+import { ContextMenuRightClickHandler } from './context-menu/context-menu-rightclick-handler';
+import { RowClickHandler } from './row/click-handler';
+import { RowDoubleClickHandler } from './row/double-click-handler';
+import { GroupRowHandler } from './row/group-row-handler';
+import { HierarchyClickHandler } from './row/hierarchy-click-handler';
+import { WorkPackageStateLinksHandler } from './row/wp-state-links-handler';
+import { ColumnsTransformer } from './state/columns-transformer';
+import { HierarchyTransformer } from './state/hierarchy-transformer';
+import { RelationsTransformer } from './state/relations-transformer';
+import { RowsTransformer } from './state/rows-transformer';
+import { SelectionTransformer } from './state/selection-transformer';
+import { TimelineTransformer } from './state/timeline-transformer';
 
 type StateTransformers = {
   // noinspection JSUnusedLocalSymbols

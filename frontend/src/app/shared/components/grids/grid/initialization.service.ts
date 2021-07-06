@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { switchMap } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class GridInitializationService {
@@ -18,9 +18,9 @@ export class GridInitializationService {
     return this
       .apiV3Service
       .grids
-      .list({ filters: [["scope", "=", [path]]] })
+      .list({ filters: [['scope', '=', [path]]] })
       .toPromise()
-      .then(collection => {
+      .then((collection) => {
         if (collection.total === 0) {
           return this.myPageForm(path);
         }
@@ -43,7 +43,7 @@ export class GridInitializationService {
       .form
       .post(payload)
       .pipe(
-        switchMap(form => {
+        switchMap((form) => {
           const source = form.payload.$source;
           const resource = this.halResourceService.createHalResource(source);
 

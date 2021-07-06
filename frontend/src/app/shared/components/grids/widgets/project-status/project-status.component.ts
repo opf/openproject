@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -34,19 +34,19 @@ import {
   Injector,
   OnInit,
   ViewChild,
-} from "@angular/core";
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { Observable } from "rxjs";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+} from '@angular/core';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { Observable } from 'rxjs';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
-  templateUrl: "./project-status.component.html",
+  templateUrl: './project-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     WorkPackageViewHighlightingService,
@@ -55,11 +55,11 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
   ],
 })
 export class WidgetProjectStatusComponent extends AbstractWidgetComponent implements OnInit {
-  @ViewChild("contentContainer", { static: true }) readonly contentContainer:ElementRef;
+  @ViewChild('contentContainer', { static: true }) readonly contentContainer:ElementRef;
 
-  public currentStatusCode = "not set";
+  public currentStatusCode = 'not set';
 
-  public explanation = "";
+  public explanation = '';
 
   public project$:Observable<ProjectResource>;
 

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-const cssClassRowHovered = "row-hovered";
+const cssClassRowHovered = 'row-hovered';
 
 export class WpTableHoverSync {
   private lastHoveredElement:Element | null = null;
@@ -43,16 +43,16 @@ export class WpTableHoverSync {
   }
 
   activate() {
-    window.addEventListener("mousemove", this.eventListener, { passive: true });
+    window.addEventListener('mousemove', this.eventListener, { passive: true });
   }
 
   deactivate() {
-    window.removeEventListener("mousemove", this.eventListener);
+    window.removeEventListener('mousemove', this.eventListener);
     this.removeAllHoverClasses();
   }
 
   private locateHoveredTableRow(child:JQuery):Element | null {
-    const parent = child.closest("tr");
+    const parent = child.closest('tr');
     if (parent.length === 0) {
       return null;
     }
@@ -60,7 +60,7 @@ export class WpTableHoverSync {
   }
 
   private locateHoveredTimelineRow(child:JQuery):Element | null {
-    const parent = child.closest("div.wp-timeline-cell");
+    const parent = child.closest('div.wp-timeline-cell');
     if (parent.length === 0) {
       return null;
     }
@@ -82,7 +82,7 @@ export class WpTableHoverSync {
   }
 
   private extractWorkPackageId(row:Element):number {
-    return parseInt(row.getAttribute("data-work-package-id")!);
+    return parseInt(row.getAttribute('data-work-package-id')!);
   }
 
   private removeOldAndAddNewHoverClass(parentTableRow:Element | null, parentTimelineRow:Element | null) {

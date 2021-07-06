@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,28 +28,28 @@
 
 import {
   Component, Input, EventEmitter, Output,
-} from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
+} from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 
 @Component({
-  templateUrl: "./wp-breadcrumb-parent.html",
-  selector: "wp-breadcrumb-parent",
+  templateUrl: './wp-breadcrumb-parent.html',
+  selector: 'wp-breadcrumb-parent',
 })
 export class WorkPackageBreadcrumbParentComponent {
-  @Input("workPackage") workPackage:WorkPackageResource;
+  @Input('workPackage') workPackage:WorkPackageResource;
 
-  @Output("onSwitch") onSwitch = new EventEmitter<boolean>();
+  @Output('onSwitch') onSwitch = new EventEmitter<boolean>();
 
   public isSaving = false;
 
   public text = {
-    edit_parent: this.I18n.t("js.relation_buttons.change_parent"),
-    set_or_remove_parent: this.I18n.t("js.relations_autocomplete.parent_placeholder"),
-    remove_parent: this.I18n.t("js.relation_buttons.remove_parent"),
-    set_parent: this.I18n.t("js.relation_buttons.set_parent"),
+    edit_parent: this.I18n.t('js.relation_buttons.change_parent'),
+    set_or_remove_parent: this.I18n.t('js.relations_autocomplete.parent_placeholder'),
+    remove_parent: this.I18n.t('js.relation_buttons.remove_parent'),
+    set_parent: this.I18n.t('js.relation_buttons.set_parent'),
   };
 
   private editing:boolean;
@@ -84,7 +84,7 @@ export class WorkPackageBreadcrumbParentComponent {
   public updateParent(newParent:WorkPackageResource|null) {
     this.close();
     const newParentId = newParent ? newParent.id : null;
-    if (_.get(this.parent, "id", null) === newParentId) {
+    if (_.get(this.parent, 'id', null) === newParentId) {
       return;
     }
 

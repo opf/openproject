@@ -9,4 +9,4 @@ interface IOPAutocompleterOptions {
   name:string;
 }
 
-type resource = "work_packages" | "users";
+type resource = 'work_packages' | 'users';

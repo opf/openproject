@@ -1,27 +1,27 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { registerTableSorter } from "core-app/features/reporting/reporting-page/functionality/tablesorter";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { registerTableSorter } from 'core-app/features/reporting/reporting-page/functionality/tablesorter';
 
-import "./functionality/reporting_engine";
-import "./functionality/reporting_engine/filters";
-import "./functionality/reporting_engine/group_bys";
-import "./functionality/reporting_engine/restore_query";
-import "./functionality/reporting_engine/controls";
+import './functionality/reporting_engine';
+import './functionality/reporting_engine/filters';
+import './functionality/reporting_engine/group_bys';
+import './functionality/reporting_engine/restore_query';
+import './functionality/reporting_engine/controls';
 
-export const reportingPageComponentSelector = "op-reporting-page";
+export const reportingPageComponentSelector = 'op-reporting-page';
 
 @Component({
   selector: reportingPageComponentSelector,
   // Empty wrapper around legacy backlogs for CSS loading
   // that got removed in the Rails assets pipeline
   encapsulation: ViewEncapsulation.None,
-  template: "",
+  template: '',
   styleUrls: [
-    "./styles/reporting.sass",
+    './styles/reporting.sass',
   ],
 })
 export class ReportingPageComponent implements OnInit {
   ngOnInit() {
-    document.getElementById("projected-content")!.hidden = false;
+    document.getElementById('projected-content')!.hidden = false;
 
     // Register table sorting functionality after reporting engine loaded
     registerTableSorter();

@@ -1,13 +1,13 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { Apiv3UserPreferencesPaths } from "core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UserPreferencesModel } from "core-app/features/user-preferences/state/user-preferences.model";
-import { UserPreferencesStore } from "core-app/features/user-preferences/state/user-preferences.store";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { Apiv3UserPreferencesPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
+import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class UserPreferencesService {
   constructor(
     private store:UserPreferencesStore,
@@ -23,8 +23,8 @@ export class UserPreferencesService {
     this.preferenceAPI(user)
       .get()
       .subscribe(
-        prefs => this.store.update(prefs),
-        error => this.notifications.addError(error),
+        (prefs) => this.store.update(prefs),
+        (error) => this.notifications.addError(error),
       )
       .add(
         () => this.store.setLoading(false),
@@ -37,11 +37,11 @@ export class UserPreferencesService {
       .preferenceAPI(user)
       .patch(delta)
       .subscribe(
-        prefs => {
+        (prefs) => {
           this.store.update(prefs);
-          this.notifications.addSuccess(this.I18n.t("js.notice_successful_update"));
+          this.notifications.addSuccess(this.I18n.t('js.notice_successful_update'));
         },
-        error => this.notifications.addError(error),
+        (error) => this.notifications.addError(error),
       )
       .add(() => this.store.setLoading(false));
   }

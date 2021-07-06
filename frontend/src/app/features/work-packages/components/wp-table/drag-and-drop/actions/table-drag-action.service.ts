@@ -1,6 +1,6 @@
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Injector } from "@angular/core";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Injector } from '@angular/core';
 
 export class TableDragActionService {
   /**
@@ -52,9 +52,9 @@ export class TableDragActionService {
    */
   public changeShadowElement(shadowElement:HTMLElement, backToDefault = false) {
     if (backToDefault) {
-      shadowElement.classList.remove("-dragged");
+      shadowElement.classList.remove('-dragged');
     } else {
-      shadowElement.classList.add("-dragged");
+      shadowElement.classList.add('-dragged');
     }
     return true;
   }

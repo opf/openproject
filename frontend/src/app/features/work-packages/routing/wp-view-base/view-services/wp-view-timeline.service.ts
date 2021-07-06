@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { input } from "reactivestates";
-import { WorkPackageTimelineState } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline";
-import { zoomLevelOrder } from "core-app/features/work-packages/components/wp-table/timeline/wp-timeline";
-import { QueryResource, TimelineLabels, TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageQueryStateService } from "./wp-view-base.service";
+import { Injectable } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { input } from 'reactivestates';
+import { WorkPackageTimelineState } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline';
+import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
+import { QueryResource, TimelineLabels, TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewTimelineService extends WorkPackageQueryStateService<WorkPackageTimelineState> {
   /** Remember the computed zoom level to correct zooming after leaving autozoom */
-  public appliedZoomLevel$ = input<TimelineZoomLevel>("auto");
+  public appliedZoomLevel$ = input<TimelineZoomLevel>('auto');
 
   public constructor(protected readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
@@ -115,7 +115,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
       const position:keyof TimelineLabels = positionAsString as keyof TimelineLabels;
 
       // Set to null to explicitly disable
-      if (attribute === "") {
+      if (attribute === '') {
         labels[position] = null;
       } else {
         labels[position] = attribute;
@@ -131,27 +131,27 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
 
   public updateZoomWithDelta(delta:number):void {
     const level = this.current.zoomLevel;
-    if (level !== "auto") {
+    if (level !== 'auto') {
       return this.applyZoomLevel(level, delta);
     }
 
     const applied = this.appliedZoomLevel;
-    if (applied && applied !== "auto") {
+    if (applied && applied !== 'auto') {
       // When we have a real zoom value, use delta on that one
       this.applyZoomLevel(applied, delta);
     } else {
       // Use the maximum zoom value
-      const target = delta < 0 ? "days" : "years";
+      const target = delta < 0 ? 'days' : 'years';
       this.setZoomLevel(target);
     }
   }
 
   public isAutoZoom():boolean {
-    return this.current.zoomLevel === "auto";
+    return this.current.zoomLevel === 'auto';
   }
 
   public enableAutozoom() {
-    this.modify({ zoomLevel: "auto" });
+    this.modify({ zoomLevel: 'auto' });
   }
 
   public get current():WorkPackageTimelineState {
@@ -172,7 +172,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
    * @param level Any zoom level except auto.
    * @param delta The delta (e.g., 1, -1) to apply.
    */
-  private applyZoomLevel(level:Exclude<TimelineZoomLevel, "auto">, delta:number) {
+  private applyZoomLevel(level:Exclude<TimelineZoomLevel, 'auto'>, delta:number) {
     let idx = zoomLevelOrder.indexOf(level);
     idx += delta;
 
@@ -183,15 +183,15 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
 
   private get defaultLabels():TimelineLabels {
     return {
-      left: "",
-      right: "",
-      farRight: "subject",
+      left: '',
+      right: '',
+      farRight: 'subject',
     };
   }
 
   private get defaultState():WorkPackageTimelineState {
     return {
-      zoomLevel: "auto",
+      zoomLevel: 'auto',
       visible: false,
       labels: this.defaultLabels,
     };

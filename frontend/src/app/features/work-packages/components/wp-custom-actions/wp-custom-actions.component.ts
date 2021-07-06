@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,15 +28,15 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
-} from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { CustomActionResource } from "core-app/features/hal/resources/custom-action-resource";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+} from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
-  selector: "wp-custom-actions",
-  templateUrl: "./wp-custom-actions.component.html",
+  selector: 'wp-custom-actions',
+  templateUrl: './wp-custom-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpCustomActionsComponent extends UntilDestroyedMixin implements OnInit {

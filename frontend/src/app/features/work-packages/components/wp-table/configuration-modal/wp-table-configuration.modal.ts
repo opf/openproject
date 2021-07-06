@@ -12,31 +12,31 @@ import {
   OnInit,
   Optional,
   ViewChild,
-} from "@angular/core";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { WpTableConfigurationService } from "core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service";
+} from '@angular/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
 import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
   TabPortalOutlet,
-} from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
-import { WorkPackageStatesInitializationService } from "core-app/features/work-packages/components/wp-list/wp-states-initialization.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { ComponentType } from "@angular/cdk/portal";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+} from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
+import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { ComponentType } from '@angular/cdk/portal';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>("WpTableConfigurationModalPrependComponent");
+export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
 @Component({
-  templateUrl: "./wp-table-configuration.modal.html",
+  templateUrl: './wp-table-configuration.modal.html',
 })
 export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   /* Close on escape? */
@@ -48,17 +48,17 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   public $element:JQuery;
 
   public text = {
-    title: this.I18n.t("js.work_packages.table_configuration.modal_title"),
-    closePopup: this.I18n.t("js.close_popup_title"),
+    title: this.I18n.t('js.work_packages.table_configuration.modal_title'),
+    closePopup: this.I18n.t('js.close_popup_title'),
 
-    columnsLabel: this.I18n.t("js.label_columns"),
-    selectedColumns: this.I18n.t("js.description_selected_columns"),
-    multiSelectLabel: this.I18n.t("js.work_packages.label_column_multiselect"),
-    applyButton: this.I18n.t("js.modals.button_apply"),
-    cancelButton: this.I18n.t("js.modals.button_cancel"),
+    columnsLabel: this.I18n.t('js.label_columns'),
+    selectedColumns: this.I18n.t('js.description_selected_columns'),
+    multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
+    applyButton: this.I18n.t('js.modals.button_apply'),
+    cancelButton: this.I18n.t('js.modals.button_cancel'),
 
-    upsaleRelationColumns: this.I18n.t("js.modals.upsale_relation_columns"),
-    upsaleRelationColumnsLink: this.I18n.t("js.modals.upsale_relation_columns_link"),
+    upsaleRelationColumns: this.I18n.t('js.modals.upsale_relation_columns'),
+    upsaleRelationColumnsLink: this.I18n.t('js.modals.upsale_relation_columns_link'),
   };
 
   public onDataUpdated = new EventEmitter<void>();
@@ -66,7 +66,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   public selectedColumnMap:{ [id:string]:boolean } = {};
 
   // Get the view child we'll use as the portal host
-  @ViewChild("tabContentOutlet", { static: true }) tabContentOutlet:ElementRef;
+  @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
 
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
@@ -104,10 +104,10 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       this.injector,
     );
 
-    this.loadingIndicator.indicator("modal").promise = this.loadForm()
+    this.loadingIndicator.indicator('modal').promise = this.loadForm()
       .then(() => {
-        const initialTabName = this.locals["initialTab"];
-        const initialTab = this.availableTabs.find(el => el.id === initialTabName);
+        const initialTabName = this.locals.initialTab;
+        const initialTab = this.availableTabs.find((el) => el.id === initialTabName);
         this.switchTo(initialTab || this.availableTabs[0]);
       });
   }

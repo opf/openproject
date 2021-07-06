@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateService } from "@uirouter/angular";
+import { StateService } from '@uirouter/angular';
 
 /**
  * Returns the path to the split view based on the current route
@@ -34,6 +34,6 @@ import { StateService } from "@uirouter/angular";
  * @param state State service
  */
 export function splitViewRoute(state:StateService):string {
-  const baseRoute = state.current.data.baseRoute || "";
+  const baseRoute = state.current.data.baseRoute || '';
   return `${baseRoute}.details`;
 }

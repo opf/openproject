@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable, EventEmitter } from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { InviteUserModalComponent } from "./invite-user.component";
+import { Injectable, EventEmitter } from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { InviteUserModalComponent } from './invite-user.component';
 
 /**
  * This service triggers user-invite modals to clicks on elements
@@ -49,7 +49,7 @@ export class OpInviteUserModalService {
   public open(projectId:string|null = this.currentProjectService.id) {
     const modal = this.opModalService.show(
       InviteUserModalComponent,
-      "global",
+      'global',
       { projectId },
     );
 

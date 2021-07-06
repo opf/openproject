@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,24 +28,24 @@
 
 import {
   ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
-} from "@angular/core";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { QuerySharingChange } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
-import { States } from "core-app/core/states/states.service";
+} from '@angular/core';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { QuerySharingChange } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { States } from 'core-app/core/states/states.service';
 
 @Component({
-  templateUrl: "./save-query.modal.html",
+  templateUrl: './save-query.modal.html',
 })
 export class SaveQueryModal extends OpModalComponent {
-  public queryName = "";
+  public queryName = '';
 
   public isStarred = false;
 
@@ -53,17 +53,17 @@ export class SaveQueryModal extends OpModalComponent {
 
   public isBusy = false;
 
-  @ViewChild("queryNameField", { static: true }) queryNameField:ElementRef;
+  @ViewChild('queryNameField', { static: true }) queryNameField:ElementRef;
 
   public text = {
-    title: this.I18n.t("js.modals.form_submit.title"),
-    text: this.I18n.t("js.modals.form_submit.text"),
-    save_as: this.I18n.t("js.label_save_as"),
-    label_name: this.I18n.t("js.modals.label_name"),
-    label_visibility_settings: this.I18n.t("js.label_visibility_settings"),
-    button_save: this.I18n.t("js.modals.button_save"),
-    button_cancel: this.I18n.t("js.button_cancel"),
-    close_popup: this.I18n.t("js.close_popup_title"),
+    title: this.I18n.t('js.modals.form_submit.title'),
+    text: this.I18n.t('js.modals.form_submit.text'),
+    save_as: this.I18n.t('js.label_save_as'),
+    label_name: this.I18n.t('js.modals.label_name'),
+    label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
+    button_save: this.I18n.t('js.modals.button_save'),
+    button_cancel: this.I18n.t('js.button_cancel'),
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -88,7 +88,7 @@ export class SaveQueryModal extends OpModalComponent {
   }
 
   public get afterFocusOn() {
-    return jQuery("#work-packages-settings-button");
+    return jQuery('#work-packages-settings-button');
   }
 
   public saveQueryAs($event:JQuery.TriggeredEvent) {

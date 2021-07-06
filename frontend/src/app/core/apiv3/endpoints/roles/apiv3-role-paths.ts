@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { RoleResource } from "core-app/features/hal/resources/role-resource";
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
+import { RoleResource } from 'core-app/features/hal/resources/role-resource';
+import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 
 export class APIv3RolePaths extends CachableAPIV3Resource<RoleResource> {
   protected createCache():StateCacheService<RoleResource> {

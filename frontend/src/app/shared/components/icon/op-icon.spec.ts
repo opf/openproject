@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { By } from "@angular/platform-browser";
-import { DebugElement } from "@angular/core";
-import { OpIconComponent } from "./icon.component";
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+import { OpIconComponent } from './icon.component';
 
-describe("opIcon Directive", () => {
+describe('opIcon Directive', () => {
   let app:OpIconComponent;
   let fixture:ComponentFixture<OpIconComponent>;
   let element:DebugElement;
@@ -50,38 +50,38 @@ describe("opIcon Directive", () => {
     app = fixture.debugElement.componentInstance;
     element = fixture.debugElement;
 
-    app.iconClasses = "icon-foobar icon-context";
+    app.iconClasses = 'icon-foobar icon-context';
     fixture.detectChanges();
   });
 
-  describe("without a title", () => {
-    it("should render an icon", () => {
-      const i = element.query(By.css("i"));
+  describe('without a title', () => {
+    it('should render an icon', () => {
+      const i = element.query(By.css('i'));
 
-      expect(i.nativeElement.tagName.toLowerCase()).toEqual("i");
-      expect(i.classes["icon-foobar"]).toBeTruthy();
-      expect(i.classes["icon-context"]).toBeTruthy();
+      expect(i.nativeElement.tagName.toLowerCase()).toEqual('i');
+      expect(i.classes['icon-foobar']).toBeTruthy();
+      expect(i.classes['icon-context']).toBeTruthy();
 
-      expect(element.query(By.css("span"))).toBeNull();
+      expect(element.query(By.css('span'))).toBeNull();
     });
   });
 
-  describe("with a title", () => {
+  describe('with a title', () => {
     beforeEach(() => {
-      app.iconTitle = "blabla";
+      app.iconTitle = 'blabla';
       fixture.detectChanges();
     });
 
-    it("should render icon and title", () => {
-      const i = element.query(By.css("i"));
-      const span = element.query(By.css("span"));
+    it('should render icon and title', () => {
+      const i = element.query(By.css('i'));
+      const span = element.query(By.css('span'));
 
-      expect(i.nativeElement.tagName.toLowerCase()).toEqual("i");
-      expect(i.classes["icon-foobar"]).toBeTruthy();
-      expect(i.classes["icon-context"]).toBeTruthy();
+      expect(i.nativeElement.tagName.toLowerCase()).toEqual('i');
+      expect(i.classes['icon-foobar']).toBeTruthy();
+      expect(i.classes['icon-context']).toBeTruthy();
 
-      expect(span.nativeElement.tagName.toLowerCase()).toEqual("span");
-      expect(span.nativeElement.textContent).toEqual("blabla");
+      expect(span.nativeElement.tagName.toLowerCase()).toEqual('span');
+      expect(span.nativeElement.textContent).toEqual('blabla');
     });
   });
 });

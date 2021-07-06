@@ -1,20 +1,20 @@
-import { Injectable, Injector } from "@angular/core";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { AddGridWidgetModal } from "core-app/shared/components/grids/widgets/add/add.modal";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
-import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
-import { GridDragAndDropService } from "core-app/shared/components/grids/grid/drag-and-drop.service";
-import { GridResizeService } from "core-app/shared/components/grids/grid/resize.service";
-import { GridMoveService } from "core-app/shared/components/grids/grid/move.service";
-import { GridGap } from "core-app/shared/components/grids/areas/grid-gap";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Injectable, Injector } from '@angular/core';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { AddGridWidgetModal } from 'core-app/shared/components/grids/widgets/add/add.modal';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
+import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
+import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
+import { GridResizeService } from 'core-app/shared/components/grids/grid/resize.service';
+import { GridMoveService } from 'core-app/shared/components/grids/grid/move.service';
+import { GridGap } from 'core-app/shared/components/grids/areas/grid-gap';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Injectable()
 export class GridAddWidgetService {
-  text = { add: this.i18n.t("js.grid.add_widget") };
+  text = { add: this.i18n.t('js.grid.add_widget') };
 
   constructor(readonly opModalService:OpModalService,
     readonly injector:Injector,
@@ -68,7 +68,7 @@ export class GridAddWidgetService {
         }
 
         const source = {
-          _type: "GridWidget",
+          _type: 'GridWidget',
           identifier: registered.identifier,
           startRow: area.startRow,
           endRow: area.endRow,

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,22 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { Injectable } from "@angular/core";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { States } from "core-app/core/states/states.service";
-import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { MAX_ORDER, ReorderDeltaBuilder } from "core-app/shared/helpers/drag-and-drop/reorder-delta-builder";
-import { take } from "rxjs/operators";
-import { InputState } from "reactivestates";
-import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
-import { WorkPackageQueryStateService } from "./wp-view-base.service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { Injectable } from '@angular/core';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { States } from 'core-app/core/states/states.service';
+import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { MAX_ORDER, ReorderDeltaBuilder } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
+import { take } from 'rxjs/operators';
+import { InputState } from 'reactivestates';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
@@ -86,7 +86,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * Pull an item from the rendered list
    */
   public remove(order:string[], wpId:string):string[] {
-    _.remove(order, id => id === wpId);
+    _.remove(order, (id) => id === wpId);
     this.update({ [wpId]: -1 });
     return order;
   }
@@ -169,7 +169,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
       // Remove empty or stale values given we can reload them
       if ((value === {} || this.positions.isValueOlderThan(60000))) {
-        this.positions.clear("Clearing old positions value");
+        this.positions.clear('Clearing old positions value');
       }
 
       // Load the current order from backend
@@ -203,7 +203,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
       .results
       .value!
       .elements
-      .map(wp => this.states.workPackages.get(wp.id!).getValueOr(wp));
+      .map((wp) => this.states.workPackages.get(wp.id!).getValueOr(wp));
 
     if (this.currentQuery.persisted || this.positions.isPristine()) {
       return upstreamOrder;

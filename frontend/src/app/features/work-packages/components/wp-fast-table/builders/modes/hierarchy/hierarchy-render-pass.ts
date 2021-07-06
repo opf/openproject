@@ -1,19 +1,19 @@
-import { Injector } from "@angular/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { PrimaryRenderPass, RowRenderInfo } from "core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass";
-import { States } from "core-app/core/states/states.service";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { WorkPackageTableRow } from "core-app/features/work-packages/components/wp-fast-table/wp-table.interfaces";
+import { Injector } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PrimaryRenderPass, RowRenderInfo } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { WorkPackageTableRow } from 'core-app/features/work-packages/components/wp-fast-table/wp-table.interfaces';
 import {
   ancestorClassIdentifier,
   hierarchyGroupClass,
-} from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
-import { WorkPackageViewHierarchies } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from "./single-hierarchy-row-builder";
+} from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
+import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
   @InjectField() querySpace:IsolatedQuerySpace;
@@ -128,11 +128,11 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         let elements = this.deferred[parent.id!] || [];
         // Append to them the child and all children below
         let newElements:WorkPackageResource[] = ancestorChain.slice(i + 1, ancestorChain.length);
-        newElements = newElements.map(child => this.apiV3Service.work_packages.cache.state(child.id!).value!);
+        newElements = newElements.map((child) => this.apiV3Service.work_packages.cache.state(child.id!).value!);
         // Append all new elements
         elements = elements.concat(newElements);
         // Remove duplicates (Regression #29652)
-        this.deferred[parent.id!] = _.uniqBy(elements, el => el.id!);
+        this.deferred[parent.id!] = _.uniqBy(elements, (el) => el.id!);
         return true;
       }
       // Otherwise, continue the chain upwards
@@ -260,10 +260,10 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   private buildRenderInfo(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {
     const info:RowRenderInfo = {
       element: row,
-      classIdentifier: "",
+      classIdentifier: '',
       additionalClasses: [],
       workPackage,
-      renderType: "primary",
+      renderType: 'primary',
       hidden,
     };
 

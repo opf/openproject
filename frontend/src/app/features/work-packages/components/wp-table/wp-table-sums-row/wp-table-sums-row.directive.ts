@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,29 +28,29 @@
 
 import {
   AfterViewInit, Directive, ElementRef, Injector, Input,
-} from "@angular/core";
-import { takeUntil } from "rxjs/operators";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { States } from "core-app/core/states/states.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { WorkPackageViewSumService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service";
-import { combineLatest } from "rxjs";
-import { GroupSumsBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+} from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { States } from 'core-app/core/states/states.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
+import { combineLatest } from 'rxjs';
+import { GroupSumsBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Directive({
-  selector: "[wpTableSumsRow]",
+  selector: '[wpTableSumsRow]',
   host: {
-    "[class.-hidden]": "isHidden",
+    '[class.-hidden]': 'isHidden',
   },
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
-  @Input("wpTableSumsRow-table") workPackageTable:WorkPackageTable;
+  @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
 
   public isHidden = true;
 
@@ -69,7 +69,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     readonly wpTableSums:WorkPackageViewSumService,
     readonly I18n:I18nService) {
     this.text = {
-      sum: I18n.t("js.label_total_sum"),
+      sum: I18n.t('js.label_total_sum'),
     };
   }
 
@@ -99,7 +99,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   private clear() {
-    this.element.innerHTML = "";
+    this.element.innerHTML = '';
   }
 
   private refresh(columns:QueryColumn[], resource:WorkPackageCollectionResource, schema:SchemaResource) {

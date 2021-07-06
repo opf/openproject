@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpenProjectPluginContext } from "core-app/features/plugins/plugin-context";
-import { input, InputState } from "reactivestates";
-import { take } from "rxjs/operators";
-import { GlobalHelpers } from "core-app/core/setup/globals/global-helpers";
+import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
+import { input, InputState } from 'reactivestates';
+import { take } from 'rxjs/operators';
+import { GlobalHelpers } from 'core-app/core/setup/globals/global-helpers';
 
 /**
  * OpenProject instance methods
@@ -61,23 +61,23 @@ export class OpenProject {
   }
 
   public get urlRoot():string {
-    return jQuery("meta[name=app_base_path]").attr("content") || "";
+    return jQuery('meta[name=app_base_path]').attr('content') || '';
   }
 
   public get environment():string {
-    return jQuery("meta[name=openproject_initializer]").data("environment");
+    return jQuery('meta[name=openproject_initializer]').data('environment');
   }
 
   public get edition():string {
-    return jQuery("meta[name=openproject_initializer]").data("edition");
+    return jQuery('meta[name=openproject_initializer]').data('edition');
   }
 
   public get isStandardEdition():boolean {
-    return this.edition === "standard";
+    return this.edition === 'standard';
   }
 
   public get isBimEdition():boolean {
-    return this.edition === "bim";
+    return this.edition === 'bim';
   }
 
   /**
@@ -99,7 +99,7 @@ export class OpenProject {
         return value === null ? undefined : value;
       }
     } catch (e) {
-      console.error("Failed to access your browsers local storage. Is your local database corrupted?");
+      console.error('Failed to access your browsers local storage. Is your local database corrupted?');
     }
   }
 }

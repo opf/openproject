@@ -1,115 +1,115 @@
-import { Injectable } from "@angular/core";
-import { FormlyFieldConfig } from "@ngx-formly/core";
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
-import { HttpClient } from "@angular/common/http";
-import { HalLink } from "core-app/features/hal/hal-link/hal-link";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Injectable } from '@angular/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   IDynamicFieldGroupConfig,
   IOPDynamicInputTypeSettings,
   IOPFormlyFieldSettings,
-} from "../../typings";
+} from '../../typings';
 
 @Injectable()
 export class DynamicFieldsService {
-  readonly selectDefaultValue = { name: "-", _links: { self: { href: null } } };
+  readonly selectDefaultValue = { name: '-', _links: { self: { href: null } } };
 
   readonly inputsCatalogue:IOPDynamicInputTypeSettings[] = [
     {
       config: {
-        type: "textInput",
+        type: 'textInput',
         templateOptions: {
-          type: "text",
+          type: 'text',
         },
       },
-      useForFields: ["String"],
+      useForFields: ['String'],
     },
     {
       config: {
-        type: "textInput",
+        type: 'textInput',
         templateOptions: {
-          type: "password",
+          type: 'password',
         },
       },
-      useForFields: ["Password"],
+      useForFields: ['Password'],
     },
     {
       config: {
-        type: "integerInput",
+        type: 'integerInput',
         templateOptions: {
-          type: "number",
+          type: 'number',
           locale: this.I18n.locale,
         },
       },
-      useForFields: ["Integer", "Float"],
+      useForFields: ['Integer', 'Float'],
     },
     {
       config: {
-        type: "booleanInput",
+        type: 'booleanInput',
         templateOptions: {
-          type: "checkbox",
+          type: 'checkbox',
         },
       },
-      useForFields: ["Boolean"],
+      useForFields: ['Boolean'],
     },
     {
       config: {
-        type: "dateInput",
+        type: 'dateInput',
       },
-      useForFields: ["Date", "DateTime"],
+      useForFields: ['Date', 'DateTime'],
     },
     {
       config: {
-        type: "formattableInput",
-        className: "",
+        type: 'formattableInput',
+        className: '',
         templateOptions: {
-          editorType: "full",
+          editorType: 'full',
           noWrapLabel: true,
         },
       },
-      useForFields: ["Formattable"],
+      useForFields: ['Formattable'],
     },
     {
       config: {
-        type: "selectInput",
+        type: 'selectInput',
         defaultValue: this.selectDefaultValue,
         templateOptions: {
           locale: this.I18n.locale,
-          bindLabel: "name",
+          bindLabel: 'name',
           searchable: true,
           virtualScroll: true,
           clearOnBackspace: false,
           clearSearchOnAdd: false,
           hideSelected: false,
           text: {
-            add_new_action: this.I18n.t("js.label_create"),
+            add_new_action: this.I18n.t('js.label_create'),
           },
         },
         expressionProperties: {
-          "templateOptions.clearable": (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
         },
       },
       useForFields: [
-        "Priority", "Status", "Type", "User", "Version", "TimeEntriesActivity",
-        "Category", "CustomOption", "Project",
+        'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
+        'Category', 'CustomOption', 'Project',
       ],
     },
     {
       config: {
-        type: "selectProjectStatusInput",
+        type: 'selectProjectStatusInput',
         defaultValue: this.selectDefaultValue,
         templateOptions: {
           locale: this.I18n.locale,
-          bindLabel: "name",
+          bindLabel: 'name',
           searchable: true,
         },
         expressionProperties: {
-          "templateOptions.clearable": (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
         },
       },
       useForFields: [
-        "ProjectStatus",
+        'ProjectStatus',
       ],
     },
   ];
@@ -121,14 +121,14 @@ export class DynamicFieldsService {
   }
 
   getConfig(formSchema:IOPFormSchema, formPayload:IOPFormModel):IOPFormlyFieldSettings[] {
-    const formFieldGroups = formSchema._attributeGroups?.map(fieldGroup => ({
+    const formFieldGroups = formSchema._attributeGroups?.map((fieldGroup) => ({
       name: fieldGroup.name,
       fieldsFilter: (field:IOPFormlyFieldSettings) => fieldGroup.attributes?.includes(field.templateOptions?.property!),
     }));
     const fieldSchemas = this.getFieldsSchemasWithKey(formSchema);
     const formlyFields = fieldSchemas
-      .map(fieldSchema => this.getFormlyFieldConfig(fieldSchema, formPayload))
-      .filter(f => f !== null) as IOPFormlyFieldSettings[];
+      .map((fieldSchema) => this.getFormlyFieldConfig(fieldSchema, formPayload))
+      .filter((f) => f !== null) as IOPFormlyFieldSettings[];
     const formlyFormWithFieldGroups = this.getFormlyFormWithFieldGroups(formFieldGroups, formlyFields);
 
     return formlyFormWithFieldGroups;
@@ -162,7 +162,7 @@ export class DynamicFieldsService {
   getFormlyFormWithFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []):IOPFormlyFieldSettings[] {
     // Remove previous grouping
     formFields = formFields.reduce((result:IOPFormlyFieldSettings[], formField) => (formField.fieldGroup ? [...result, ...formField.fieldGroup] : [...result, formField]), []);
-    const formFieldsWithoutGroup = formFields.filter(formField => fieldGroups.every(fieldGroup => !fieldGroup.fieldsFilter || !fieldGroup.fieldsFilter(formField)));
+    const formFieldsWithoutGroup = formFields.filter((formField) => fieldGroups.every((fieldGroup) => !fieldGroup.fieldsFilter || !fieldGroup.fieldsFilter(formField)));
     const formFieldGroups = this.getDynamicFormFieldGroups(fieldGroups, formFields);
 
     return [...formFieldsWithoutGroup, ...formFieldGroups];
@@ -170,7 +170,7 @@ export class DynamicFieldsService {
 
   private getFieldsSchemasWithKey(formSchema:IOPFormSchema):IOPFieldSchemaWithKey[] {
     return Object.keys(formSchema)
-      .map(fieldSchemaKey => {
+      .map((fieldSchemaKey) => {
         const fieldSchema = {
           ...formSchema[fieldSchemaKey],
           key: this.getAttributeKey(formSchema[fieldSchemaKey], fieldSchemaKey),
@@ -178,13 +178,13 @@ export class DynamicFieldsService {
 
         return fieldSchema;
       })
-      .filter(fieldSchema => this.isFieldSchema(fieldSchema) && fieldSchema.writable);
+      .filter((fieldSchema) => this.isFieldSchema(fieldSchema) && fieldSchema.writable);
   }
 
   private getAttributeKey(fieldSchema:IOPFieldSchema, key:string):string {
     switch (fieldSchema.location) {
-      case "_links":
-      case "_meta":
+      case '_links':
+      case '_meta':
         return `${fieldSchema.location}.${key}`;
       default:
         return key;
@@ -195,13 +195,13 @@ export class DynamicFieldsService {
     return !!schemaValue?.type;
   }
 
-  private getFormattedResourcesModel(resourcesModel:IOPFormModel["_links"] = {}):IOPFormModel["_links"] {
+  private getFormattedResourcesModel(resourcesModel:IOPFormModel['_links'] = {}):IOPFormModel['_links'] {
     return Object.keys(resourcesModel).reduce((result, resourceKey) => {
       const resource = resourcesModel[resourceKey];
       // ng-select needs a 'name' in order to show the label
       // We need to add it in case of the form payload (HalLinkSource)
       const resourceModel = Array.isArray(resource)
-        ? resource.map(resourceElement => resourceElement?.href && {
+        ? resource.map((resourceElement) => resourceElement?.href && {
           ...resourceElement,
           name: resourceElement?.name || resourceElement?.title,
         })
@@ -226,13 +226,13 @@ export class DynamicFieldsService {
     }
     const { templateOptions, ...fieldTypeConfig } = fieldTypeConfigSearch;
     const property = this.getFieldProperty(key);
-    const payloadValue = property && (formPayload[property] || formPayload["_links"] && formPayload["_links"][property]);
+    const payloadValue = property && (formPayload[property] || formPayload._links && formPayload._links[property]);
     const fieldOptions = this.getFieldOptions(fieldSchema, payloadValue);
     const formlyFieldConfig = {
       ...fieldTypeConfig,
       key,
-      wrappers: ["op-dynamic-field-wrapper"],
-      className: `op-form--field ${fieldTypeConfig?.className || ""}`,
+      wrappers: ['op-dynamic-field-wrapper'],
+      className: `op-form--field ${fieldTypeConfig?.className || ''}`,
       templateOptions: {
         property,
         required,
@@ -250,8 +250,8 @@ export class DynamicFieldsService {
   }
 
   private getFieldTypeConfig(field:IOPFieldSchemaWithKey):IOPFormlyFieldSettings|null {
-    const fieldType = field.type.replace("[]", "") as OPFieldType;
-    const inputType = this.inputsCatalogue.find(inputType => inputType.useForFields.includes(fieldType))!;
+    const fieldType = field.type.replace('[]', '') as OPFieldType;
+    const inputType = this.inputsCatalogue.find((inputType) => inputType.useForFields.includes(fieldType))!;
 
     if (!inputType) {
       console.warn(
@@ -263,16 +263,16 @@ export class DynamicFieldsService {
     const inputConfig = inputType.config;
     let configCustomizations;
 
-    if (inputConfig.type === "integerInput" || inputConfig.type === "selectInput" || inputConfig.type === "selectProjectStatusInput") {
+    if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput' || inputConfig.type === 'selectProjectStatusInput') {
       configCustomizations = {
         className: field.name,
         templateOptions: {
           ...inputConfig.templateOptions,
           ...this.isMultiSelectField(field) && { multiple: true },
-          ...fieldType === "User" && { showAddNewUserButton: true },
+          ...fieldType === 'User' && { showAddNewUserButton: true },
         },
       };
-    } else if (inputConfig.type === "formattableInput") {
+    } else if (inputConfig.type === 'formattableInput') {
       configCustomizations = {
         templateOptions: {
           ...inputConfig.templateOptions,
@@ -304,25 +304,25 @@ export class DynamicFieldsService {
         .get(allowedValues.href)
         .pipe(
           map((response:api.v3.Result) => response._embedded.elements),
-          map(options => this.formatAllowedValues(options)),
+          map((options) => this.formatAllowedValues(options)),
         );
     }
 
     return options?.pipe(
-      map(options => this.prependCurrentValue(options, currentValue)),
-      map(options => this.prependDefaultValue(options, field)),
+      map((options) => this.prependCurrentValue(options, currentValue)),
+      map((options) => this.prependDefaultValue(options, field)),
     );
   }
 
   // ng-select needs a 'name' in order to show the label
   // We need to add it in case of the form payload (HalLinkSource)
   private formatAllowedValues(options:IOPAllowedValue[]):IOPAllowedValue[] {
-    return options.map((option:IOPFieldSchema["options"]) => ({ ...option, name: option._links?.self?.title }));
+    return options.map((option:IOPFieldSchema['options']) => ({ ...option, name: option._links?.self?.title }));
   }
 
   // Map a field key that may be a _links.property to the property name
   private getFieldProperty(key:string) {
-    return key.split(".").pop();
+    return key.split('.').pop();
   }
 
   private getDynamicFormFieldGroups(fieldGroups:IDynamicFieldGroupConfig[] = [], formFields:IOPFormlyFieldSettings[] = []) {
@@ -353,8 +353,8 @@ export class DynamicFieldsService {
 
   private getDefaultFieldGroupSettings(fieldGroupConfig:IDynamicFieldGroupConfig, formFields:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings {
     const defaultFieldGroupSettings = {
-      wrappers: ["op-dynamic-field-group-wrapper"],
-      fieldGroupClassName: "op-form--fieldset",
+      wrappers: ['op-dynamic-field-group-wrapper'],
+      fieldGroupClassName: 'op-form--fieldset',
       templateOptions: {
         label: fieldGroupConfig.name,
         isFieldGroup: true,
@@ -363,7 +363,7 @@ export class DynamicFieldsService {
       },
       fieldGroup: this.getGroupFields(fieldGroupConfig, formFields),
       expressionProperties: {
-        "templateOptions.collapsibleFieldGroupsCollapsed": this.collapsibleFieldGroupsCollapsedExpressionProperty,
+        'templateOptions.collapsibleFieldGroupsCollapsed': this.collapsibleFieldGroupsCollapsedExpressionProperty,
       },
     };
 
@@ -371,7 +371,7 @@ export class DynamicFieldsService {
   }
 
   private getGroupFields(fieldGroupConfig:IDynamicFieldGroupConfig, formFields:IOPFormlyFieldSettings[]) {
-    return formFields.filter(formField => {
+    return formFields.filter((formField) => {
       const formFieldKey = formField.key && this.getFieldProperty(formField.key);
 
       if (!formFieldKey) {
@@ -386,7 +386,7 @@ export class DynamicFieldsService {
   private collapsibleFieldGroupsCollapsedExpressionProperty(model:any, formState:any, field:FormlyFieldConfig) {
     // Uncollapse field groups when the form has errors and is submitted
     if (
-      field.type !== "formly-group"
+      field.type !== 'formly-group'
       || !field.templateOptions?.collapsibleFieldGroups
       || !field.templateOptions?.collapsibleFieldGroupsCollapsed
     ) {
@@ -402,7 +402,7 @@ export class DynamicFieldsService {
   // Invalid values, ones that are not in the list of allowedValues (Array or backend fetched) do occur, e.g.
   // if constraints change or in case a value is undisclosed as for a project's parent.
   private prependCurrentValue(options:IOPAllowedValue[], currentValue:HalLink|null):IOPAllowedValue[] {
-    if (!currentValue?.href || options.some(option => option?._links?.self?.href === currentValue.href)) {
+    if (!currentValue?.href || options.some((option) => option?._links?.self?.href === currentValue.href)) {
       return options;
     }
     return [
@@ -422,10 +422,10 @@ export class DynamicFieldsService {
   }
 
   private isMultiSelectField(field:IOPFieldSchemaWithKey) {
-    return field?.type?.startsWith("[]");
+    return field?.type?.startsWith('[]');
   }
 
   private isValue(value:any) {
-    return ![null, undefined, ""].includes(value);
+    return ![null, undefined, ''].includes(value);
   }
 }

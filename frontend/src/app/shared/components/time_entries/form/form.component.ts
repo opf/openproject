@@ -1,6 +1,6 @@
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,15 +12,15 @@ import {
   Output,
   ViewChild,
   ViewEncapsulation,
-} from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
+} from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Component({
-  templateUrl: "./form.component.html",
-  selector: "te-form",
+  templateUrl: './form.component.html',
+  selector: 'te-form',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -31,17 +31,17 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
 
   @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
 
-  @ViewChild("editForm", { static: true }) editForm:EditFormComponent;
+  @ViewChild('editForm', { static: true }) editForm:EditFormComponent;
 
   text = {
     attributes: {
-      comment: this.i18n.t("js.time_entry.comment"),
-      hours: this.i18n.t("js.time_entry.hours"),
-      activity: this.i18n.t("js.time_entry.activity"),
-      workPackage: this.i18n.t("js.time_entry.work_package"),
-      spentOn: this.i18n.t("js.time_entry.spent_on"),
+      comment: this.i18n.t('js.time_entry.comment'),
+      hours: this.i18n.t('js.time_entry.hours'),
+      activity: this.i18n.t('js.time_entry.activity'),
+      workPackage: this.i18n.t('js.time_entry.work_package'),
+      spentOn: this.i18n.t('js.time_entry.spent_on'),
     },
-    wpRequired: this.i18n.t("js.time_entry.work_package_required"),
+    wpRequired: this.i18n.t('js.time_entry.work_package_required'),
   };
 
   public workPackageSelected = false;
@@ -61,7 +61,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe(changeset => {
+      .subscribe((changeset) => {
         if (changeset && changeset.workPackage) {
           this.workPackageSelected = true;
           this.cdRef.markForCheck();
@@ -93,7 +93,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
   public isRequired(field:string) {
     // Other than defined in the schema, we consider the work package to be required.
     // Remove once the schema requires it explicitly.
-    if (field === "workPackage") {
+    if (field === 'workPackage') {
       return true;
     }
     return this.schema.ofProperty(field).required;

@@ -1,13 +1,13 @@
-import { multiInput } from "reactivestates";
-import { BcfExtensionResource } from "core-app/features/bim/bcf/api/extensions/bcf-extension.resource";
-import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
-import { Observable } from "rxjs";
-import { map, take } from "rxjs/operators";
-import { Injectable } from "@angular/core";
+import { multiInput } from 'reactivestates';
+import { BcfExtensionResource } from 'core-app/features/bim/bcf/api/extensions/bcf-extension.resource';
+import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 export type AllowedExtensionKey = keyof BcfExtensionResource;
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class BcfAuthorizationService {
   // Poor mans caching to avoid repeatedly fetching from the backend.
   protected authorizationMap = multiInput<BcfExtensionResource>();
@@ -38,7 +38,7 @@ export class BcfAuthorizationService {
       .values$()
       .pipe(
         map(
-          resource => resource[extension] && resource[extension].includes(action),
+          (resource) => resource[extension] && resource[extension].includes(action),
         ),
       );
   }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { Attachable } from "core-app/features/hal/resources/mixins/attachable-mixin";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 
 export interface GridResourceLinks {
   update(payload:unknown):Promise<unknown>;
@@ -55,7 +55,7 @@ export class GridBaseResource extends HalResource {
           widget,
           true,
           this.halInitializer,
-          "GridWidget");
+          'GridWidget');
 
         widgetResource.grid = this;
 

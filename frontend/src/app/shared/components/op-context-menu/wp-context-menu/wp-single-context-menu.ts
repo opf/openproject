@@ -1,28 +1,28 @@
 import {
   Directive, ElementRef, Injector, Input,
-} from "@angular/core";
-import { StateService } from "@uirouter/core";
-import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
-import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HookService } from "core-app/features/plugins/hook-service";
-import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
-import { PERMITTED_CONTEXT_MENU_ACTIONS } from "core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WorkPackageAction } from "core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
-import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
-import { WorkPackageAuthorization } from "core-app/features/work-packages/services/work-package-authorization.service";
+} from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { WorkPackageAction } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
+import { WpDestroyModal } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
+import { WorkPackageAuthorization } from 'core-app/features/work-packages/services/work-package-authorization.service';
 
 @Directive({
-  selector: "[wpSingleContextMenu]",
+  selector: '[wpSingleContextMenu]',
 })
 export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger {
-  @Input("wpSingleContextMenu-workPackage") public workPackage:WorkPackageResource;
+  @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResource;
 
   @InjectField() public timeEntryCreateService:TimeEntryCreateService;
 
@@ -39,9 +39,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
   protected open(evt:JQuery.TriggeredEvent) {
     this.workPackage.project.$load().then(() => {
-      this.authorisationService.initModelAuth("work_package", this.workPackage.$links);
+      this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
-      var authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper, this.$state);
+      const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper, this.$state);
       const permittedActions = this.getPermittedActions(authorization);
 
       this.buildItems(permittedActions);
@@ -53,23 +53,23 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     const { link } = action;
 
     switch (key) {
-    case "copy":
-      this.$state.go("work-packages.copy", { copiedFromWorkPackageId: this.workPackage.id });
-      break;
-    case "delete":
-      this.opModalService.show(WpDestroyModal, this.injector, { workPackages: [this.workPackage] });
-      break;
-    case "log_time":
-      this.timeEntryCreateService
-        .create(moment(new Date()), this.workPackage, false)
-        .catch(() => {
+      case 'copy':
+        this.$state.go('work-packages.copy', { copiedFromWorkPackageId: this.workPackage.id });
+        break;
+      case 'delete':
+        this.opModalService.show(WpDestroyModal, this.injector, { workPackages: [this.workPackage] });
+        break;
+      case 'log_time':
+        this.timeEntryCreateService
+          .create(moment(new Date()), this.workPackage, false)
+          .catch(() => {
           // do nothing, the user closed without changes
-        });
-      break;
+          });
+        break;
 
-    default:
-      window.location.href = link!;
-      break;
+      default:
+        window.location.href = link!;
+        break;
     }
   }
 
@@ -80,8 +80,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
    */
   public positionArgs(evt:JQuery.TriggeredEvent) {
     const additionalPositionArgs = {
-      my: "right top",
-      at: "right bottom",
+      my: 'right top',
+      at: 'right bottom',
     };
 
     const position = super.positionArgs(evt);
@@ -103,7 +103,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   private getPermittedPluginActions(authorization:WorkPackageAuthorization) {
-    const actions:WorkPackageAction[] = this.HookService.call("workPackageSingleContextMenu");
+    const actions:WorkPackageAction[] = this.HookService.call('workPackageSingleContextMenu');
     return authorization.permittedActionsWithLinks(actions);
   }
 
@@ -132,8 +132,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       this.items.push(
         {
           href: configureFormLink.href,
-          icon: "icon-settings3",
-          linkText: I18n.t("js.button_configure-form"),
+          icon: 'icon-settings3',
+          linkText: I18n.t('js.button_configure-form'),
           onClick: () => false,
         },
       );

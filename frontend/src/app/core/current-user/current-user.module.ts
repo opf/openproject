@@ -1,10 +1,10 @@
-import { Injector, NgModule } from "@angular/core";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
+import { Injector, NgModule } from '@angular/core';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
 
-import { CurrentUserService } from "./current-user.service";
-import { CurrentUserStore } from "./current-user.store";
-import { CurrentUserQuery } from "./current-user.query";
+import { CurrentUserService } from './current-user.service';
+import { CurrentUserStore } from './current-user.store';
+import { CurrentUserQuery } from './current-user.query';
 
 export function bootstrapModule(injector:Injector) {
   const currentUserService = injector.get(CurrentUserService);
@@ -19,7 +19,7 @@ export function bootstrapModule(injector:Injector) {
     });
   });
 
-  const userMeta = document.querySelectorAll("meta[name=current_user]")[0] as HTMLElement|undefined;
+  const userMeta = document.querySelectorAll('meta[name=current_user]')[0] as HTMLElement|undefined;
   currentUserService.setUser({
     id: userMeta?.dataset.id || null,
     name: userMeta?.dataset.name || null,

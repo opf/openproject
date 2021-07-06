@@ -1,12 +1,12 @@
 import {
   EventEmitter, Component, OnInit, ChangeDetectionStrategy, Output, Input,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Observable, of } from "rxjs";
-import { map, tap } from "rxjs/operators";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { HalSourceLink } from "core-app/features/hal/resources/hal-resource";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
 export interface NotificationSettingProjectOption {
   name:string;
@@ -14,8 +14,8 @@ export interface NotificationSettingProjectOption {
 }
 
 @Component({
-  selector: "op-notification-setting-inline-create",
-  templateUrl: "./notification-setting-inline-create.component.html",
+  selector: 'op-notification-setting-inline-create',
+  templateUrl: './notification-setting-inline-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationSettingInlineCreateComponent {
@@ -27,13 +27,13 @@ export class NotificationSettingInlineCreateComponent {
   active = false;
 
   text = {
-    add_setting: this.I18n.t("js.notifications.settings.add"),
-    please_select: this.I18n.t("js.placeholders.selection"),
+    add_setting: this.I18n.t('js.notifications.settings.add'),
+    please_select: this.I18n.t('js.placeholders.selection'),
   };
 
   public autocompleterOptions = {
     filters: [],
-    resource: "default",
+    resource: 'default',
     getOptionsFn: (query:string):Observable<any[]> => this.autocomplete(query),
   };
 
@@ -54,8 +54,8 @@ export class NotificationSettingInlineCreateComponent {
     }
 
     const filters = new ApiV3FilterBuilder()
-      .add("name_and_identifier", "~", [term])
-      .add("visible", "=", [this.userId]);
+      .add('name_and_identifier', '~', [term])
+      .add('visible', '=', [this.userId]);
 
     return this
       .apiV3Service
@@ -63,7 +63,7 @@ export class NotificationSettingInlineCreateComponent {
       .filtered(filters)
       .get()
       .pipe(
-        map((collection) => collection.elements.map(project => ({ href: project.href!, name: project.name }))),
+        map((collection) => collection.elements.map((project) => ({ href: project.href!, name: project.name }))),
       );
   }
 }

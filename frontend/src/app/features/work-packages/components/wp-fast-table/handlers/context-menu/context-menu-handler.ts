@@ -1,10 +1,10 @@
-import { Injector } from "@angular/core";
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { WorkPackageTableContextMenu } from "core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { tableRowClassName } from "../../builders/rows/single-row-builder";
-import { WorkPackageTable } from "../../wp-fast-table";
-import { TableEventComponent, TableEventHandler } from "../table-handler-registry";
+import { Injector } from '@angular/core';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections

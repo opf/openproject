@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   Component, ElementRef, OnInit, ViewChild,
-} from "@angular/core";
-import { HideSectionDefinition, HideSectionService } from "core-app/shared/components/hide-section/hide-section.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+} from '@angular/core';
+import { HideSectionDefinition, HideSectionService } from 'core-app/shared/components/hide-section/hide-section.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
-export const addSectionDropdownSelector = "add-section-dropdown";
+export const addSectionDropdownSelector = 'add-section-dropdown';
 
 @Component({
   selector: addSectionDropdownSelector,
-  templateUrl: "./add-section-dropdown.component.html",
+  templateUrl: './add-section-dropdown.component.html',
 })
 export class AddSectionDropdownComponent extends UntilDestroyedMixin implements OnInit {
-  @ViewChild("fallbackOption", { static: true }) private option:ElementRef;
+  @ViewChild('fallbackOption', { static: true }) private option:ElementRef;
 
-  trackByKey = AngularTrackingHelpers.trackByProperty("key");
+  trackByKey = AngularTrackingHelpers.trackByProperty('key');
 
   selectable:HideSectionDefinition[] = [];
 
@@ -51,7 +51,7 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
 
   public htmlId:string;
 
-  public placeholder = this.I18n.t("js.placeholders.selection");
+  public placeholder = this.I18n.t('js.placeholders.selection');
 
   constructor(protected hideSectionService:HideSectionService,
     protected elementRef:ElementRef,
@@ -67,9 +67,9 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
       .values$()
       .pipe(
         this.untilDestroyed(),
-      ).subscribe(displayed => {
+      ).subscribe((displayed) => {
         this.selectable = this.hideSectionService.all
-          .filter(el => displayed.indexOf(el.key) === -1)
+          .filter((el) => displayed.indexOf(el.key) === -1)
           .sort((a, b) => a.label.localeCompare(b.label));
 
         (this.option.nativeElement as HTMLOptionElement).selected = true;

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,20 +28,20 @@
 
 import {
   Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild,
-} from "@angular/core";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3FilterBuilder, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+} from '@angular/core';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
-export const usersAutocompleterSelector = "user-autocompleter";
+export const usersAutocompleterSelector = 'user-autocompleter';
 
 export interface UserAutocompleteItem {
   name:string;
@@ -50,7 +50,7 @@ export interface UserAutocompleteItem {
 }
 
 @Component({
-  templateUrl: "./user-autocompleter.component.html",
+  templateUrl: './user-autocompleter.component.html',
   selector: usersAutocompleterSelector,
 })
 export class UserAutocompleterComponent implements OnInit {
@@ -67,7 +67,7 @@ export class UserAutocompleterComponent implements OnInit {
 
   @Input() public allowEmpty = false;
 
-  @Input() public appendTo = "";
+  @Input() public appendTo = '';
 
   @Input() public multiple = false;
 
@@ -94,25 +94,25 @@ export class UserAutocompleterComponent implements OnInit {
   }
 
   ngOnInit() {
-    const input = this.elementRef.nativeElement.dataset["updateInput"];
-    const allowEmpty = this.elementRef.nativeElement.dataset["allowEmpty"];
-    const appendTo = this.elementRef.nativeElement.dataset["appendTo"];
-    const multiple = this.elementRef.nativeElement.dataset["multiple"];
-    const url = this.elementRef.nativeElement.dataset["url"];
+    const input = this.elementRef.nativeElement.dataset.updateInput;
+    const { allowEmpty } = this.elementRef.nativeElement.dataset;
+    const { appendTo } = this.elementRef.nativeElement.dataset;
+    const { multiple } = this.elementRef.nativeElement.dataset;
+    const { url } = this.elementRef.nativeElement.dataset;
 
     if (input) {
       this.updateInputField = document.getElementsByName(input)[0] as HTMLInputElement|undefined;
       this.setInitialSelection();
     }
 
-    const filterInput = this.elementRef.nativeElement.dataset["additionalFilter"];
+    const filterInput = this.elementRef.nativeElement.dataset.additionalFilter;
     if (filterInput) {
       JSON.parse(filterInput).forEach((filter:{ selector:string; operator:FilterOperator, values:string[] }) => {
-        this.inputFilters.add(filter["selector"], filter["operator"], filter["values"]);
+        this.inputFilters.add(filter.selector, filter.operator, filter.values);
       });
     }
 
-    if (allowEmpty === "true") {
+    if (allowEmpty === 'true') {
       this.allowEmpty = true;
     }
 
@@ -120,7 +120,7 @@ export class UserAutocompleterComponent implements OnInit {
       this.appendTo = appendTo;
     }
 
-    if (multiple === "true") {
+    if (multiple === 'true') {
       this.multiple = true;
     }
 
@@ -131,14 +131,14 @@ export class UserAutocompleterComponent implements OnInit {
 
   public onFocus() {
     if (!this.requests.lastRequestedValue) {
-      this.requests.input$.next("");
+      this.requests.input$.next('');
     }
   }
 
   public onModelChange(user:any) {
     if (user) {
       this.onChange.emit(user);
-      this.requests.input$.next("");
+      this.requests.input$.next('');
 
       if (this.clearAfterSelection) {
         this.ngSelectComponent.clearItem(user);
@@ -160,19 +160,19 @@ export class UserAutocompleterComponent implements OnInit {
     const searchFilters = this.inputFilters.clone();
 
     if (searchTerm && searchTerm.length) {
-      searchFilters.add("name", "~", [searchTerm]);
+      searchFilters.add('name', '~', [searchTerm]);
     }
 
     return this.halResourceService
       .get(url, { filters: searchFilters.toJson() })
       .pipe(
-        map(res => {
+        map((res) => {
           const options = res.elements.map((el:any) => ({
             name: el.name, id: el.id, href: el.href, avatar: el.avatar,
           }));
 
           if (this.allowEmpty) {
-            options.unshift({ name: this.I18n.t("js.timelines.filter.noneSelection"), href: null, id: null });
+            options.unshift({ name: this.I18n.t('js.timelines.filter.noneSelection'), href: null, id: null });
           }
 
           return options;

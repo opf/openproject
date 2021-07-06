@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,27 +26,27 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-import * as sfimport from "screenfull";
-import { Screenfull } from "screenfull";
-import { AbstractWorkPackageButtonComponent } from "../wp-buttons.module";
+import * as sfimport from 'screenfull';
+import { Screenfull } from 'screenfull';
+import { AbstractWorkPackageButtonComponent } from '../wp-buttons.module';
 
 const screenfull:Screenfull = sfimport as any;
-export const zenModeComponentSelector = "zen-mode-toggle-button";
+export const zenModeComponentSelector = 'zen-mode-toggle-button';
 
 @Component({
-  templateUrl: "../wp-button.template.html",
+  templateUrl: '../wp-button.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: zenModeComponentSelector,
 })
 export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
-  public buttonId = "work-packages-zen-mode-toggle-button";
+  public buttonId = 'work-packages-zen-mode-toggle-button';
 
-  public buttonClass = "toolbar-icon";
+  public buttonClass = 'toolbar-icon';
 
-  public iconClass = "icon-zen-mode";
+  public iconClass = 'icon-zen-mode';
 
   static inZenMode = false;
 
@@ -58,8 +58,8 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
     readonly cdRef:ChangeDetectorRef) {
     super(I18n);
 
-    this.activateLabel = I18n.t("js.zen_mode.button_activate");
-    this.deactivateLabel = I18n.t("js.zen_mode.button_deactivate");
+    this.activateLabel = I18n.t('js.zen_mode.button_activate');
+    this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
     const self = this;
 
     if (screenfull.enabled) {
@@ -86,7 +86,7 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
 
   private deactivateZenMode():void {
     this.isActive = ZenModeButtonComponent.inZenMode = false;
-    jQuery("body").removeClass("zen-mode");
+    jQuery('body').removeClass('zen-mode');
     this.disabled = false;
     if (screenfull.enabled && screenfull.isFullscreen) {
       screenfull.exit();
@@ -96,7 +96,7 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
 
   private activateZenMode() {
     this.isActive = ZenModeButtonComponent.inZenMode = true;
-    jQuery("body").addClass("zen-mode");
+    jQuery('body').addClass('zen-mode');
     if (screenfull.enabled) {
       screenfull.request();
     }

@@ -1,29 +1,29 @@
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import {
   Component, OnInit, ChangeDetectorRef, Injector, ChangeDetectionStrategy,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { MembershipResource } from "core-app/features/hal/resources/membership-resource";
-import { RoleResource } from "core-app/features/hal/resources/role-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Apiv3ListParameters } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { MembershipResource } from 'core-app/features/hal/resources/membership-resource';
+import { RoleResource } from 'core-app/features/hal/resources/role-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 const DISPLAYED_MEMBERS_LIMIT = 100;
 
 @Component({
-  templateUrl: "./members.component.html",
+  templateUrl: './members.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["./members.component.sass"],
+  styleUrls: ['./members.component.sass'],
 })
 export class WidgetMembersComponent extends AbstractWidgetComponent implements OnInit {
   public text = {
-    add: this.i18n.t("js.grid.widgets.members.add"),
-    noResults: this.i18n.t("js.grid.widgets.members.no_results"),
-    viewAll: this.i18n.t("js.grid.widgets.members.view_all_members"),
+    add: this.i18n.t('js.grid.widgets.members.add'),
+    noResults: this.i18n.t('js.grid.widgets.members.no_results'),
+    viewAll: this.i18n.t('js.grid.widgets.members.view_all_members'),
   };
 
   public totalMembers:number;
@@ -48,7 +48,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
       .apiV3Service
       .memberships
       .list(this.listMembersParams)
-      .subscribe(collection => {
+      .subscribe((collection) => {
         this.partitionEntriesByRole(collection.elements);
         this.sortUsersByName();
         this.totalMembers = collection.total;
@@ -61,7 +61,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
       .memberships
       .available_projects
       .list(this.listAvailableProjectsParams)
-      .subscribe(collection => {
+      .subscribe((collection) => {
         this.membersAddable = collection.total > 0;
       });
   }
@@ -80,7 +80,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
 
   public get moreMembersText() {
     return I18n.t(
-      "js.grid.widgets.members.too_many",
+      'js.grid.widgets.members.too_many',
       { count: DISPLAYED_MEMBERS_LIMIT, total: this.totalMembers },
     );
   }
@@ -94,7 +94,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   }
 
   private partitionEntriesByRole(memberships:MembershipResource[]) {
-    memberships.forEach(membership => {
+    memberships.forEach((membership) => {
       membership.roles.forEach((role) => {
         if (!this.entriesByRoles[role.id!]) {
           this.entriesByRoles[role.id!] = { role, users: [] };
@@ -106,16 +106,16 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   }
 
   private sortUsersByName() {
-    Object.values(this.entriesByRoles).forEach(entry => {
+    Object.values(this.entriesByRoles).forEach((entry) => {
       entry.users.sort((a, b) => a.name.localeCompare(b.name));
     });
   }
 
   private get listMembersParams() {
-    const params:Apiv3ListParameters = { sortBy: [["created_at", "desc"]], pageSize: DISPLAYED_MEMBERS_LIMIT };
+    const params:Apiv3ListParameters = { sortBy: [['created_at', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
 
     if (this.currentProject.id) {
-      params["filters"] = [["project_id", "=", [this.currentProject.id]]];
+      params.filters = [['project_id', '=', [this.currentProject.id]]];
     }
 
     return params;
@@ -127,7 +127,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
     const params:Apiv3ListParameters = {};
 
     if (this.currentProject.id) {
-      params["filters"] = [["id", "=", [this.currentProject.id]]];
+      params.filters = [['id', '=', [this.currentProject.id]]];
     }
 
     return params;

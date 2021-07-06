@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { NgModule } from "@angular/core";
-import { UIRouterModule } from "@uirouter/angular";
-import { BacklogsPageComponent } from "core-app/features/backlogs/backlogs-page/backlogs-page.component";
-import { BACKLOGS_ROUTES } from "core-app/features/backlogs/openproject-backlogs.routes";
+import { NgModule } from '@angular/core';
+import { UIRouterModule } from '@uirouter/angular';
+import { BacklogsPageComponent } from 'core-app/features/backlogs/backlogs-page/backlogs-page.component';
+import { BACKLOGS_ROUTES } from 'core-app/features/backlogs/openproject-backlogs.routes';
 
 @NgModule({
   imports: [

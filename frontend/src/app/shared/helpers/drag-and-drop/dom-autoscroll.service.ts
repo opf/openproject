@@ -1,4 +1,4 @@
-import { createPointCB, getClientRect as getRect, pointInside } from "dom-plane";
+import { createPointCB, getClientRect as getRect, pointInside } from 'dom-plane';
 
 export class DomAutoscrollService {
   public elements:Element[];
@@ -42,19 +42,19 @@ export class DomAutoscrollService {
   }
 
   public init() {
-    jQuery(window).on("mousemove.domautoscroll touchmove.domautoscroll", (evt:any) => {
+    jQuery(window).on('mousemove.domautoscroll touchmove.domautoscroll', (evt:any) => {
       if (this.down) {
         this.pointCB(evt);
         this.onMove(evt);
       }
     });
-    jQuery(window).on("mousedown.domautoscroll touchstart.domautoscroll", () => this.down = true);
-    jQuery(window).on("mouseup.domautoscroll touchend.domautoscroll", () => this.onUp());
-    jQuery(window).on("scroll.domautoscroll", (evt:any) => this.setScroll(evt));
+    jQuery(window).on('mousedown.domautoscroll touchstart.domautoscroll', () => this.down = true);
+    jQuery(window).on('mouseup.domautoscroll touchend.domautoscroll', () => this.onUp());
+    jQuery(window).on('scroll.domautoscroll', (evt:any) => this.setScroll(evt));
   }
 
   public destroy() {
-    jQuery(window).off(".domautoscroll");
+    jQuery(window).off('.domautoscroll');
 
     this.elements = [];
     this.cleanAnimation();
@@ -118,7 +118,7 @@ export class DomAutoscrollService {
   public getElementsUnderPoint():HTMLElement[] {
     const underPoint = [];
 
-    for (var i = 0; i < this.elements.length; i++) {
+    for (let i = 0; i < this.elements.length; i++) {
       if (this.inside(this.point, this.elements[i])) {
         underPoint.push(this.elements[i] as HTMLElement);
       }
@@ -143,7 +143,7 @@ export class DomAutoscrollService {
     const { body } = document;
 
     if (target.length > 0 && target[0].parentNode === body) {
-      //The special condition to improve speed.
+      // The special condition to improve speed.
       target = this.getElementsUnderPoint();
     } else {
       target = this.getTarget(target[0]);

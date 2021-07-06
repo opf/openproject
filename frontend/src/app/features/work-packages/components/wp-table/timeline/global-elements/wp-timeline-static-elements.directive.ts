@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,15 +25,15 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { Component, ElementRef, OnInit } from "@angular/core";
-import { States } from "core-app/core/states/states.service";
-import { WorkPackageTimelineTableController } from "../container/wp-timeline-container.directive";
-import { TimelineViewParameters } from "../wp-timeline";
-import { TimelineStaticElement, timelineStaticElementCssClassname } from "./timeline-static-element";
-import { TodayLineElement } from "./wp-timeline.today-line";
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
+import { TimelineViewParameters } from '../wp-timeline';
+import { TimelineStaticElement, timelineStaticElementCssClassname } from './timeline-static-element';
+import { TodayLineElement } from './wp-timeline.today-line';
 
 @Component({
-  selector: "wp-timeline-static-elements",
+  selector: 'wp-timeline-static-elements',
   template: '<div class="wp-table-timeline--static-elements"></div>',
 })
 export class WorkPackageTableTimelineStaticElements implements OnInit {
@@ -54,9 +54,9 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
   }
 
   ngOnInit() {
-    this.container = this.$element.find(".wp-table-timeline--static-elements");
+    this.container = this.$element.find('.wp-table-timeline--static-elements');
     this.workPackageTimelineTableController
-      .onRefreshRequested("static elements", (vp:TimelineViewParameters) => this.update(vp));
+      .onRefreshRequested('static elements', (vp:TimelineViewParameters) => this.update(vp));
   }
 
   private update(vp:TimelineViewParameters) {

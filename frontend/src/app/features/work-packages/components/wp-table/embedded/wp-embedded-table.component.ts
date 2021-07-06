@@ -1,30 +1,30 @@
 import {
   AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output,
-} from "@angular/core";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { WorkPackageViewPaginationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import { OpTableActionFactory } from "core-app/features/work-packages/components/wp-table/table-actions/table-action";
-import { OpTableActionsService } from "core-app/features/work-packages/components/wp-table/table-actions/table-actions.service";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WpTableConfigurationModalComponent } from "core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WorkPackageEmbeddedBaseComponent } from "core-app/features/work-packages/components/wp-table/embedded/wp-embedded-base.component";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
+} from '@angular/core';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { OpTableActionFactory } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
+import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { WorkPackageEmbeddedBaseComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-base.component';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
   distinctUntilChanged, map, take, withLatestFrom,
-} from "rxjs/operators";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+} from 'rxjs/operators';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
-  selector: "wp-embedded-table",
-  templateUrl: "./wp-embedded-table.html",
+  selector: 'wp-embedded-table',
+  templateUrl: './wp-embedded-table.html',
 })
 export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input("queryId") public queryId?:string;
+  @Input('queryId') public queryId?:string;
 
-  @Input("queryProps") public queryProps:any = {};
+  @Input('queryProps') public queryProps:any = {};
 
   @Input() public tableActions:OpTableActionFactory[] = [];
 
@@ -72,7 +72,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
     this.wpTablePagination
       .updates$()
       .pipe(
-        map(pagination => [pagination.page, pagination.perPage]),
+        map((pagination) => [pagination.page, pagination.perPage]),
         distinctUntilChanged(),
         this.untilDestroyed(),
         withLatestFrom(this.querySpace.query.values$()),
@@ -181,8 +181,8 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       })
       .catch((error) => {
         this.error = this.I18n.t(
-          "js.error.embedded_table_loading",
-          { message: _.get(error, "message", error) },
+          'js.error.embedded_table_loading',
+          { message: _.get(error, 'message', error) },
         );
         this.onError.emit(error);
       });
@@ -197,19 +197,19 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
     if (event.double) {
       this.$state.go(
-        "work-packages.show",
+        'work-packages.show',
         { workPackageId: event.workPackageId },
       );
     }
   }
 
-  openStateLink(event:{ workPackageId:string; requestedState:"show"|"split" }) {
+  openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }) {
     const params = {
       workPackageId: event.workPackageId,
       focus: true,
     };
 
-    if (event.requestedState === "split") {
+    if (event.requestedState === 'split') {
       this.keepTab.goCurrentDetailsState(params);
     } else {
       this.keepTab.goCurrentShowState(params);

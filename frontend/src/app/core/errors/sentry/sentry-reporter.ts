@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,11 +28,11 @@
 
 import {
   Hub, Severity, Scope, Event as SentryEvent,
-} from "@sentry/types";
-import { environment } from "../../../../environments/environment";
+} from '@sentry/types';
+import { environment } from '../../../../environments/environment';
 
 export type ScopeCallback = (scope:Scope) => void;
-export type MessageSeverity = "fatal"|"error"|"warning"|"log"|"info"|"debug";
+export type MessageSeverity = 'fatal'|'error'|'warning'|'log'|'info'|'debug';
 
 export interface CaptureInterface {
   /** Capture a message */
@@ -54,7 +54,7 @@ export interface ErrorReporter extends CaptureInterface {
 }
 
 interface QueuedMessage {
-  type:"captureMessage"|"captureException";
+  type:'captureMessage'|'captureException';
   args:any[];
 }
 
@@ -68,7 +68,7 @@ export class SentryReporter implements ErrorReporter {
   private client:Hub;
 
   constructor() {
-    const sentryElement = document.querySelector("meta[name=openproject_sentry]");
+    const sentryElement = document.querySelector('meta[name=openproject_sentry]');
     if (sentryElement !== null) {
       this.loadSentry(sentryElement);
     } else {
@@ -78,17 +78,17 @@ export class SentryReporter implements ErrorReporter {
   }
 
   private loadSentry(sentryElement:HTMLElement) {
-    const dsn = sentryElement.dataset.dsn || "";
-    const version = sentryElement.dataset.version || "unknown";
-    const traceRate = parseFloat(sentryElement.dataset.tracesSampleRate || "0.1");
+    const dsn = sentryElement.dataset.dsn || '';
+    const version = sentryElement.dataset.version || 'unknown';
+    const traceRate = parseFloat(sentryElement.dataset.tracesSampleRate || '0.1');
 
-    import("./sentry-dependency").then((imported) => {
+    import('./sentry-dependency').then((imported) => {
       const sentry = imported.Sentry;
       sentry.init({
         dsn,
         debug: !environment.production,
         release: `op-frontend@${version}`,
-        environment: environment.production ? "production" : "development",
+        environment: environment.production ? 'production' : 'development',
 
         // Integrations
         integrations: [new imported.Integrations.BrowserTracing()],
@@ -98,9 +98,9 @@ export class SentryReporter implements ErrorReporter {
 
         ignoreErrors: [
           // Transition movements,
-          "The transition has been superseded by a different transition",
+          'The transition has been superseded by a different transition',
           // Uncaught promise rejections
-          "Uncaught (in promise)",
+          'Uncaught (in promise)',
         ],
         beforeSend: (event) => this.filterEvent(event),
       });
@@ -119,9 +119,9 @@ export class SentryReporter implements ErrorReporter {
     });
   }
 
-  public captureMessage(msg:string, severity:MessageSeverity = "info"):void {
+  public captureMessage(msg:string, severity:MessageSeverity = 'info'):void {
     if (!this.client) {
-      return this.handleOfflineMessage("captureMessage", [msg, severity]);
+      return this.handleOfflineMessage('captureMessage', [msg, severity]);
     }
 
     this.client.withScope((scope:Scope) => {
@@ -132,12 +132,12 @@ export class SentryReporter implements ErrorReporter {
 
   public captureException(err:Error|string):void {
     if (!this.client || !err) {
-      this.handleOfflineMessage("captureException", [err]);
+      this.handleOfflineMessage('captureException', [err]);
       throw err;
     }
 
-    if (typeof err === "string") {
-      return this.captureMessage(err, "error");
+    if (typeof err === 'string') {
+      return this.captureMessage(err, 'error');
     }
 
     this.client.withScope((scope:Scope) => {
@@ -151,7 +151,7 @@ export class SentryReporter implements ErrorReporter {
 
     if (this.client) {
       /** Add to global context as well */
-      callbacks.forEach(cb => this.client.configureScope(cb));
+      callbacks.forEach((cb) => this.client.configureScope(cb));
     }
   }
 
@@ -160,11 +160,11 @@ export class SentryReporter implements ErrorReporter {
    * @param type
    * @param args
    */
-  private handleOfflineMessage(type:"captureMessage"|"captureException", args:any[]) {
+  private handleOfflineMessage(type:'captureMessage'|'captureException', args:any[]) {
     if (this.sentryConfigured) {
       this.messageStack.push({ type, args });
     } else {
-      console.log("[ErrorReporter] Would queue sentry message %O %O, but is not configured.", type, args);
+      console.log('[ErrorReporter] Would queue sentry message %O %O, but is not configured.', type, args);
     }
   }
 
@@ -173,13 +173,13 @@ export class SentryReporter implements ErrorReporter {
    * @param scope
    */
   private setupContext(scope:Scope) {
-    scope.setTag("locale", window.I18n.locale);
-    scope.setTag("domain", window.location.hostname);
-    scope.setTag("url_path", window.location.pathname);
-    scope.setExtra("url_query", window.location.search);
+    scope.setTag('locale', window.I18n.locale);
+    scope.setTag('domain', window.location.hostname);
+    scope.setTag('url_path', window.location.pathname);
+    scope.setExtra('url_query', window.location.search);
 
     /** Execute callbacks */
-    this.contextCallbacks.forEach(cb => cb(scope));
+    this.contextCallbacks.forEach((cb) => cb(scope));
   }
 
   /**
@@ -189,9 +189,9 @@ export class SentryReporter implements ErrorReporter {
    * @param event
    */
   private filterEvent(event:SentryEvent):SentryEvent|null {
-    const unsupportedBrowser = document.body.classList.contains("-unsupported-browser");
+    const unsupportedBrowser = document.body.classList.contains('-unsupported-browser');
     if (unsupportedBrowser) {
-      console.warn("Browser is not supported, skipping sentry reporting completely.");
+      console.warn('Browser is not supported, skipping sentry reporting completely.');
       return null;
     }
 

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input } from "@angular/core";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { Component, Input } from '@angular/core';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
-  selector: "op-date-time",
+  selector: 'op-date-time',
   template: `
     <span title="{{date}} {{ time }}">
       <span [textContent]="date"></span>
@@ -40,7 +40,7 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
   `,
 })
 export class OpDateTimeComponent {
-  @Input("dateTimeValue") dateTimeValue:any;
+  @Input('dateTimeValue') dateTimeValue:any;
 
   public date:any;
 
@@ -50,7 +50,7 @@ export class OpDateTimeComponent {
   }
 
   ngOnInit() {
-    var c = this.timezoneService.formattedDatetimeComponents(this.dateTimeValue);
+    const c = this.timezoneService.formattedDatetimeComponents(this.dateTimeValue);
     this.date = c[0];
     this.time = c[1];
   }

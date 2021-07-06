@@ -1,5 +1,5 @@
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 
 export class GridWidgetArea extends GridArea {
   public widget:GridWidgetResource;

@@ -5,18 +5,18 @@ import {
   Injectable,
   InjectionToken,
   Injector,
-} from "@angular/core";
+} from '@angular/core';
 import {
   ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector,
-} from "@angular/cdk/portal";
-import { TransitionService } from "@uirouter/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
-import { keyCodes } from "core-app/shared/helpers/keyCodes.enum";
+} from '@angular/cdk/portal';
+import { TransitionService } from '@uirouter/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 
-export const OpModalLocalsToken = new InjectionToken<any>("OP_MODAL_LOCALS");
+export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class OpModalService {
   public active:OpModalComponent|null = null;
 
@@ -34,12 +34,12 @@ export class OpModalService {
     private appRef:ApplicationRef,
     private $transitions:TransitionService,
     private injector:Injector) {
-    const hostElement = this.portalHostElement = document.createElement("div");
-    hostElement.classList.add("op-modal-overlay");
+    const hostElement = this.portalHostElement = document.createElement('div');
+    hostElement.classList.add('op-modal-overlay');
     document.body.appendChild(hostElement);
 
     // Listen to keyups on window to close context menus
-    jQuery(window).on("keydown", (evt:JQuery.TriggeredEvent) => {
+    jQuery(window).on('keydown', (evt:JQuery.TriggeredEvent) => {
       if (this.active && this.active.closeOnEscape && evt.which === keyCodes.ESCAPE) {
         this.active.closeOnEscapeFunction(evt);
       }
@@ -48,7 +48,7 @@ export class OpModalService {
     });
 
     // Listen to any click when should close outside modal
-    jQuery(window).on("click", (evt:JQuery.TriggeredEvent) => {
+    jQuery(window).on('click', (evt:JQuery.TriggeredEvent) => {
       if (this.active
         && !this.opening
         && this.active.closeOnOutsideClick
@@ -76,7 +76,7 @@ export class OpModalService {
    */
   public show<T extends OpModalComponent>(
     modal:ComponentType<T>,
-    injector:Injector|"global",
+    injector:Injector|'global',
     locals:Record<string, unknown> = {},
     notFullScreen = false,
   ):T {
@@ -86,7 +86,7 @@ export class OpModalService {
     this.opening = true;
 
     // Allow users to pass the global injector when deliberately requested.
-    if (injector === "global") {
+    if (injector === 'global') {
       injector = this.injector;
     }
 
@@ -95,9 +95,9 @@ export class OpModalService {
     const ref:ComponentRef<OpModalComponent> = this.bodyPortalHost.attach(portal) as ComponentRef<OpModalComponent>;
     const instance = ref.instance as T;
     this.active = instance;
-    this.portalHostElement.classList.add("op-modal-overlay_active");
+    this.portalHostElement.classList.add('op-modal-overlay_active');
     if (notFullScreen) {
-      this.portalHostElement.classList.add("op-modal-overlay_not-full-screen");
+      this.portalHostElement.classList.add('op-modal-overlay_not-full-screen');
     }
 
     setTimeout(() => {
@@ -123,14 +123,14 @@ export class OpModalService {
     if (this.active && this.active.onClose()) {
       this.active.closingEvent.emit(this.active);
       this.bodyPortalHost.detach();
-      this.portalHostElement.classList.remove("op-modal-overlay_active");
-      this.portalHostElement.classList.remove("op-modal-overlay_not-full-screen");
+      this.portalHostElement.classList.remove('op-modal-overlay_active');
+      this.portalHostElement.classList.remove('op-modal-overlay_not-full-screen');
       this.active = null;
     }
   }
 
   public get activeModal():JQuery {
-    return jQuery(this.portalHostElement).find(".op-modal");
+    return jQuery(this.portalHostElement).find('.op-modal');
   }
 
   /**

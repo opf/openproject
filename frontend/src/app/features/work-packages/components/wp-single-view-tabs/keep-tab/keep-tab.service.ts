@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,14 +28,14 @@
 
 import {
   StateService, Transition, TransitionService, UIRouterGlobals,
-} from "@uirouter/core";
-import { ReplaySubject } from "rxjs";
-import { Injectable } from "@angular/core";
-import { splitViewRoute } from "core-app/features/work-packages/routing/split-view-routes.helper";
+} from '@uirouter/core';
+import { ReplaySubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class KeepTabService {
-  protected currentTab = "overview";
+  protected currentTab = 'overview';
 
   protected subject = new ReplaySubject<{ [tab:string]:string; }>(1);
 
@@ -44,7 +44,7 @@ export class KeepTabService {
     protected $transitions:TransitionService) {
     this.updateTabs();
     $transitions.onSuccess({}, (transition:Transition) => {
-      this.updateTabs(transition.params("to").tabIdentifier);
+      this.updateTabs(transition.params('to').tabIdentifier);
     });
   }
 
@@ -56,7 +56,7 @@ export class KeepTabService {
    * Return the last active tab.
    */
   public get lastActiveTab():string {
-    if (this.isCurrentState("show")) {
+    if (this.isCurrentState('show')) {
       return this.currentShowTab;
     }
 
@@ -65,7 +65,7 @@ export class KeepTabService {
 
   public goCurrentShowState(params:Record<string, unknown> = {}):void {
     this.$state.go(
-      "work-packages.show.tabs",
+      'work-packages.show.tabs',
       {
         ...this.uiRouterGlobals.params,
         ...params,
@@ -88,14 +88,14 @@ export class KeepTabService {
   }
 
   public isDetailsState(stateName:string):boolean {
-    return !!stateName && stateName.includes(".details");
+    return !!stateName && stateName.includes('.details');
   }
 
   public get currentShowTab():string {
     // Show view doesn't have overview
     // use activity instead
-    if (this.currentTab === "overview") {
-      return "activity";
+    if (this.currentTab === 'overview') {
+      return 'activity';
     }
 
     return this.currentTab;
@@ -123,11 +123,11 @@ export class KeepTabService {
   }
 
   protected isCurrentState(stateName:string):boolean {
-    if (stateName === "show") {
-      return this.$state.includes("work-packages.show.*");
+    if (stateName === 'show') {
+      return this.$state.includes('work-packages.show.*');
     }
-    if (stateName === "details") {
-      return this.$state.includes("**.details.*");
+    if (stateName === 'details') {
+      return this.$state.includes('**.details.*');
     }
 
     return false;
@@ -136,11 +136,11 @@ export class KeepTabService {
   public updateTabs(currentTab?:string) {
     // Ignore the switch from show#activity to details#activity
     // and show details#overview instead
-    if (this.isCurrentState("show") && currentTab === "activity") {
-      this.currentTab = "overview";
+    if (this.isCurrentState('show') && currentTab === 'activity') {
+      this.currentTab = 'overview';
       return this.notify();
     }
-    this.updateTab("show");
-    this.updateTab("details");
+    this.updateTab('show');
+    this.updateTab('details');
   }
 }

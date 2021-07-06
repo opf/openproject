@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
 export interface ISchemaProxy extends SchemaResource {
   ofProperty(property:string):IFieldSchema;
@@ -50,21 +50,21 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
 
   get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
     switch (property) {
-    case "ofProperty": {
-      return this.proxyMethod(this.ofProperty);
-    }
-    case "isAttributeEditable": {
-      return this.proxyMethod(this.isAttributeEditable);
-    }
-    case "mappedName": {
-      return this.proxyMethod(this.mappedName);
-    }
-    case "isEditable": {
-      return this.isEditable;
-    }
-    default: {
-      return Reflect.get(schema, property, receiver);
-    }
+      case 'ofProperty': {
+        return this.proxyMethod(this.ofProperty);
+      }
+      case 'isAttributeEditable': {
+        return this.proxyMethod(this.isAttributeEditable);
+      }
+      case 'mappedName': {
+        return this.proxyMethod(this.mappedName);
+      }
+      case 'isEditable': {
+        return this.isEditable;
+      }
+      default: {
+        return Reflect.get(schema, property, receiver);
+      }
     }
   }
 

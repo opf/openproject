@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,26 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ConfirmDialogModal } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal";
+import { ConfirmDialogModal } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import {
   Component, ElementRef, OnInit, ViewChild,
-} from "@angular/core";
+} from '@angular/core';
 
 @Component({
-  templateUrl: "./password-confirmation.modal.html",
+  templateUrl: './password-confirmation.modal.html',
 })
 export class PasswordConfirmationModal extends ConfirmDialogModal implements OnInit {
   public password_confirmation:string|null = null;
 
-  @ViewChild("passwordConfirmationField", { static: true }) passwordConfirmationField:ElementRef;
+  @ViewChild('passwordConfirmationField', { static: true }) passwordConfirmationField:ElementRef;
 
   public ngOnInit() {
     super.ngOnInit();
 
-    this.text.title = I18n.t("js.password_confirmation.title");
-    this.text.field_description = I18n.t("js.password_confirmation.field_description");
-    this.text.confirm_button = I18n.t("js.button_confirm");
-    this.text.password = I18n.t("js.label_password");
+    this.text.title = I18n.t('js.password_confirmation.title');
+    this.text.field_description = I18n.t('js.password_confirmation.field_description');
+    this.text.confirm_button = I18n.t('js.button_confirm');
+    this.text.password = I18n.t('js.label_password');
 
     this.closeOnEscape = false;
     this.closeOnOutsideClick = false;

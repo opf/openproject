@@ -1,13 +1,13 @@
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { Injectable } from "@angular/core";
-import { States } from "core-app/core/states/states.service";
-import { BannersService } from "core-app/core/enterprise/banners.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
-import { WorkPackageViewHighlight } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-highlight";
-import { WorkPackageQueryStateService } from "./wp-view-base.service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { Injectable } from '@angular/core';
+import { States } from 'core-app/core/states/states.service';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
+import { WorkPackageViewHighlight } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-highlight';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewHighlightingService extends WorkPackageQueryStateService<WorkPackageViewHighlight> {
@@ -42,16 +42,16 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
   }
 
   public get current():WorkPackageViewHighlight {
-    const value = this.lastUpdatedState.getValueOr({ mode: "inline" } as WorkPackageViewHighlight);
+    const value = this.lastUpdatedState.getValueOr({ mode: 'inline' } as WorkPackageViewHighlight);
     return this.filteredValue(value);
   }
 
   public get isInline() {
-    return this.current.mode === "inline";
+    return this.current.mode === 'inline';
   }
 
   public get isDisabled() {
-    return this.current.mode === "none";
+    return this.current.mode === 'none';
   }
 
   public update(value:WorkPackageViewHighlight) {
@@ -59,7 +59,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
   }
 
   public valueFromQuery(query:QueryResource):WorkPackageViewHighlight {
-    const highlight = { mode: query.highlightingMode || "inline", selectedAttributes: query.highlightedAttributes };
+    const highlight = { mode: query.highlightingMode || 'inline', selectedAttributes: query.highlightedAttributes };
     return this.filteredValue(highlight);
   }
 
@@ -83,7 +83,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
     }
 
     this.Banners.conditional(() => {
-      value.mode = "none";
+      value.mode = 'none';
       value.selectedAttributes = undefined;
     });
 

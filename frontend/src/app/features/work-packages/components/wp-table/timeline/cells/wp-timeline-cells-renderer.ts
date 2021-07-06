@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector } from "@angular/core";
-import { States } from "core-app/core/states/states.service";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { WorkPackageTimelineTableController } from "../container/wp-timeline-container.directive";
-import { RenderInfo } from "../wp-timeline";
-import { TimelineCellRenderer } from "./timeline-cell-renderer";
-import { TimelineMilestoneCellRenderer } from "./timeline-milestone-cell-renderer";
-import { WorkPackageTimelineCell } from "./wp-timeline-cell";
+import { Injector } from '@angular/core';
+import { States } from 'core-app/core/states/states.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
+import { RenderInfo } from '../wp-timeline';
+import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
+import { WorkPackageTimelineCell } from './wp-timeline-cell';
 
 export class WorkPackageTimelineCellsRenderer {
   // Injections
@@ -150,7 +150,7 @@ export class WorkPackageTimelineCellsRenderer {
   }
 
   public buildCellsAndRenderOnRow(workPackageIds:string[], rowClassIdentifier:string, isDuplicatedCell?:boolean):WorkPackageTimelineCell[] {
-    const cells = workPackageIds.map(workPackageId => this.buildCell(rowClassIdentifier, workPackageId));
+    const cells = workPackageIds.map((workPackageId) => this.buildCell(rowClassIdentifier, workPackageId));
 
     cells.forEach((cell:WorkPackageTimelineCell) => this.refreshSingleCell(cell, isDuplicatedCell, true));
 

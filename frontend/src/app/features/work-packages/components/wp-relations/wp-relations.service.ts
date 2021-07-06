@@ -1,18 +1,18 @@
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { multiInput, MultiInputState, StatesGroup } from "reactivestates";
-import { Injectable } from "@angular/core";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { Observable } from "rxjs";
-import { map, take, tap } from "rxjs/operators";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
+import { Injectable } from '@angular/core';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { Observable } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 
 export class RelationStateGroup extends StatesGroup {
-  name = "WP-Relations";
+  name = 'WP-Relations';
 
   relations:MultiInputState<RelationsStateValue> = multiInput<RelationsStateValue>();
 
@@ -81,7 +81,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       .relations
       .get()
       .pipe(
-        map(collection => this.relationsStateValue(id, collection.elements)),
+        map((collection) => this.relationsStateValue(id, collection.elements)),
       );
   }
 
@@ -179,7 +179,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param relation
    */
   private insertIntoStates(relation:RelationResource) {
-    _.values(relation.ids).forEach(wpId => {
+    _.values(relation.ids).forEach((wpId) => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         value[relation.id!] = relation;
         return value;
@@ -196,7 +196,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param relation
    */
   private removeFromStates(relation:RelationResource) {
-    _.values(relation.ids).forEach(wpId => {
+    _.values(relation.ids).forEach((wpId) => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         delete value[relation.id!];
         return value;
@@ -212,7 +212,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param relations The relation resource array.
    */
   private relationsStateValue(wpId:string, relations:RelationResource[]):RelationsStateValue {
-    return _.keyBy(relations, r => r.id!);
+    return _.keyBy(relations, (r) => r.id!);
   }
 
   /**
@@ -223,8 +223,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * We need to group relevant relations for work packages based on their to/from filter.
    */
   private accumulateRelationsFromInvolved(involved:string[], relations:RelationResource[]) {
-    involved.forEach(wpId => {
-      const relevant = relations.filter(r => r.isInvolved(wpId));
+    involved.forEach((wpId) => {
+      const relevant = relations.filter((r) => r.isInvolved(wpId));
       const value = this.relationsStateValue(wpId, relevant);
 
       this.updateValue(wpId, value);

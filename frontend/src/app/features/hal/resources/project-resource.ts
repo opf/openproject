@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
 export class ProjectResource extends HalResource {
   public get state() {
@@ -35,17 +35,17 @@ export class ProjectResource extends HalResource {
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
-    if (["statusExplanation", "description"].indexOf(fieldName) !== -1) {
-      return { type: "full", macros: "resource" };
+    if (['statusExplanation', 'description'].indexOf(fieldName) !== -1) {
+      return { type: 'full', macros: 'resource' };
     }
 
-    return { type: "constrained" };
+    return { type: 'constrained' };
   }
 
   /**
    * Exclude the schema _link from the linkable Resources.
    */
   public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), "schema");
+    return _.without(super.$linkableKeys(), 'schema');
   }
 }

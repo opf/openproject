@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
-import { States } from "core-app/core/states/states.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { States } from 'core-app/core/states/states.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import {
   ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from "@angular/core";
-import { QuerySharingChange } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+} from '@angular/core';
+import { QuerySharingChange } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 
 @Component({
-  templateUrl: "./query-sharing.modal.html",
+  templateUrl: './query-sharing.modal.html',
 })
 export class QuerySharingModal extends OpModalComponent implements OnInit {
   public query:QueryResource;
@@ -54,14 +54,14 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
   public isBusy = false;
 
   public text = {
-    title: this.I18n.t("js.modals.form_submit.title"),
-    text: this.I18n.t("js.modals.form_submit.text"),
-    save_as: this.I18n.t("js.label_save_as"),
-    label_name: this.I18n.t("js.modals.label_name"),
-    label_visibility_settings: this.I18n.t("js.label_visibility_settings"),
-    button_save: this.I18n.t("js.modals.button_save"),
-    button_cancel: this.I18n.t("js.button_cancel"),
-    close_popup: this.I18n.t("js.close_popup_title"),
+    title: this.I18n.t('js.modals.form_submit.title'),
+    text: this.I18n.t('js.modals.form_submit.text'),
+    save_as: this.I18n.t('js.label_save_as'),
+    label_name: this.I18n.t('js.modals.label_name'),
+    label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
+    button_save: this.I18n.t('js.modals.button_save'),
+    button_cancel: this.I18n.t('js.button_cancel'),
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -91,7 +91,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
   }
 
   public get afterFocusOn() {
-    return jQuery("#work-packages-settings-button");
+    return jQuery('#work-packages-settings-button');
   }
 
   public saveQuery($event:JQuery.TriggeredEvent) {
@@ -119,7 +119,7 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
         this.isBusy = false;
       })
       .catch(() => {
-        this.notificationsService.addError(this.I18n.t("js.errors.query_saving"));
+        this.notificationsService.addError(this.I18n.t('js.errors.query_saving'));
         this.isBusy = false;
       });
   }

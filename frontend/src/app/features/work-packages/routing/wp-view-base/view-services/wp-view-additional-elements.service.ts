@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { Injectable } from "@angular/core";
-import { RelationsStateValue, WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { WorkPackageViewHierarchiesService } from "./wp-view-hierarchy.service";
-import { WorkPackageViewColumnsService } from "./wp-view-columns.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { Injectable } from '@angular/core';
+import { RelationsStateValue, WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
+import { WorkPackageViewColumnsService } from './wp-view-columns.service';
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -57,7 +57,7 @@ export class WorkPackageViewAdditionalElementsService {
 
     // Add relations to the stack
     Promise.all([
-      this.requireInvolvedRelations(rows.map(el => el.id!)),
+      this.requireInvolvedRelations(rows.map((el) => el.id!)),
       this.requireHierarchyElements(rows),
       this.requireSumsSchema(results),
     ]).then((results:string[][]) => {
@@ -71,10 +71,10 @@ export class WorkPackageViewAdditionalElementsService {
       .work_packages
       .requireAll(wpIds)
       .then(() => {
-        this.querySpace.additionalRequiredWorkPackages.putValue(null, "All required work packages are loaded");
+        this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       })
       .catch((e) => {
-        this.querySpace.additionalRequiredWorkPackages.putValue(null, "Failure loading required work packages");
+        this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
         this.notificationService.handleRawError(e);
       });
   }
@@ -90,7 +90,7 @@ export class WorkPackageViewAdditionalElementsService {
     return this.wpRelations
       .requireAll(rows)
       .then(() => {
-        const ids = this.getInvolvedWorkPackages(rows.map(id => this.wpRelations.state(id).value!));
+        const ids = this.getInvolvedWorkPackages(rows.map((id) => this.wpRelations.state(id).value!));
         return _.flatten(ids);
       });
   }
@@ -105,7 +105,7 @@ export class WorkPackageViewAdditionalElementsService {
       return Promise.resolve([]);
     }
 
-    const ids = _.flatten(rows.map(el => el.ancestorIds));
+    const ids = _.flatten(rows.map((el) => el.ancestorIds));
     return Promise.resolve(ids);
   }
 

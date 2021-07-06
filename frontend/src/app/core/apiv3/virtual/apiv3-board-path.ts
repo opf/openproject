@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Board } from "core-app/features/boards/board/board";
-import { Observable } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { MultiInputState } from "reactivestates";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { Apiv3BoardsPaths } from "core-app/core/apiv3/virtual/apiv3-boards-paths";
+import { Board } from 'core-app/features/boards/board/board';
+import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { MultiInputState } from 'reactivestates';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { Apiv3BoardsPaths } from 'core-app/core/apiv3/virtual/apiv3-boards-paths';
 
 export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
   /**
@@ -46,7 +46,7 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
       .id(this.id)
       .get()
       .pipe(
-        map(grid => {
+        map((grid) => {
           const newBoard = new Board(grid);
 
           newBoard.sortWidgets();
@@ -68,7 +68,7 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
           .grids
           .id(board.grid)
           .patch(board.grid, schema)),
-        map(grid => {
+        map((grid) => {
           board.grid = grid;
           board.sortWidgets();
           return board;
@@ -96,7 +96,7 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
       .form
       .post({})
       .pipe(
-        map(form => form.schema),
+        map((form) => form.schema),
       );
   }
 

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,11 +28,11 @@
 
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
-import { AbstractWorkPackageButtonComponent, ButtonControllerText } from "../wp-buttons.module";
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
+import { AbstractWorkPackageButtonComponent, ButtonControllerText } from '../wp-buttons.module';
 
 export interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
@@ -41,15 +41,15 @@ export interface TimelineButtonText extends ButtonControllerText {
 }
 
 @Component({
-  templateUrl: "./wp-timeline-toggle-button.html",
-  styleUrls: ["./wp-timeline-toggle-button.sass"],
-  selector: "wp-timeline-toggle-button",
+  templateUrl: './wp-timeline-toggle-button.html',
+  styleUrls: ['./wp-timeline-toggle-button.sass'],
+  selector: 'wp-timeline-toggle-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
-  public buttonId = "work-packages-timeline-toggle-button";
+  public buttonId = 'work-packages-timeline-toggle-button';
 
-  public iconClass = "icon-view-timeline";
+  public iconClass = 'icon-view-timeline';
 
   private activateLabel:string;
 
@@ -57,9 +57,9 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   public text:TimelineButtonText;
 
-  public minZoomLevel:TimelineZoomLevel = "days";
+  public minZoomLevel:TimelineZoomLevel = 'days';
 
-  public maxZoomLevel:TimelineZoomLevel = "years";
+  public maxZoomLevel:TimelineZoomLevel = 'years';
 
   public isAutoZoom = false;
 
@@ -72,12 +72,12 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     public wpTableTimeline:WorkPackageViewTimelineService) {
     super(I18n);
 
-    this.activateLabel = I18n.t("js.timelines.button_activate");
-    this.deactivateLabel = I18n.t("js.timelines.button_deactivate");
+    this.activateLabel = I18n.t('js.timelines.button_activate');
+    this.deactivateLabel = I18n.t('js.timelines.button_deactivate');
 
-    this.text.zoomIn = I18n.t("js.timelines.zoom.in");
-    this.text.zoomOut = I18n.t("js.timelines.zoom.out");
-    this.text.zoomAuto = I18n.t("js.timelines.zoom.auto");
+    this.text.zoomIn = I18n.t('js.timelines.zoom.in');
+    this.text.zoomOut = I18n.t('js.timelines.zoom.out');
+    this.text.zoomAuto = I18n.t('js.timelines.zoom.auto');
   }
 
   ngOnInit():void {
@@ -133,6 +133,6 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
   }
 
   public getAutoZoomToggleClass():string {
-    return this.isAutoZoom ? "-disabled" : "";
+    return this.isAutoZoom ? '-disabled' : '';
   }
 }

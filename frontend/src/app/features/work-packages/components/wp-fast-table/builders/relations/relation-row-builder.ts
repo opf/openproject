@@ -1,14 +1,14 @@
-import { Injector } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { RelationColumnType } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-app/core/states/states.service";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { commonRowClassName, SingleRowBuilder, tableRowClassName } from "../rows/single-row-builder";
-import { tdClassName } from "../cell-builder";
-import { WorkPackageTable } from "../../wp-fast-table";
-import { isRelationColumn, QueryColumn } from "../../../wp-query/query-column";
+import { Injector } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { RelationColumnType } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { States } from 'core-app/core/states/states.service';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
+import { tdClassName } from '../cell-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;
@@ -18,7 +18,7 @@ export function relationIdentifier(targetId:string, workPackageId:string) {
   return `wp-relation-row-${workPackageId}-to-${targetId}`;
 }
 
-export const relationCellClassName = "wp-table--relation-cell-td";
+export const relationCellClassName = 'wp-table--relation-cell-td';
 
 export class RelationRowBuilder extends SingleRowBuilder {
   @InjectField() public states:States;
@@ -68,13 +68,13 @@ export class RelationRowBuilder extends SingleRowBuilder {
    */
   public createEmptyRelationRow(from:WorkPackageResource, to:WorkPackageResource) {
     const identifier = this.relationClassIdentifier(from, to);
-    const tr = document.createElement("tr");
-    tr.dataset["workPackageId"] = to.id!;
-    tr.dataset["classIdentifier"] = identifier;
+    const tr = document.createElement('tr');
+    tr.dataset.workPackageId = to.id!;
+    tr.dataset.classIdentifier = identifier;
 
     tr.classList.add(
-      commonRowClassName, tableRowClassName, "issue",
-      "wp-table--relations-aditional-row",
+      commonRowClassName, tableRowClassName, 'issue',
+      'wp-table--relations-aditional-row',
       identifier,
       `${identifier}-table`,
       relationGroupClass(from.id!),
@@ -95,20 +95,20 @@ export class RelationRowBuilder extends SingleRowBuilder {
    */
   public appendRelationLabel(jRow:JQuery, from:WorkPackageResource, relation:RelationResource, columnId:string, type:RelationColumnType) {
     const denormalized = relation.denormalized(from);
-    let typeLabel = "";
+    let typeLabel = '';
 
     // Add the relation label if this is a "Relations for <WP Type>" column
-    if (type === "toType") {
+    if (type === 'toType') {
       typeLabel = this.I18n.t(`js.relation_labels.${denormalized.reverseRelationType}`);
     }
     // Add the WP type label if this is a "<Relation Type> Relations" column
-    if (type === "ofType") {
+    if (type === 'ofType') {
       const wp = this.states.workPackages.get(denormalized.target.id!).value!;
       typeLabel = wp.type.name;
     }
 
-    const relationLabel = document.createElement("span");
-    relationLabel.classList.add("relation-row--type-label");
+    const relationLabel = document.createElement('span');
+    relationLabel.classList.add('relation-row--type-label');
     relationLabel.textContent = typeLabel;
 
     const textNode = document.createTextNode(denormalized.target.name);
@@ -118,7 +118,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
   }
 
   protected emptyRelationCell(column:QueryColumn) {
-    const cell = document.createElement("td");
+    const cell = document.createElement('td');
     cell.classList.add(relationCellClassName, tdClassName, column.id);
 
     return cell;

@@ -1,13 +1,13 @@
-import { Injector } from "@angular/core";
-import { CardEventHandler } from "core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry";
-import { WorkPackageCardViewComponent } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { uiStateLinkClass } from "core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder";
-import { debugLog } from "core-app/shared/helpers/debug_output";
-import { WorkPackageCardViewService } from "core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service";
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { WorkPackageViewContextMenu } from "core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { CardEventHandler } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
+import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class CardRightClickHandler implements CardEventHandler {
   // Injections
@@ -22,7 +22,7 @@ export class CardRightClickHandler implements CardEventHandler {
   }
 
   public get EVENT() {
-    return "contextmenu.cardView.rightclick";
+    return 'contextmenu.cardView.rightclick';
   }
 
   public get SELECTOR() {
@@ -39,7 +39,7 @@ export class CardRightClickHandler implements CardEventHandler {
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id)
     if (target.closest(`.${uiStateLinkClass}`).length) {
-      debugLog("Allowing original context menu on state link");
+      debugLog('Allowing original context menu on state link');
       return true;
     }
 
@@ -47,13 +47,13 @@ export class CardRightClickHandler implements CardEventHandler {
     evt.stopPropagation();
 
     // Locate the card from event
-    const element = target.closest("wp-single-card");
-    const wpId = element.data("workPackageId");
+    const element = target.closest('wp-single-card');
+    const wpId = element.data('workPackageId');
 
     if (!wpId) {
       return true;
     }
-    const classIdentifier = element.data("classIdentifier");
+    const classIdentifier = element.data('classIdentifier');
     const index = this.wpCardView.findRenderedCard(classIdentifier);
 
     if (!this.wpTableSelection.isSelected(wpId)) {

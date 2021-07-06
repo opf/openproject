@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { PrincipalRendererService } from "core-app/shared/components/principal/principal-renderer.service";
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 
 export class UserDisplayField extends DisplayField {
   @InjectField() principalRenderer:PrincipalRendererService;
@@ -48,7 +48,7 @@ export class UserDisplayField extends DisplayField {
         element,
         this.attribute,
         { hide: false, link: false },
-        { hide: false, size: "medium" },
+        { hide: false, size: 'medium' },
       );
     }
   }

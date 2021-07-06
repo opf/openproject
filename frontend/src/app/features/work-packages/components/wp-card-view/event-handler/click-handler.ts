@@ -1,12 +1,12 @@
-import { Injector } from "@angular/core";
-import { CardEventHandler } from "core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry";
-import { WorkPackageCardViewComponent } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { WorkPackageCardViewService } from "core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service";
-import { StateService } from "@uirouter/core";
-import { DeviceService } from "core-app/core/browser/device.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { Injector } from '@angular/core';
+import { CardEventHandler } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
+import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
+import { StateService } from '@uirouter/core';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class CardClickHandler implements CardEventHandler {
   // Injections
@@ -25,7 +25,7 @@ export class CardClickHandler implements CardEventHandler {
   }
 
   public get EVENT() {
-    return "click.cardView.card";
+    return 'click.cardView.card';
   }
 
   public get SELECTOR() {
@@ -40,13 +40,13 @@ export class CardClickHandler implements CardEventHandler {
     const target = jQuery(evt.target);
 
     // Ignore links
-    if (target.is("a") || target.parent().is("a")) {
+    if (target.is('a') || target.parent().is('a')) {
       return true;
     }
 
     // Locate the card from event
-    const element = target.closest("wp-single-card");
-    const wpId = element.data("workPackageId");
+    const element = target.closest('wp-single-card');
+    const wpId = element.data('workPackageId');
 
     if (!wpId) {
       return true;
@@ -64,7 +64,7 @@ export class CardClickHandler implements CardEventHandler {
   }
 
   protected setSelection(card:WorkPackageCardViewComponent, wpId:string, element:JQuery, evt:JQuery.TriggeredEvent) {
-    const classIdentifier = element.data("classIdentifier");
+    const classIdentifier = element.data('classIdentifier');
     const index = this.wpCardView.findRenderedCard(classIdentifier);
 
     // Update single selection if no modifier present

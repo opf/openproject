@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,62 +26,62 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpenprojectHalModuleHelpers } from "core-app/features/hal/helpers/lazy-accessor";
+import { OpenprojectHalModuleHelpers } from 'core-app/features/hal/helpers/lazy-accessor';
 
-describe("lazy service", () => {
-  var { lazy } = OpenprojectHalModuleHelpers;
+describe('lazy service', () => {
+  const { lazy } = OpenprojectHalModuleHelpers;
 
-  it("should exist", () => {
+  it('should exist', () => {
     expect(lazy).toBeDefined();
   });
 
-  it("should add a property with the given name to the object", () => {
+  it('should add a property with the given name to the object', () => {
     const obj:any = {
       prop: void 0,
     };
-    lazy(obj, "prop", () => "");
+    lazy(obj, 'prop', () => '');
     expect(obj.prop).toBeDefined();
   });
 
-  it("should add an enumerable property", () => {
+  it('should add an enumerable property', () => {
     const obj:any = {
       prop: void 0,
     };
-    lazy(obj, "prop", () => "");
-    expect(obj.propertyIsEnumerable("prop")).toBeTruthy();
+    lazy(obj, 'prop', () => '');
+    expect(obj.propertyIsEnumerable('prop')).toBeTruthy();
   });
 
-  it("should add a configurable property", () => {
+  it('should add a configurable property', () => {
     const obj:any = {
       prop: void 0,
     };
-    lazy(obj, "prop", () => "");
-    expect((Object as any).getOwnPropertyDescriptor(obj, "prop").configurable).toBeTruthy();
+    lazy(obj, 'prop', () => '');
+    expect((Object as any).getOwnPropertyDescriptor(obj, 'prop').configurable).toBeTruthy();
   });
 
-  it("should set the value of the property provided by the setter", () => {
+  it('should set the value of the property provided by the setter', () => {
     const obj:any = {
       prop: void 0,
     };
-    lazy(obj, "prop", () => "", (val:any) => val);
-    obj.prop = "hello";
-    expect(obj.prop).toEqual("hello");
+    lazy(obj, 'prop', () => '', (val:any) => val);
+    obj.prop = 'hello';
+    expect(obj.prop).toEqual('hello');
   });
 
-  it("should not be settable, if no setter is provided", () => {
+  it('should not be settable, if no setter is provided', () => {
     const obj:any = {
       prop: void 0,
     };
-    lazy(obj, "prop", () => "");
+    lazy(obj, 'prop', () => '');
     try {
-      obj.prop = "hello";
+      obj.prop = 'hello';
     } catch (Error) {}
-    expect(obj.prop).not.toEqual("hello");
+    expect(obj.prop).not.toEqual('hello');
   });
 
-  it("should do nothing if the target is not an object", () => {
+  it('should do nothing if the target is not an object', () => {
     const obj:any = null;
-    lazy(obj, "prop", () => "");
+    lazy(obj, 'prop', () => '');
     expect(obj).toBeNull();
   });
 });

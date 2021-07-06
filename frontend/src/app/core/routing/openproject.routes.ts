@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,84 +28,84 @@
 
 import {
   StateDeclaration, StateService, Transition, TransitionService, UIRouter,
-} from "@uirouter/core";
-import { INotification, NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { Injector } from "@angular/core";
-import { FirstRouteService } from "core-app/core/routing/first-route-service";
-import { Ng2StateDeclaration, StatesModule } from "@uirouter/angular";
-import { appBaseSelector, ApplicationBaseComponent } from "core-app/core/routing/base/application-base.component";
-import { BackRoutingService } from "core-app/features/work-packages/components/back-routing/back-routing.service";
-import { MY_ACCOUNT_LAZY_ROUTES } from "core-app/features/user-preferences/user-preferences.lazy-routes";
+} from '@uirouter/core';
+import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { Injector } from '@angular/core';
+import { FirstRouteService } from 'core-app/core/routing/first-route-service';
+import { Ng2StateDeclaration, StatesModule } from '@uirouter/angular';
+import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
+import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: "new_project.**",
-    url: "/projects/new",
-    loadChildren: () => import("../../features/projects/openproject-projects.module").then(m => m.OpenprojectProjectsModule),
+    name: 'new_project.**',
+    url: '/projects/new',
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },
   {
-    name: "root",
-    url: "/{projects}/{projectPath}",
+    name: 'root',
+    url: '/{projects}/{projectPath}',
     component: ApplicationBaseComponent,
     abstract: true,
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the parameter is not provided
-      projectPath: { type: "path", value: null, squash: true },
-      projects: { type: "path", value: null, squash: true },
+      projectPath: { type: 'path', value: null, squash: true },
+      projects: { type: 'path', value: null, squash: true },
 
       // Allow passing of flash messages after routes load
       flash_message: { dynamic: true, value: null, inherit: false },
     },
   },
   {
-    name: "boards.**",
-    parent: "root",
-    url: "/boards",
-    loadChildren: () => import("../../features/boards/openproject-boards.module").then(m => m.OpenprojectBoardsModule),
+    name: 'boards.**',
+    parent: 'root',
+    url: '/boards',
+    loadChildren: () => import('../../features/boards/openproject-boards.module').then((m) => m.OpenprojectBoardsModule),
   },
   {
-    name: "bim.**",
-    parent: "root",
-    url: "/bcf",
-    loadChildren: () => import("../../features/bim/ifc_models/openproject-ifc-models.module").then(m => m.OpenprojectIFCModelsModule),
+    name: 'bim.**',
+    parent: 'root',
+    url: '/bcf',
+    loadChildren: () => import('../../features/bim/ifc_models/openproject-ifc-models.module').then((m) => m.OpenprojectIFCModelsModule),
   },
   {
-    name: "backlogs.**",
-    parent: "root",
-    url: "/backlogs",
-    loadChildren: () => import("../../features/backlogs/openproject-backlogs.module").then(m => m.OpenprojectBacklogsModule),
+    name: 'backlogs.**',
+    parent: 'root',
+    url: '/backlogs',
+    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then((m) => m.OpenprojectBacklogsModule),
   },
   {
-    name: "backlogs_sprint.**",
-    parent: "root",
-    url: "/sprints",
-    loadChildren: () => import("../../features/backlogs/openproject-backlogs.module").then(m => m.OpenprojectBacklogsModule),
+    name: 'backlogs_sprint.**',
+    parent: 'root',
+    url: '/sprints',
+    loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then((m) => m.OpenprojectBacklogsModule),
   },
   {
-    name: "reporting.**",
-    parent: "root",
-    url: "/cost_reports",
-    loadChildren: () => import("../../features/reporting/openproject-reporting.module").then(m => m.OpenprojectReportingModule),
+    name: 'reporting.**',
+    parent: 'root',
+    url: '/cost_reports',
+    loadChildren: () => import('../../features/reporting/openproject-reporting.module').then((m) => m.OpenprojectReportingModule),
   },
   {
-    name: "job-statuses.**",
-    parent: "root",
-    url: "/job_statuses",
-    loadChildren: () => import("../../features/job-status/openproject-job-status.module").then(m => m.OpenProjectJobStatusModule),
+    name: 'job-statuses.**',
+    parent: 'root',
+    url: '/job_statuses',
+    loadChildren: () => import('../../features/job-status/openproject-job-status.module').then((m) => m.OpenProjectJobStatusModule),
   },
   {
-    name: "project_settings.**",
-    parent: "root",
-    url: "/settings/generic",
-    loadChildren: () => import("../../features/projects/openproject-projects.module").then(m => m.OpenprojectProjectsModule),
+    name: 'project_settings.**',
+    parent: 'root',
+    url: '/settings/generic',
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },
   {
-    name: "project_copy.**",
-    parent: "root",
-    url: "/copy",
-    loadChildren: () => import("../../features/projects/openproject-projects.module").then(m => m.OpenprojectProjectsModule),
+    name: 'project_copy.**',
+    parent: 'root',
+    url: '/copy',
+    loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },
   ...MY_ACCOUNT_LAZY_ROUTES,
 ];
@@ -116,7 +116,7 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
  * @param className
  * @param action
  */
-export function bodyClass(className:string[]|string|null|undefined, action:"add"|"remove" = "add") {
+export function bodyClass(className:string[]|string|null|undefined, action:'add'|'remove' = 'add') {
   if (className) {
     if (Array.isArray(className)) {
       className.forEach((cssClass:string) => {
@@ -128,7 +128,7 @@ export function bodyClass(className:string[]|string|null|undefined, action:"add"
   }
 }
 
-export function updateMenuItem(menuItemClass:string|undefined, action:"add"|"remove" = "add") {
+export function updateMenuItem(menuItemClass:string|undefined, action:'add'|'remove' = 'add') {
   if (!menuItemClass) {
     return;
   }
@@ -140,15 +140,15 @@ export function updateMenuItem(menuItemClass:string|undefined, action:"add"|"rem
   }
 
   // Update Class
-  menuItem.classList[action]("selected");
+  menuItem.classList[action]('selected');
 
   // Update accessibility label
-  let menuItemTitle = (menuItem.getAttribute("title") || "").split(":").slice(-1)[0];
-  if (action === "add") {
-    menuItemTitle = I18n.t("js.description_current_position") + menuItemTitle;
+  let menuItemTitle = (menuItem.getAttribute('title') || '').split(':').slice(-1)[0];
+  if (action === 'add') {
+    menuItemTitle = I18n.t('js.description_current_position') + menuItemTitle;
   }
 
-  menuItem.setAttribute("title", menuItemTitle);
+  menuItem.setAttribute('title', menuItemTitle);
 }
 
 export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, module:StatesModule) {
@@ -158,13 +158,13 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
   // Register custom URL params type
   // to ensure query props are correctly set
   uiRouter.urlService.config.type(
-    "opQueryString",
+    'opQueryString',
     {
       encode: encodeURIComponent,
       decode: decodeURIComponent,
       raw: true,
       dynamic: true,
-      is: (val:unknown) => typeof (val) === "string",
+      is: (val:unknown) => typeof (val) === 'string',
       equals: (a:any, b:any) => _.isEqual(a, b),
     },
   );
@@ -193,9 +193,9 @@ export function initializeUiRouterListeners(injector:Injector) {
   // however the second parameter has the currently (e.g., parent) entering state chain.
   $transitions.onEnter({}, (transition:Transition, state:StateDeclaration) => {
     // Add body class when entering this state
-    bodyClass(_.get(state, "data.bodyClasses"), "add");
-    if (transition.from().data && _.get(state, "data.menuItem") !== transition.from().data.menuItem) {
-      updateMenuItem(_.get(state, "data.menuItem"), "add");
+    bodyClass(_.get(state, 'data.bodyClasses'), 'add');
+    if (transition.from().data && _.get(state, 'data.menuItem') !== transition.from().data.menuItem) {
+      updateMenuItem(_.get(state, 'data.menuItem'), 'add');
     }
 
     // Reset scroll position, mostly relevant for mobile
@@ -204,20 +204,20 @@ export function initializeUiRouterListeners(injector:Injector) {
 
   $transitions.onExit({}, (transition:Transition, state:StateDeclaration) => {
     // Remove body class when leaving this state
-    bodyClass(_.get(state, "data.bodyClasses"), "remove");
-    if (transition.to().data && _.get(state, "data.menuItem") !== transition.to().data.menuItem) {
-      updateMenuItem(_.get(state, "data.menuItem"), "remove");
+    bodyClass(_.get(state, 'data.bodyClasses'), 'remove');
+    if (transition.to().data && _.get(state, 'data.menuItem') !== transition.to().data.menuItem) {
+      updateMenuItem(_.get(state, 'data.menuItem'), 'remove');
     }
   });
 
   $transitions.onStart({}, (transition:Transition) => {
     const $state = transition.router.stateService;
-    const toParams = transition.params("to");
+    const toParams = transition.params('to');
     const fromState = transition.from();
     const toState = transition.to();
 
     // Remove start_onboarding_tour param if set
-    if (toParams.start_onboarding_tour && toState.name !== "work-packages.partitioned.list") {
+    if (toParams.start_onboarding_tour && toState.name !== 'work-packages.partitioned.list') {
       const paramsCopy = { ...transition.params() };
       paramsCopy.start_onboarding_tour = undefined;
       return $state.target(transition.to(), paramsCopy);
@@ -233,8 +233,8 @@ export function initializeUiRouterListeners(injector:Injector) {
     const projectIdentifier = toParams.projectPath || currentProject.identifier;
     if (!toParams.projects && projectIdentifier) {
       const newParams = _.clone(toParams);
-      _.assign(newParams, { projectPath: projectIdentifier, projects: "projects" });
-      return $state.target(toState, newParams, { location: "replace" });
+      _.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
+      return $state.target(toState, newParams, { location: 'replace' });
     }
 
     // Abort the transition and move to the url instead
@@ -259,7 +259,7 @@ export function initializeUiRouterListeners(injector:Injector) {
 
     // Remove and add any body class definitions for entering
     // and exiting states.
-    bodyClass(_.get(toState, "data.bodyClasses"), "add");
+    bodyClass(_.get(toState, 'data.bodyClasses'), 'add');
 
     // We need to distinguish between actions that should run on the initial page load
     // (ie. openining a new tab in the details view should focus on the element in the table)

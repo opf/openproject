@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import * as moment from "moment";
-import flatpickr from "flatpickr";
-import { Instance } from "flatpickr/dist/types/instance";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import * as moment from 'moment';
+import flatpickr from 'flatpickr';
+import { Instance } from 'flatpickr/dist/types/instance';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import DateOption = flatpickr.Options.DateOption;
 
 export class DatePicker {
-  private datepickerFormat = "Y-m-d";
+  private datepickerFormat = 'Y-m-d';
 
   private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier)! ;
 
@@ -63,19 +63,19 @@ export class DatePicker {
       defaultDate: this.date,
       locale: {
         weekdays: {
-          shorthand: I18n.t("date.abbr_day_names"),
-          longhand: I18n.t("date.day_names"),
+          shorthand: I18n.t('date.abbr_day_names'),
+          longhand: I18n.t('date.day_names'),
         },
         months: {
-          shorthand: (I18n.t("date.abbr_month_names") as any).slice(1),
-          longhand: (I18n.t("date.month_names") as any).slice(1),
+          shorthand: (I18n.t('date.abbr_month_names') as any).slice(1),
+          longhand: (I18n.t('date.month_names') as any).slice(1),
         },
         firstDayOfWeek,
-        weekAbbreviation: I18n.t("date.abbr_week"),
+        weekAbbreviation: I18n.t('date.abbr_week'),
       },
     });
 
-    var datePickerInstances:Instance|Instance[];
+    let datePickerInstances:Instance|Instance[];
     if (this.datepickerTarget) {
       datePickerInstances = flatpickr(this.datepickerTarget as Node, mergedOptions);
     } else {
@@ -84,7 +84,7 @@ export class DatePicker {
 
     this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
 
-    document.addEventListener("scroll", this.hideDuringScroll, true);
+    document.addEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public clear() {
@@ -101,12 +101,12 @@ export class DatePicker {
       this.datepickerInstance.close();
     }
 
-    document.removeEventListener("scroll", this.hideDuringScroll, true);
+    document.removeEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public show() {
     this.datepickerInstance.open();
-    document.addEventListener("scroll", this.hideDuringScroll, true);
+    document.addEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public setDates(dates:DateOption|DateOption[]) {
@@ -122,7 +122,7 @@ export class DatePicker {
     // multiple scrolls event when it is open
     const target = event.target! as HTMLInputElement;
 
-    if (target?.classList?.contains("flatpickr-monthDropdown-months")) {
+    if (target?.classList?.contains('flatpickr-monthDropdown-months')) {
       return;
     }
 
