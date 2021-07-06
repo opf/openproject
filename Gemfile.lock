@@ -753,7 +753,7 @@ GEM
       ffi (~> 1.0)
     rbtree3 (0.6.0)
     rchardet (1.8.0)
-    rdoc (6.3.1)
+    rdoc (6.3.2)
     recaptcha (5.8.0)
       json
     redcarpet (3.5.1)
