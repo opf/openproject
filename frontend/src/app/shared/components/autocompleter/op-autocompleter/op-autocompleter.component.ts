@@ -137,7 +137,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-
         this.results$ = this.configOptions ? (this.searchInput$.pipe(
           debounceTime(250),
           distinctUntilChanged(),
@@ -151,6 +150,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
           distinctUntilChanged(),
           switchMap(queryString => this.getOptionsFn(queryString))
         ));
+
         if (this.fetchDataDirectly) {
           this.results$ = this.defaulData
             ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
@@ -170,7 +170,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public repositionDropdown() {
-
     if (this.ngSelectInstance) {
       setTimeout(() => {
         this.cdRef.detectChanges();
@@ -209,8 +208,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
       }, 25);
     });
   }
-  public closed(val:any) {
 
+  public closed(val:any) {
     this.close.emit();
   }
   public changed(val:any) {

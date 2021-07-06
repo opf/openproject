@@ -35,7 +35,9 @@ import {
   ChangeDetectorRef,
   Injector,
 } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
 import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
 import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
@@ -44,7 +46,9 @@ export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
 
 @Component({
   templateUrl: './te-work-package-autocompleter.component.html',
-  styleUrls: ['./te-work-package-autocompleter.component.sass'],
+  styleUrls: [
+    './te-work-package-autocompleter.component.sass',
+  ],
   selector: 'te-work-package-autocompleter',
   encapsulation: ViewEncapsulation.None
 })
@@ -68,5 +72,11 @@ export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutoc
       this.modeSwitch.emit(value);
     }
     this.mode = value;
+  }
+
+  public getOptionsFn() {
+    // By default, the create-autocomplete component gives us an abstracted version of entries that are not the full
+    // HalResources. However, the op-autocomplete component wants full HalResources
+    return of(this.availableValues.map(v => v._halResource));
   }
 }

@@ -1,26 +1,26 @@
-<ng-select
-    #ngSelectComponent
-    [(ngModel)]="model"
-    [items]="availableValues"
-    [ngClass]="classes"
-    [addTag]="createAllowed"
-    [virtualScroll]="true"
-    [required]="required"
-    [clearable]="!required"
-    [disabled]="disabled"
-    [typeahead]="typeahead"
-    [clearOnBackspace]="false"
-    [appendTo]="appendTo"
-    [hideSelected]="hideSelected"
-    [loading]="finishedLoading | async"
-    [id]="id"
-    (change)="changeModel($event)"
-    (open)="opened()"
-    (close)="closed()"
-    (keydown)="keyPressed($event)"
-    bindLabel="name"
+<op-autocompleter
+  #ngSelectComponent
+  [model]="model"
+  [getOptionsFn]="getOptionsFn.bind(this)"
+  [ngClass]="classes"
+  [addTag]="createAllowed"
+  [virtualScroll]="true"
+  [required]="required"
+  [clearable]="!required"
+  [disabled]="disabled"
+  [clearOnBackspace]="false"
+  [appendTo]="appendTo"
+  [hideSelected]="hideSelected"
+  [loading]="finishedLoading | async"
+  [id]="id"
+  (change)="changeModel($event)"
+  (open)="opened()"
+  (close)="closed()"
+  (keydown)="keyPressed($event)"
+  bindLabel="name"
+  resource="work_packages"
 >
-  <ng-template ng-header-tmp>
+  <ng-template op-autocompleter-header-tmp>
     <div class="scrollable-tabs">
       <div class="op-scrollable-tabs--tab-container">
         <ul class="op-tab-row">
@@ -52,10 +52,7 @@
       </div>
     </div>
   </ng-template>
-  <ng-template ng-tag-tmp let-search="searchTerm">
+  <ng-template op-autocompleter-tag-tmp let-search="searchTerm">
     <b [textContent]="text.add_new_action"></b>: {{search}}
   </ng-template>
-  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-    <div [ngOptionHighlight]="search" class="ng-option-label ellipsis">{{ item.name }}</div>
-  </ng-template>
-</ng-select>
+</op-autocompleter>

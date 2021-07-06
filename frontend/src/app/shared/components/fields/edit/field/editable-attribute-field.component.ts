@@ -56,7 +56,6 @@ import {
   editFieldContainerClass
 } from "core-app/shared/components/fields/display/display-field-renderer";
 import { States } from "core-app/core/states/states.service";
-import ClickEvent = JQuery.ClickEvent;
 
 @Component({
   selector: 'editable-attribute-field',

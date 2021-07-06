@@ -87,7 +87,9 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
 
       return {
         name: `${prefix}#${ (value as WorkPackageResource).id } ${suffix}`,
-        href: value.href
+        href: value.href,
+        // This is added specifically to accomodate the op-autocomplete usage in the time entry modal
+        _halResource: (value as WorkPackageResource),
       };
     } else {
       return value;
