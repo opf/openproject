@@ -358,7 +358,7 @@ GEM
       rest-client (~> 2.0)
     daemons (1.4.0)
     dalli (2.7.11)
-    danger (8.2.3)
+    danger (8.3.1)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
       colored2 (~> 3.1)
@@ -983,7 +983,7 @@ DEPENDENCIES
   costs!
   daemons
   dalli (~> 2.7.10)
-  danger (~> 8.2.0)
+  danger (~> 8.3.1)
   danger-brakeman
   dashboards!
   database_cleaner (~> 2.0)
