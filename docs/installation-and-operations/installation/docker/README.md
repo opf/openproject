@@ -20,8 +20,6 @@ OpenProject with Docker can be launched in two ways:
 
 2. One container with all the processes inside. Easy but not recommended for production. This is the legacy behaviour.
 
-<a name="compose-based-docker-installation"></a>
-
 ## One container per process (recommended)
 
 ### Quick Start
@@ -59,8 +57,6 @@ You can stop the Compose stack by running:
 ```
 docker-compose down
 ```
-
-<a name="all-in-one-docker-installation"></a>
 
 ## All-in-one container
 
