@@ -33,8 +33,8 @@ The package is available for the following Linux distributions:
 | [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
 | [Debian 10 Buster](#debian-10)              |
 | [Debian 9 Stretch](#debian-9)               |
-| [CentOS/RHEL 8.x](#el-8)                    |
-| [CentOS/RHEL 7.x](#el-7)                    |
+| [CentOS/RHEL 8.x](#centos-8--rhel-8)                    |
+| [CentOS/RHEL 7.x](#centos-7--rhel-7)                    |
 | [Suse Linux Enterprise Server 12](#sles-12) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
@@ -175,8 +175,6 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-<a name="el-8"></a>
-
 ## CentOS Installation
 
 ### CentOS 8 / RHEL 8
@@ -202,8 +200,6 @@ sudo yum install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
-
-<a name="el-7"></a>
 
 ### CentOS 7 / RHEL 7
 
