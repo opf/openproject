@@ -835,7 +835,7 @@ GEM
     rubytree (1.0.0)
       json (~> 2.1)
       structured_warnings (~> 0.3)
-    rubyzip (2.3.0)
+    rubyzip (2.3.2)
     sanitize (5.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.8.0)
