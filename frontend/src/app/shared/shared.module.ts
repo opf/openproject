@@ -83,7 +83,7 @@ export function bootstrapModule(injector:Injector) {
 
   window.ErrorReporter.addContext((scope) => {
     if (currentProject.inProjectContext) {
-      scope.setTag('project', currentProject.identifier!);
+      scope.setTag('project', currentProject.identifier);
     }
 
     scope.setExtra('router state', routerState.current.name);

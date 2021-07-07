@@ -42,7 +42,7 @@ export class Apiv3GridForm extends APIv3FormResource {
    */
   public static extractPayload(resource:HalResource|Object, schema:SchemaResource|null = null):Object {
     if (resource instanceof HalResource && schema) {
-      const grid = resource as HalResource;
+      const grid = resource;
       const payload = HalPayloadHelper.extractPayloadFromSchema(grid, schema);
 
       // The widget only states the type of the widget resource but does not explain
