@@ -1,4 +1,18 @@
-<full-calendar #ucCalendar
-               *ngIf="calendarOptions"
-               [options]="calendarOptions">
-</full-calendar>
+<!-- position: relative added in order for the loading indicator to be positioned correctly -->
+<div class="wp-calendar--container loading-indicator--location"
+     [attr.data-indicator-name]="'table'"
+     style="position: relative">
+  <ng-container
+    *ngIf="(calendarOptions$ | async) as calendarOptions"
+  >
+    <full-calendar #ucCalendar
+                   *ngIf="calendarOptions"
+                   [options]="calendarOptions">
+    </full-calendar>
+  </ng-container>
+  <ng-template #resourceContent let-resource="resource">
+    <op-principal
+      [principal]="resource.extendedProps.user"
+    ></op-principal>
+  </ng-template>
+</div>
