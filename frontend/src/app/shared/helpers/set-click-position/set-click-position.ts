@@ -26,14 +26,16 @@ export namespace ClickPositionMapper {
     const originalEvt = evt.originalEvent;
 
     try {
+      if (originalEvt.rangeParent) {
+        const range = document.createRange();
+        range.setStart(originalEvt.rangeParent, originalEvt.rangeOffset);
+        return range.startOffset;
+      }
+
       if (document.caretRangeFromPoint) {
         return document
           .caretRangeFromPoint(evt.clientX!, evt.clientY!)
           .startOffset;
-      } if (originalEvt.rangeParent) {
-        const range = document.createRange();
-        range.setStart(originalEvt.rangeParent, originalEvt.rangeOffset);
-        return range.startOffset;
       }
 
       return 0;

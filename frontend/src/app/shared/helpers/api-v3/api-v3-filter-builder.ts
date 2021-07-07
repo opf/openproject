@@ -30,7 +30,7 @@ export type FilterOperator = '='|'!*'|'!'|'~'|'o'|'>t-'|'<>d'|'**'|'ow';
 export const FalseValue = ['f'];
 export const TrueValue = ['t'];
 
-type ApiV3FilterValueType = string|number|boolean;
+export type ApiV3FilterValueType = string|number|boolean;
 
 export interface ApiV3FilterValue {
   operator:FilterOperator;

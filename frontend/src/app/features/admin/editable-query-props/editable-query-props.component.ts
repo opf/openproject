@@ -40,16 +40,18 @@ export class EditableQueryPropsComponent implements OnInit {
   }
 
   public editQuery() {
-    let { queryProps } = this;
+    const queryProps = (() => {
+      if (this.urlParams) {
+        return this.queryProps;
+      }
 
-    if (!this.urlParams) {
       try {
-        queryProps = JSON.parse(this.queryProps);
+        return JSON.parse(this.queryProps);
       } catch (e) {
         console.error(`Failed to parse query props from ${this.queryProps}: ${e}`);
-        queryProps = {};
+        return {};
       }
-    }
+    })();
 
     this.externalQuery.show({
       currentQuery: queryProps,

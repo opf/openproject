@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+import { Observable } from 'rxjs';
 import { APIV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { Observable } from 'rxjs';
 import { APIv3WorkPackageForm } from 'core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CachableAPIV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
@@ -37,7 +37,11 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { WorkPackageCache } from 'core-app/core/apiv3/endpoints/work_packages/work-package.cache';
 import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { ApiV3WorkPackageCachedSubresource } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource';
-import { ApiV3FilterBuilder, buildApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import {
+  ApiV3FilterBuilder,
+  ApiV3FilterValueType,
+  buildApiV3Filter,
+} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageResource, APIV3WorkPackagePaths, WorkPackageCache> {
   // Base path
@@ -130,9 +134,9 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    * @param ids work package IDs to filter for
    * @param timestamp The timestamp to clip at
    */
-  public filterUpdatedSince(ids:(string|null)[], timestamp:unknown):ApiV3WorkPackageCachedSubresource {
+  public filterUpdatedSince(ids:(string|null)[], timestamp:ApiV3FilterValueType):ApiV3WorkPackageCachedSubresource {
     const filters = new ApiV3FilterBuilder()
-      .add('id', '=', ids.filter((n:string|null) => n)) // no null values
+      .add('id', '=', (ids.filter(n => n) as string[]))
       .add('updatedAt', '<>d', [timestamp, '']);
 
     const params = {

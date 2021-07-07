@@ -44,6 +44,7 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
 import { debounceTime, filter, map, retry } from 'rxjs/operators';
 import { ChangeItem } from 'core-app/shared/components/fields/changeset/changeset';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -372,7 +373,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
    */
   private addWorkPackage(workPackage:WorkPackageResource) {
     const query = this.querySpace.query.value!;
-    const changeset = this.halEditing.changeFor(workPackage);
+    const changeset:WorkPackageChangeset = this.halEditing.changeFor(workPackage);
 
     // Assign to the action attribute if this is an action board
     this.actionService?.assignToWorkPackage(changeset, query);

@@ -386,13 +386,13 @@ export class DynamicFieldsService {
       || !field.templateOptions?.collapsibleFieldGroups
       || !field.templateOptions?.collapsibleFieldGroupsCollapsed
     ) {
-
-    } else {
-      return !(
-        field.fieldGroup?.some((groupField:IOPFormlyFieldSettings) => groupField.formControl?.errors
-          && !groupField.hide
-          && field.options?.parentForm?.submitted));
+      return false;
     }
+
+    return !(
+      field.fieldGroup?.some((groupField:IOPFormlyFieldSettings) => groupField.formControl?.errors
+        && !groupField.hide
+        && field.options?.parentForm?.submitted));
   }
 
   // Invalid values, ones that are not in the list of allowedValues (Array or backend fetched) do occur, e.g.

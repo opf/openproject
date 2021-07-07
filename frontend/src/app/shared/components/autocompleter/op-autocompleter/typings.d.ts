@@ -1,7 +1,7 @@
 interface IAPIFilter {
   name:string;
   operator:FilterOperator;
-  values:unknown[]|boolean;
+  values:ApiV3FilterValueType[];
 }
 
 interface IOPAutocompleterOptions {

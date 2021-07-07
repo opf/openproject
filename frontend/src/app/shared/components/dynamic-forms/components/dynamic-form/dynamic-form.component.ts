@@ -311,7 +311,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
   }
 
-  private getFormEndPoint(formUrl?:string, resourcePath?:string):string|undefined {
+  private getFormEndPoint(formUrl?:string, resourcePath?:string):string {
     if (formUrl) {
       return formUrl.endsWith('/form')
         ? formUrl.replace('/form', '')
@@ -321,6 +321,8 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     if (resourcePath) {
       return resourcePath;
     }
+
+    return '';
   }
 
   private setupDynamicFormFromBackend(formEndpoint?:string, resourceId?:string, payload?:Object) {

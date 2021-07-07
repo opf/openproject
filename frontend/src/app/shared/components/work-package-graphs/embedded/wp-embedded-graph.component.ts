@@ -95,7 +95,7 @@ export class WorkPackageEmbeddedGraphComponent {
   }
 
   protected setChartOptions() {
-    const defaults = {
+    const defaults: ChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
       legend: {
@@ -114,7 +114,11 @@ export class WorkPackageEmbeddedGraphComponent {
       this.setChartAxesValues(chartTypeDefaults);
     }
 
-    this.chartOptions = { ...defaults, ...chartTypeDefaults, ...this.inputChartOptions };
+    this.chartOptions = {
+      ...defaults,
+      ...chartTypeDefaults,
+      ...this.inputChartOptions,
+    };
   }
 
   public get hasDataToDisplay() {

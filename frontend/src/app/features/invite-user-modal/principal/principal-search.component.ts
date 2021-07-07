@@ -138,7 +138,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     }
     nonMemberFilter.add('status', '!', [3]);
     nonMemberFilter.add('type', '=', [this.type]);
-    nonMemberFilter.add('member', '!', [this.project?.id]);
+    nonMemberFilter.add('member', '!', [this.project?.id || '']);
     const nonMembers = this.apiV3Service.principals.filtered(nonMemberFilter).get();
 
     const memberFilter = new ApiV3FilterBuilder();
@@ -147,7 +147,7 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
     }
     memberFilter.add('status', '!', [3]);
     memberFilter.add('type', '=', [this.type]);
-    memberFilter.add('member', '=', [this.project?.id]);
+    memberFilter.add('member', '=', [this.project?.id || '']);
     const members = this.apiV3Service.principals.filtered(memberFilter).get();
 
     return forkJoin({

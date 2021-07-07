@@ -3,6 +3,7 @@ import { ElementRef, Injectable, Injector } from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { BehaviorSubject } from 'rxjs';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -160,7 +161,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
       },
     };
 
-    const schema = this.halResource.createHalResource(schemaSource, true);
+    const schema: SchemaResource = this.halResource.createHalResource(schemaSource, true);
 
     this.schemaCache.update(resource, schema);
 

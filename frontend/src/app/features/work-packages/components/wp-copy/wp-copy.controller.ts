@@ -85,11 +85,11 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
   }
 
   private createCopyFrom(wp:WorkPackageResource) {
-    const sourceChangeset = this.halEditing.changeFor(wp);
+    const sourceChangeset:WorkPackageChangeset = this.halEditing.changeFor(wp);
 
     return this.wpCreate
       .copyWorkPackage(sourceChangeset)
-      .then((copyChangeset:WorkPackageChangeset) => {
+      .then((copyChangeset) => {
         this.__initialized_at = copyChangeset.pristineResource.__initialized_at;
 
         this

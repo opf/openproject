@@ -329,5 +329,7 @@ export class ReorderDeltaBuilder {
         return position;
       }
     }
+
+    return undefined;
   }
 }

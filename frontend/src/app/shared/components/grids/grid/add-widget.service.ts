@@ -77,7 +77,7 @@ export class GridAddWidgetService {
           options: registered.properties || {},
         };
 
-        const resource = this.halResource.createHalResource(source);
+        const resource: GridWidgetResource = this.halResource.createHalResource(source);
 
         resource.grid = this.layout.gridResource;
 

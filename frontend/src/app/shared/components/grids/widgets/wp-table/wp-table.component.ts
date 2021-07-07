@@ -111,8 +111,11 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
 
   private createInitial():Promise<QueryResource> {
     const projectIdentifier = this.state.params.projectPath;
-    const initializationProps = this.resource.options.queryProps;
-    const queryProps = { pageSize: 0, ...initializationProps };
+    const initializationProps = this.resource.options.queryProps as { [key:string]: unknown };
+    const queryProps = {
+      pageSize: 0,
+      ...initializationProps,
+    };
 
     return this
       .apiV3Service
