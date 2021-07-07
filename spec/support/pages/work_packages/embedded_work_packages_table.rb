@@ -53,13 +53,13 @@ module Pages
       container.find('.wp-inline-create--reference-link').click
 
       # Returns the autocomplete container
-      container.find('.wp-relations--autocomplete')
+      container.find('[data-qa-selector="wp-relations-autocomplete"]')
     end
 
     def reference_work_package(work_package, query: work_package.subject)
       click_reference_inline_create
 
-      autocomplete_container = container.find('.wp-relations--autocomplete')
+      autocomplete_container = container.find('[data-qa-selector="wp-relations-autocomplete"]')
       select_autocomplete autocomplete_container,
                           query: query,
                           results_selector: '.ng-dropdown-panel-items'
