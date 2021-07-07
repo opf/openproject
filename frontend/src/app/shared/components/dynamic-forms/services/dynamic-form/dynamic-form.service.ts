@@ -11,6 +11,7 @@ import { IOPDynamicFormSettings } from '../../typings';
 @Injectable()
 export class DynamicFormService {
   dynamicForm:FormlyForm;
+
   formSchema:IOPFormSchema;
 
   constructor(
@@ -60,9 +61,9 @@ export class DynamicFormService {
 
   validateForm$(form:FormGroup, resourceEndpoint:string) {
     return this._formsService.validateForm$(form, resourceEndpoint, this.formSchema);
-  };
+  }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch') {
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:'post' | 'patch') {
     return this._formsService.submit$(form, resourceEndpoint, resourceId, formHttpMethod, this.formSchema);
   }
 }

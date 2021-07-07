@@ -36,9 +36,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
@@ -482,7 +482,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   private addClickHandler() {
     this.queryResultsContainer
       .on('click keydown', '.ui-menu-item a', (evt:JQuery.TriggeredEvent) => {
-        if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
+        if (evt.type === 'keydown' && evt.which !== KeyCodes.ENTER) {
           return true;
         }
 
@@ -493,7 +493,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
           .data('ui-autocomplete-item');
 
         // Either the link is clicked with a modifier, then always cancel any propagation
-        const clickedWithModifier = evt.type === 'click' && LinkHandling.isClickedWithModifier(evt);
+        const clickedWithModifier = evt.type === 'click' && isClickedWithModifier(evt);
 
         // Or the item is only a static link, then cancel propagation
         const isStatic = !!item.static_link;
@@ -516,7 +516,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
         return true;
       })
       .on('click keydown', '.collapsible-menu--category-toggle', (evt:JQuery.TriggeredEvent) => {
-        if (evt.type === 'keydown' && evt.which !== keyCodes.ENTER) {
+        if (evt.type === 'keydown' && evt.which !== KeyCodes.ENTER) {
           return true;
         }
 

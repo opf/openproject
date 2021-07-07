@@ -26,13 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { Injector } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { ClickPositionMapper } from 'core-app/shared/helpers/set-click-position/set-click-position';
+import { setPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { Subject } from 'rxjs';
@@ -101,7 +101,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
     // Set selection state if input element
     if (setClickOffset && target.tagName === 'INPUT') {
-      ClickPositionMapper.setPosition(target as HTMLInputElement, setClickOffset);
+      setPosition(target as HTMLInputElement, setClickOffset);
     }
   }
 
@@ -142,7 +142,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   public handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel = false) {
     // Only handle submission in edit mode
     if (this.inEditMode && !onlyCancel) {
-      if (event.which === keyCodes.ENTER) {
+      if (event.which === KeyCodes.ENTER) {
         this.form.submit();
         return false;
       }
@@ -150,7 +150,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     }
 
     // Escape editing when not in edit mode
-    if (event.which === keyCodes.ESCAPE) {
+    if (event.which === KeyCodes.ESCAPE) {
       this.handleUserCancel();
       return false;
     }

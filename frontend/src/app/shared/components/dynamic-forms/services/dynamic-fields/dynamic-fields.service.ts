@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { FormsService } from 'core-app/core/forms/forms.service';
 import { IDynamicFieldGroupConfig, IOPDynamicInputTypeSettings, IOPFormlyFieldSettings } from '../../typings';
-import { FormsService } from "core-app/core/forms/forms.service";
 
 @Injectable()
 export class DynamicFieldsService {

@@ -3,7 +3,7 @@ import { Board } from 'core-app/features/boards/board/board';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';
-import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Injectable()
 export class BoardStatusActionService extends CachedBoardActionService {
@@ -17,7 +17,7 @@ export class BoardStatusActionService extends CachedBoardActionService {
 
   icon = 'icon-workflow';
 
-  image = ImageHelpers.imagePath('board_creation_modal/status.svg');
+  image = imagePath('board_creation_modal/status.svg');
 
   localizedName = this.I18n.t('js.work_packages.properties.status');
 

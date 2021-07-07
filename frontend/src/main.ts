@@ -44,7 +44,7 @@ initializeLocale()
       // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
       platformBrowserDynamic()
         .bootstrapModule(OpenProjectModule)
-        .then((platformRef) => {
+        .then(() => {
           jQuery('body').addClass('__ng2-bootstrap-has-run');
         });
     });

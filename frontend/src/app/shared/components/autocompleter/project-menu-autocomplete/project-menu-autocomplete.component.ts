@@ -31,8 +31,8 @@ import {
   IAutocompleteItem,
   ILazyAutocompleterBridge,
 } from 'core-app/shared/components/autocompleter/lazyloaded/lazyloaded-autocompleter';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -249,7 +249,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     this.input.off('blur');
 
     this.input.keydown((evt:JQuery.TriggeredEvent) => {
-      if (evt.which === keyCodes.ESCAPE) {
+      if (evt.which === KeyCodes.ESCAPE) {
         this.input.val('');
         (this.input as any)[this.widgetName].call(this.input, 'search', '');
         return false;
@@ -269,7 +269,7 @@ export class ProjectMenuAutocompleteComponent extends ILazyAutocompleterBridge<I
     this.$element
       .find('.project-menu-autocomplete--results')
       .on('click', '.ui-menu-item a', (evt:JQuery.TriggeredEvent) => {
-        if (LinkHandling.isClickedWithModifier(evt)) {
+        if (isClickedWithModifier(evt)) {
           evt.stopImmediatePropagation();
         }
 

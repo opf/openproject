@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AssigneeBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/assignee/assignee-board-header.component';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { Board } from 'core-app/features/boards/board/board';
-import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -22,7 +22,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   icon = 'icon-user';
 
-  image = ImageHelpers.imagePath('board_creation_modal/assignees.svg');
+  image = imagePath('board_creation_modal/assignees.svg');
 
   readonly unassignedUser:any = {
     id: null,

@@ -34,7 +34,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { States } from 'core-app/core/states/states.service';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { MAX_ORDER, ReorderDeltaBuilder } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
+import { MAX_ORDER, buildDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { take } from 'rxjs/operators';
 import { InputState } from 'reactivestates';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -123,7 +123,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    */
   protected async assignPosition(order:string[], wpId:string, toIndex:number, fromIndex:number|null = null) {
     const positions = await this.withLoadedPositions();
-    const delta = new ReorderDeltaBuilder(order, positions, wpId, toIndex, fromIndex).buildDelta();
+    const delta = buildDelta(order, positions, wpId, toIndex, fromIndex);
 
     await this.update(delta);
   }

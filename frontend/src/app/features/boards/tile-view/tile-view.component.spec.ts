@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { TileViewComponent } from './tile-view.component';
-import imagePath = ImageHelpers.imagePath;
 
 describe('shows tiles', () => {
   let app:TileViewComponent;

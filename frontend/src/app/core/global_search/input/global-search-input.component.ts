@@ -41,7 +41,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { ContainHelpers } from 'core-app/shared/directives/focus/contain-helpers';
@@ -179,7 +179,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public redirectToWp(id:string, event:MouseEvent) {
     event.stopImmediatePropagation();
-    if (LinkHandling.isClickedWithModifier(event)) {
+    if (isClickedWithModifier(event)) {
       return true;
     }
 

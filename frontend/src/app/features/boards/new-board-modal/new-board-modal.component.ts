@@ -39,9 +39,8 @@ import { BoardService } from 'core-app/features/boards/board/board.service';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { ITileViewEntry } from '../tile-view/tile-view.component';
-import imagePath = ImageHelpers.imagePath;
 
 @Component({
   templateUrl: './new-board-modal.html',

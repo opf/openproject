@@ -12,7 +12,7 @@ export class FormsService {
     private _httpClient:HttpClient,
   ) { }
 
-  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?: 'post' | 'patch', formSchema?:IOPFormSchema):Observable<any> {
+  submit$(form:FormGroup, resourceEndpoint:string, resourceId?:string, formHttpMethod?:'post' | 'patch', formSchema?:IOPFormSchema):Observable<any> {
     const modelToSubmit = this.formatModelToSubmit(form.getRawValue(), formSchema);
     const httpMethod = resourceId ? 'patch' : (formHttpMethod || 'post');
     const url = resourceId ? `${resourceEndpoint}/${resourceId}` : resourceEndpoint;
@@ -63,14 +63,14 @@ export class FormsService {
    * in the shape of '{href:hrefValue}' in order to fit the backend expectations.
    * */
   private formatModelToSubmit(formModel:IOPFormModel, formSchema:IOPFormSchema = {}):IOPFormModel {
-    let {_links:linksModel, ...mainModel} = formModel;
+    let { _links: linksModel, ...mainModel } = formModel;
     const resourcesModel = linksModel || Object.keys(formSchema)
-      .filter(formSchemaKey => !!formSchema[formSchemaKey]?.type && formSchema[formSchemaKey]?.location === '_links')
+      .filter((formSchemaKey) => !!formSchema[formSchemaKey]?.type && formSchema[formSchemaKey]?.location === '_links')
       .reduce((result, formSchemaKey) => {
-        const {[formSchemaKey]:keyToRemove, ...mainModelWithoutResource} = mainModel;
+        const { [formSchemaKey]: keyToRemove, ...mainModelWithoutResource } = mainModel;
         mainModel = mainModelWithoutResource;
 
-        return {...result, [formSchemaKey]: formModel[formSchemaKey]};
+        return { ...result, [formSchemaKey]: formModel[formSchemaKey] };
       }, {});
 
     const formattedResourcesModel = Object
@@ -79,9 +79,9 @@ export class FormsService {
         const resourceModel = resourcesModel[resourceKey];
         // Form.payload resources have a HalLinkSource interface while
         // API resource options have a IAllowedValue interface
-        const formattedResourceModel = Array.isArray(resourceModel) ?
-          resourceModel.map(resourceElement => ({ href: resourceElement?.href || resourceElement?._links?.self?.href || null })) :
-          { href: resourceModel?.href || resourceModel?._links?.self?.href || null };
+        const formattedResourceModel = Array.isArray(resourceModel)
+          ? resourceModel.map((resourceElement) => ({ href: resourceElement?.href || resourceElement?._links?.self?.href || null }))
+          : { href: resourceModel?.href || resourceModel?._links?.self?.href || null };
 
         return {
           ...result,
@@ -92,7 +92,7 @@ export class FormsService {
     return {
       ...mainModel,
       _links: formattedResourcesModel,
-    }
+    };
   }
 
   /** HAL resources formatting
@@ -104,8 +104,8 @@ export class FormsService {
   formatModelToEdit(formModel:IOPFormModel = {}):IOPFormModel {
     const { _links: resourcesModel, _meta: metaModel, ...otherElements } = formModel;
     const otherElementsModel = Object.keys(otherElements)
-      .filter(key => this.isValue(otherElements[key]))
-      .reduce((model, key) => ({...model, [key]:otherElements[key]}), {});
+      .filter((key) => this.isValue(otherElements[key]))
+      .reduce((model, key) => ({ ...model, [key]: otherElements[key] }), {});
 
     const model = {
       ...otherElementsModel,
@@ -164,13 +164,13 @@ export class FormsService {
       const resource = resourcesModel[resourceKey];
       // ng-select needs a 'name' in order to show the label
       // We need to add it in case of the form payload (HalLinkSource)
-      const resourceModel = Array.isArray(resource) ?
-        resource.map(resourceElement => ({...resourceElement, name: resourceElement?.name || resourceElement?.title})) :
-        {...resource, name: resource?.name || resource?.title};
+      const resourceModel = Array.isArray(resource)
+        ? resource.map((resourceElement) => ({ ...resourceElement, name: resourceElement?.name || resourceElement?.title }))
+        : { ...resource, name: resource?.name || resource?.title };
 
       result = {
         ...result,
-        ...this.isValue(resourceModel) && {[resourceKey]: resourceModel},
+        ...this.isValue(resourceModel) && { [resourceKey]: resourceModel },
       };
 
       return result;

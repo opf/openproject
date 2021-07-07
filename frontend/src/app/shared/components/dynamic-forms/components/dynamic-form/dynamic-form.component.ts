@@ -7,20 +7,19 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-} from "@angular/core";
-import { FormlyForm } from "@ngx-formly/core";
-import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
-import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { catchError, finalize } from "rxjs/operators";
-import { HalSource } from "core-app/features/hal/resources/hal-resource";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
-import { FormGroup } from "@angular/forms";
-import { HttpErrorResponse } from "@angular/common/http";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-
+} from '@angular/core';
+import { FormlyForm } from '@ngx-formly/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { catchError, finalize } from 'rxjs/operators';
+import { HalSource } from 'core-app/features/hal/resources/hal-resource';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
+import { FormGroup } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from '../../typings';
+import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
 
 /**
 * SETTINGS:

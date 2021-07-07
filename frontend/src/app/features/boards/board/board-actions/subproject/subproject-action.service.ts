@@ -4,7 +4,7 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { SubprojectBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/subproject/subproject-board-header.component';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
-import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -22,7 +22,7 @@ export class BoardSubprojectActionService extends CachedBoardActionService {
 
   icon = 'icon-projects';
 
-  image = ImageHelpers.imagePath('board_creation_modal/subproject.svg');
+  image = imagePath('board_creation_modal/subproject.svg');
 
   localizedName = this.I18n.t('js.work_packages.properties.subproject');
 

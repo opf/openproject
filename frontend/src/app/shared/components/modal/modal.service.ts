@@ -12,7 +12,7 @@ import {
 import { TransitionService } from '@uirouter/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 
 export const OpModalLocalsToken = new InjectionToken<any>('OP_MODAL_LOCALS');
 
@@ -40,7 +40,7 @@ export class OpModalService {
 
     // Listen to keyups on window to close context menus
     jQuery(window).on('keydown', (evt:JQuery.TriggeredEvent) => {
-      if (this.active && this.active.closeOnEscape && evt.which === keyCodes.ESCAPE) {
+      if (this.active && this.active.closeOnEscape && evt.which === KeyCodes.ESCAPE) {
         this.active.closeOnEscapeFunction(evt);
       }
 

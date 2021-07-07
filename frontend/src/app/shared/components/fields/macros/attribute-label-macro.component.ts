@@ -43,7 +43,7 @@ import {
   AttributeModelLoaderService,
   SupportedAttributeModels,
 } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
-import { StringHelpers } from 'core-app/shared/helpers/string-helpers';
+import { capitalize } from 'core-app/shared/helpers/string-helpers';
 
 export const attributeLabelMacro = 'macro.macro--attribute-label';
 
@@ -95,7 +95,7 @@ export class AttributeLabelMacroComponent {
     const model:SupportedAttributeModels = element.dataset.model as any;
     const id:string = element.dataset.id!;
     const attributeName:string = element.dataset.attribute!;
-    this.attributeScope = StringHelpers.capitalize(model);
+    this.attributeScope = capitalize(model);
 
     this.loadResourceAttribute(model, id, attributeName);
   }

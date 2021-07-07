@@ -6,7 +6,7 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import {
@@ -158,7 +158,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       href: action.href,
       icon: action.icon != null ? action.icon : `icon-${action.key}`,
       onClick: ($event:JQuery.TriggeredEvent) => {
-        if (action.href && LinkHandling.isClickedWithModifier($event)) {
+        if (action.href && isClickedWithModifier($event)) {
           return false;
         }
 
@@ -175,7 +175,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         href: this.$state.href('work-packages.show', { workPackageId: this.workPackageId }),
         linkText: I18n.t('js.button_open_fullscreen'),
         onClick: ($event:JQuery.TriggeredEvent) => {
-          if (LinkHandling.isClickedWithModifier($event)) {
+          if (isClickedWithModifier($event)) {
             return false;
           }
 
@@ -198,7 +198,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
           ),
           linkText: I18n.t('js.button_open_details'),
           onClick: ($event:JQuery.TriggeredEvent) => {
-            if (LinkHandling.isClickedWithModifier($event)) {
+            if (isClickedWithModifier($event)) {
               return false;
             }
 

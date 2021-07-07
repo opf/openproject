@@ -68,7 +68,7 @@ export class SentryReporter implements ErrorReporter {
   private client:Hub;
 
   constructor() {
-    const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement|null;
+    const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement;
     if (sentryElement !== null) {
       this.loadSentry(sentryElement);
     } else {
@@ -95,13 +95,13 @@ export class SentryReporter implements ErrorReporter {
 
         tracesSampler: (samplingContext) => {
           switch (samplingContext.transactionContext.op) {
-          case 'op':
-          case 'navigation':
+            case 'op':
+            case 'navigation':
             // Trace 1% of page loads and navigation events
-            return Math.min(0.01 * traceFactor, 1.0);
-          default:
+              return Math.min(0.01 * traceFactor, 1.0);
+            default:
             // Trace 0.1% of requests
-            return Math.min(0.001 * traceFactor, 1.0);
+              return Math.min(0.001 * traceFactor, 1.0);
           }
         },
 

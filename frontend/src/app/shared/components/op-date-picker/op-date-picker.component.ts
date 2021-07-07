@@ -39,7 +39,7 @@ import {
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
@@ -145,7 +145,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
         this.onChange.emit(val);
       },
       onKeyDown: (selectedDates:Date[], dateStr:string, instance:Instance, data:KeyboardEvent) => {
-        if (data.which == keyCodes.ESCAPE) {
+        if (data.which == KeyCodes.ESCAPE) {
           this.onCancel.emit();
         }
       },

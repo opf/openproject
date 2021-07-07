@@ -43,7 +43,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ClickPositionMapper } from 'core-app/shared/helpers/set-click-position/set-click-position';
+import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -55,7 +55,7 @@ import {
 } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { States } from 'core-app/core/states/states.service';
 import { debugLog } from '../../../../helpers/debug_output';
-import { SelectionHelpers } from '../../../../helpers/selection-helpers';
+import { hasSelectionWithin } from '../../../../helpers/selection-helpers';
 
 @Component({
   selector: 'editable-attribute-field',
@@ -163,7 +163,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
   public activateIfEditable(event:MouseEvent|KeyboardEvent) {
     // Ignore selections
-    if (SelectionHelpers.hasSelectionWithin(event.target as HTMLElement)) {
+    if (hasSelectionWithin(event.target as HTMLElement)) {
       debugLog(`Not activating ${this.fieldName} because of active selection within`);
       return true;
     }
@@ -199,7 +199,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
     if (evt?.type === 'click') {
       // Get the position where the user clicked.
-      positionOffset = ClickPositionMapper.getPosition(evt);
+      positionOffset = getPosition(evt);
     }
 
     this.activateOnForm()

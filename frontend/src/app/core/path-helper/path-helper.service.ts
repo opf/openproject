@@ -37,7 +37,7 @@ class Apiv3Paths {
   }
 
   public get openApiSpecPath():string {
-    return this.apiV3Base + '/spec.json';
+    return `${this.apiV3Base}/spec.json`;
   }
 
   /**

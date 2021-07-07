@@ -2,7 +2,7 @@ import {
   Directive, ElementRef, Injector, Input,
 } from '@angular/core';
 import { StateService } from '@uirouter/core';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -118,7 +118,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         href: action.link,
         icon: action.icon || `icon-${key}`,
         onClick: ($event:JQuery.TriggeredEvent) => {
-          if (action.link && LinkHandling.isClickedWithModifier($event)) {
+          if (action.link && isClickedWithModifier($event)) {
             return false;
           }
 

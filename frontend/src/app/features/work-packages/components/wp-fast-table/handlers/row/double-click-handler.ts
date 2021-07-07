@@ -3,7 +3,7 @@ import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { States } from 'core-app/core/states/states.service';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { displayClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
@@ -42,7 +42,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
     const target = jQuery(evt.target);
 
     // Skip clicks with modifiers
-    if (LinkHandling.isClickedWithModifier(evt)) {
+    if (isClickedWithModifier(evt)) {
       return true;
     }
 

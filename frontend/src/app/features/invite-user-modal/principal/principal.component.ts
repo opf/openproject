@@ -182,13 +182,13 @@ export class PrincipalComponent implements OnInit {
     const fieldsSchema = this.userDynamicFieldConfig.schema || {};
     const customFields = Object.keys(fieldsSchema)
       .reduce((result, fieldKey) => {
-        let fieldSchema = fieldsSchema[fieldKey];
+        const fieldSchema = fieldsSchema[fieldKey];
         let fieldValue = this.customFields[fieldKey];
 
         if (fieldSchema.location === '_links') {
           fieldValue = Array.isArray(fieldValue)
-            ? fieldValue.map((opt: any) => opt._links ? opt._links.self : opt)
-            : (fieldValue._links ? fieldValue._links.self : fieldValue)
+            ? fieldValue.map((opt:any) => (opt._links ? opt._links.self : opt))
+            : (fieldValue._links ? fieldValue._links.self : fieldValue);
         }
 
         result = {

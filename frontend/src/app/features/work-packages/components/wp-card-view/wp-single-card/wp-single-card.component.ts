@@ -19,7 +19,7 @@ import { CardViewOrientation } from 'core-app/features/work-packages/components/
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 
 @Component({
   selector: 'wp-single-card',
@@ -81,7 +81,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public emitStateLinkClicked(event:MouseEvent, wp:WorkPackageResource, detail?:boolean):void {
-    if (LinkHandling.isClickedWithModifier(event)) {
+    if (isClickedWithModifier(event)) {
       return;
     }
 

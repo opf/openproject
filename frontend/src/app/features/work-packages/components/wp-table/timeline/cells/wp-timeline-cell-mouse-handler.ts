@@ -29,7 +29,7 @@
 import { Injector } from '@angular/core';
 import * as moment from 'moment';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -135,7 +135,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
   function keyPressFn(ev:JQuery.TriggeredEvent) {
     const kev:KeyboardEvent = ev as any;
-    if (kev.keyCode === keyCodes.ESCAPE) {
+    if (kev.keyCode === KeyCodes.ESCAPE) {
       deactivate(true);
     }
   }

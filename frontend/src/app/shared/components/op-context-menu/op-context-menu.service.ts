@@ -9,7 +9,7 @@ import {
   OpContextMenuLocalsToken,
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { OPContextMenuComponent } from 'core-app/shared/components/op-context-menu/op-context-menu.component';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 @Injectable({ providedIn: 'root' })
@@ -46,7 +46,7 @@ export class OPContextMenuService {
 
     // Listen to keyups on window to close context menus
     jQuery(window).on('keydown', (evt:JQuery.TriggeredEvent) => {
-      if (this.active && evt.which === keyCodes.ESCAPE) {
+      if (this.active && evt.which === KeyCodes.ESCAPE) {
         this.close();
       }
 

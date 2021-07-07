@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { SubtasksBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/subtasks/subtasks-board-header.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
@@ -22,7 +22,7 @@ export class BoardSubtasksActionService extends BoardActionService {
 
   icon = 'icon-hierarchy';
 
-  image = ImageHelpers.imagePath('board_creation_modal/parent-child.svg');
+  image = imagePath('board_creation_modal/parent-child.svg');
 
   localizedName = this.I18n.t('js.boards.board_type.action_type.subtasks');
 

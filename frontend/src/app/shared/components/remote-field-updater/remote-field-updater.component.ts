@@ -27,7 +27,7 @@
 //++
 
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { HttpClient } from '@angular/common/http';
 
 export const remoteFieldUpdaterSelector = 'remote-field-updater';
@@ -65,8 +65,8 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       // tabbing back with shift (16) and
       // special cases where the tab code is not correctly recognized (undefined).
       // Thus the focus is kept on the first element of the result list.
-      const keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
-      if (event.type === 'change' || (event.which && keyCodesArray.indexOf(event.which) === -1)) {
+      const keyCodes = [KeyCodes.TAB, KeyCodes.ENTER, KeyCodes.SHIFT];
+      if (event.type === 'change' || (event.which && keyCodes.indexOf(event.which) === -1)) {
         this.updater();
       }
     }, 500));
