@@ -140,7 +140,7 @@ module Components
 
         # Enter the query and select the child
         SeleniumHubWaiter.wait
-        autocomplete = find(".wp-relations--autocomplete")
+        autocomplete = find("[data-qa-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             query: query,
                             results_selector: '.ng-dropdown-panel-items',
@@ -185,7 +185,7 @@ module Components
 
       def add_existing_child(work_package)
         # Enter the query and select the child
-        autocomplete = page.find(".wp-relations--add-form .wp-relations--autocomplete")
+        autocomplete = page.find(".wp-relations--add-form [data-qa-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             query: work_package.id,
                             results_selector: '.ng-dropdown-panel-items',
