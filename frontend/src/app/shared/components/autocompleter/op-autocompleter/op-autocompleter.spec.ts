@@ -89,7 +89,7 @@ describe('autocompleter', () => {
     fixture.componentInstance.multiple = false;
     fixture.componentInstance.closeOnSelect = true;
     fixture.componentInstance.virtualScroll = true;
-    fixture.componentInstance.classes = 'wp-inline-create--reference-autocompleter';
+    fixture.componentInstance.classes = 'wp-relations-autocomplete';
     fixture.componentInstance.defaulData = true;
 
     // @ts-ignore

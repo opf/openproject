@@ -20,7 +20,7 @@ export function boardTourSteps() {
       'containerClass': '-dark -hidden-arrow',
       'timeout': function () {
         return new Promise(function (resolve) {
-          waitForElement('.wp-card', '#content', function () {
+          waitForElement('.op-wp-single-card', '#content', function () {
             resolve(undefined);
           });
         });

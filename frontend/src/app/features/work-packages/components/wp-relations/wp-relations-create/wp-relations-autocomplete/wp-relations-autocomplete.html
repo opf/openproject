@@ -1,7 +1,6 @@
 
-<div class="wp-relations--autocomplete">
   <op-autocompleter
-  classes="wp-inline-create--reference-autocompleter"
+  classes="wp-relations-autocomplete"
   [appendTo]="appendToContainer"
   [placeholder]="inputPlaceholder"
   [typeToSearchText]="inputPlaceholder"
@@ -12,6 +11,4 @@
   (change)="onWorkPackageSelected($event)"
   [getOptionsFn]=autocompleterOptions.getOptionsFn>
   </op-autocompleter>
-</div>
-
 
