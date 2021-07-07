@@ -38,7 +38,7 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
-import { AttributeHelpTextModal } from './attribute-help-text.modal';
+import { AttributeHelpTextModalComponent } from './attribute-help-text.modal';
 
 export const attributeHelpTextSelector = 'attribute-help-text';
 
@@ -97,7 +97,7 @@ export class AttributeHelpTextComponent implements OnInit {
 
   public handleClick(event:Event):void {
     this.load().then((resource) => {
-      this.opModalService.show(AttributeHelpTextModal, this.injector, { helpText: resource });
+      this.opModalService.show(AttributeHelpTextModalComponent, this.injector, { helpText: resource });
     });
 
     event.preventDefault();

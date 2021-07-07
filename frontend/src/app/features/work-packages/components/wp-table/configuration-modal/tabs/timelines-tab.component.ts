@@ -10,7 +10,7 @@ import { TimelineLabels, TimelineZoomLevel } from 'core-app/features/hal/resourc
 @Component({
   templateUrl: './timelines-tab.component.html',
 })
-export class WpTableConfigurationTimelinesTab implements TabComponent {
+export class WpTableConfigurationTimelinesTabComponent implements TabComponent {
   public timelineVisible = false;
 
   public availableAttributes:{ id:string, name:string }[];

@@ -12,7 +12,7 @@ import { States } from 'core-app/core/states/states.service';
 @Component({
   templateUrl: './highlighting-tab.component.html',
 })
-export class WpTableConfigurationHighlightingTab implements TabComponent {
+export class WpTableConfigurationHighlightingTabComponent implements TabComponent {
   // Display mode
   public highlightingMode:HighlightingMode = 'inline';
 

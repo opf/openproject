@@ -52,7 +52,7 @@ export const colorsAutocompleterSelector = 'colors-autocompleter';
   `,
   selector: colorsAutocompleterSelector,
 })
-export class ColorsAutocompleter implements OnInit {
+export class ColorsAutocompleterComponent implements OnInit {
   public options:any[];
 
   public selectedOption:any;

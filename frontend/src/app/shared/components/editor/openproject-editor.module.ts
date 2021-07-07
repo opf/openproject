@@ -36,9 +36,9 @@ import { OpCkeditorComponent } from 'core-app/shared/components/editor/component
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { CKEditorPreviewService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-preview.service';
 import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
-import { WikiIncludePageMacroModal } from 'core-app/shared/components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
-import { ChildPagesMacroModal } from 'core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
-import { CodeBlockMacroModal } from 'core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal';
+import { WikiIncludePageMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
+import { ChildPagesMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
+import { CodeBlockMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal';
 
 @NgModule({
   imports: [
@@ -61,9 +61,9 @@ import { CodeBlockMacroModal } from 'core-app/shared/components/modals/editor/ma
     // CKEditor and Macros
     CkeditorAugmentedTextareaComponent,
     OpCkeditorComponent,
-    WikiIncludePageMacroModal,
-    CodeBlockMacroModal,
-    ChildPagesMacroModal,
+    WikiIncludePageMacroModalComponent,
+    CodeBlockMacroModalComponent,
+    ChildPagesMacroModalComponent,
   ],
 })
 export class OpenprojectEditorModule {

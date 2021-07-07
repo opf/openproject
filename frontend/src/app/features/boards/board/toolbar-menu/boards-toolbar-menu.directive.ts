@@ -34,7 +34,7 @@ import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { Board } from 'core-app/features/boards/board/board';
-import { BoardConfigurationModal } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
+import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { StateService } from '@uirouter/core';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
@@ -81,7 +81,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-settings',
         onClick: ($event:JQuery.TriggeredEvent) => {
           this.opContextMenu.close();
-          this.opModalService.show(BoardConfigurationModal, this.injector, { board: this.board });
+          this.opModalService.show(BoardConfigurationModalComponent, this.injector, { board: this.board });
 
           return true;
         },

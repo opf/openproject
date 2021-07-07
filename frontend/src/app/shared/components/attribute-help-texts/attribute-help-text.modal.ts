@@ -39,7 +39,7 @@ import { HelpTextResource } from 'core-app/features/hal/resources/help-text-reso
   templateUrl: './help-text.modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttributeHelpTextModal extends OpModalComponent implements OnInit {
+export class AttributeHelpTextModalComponent extends OpModalComponent implements OnInit {
   /* Close on escape? */
   public closeOnEscape = true;
 

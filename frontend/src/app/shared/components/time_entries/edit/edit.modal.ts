@@ -12,7 +12,7 @@ import { TimeEntryBaseModal } from 'core-app/shared/components/time_entries/shar
     HalResourceEditingService,
   ],
 })
-export class TimeEntryEditModal extends TimeEntryBaseModal {
+export class TimeEntryEditModalComponent extends TimeEntryBaseModal {
   public modifiedEntry:TimeEntryResource;
 
   public destroyedEntry:TimeEntryResource;

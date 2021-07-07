@@ -11,7 +11,7 @@ import * as URI from 'urijs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { JobStatusModal } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 
@@ -28,7 +28,7 @@ interface ExportLink extends HalLink {
   styleUrls: ['./wp-table-export.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WpTableExportModal extends OpModalComponent implements OnInit {
+export class WpTableExportModalComponent extends OpModalComponent implements OnInit {
   /* Close on escape? */
   public closeOnEscape = true;
 
@@ -102,7 +102,7 @@ export class WpTableExportModal extends OpModalComponent implements OnInit {
   }
 
   private replaceWithJobModal(jobId:string) {
-    this.service.show(JobStatusModal, 'global', { jobId });
+    this.service.show(JobStatusModalComponent, 'global', { jobId });
   }
 
   private handleError(error:HttpErrorResponse) {

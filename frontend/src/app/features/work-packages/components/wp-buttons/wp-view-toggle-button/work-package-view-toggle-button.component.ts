@@ -55,7 +55,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-view-toggle-button',
 })
-export class WorkPackageViewToggleButton extends UntilDestroyedMixin implements OnInit {
+export class WorkPackageViewToggleButtonComponent extends UntilDestroyedMixin implements OnInit {
   public view:string;
 
   public text:any = {

@@ -1,9 +1,9 @@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WpGraphConfigurationSettingsTab } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component';
+import { WpGraphConfigurationSettingsTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { TabInterface } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { Injectable } from '@angular/core';
-import { WpGraphConfigurationFiltersTab } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component';
+import { WpGraphConfigurationFiltersTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component';
 import { ChartOptions, ChartType } from 'chart.js';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
@@ -140,14 +140,14 @@ export class WpGraphConfigurationService {
       {
         id: 'graph-settings',
         name: this.I18n.t('js.chart.tabs.graph_settings'),
-        componentClass: WpGraphConfigurationSettingsTab,
+        componentClass: WpGraphConfigurationSettingsTabComponent,
       },
     ];
 
     const queryTabs = this.configuration.queries.map((query) => ({
       id: query.id as string,
       name: this.I18n.t('js.work_packages.query.filters'),
-      componentClass: WpGraphConfigurationFiltersTab,
+      componentClass: WpGraphConfigurationFiltersTabComponent,
     }));
 
     return tabs.concat(queryTabs);

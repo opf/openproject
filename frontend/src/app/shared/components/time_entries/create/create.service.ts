@@ -7,7 +7,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { Moment } from 'moment';
-import { TimeEntryCreateModal } from 'core-app/shared/components/time_entries/create/create.modal';
+import { TimeEntryCreateModalComponent } from 'core-app/shared/components/time_entries/create/create.modal';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -29,7 +29,7 @@ export class TimeEntryCreateService {
       this
         .createNewTimeEntry(date, wp)
         .then((changeset) => {
-          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { changeset, showWorkPackageField });
+          const modal = this.opModalService.show(TimeEntryCreateModalComponent, this.injector, { changeset, showWorkPackageField });
 
           modal
             .closingEvent

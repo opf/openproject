@@ -7,7 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { JobStatusModal } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -99,7 +99,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   onSubmitted(response:HalSource) {
     if (response._type === 'JobStatus') {
-      this.modalService.show(JobStatusModal, 'global', { jobId: response.jobId });
+      this.modalService.show(JobStatusModalComponent, 'global', { jobId: response.jobId });
     } else {
       window.location.href = this.pathHelperService.projectPath(response.identifier as string);
     }

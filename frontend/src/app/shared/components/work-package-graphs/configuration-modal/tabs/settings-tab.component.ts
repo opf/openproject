@@ -4,7 +4,7 @@ import { Component, ViewChild } from '@angular/core';
 @Component({
   templateUrl: './settings-tab.component.html',
 })
-export class WpGraphConfigurationSettingsTab implements TabComponent {
+export class WpGraphConfigurationSettingsTabComponent implements TabComponent {
   @ViewChild('tabInner', { static: true })
   tabInner:TabComponent;
 

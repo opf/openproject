@@ -31,10 +31,10 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { WpGraphConfigurationModalComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal';
-import { WpGraphConfigurationFiltersTab } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component';
-import { WpGraphConfigurationSettingsTab } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component';
-import { WpGraphConfigurationFiltersTabInner } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab-inner.component';
-import { WpGraphConfigurationSettingsTabInner } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab-inner.component';
+import { WpGraphConfigurationFiltersTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component';
+import { WpGraphConfigurationSettingsTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab.component';
+import { WpGraphConfigurationFiltersTabInnerComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab-inner.component';
+import { WpGraphConfigurationSettingsTabInnerComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/settings-tab-inner.component';
 import { WorkPackageEmbeddedGraphComponent } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 import { WorkPackageOverviewGraphComponent } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
 import { ChartsModule } from 'ng2-charts';
@@ -55,10 +55,10 @@ import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproje
   declarations: [
     // Modals
     WpGraphConfigurationModalComponent,
-    WpGraphConfigurationFiltersTab,
-    WpGraphConfigurationFiltersTabInner,
-    WpGraphConfigurationSettingsTab,
-    WpGraphConfigurationSettingsTabInner,
+    WpGraphConfigurationFiltersTabComponent,
+    WpGraphConfigurationFiltersTabInnerComponent,
+    WpGraphConfigurationSettingsTabComponent,
+    WpGraphConfigurationSettingsTabInnerComponent,
 
     // Embedded graphs
     WorkPackageEmbeddedGraphComponent,

@@ -9,7 +9,7 @@ import { QueryGroupByResource } from 'core-app/features/hal/resources/query-grou
 @Component({
   templateUrl: './display-settings-tab.component.html',
 })
-export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
+export class WpTableConfigurationDisplaySettingsTabComponent implements TabComponent {
   // Display mode
   public displayMode:'hierarchy'|'grouped'|'default' = 'default';
 

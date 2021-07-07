@@ -12,7 +12,7 @@ import { WorkPackageFiltersService } from 'core-app/features/work-packages/compo
   selector: 'filters-tab-inner',
   templateUrl: './filters-tab-inner.component.html',
 })
-export class WpGraphConfigurationFiltersTabInner extends QuerySpacedTabComponent implements TabComponent {
+export class WpGraphConfigurationFiltersTabInnerComponent extends QuerySpacedTabComponent implements TabComponent {
   public filters:QueryFilterInstanceResource[] = [];
 
   public text = {

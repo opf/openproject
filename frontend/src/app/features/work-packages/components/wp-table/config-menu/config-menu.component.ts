@@ -8,7 +8,7 @@ import { WpTableConfigurationModalComponent } from 'core-app/features/work-packa
   templateUrl: './config-menu.template.html',
   selector: 'wp-table-config-menu',
 })
-export class WorkPackagesTableConfigMenu implements OnInit {
+export class WorkPackagesTableConfigMenuComponent implements OnInit {
   public text:any;
 
   constructor(readonly I18n:I18nService,

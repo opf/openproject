@@ -10,7 +10,7 @@ import { DraggableOption } from 'core-app/shared/components/autocompleter/dragga
 @Component({
   templateUrl: './columns-tab.component.html',
 })
-export class WpTableConfigurationColumnsTab implements TabComponent, OnInit {
+export class WpTableConfigurationColumnsTabComponent implements TabComponent, OnInit {
   public availableColumnsOptions = this.wpTableColumns.all.map((c) => this.column2Like(c));
 
   public availableColumns = this.wpTableColumns.all;

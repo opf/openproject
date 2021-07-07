@@ -32,7 +32,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { take } from 'rxjs/operators';
 import { DateEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { DatePickerModal } from 'core-app/shared/components/datepicker/datepicker.modal';
+import { DatePickerModalComponent } from 'core-app/shared/components/datepicker/datepicker.modal';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
@@ -81,7 +81,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
   private showDatePickerModal():void {
     const modal = this.modal = this
       .opModalService
-      .show(DatePickerModal, this.injector, { changeset: this.change, fieldName: this.name }, true);
+      .show(DatePickerModalComponent, this.injector, { changeset: this.change, fieldName: this.name }, true);
 
     setTimeout(() => {
       const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');

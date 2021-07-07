@@ -27,7 +27,7 @@
 //++
 
 import {
-  ConfirmDialogModal,
+  ConfirmDialogModalComponent,
   ConfirmDialogOptions,
 } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -44,8 +44,8 @@ export class ConfirmDialogService {
    */
   public confirm(options:ConfirmDialogOptions):Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const confirmModal = this.opModalService.show(ConfirmDialogModal, this.injector, { options });
-      confirmModal.closingEvent.subscribe((modal:ConfirmDialogModal) => {
+      const confirmModal = this.opModalService.show(ConfirmDialogModalComponent, this.injector, { options });
+      confirmModal.closingEvent.subscribe((modal:ConfirmDialogModalComponent) => {
         if (modal.confirmed) {
           resolve();
         } else {

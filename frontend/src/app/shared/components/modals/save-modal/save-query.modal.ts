@@ -44,7 +44,7 @@ import { States } from 'core-app/core/states/states.service';
 @Component({
   templateUrl: './save-query.modal.html',
 })
-export class SaveQueryModal extends OpModalComponent {
+export class SaveQueryModalComponent extends OpModalComponent {
   public queryName = '';
 
   public isStarred = false;

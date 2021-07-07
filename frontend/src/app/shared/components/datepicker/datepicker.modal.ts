@@ -59,7 +59,7 @@ export type DateKeys = 'date'|'start'|'end';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class DatePickerModal extends OpModalComponent implements AfterViewInit {
+export class DatePickerModalComponent extends OpModalComponent implements AfterViewInit {
   @InjectField() I18n!:I18nService;
 
   @InjectField() timezoneService:TimezoneService;

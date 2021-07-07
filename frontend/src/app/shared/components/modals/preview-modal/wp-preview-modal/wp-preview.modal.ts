@@ -43,7 +43,7 @@ import { StateService } from '@uirouter/core';
   styleUrls: ['./wp-preview.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WpPreviewModal extends OpModalComponent implements OnInit {
+export class WpPreviewModalComponent extends OpModalComponent implements OnInit {
   public workPackage:WorkPackageResource;
 
   public text = {

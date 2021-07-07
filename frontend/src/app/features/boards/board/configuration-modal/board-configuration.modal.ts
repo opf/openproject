@@ -27,7 +27,7 @@ import { Board } from 'core-app/features/boards/board/board';
 @Component({
   templateUrl: './board-configuration.modal.html',
 })
-export class BoardConfigurationModal extends OpModalComponent implements OnInit, OnDestroy {
+export class BoardConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   /* Close on escape? */
   public closeOnEscape = false;
 
@@ -101,7 +101,7 @@ export class BoardConfigurationModal extends OpModalComponent implements OnInit,
     const board = this.locals.board as Board;
     this.boardService
       .save(board)
-      .subscribe((board) => {
+      .subscribe(() => {
         this.service.close();
       });
   }

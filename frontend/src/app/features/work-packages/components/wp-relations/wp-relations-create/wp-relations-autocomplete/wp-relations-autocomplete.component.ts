@@ -58,7 +58,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./wp-relations-autocomplete.sass'],
 })
-export class WorkPackageRelationsAutocomplete {
+export class WorkPackageRelationsAutocompleteComponent {
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
   };

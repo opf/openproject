@@ -28,11 +28,11 @@
 
 import { Injectable, Injector, NgZone } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WpPreviewModal } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
+import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
 
 @Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {
-  private previewModal:WpPreviewModal;
+  private previewModal:WpPreviewModalComponent;
 
   private modalElement:HTMLElement;
 
@@ -55,7 +55,7 @@ export class PreviewTriggerService {
       }
 
       this.previewModal = this.opModalService.show(
-        WpPreviewModal,
+        WpPreviewModalComponent,
         this.injector,
         { workPackageLink: href, event: e },
         true,

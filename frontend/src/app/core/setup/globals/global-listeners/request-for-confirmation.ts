@@ -27,13 +27,13 @@
 //++
 
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { PasswordConfirmationModal } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
+import { PasswordConfirmationModalComponent } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
 
 function registerListener(
   form:JQuery,
   $event:JQuery.TriggeredEvent,
   opModalService:OpModalService,
-  modal:typeof PasswordConfirmationModal,
+  modal:typeof PasswordConfirmationModalComponent,
 ) {
   const passwordConfirm = form.find('_password_confirmation');
 

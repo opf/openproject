@@ -45,7 +45,7 @@ import { WorkPackageService } from 'core-app/features/work-packages/services/wor
 @Component({
   templateUrl: './wp-destroy.modal.html',
 })
-export class WpDestroyModal extends OpModalComponent implements OnInit {
+export class WpDestroyModalComponent extends OpModalComponent implements OnInit {
   // When deleting multiple
   public workPackages:WorkPackageResource[];
 

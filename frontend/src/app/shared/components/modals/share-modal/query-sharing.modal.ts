@@ -44,7 +44,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 @Component({
   templateUrl: './query-sharing.modal.html',
 })
-export class QuerySharingModal extends OpModalComponent implements OnInit {
+export class QuerySharingModalComponent extends OpModalComponent implements OnInit {
   public query:QueryResource;
 
   public isStarred = false;

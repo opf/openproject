@@ -15,7 +15,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageAction } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
-import { WpDestroyModal } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
+import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
 import { WorkPackageAuthorization } from 'core-app/features/work-packages/services/work-package-authorization.service';
 
 @Directive({
@@ -57,7 +57,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         this.$state.go('work-packages.copy', { copiedFromWorkPackageId: this.workPackage.id });
         break;
       case 'delete':
-        this.opModalService.show(WpDestroyModal, this.injector, { workPackages: [this.workPackage] });
+        this.opModalService.show(WpDestroyModalComponent, this.injector, { workPackages: [this.workPackage] });
         break;
       case 'log_time':
         this.timeEntryCreateService

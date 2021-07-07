@@ -43,9 +43,9 @@ import {
   selectableTitleIdentifier,
   triggerEditingEvent,
 } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
-import { QuerySharingModal } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
-import { WpTableExportModal } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
-import { SaveQueryModal } from 'core-app/shared/components/modals/save-modal/save-query.modal';
+import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
+import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
+import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 
 @Directive({
@@ -232,7 +232,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         onClick: ($event:JQuery.TriggeredEvent) => {
           const { query } = this;
           if (!query.persisted && this.allowQueryAction($event, 'updateImmediately')) {
-            this.opModalService.show(SaveQueryModal, this.injector);
+            this.opModalService.show(SaveQueryModalComponent, this.injector);
           } else if (query.id && this.allowQueryAction($event, 'updateImmediately')) {
             this.wpListService.save(query);
           }
@@ -247,7 +247,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-save',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowFormAction($event, 'create_new')) {
-            this.opModalService.show(SaveQueryModal, this.injector);
+            this.opModalService.show(SaveQueryModalComponent, this.injector);
           }
 
           return true;
@@ -274,7 +274,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-export',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowWorkPackageAction($event, 'representations')) {
-            this.opModalService.show(WpTableExportModal, this.injector);
+            this.opModalService.show(WpTableExportModalComponent, this.injector);
           }
 
           return true;
@@ -287,7 +287,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-watched',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowQueryAction($event, 'unstar') || this.allowQueryAction($event, 'star')) {
-            this.opModalService.show(QuerySharingModal, this.injector);
+            this.opModalService.show(QuerySharingModalComponent, this.injector);
           }
 
           return true;

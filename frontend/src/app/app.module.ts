@@ -63,10 +63,10 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
 import { MainMenuToggleComponent } from 'core-app/core/main-menu/main-menu-toggle.component';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { ConfirmDialogModal } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
-import { DynamicContentModal } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
-import { PasswordConfirmationModal } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
-import { WpPreviewModal } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
+import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
+import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
+import { PasswordConfirmationModalComponent } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
+import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
 import { ConfirmFormSubmitController } from 'core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive';
 import { ProjectMenuAutocompleteComponent } from 'core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
@@ -193,10 +193,10 @@ export function initializeServices(injector:Injector) {
     OpContextMenuTrigger,
 
     // Modals
-    ConfirmDialogModal,
-    DynamicContentModal,
-    PasswordConfirmationModal,
-    WpPreviewModal,
+    ConfirmDialogModalComponent,
+    DynamicContentModalComponent,
+    PasswordConfirmationModalComponent,
+    WpPreviewModalComponent,
 
     // Main menu
     MainMenuResizerComponent,

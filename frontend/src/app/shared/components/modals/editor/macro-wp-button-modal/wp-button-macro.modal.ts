@@ -41,7 +41,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 @Component({
   templateUrl: './wp-button-macro.modal.html',
 })
-export class WpButtonMacroModal extends OpModalComponent implements AfterViewInit {
+export class WpButtonMacroModalComponent extends OpModalComponent implements AfterViewInit {
   public changed = false;
 
   public showClose = true;

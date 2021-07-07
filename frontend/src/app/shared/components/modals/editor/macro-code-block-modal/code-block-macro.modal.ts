@@ -37,7 +37,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 @Component({
   templateUrl: './code-block-macro.modal.html',
 })
-export class CodeBlockMacroModal extends OpModalComponent implements AfterViewInit {
+export class CodeBlockMacroModalComponent extends OpModalComponent implements AfterViewInit {
   public changed = false;
 
   public showClose = true;

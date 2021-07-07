@@ -67,12 +67,12 @@ import { WorkPackageFilterButtonComponent } from 'core-app/features/work-package
 import { WorkPackageDetailsViewButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { WpTableConfigurationColumnsTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/columns-tab.component';
-import { WpTableConfigurationDisplaySettingsTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/display-settings-tab.component';
+import { WpTableConfigurationColumnsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/columns-tab.component';
+import { WpTableConfigurationDisplaySettingsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/display-settings-tab.component';
 import { WpTableConfigurationFiltersTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/filters-tab.component';
-import { WpTableConfigurationSortByTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component';
-import { WpTableConfigurationTimelinesTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
-import { WpTableConfigurationHighlightingTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
+import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component';
+import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
+import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
 import { WpTableConfigurationRelationSelectorComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration-relation-selector';
 import { WorkPackageWatchersTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import { WorkPackageWatcherEntryComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watcher-entry.component';
@@ -103,10 +103,10 @@ import { QueryFiltersService } from 'core-app/features/work-packages/components/
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 import { OpenprojectBcfModule } from 'core-app/features/bim/bcf/openproject-bcf.module';
-import { WorkPackageRelationsAutocomplete } from 'core-app/features/work-packages/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component';
+import { WorkPackageRelationsAutocompleteComponent } from 'core-app/features/work-packages/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component';
 import { CustomDateActionAdminComponent } from 'core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component';
-import { WorkPackagesTableConfigMenu } from 'core-app/features/work-packages/components/wp-table/config-menu/config-menu.component';
-import { WorkPackageViewToggleButton } from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
+import { WorkPackagesTableConfigMenuComponent } from 'core-app/features/work-packages/components/wp-table/config-menu/config-menu.component';
+import { WorkPackageViewToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
 import { WorkPackageViewDropdownMenuDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-view-dropdown-menu.directive';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { OpenprojectProjectsModule } from 'core-app/features/projects/openproject-projects.module';
@@ -125,13 +125,13 @@ import { WorkPackageGroupToggleDropdownMenuDirective } from 'core-app/shared/com
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpWpTabsModule } from 'core-app/features/work-packages/components/wp-tabs/wp-tabs.module';
 import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.module';
-import { DatePickerModal } from 'core-app/shared/components/datepicker/datepicker.modal';
-import { WpTableExportModal } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
-import { WpButtonMacroModal } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
-import { QuerySharingModal } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
-import { SaveQueryModal } from 'core-app/shared/components/modals/save-modal/save-query.modal';
-import { QuerySharingForm } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
-import { WpDestroyModal } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
+import { DatePickerModalComponent } from 'core-app/shared/components/datepicker/datepicker.modal';
+import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
+import { WpButtonMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
+import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
+import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
+import { QuerySharingFormComponent } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
+import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
 import { WorkPackageTypeStatusComponent } from 'core-app/features/work-packages/components/wp-type-status/wp-type-status.component';
 import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { WorkPackageBreadcrumbParentComponent } from 'core-app/features/work-packages/components/wp-breadcrumb/wp-breadcrumb-parent.component';
@@ -263,7 +263,7 @@ import { FilterBooleanValueComponent } from 'core-app/features/work-packages/com
     WorkPackagesGridComponent,
 
     WorkPackagesTableComponent,
-    WorkPackagesTableConfigMenu,
+    WorkPackagesTableConfigMenuComponent,
     WorkPackageTablePaginationComponent,
 
     WpResizerDirective,
@@ -343,7 +343,7 @@ import { FilterBooleanValueComponent } from 'core-app/features/work-packages/com
     WorkPackageRelationRowComponent,
     WorkPackageRelationsCreateComponent,
     WorkPackageRelationsHierarchyComponent,
-    WorkPackageRelationsAutocomplete,
+    WorkPackageRelationsAutocompleteComponent,
     WorkPackageBreadcrumbParentComponent,
 
     // Split view
@@ -359,19 +359,19 @@ import { FilterBooleanValueComponent } from 'core-app/features/work-packages/com
 
     // Modals
     WpTableConfigurationModalComponent,
-    WpTableConfigurationColumnsTab,
-    WpTableConfigurationDisplaySettingsTab,
+    WpTableConfigurationColumnsTabComponent,
+    WpTableConfigurationDisplaySettingsTabComponent,
     WpTableConfigurationFiltersTab,
-    WpTableConfigurationSortByTab,
-    WpTableConfigurationTimelinesTab,
-    WpTableConfigurationHighlightingTab,
+    WpTableConfigurationSortByTabComponent,
+    WpTableConfigurationTimelinesTabComponent,
+    WpTableConfigurationHighlightingTabComponent,
     WpTableConfigurationRelationSelectorComponent,
-    WpTableExportModal,
-    QuerySharingForm,
-    QuerySharingModal,
-    SaveQueryModal,
-    WpDestroyModal,
-    DatePickerModal,
+    WpTableExportModalComponent,
+    QuerySharingFormComponent,
+    QuerySharingModalComponent,
+    SaveQueryModalComponent,
+    WpDestroyModalComponent,
+    DatePickerModalComponent,
 
     // CustomActions
     WpCustomActionComponent,
@@ -381,12 +381,12 @@ import { FilterBooleanValueComponent } from 'core-app/features/work-packages/com
     // CKEditor macros which could not be included in the
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
-    WpButtonMacroModal,
+    WpButtonMacroModalComponent,
 
     // Card view
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
-    WorkPackageViewToggleButton,
+    WorkPackageViewToggleButtonComponent,
 
   ],
   exports: [

@@ -4,7 +4,7 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabl
 @Component({
   templateUrl: './filters-tab.component.html',
 })
-export class WpGraphConfigurationFiltersTab implements TabComponent {
+export class WpGraphConfigurationFiltersTabComponent implements TabComponent {
   @ViewChild('tabInner', { static: true })
   tabInner:TabComponent;
 

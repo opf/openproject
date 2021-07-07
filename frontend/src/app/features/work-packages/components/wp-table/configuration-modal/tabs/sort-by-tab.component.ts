@@ -24,7 +24,7 @@ export type SortingMode = 'automatic'|'manual';
 @Component({
   templateUrl: './sort-by-tab.component.html',
 })
-export class WpTableConfigurationSortByTab implements TabComponent {
+export class WpTableConfigurationSortByTabComponent implements TabComponent {
   public text = {
     title: this.I18n.t('js.label_sort_by'),
     placeholder: this.I18n.t('js.placeholders.default'),

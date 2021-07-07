@@ -6,7 +6,7 @@ import { OpenprojectAccessibilityModule } from 'core-app/shared/directives/a11y/
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 
 import { AttributeHelpTextComponent } from './attribute-help-text.component';
-import { AttributeHelpTextModal } from './attribute-help-text.modal';
+import { AttributeHelpTextModalComponent } from './attribute-help-text.modal';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { AttributeHelpTextModal } from './attribute-help-text.modal';
   ],
   declarations: [
     AttributeHelpTextComponent,
-    AttributeHelpTextModal,
+    AttributeHelpTextModalComponent,
   ],
   providers: [
   ],

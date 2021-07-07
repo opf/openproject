@@ -19,7 +19,7 @@ import { StateService } from '@uirouter/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { WpDestroyModal } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
+import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @InjectField() protected states!:States;
@@ -102,7 +102,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
   private deleteSelectedWorkPackages() {
     const selected = this.getSelectedWorkPackages();
-    this.opModalService.show(WpDestroyModal, this.injector, { workPackages: selected });
+    this.opModalService.show(WpDestroyModalComponent, this.injector, { workPackages: selected });
   }
 
   private editSelectedWorkPackages(link:any) {

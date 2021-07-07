@@ -45,7 +45,7 @@ export const eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?a
   templateUrl: './enterprise-trial.modal.html',
   styleUrls: ['./enterprise-trial.modal.sass'],
 })
-export class EnterpriseTrialModal extends OpModalComponent implements AfterViewInit {
+export class EnterpriseTrialModalComponent extends OpModalComponent implements AfterViewInit {
   @ViewChild(EETrialFormComponent, { static: false }) formComponent:EETrialFormComponent;
 
   @Input() public opReferrer:string;

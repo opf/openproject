@@ -4,7 +4,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { DraggableAutocompleteComponent } from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
 import { DynamicModule } from 'ng-dynamic-component';
-import { ColorsAutocompleter } from 'core-app/shared/components/colors/colors-autocompleter.component';
+import { ColorsAutocompleterComponent } from 'core-app/shared/components/colors/colors-autocompleter.component';
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 import { TimeEntryWorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component';
 import { AutocompleteSelectDecorationComponent } from 'core-app/shared/components/autocompleter/autocomplete-select-decoration/autocomplete-select-decoration.component';
@@ -27,7 +27,7 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   TimeEntryWorkPackageAutocompleterComponent,
   DraggableAutocompleteComponent,
   UserAutocompleterComponent,
-  ColorsAutocompleter,
+  ColorsAutocompleterComponent,
   AutocompleteSelectDecorationComponent,
   OpAutocompleterComponent,
   OpAutocompleterOptionTemplateDirective,

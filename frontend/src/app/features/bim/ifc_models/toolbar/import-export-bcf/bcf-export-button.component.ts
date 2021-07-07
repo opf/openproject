@@ -38,7 +38,7 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { StateService } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WpTableExportModal } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
+import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 
 @Component({
   template: `
@@ -92,7 +92,7 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
   }
 
   public showDelayedExport(event:any) {
-    this.opModalService.show(WpTableExportModal, this.injector, { link: this.exportLink });
+    this.opModalService.show(WpTableExportModalComponent, this.injector, { link: this.exportLink });
     event.preventDefault();
   }
 }

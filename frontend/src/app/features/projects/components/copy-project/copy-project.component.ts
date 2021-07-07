@@ -3,7 +3,7 @@ import {
   IOPFormlyFieldSettings,
   IOPFormlyTemplateOptions,
 } from 'core-app/shared/components/dynamic-forms/typings';
-import { JobStatusModal } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -60,7 +60,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   onSubmitted(response:HalSource) {
-    this.modalService.show(JobStatusModal, 'global', { jobId: response.jobId });
+    this.modalService.show(JobStatusModalComponent, 'global', { jobId: response.jobId });
   }
 
   private isHiddenField(key:string|undefined):boolean {

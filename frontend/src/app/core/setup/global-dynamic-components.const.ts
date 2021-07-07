@@ -5,7 +5,7 @@ import {
   wpEmbeddedTableMacroSelector,
 } from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
 import {
-  ColorsAutocompleter,
+  ColorsAutocompleterComponent,
   colorsAutocompleterSelector,
 } from 'core-app/shared/components/colors/colors-autocompleter.component';
 import {
@@ -177,7 +177,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
   { selector: attributeHelpTextSelector, cls: AttributeHelpTextComponent },
   { selector: wpEmbeddedTableMacroSelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
-  { selector: colorsAutocompleterSelector, cls: ColorsAutocompleter },
+  { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },
   { selector: attachmentsSelector, cls: AttachmentsComponent, embeddable: true },
   { selector: usersAutocompleterSelector, cls: UserAutocompleterComponent },

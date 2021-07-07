@@ -7,7 +7,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
-import { TimeEntryEditModal } from './edit.modal';
+import { TimeEntryEditModalComponent } from './edit.modal';
 
 @Injectable()
 export class TimeEntryEditService {
@@ -24,7 +24,7 @@ export class TimeEntryEditService {
       this
         .createChangeset(entry)
         .then((changeset) => {
-          const modal = this.opModalService.show(TimeEntryEditModal, this.injector, { changeset });
+          const modal = this.opModalService.show(TimeEntryEditModalComponent, this.injector, { changeset });
 
           modal
             .closingEvent

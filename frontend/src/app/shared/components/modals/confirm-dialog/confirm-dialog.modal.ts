@@ -51,7 +51,7 @@ export interface ConfirmDialogOptions {
 @Component({
   templateUrl: './confirm-dialog.modal.html',
 })
-export class ConfirmDialogModal extends OpModalComponent {
+export class ConfirmDialogModalComponent extends OpModalComponent {
   public showClose:boolean;
 
   public confirmed = false;

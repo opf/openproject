@@ -28,7 +28,7 @@
 
 import { Component, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { EnterpriseTrialModal } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
+import { EnterpriseTrialModalComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 
@@ -62,7 +62,7 @@ export class EnterpriseBaseComponent {
     // cancel request and open first modal window
     this.eeTrialService.cancelled = true;
     this.eeTrialService.modalOpen = true;
-    this.opModalService.show(EnterpriseTrialModal, this.injector);
+    this.opModalService.show(EnterpriseTrialModalComponent, this.injector);
   }
 
   public get noTrialRequested() {

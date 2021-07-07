@@ -21,7 +21,7 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
   templateUrl: './job-status.modal.html',
   styleUrls: ['./job-status.modal.sass'],
 })
-export class JobStatusModal extends OpModalComponent implements OnInit {
+export class JobStatusModalComponent extends OpModalComponent implements OnInit {
   /* Close on escape? */
   public closeOnEscape = false;
 

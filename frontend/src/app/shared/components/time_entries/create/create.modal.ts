@@ -12,7 +12,7 @@ import { TimeEntryBaseModal } from '../shared/modal/base.modal';
     HalResourceEditingService,
   ],
 })
-export class TimeEntryCreateModal extends TimeEntryBaseModal {
+export class TimeEntryCreateModalComponent extends TimeEntryBaseModal {
   public createdEntry:TimeEntryResource;
 
   public get deleteAllowed() {
