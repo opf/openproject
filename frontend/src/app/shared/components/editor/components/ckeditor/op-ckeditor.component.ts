@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,
+} from '@angular/core';
 import {
   CKEditorSetupService,
   ICKEditorContext,

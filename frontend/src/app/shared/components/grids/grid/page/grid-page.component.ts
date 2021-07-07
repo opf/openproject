@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Directive, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  ChangeDetectorRef, Directive, OnDestroy, OnInit, Renderer2,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Title } from '@angular/platform-browser';
 import { GridInitializationService } from 'core-app/shared/components/grids/grid/initialization.service';

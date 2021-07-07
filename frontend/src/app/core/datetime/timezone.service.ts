@@ -34,7 +34,7 @@ import { Moment } from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
-  constructor(readonly ConfigurationService:ConfigurationService,
+  constructor(readonly configurationService:ConfigurationService,
     readonly I18n:I18nService) {
     this.setupLocale();
   }
@@ -50,9 +50,9 @@ export class TimezoneService {
   public parseDatetime(datetime:string, format?:string):Moment {
     const d = moment.utc(datetime, format);
 
-    if (this.ConfigurationService.isTimezoneSet()) {
+    if (this.configurationService.isTimezoneSet()) {
       d.local();
-      d.tz(this.ConfigurationService.timezone());
+      d.tz(this.configurationService.timezone());
     }
 
     return d;
@@ -76,8 +76,8 @@ export class TimezoneService {
     let result;
     format = format || this.getTimeFormat();
 
-    if (this.ConfigurationService.isTimezoneSet()) {
-      result = moment.tz(date, format!, this.ConfigurationService.timezone());
+    if (this.configurationService.isTimezoneSet()) {
+      result = moment.tz(date, format!, this.configurationService.timezone());
     } else {
       result = moment(date, format);
     }
@@ -179,10 +179,10 @@ export class TimezoneService {
   }
 
   public getDateFormat() {
-    return this.ConfigurationService.dateFormatPresent() ? this.ConfigurationService.dateFormat() : 'L';
+    return this.configurationService.dateFormatPresent() ? this.configurationService.dateFormat() : 'L';
   }
 
   public getTimeFormat() {
-    return this.ConfigurationService.timeFormatPresent() ? this.ConfigurationService.timeFormat() : 'LT';
+    return this.configurationService.timeFormatPresent() ? this.configurationService.timeFormat() : 'LT';
   }
 }

@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, Injector, OnInit,
+} from '@angular/core';
 import { WidgetTimeEntriesListComponent } from 'core-app/shared/components/grids/widgets/time-entries/list/time-entries-list.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';

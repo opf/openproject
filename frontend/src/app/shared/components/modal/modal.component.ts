@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Directive, ElementRef, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Directive, ElementRef, EventEmitter, OnDestroy, OnInit,
+} from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';

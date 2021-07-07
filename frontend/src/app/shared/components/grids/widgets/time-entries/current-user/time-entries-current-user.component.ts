@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector,
+} from '@angular/core';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';

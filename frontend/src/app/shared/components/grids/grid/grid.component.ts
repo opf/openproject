@@ -1,4 +1,6 @@
-import { Component, ComponentRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component, ComponentRef, HostListener, Input, OnDestroy, OnInit,
+} from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';

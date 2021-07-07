@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { StateDeclaration, StateService, Transition, TransitionService, UIRouter } from '@uirouter/core';
+import {
+  StateDeclaration, StateService, Transition, TransitionService, UIRouter,
+} from '@uirouter/core';
 import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { Injector } from '@angular/core';

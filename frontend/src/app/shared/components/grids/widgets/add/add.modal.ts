@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Component, ElementRef, Inject } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject,
+} from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';

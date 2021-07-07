@@ -45,7 +45,7 @@ export class GridInitializationService {
       .pipe(
         switchMap((form) => {
           const source = form.payload.$source;
-          const resource: GridResource = this.halResourceService.createHalResource(source);
+          const resource:GridResource = this.halResourceService.createHalResource(source);
 
           if (resource.widgets.length === 0) {
             resource.rowCount = 1;

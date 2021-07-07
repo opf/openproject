@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,
+} from '@angular/core';
 import { HttpErrorResponse, HttpEventType, HttpProgressEvent } from '@angular/common/http';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';

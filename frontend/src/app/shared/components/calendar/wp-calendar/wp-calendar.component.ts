@@ -1,4 +1,6 @@
-import { Component, ElementRef, Input, OnInit, SecurityContext, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, Input, OnInit, SecurityContext, ViewChild,
+} from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';

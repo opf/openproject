@@ -57,7 +57,7 @@ module.exports = {
           },
         ],
 
-        // Who cares about line lenght
+        // Who cares about line length
         "max-len": "off",
 
         // Force single quotes to align with ruby
@@ -92,6 +92,8 @@ module.exports = {
         "@typescript-eslint/no-empty-interface": "off",
 
         "import/prefer-default-export": "off",
+
+        "no-underscore-dangle": "warn",
 
         //////////////////////////////////////////////////////////////////////
         // Anything below this line should be turned on again at some point //

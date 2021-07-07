@@ -27,7 +27,9 @@
 //++
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, Injector, ViewChild,
+} from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';

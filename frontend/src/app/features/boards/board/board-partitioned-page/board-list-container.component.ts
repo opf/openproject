@@ -1,5 +1,9 @@
-import { Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { forkJoin, Observable, of, Subscription } from 'rxjs';
+import {
+  Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren,
+} from '@angular/core';
+import {
+  forkJoin, Observable, of, Subscription,
+} from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 import { StateService } from '@uirouter/core';
@@ -19,7 +23,9 @@ import { BoardPartitionedPageComponent } from 'core-app/features/boards/board/bo
 import { AddListModalComponent } from 'core-app/features/boards/board/add-list-modal/add-list-modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError, filter, map, switchMap, tap,
+} from 'rxjs/operators';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';

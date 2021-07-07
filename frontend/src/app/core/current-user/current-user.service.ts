@@ -28,7 +28,9 @@
 
 import { Injectable } from '@angular/core';
 import { forkJoin, of } from 'rxjs';
-import { distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
+import {
+  distinctUntilChanged, map, mergeMap, take,
+} from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';

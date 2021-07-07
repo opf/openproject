@@ -95,7 +95,7 @@ export class WorkPackageEmbeddedGraphComponent {
   }
 
   protected setChartOptions() {
-    const defaults: ChartOptions = {
+    const defaults:ChartOptions = {
       responsive: true,
       maintainAspectRatio: false,
       legend: {

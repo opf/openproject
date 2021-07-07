@@ -29,7 +29,9 @@
 import { Injectable } from '@angular/core';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { NEVER, Observable, throwError } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import {
+  filter, map, take, tap,
+} from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { multiInput } from 'reactivestates';
 import { TransitionService } from '@uirouter/core';

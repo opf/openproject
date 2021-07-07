@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, NgZone, OnInit,
+} from '@angular/core';
 import { WorkPackageListViewComponent } from 'core-app/features/work-packages/routing/wp-list-view/wp-list-view.component';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';

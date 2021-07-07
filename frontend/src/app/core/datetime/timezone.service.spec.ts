@@ -92,7 +92,7 @@ describe('TimezoneService', () => {
       });
 
       it('has local time zone', () => {
-        expect(timezoneService.ConfigurationService.timezone()).toEqual('America/Vancouver');
+        expect(timezoneService.configurationService.timezone()).toEqual('America/Vancouver');
       });
     });
   });

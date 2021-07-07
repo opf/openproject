@@ -28,7 +28,9 @@
 
 import { BehaviorSubject } from 'rxjs';
 import { auditTime } from 'rxjs/operators';
-import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  Directive, ElementRef, Input, OnInit,
+} from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 // with courtesy of http://stackoverflow.com/a/29722694/3206935

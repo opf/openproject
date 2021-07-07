@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, Component, EventEmitter, Injector, Output, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit, Component, EventEmitter, Injector, Output, ViewEncapsulation,
+} from '@angular/core';
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 
 export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';

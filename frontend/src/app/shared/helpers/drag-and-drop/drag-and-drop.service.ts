@@ -1,4 +1,6 @@
-import { Inject, Injectable, Injector, OnDestroy } from '@angular/core';
+import {
+  Inject, Injectable, Injector, OnDestroy,
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { DragAndDropHelpers } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';

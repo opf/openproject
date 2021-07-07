@@ -34,7 +34,9 @@ import { NotificationsService } from 'core-app/shared/components/notifications/n
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from '@angular/core';
 import { QuerySharingChange } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';

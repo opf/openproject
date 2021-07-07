@@ -1,4 +1,6 @@
-import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component, forwardRef, Input, OnInit, ViewChild,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { FormlyTemplateOptions } from '@ngx-formly/core';
 import {

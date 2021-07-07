@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, ViewChild,
+} from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';

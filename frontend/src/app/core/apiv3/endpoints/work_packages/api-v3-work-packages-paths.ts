@@ -136,7 +136,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    */
   public filterUpdatedSince(ids:(string|null)[], timestamp:ApiV3FilterValueType):ApiV3WorkPackageCachedSubresource {
     const filters = new ApiV3FilterBuilder()
-      .add('id', '=', (ids.filter(n => n) as string[]))
+      .add('id', '=', (ids.filter((n) => n) as string[]))
       .add('updatedAt', '<>d', [timestamp, '']);
 
     const params = {

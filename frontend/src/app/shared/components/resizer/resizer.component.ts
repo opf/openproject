@@ -1,4 +1,6 @@
-import { Component, EventEmitter, HostListener, Input, OnDestroy, Output } from '@angular/core';
+import {
+  Component, EventEmitter, HostListener, Input, OnDestroy, Output,
+} from '@angular/core';
 import { DomHelpers } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 
 export interface ResizeDelta {

@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Event as SentryEvent, Hub, Scope, Severity } from '@sentry/types';
+import {
+  Event as SentryEvent, Hub, Scope, Severity,
+} from '@sentry/types';
 import { environment } from '../../../../environments/environment';
 
 export type ScopeCallback = (scope:Scope) => void;
@@ -66,7 +68,7 @@ export class SentryReporter implements ErrorReporter {
   private client:Hub;
 
   constructor() {
-    const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement|null;
+    const sentryElement = document.querySelector('meta[name=openproject_sentry]');
     if (sentryElement !== null) {
       this.loadSentry(sentryElement);
     } else {

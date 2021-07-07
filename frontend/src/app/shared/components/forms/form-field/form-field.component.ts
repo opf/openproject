@@ -1,4 +1,6 @@
-import { Component, ContentChild, HostBinding, Input, Optional } from '@angular/core';
+import {
+  Component, ContentChild, HostBinding, Input, Optional,
+} from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 
 @Component({

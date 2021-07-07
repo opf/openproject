@@ -161,7 +161,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
       },
     };
 
-    const schema: SchemaResource = this.halResource.createHalResource(schemaSource, true);
+    const schema:SchemaResource = this.halResource.createHalResource(schemaSource, true);
 
     this.schemaCache.update(resource, schema);
 
