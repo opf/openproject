@@ -1297,8 +1297,10 @@ it:
     work_packages:
       subject:
         assigned: "Sei stato assegnato a %{work_package}"
-        subscribed: "Sei iscritto a %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
         mentioned: "Sei stato menzionato in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accessibilità"
   label_account: "Account"
   label_active: "Attivo"

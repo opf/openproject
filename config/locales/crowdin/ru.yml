@@ -1334,8 +1334,10 @@ ru:
     work_packages:
       subject:
         assigned: "Вы были назначены %{work_package}"
-        subscribed: "Вы подписаны на %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
         mentioned: "Вы были назначены %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Спец. возможности"
   label_account: "Учетная запись"
   label_active: "Активно"
