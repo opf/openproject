@@ -127,7 +127,7 @@ describe('wpTablePagination Directive', () => {
           app.update();
           fixture.detectChanges();
 
-          const liWithNextLink = element.find('.op-pagination--next-link').parent('li');
+          const liWithNextLink = element.find('.op-pagination--item-link_next').parent('li');
           const attrHidden = liWithNextLink.attr('hidden');
           expect(attrHidden).toBeDefined();
         }));

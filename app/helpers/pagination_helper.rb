@@ -96,7 +96,7 @@ module PaginationHelper
       if n == paginator.per_page
         html + content_tag(:li, n, class: 'op-pagination--item op-pagination--item_current')
       else
-        link = link_to_content_update(n, options.merge(page: 1, per_page: n))
+        link = link_to_content_update(n, options.merge(page: 1, per_page: n), { class: 'op-pagination--item-link' })
         html + content_tag(:li, link.html_safe, class: 'op-pagination--item')
       end
     end.html_safe
@@ -172,7 +172,7 @@ module PaginationHelper
       if page == current_page
         tag(:li, page, class: 'op-pagination--item op-pagination--item_current')
       else
-        tag(:li, link(page, page), class: 'op-pagination--item')
+        tag(:li, link(page, page, { class: 'op-pagination--item-link' }), class: 'op-pagination--item')
       end
     end
 
@@ -182,17 +182,19 @@ module PaginationHelper
 
     def previous_page
       num = @collection.current_page > 1 && @collection.current_page - 1
-      previous_or_next_page(num, I18n.t(:label_previous), 'op-pagination--item_prev')
+      previous_or_next_page(num, I18n.t(:label_previous), 'prev')
     end
 
     def next_page
       num = @collection.current_page < total_pages && @collection.current_page + 1
-      previous_or_next_page(num, I18n.t(:label_next), 'op-pagination--item_next')
+      previous_or_next_page(num, I18n.t(:label_next), 'next')
     end
 
-    def previous_or_next_page(page, text, classname)
+    def previous_or_next_page(page, text, class_suffix)
       if page
-        tag(:li, link(text, page), class: 'op-pagination--item ' + classname)
+        tag(:li,
+            link(text, page, { class: 'op-pagination--item-link op-pagination--item-link_' + class_suffix }),
+            class: 'op-pagination--item op-pagination--item_' + class_suffix)
       else
         ''
       end

@@ -86,15 +86,9 @@
 
 // Footer of the left side
 .work-packages-split-view--tabletimeline-footer
-  // Only add padding to lower/right corner
-  // to override default margins
-  .op-pagination
-    margin: 0
-    padding: 15px 10px 10px 0
-
-  .op-pagination--pages,
-  .op-pagination--options
-    margin: 0
+  // Only add margin to lower/right corner
+  // to avoid that the toolbar sticks directly at the screen border
+  margin-right: 5px
 
 // TABLE half of the tabletimeline flexbox
 .work-packages-tabletimeline--table-side
