@@ -40,7 +40,7 @@ export class ShowSectionDropdownComponent implements OnInit {
 
   public hideSecWithName:string; // section-name of hide-section
 
-  constructor(private HideSectionService:HideSectionService,
+  constructor(private HideSection:HideSectionService,
     private elementRef:ElementRef) {
   }
 
@@ -54,9 +54,9 @@ export class ShowSectionDropdownComponent implements OnInit {
       const selectedOption = jQuery('option:selected', event.target);
 
       if (selectedOption.val() !== this.optValue) {
-        this.HideSectionService.hide(this.hideSecWithName);
+        this.HideSection.hide(this.hideSecWithName);
       } else {
-        this.HideSectionService.show(this.hideSecWithName);
+        this.HideSection.show(this.hideSecWithName);
       }
     });
   }

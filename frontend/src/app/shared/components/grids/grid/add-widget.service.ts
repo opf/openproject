@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { AddGridWidgetModal } from 'core-app/shared/components/grids/widgets/add/add.modal';
+import { AddGridWidgetModalComponent } from 'core-app/shared/components/grids/widgets/add/add.modal';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -58,8 +58,8 @@ export class GridAddWidgetService {
 
   private select(area:GridArea) {
     return new Promise<GridWidgetResource>((resolve, reject) => {
-      const modal = this.opModalService.show(AddGridWidgetModal, this.injector, { schema: this.layout.schema });
-      modal.closingEvent.subscribe((modal:AddGridWidgetModal) => {
+      const modal = this.opModalService.show(AddGridWidgetModalComponent, this.injector, { schema: this.layout.schema });
+      modal.closingEvent.subscribe((modal:AddGridWidgetModalComponent) => {
         const registered = modal.chosenWidget;
 
         if (!registered) {

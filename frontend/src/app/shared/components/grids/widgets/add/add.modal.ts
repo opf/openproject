@@ -12,7 +12,7 @@ import { BannersService } from 'core-app/core/enterprise/banners.service';
 @Component({
   templateUrl: './add.modal.html',
 })
-export class AddGridWidgetModal extends OpModalComponent {
+export class AddGridWidgetModalComponent extends OpModalComponent {
   text = {
     title: this.i18n.t('js.grid.add_widget'),
     close_popup: this.i18n.t('js.button_close'),

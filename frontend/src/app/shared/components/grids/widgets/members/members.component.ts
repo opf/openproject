@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { MembershipResource } from 'core-app/features/hal/resources/membership-resource';
 import { RoleResource } from 'core-app/features/hal/resources/role-resource';

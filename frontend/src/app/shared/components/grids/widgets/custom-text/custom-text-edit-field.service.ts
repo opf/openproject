@@ -6,7 +6,6 @@ import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
@@ -48,11 +47,12 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   public reset(withText = '') {
+    let resetText:string = withText;
     if (withText.length > 0) {
-      withText += '\n';
+      resetText += '\n';
     }
 
-    this.changeset.setValue(this.fieldName, { raw: withText });
+    this.changeset.setValue(this.fieldName, { raw: resetText });
   }
 
   public get schema():IFieldSchema {
@@ -109,14 +109,16 @@ export class CustomTextEditFieldService extends EditFieldHandler {
 
   focus():void {
     const trigger = this.elementRef.nativeElement.querySelector('.inplace-editing--trigger-container');
-    trigger && trigger.focus();
+    if (trigger) {
+      trigger.focus();
+    }
   }
 
-  setErrors(newErrors:string[]):void {
+  setErrors():void {
     // interface
   }
 
-  handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel?:boolean):void {
+  handleUserKeydown():void {
     // interface
   }
 
@@ -124,7 +126,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     return !this.changeset.isEmpty();
   }
 
-  stopPropagation(evt:JQuery.TriggeredEvent):boolean {
+  stopPropagation():boolean {
     return false;
   }
 

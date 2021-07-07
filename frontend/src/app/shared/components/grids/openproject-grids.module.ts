@@ -40,7 +40,7 @@ import { WidgetWpCalendarComponent } from 'core-app/shared/components/grids/widg
 import { WidgetTimeEntriesCurrentUserComponent } from 'core-app/shared/components/grids/widgets/time-entries/current-user/time-entries-current-user.component';
 import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
 import { GridComponent } from 'core-app/shared/components/grids/grid/grid.component';
-import { AddGridWidgetModal } from 'core-app/shared/components/grids/widgets/add/add.modal';
+import { AddGridWidgetModalComponent } from 'core-app/shared/components/grids/widgets/add/add.modal';
 import { WidgetDocumentsComponent } from 'core-app/shared/components/grids/widgets/documents/documents.component';
 import { WidgetNewsComponent } from 'core-app/shared/components/grids/widgets/news/news.component';
 import { WidgetWpTableComponent } from 'core-app/shared/components/grids/widgets/wp-table/wp-table.component';
@@ -134,7 +134,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
     WidgetTimeEntriesCurrentUserMenuComponent,
     TimeEntriesCurrentUserConfigurationModalComponent,
 
-    AddGridWidgetModal,
+    AddGridWidgetModalComponent,
 
     WidgetHeaderComponent,
   ],

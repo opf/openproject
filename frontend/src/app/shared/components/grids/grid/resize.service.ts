@@ -66,7 +66,7 @@ export class GridResizeService {
       .map((area) => area.guid);
   }
 
-  public moving(deltas:ResizeDelta) {
+  public moving() {
     if (!this.resizedArea
       || !this.layout.mousedOverArea
       || !this.targetIds.includes(this.layout.mousedOverArea.guid)) {
