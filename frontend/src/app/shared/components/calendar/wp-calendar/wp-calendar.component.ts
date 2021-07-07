@@ -221,7 +221,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       { inherit: false });
   }
   private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('.wp-calendar--container');
+    return jQuery(this.element.nativeElement).find('[data-qa-selector="op-wp-calendar"]');
   }
 
   private calendarHeight():number {
