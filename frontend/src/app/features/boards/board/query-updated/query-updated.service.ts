@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { interval } from 'rxjs';
-import { startWith, switchMap, filter } from 'rxjs/operators';
+import { filter, startWith, switchMap } from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 

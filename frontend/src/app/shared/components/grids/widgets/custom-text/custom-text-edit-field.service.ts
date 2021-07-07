@@ -1,5 +1,5 @@
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { ElementRef, Injector, Injectable } from '@angular/core';
+import { ElementRef, Injectable, Injector } from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { BehaviorSubject } from 'rxjs';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';

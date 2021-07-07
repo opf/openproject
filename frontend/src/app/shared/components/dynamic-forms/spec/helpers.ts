@@ -12,7 +12,7 @@ import { FormattableTextareaInputComponent } from 'core-app/shared/components/dy
 import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
-import { FormlyModule, FormlyForm } from '@ngx-formly/core';
+import { FormlyForm, FormlyModule } from '@ngx-formly/core';
 import { IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 
 import { By } from '@angular/platform-browser';

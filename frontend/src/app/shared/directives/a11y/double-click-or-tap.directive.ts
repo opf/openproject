@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  Directive, EventEmitter, HostListener, Input, Output,
-} from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
   selector: '[doubleClickOrTap]',

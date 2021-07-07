@@ -26,8 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourceCollection, APIv3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { Injector } from '@angular/core';
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { RoleResource } from 'core-app/features/hal/resources/role-resource';
 import { APIv3RolePaths } from 'core-app/core/apiv3/endpoints/roles/apiv3-role-paths';
 import { Observable } from 'rxjs';

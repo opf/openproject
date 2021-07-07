@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
 
 /**
  * General components

@@ -1,6 +1,4 @@
-import {
-  AfterViewInit, ChangeDetectorRef, Component, forwardRef, NgZone,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, forwardRef, NgZone } from '@angular/core';
 import { OpDatePickerComponent } from 'core-app/shared/components/op-date-picker/op-date-picker.component';
 import * as moment from 'moment';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';

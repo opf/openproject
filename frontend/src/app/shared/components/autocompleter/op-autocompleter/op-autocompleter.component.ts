@@ -1,5 +1,15 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild, TemplateRef, ContentChild, AfterViewInit, NgZone,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChild,
+  EventEmitter,
+  Input,
+  NgZone,
+  Output,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
 import { Observable, of, Subject } from 'rxjs';

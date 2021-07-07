@@ -1,4 +1,4 @@
-import { Injector, Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { Observable } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';

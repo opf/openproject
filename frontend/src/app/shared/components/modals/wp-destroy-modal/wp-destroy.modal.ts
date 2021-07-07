@@ -28,9 +28,7 @@
 
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { States } from 'core-app/core/states/states.service';
-import {
-  ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';

@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup,
-} from 'reactivestates';
+import { combine, deriveRaw, InputState, multiInput, State, StatesGroup } from 'reactivestates';
 import { filter, map } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { Subject } from 'rxjs';

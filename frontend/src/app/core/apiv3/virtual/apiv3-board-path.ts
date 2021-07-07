@@ -31,7 +31,6 @@ import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
-import { MultiInputState } from 'reactivestates';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { Apiv3BoardsPaths } from 'core-app/core/apiv3/virtual/apiv3-boards-paths';
 

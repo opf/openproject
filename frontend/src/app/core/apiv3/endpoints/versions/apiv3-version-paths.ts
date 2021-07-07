@@ -29,7 +29,6 @@
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { Observable } from 'rxjs';
 import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
-import { MultiInputState } from 'reactivestates';
 import { tap } from 'rxjs/operators';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 

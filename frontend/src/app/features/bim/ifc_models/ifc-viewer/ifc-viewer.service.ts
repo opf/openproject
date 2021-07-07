@@ -1,10 +1,8 @@
-import { Injectable, Inject, Injector } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { XeokitServer } from 'core-app/features/bim/ifc_models/xeokit/xeokit-server';
 import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
-import {
-  BehaviorSubject, Observable, Subject, of,
-} from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';

@@ -1,6 +1,4 @@
-import {
-  input, InputState, multiInput, MultiInputState, StatesGroup,
-} from 'reactivestates';
+import { input, InputState, multiInput, MultiInputState, StatesGroup } from 'reactivestates';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Subject } from 'rxjs';
 import { WorkPackageDisplayRepresentationValue } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';

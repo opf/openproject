@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { filterNilValue, Query } from '@datorama/akita';
-import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
-import {
-  CurrentUserStore,
-  CurrentUserState,
-  CurrentUser,
-} from './current-user.store';
+import { CurrentUserState, CurrentUserStore } from './current-user.store';
 
 @Injectable()
 export class CurrentUserQuery extends Query<CurrentUserState> {

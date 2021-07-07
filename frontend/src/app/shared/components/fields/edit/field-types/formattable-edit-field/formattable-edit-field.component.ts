@@ -25,9 +25,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  Component, OnInit, ViewChild, ChangeDetectionStrategy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {

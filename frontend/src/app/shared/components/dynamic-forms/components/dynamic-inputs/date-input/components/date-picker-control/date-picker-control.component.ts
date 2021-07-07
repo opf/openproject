@@ -1,6 +1,4 @@
-import {
-  AfterViewInit, ChangeDetectorRef, Component, forwardRef, Input, NgZone,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, forwardRef, Input, NgZone } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';

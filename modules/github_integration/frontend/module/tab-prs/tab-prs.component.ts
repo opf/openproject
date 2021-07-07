@@ -26,12 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Input, OnInit} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { ChangeDetectorRef } from '@angular/core';
 import { IGithubPullRequestResource } from "../../../../../../../../modules/github_integration/frontend/module/typings";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 

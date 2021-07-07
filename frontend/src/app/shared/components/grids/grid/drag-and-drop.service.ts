@@ -4,7 +4,7 @@ import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { GridMoveService } from 'core-app/shared/components/grids/grid/move.service';
 import { Subscription } from 'rxjs';
-import { filter, distinctUntilChanged, throttleTime } from 'rxjs/operators';
+import { distinctUntilChanged, filter, throttleTime } from 'rxjs/operators';
 
 @Injectable()
 export class GridDragAndDropService implements OnDestroy {

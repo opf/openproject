@@ -7,7 +7,6 @@ import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { take } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { Injector } from '@angular/core';
 import { SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';

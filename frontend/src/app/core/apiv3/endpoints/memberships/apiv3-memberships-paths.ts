@@ -31,7 +31,8 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Apiv3AvailableProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-available-projects-paths';
 import {
   Apiv3ListParameters,
-  Apiv3ListResourceInterface, listParamsString,
+  Apiv3ListResourceInterface,
+  listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { Observable } from 'rxjs';
 import { Apiv3MembershipsForm } from 'core-app/core/apiv3/endpoints/memberships/apiv3-memberships-form';

@@ -28,7 +28,10 @@
 
 import { Component } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import {
+  DebouncedRequestSwitchmap,
+  errorNotificationHandler,
+} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { take } from 'rxjs/operators';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { SelectEditFieldComponent, ValueOption } from './select-edit-field/select-edit-field.component';

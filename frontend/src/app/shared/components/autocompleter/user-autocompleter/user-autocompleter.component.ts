@@ -26,15 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import {
+  DebouncedRequestSwitchmap,
+  errorNotificationHandler,
+} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';

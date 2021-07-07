@@ -1,7 +1,10 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
-import { DisplayFieldContext, DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import {
+  DisplayFieldContext,
+  DisplayFieldService,
+} from 'core-app/shared/components/fields/display/display-field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { MultipleLinesCustomOptionsDisplayField } from 'core-app/shared/components/fields/display/field-types/multiple-lines-custom-options-display-field.module';
 import { ProgressTextDisplayField } from 'core-app/shared/components/fields/display/field-types/progress-text-display-field.module';
@@ -11,7 +14,6 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { DateDisplayField } from 'core-app/shared/components/fields/display/field-types/date-display-field.module';
 

@@ -33,7 +33,6 @@ import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource
 import { Observable } from 'rxjs';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { CachableAPIV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
-import { MultiInputState } from 'reactivestates';
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,

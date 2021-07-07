@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Input, Directive } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';

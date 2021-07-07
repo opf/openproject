@@ -31,9 +31,7 @@ import { HttpEvent, HttpResponse } from '@angular/common/http';
 import { from, Observable, of } from 'rxjs';
 import { share, switchMap } from 'rxjs/operators';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import {
-  OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress,
-} from './op-file-upload.service';
+import { OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress } from './op-file-upload.service';
 
 interface PrepareUploadResult {
   url:string;

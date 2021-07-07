@@ -25,9 +25,7 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import {
-  ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';

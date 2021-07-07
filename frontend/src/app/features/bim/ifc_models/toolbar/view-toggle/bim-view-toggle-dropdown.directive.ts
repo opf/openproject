@@ -32,14 +32,15 @@ import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { StateService } from '@uirouter/core';
 import {
-  bimListViewIdentifier, bimSplitViewListIdentifier, bimSplitViewCardsIdentifier, bimTableViewIdentifier,
+  bimListViewIdentifier,
+  bimSplitViewCardsIdentifier,
+  bimSplitViewListIdentifier,
+  bimTableViewIdentifier,
   bimViewerViewIdentifier,
   BimViewService,
 } from 'core-app/features/bim/ifc_models/pages/viewer/bim-view.service';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
-import {
-  WorkPackageViewDisplayRepresentationService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
 import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
 
 @Directive({

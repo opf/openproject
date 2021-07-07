@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  Component, ChangeDetectionStrategy, Input, EventEmitter, Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 
 @Component({

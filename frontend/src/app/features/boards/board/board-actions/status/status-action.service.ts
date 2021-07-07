@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
-import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';
 import { ImageHelpers } from 'core-app/shared/helpers/images/path-helper';

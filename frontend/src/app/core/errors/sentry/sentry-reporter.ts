@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  Hub, Severity, Scope, Event as SentryEvent,
-} from '@sentry/types';
+import { Event as SentryEvent, Hub, Scope, Severity } from '@sentry/types';
 import { environment } from '../../../../environments/environment';
 
 export type ScopeCallback = (scope:Scope) => void;

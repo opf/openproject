@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';

@@ -1,19 +1,19 @@
-import {
-  ChangeDetectionStrategy, Component, OnInit, NgZone,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgZone, OnInit } from '@angular/core';
 import { WorkPackageListViewComponent } from 'core-app/features/work-packages/routing/wp-list-view/wp-list-view.component';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import {
-  bimSplitViewCardsIdentifier, bimSplitViewListIdentifier, bimListViewIdentifier, BimViewService,
+  bimSplitViewCardsIdentifier,
+  bimSplitViewListIdentifier,
+  BimViewService,
 } from 'core-app/features/bim/ifc_models/pages/viewer/bim-view.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { UIRouterGlobals } from '@uirouter/core';
-import { pluck, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, pluck } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';

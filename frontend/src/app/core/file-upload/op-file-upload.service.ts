@@ -27,9 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import {
-  HttpClient, HttpEvent, HttpEventType, HttpResponse,
-} from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map, share } from 'rxjs/operators';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';

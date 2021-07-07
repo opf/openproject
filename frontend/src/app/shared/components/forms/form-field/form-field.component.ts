@@ -1,15 +1,5 @@
-import {
-  Component,
-  Input,
-  HostBinding,
-  ContentChild,
-  Optional,
-} from '@angular/core';
-import {
-  NgControl,
-  AbstractControl,
-  FormGroupDirective,
-} from '@angular/forms';
+import { Component, ContentChild, HostBinding, Input, Optional } from '@angular/core';
+import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'op-form-field',

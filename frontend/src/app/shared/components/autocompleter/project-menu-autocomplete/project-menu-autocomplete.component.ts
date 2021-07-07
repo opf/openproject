@@ -35,9 +35,7 @@ import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HttpClient } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export interface IProjectMenuEntry {

@@ -1,9 +1,7 @@
 /**
  * A CDK portal implementation to wrap edit-fields in non-angular contexts.
  */
-import {
-  ApplicationRef, ComponentFactoryResolver, Injectable, Injector,
-} from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
 import { EditFormPortalComponent } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.component';
 import { createLocalInjector } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector';

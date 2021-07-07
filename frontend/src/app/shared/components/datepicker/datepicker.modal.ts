@@ -34,7 +34,8 @@ import {
   ElementRef,
   EventEmitter,
   Inject,
-  Injector, ViewChild,
+  Injector,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';

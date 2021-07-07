@@ -26,18 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  AfterViewInit,
-  Component,
-  ViewEncapsulation,
-  Output,
-  EventEmitter,
-  ChangeDetectorRef,
-  Injector,
-} from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { AfterViewInit, Component, EventEmitter, Injector, Output, ViewEncapsulation } from '@angular/core';
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 
 export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';

@@ -27,7 +27,10 @@
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { projectStatusCodeCssClass, projectStatusI18n } from 'core-app/shared/components/fields/helpers/project-status-helper';
+import {
+  projectStatusCodeCssClass,
+  projectStatusI18n,
+} from 'core-app/shared/components/fields/helpers/project-status-helper';
 
 export class ProjectStatusDisplayField extends DisplayField {
   public render(element:HTMLElement, displayText:string):void {

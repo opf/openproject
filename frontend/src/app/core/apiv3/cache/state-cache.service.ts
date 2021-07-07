@@ -28,9 +28,7 @@
 
 import { MultiInputState, State } from 'reactivestates';
 import { Observable } from 'rxjs';
-import {
-  auditTime, map, share, startWith, take,
-} from 'rxjs/operators';
+import { auditTime, map, share, startWith, take } from 'rxjs/operators';
 
 export interface HasId {
   id:string|null;

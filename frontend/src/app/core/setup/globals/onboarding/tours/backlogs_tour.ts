@@ -1,5 +1,3 @@
-import { onboardingTourStorageKey } from 'core-app/core/setup/globals/onboarding/helpers';
-
 export function scrumBacklogsTourSteps() {
   return [
     {

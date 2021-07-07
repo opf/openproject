@@ -29,9 +29,7 @@
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { StateService } from '@uirouter/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import {
-  Directive, ElementRef, Input, OnInit,
-} from '@angular/core';
+import { Directive, ElementRef, Input } from '@angular/core';
 import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';

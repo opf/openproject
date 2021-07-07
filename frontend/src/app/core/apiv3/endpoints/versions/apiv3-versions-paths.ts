@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';

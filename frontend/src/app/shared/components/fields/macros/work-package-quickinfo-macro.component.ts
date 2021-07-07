@@ -27,7 +27,12 @@
 // ++    Ng1FieldControlsWrapper,
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostBinding,
+  Injector,
 } from '@angular/core';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
@@ -37,7 +42,6 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { DateDisplayField } from 'core-app/shared/components/fields/display/field-types/date-display-field.module';
 import { CombinedDateDisplayField } from 'core-app/shared/components/fields/display/field-types/combined-date-display.field';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 

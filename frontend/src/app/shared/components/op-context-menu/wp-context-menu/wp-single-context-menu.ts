@@ -1,6 +1,4 @@
-import {
-  Directive, ElementRef, Injector, Input,
-} from '@angular/core';
+import { Directive, ElementRef, Injector, Input } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';

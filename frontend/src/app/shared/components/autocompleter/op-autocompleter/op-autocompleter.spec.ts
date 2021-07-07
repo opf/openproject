@@ -1,10 +1,8 @@
-import {
-  ComponentFixture, fakeAsync, TestBed, tick,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
-import { NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { By } from '@angular/platform-browser';
 import { OpAutocompleterService } from './services/op-autocompleter.service';

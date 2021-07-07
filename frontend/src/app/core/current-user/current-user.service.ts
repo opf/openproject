@@ -27,15 +27,13 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { of, forkJoin } from 'rxjs';
-import {
-  take, map, mergeMap, distinctUntilChanged, tap,
-} from 'rxjs/operators';
+import { forkJoin, of } from 'rxjs';
+import { distinctUntilChanged, map, mergeMap, take } from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { CurrentUserStore, CurrentUser } from './current-user.store';
+import { CurrentUser, CurrentUserStore } from './current-user.store';
 import { CurrentUserQuery } from './current-user.query';
 
 @Injectable({ providedIn: 'root' })

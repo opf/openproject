@@ -8,7 +8,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { StateService } from '@uirouter/core';
-import { finalize, publish, skip } from 'rxjs/operators';
+import { skip } from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({

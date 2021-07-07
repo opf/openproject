@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { GridResource } from 'core-app/features/hal/resources/grid-resource';
-import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';

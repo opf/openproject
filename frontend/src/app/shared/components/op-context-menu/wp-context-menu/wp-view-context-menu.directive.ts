@@ -9,7 +9,10 @@ import { WorkPackageViewSelectionService } from 'core-app/features/work-packages
 import { LinkHandling } from 'core-app/shared/helpers/link-handling/link-handling';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpContextMenuItem, OpContextMenuLocalsMap } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import {
+  OpContextMenuItem,
+  OpContextMenuLocalsMap,
+} from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { StateService } from '@uirouter/core';

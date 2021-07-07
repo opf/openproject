@@ -9,9 +9,7 @@
  * @module
  * @public
  */
-import {
-  ApplicationRef, Component, ElementRef, Input,
-} from '@angular/core';
+import { ApplicationRef, Component, ElementRef, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 

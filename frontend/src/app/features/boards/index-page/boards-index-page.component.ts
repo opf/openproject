@@ -1,6 +1,4 @@
-import {
-  AfterViewInit, Component, Injector, OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, Injector, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';

@@ -1,9 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Output,
-  HostBinding,
-} from '@angular/core';
+import { Component, EventEmitter, HostBinding, Output } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({

@@ -28,13 +28,13 @@
 
 /* jshint expr: true */
 
-import { TestBed, getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CurrentUserService } from './current-user.service';
-import { CurrentUserStore, CurrentUser } from './current-user.store';
+import { CurrentUser, CurrentUserStore } from './current-user.store';
 import { CurrentUserQuery } from './current-user.query';
 
 const globalCapability = {

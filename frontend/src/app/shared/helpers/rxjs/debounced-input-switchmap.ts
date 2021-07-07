@@ -1,10 +1,10 @@
-import {
-  concat, Observable, of, Subject,
-} from 'rxjs';
+import { concat, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
-  distinctUntilChanged, filter, shareReplay,
+  distinctUntilChanged,
+  filter,
+  shareReplay,
   switchMap,
   takeUntil,
   tap,

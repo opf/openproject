@@ -1,5 +1,5 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { ChartType, ChartOptions } from 'chart.js';
+import { ChartOptions, ChartType } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export interface WpGraphQueryParams {

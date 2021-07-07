@@ -1,8 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
-import {
-  distinctUntilChanged, filter, first, map, mapTo,
-} from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';

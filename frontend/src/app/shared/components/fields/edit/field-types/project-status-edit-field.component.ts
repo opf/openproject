@@ -30,7 +30,10 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { projectStatusCodeCssClass, projectStatusI18n } from 'core-app/shared/components/fields/helpers/project-status-helper';
+import {
+  projectStatusCodeCssClass,
+  projectStatusI18n,
+} from 'core-app/shared/components/fields/helpers/project-status-helper';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 

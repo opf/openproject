@@ -30,12 +30,6 @@ import { OPContextMenuService } from 'core-app/shared/components/op-context-menu
 import { Directive, ElementRef } from '@angular/core';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  WorkPackageViewDisplayRepresentationService,
-  wpDisplayCardRepresentation,
-  wpDisplayListRepresentation,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
-import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 
 @Directive({

@@ -1,7 +1,5 @@
 import { fakeAsync, flush } from '@angular/core/testing';
-import {
-  createDynamicInputFixture,
-} from 'core-app/shared/components/dynamic-forms/spec/helpers';
+import { createDynamicInputFixture } from 'core-app/shared/components/dynamic-forms/spec/helpers';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 

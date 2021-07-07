@@ -30,12 +30,8 @@ import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource'
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { HasId, StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import {
-  concat, from, merge, Observable, of,
-} from 'rxjs';
-import {
-  mapTo, publish, share, shareReplay, switchMap, take, tap,
-} from 'rxjs/operators';
+import { concat, Observable, of } from 'rxjs';
+import { mapTo, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 

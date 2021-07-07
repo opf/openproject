@@ -1,6 +1,4 @@
-import {
-  ElementRef, Inject, ChangeDetectorRef, ViewChild, Directive, Injector,
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, Inject, Injector, ViewChild } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';

@@ -1,14 +1,5 @@
-import {
-  Directive,
-  forwardRef,
-  Input,
-} from '@angular/core';
-import {
-  NgControl,
-  FormControl,
-  FormGroup,
-  FormArray,
-} from '@angular/forms';
+import { Directive, forwardRef, Input } from '@angular/core';
+import { FormArray, FormControl, FormGroup, NgControl } from '@angular/forms';
 
 export const formControlBinding:any = {
   provide: NgControl,

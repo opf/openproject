@@ -6,9 +6,7 @@ import {
   InjectionToken,
   Injector,
 } from '@angular/core';
-import {
-  ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector,
-} from '@angular/cdk/portal';
+import { ComponentPortal, ComponentType, DomPortalOutlet, PortalInjector } from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';

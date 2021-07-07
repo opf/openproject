@@ -35,7 +35,8 @@ import {
   Injector,
   Input,
   OnDestroy,
-  OnInit, Optional,
+  OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -47,7 +48,6 @@ import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-f
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import {
   displayClassName,
   DisplayFieldRenderer,
@@ -56,7 +56,6 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { debugLog } from '../../../../helpers/debug_output';
 import { SelectionHelpers } from '../../../../helpers/selection-helpers';
-import ClickEvent = JQuery.ClickEvent;
 
 @Component({
   selector: 'editable-attribute-field',

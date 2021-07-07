@@ -26,7 +26,6 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { APIv3TypePaths } from 'core-app/core/apiv3/endpoints/types/apiv3-type-paths';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';

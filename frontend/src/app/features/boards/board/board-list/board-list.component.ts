@@ -36,16 +36,13 @@ import { CausedUpdatesService } from 'core-app/features/boards/board/caused-upda
 import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
-import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
 import { StateService, TransitionService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
-import {
-  debounceTime, filter, map, retry,
-} from 'rxjs/operators';
+import { debounceTime, filter, map, retry } from 'rxjs/operators';
 import { ChangeItem } from 'core-app/shared/components/fields/changeset/changeset';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';

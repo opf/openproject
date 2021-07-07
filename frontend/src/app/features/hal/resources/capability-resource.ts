@@ -27,8 +27,5 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class CapabilityResource extends HalResource {}

@@ -27,9 +27,7 @@
 //++
 
 import { ConfirmDialogModal } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
-import {
-  Component, ElementRef, OnInit, ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   templateUrl: './password-confirmation.modal.html',

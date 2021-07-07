@@ -27,7 +27,14 @@
 //++
 
 import {
-  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { Instance } from 'flatpickr/dist/types/instance';

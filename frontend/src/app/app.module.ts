@@ -83,6 +83,22 @@ import { OpenProjectInAppNotificationsModule } from 'core-app/features/in-app-no
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 
+export function initializeServices(injector:Injector) {
+  return () => {
+    const PreviewTrigger = injector.get(PreviewTriggerService);
+    const mainMenuNavigationService = injector.get(MainMenuNavigationService);
+    const keyboardShortcuts = injector.get(KeyboardShortcutService);
+    // Conditionally add the Revit Add-In settings button
+    injector.get(RevitAddInSettingsButtonService);
+
+    mainMenuNavigationService.register();
+
+    PreviewTrigger.setupListener();
+
+    keyboardShortcuts.register();
+  };
+}
+
 @NgModule({
   imports: [
     // The BrowserModule must only be loaded here!
@@ -215,20 +231,4 @@ export class OpenProjectModule {
         DynamicBootstrapper.bootstrapOptionalDocument(appRef, document, results);
       });
   }
-}
-
-export function initializeServices(injector:Injector) {
-  return () => {
-    const PreviewTrigger = injector.get(PreviewTriggerService);
-    const mainMenuNavigationService = injector.get(MainMenuNavigationService);
-    const keyboardShortcuts = injector.get(KeyboardShortcutService);
-    // Conditionally add the Revit Add-In settings button
-    injector.get(RevitAddInSettingsButtonService);
-
-    mainMenuNavigationService.register();
-
-    PreviewTrigger.setupListener();
-
-    keyboardShortcuts.register();
-  };
 }

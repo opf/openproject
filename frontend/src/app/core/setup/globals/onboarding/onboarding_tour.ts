@@ -1,6 +1,7 @@
 import { wpOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/work_package_tour';
 import {
-  demoProjectsLinks, OnboardingTourNames,
+  demoProjectsLinks,
+  OnboardingTourNames,
   onboardingTourStorageKey,
   preventClickHandler,
   waitForElement,
@@ -8,8 +9,10 @@ import {
 import { boardTourSteps } from 'core-app/core/setup/globals/onboarding/tours/boards_tour';
 import { menuTourSteps } from 'core-app/core/setup/globals/onboarding/tours/menu_tour';
 import { homescreenOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/homescreen_tour';
-import { scrumBacklogsTourSteps, scrumTaskBoardTourSteps } from 'core-app/core/setup/globals/onboarding/tours/backlogs_tour';
-import { Injector } from '@angular/core';
+import {
+  scrumBacklogsTourSteps,
+  scrumTaskBoardTourSteps,
+} from 'core-app/core/setup/globals/onboarding/tours/backlogs_tour';
 
 require('core-vendor/enjoyhint');
 
