@@ -100,7 +100,7 @@ module Components
         select relation_label, from: 'relation-type--select'
 
         # Enter the query and select the child
-        autocomplete = container.find(".wp-relations--autocomplete")
+        autocomplete = container.find("[data-qa-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             results_selector: '.ng-dropdown-panel-items',
                             query: to.subject,
