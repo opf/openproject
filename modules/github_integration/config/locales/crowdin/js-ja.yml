@@ -25,7 +25,7 @@ ja:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "プルリクエスト"
         copy_menu:
           label: Git snippets
           description: Copy git snippets to clipboard

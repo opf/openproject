@@ -32,7 +32,8 @@ require 'rack/test'
 
 describe ::API::V3::Notifications::NotificationsAPI,
          'index',
-         type: :request do
+         type: :request,
+         content_type: :json do
 
   include API::V3::Utilities::PathHelper
 
@@ -40,16 +41,21 @@ describe ::API::V3::Notifications::NotificationsAPI,
   shared_let(:notification1) { FactoryBot.create :notification, recipient: recipient }
   shared_let(:notification2) { FactoryBot.create :notification, recipient: recipient }
 
+  let(:notifications) { [notification1, notification2] }
+
+  let(:filters) { nil }
+
   let(:send_request) do
-    header "Content-Type", "application/json"
-    get api_v3_paths.notifications
+    get api_v3_paths.path_for :notifications, filters: filters
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
 
-
   before do
+    notifications
+
     login_as current_user
+
     send_request
   end
 
@@ -57,6 +63,30 @@ describe ::API::V3::Notifications::NotificationsAPI,
     let(:current_user) { recipient }
 
     it_behaves_like 'API V3 collection response', 2, 2, 'Notification'
+
+    context 'with a readIAN filter' do
+      let(:nil_notification) { FactoryBot.create :notification, recipient: recipient, read_ian: nil }
+
+      let(:notifications) { [notification1, notification2, nil_notification] }
+
+      let(:filters) do
+        [
+          {
+            'readIAN' => {
+              'operator' => '=',
+              'values' => ['f']
+
+            }
+          }
+        ]
+      end
+
+      context 'with the filter being set to false' do
+        it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+          let(:elements) { [notification2, notification1] }
+        end
+      end
+    end
   end
 
   describe 'admin user' do
@@ -71,7 +101,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
   end
 
-  describe 'as any user' do
+  describe 'as an anyonymous user' do
     let(:current_user) { User.anonymous }
 
     it 'returns a 403 response' do

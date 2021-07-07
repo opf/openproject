@@ -1,0 +1,19 @@
+---
+description: |-
+  ## Linked Properties
+
+  |  Link     | Description                                              | Type           | Constraints           | Supported operations |
+  |:---------:|----------------------------------------------------------| -------------- | --------------------- | -------------------- |
+  | self      | This UserPreferences                                     | UserPreferences| not null              | READ                 |
+  | user      | The user that this preference belongs to                 | User           | not null              | READ                 |
+
+  ## Local Properties
+
+  | Property               | Description                                                | Type       | Constraints | Supported operations |
+  |:----------------------:| -----------------------------------------------------------| ---------- | ----------- | -------------------- |
+  | hideMail               | Hide mail address from other users                         | Boolean    |             | READ / WRITE         |
+  | timeZone               | Current selected time zone                                 | String     |             | READ / WRITE         |
+  | commentSortDescending  | Sort comments in descending order                          | Boolean    |             | READ / WRITE         |
+  | warnOnLeavingUnsaved   | Issue warning when leaving a page with unsaved text        | Boolean    |             | READ / WRITE         |
+  | accessibilityMode      | Enable accessibility mode                                  | Boolean    |             | READ / WRITE         |
+name: UserPreferences

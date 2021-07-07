@@ -1,0 +1,36 @@
+# Schema: Help_textsModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/help_texts"
+  total: 2
+  count: 2
+  _type: Collection
+  _embedded:
+    elements:
+    - _type: HelpText
+      _links:
+        self:
+          href: "/api/v3/help_texts/1"
+      id: 1
+      attribute: id
+      attributeCaption: ID
+      scope: WorkPackage
+      helpText:
+        format: markdown
+        raw: Help text for id attribute.
+        html: "<p>Help text for id attribute.</p>"
+    - _type: HelpText
+      _links:
+        self:
+          href: "/api/v3/help_texts/2"
+      id: 2
+      attribute: status
+      attributeCaption: Status
+      scope: WorkPackage
+      helpText:
+        format: markdown
+        raw: Help text for status attribute.
+        html: "<p>Help text for status attribute.</p>"

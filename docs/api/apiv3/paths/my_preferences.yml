@@ -1,0 +1,125 @@
+# /api/v3/my_preferences
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/my_preferences"
+                  user:
+                    href: "/api/v3/users/1"
+                    title: John Sheppard
+                _type: UserPreferences
+                accessibilityMode: false
+                commentSortDescending: true
+                hideMail: false
+                timeZone: Europe/Berlin
+                warnOnLeavingUnsaved: true
+          schema:
+            "$ref": "../components/schemas/user_preferences_model.yml"
+      description: OK
+      headers: {}
+    '401':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You need to be authenticated to access this resource.
+      description: Returned if no user is currently authenticated
+      headers: {}
+  tags:
+  - UserPreferences
+  description: ''
+  operationId: Show_my_preferences
+  summary: Show my preferences
+patch:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  self:
+                    href: "/api/v3/my_preferences"
+                  user:
+                    href: "/api/v3/users/1"
+                    title: John Sheppard
+                _type: UserPreferences
+                accessibilityMode: false
+                commentSortDescending: true
+                hideMail: false
+                timeZone: Europe/Berlin
+                warnOnLeavingUnsaved: true
+          schema:
+            "$ref": "../components/schemas/user_preferences_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request body was not a single JSON object.
+      description: Occurs when the client did not send a valid JSON object in the
+        request body.
+      headers: {}
+    '401':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You need to be authenticated to access this resource.
+      description: Returned if no user is currently authenticated
+      headers: {}
+    '422':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Time zone is not set to one of the allowed values.
+      description: |-
+        Returned if the update contains invalid properties.
+        Reasons are:
+
+        * Specifying an invalid type
+
+        * Using an unknown time zone
+      headers: {}
+  tags:
+  - UserPreferences
+  description: When calling this endpoint the client provides a single object, containing
+    the properties that it wants to change, in the body.
+  operationId: Update_UserPreferences
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            accessibilityMode: true
+            timeZone: Europe/Paris
+          properties:
+            accessibilityMode:
+              type: boolean
+            timeZone:
+              type: string
+          type: object
+  summary: Update UserPreferences

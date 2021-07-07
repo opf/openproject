@@ -34,4 +34,8 @@ class Queries::Notifications::Filters::ReadIanFilter < Queries::Notifications::F
   def self.key
     :read_ian
   end
+
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::BooleanListStrict.new self
+  end
 end

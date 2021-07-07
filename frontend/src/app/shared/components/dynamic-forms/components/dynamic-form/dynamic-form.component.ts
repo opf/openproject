@@ -7,20 +7,20 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-} from '@angular/core';
-import { FormlyForm } from '@ngx-formly/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { catchError, finalize } from 'rxjs/operators';
-import { HalSource } from 'core-app/features/hal/resources/hal-resource';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
-import { FormGroup } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
-import { FormsService } from 'core-app/core/forms/forms.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from '../../typings';
-import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
+} from "@angular/core";
+import { FormlyForm } from "@ngx-formly/core";
+import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
+import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { catchError, finalize } from "rxjs/operators";
+import { HalSource } from "core-app/features/hal/resources/hal-resource";
+import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
+import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
+import { FormGroup } from "@angular/forms";
+import { HttpErrorResponse } from "@angular/common/http";
+import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+
 
 /**
 * SETTINGS:
@@ -152,7 +152,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       return;
     }
 
-    const formattedModel = this._dynamicFieldsService.getFormattedFieldsModel(payload);
+    const formattedModel = this._dynamicFormService.formatModelToEdit(payload);
 
     this.form.patchValue(formattedModel);
   }
@@ -216,7 +216,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
-    private _formsService:FormsService,
     private _changeDetectorRef:ChangeDetectorRef,
   ) {
     super();
@@ -284,7 +283,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       throw new Error(this.noPathToSubmitToError);
     }
 
-    return this._formsService.validateForm$(this.form, this.formEndpoint);
+    return this._dynamicFormService.validateForm$(this.form, this.formEndpoint);
   }
 
   private initializeDynamicForm(
@@ -305,7 +304,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     if (settings) {
-      this.setupDynamicFormFromSettings();
+      this.setupDynamicFormFromSettings(settings);
     } else {
       this.setupDynamicFormFromBackend(this.formEndpoint, resourceId, payload);
     }
@@ -337,11 +336,11 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       .subscribe((dynamicFormSettings) => this.setupDynamicForm(dynamicFormSettings));
   }
 
-  private setupDynamicFormFromSettings() {
+  private setupDynamicFormFromSettings(settings:IOPFormSettings) {
     const formattedSettings:IOPFormSettingsResource = {
       _embedded: {
-        payload: this.settings!.payload,
-        schema: this.settings!.schema,
+        payload: settings?.payload,
+        schema: settings?.schema,
       },
     };
     const dynamicFormSettings = this._dynamicFormService.getSettings(formattedSettings);

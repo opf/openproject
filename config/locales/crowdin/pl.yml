@@ -2279,6 +2279,10 @@ pl:
   setting_apiv3_cors_origins: "Dozwolone źródła mechanizmu Cross-Origin Resource Sharing (CORS) interfejsu API V3"
   setting_apiv3_cors_origins_text_html: >
     Jeśli mechanizm CORS jest włączony, są to źródła, których dostęp do interfejsu API OpenProject jest dozwolony. <br/> Sprawdź w <a href="%{origin_link}" target="_blank">dokumentacji nagłówka origin</a> jak należy określić oczekiwane wartości.
+  setting_apiv3_docs: "Dokumentacja"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Metoda dostarczenia maila"
   setting_sendmail_location: "Lokalizacja pliku wykonywalnego sendmail"
   setting_smtp_enable_starttls_auto: "Automatycznie użyj STARTTLS, jeśli jest dostępny"

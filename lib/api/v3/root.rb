@@ -80,6 +80,16 @@ module API
       get '/' do
         RootRepresenter.new({}, current_user: current_user)
       end
+
+      get '/spec.json' do
+        API::OpenAPI.spec
+      end
+
+      get '/spec.yml' do
+        content_type 'text/vnd.yaml'
+
+        API::OpenAPI.spec.to_yaml
+      end
     end
   end
 end

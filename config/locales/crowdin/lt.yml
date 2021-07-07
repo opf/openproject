@@ -762,7 +762,7 @@ lt:
       member: "Narys"
       news: "Naujienos"
       notification:
-        one: "Notification"
+        one: "Pranešimas"
         few: "Notifications"
         many: "Notifications"
         other: "Notifications"
@@ -2279,6 +2279,10 @@ lt:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) leidžiami kilmės domenai"
   setting_apiv3_cors_origins_text_html: >
     Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
+  setting_apiv3_docs: "Dokumentacija"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "El. pašto pristatymo metodas"
   setting_sendmail_location: "Sendmail vykdomojo failo lokacija"
   setting_smtp_enable_starttls_auto: "Automatiškai naudoti STARTTLS, jei galima"

@@ -1,0 +1,15 @@
+# Schema: Custom_ActionModel
+---
+type: object
+example:
+  _type: CustomAction
+  name: Change project and type
+  description: Changes project and type in one go
+  _links:
+    executeImmediately:
+      href: "/apiChanges project and type in one go"
+      title: Execute Change project and type
+      method: post
+    self:
+      href: "/api/v3/custom_actions/2"
+      title: Change project and type

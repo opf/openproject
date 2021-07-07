@@ -1,0 +1,51 @@
+# /api/v3/help_texts
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      self:
+                        href: "/api/v3/help_texts/1"
+                    _type: HelpText
+                    attribute: id
+                    attributeCaption: ID
+                    helpText:
+                      format: markdown
+                      html: "<p>Help text for id attribute.</p>"
+                      raw: Help text for id attribute.
+                    id: 1
+                    scope: WorkPackage
+                  - _links:
+                      self:
+                        href: "/api/v3/help_texts/2"
+                    _type: HelpText
+                    attribute: status
+                    attributeCaption: Status
+                    helpText:
+                      format: markdown
+                      html: "<p>Help text for status attribute.</p>"
+                      raw: Help text for status attribute.
+                    id: 2
+                    scope: WorkPackage
+                _links:
+                  self:
+                    href: "/api/v3/help_texts"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/help_texts_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Help texts
+  description: ''
+  operationId: List_all_help_texts
+  summary: List all help texts

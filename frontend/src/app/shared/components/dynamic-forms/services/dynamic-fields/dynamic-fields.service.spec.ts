@@ -78,7 +78,7 @@ describe('DynamicFieldsService', () => {
 
     expect(fieldsSchemas.length).toBe(2, 'should return only writable field schemas');
     expect(fieldsSchemas[0].key).toBe('name', 'should place the correct key on primitives');
-    expect(fieldsSchemas[1].key).toBe('_links.parent', 'should place the correct key on resources');
+    expect(fieldsSchemas[1].key).toBe('parent', 'should place the correct key on resources');
   });
 
   it('should format the form model (add the name property to resources (_links: single and multiple))', () => {
@@ -143,8 +143,8 @@ describe('DynamicFieldsService', () => {
     // @ts-ignore
     const formModel = service.getModel(formPayload);
     const titleName = formModel.title;
-    const parentProjectName = !Array.isArray(formModel._links!.parent) && formModel._links!.parent!.name;
-    const childrenProjectsNames = Array.isArray(formModel._links!.children) && formModel._links!.children!.map((childProject:IOPFieldModel) => childProject.name);
+    const parentProjectName = !Array.isArray(formModel!.parent) && formModel!.parent!.name;
+    const childrenProjectsNames = Array.isArray(formModel!.children) && formModel!.children!.map((childProject: IOPFieldModel) => childProject.name);
 
     expect(titleName).toBe('Project 1', 'should add the payload value on primitives');
     expect(parentProjectName).toEqual('Parent project', 'should add a name property on resources');
