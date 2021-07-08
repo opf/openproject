@@ -94,7 +94,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
         debounceTime(10),
         this.untilDestroyed(),
       )
-      .subscribe(([newSearchTerm, newProjectScope]) => {
+      .subscribe(([]) => {
         this.wpFilters.visible = false;
         this.setQueryProps();
       });
@@ -104,7 +104,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
       .pipe(
         this.untilDestroyed(),
       )
-      .subscribe((resultsHidden:boolean) => this.resultsHidden = resultsHidden);
+      .subscribe((resultsHidden:boolean) => (this.resultsHidden = resultsHidden));
   }
 
   ngOnInit():void {

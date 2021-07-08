@@ -27,34 +27,34 @@
 //++
 
 // Loaded dynamically when path matches
-(function ($, undefined) {
-  var global_roles = {
+(function ($) {
+  let globalRoles = {
     init() {
-      if (global_roles.script_applicable()) {
-        global_roles.toggle_forms_on_click();
-        global_roles.activation_and_visibility_based_on_checked($('#global_role'));
+      if (globalRoles.script_applicable()) {
+        globalRoles.toggle_forms_on_click();
+        globalRoles.activation_and_visibility_based_on_checked($('#global_role'));
       }
     },
 
     toggle_forms_on_click() {
-      $('#global_role').on('click', global_roles.toggle_forms);
+      $('#global_role').on('click', this.toggle_forms);
     },
 
-    toggle_forms(event:any) {
-      global_roles.activation_and_visibility_based_on_checked(this);
+    toggle_forms() {
+      globalRoles.activation_and_visibility_based_on_checked(this);
     },
 
     activation_and_visibility_based_on_checked(element:any) {
       if ($(element).prop('checked')) {
-        global_roles.show_global_forms();
-        global_roles.hide_member_forms();
-        global_roles.enable_global_forms();
-        global_roles.disable_member_forms();
+        globalRoles.show_global_forms();
+        globalRoles.hide_member_forms();
+        globalRoles.enable_global_forms();
+        globalRoles.disable_member_forms();
       } else {
-        global_roles.show_member_forms();
-        global_roles.hide_global_forms();
-        global_roles.disable_global_forms();
-        global_roles.enable_member_forms();
+        globalRoles.show_member_forms();
+        globalRoles.hide_global_forms();
+        globalRoles.disable_global_forms();
+        globalRoles.enable_member_forms();
       }
     },
 
@@ -78,13 +78,13 @@
 
     enable_global_forms() {
       $('#global_attributes input, #global_attributes input, #global_permissions input').each((ix, el) => {
-        global_roles.enable_element(el);
+        globalRoles.enable_element(el);
       });
     },
 
     enable_member_forms() {
       $('#member_attributes input, #member_attributes input, #member_permissions input').each((ix, el) => {
-        global_roles.enable_element(el);
+        globalRoles.enable_element(el);
       });
     },
 
@@ -94,13 +94,13 @@
 
     disable_global_forms() {
       $('#global_attributes input, #global_attributes input, #global_permissions input').each((ix, el) => {
-        global_roles.disable_element(el);
+        globalRoles.disable_element(el);
       });
     },
 
     disable_member_forms() {
       $('#member_attributes input, #member_attributes input, #member_permissions input').each((ix, el) => {
-        global_roles.disable_element(el);
+        globalRoles.disable_element(el);
       });
     },
 
@@ -112,5 +112,5 @@
       return $('body.controller-roles.action-new, body.controller-roles.action-create').length === 1;
     },
   };
-  $(document).ready(global_roles.init);
+  $(document).ready(globalRoles.init);
 }(jQuery));

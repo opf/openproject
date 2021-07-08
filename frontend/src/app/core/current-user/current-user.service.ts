@@ -156,7 +156,7 @@ export class CurrentUserService {
     const actions = _.castArray(action);
     return this.capabilitiesForContext$(contextId).pipe(
       map((capabilities) => actions.reduce(
-        (acc, action) => acc && !!capabilities.find((cap) => cap.action.href.endsWith(`/api/v3/actions/${action}`)),
+        (acc, contextAction) => acc && !!capabilities.find((cap) => cap.action.href.endsWith(`/api/v3/actions/${contextAction}`)),
         capabilities.length > 0,
       )),
       distinctUntilChanged(),
@@ -180,8 +180,8 @@ export class CurrentUserService {
   // Everything below this is deprecated legacy interfacing and should not be used
 
   private setupLegacyDataListeners() {
-    this.currentUserQuery.user$.subscribe((user) => this._user = user);
-    this.currentUserQuery.isLoggedIn$.subscribe((isLoggedIn) => this._isLoggedIn = isLoggedIn);
+    this.currentUserQuery.user$.subscribe((user) => (this._user = user));
+    this.currentUserQuery.isLoggedIn$.subscribe((isLoggedIn) => (this._isLoggedIn = isLoggedIn));
   }
 
   private _isLoggedIn = false;

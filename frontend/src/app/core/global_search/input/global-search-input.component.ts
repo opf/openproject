@@ -116,8 +116,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private unregisterGlobalListener:Function|undefined;
 
-  private isInitialized = false;
-
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     current_project: this.I18n.t('js.global_search.current_project'),
@@ -130,7 +128,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   constructor(readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     readonly apiV3Service:APIV3Service,
-    readonly PathHelperService:PathHelperService,
+    readonly pathHelperService:PathHelperService,
     readonly halResourceService:HalResourceService,
     readonly globalSearchService:GlobalSearchService,
     readonly currentProjectService:CurrentProjectService,
@@ -189,7 +187,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   public wpPath(id:string) {
-    return this.PathHelperService.workPackagePath(id);
+    return this.pathHelperService.workPackagePath(id);
   }
 
   public search($event:any) {
@@ -404,6 +402,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         this.submitNonEmptySearch();
         break;
       }
+      default: // Do nothing
+        break;
     }
   }
 

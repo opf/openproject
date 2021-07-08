@@ -74,12 +74,12 @@ export class TimezoneService {
    */
   public parseLocalDateTime(date:string, format?:string) {
     let result;
-    format = format || this.getTimeFormat();
+    const timeFormat = format || this.getTimeFormat();
 
     if (this.configurationService.isTimezoneSet()) {
-      result = moment.tz(date, format!, this.configurationService.timezone());
+      result = moment.tz(date, timeFormat, this.configurationService.timezone());
     } else {
-      result = moment(date, format);
+      result = moment(date, timeFormat);
     }
     result.utc();
 

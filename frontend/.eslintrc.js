@@ -94,6 +94,8 @@ module.exports = {
         "import/prefer-default-export": "off",
 
         "no-underscore-dangle": "warn",
+        "no-return-assign": ["error", "except-parens"],
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
 
         //////////////////////////////////////////////////////////////////////
         // Anything below this line should be turned on again at some point //
