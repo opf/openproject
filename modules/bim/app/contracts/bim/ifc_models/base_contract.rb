@@ -42,7 +42,6 @@ module Bim
       end
 
       validate :user_allowed_to_manage
-      validate :user_is_uploader
       validate :ifc_attachment_existent
       validate :ifc_attachment_is_ifc
       validate :uploader_is_ifc_attachment_author
@@ -50,14 +49,6 @@ module Bim
       def user_allowed_to_manage
         if model.project && !user.allowed_to?(:manage_ifc_models, model.project)
           errors.add :base, :error_unauthorized
-        end
-      end
-
-      def user_is_uploader
-        return unless changed_by_user.include?('uploader_id')
-
-        if model.uploader != user
-          errors.add :uploader_id, :invalid
         end
       end
 
