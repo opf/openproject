@@ -75,11 +75,9 @@ module Bim
 
           model.attachments << ifc_attachment
         else
-          call = ::Attachments::BuildService
+          ::Attachments::BuildService
             .new(user: user)
-            .call(file: ifc_attachment, filename: ifc_attachment.original_filename, description: 'ifc')
-
-          model.association(:attachments).add_to_target(call.result)
+            .call(file: ifc_attachment, container: model, filename: ifc_attachment.original_filename, description: 'ifc')
         end
       end
     end
