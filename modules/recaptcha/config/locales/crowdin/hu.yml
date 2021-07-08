@@ -8,7 +8,7 @@ hu:
     settings:
       website_key: 'Website kulcs'
       website_key_text: 'Írja be az e domain reCAPTCHA adminisztrációs konzolján létrehozott webhelykulcsot.'
-      secret_key: 'Secret key'
+      secret_key: 'Titkos kulcs'
       secret_key_text: 'Írja be a reCAPTCHA adminisztrációs konzolon létrehozott titkos kulcsot.'
       type: 'Használj reCAPTCHA'
       type_disabled: 'Tiltsd reCAPTCHA'

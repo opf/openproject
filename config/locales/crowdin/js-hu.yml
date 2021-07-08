@@ -198,20 +198,20 @@ hu:
             label_domain: "Domain"
             label_subscriber: "Előfizető"
             label_maximum_users: "Maximális aktív felhasználók"
-            label_starts_at: "Starts at"
+            label_starts_at: "Kezdés ideje:"
             label_expires_at: "Lejárat ekkor"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
-          resend_link: "Resend"
+          next_steps: "Következő lépések"
+          resend_link: "Újraküldés"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_label: "Állapot:"
+          status_confirmed: "megerősítve"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
@@ -223,7 +223,7 @@ hu:
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "Prémium funkciók"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Szakmai támogatás"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -376,7 +376,7 @@ hu:
     label_next: " Következő"
     label_no_color: "Nincs szín"
     label_no_data: "Nincs megjelenítendő adat"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "nincs befejezési dátum"
     label_no_start_date: "nincs kezdő dátuma"
     label_no_value: "Nincs érték"
     label_none: "Egyik sem"
@@ -725,7 +725,7 @@ hu:
       label_enable_multi_select: "Többszörös kijelölés engedélyezése"
       label_disable_multi_select: "Többszörös kijelölés tiltása"
       label_filter_add: "Szűrő hozzáadása"
-      label_filter_by_text: "Filter by text"
+      label_filter_by_text: "Szöveg szűrése"
       label_options: "Beállítások"
       label_column_multiselect: "Kombinált legördülő mező: Nyilakkal jelöljön ki, enter-el hagyja jóvá, és backspace-vel töröljön"
       message_error_during_bulk_delete: Hiba történt a feladatcsoport törlése közben.
@@ -734,7 +734,7 @@ hu:
       message_view_spent_time: "Feladatcsoporttal töltött idő megjelenítése"
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
       message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      placeholder_filter_by_text: "Tárgy, leírás, kommentek"
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'
       create:
@@ -825,7 +825,7 @@ hu:
         errors:
           unretrievable_query: "Unable to retrieve view from URL"
           not_found: "Nincs ilyen nézet"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
+          duplicate_query_title: "A nézet neve már létezik. Biztos megváltoztatod?"
         text_no_results: "Nem található egyező nézet"
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
