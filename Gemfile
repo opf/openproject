@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.3'
+ruby '~> 2.7.4'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
