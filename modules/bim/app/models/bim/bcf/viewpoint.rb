@@ -37,7 +37,10 @@ module Bim::Bcf
 
     def snapshot=(file)
       snapshot&.destroy
-      attach_files('first' => { 'file' => file, 'description' => 'snapshot' })
+      Attachments::CreateService
+        .new(user: User.current)
+        .call(file: file, container: self, filename: file.original_filename, description: 'snapshot')
+        .result
     end
   end
 end
