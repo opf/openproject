@@ -28,7 +28,7 @@
 
 // Loaded dynamically when path matches
 (function ($) {
-  let globalRoles = {
+  const globalRoles = {
     init() {
       if (globalRoles.script_applicable()) {
         globalRoles.toggle_forms_on_click();

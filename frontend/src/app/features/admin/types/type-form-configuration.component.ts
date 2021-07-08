@@ -8,7 +8,7 @@ import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-
 import { DragulaService, DrakeWithModels } from 'ng2-dragula';
 import { GonService } from 'core-app/core/gon/gon.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { install_menu_logic } from 'core-app/core/setup/globals/global-listeners/action-menu';
+import { installMenuLogic } from 'core-app/core/setup/globals/global-listeners/action-menu';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { TypeBannerService } from 'core-app/features/admin/types/type-banner.service';
 
@@ -156,7 +156,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
 
   ngAfterViewInit() {
     const menu = jQuery(this.elementRef.nativeElement).find('.toolbar-items');
-    install_menu_logic(menu);
+    installMenuLogic(menu);
   }
 
   public deactivateAttribute(attribute:TypeFormAttribute) {

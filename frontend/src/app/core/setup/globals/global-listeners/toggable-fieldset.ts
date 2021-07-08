@@ -60,7 +60,7 @@ function getFieldset(el:HTMLElement) {
     return element;
   }
 
-  throw 'Cannot derive fieldset from element!';
+  throw new Error('Cannot derive fieldset from element!');
 }
 
 function toggleFieldset(el:HTMLElement) {

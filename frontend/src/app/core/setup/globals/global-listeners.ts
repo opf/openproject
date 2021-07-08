@@ -32,7 +32,7 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listeners/top-menu-scroll';
 import { setupToggableFieldsets } from 'core-app/core/setup/globals/global-listeners/toggable-fieldset';
 import { TopMenu } from 'core-app/core/setup/globals/global-listeners/top-menu';
-import { install_menu_logic } from 'core-app/core/setup/globals/global-listeners/action-menu';
+import { installMenuLogic } from 'core-app/core/setup/globals/global-listeners/action-menu';
 import { makeColorPreviews } from 'core-app/core/setup/globals/global-listeners/color-preview';
 import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listeners/danger-zone-validation';
 import { setupServerResponse } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
@@ -134,7 +134,7 @@ import { performAnchorHijacking } from './global-listeners/link-hijacking';
 
     // Action menu logic
     jQuery('.project-actions, .toolbar-items').each((idx:number, menu:HTMLElement) => {
-      install_menu_logic(jQuery(menu));
+      installMenuLogic(jQuery(menu));
     });
 
     // Legacy settings listener

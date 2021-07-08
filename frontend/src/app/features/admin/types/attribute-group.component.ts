@@ -5,7 +5,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TypeFormAttribute, TypeGroup } from 'core-app/features/admin/types/type-form-configuration.component';
 
 @Component({
-  selector: 'type-form-attribute-group',
+  selector: 'op-type-form-attribute-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './attribute-group.component.html',
 })

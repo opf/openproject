@@ -44,47 +44,33 @@
 import { ANIMATION_RATE_MS } from 'core-app/core/setup/globals/global-listeners/top-menu';
 import ClickEvent = JQuery.ClickEvent;
 
-function menu_top_position(menu:JQuery) {
-  // if an h2 tag follows the submenu should unfold out at the border
-  let menu_start_position;
-  if (menu.next().get(0) !== undefined && (menu.next().get(0).tagName === 'H2')) {
-    menu_start_position = menu.next().innerHeight()! + menu.next().position().top;
-  } else if (menu.next().hasClass('wiki-content') && menu.next().children().next().first()
-    .get(0) != undefined && menu.next().children().next().first()
-    .get(0).tagName == 'H1') {
-    const wiki_heading = menu.next().children().next().first();
-    menu_start_position = wiki_heading.innerHeight()! + wiki_heading.position().top;
-  }
-  return menu_start_position;
-}
-
-function close_menu(event:any) {
+function closeMenu(event:any) {
   const menu = jQuery(event.data.menu);
   // do not close the menu, if the user accidentally clicked next to a menu item (but still within the menu)
   if (event.target !== menu.find(' > li.drop-down.open > ul').get(0)) {
     menu.find(' > li.drop-down.open').removeClass('open').find('> ul').slideUp(ANIMATION_RATE_MS);
     // no need to watch for clicks, when the menu is already closed
-    jQuery('html').off('click', close_menu);
+    jQuery('html').off('click', closeMenu);
   }
 }
 
-function open_menu(menu:JQuery) {
-  const drop_down = menu.find(' > li.drop-down');
+function openMenu(menu:JQuery) {
+  const dropDown = menu.find(' > li.drop-down');
   // do not open a menu, which is already open
-  if (!drop_down.hasClass('open')) {
-    drop_down.find('> ul').slideDown(ANIMATION_RATE_MS, () => {
-      drop_down.find('li > a:first').focus();
+  if (!dropDown.hasClass('open')) {
+    dropDown.find('> ul').slideDown(ANIMATION_RATE_MS, () => {
+      dropDown.find('li > a:first').focus();
       // when clicking on something, which is not the menu, close the menu
-      jQuery('html').on('click', { menu: menu.get(0) }, close_menu);
+      jQuery('html').on('click', { menu: menu.get(0) }, closeMenu);
     });
-    drop_down.addClass('open');
+    dropDown.addClass('open');
   }
 }
 
 // open the given submenu when clicking on it
-export function install_menu_logic(menu:JQuery) {
+export function installMenuLogic(menu:JQuery) {
   menu.find(' > li.drop-down').on('click', (event:ClickEvent) => {
-    open_menu(menu);
+    openMenu(menu);
     // and prevent default action (href) for that element
     // but not for the menu items.
     const target = jQuery(event.target);

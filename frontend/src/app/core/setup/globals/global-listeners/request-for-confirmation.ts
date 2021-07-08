@@ -42,14 +42,14 @@ function registerListener(
   }
 
   $event.preventDefault();
-  const confirmModal = opModalService.show(modal, 'global');
-  confirmModal.closingEvent.subscribe((modal:any) => {
-    if (modal.confirmed) {
+  const modalComponent = opModalService.show(modal, 'global');
+  modalComponent.closingEvent.subscribe((confirmModal:any) => {
+    if (confirmModal.confirmed) {
       jQuery('<input>')
         .attr({
           type: 'hidden',
           name: '_password_confirmation',
-          value: modal.password_confirmation,
+          value: confirmModal.password_confirmation,
         })
         .appendTo(form);
 
@@ -80,5 +80,6 @@ export function registerRequestForConfirmation($:JQueryStatic) {
           return registerListener(form, $event, opModalService, passwordConfirmationModal);
         },
       );
-    });
+    })
+    .catch(() => {});
 }

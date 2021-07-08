@@ -25,6 +25,7 @@ export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
           context.services.configurationService,
         );
         datePicker.show();
-      });
+      })
+      .catch(() => {});
   }
 }

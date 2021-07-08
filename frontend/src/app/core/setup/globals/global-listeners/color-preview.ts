@@ -36,7 +36,6 @@ export function makeColorPreviews() {
   jQuery('.color--preview').each(function () {
     const preview = jQuery(this);
     let input:any;
-    let func:any;
     const target = preview.data('target');
 
     if (target) {
@@ -49,7 +48,7 @@ export function makeColorPreviews() {
       return;
     }
 
-    func = function () {
+    const func = function () {
       let previewColor = '';
 
       if (input.val() && input.val().length > 0) {

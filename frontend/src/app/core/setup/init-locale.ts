@@ -37,7 +37,7 @@ export function initializeLocale() {
   I18n.locale = locale;
   I18n.firstDayOfWeek = firstDayOfWeek;
 
-  if (!isNaN(firstDayOfWeek) && !isNaN(firstWeekOfYear)) {
+  if (!Number.isNaN(firstDayOfWeek) && !Number.isNaN(firstWeekOfYear)) {
     moment.updateLocale(locale, {
       week: {
         dow: firstDayOfWeek,

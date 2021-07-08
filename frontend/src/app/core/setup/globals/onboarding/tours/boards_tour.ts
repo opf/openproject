@@ -40,7 +40,9 @@ export function boardTourSteps() {
         const backArrows = Array.from(document.getElementsByClassName('main-menu--arrow-left-to-project'));
         const boardsBackArrow = backArrows.find((backArrow) => (backArrow.nextElementSibling as HTMLElement).innerText === 'Boards') as HTMLElement;
 
-        boardsBackArrow && boardsBackArrow.click();
+        if (boardsBackArrow) {
+          boardsBackArrow.click();
+        }
       },
     },
   ];
