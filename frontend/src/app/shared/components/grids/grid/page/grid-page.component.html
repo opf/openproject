@@ -1,11 +1,10 @@
-<div class="grid-page">
-  <div class="toolbar-container">
-    <div class="toolbar">
-      <div class="title-container">
+<div class="op-grid-page">
+  <div class="toolbar op-grid-page--toolbar-container">
+      <div class="op-grid-page--title-container">
         <h2 [textContent]="text.title"></h2>
       </div>
 
-      <ul class="toolbar-items hidden-for-mobile">
+      <ul class="op-grid-page--toolbar-items hidden-for-mobile">
         <li class="toolbar-item hidden-for-mobile">
           <zen-mode-toggle-button></zen-mode-toggle-button>
         </li>
@@ -20,7 +19,6 @@
           </button>
         </li>
       </ul>
-    </div>
   </div>
 
   <grid *ngIf="grid" [grid]="grid"></grid>
