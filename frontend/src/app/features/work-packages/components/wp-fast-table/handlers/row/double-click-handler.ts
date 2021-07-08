@@ -9,7 +9,6 @@ import { displayClassName } from 'core-app/shared/components/fields/display/disp
 import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
-import { WorkPackageTable } from '../../wp-fast-table';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { tdClassName } from '../../builders/cell-builder';
 

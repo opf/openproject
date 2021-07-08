@@ -36,7 +36,6 @@ import {
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { input } from 'reactivestates';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 @Component({

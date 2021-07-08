@@ -34,7 +34,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewEncapsulation,
+
 } from '@angular/core';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';

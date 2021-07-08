@@ -2,7 +2,6 @@ import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { commonRowClassName } from '../rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 

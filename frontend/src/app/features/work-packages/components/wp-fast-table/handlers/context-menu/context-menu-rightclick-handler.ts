@@ -6,7 +6,6 @@ import { TableEventComponent } from 'core-app/features/work-packages/components/
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { timelineCellClassName } from '../../builders/timeline/timeline-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
-import { WorkPackageTable } from '../../wp-fast-table';
 import { ContextMenuHandler } from './context-menu-handler';
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {

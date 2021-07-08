@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   template: `

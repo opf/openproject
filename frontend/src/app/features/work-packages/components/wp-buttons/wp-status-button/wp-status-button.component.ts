@@ -36,7 +36,6 @@ import { Highlighting } from 'core-app/features/work-packages/components/wp-fast
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 @Component({
   selector: 'wp-status-button',

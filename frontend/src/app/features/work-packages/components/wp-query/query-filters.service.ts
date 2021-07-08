@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
   QueryFilterInstanceSchemaResource,
-  QueryFilterInstanceSchemaResourceLinks,
+
 } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';

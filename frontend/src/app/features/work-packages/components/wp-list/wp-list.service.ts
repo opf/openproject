@@ -41,7 +41,6 @@ import {
   catchError, mergeMap, share, switchMap, take,
 } from 'rxjs/operators';
 import {
-  PaginationUpdateObject,
   WorkPackageViewPaginationService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';

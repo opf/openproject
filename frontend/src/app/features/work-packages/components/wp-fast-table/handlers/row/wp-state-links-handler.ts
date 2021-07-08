@@ -8,7 +8,6 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
-import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {

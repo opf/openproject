@@ -1,9 +1,9 @@
 import {
-  EventEmitter, Component, OnInit, ChangeDetectionStrategy, Output, Input,
+  EventEmitter, Component, ChangeDetectionStrategy, Output, Input,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';

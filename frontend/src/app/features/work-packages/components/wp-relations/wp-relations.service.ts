@@ -6,7 +6,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };

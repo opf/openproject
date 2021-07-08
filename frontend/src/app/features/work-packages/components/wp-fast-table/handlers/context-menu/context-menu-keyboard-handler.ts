@@ -1,7 +1,6 @@
 import { Injector } from '@angular/core';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
-import { WorkPackageTable } from '../../wp-fast-table';
 import { ContextMenuHandler } from './context-menu-handler';
 
 export class ContextMenuKeyboardHandler extends ContextMenuHandler {

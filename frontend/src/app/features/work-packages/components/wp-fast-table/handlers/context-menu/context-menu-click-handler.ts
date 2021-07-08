@@ -3,7 +3,6 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { contextMenuLinkClassName } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
-import { WorkPackageTable } from '../../wp-fast-table';
 import { ContextMenuHandler } from './context-menu-handler';
 
 export class ContextMenuClickHandler extends ContextMenuHandler {

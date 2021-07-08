@@ -30,7 +30,7 @@ function initTableSorter() {
       widgetOptions: {
         storage_storageType: 's',
       },
-      textExtraction(node:HTMLElement, table:any, cellIndex:any) {
+      textExtraction(node:HTMLElement) {
         return node.getAttribute('raw-data');
       },
     });

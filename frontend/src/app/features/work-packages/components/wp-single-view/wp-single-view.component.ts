@@ -50,7 +50,6 @@ import { randomString } from 'core-app/shared/helpers/random-string';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { States } from 'core-app/core/states/states.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';

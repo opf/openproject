@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { applyTransaction, ID, transaction } from '@datorama/akita';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';

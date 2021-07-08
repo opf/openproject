@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, Injector, OnDestroy,
+  AfterViewInit, Component, OnDestroy,
 } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';

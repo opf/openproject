@@ -7,7 +7,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import {
-  debounceTime, distinctUntilChanged, filter, map, switchMap, tap,
+  debounceTime, distinctUntilChanged, filter, map,
 } from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';

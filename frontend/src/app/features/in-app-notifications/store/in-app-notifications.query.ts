@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { InAppNotificationsStore, InAppNotificationsState } from './in-app-notifications.store';
 
 @Injectable({ providedIn: 'root' })

@@ -6,13 +6,13 @@ import {
   InAppNotificationDetail,
 } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { NEVER, Observable, timer } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource, HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { distinctUntilChanged, map, mapTo } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 

@@ -29,7 +29,6 @@
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { RenderInfo } from '../wp-timeline';

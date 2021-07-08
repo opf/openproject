@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { EntityState, EntityStore, StoreConfig } from '@datorama/akita';
-import { CurrentUserState } from 'core-app/core/current-user/current-user.store';
 import { InAppNotification } from './in-app-notification.model';
 
 export interface InAppNotificationsState extends EntityState<InAppNotification> {
