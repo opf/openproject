@@ -1,0 +1,37 @@
+# Schema: FormModel
+---
+type: object
+properties:
+  _links:
+    type: object
+    properties:
+      validate:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: Validate changes, show errors and allowed values for changed
+            resource
+          readOnly: true
+      commit:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Actually perform changes to the resource
+
+            # Conditions
+
+            form content is valid
+          readOnly: true
+      previewMarkup:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: Post markup (e.g. markdown) here to receive an HTML-rendered
+            response
+          readOnly: true
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This form
+
+            **Resource**: Form
+          readOnly: true

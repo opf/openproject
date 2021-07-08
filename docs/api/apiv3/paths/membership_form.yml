@@ -1,0 +1,126 @@
+# /api/v3/memberships/{id}/form
+---
+post:
+  parameters:
+  - description: Membership id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  payload:
+                    _links:
+                      roles:
+                      - href: "/api/v3/roles/4"
+                        title: A role
+                    _meta:
+                      notificationMessage:
+                        raw: Alice, you can now also create work packages.
+                  schema:
+                    _dependencies: []
+                    _links: {}
+                    _type: Schema
+                    createdAt:
+                      hasDefault: false
+                      name: Created on
+                      required: true
+                      type: DateTime
+                      writable: false
+                    id:
+                      hasDefault: false
+                      name: ID
+                      required: true
+                      type: Integer
+                      writable: false
+                    notificationMessage:
+                      hasDefault: false
+                      location: _meta
+                      name: Message
+                      options: {}
+                      required: false
+                      type: Formattable
+                      writable: true
+                    principal:
+                      _links: {}
+                      hasDefault: false
+                      name: Principal
+                      required: true
+                      type: Principal
+                      writable: false
+                    project:
+                      _links: {}
+                      hasDefault: false
+                      name: Project
+                      required: false
+                      type: Project
+                      writable: false
+                    roles:
+                      _links:
+                        allowedValues:
+                          href: "/api/v3/roles?filters=%5B%7B%22unit%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22project%22%5D%7D%7D%5D"
+                      hasDefault: false
+                      location: _links
+                      name: Role
+                      required: true
+                      type: "[]Role"
+                      writable: true
+                    updatedAt:
+                      hasDefault: false
+                      name: Updated on
+                      required: true
+                      type: DateTime
+                      writable: false
+                  validationErrors: {}
+                _links:
+                  commit:
+                    href: "/api/v3/memberships/5"
+                    method: patch
+                  self:
+                    href: "/api/v3/memberships/5/form"
+                    method: post
+                  validate:
+                    href: "/api/v3/memberships/5/form"
+                    method: post
+                _type: Form
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request body was not a single JSON object.
+      description: Occurs when the client did not send a valid JSON object in the
+        request body.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage versions in the version's project
+      headers: {}
+  tags:
+  - Memberships
+  description: ''
+  operationId: Membership_update_form
+  summary: Membership update form

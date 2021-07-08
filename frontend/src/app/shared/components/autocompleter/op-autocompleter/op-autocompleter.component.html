@@ -62,51 +62,84 @@
     (add)="added($event)"
     (remove)="removed($event)"
   >
-    <ng-template ng-header-tmp let-item="item" *ngIf="headerTemplate">
-      <ng-container [ngTemplateOutlet]="headerTemplate" [ngTemplateOutletContext]="{$implicit:item}">
-      </ng-container>
+    <ng-template
+      ng-header-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+      *ngIf="headerTemplate"
+    >
+      <ng-container
+        [ngTemplateOutlet]="headerTemplate"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+      ></ng-container>
     </ng-template>
 
-    <ng-template ng-label-tmp let-item="item" *ngIf="labelRequired">
-      <ng-container [ngTemplateOutlet]="labelTemplate ? labelTemplate : defaultLabel" [ngTemplateOutletContext]="{$implicit:item}">
-      </ng-container>
+    <ng-template
+      ng-label-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+      *ngIf="labelRequired"
+    >
+      <ng-container
+        [ngTemplateOutlet]="labelTemplate ? labelTemplate : defaultLabel"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+      ></ng-container>
     </ng-template>
 
-    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-      <ng-container [ngTemplateOutlet]="optionTemplate ? optionTemplate : defaultOption" [ngTemplateOutletContext]="{$implicit:item}">
-      </ng-container>
+    <ng-template
+      ng-option-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+    >
+      <ng-container
+        [ngTemplateOutlet]="optionTemplate ? optionTemplate : defaultOption"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+      ></ng-container>
     </ng-template>
 
-    <ng-template ng-footer-tmp *ngIf="footerTemplate">
-      <ng-container [ngTemplateOutlet]="footerTemplate" [ngTemplateOutletContext]="{$implicit:item}">
-      </ng-container>
+    <ng-template
+      ng-footer-tmp
+      let-item="item"
+      let-index="index"
+      let-search="searchTerm"
+      *ngIf="footerTemplate"
+    >
+      <ng-container
+        [ngTemplateOutlet]="footerTemplate"
+        [ngTemplateOutletContext]="{$implicit:item, search:search, index:index }"
+      ></ng-container>
     </ng-template>
   </ng-select>
 </div>
 
-<ng-template let-item  #defaultOption [ngSwitch]="true">
+<ng-template let-item let-search="search"  #defaultOption [ngSwitch]="true">
   <ng-container *ngSwitchCase="resource === 'work_packages' || resource === 'parent-child'">
     <div class="op-autocompleter--option-wrapper">
       <op-principal
+        class="op-autocompleter--option-principal"
         *ngIf="item.author && item.author.href"
-        data-class-list="avatar op-autocompleter-author-avatar hidden-for-mobile"
         [principal]="item.author"
         [hide-name]="true"
       ></op-principal>
-      <span class="op-autocompleter-wp-subject"> 
-      {{item.subject}} 
-      </span>
+      <span
+        class="op-autocompleter--wp-subject"
+        [ngOptionHighlight]="search"
+      >{{item.subject}}</span>
 
       <div class="op-autocompleter--wp-content">
         <span
+          [ngOptionHighlight]="search"
           [textContent]="item.project?.name" 
           class="op-autocompleter--wp-project"
         ></span>
 
-        <a
+        <span
           class="op-autocompleter--wp-id"
-          [ngClass]="uiStateLinkClass"
-        >#{{item.id}}</a>
+          [ngOptionHighlight]="search"
+        >#{{item.id}}</span>
 
         <span
           [textContent]="item.status?.name"
@@ -125,24 +158,22 @@
       [hide-name]="true"
       size="mini"
     ></op-principal>
-    {{ item.name }}
+    <span [ngOptionHighlight]="search">{{ item.name }}</span>
   </ng-container>
 
-
   <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default'">
-  {{ item.name }}
+    <span [ngOptionHighlight]="search">{{ item.name }}</span>
   </ng-container>
 </ng-template>
 
-
-
-<ng-template let-item  #defaultLabel [ngSwitch]="resource">
-
+<ng-template let-item let-search="search" #defaultLabel [ngSwitch]="resource">
   <ng-container *ngSwitchCase="'work_packages'">
-    {{item.type?.name }} #{{ item.id }} {{ item.subject }}
+    <span [ngOptionHighlight]="search">
+      {{item.type?.name }} #{{ item.id }} {{ item.subject }}
+    </span>
   </ng-container>
 
   <ng-container *ngSwitchDefault>
-    {{ item.name }}
-    </ng-container>
+    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+  </ng-container>
 </ng-template>

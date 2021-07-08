@@ -1280,8 +1280,10 @@ zh-CN:
     work_packages:
       subject:
         assigned: "You have been assigned to %{work_package}"
-        subscribed: "You are subscribed to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "辅助功能"
   label_account: "帐户"
   label_active: "激活"
@@ -2223,6 +2225,10 @@ zh-CN:
   setting_apiv3_cors_origins: "API V3 跨源资源共享 (CORS) 允许的源"
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
+  setting_apiv3_docs: "文档"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"

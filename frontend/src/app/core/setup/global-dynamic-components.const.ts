@@ -220,7 +220,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: editableQueryPropsSelector, cls: EditableQueryPropsComponent },
   { selector: slideToggleSelector, cls: SlideToggleComponent },
   { selector: backupSelector, cls: BackupComponent },
-  { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent }
+  { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
 ];
 
 

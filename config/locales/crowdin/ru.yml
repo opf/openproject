@@ -1334,8 +1334,10 @@ ru:
     work_packages:
       subject:
         assigned: "Вы были назначены %{work_package}"
-        subscribed: "Вы подписаны на %{work_package}"
+        subscribed: "Вы подписались на %{work_package}"
         mentioned: "Вы были назначены %{work_package}"
+        involved: "Вы либо назначены, либо ответственны за %{work_package}"
+        watched: "Вы просматриваете %{work_package}"
   label_accessibility: "Спец. возможности"
   label_account: "Учетная запись"
   label_active: "Активно"
@@ -2281,6 +2283,10 @@ ru:
   setting_apiv3_cors_origins: "Разделение ресурсов (CORS) разрешено в API V3"
   setting_apiv3_cors_origins_text_html: >
     Если CORS включен, то это источники, которым разрешен доступ к OpenProject API. <br/> Пожалуйста, проверьте <a href="%{origin_link}" target="_blank">документацию по происхождению</a> о том, как указывать ожидаемые значения.
+  setting_apiv3_docs: "Документация"
+  setting_apiv3_docs_enabled: "Включить страницу с документами"
+  setting_apiv3_docs_enabled_instructions_html: >
+    Если включена страница документации к документации, вы можете получить интерактивный вид документации APIv3 под <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Метод доставки электронной почты"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
   setting_smtp_enable_starttls_auto: "Автоматически использовать STARTTLS, если таковые имеются"

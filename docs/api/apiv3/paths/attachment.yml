@@ -1,0 +1,125 @@
+# /api/v3/attachments/{id}
+---
+delete:
+  parameters:
+  - description: Attachment id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '204':
+      description: |-
+        Returned if the attachment was deleted successfully.
+
+        Note that the response body is empty as of now. In future versions of the API a body
+        *might* be returned along with an appropriate HTTP status.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to delete this attachment.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit permission for the container of the attachment or being the author for attachments without container
+
+        *Note that you will only receive this error, if you are at least allowed to see the attachment.*
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified attachment does not exist.
+      description: |-
+        Returned if the attachment does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view permission for the container of the attachment or being the author for attachments without container
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Attachments
+  description: Permanently deletes the specified attachment.
+  operationId: Delete_attachment
+  summary: Delete attachment
+get:
+  parameters:
+  - description: Attachment id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  author:
+                    href: "/api/v3/users/1"
+                  container:
+                    href: "/api/v3/work_packages/1"
+                  downloadLocation:
+                    href: "/some/remote/aws/url/image.png"
+                  self:
+                    href: "/api/v3/attachments/1"
+                  staticDownloadLocation:
+                    href: "/api/v3/attachments/1/download"
+                _type: Attachment
+                contentType: image/png
+                createdAt: '2014-05-21T08:51:20Z'
+                description:
+                  format: plain
+                  html: "<p>A picture of a cute cat</p>"
+                  raw: A picture of a cute cat
+                digest:
+                  algorithm: md5
+                  hash: 64c26a8403cd796ea4cf913cda2ee4a9
+                fileName: cat.png
+                filesize: 24
+                id: 1
+          schema:
+            "$ref": "../components/schemas/attachment_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The specified attachment does not exist.
+      description: |-
+        Returned if the attachment does not exist or the client does not have sufficient permissions
+        to see it.
+
+        **Required permission:** view permission for the container of the attachment or being the author for attachments without container
+
+        *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+        That's why a 404 is returned here, even if a 403 might be more appropriate.*
+      headers: {}
+  tags:
+  - Attachments
+  description: ''
+  operationId: View_attachment
+  summary: View attachment

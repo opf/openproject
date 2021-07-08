@@ -84,3 +84,14 @@ jobs:
       run: |
         docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
         sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+  api-spec:
+    name: APIv3 specification (OpenAPI 3.0)
+    if: github.repository == 'opf/openproject'
+    runs-on: [ubuntu-latest]
+    steps:    
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - run: ./script/api/validate_spec

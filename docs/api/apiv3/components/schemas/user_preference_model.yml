@@ -1,0 +1,41 @@
+# Schema: User_PreferenceModel
+---
+type: object
+properties:
+  hideMail:
+    type: boolean
+    description: Hide mail address from other users
+  timeZone:
+    type: string
+    description: Current selected time zone
+  commentSortDescending:
+    type: boolean
+    description: Sort comments in descending order
+  warnOnLeavingUnsaved:
+    type: boolean
+    description: Issue warning when leaving a page with unsaved text
+  accessibilityMode:
+    type: boolean
+    description: Enable accessibility mode
+  _links:
+    type: object
+    required:
+    - self
+    - user
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This UserPreferences
+
+            **Resource**: UserPreferences
+          readOnly: true
+      user:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The user that this preference belongs to
+
+            **Resource**: User
+          readOnly: true

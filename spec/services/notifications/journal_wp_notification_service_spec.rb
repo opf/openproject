@@ -140,7 +140,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
       expect(events_service)
         .to have_received(:call)
-              .with({ recipient: recipient,
+              .with({ recipient_id: recipient.id,
                       reason: event_reason,
                       project: journal.project,
                       actor: journal.user,
@@ -221,13 +221,23 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
         ]
       end
 
-      # Event creation will be prevented by the service
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'assignee has all in app notifications enabled but only involved for mail' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: true),
+          FactoryBot.build(:in_app_notification_setting, involved: false, watched: false, mentioned: false, all: true)
+        ]
+      end
+
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
+        let(:event_reason) { :subscribed }
         let(:event_channels) do
           {
-            read_ian: nil,
-            read_email: nil
+            read_ian: false,
+            read_email: false
           }
         end
       end
@@ -305,16 +315,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
         ]
       end
 
-      # Event creation will be prevented by the service
-      it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
-        let(:event_channels) do
-          {
-            read_ian: nil,
-            read_email: nil
-          }
-        end
-      end
+      it_behaves_like 'creates no notification'
     end
 
     context 'when responsible is not allowed to view work packages' do
@@ -389,16 +390,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
         ]
       end
 
-      # Event creation will be prevented by the service
-      it_behaves_like 'creates notification' do
-        let(:event_reason) { :watched }
-        let(:event_channels) do
-          {
-            read_ian: nil,
-            read_email: nil
-          }
-        end
-      end
+      it_behaves_like 'creates no notification'
     end
 
     context 'when watcher is not allowed to view work packages' do
@@ -631,15 +623,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
             ]
           end
 
-          # Event creation will be prevented by the service
-          it_behaves_like 'creates notification' do
-            let(:event_channels) do
-              {
-                read_ian: nil,
-                read_email: nil
-              }
-            end
-          end
+          it_behaves_like 'creates no notification'
         end
       end
 
@@ -712,15 +696,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
               "Hello user:\"#{recipient.login}\", hey user##{recipient.id}"
             end
 
-            # Event creation will be prevented by the service
-            it_behaves_like 'creates notification' do
-              let(:event_channels) do
-                {
-                  read_ian: nil,
-                  read_email: nil
-                }
-              end
-            end
+            it_behaves_like 'creates no notification'
           end
         end
 

@@ -1298,8 +1298,10 @@ es:
     work_packages:
       subject:
         assigned: "You have been assigned to %{work_package}"
-        subscribed: "You are subscribed to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accesibilidad"
   label_account: "Cuenta"
   label_active: "Activo"
@@ -2246,6 +2248,10 @@ es:
   setting_apiv3_cors_origins: "Orígenes permitidos de la API de CORS (uso compartido de recursos entre orígenes) V3"
   setting_apiv3_cors_origins_text_html: >
     Si CORS está habilitado, estos son los orígenes que tienen permiso para acceder a la API de OpenProject. <br/> Consulte la <a href="%{origin_link}" target="_blank">documentación sobre el encabezado Origin</a> para obtener información sobre cómo especificar los valores esperados.
+  setting_apiv3_docs: "Documentación"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
   setting_smtp_enable_starttls_auto: "Usar STARTTLS automáticamente si está disponible"

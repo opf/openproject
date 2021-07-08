@@ -1,0 +1,18 @@
+# Schema: View_capabilitiesModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/capabilities/work_packages/create/p123-567"
+    action:
+      href: "/api/v3/actions/work_packages/create"
+      title: Add work package
+    context:
+      href: "/api/v3/projects/123"
+      title: A project
+    principal:
+      href: "/api/v3/users/567"
+      title: Some user
+  _type: Capability
+  id: work_packages/create/p123-567

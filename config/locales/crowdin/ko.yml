@@ -1283,8 +1283,10 @@ ko:
     work_packages:
       subject:
         assigned: "You have been assigned to %{work_package}"
-        subscribed: "You are subscribed to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "접근성"
   label_account: "계정"
   label_active: "활성"
@@ -2228,6 +2230,10 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
+  setting_apiv3_docs: "설명서"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"

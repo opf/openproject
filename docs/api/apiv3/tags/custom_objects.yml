@@ -1,0 +1,17 @@
+---
+description: |-
+  ## Linked Properties
+
+  |  Link         | Description               | Type          | Constraints | Supported operations |
+  |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+  | self          | This custom object        | CustomObject  | not null    | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                    | Type     | Constraints | Supported operations |
+  |:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+  | id               | The identifier                                 | Integer  |             | READ                 |
+  | value            | The value defined for this custom object       | String   |             | READ                 |
+
+  Custom objects are options of list custom fields.
+name: Custom Objects

@@ -88,8 +88,8 @@ hu:
         keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
         regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
     devices:
-      add_new: 'Add new 2FA device'
-      register: 'Register device'
+      add_new: 'Új 2FA eszköz hozzáadása'
+      register: 'Eszköz regisztrálása'
       confirm_default: 'Confirm changing default device'
       confirm_device: 'Confirm device'
       confirm_now: 'Not confirmed, click here to activate'
@@ -112,8 +112,8 @@ hu:
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
-        secret_key: 'Secret key'
-        time_based: 'Time based'
+        secret_key: 'Titkos kulcs'
+        time_based: 'Idő alapú'
         account: 'Account name / Issuer'
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
@@ -154,7 +154,7 @@ hu:
       clear_cookie: 'Click here to remove all remembered 2FA sessions.'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
-  field_phone: "Cell phone"
+  field_phone: "Mobiltelefon:"
   field_otp: "Egyszeri jelszó"
   notice_account_otp_invalid: "Invalid one-time password."
   notice_account_otp_expired: "The one-time password you entered expired."
@@ -170,7 +170,7 @@ hu:
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
   text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
-  button_otp_by_voice: "Voice call"
+  button_resend_otp_form: "Újraküldés"
+  button_otp_by_voice: "Hanghívás"
   button_otp_by_sms: "SMS"
-  label_otp_channel: "Delivery channel"
+  label_otp_channel: "Közvetítő csatorna"

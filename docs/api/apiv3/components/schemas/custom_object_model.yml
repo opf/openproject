@@ -1,0 +1,31 @@
+# Schema: Custom_ObjectModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: The identifier
+    readOnly: true
+  value:
+    type: string
+    description: The value defined for this custom object
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This custom object
+
+            **Resource**: CustomObject
+          readOnly: true
+example:
+  _links:
+    self:
+      href: "/api/v3/custom_objects/1"
+  _type: CustomObject
+  value: Foo

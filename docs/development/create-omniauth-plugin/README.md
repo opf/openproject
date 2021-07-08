@@ -50,7 +50,7 @@ Let’s assume that the plugin you generated is called `openproject-my_auth_plug
 ### Implement the strategy
 
 This is specific to your plugin. There may already be a gem implementing a strategy for the service you want to use.
-In that case you can skip this step and use an existing gem. Just google ‘omniauth <service>’ and chances are that you will find one.
+In that case you can skip this step and use an existing gem. Just google ‘omniauth &lt;service&gt;’ and chances are that you will find one.
 E.g. for twitter ‘omniauth twitter’ will lead you to [this](https://github.com/arunagw/omniauth-twitter) quickly.
 
 ### Register required settings

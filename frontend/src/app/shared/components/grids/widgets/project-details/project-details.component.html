@@ -13,7 +13,7 @@
              [resource]="project">
     <div class="attributes-map">
       <ng-container *ngFor="let cf of customFields">
-        <div class="attributes-map--key">
+        <div class="attributes-map--key" [attr.title]="cf.label">
           {{ cf.label }}
           <attribute-help-text [attribute]="cf.key"
                                [attributeScope]="'Project'"></attribute-help-text>
