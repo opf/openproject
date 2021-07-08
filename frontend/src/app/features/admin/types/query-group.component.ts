@@ -4,7 +4,7 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  selector: 'type-form-query-group',
+  selector: 'op-type-form-query-group',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './query-group.component.html',
 })

@@ -92,12 +92,12 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     // enough, we need to memoize whether we have already submitted.
     let submitted = false;
 
-    this.form.on('submit', (event) => {
+    this.form.on('submit', () => {
       submitted = true;
     });
 
     // Capture mousedown on button because firefox breaks blur on click
-    this.submit.on('mousedown', (event) => {
+    this.submit.on('mousedown', () => {
       setTimeout(() => {
         if (!submitted) {
           this.form.trigger('submit');
@@ -177,7 +177,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
 
     this.externalRelationQuery.show({
       currentQuery: JSON.parse(group.query),
-      callback: (queryProps:any) => group.query = JSON.stringify(queryProps),
+      callback: (queryProps:any) => (group.query = JSON.stringify(queryProps)),
       disabledTabs,
     });
   }
@@ -195,7 +195,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
   public createGroup(type:TypeGroupType, groupName = '') {
     const group:TypeGroup = {
       type,
-      name: '',
+      name: groupName,
       key: null,
       query: this.no_filter_query,
       attributes: [],
@@ -220,7 +220,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
         // Disable our form handler that updates the attribute groups
         this.form.off('submit.typeformupdater');
         this.form.trigger('submit');
-      });
+      })
+      .catch(() => {});
 
     $event.preventDefault();
     return false;

@@ -130,7 +130,7 @@ export class OpCkeditorComponent implements OnInit {
    */
   public getTransformedContent(notificationOnError = true):Promise<string> {
     if (!this.initialized) {
-      throw 'Tried to access CKEditor instance before initialization.';
+      throw new Error('Tried to access CKEditor instance before initialization.');
     }
 
     return new Promise<string>((resolve, reject) => {

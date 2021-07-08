@@ -42,7 +42,7 @@ export class EditableQueryPropsComponent implements OnInit {
   }
 
   public editQuery() {
-    const queryProps = (() => {
+    const queryProperties = (() => {
       if (this.urlParams) {
         return this.queryProps;
       }
@@ -56,7 +56,7 @@ export class EditableQueryPropsComponent implements OnInit {
     })();
 
     this.externalQuery.show({
-      currentQuery: queryProps,
+      currentQuery: queryProperties,
       urlParams: this.urlParams,
       callback: (queryProps:any) => {
         this.queryProps = this.urlParams ? queryProps : JSON.stringify(queryProps);

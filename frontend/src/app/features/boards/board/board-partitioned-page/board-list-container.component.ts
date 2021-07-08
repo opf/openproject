@@ -62,7 +62,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       if (this._container === undefined) {
         this.Drag.addScrollContainer(v.nativeElement);
       }
-      setTimeout(() => this._container = v.nativeElement);
+      setTimeout(() => (this._container = v.nativeElement));
     }
   }
 

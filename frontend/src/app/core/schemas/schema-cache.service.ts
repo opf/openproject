@@ -59,7 +59,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
     const schema = this.state(resource).value;
 
     if (!schema) {
-      throw `Schema for resource ${resource} was expected to be loaded but isn't.`;
+      throw new Error(`Schema for resource ${resource} was expected to be loaded but isn't.`);
     }
 
     if (resource._type === 'WorkPackage') {

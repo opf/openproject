@@ -92,7 +92,7 @@ export class HalLink implements HalLinkInterface {
    */
   public $prepare(templateValues:{ [templateKey:string]:string }) {
     if (!this.templated) {
-      throw `The link ${this.href} is not templated.`;
+      throw new Error(`The link ${this.href} is not templated.`);
     }
 
     let href = _.clone(this.href) || '';

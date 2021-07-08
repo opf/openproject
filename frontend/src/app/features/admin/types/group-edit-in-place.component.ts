@@ -38,7 +38,7 @@ import {
 import { TypeBannerService } from 'core-app/features/admin/types/type-banner.service';
 
 @Component({
-  selector: 'group-edit-in-place',
+  selector: 'op-group-edit-in-place',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './group-edit-in-place.html',
 })

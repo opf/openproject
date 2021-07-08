@@ -152,7 +152,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
           .warningTextWhenNoOptionsAvailable(hasMember)
           .then((text) => {
             this.warningText = text;
-          });
+          })
+          .catch(() => {});
         this.availableValues = values;
         this.showWarning = this.requests.lastRequestedValue !== undefined && (values.length === 0);
         this.cdRef.detectChanges();
@@ -176,7 +177,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
         this.closeMe();
         this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
-      .catch(() => this.inFlight = false);
+      .catch(() => (this.inFlight = false));
   }
 
   onNewActionCreated(newValue:HalResource) {

@@ -84,7 +84,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   public updatePristineResource(resource:T) {
     // Ensure we're not passing in a proxy
     if ((resource as any)[PROXY_IDENTIFIER]) {
-      throw "You're trying to pass proxy object as a pristine resource. This will cause errors";
+      throw new Error("You're trying to pass proxy object as a pristine resource. This will cause errors");
     }
 
     this._pristineResource = resource;

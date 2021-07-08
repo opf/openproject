@@ -141,7 +141,7 @@ export class HalResourceService {
       const results = await promise;
 
       if (results.count === 0) {
-        throw 'No more results for this query, but expected more.';
+        throw new Error('No more results for this query, but expected more.');
       }
 
       allResults.push(results);

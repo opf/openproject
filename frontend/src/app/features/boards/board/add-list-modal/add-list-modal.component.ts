@@ -56,7 +56,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   getAutocompleterData = (searchTerm:string):Observable<HalResource[]> => {
     // Remove prefix # from search
     searchTerm = searchTerm.replace(/^#/, '');
-    return this.actionService.loadAvailable(this.board, this.active, searchTerm).pipe(tap((values) => this.warnIfNoOptions(values)));
+    return this.actionService.loadAvailable(this.board, this.active, searchTerm)
+      .pipe(tap((values) => (this.warnIfNoOptions(values))));
   };
 
   public autocompleterOptions = {
@@ -144,7 +145,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
         this.closeMe();
         this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
-      .catch(() => this.inFlight = false);
+      .catch(() => (this.inFlight = false));
   }
 
   onNewActionCreated() {
@@ -191,7 +192,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
       .warningTextWhenNoOptionsAvailable(hasMember)
       .then((text) => {
         this.warningText = text;
-      });
+      })
+      .catch(() => {});
     this.showWarning = this.ngSelectComponent.ngSelectInstance.searchTerm !== undefined && (values.length === 0);
     this.cdRef.detectChanges();
   }

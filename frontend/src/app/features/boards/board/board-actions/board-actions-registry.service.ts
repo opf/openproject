@@ -20,6 +20,6 @@ export class BoardActionsRegistryService {
       return this.mapping[attribute];
     }
 
-    throw (`No action service exists for ${attribute}`);
+    throw new Error(`No action service exists for ${attribute}`);
   }
 }

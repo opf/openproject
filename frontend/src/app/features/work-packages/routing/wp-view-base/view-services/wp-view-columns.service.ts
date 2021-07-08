@@ -217,7 +217,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
       const newColumn = _.find(this.all, (column) => column.id === id);
 
       if (!newColumn) {
-        throw 'Column with provided name is not found';
+        throw new Error('Column with provided name is not found');
       }
 
       columns.splice(position, 0, newColumn);

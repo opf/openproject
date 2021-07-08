@@ -39,11 +39,9 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 
 @Directive({
-  selector: '[addCardDropdown]',
+  selector: '[op-addCardDropdown]',
 })
 export class AddCardDropdownMenuDirective extends OpContextMenuTrigger {
-  private focusAfterClose = true;
-
   constructor(readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly opModalService:OpModalService,

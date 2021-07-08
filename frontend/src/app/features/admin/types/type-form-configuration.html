@@ -49,11 +49,11 @@
                                    (deleteGroup)="deleteGroup(group)"
                                    [group]="group">
         </op-type-form-attribute-group>
-        <type-form-query-group *ngIf="group.type === 'query'"
+        <op-type-form-query-group *ngIf="group.type === 'query'"
                                (editQuery)="editQuery(group)"
                                (deleteGroup)="deleteGroup(group)"
                                [group]="group">
-        </type-form-query-group>
+        </op-type-form-query-group>
       </ng-container>
     </div>
   </div>

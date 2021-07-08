@@ -241,7 +241,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
         return this.createNewWorkPackage(projectIdentifier, mergedPayload).then((change:WorkPackageChangeset) => {
           if (!change) {
-            throw 'No new work package was created';
+            throw new Error('No new work package was created');
           }
 
           // We need to apply the defaults again (after them being applied in the form requests)

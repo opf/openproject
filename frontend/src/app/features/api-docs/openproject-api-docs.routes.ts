@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Ng2StateDeclaration, UIRouter } from '@uirouter/angular';
+import { Ng2StateDeclaration } from '@uirouter/angular';
 import { SwaggerUIComponent } from './swagger-ui/swagger-ui.component';
 
 export const API_DOCS_ROUTES:Ng2StateDeclaration[] = [

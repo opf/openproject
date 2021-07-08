@@ -22,6 +22,7 @@ export class TypeBannerService extends BannersService {
       },
     }).then(() => {
       window.location.href = 'https://www.openproject.org/enterprise-edition/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration';
-    });
+    })
+      .catch(() => {});
   }
 }

@@ -258,7 +258,7 @@ function redistribute(
       min -= itemsToDistribute;
     } else {
       // This should not happen in a 4-byte integer with our frontend
-      throw 'Elements cannot be moved further and no space is left. Too many elements';
+      throw new Error('Elements cannot be moved further and no space is left. Too many elements');
     }
 
     // Rebuild space

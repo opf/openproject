@@ -442,7 +442,7 @@ describe('DynamicFormComponent', () => {
     expect(notificationsService.addSuccess).toHaveBeenCalled();
 
     dynamicFormService.submit$.and.returnValue(defer(() => {
-      throw 'Error';
+      throw new Error('Error');
     }));
 
     submitButton.nativeElement.click();

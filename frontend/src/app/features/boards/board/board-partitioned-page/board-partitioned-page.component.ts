@@ -112,7 +112,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
       return this.Boards
         .save(board)
         .pipe(
-          finalize(() => this.toolbarDisabled = false),
+          finalize(() => (this.toolbarDisabled = false)),
         );
     },
   );
@@ -156,7 +156,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     this.boardSaver
       .observe(componentDestroyed(this))
       .subscribe(
-        (board:Board) => {
+        () => {
           this.notifications.addSuccess(this.text.updateSuccessful);
         },
         (error:unknown) => this.halNotification.handleRawError(error),

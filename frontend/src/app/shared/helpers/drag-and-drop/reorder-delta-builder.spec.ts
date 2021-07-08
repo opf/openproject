@@ -48,7 +48,7 @@ describe('ReorderDeltaBuilder', () => {
       toIndex = work_packages.indexOf(wpId);
 
       if (toIndex === -1) {
-        throw 'Invalid wpId given for work_packages, must be contained.';
+        throw new Error('Invalid wpId given for work_packages, must be contained.');
       }
     }
     return buildDelta(wps, positions, wpId, toIndex, fromIndex);
