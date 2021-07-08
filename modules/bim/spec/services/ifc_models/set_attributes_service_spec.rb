@@ -109,7 +109,7 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
 
     context 'for a new record' do
       let(:model) do
-        Bim::IfcModels::IfcModel.new
+        Bim::IfcModels::IfcModel.new project: project
       end
 
       context 'with an ifc_attachment' do
