@@ -40,7 +40,6 @@ module Budgets
     attribute :description
     attribute :fixed_date
     attribute :project
-    attribute :author
     attribute :new_material_budget_item_attributes,
               readable: false
 
