@@ -68,6 +68,7 @@ class Attachments::CreateService < ::BaseServices::Create
   def error_wrapped_call
     yield
   rescue StandardError => e
+    binding.pry
     log_attachment_saving_error(e)
 
     message =
