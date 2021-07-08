@@ -54,7 +54,9 @@ module Bim
       end
 
       def user_is_uploader
-        if model.uploader_id_changed? && model.uploader != user
+        return unless changed_by_user.include?('uploader_id')
+
+        if model.uploader != user
           errors.add :uploader_id, :invalid
         end
       end
