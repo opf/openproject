@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,29 +26,29 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from "@angular/core";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit,
+} from '@angular/core';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  templateUrl: './dynamic-content.modal.html'
+  templateUrl: './dynamic-content.modal.html',
 })
-export class DynamicContentModal extends OpModalComponent implements OnInit, OnDestroy {
+export class DynamicContentModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   // override superclass
   // Allowing outside clicks to close the modal leads to the user involuntarily closing
   // the modal when removing error messages or clicking on labels e.g. in the registration modal.
   public closeOnOutsideClick = false;
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
   }
-
 
   ngOnInit() {
     super.ngOnInit();
@@ -74,5 +74,4 @@ export class DynamicContentModal extends OpModalComponent implements OnInit, OnD
     jQuery(document.body).off('click.opdynamicmodal');
     super.ngOnDestroy();
   }
-
 }

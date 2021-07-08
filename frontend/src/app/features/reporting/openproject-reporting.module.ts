@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,23 +27,22 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { UIRouterModule } from "@uirouter/angular";
+import { UIRouterModule } from '@uirouter/angular';
 import {
   REPORTING_ROUTES,
-} from "core-app/features/reporting/openproject-reporting.routes";
-import { ReportingPageComponent } from "core-app/features/reporting/reporting-page/reporting-page.component";
+} from 'core-app/features/reporting/openproject-reporting.routes';
+import { ReportingPageComponent } from 'core-app/features/reporting/reporting-page/reporting-page.component';
 
 @NgModule({
   imports: [
     // Routes for /cost_reports
     UIRouterModule.forChild({
-      states: REPORTING_ROUTES
+      states: REPORTING_ROUTES,
     }),
   ],
   declarations: [
-    ReportingPageComponent
-  ]
+    ReportingPageComponent,
+  ],
 })
 export class OpenprojectReportingModule {
 }
-

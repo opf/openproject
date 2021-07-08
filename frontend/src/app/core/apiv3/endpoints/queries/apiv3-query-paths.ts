@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { APIV3QueryOrder } from "core-app/core/apiv3/endpoints/queries/apiv3-query-order";
-import { Apiv3QueryForm } from "core-app/core/apiv3/endpoints/queries/apiv3-query-form";
-import { Observable } from "rxjs";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { QueryFiltersService } from "core-app/features/work-packages/components/wp-query/query-filters.service";
-import { HalPayloadHelper } from "core-app/features/hal/schemas/hal-payload.helper";
-import { PaginationObject } from "core-app/shared/components/table-pagination/pagination-service";
+import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { APIV3QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { Apiv3QueryForm } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-form';
+import { Observable } from 'rxjs';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
+import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
+import { PaginationObject } from 'core-app/shared/components/table-pagination/pagination-service';
 
 export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
   @InjectField() private queryFilters:QueryFiltersService;
@@ -88,5 +88,4 @@ export class APIv3QueryPaths extends APIv3GettableResource<QueryResource> {
   public paginated(pagination:PaginationObject):Observable<QueryResource> {
     return this.parameterised(pagination);
   }
-
 }

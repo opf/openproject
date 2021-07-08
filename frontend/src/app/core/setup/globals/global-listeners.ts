@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,28 +26,27 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { performAnchorHijacking } from "./global-listeners/link-hijacking";
-import { augmentedDatePicker } from "./global-listeners/augmented-date-picker";
 import { refreshOnFormChanges } from 'core-app/core/setup/globals/global-listeners/refresh-on-form-changes';
-import { registerRequestForConfirmation } from "core-app/core/setup/globals/global-listeners/request-for-confirmation";
-import { DeviceService } from "core-app/core/browser/device.service";
-import { scrollHeaderOnMobile } from "core-app/core/setup/globals/global-listeners/top-menu-scroll";
-import { setupToggableFieldsets } from "core-app/core/setup/globals/global-listeners/toggable-fieldset";
-import { TopMenu } from "core-app/core/setup/globals/global-listeners/top-menu";
-import { install_menu_logic } from "core-app/core/setup/globals/global-listeners/action-menu";
-import { makeColorPreviews } from "core-app/core/setup/globals/global-listeners/color-preview";
-import { dangerZoneValidation } from "core-app/core/setup/globals/global-listeners/danger-zone-validation";
-import { setupServerResponse } from "core-app/core/setup/globals/global-listeners/setup-server-response";
-import { listenToSettingChanges } from "core-app/core/setup/globals/global-listeners/settings";
-import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onboarding_tour_trigger";
+import { registerRequestForConfirmation } from 'core-app/core/setup/globals/global-listeners/request-for-confirmation';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listeners/top-menu-scroll';
+import { setupToggableFieldsets } from 'core-app/core/setup/globals/global-listeners/toggable-fieldset';
+import { TopMenu } from 'core-app/core/setup/globals/global-listeners/top-menu';
+import { installMenuLogic } from 'core-app/core/setup/globals/global-listeners/action-menu';
+import { makeColorPreviews } from 'core-app/core/setup/globals/global-listeners/color-preview';
+import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listeners/danger-zone-validation';
+import { setupServerResponse } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
+import { listenToSettingChanges } from 'core-app/core/setup/globals/global-listeners/settings';
+import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
+import { augmentedDatePicker } from './global-listeners/augmented-date-picker';
+import { performAnchorHijacking } from './global-listeners/link-hijacking';
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
  */
 (function ($:JQueryStatic) {
-
-  $(function () {
-    $(document.documentElement!)
+  $(() => {
+    $(document.documentElement)
       .on('click', (evt:any) => {
         const target = jQuery(evt.target) as JQuery;
 
@@ -62,7 +61,7 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
       });
 
     // Jump to the element given by location.hash, if present
-    const hash = window.location.hash;
+    const { hash } = window.location;
     if (hash && hash.startsWith('#')) {
       try {
         const el = document.querySelector(hash);
@@ -71,13 +70,13 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
         // This is very likely an invalid selector such as a Google Analytics tag.
         // We can safely ignore this and just not scroll in this case.
         // Still log the error so one can confirm the reason there is no scrolling.
-        console.log("Could not scroll to given location hash: " + hash + " ( " + e.message + ")");
+        console.log(`Could not scroll to given location hash: ${hash} ( ${e.message})`);
       }
     }
 
     // Global submitting hook,
     // necessary to avoid a data loss warning on beforeunload
-    $(document).on('submit', 'form', function () {
+    $(document).on('submit', 'form', () => {
       window.OpenProject.pageIsSubmitted = true;
     });
 
@@ -96,12 +95,12 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
         // Cancel the event
         event.preventDefault();
         // Chrome requires returnValue to be set
-        event.returnValue = I18n.t("js.work_packages.confirm_edit_cancel");
+        event.returnValue = I18n.t('js.work_packages.confirm_edit_cancel');
       }
     });
 
     // Disable global drag & drop handling, which results in the browser loading the image and losing the page
-    $(document.documentElement!)
+    $(document.documentElement)
       .on('dragover drop', (evt:any) => {
         evt.preventDefault();
         return false;
@@ -134,8 +133,8 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
     new TopMenu(jQuery('.op-app-header'));
 
     // Action menu logic
-    jQuery('.project-actions, .toolbar-items').each(function (idx:number, menu:HTMLElement) {
-      install_menu_logic(jQuery(menu));
+    jQuery('.project-actions, .toolbar-items').each((idx:number, menu:HTMLElement) => {
+      installMenuLogic(jQuery(menu));
     });
 
     // Legacy settings listener
@@ -150,5 +149,4 @@ import { detectOnboardingTour } from "core-app/core/setup/globals/onboarding/onb
     // Bootstrap legacy app code
     setupServerResponse();
   });
-
 }(jQuery));

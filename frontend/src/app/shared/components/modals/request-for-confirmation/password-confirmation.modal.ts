@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ConfirmDialogModal } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal";
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
+import {
+  Component, ElementRef, OnInit, ViewChild,
+} from '@angular/core';
 
 @Component({
-  templateUrl: './password-confirmation.modal.html'
+  templateUrl: './password-confirmation.modal.html',
 })
-export class PasswordConfirmationModal extends ConfirmDialogModal implements OnInit {
-
+export class PasswordConfirmationModalComponent extends ConfirmDialogModalComponent implements OnInit {
   public password_confirmation:string|null = null;
 
   @ViewChild('passwordConfirmationField', { static: true }) passwordConfirmationField:ElementRef;

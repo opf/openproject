@@ -44,16 +44,16 @@
   <div class="grid-content small-12 medium-6">
     <div id="draggable-groups" dragula="groups" [(dragulaModel)]="groups">
       <ng-container *ngFor="let group of groups">
-        <type-form-attribute-group *ngIf="group.type === 'attribute'"
+        <op-type-form-attribute-group *ngIf="group.type === 'attribute'"
                                    (removeAttribute)="deactivateAttribute($event)"
                                    (deleteGroup)="deleteGroup(group)"
                                    [group]="group">
-        </type-form-attribute-group>
-        <type-form-query-group *ngIf="group.type === 'query'"
+        </op-type-form-attribute-group>
+        <op-type-form-query-group *ngIf="group.type === 'query'"
                                (editQuery)="editQuery(group)"
                                (deleteGroup)="deleteGroup(group)"
                                [group]="group">
-        </type-form-query-group>
+        </op-type-form-query-group>
       </ng-container>
     </div>
   </div>

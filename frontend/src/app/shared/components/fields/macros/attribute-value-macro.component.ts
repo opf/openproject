@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++    Ng1FieldControlsWrapper,
+// ++    Ng1FieldControlsWrapper,
 
 import {
   ChangeDetectionStrategy,
@@ -33,21 +33,18 @@ import {
   ElementRef,
   HostBinding,
   Injector,
-  ViewChild
-} from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { NEVER, Observable } from "rxjs";
-import { filter, map, take, tap } from "rxjs/operators";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+  ViewChild,
+} from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   AttributeModelLoaderService,
-  SupportedAttributeModels
-} from "core-app/shared/components/fields/macros/attribute-model-loader.service";
+  SupportedAttributeModels,
+} from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
 
 export const attributeValueMacro = 'macro.macro--attribute-value';
 
@@ -57,8 +54,8 @@ export const attributeValueMacro = 'macro.macro--attribute-value';
   styleUrls: ['./attribute-macro.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    HalResourceEditingService
-  ]
+    HalResourceEditingService,
+  ],
 })
 export class AttributeValueMacroComponent {
   @ViewChild('displayContainer') private displayContainer:ElementRef<HTMLSpanElement>;
@@ -70,22 +67,22 @@ export class AttributeValueMacroComponent {
     help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
     placeholder: this.I18n.t('js.placeholders.default'),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    invalid_attribute: (attr:string) =>
-      this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
+    invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
   @HostBinding('title') hostTitle = this.text.help;
 
   resource:HalResource;
+
   fieldName:string;
 
   constructor(readonly elementRef:ElementRef,
-              readonly injector:Injector,
-              readonly resourceLoader:AttributeModelLoaderService,
-              readonly schemaCache:SchemaCacheService,
-              readonly displayField:DisplayFieldService,
-              readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly injector:Injector,
+    readonly resourceLoader:AttributeModelLoaderService,
+    readonly schemaCache:SchemaCacheService,
+    readonly displayField:DisplayFieldService,
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef) {
 
   }
 
@@ -104,7 +101,7 @@ export class AttributeValueMacroComponent {
     try {
       resource = await this.resourceLoader.require(model, id);
     } catch (e) {
-      console.error("Failed to render macro " + e);
+      console.error(`Failed to render macro ${e}`);
       return this.markError(this.text.not_found);
     }
 
@@ -128,7 +125,7 @@ export class AttributeValueMacroComponent {
   }
 
   markError(message:string) {
-    this.error = this.I18n.t('js.editor.macro.error', { message: message });
+    this.error = this.I18n.t('js.editor.macro.error', { message });
     this.cdRef.detectChanges();
   }
 }

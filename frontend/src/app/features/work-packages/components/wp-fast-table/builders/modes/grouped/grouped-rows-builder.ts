@@ -1,27 +1,29 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import {
+  collapsedRowClass,
+  rowGroupClassName,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { States } from 'core-app/core/states/states.service';
+import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { WorkPackageTable } from '../../../wp-fast-table';
 import { tableRowClassName } from '../../rows/single-row-builder';
 import { RowsBuilder } from '../rows-builder';
 import { GroupHeaderBuilder } from './group-header-builder';
 import { GroupedRenderPass } from './grouped-render-pass';
 import { groupedRowClassName, groupIdentifier } from './grouped-rows-helpers';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import {
-  collapsedRowClass,
-  rowGroupClassName
-} from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-app/core/states/states.service";
-import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
 
 export class GroupedRowsBuilder extends RowsBuilder {
-
   // Injections
   @InjectField() private readonly querySpace:IsolatedQuerySpace;
+
   @InjectField() public states:States;
+
   @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+
   @InjectField() public I18n:I18nService;
 
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
@@ -61,7 +63,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       this.workPackageTable,
       this.getGroupData(),
       builder,
-      this.colspan
+      this.colspan,
     ).render();
   }
 

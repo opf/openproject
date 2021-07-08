@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,22 +29,23 @@
 import { StateService, TransitionPromise } from '@uirouter/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { Injectable } from '@angular/core';
-import { WorkPackageViewPagination } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { WorkPackageViewPagination } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
 @Injectable()
 export class WorkPackagesListChecksumService {
   constructor(protected UrlParamsHelper:UrlParamsHelperService,
-              protected $state:StateService) {
+    protected $state:StateService) {
   }
 
   public id:string|null;
+
   public checksum:string|null;
+
   public visibleChecksum:string|null;
 
   public updateIfDifferent(query:QueryResource,
     pagination:WorkPackageViewPagination):Promise<unknown> {
-
     const newQueryChecksum = this.getNewChecksum(query, pagination);
     let routePromise:Promise<unknown> = Promise.resolve();
 
@@ -54,7 +55,6 @@ export class WorkPackagesListChecksumService {
       routePromise = this.maintainUrlQueryState(query.id, null);
 
       this.clear();
-
     } else if (this.isChecksumDifferent(newQueryChecksum)) {
       routePromise = this.maintainUrlQueryState(query.id, newQueryChecksum);
     }
@@ -129,14 +129,14 @@ export class WorkPackagesListChecksumService {
 
     return (
       // Can only be outdated if either ID or props set
-      (hasCurrentQueryID || hasCurrentChecksum) &&
-      (
+      (hasCurrentQueryID || hasCurrentChecksum)
+      && (
         // Query ID changed
-        idChanged ||
+        idChanged
         // Query ID same + query props changed
-        (!idChanged && checksumChanged && (otherChecksum || this.visibleChecksum)) ||
+        || (!idChanged && checksumChanged && (otherChecksum || this.visibleChecksum))
         // No query ID set
-        (!hasCurrentQueryID && visibleChecksumChanged)
+        || (!hasCurrentQueryID && visibleChecksumChanged)
       )
     );
   }
@@ -151,7 +151,7 @@ export class WorkPackagesListChecksumService {
     return this.$state.go(
       '.',
       { query_props: checksum, query_id: id },
-      { custom: { notify: false } }
+      { custom: { notify: false } },
     );
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Ng2StateDeclaration } from "@uirouter/angular";
-import { NotificationsSettingsPageComponent } from "core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component";
+import { Ng2StateDeclaration } from '@uirouter/angular';
+import { NotificationsSettingsPageComponent } from 'core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component';
 
 export const MY_ACCOUNT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'my_notifications',
     parent: 'root',
     url: '/my/notifications',
-    component: NotificationsSettingsPageComponent
+    component: NotificationsSettingsPageComponent,
   },
   {
     name: 'user_notifications',
     parent: 'root',
     url: '/users/:userId/edit/notifications',
-    component: NotificationsSettingsPageComponent
+    component: NotificationsSettingsPageComponent,
   },
 ];

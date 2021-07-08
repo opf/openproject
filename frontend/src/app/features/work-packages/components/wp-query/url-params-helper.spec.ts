@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,65 +26,65 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+/* jshint expr: true */
 
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 
-describe('UrlParamsHelper', function() {
+describe('UrlParamsHelper', () => {
   const paginationStub = {
-    getPerPage: () => 20
+    getPerPage: () => 20,
   } as any;
 
   const UrlParamsHelper = new UrlParamsHelperService(paginationStub);
   let queryString;
 
-  describe('buildQueryString', function() {
+  describe('buildQueryString', () => {
     const params = {
       ids: [1, 2, 3],
-      str: '@#$%'
+      str: '@#$%',
     };
     let queryString:string;
 
-    beforeEach(function() {
+    beforeEach(() => {
       queryString = UrlParamsHelper.buildQueryString(params)!;
     });
 
-    it('concatenates propertys with \'&\'', function() {
+    it("concatenates propertys with '&'", () => {
       expect(queryString.split('&').length).toEqual(4);
     });
 
-    it('escapes special characters', function() {
+    it('escapes special characters', () => {
       expect(queryString.indexOf('@') === -1).toBeTruthy();
     });
   });
 
-  describe('encodeQueryJsonParams', function(){
+  describe('encodeQueryJsonParams', () => {
     let query:any;
     let additional:any;
 
-    beforeEach(function() {
+    beforeEach(() => {
       const filter1 = {
         id: 'soße',
         name: 'soße_id',
         type: 'list_model',
         operator: {
-          id: '='
+          id: '=',
         },
         filter: {
-          href: '/api/filter/soße'
+          href: '/api/filter/soße',
         },
-        values: ['knoblauch']
+        values: ['knoblauch'],
       };
       const filter2 = {
         id: 'created_at',
         type: 'datetime_past',
         operator: {
-          id: '<t-'
+          id: '<t-',
         },
         filter: {
-          href: '/api/filter/created_at'
+          href: '/api/filter/created_at',
         },
-        values: ['5']
+        values: ['5'],
       };
       query = {
         id: 1,
@@ -96,36 +96,36 @@ describe('UrlParamsHelper', function() {
         highlightingMode: 'disabled',
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
-          id: 'status'
+          id: 'status',
         },
         sortBy: [{
-          id: 'type-desc'
+          id: 'type-desc',
         }],
-        filters: [filter1, filter2]
+        filters: [filter1, filter2],
       };
 
       additional = {
         page: 10,
-        perPage: 100
+        perPage: 100,
       };
     });
 
-    it('should encode query to params JSON', function() {
+    it('should encode query to params JSON', () => {
       const encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      const expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hl\":\"disabled\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      const expectedJSON = '{"c":["type","status","soße"],"s":true,"tv":true,"tzl":"days","hl":"disabled","hi":true,"g":"status","t":"type:desc","f":[{"n":"soße","o":"=","v":["knoblauch"]},{"n":"created_at","o":"<t-","v":["5"]}],"pa":10,"pp":100}';
 
       expect(encodedJSON).toEqual(expectedJSON);
     });
   });
 
-  describe('buildV3GetQueryFromJsonParams', function() {
+  describe('buildV3GetQueryFromJsonParams', () => {
     let params:string;
 
-    beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hl\":\"inline\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"=\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"<t-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+    beforeEach(() => {
+      params = '{"c":["type","status","soße"],"s":true,"tv":true,"tzl":"days","hl":"inline","hi":true,"g":"status","t":"type:desc,status:asc","f":[{"n":"soße","o":"=","v":["knoblauch"]},{"n":"created_at","o":"<t-","v":["5"]}],"pa":10,"pp":100}';
     });
 
-    it('should decode query params to object', function() {
+    it('should decode query params to object', () => {
       const decodedQueryParams = UrlParamsHelper.buildV3GetQueryFromJsonParams(params);
 
       const expected = {
@@ -140,52 +140,52 @@ describe('UrlParamsHelper', function() {
           {
             soße: {
               operator: '=',
-              values: ['knoblauch']
-            }
+              values: ['knoblauch'],
+            },
           },
           {
             created_at: {
               operator: '<t-',
-              values: ['5']
-            }
-          }
+              values: ['5'],
+            },
+          },
         ]),
         sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
         offset: 10,
-        pageSize: 100
+        pageSize: 100,
       };
 
       expect(_.isEqual(decodedQueryParams, expected)).toBeTruthy();
     });
   });
 
-  describe('buildV3GetQueryFromQueryResource', function() {
+  describe('buildV3GetQueryFromQueryResource', () => {
     let query:any;
     let additional:any;
 
-    it('decodes query params to object', function() {
+    it('decodes query params to object', () => {
       const filter1 = {
         id: 'soße',
         name: 'soße_id',
         type: 'list_model',
         operator: {
-          id: '='
+          id: '=',
         },
         filter: {
-          href: '/api/filter/soße'
+          href: '/api/filter/soße',
         },
-        values: ['knoblauch']
+        values: ['knoblauch'],
       };
       const filter2 = {
         id: 'created_at',
         type: 'datetime_past',
         operator: {
-          id: '<t-'
+          id: '<t-',
         },
         filter: {
-          href: '/api/filter/created_at'
+          href: '/api/filter/created_at',
         },
-        values: ['5']
+        values: ['5'],
       };
       query = {
         id: 1,
@@ -197,22 +197,22 @@ describe('UrlParamsHelper', function() {
         sums: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
-          id: 'status'
+          id: 'status',
         },
         sortBy: [
           {
-            id: 'type-desc'
+            id: 'type-desc',
           },
           {
-            id: 'status-asc'
-          }
+            id: 'status-asc',
+          },
         ],
-        filters: [filter1, filter2]
+        filters: [filter1, filter2],
       };
 
       additional = {
         offset: 10,
-        pageSize: 100
+        pageSize: 100,
       };
 
       const v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
@@ -225,15 +225,15 @@ describe('UrlParamsHelper', function() {
           {
             soße: {
               operator: '=',
-              values: ['knoblauch']
-            }
+              values: ['knoblauch'],
+            },
           },
           {
             created_at: {
               operator: '<t-',
-              values: ['5']
-            }
-          }
+              values: ['5'],
+            },
+          },
         ]),
         sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
         timelineVisible: false,
@@ -241,33 +241,33 @@ describe('UrlParamsHelper', function() {
         highlightingMode: 'inline',
         'highlightedAttributes[]': ['a', 'b'],
         offset: 10,
-        pageSize: 100
+        pageSize: 100,
       };
 
       expect(_.isEqual(v3Params, expected)).toBeTruthy();
     });
 
-    it('decodes custom options filters', function() {
+    it('decodes custom options filters', () => {
       const filter1 = {
         id: 'customField1',
         operator: {
-          id: '='
+          id: '=',
         },
         filter: {
-          href: '/api/filter/customField1'
+          href: '/api/filter/customField1',
         },
         values: [
           {
-            _type: "CustomOption",
-            value: "cde",
-            href: "/api/v3/custom_options/2"
+            _type: 'CustomOption',
+            value: 'cde',
+            href: '/api/v3/custom_options/2',
           },
           {
-            _type: "CustomOption",
-            value: "abc",
-            href: "/api/v3/custom_options/7"
-          }
-        ]
+            _type: 'CustomOption',
+            value: 'abc',
+            href: '/api/v3/custom_options/7',
+          },
+        ],
       };
       query = {
         filters: [filter1],
@@ -276,7 +276,7 @@ describe('UrlParamsHelper', function() {
         groupBy: '',
         timelineZoomLevel: 0,
         highlightingMode: 'inline',
-        sums: false
+        sums: false,
       };
 
       additional = {};
@@ -289,9 +289,9 @@ describe('UrlParamsHelper', function() {
           {
             customField1: {
               operator: '=',
-              values: ['2', '7']
-            }
-          }
+              values: ['2', '7'],
+            },
+          },
         ]),
         groupBy: '',
         showSums: false,
@@ -299,7 +299,7 @@ describe('UrlParamsHelper', function() {
         showHierarchies: false,
         highlightingMode: 'inline',
 
-        sortBy: '[]'
+        sortBy: '[]',
       };
 
       expect(_.isEqual(v3Params, expected)).toBeTruthy();

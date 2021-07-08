@@ -1,5 +1,5 @@
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 
 export class GridWidgetArea extends GridArea {
   public widget:GridWidgetResource;
@@ -35,39 +35,39 @@ export class GridWidgetArea extends GridArea {
   }
 
   public overlaps(otherArea:GridWidgetArea) {
-    return this.rowOverlaps(otherArea) &&
-           this.columnOverlaps(otherArea);
+    return this.rowOverlaps(otherArea)
+           && this.columnOverlaps(otherArea);
   }
 
   public rowOverlaps(otherArea:GridWidgetArea) {
-    return this.startRow < otherArea.endRow &&
-           this.endRow >= otherArea.endRow ||
-           this.startRow <= otherArea.startRow &&
-           this.endRow > otherArea.startRow ||
-           this.startRow > otherArea.startRow &&
-           this.endRow < otherArea.endRow;
+    return this.startRow < otherArea.endRow
+           && this.endRow >= otherArea.endRow
+           || this.startRow <= otherArea.startRow
+           && this.endRow > otherArea.startRow
+           || this.startRow > otherArea.startRow
+           && this.endRow < otherArea.endRow;
   }
 
   public columnOverlaps(otherArea:GridWidgetArea) {
-    return this.startColumn < otherArea.endColumn &&
-           this.endColumn >= otherArea.endColumn ||
-           this.startColumn <= otherArea.startColumn &&
-           this.endColumn > otherArea.startColumn ||
-           this.startColumn > otherArea.startColumn &&
-           this.endColumn < otherArea.endColumn;
+    return this.startColumn < otherArea.endColumn
+           && this.endColumn >= otherArea.endColumn
+           || this.startColumn <= otherArea.startColumn
+           && this.endColumn > otherArea.startColumn
+           || this.startColumn > otherArea.startColumn
+           && this.endColumn < otherArea.endColumn;
   }
 
   public startColumnOverlaps(otherArea:GridWidgetArea) {
-    return this.startColumn < otherArea.startColumn &&
-           this.endColumn > otherArea.startColumn &&
-           this.rowOverlaps(otherArea);
+    return this.startColumn < otherArea.startColumn
+           && this.endColumn > otherArea.startColumn
+           && this.rowOverlaps(otherArea);
   }
 
   public get unchangedSize() {
-    return this.startColumn === this.widget.startColumn &&
-           this.endColumn === this.widget.endColumn &&
-           this.startRow === this.widget.startRow &&
-           this.endRow === this.widget.endRow;
+    return this.startColumn === this.widget.startColumn
+           && this.endColumn === this.widget.endColumn
+           && this.startRow === this.widget.startRow
+           && this.endRow === this.widget.endRow;
   }
 
   public writeAreaChangeToWidget() {

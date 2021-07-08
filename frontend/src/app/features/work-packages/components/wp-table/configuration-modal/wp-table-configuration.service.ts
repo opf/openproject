@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WpTableConfigurationDisplaySettingsTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/display-settings-tab.component';
-import { TabInterface } from "core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet";
-import { WpTableConfigurationColumnsTab } from "core-app/features/work-packages/components/wp-table/configuration-modal/tabs/columns-tab.component";
-import { WpTableConfigurationFiltersTab } from "core-app/features/work-packages/components/wp-table/configuration-modal/tabs/filters-tab.component";
-import { WpTableConfigurationSortByTab } from "core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component";
-import { WpTableConfigurationTimelinesTab } from "core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component";
-import { WpTableConfigurationHighlightingTab } from "core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component";
+import { WpTableConfigurationDisplaySettingsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/display-settings-tab.component';
+import { TabInterface } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
+import { WpTableConfigurationColumnsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/columns-tab.component';
+import { WpTableConfigurationFiltersTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/filters-tab.component';
+import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component';
+import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
+import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
 
 @Injectable()
 export class WpTableConfigurationService {
-
   protected _tabs:TabInterface[] = [
     {
       id: 'columns',
       name: this.I18n.t('js.label_columns'),
-      componentClass: WpTableConfigurationColumnsTab,
+      componentClass: WpTableConfigurationColumnsTabComponent,
     },
     {
       id: 'filters',
@@ -25,23 +24,23 @@ export class WpTableConfigurationService {
     {
       id: 'sort-by',
       name: this.I18n.t('js.label_sort_by'),
-      componentClass: WpTableConfigurationSortByTab,
+      componentClass: WpTableConfigurationSortByTabComponent,
     },
     {
       id: 'display-settings',
       name: this.I18n.t('js.work_packages.table_configuration.display_settings'),
-      componentClass: WpTableConfigurationDisplaySettingsTab,
+      componentClass: WpTableConfigurationDisplaySettingsTabComponent,
     },
     {
       id: 'highlighting',
       name: this.I18n.t('js.work_packages.table_configuration.highlighting'),
-      componentClass: WpTableConfigurationHighlightingTab,
+      componentClass: WpTableConfigurationHighlightingTabComponent,
     },
     {
       id: 'timelines',
       name: this.I18n.t('js.timelines.gantt_chart'),
-      componentClass: WpTableConfigurationTimelinesTab
-    }
+      componentClass: WpTableConfigurationTimelinesTabComponent,
+    },
   ];
 
   constructor(readonly I18n:I18nService) {

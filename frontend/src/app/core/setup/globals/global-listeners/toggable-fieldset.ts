@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,23 +27,22 @@
 //++
 
 function createFieldsetToggleStateLabel(legend:JQuery, text:string) {
-  var labelClass = 'fieldset-toggle-state-label';
-  var toggleLabel = legend.find('a span.' + labelClass);
-  var legendLink = legend.children('a');
+  const labelClass = 'fieldset-toggle-state-label';
+  let toggleLabel = legend.find(`a span.${labelClass}`);
+  const legendLink = legend.children('a');
 
   if (toggleLabel.length === 0) {
-    toggleLabel = jQuery("<span />").addClass(labelClass)
-      .addClass("hidden-for-sighted");
+    toggleLabel = jQuery('<span />').addClass(labelClass)
+      .addClass('hidden-for-sighted');
 
     legendLink.append(toggleLabel);
   }
 
-  toggleLabel.text(' ' + text);
+  toggleLabel.text(` ${text}`);
 }
 
 function setFieldsetToggleState(fieldset:JQuery) {
-  var legend = fieldset.children('legend');
-
+  const legend = fieldset.children('legend');
 
   if (fieldset.hasClass('collapsed')) {
     createFieldsetToggleStateLabel(legend, I18n.t('js.label_collapsed'));
@@ -53,22 +52,22 @@ function setFieldsetToggleState(fieldset:JQuery) {
 }
 
 function getFieldset(el:HTMLElement) {
-  var element = jQuery(el);
+  const element = jQuery(el);
 
   if (element.is('legend')) {
     return jQuery(el).parent();
-  } else if (element.is('fieldset')) {
+  } if (element.is('fieldset')) {
     return element;
   }
 
-  throw "Cannot derive fieldset from element!";
+  throw new Error('Cannot derive fieldset from element!');
 }
 
 function toggleFieldset(el:HTMLElement) {
-  var fieldset = getFieldset(el);
+  const fieldset = getFieldset(el);
   // Mark the fieldset that the user has touched it at least once
   fieldset.attr('data-touched', 'true');
-  var contentArea = fieldset.find('> div').not('.form--toolbar');
+  const contentArea = fieldset.find('> div').not('.form--toolbar');
 
   fieldset.toggleClass('collapsed');
   contentArea.slideToggle('fast');
@@ -80,7 +79,7 @@ export function setupToggableFieldsets() {
   const fieldsets = jQuery('fieldset.form--fieldset.-collapsible');
 
   // Toggle on click
-  fieldsets.on('click', '.form--fieldset-legend', function(evt) {
+  fieldsets.on('click', '.form--fieldset-legend', function (evt) {
     toggleFieldset(this);
     evt.preventDefault();
     evt.stopPropagation();
@@ -89,8 +88,8 @@ export function setupToggableFieldsets() {
 
   // Set initial state
   fieldsets
-    .each(function() {
-      var fieldset = getFieldset(this);
+    .each(function () {
+      const fieldset = getFieldset(this);
 
       const contentArea = fieldset.find('> div');
       if (fieldset.hasClass('collapsed')) {

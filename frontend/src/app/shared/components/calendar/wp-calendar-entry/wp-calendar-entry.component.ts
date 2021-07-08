@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,11 +27,11 @@
 //++
 
 import { Component, ViewChild } from '@angular/core';
-import { WorkPackagesViewBase } from "core-app/features/work-packages/routing/wp-view-base/work-packages-view.base";
-import { WorkPackagesCalendarController } from "core-app/shared/components/calendar/wp-calendar/wp-calendar.component";
+import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
+import { WorkPackagesCalendarController } from 'core-app/shared/components/calendar/wp-calendar/wp-calendar.component';
 
 @Component({
-  templateUrl: './wp-calendar-entry.component.html'
+  templateUrl: './wp-calendar-entry.component.html',
 })
 
 export class WorkPackagesCalendarEntryComponent extends WorkPackagesViewBase {
@@ -42,7 +42,6 @@ export class WorkPackagesCalendarEntryComponent extends WorkPackagesViewBase {
   }
 
   public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
-    return this.loadingIndicator =
-      this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier!);
+    return this.loadingIndicator = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }
 }

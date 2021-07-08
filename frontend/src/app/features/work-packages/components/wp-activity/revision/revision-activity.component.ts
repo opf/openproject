@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,41 +25,52 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
   selector: 'revision-activity',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './revision-activity.component.html'
+  templateUrl: './revision-activity.component.html',
 })
 export class RevisionActivityComponent implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public activity:any;
+
   @Input() public activityNo:number;
 
   public userId:string | number;
+
   public userName:string;
+
   public userActive:boolean;
+
   public userPath:string | null;
+
   public userLabel:string;
+
   public userAvatar:string;
 
   public project:ProjectResource;
+
   public revision:string;
+
   public message:string;
 
   public revisionLink:string;
 
   constructor(readonly I18n:I18nService,
-              readonly timezoneService:TimezoneService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly apiV3Service:APIV3Service) {
+    readonly timezoneService:TimezoneService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly apiV3Service:APIV3Service) {
   }
 
   ngOnInit() {
@@ -76,14 +87,14 @@ export class RevisionActivityComponent implements OnInit {
     link.href = revisionPath;
     link.title = this.revision;
     link.textContent = this.I18n.t(
-      "js.label_committed_link",
-      { revision_identifier: formattedRevision }
+      'js.label_committed_link',
+      { revision_identifier: formattedRevision },
     );
 
-    this.revisionLink = this.I18n.t("js.label_committed_at",
+    this.revisionLink = this.I18n.t('js.label_committed_at',
       {
         committed_revision_link: link.outerHTML,
-        date: this.timezoneService.formattedDatetime(this.activity.createdAt)
+        date: this.timezoneService.formattedDatetime(this.activity.createdAt),
       });
   }
 

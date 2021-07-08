@@ -1,7 +1,9 @@
-import { Inject, Injectable, Injector, OnDestroy } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
-import { DomAutoscrollService } from "core-app/shared/helpers/drag-and-drop/dom-autoscroll.service";
-import { DragAndDropHelpers } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers";
+import {
+  Inject, Injectable, Injector, OnDestroy,
+} from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
+import { DragAndDropHelpers } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
 
 export interface DragMember {
   dragContainer:HTMLElement;
@@ -30,7 +32,6 @@ export interface DragMember {
 
 @Injectable()
 export class DragAndDropService implements OnDestroy {
-
   public drake:dragula.Drake|null = null;
 
   public members:DragMember[] = [];
@@ -44,7 +45,7 @@ export class DragAndDropService implements OnDestroy {
   };
 
   constructor(@Inject(DOCUMENT) private document:Document,
-              readonly injector:Injector) {
+    readonly injector:Injector) {
     this.document.documentElement.addEventListener('keydown', this.escapeListener);
   }
 
@@ -62,7 +63,7 @@ export class DragAndDropService implements OnDestroy {
   }
 
   public member(container:HTMLElement):DragMember|undefined {
-    return _.find(this.members, el => el.dragContainer === container);
+    return _.find(this.members, (el) => el.dragContainer === container);
   }
 
   public get initialized() {
@@ -71,7 +72,7 @@ export class DragAndDropService implements OnDestroy {
 
   public register(member:DragMember) {
     this.members.push(member);
-    const scrollContainers = member.scrollContainers;
+    const { scrollContainers } = member;
 
     if (this.autoscroll) {
       this.autoscroll.add(scrollContainers);
@@ -79,7 +80,7 @@ export class DragAndDropService implements OnDestroy {
       this.setupAutoscroll(scrollContainers);
     }
 
-    const dragContainer = member.dragContainer;
+    const { dragContainer } = member;
     if (this.drake === null) {
       this.initializeDrake([dragContainer]);
     } else {
@@ -104,8 +105,9 @@ export class DragAndDropService implements OnDestroy {
         margin: 100,
         maxSpeed: 10,
         scrollWhenOutside: true,
-        autoScroll: () => this.drake && this.drake.dragging
-      });
+        autoScroll: () => this.drake && this.drake.dragging,
+      },
+    );
   }
 
   /**
@@ -113,7 +115,7 @@ export class DragAndDropService implements OnDestroy {
    * @param container
    */
   protected getMember(container:Element):DragMember|undefined {
-    return this.members.find(member => member.dragContainer === container);
+    return this.members.find((member) => member.dragContainer === container);
   }
 
   protected initializeDrake(containers:Element[]) {
@@ -127,12 +129,12 @@ export class DragAndDropService implements OnDestroy {
         return (member && member.accepts) ? member.accepts(el, container) : true;
       },
       invalid: () => false,
-      direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
-      copy: false,                       // elements are moved by default, not copied
-      revertOnSpill: true,               // spilling will put the element back where it was dragged from, if this is true
-      removeOnSpill: false,              // spilling will `.remove` the element, if this is true
-      mirrorContainer: document.body,    // set the element that gets mirror elements appended
-      ignoreInputTextSelection: true     // allows users to select input text, see details below
+      direction: 'vertical', // Y axis is considered when determining where an element would be dropped
+      copy: false, // elements are moved by default, not copied
+      revertOnSpill: true, // spilling will put the element back where it was dragged from, if this is true
+      removeOnSpill: false, // spilling will `.remove` the element, if this is true
+      mirrorContainer: document.body, // set the element that gets mirror elements appended
+      ignoreInputTextSelection: true, // allows users to select input text, see details below
     });
 
     this.drake.on('drag', (el:HTMLElement, source:HTMLElement) => {
@@ -164,7 +166,7 @@ export class DragAndDropService implements OnDestroy {
       try {
         await this.handleDrop(el, target, source, sibling);
       } catch (e) {
-        console.error("Failed to handle drop of %O, %O", el, e);
+        console.error('Failed to handle drop of %O, %O', el, e);
       }
     });
 

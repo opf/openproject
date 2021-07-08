@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -34,10 +34,10 @@ import * as SwaggerUI from 'swagger-ui';
   selector: 'op-api-docs',
   styleUrls: ['./swagger-ui.component.sass'],
   templateUrl: './swagger-ui.component.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SwaggerUIComponent implements AfterViewInit {
-  constructor(private pathHelperService: PathHelperService) {
+  constructor(private pathHelperService:PathHelperService) {
   }
 
   ngAfterViewInit() {
@@ -47,11 +47,11 @@ export class SwaggerUIComponent implements AfterViewInit {
       filter: true,
       requestInterceptor: (req) => {
         if (!req.loadSpec) {
-            // required to make session-based authentication work for POST requests with APIv3
-            req.headers["X-Requested-With"] = "XMLHttpRequest";
+          // required to make session-based authentication work for POST requests with APIv3
+          req.headers['X-Requested-With'] = 'XMLHttpRequest';
         }
         return req;
-      }
+      },
     });
   }
 }

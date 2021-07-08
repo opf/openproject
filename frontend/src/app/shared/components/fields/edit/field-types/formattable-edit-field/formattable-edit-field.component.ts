@@ -25,18 +25,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
-import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
-import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
+import {
+  ChangeDetectionStrategy, Component, OnInit, ViewChild,
+} from '@angular/core';
+import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {
   ICKEditorContext,
   ICKEditorInstance,
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
 @Component({
-  templateUrl: "./formattable-edit-field.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './formattable-edit-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
   public readonly field = this;
@@ -48,8 +49,11 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
 
   // Values used in template
   public isPreview = false;
+
   public previewHtml = '';
+
   public text:Record<string, string> = {};
+
   public initialContent:string;
 
   public ckEditorContext:ICKEditorContext = {
@@ -58,7 +62,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     previewContext: this.previewContext,
     options: { rtl: this.schema.options && this.schema.options.rtl },
     type: 'constrained',
-    ...this.resource.getEditorContext(this.field.name)
+    ...this.resource.getEditorContext(this.field.name),
   };
 
   ngOnInit():void {
@@ -68,7 +72,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
-      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
+      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
     };
   }
 
@@ -118,9 +122,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   public get rawValue():string {
     if (this.value && this.value.raw) {
       return this.value.raw;
-    } else {
-      return '';
     }
+    return '';
   }
 
   public set rawValue(val:string) {

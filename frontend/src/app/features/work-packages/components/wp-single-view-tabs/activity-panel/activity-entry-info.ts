@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export class ActivityEntryInfo {
-
   constructor(public timezoneService:TimezoneService,
-              public isReversed:boolean,
-              public activities:any[],
-              public activity:any,
-              public index:number) {
+    public isReversed:boolean,
+    public activities:any[],
+    public activity:any,
+    public index:number) {
   }
 
   public number(forceReverse = false) {
@@ -69,7 +67,7 @@ export class ActivityEntryInfo {
   }
 
   public isInitial(forceReverse = false) {
-    var activityNo = this.number(forceReverse);
+    let activityNo = this.number(forceReverse);
 
     if (this.activity._type.indexOf('Activity') !== 0) {
       return false;
@@ -80,8 +78,8 @@ export class ActivityEntryInfo {
     }
 
     while (--activityNo > 0) {
-      var idx = this.orderedIndex(activityNo, forceReverse) - 1;
-      var activity = this.activities[idx];
+      const idx = this.orderedIndex(activityNo, forceReverse) - 1;
+      const activity = this.activities[idx];
       if (!_.isNil(activity) && activity._type.indexOf('Activity') === 0) {
         return false;
       }

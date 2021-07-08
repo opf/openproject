@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Transition} from '@uirouter/core';
-import {Component, OnInit} from '@angular/core';
-import {I18nService} from 'core-app/core/i18n/i18n.service';
-import {APIV3Service} from 'core-app/core/apiv3/api-v3.service';
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
-import { WpTabDefinition } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab";
-import { WorkPackageTabsService } from "core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { Transition } from '@uirouter/core';
+import { Component, OnInit } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { WpTabDefinition } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
+import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
   templateUrl: './wp-tab-wrapper.html',
@@ -42,19 +42,20 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 })
 export class WpTabWrapperComponent implements OnInit {
   workPackage:WorkPackageResource;
+
   ndcDynamicInputs$:Observable<{
     workPackage:WorkPackageResource;
     tab:WpTabDefinition | undefined;
   }>;
 
   get workPackageId() {
-    return(this.$transition.params('to').workPackageId);
+    return (this.$transition.params('to').workPackageId);
   }
 
   constructor(readonly I18n:I18nService,
-              readonly $transition:Transition,
-              readonly apiV3Service:APIV3Service,
-              readonly wpTabsService:WorkPackageTabsService) {}
+    readonly $transition:Transition,
+    readonly apiV3Service:APIV3Service,
+    readonly wpTabsService:WorkPackageTabsService) {}
 
   ngOnInit() {
     this.ndcDynamicInputs$ = this
@@ -63,15 +64,15 @@ export class WpTabWrapperComponent implements OnInit {
       .id(this.workPackageId)
       .requireAndStream()
       .pipe(
-        map(wp => ({
+        map((wp) => ({
           workPackage: wp,
           tab: this.findTab(wp),
-        }))
+        })),
       );
   }
 
   findTab(workPackage:WorkPackageResource):WpTabDefinition | undefined {
-    const tabIdentifier = this.$transition.params('to').tabIdentifier;
+    const { tabIdentifier } = this.$transition.params('to');
 
     return this.wpTabsService.getTab(tabIdentifier, workPackage);
   }

@@ -2,14 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { TimeEntriesCurrentUserConfigurationModalService } from './configuration-modal.service';
 
 describe('TimeEntriesCurrentUserTimeEntriesCurrentUserConfigurationModalService', () => {
-  let service: TimeEntriesCurrentUserConfigurationModalService;
+  let service:TimeEntriesCurrentUserConfigurationModalService;
   let daysCheckedValues:boolean[];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         TimeEntriesCurrentUserConfigurationModalService,
-      ]
+      ],
     });
 
     service = TestBed.inject(TimeEntriesCurrentUserConfigurationModalService);
@@ -30,7 +30,7 @@ describe('TimeEntriesCurrentUserTimeEntriesCurrentUserConfigurationModalService'
     expect(orderedDaysData[0].originalIndex).toBe(6);
     expect(orderedDaysData[6].weekDay).toBe('Saturday');
     expect(orderedDaysData[6].originalIndex).toBe(5);
-    expect(orderedDaysData.filter(dayData => dayData.checked).length).toBe(6);
+    expect(orderedDaysData.filter((dayData) => dayData.checked).length).toBe(6);
 
     // Change the checked value of Monday to false
     orderedDaysData[1].checked = false;
@@ -50,7 +50,7 @@ describe('TimeEntriesCurrentUserTimeEntriesCurrentUserConfigurationModalService'
     expect(orderedDaysData[6].weekDay).toBe('Sunday');
     expect(orderedDaysData[6].originalIndex).toBe(6);
     expect(orderedDaysData[6].checked).toBe(false);
-    expect(orderedDaysData.filter(dayData => dayData.checked).length).toBe(6);
+    expect(orderedDaysData.filter((dayData) => dayData.checked).length).toBe(6);
 
     // Change the checked value of Monday to false
     orderedDaysData[0].checked = false;
@@ -70,7 +70,7 @@ describe('TimeEntriesCurrentUserTimeEntriesCurrentUserConfigurationModalService'
     expect(orderedDaysData[4].weekDay).toBe('Sunday');
     expect(orderedDaysData[4].originalIndex).toBe(6);
     expect(orderedDaysData[4].checked).toBe(false);
-    expect(orderedDaysData.filter(dayData => dayData.checked).length).toBe(6);
+    expect(orderedDaysData.filter((dayData) => dayData.checked).length).toBe(6);
 
     // Change the checked value of Monday to false
     orderedDaysData[5].checked = false;

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,25 +27,26 @@
 //++
 
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { HttpClient } from '@angular/common/http';
 
 export const remoteFieldUpdaterSelector = 'remote-field-updater';
 
 @Component({
   selector: remoteFieldUpdaterSelector,
-  template: ''
+  template: '',
 })
 export class RemoteFieldUpdaterComponent implements OnInit {
-
   constructor(private elementRef:ElementRef,
-              private http:HttpClient) {
+    private http:HttpClient) {
   }
 
   private url:string;
+
   private htmlMode:boolean;
 
   private inputs:JQuery;
+
   private target:JQuery;
 
   ngOnInit():void {
@@ -64,8 +65,8 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       // tabbing back with shift (16) and
       // special cases where the tab code is not correctly recognized (undefined).
       // Thus the focus is kept on the first element of the result list.
-      const keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT];
-      if (event.type === 'change' || (event.which && keyCodesArray.indexOf(event.which) === -1)) {
+      const keyCodes = [KeyCodes.TAB, KeyCodes.ENTER, KeyCodes.SHIFT];
+      if (event.type === 'change' || (event.which && keyCodes.indexOf(event.which) === -1)) {
         this.updater();
       }
     }, 500));
@@ -76,20 +77,20 @@ export class RemoteFieldUpdaterComponent implements OnInit {
 
     // In HTML mode, expect html response
     if (this.htmlMode) {
-      headers['Accept'] = 'text/html';
+      headers.Accept = 'text/html';
     } else {
-      headers['Accept'] = 'application/json';
+      headers.Accept = 'application/json';
     }
 
     return this.http
       .get(
         this.url,
         {
-          params: params,
-          headers: headers,
+          params,
+          headers,
           responseType: (this.htmlMode ? 'text' : 'json') as any,
-          withCredentials: true
-        }
+          withCredentials: true,
+        },
       );
   }
 
@@ -121,4 +122,3 @@ export class RemoteFieldUpdaterComponent implements OnInit {
       });
   }
 }
-

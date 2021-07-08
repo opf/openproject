@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,25 +25,30 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy,
+} from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 export const globalSearchTitleSelector = 'global-search-title';
 
 @Component({
   selector: 'global-search-title',
-  templateUrl: './global-search-title.component.html'
+  templateUrl: './global-search-title.component.html',
 })
 export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnDestroy {
   @Input() public searchTerm:string;
+
   @Input() public project:string;
+
   @Input() public projectScope:string;
+
   @Input() public searchTitle:string;
 
   @InjectField() private currentProjectService:CurrentProjectService;
@@ -52,14 +57,14 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
     all_projects: this.I18n.t('js.global_search.title.all_projects'),
     project_and_subprojects: this.I18n.t('js.global_search.title.project_and_subprojects'),
     search_for: this.I18n.t('js.global_search.title.search_for'),
-    in: this.I18n.t('js.label_in')
+    in: this.I18n.t('js.label_in'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly cdRef:ChangeDetectorRef,
-              readonly globalSearchService:GlobalSearchService,
-              readonly I18n:I18nService,
-              readonly injector:Injector) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly globalSearchService:GlobalSearchService,
+    readonly I18n:I18nService,
+    readonly injector:Injector) {
     super();
   }
 
@@ -67,11 +72,11 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
     // Listen on changes of search input value and project scope
     combineLatest([
       this.globalSearchService.searchTerm$,
-      this.globalSearchService.projectScope$
+      this.globalSearchService.projectScope$,
     ])
       .pipe(
         distinctUntilChanged(),
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(([newSearchTerm, newProjectScope]) => {
         this.searchTerm = newSearchTerm;
@@ -86,17 +91,17 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
     const currentProjectName = this.currentProjectService.name ? this.currentProjectService.name : '';
 
     switch (scope) {
-    case 'all':
-      return this.text.all_projects;
-      break;
-    case 'current_project':
-      return currentProjectName;
-      break;
-    case '':
-      return currentProjectName + ' ' + this.text.project_and_subprojects;
-      break;
-    default:
-      return '';
+      case 'all':
+        return this.text.all_projects;
+        break;
+      case 'current_project':
+        return currentProjectName;
+        break;
+      case '':
+        return `${currentProjectName} ${this.text.project_and_subprojects}`;
+        break;
+      default:
+        return '';
     }
   }
 }

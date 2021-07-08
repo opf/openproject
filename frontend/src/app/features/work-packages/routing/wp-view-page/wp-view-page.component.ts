@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
-import { take } from "rxjs/operators";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { QueryParamListenerService } from "core-app/features/work-packages/components/wp-query/query-param-listener.service";
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import {
   PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition,
-} from "core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
-import { WorkPackageCreateButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component";
-import { WorkPackageFilterButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component";
-import { WorkPackageViewToggleButton } from "core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
-import { WorkPackageDetailsViewButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-details-view-button/wp-details-view-button.component";
-import { WorkPackageTimelineButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component";
-import { ZenModeButtonComponent } from "core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component";
-import { WorkPackageSettingsButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component";
-import { of } from "rxjs";
-import { WorkPackageFoldToggleButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component";
+} from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
+import { WorkPackageCreateButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component';
+import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
+import { WorkPackageViewToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
+import { WorkPackageDetailsViewButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
+import { WorkPackageTimelineButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
+import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
+import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
+import { of } from 'rxjs';
+import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 
 @Component({
   selector: 'wp-view-page',
@@ -64,7 +64,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {
-        stateName$: of("work-packages.partitioned.list.new"),
+        stateName$: of('work-packages.partitioned.list.new'),
         allowed: ['work_packages.createWorkPackage'],
       },
     },
@@ -72,14 +72,12 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
       component: WorkPackageFilterButtonComponent,
     },
     {
-      component: WorkPackageViewToggleButton,
+      component: WorkPackageViewToggleButtonComponent,
       containerClasses: 'hidden-for-mobile',
     },
     {
       component: WorkPackageFoldToggleButtonComponent,
-      show: () => {
-        return !!(this.currentQuery && this.currentQuery.groupBy);
-      },
+      show: () => !!(this.currentQuery && this.currentQuery.groupBy),
     },
     {
       component: WorkPackageDetailsViewButtonComponent,
@@ -106,9 +104,8 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
   protected additionalLoadingTime():Promise<unknown> {
     if (this.wpTableTimeline.isVisible) {
       return this.querySpace.timelineRendered.pipe(take(1)).toPromise();
-    } else {
-      return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
     }
+    return this.querySpace.tableRendered.valuesPromise() as Promise<unknown>;
   }
 
   protected shouldUpdateHtmlTitle():boolean {

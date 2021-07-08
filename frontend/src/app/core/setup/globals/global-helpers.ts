@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -41,7 +41,7 @@ export class GlobalHelpers {
 
   public toggleCheckboxesBySelector(selector:any) {
     const boxes = jQuery(selector);
-    var all_checked = true;
+    let all_checked = true;
     for (let i = 0; i < boxes.length; i++) {
       if (boxes[i].checked === false) {
         all_checked = false;

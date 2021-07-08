@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,13 +29,13 @@
 import { Injector } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { States } from 'core-app/core/states/states.service';
 import { of } from 'rxjs';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
+import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import Spy = jasmine.Spy;
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
-import { HalLink, HalLinkInterface } from "core-app/features/hal/hal-link/hal-link";
 
 describe('HalResource', () => {
   let halResourceService:HalResourceService;
@@ -51,13 +51,13 @@ describe('HalResource', () => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
-        OpenprojectHalModule
+        OpenprojectHalModule,
       ],
       providers: [
         HalResourceService,
         States,
         I18nService,
-      ]
+      ],
     })
       .compileComponents()
       .then(() => {
@@ -78,17 +78,16 @@ describe('HalResource', () => {
       source = {
         _links: {
           self: {
-            href: '/api/hello'
-          }
-        }
+            href: '/api/hello',
+          },
+        },
       };
 
       getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === '/api/hello') {
           return of(halResourceService.createHalResource(source)) as any;
-        } else {
-          return false as any;
         }
+        return false as any;
       });
     });
 
@@ -117,14 +116,14 @@ describe('HalResource', () => {
           _type: 'Other',
           _links: {
             someResource: {
-              href: 'foo'
-            }
-          }
+              href: 'foo',
+            },
+          },
         };
 
         halResourceService.registerResource(
           'Other',
-          { cls: OtherResource, attrTypes: { someResource: 'Other' } }
+          { cls: OtherResource, attrTypes: { someResource: 'Other' } },
         );
         resource = halResourceService.createHalResource(source, false);
       });
@@ -156,14 +155,14 @@ describe('HalResource', () => {
           get link() {
             linkFn();
             return {};
-          }
+          },
         },
         _embedded: {
           get resource() {
             embeddedFn();
             return {};
-          }
-        }
+          },
+        },
       });
     });
 
@@ -195,8 +194,8 @@ describe('HalResource', () => {
         _embedded: {},
         property: 'foo',
         obj: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       };
       resource = halResourceService.createHalResource(source, true);
     });
@@ -240,9 +239,9 @@ describe('HalResource', () => {
         _links: {
           self: {
             href: '/api/hello',
-            title: 'some title'
-          }
-        }
+            title: 'some title',
+          },
+        },
       };
       resource = halResourceService.createHalResource(source, false);
     });
@@ -275,9 +274,9 @@ describe('HalResource', () => {
         _links: {
           resource: {
             method: 'get',
-            href: 'resource/1'
-          }
-        }
+            href: 'resource/1',
+          },
+        },
       };
       resource = halResourceService.createHalResource(source);
       resource.resource = null;
@@ -297,9 +296,9 @@ describe('HalResource', () => {
       source = {
         _links: {
           property: {
-            href: null
-          }
-        }
+            href: null,
+          },
+        },
       };
       resource = halResourceService.createHalResource(source);
     });
@@ -310,12 +309,12 @@ describe('HalResource', () => {
   });
 
   describe('when using $plain', () => {
-    var plain:any;
+    let plain:any;
 
     beforeEach(() => {
       source = {
         _links: { self: { href: 'bunny' } },
-        rabbit: 'fluffy'
+        rabbit: 'fluffy',
       };
       plain = halResourceService.createHalResource(source).$plain();
     });
@@ -348,12 +347,12 @@ describe('HalResource', () => {
       source = {
         _links: {
           self: {
-            href: 'unicorn/69'
+            href: 'unicorn/69',
           },
           beaver: {
-            href: 'justin/420'
-          }
-        }
+            href: 'justin/420',
+          },
+        },
       };
       resource = halResourceService.createHalResource(source);
     });
@@ -378,9 +377,8 @@ describe('HalResource', () => {
       spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === 'unicorn/69') {
           return of(halResourceService.createHalResource({})) as any;
-        } else {
-          return null as any;
         }
+        return null as any;
       });
 
       expect(() => resource.$links.self()).not.toThrow(Error);
@@ -390,9 +388,8 @@ describe('HalResource', () => {
       spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
         if (verb === 'get' && path === 'justin/420') {
           return of(halResourceService.createHalResource({})) as any;
-        } else {
-          return null as any;
         }
+        return null as any;
       });
 
       expect(() => resource.$links.beaver()).not.toThrow(Error);
@@ -413,7 +410,7 @@ describe('HalResource', () => {
       source = {
         _embedded: {
           resource: { _links: {} },
-        }
+        },
       };
 
       resource = halResourceService.createHalResource(source);
@@ -436,12 +433,12 @@ describe('HalResource', () => {
     });
 
     describe('when overriding the property with a resource', () => {
-      var link:HalLinkInterface;
+      let link:HalLinkInterface;
 
       beforeEach(() => {
         link = {
           href: 'pony',
-          method: 'get'
+          method: 'get',
         };
         resource.resource = HalLink.fromObject(halResourceService, link);
       });
@@ -452,8 +449,8 @@ describe('HalResource', () => {
     });
 
     describe('when the embedded resources are nested', () => {
-      var first:any;
-      var deep:any;
+      let first:any;
+      let deep:any;
 
       beforeEach(() => {
         source._embedded.resource._embedded = {
@@ -461,11 +458,11 @@ describe('HalResource', () => {
             _embedded: {
               second: {
                 _links: {},
-                property: 'yet another value'
-              }
+                property: 'yet another value',
+              },
             },
-            property: 'another value'
-          }
+            property: 'another value',
+          },
         };
 
         first = resource.$embedded.resource.$embedded.first;
@@ -484,7 +481,7 @@ describe('HalResource', () => {
   });
 
   describe('when creating a resource from a source with a linked array property', () => {
-    var expectLengthsToBe = (length:any, update = 'update') => {
+    const expectLengthsToBe = (length:any, update = 'update') => {
       it(`should ${update} the values of the resource`, () => {
         expect(resource.values.length).toEqual(length);
       });
@@ -504,14 +501,14 @@ describe('HalResource', () => {
           values: [
             {
               href: '/api/value/1',
-              title: 'val1'
+              title: 'val1',
             },
             {
               href: '/api/value/2',
-              title: 'val2'
-            }
-          ]
-        }
+              title: 'val2',
+            },
+          ],
+        },
       };
       resource = halResourceService.createHalResource(source);
     });
@@ -567,8 +564,8 @@ describe('HalResource', () => {
     beforeEach(() => {
       source = {
         _embedded: {
-          elements: [{ _links: {} }, { _links: {} }]
-        }
+          elements: [{ _links: {} }, { _links: {} }],
+        },
       };
 
       resource = halResourceService.createHalResource(source);
@@ -590,36 +587,36 @@ describe('HalResource', () => {
         _links: {
           property: {
             href: '/api/property',
-            title: 'Property'
+            title: 'Property',
           },
           embedded: {
             href: '/api/embedded',
           },
           action: {
             href: '/api/action',
-            method: 'post'
+            method: 'post',
           },
           self: {
-            href: '/api/self'
-          }
+            href: '/api/self',
+          },
         },
         _embedded: {
           embedded: {
             _links: {
               self: {
-                href: '/api/embedded'
-              }
+                href: '/api/embedded',
+              },
             },
-            name: 'name'
+            name: 'name',
           },
           notLinked: {
             _links: {
               self: {
-                href: '/api/not-linked'
-              }
-            }
-          }
-        }
+                href: '/api/not-linked',
+              },
+            },
+          },
+        },
       };
 
       resource = halResourceService.createHalResource(source);
@@ -666,13 +663,13 @@ describe('HalResource', () => {
     });
 
     describe('when a resource that is linked and embedded is updated', () => {
-      var embeddedResource;
+      let embeddedResource;
       beforeEach(() => {
         embeddedResource = {
           $link: {
             method: 'get',
-            href: 'newHref'
-          }
+            href: 'newHref',
+          },
         };
 
         resource.embedded = embeddedResource;
@@ -720,15 +717,14 @@ describe('HalResource', () => {
             const result = halResourceService.createHalResource({
               _links: {},
               name: 'name',
-              foo: 'bar'
+              foo: 'bar',
             });
 
             getStub = spyOn(halResourceService, 'request').and.callFake((verb:string, path:string) => {
               if (verb === 'get' && path === '/api/property') {
                 return of(result) as any;
-              } else {
-                return false as any;
               }
+              return false as any;
             });
 
             resource = resource.property;
@@ -753,10 +749,10 @@ describe('HalResource', () => {
 
           it('should have properties that have a getter and setter', () => {
             const descriptor = Object.getOwnPropertyDescriptor(newResult, 'foo');
-            expect(descriptor).toBeDefined("Descriptor should be defined");
+            expect(descriptor).toBeDefined('Descriptor should be defined');
 
-            expect(descriptor!.get).toBeDefined("Descriptor getter should be defined");
-            expect(descriptor!.set).toBeDefined("Descriptor setter should be defined");
+            expect(descriptor!.get).toBeDefined('Descriptor getter should be defined');
+            expect(descriptor!.set).toBeDefined('Descriptor setter should be defined');
           });
 
           it('should return itself in a promise if already loaded', () => {

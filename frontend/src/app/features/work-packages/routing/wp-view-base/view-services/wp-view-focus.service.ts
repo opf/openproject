@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -30,10 +30,10 @@ import { Injectable } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { WorkPackageViewBaseService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 export interface WPFocusState {
   workPackageId:string;
@@ -42,9 +42,8 @@ export interface WPFocusState {
 
 @Injectable()
 export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFocusState> {
-
   constructor(public querySpace:IsolatedQuerySpace,
-              public wpTableSelection:WorkPackageViewSelectionService) {
+    public wpTableSelection:WorkPackageViewSelectionService) {
     super(querySpace);
   }
 
@@ -82,7 +81,7 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
     return this.live$()
       .pipe(
         map((val:WPFocusState) => val.workPackageId),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
   }
 
@@ -91,7 +90,7 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
     if (this.wpTableSelection.isEmpty) {
       this.wpTableSelection.setRowState(workPackageId, true);
     }
-    this.update({ workPackageId: workPackageId, focusAfterRender: setFocusAfterRender });
+    this.update({ workPackageId, focusAfterRender: setFocusAfterRender });
   }
 
   valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource):WPFocusState|undefined {

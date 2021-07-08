@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,32 +27,33 @@
 //++
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
+  NgZone,
   OnDestroy,
   ViewChild,
   ViewEncapsulation,
-  NgZone, AfterViewInit
 } from '@angular/core';
-import { Observable, of } from "rxjs";
-import { map, tap } from "rxjs/operators";
-import { APIV3Service } from "../../apiv3/api-v3.service";
-import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
-import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { DeviceService } from "core-app/core/browser/device.service";
-import { ContainHelpers } from "core-app/shared/directives/focus/contain-helpers";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { OpAutocompleterComponent } from "core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import { ContainHelpers } from 'core-app/shared/directives/focus/contain-helpers';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { APIV3Service } from '../../apiv3/api-v3.service';
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -81,29 +82,31 @@ interface SearchOptionItem {
     './global-search.component.sass',
   ],
   // Necessary because of ng-select
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   @ViewChild('btn', { static: true }) btn:ElementRef;
+
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
   public expanded = false;
+
   public markable = false;
+
   public isLoading = false;
 
-  getAutocompleterData = (query:string):Observable<any[]> => {
-    return this.autocompleteWorkPackages(query);
-  };
+  getAutocompleterData = (query:string):Observable<any[]> => this.autocompleteWorkPackages(query);
 
   public autocompleterOptions = {
-    filters:[],
-    resource:'work_packages',
-    searchKey:'subjectOrId',
-    getOptionsFn: this.getAutocompleterData
+    filters: [],
+    resource: 'work_packages',
+    searchKey: 'subjectOrId',
+    getOptionsFn: this.getAutocompleterData,
   };
 
   /** Remember the current value */
   public currentValue = '';
+
   public isFocusedDirectly = (this.globalSearchService.searchTerm.length > 0);
 
   /** Remember the item that best matches the query.
@@ -113,27 +116,26 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private unregisterGlobalListener:Function|undefined;
 
-  private isInitialized :boolean = false;
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
     current_project: this.I18n.t('js.global_search.current_project'),
     current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
     search: this.I18n.t('js.global_search.search'),
-    search_dots: this.I18n.t('js.global_search.search') + ' ...',
-    close_search: this.I18n.t('js.global_search.close_search')
+    search_dots: `${this.I18n.t('js.global_search.search')} ...`,
+    close_search: this.I18n.t('js.global_search.close_search'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly I18n:I18nService,
-              readonly apiV3Service:APIV3Service,
-              readonly PathHelperService:PathHelperService,
-              readonly halResourceService:HalResourceService,
-              readonly globalSearchService:GlobalSearchService,
-              readonly currentProjectService:CurrentProjectService,
-              readonly deviceService:DeviceService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly halNotification:HalResourceNotificationService,
-              readonly ngZone:NgZone) {
+    readonly I18n:I18nService,
+    readonly apiV3Service:APIV3Service,
+    readonly pathHelperService:PathHelperService,
+    readonly halResourceService:HalResourceService,
+    readonly globalSearchService:GlobalSearchService,
+    readonly currentProjectService:CurrentProjectService,
+    readonly deviceService:DeviceService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly halNotification:HalResourceNotificationService,
+    readonly ngZone:NgZone) {
   }
 
   ngAfterViewInit():void {
@@ -175,7 +177,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public redirectToWp(id:string, event:MouseEvent) {
     event.stopImmediatePropagation();
-    if (LinkHandling.isClickedWithModifier(event)) {
+    if (isClickedWithModifier(event)) {
       return true;
     }
 
@@ -185,7 +187,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   public wpPath(id:string) {
-    return this.PathHelperService.workPackagePath(id);
+    return this.pathHelperService.workPackagePath(id);
   }
 
   public search($event:any) {
@@ -195,7 +197,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   // close menu when input field is empty
   public openCloseMenu(searchedTerm:string) {
-
     this.ngSelectComponent.ngSelectInstance.isOpen = (searchedTerm.trim().length > 0);
   }
 
@@ -209,7 +210,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     if (!this.deviceService.isMobile) {
       this.expanded = (this.ngSelectComponent.ngSelectInstance.searchTerm !== null && this.ngSelectComponent.ngSelectInstance.searchTerm.length > 0);
       this.ngSelectComponent.ngSelectInstance.isOpen = false;
-      this.selectedItem =null;
+      this.selectedItem = null;
       this.toggleTopMenuClass();
     }
   }
@@ -270,31 +271,27 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     // Hide highlighting of ng-option
     this.markable = false;
 
-
     const hashFreeQuery = this.queryWithoutHash(query);
 
-
-    this.isLoading = true
+    this.isLoading = true;
     return this
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
       .get()
       .pipe(
-        map((collection) => {
-          return this.searchResultsToOptions(collection.elements, hashFreeQuery);
-        }),
+        map((collection) => this.searchResultsToOptions(collection.elements, hashFreeQuery)),
         tap(() => {
           this.isLoading = false;
-          this.setMarkedOption();})
+          this.setMarkedOption();
+        }),
       );
   }
 
   // Remove ID marker # when searching for #<number>
   private queryWithoutHash(query:string) {
-    if (query.match(/^#(\d+)/)) {
+    if (/^#(\d+)/.exec(query)) {
       return query.substr(1);
-    } else {
-      return query;
     }
+    return query;
   }
 
   private fetchSearchResults(query:string, idOnly:boolean) {
@@ -306,7 +303,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
     const searchItems = results.map((wp) => {
-      const item =  {
+      const item = {
         id: wp.id!,
         subject: wp.subject,
         status: wp.status.name,
@@ -314,7 +311,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         href: wp.href,
         project: wp.project.name,
         author: wp.author,
-        type: wp.type
+        type: wp.type,
       } as SearchResultItem;
       // If we have a direct hit, we choose it to be the selected element.
       if (query === wp.id!.toString()) {
@@ -347,9 +344,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     }
     searchOptions.push('all_projects');
 
-    return searchOptions.map((suggestion:string) => {
-      return { projectScope: suggestion, text: this.text[suggestion] };
-    });
+    return searchOptions.map((suggestion:string) => ({ projectScope: suggestion, text: this.text[suggestion] }));
   }
 
   /*
@@ -407,6 +402,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         this.submitNonEmptySearch();
         break;
       }
+      default: // Do nothing
+        break;
     }
   }
 
@@ -415,9 +412,9 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     if (this.currentValue.length > 0) {
       this.ngSelectComponent.ngSelectInstance.close();
       // Work package results can update without page reload.
-      if (!forcePageLoad &&
-        this.globalSearchService.isAfterSearch() &&
-        this.globalSearchService.currentTab === 'work_packages') {
+      if (!forcePageLoad
+        && this.globalSearchService.isAfterSearch()
+        && this.globalSearchService.currentTab === 'work_packages') {
         window.history
           .replaceState({},
             `${I18n.t('global_search.search')}: ${this.ngSelectComponent.ngSelectInstance.searchTerm}`,
@@ -450,5 +447,3 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     jQuery('.op-app-header').toggleClass('op-app-header_search-open', this.expanded);
   }
 }
-
-

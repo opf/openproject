@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,28 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Apiv3TimeEntryPaths } from "core-app/core/apiv3/endpoints/time-entries/apiv3-time-entry-paths";
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
-import { Observable } from "rxjs";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
-import { MultiInputState } from "reactivestates";
+import { Apiv3TimeEntryPaths } from 'core-app/core/apiv3/endpoints/time-entries/apiv3-time-entry-paths';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { Observable } from 'rxjs';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { CachableAPIV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
-  listParamsString
-} from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { TimeEntryCacheService } from "core-app/core/apiv3/endpoints/time-entries/time-entry-cache.service";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { TimeEntryCacheService } from 'core-app/core/apiv3/endpoints/time-entries/time-entry-cache.service';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 
 export class Apiv3TimeEntriesPaths
   extends CachableAPIV3Collection<TimeEntryResource, Apiv3TimeEntryPaths>
   implements Apiv3ListResourceInterface<TimeEntryResource> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'time_entries', Apiv3TimeEntryPaths);
   }
 
@@ -63,7 +61,7 @@ export class Apiv3TimeEntriesPaths
       .halResourceService
       .get<CollectionResource<TimeEntryResource>>(this.path + listParamsString(params))
       .pipe(
-        this.cacheResponse()
+        this.cacheResponse(),
       );
   }
 
@@ -76,7 +74,7 @@ export class Apiv3TimeEntriesPaths
       .halResourceService
       .post<TimeEntryResource>(this.path, payload)
       .pipe(
-        this.cacheResponse()
+        this.cacheResponse(),
       );
   }
 

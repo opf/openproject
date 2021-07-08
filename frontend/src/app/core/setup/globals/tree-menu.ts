@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,15 +27,13 @@
 //++
 
 (function ($) {
-  "use strict";
-
-  $(function() {
+  $(() => {
     // set selected page for menu tree if provided.
-    $('[data-selected-page]').closest('.tree-menu--container').each(function(_i:number, tree:HTMLElement) {
+    $('[data-selected-page]').closest('.tree-menu--container').each((_i:number, tree:HTMLElement) => {
       const selectedPage = $(tree).data('selected-page');
 
       if (selectedPage) {
-        const selected = $('[slug="' + selectedPage + '"]', tree);
+        const selected = $(`[slug="${selectedPage}"]`, tree);
         selected.toggleClass('-selected', true);
         if (selected.length > 1) {
           selected[0].scrollIntoView();
@@ -43,7 +41,7 @@
       }
     });
 
-    function toggle (event:any) {
+    function toggle(event:any) {
       // ignore the event if a key different from ENTER was pressed.
       if (event.type === 'keypress' && event.which !== 13) {
         return false;

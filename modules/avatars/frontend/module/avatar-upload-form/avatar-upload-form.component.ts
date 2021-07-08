@@ -27,7 +27,7 @@
 //++
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { OpenProjectFileUploadService, UploadFile } from "core-app/core/file-upload/op-file-upload.service";
-import { ImageHelpers } from "core-app/shared/helpers/images/resizer";
+import { resizeFile } from "core-app/shared/helpers/images/resizer";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 
@@ -84,7 +84,7 @@ export class AvatarUploadFormComponent implements OnInit {
       return;
     }
 
-    ImageHelpers.resizeFile(128, file).then(([dataURL, blob]) => {
+    resizeFile(128, file).then(([dataURL, blob]) => {
       // Create resized file
       blob.name = file.name;
       this.avatarFile = blob;

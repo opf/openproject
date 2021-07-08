@@ -1,4 +1,4 @@
-export enum keyCodes {
+export enum KeyCodes {
   BACKSPACE = 8,
   TAB = 9,
   ENTER = 13,
@@ -97,5 +97,5 @@ export enum keyCodes {
   OPEN_BRACKET = 219,
   BACK_SLASH = 220,
   CLOSE_BRACKET = 221,
-  SINGLE_QUOTE = 222
+  SINGLE_QUOTE = 222,
 }

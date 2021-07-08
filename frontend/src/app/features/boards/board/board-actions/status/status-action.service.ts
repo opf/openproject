@@ -1,16 +1,15 @@
-import { Injectable } from "@angular/core";
-import { Board } from "core-app/features/boards/board/board";
-import { StatusResource } from "core-app/features/hal/resources/status-resource";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
-import { StatusBoardHeaderComponent } from "core-app/features/boards/board/board-actions/status/status-board-header.component";
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
+import { Injectable } from '@angular/core';
+import { Board } from 'core-app/features/boards/board/board';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
+import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
+import { StatusBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/status/status-board-header.component';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Injectable()
 export class BoardStatusActionService extends CachedBoardActionService {
   filterName = 'status';
 
-  text =  this.I18n.t('js.boards.board_type.board_type_title.status');
+  text = this.I18n.t('js.boards.board_type.board_type_title.status');
 
   description = this.I18n.t('js.boards.board_type.action_text_status');
 
@@ -18,7 +17,7 @@ export class BoardStatusActionService extends CachedBoardActionService {
 
   icon = 'icon-workflow';
 
-  image = ImageHelpers.imagePath('board_creation_modal/status.svg');
+  image = imagePath('board_creation_modal/status.svg');
 
   localizedName = this.I18n.t('js.work_packages.properties.status');
 
@@ -30,19 +29,16 @@ export class BoardStatusActionService extends CachedBoardActionService {
     return this
       .loadValues()
       .toPromise()
-      .then((results) =>
-        Promise.all<unknown>(
-          results.map((status:StatusResource) => {
+      .then((results) => Promise.all<unknown>(
+        results.map((status:StatusResource) => {
+          if (status.isDefault) {
+            return this.addColumnWithActionAttribute(board, status);
+          }
 
-            if (status.isDefault) {
-              return this.addColumnWithActionAttribute(board, status);
-            }
-
-            return Promise.resolve(board);
-          })
-        )
-          .then(() => board)
-      );
+          return Promise.resolve(board);
+        }),
+      )
+        .then(() => board));
   }
 
   public warningTextWhenNoOptionsAvailable() {
@@ -55,6 +51,6 @@ export class BoardStatusActionService extends CachedBoardActionService {
       .statuses
       .get()
       .toPromise()
-      .then(collection => collection.elements);
+      .then((collection) => collection.elements);
   }
 }

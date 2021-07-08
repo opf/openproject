@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Field, IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { DisplayFieldContext } from "core-app/shared/components/fields/display/display-field.service";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { Field, IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DisplayFieldContext } from 'core-app/shared/components/fields/display/display-field.service';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export const cssClassCustomOption = 'custom-option';
 
 export class DisplayField<T extends HalResource = HalResource> extends Field {
   public static type:string;
+
   public mode:string | null = null;
+
   public activeChange:ResourceChangeset<T>|null = null;
 
   @InjectField() I18n!:I18nService;
@@ -58,7 +60,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
 
   public texts = {
     empty: this.I18n.t('js.label_no_value'),
-    placeholder: this.I18n.t('js.placeholders.default')
+    placeholder: this.I18n.t('js.placeholders.default'),
   };
 
   public get isFormattable():boolean {
@@ -81,9 +83,8 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
 
     if (this.activeChange) {
       return this.activeChange.projectedResource[this.name];
-    } else {
-      return this.attribute;
     }
+    return this.attribute;
   }
 
   protected get attribute() {
@@ -107,7 +108,6 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
   }
 
   public get title():string|null {
-
     // Don't return a value for long text fields,
     // since they shouldn't / won't be truncated.
     if (this.isFormattable) {

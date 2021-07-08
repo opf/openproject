@@ -1,19 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { BoardService } from "core-app/features/boards/board/board.service";
-import { Board } from "core-app/features/boards/board/board";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { map } from "rxjs/operators";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { MainMenuNavigationService } from "core-app/core/main-menu/main-menu-navigation.service";
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BoardService } from 'core-app/features/boards/board/board.service';
+import { Board } from 'core-app/features/boards/board/board';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { map } from 'rxjs/operators';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 
 export const boardsMenuSelector = 'boards-menu';
 
 @Component({
   selector: boardsMenuSelector,
-  templateUrl: './boards-menu.component.html'
+  templateUrl: './boards-menu.component.html',
 })
 
 export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
@@ -28,23 +28,21 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     .boards
     .observeAll()
     .pipe(
-      map((boards:Board[]) => {
-        return boards.sort(function (a, b) {
-          if (a.name < b.name) {
-            return -1;
-          }
-          if (a.name > b.name) {
-            return 1;
-          }
-          return 0;
-        });
-      })
+      map((boards:Board[]) => boards.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      })),
     );
 
   constructor(private readonly boardService:BoardService,
-              private readonly apiV3Service:APIV3Service,
-              private readonly currentProject:CurrentProjectService,
-              private readonly mainMenuService:MainMenuNavigationService) {
+    private readonly apiV3Service:APIV3Service,
+    private readonly currentProject:CurrentProjectService,
+    private readonly mainMenuService:MainMenuNavigationService) {
     super();
   }
 
@@ -62,10 +60,10 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
       .boardService
       .currentBoard$
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((id:string|null) => {
-        this.selectedBoardId = id ? id : '';
+        this.selectedBoardId = id || '';
       });
   }
 

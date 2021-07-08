@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,27 +26,26 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { Directive, ElementRef } from "@angular/core";
-import { OpContextMenuTrigger } from "core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { Directive, ElementRef } from '@angular/core';
+import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   WorkPackageViewDisplayRepresentationService,
   wpDisplayCardRepresentation,
-  wpDisplayListRepresentation
-} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
+  wpDisplayListRepresentation,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 
 @Directive({
-  selector: '[wpViewDropdown]'
+  selector: '[wpViewDropdown]',
 })
 export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly I18n:I18nService,
-              readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
-              readonly wpTableTimeline:WorkPackageViewTimelineService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly I18n:I18nService,
+    readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
+    readonly wpTableTimeline:WorkPackageViewTimelineService) {
     super(elementRef, opContextMenu);
   }
 
@@ -58,7 +57,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
   public get locals() {
     return {
       items: this.items,
-      contextMenuId: 'wp-view-context-menu'
+      contextMenuId: 'wp-view-context-menu',
     };
   }
 
@@ -78,8 +77,9 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
               this.wpTableTimeline.toggle();
             }
             return true;
-          }
-        });
+          },
+        },
+      );
     }
 
     if (this.wpTableTimeline.isVisible || this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation) {
@@ -94,8 +94,9 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
               this.wpTableTimeline.toggle();
             }
             return true;
-          }
-        });
+          },
+        },
+      );
     }
 
     if (!this.wpTableTimeline.isVisible || this.wpDisplayRepresentationService.current === wpDisplayCardRepresentation) {
@@ -110,9 +111,9 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
             }
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
             return true;
-          }
-        });
+          },
+        },
+      );
     }
   }
 }
-

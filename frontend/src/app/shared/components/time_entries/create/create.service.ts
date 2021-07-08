@@ -1,21 +1,20 @@
-import { Injectable, Injector } from "@angular/core";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Injectable, Injector } from '@angular/core';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { take } from 'rxjs/operators';
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { Moment } from 'moment';
-import { TimeEntryCreateModal } from "core-app/shared/components/time_entries/create/create.modal";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
+import { TimeEntryCreateModalComponent } from 'core-app/shared/components/time_entries/create/create.modal';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 
 @Injectable()
 export class TimeEntryCreateService {
-
   constructor(readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly halResource:HalResourceService,
@@ -29,8 +28,8 @@ export class TimeEntryCreateService {
     return new Promise<{ entry:TimeEntryResource, action:'create' }>((resolve, reject) => {
       this
         .createNewTimeEntry(date, wp)
-        .then(changeset => {
-          const modal = this.opModalService.show(TimeEntryCreateModal, this.injector, { changeset: changeset, showWorkPackageField: showWorkPackageField });
+        .then((changeset) => {
+          const modal = this.opModalService.show(TimeEntryCreateModalComponent, this.injector, { changeset, showWorkPackageField });
 
           modal
             .closingEvent
@@ -48,14 +47,14 @@ export class TimeEntryCreateService {
 
   public createNewTimeEntry(date:Moment, wp?:WorkPackageResource) {
     const payload:any = {
-      spentOn: date.format('YYYY-MM-DD')
+      spentOn: date.format('YYYY-MM-DD'),
     };
 
     if (wp) {
-      payload['_links'] = {
+      payload._links = {
         workPackage: {
-          href: wp.href
-        }
+          href: wp.href,
+        },
       };
     }
 
@@ -65,9 +64,7 @@ export class TimeEntryCreateService {
       .form
       .post(payload)
       .toPromise()
-      .then(form => {
-        return this.fromCreateForm(form);
-      });
+      .then((form) => this.fromCreateForm(form));
   }
 
   public fromCreateForm(form:FormResource):ResourceChangeset {
@@ -79,22 +76,20 @@ export class TimeEntryCreateService {
   private initializeNewResource(form:FormResource) {
     const entry = this.halResource.createHalResourceOfType<TimeEntryResource>('TimeEntry', form.payload.$plain());
 
-    entry.$links['schema'] = { href: 'new' };
+    entry.$links.schema = { href: 'new' };
 
-    entry['_type'] = 'TimeEntry';
-    entry['id'] = 'new';
-    entry['hours'] = 'PT1H';
+    entry._type = 'TimeEntry';
+    entry.id = 'new';
+    entry.hours = 'PT1H';
 
     // Set update link to form
-    entry['update'] = entry.$links['update'] = form.$links.self;
+    entry.update = entry.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
-    entry['updateImmediately'] = entry.$links['updateImmediately'] = (payload:{}) => {
-      return this
-        .apiV3Service
-        .time_entries
-        .post(payload)
-        .toPromise();
-    };
+    entry.updateImmediately = entry.$links.updateImmediately = (payload:{}) => this
+      .apiV3Service
+      .time_entries
+      .post(payload)
+      .toPromise();
 
     entry.state.putValue(entry);
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine

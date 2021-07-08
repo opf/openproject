@@ -1,5 +1,6 @@
-import { TimelineViewParameters } from "../wp-timeline";
-export const timelineStaticElementCssClassname = "wp-timeline--static-element";
+import { TimelineViewParameters } from '../wp-timeline';
+
+export const timelineStaticElementCssClassname = 'wp-timeline--static-element';
 
 export abstract class TimelineStaticElement {
   constructor() {
@@ -11,7 +12,7 @@ export abstract class TimelineStaticElement {
    * @returns {HTMLElement} The finished static element
    */
   public render(vp:TimelineViewParameters):HTMLElement {
-    const elem = document.createElement("div");
+    const elem = document.createElement('div');
     elem.id = this.identifier;
     elem.classList.add(...this.classNames);
 

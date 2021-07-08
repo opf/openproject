@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,12 +27,12 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageViewPagination } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination";
-import { WorkPackageViewBaseService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service";
-import { PaginationObject, PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageViewPagination } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
+import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
+import { PaginationObject, PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 
 export interface PaginationUpdateObject {
   page?:number;
@@ -44,7 +44,7 @@ export interface PaginationUpdateObject {
 @Injectable()
 export class WorkPackageViewPaginationService extends WorkPackageViewBaseService<WorkPackageViewPagination> {
   public constructor(querySpace:IsolatedQuerySpace,
-                     readonly paginationService:PaginationService) {
+    readonly paginationService:PaginationService) {
     super(querySpace);
   }
 
@@ -52,15 +52,13 @@ export class WorkPackageViewPaginationService extends WorkPackageViewBaseService
     if (this.current) {
       return {
         pageSize: this.current.perPage,
-        offset: this.current.page
-      };
-    } else {
-      return {
-        pageSize: this.paginationService.getCachedPerPage([]),
-        offset: 1
+        offset: this.current.page,
       };
     }
-
+    return {
+      pageSize: this.paginationService.getCachedPerPage([]),
+      offset: 1,
+    };
   }
 
   public valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
@@ -88,7 +86,7 @@ export class WorkPackageViewPaginationService extends WorkPackageViewBaseService
       page: results.offset,
       perPage: results.pageSize,
       total: results.total,
-      count: results.count
+      count: results.count,
     };
 
     this.updateFromObject(update);

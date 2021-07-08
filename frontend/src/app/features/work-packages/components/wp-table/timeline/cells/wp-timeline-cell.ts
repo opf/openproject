@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,21 +25,21 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { States } from "core-app/core/states/states.service";
-import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
-import { RenderInfo } from '../wp-timeline';
-import { TimelineCellRenderer } from './timeline-cell-renderer';
-import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
-import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handler';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { States } from 'core-app/core/states/states.service';
 import { Injector } from '@angular/core';
-import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handler';
+import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
+import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { RenderInfo } from '../wp-timeline';
+import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -52,24 +52,27 @@ export const classNameShowOnHover = 'show-on-hover';
 export const classNameHideOnHover = 'hide-on-hover';
 
 export class WorkPackageCellLabels {
-
   constructor(public readonly center:HTMLDivElement|null,
-              public readonly left:HTMLDivElement,
-              public readonly leftHover:HTMLDivElement|null,
-              public readonly right:HTMLDivElement,
-              public readonly rightHover:HTMLDivElement|null,
-              public readonly farRight:HTMLDivElement,
-              public readonly withAlternativeLabels?:boolean) {
+    public readonly left:HTMLDivElement,
+    public readonly leftHover:HTMLDivElement|null,
+    public readonly right:HTMLDivElement,
+    public readonly rightHover:HTMLDivElement|null,
+    public readonly farRight:HTMLDivElement,
+    public readonly withAlternativeLabels?:boolean) {
   }
-
 }
 
 export class WorkPackageTimelineCell {
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() halEvents:HalEventsService;
+
   @InjectField() notificationService:WorkPackageNotificationService;
+
   @InjectField() states:States;
+
   @InjectField() loadingIndicator:LoadingIndicatorService;
+
   @InjectField() schemaCache:SchemaCacheService;
 
   private wpElement:HTMLDivElement|null = null;
@@ -79,11 +82,11 @@ export class WorkPackageTimelineCell {
   private labels:WorkPackageCellLabels;
 
   constructor(public readonly injector:Injector,
-              public workPackageTimeline:WorkPackageTimelineTableController,
-              public renderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer },
-              public latestRenderInfo:RenderInfo,
-              public classIdentifier:string,
-              public workPackageId:string) {
+    public workPackageTimeline:WorkPackageTimelineTableController,
+    public renderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer },
+    public latestRenderInfo:RenderInfo,
+    public classIdentifier:string,
+    public workPackageId:string) {
   }
 
   getMarginLeftOfLeftSide():number {
@@ -172,7 +175,8 @@ export class WorkPackageTimelineCell {
         this.wpElement,
         this.labels,
         renderer,
-        renderInfo);
+        renderInfo,
+      );
     }
 
     return Promise.resolve();
@@ -198,7 +202,8 @@ export class WorkPackageTimelineCell {
         const shouldBeDisplayed = renderer.update(
           this.wpElement as HTMLDivElement,
           this.labels,
-          renderInfo);
+          renderInfo,
+        );
 
         if (!shouldBeDisplayed) {
           this.clear();
@@ -206,5 +211,4 @@ export class WorkPackageTimelineCell {
       })
       .catch(() => null);
   }
-
 }

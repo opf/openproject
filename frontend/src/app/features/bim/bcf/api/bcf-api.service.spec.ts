@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TestBed, waitForAsync } from "@angular/core/testing";
-import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
-import { BcfResourceCollectionPath, BcfResourcePath } from "core-app/features/bim/bcf/api/bcf-path-resources";
-import { BcfTopicPaths } from "core-app/features/bim/bcf/api/topics/bcf-topic.paths";
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
+import { BcfResourceCollectionPath, BcfResourcePath } from 'core-app/features/bim/bcf/api/bcf-path-resources';
+import { BcfTopicPaths } from 'core-app/features/bim/bcf/api/topics/bcf-topic.paths';
 
-describe('BcfApiService', function () {
+describe('BcfApiService', () => {
   let service:BcfApiService;
 
   beforeEach(waitForAsync(() => {
@@ -39,7 +39,7 @@ describe('BcfApiService', function () {
     TestBed.configureTestingModule({
       providers: [
         BcfApiService,
-      ]
+      ],
     })
       .compileComponents()
       .then(() => {
@@ -129,6 +129,5 @@ describe('BcfApiService', function () {
       expect(subject.id).toEqual('dfca6c25-832f-6a94-53ca-48d510b6bad9');
       expect(subject.toPath()).toEqual(href);
     });
-
   });
 });

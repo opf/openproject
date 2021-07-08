@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,11 +27,10 @@
 //++
 
 import { Component } from '@angular/core';
-import { DomSanitizer } from "@angular/platform-browser";
-import imagePath = ImageHelpers.imagePath;
-import { BcfRestApi } from "core-app/features/bim/bcf/bcf-constants.const";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
+import { DomSanitizer } from '@angular/platform-browser';
+import { BcfRestApi } from 'core-app/features/bim/bcf/bcf-constants.const';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
 
@@ -52,7 +51,6 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
   styleUrls: ['./new-features.component.sass'],
 })
 
-
 /**
  * Component for the homescreen block to promote new features.
  * When updating this for the next release, be sure to cleanup stuff is not needed any more:
@@ -60,7 +58,9 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
  */
 export class HomescreenNewFeaturesBlockComponent {
   public isStandardEdition:boolean;
-  new_features_image = ImageHelpers.imagePath('11_3_features.png');
+
+  new_features_image = imagePath('11_3_features.png');
+
   public text = {
     newFeatures: this.i18n.t('js.label_new_features'),
     descriptionNewFeatures: this.i18n.t('js.homescreen.blocks.new_features.text_new_features'),
@@ -69,7 +69,7 @@ export class HomescreenNewFeaturesBlockComponent {
 
   constructor(
     readonly i18n:I18nService,
-    readonly domSanitizer:DomSanitizer
+    readonly domSanitizer:DomSanitizer,
   ) {
     this.isStandardEdition = window.OpenProject.isStandardEdition;
   }
@@ -84,12 +84,12 @@ export class HomescreenNewFeaturesBlockComponent {
   }
 
   private translated(key:string):string {
-    return this.i18n.t(this.i18nBase + this.i18nPrefix + '.' + key, { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
+    return this.i18n.t(`${this.i18nBase + this.i18nPrefix}.${key}`, { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
   }
 
   private i18nBase = 'js.homescreen.blocks.new_features.';
 
   private get i18nPrefix():string {
-    return this.isStandardEdition ? "standard" : "bim";
+    return this.isStandardEdition ? 'standard' : 'bim';
   }
 }

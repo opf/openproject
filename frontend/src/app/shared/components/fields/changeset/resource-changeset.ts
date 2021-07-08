@@ -1,14 +1,13 @@
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ChangeItem, ChangeMap, Changeset } from "core-app/shared/components/fields/changeset/changeset";
-import { input, InputState } from "reactivestates";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { debugLog } from "core-app/shared/helpers/debug_output";
-import { take } from "rxjs/operators";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { Injector } from '@angular/core';
-import { SchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ChangeItem, ChangeMap, Changeset } from 'core-app/shared/components/fields/changeset/changeset';
+import { input, InputState } from 'reactivestates';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { take } from 'rxjs/operators';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
@@ -47,11 +46,11 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected schemaCache:SchemaCacheService;
 
   constructor(pristineResource:T,
-              public readonly state?:InputState<ResourceChangeset<T>>,
-              loadedForm:FormResource|null = null) {
+    public readonly state?:InputState<ResourceChangeset<T>>,
+    loadedForm:FormResource|null = null) {
     this.updatePristineResource(pristineResource);
 
-    this.schemaCache = (pristineResource.injector as Injector).get(SchemaCacheService);
+    this.schemaCache = (pristineResource.injector).get(SchemaCacheService);
 
     if (loadedForm) {
       this.form$.putValue(loadedForm);
@@ -85,7 +84,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   public updatePristineResource(resource:T) {
     // Ensure we're not passing in a proxy
     if ((resource as any)[PROXY_IDENTIFIER]) {
-      throw "You're trying to pass proxy object as a pristine resource. This will cause errors";
+      throw new Error("You're trying to pass proxy object as a pristine resource. This will cause errors");
     }
 
     this._pristineResource = resource;
@@ -97,7 +96,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
           this.setValue(key, val);
           return true;
         },
-      }
+      },
     );
   }
 
@@ -310,9 +309,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   public get schema():SchemaResource {
     if (this.form$.hasValue()) {
       return SchemaProxy.create(this.form$.value!.schema, this.projectedResource);
-    } else {
-      return this.schemaCache.of(this.pristineResource);
     }
+    return this.schemaCache.of(this.pristineResource);
   }
 
   /**
@@ -383,14 +381,11 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       // They will already be created on the server but now
       // we need to claim them for the newly created work package.
       if (this.pristineResource.attachments) {
-        payload['_links']['attachments'] = this.pristineResource
+        payload._links.attachments = this.pristineResource
           .attachments
           .elements
-          .map((a:HalResource) => {
-            return { href: a.href };
-          });
+          .map((a:HalResource) => ({ href: a.href }));
       }
-
     } else {
       // Otherwise, simply use the bare minimum
       payload = this.minimalPayload;
@@ -432,9 +427,8 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       }
 
       return links;
-    } else {
-      return { href: _.get(val, 'href', null) };
     }
+    return { href: _.get(val, 'href', null) };
   }
 
   /**
@@ -457,7 +451,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    */
   protected setNewDefaultFor(key:string, val:unknown) {
     if (!this.valueExists(key)) {
-      debugLog("Taking over default value from form for " + key);
+      debugLog(`Taking over default value from form for ${key}`);
       this.setValue(key, val);
     }
   }

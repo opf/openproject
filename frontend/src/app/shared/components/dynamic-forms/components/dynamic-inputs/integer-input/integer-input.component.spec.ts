@@ -2,19 +2,19 @@ import { fakeAsync } from '@angular/core/testing';
 import {
   createDynamicInputFixture,
   testDynamicInputControValueAccessor,
-} from "core-app/shared/components/dynamic-forms/spec/helpers";
+} from 'core-app/shared/components/dynamic-forms/spec/helpers';
 
 describe('IntegerInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
-        "type": "integerInput" as "integerInput",
-        "key": "testControl",
-        "templateOptions": {
-          "required": true,
-          "label": "testControl",
+        type: 'integerInput' as const,
+        key: 'testControl',
+        templateOptions: {
+          required: true,
+          label: 'testControl',
         },
-      }
+      },
     ];
     const formModel = {
       testControl: 'testValue',
@@ -29,4 +29,3 @@ describe('IntegerInputComponent', () => {
     testDynamicInputControValueAccessor(fixture, testModel, 'op-integer-input input');
   }));
 });
-

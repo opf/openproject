@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Directive, ViewChild } from "@angular/core";
-import { WorkPackageEmbeddedTableComponent } from "core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Directive, ViewChild } from '@angular/core';
+import { WorkPackageEmbeddedTableComponent } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-table.component';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Directive()
 export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
@@ -92,7 +92,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
    * Get the filters of the query props
    */
   protected projectValuesCount(query:QueryResource):number|null {
-    const project = query.filters.find(f => f.id === 'project');
+    const project = query.filters.find((f) => f.id === 'project');
     return project ? project.values.length : null;
   }
 
@@ -104,10 +104,9 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
       return this.queryUrlParamsHelper.buildV3GetQueryFromQueryResource(
         this.query,
         { valid_subset: true },
-        { id: this.workPackage.id! }
+        { id: this.workPackage.id! },
       );
-    } else {
-      return this.query;
     }
+    return this.query;
   }
 }

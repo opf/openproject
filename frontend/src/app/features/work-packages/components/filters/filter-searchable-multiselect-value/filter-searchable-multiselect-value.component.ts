@@ -8,37 +8,46 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { map } from 'rxjs/operators';
 import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { HalResourceSortingService } from "core-app/features/hal/services/hal-resource-sorting.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { AfterViewInit, ChangeDetectionStrategy,
+import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import {
+  AfterViewInit, ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+  Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild,
+} from '@angular/core';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   selector: 'filter-searchable-multiselect-value',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl:'./filter-searchable-multiselect-value.component.html'
+  templateUrl: './filter-searchable-multiselect-value.component.html',
 })
 export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   @Input() public filter:QueryFilterInstanceResource;
+
   @Input() public shouldFocus = false;
+
   @Output() public filterChanged = new EventEmitter<QueryFilterInstanceResource>();
 
   private _isEmpty:boolean;
+
   public _availableOptions:HalResource[] = [];
+
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
+
   public active:Set<string>;
+
   public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
     (searchTerm:string) => this.loadAvailable(searchTerm),
     errorNotificationHandler(this.halNotification),
-    true
+    true,
   );
+
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
@@ -46,6 +55,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   public get value() {
     return this.filter.values;
   }
+
   public get availableOptions() {
     return this._availableOptions;
   }
@@ -61,13 +71,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   constructor(readonly halResourceService:HalResourceService,
-              readonly halSorting:HalResourceSortingService,
-              readonly apiV3Service:APIV3Service,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService,
-              protected currentProject:CurrentProjectService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly ngZone:NgZone) {
+    readonly halSorting:HalResourceSortingService,
+    readonly apiV3Service:APIV3Service,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService,
+    protected currentProject:CurrentProjectService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly ngZone:NgZone) {
     super();
   }
 
@@ -87,7 +97,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     this
       .requests
       .output$.pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((values:HalResource[]) => {
         this.availableOptions = values;
@@ -97,13 +107,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
     const filters:ApiV3FilterBuilder = this.createFilters(matching);
-    const href = (this.filter.currentSchema!.values!.allowedValues as any).href;
+    const { href } = this.filter.currentSchema!.values!.allowedValues as any;
 
     const filteredData = (this.apiV3Service.collectionFromString(href) as
       APIv3ResourceCollection<HalResource, CachableAPIV3Resource>)
       .filtered(filters)
       .get()
-      .pipe(map(collection => collection.elements));
+      .pipe(map((collection) => collection.elements));
 
     return filteredData;
   }
@@ -131,11 +141,9 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       if (component && component.dropdownPanel) {
         this.ngZone.runOutsideAngular(() => {
           setTimeout(() => {
-        component.dropdownPanel._updatePosition();
+            component.dropdownPanel._updatePosition();
           }, 25);
-         
         });
-        
       }
     }
   }

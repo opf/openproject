@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Apiv3RelationsPaths } from "core-app/core/apiv3/endpoints/relations/apiv3-relations-paths";
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { APIV3WorkPackagesPaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Apiv3RelationsPaths } from 'core-app/core/apiv3/endpoints/relations/apiv3-relations-paths';
+import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { APIV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 
 export class APIV3WorkPackagePaths extends CachableAPIV3Resource<WorkPackageResource> {
-
   // /api/v3/(?:projectPath)/work_packages/(:workPackageId)/relations
   public readonly relations = this.subResource('relations', Apiv3RelationsPaths);
 

@@ -25,9 +25,8 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 
-import { ComponentType } from "@angular/cdk/portal";
-import { ApplicationRef } from "@angular/core";
-import { filter, take } from "rxjs/operators";
+import { ComponentType } from '@angular/cdk/portal';
+import { ApplicationRef } from '@angular/core';
 
 /**
  * Optional bootstrap definition to allow selecting all matching
@@ -93,7 +92,7 @@ export class DynamicBootstrapper {
    * Get embeddable components
    */
   public static getEmbeddable() {
-    return this.optionalBoostrapComponents.filter(el => el.embeddable);
+    return this.optionalBoostrapComponents.filter((el) => el.embeddable);
   }
 
   /**
@@ -106,8 +105,7 @@ export class DynamicBootstrapper {
    */
   private static performBootstrap(appRef:ApplicationRef, root:Document|HTMLElement, embedded:boolean, definitions:OptionalBootstrapDefinition[]) {
     definitions
-      .forEach(el => {
-
+      .forEach((el) => {
         // Skip non-embeddable components in an embedded bootstrap.
         if (embedded && !el.embeddable) {
           return;

@@ -1,28 +1,30 @@
-import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
+import {
+  ApplicationRef, ComponentFactoryResolver, Injectable, Injector,
+} from '@angular/core';
 import { ComponentPortal, DomPortalOutlet, PortalInjector } from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import {
   ExternalQueryConfigurationComponent,
-  QueryConfigurationLocals
-} from "core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.component";
-import { OpQueryConfigurationLocalsToken } from "core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.constants";
+  QueryConfigurationLocals,
+} from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.component';
+import { OpQueryConfigurationLocalsToken } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.constants';
 
 export type Class = { new(...args:any[]):any; };
 
 @Injectable()
 export class ExternalQueryConfigurationService {
-
   // Hold a reference to the DOM node we're using as a host
   private _portalHostElement:HTMLElement;
+
   // And a reference to the actual portal host interface on top of the element
   private _bodyPortalHost:DomPortalOutlet;
 
   constructor(private componentFactoryResolver:ComponentFactoryResolver,
-              readonly FocusHelper:FocusHelperService,
-              private appRef:ApplicationRef,
-              private $transitions:TransitionService,
-              private injector:Injector) {
+    readonly FocusHelper:FocusHelperService,
+    private appRef:ApplicationRef,
+    private $transitions:TransitionService,
+    private injector:Injector) {
   }
 
   /**
@@ -38,7 +40,7 @@ export class ExternalQueryConfigurationService {
         hostElement,
         this.componentFactoryResolver,
         this.appRef,
-        this.injector
+        this.injector,
       );
     }
 
@@ -55,7 +57,7 @@ export class ExternalQueryConfigurationService {
     const portal = new ComponentPortal(
       this.externalQueryConfigurationComponent(),
       null,
-      this.injectorFor(data)
+      this.injectorFor(data),
     );
     this.bodyPortalHost.attach(portal);
     this._portalHostElement.style.display = 'block';

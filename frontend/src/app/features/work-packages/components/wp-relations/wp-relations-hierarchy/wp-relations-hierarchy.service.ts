@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,42 +26,42 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { States } from "core-app/core/states/states.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { States } from 'core-app/core/states/states.service';
 import { StateService } from '@uirouter/core';
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 
 @Injectable()
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:StateService,
-              protected states:States,
-              protected halEvents:HalEventsService,
-              protected notificationService:WorkPackageNotificationService,
-              protected pathHelper:PathHelperService,
-              protected apiV3Service:APIV3Service) {
+    protected states:States,
+    protected halEvents:HalEventsService,
+    protected notificationService:WorkPackageNotificationService,
+    protected pathHelper:PathHelperService,
+    protected apiV3Service:APIV3Service) {
 
   }
 
   public changeParent(workPackage:WorkPackageResource, parentId:string|null) {
     const payload:any = {
-      lockVersion: workPackage.lockVersion
+      lockVersion: workPackage.lockVersion,
     };
 
     if (parentId) {
-      payload['_links'] = {
+      payload._links = {
         parent: {
-          href: this.apiV3Service.work_packages.id(parentId).path
-        }
+          href: this.apiV3Service.work_packages.id(parentId).path,
+        },
       };
     } else {
-      payload['_links'] = {
+      payload._links = {
         parent: {
-          href: null
-        }
+          href: null,
+        },
       };
     }
 
@@ -77,7 +77,7 @@ export class WorkPackageRelationsHierarchyService {
         this.halEvents.push(workPackage, {
           eventType: 'association',
           relatedWorkPackage: parentId,
-          relationType: 'parent'
+          relationType: 'parent',
         });
 
         return wp;
@@ -99,42 +99,40 @@ export class WorkPackageRelationsHierarchyService {
       .id(childWpId)
       .get()
       .toPromise()
-      .then((wpToBecomeChild:WorkPackageResource|undefined) => {
-        return this.changeParent(wpToBecomeChild!, workPackage.id!)
-          .then(wp => {
-            // Reload work package
-            this
-              .apiV3Service
-              .work_packages
-              .id(workPackage)
-              .refresh();
+      .then((wpToBecomeChild:WorkPackageResource|undefined) => this.changeParent(wpToBecomeChild!, workPackage.id)
+        .then((wp) => {
+          // Reload work package
+          this
+            .apiV3Service
+            .work_packages
+            .id(workPackage)
+            .refresh();
 
-            this.halEvents.push(workPackage, {
-              eventType: 'association',
-              relatedWorkPackage: wpToBecomeChild!.id!,
-              relationType: 'child'
-            });
-
-            return wp;
+          this.halEvents.push(workPackage, {
+            eventType: 'association',
+            relatedWorkPackage: wpToBecomeChild!.id!,
+            relationType: 'child',
           });
-      });
+
+          return wp;
+        }));
   }
 
   public addNewChildWp(baseRoute:string, workPackage:WorkPackageResource) {
     workPackage.project.$load()
       .then(() => {
         const args = [
-          baseRoute + '.new',
+          `${baseRoute}.new`,
           {
-            parent_id: workPackage.id
-          }
+            parent_id: workPackage.id,
+          },
         ];
 
         if (this.$state.includes('work-packages.show')) {
           args[0] = 'work-packages.new';
         }
 
-        (<any>this.$state).go(...args);
+        (<any> this.$state).go(...args);
       });
   }
 
@@ -144,11 +142,11 @@ export class WorkPackageRelationsHierarchyService {
       return childWorkPackage.changeParent({
         _links: {
           parent: {
-            href: null
-          }
+            href: null,
+          },
         },
-        lockVersion: childWorkPackage.lockVersion
-      }).then(wp => {
+        lockVersion: childWorkPackage.lockVersion,
+      }).then((wp) => {
         if (parentWorkPackage) {
           this
             .apiV3Service
@@ -159,7 +157,7 @@ export class WorkPackageRelationsHierarchyService {
               this.halEvents.push(wp, {
                 eventType: 'association',
                 relatedWorkPackage: null,
-                relationType: 'child'
+                relationType: 'child',
               });
             });
         }

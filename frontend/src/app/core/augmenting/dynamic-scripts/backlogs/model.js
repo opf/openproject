@@ -300,7 +300,7 @@ RB.Model = (function ($) {
     },
 
     getType: function () {
-      throw "Child objects must override getType()";
+      throw new Error("Child objects must override getType()");
     },
 
     handleClick: function (e) {
@@ -346,7 +346,7 @@ RB.Model = (function ($) {
     },
 
     markIfClosed: function () {
-      throw "Child objects must override markIfClosed()";
+      throw new Error("Child objects must override markIfClosed()");
     },
 
     markSaving: function () {
@@ -393,7 +393,7 @@ RB.Model = (function ($) {
     },
 
     saveDirectives: function () {
-      throw "Child object must implement saveDirectives()";
+      throw new Error("Child object must implement saveDirectives()");
     },
 
     saveEdits: function () {

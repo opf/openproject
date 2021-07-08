@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,8 +28,8 @@
 
 import { Component } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
 
 @Component({
   template: `
@@ -45,18 +45,18 @@ import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-
 export class BcfImportButtonComponent {
   public text = {
     import: this.I18n.t('js.bcf.import'),
-    import_hover: this.I18n.t('js.bcf.import_bcf_xml_file')
+    import_hover: this.I18n.t('js.bcf.import_bcf_xml_file'),
   };
 
   constructor(readonly I18n:I18nService,
-              readonly currentProject:CurrentProjectService,
-              readonly bcfPathHelper:BcfPathHelperService) {
+    readonly currentProject:CurrentProjectService,
+    readonly bcfPathHelper:BcfPathHelperService) {
   }
 
   public handleClick() {
-    var projectIdentifier = this.currentProject.identifier;
+    const projectIdentifier = this.currentProject.identifier;
     if (projectIdentifier) {
-      var url = this.bcfPathHelper.projectImportIssuePath(projectIdentifier);
+      const url = this.bcfPathHelper.projectImportIssuePath(projectIdentifier);
       window.location.href = url;
     }
   }

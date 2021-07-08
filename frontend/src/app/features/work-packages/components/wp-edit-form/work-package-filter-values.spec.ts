@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,34 +26,34 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { TestBed } from "@angular/core/testing";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { Injector } from "@angular/core";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { WorkPackageFilterValues } from "core-app/features/work-packages/components/wp-edit-form/work-package-filter-values";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { WorkPackageCreateService } from "core-app/features/work-packages/components/wp-new/wp-create.service";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { TypeResource } from "core-app/features/hal/resources/type-resource";
-import { HttpClientModule } from "@angular/common/http";
-import { States } from "core-app/core/states/states.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { UIRouterModule } from "@uirouter/angular";
-import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
-import { HookService } from "core-app/features/plugins/hook-service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
-import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { TestBed } from '@angular/core/testing';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { Injector } from '@angular/core';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { TypeResource } from 'core-app/features/hal/resources/type-resource';
+import { HttpClientModule } from '@angular/common/http';
+import { States } from 'core-app/core/states/states.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UIRouterModule } from '@uirouter/angular';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
+import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 describe('WorkPackageFilterValues', () => {
   let resource:WorkPackageResource;
@@ -70,7 +70,7 @@ describe('WorkPackageFilterValues', () => {
     TestBed.configureTestingModule({
       imports: [
         UIRouterModule.forRoot({}),
-        HttpClientModule
+        HttpClientModule,
       ],
       providers: [
         I18nService,
@@ -93,7 +93,7 @@ describe('WorkPackageFilterValues', () => {
         WorkPackageCreateService,
         HalResourceEditingService,
         WorkPackagesActivityService,
-      ]
+      ],
     }).compileComponents();
 
     injector = TestBed.inject(Injector);
@@ -104,19 +104,19 @@ describe('WorkPackageFilterValues', () => {
 
     const type1 = halResourceService.createHalResourceOfClass(
       TypeResource,
-      { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } }
+      { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } },
     );
     const type2 = halResourceService.createHalResourceOfClass(
       TypeResource,
-      { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } }
+      { _type: 'Type', id: '2', _links: { self: { href: '/api/v3/types/2', name: 'Bug' } } },
     );
 
     filters = [
       {
         id: 'type',
         operator: { id: '=' },
-        values: [type1, type2]
-      }
+        values: [type1, type2],
+      },
     ];
 
     subject = new WorkPackageFilterValues(injector, filters);
@@ -131,9 +131,9 @@ describe('WorkPackageFilterValues', () => {
           _links: {
             type: {
               href: '/api/v3/types/1',
-              name: 'Task'
-            }
-          }
+              name: 'Task',
+            },
+          },
         };
 
         setupTestBed();
@@ -154,9 +154,9 @@ describe('WorkPackageFilterValues', () => {
           _links: {
             type: {
               href: '/api/v3/types/2',
-              name: 'Bug'
-            }
-          }
+              name: 'Bug',
+            },
+          },
         };
 
         setupTestBed();
@@ -169,9 +169,5 @@ describe('WorkPackageFilterValues', () => {
         expect(changeset.value('type').href).toEqual('/api/v3/types/2');
       }));
     });
-
   });
 });
-
-
-
