@@ -186,6 +186,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   text = {
     save: this._I18n.t('js.button_save'),
+    cancel: this._I18n.t('js.button_cancel'),
     load_error_message: this._I18n.t('js.forms.load_error_message'),
     successful_update: this._I18n.t('js.notice_successful_update'),
     successful_create: this._I18n.t('js.notice_successful_create'),
@@ -283,6 +284,11 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     return this._dynamicFormService.validateForm$(this.form, this.formEndpoint);
+  }
+
+
+  goBack() {
+    window.history.back();
   }
 
   private initializeDynamicForm(
