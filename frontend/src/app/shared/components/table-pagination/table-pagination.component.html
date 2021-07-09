@@ -1,6 +1,6 @@
 <div class="op-pagination" *ngIf="pagination && isVisible && pagination.total">
   <nav class="op-pagination--pages">
-    <ul class="op-pagination--items">
+    <ul class="op-pagination--items op-pagination--items_start">
 
       <li [hidden]="pagination.page == 1 || !showPageSelections" class="op-pagination--item">
         <button
@@ -92,7 +92,7 @@
 
   <div class="op-pagination--options"
        *ngIf="showPerPageOptions()">
-    <ul class="op-pagination--items">
+    <ul class="op-pagination--items op-pagination--items_end">
       <li class="op-pagination--label" [textContent]="text.per_page" title="{{ text.per_page }}"></li>
 
       <li *ngFor="let perPageOption of perPageOptions"

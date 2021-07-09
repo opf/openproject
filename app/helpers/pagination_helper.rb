@@ -64,7 +64,7 @@ module PaginationHelper
     page_last = paginator.offset + paginator.length
     total = paginator.total_entries
 
-    content_tag(:ul, class: 'op-pagination--items') do
+    content_tag(:ul, class: 'op-pagination--items op-pagination--items_start') do
       # will_paginate will return nil early when no pages available
       content = will_paginate(paginator, options) || ''
 
@@ -82,7 +82,7 @@ module PaginationHelper
 
     if links.size > 1
       label = I18n.t(:label_per_page)
-      content_tag(:ul, class: 'op-pagination--items') do
+      content_tag(:ul, class: 'op-pagination--items op-pagination--items_end') do
         content_tag(:li, label + ':', class: 'op-pagination--label', title: label) + links
       end
     end
