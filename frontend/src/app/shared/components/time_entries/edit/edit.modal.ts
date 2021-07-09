@@ -6,7 +6,6 @@ import { TimeEntryBaseModal } from 'core-app/shared/components/time_entries/shar
 
 @Component({
   templateUrl: '../shared/modal/base.modal.html',
-  styleUrls: ['../shared/modal/base.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,

@@ -53,7 +53,8 @@ export class TimeEntriesCurrentUserConfigurationModalComponent extends OpModalCo
   }
 
   ngOnInit() {
-    this.daysOriginalCheckedValues = this.locals.options.days || Array.from({ length: 7 }, () => true);
+    let localDayOptions = this.locals.options.days
+    this.daysOriginalCheckedValues = localDayOptions.length > 0 ? localDayOptions : Array.from({ length: 7 }, () => true);
     this.days = this.timeEntriesCurrentUserConfigurationModalService.getOrderedDaysData(this.daysOriginalCheckedValues);
   }
 
