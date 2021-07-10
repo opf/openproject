@@ -36,12 +36,20 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
     attributes: {
       comment: this.i18n.t('js.time_entry.comment'),
       hours: this.i18n.t('js.time_entry.hours'),
+      time: 'Time',
       activity: this.i18n.t('js.time_entry.activity'),
       workPackage: this.i18n.t('js.time_entry.work_package'),
       spentOn: this.i18n.t('js.time_entry.spent_on'),
     },
     wpRequired: this.i18n.t('js.time_entry.work_package_required')
   };
+
+  public time = {
+    name: 'time',
+    value: '1:2',
+  };
+
+  public test_that = 0.0;
 
   public workPackageSelected = false;
   public customFields:{ key:string, label:string }[] = [];
@@ -64,6 +72,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
           this.workPackageSelected = true;
           this.cdRef.markForCheck();
         }
+        // if(changeset && changeset.workPackage)
       });
 
     this.setCustomFields();
@@ -98,6 +107,19 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
     }
   }
 
+  private padNum = n => (n | 0).toString().padStart(2, '0');
+
+  public hoursToTime = (value:string):string => `${padNum(value)}:${padNum(Math.round(parseFloat(value) * 60 % 60))}`;
+
+  public timeToHours(value:string):number {
+    const [ hours, minutes ] = value.split(':');
+    return parseFloat((parseInt(hours) + parseInt(minutes) / 60).toFixed(2));
+  }
+
+  public handleTimeChange(value:string) {
+    this.time.value = this.timeToHours(value);
+  }
+
   private setCustomFields() {
     Object.entries(this.schema).forEach(([key, keySchema]) => {
       if (key.match(/customField\d+/)) {
@@ -109,4 +131,5 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
   private get schema() {
     return this.changeset.schema;
   }
+
 }

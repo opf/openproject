@@ -161,7 +161,7 @@ bundler --version
 Bundler version 2.1.4
 
 node --version
-v14.16.1
+v14.17.0
 
 npm --version
 7.15.1
