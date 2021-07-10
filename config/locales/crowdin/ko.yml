@@ -605,12 +605,12 @@ ko:
           outside: '- 그리드의 외부에 있습니다.'
           end_before_start: '종료 값은 시작 값보다 커야 합니다.'
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: '알림을 보낼 채널을 하나 이상 지정해야 합니다.'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
             read_email:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -756,7 +756,7 @@ ko:
       member: "멤버"
       news: "뉴스"
       notification:
-        other: "Notifications"
+        other: "알림"
       placeholder_user: "플레이스홀더 사용자"
       project: "프로젝트"
       query: "사용자 지정 쿼리"
@@ -1266,7 +1266,7 @@ ko:
   menus:
     admin:
       mail_notification: "이메일 알림"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "수신 & 발신"
     quick_add:
       label: "빠른 추가 메뉴 열기"
   my_account:
@@ -1282,10 +1282,10 @@ ko:
   notifications:
     work_packages:
       subject:
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
-        involved: "You either are assigned to or are responsible for %{work_package}"
+        assigned: "%{work_package} 을(를) 할당되었습니다."
+        subscribed: "%{work_package} 을(를) 구독하였습니다."
+        mentioned: "%{work_package} 을(를) 멘션하였습니다."
+        involved: "%{work_package} 에 할당되었거나 책임이 있습니다."
         watched: "You are watching %{work_package}"
   label_accessibility: "접근성"
   label_account: "계정"
@@ -2231,7 +2231,7 @@ ko:
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
   setting_apiv3_docs: "설명서"
-  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled: "문서 페이지 활성화"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "이메일 배달 방법"
@@ -2280,7 +2280,7 @@ ko:
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_delay_minutes: "이메일 지연 전송"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
@@ -2463,7 +2463,7 @@ ko:
   text_regexp_info: "예: ^[A-Z0-9]+$"
   text_regexp_multiline: '멀티라인 모드에서 정규식이 적용됩니다. 예, e.g., ^---\s+'
   text_repository_usernames_mapping: "리포지토리 로그에 있는 각 사용자 이름에 매핑된 OpenProject 사용자를 선택하거나 업데이트하세요.\n동일한 OpenProject 및 리포지토리 사용자 이름이나 이메일을 가진 사용자가 자동으로 매핑됩니다."
-  text_select_notifications: "Select actions for which notifications should be sent."
+  text_select_notifications: "알림을 보낼 작업을 선택하세요."
   text_status_changed_by_changeset: "변경 집합 %{value}에 적용되었습니다."
   text_table_difference_description: "이 테이블에서 단일 %{entries}이(가) 표시됩니다. 먼저 테이블의 해당 확인란을 선택하여 두 항목 사이의 차이를 볼 수 있습니다. 테이블 아래 버튼을 클릭하면 차이가 표시됩니다."
   text_time_logged_by_changeset: "변경 집합 %{value}에 적용되었습니다."
