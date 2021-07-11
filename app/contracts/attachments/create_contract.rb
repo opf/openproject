@@ -45,6 +45,7 @@ module Attachments
     validate :validate_attachments_addable
     validate :validate_container_addable
     validate :validate_author
+    validate :validate_content_type
 
     private
 
@@ -66,6 +67,25 @@ module Attachments
       return unless model.container
 
       errors.add(:base, :error_unauthorized) unless model.container.attachments_addable?(user)
+    end
+
+    ##
+    # Validates the content type, if a whitelist is set
+    def validate_content_type
+      # In some cases, we do not want to process the whitelist
+      # for the attachment mime types. For example, when
+      # storing backups or exports
+      return unless options.fetch(:validate_content_type, true)
+
+      whitelist = Array(Setting.attachment_whitelist)
+
+      # If the whitelist is empty, assume all files are allowed
+      # as before
+      return if whitelist.empty?
+
+      unless whitelist.include?(model.content_type) || whitelist.include?("*#{model.extension}")
+        errors.add :content_type, :not_whitelisted, value: model.content_type
+      end
     end
   end
 end
