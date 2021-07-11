@@ -1,10 +1,8 @@
-import { Injector, NgModule } from "@angular/core";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { CapabilityResource } from "core-app/features/hal/resources/capability-resource";
+import { Injector, NgModule } from '@angular/core';
 
-import { CurrentUserService } from "./current-user.service";
-import { CurrentUserStore } from "./current-user.store";
-import { CurrentUserQuery } from "./current-user.query";
+import { CurrentUserService } from './current-user.service';
+import { CurrentUserStore } from './current-user.store';
+import { CurrentUserQuery } from './current-user.query';
 
 export function bootstrapModule(injector:Injector) {
   const currentUserService = injector.get(CurrentUserService);

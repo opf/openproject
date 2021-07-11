@@ -1,11 +1,10 @@
-import { Observable, Subject } from "rxjs";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { switchMap, takeUntil } from "rxjs/operators";
+import { Observable, Subject } from 'rxjs';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { switchMap, takeUntil } from 'rxjs/operators';
 
 export type RequestSwitchmapHandler<T, R> = (input:T) => Observable<R>;
 
 export class RequestSwitchmap<T, R = HalResource> {
-
   /** Input request state */
   private requests = new Subject<T>();
 
@@ -13,7 +12,7 @@ export class RequestSwitchmap<T, R = HalResource> {
   private responses$ = this.requests
     .pipe(
       // Stream the request, switchMap will result in previous requests to be cancelled
-      switchMap(this.handler)
+      switchMap(this.handler),
     );
 
   /**
@@ -39,7 +38,7 @@ export class RequestSwitchmap<T, R = HalResource> {
     return this
       .responses$
       .pipe(
-        takeUntil(until)
+        takeUntil(until),
       );
   }
 }

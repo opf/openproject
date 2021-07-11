@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { GroupResource } from "core-app/features/hal/resources/group-resource";
-import { Observable } from "rxjs";
+import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { GroupResource } from 'core-app/features/hal/resources/group-resource';
+import { Observable } from 'rxjs';
 
 export class Apiv3GroupPaths extends APIv3GettableResource<GroupResource> {
   /**
@@ -39,8 +39,8 @@ export class Apiv3GroupPaths extends APIv3GettableResource<GroupResource> {
     return this
       .halResourceService
       .patch<GroupResource>(this.path, {
-        name: resource.name,
-      });
+      name: resource.name,
+    });
   }
 
   /**

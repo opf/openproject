@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,24 +27,24 @@
 //++
 
 import { Injector, NgModule } from '@angular/core';
-import { OPSharedModule } from "core-app/shared/shared.module";
-import { NgxGalleryModule } from "@kolkov/ngx-gallery";
-import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { BcfThumbnailDisplayField } from "core-app/features/bim/bcf/fields/display/bcf-thumbnail-field.module";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { BcfDetectorService } from "core-app/features/bim/bcf/helper/bcf-detector.service";
-import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
-import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
-import { BcfImportButtonComponent } from "core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
-import { BcfExportButtonComponent } from "core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
-import { IFCViewerService } from "core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service";
-import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { HookService } from "core-app/features/plugins/hook-service";
-import { BcfWpAttributeGroupComponent } from "core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component";
-import { BcfNewWpAttributeGroupComponent } from "core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-new-wp-attribute-group.component";
-import { RevitBridgeService } from "core-app/features/bim/revit_add_in/revit-bridge.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openproject-header-interceptor";
+import { OPSharedModule } from 'core-app/shared/shared.module';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { BcfThumbnailDisplayField } from 'core-app/features/bim/bcf/fields/display/bcf-thumbnail-field.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BcfDetectorService } from 'core-app/features/bim/bcf/helper/bcf-detector.service';
+import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
+import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
+import { BcfImportButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component';
+import { BcfExportButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component';
+import { IFCViewerService } from 'core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service';
+import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { BcfWpAttributeGroupComponent } from 'core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component';
+import { BcfNewWpAttributeGroupComponent } from 'core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-new-wp-attribute-group.component';
+import { RevitBridgeService } from 'core-app/features/bim/revit_add_in/revit-bridge.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
 
 /**
  * Determines based on the current user agent whether
@@ -55,9 +55,8 @@ import { OpenProjectHeaderInterceptor } from "core-app/features/hal/http/openpro
 export const viewerBridgeServiceFactory = (injector:Injector) => {
   if (window.navigator.userAgent.search('Revit') > -1) {
     return new RevitBridgeService(injector);
-  } else {
-    return injector.get(IFCViewerService, new IFCViewerService(injector));
   }
+  return injector.get(IFCViewerService, new IFCViewerService(injector));
 };
 
 @NgModule({
@@ -70,7 +69,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
     {
       provide: ViewerBridgeService,
       useFactory: viewerBridgeServiceFactory,
-      deps: [Injector]
+      deps: [Injector],
     },
     BcfDetectorService,
     BcfPathHelperService,
@@ -85,7 +84,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
   exports: [
     BcfImportButtonComponent,
     BcfExportButtonComponent,
-  ]
+  ],
 })
 export class OpenprojectBcfModule {
   static bootstrapCalled = false;
@@ -107,9 +106,8 @@ export class OpenprojectBcfModule {
     const displayFieldService = injector.get(DisplayFieldService);
     displayFieldService
       .addFieldType(BcfThumbnailDisplayField, 'bcfThumbnail', [
-        'BCF Thumbnail'
+        'BCF Thumbnail',
       ]);
-
 
     const hookService = injector.get(HookService);
     hookService.register('prependedAttributeGroups', (workPackage:WorkPackageResource) => {
@@ -119,10 +117,8 @@ export class OpenprojectBcfModule {
 
       if (workPackage.isNew) {
         return BcfNewWpAttributeGroupComponent;
-      } else {
-        return BcfWpAttributeGroupComponent;
       }
+      return BcfWpAttributeGroupComponent;
     });
   }
 }
-

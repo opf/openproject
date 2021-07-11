@@ -8,9 +8,9 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   EmbeddedViewRef,
-  Injector
+  Injector,
 } from '@angular/core';
-import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 
 export interface TabInterface extends TabDefinition {
   componentClass:{ new(...args:any[]):TabComponent };
@@ -27,7 +27,6 @@ export interface ActiveTabInterface extends TabDefinition {
 }
 
 export class TabPortalOutlet {
-
   // Active tabs that have been instantiated
   public activeTabs:{ [name:string]:ActiveTabInterface } = {};
 
@@ -39,7 +38,8 @@ export class TabPortalOutlet {
     public outletElement:HTMLElement,
     private componentFactoryResolver:ComponentFactoryResolver,
     private appRef:ApplicationRef,
-    private injector:Injector) {
+    private injector:Injector,
+  ) {
   }
 
   public get activeComponents():TabComponent[] {
@@ -64,8 +64,6 @@ export class TabPortalOutlet {
     this.outletElement.appendChild(this._getComponentRootNode(instance.componentRef));
     this.outletElement.dataset.tabName = tab.name;
     this.currentTab = instance;
-
-    return;
   }
 
   public detach():void {
@@ -81,7 +79,7 @@ export class TabPortalOutlet {
    */
   dispose():void {
     // Dispose all active tabs
-    _.each(this.activeTabs, active => active.dispose());
+    _.each(this.activeTabs, (active) => active.dispose());
 
     // Remove outlet element
     if (this.outletElement.parentNode != null) {
@@ -107,12 +105,12 @@ export class TabPortalOutlet {
 
     return {
       ...tab,
-      portal: portal,
-      componentRef: componentRef,
+      portal,
+      componentRef,
       dispose: () => {
         this.appRef.detachView(componentRef.hostView);
         componentRef.destroy();
-      }
+      },
     };
   }
 

@@ -1,19 +1,21 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject } from '@angular/core';
 import {
   OpContextMenuItem,
-  OpContextMenuLocalsMap, OpContextMenuLocalsToken
-} from "core-app/shared/components/op-context-menu/op-context-menu.types";
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
+  OpContextMenuLocalsMap,
+  OpContextMenuLocalsToken,
+} from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 
 @Component({
-  templateUrl: './op-context-menu.html'
+  templateUrl: './op-context-menu.html',
 })
 export class OPContextMenuComponent {
   public items:OpContextMenuItem[];
+
   public service:OPContextMenuService;
 
   constructor(@Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap) {
-    this.items = this.locals.items.filter(item => !item?.hidden);
+    this.items = this.locals.items.filter((item) => !item?.hidden);
     this.service = this.locals.service;
   }
 

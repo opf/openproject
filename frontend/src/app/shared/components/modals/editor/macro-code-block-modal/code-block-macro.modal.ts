@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import {
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
+} from '@angular/core';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  templateUrl: './code-block-macro.modal.html'
+  templateUrl: './code-block-macro.modal.html',
 })
-export class CodeBlockMacroModal extends OpModalComponent implements AfterViewInit {
-
+export class CodeBlockMacroModalComponent extends OpModalComponent implements AfterViewInit {
   public changed = false;
+
   public showClose = true;
+
   public closeOnEscape = true;
+
   public closeOnOutsideClick = true;
 
   // Language class from markdown, something like 'language-ruby'
@@ -47,6 +51,7 @@ export class CodeBlockMacroModal extends OpModalComponent implements AfterViewIn
 
   // Language string, e.g, 'ruby'
   public _language = '';
+
   public content:string;
 
   // Codemirror instance
@@ -62,19 +67,18 @@ export class CodeBlockMacroModal extends OpModalComponent implements AfterViewIn
     language_hint: this.I18n.t('js.editor.macro.code_block.language_hint'),
     button_save: this.I18n.t('js.button_save'),
     button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title')
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
     this.languageClass = locals.languageClass || 'language-text';
     this.content = locals.content;
 
-    const match = this.languageClass.match(/language-(\w+)/);
+    const match = /language-(\w+)/.exec(this.languageClass);
     if (match) {
       this.language = match[1];
     } else {
@@ -101,8 +105,8 @@ export class CodeBlockMacroModal extends OpModalComponent implements AfterViewIn
           smartIndent: true,
           autofocus: true,
           value: this.content,
-          mode: ''
-        }
+          mode: '',
+        },
       );
     });
   }
@@ -143,11 +147,10 @@ export class CodeBlockMacroModal extends OpModalComponent implements AfterViewIn
       return;
     }
 
-    if (newValue.match(/^\w+$/)) {
+    if (/^\w+$/.exec(newValue)) {
       this.language = newValue;
     } else {
-      console.error("Not updating non-matching language: " + newValue);
+      console.error(`Not updating non-matching language: ${newValue}`);
     }
   }
 }
-

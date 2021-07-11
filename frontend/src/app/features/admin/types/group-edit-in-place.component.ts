@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -33,18 +33,18 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
-import { TypeBannerService } from "core-app/features/admin/types/type-banner.service";
-
+import { TypeBannerService } from 'core-app/features/admin/types/type-banner.service';
 
 @Component({
-  selector: 'group-edit-in-place',
+  selector: 'op-group-edit-in-place',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './group-edit-in-place.html'
+  templateUrl: './group-edit-in-place.html',
 })
 export class GroupEditInPlaceComponent implements OnInit {
   @Input() public placeholder = '';
+
   @Input() public name:string;
 
   @Output() public onValueChange = new EventEmitter<string>();
@@ -54,7 +54,7 @@ export class GroupEditInPlaceComponent implements OnInit {
   public editedName:string;
 
   constructor(private bannerService:TypeBannerService,
-              protected readonly cdRef:ChangeDetectorRef) {
+    protected readonly cdRef:ChangeDetectorRef) {
   }
 
   ngOnInit():void {
@@ -71,7 +71,7 @@ export class GroupEditInPlaceComponent implements OnInit {
       () => this.bannerService.showEEOnlyHint(),
       () => {
         this.editing = true;
-      }
+      },
     );
   }
 

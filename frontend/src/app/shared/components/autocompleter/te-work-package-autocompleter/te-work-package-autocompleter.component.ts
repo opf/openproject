@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,18 +27,9 @@
 //++
 
 import {
-  AfterViewInit,
-  Component,
-  ViewEncapsulation,
-  Output,
-  EventEmitter,
-  ChangeDetectorRef,
-  Injector,
+  AfterViewInit, Component, EventEmitter, Injector, Output, ViewEncapsulation,
 } from '@angular/core';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { WorkPackageAutocompleterComponent } from "core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component";
+import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 
 export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
 
@@ -46,7 +37,7 @@ export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
   templateUrl: './te-work-package-autocompleter.component.html',
   styleUrls: ['./te-work-package-autocompleter.component.sass'],
   selector: 'te-work-package-autocompleter',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutocompleterComponent implements AfterViewInit {
   @Output() modeSwitch = new EventEmitter<TimeEntryWorkPackageAutocompleterMode>();
@@ -56,11 +47,12 @@ export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutoc
   ) {
     super(injector);
 
-    this.text['all'] = this.I18n.t('js.label_all');
-    this.text['recent'] = this.I18n.t('js.label_recent');
+    this.text.all = this.I18n.t('js.label_all');
+    this.text.recent = this.I18n.t('js.label_recent');
   }
 
   public loading = false;
+
   public mode:TimeEntryWorkPackageAutocompleterMode = 'all';
 
   public setMode(value:TimeEntryWorkPackageAutocompleterMode) {

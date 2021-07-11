@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
-import { buffer, debounceTime, filter } from "rxjs/operators";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ResourceChangesetCommit } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { buffer, debounceTime, filter } from 'rxjs/operators';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 
 export interface HalEvent {
   id:string;
@@ -45,7 +45,7 @@ export class HalEventsService {
       .events$
       .pipe(
         filter((event:HalEvent) => event.resourceType === resourceType),
-        buffer(this.events$.pipe(debounceTime(debounceTimeInMs)))
+        buffer(this.events$.pipe(debounceTime(debounceTimeInMs))),
       );
   }
 

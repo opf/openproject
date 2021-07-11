@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { FormGroup } from "@angular/forms";
-import { input } from "reactivestates";
+import { Injectable } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { FormGroup } from '@angular/forms';
+import { input } from 'reactivestates';
 
 export interface EnterpriseTrialData {
   id?:string;
@@ -23,17 +23,25 @@ export class EnterpriseTrialService {
   userData$ = input<EnterpriseTrialData>();
 
   public readonly baseUrlAugur:string;
+
   public readonly tokenVersion:string;
 
   public trialLink:string;
+
   public resendLink:string;
 
   public modalOpen = false;
+
   public confirmed:boolean;
+
   public cancelled = false;
+
   public status:'mailSubmitted'|'startTrial'|undefined;
+
   public error:HttpErrorResponse|undefined;
+
   public emailInvalid = false;
+
   public text = {
     invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
     taken_email: this.I18n.t('js.admin.enterprise.trial.form.taken_email'),
@@ -41,10 +49,10 @@ export class EnterpriseTrialService {
   };
 
   constructor(readonly I18n:I18nService,
-              protected http:HttpClient,
-              readonly pathHelper:PathHelperService,
-              protected notificationsService:NotificationsService) {
-    const gon = (window as any).gon;
+    protected http:HttpClient,
+    readonly pathHelper:PathHelperService,
+    protected notificationsService:NotificationsService) {
+    const { gon } = window as any;
     this.baseUrlAugur = gon.augur_url;
     this.tokenVersion = gon.token_version;
 
@@ -57,7 +65,7 @@ export class EnterpriseTrialService {
   // receive an enterprise trial link to access a token
   public sendForm(form:FormGroup) {
     const request = { ...form.value, token_version: this.tokenVersion };
-    this.http.post(this.baseUrlAugur + '/public/v1/trials', request)
+    this.http.post(`${this.baseUrlAugur}/public/v1/trials`, request)
       .toPromise()
       .then((enterpriseTrial:any) => {
         this.userData$.putValue(form.value);
@@ -121,9 +129,9 @@ export class EnterpriseTrialService {
     // extract token from resend link
     const trialKey = resendlink.split('/')[6];
     return this.http.post(
-      this.pathHelper.appBasePath + '/admin/enterprise/save_trial_key',
+      `${this.pathHelper.appBasePath}/admin/enterprise/save_trial_key`,
       { trial_key: trialKey },
-      { withCredentials: true }
+      { withCredentials: true },
     )
       .toPromise()
       .catch((e:any) => {
@@ -134,9 +142,9 @@ export class EnterpriseTrialService {
   // save received token in controller
   private saveToken(token:string) {
     return this.http.post(
-      this.pathHelper.appBasePath + '/admin/enterprise',
+      `${this.pathHelper.appBasePath}/admin/enterprise`,
       { enterprise_token: { encoded_token: token } },
-      { withCredentials: true }
+      { withCredentials: true },
     )
       .toPromise()
       .then(() => {
@@ -152,8 +160,8 @@ export class EnterpriseTrialService {
         // Without this deletion, we run into an endless loop of an confirmed mail, but no saved token.
         this.http
           .delete(
-            this.pathHelper.api.v3.apiV3Base + '/admin/enterprise/delete_trial_key',
-            { withCredentials: true }
+            `${this.pathHelper.api.v3.apiV3Base}/admin/enterprise/delete_trial_key`,
+            { withCredentials: true },
           )
           .toPromise();
 
@@ -164,7 +172,7 @@ export class EnterpriseTrialService {
   // retry request while waiting for mail confirmation
   public retryConfirmation(delay = 5000, retries = 60) {
     if (this.cancelled || this.confirmed) {
-      return;
+
     } else if (retries === 0) {
       this.cancelled = true;
     } else {
@@ -202,11 +210,10 @@ export class EnterpriseTrialService {
   public get emailError():boolean {
     if (this.emailInvalid) {
       return true;
-    } else if (this.error) {
+    } if (this.error) {
       return this.emailTaken;
-    } else {
-      return false;
     }
+    return false;
   }
 
   public get errorMsg() {

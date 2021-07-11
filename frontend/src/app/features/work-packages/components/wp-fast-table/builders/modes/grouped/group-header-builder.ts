@@ -1,17 +1,17 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { rowGroupClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { groupName } from './grouped-rows-helpers';
-import { rowGroupClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
 
 export function groupClassNameFor(group:GroupObject) {
   return `group-${group.identifier}`;
 }
 
 export class GroupHeaderBuilder {
-
   @InjectField() public I18n:I18nService;
+
   public text:{ collapse:string, expand:string };
 
   constructor(public readonly injector:Injector) {
@@ -23,7 +23,8 @@ export class GroupHeaderBuilder {
 
   public buildGroupRow(group:GroupObject, colspan:number) {
     const row = document.createElement('tr');
-    let togglerIconClass, text;
+    let togglerIconClass; let
+      text;
 
     if (group.collapsed) {
       text = this.text.expand;
@@ -35,8 +36,8 @@ export class GroupHeaderBuilder {
 
     row.classList.add(rowGroupClassName, groupClassNameFor(group));
     row.id = `wp-table-rowgroup-${group.index}`;
-    row.dataset['groupIndex'] = (group.index).toString();
-    row.dataset['groupIdentifier'] = group.identifier;
+    row.dataset.groupIndex = (group.index).toString();
+    row.dataset.groupIdentifier = group.identifier;
     row.innerHTML = `
       <td colspan="${colspan}" class="-no-highlighting">
         <div class="expander icon-context ${togglerIconClass}">

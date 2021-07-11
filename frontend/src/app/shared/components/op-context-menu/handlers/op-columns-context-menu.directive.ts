@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Directive, ElementRef, Injector, Input } from '@angular/core';
+import {
+  Directive, ElementRef, Injector, Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -39,35 +41,34 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from "core-app/features/hal/resources/query-sort-by-resource";
-import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
+import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 
 @Directive({
-  selector: '[opColumnsContextMenu]'
+  selector: '[opColumnsContextMenu]',
 })
 export class OpColumnsContextMenu extends OpContextMenuTrigger {
   @Input('opColumnsContextMenu-column') public column:QueryColumn;
+
   @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
 
   public text = {
     confirmDelete: {
       text: this.I18n.t('js.work_packages.table_configuration.sorting_mode.warning'),
-      title: this.I18n.t('js.modals.form_submit.title')
+      title: this.I18n.t('js.modals.form_submit.title'),
     },
   };
 
-
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly wpTableSortBy:WorkPackageViewSortByService,
-              readonly wpTableGroupBy:WorkPackageViewGroupByService,
-              readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
-              readonly opModalService:OpModalService,
-              readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly confirmDialog:ConfirmDialogService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly wpTableSortBy:WorkPackageViewSortByService,
+    readonly wpTableGroupBy:WorkPackageViewGroupByService,
+    readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
+    readonly opModalService:OpModalService,
+    readonly injector:Injector,
+    readonly I18n:I18nService,
+    readonly confirmDialog:ConfirmDialogService) {
     super(elementRef, opContextMenu);
   }
 
@@ -83,7 +84,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
     return {
       showAnchorRight: this.column && this.column.id !== 'id',
       contextMenuId: 'column-context-menu',
-      items: this.items
+      items: this.items,
     };
   }
 
@@ -125,11 +126,10 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
               return true;
             });
             return false;
-          } else {
-            this.wpTableSortBy.addSortCriteria(c, QUERY_SORT_BY_DESC);
-            return true;
           }
-        }
+          this.wpTableSortBy.addSortCriteria(c, QUERY_SORT_BY_DESC);
+          return true;
+        },
       },
       {
         // Sort descending
@@ -145,11 +145,10 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
               return true;
             });
             return false;
-          } else {
-            this.wpTableSortBy.addSortCriteria(c, QUERY_SORT_BY_ASC);
-            return true;
           }
-        }
+          this.wpTableSortBy.addSortCriteria(c, QUERY_SORT_BY_ASC);
+          return true;
+        },
       },
       {
         // Group by
@@ -162,7 +161,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
           }
           this.wpTableGroupBy.setBy(c);
           return true;
-        }
+        },
       },
       {
         // Move left
@@ -172,7 +171,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         onClick: () => {
           this.wpTableColumns.shift(c, -1);
           return true;
-        }
+        },
       },
       {
         // Move right
@@ -182,7 +181,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         onClick: () => {
           this.wpTableColumns.shift(c, 1);
           return true;
-        }
+        },
       },
       {
         // Hide column
@@ -198,7 +197,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
             }
           });
           return true;
-        }
+        },
       },
       {
         // Insert columns
@@ -208,12 +207,11 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
-            { initialTab: 'columns' }
+            { initialTab: 'columns' },
           );
           return true;
-        }
-      }
+        },
+      },
     ];
   }
 }
-

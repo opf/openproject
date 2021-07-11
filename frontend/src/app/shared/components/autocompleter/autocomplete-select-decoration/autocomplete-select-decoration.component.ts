@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NgSelectComponent } from "@ng-select/ng-select";
+import {
+  Component, ElementRef, OnInit, ViewChild,
+} from '@angular/core';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 type SelectItem = { label:string, value:string, selected?:boolean };
 
@@ -49,7 +51,7 @@ export const autocompleteSelectDecorationSelector = 'autocomplete-select-decorat
       </ng-template>
     </ng-select>
   `,
-  selector: autocompleteSelectDecorationSelector
+  selector: autocompleteSelectDecorationSelector,
 })
 export class AutocompleteSelectDecorationComponent implements OnInit {
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
@@ -103,12 +105,12 @@ export class AutocompleteSelectDecorationComponent implements OnInit {
   }
 
   setInitialSelection(data:SelectItem[]) {
-    this.updateSelection(data.filter(element => element.selected));
+    this.updateSelection(data.filter((element) => element.selected));
   }
 
   updateSelection(items:SelectItem|SelectItem[]) {
     this.selected = items;
-    items = _.castArray(items) as SelectItem[];
+    items = _.castArray(items);
 
     this.removeCurrentSyncedFields();
     items.forEach((el:SelectItem) => {

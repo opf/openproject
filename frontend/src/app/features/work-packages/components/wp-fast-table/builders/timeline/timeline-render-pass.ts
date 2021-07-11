@@ -4,7 +4,6 @@ import { TimelineRowBuilder } from './timeline-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 
 export class TimelineRenderPass {
-
   /** Row builders */
   protected timelineBuilder:TimelineRowBuilder;
 
@@ -12,8 +11,8 @@ export class TimelineRenderPass {
   public timelineBody:DocumentFragment;
 
   constructor(public readonly injector:Injector,
-              private table:WorkPackageTable,
-              private tablePass:PrimaryRenderPass) {
+    private table:WorkPackageTable,
+    private tablePass:PrimaryRenderPass) {
   }
 
   public render() {

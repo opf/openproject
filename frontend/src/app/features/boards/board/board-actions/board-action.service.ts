@@ -1,38 +1,37 @@
-import { Board } from "core-app/features/boards/board/board";
-import { ComponentType } from "@angular/cdk/portal";
-import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
-import { DisabledButtonPlaceholder } from "core-app/features/boards/board/board-list/board-list.component";
-import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
-import { BoardListsService } from "core-app/features/boards/board/board-list/board-lists.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { Injectable, Injector } from "@angular/core";
-import { map } from "rxjs/operators";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { WorkPackageFilterValues } from "core-app/features/work-packages/components/wp-edit-form/work-package-filter-values";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { Observable } from "rxjs";
-import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Board } from 'core-app/features/boards/board/board';
+import { ComponentType } from '@angular/cdk/portal';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { DisabledButtonPlaceholder } from 'core-app/features/boards/board/board-list/board-list.component';
+import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
+import { BoardListsService } from 'core-app/features/boards/board/board-list/board-lists.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { Injectable, Injector } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { Observable } from 'rxjs';
+import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export abstract class BoardActionService {
-
   constructor(readonly injector:Injector,
-              protected boardListsService:BoardListsService,
-              protected I18n:I18nService,
-              protected halResourceService:HalResourceService,
-              protected pathHelper:PathHelperService,
-              protected currentProject:CurrentProjectService,
-              protected apiV3Service:APIV3Service,
-              protected schemaCache:SchemaCacheService) {
+    protected boardListsService:BoardListsService,
+    protected I18n:I18nService,
+    protected halResourceService:HalResourceService,
+    protected pathHelper:PathHelperService,
+    protected currentProject:CurrentProjectService,
+    protected apiV3Service:APIV3Service,
+    protected schemaCache:SchemaCacheService) {
   }
 
   /**
@@ -75,7 +74,7 @@ export abstract class BoardActionService {
    * @param query
    */
   getActionFilter(query:QueryResource, getHref = false):QueryFilterInstanceResource|undefined {
-    return query.filters.find(filter => filter.id === this.filterName);
+    return query.filters.find((filter) => filter.id === this.filterName);
   }
 
   /**
@@ -89,7 +88,7 @@ export abstract class BoardActionService {
       return;
     }
 
-    const value = filter.values[0] as string|HalResource;
+    const value = filter.values[0];
 
     if (value instanceof HalResource) {
       return getHref ? value.href! : value.id!;
@@ -97,7 +96,6 @@ export abstract class BoardActionService {
 
     return value;
   }
-
 
   /**
    * Returns the current filter value if any
@@ -134,8 +132,8 @@ export abstract class BoardActionService {
     const filter = {
       [this.filterName]: {
         operator: '=' as FilterOperator,
-        values: [value.idFromLink]
-      }
+        values: [value.idFromLink],
+      },
     };
 
     return this.boardListsService.addQuery(board, params, [filter]);
@@ -152,7 +150,7 @@ export abstract class BoardActionService {
     return this
       .loadValues(matching)
       .pipe(
-        map(items => items.filter(item => !active.has(item.id!)))
+        map((items) => items.filter((item) => !active.has(item.id!))),
       );
   }
 
@@ -231,7 +229,7 @@ export abstract class BoardActionService {
     if (!changeset.isWritable(this.filterName)) {
       throw new Error(this.I18n.t(
         'js.boards.error_attribute_not_writable',
-        { attribute: changeset.humanName(this.filterName) }
+        { attribute: changeset.humanName(this.filterName) },
       ));
     }
 
@@ -255,4 +253,3 @@ export abstract class BoardActionService {
    */
   protected abstract loadValues(matching?:string):Observable<HalResource[]>;
 }
-

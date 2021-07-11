@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Injectable, Injector, NgZone } from "@angular/core";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WpPreviewModal } from "core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal";
+import { Injectable, Injector, NgZone } from '@angular/core';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
 
 @Injectable({ providedIn: 'root' })
 export class PreviewTriggerService {
-  private previewModal:WpPreviewModal;
+  private previewModal:WpPreviewModalComponent;
+
   private modalElement:HTMLElement;
+
   private mouseInModal = false;
 
   constructor(readonly opModalService:OpModalService,
-              readonly ngZone:NgZone,
-              readonly injector:Injector) {
+    readonly ngZone:NgZone,
+    readonly injector:Injector) {
   }
 
   setupListener() {
@@ -54,7 +55,7 @@ export class PreviewTriggerService {
       }
 
       this.previewModal = this.opModalService.show(
-        WpPreviewModal,
+        WpPreviewModalComponent,
         this.injector,
         { workPackageLink: href, event: e },
         true,
@@ -94,13 +95,12 @@ export class PreviewTriggerService {
 
     const previewElement = jQuery(this.modalElement.children[0]);
     if (previewElement && previewElement.offset()) {
-      const horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left) &&
-        e.pageX < previewElement.offset()!.left + previewElement.width()!;
-      const verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top) &&
-        e.pageY < previewElement.offset()!.top + previewElement.height()!;
+      const horizontalHover = e.pageX >= Math.floor(previewElement.offset()!.left)
+        && e.pageX < previewElement.offset()!.left + previewElement.width()!;
+      const verticalHover = e.pageY >= Math.floor(previewElement.offset()!.top)
+        && e.pageY < previewElement.offset()!.top + previewElement.height()!;
       return horizontalHover && verticalHover;
     }
     return false;
   }
-
 }

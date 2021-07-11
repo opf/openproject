@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { States } from "core-app/core/states/states.service";
-import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable()
 export class WorkPackageViewHierarchyIdentationService {
-
   constructor(private wpViewHierarchies:WorkPackageViewHierarchiesService,
-              private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
-              private states:States,
-              private wpRelationHierarchy:WorkPackageRelationsHierarchyService,
-              private apiV3Service:APIV3Service,
-              private querySpace:IsolatedQuerySpace) {
+    private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
+    private states:States,
+    private wpRelationHierarchy:WorkPackageRelationsHierarchyService,
+    private apiV3Service:APIV3Service,
+    private querySpace:IsolatedQuerySpace) {
   }
 
   /**
@@ -114,7 +113,7 @@ export class WorkPackageViewHierarchyIdentationService {
 
     // If we have more than one ancestor,
     // just drop the last one
-    const ancestorIds = workPackage.ancestorIds;
+    const { ancestorIds } = workPackage;
     const ancestorCount = ancestorIds.length;
     if (ancestorCount > 1) {
       newParentId = ancestorIds[ancestorCount - 2];

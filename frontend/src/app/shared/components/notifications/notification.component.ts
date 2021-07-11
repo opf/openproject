@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   INotification,
   NotificationsService,
-  NotificationType
+  NotificationType,
 } from 'core-app/shared/components/notifications/notifications.service';
 
 @Component({
   templateUrl: './notification.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'notification'
+  selector: 'notification',
 })
 export class NotificationComponent implements OnInit {
   @Input() public notification:INotification;
@@ -47,11 +49,13 @@ export class NotificationComponent implements OnInit {
   };
 
   public type:NotificationType;
+
   public uploadCount = 0;
+
   public show = false;
 
   constructor(readonly I18n:I18nService,
-              readonly notificationsService:NotificationsService) {
+    readonly notificationsService:NotificationsService) {
   }
 
   ngOnInit() {

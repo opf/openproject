@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,27 +26,28 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Component, ElementRef, OnInit } from "@angular/core";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export const copyToClipboardSelector = 'copy-to-clipboard';
 
 @Component({
   template: '',
-  selector: copyToClipboardSelector
+  selector: copyToClipboardSelector,
 })
 export class CopyToClipboardDirective implements OnInit {
   public clickTarget:string;
+
   public clipboardTarget:string;
+
   private target:JQuery;
 
   constructor(readonly NotificationsService:NotificationsService,
-              readonly elementRef:ElementRef,
-              readonly I18n:I18nService,
-              readonly ConfigurationService:ConfigurationService) {
+    readonly elementRef:ElementRef,
+    readonly I18n:I18nService,
+    readonly ConfigurationService:ConfigurationService) {
   }
 
   ngOnInit() {
@@ -69,7 +70,7 @@ export class CopyToClipboardDirective implements OnInit {
   }
 
   onClick($event:JQuery.TriggeredEvent) {
-    var supported = (document.queryCommandSupported && document.queryCommandSupported('copy'));
+    const supported = (document.queryCommandSupported && document.queryCommandSupported('copy'));
     $event.preventDefault();
 
     // At least select the input for the user
@@ -85,7 +86,7 @@ export class CopyToClipboardDirective implements OnInit {
         }
       } catch (e) {
         console.log(
-          'Your browser seems to support the clipboard API, but copying failed: ' + e
+          `Your browser seems to support the clipboard API, but copying failed: ${e}`,
         );
       }
     }
@@ -93,5 +94,3 @@ export class CopyToClipboardDirective implements OnInit {
     this.addNotification('addError', this.I18n.t('js.clipboard.browser_error'));
   }
 }
-
-

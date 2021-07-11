@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,37 +26,42 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable , Injector } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Injectable()
 export class GlobalSearchService {
   private _searchTerm = new BehaviorSubject<string>('');
+
   public searchTerm$ = this._searchTerm.asObservable();
 
   // Default selected tab is Work Packages
   private _currentTab = new BehaviorSubject<any>('work_packages');
+
   public currentTab$ = this._currentTab.asObservable();
 
   // Default project scope is "this project and all subprojets"
   private _projectScope = new BehaviorSubject<any>('');
+
   public projectScope$ = this._projectScope.asObservable();
 
   private _tabs = new BehaviorSubject<any>([]);
+
   public tabs$ = this._tabs.asObservable();
 
   // Sometimes we need to be able to hide the search results altogether, i.e. while expecting a full page reload.
   private _resultsHidden = new BehaviorSubject<any>(false);
+
   public resultsHidden$ = this._resultsHidden.asObservable();
 
   constructor(protected I18n:I18nService,
-              protected injector:Injector,
-              protected PathHelper:PathHelperService,
-              protected currentProjectService:CurrentProjectService) {
+    protected injector:Injector,
+    protected PathHelper:PathHelperService,
+    protected currentProjectService:CurrentProjectService) {
     this.initialize();
   }
 
@@ -81,10 +86,10 @@ export class GlobalSearchService {
     }
   }
 
-  private loadGonData():{available_search_types:string[],
-                         search_term:string,
-                         project_scope:string,
-                         current_tab:string}|null {
+  private loadGonData():{ available_search_types:string[],
+    search_term:string,
+    project_scope:string,
+    current_tab:string }|null {
     try {
       return (window as any).gon.global_search;
     } catch (e) {
@@ -101,7 +106,7 @@ export class GlobalSearchService {
     if (this.currentProjectService.path && this.projectScope !== 'all') {
       searchPath = this.currentProjectService.path;
     }
-    searchPath = searchPath + `/search?${this.searchQueryParams()}`;
+    searchPath += `/search?${this.searchQueryParams()}`;
     return searchPath;
   }
 

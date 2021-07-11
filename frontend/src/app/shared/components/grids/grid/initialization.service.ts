@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { switchMap } from "rxjs/operators";
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class GridInitializationService {
   constructor(readonly apiV3Service:APIV3Service,
-              readonly halResourceService:HalResourceService) {
+    readonly halResourceService:HalResourceService) {
   }
 
   // If a page with the current page exists (scoped to the current user by the backend)
@@ -20,22 +20,21 @@ export class GridInitializationService {
       .grids
       .list({ filters: [['scope', '=', [path]]] })
       .toPromise()
-      .then(collection => {
+      .then((collection) => {
         if (collection.total === 0) {
           return this.myPageForm(path);
-        } else {
-          return (collection.elements[0] as GridResource);
         }
+        return (collection.elements[0]);
       });
   }
 
   private myPageForm(path:string):Promise<GridResource> {
     const payload = {
-      '_links': {
-        'scope': {
-          'href': path
-        }
-      }
+      _links: {
+        scope: {
+          href: path,
+        },
+      },
     };
 
     return this
@@ -44,9 +43,9 @@ export class GridInitializationService {
       .form
       .post(payload)
       .pipe(
-        switchMap(form => {
+        switchMap((form) => {
           const source = form.payload.$source;
-          const resource = this.halResourceService.createHalResource(source) as GridResource;
+          const resource:GridResource = this.halResourceService.createHalResource(source);
 
           if (resource.widgets.length === 0) {
             resource.rowCount = 1;
@@ -57,7 +56,7 @@ export class GridInitializationService {
             .apiV3Service
             .grids
             .post(resource, form.schema);
-        })
+        }),
       )
       .toPromise();
   }

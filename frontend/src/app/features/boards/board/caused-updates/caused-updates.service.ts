@@ -1,11 +1,10 @@
-import { Injectable } from "@angular/core";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { Injectable } from '@angular/core';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
 /**
  * The service is intended to store all the updates caused to a query by a user.
  * It is e.g. used to not update the board list when the current user moved a card within a list/query.
   */
-
 
 @Injectable()
 export class CausedUpdatesService {

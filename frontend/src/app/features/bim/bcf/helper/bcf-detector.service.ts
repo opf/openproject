@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
-import { DOCUMENT } from "@angular/common";
+import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export class BcfDetectorService {
-  constructor (@Inject(DOCUMENT) private documentElement:Document) {
+  constructor(@Inject(DOCUMENT) private documentElement:Document) {
   }
 
   /**

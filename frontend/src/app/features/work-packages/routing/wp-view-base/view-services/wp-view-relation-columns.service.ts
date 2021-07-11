@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,33 +26,33 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageViewColumnsService } from './wp-view-columns.service';
-import { WorkPackageViewBaseService } from './wp-view-base.service';
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageViewRelationColumns } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-relation-columns";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { RelationsStateValue, WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
-import { Injectable } from "@angular/core";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageViewRelationColumns } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-relation-columns';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { RelationsStateValue, WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { Injectable } from '@angular/core';
 import {
   QueryColumn,
   queryColumnTypes,
   RelationQueryColumn,
-  TypeRelationQueryColumn
-} from "core-app/features/work-packages/components/wp-query/query-column";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+  TypeRelationQueryColumn,
+} from 'core-app/features/work-packages/components/wp-query/query-column';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { WorkPackageViewBaseService } from './wp-view-base.service';
+import { WorkPackageViewColumnsService } from './wp-view-columns.service';
 
 export type RelationColumnType = 'toType'|'ofType';
 
 @Injectable()
 export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseService<WorkPackageViewRelationColumns> {
   constructor(public querySpace:IsolatedQuerySpace,
-              public wpTableColumns:WorkPackageViewColumnsService,
-              public halResourceService:HalResourceService,
-              public apiV3Service:APIV3Service,
-              public wpRelations:WorkPackageRelationsService) {
+    public wpTableColumns:WorkPackageViewColumnsService,
+    public halResourceService:HalResourceService,
+    public apiV3Service:APIV3Service,
+    public wpRelations:WorkPackageRelationsService) {
     super(querySpace);
   }
 
@@ -124,11 +124,9 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
 
     // Get the relation types for OF relation columns
     if (type === 'ofType') {
-      const relationType = (column as RelationQueryColumn).relationType;
+      const { relationType } = column as RelationQueryColumn;
 
-      return _.filter(relations, (relation:RelationResource) => {
-        return relation.denormalized(workPackage).relationType === relationType;
-      });
+      return _.filter(relations, (relation:RelationResource) => relation.denormalized(workPackage).relationType === relationType);
     }
 
     return [];
@@ -136,12 +134,12 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
 
   public relationColumnType(column:QueryColumn):RelationColumnType|null {
     switch (column._type) {
-    case queryColumnTypes.RELATION_TO_TYPE:
-      return 'toType';
-    case queryColumnTypes.RELATION_OF_TYPE:
-      return 'ofType';
-    default:
-      return null;
+      case queryColumnTypes.RELATION_TO_TYPE:
+        return 'toType';
+      case queryColumnTypes.RELATION_OF_TYPE:
+        return 'ofType';
+      default:
+        return null;
     }
   }
 
@@ -167,4 +165,3 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
     return this.lastUpdatedState.getValueOr({});
   }
 }
-

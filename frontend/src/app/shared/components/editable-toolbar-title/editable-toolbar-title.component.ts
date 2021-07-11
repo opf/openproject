@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -35,11 +35,11 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ContainHelpers } from "core-app/shared/directives/focus/contain-helpers";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+  ViewChild,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ContainHelpers } from 'core-app/shared/directives/focus/contain-helpers';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export const triggerEditingEvent = 'op:selectableTitle:trigger';
 export const selectableTitleIdentifier = 'editable-toolbar-title';
@@ -48,25 +48,33 @@ export const selectableTitleIdentifier = 'editable-toolbar-title';
   selector: 'editable-toolbar-title',
   templateUrl: './editable-toolbar-title.html',
   styleUrls: ['./editable-toolbar-title.sass'],
-  host: { 'class': 'title-container' }
+  host: { class: 'title-container' },
 })
 export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   @Input('title') public inputTitle:string;
+
   @Input() public editable = true;
+
   @Input() public inFlight = false;
+
   @Input() public showSaveCondition = false;
+
   @Input() public initialFocus = false;
+
   @Input() public smallHeader = false;
 
   @Output() public onSave = new EventEmitter<string>();
+
   @Output() public onEmptySubmit = new EventEmitter<void>();
 
   @ViewChild('editableTitleInput') inputField?:ElementRef;
 
   public selectedTitle:string;
+
   public selectableTitleIdentifier = selectableTitleIdentifier;
 
   @InjectField() protected readonly elementRef:ElementRef;
+
   @InjectField() I18n!:I18nService;
 
   public text = {
@@ -77,14 +85,14 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
     input_placeholder: this.I18n.t('js.work_packages.query.rename_query_placeholder'),
     search_query_title: this.I18n.t('js.toolbar.search_query_title'),
     confirm_edit_cancel: this.I18n.t('js.work_packages.query.confirm_edit_cancel'),
-    duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title')
+    duplicate_query_title: this.I18n.t('js.work_packages.query.errors.duplicate_query_title'),
   };
 
   constructor(readonly injector:Injector) {
   }
 
   ngOnInit() {
-    this.text['input_title'] = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;
+    this.text.input_title = `${this.text.click_to_edit} ${this.text.press_enter_to_save}`;
 
     jQuery(this.elementRef.nativeElement).on(triggerEditingEvent, (evt:Event, val = '') => {
       // In case we're not editable, ignore request
@@ -103,16 +111,14 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes:SimpleChanges):void {
-
     if (changes.inputTitle) {
       this.selectedTitle = changes.inputTitle.currentValue;
     }
 
     if (changes.initialFocus && changes.initialFocus.firstChange && this.inputField!) {
-      const field:HTMLInputElement = this.inputField!.nativeElement;
+      const field:HTMLInputElement = this.inputField.nativeElement;
       this.selectInputOnInitalFocus(field);
     }
-
   }
 
   public onFocus(event:FocusEvent) {

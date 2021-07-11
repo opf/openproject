@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,10 +28,10 @@
 
 import { NgModule } from '@angular/core';
 import { OPSharedModule } from 'core-app/shared/shared.module';
-import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
-import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
-import { DisplayJobPageComponent } from "core-app/features/job-status/display-job-page/display-job-page.component";
-import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
+import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
+import { Ng2StateDeclaration, UIRouterModule } from '@uirouter/angular';
+import { DisplayJobPageComponent } from 'core-app/features/job-status/display-job-page/display-job-page.component';
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 
 export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
   {
@@ -40,9 +40,9 @@ export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
     parent: 'root',
     component: DisplayJobPageComponent,
     data: {
-      bodyClasses: 'router--job-statuses'
-    }
-  }
+      bodyClasses: 'router--job-statuses',
+    },
+  },
 ];
 
 @NgModule({
@@ -57,8 +57,8 @@ export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
   ],
   declarations: [
     DisplayJobPageComponent,
-    JobStatusModal
-  ]
+    JobStatusModalComponent,
+  ],
 })
 export class OpenProjectJobStatusModule {
 }

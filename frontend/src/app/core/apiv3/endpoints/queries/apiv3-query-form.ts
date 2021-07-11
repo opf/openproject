@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,14 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { Observable } from "rxjs";
-import * as URI from "urijs";
-import { map, tap } from "rxjs/operators";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { QueryFiltersService } from "core-app/features/work-packages/components/wp-query/query-filters.service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { Observable } from 'rxjs';
+import * as URI from 'urijs';
+import { map, tap } from 'rxjs/operators';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 
 export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
   @InjectField() private queryFilters:QueryFiltersService;
@@ -47,23 +47,23 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     // can check whether form saving is possible.
     // The query needs a name to be valid.
     const payload:any = {
-      'name': query.name || '!!!__O__o__O__!!!'
+      name: query.name || '!!!__O__o__O__!!!',
     };
 
     if (query.project) {
-      payload['_links'] = {
-        'project': {
-          'href': query.project.href
-        }
+      payload._links = {
+        project: {
+          href: query.project.href,
+        },
       };
     }
 
-    const path = this.apiRoot.queries.withOptionalId(query.id).form.path;
+    const { path } = this.apiRoot.queries.withOptionalId(query.id).form;
     return this.halResourceService
       .post<QueryFormResource>(path, payload)
       .pipe(
-        tap(form => this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas)),
-        map(form => [form, this.buildQueryResource(form)])
+        tap((form) => this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas)),
+        map((form) => [form, this.buildQueryResource(form)]),
       );
   }
 
@@ -75,7 +75,7 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
    * @param projectIdentifier
    * @param payload
    */
-  public loadWithParams(params:{[key:string]:unknown}, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Observable<[QueryFormResource, QueryResource]> {
+  public loadWithParams(params:{ [key:string]:unknown }, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Observable<[QueryFormResource, QueryResource]> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.
@@ -86,18 +86,17 @@ export class Apiv3QueryForm extends APIv3FormResource<QueryFormResource> {
     if (projectIdentifier) {
       payload._links = payload._links || {};
       payload._links.project = {
-        'href': this.apiRoot.projects.id(projectIdentifier).toString()
+        href: this.apiRoot.projects.id(projectIdentifier).toString(),
       };
-
     }
 
-    const path = this.apiRoot.queries.withOptionalId(queryId).form.path;
+    const { path } = this.apiRoot.queries.withOptionalId(queryId).form;
     const href = URI(path).search(params).toString();
     return this.halResourceService
       .post<QueryFormResource>(href, payload)
       .pipe(
-        tap(form => this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas)),
-        map(form => [form, this.buildQueryResource(form)])
+        tap((form) => this.queryFilters.setSchemas(form.$embedded.schema.$embedded.filtersSchemas)),
+        map((form) => [form, this.buildQueryResource(form)]),
       );
   }
 

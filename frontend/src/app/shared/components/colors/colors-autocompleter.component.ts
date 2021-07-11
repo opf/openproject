@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,8 +27,8 @@
 //++
 
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export const colorsAutocompleterSelector = 'colors-autocompleter';
 
@@ -50,24 +50,28 @@ export const colorsAutocompleterSelector = 'colors-autocompleter';
       </ng-template>
     </ng-select>
   `,
-  selector: colorsAutocompleterSelector
+  selector: colorsAutocompleterSelector,
 })
-export class ColorsAutocompleter implements OnInit {
+export class ColorsAutocompleterComponent implements OnInit {
   public options:any[];
+
   public selectedOption:any;
+
   private highlightTextInline = false;
+
   private updateInputField:HTMLInputElement|undefined;
+
   private selectedColorId:string;
 
   constructor(protected elementRef:ElementRef,
-              protected readonly I18n:I18nService) {
+    protected readonly I18n:I18nService) {
   }
 
   ngOnInit() {
     this.setColorOptions();
 
     this.updateInputField = document.getElementsByName(this.elementRef.nativeElement.dataset.updateInput)[0] as HTMLInputElement|undefined;
-    this.highlightTextInline =  JSON.parse(this.elementRef.nativeElement.dataset.highlightTextInline);
+    this.highlightTextInline = JSON.parse(this.elementRef.nativeElement.dataset.highlightTextInline);
   }
 
   public onModelChange(color:any) {
@@ -104,7 +108,4 @@ export class ColorsAutocompleter implements OnInit {
     }
     return highlightingClass + Highlighting.colorClass(this.highlightTextInline, item.value);
   }
-
 }
-
-

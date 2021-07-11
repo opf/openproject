@@ -1,20 +1,26 @@
-import { ChangeDetectionStrategy, Component, OnInit, NgZone } from "@angular/core";
-import { WorkPackageListViewComponent } from "core-app/features/work-packages/routing/wp-list-view/wp-list-view.component";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { DragAndDropService } from "core-app/shared/helpers/drag-and-drop/drag-and-drop.service";
-import { CausedUpdatesService } from "core-app/features/boards/board/caused-updates/caused-updates.service";
-import { bimSplitViewCardsIdentifier, bimSplitViewListIdentifier, bimListViewIdentifier, BimViewService } from "core-app/features/bim/ifc_models/pages/viewer/bim-view.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { IfcModelsDataService } from "core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service";
+import {
+  ChangeDetectionStrategy, Component, NgZone, OnInit,
+} from '@angular/core';
+import { WorkPackageListViewComponent } from 'core-app/features/work-packages/routing/wp-list-view/wp-list-view.component';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
+import {
+  bimSplitViewCardsIdentifier,
+  bimSplitViewListIdentifier,
+  BimViewService,
+} from 'core-app/features/bim/ifc_models/pages/viewer/bim-view.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { UIRouterGlobals } from '@uirouter/core';
-import { pluck, distinctUntilChanged } from "rxjs/operators";
-import { States } from "core-app/core/states/states.service";
-import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
-import { splitViewRoute } from "core-app/features/work-packages/routing/split-view-routes.helper";
-import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { distinctUntilChanged, pluck } from 'rxjs/operators';
+import { States } from 'core-app/core/states/states.service';
+import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
 @Component({
   templateUrl: './bcf-list-container.component.html',
@@ -22,23 +28,29 @@ import { QueryResource } from "core-app/features/hal/resources/query-resource";
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
-    CausedUpdatesService
+    CausedUpdatesService,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BcfListContainerComponent extends WorkPackageListViewComponent implements OnInit {
   @InjectField() bimView:BimViewService;
+
   @InjectField() ifcModelsService:IfcModelsDataService;
+
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+
   @InjectField() uIRouterGlobals:UIRouterGlobals;
+
   @InjectField() viewer:ViewerBridgeService;
+
   @InjectField() states:States;
+
   @InjectField() bcfApi:BcfApiService;
+
   @InjectField() zone:NgZone;
 
-
   public wpTableConfiguration = {
-    dragAndDropEnabled: false
+    dragAndDropEnabled: false,
   };
 
   public showViewPointInFlight:boolean;
@@ -78,10 +90,9 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   public showResizerInCardView():boolean {
     if (this.noResults && this.ifcModelsService.models.length === 0) {
       return false;
-    } else {
-      return this.bimView.currentViewerState() === bimSplitViewCardsIdentifier ||
-             this.bimView.currentViewerState() === bimSplitViewListIdentifier;
     }
+    return this.bimView.currentViewerState() === bimSplitViewCardsIdentifier
+             || this.bimView.currentViewerState() === bimSplitViewListIdentifier;
   }
 
   handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
@@ -113,9 +124,9 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
   goToWpDetailState(workPackageId:string, cards:boolean, focus?:boolean) {
     // Show the split view when there is a viewer (browser)
     // Show only wp details when there is no viewer, plugin environment (ie: Revit)
-    const stateToGo = this.viewer.shouldShowViewer ?
-      splitViewRoute(this.$state) :
-      'bim.partitioned.show';
+    const stateToGo = this.viewer.shouldShowViewer
+      ? splitViewRoute(this.$state)
+      : 'bim.partitioned.show';
     // Passing the card param to the new state because the router doesn't keep
     // it when going to 'bim.partitioned.show'
     const params = { workPackageId, cards, focus };

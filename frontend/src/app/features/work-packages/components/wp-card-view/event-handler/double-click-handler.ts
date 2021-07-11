@@ -1,12 +1,13 @@
 import { Injector } from '@angular/core';
-import { CardEventHandler } from "core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry";
-import { WorkPackageCardViewComponent } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { StateService } from "@uirouter/core";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { CardEventHandler } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
+import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { StateService } from '@uirouter/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class CardDblClickHandler implements CardEventHandler {
   @InjectField() $state:StateService;
+
   @InjectField() wpTableSelection:WorkPackageViewSelectionService;
 
   constructor(public readonly injector:Injector,
@@ -45,4 +46,3 @@ export class CardDblClickHandler implements CardEventHandler {
     return false;
   }
 }
-

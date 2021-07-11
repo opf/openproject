@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,10 +27,10 @@
 //++
 
 import * as moment from 'moment';
-import { Component } from "@angular/core";
-import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { Component } from '@angular/core';
+import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   template: `
@@ -45,7 +45,7 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
            (keydown)="handler.handleUserKeydown($event)"
            [disabled]="inFlight"
            [id]="handler.htmlId" />
-  `
+  `,
 })
 export class DurationEditFieldComponent extends EditFieldComponent {
   @InjectField() TimezoneService:TimezoneService;
@@ -89,4 +89,3 @@ export class DurationEditFieldComponent extends EditFieldComponent {
     return parsedValue;
   }
 }
-

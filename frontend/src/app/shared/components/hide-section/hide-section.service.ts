@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { GonService } from "core-app/core/gon/gon.service";
-import { Injectable } from "@angular/core";
-import { input } from "reactivestates";
+import { GonService } from 'core-app/core/gon/gon.service';
+import { Injectable } from '@angular/core';
+import { input } from 'reactivestates';
 
 export interface HideSectionDefinition {
   key:string;
@@ -39,6 +38,7 @@ export interface HideSectionDefinition {
 @Injectable({ providedIn: 'root' })
 export class HideSectionService {
   public displayed = input<string[]>();
+
   public all:HideSectionDefinition[] = [];
 
   constructor(Gon:GonService) {
@@ -57,12 +57,12 @@ export class HideSectionService {
   }
 
   hide(key:string) {
-    this.displayed.doModify(displayed => displayed.filter(el => el !== key));
+    this.displayed.doModify((displayed) => displayed.filter((el) => el !== key));
     this.toggleVisibility(key, false);
   }
 
   show(key:string) {
-    this.displayed.doModify(displayed => [...displayed, key]);
+    this.displayed.doModify((displayed) => [...displayed, key]);
     this.toggleVisibility(key, true);
   }
 
@@ -76,7 +76,7 @@ export class HideSectionService {
 
   private removeHiddenOnSubmit() {
     jQuery(document.body)
-      .on('submit', 'form', function(evt:any) {
+      .on('submit', 'form', function (evt:any) {
         const form = jQuery(this);
         const sections = form.find('section.hide-section:hidden');
 

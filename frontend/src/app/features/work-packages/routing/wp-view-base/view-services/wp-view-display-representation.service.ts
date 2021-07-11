@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
-
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 export const wpDisplayListRepresentation = 'list';
 export const wpDisplayCardRepresentation = 'card';
@@ -40,7 +39,7 @@ export type WorkPackageDisplayRepresentationValue = 'list'|'card';
 @Injectable()
 export class WorkPackageViewDisplayRepresentationService extends WorkPackageQueryStateService<string|null> {
   public constructor(readonly states:States,
-                     readonly querySpace:IsolatedQuerySpace) {
+    readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
 
@@ -53,7 +52,7 @@ export class WorkPackageViewDisplayRepresentationService extends WorkPackageQuer
   }
 
   public applyToQuery(query:QueryResource) {
-    const current = this.current;
+    const { current } = this;
     query.displayRepresentation = current === null ? undefined : current;
 
     return false;
@@ -64,7 +63,7 @@ export class WorkPackageViewDisplayRepresentationService extends WorkPackageQuer
   }
 
   public get isList():boolean {
-    const current = this.current;
+    const { current } = this;
     return !current || current === wpDisplayListRepresentation;
   }
 

@@ -1,6 +1,6 @@
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { Injectable } from "@angular/core";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { Injectable } from '@angular/core';
 
 export interface ICKEditorInstance {
   getData(options:{ trim:boolean }):string;
@@ -68,23 +68,22 @@ export class CKEditorSetupService {
     // Load the bundle
     await this.load();
 
-    const type = context.type;
+    const { type } = context;
     const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
     const toolbarWrapper = wrapper.querySelector('.document-editor__toolbar') as HTMLElement;
     const contentWrapper = wrapper.querySelector('.document-editor__editable') as HTMLElement;
 
-    var contentLanguage = context.options && context.options.rtl ? 'ar' : 'en';
-
+    const contentLanguage = context.options && context.options.rtl ? 'ar' : 'en';
 
     const editor:ICKEditorInstance = await editorClass
       .createCustomized(contentWrapper, {
         openProject: this.createConfig(context),
-        initialData: initialData,
+        initialData,
         language: {
-          content: contentLanguage
-        }
+          content: contentLanguage,
+        },
       });
 
     toolbarWrapper.appendChild(editor.ui.view.toolbar.element);
@@ -114,16 +113,16 @@ export class CKEditorSetupService {
       context.macros = [
         'OPMacroToc',
         'OPMacroEmbeddedTable',
-        'OPMacroWpButton'
+        'OPMacroWpButton',
       ];
     } else {
       context.macros = context.macros;
     }
 
     return {
-      context: context,
+      context,
       helpURL: this.PathHelper.textFormattingHelp(),
-      pluginContext: window.OpenProject.pluginContext.value
+      pluginContext: window.OpenProject.pluginContext.value,
     };
   }
 }

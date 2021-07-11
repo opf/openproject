@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HttpErrorResponse } from "@angular/common/http";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';
 export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:errors:MultipleErrors';
 
 export class ErrorResource extends HalResource {
   public errors:any[];
+
   public message:string;
+
   public details:any;
+
   public errorIdentifier:string;
 
   /** We may get a reference to the underlying http error */
@@ -53,7 +56,7 @@ export class ErrorResource extends HalResource {
 
   public get errorMessages():string[] {
     if (this.isMultiErrorMessage()) {
-      return this.errors.map(error => error.message);
+      return this.errors.map((error) => error.message);
     }
 
     return [this.message];
@@ -64,7 +67,7 @@ export class ErrorResource extends HalResource {
   }
 
   public getInvolvedAttributes():string[] {
-    var columns = [];
+    let columns = [];
 
     if (this.details) {
       columns = [{ details: this.details }];
@@ -75,9 +78,8 @@ export class ErrorResource extends HalResource {
     return _.flatten(columns.map((resource:ErrorResource) => {
       if (resource.errorIdentifier === v3ErrorIdentifierMultipleErrors) {
         return this.extractMultiError(resource)[0];
-      } else {
-        return resource.details.attribute;
       }
+      return resource.details.attribute;
     }));
   }
 
@@ -104,7 +106,7 @@ export class ErrorResource extends HalResource {
   }
 
   protected extractMultiError(resource:ErrorResource):[string, string[]] {
-    const attribute = resource.errors[0].details.attribute;
+    const { attribute } = resource.errors[0].details;
     const messages = resource.errors.map((el:ErrorResource) => el.message);
 
     return [attribute, messages];

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { PaginationInstance } from "core-app/shared/components/table-pagination/pagination-instance";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { PaginationInstance } from 'core-app/shared/components/table-pagination/pagination-instance';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 export class WorkPackageViewPagination {
   public current:PaginationInstance;

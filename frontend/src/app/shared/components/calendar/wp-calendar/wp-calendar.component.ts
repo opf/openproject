@@ -1,32 +1,27 @@
 import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  SecurityContext,
-  ViewChild
-} from "@angular/core";
+  Component, ElementRef, Input, OnInit, SecurityContext, ViewChild,
+} from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { States } from "core-app/core/states/states.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import * as moment from "moment";
-import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
-import { StateService } from "@uirouter/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { DomSanitizer } from "@angular/platform-browser";
-import { WorkPackagesListChecksumService } from "core-app/features/work-packages/components/wp-list/wp-list-checksum.service";
-import { OpTitleService } from "core-app/core/html/op-title.service";
+import { States } from 'core-app/core/states/states.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import * as moment from 'moment';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { StateService } from '@uirouter/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions, EventApi, EventInput } from '@fullcalendar/core';
-import { Subject } from "rxjs";
-import { take, debounceTime } from 'rxjs/operators';
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { Subject } from 'rxjs';
+import { debounceTime, take } from 'rxjs/operators';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -40,8 +35,11 @@ interface CalendarViewEvent {
 })
 export class WorkPackagesCalendarController extends UntilDestroyedMixin implements OnInit {
   private resizeObserver:ResizeObserver;
+
   private resizeSubject = new Subject<any>();
+
   private ucCalendar:FullCalendarComponent;
+
   @ViewChild(FullCalendarComponent)
   set container(v:FullCalendarComponent|undefined) {
     // ViewChild reference may be undefined initially
@@ -62,6 +60,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       this.toWPFullView(event);
     });
   }
+
   @ViewChild('ucCalendar', { read: ElementRef })
   set ucCalendarElement(v:ElementRef|undefined) {
     if (!v) {
@@ -76,7 +75,9 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   }
 
   @Input() projectIdentifier:string;
+
   @Input() static = false;
+
   static MAX_DISPLAYED = 100;
 
   public tooManyResultsText:string|null;
@@ -86,18 +87,18 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   calendarOptions:CalendarOptions|undefined;
 
   constructor(readonly states:States,
-              readonly $state:StateService,
-              readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly wpListService:WorkPackagesListService,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly wpListChecksumService:WorkPackagesListChecksumService,
-              readonly schemaCache:SchemaCacheService,
-              readonly titleService:OpTitleService,
-              private element:ElementRef,
-              readonly i18n:I18nService,
-              readonly notificationsService:NotificationsService,
-              private sanitizer:DomSanitizer,
-              private configuration:ConfigurationService) {
+    readonly $state:StateService,
+    readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly wpListService:WorkPackagesListService,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly wpListChecksumService:WorkPackagesListChecksumService,
+    readonly schemaCache:SchemaCacheService,
+    readonly titleService:OpTitleService,
+    private element:ElementRef,
+    readonly i18n:I18nService,
+    readonly notificationsService:NotificationsService,
+    private sanitizer:DomSanitizer,
+    private configuration:ConfigurationService) {
     super();
   }
 
@@ -105,7 +106,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     this.resizeSubject
       .pipe(
         this.untilDestroyed(),
-        debounceTime(50)
+        debounceTime(50),
       )
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();
@@ -119,21 +120,20 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   }
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
-                                successCallback:(events:EventInput[]) => void,
-                                failureCallback:(error:any) => void):void|PromiseLike<EventInput[]> {
+    successCallback:(events:EventInput[]) => void,
+    failureCallback:(error:any) => void):void|PromiseLike<EventInput[]> {
     if (this.alreadyLoaded) {
       this.alreadyLoaded = false;
       const events = this.updateResults(this.querySpace.results.value!);
       successCallback(events);
     } else {
       this.querySpace.results.values$().pipe(
-        take(1)
+        take(1),
       ).subscribe((collection:WorkPackageCollectionResource) => {
         const events = this.updateResults((collection));
         successCallback(events);
       });
     }
-
 
     this.updateTimeframe(fetchInfo);
   }
@@ -151,12 +151,11 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
           initialView: (() => {
             if (this.static) {
               return 'dayGridWeek';
-            } else {
-              return undefined;
             }
+            return undefined;
           })(),
           height: this.calendarHeight(),
-          headerToolbar: this.buildHeader()
+          headerToolbar: this.buildHeader(),
         };
       });
   }
@@ -181,7 +180,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
       this.wpListService.fromQueryParams({ query_props: queryProps }, this.projectIdentifier).toPromise();
     } else {
-      const params = this.$state.params;
+      const { params } = this.$state;
 
       this.wpTableFilters.modify('datesInterval', (datesIntervalFilter) => {
         datesIntervalFilter.values[0] = startDate;
@@ -194,15 +193,15 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.workPackage),
       items: '.fc-event',
-      close: function () {
-        jQuery(".ui-helper-hidden-accessible").remove();
+      close() {
+        jQuery('.ui-helper-hidden-accessible').remove();
       },
-      track: true
+      track: true,
     });
   }
 
   public toWPFullView(event:CalendarViewEvent) {
-    const workPackage = event.event.extendedProps.workPackage;
+    const { workPackage } = event.event.extendedProps;
 
     if (event.el) {
       // do not display the tooltip on the wp show page
@@ -218,8 +217,10 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     this.$state.go(
       'work-packages.show',
       { workPackageId: workPackage.id },
-      { inherit: false });
+      { inherit: false },
+    );
   }
+
   private get calendarElement() {
     return jQuery(this.element.nativeElement).find('[data-qa-selector="op-wp-calendar"]');
   }
@@ -236,22 +237,20 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       const topOfHeightElement = heightElement.position().top;
 
       return heightElement.height()! - (topOfCalendar - topOfHeightElement);
-    } else {
-      // -12 for the bottom padding
-      return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
     }
+    // -12 for the bottom padding
+    return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
   }
 
   public buildHeader() {
     if (this.static) {
       return false;
-    } else {
-      return {
-        right: 'dayGridMonth,dayGridWeek',
-        center: 'title',
-        left: 'prev,next today'
-      };
     }
+    return {
+      right: 'dayGridMonth,dayGridWeek',
+      center: 'title',
+      left: 'prev,next today',
+    };
   }
 
   private setCalendarsDate() {
@@ -260,7 +259,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       return;
     }
 
-    const datesIntervalFilter = _.find(query.filters || [], { 'id': 'datesInterval' }) as any;
+    const datesIntervalFilter = _.find(query.filters || [], { id: 'datesInterval' }) as any;
 
     let calendarDate:any = null;
     let calendarUnit = 'dayGridMonth';
@@ -286,7 +285,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   private setupWorkPackagesListener() {
     this.querySpace.results.values$().pipe(
-      this.untilDestroyed()
+      this.untilDestroyed(),
     ).subscribe((collection:WorkPackageCollectionResource) => {
       this.alreadyLoaded = true;
       this.setCalendarsDate();
@@ -314,7 +313,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
         end: exclusiveEnd,
         allDay: true,
         className: `__hl_background_type_${workPackage.type.id}`,
-        workPackage: workPackage
+        workPackage,
       };
     });
 
@@ -326,7 +325,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
       this.tooManyResultsText = this.i18n.t('js.calendar.too_many',
         {
           count: collection.total,
-          max: WorkPackagesCalendarController.MAX_DISPLAYED
+          max: WorkPackagesCalendarController.MAX_DISPLAYED,
         });
     } else {
       this.tooManyResultsText = null;
@@ -339,12 +338,12 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
 
   private defaultQueryProps(startDate:string, endDate:string) {
     const props = {
-      "c": ["id"],
-      "t":
-        "id:asc",
-      "f": [{ "n": "status", "o": "o", "v": [] },
-        { "n": "datesInterval", "o": "<>d", "v": [startDate, endDate] }],
-      "pp": WorkPackagesCalendarController.MAX_DISPLAYED
+      c: ['id'],
+      t:
+        'id:asc',
+      f: [{ n: 'status', o: 'o', v: [] },
+        { n: 'datesInterval', o: '<>d', v: [startDate, endDate] }],
+      pp: WorkPackagesCalendarController.MAX_DISPLAYED,
     };
 
     return JSON.stringify(props);
@@ -353,9 +352,8 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   private eventDate(workPackage:WorkPackageResource, type:'start'|'due') {
     if (this.schemaCache.of(workPackage).isMilestone) {
       return workPackage.date;
-    } else {
-      return workPackage[`${type}Date`];
     }
+    return workPackage[`${type}Date`];
   }
 
   private tooltipContentString(workPackage:WorkPackageResource) {
@@ -401,10 +399,10 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   private removeTooltip(element:HTMLElement) {
     // deactivate tooltip so that it is not displayed on the wp show page
     jQuery(element).tooltip({
-      close: function () {
-        jQuery(".ui-helper-hidden-accessible").remove();
+      close() {
+        jQuery('.ui-helper-hidden-accessible').remove();
       },
-      disabled: true
+      disabled: true,
     });
   }
 }

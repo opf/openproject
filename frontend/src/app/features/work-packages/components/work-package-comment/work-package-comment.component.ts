@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -38,55 +38,59 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild
-} from "@angular/core";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageCommentFieldHandler } from "core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler";
-import { CommentService } from "core-app/features/work-packages/components/wp-activity/comment-service";
-import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { ErrorResource } from "core-app/features/hal/resources/error-resource";
+  ViewChild,
+} from '@angular/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageCommentFieldHandler } from 'core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler';
+import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
+import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 
 @Component({
   selector: 'work-package-comment',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './work-package-comment.component.html'
+  templateUrl: './work-package-comment.component.html',
 })
 export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler implements OnInit, OnDestroy {
   @Input() public workPackage:WorkPackageResource;
 
   @ContentChild(TemplateRef) template:TemplateRef<any>;
+
   @ViewChild('commentContainer') public commentContainer:ElementRef;
 
   public text = {
     editTitle: this.I18n.t('js.label_add_comment_title'),
     addComment: this.I18n.t('js.label_add_comment'),
     cancelTitle: this.I18n.t('js.label_cancel_comment'),
-    placeholder: this.I18n.t('js.label_add_comment_title')
+    placeholder: this.I18n.t('js.label_add_comment_title'),
   };
+
   public fieldLabel:string = this.text.editTitle;
 
   public inFlight = false;
+
   public canAddComment:boolean;
+
   public showAbove:boolean;
 
   public htmlId = 'wp-comment-field';
 
   constructor(protected elementRef:ElementRef,
-              protected injector:Injector,
-              protected commentService:CommentService,
-              protected wpLinkedActivities:WorkPackagesActivityService,
-              protected ConfigurationService:ConfigurationService,
-              protected loadingIndicator:LoadingIndicatorService,
-              protected apiV3Service:APIV3Service,
-              protected workPackageNotificationService:WorkPackageNotificationService,
-              protected NotificationsService:NotificationsService,
-              protected cdRef:ChangeDetectorRef,
-              protected I18n:I18nService) {
+    protected injector:Injector,
+    protected commentService:CommentService,
+    protected wpLinkedActivities:WorkPackagesActivityService,
+    protected ConfigurationService:ConfigurationService,
+    protected loadingIndicator:LoadingIndicatorService,
+    protected apiV3Service:APIV3Service,
+    protected workPackageNotificationService:WorkPackageNotificationService,
+    protected NotificationsService:NotificationsService,
+    protected cdRef:ChangeDetectorRef,
+    protected I18n:I18nService) {
     super(elementRef, injector);
   }
 
@@ -98,7 +102,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
 
     this.commentService.quoteEvents
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((quote:string) => {
         this.activate(quote);

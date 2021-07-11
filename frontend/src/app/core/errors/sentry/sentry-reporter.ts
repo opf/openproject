@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Hub, Severity, Scope, Event as SentryEvent } from "@sentry/types";
-import { environment } from "../../../../environments/environment";
+import {
+  Event as SentryEvent, Hub, Scope, Severity,
+} from '@sentry/types';
+import { environment } from '../../../../environments/environment';
 
 export type ScopeCallback = (scope:Scope) => void;
 export type MessageSeverity = 'fatal'|'error'|'warning'|'log'|'info'|'debug';
@@ -57,7 +59,6 @@ interface QueuedMessage {
 }
 
 export class SentryReporter implements ErrorReporter {
-
   private contextCallbacks:ScopeCallback[] = [];
 
   private messageStack:QueuedMessage[] = [];
@@ -67,7 +68,7 @@ export class SentryReporter implements ErrorReporter {
   private client:Hub;
 
   constructor() {
-    const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement|null;
+    const sentryElement = document.querySelector('meta[name=openproject_sentry]') as HTMLElement;
     if (sentryElement !== null) {
       this.loadSentry(sentryElement);
     } else {
@@ -84,9 +85,9 @@ export class SentryReporter implements ErrorReporter {
     import('./sentry-dependency').then((imported) => {
       const sentry = imported.Sentry;
       sentry.init({
-        dsn: dsn,
+        dsn,
         debug: !environment.production,
-        release: 'op-frontend@' + version,
+        release: `op-frontend@${version}`,
         environment: environment.production ? 'production' : 'development',
 
         // Integrations
@@ -94,13 +95,13 @@ export class SentryReporter implements ErrorReporter {
 
         tracesSampler: (samplingContext) => {
           switch (samplingContext.transactionContext.op) {
-          case 'op':
-          case 'navigation':
+            case 'op':
+            case 'navigation':
             // Trace 1% of page loads and navigation events
-            return Math.min(0.01 * traceFactor, 1.0);
-          default:
+              return Math.min(0.01 * traceFactor, 1.0);
+            default:
             // Trace 0.1% of requests
-            return Math.min(0.001 * traceFactor, 1.0);
+              return Math.min(0.001 * traceFactor, 1.0);
           }
         },
 
@@ -159,7 +160,7 @@ export class SentryReporter implements ErrorReporter {
 
     if (this.client) {
       /** Add to global context as well */
-      callbacks.forEach(cb => this.client.configureScope(cb));
+      callbacks.forEach((cb) => this.client.configureScope(cb));
     }
   }
 
@@ -172,7 +173,7 @@ export class SentryReporter implements ErrorReporter {
     if (this.sentryConfigured) {
       this.messageStack.push({ type, args });
     } else {
-      console.log("[ErrorReporter] Would queue sentry message %O %O, but is not configured.", type, args);
+      console.log('[ErrorReporter] Would queue sentry message %O %O, but is not configured.', type, args);
     }
   }
 
@@ -187,7 +188,7 @@ export class SentryReporter implements ErrorReporter {
     scope.setExtra('url_query', window.location.search);
 
     /** Execute callbacks */
-    this.contextCallbacks.forEach(cb => cb(scope));
+    this.contextCallbacks.forEach((cb) => cb(scope));
   }
 
   /**
@@ -199,7 +200,7 @@ export class SentryReporter implements ErrorReporter {
   private filterEvent(event:SentryEvent):SentryEvent|null {
     const unsupportedBrowser = document.body.classList.contains('-unsupported-browser');
     if (unsupportedBrowser) {
-      console.warn("Browser is not supported, skipping sentry reporting completely.");
+      console.warn('Browser is not supported, skipping sentry reporting completely.');
       return null;
     }
 

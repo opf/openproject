@@ -1,4 +1,4 @@
-import { ID } from "@datorama/akita";
+import { ID } from '@datorama/akita';
 
 export interface HalResourceLink {
   href:string;

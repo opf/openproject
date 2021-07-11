@@ -6,15 +6,15 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
-} from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { DragulaService, Group } from "ng2-dragula";
-import { DomAutoscrollService } from "core-app/shared/helpers/drag-and-drop/dom-autoscroll.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { merge } from "rxjs";
-import { DomHelpers } from "core-app/shared/helpers/dom/set-window-cursor.helper";
+  ViewChild,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { DragulaService, Group } from 'ng2-dragula';
+import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { merge } from 'rxjs';
+import { DomHelpers } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 
 export interface DraggableOption {
   name:string;
@@ -25,7 +25,7 @@ export interface DraggableOption {
   selector: 'draggable-autocompleter',
   templateUrl: './draggable-autocomplete.component.html',
   styleUrls: ['./draggable-autocomplete.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DraggableAutocompleteComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
   /** Options to show in the autocompleter */
@@ -44,16 +44,17 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   availableOptions:DraggableOption[] = [];
 
   private autoscroll:any;
+
   private columnsGroup:Group;
 
   @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
 
   text = {
-    placeholder: this.I18n.t('js.label_add_columns')
+    placeholder: this.I18n.t('js.label_add_columns'),
   };
 
   constructor(readonly I18n:I18nService,
-              readonly dragula:DragulaService) {
+    readonly dragula:DragulaService) {
     super();
   }
 
@@ -70,8 +71,8 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
     // Reset cursor when cancel or dropped
     merge(
-      this.dragula.drop("columns"),
-      this.dragula.cancel("columns")
+      this.dragula.drop('columns'),
+      this.dragula.cancel('columns'),
     )
       .pipe(this.untilDestroyed())
       .subscribe(() => DomHelpers.setBodyCursor('auto'));
@@ -80,16 +81,17 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     const that = this;
     this.autoscroll = new DomAutoscrollService(
       [
-        document.getElementById('content-wrapper')!
+        document.getElementById('content-wrapper')!,
       ],
       {
         margin: 25,
         maxSpeed: 10,
         scrollWhenOutside: true,
-        autoScroll: function (this:any) {
+        autoScroll(this:any) {
           return this.down && that.columnsGroup.drake.dragging;
-        }
-      });
+        },
+      },
+    );
   }
 
   ngAfterViewInit():void {
@@ -116,7 +118,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   }
 
   remove(item:DraggableOption) {
-    this.selected = this.selected.filter(selected => selected.id !== item.id);
+    this.selected = this.selected.filter((selected) => selected.id !== item.id);
   }
 
   get selected() {
@@ -143,6 +145,6 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
   private updateAvailableOptions() {
     this.availableOptions = this.options
-      .filter(item => !this.selected.find(selected => selected.id === item.id));
+      .filter((item) => !this.selected.find((selected) => selected.id === item.id));
   }
 }

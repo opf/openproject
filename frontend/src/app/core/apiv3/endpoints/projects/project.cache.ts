@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,13 +27,11 @@
 //++
 
 import { MultiInputState } from 'reactivestates';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { Injectable, Injector } from '@angular/core';
-import { debugLog } from "core-app/shared/helpers/debug_output";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 @Injectable()
 export class ProjectCache extends StateCacheService<ProjectResource> {

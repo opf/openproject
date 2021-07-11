@@ -9,31 +9,33 @@ import {
   Output,
   SecurityContext,
   ViewChild,
-  ViewEncapsulation
-} from "@angular/core";
+  ViewEncapsulation,
+} from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { States } from "core-app/core/states/states.service";
-import * as moment from "moment";
-import { Moment } from "moment";
-import { StateService } from "@uirouter/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { DomSanitizer } from "@angular/platform-browser";
+import { States } from 'core-app/core/states/states.service';
+import * as moment from 'moment';
+import { Moment } from 'moment';
+import { StateService } from '@uirouter/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { DomSanitizer } from '@angular/platform-browser';
 import timeGrid from '@fullcalendar/timegrid';
-import { CalendarOptions, Duration, EventApi, EventInput } from '@fullcalendar/core';
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { TimeEntryResource } from "core-app/features/hal/resources/time-entry-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import {
+  CalendarOptions, Duration, EventApi, EventInput,
+} from '@fullcalendar/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import interactionPlugin from '@fullcalendar/interaction';
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
-import { TimeEntryCreateService } from "core-app/shared/components/time_entries/create/create.service";
-import { ColorsService } from "core-app/shared/components/colors/colors.service";
-import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
+import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
+import { ColorsService } from 'core-app/shared/components/colors/colors.service';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -66,12 +68,14 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
   providers: [
     TimeEntryEditService,
     TimeEntryCreateService,
-    HalResourceEditingService
-  ]
+    HalResourceEditingService,
+  ],
 })
 export class TimeEntryCalendarComponent implements AfterViewInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
+
   @Input() projectIdentifier:string;
+
   @Input() static = false;
 
   @Input() set displayedDays(days:DisplayedDays) {
@@ -82,17 +86,23 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
 
   // Not used by the calendar but rather is the maximum/minimum of the graph.
   public minHour = 1;
+
   public maxHour = 12;
+
   public labelIntervalHours = 2;
+
   public scaleRatio = 1;
 
   public calendarEvents:Function;
+
   protected memoizedTimeEntries:{ start:Date, end:Date, entries:Promise<CollectionResource<TimeEntryResource>> };
+
   public memoizedCreateAllowed = false;
+
   public hiddenDays:number[] = [];
 
   public text = {
-    logTime: this.i18n.t('js.button_log_time')
+    logTime: this.i18n.t('js.button_log_time'),
   };
 
   calendarOptions:CalendarOptions = {
@@ -102,7 +112,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     headerToolbar: {
       right: '',
       center: 'title',
-      left: 'prev,next today'
+      left: 'prev,next today',
     },
     initialView: 'timeGridWeek',
     firstDay: this.configuration.startOfWeek(),
@@ -117,24 +127,24 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     slotMaxTime: `${this.maxHour}:00:00`,
     events: this.calendarEventsFunction.bind(this),
     eventOverlap: (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
-    plugins: [timeGrid, interactionPlugin]
+    plugins: [timeGrid, interactionPlugin],
   };
 
   constructor(readonly states:States,
-              readonly apiV3Service:APIV3Service,
-              readonly $state:StateService,
-              private element:ElementRef,
-              readonly i18n:I18nService,
-              readonly injector:Injector,
-              readonly notifications:HalResourceNotificationService,
-              private sanitizer:DomSanitizer,
-              private configuration:ConfigurationService,
-              private timezone:TimezoneService,
-              private timeEntryEdit:TimeEntryEditService,
-              private timeEntryCreate:TimeEntryCreateService,
-              private schemaCache:SchemaCacheService,
-              private colors:ColorsService,
-              private browserDetector:BrowserDetector) {
+    readonly apiV3Service:APIV3Service,
+    readonly $state:StateService,
+    private element:ElementRef,
+    readonly i18n:I18nService,
+    readonly injector:Injector,
+    readonly notifications:HalResourceNotificationService,
+    private sanitizer:DomSanitizer,
+    private configuration:ConfigurationService,
+    private timezone:TimezoneService,
+    private timeEntryEdit:TimeEntryEditService,
+    private timeEntryCreate:TimeEntryCreateService,
+    private schemaCache:SchemaCacheService,
+    private colors:ColorsService,
+    private browserDetector:BrowserDetector) {
   }
 
   ngAfterViewInit() {
@@ -158,7 +168,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
     successCallback:(events:EventInput[]) => void,
     failureCallback:(error:unknown) => void):void|PromiseLike<EventInput[]> {
-
     this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
       .then((collection) => {
         this.entries.emit(collection);
@@ -168,21 +177,21 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   protected fetchTimeEntries(start:Date, end:Date) {
-    if (!this.memoizedTimeEntries ||
-      this.memoizedTimeEntries.start.getTime() !== start.getTime() ||
-      this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
+    if (!this.memoizedTimeEntries
+      || this.memoizedTimeEntries.start.getTime() !== start.getTime()
+      || this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
       const promise = this
         .apiV3Service
         .time_entries
         .list({ filters: this.dmFilters(start, end), pageSize: 500 })
         .toPromise()
-        .then(collection => {
+        .then((collection) => {
           this.memoizedCreateAllowed = !!collection.createTimeEntry;
 
           return collection;
         });
 
-      this.memoizedTimeEntries = { start: start, end: end, entries: promise };
+      this.memoizedTimeEntries = { start, end, entries: promise };
     }
 
     return this.memoizedTimeEntries.entries;
@@ -296,8 +305,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       end: end.format(),
       backgroundColor: color,
       borderColor: color,
-      classNames: classNames,
-      entry: entry
+      classNames,
+      entry,
     };
   }
 
@@ -308,7 +317,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       classNames: DAY_SUM_CLASS_NAME,
       rendering: 'background' as const,
       startEditable: false,
-      sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) })
+      sum: this.i18n.t('js.units.hour', { count: this.formatNumber(duration) }),
     };
   }
 
@@ -322,8 +331,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     return {
       start: date.clone().format(),
       end: date.clone().add(this.maxHour - Math.min(duration * this.scaleRatio, this.maxHour - 1) - 0.5, 'h').format(),
-      rendering: "background" as 'background',
-      classNames: classNames
+      rendering: 'background' as const,
+      classNames,
     };
   }
 
@@ -346,7 +355,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     this
       .timeEntryEdit
       .edit(entry)
-      .then(modificationAction => {
+      .then((modificationAction) => {
         this.updateEventSet(modificationAction.entry, modificationAction.action);
       })
       .catch(() => {
@@ -355,7 +364,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private moveEvent(event:CalendarMoveEvent) {
-    const entry = event.event.extendedProps.entry;
+    const { entry } = event.event.extendedProps;
 
     // Use end instead of start as when dragging, the event might be too long and would thus be start
     // on the day before by fullcalendar.
@@ -364,18 +373,18 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     this
       .schemaCache
       .ensureLoaded(entry)
-      .then(schema => {
+      .then((schema) => {
         this
           .apiV3Service
           .time_entries
           .id(entry)
           .patch(entry, schema)
           .subscribe(
-            event => this.updateEventSet(event, 'update'),
-            e => {
+            (event) => this.updateEventSet(event, 'update'),
+            (e) => {
               this.notifications.handleRawError(e);
               event.revert();
-            }
+            },
           );
       });
   }
@@ -392,7 +401,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     this
       .timeEntryCreate
       .create(date)
-      .then(modificationAction => {
+      .then((modificationAction) => {
         this.updateEventSet(modificationAction.entry, modificationAction.action);
       })
       .catch(() => {
@@ -401,25 +410,25 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create') {
-    this.memoizedTimeEntries.entries.then(collection => {
-      const foundIndex = collection.elements.findIndex(x => x.id === event.id);
+    this.memoizedTimeEntries.entries.then((collection) => {
+      const foundIndex = collection.elements.findIndex((x) => x.id === event.id);
 
       switch (action) {
-      case 'update':
-        collection.elements[foundIndex] = event;
-        break;
-      case 'destroy':
-        collection.elements.splice(foundIndex, 1);
-        break;
-      case 'create':
-        this
-          .apiV3Service
-          .time_entries
-          .cache
-          .updateFor(event);
+        case 'update':
+          collection.elements[foundIndex] = event;
+          break;
+        case 'destroy':
+          collection.elements.splice(foundIndex, 1);
+          break;
+        case 'create':
+          this
+            .apiV3Service
+            .time_entries
+            .cache
+            .updateFor(event);
 
-        collection.elements.push(event);
-        break;
+          collection.elements.push(event);
+          break;
       }
 
       this.ucCalendar.getApi().refetchEvents();
@@ -464,10 +473,10 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.entry),
       items: '.fc-event',
-      close: function () {
-        jQuery(".ui-helper-hidden-accessible").remove();
+      close() {
+        jQuery('.ui-helper-hidden-accessible').remove();
       },
-      track: true
+      track: true,
     });
   }
 
@@ -506,14 +515,14 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     }
 
     const $element = jQuery(event.el);
-    const fadeout = jQuery(`<div class="fc-fadeout"></div>`);
+    const fadeout = jQuery('<div class="fc-fadeout"></div>');
 
     const hslaStart = this.colors.toHsla(this.entryName(timeEntry), 0);
     const hslaEnd = this.colors.toHsla(this.entryName(timeEntry), 100);
 
     fadeout.css('background', `-webkit-linear-gradient(${hslaStart} 0%, ${hslaEnd} 100%`);
 
-    ['-moz-linear-gradient', '-o-linear-gradient', 'linear-gradient', '-ms-linear-gradient'].forEach((style => {
+    ['-moz-linear-gradient', '-o-linear-gradient', 'linear-gradient', '-ms-linear-gradient'].forEach(((style) => {
       fadeout.css('background-image', `${style}(${hslaStart} 0%, ${hslaEnd} 100%`);
     }));
 
@@ -530,7 +539,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private entryName(entry:TimeEntryResource) {
-    let name = entry.project.name;
+    let { name } = entry.project;
     if (entry.workPackage) {
       name += ` - ${this.workPackageName(entry)}`;
     }
@@ -593,9 +602,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
       .from(displayedDays, (value, index) => {
         if (!value) {
           return (index + 1) % 7;
-        } else {
-          return null;
         }
+        return null;
       })
       .filter((value) => value !== null) as number[];
 

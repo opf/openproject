@@ -1,13 +1,13 @@
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
-import { Injectable } from "@angular/core";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { Observable } from "rxjs";
-import { map, take, tap } from "rxjs/operators";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
+import { Injectable } from '@angular/core';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 
@@ -24,10 +24,9 @@ export class RelationStateGroup extends StatesGroup {
 
 @Injectable()
 export class WorkPackageRelationsService extends StateCacheService<RelationsStateValue> {
-
   constructor(private PathHelper:PathHelperService,
-              private apiV3Service:APIV3Service,
-              private halResource:HalResourceService) {
+    private apiV3Service:APIV3Service,
+    private halResource:HalResourceService) {
     super(new RelationStateGroup().relations);
   }
 
@@ -44,7 +43,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return this
       .requireAndStream(id, force)
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise();
   }
@@ -63,7 +62,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     if (this.stale(id) || force) {
       this.clearAndLoad(
         id,
-        this.load(id)
+        this.load(id),
       );
     }
 
@@ -82,7 +81,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       .relations
       .get()
       .pipe(
-        map(collection => this.relationsStateValue(id, collection.elements))
+        map((collection) => this.relationsStateValue(id, collection.elements)),
       );
   }
 
@@ -117,8 +116,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       // Check that
       // 1. the denormalized relation points at "to"
       // 2. that the denormalized relation type matches.
-      return denormalized.target.id === to.id &&
-        denormalized.relationType === type;
+      return denormalized.target.id === to.id
+        && denormalized.relationType === type;
     });
   }
 
@@ -138,9 +137,9 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     const params = {
       _links: {
         from: { href: from.href },
-        to: { href: to.href }
+        to: { href: to.href },
       },
-      type: type
+      type,
     };
 
     return this.updateRelation(relation, params);
@@ -160,9 +159,9 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     const params = {
       _links: {
         from: { href: this.apiV3Service.work_packages.id(fromId).toString() },
-        to: { href: this.apiV3Service.work_packages.id(relatedWpId).toString() }
+        to: { href: this.apiV3Service.work_packages.id(relatedWpId).toString() },
       },
-      type: relationType
+      type: relationType,
     };
 
     const path = this.apiV3Service.work_packages.id(fromId).relations.toString();
@@ -180,7 +179,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param relation
    */
   private insertIntoStates(relation:RelationResource) {
-    _.values(relation.ids).forEach(wpId => {
+    _.values(relation.ids).forEach((wpId) => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         value[relation.id!] = relation;
         return value;
@@ -197,13 +196,11 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param relation
    */
   private removeFromStates(relation:RelationResource) {
-    _.values(relation.ids).forEach(wpId => {
+    _.values(relation.ids).forEach((wpId) => {
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         delete value[relation.id!];
         return value;
-      }, () => {
-        return {};
-      });
+      }, () => ({}));
     });
   }
 
@@ -215,7 +212,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param relations The relation resource array.
    */
   private relationsStateValue(wpId:string, relations:RelationResource[]):RelationsStateValue {
-    return _.keyBy(relations, r => r.id!);
+    return _.keyBy(relations, (r) => r.id!);
   }
 
   /**
@@ -226,12 +223,11 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * We need to group relevant relations for work packages based on their to/from filter.
    */
   private accumulateRelationsFromInvolved(involved:string[], relations:RelationResource[]) {
-    involved.forEach(wpId => {
-      const relevant = relations.filter(r => r.isInvolved(wpId));
+    involved.forEach((wpId) => {
+      const relevant = relations.filter((r) => r.isInvolved(wpId));
       const value = this.relationsStateValue(wpId, relevant);
 
       this.updateValue(wpId, value);
     });
-
   }
 }

@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
-import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import { StateService, UIRouterGlobals } from "@uirouter/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { TabDefinition } from "core-app/shared/components/tabs/tab.interface";
-import { WorkPackageTabsService } from "core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import {
+  ChangeDetectionStrategy, Component, Injector, Input, OnInit,
+} from '@angular/core';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { StateService, UIRouterGlobals } from '@uirouter/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
+import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
   selector: 'op-wp-tabs',
@@ -14,10 +16,13 @@ import { WorkPackageResource } from "core-app/features/hal/resources/work-packag
 })
 export class WpTabsComponent implements OnInit {
   @Input() workPackage:WorkPackageResource;
+
   @Input() view:'full'|'split';
 
   public tabs:TabDefinition[];
+
   public uiSrefBase:string;
+
   public canViewWatchers = false;
 
   text = {
@@ -47,13 +52,11 @@ export class WpTabsComponent implements OnInit {
     return this
       .wpTabsService
       .getDisplayableTabs(this.workPackage)
-      .map(tab => {
-        return {
-          ...tab,
-          route: this.uiSrefBase + '.tabs',
-          routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id }
-        };
-      });
+      .map((tab) => ({
+        ...tab,
+        route: `${this.uiSrefBase}.tabs`,
+        routeParams: { workPackageId: this.workPackage.id, tabIdentifier: tab.id },
+      }));
   }
 
   public switchToFullscreen():void {
@@ -63,7 +66,7 @@ export class WpTabsComponent implements OnInit {
   public close():void {
     this.$state.go(
       this.uiRouterGlobals.current.data.baseRoute,
-      this.uiRouterGlobals.params
+      this.uiRouterGlobals.params,
     );
   }
 }

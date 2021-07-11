@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,24 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { APIv3QueryPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-query-paths";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Apiv3QueryForm } from "core-app/core/apiv3/endpoints/queries/apiv3-query-form";
-import { Observable } from "rxjs";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { Apiv3ListParameters, listParamsString } from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { QueryFiltersService } from "core-app/features/work-packages/components/wp-query/query-filters.service";
-import { HalPayloadHelper } from "core-app/features/hal/schemas/hal-payload.helper";
+import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { APIv3QueryPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-paths';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Apiv3QueryForm } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-form';
+import { Observable } from 'rxjs';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { Apiv3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
+import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 
 export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, APIv3QueryPaths> {
   @InjectField() private queryFilters:QueryFiltersService;
 
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'queries', APIv3QueryPaths);
   }
 
@@ -88,7 +88,6 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
       .get<QueryResource>(path, queryData);
   }
 
-
   /**
    * Stream the response for the given query request
    *
@@ -97,9 +96,9 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
   public parameterised(params:Object):Observable<QueryResource> {
     return this.halResourceService
       .get<QueryResource>(
-        this.default.path,
-        params
-      );
+      this.default.path,
+      params,
+    );
   }
 
   /**
@@ -118,8 +117,8 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
     return this
       .halResourceService
       .post<QueryResource>(
-        this.apiRoot.queries.path, payload
-      );
+      this.apiRoot.queries.path, payload,
+    );
   }
 
   /**
@@ -130,9 +129,8 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
   public toggleStarred(query:QueryResource):Promise<unknown> {
     if (query.starred) {
       return query.unstar();
-    } else {
-      return query.star();
     }
+    return query.star();
   }
 
   /**
@@ -142,7 +140,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
    */
   public filterNonHidden(projectIdentifier?:string|null):Observable<CollectionResource<QueryResource>> {
     const listParams:Apiv3ListParameters = {
-      filters: [['hidden', '=', ['f']]]
+      filters: [['hidden', '=', ['f']]],
     };
 
     if (projectIdentifier) {

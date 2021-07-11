@@ -1,7 +1,7 @@
 /**
  * Return the row html id attribute for the given work package ID.
  */
-import { collapsedGroupClass } from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
+import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 
 export function rowId(workPackageId:string):string {
   return `wp-row-${workPackageId}-table`;
@@ -12,7 +12,7 @@ export function relationRowClass():string {
 }
 
 export function locateTableRow(workPackageId:string):JQuery {
-  return jQuery('.' + rowId(workPackageId));
+  return jQuery(`.${rowId(workPackageId)}`);
 }
 
 export function locateTableRowByIdentifier(identifier:string) {
@@ -24,7 +24,7 @@ export function isInsideCollapsedGroup(el?:Element | null) {
     return false;
   }
 
-  return Array.from(el.classList).find(listClass => listClass.includes(collapsedGroupClass())) != null;
+  return Array.from(el.classList).find((listClass) => listClass.includes(collapsedGroupClass())) != null;
 }
 
 export function locatePredecessorBySelector(el:HTMLElement, selector:string):HTMLElement|null {
@@ -33,9 +33,8 @@ export function locatePredecessorBySelector(el:HTMLElement, selector:string):HTM
   while (previous) {
     if (previous.matches(selector)) {
       return previous as HTMLElement;
-    } else {
-      previous = previous.previousElementSibling;
     }
+    previous = previous.previousElementSibling;
   }
 
   return null;
@@ -57,6 +56,6 @@ export function scrollTableRowIntoView(workPackageId:string):void {
       container[0].scrollTop = elemBottom - container.height()!;
     }
   } catch (e) {
-    console.warn("Can't scroll row element into view: " + e);
+    console.warn(`Can't scroll row element into view: ${e}`);
   }
 }

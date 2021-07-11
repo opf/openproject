@@ -1,5 +1,5 @@
-import { FormlyFieldConfig, FormlyTemplateOptions } from "@ngx-formly/core";
-import { FormGroup } from "@angular/forms";
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
+import { FormGroup } from '@angular/forms';
 
 export interface IOPDynamicFormSettings {
   fields:IOPFormlyFieldSettings[];
@@ -10,7 +10,7 @@ export interface IOPDynamicFormSettings {
 export interface IOPFormlyFieldSettings extends FormlyFieldConfig {
   key?:string;
   type?:OPInputType;
-  fieldGroup?: IOPFormlyFieldSettings[];
+  fieldGroup?:IOPFormlyFieldSettings[];
   templateOptions?:IOPFormlyTemplateOptions;
   [key:string]:any;
 }
@@ -29,7 +29,7 @@ export interface IOPFormlyTemplateOptions extends FormlyTemplateOptions {
 }
 
 type OPInputType = 'formattableInput'|'selectInput'|'textInput'|'integerInput'|
-  'booleanInput'|'dateInput'|'formly-group'|'selectProjectStatusInput';
+'booleanInput'|'dateInput'|'formly-group'|'selectProjectStatusInput';
 
 export interface IOPDynamicInputTypeSettings {
   config:IOPFormlyFieldSettings,

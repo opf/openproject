@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -24,7 +24,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++    Ng1FieldControlsWrapper,
+// ++    Ng1FieldControlsWrapper,
 
 import {
   ChangeDetectionStrategy,
@@ -33,22 +33,17 @@ import {
   ElementRef,
   HostBinding,
   Injector,
-  ViewChild
-} from "@angular/core";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { NEVER, Observable } from "rxjs";
-import { filter, map, take, tap } from "rxjs/operators";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+} from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   AttributeModelLoaderService,
-  SupportedAttributeModels
-} from "core-app/shared/components/fields/macros/attribute-model-loader.service";
-import { StringHelpers } from "core-app/shared/helpers/string-helpers";
+  SupportedAttributeModels,
+} from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
+import { capitalize } from 'core-app/shared/helpers/string-helpers';
 
 export const attributeLabelMacro = 'macro.macro--attribute-label';
 
@@ -58,39 +53,40 @@ export const attributeLabelMacro = 'macro.macro--attribute-label';
   styleUrls: ['./attribute-macro.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    HalResourceEditingService
-  ]
+    HalResourceEditingService,
+  ],
 })
 export class AttributeLabelMacroComponent {
-
   // Whether the value could not be loaded
   error:string|null = null;
 
   text = {
     help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
-    invalid_attribute: (attr:string) =>
-      this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
+    invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
   @HostBinding('title') hostTitle = this.text.help;
 
   // The loaded resource, required for help text
   resource:HalResource|null = null;
+
   // The scope to load for attribute help text
   attributeScope:string;
+
   // The attribute name, normalized from schema
   attribute:string;
+
   // The label to render
   label:string;
 
   constructor(readonly elementRef:ElementRef,
-              readonly injector:Injector,
-              readonly resourceLoader:AttributeModelLoaderService,
-              readonly schemaCache:SchemaCacheService,
-              readonly displayField:DisplayFieldService,
-              readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly injector:Injector,
+    readonly resourceLoader:AttributeModelLoaderService,
+    readonly schemaCache:SchemaCacheService,
+    readonly displayField:DisplayFieldService,
+    readonly I18n:I18nService,
+    readonly cdRef:ChangeDetectorRef) {
 
   }
 
@@ -99,7 +95,7 @@ export class AttributeLabelMacroComponent {
     const model:SupportedAttributeModels = element.dataset.model as any;
     const id:string = element.dataset.id!;
     const attributeName:string = element.dataset.attribute!;
-    this.attributeScope = StringHelpers.capitalize(model);
+    this.attributeScope = capitalize(model);
 
     this.loadResourceAttribute(model, id, attributeName);
   }
@@ -110,7 +106,7 @@ export class AttributeLabelMacroComponent {
     try {
       this.resource = resource = await this.resourceLoader.require(model, id);
     } catch (e) {
-      console.error("Failed to render macro " + e);
+      console.error(`Failed to render macro ${e}`);
       return this.markError(this.text.not_found);
     }
 
@@ -131,7 +127,7 @@ export class AttributeLabelMacroComponent {
   }
 
   markError(message:string) {
-    this.error = this.I18n.t('js.editor.macro.error', { message: message });
+    this.error = this.I18n.t('js.editor.macro.error', { message });
     this.cdRef.detectChanges();
   }
 }

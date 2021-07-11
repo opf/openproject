@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import { IAutocompleteItem } from 'core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component';
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Injectable } from '@angular/core';
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { StateService } from "@uirouter/core";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { StateService } from '@uirouter/core';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 
 @Injectable()
 export class WorkPackageStaticQueriesService {
   constructor(private readonly I18n:I18nService,
-              private readonly $state:StateService,
-              private readonly CurrentProject:CurrentProjectService,
-              private readonly PathHelper:PathHelperService,
-              private readonly CurrentUserService:CurrentUserService) {
+    private readonly $state:StateService,
+    private readonly CurrentProject:CurrentProjectService,
+    private readonly PathHelper:PathHelperService,
+    private readonly CurrentUserService:CurrentUserService) {
   }
 
   public text = {
@@ -67,23 +67,23 @@ export class WorkPackageStaticQueriesService {
       {
         identifier: 'all_open',
         label: this.text.all_open,
-        query_props: null
+        query_props: null,
       },
       {
         identifier: 'latest_activity',
         label: this.text.latest_activity,
-        query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}'
+        query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
       },
       {
         identifier: 'gantt',
         label: this.text.gantt,
-        query_props: `{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}`
+        query_props: '{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
       },
       {
         identifier: 'recently_created',
         label: this.text.recently_created,
-        query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}'
-      }
+        query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+      },
     ] as IAutocompleteItem[];
 
     const projectIdentifier = this.CurrentProject.identifier;
@@ -91,7 +91,7 @@ export class WorkPackageStaticQueriesService {
       items.push({
         identifier: 'summary',
         label: this.text.summary,
-        static_link: this.PathHelper.projectWorkPackagesPath(projectIdentifier) + '/report'
+        static_link: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
       });
     }
 
@@ -100,13 +100,13 @@ export class WorkPackageStaticQueriesService {
         {
           identifier: 'created_by_me',
           label: this.text.created_by_me,
-          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}'
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
         },
         {
           identifier: 'assigned_to_me',
           label: this.text.assigned_to_me,
-          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}'
-        }
+          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
+        },
       ]);
     }
 
@@ -120,9 +120,7 @@ export class WorkPackageStaticQueriesService {
       delete queryProps.pa;
       const queryPropsString = JSON.stringify(queryProps);
 
-      const matched = this.all.find( item =>
-        item.query_props && item.query_props === queryPropsString
-      );
+      const matched = this.all.find((item) => item.query_props && item.query_props === queryPropsString);
 
       if (matched) {
         return matched.label;
@@ -130,9 +128,9 @@ export class WorkPackageStaticQueriesService {
     }
 
     // Try to detect the all open filter
-    if (query.filters.length === 1 && // Only one filter
-      query.filters[0].id === 'status' && // that is status
-      query.filters[0].operator.id === 'o') { // and is open
+    if (query.filters.length === 1 // Only one filter
+      && query.filters[0].id === 'status' // that is status
+      && query.filters[0].operator.id === 'o') { // and is open
       return this.text.all_open;
     }
 

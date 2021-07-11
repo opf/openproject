@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,10 +28,10 @@
 
 import { input } from 'reactivestates';
 import { Injectable } from '@angular/core';
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { take } from "rxjs/operators";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { HelpTextResource } from "core-app/features/hal/resources/help-text-resource";
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { take } from 'rxjs/operators';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { HelpTextResource } from 'core-app/features/hal/resources/help-text-resource';
 
 @Injectable({ providedIn: 'root' })
 export class AttributeHelpTextsService {
@@ -67,24 +67,21 @@ export class AttributeHelpTextsService {
       .helpTexts
       .values$()
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise()
       .then(() => {
         const value = this.helpTexts.getValueOr([]);
-        return _.find(value, element => element.id?.toString() === id);
+        return _.find(value, (element) => element.id?.toString() === id);
       });
   }
 
   private load():void {
-    this.helpTexts.putFromPromiseIfPristine(() =>
-      this.apiV3Service
-        .help_texts
-        .get()
-        .toPromise()
-        .then((resources:CollectionResource<HelpTextResource>) => resources.elements)
-    );
-
+    this.helpTexts.putFromPromiseIfPristine(() => this.apiV3Service
+      .help_texts
+      .get()
+      .toPromise()
+      .then((resources:CollectionResource<HelpTextResource>) => resources.elements));
   }
 
   private find(attribute:string, scope:string):HelpTextResource|undefined {

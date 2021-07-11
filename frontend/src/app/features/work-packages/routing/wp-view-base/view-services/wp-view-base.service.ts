@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { combine, deriveRaw, input, State } from 'reactivestates';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import {
+  combine, deriveRaw, input, State,
+} from 'reactivestates';
 import { map, mapTo, take } from 'rxjs/operators';
 import { merge, Observable } from 'rxjs';
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { Injectable } from "@angular/core";
-import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { Injectable } from '@angular/core';
+import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Injectable()
 export abstract class WorkPackageViewBaseService<T> {
@@ -125,7 +127,7 @@ export abstract class WorkPackageViewBaseService<T> {
       .values$()
       .pipe(
         take(1),
-        mapTo(null)
+        mapTo(null),
       )
       .toPromise();
   }
@@ -142,9 +144,8 @@ export abstract class WorkPackageViewBaseService<T> {
               return pristine;
             }
             return current;
-          })
-        )
-    );
+          }),
+        ));
   }
 
   /**

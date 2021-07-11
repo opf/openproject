@@ -15,21 +15,20 @@ import {
 } from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   ActiveTabInterface,
   TabComponent,
   TabInterface,
-  TabPortalOutlet
+  TabPortalOutlet,
 } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ComponentType } from "@angular/cdk/portal";
-import { WpGraphConfigurationService } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service";
-import { WpGraphConfiguration } from "core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ComponentType } from '@angular/cdk/portal';
+import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
+import { WpGraphConfiguration } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -37,8 +36,7 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
   templateUrl: '../../../../features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy  {
-
+export class WpGraphConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   /* Close on escape? */
   public closeOnEscape = false;
 
@@ -59,21 +57,22 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
 
   // Get the view child we'll use as the portal host
   @ViewChild('tabContentOutlet', { static: true }) tabContentOutlet:ElementRef;
+
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
   constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
-              readonly I18n:I18nService,
-              readonly injector:Injector,
-              readonly appRef:ApplicationRef,
-              readonly componentFactoryResolver:ComponentFactoryResolver,
-              readonly loadingIndicator:LoadingIndicatorService,
-              readonly notificationService:WorkPackageNotificationService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly ConfigurationService:ConfigurationService,
-              readonly elementRef:ElementRef,
-              readonly graphConfiguration:WpGraphConfigurationService) {
+    @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
+    readonly I18n:I18nService,
+    readonly injector:Injector,
+    readonly appRef:ApplicationRef,
+    readonly componentFactoryResolver:ComponentFactoryResolver,
+    readonly loadingIndicator:LoadingIndicatorService,
+    readonly notificationService:WorkPackageNotificationService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly ConfigurationService:ConfigurationService,
+    readonly elementRef:ElementRef,
+    readonly graphConfiguration:WpGraphConfigurationService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -87,11 +86,11 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
           this.tabContentOutlet.nativeElement,
           this.componentFactoryResolver,
           this.appRef,
-          this.injector
+          this.injector,
         );
 
-        const initialTabName = this.locals['initialTab'];
-        const initialTab = this.availableTabs.find(el => el.id === initialTabName);
+        const initialTabName = this.locals.initialTab;
+        const initialTab = this.availableTabs.find((el) => el.id === initialTabName);
         this.cdRef.markForCheck();
         this.switchTo(initialTab || this.availableTabs[0]);
       });

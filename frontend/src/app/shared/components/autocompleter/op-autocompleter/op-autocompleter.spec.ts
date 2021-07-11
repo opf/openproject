@@ -1,17 +1,17 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { OpAutocompleterComponent } from "./op-autocompleter.component";
-import { OpAutocompleterService } from "./services/op-autocompleter.service";
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { of } from "rxjs";
-import { NgSelectComponent} from '@ng-select/ng-select';
-import { NgSelectModule } from "@ng-select/ng-select";
+import { of } from 'rxjs';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import { By } from '@angular/platform-browser';
+import { OpAutocompleterService } from './services/op-autocompleter.service';
+import { OpAutocompleterComponent } from './op-autocompleter.component';
 
 function triggerKeyDownEvent(element:DebugElement, which:number, key = ''):void {
   element.triggerEventHandler('keydown', {
-    which: which,
-    key: key,
+    which,
+    key,
     preventDefault: () => {
     },
   });
@@ -77,7 +77,8 @@ describe('autocompleter', () => {
     })
       .overrideComponent(
         OpAutocompleterComponent,
-        { set: { providers: [{ provide: OpAutocompleterService, useValue: opAutocompleterServiceSpy }] } })
+        { set: { providers: [{ provide: OpAutocompleterService, useValue: opAutocompleterServiceSpy }] } },
+      )
       .compileComponents();
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
@@ -110,7 +111,7 @@ describe('autocompleter', () => {
     fixture.componentInstance.ngAfterViewInit();
     tick(1000);
     fixture.detectChanges();
-    var select =  fixture.componentInstance.ngSelectInstance as NgSelectComponent;
+    const select = fixture.componentInstance.ngSelectInstance;
     expect(fixture.componentInstance.ngSelectInstance.isOpen).toBeFalse();
     fixture.componentInstance.ngSelectInstance.open();
     fixture.componentInstance.ngSelectInstance.focus();
@@ -126,6 +127,5 @@ describe('autocompleter', () => {
       fixture.componentInstance.resource, fixture.componentInstance.filters, fixture.componentInstance.searchKey);
 
     expect(fixture.componentInstance.ngSelectInstance.itemsList.items.length).toEqual(2);
-
   }));
 });

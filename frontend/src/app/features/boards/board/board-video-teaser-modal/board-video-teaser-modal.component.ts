@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit,
+} from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { boardTeaserVideoURL } from "core-app/features/boards/board-constants.const";
-import { DomSanitizer } from "@angular/platform-browser";
-
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { boardTeaserVideoURL } from 'core-app/features/boards/board-constants.const';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   template: `
@@ -36,10 +37,9 @@ import { DomSanitizer } from "@angular/platform-browser";
       </div>
     </div>
 
-  `
+  `,
 })
 export class BoardVideoTeaserModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-
   /* Close on escape? */
   public closeOnEscape = false;
 
@@ -47,17 +47,16 @@ export class BoardVideoTeaserModalComponent extends OpModalComponent implements 
   public closeOnOutsideClick = false;
 
   public text:any = {
-    title: this.I18n.t('js.label_board_plural')
+    title: this.I18n.t('js.label_board_plural'),
   };
 
   public teaserVideoUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService,
-              readonly domSanitizer:DomSanitizer) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService,
+    readonly domSanitizer:DomSanitizer) {
     super(locals, cdRef, elementRef);
   }
 }

@@ -25,6 +25,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 
 import { Injector, NgModule } from '@angular/core';
+import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
+import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { GitHubTabComponent } from './github-tab/github-tab.component';
 import { TabHeaderComponent } from './tab-header/tab-header.component';
 import { TabPrsComponent } from './tab-prs/tab-prs.component';
@@ -32,9 +35,6 @@ import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.dir
 import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
 import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
 import { PullRequestComponent } from './pull-request/pull-request.component';
-import { OPSharedModule } from "core-app/shared/shared.module";
-import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
-import { WorkPackageTabsService } from "core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service";
 
 export function initializeGithubIntegrationPlugin(injector:Injector) {
   const wpTabService = injector.get(WorkPackageTabsService);
@@ -45,7 +45,6 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     displayable: (workPackage) => !!workPackage.github,
   });
 }
-
 
 @NgModule({
   imports: [
@@ -76,5 +75,3 @@ export class PluginModule {
     initializeGithubIntegrationPlugin(injector);
   }
 }
-
-

@@ -1,8 +1,5 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
-import { DebugElement }  from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 import { GitHubTabComponent } from "core-app/features/plugins/linked/openproject-github_integration/github-tab/github-tab.component";
 import { TabPrsComponent } from "core-app/features/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component";
 import { TabHeaderComponent } from "core-app/features/plugins/linked/openproject-github_integration/tab-header/tab-header.component";

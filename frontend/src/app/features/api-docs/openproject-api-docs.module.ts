@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,7 +27,7 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { UIRouterModule } from "@uirouter/angular";
+import { UIRouterModule } from '@uirouter/angular';
 import { SwaggerUIComponent } from './swagger-ui/swagger-ui.component';
 import { API_DOCS_ROUTES } from './openproject-api-docs.routes';
 
@@ -35,13 +35,12 @@ import { API_DOCS_ROUTES } from './openproject-api-docs.routes';
   imports: [
     // Routes for /backlogs
     UIRouterModule.forChild({
-      states: API_DOCS_ROUTES
+      states: API_DOCS_ROUTES,
     }),
   ],
   declarations: [
-    SwaggerUIComponent
-  ]
+    SwaggerUIComponent,
+  ],
 })
 export class OpenprojectApiDocsModule {
 }
-
