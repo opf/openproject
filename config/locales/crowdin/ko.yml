@@ -1286,7 +1286,7 @@ ko:
         subscribed: "%{work_package} 을(를) 구독하였습니다."
         mentioned: "%{work_package} 을(를) 멘션하였습니다."
         involved: "%{work_package} 에 할당되었거나 책임이 있습니다."
-        watched: "You are watching %{work_package}"
+        watched: "%{work_package}을(를) 지켜 보는 중입니다."
   label_accessibility: "접근성"
   label_account: "계정"
   label_active: "활성"
@@ -2233,7 +2233,7 @@ ko:
   setting_apiv3_docs: "설명서"
   setting_apiv3_docs_enabled: "문서 페이지 활성화"
   setting_apiv3_docs_enabled_instructions_html: >
-    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+    문서 페이지가 활성화되면 <a href="%{link}" target="_blank">%{link}</a>에서 APIv3 문서의 대화식 보기를 얻을 수 있습니다.
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"
@@ -2279,7 +2279,7 @@ ko:
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
-  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_retention_period_days: "알림 보관 기간"
   setting_notification_email_delay_minutes: "이메일 지연 전송"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
@@ -2294,7 +2294,7 @@ ko:
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_export_limit: "작업 패키지 내보내기 제한"
-  setting_journal_aggregation_time_minutes: "User actions aggregated within"
+  setting_journal_aggregation_time_minutes: "집계된 사용자 작업"
   setting_log_requesting_user: "모든 요청에 대한 로그 사용자 로그인, 이름 및 메일 주소"
   setting_login_required: "인증이 필요함"
   setting_mail_from: "발신 이메일 주소"
@@ -2351,8 +2351,8 @@ ko:
     brute_force_prevention: "자동화된 사용자 차단"
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+        사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
+      delay_minutes_explanation: "앱 내 알림이 구성된 사용자가 메일이 발송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
     display:
       first_date_of_week_and_year_set: >
         "%{day_of_week_setting_name}"이나 "%{first_week_setting_name}" 중 하나가 설정되었다면, 프론트엔드 충돌을 방지하기 위해 나머지 하나도 설정되어야 합니다.
@@ -2433,7 +2433,7 @@ ko:
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_aggregation_time_explanation: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 이것은 또한 전송되는 이메일의 수를 줄이는 동일한 시간만큼 알림을 지연시킵니다."
   text_journal_changed: "%{label}이(가) %{old}에서 <br/>%{new}<strong>(으)로</strong> 변경되었습니다."
   text_journal_changed_plain: "%{label}이(가) %{old}에서 \n%{new}(으)로 변경되었습니다."
   text_journal_changed_no_detail: "%{label} 업데이트됨"
