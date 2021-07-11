@@ -175,9 +175,7 @@ class Attachment < ApplicationRecord
   end
 
   def set_content_type(file)
-    return if content_type.present?
-
-    self.content_type = file.try(:content_type) || self.class.content_type_for(file.path)
+    self.content_type = self.class.content_type_for(file.path)
   end
 
   def set_digest(file)

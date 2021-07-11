@@ -50,7 +50,9 @@ module Attachments
       model.extend(OpenProject::ChangedBySystem)
       model.change_by_system do
         model.downloads = -1
-        model.content_type = params[:content_type] || 'application/octet-stream'
+        # Set a content type as the file is not present
+        # The real content type will be set by FinishDirectUploadJob
+        model.content_type = params[:content_type] || OpenProject::ContentTypeDetector::SENSIBLE_DEFAULT
       end
     end
 
