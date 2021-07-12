@@ -12,14 +12,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of, Subject, combineLatest } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
+
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
 import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
+
 import { OpAutocompleterService } from './services/op-autocompleter.service';
 import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocompleter-header-template.directive';
 import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
@@ -67,7 +70,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public id?:string;
 
-  @Input() public configOptions?:IOPAutocompleterOptions[];
+  @Input() public configOptions?:IOPAutocompleterOption[];
 
   @Input() public clearSearchOnAdd?:boolean = true;
 
@@ -147,7 +150,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
 
-  @Input() public typeahead?:Subject<string>;
+  @Input() public typeahead:Subject<string> = new Subject();
 
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => any;
@@ -179,8 +182,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
 
   public active:Set<string>;
-
-  public searchInput$ = new Subject<string>();
 
   public results$:any;
 
@@ -216,19 +217,33 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        this.results$ = this.configOptions ? (this.searchInput$.pipe(
+        this.results$ = (this.configOptions ? (this.typeahead.pipe(
           debounceTime(250),
           distinctUntilChanged(),
           switchMap((queryString) => this.getOptionsItems(queryString)),
-        )) : this.defaulData ? (this.searchInput$.pipe(
+        )) : this.defaulData ? (this.typeahead.pipe(
           debounceTime(250),
           distinctUntilChanged(),
           switchMap((queryString) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey)),
-        )) : (this.searchInput$.pipe(
+        )) : (this.typeahead.pipe(
           debounceTime(250),
           distinctUntilChanged(),
           switchMap((queryString) => this.getOptionsFn(queryString)),
-        ));
+        ))).pipe(
+          switchMap((results) => {
+            if (this.resource === 'work_packages') {
+              return combineLatest(results.map((item: IOPAutocompleterOption) => {
+                if (item instanceof HalResource) {
+                  return of([item]);
+                }
+                
+                return this.opAutocompleterService.loadWorkPackageResource(`${item.id}`);
+              }));
+            }
+
+            return of(results);
+          }),
+        );
 
         if (this.fetchDataDirectly) {
           this.results$ = this.defaulData
@@ -257,7 +272,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     }
   }
 
-  public opened(val:any) {
+  public opened(val: any) {
     if (this.openDirectly) {
       this.results$ = this.defaulData
         ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))

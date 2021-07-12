@@ -53,12 +53,6 @@ import { filter } from 'rxjs/operators';
 export interface CreateAutocompleterValueOption {
   name:string;
   href:string|null;
-  // This is added specifically to accomodate the op-autocomplete usage in the time entry modal,
-  // where op-autocomplete expects a full HalResource, but the old ng-select didn't. However, all other
-  // edit fields still expect the old ValueOption format.
-  //
-  // TODO: op-autocomplete should probably provide a more generalized and abstracted API
-  _halResource?: HalResource;
 }
 
 @Component({

@@ -27,21 +27,21 @@
 //++
 
 import { Component } from '@angular/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
   DebouncedRequestSwitchmap,
   errorNotificationHandler,
 } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { take } from 'rxjs/operators';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { SelectEditFieldComponent, ValueOption } from './select-edit-field/select-edit-field.component';
+import { SelectEditFieldComponent } from './select-edit-field/select-edit-field.component';
 
 @Component({
   templateUrl: './work-package-edit-field.component.html',
 })
 export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
+  public requests = new DebouncedRequestSwitchmap<string, HalResource>(
     (searchTerm:string) => this.loadValues(searchTerm),
     errorNotificationHandler(this.halNotification),
   );
@@ -51,7 +51,7 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
 
     // Using this hack with the empty value to have the values loaded initially
     // while avoiding loading it multiple times.
-    return new Promise<ValueOption[]>((resolve) => {
+    return new Promise<HalResource[]>((resolve) => {
       this.requests.output$.pipe(take(1)).subscribe((options) => {
         resolve(options);
       });
@@ -61,9 +61,6 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   }
 
   public get typeahead() {
-    if (this.valuesLoaded) {
-      return false;
-    }
     return this.requests.input$;
   }
 
@@ -79,20 +76,5 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
     }
 
     return filterParams;
-  }
-
-  protected mapAllowedValue(value:WorkPackageResource|ValueOption):ValueOption {
-    if ((value as WorkPackageResource).id) {
-      const prefix = (value as WorkPackageResource).type ? `${(value as WorkPackageResource).type.name} ` : '';
-      const suffix = (value as WorkPackageResource).subject || value.name;
-
-      return {
-        name: `${prefix}#${(value as WorkPackageResource).id} ${suffix}`,
-        href: value.href,
-        // This is added specifically to accomodate the op-autocomplete usage in the time entry modal
-        _halResource: (value as WorkPackageResource),
-      };
-    }
-    return value;
   }
 }

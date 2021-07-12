@@ -66,8 +66,9 @@ export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutoc
   }
 
   public getOptionsFn() {
-    // By default, the create-autocomplete component gives us an abstracted version of entries that are not the full
-    // HalResources. However, the op-autocomplete component wants full HalResources
-    return of(this.availableValues.map(v => v._halResource));
+    return of(this.availableValues.map(item => ({
+      ...item,
+      id: (item.href || '').split('/').pop(),
+    })));
   }
 }
