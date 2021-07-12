@@ -238,21 +238,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
                 : switchMap(() => NEVER)
             ),
           ),
-        ).pipe(
-          switchMap((results:HalResource[]|any[]) => {
-            console.log('results', results);
-            if (this.resource === 'work_packages') {
-              return combineLatest(results.map((item: HalResource|any) => {
-                if (item instanceof HalResource) {
-                  return of(item);
-                }
-
-                return this.opAutocompleterService.loadWorkPackageResource(`${item.id}`);
-              }));
-            }
-
-            return of(results);
-          }),
         );
 
         if (this.fetchDataDirectly) {

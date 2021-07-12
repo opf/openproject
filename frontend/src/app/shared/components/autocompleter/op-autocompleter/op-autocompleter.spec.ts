@@ -8,19 +8,6 @@ import { By } from '@angular/platform-browser';
 import { OpAutocompleterService } from './services/op-autocompleter.service';
 import { OpAutocompleterComponent } from './op-autocompleter.component';
 
-function triggerKeyDownEvent(element:DebugElement, which:number, key = ''):void {
-  element.triggerEventHandler('keydown', {
-    which,
-    key,
-    preventDefault: () => {
-    },
-  });
-}
-
-function getNgSelectElement(fixture:ComponentFixture<any>):DebugElement {
-  return fixture.debugElement.query(By.css('ng-select'));
-}
-
 describe('autocompleter', () => {
   let fixture:ComponentFixture<OpAutocompleterComponent>;
   let opAutocompleterServiceSpy:jasmine.SpyObj<OpAutocompleterService>;
@@ -64,7 +51,7 @@ describe('autocompleter', () => {
   ];
 
   beforeEach(() => {
-    opAutocompleterServiceSpy = jasmine.createSpyObj('OpAutocompleterService', ['loadData', 'loadWorkPackageResource']);
+    opAutocompleterServiceSpy = jasmine.createSpyObj('OpAutocompleterService', ['loadData']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -95,7 +82,6 @@ describe('autocompleter', () => {
 
     // @ts-ignore
     opAutocompleterServiceSpy.loadData.and.returnValue(of(workPackagesStub));
-    opAutocompleterServiceSpy.loadWorkPackageResource.and.returnValue(of(workPackagesStub[0] as any));
   });
 
   it('should load the ng-select correctly', () => {

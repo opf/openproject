@@ -56,8 +56,4 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
       }
     }
   }
-
-  public loadWorkPackageResource(wpId:string) {
-    return this.apiV3Service.work_packages.id(wpId).get();
-  }
 }
