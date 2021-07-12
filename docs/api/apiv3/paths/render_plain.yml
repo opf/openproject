@@ -4,9 +4,6 @@ post:
   responses:
     '200':
       content:
-        application/json:
-          schema:
-            "$ref": "../components/schemas/plain_text_model.yml"
         text/html:
           examples:
             response:

@@ -9,7 +9,9 @@ keywords: roadmap, release planning
 
 # Product roadmap release planning
 
-<div class="glossary">**Roadmap** is defined as an overview page displaying the versions sorted alphabetically and the work packages assigned to them. The roadmap is displayed in the project navigation when the work package module is activated and a version has been created (project settings).</div>
+<div class="glossary">
+**Roadmap** is defined as an overview page displaying the versions sorted alphabetically and the work packages assigned to them. The roadmap is displayed in the project navigation when the work package module is activated and a version has been created (project settings).
+</div>
 
 Plan and manage your product roadmap in OpenProject. Visualize, and communicate your product roadmap. Share your product roadmap with your stakeholders, get feedback about your ideas and break it down into a detailed release plan.
 

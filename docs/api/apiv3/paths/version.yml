@@ -53,7 +53,7 @@ delete:
   summary: Delete Version
 get:
   parameters:
-  - description: version id
+  - description: Version id
     example: '1'
     in: path
     name: id

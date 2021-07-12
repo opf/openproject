@@ -52,7 +52,7 @@ delete:
   summary: Delete membership
 get:
   parameters:
-  - description: membership id
+  - description: Membership id
     example: '1'
     in: path
     name: id

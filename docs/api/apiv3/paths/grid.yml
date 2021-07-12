@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: grid id
+  - description: Grid id
     example: '1'
     in: path
     name: id

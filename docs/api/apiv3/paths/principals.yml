@@ -4,7 +4,7 @@ get:
   parameters:
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](#queries) endpoint.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
       Currently supported filters are:
 
       + type: filters principals by their type (*User*, *Group*, *PlaceholderUser*).

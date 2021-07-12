@@ -102,7 +102,7 @@ get:
     name: sortBy
     required: false
     schema:
-      default: '["id", "asc"]'
+      default: '[["id", "asc"]]'
       type: string
   - description: The column to group by. The grouping criteria is applied to the to
       the query's result collection of work packages overriding the query's persisted

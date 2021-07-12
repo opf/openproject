@@ -18,7 +18,7 @@ get:
       type: integer
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](#queries) endpoint.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
     example: '[{ "status_id": { "operator": "o", "values": null } }]'
     in: query
     name: filters

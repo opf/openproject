@@ -19,7 +19,7 @@ get:
       type: integer
   - description: |-
       JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
 
       + id: Sort by primary key
 

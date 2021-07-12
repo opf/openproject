@@ -18,7 +18,7 @@ description: |-
   | :-----------------: | ---------------------------------------------------------------------------------- | ---------------- |
   | _dependencies       | A list of dependencies between one property's value and another property           | SchemaDependency |
 
-  The `_dependencies` property contains the list of dependencies that exist between the value selected for one of the properties of the described resource and the resource's structure. Depending on the value, additional properties might exist or properties might have other values allowed to be assigned. See [SchemaDependency](#schema-dependencies) for more information.
+  The `_dependencies` property contains the list of dependencies that exist between the value selected for one of the properties of the described resource and the resource's structure. Depending on the value, additional properties might exist or properties might have other values allowed to be assigned. See [SchemaDependency](https://www.openproject.org/docs/api/endpoints/schemas/#schema-dependencies) for more information.
 
   # Field schema
 
@@ -33,7 +33,7 @@ description: |-
   This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
   resource lists (requiring one or more separate requests).
 
-  The `allowedValuesSchemas` will on rare occasions (e.g. for a [Query](#query)) replace `allowedValues`. This is done when there is no fixed set of allowed values. Instead, the allowed values will have to follow a schema, or one of a list of schemas, in its own right.
+  The `allowedValuesSchemas` will on rare occasions (e.g. for a [Query](https://www.openproject.org/docs/api/endpoints/queries/)) replace `allowedValues`. This is done when there is no fixed set of allowed values. Instead, the allowed values will have to follow a schema, or one of a list of schemas, in its own right.
 
   Only one of the links (`allowedValues`, `allowedValuesSchemas`) will exist for any given property.
 
@@ -73,9 +73,6 @@ description: |-
   SchemaDependencies are always embedded inside a Schema's `_dependencies` attribute. As such, they are not independently existing resources. Consequently, they do not have a `self` reference.
 
   ## Linked Properties
-
-  | Link                | Description                              | Type          | Nullable | Supported operations |
-  |:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
 
   A SchemaDependency does not have any links.
 

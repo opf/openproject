@@ -28,7 +28,7 @@ get:
                         href: "/api/v3/projects/6/work_packages"
                         method: post
                       editWorkPackage:
-                        href: "/api/v3//work_packages/{work_package_id}/form"
+                        href: "/api/v3//work_packages/{id}/form"
                         method: post
                         templated: true
                       self:

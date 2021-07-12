@@ -60,7 +60,7 @@ description: |-
 
   The list of values can either consist of a list of links or of a list of strings. If the values are primitive (e.g. Integer, Boolean, Date) they will be displayed as strings and the QueryFilterInstance will have a `values` property.
 
-  ```
+  ```json
     {
       "_type": "DueDateQueryFilter",
       "name": "Finish date",
@@ -85,7 +85,7 @@ description: |-
 
   If the values are nonprimitive (e.g. User, Project), they will be listed as objects and the QueryFilterInstance will have a `values` link.
 
-  ```
+  ```json
     {
       "_type": "AssigneeQueryFilter",
       "name": "Assignee",

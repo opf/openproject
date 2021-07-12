@@ -19,7 +19,7 @@ get:
       type: integer
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
 
       + page: Filter grid by work package
     example: '[{ "page": { "operator": "=", "values": ["/my/page"] } }]'

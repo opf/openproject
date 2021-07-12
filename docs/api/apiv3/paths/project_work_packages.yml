@@ -26,7 +26,7 @@ get:
       type: integer
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](#queries) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
     example: '[{ "type_id": { "operator": "=", "values": [''1'', ''2''] }}]'
     in: query
     name: filters
@@ -36,13 +36,13 @@ get:
       type: string
   - description: |-
       JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](#queries) endpoint.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
     example: '[["status", "asc"]]'
     in: query
     name: sortBy
     required: false
     schema:
-      default: '["id", "asc"]'
+      default: '[["id", "asc"]]'
       type: string
   - description: The column to group by.
     example: status
