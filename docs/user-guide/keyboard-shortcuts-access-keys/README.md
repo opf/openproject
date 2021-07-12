@@ -60,24 +60,24 @@ OpenProject (since version 3.0) offers useful keyboard shortcuts to  enhance you
 
 ### Windows
 
-- Internet Explorer: Alt + <access key number>
-- Firefox: Alt + Shift + <access key number>
-- Google Chrome: Alt + <access key number>
-- Safari: Alt + <access key number>
+- Internet Explorer: Alt + &lt;access key number&gt;
+- Firefox: Alt + Shift + &lt;access key number&gt;
+- Google Chrome: Alt + &lt;access key number&gt;
+- Safari: Alt + &lt;access key number&gt;
 
 ------
 
 ### Linux
 
-- Firefox: Alt + Shift + <access key number>
-- Google Chrome: Alt + Mod + <access key number>
+- Firefox: Alt + Shift + &lt;access key number&gt;
+- Google Chrome: Alt + Mod + &lt;access key number&gt;
 
 ------
 
 ### OS X
 
-- Firefox:  Ctrl + Opt + <access key number>
-- Google Chrome: Ctrl + Opt + <access key number>
-- Safari: Ctrl + Opt + <access key number>
+- Firefox:  Ctrl + Opt + &lt;access key number&gt;
+- Google Chrome: Ctrl + Opt + &lt;access key number&gt;
+- Safari: Ctrl + Opt + &lt;access key number&gt;
 
 ------

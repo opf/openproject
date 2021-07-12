@@ -11,11 +11,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { BannersService } from "core-app/core/enterprise/banners.service";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { IOpOptionListOption } from "core-app/shared/components/option-list/option-list.component";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+import { IOpOptionListOption } from 'core-app/shared/components/option-list/option-list.component';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { PrincipalType } from '../invite-user.component';
 import { ProjectAllowedValidator } from './project-allowed.validator';
 
@@ -26,10 +26,12 @@ import { ProjectAllowedValidator } from './project-allowed.validator';
 })
 export class ProjectSelectionComponent implements OnInit {
   @Input() type:PrincipalType;
+
   @Input() project:ProjectResource|null;
 
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{project:any, type:string}>();
+
+  @Output() save = new EventEmitter<{ project:any, type:string }>();
 
   public text = {
     title: this.I18n.t('js.invite_user_modal.title.invite'),
@@ -58,12 +60,17 @@ export class ProjectSelectionComponent implements OnInit {
   ];
 
   projectAndTypeForm = new FormGroup({
-    type: new FormControl(PrincipalType.User, [ Validators.required ]),
-    project: new FormControl(null, [ Validators.required ], ProjectAllowedValidator(this.currentUserService))
+    type: new FormControl(PrincipalType.User, [Validators.required]),
+    project: new FormControl(null, [Validators.required], ProjectAllowedValidator(this.currentUserService)),
   });
 
-  get typeControl() { return this.projectAndTypeForm.get('type'); }
-  get projectControl() { return this.projectAndTypeForm.get('project'); }
+  get typeControl() {
+    return this.projectAndTypeForm.get('type');
+  }
+
+  get projectControl() {
+    return this.projectAndTypeForm.get('project');
+  }
 
   constructor(
     readonly I18n:I18nService,

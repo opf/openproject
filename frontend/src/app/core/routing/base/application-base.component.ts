@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 export const appBaseSelector = 'openproject-base';
 
@@ -36,8 +36,7 @@ export const appBaseSelector = 'openproject-base';
     <div class="openproject-base--ui-view">
       <ui-view></ui-view>
     </div>
-  `
+  `,
 })
 export class ApplicationBaseComponent {
 }
-

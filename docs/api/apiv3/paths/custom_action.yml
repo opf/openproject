@@ -1,0 +1,63 @@
+# /api/v3/custom_actions/{custom_action_id}
+---
+get:
+  parameters:
+  - description: The id of the custom action to fetch
+    example: '1'
+    in: path
+    name: custom_action_id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  executeImmediately:
+                    href: "/apiChanges project and type in one go"
+                    method: post
+                    title: Execute Change project and type
+                  self:
+                    href: "/api/v3/custom_actions/2"
+                    title: Change project and type
+                _type: CustomAction
+                description: Changes project and type in one go
+                name: Change project and type
+          schema:
+            "$ref": "../components/schemas/custom_action_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit work packages in any project
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: Returned if the custom action does not exist.
+      headers: {}
+  tags:
+  - Custom actions
+  description: ''
+  operationId: View_custom_action
+  summary: View custom action

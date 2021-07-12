@@ -100,7 +100,7 @@ hu:
     caption_rate_history: "Díj előzmények"
     clipboard:
       browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "A vágólapra másolás sikeres!"
     chart:
       type: 'Diagram típus'
       axis_criteria: 'Tengely kritérium'
@@ -199,20 +199,20 @@ hu:
             label_domain: "Domain"
             label_subscriber: "Előfizető"
             label_maximum_users: "Maximális aktív felhasználók"
-            label_starts_at: "Starts at"
+            label_starts_at: "Kezdés ideje:"
             label_expires_at: "Lejárat ekkor"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
-          resend_link: "Resend"
+          next_steps: "Következő lépések"
+          resend_link: "Újraküldés"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_label: "Állapot:"
+          status_confirmed: "megerősítve"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
@@ -224,7 +224,7 @@ hu:
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "Prémium funkciók"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Szakmai támogatás"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -309,9 +309,9 @@ hu:
     label_author: "Szerző: %{user}"
     label_avatar: "Profilkép"
     label_between: "között"
-    label_board: "Board"
+    label_board: "Tábla"
     label_board_locked: "Zárolt"
-    label_board_plural: "Boards"
+    label_board_plural: "Táblák"
     label_board_sticky: "Kiemelt"
     label_change: "Változtat"
     label_create: "Létrehoz"
@@ -377,7 +377,7 @@ hu:
     label_next: " Következő"
     label_no_color: "Nincs szín"
     label_no_data: "Nincs megjelenítendő adat"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "nincs befejezési dátum"
     label_no_start_date: "nincs kezdő dátuma"
     label_no_value: "Nincs érték"
     label_none: "Egyik sem"
@@ -421,7 +421,7 @@ hu:
     label_total_sum: "Total sum"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
-    label_today: "Today"
+    label_today: "Ma"
     label_time_entry_plural: "Eltöltött idő"
     label_up: "Fel"
     label_user_plural: "Felhasználók"
@@ -503,6 +503,32 @@ hu:
           create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'
           timeline_button: 'Aktiválhatja a <b>Gantt-diagramot</b>, hogy létrehozzon egy idővonalat a projekthez.'
           timeline: 'Itt szerkesztheti a projekt tervét. Hozzon létre új fázisokat, mérföldköveket és hozzon létre függőségeket. A csapat minden tagja bármikor megtekintheti és frissítheti a legújabb tervet.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "Email"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Mind'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
     password_confirmation:
       field_description: 'A változás megerősítéséhez adja meg jelszavát.'
       title: 'Adja meg a jelszavát a folytatáshoz'
@@ -523,7 +549,7 @@ hu:
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
-      use_template: "Use template"
+      use_template: "Sablon használata"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
@@ -612,7 +638,7 @@ hu:
       parent_placeholder: "Choose new parent or press escape to cancel."
     autocompleter:
       placeholder: "Gépeljen a kereséshez"
-      notFoundText: "No items found"
+      notFoundText: "Nem található elem"
       typeToSearchText: "Gépeljen a kereséshez"
     repositories:
       select_tag: 'Címke kiválasztása'
@@ -731,7 +757,7 @@ hu:
       label_enable_multi_select: "Többszörös kijelölés engedélyezése"
       label_disable_multi_select: "Többszörös kijelölés tiltása"
       label_filter_add: "Szűrő hozzáadása"
-      label_filter_by_text: "Filter by text"
+      label_filter_by_text: "Szöveg szűrése"
       label_options: "Beállítások"
       label_column_multiselect: "Kombinált legördülő mező: Nyilakkal jelöljön ki, enter-el hagyja jóvá, és backspace-vel töröljön"
       message_error_during_bulk_delete: Hiba történt a feladatcsoport törlése közben.
@@ -740,7 +766,7 @@ hu:
       message_view_spent_time: "Feladatcsoporttal töltött idő megjelenítése"
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
       message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      placeholder_filter_by_text: "Tárgy, leírás, kommentek"
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'
       create:
@@ -831,7 +857,7 @@ hu:
         errors:
           unretrievable_query: "Unable to retrieve view from URL"
           not_found: "Nincs ilyen nézet"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
+          duplicate_query_title: "A nézet neve már létezik. Biztos megváltoztatod?"
         text_no_results: "Nem található egyező nézet"
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
@@ -965,8 +991,8 @@ hu:
         one: "egy gyermek munkacsomag"
         other: "%{count} gyermek feladatcsoport"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 óra"
+        other: "%{count} ó"
         zero: "0 óra"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
@@ -975,12 +1001,12 @@ hu:
       all_projects: "Az összes projektben"
       search: "Keresés"
       close_search: "Keresés bezárása"
-      current_project: "In this project"
-      current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "Ebben a projektben"
+      current_project_and_all_descendants: "Ebben a projektben + alprojektekben"
       title:
         all_projects: "minden projekt"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
+        project_and_subprojects: "az összes alprojektben"
+        search_for: "Keresés"
     views:
       card: 'Kártyák'
       list: 'Tábla'

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { combine, deriveRaw, InputState, multiInput, MultiInputState, State, StatesGroup } from 'reactivestates';
+import {
+  combine, deriveRaw, InputState, multiInput, State, StatesGroup,
+} from 'reactivestates';
 import { filter, map } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
-import { Subject } from "rxjs";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { ChangeMap } from "core-app/shared/components/fields/changeset/changeset";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HookService } from "core-app/features/plugins/hook-service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
+import { Subject } from 'rxjs';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { ChangeMap } from 'core-app/shared/components/fields/changeset/changeset';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';
@@ -91,13 +93,12 @@ export interface ResourceChangesetClass {
 
 @Injectable()
 export class HalResourceEditingService extends StateCacheService<ResourceChangeset> {
-
   /** Committed / saved changes to work packages observable */
   public committedChanges = new Subject<ResourceChangesetCommit>();
 
   constructor(protected readonly injector:Injector,
-              protected readonly halEvents:HalEventsService,
-              protected readonly hook:HookService) {
+    protected readonly halEvents:HalEventsService,
+    protected readonly hook:HookService) {
     super(new ChangesetStates().changesets);
   }
 
@@ -217,7 +218,7 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
    * @return {State<HalResource>}
    */
   public temporaryEditResource<V extends HalResource, T extends ResourceChangeset<V>>(resource:V):State<V> {
-    const combined = combine(resource.state! as State<V>, this.typedState<V, T>(resource) as State<T>);
+    const combined = combine(resource.state! as State<V>, this.typedState<V, T>(resource));
 
     return deriveRaw(combined,
       ($) => $
@@ -230,9 +231,8 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
             }
 
             return resource;
-          })
-        )
-    );
+          }),
+        ));
   }
 
   public stopEditing(resource:HalResource|{ href:string }) {
@@ -247,4 +247,3 @@ export class HalResourceEditingService extends StateCacheService<ResourceChanges
     return Promise.resolve();
   }
 }
-

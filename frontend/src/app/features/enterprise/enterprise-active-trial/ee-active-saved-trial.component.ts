@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,28 +26,34 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef } from "@angular/core";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { EEActiveTrialBase } from "core-app/features/enterprise/enterprise-active-trial/ee-active-trial.base";
+import { Component, ElementRef } from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { EEActiveTrialBase } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-trial.base';
 
 export const enterpriseActiveSavedTrialSelector = 'enterprise-active-saved-trial';
 
 @Component({
   selector: enterpriseActiveSavedTrialSelector,
   templateUrl: './ee-active-trial.component.html',
-  styleUrls: ['./ee-active-trial.component.sass']
+  styleUrls: ['./ee-active-trial.component.sass'],
 })
 export class EEActiveSavedTrialComponent extends EEActiveTrialBase {
-  public subscriber = this.elementRef.nativeElement.dataset['subscriber'];
-  public email = this.elementRef.nativeElement.dataset['email'];
-  public company = this.elementRef.nativeElement.dataset['company'];
-  public domain = this.elementRef.nativeElement.dataset['domain'];
-  public userCount = this.elementRef.nativeElement.dataset['userCount'];
-  public startsAt = this.elementRef.nativeElement.dataset['startsAt'];
-  public expiresAt = this.elementRef.nativeElement.dataset['expiresAt'];
+  public subscriber = this.elementRef.nativeElement.dataset.subscriber;
+
+  public email = this.elementRef.nativeElement.dataset.email;
+
+  public company = this.elementRef.nativeElement.dataset.company;
+
+  public domain = this.elementRef.nativeElement.dataset.domain;
+
+  public userCount = this.elementRef.nativeElement.dataset.userCount;
+
+  public startsAt = this.elementRef.nativeElement.dataset.startsAt;
+
+  public expiresAt = this.elementRef.nativeElement.dataset.expiresAt;
 
   constructor(readonly elementRef:ElementRef,
-              readonly I18n:I18nService) {
+    readonly I18n:I18nService) {
     super(I18n);
   }
 }

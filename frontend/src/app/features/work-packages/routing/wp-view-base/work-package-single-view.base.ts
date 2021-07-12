@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -30,8 +30,8 @@ import { ChangeDetectorRef, Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { OpTitleService } from "core-app/core/html/op-title.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { States } from 'core-app/core/states/states.service';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
@@ -44,16 +44,27 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
+
   @InjectField() I18n!:I18nService;
+
   @InjectField() keepTab:KeepTabService;
+
   @InjectField() PathHelper:PathHelperService;
+
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() wpTableFocus:WorkPackageViewFocusService;
+
   @InjectField() notificationService:WorkPackageNotificationService;
+
   @InjectField() authorisationService:AuthorisationService;
+
   @InjectField() cdRef:ChangeDetectorRef;
+
   @InjectField() readonly titleService:OpTitleService;
+
   @InjectField() readonly apiV3Service:APIV3Service;
+
   @InjectField() readonly hooks:HookService;
 
   // Static texts
@@ -61,13 +72,15 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
+
   public projectIdentifier:string;
 
   public focusAnchorLabel:string;
+
   public showStaticPagePath:string;
 
   constructor(public injector:Injector,
-              protected workPackageId:string) {
+    protected workPackageId:string) {
     super();
     this.initializeTexts();
   }
@@ -84,15 +97,14 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .id(this.workPackageId)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
-          this.workPackage = wp;
-          this.init();
-          this.cdRef.detectChanges();
-        },
-        (error) => this.notificationService.handleRawError(error)
-      );
+        this.workPackage = wp;
+        this.init();
+        this.cdRef.detectChanges();
+      },
+      (error) => this.notificationService.handleRawError(error));
   }
 
   /**
@@ -100,8 +112,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    */
   protected initializeTexts() {
     this.text.tabs = {};
-    ['overview', 'activity', 'relations', 'watchers'].forEach(tab => {
-      this.text.tabs[tab] = this.I18n.t('js.work_packages.tabs.' + tab);
+    ['overview', 'activity', 'relations', 'watchers'].forEach((tab) => {
+      this.text.tabs[tab] = this.I18n.t(`js.work_packages.tabs.${tab}`);
     });
   }
 
@@ -132,7 +144,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     // Listen to tab changes to update the tab label
     this.keepTab.observable
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((tabs:any) => {
         this.updateFocusAnchorLabel(tabs.active);
@@ -144,9 +156,9 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    */
   public updateFocusAnchorLabel(tabName:string):string {
     const tabLabel = this.I18n.t('js.label_work_package_details_you_are_here', {
-      tab: this.I18n.t('js.work_packages.tabs.' + tabName),
+      tab: this.I18n.t(`js.work_packages.tabs.${tabName}`),
       type: this.workPackage.type.name,
-      subject: this.workPackage.subject
+      subject: this.workPackage.subject,
     });
 
     return this.focusAnchorLabel = tabLabel;

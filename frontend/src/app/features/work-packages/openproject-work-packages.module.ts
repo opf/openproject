@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -67,13 +67,13 @@ import { WorkPackageFilterButtonComponent } from 'core-app/features/work-package
 import { WorkPackageDetailsViewButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { WpTableConfigurationColumnsTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/columns-tab.component';
-import { WpTableConfigurationDisplaySettingsTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/display-settings-tab.component';
+import { WpTableConfigurationColumnsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/columns-tab.component';
+import { WpTableConfigurationDisplaySettingsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/display-settings-tab.component';
 import { WpTableConfigurationFiltersTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/filters-tab.component';
-import { WpTableConfigurationSortByTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component';
-import { WpTableConfigurationTimelinesTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
-import { WpTableConfigurationHighlightingTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
-import { WpTableConfigurationRelationSelectorComponent } from "core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration-relation-selector";
+import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component';
+import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
+import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
+import { WpTableConfigurationRelationSelectorComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration-relation-selector';
 import { WorkPackageWatchersTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/watchers-tab.component';
 import { WorkPackageWatcherEntryComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watcher-entry.component';
 import { WorkPackageNewSplitViewComponent } from 'core-app/features/work-packages/components/wp-new/wp-new-split-view.component';
@@ -83,95 +83,94 @@ import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openp
 import { WorkPackageTableSumsRowController } from 'core-app/features/work-packages/components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import { ExternalQueryConfigurationComponent } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.component';
 import { ExternalQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service';
-import { ExternalRelationQueryConfigurationComponent } from "core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.component";
-import { ExternalRelationQueryConfigurationService } from "core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service";
+import { ExternalRelationQueryConfigurationComponent } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.component';
+import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
 import { WorkPackagesListInvalidQueryService } from 'core-app/features/work-packages/components/wp-list/wp-list-invalid-query.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageChildrenQueryComponent } from "core-app/features/work-packages/components/wp-relations/embedded/children/wp-children-query.component";
-import { WpRelationInlineAddExistingComponent } from "core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
-import { WorkPackageRelationQueryComponent } from "core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-query.component";
-import { WorkPackagesBaseComponent } from "core-app/features/work-packages/routing/wp-base/wp--base.component";
-import { WorkPackageSplitViewComponent } from "core-app/features/work-packages/routing/wp-split-view/wp-split-view.component";
-import { WorkPackagesFullViewComponent } from "core-app/features/work-packages/routing/wp-full-view/wp-full-view.component";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageChildrenQueryComponent } from 'core-app/features/work-packages/components/wp-relations/embedded/children/wp-children-query.component';
+import { WpRelationInlineAddExistingComponent } from 'core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component';
+import { WorkPackageRelationQueryComponent } from 'core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-query.component';
+import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
+import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view.component';
+import { WorkPackagesFullViewComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view.component';
 import { AttachmentsUploadComponent } from 'core-app/shared/components/attachments/attachments-upload/attachments-upload.component';
 import { AttachmentListComponent } from 'core-app/shared/components/attachments/attachment-list/attachment-list.component';
-import { QueryFiltersService } from "core-app/features/work-packages/components/wp-query/query-filters.service";
-import { WorkPackageCardViewComponent } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
-import { OpenprojectBcfModule } from "core-app/features/bim/bcf/openproject-bcf.module";
-import { WorkPackageRelationsAutocomplete } from "core-app/features/work-packages/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component";
+import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
+import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { OpenprojectBcfModule } from 'core-app/features/bim/bcf/openproject-bcf.module';
+import { WorkPackageRelationsAutocompleteComponent } from 'core-app/features/work-packages/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.component';
 import { CustomDateActionAdminComponent } from 'core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component';
-import { WorkPackagesTableConfigMenu } from "core-app/features/work-packages/components/wp-table/config-menu/config-menu.component";
-import { WorkPackageViewToggleButton } from "core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component";
-import { WorkPackageViewDropdownMenuDirective } from "core-app/shared/components/op-context-menu/handlers/wp-view-dropdown-menu.directive";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { OpenprojectProjectsModule } from "core-app/features/projects/openproject-projects.module";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { WorkPackageEditActionsBarComponent } from "core-app/features/work-packages/components/edit-actions-bar/wp-edit-actions-bar.component";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { WorkPackageSingleCardComponent } from "core-app/features/work-packages/components/wp-card-view/wp-single-card/wp-single-card.component";
-import { WorkPackageListViewComponent } from "core-app/features/work-packages/routing/wp-list-view/wp-list-view.component";
-import { PartitionedQuerySpacePageComponent } from "core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component";
-import { WorkPackageViewPageComponent } from "core-app/features/work-packages/routing/wp-view-page/wp-view-page.component";
-import { WorkPackageSettingsButtonComponent } from "core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component";
-import { BackButtonComponent } from "core-app/features/work-packages/components/back-routing/back-button.component";
-import { WorkPackagesTableComponent } from "core-app/features/work-packages/components/wp-table/wp-table.component";
-import { WorkPackageGroupToggleDropdownMenuDirective } from "core-app/shared/components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive";
-import { OpenprojectAutocompleterModule } from "core-app/shared/components/autocompleter/openproject-autocompleter.module";
-import { OpWpTabsModule } from "core-app/features/work-packages/components/wp-tabs/wp-tabs.module";
-import { EditFieldControlsModule } from "core-app/shared/components/fields/edit/field-controls/edit-field-controls.module";
-import { DatePickerModal } from "core-app/shared/components/datepicker/datepicker.modal";
-import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
-import { WpButtonMacroModal } from "core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
-import { QuerySharingModal } from "core-app/shared/components/modals/share-modal/query-sharing.modal";
-import { SaveQueryModal } from "core-app/shared/components/modals/save-modal/save-query.modal";
-import { QuerySharingForm } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
-import { WpDestroyModal } from "core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal";
-import { WorkPackageTypeStatusComponent } from "core-app/features/work-packages/components/wp-type-status/wp-type-status.component";
-import { WorkPackageIsolatedQuerySpaceDirective } from "core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive";
-import { WorkPackageBreadcrumbParentComponent } from "core-app/features/work-packages/components/wp-breadcrumb/wp-breadcrumb-parent.component";
-import { WorkPackageSubjectComponent } from "core-app/features/work-packages/components/wp-subject/wp-subject.component";
-import { WorkPackageBreadcrumbComponent } from "core-app/features/work-packages/components/wp-breadcrumb/wp-breadcrumb.component";
-import { UserLinkComponent } from "core-app/shared/components/user-link/user-link.component";
-import { WorkPackageCommentComponent } from "core-app/features/work-packages/components/work-package-comment/work-package-comment.component";
-import { WorkPackageWatcherButtonComponent } from "core-app/features/work-packages/components/wp-watcher-button/wp-watcher-button.component";
-import { WorkPackageCommentFieldComponent } from "core-app/features/work-packages/components/work-package-comment/wp-comment-field.component";
-import { WpResizerDirective } from "core-app/shared/components/resizer/resizer/wp-resizer.component";
+import { WorkPackagesTableConfigMenuComponent } from 'core-app/features/work-packages/components/wp-table/config-menu/config-menu.component';
+import { WorkPackageViewToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
+import { WorkPackageViewDropdownMenuDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-view-dropdown-menu.directive';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { OpenprojectProjectsModule } from 'core-app/features/projects/openproject-projects.module';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { WorkPackageEditActionsBarComponent } from 'core-app/features/work-packages/components/edit-actions-bar/wp-edit-actions-bar.component';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { WorkPackageSingleCardComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-single-card/wp-single-card.component';
+import { WorkPackageListViewComponent } from 'core-app/features/work-packages/routing/wp-list-view/wp-list-view.component';
+import { PartitionedQuerySpacePageComponent } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
+import { WorkPackageViewPageComponent } from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page.component';
+import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
+import { BackButtonComponent } from 'core-app/features/work-packages/components/back-routing/back-button.component';
+import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
+import { WorkPackageGroupToggleDropdownMenuDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-group-toggle-dropdown-menu.directive';
+import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
+import { OpWpTabsModule } from 'core-app/features/work-packages/components/wp-tabs/wp-tabs.module';
+import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.module';
+import { DatePickerModalComponent } from 'core-app/shared/components/datepicker/datepicker.modal';
+import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
+import { WpButtonMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
+import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
+import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
+import { QuerySharingFormComponent } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
+import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
+import { WorkPackageTypeStatusComponent } from 'core-app/features/work-packages/components/wp-type-status/wp-type-status.component';
+import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
+import { WorkPackageBreadcrumbParentComponent } from 'core-app/features/work-packages/components/wp-breadcrumb/wp-breadcrumb-parent.component';
+import { WorkPackageSubjectComponent } from 'core-app/features/work-packages/components/wp-subject/wp-subject.component';
+import { WorkPackageBreadcrumbComponent } from 'core-app/features/work-packages/components/wp-breadcrumb/wp-breadcrumb.component';
+import { UserLinkComponent } from 'core-app/shared/components/user-link/user-link.component';
+import { WorkPackageCommentComponent } from 'core-app/features/work-packages/components/work-package-comment/work-package-comment.component';
+import { WorkPackageWatcherButtonComponent } from 'core-app/features/work-packages/components/wp-watcher-button/wp-watcher-button.component';
+import { WorkPackageCommentFieldComponent } from 'core-app/features/work-packages/components/work-package-comment/wp-comment-field.component';
+import { WpResizerDirective } from 'core-app/shared/components/resizer/resizer/wp-resizer.component';
 import {
   GroupDescriptor,
   WorkPackageSingleViewComponent,
-} from "core-app/features/work-packages/components/wp-single-view/wp-single-view.component";
-import { WorkPackageIsolatedGraphQuerySpaceDirective } from "core-app/features/work-packages/directives/query-space/wp-isolated-graph-query-space.directive";
-import { RevisionActivityComponent } from "core-app/features/work-packages/components/wp-activity/revision/revision-activity.component";
-import { WorkPackageCopySplitViewComponent } from "core-app/features/work-packages/components/wp-copy/wp-copy-split-view.component";
-import { WorkPackageFormAttributeGroupComponent } from "core-app/features/work-packages/components/wp-form-group/wp-attribute-group.component";
-import { WorkPackagesGridComponent } from "core-app/features/work-packages/components/wp-grid/wp-grid.component";
-import { ActivityEntryComponent } from "core-app/features/work-packages/components/wp-activity/activity-entry.component";
-import { ActivityLinkComponent } from "core-app/features/work-packages/components/wp-activity/activity-link.component";
-import { UserActivityComponent } from "core-app/features/work-packages/components/wp-activity/user/user-activity.component";
-import { WorkPackageSplitViewToolbarComponent } from "core-app/features/work-packages/components/wp-details/wp-details-toolbar.component";
-import { WorkPackageCopyFullViewComponent } from "core-app/features/work-packages/components/wp-copy/wp-copy-full-view.component";
-import { OpenprojectTabsModule } from "core-app/shared/components/tabs/openproject-tabs.module";
-import { TimeEntryChangeset } from "core-app/features/work-packages/helpers/time-entries/time-entry-changeset";
-import { QueryFiltersComponent } from "core-app/features/work-packages/components/filters/query-filters/query-filters.component";
-import { FilterDateTimesValueComponent } from "core-app/features/work-packages/components/filters/filter-date-times-value/filter-date-times-value.component";
-import { FilterSearchableMultiselectValueComponent } from "core-app/features/work-packages/components/filters/filter-searchable-multiselect-value/filter-searchable-multiselect-value.component";
-import { QueryFilterComponent } from "core-app/features/work-packages/components/filters/query-filter/query-filter.component";
-import { FilterDatesValueComponent } from "core-app/features/work-packages/components/filters/filter-dates-value/filter-dates-value.component";
-import { FilterStringValueComponent } from "core-app/features/work-packages/components/filters/filter-string-value/filter-string-value.component";
-import { FilterDateValueComponent } from "core-app/features/work-packages/components/filters/filter-date-value/filter-date-value.component";
-import { FilterDateTimeValueComponent } from "core-app/features/work-packages/components/filters/filter-date-time-value/filter-date-time-value.component";
-import { FilterToggledMultiselectValueComponent } from "core-app/features/work-packages/components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component";
-import { WorkPackageFilterByTextInputComponent } from "core-app/features/work-packages/components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component";
-import { FilterIntegerValueComponent } from "core-app/features/work-packages/components/filters/filter-integer-value/filter-integer-value.component";
-import { WorkPackageFilterContainerComponent } from "core-app/features/work-packages/components/filters/filter-container/filter-container.directive";
-import { FilterBooleanValueComponent } from "core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component";
-
+} from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
+import { WorkPackageIsolatedGraphQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-graph-query-space.directive';
+import { RevisionActivityComponent } from 'core-app/features/work-packages/components/wp-activity/revision/revision-activity.component';
+import { WorkPackageCopySplitViewComponent } from 'core-app/features/work-packages/components/wp-copy/wp-copy-split-view.component';
+import { WorkPackageFormAttributeGroupComponent } from 'core-app/features/work-packages/components/wp-form-group/wp-attribute-group.component';
+import { WorkPackagesGridComponent } from 'core-app/features/work-packages/components/wp-grid/wp-grid.component';
+import { ActivityEntryComponent } from 'core-app/features/work-packages/components/wp-activity/activity-entry.component';
+import { ActivityLinkComponent } from 'core-app/features/work-packages/components/wp-activity/activity-link.component';
+import { UserActivityComponent } from 'core-app/features/work-packages/components/wp-activity/user/user-activity.component';
+import { WorkPackageSplitViewToolbarComponent } from 'core-app/features/work-packages/components/wp-details/wp-details-toolbar.component';
+import { WorkPackageCopyFullViewComponent } from 'core-app/features/work-packages/components/wp-copy/wp-copy-full-view.component';
+import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
+import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
+import { QueryFiltersComponent } from 'core-app/features/work-packages/components/filters/query-filters/query-filters.component';
+import { FilterDateTimesValueComponent } from 'core-app/features/work-packages/components/filters/filter-date-times-value/filter-date-times-value.component';
+import { FilterSearchableMultiselectValueComponent } from 'core-app/features/work-packages/components/filters/filter-searchable-multiselect-value/filter-searchable-multiselect-value.component';
+import { QueryFilterComponent } from 'core-app/features/work-packages/components/filters/query-filter/query-filter.component';
+import { FilterDatesValueComponent } from 'core-app/features/work-packages/components/filters/filter-dates-value/filter-dates-value.component';
+import { FilterStringValueComponent } from 'core-app/features/work-packages/components/filters/filter-string-value/filter-string-value.component';
+import { FilterDateValueComponent } from 'core-app/features/work-packages/components/filters/filter-date-value/filter-date-value.component';
+import { FilterDateTimeValueComponent } from 'core-app/features/work-packages/components/filters/filter-date-time-value/filter-date-time-value.component';
+import { FilterToggledMultiselectValueComponent } from 'core-app/features/work-packages/components/filters/filter-toggled-multiselect-value/filter-toggled-multiselect-value.component';
+import { WorkPackageFilterByTextInputComponent } from 'core-app/features/work-packages/components/filters/quick-filter-by-text-input/quick-filter-by-text-input.component';
+import { FilterIntegerValueComponent } from 'core-app/features/work-packages/components/filters/filter-integer-value/filter-integer-value.component';
+import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
+import { FilterBooleanValueComponent } from 'core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component';
 
 @NgModule({
   imports: [
@@ -264,7 +263,7 @@ import { FilterBooleanValueComponent } from "core-app/features/work-packages/com
     WorkPackagesGridComponent,
 
     WorkPackagesTableComponent,
-    WorkPackagesTableConfigMenu,
+    WorkPackagesTableConfigMenuComponent,
     WorkPackageTablePaginationComponent,
 
     WpResizerDirective,
@@ -344,9 +343,8 @@ import { FilterBooleanValueComponent } from "core-app/features/work-packages/com
     WorkPackageRelationRowComponent,
     WorkPackageRelationsCreateComponent,
     WorkPackageRelationsHierarchyComponent,
-    WorkPackageRelationsAutocomplete,
+    WorkPackageRelationsAutocompleteComponent,
     WorkPackageBreadcrumbParentComponent,
-
 
     // Split view
     WorkPackageDetailsViewButtonComponent,
@@ -361,19 +359,19 @@ import { FilterBooleanValueComponent } from "core-app/features/work-packages/com
 
     // Modals
     WpTableConfigurationModalComponent,
-    WpTableConfigurationColumnsTab,
-    WpTableConfigurationDisplaySettingsTab,
+    WpTableConfigurationColumnsTabComponent,
+    WpTableConfigurationDisplaySettingsTabComponent,
     WpTableConfigurationFiltersTab,
-    WpTableConfigurationSortByTab,
-    WpTableConfigurationTimelinesTab,
-    WpTableConfigurationHighlightingTab,
+    WpTableConfigurationSortByTabComponent,
+    WpTableConfigurationTimelinesTabComponent,
+    WpTableConfigurationHighlightingTabComponent,
     WpTableConfigurationRelationSelectorComponent,
-    WpTableExportModal,
-    QuerySharingForm,
-    QuerySharingModal,
-    SaveQueryModal,
-    WpDestroyModal,
-    DatePickerModal,
+    WpTableExportModalComponent,
+    QuerySharingFormComponent,
+    QuerySharingModalComponent,
+    SaveQueryModalComponent,
+    WpDestroyModalComponent,
+    DatePickerModalComponent,
 
     // CustomActions
     WpCustomActionComponent,
@@ -383,13 +381,12 @@ import { FilterBooleanValueComponent } from "core-app/features/work-packages/com
     // CKEditor macros which could not be included in the
     // editor module to avoid circular dependencies
     EmbeddedTablesMacroComponent,
-    WpButtonMacroModal,
+    WpButtonMacroModalComponent,
 
     // Card view
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
-    WorkPackageViewToggleButton,
-
+    WorkPackageViewToggleButtonComponent,
 
   ],
   exports: [
@@ -423,7 +420,7 @@ import { FilterBooleanValueComponent } from "core-app/features/work-packages/com
     WorkPackageSingleViewComponent,
     WorkPackageSplitViewComponent,
     BackButtonComponent,
-  ]
+  ],
 })
 export class OpenprojectWorkPackagesModule {
   static bootstrapAttributeGroupsCalled = false;
@@ -447,22 +444,17 @@ export class OpenprojectWorkPackagesModule {
     hookService.register('attributeGroupComponent', (group:GroupDescriptor, workPackage:WorkPackageResource) => {
       if (group.type === 'WorkPackageFormAttributeGroup') {
         return WorkPackageFormAttributeGroupComponent;
-      } else if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
+      } if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
         return WorkPackageChildrenQueryComponent;
-      } else if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
+      } if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
         return WorkPackageRelationQueryComponent;
-      } else {
-        return null;
       }
+      return null;
     });
 
-    hookService.register('workPackageAttachmentUploadComponent', (workPackage:WorkPackageResource) => {
-      return AttachmentsUploadComponent;
-    });
+    hookService.register('workPackageAttachmentUploadComponent', (workPackage:WorkPackageResource) => AttachmentsUploadComponent);
 
-    hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => {
-      return AttachmentListComponent;
-    });
+    hookService.register('workPackageAttachmentListComponent', (workPackage:WorkPackageResource) => AttachmentListComponent);
 
     /** Return specialized work package changeset for editing service */
     hookService.register('halResourceChangesetClass', (resource:HalResource) => {

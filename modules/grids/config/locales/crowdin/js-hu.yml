@@ -3,7 +3,7 @@ hu:
     grid:
       add_widget: 'Widget hozzáadása'
       remove: 'Widget eltávolítása'
-      configure: 'Configure widget'
+      configure: 'Widget konfigurálása'
       upsale:
         text: "Néhány kütyü, például a munkacsomag-grafikon-kütyü, csak a"
         link: 'enterprise edition.'

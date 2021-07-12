@@ -479,7 +479,6 @@ cs:
         force_password_change: "Vynutit změnu hesla při příštím přihlášení"
         language: "Jazyk"
         last_login_on: "Datum posledního přihlášení"
-        mail_notification: "E-mailová upozornění"
         new_password: "Nové heslo"
         password_confirmation: "Potvrzení"
         consented_at: "Souhlas udělen"
@@ -609,6 +608,13 @@ cs:
           overlaps: 'se překrývá.'
           outside: 'je mimo mřížku.'
           end_before_start: 'konečná hodnota musí být větší než počáteční hodnota.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -759,6 +765,11 @@ cs:
       status: "Stav pracovního balíčku"
       member: "Člen"
       news: "Novinky"
+      notification:
+        one: "Notification"
+        few: "Notifications"
+        many: "Notifications"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Vlastní dotaz"
@@ -1305,6 +1316,9 @@ cs:
   instructions_after_logout: "Můžete se znovu přihlásit kliknutím na tlačítko %{signin}."
   instructions_after_error: "Zkuste se znovu přihlásit kliknutím na %{signin}. Pokud chyba přetrvává, požádejte správce o pomoc."
   menus:
+    admin:
+      mail_notification: "E-mailová upozornění"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1317,6 +1331,14 @@ cs:
         action: "Akce"
         expiration: "Vyprší"
       indefinite_expiration: "Nikdy"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Přístupnost"
   label_account: "Účet"
   label_active: "Aktivní"
@@ -2264,6 +2286,10 @@ cs:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Dokumentace"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Způsob zasílání emailu"
   setting_sendmail_location: "Umístění spustitelného souboru sendmail"
   setting_smtp_enable_starttls_auto: "Automaticky použít STARTTLS, pokud je dostupné"
@@ -2300,7 +2326,6 @@ cs:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Formát data"
   setting_default_language: "Výchozí jazyk"
-  setting_default_notification_option: "Výchozí nastavení oznámení"
   setting_default_projects_modules: "Výchozí zapnutné moduly pro nový projekt"
   setting_default_projects_public: "Nové projekty nastavovat jako veřejné"
   setting_diff_max_lines_displayed: "Maximální počet zobrazených řádků rozdílu"
@@ -2310,6 +2335,8 @@ cs:
   setting_email_login: "Použít e-mail jako přihlášení"
   setting_enabled_scm: "Povolit SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Povolit kanály"
   setting_feeds_limit: "Limit obsahu kanálů"
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
@@ -2323,7 +2350,7 @@ cs:
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
   setting_work_packages_export_limit: "Limit exportu pracovních balíčků"
-  setting_journal_aggregation_time_minutes: "Zobrazit deníky jako agregované"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Logovat uživatelský login a emailovou adresu pro všechny požadavky"
   setting_login_required: "Vyžadována autentizace"
   setting_mail_from: "Odchozí emailová adresa"
@@ -2378,6 +2405,10 @@ cs:
     passwords: "Hesla"
     session: "Relace"
     brute_force_prevention: "Automatizované blokování uživatelů"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2458,7 +2489,7 @@ cs:
   text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
   text_work_packages_ref_in_commit_messages: "Odkazování a opravování pracovních balíčků ve zprávách commitu"
   text_journal_added: "%{label} %{value} přidán"
-  text_journal_aggregation_time_explanation: "Kombinujte časopisy pro zobrazení, pokud je jejich věkový rozdíl menší než stanovený čas. To také zpozdí oznámení pošty o stejný čas."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} změněn z %{old} <br/><strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} změněn z %{old} \nna %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
@@ -2488,7 +2519,7 @@ cs:
   text_regexp_info: "např. ^[A-Z0-9]+$"
   text_regexp_multiline: 'regex je použit v režimu více řádků. např.: ^---\s+'
   text_repository_usernames_mapping: "Vyberte nebo aktualizujte mapovaný uživatel OpenProject ke každému uživatelskému jménu nalezenému v protokolu repozitáře.\nUživatelé se stejným OpenProject a repozitářovým jménem nebo e-mailem jsou automaticky mapováni."
-  text_select_mail_notifications: "Vyberte akce, pro které bude zasíláno upozornění emailem."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplikováno v sadě změn %{value}."
   text_table_difference_description: "V této tabulce je zobrazeno jediné %{entries} . Rozdíl mezi dvěma položkami můžete zobrazit prvním výběrem zaškrtávacích polí v tabulce. Při kliknutí na tlačítko níže jsou rozdíly zobrazeny."
   text_time_logged_by_changeset: "Aplikováno v sadě změn %{value}."
@@ -2715,10 +2746,6 @@ cs:
     password_change_unsupported: Změna hesla není podporována.
     registered: "registrován"
     reset_failed_logins: "Resetovat nezdařené přihlášení"
-    settings:
-      mail_notifications: "Odeslat oznámení e-mailem"
-      mail_project_explanaition: "U projektů, které nebyly vybrány, budete dostávat oznámení pouze o vašich či o sledovaných položkách (např. o položkách jejichž jste autor nebo ke kterým jste přiřazen(a))."
-      mail_self_notified: "Chci být informován o změnách, které dělám sám"
     status_user_and_brute_force: "%{user} a %{brute_force}"
     status_change: "Změna stavu"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."

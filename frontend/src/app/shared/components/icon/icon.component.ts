@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -30,7 +30,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'op-icon',
-  host: { 'class': 'op-icon--wrapper' },
+  host: { class: 'op-icon--wrapper' },
   template: `
       <i [ngClass]="iconClasses"
          [title]="iconTitle"
@@ -39,9 +39,10 @@ import { Component, Input } from '@angular/core';
         class="hidden-for-sighted"
         [textContent]="iconTitle"
         *ngIf="iconTitle"></span>
-    `
+    `,
 })
 export class OpIconComponent {
   @Input('icon-classes') iconClasses:string;
+
   @Input('icon-title') iconTitle = '';
 }

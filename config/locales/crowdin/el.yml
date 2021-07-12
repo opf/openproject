@@ -472,7 +472,6 @@ el:
         force_password_change: "Επιβολή αλλαγής κωδικού πρόσβασης στην επόμενη σύνδεση"
         language: "Γλώσσα"
         last_login_on: "Τελευταία σύνδεση"
-        mail_notification: "Ειδοποιήσεις email"
         new_password: "Νέος κωδικός πρόσβασης"
         password_confirmation: "Επιβεβαίωση"
         consented_at: "Συγκατατίθεμαι σε"
@@ -602,6 +601,13 @@ el:
           overlaps: 'επικάλυψη.'
           outside: 'είναι εκτός πλέγματος.'
           end_before_start: 'η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -748,6 +754,9 @@ el:
       status: "Κατάσταση εργασίας"
       member: "Μέλος"
       news: "Νέα"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Placeholder χρήστης"
       project: "Έργο"
       query: "Προσαρμοσμένη αναζήτηση"
@@ -1268,6 +1277,9 @@ el:
   instructions_after_logout: "Μπορείτε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}."
   instructions_after_error: "Μπορείτε να δοκιμάσετε να συνδεθείτε ξανά κάνοντας κλικ στο %{signin}. Αν το σφάλμα παραμένει, ρωτήστε τον διαχειριστή σας για βοήθεια."
   menus:
+    admin:
+      mail_notification: "Ειδοποιήσεις email"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Άνοιγμα μενού γρήγορης προσθήκης"
   my_account:
@@ -1280,6 +1292,14 @@ el:
         action: "Ενέργεια"
         expiration: "Λήγει"
       indefinite_expiration: "Ποτέ"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Προσβασιμότητα"
   label_account: "Λογαριασμός"
   label_active: "Ενεργό"
@@ -2225,6 +2245,10 @@ el:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) επιτρεπόμενες προελεύσεις"
   setting_apiv3_cors_origins_text_html: >
     Εάν είναι ενεργοποιημένο το CORS, αυτές είναι οι πηγές που επιτρέπεται να έχουν πρόσβαση στο OpenProject API. <br/> Παρακαλώ ελέγξτε το <a href="%{origin_link}" target="_blank">Τεκμηρίωση στην κεφαλίδα προέλευσης</a> για τον τρόπο καθορισμού των αναμενόμενων τιμών.
+  setting_apiv3_docs: "Τεκμηρίωση"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Μέθοδος αποστολής email"
   setting_sendmail_location: "Τοποθεσία του εκτελέσιμου sendmail"
   setting_smtp_enable_starttls_auto: "Αυτόματη χρήση STARTTLS αν είναι διαθέσιμο"
@@ -2261,7 +2285,6 @@ el:
   setting_first_week_of_year: "Η πρώτη εβδομάδα του έτους περιέχει"
   setting_date_format: "Μορφηποίηση ημερομηνίας"
   setting_default_language: "Προεπιλεγμένη γλώσσα"
-  setting_default_notification_option: "Προεπιλεγμένη επιλογή ειδοποιήσεων"
   setting_default_projects_modules: "Ενότητα ενεργοποιημένες από προεπιλογή για τα νέα έργα"
   setting_default_projects_public: "Τα νέα έργα είναι δημόσια από προεπιλογή"
   setting_diff_max_lines_displayed: "Εμφανίζεται ο μέγιστος αριθμός γραμμών diff"
@@ -2271,6 +2294,8 @@ el:
   setting_email_login: "Χρησιμοποιήστε email για είσοδο"
   setting_enabled_scm: "Ενεργοποίηση SCM"
   setting_enabled_projects_columns: "Ορατό στη λίστα έργων"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
@@ -2284,7 +2309,7 @@ el:
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
   setting_work_packages_export_limit: "Όριο εξαγωγών πακέτων εργασίας"
-  setting_journal_aggregation_time_minutes: "Εμφάνιση ημερολογίων συναθροισμένα μέσα σε"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Καταγραφή των στοιχείων εισόδου, του ονόματος και της διεύθυνσης email του χρήστη για όλα τα αιτήματα"
   setting_login_required: "Απαιτείται ταυτοποίηση"
   setting_mail_from: "Διεύθυνση email μετάδοσης"
@@ -2339,6 +2364,10 @@ el:
     passwords: "Κωδικοί πρόσβασης"
     session: "Συνεδρία"
     brute_force_prevention: "Αυτόματο μπλοκάρισμα χρήστη"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2420,7 +2449,7 @@ el:
   text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"
-  text_journal_aggregation_time_explanation: "Συνδυάστε τα ημερολόγια που εμφανίζονται αν η διαφορά ηλικίας τους είναι μικρότερη από το καθορισμένο χρονικό διάστημα. Αυτό θα καθυστερήσει τις ειδοποιήσεις email για τον ίδιο χρόνο."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "Το %{label} άλλαξε από %{old} <br/><strong>σε</strong> %{new}"
   text_journal_changed_plain: "Το %{label} άλλαξε από %{old} \nσε %{new}"
   text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
@@ -2450,7 +2479,7 @@ el:
   text_regexp_info: "π.χ. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Το regex εφαρμόστηκε σε μια λειτουργία πολλαπλών γραμμών. π.χ., ^---\s+'
   text_repository_usernames_mapping: "Επιλέξτε ή ενημερώστε τον χρήστη OpenProject που αντιστοιχεί σε κάθε όνομα χρήστη στο ιστορικό του αποθετηρίου.\nΧρήστες με το ίδιο όνομα χρήστη στο OpenProject και το αποθετήριο ή email αντιστοιχίζονται αυτόματα."
-  text_select_mail_notifications: "Επιλογή ενεργειών για τις οποίες θα πρέπει να αποσταλεί ειδοποίηση με email."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Εφαρμόστηκε στις αλλαγές %{value}."
   text_table_difference_description: "Σε αυτό τον πίνακα εμφανίζονται τα μοναδικά %{entries}. Μπορείτε να εμφανίσετε τη διαφορά μεταξύ δύο οποιονδήποτε καταχωρήσεων επιλέγοντας πρώτα τα αντίστοιχα checkboxes στον πίνακα. Όταν κάνετε κλικ στο κουμπί κάτω από τον πίνακα θα εμφανιστούν οι διαφορές."
   text_time_logged_by_changeset: "Εφαρμόστηκε στις αλλαγές %{value}."
@@ -2673,10 +2702,6 @@ el:
     password_change_unsupported: Η αλλαγή κωδικού πρόσβασης δεν υποστηρίζεται.
     registered: "εγγεγραμμένο"
     reset_failed_logins: "Επαναφορά αποτυχημένων συνδέσεων"
-    settings:
-      mail_notifications: "Αποστολή ειδοποιήσεων με email"
-      mail_project_explanaition: "Για μη επιλεγμένα έργα, θα λάβετε ειδοποιήσεις μόνο για πράγματα που παρακολουθείτε ή στα οποία συμμετέχετε (π.χ. πακέτα εργασίας των οποίων είστε συγγραφέας ή σας έχουν ανατεθεί)."
-      mail_self_notified: "Θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
     status_user_and_brute_force: "%{user} και %{brute_force}"
     status_change: "Αλλαγή κατάστασης"
     text_change_disabled_for_provider_login: "Το όνομα έχει οριστεί από τον πάροχο σύνδεσης και γι'αυτό δεν μπορεί να αλλαχθεί."

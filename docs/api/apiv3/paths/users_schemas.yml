@@ -1,0 +1,138 @@
+# /api/v3/users/schemas
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _dependencies: []
+                _links:
+                  self:
+                    href: "/api/v3/users/schema"
+                _type: Schema
+                admin:
+                  hasDefault: false
+                  name: Administrator
+                  options: {}
+                  required: false
+                  type: Boolean
+                  writable: true
+                avatar:
+                  hasDefault: false
+                  name: Avatar
+                  options: {}
+                  required: false
+                  type: String
+                  writable: false
+                createdAt:
+                  hasDefault: false
+                  name: Created on
+                  options: {}
+                  required: true
+                  type: DateTime
+                  writable: false
+                customField1:
+                  hasDefault: false
+                  name: User String CF
+                  required: false
+                  type: String
+                  writable: true
+                customField2:
+                  hasDefault: false
+                  location: _links
+                  name: User List cf
+                  required: false
+                  type: CustomOption
+                  writable: true
+                firstName:
+                  hasDefault: false
+                  maxLength: 255
+                  minLength: 1
+                  name: First name
+                  options: {}
+                  required: true
+                  type: String
+                  writable: false
+                id:
+                  hasDefault: false
+                  name: ID
+                  options: {}
+                  required: true
+                  type: Integer
+                  writable: false
+                identityUrl:
+                  hasDefault: false
+                  name: Identity url
+                  options: {}
+                  required: false
+                  type: String
+                  writable: true
+                language:
+                  hasDefault: false
+                  name: Language
+                  options: {}
+                  required: false
+                  type: String
+                  writable: true
+                lastName:
+                  hasDefault: false
+                  maxLength: 255
+                  minLength: 1
+                  name: Last name
+                  options: {}
+                  required: true
+                  type: String
+                  writable: false
+                login:
+                  hasDefault: false
+                  maxLength: 255
+                  minLength: 1
+                  name: Username
+                  options: {}
+                  required: true
+                  type: String
+                  writable: true
+                mail:
+                  hasDefault: false
+                  maxLength: 255
+                  minLength: 1
+                  name: Email
+                  options: {}
+                  required: true
+                  type: String
+                  writable: true
+                password:
+                  hasDefault: false
+                  name: Password
+                  options: {}
+                  required: false
+                  type: Password
+                  writable: false
+                status:
+                  hasDefault: false
+                  name: Status
+                  options: {}
+                  required: false
+                  type: String
+                  writable: true
+                updatedAt:
+                  hasDefault: false
+                  name: Updated on
+                  options: {}
+                  required: true
+                  type: DateTime
+                  writable: false
+          schema:
+            "$ref": "../components/schemas/view_user_schema_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Users
+  description: The schema response use two exemplary custom fields that extend the
+    schema response. Depending on your instance and custom field configuration, the
+    response will look somewhat different.
+  operationId: View_user_schema
+  summary: View user schema

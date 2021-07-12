@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,35 +26,37 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  ChangeDetectorRef, Component, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { ISchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Component({
   selector: 'wp-status-button',
   styleUrls: ['./wp-status-button.component.sass'],
-  templateUrl: './wp-status-button.html'
+  templateUrl: './wp-status-button.html',
 })
 export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implements OnInit {
   @Input('workPackage') public workPackage:WorkPackageResource;
+
   @Input('containerClass') public containerClass:string;
 
   public text = {
     explanation: this.I18n.t('js.label_edit_status'),
     workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only'),
-    workPackageStatusBlocked: this.I18n.t('js.work_packages.message_work_package_status_blocked')
+    workPackageStatusBlocked: this.I18n.t('js.work_packages.message_work_package_status_blocked'),
   };
 
   constructor(readonly I18n:I18nService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly schemaCache:SchemaCacheService,
-              readonly halEditing:HalResourceEditingService) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly schemaCache:SchemaCacheService,
+    readonly halEditing:HalResourceEditingService) {
     super();
   }
 
@@ -63,7 +65,7 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
       .temporaryEditResource(this.workPackage)
       .values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp) => {
         this.workPackage = wp;
@@ -79,15 +81,14 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
   public get buttonTitle() {
     if (this.schema.isReadonly) {
       return this.text.workPackageReadOnly;
-    } else if (this.schema.isEditable && !this.allowed) {
+    } if (this.schema.isEditable && !this.allowed) {
       return this.text.workPackageStatusBlocked;
-    } else {
-      return '';
     }
+    return '';
   }
 
   public get statusHighlightClass() {
-    const status = this.status;
+    const { status } = this;
     if (!status) {
       return;
     }
@@ -109,8 +110,7 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
   private get schema() {
     if (this.halEditing.typedState(this.workPackage).hasValue()) {
       return this.halEditing.typedState(this.workPackage).value!.schema;
-    } else {
-      return this.schemaCache.of(this.workPackage) as ISchemaProxy;
     }
+    return this.schemaCache.of(this.workPackage);
   }
 }

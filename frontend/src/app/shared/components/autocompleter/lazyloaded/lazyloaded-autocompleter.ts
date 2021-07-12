@@ -56,7 +56,7 @@ export abstract class ILazyAutocompleterBridge<T> {
   private fuzzySearch(items:IAutocompleteItem<T>[], term:string) {
     if (term === '') {
       return items;
-    } else if (term.length >= 3) {
+    } if (term.length >= 3) {
       const literalMatches = this.literalSearch(items, term);
 
       if (literalMatches.length > 0) {
@@ -79,7 +79,7 @@ export abstract class ILazyAutocompleterBridge<T> {
     const results:IAutocompleteItem<T>[] = [];
     const str:string = term.toLowerCase();
 
-    items.forEach(e => {
+    items.forEach((e) => {
       if (e.label.toLowerCase().indexOf(str) !== -1) {
         results.push(e);
       }
@@ -98,11 +98,11 @@ export abstract class ILazyAutocompleterBridge<T> {
     // By default, set all to match
     const results:IAutocompleteItem<T>[] = [];
 
-    matched.forEach(el => {
+    matched.forEach((el) => {
       results.push({
         label: el.label,
         object: el.object,
-        render: 'match'
+        render: 'match',
       } as IAutocompleteItem<T>);
     });
 
@@ -121,7 +121,7 @@ export abstract class ILazyAutocompleterBridge<T> {
       distance: 10000, // allow the term to appear anywhere
       maxPatternLength: 16,
       minMatchCharLength: 2,
-      keys: ['label'] as any
+      keys: ['label'] as any,
     };
 
     this.fuseInstance = new Fuse(items, options);
@@ -132,7 +132,7 @@ export abstract class ILazyAutocompleterBridge<T> {
 
     return {
       delay: 50,
-      source: function (request:any, response:any) {
+      source(request:any, response:any) {
         const fuzzyResults = ctrl.fuzzySearch(autocompleteValues, request.term);
         response(ctrl.augmentedResultSet(autocompleteValues, fuzzyResults));
       },
@@ -146,7 +146,7 @@ export abstract class ILazyAutocompleterBridge<T> {
         ctrl.onNoResultsFound(event, ui);
       },
       autoFocus: true,
-      minLength: 0
+      minLength: 0,
     };
   }
 }
@@ -158,23 +158,23 @@ export namespace LazyLoadedAutocompleter {
    * @param ul
    */
   function isScrollbarBottom(container:JQuery) {
-    var height = container.outerHeight()!;
-    var scrollHeight = container[0].scrollHeight;
-    var scrollTop = container.scrollTop()!;
+    const height = container.outerHeight()!;
+    const { scrollHeight } = container[0];
+    const scrollTop = container.scrollTop()!;
     return scrollTop >= (scrollHeight - height);
   }
 
   export function register<T>(name:string, ctrl:ILazyAutocompleterBridge<T>) {
     jQuery.widget(`custom.${name}`, jQuery.ui.autocomplete, {
-      _create: function (this:any) {
+      _create(this:any) {
         ctrl.currentPage = 0;
         this._super();
         this.widget().menu('option', 'items', '> .ui-matched-item');
         this._search('');
       },
 
-      _renderMenu: function (this:any, ul:HTMLElement, items:IAutocompleteItem<T>[]) {
-        //remove scroll event to prevent attaching multiple scroll events to one container element
+      _renderMenu(this:any, ul:HTMLElement, items:IAutocompleteItem<T>[]) {
+        // remove scroll event to prevent attaching multiple scroll events to one container element
         jQuery(ul).unbind('scroll');
 
         this._renderLazyMenu(ul, items);
@@ -192,7 +192,7 @@ export namespace LazyLoadedAutocompleter {
         }
 
         // Insert elements of this page
-        jQuery.each(pageElements, function (index, item) {
+        jQuery.each(pageElements, (index, item) => {
           widget._renderItemData(ul, item);
         });
 
@@ -217,9 +217,9 @@ export namespace LazyLoadedAutocompleter {
         return Math.ceil(items.length / ctrl.maxItemsPerPage);
       },
 
-      _repositionMenu: function (this:any, container:JQuery) {
+      _repositionMenu(this:any, container:JQuery) {
         const widget = this;
-        const menu = widget.menu;
+        const { menu } = widget;
 
         menu.refresh();
 
@@ -232,12 +232,12 @@ export namespace LazyLoadedAutocompleter {
         }
       },
 
-      _resizeMenu: function (this:any) {
-        var ul = this.menu.element;
+      _resizeMenu(this:any) {
+        const ul = this.menu.element;
         ul.outerWidth(this.element.outerWidth());
       },
 
-      _renderItem: function (this:any, ul:JQuery, item:IAutocompleteItem<T>) {
+      _renderItem(this:any, ul:JQuery, item:IAutocompleteItem<T>) {
         const term = this.element.val();
         const disabled = item.render === 'disabled';
         const div = jQuery('<div>').addClass('ui-menu-item-wrapper');
@@ -257,7 +257,7 @@ export namespace LazyLoadedAutocompleter {
         return element;
       },
 
-      _renderLazyMenu: function (this:any, ul:Element, items:IAutocompleteItem<T>[]) {
+      _renderLazyMenu(this:any, ul:Element, items:IAutocompleteItem<T>[]) {
         const widget = this;
         const container = jQuery(ul) as JQuery;
         const pages = this._pages(items);
@@ -268,7 +268,7 @@ export namespace LazyLoadedAutocompleter {
 
         widget._renderMenuPage(ul, items, 0);
 
-        container.scroll(function () {
+        container.scroll(() => {
           if (isScrollbarBottom(container)) {
             if (++ctrl.currentPage >= pages) {
               return;
@@ -281,7 +281,7 @@ export namespace LazyLoadedAutocompleter {
             widget._repositionMenu(ul);
           }
         });
-      }
+      },
     });
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class CollectionResource<T = HalResource> extends HalResource {
   public elements:T[];
+
   public count:number;
+
   public total:number;
+
   public pageSize:number;
+
   public offset:number;
 
   /**
@@ -42,8 +46,7 @@ export class CollectionResource<T = HalResource> extends HalResource {
   public updateElements():Promise<unknown> {
     if (this.href) {
       return this.$load().then((collection:this) => this.elements = collection.elements);
-    } else {
-      return Promise.resolve();
     }
+    return Promise.resolve();
   }
 }

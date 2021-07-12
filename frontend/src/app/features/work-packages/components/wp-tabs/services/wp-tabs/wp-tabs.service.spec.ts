@@ -1,16 +1,16 @@
 import { HttpClientModule } from '@angular/common/http';
-import { Injector } from '@angular/core';
-import { Input } from '@angular/core';
+import { Injector, Input } from '@angular/core';
+
 import { TestBed } from '@angular/core/testing';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { StateService } from '@uirouter/angular';
+import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { TabComponent } from '../../components/wp-tab-wrapper/tab';
-import { StateService } from "@uirouter/angular";
-import { WorkPackageTabsService } from "core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service";
 
 describe('WpTabsService', () => {
   let service:WorkPackageTabsService;
-  let workPackage:any = { id: 1234 };
+  const workPackage:any = { id: 1234 };
   let injector:Injector;
   let halResourceService:HalResourceService;
 
@@ -38,8 +38,8 @@ describe('WpTabsService', () => {
         HttpClientModule,
       ],
       providers: [
-        { provide: StateService, useValue: { includes: () => false } }
-      ]
+        { provide: StateService, useValue: { includes: () => false } },
+      ],
     });
     service = TestBed.inject(WorkPackageTabsService);
     (service as any).registeredTabs = [];

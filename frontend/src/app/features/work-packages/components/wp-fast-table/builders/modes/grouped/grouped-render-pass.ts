@@ -1,28 +1,26 @@
 import { Injector } from '@angular/core';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { collapsedRowClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
+import { GroupSumsBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder';
+import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { WorkPackageTable } from '../../../wp-fast-table';
 import { WorkPackageTableRow } from '../../../wp-table.interfaces';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { PlainRenderPass } from '../plain/plain-render-pass';
 import { groupClassNameFor, GroupHeaderBuilder } from './group-header-builder';
 import { groupByProperty, groupedRowClassName } from './grouped-rows-helpers';
-import { collapsedRowClass } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants";
-import { GroupSumsBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-sums-builder";
-import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
 
 export const groupRowClass = '-group-row';
 
 export class GroupedRenderPass extends PlainRenderPass {
-
   private sumsBuilder = new GroupSumsBuilder(this.injector, this.workPackageTable);
 
   constructor(public readonly injector:Injector,
-              public workPackageTable:WorkPackageTable,
-              public groups:GroupObject[],
-              public headerBuilder:GroupHeaderBuilder,
-              public colspan:number) {
-
+    public workPackageTable:WorkPackageTable,
+    public groups:GroupObject[],
+    public headerBuilder:GroupHeaderBuilder,
+    public colspan:number) {
     super(injector, workPackageTable, new SingleRowBuilder(injector, workPackageTable));
   }
 
@@ -31,7 +29,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    */
   protected doRender() {
     let currentGroup:GroupObject | null = null;
-    const length = this.workPackageTable.originalRows.length;
+    const { length } = this.workPackageTable.originalRows;
     this.workPackageTable.originalRows.forEach((wpId:string, index:number) => {
       const row = this.workPackageTable.originalRowIndex[wpId];
       const nextGroup = this.matchingGroup(row.object);
@@ -78,8 +76,8 @@ export class GroupedRenderPass extends PlainRenderPass {
         return this.matchesMultiValue(property as HalResource[], group);
       }
 
-      //// If its a linked resource, compare the href,
-      //// which is an array of links the resource offers
+      /// / If its a linked resource, compare the href,
+      /// / which is an array of links the resource offers
       if (property && property.href) {
         return !!_.find(group._links.valueLink, (l:any):any => property.href === l.href);
       }
@@ -104,14 +102,12 @@ export class GroupedRenderPass extends PlainRenderPass {
       return false;
     }
 
-    const joinedOrderedHrefs = (objects:any[]) => {
-      return _.map(objects, object => object.href).sort().join(', ');
-    };
+    const joinedOrderedHrefs = (objects:any[]) => _.map(objects, (object) => object.href).sort().join(', ');
 
     return _.isEqualWith(
       property,
       group.href,
-      (a, b) => joinedOrderedHrefs(a) === joinedOrderedHrefs(b)
+      (a, b) => joinedOrderedHrefs(a) === joinedOrderedHrefs(b),
     );
   }
 
@@ -119,7 +115,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    * Enhance a row from the rowBuilder with group information.
    */
   private buildSingleRow(row:WorkPackageTableRow):void {
-    const group = row.group;
+    const { group } = row;
 
     if (!group) {
       console.warn("All rows should have a group, but this one doesn't %O", row);

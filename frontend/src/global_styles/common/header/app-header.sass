@@ -13,7 +13,7 @@
   border-bottom-color: var(--header-border-bottom-color)
   width: 100vw
 
-  @include breakpoint(680px down)
+  @media screen and (max-width: 679px)
     position: fixed
     top: 0
     left: 0
@@ -44,7 +44,7 @@
     border: 1px solid var(--header-item-font-color)
 
   &_search-open
-    @include breakpoint(680px down)
+    @media screen and (max-width: 679px)
       display: flex
 
       .op-app-header--start,
@@ -57,6 +57,9 @@
       .op-app-search
         flex-grow: 1
 
+      .global-search
+        display: block
+
       .top-menu-search
         margin: 0
 
@@ -64,7 +67,7 @@
           display: none
           color: var(--header-item-font-color)
 
-    @include breakpoint(480px down)
+    @media screen and (max-width: 379px)
       .op-app-menu
         display: none
 

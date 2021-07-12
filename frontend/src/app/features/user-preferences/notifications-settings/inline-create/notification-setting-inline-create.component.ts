@@ -1,10 +1,12 @@
-import { EventEmitter, Component, OnInit, ChangeDetectionStrategy, Output, Input } from '@angular/core';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Observable, of } from "rxjs";
-import { map, tap } from "rxjs/operators";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { HalSourceLink } from "core-app/features/hal/resources/hal-resource";
+import {
+  EventEmitter, Component, ChangeDetectionStrategy, Output, Input,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
 export interface NotificationSettingProjectOption {
   name:string;
@@ -14,10 +16,11 @@ export interface NotificationSettingProjectOption {
 @Component({
   selector: 'op-notification-setting-inline-create',
   templateUrl: './notification-setting-inline-create.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationSettingInlineCreateComponent {
   @Input() userId:string;
+
   @Output() onSelect = new EventEmitter<HalSourceLink>();
 
   /** Active inline-create mode */
@@ -29,9 +32,9 @@ export class NotificationSettingInlineCreateComponent {
   };
 
   public autocompleterOptions = {
-    filters:[],
-    resource:'default',
-    getOptionsFn: (query:string):Observable<any[]> => this.autocomplete(query)
+    filters: [],
+    resource: 'default',
+    getOptionsFn: (query:string):Observable<any[]> => this.autocomplete(query),
   };
 
   constructor(
@@ -39,7 +42,6 @@ export class NotificationSettingInlineCreateComponent {
     private apiV3Service:APIV3Service,
   ) {
   }
-
 
   selectProject($event:NotificationSettingProjectOption) {
     this.onSelect.emit({ title: $event.name, href: $event.href });
@@ -61,9 +63,7 @@ export class NotificationSettingInlineCreateComponent {
       .filtered(filters)
       .get()
       .pipe(
-        map((collection) => {
-          return collection.elements.map(project => ({ href: project.href!, name: project.name }));
-        })
+        map((collection) => collection.elements.map((project) => ({ href: project.href!, name: project.name }))),
       );
   }
 }

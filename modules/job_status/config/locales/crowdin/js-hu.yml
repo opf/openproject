@@ -5,7 +5,7 @@ hu:
       click_to_download: 'Or click here to download.'
       title: 'Background job status'
       redirect: 'Átirányítjuk...'
-      redirect_link: 'Please click here to continue.'
+      redirect_link: 'Kattints ide a folytatáshoz'
       redirect_errors: 'Due to these errors, you will not be redirected automatically.'
       errors: 'Some errors have occurred'
       generic_messages:

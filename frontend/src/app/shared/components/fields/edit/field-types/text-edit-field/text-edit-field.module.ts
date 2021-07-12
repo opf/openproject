@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from "@angular/forms";
-import { TextEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/text-edit-field/text-edit-field.component";
-import { FocusModule } from "core-app/shared/directives/focus/focus.module";
+import { FormsModule } from '@angular/forms';
+import { TextEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/text-edit-field/text-edit-field.component';
+import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { FocusModule } from "core-app/shared/directives/focus/focus.module";
   ],
   exports: [
     TextEditFieldComponent,
-  ]
+  ],
 })
 export class TextEditFieldModule { }

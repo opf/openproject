@@ -504,6 +504,32 @@ fr:
           create_button: 'La touche <b>Créer</b> ajoutera un nouveau paquet de travail à votre projet.'
           timeline_button: 'Vous pouvez activer le <b>Diagramme de Gantt</b> pour créer une chronologie pour votre projet.'
           timeline: 'Ici, vous pouvez modifier votre plan de projet. Créer de nouvelles phases, jalons et ajouter des dépendances. Tous les membres de l’équipe peuvent voir et mettre à jour le dernier plan à tout moment.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "Courriel"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Toutes'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Je veux être notifié des modifications que je fais moi-même"
     password_confirmation:
       field_description: 'Vous devez saisir le mot de passe de votre compte pour confirmer ce changement.'
       title: 'Confirmez votre mot de passe pour continuer'

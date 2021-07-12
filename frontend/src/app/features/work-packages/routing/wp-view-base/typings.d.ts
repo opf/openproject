@@ -1,5 +1,5 @@
 interface IGroupsCollapseEvent {
-  state:{[identifier:string]:boolean};
+  state:{ [identifier:string]:boolean };
   allGroupsAreCollapsed:boolean;
   allGroupsAreExpanded:boolean;
   lastChangedGroup:string|null;

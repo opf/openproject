@@ -504,6 +504,32 @@ ko:
           create_button: '<b>만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
           timeline_button: '<b>Gantt 차트</b>를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
           timeline: '여기에서 프로젝트 계획을 편집할 수 있습니다. 새로운 단계, 마일스톤을 만들고 종속성을 추가하세요. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
+    notifications:
+      title: "알림"
+      channel: "채널"
+      channels:
+        in_app: "앱내"
+        mail: "이메일"
+      reasons:
+        mentioned: '멘션 된'
+        watched: '지켜본'
+        involved: '참여된'
+      facets:
+        unread: '읽지 않음'
+        all: '모두'
+      center:
+        mark_all_read: '모두 읽은 상태로 표시'
+        total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
+      settings:
+        default_all_projects: '모든 프로젝트 기본값'
+        involved: '내가 참여된'
+        mentioned: '내가 멘션 된'
+        watched: '내가 지켜보는 중'
+        all: '모든 이벤트'
+        add: '프로젝트에 셋팅 추가'
+        remove_projects: '프로젝트에 알림 제거'
+        title: "알림 설정"
+        self_notify: "내가 만든 것이 변경되면 알림을 받고 싶습니다."
     password_confirmation:
       field_description: '이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.'
       title: '계속하려면 암호 확인'

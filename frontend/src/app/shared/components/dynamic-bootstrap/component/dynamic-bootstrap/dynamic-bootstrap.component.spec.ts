@@ -1,17 +1,12 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
-import { DynamicBootstrapComponent } from './dynamic-bootstrap.component';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ApplicationRef, Component, DebugElement } from '@angular/core';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
+import { DynamicBootstrapComponent } from './dynamic-bootstrap.component';
 
 // Stub component to bootstrap dynamically
 @Component({
   selector: 'op-test',
-  template: `<div class="dynamic-component-div"></div>`,
+  template: '<div class="dynamic-component-div"></div>',
 })
 export class TestComponent {}
 
@@ -32,7 +27,7 @@ describe('DynamicBootstrapComponent', () => {
       declarations: [
         DynamicBootstrapComponent,
         TestComponent,
-      ]
+      ],
     })
       .compileComponents();
   });

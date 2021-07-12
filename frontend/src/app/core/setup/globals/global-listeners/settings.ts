@@ -8,13 +8,12 @@ export function listenToSettingChanges() {
     jQuery('#settings_session_ttl_container').toggle(jQuery(this).is(':checked'));
   }).trigger('change');
 
-
   /** Sync SCM vendor select when enabled SCMs are changed */
   jQuery('[name="settings[enabled_scm][]"]').change(function (this:HTMLInputElement) {
-    var wasDisabled = !this.checked,
-      vendor = this.value,
-      select = jQuery('#settings_repositories_automatic_managed_vendor'),
-      option = select.find('option[value="' + vendor + '"]');
+    const wasDisabled = !this.checked;
+    const vendor = this.value;
+    const select = jQuery('#settings_repositories_automatic_managed_vendor');
+    const option = select.find(`option[value="${vendor}"]`);
 
     // Skip non-manageable SCMs
     if (option.length === 0) {
@@ -30,13 +29,15 @@ export function listenToSettingChanges() {
   /* Javascript for Settings::TextSettingCell */
   const langSelectSwitchData = function (select:any) {
     const self = jQuery(select);
-    const id:string = self.attr("id") || '';
+    const id:string = self.attr('id') || '';
     const settingName = id.replace('lang-for-', '');
     const newLang = self.val();
     const textArea = jQuery(`#settings-${settingName}`);
     const editor = textArea.siblings('ckeditor-augmented-textarea').data('editor');
 
-    return { id: id, settingName: settingName, newLang: newLang, textArea: textArea, editor: editor };
+    return {
+      id, settingName, newLang, textArea, editor,
+    };
   };
 
   // Upon focusing:
@@ -45,7 +46,7 @@ export function listenToSettingChanges() {
   //   * get the current value from the hidden field for that lang and set the editor text to that value.
   //   * Set the name of the textarea to reflect the current lang so that the value stored in the hidden field
   //     is overwritten.
-  jQuery(".lang-select-switch")
+  jQuery('.lang-select-switch')
     .focus(function () {
       const data = langSelectSwitchData(this);
 
@@ -61,7 +62,7 @@ export function listenToSettingChanges() {
     });
   /* end Javascript for Settings::TextSettingCell */
 
-  jQuery('.admin-settings--form').submit(function () {
+  jQuery('.admin-settings--form').submit(() => {
     /* Update consent time if consent required */
     if (jQuery('#settings_consent_required').is(':checked') && jQuery('#toggle_consent_time').is(':checked')) {
       jQuery('#settings_consent_time')
@@ -73,14 +74,14 @@ export function listenToSettingChanges() {
   });
 
   /** Toggle notification settings fields */
-  jQuery("#email_delivery_method_switch").on("change", function () {
+  jQuery('#email_delivery_method_switch').on('change', function () {
     const delivery_method = jQuery(this).val();
-    jQuery(".email_delivery_method_settings").hide();
-    jQuery("#email_delivery_method_" + delivery_method).show();
-  }).trigger("change");
+    jQuery('.email_delivery_method_settings').hide();
+    jQuery(`#email_delivery_method_${delivery_method}`).show();
+  }).trigger('change');
 
   jQuery('#settings_smtp_authentication').on('change', function () {
-    var isNone = jQuery(this).val() === 'none';
+    const isNone = jQuery(this).val() === 'none';
     jQuery('#settings_smtp_user_name,#settings_smtp_password')
       .closest('.form--field')
       .toggle(!isNone);
@@ -88,8 +89,8 @@ export function listenToSettingChanges() {
 
   /** Toggle repository checkout fieldsets required when option is disabled */
   jQuery('.settings-repositories--checkout-toggle').change(function (this:HTMLInputElement) {
-    var wasChecked = this.checked,
-      fieldset = jQuery(this).closest('fieldset');
+    const wasChecked = this.checked;
+    const fieldset = jQuery(this).closest('fieldset');
 
     fieldset
       .find('input,select')
@@ -99,24 +100,24 @@ export function listenToSettingChanges() {
       .prop('required', wasChecked);
   });
 
-  /** Toggle highlighted attributes visibility depending on if the highlighting mode 'inline' was selected*/
+  /** Toggle highlighted attributes visibility depending on if the highlighting mode 'inline' was selected */
   jQuery('.settings--highlighting-mode select').change(function () {
-    var highlightingMode = jQuery(this).val();
-    jQuery(".settings--highlighted-attributes").toggle(highlightingMode === "inline");
+    const highlightingMode = jQuery(this).val();
+    jQuery('.settings--highlighted-attributes').toggle(highlightingMode === 'inline');
   });
 
   /** Initialize hightlighted attributes checkboxes. If none is selected, it means we want them all. So let's
    * show them all as selected.
    * On submitting the form, we remove all checkboxes before sending to communicate, we actually want all and not
-   * only the selected.*/
+   * only the selected. */
   if (jQuery(".settings--highlighted-attributes input[type='checkbox']:checked").length === 0) {
-    jQuery(".settings--highlighted-attributes input[type='checkbox']").prop("checked", true);
+    jQuery(".settings--highlighted-attributes input[type='checkbox']").prop('checked', true);
   }
-  jQuery('#tab-content-work_packages form').submit(function () {
-    var availableAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']");
-    var selectedAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']:checked");
+  jQuery('#tab-content-work_packages form').submit(() => {
+    const availableAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']");
+    const selectedAttributes = jQuery(".settings--highlighted-attributes input[type='checkbox']:checked");
     if (selectedAttributes.length === availableAttributes.length) {
-      availableAttributes.prop("checked", false);
+      availableAttributes.prop('checked', false);
     }
   });
 }

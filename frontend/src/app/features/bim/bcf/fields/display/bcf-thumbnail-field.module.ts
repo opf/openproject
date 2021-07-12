@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
 
 export class BcfThumbnailDisplayField extends DisplayField {
   @InjectField() bcfPathHelper:BcfPathHelperService;

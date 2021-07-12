@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import {Inject, Injectable} from "@angular/core";
-import {DOCUMENT} from "@angular/common";
-import {OpModalService} from "core-app/shared/components/modal/modal.service";
-import {CurrentProjectService} from "core-app/core/current-project/current-project.service";
-import {InviteUserModalComponent} from "./invite-user.component";
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { InviteUserModalComponent } from './invite-user.component';
 import ClickEvent = JQuery.ClickEvent;
 
 const attributeSelector = '[invite-user-modal-augment]';
@@ -42,10 +41,9 @@ const attributeSelector = '[invite-user-modal-augment]';
  */
 @Injectable({ providedIn: 'root' })
 export class OpInviteUserModalAugmentService {
-
   constructor(@Inject(DOCUMENT) protected documentElement:Document,
-              protected opModalService:OpModalService,
-              protected currentProjectService:CurrentProjectService) {
+    protected opModalService:OpModalService,
+    protected currentProjectService:CurrentProjectService) {
   }
 
   /**
@@ -65,7 +63,7 @@ export class OpInviteUserModalAugmentService {
     const modal = this.opModalService.show(
       InviteUserModalComponent,
       'global',
-      { projectId: this.currentProjectService.id }
+      { projectId: this.currentProjectService.id },
     );
 
     modal

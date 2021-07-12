@@ -1,19 +1,21 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import {
+  ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild,
+} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import {
   FormGroup,
   FormControl,
   Validators,
 } from '@angular/forms';
-import { PrincipalType } from '../invite-user.component';
 import { take } from 'rxjs/internal/operators/take';
 import { map } from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { DynamicFormComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component";
-import { PrincipalData, PrincipalLike } from "core-app/shared/components/principal/principal-types";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
+import { PrincipalData, PrincipalLike } from 'core-app/shared/components/principal/principal-types';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { PrincipalType } from '../invite-user.component';
 
 function extractCustomFieldsFromSchema(schema:IOPFormSettings['_embedded']['schema']) {
   return Object.keys(schema)
@@ -36,11 +38,15 @@ function extractCustomFieldsFromSchema(schema:IOPFormSettings['_embedded']['sche
 })
 export class PrincipalComponent implements OnInit {
   @Input() principalData:PrincipalData;
+
   @Input() project:ProjectResource;
+
   @Input() type:PrincipalType;
 
   @Output() close = new EventEmitter<void>();
+
   @Output() save = new EventEmitter<{ principalData:PrincipalData, isAlreadyMember:boolean }>();
+
   @Output() back = new EventEmitter();
 
   @ViewChild(DynamicFormComponent) dynamicForm:DynamicFormComponent;
@@ -56,7 +62,7 @@ export class PrincipalComponent implements OnInit {
       User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
       PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
       Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
-      Email: this.I18n.t('js.label_email')
+      Email: this.I18n.t('js.label_email'),
     },
     change: this.I18n.t('js.label_change'),
     inviteUser: this.I18n.t('js.invite_user_modal.principal.invite_user'),
@@ -106,9 +112,8 @@ export class PrincipalComponent implements OnInit {
   get textLabel() {
     if (this.type === PrincipalType.User && this.isNewPrincipal) {
       return this.text.label.Email;
-    } else {
-      return this.text.label[this.type];
     }
+    return this.text.label[this.type];
   }
 
   get isNewPrincipal() {
@@ -140,7 +145,7 @@ export class PrincipalComponent implements OnInit {
           take(1),
           // The subsequent code expects to not work with a HalResource but rather with the raw
           // api response.
-          map(formResource => formResource.$source)
+          map((formResource) => formResource.$source),
         )
         .subscribe((formConfig) => {
           this.userDynamicFieldConfig.schema = extractCustomFieldsFromSchema(formConfig._embedded?.schema);
@@ -174,16 +179,25 @@ export class PrincipalComponent implements OnInit {
     // The code below transforms the model value as it comes from the dynamic form to the value accepted by the API.
     // This is not just necessary for submit, but also so that we can reseed the initial values to the payload
     // when going back to this step after having completed it once.
-    const links = this.customFields!._links || {};
-    const customFields = {
-      ...this.customFields!,
-      _links: Object.keys(links).reduce((cfs, name) => ({
-        ...cfs,
-        [name]: Array.isArray(links[name])
-          ? links[name].map((opt:any) => opt._links ? opt._links.self : opt)
-          : (links[name]._links ? links[name]._links.self : links[name])
-      }), {}),
-    };
+    const fieldsSchema = this.userDynamicFieldConfig.schema || {};
+    const customFields = Object.keys(fieldsSchema)
+      .reduce((result, fieldKey) => {
+        const fieldSchema = fieldsSchema[fieldKey];
+        let fieldValue = this.customFields[fieldKey];
+
+        if (fieldSchema.location === '_links') {
+          fieldValue = Array.isArray(fieldValue)
+            ? fieldValue.map((opt:any) => (opt._links ? opt._links.self : opt))
+            : (fieldValue._links ? fieldValue._links.self : fieldValue);
+        }
+
+        result = {
+          ...result,
+          [fieldKey]: fieldValue,
+        };
+
+        return result;
+      }, {});
 
     this.save.emit({
       principalData: {

@@ -503,6 +503,32 @@ zh-TW:
           create_button: '<b>創建</b>按鍵將新增一個工作包至您的專案'
           timeline_button: '您可啟用<b>甘特圖</b>來建立您專案的時間軸'
           timeline: '在這裡您可以編輯您的專案計畫．建立新的階段，里程碑以及相依來源．所有的隊員都可在任何時候檢視及更新最新的計畫．'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "電子郵件"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: '全部'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "我想要在我自己有變更的時候被通知"
     password_confirmation:
       field_description: '您需要輸入您的帳戶密碼，以確認此更改。'
       title: '確認您的密碼以便繼續'

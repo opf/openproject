@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,38 +26,43 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { BannersService } from "core-app/core/enterprise/banners.service";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { WorkPackageFiltersService } from "core-app/features/work-packages/components/filters/wp-filters/wp-filters.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { QueryFilterResource } from "core-app/features/hal/resources/query-filter-resource";
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 const ADD_FILTER_SELECT_INDEX = -1;
-
 
 @Component({
   selector: 'query-filters',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './query-filters.component.html'
+  templateUrl: './query-filters.component.html',
 })
 export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit, OnChanges {
-
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
+
   @Input() public filters:QueryFilterInstanceResource[];
+
   @Input() public showCloseFilter = false;
+
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
-
   public remainingFilters:any[] = [];
+
   public eeShowBanners = false;
+
   public focusElementIndex = 0;
+
   public trackByName = AngularTrackingHelpers.trackByName;
 
   public text = {
@@ -70,13 +75,13 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     selected_filter_list: this.I18n.t('js.label_selected_filter_list'),
     button_delete: this.I18n.t('js.button_delete'),
     please_select: this.I18n.t('js.placeholders.selection'),
-    filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text')
+    filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
   };
 
   constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
-              readonly wpFiltersService:WorkPackageFiltersService,
-              readonly I18n:I18nService,
-              readonly bannerService:BannersService) {
+    readonly wpFiltersService:WorkPackageFiltersService,
+    readonly I18n:I18nService,
+    readonly bannerService:BannersService) {
     super();
   }
 
@@ -108,7 +113,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
 
   public deactivateFilter(removedFilter:QueryFilterInstanceResource) {
     const index = this.filters.indexOf(removedFilter);
-    _.remove(this.filters, f => f.id === removedFilter.id);
+    _.remove(this.filters, (f) => f.id === removedFilter.id);
 
     this.filtersChanged.emit(this.filters);
 
@@ -148,8 +153,8 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public isFilterAvailable(filter:QueryFilterResource):boolean {
-    return (this.wpTableFilters.availableFilters.some(availableFilter => availableFilter.id === filter.id) &&
-     !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
+    return (this.wpTableFilters.availableFilters.some((availableFilter) => availableFilter.id === filter.id)
+     && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
   }
 
   public onOpen() {

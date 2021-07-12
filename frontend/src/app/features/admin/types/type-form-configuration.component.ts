@@ -1,15 +1,16 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { DragulaService, DrakeWithModels } from 'ng2-dragula';
-import { Drake } from 'dragula';
-import { GonService } from "core-app/core/gon/gon.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { install_menu_logic } from "core-app/core/setup/globals/global-listeners/action-menu";
-import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
-import { TypeBannerService } from "core-app/features/admin/types/type-banner.service";
+import { GonService } from 'core-app/core/gon/gon.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { installMenuLogic } from 'core-app/core/setup/globals/global-listeners/action-menu';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
+import { TypeBannerService } from 'core-app/features/admin/types/type-banner.service';
 
 export type TypeGroupType = 'attribute'|'query';
 
@@ -37,10 +38,9 @@ export const emptyTypeGroup = '__empty';
   templateUrl: './type-form-configuration.html',
   providers: [
     TypeBannerService,
-  ]
+  ],
 })
 export class TypeFormConfigurationComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
-
   public text = {
     drag_to_activate: this.I18n.t('js.admin.type_form.drag_to_activate'),
     reset: this.I18n.t('js.admin.type_form.reset_to_defaults'),
@@ -53,25 +53,30 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
   };
 
   private autoscroll:any;
+
   private element:HTMLElement;
+
   private form:JQuery;
+
   private submit:JQuery;
 
   public groups:TypeGroup[] = [];
+
   public inactives:TypeFormAttribute[] = [];
 
   private attributeDrake:DrakeWithModels;
+
   private groupsDrake:DrakeWithModels;
 
   private no_filter_query:string;
 
   constructor(private elementRef:ElementRef,
-              private I18n:I18nService,
-              private Gon:GonService,
-              private dragula:DragulaService,
-              private confirmDialog:ConfirmDialogService,
-              private notificationsService:NotificationsService,
-              private externalRelationQuery:ExternalRelationQueryConfigurationService) {
+    private I18n:I18nService,
+    private Gon:GonService,
+    private dragula:DragulaService,
+    private confirmDialog:ConfirmDialogService,
+    private notificationsService:NotificationsService,
+    private externalRelationQuery:ExternalRelationQueryConfigurationService) {
     super();
   }
 
@@ -87,12 +92,12 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     // enough, we need to memoize whether we have already submitted.
     let submitted = false;
 
-    this.form.on('submit', (event) => {
+    this.form.on('submit', () => {
       submitted = true;
     });
 
     // Capture mousedown on button because firefox breaks blur on click
-    this.submit.on('mousedown', (event) => {
+    this.submit.on('mousedown', () => {
       setTimeout(() => {
         if (!submitted) {
           this.form.trigger('submit');
@@ -111,7 +116,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     this.groupsDrake = this
       .dragula
       .createGroup('groups', {
-        moves: (el, source, handle:HTMLElement) => handle.classList.contains('group-handle')
+        moves: (el, source, handle:HTMLElement) => handle.classList.contains('group-handle'),
       })
       .drake;
 
@@ -119,7 +124,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     this.attributeDrake = this
       .dragula
       .createGroup('attributes', {
-        moves: (el, source, handle:HTMLElement) => handle.classList.contains('attribute-handle')
+        moves: (el, source, handle:HTMLElement) => handle.classList.contains('attribute-handle'),
       })
       .drake;
 
@@ -133,24 +138,25 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     const that = this;
     this.autoscroll = new DomAutoscrollService(
       [
-        document.getElementById('content-wrapper')!
+        document.getElementById('content-wrapper')!,
       ],
       {
         margin: 25,
         maxSpeed: 10,
         scrollWhenOutside: true,
-        autoScroll: function (this:any) {
+        autoScroll(this:any) {
           const groups = that.groupsDrake && that.groupsDrake.dragging;
           const attributes = that.attributeDrake && that.attributeDrake.dragging;
 
           return groups || attributes;
-        }
-      });
+        },
+      },
+    );
   }
 
   ngAfterViewInit() {
     const menu = jQuery(this.elementRef.nativeElement).find('.toolbar-items');
-    install_menu_logic(menu);
+    installMenuLogic(menu);
   }
 
   public deactivateAttribute(attribute:TypeFormAttribute) {
@@ -166,13 +172,13 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     // Disable display mode and timeline for now since we don't want users to enable it
     const disabledTabs = {
       'display-settings': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
-      'timelines': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled')
+      timelines: I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
     };
 
     this.externalRelationQuery.show({
       currentQuery: JSON.parse(group.query),
-      callback: (queryProps:any) => group.query = JSON.stringify(queryProps),
-      disabledTabs
+      callback: (queryProps:any) => (group.query = JSON.stringify(queryProps)),
+      disabledTabs,
     });
   }
 
@@ -181,15 +187,15 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
       this.updateInactives(this.inactives.concat(group.attributes));
     }
 
-    this.groups = this.groups.filter(el => el !== group);
+    this.groups = this.groups.filter((el) => el !== group);
 
     return group;
   }
 
   public createGroup(type:TypeGroupType, groupName = '') {
     const group:TypeGroup = {
-      type: type,
-      name: '',
+      type,
+      name: groupName,
       key: null,
       query: this.no_filter_query,
       attributes: [],
@@ -205,8 +211,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
         text: {
           title: this.I18n.t('js.types.attribute_groups.reset_title'),
           text: this.I18n.t('js.types.attribute_groups.confirm_reset'),
-          button_continue: this.I18n.t('js.label_reset')
-        }
+          button_continue: this.I18n.t('js.label_reset'),
+        },
       })
       .then(() => {
         this.form.find('input#type_attribute_groups').val(JSON.stringify([]));
@@ -214,7 +220,8 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
         // Disable our form handler that updates the attribute groups
         this.form.off('submit.typeformupdater');
         this.form.trigger('submit');
-      });
+      })
+      .catch(() => {});
 
     $event.preventDefault();
     return false;
@@ -229,7 +236,9 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
   // decides to remove all groups
   // This was necessary since the "default" is actually an empty array of groups
   private get emptyGroup():TypeGroup {
-    return { type: 'attribute', key: emptyTypeGroup, name: 'empty', attributes: [] };
+    return {
+      type: 'attribute', key: emptyTypeGroup, name: 'empty', attributes: [],
+    };
   }
 
   private updateHiddenFields() {
@@ -243,4 +252,3 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     }
   }
 }
-

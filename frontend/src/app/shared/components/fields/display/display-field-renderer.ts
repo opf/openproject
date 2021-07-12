@@ -1,19 +1,21 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { DisplayFieldContext, DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { MultipleLinesCustomOptionsDisplayField } from "core-app/shared/components/fields/display/field-types/multiple-lines-custom-options-display-field.module";
-import { ProgressTextDisplayField } from "core-app/shared/components/fields/display/field-types/progress-text-display-field.module";
-import { MultipleLinesUserFieldModule } from "core-app/shared/components/fields/display/field-types/multiple-lines-user-display-field.module";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { ISchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { DateDisplayField } from "core-app/shared/components/fields/display/field-types/date-display-field.module";
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import {
+  DisplayFieldContext,
+  DisplayFieldService,
+} from 'core-app/shared/components/fields/display/display-field.service';
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { MultipleLinesCustomOptionsDisplayField } from 'core-app/shared/components/fields/display/field-types/multiple-lines-custom-options-display-field.module';
+import { ProgressTextDisplayField } from 'core-app/shared/components/fields/display/field-types/progress-text-display-field.module';
+import { MultipleLinesUserFieldModule } from 'core-app/shared/components/fields/display/field-types/multiple-lines-user-display-field.module';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { DateDisplayField } from 'core-app/shared/components/fields/display/field-types/date-display-field.module';
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -24,25 +26,26 @@ export const editFieldContainerClass = 'inline-edit--container';
 export const cellEmptyPlaceholder = '-';
 
 export class DisplayFieldRenderer<T extends HalResource = HalResource> {
-
   @InjectField() displayFieldService:DisplayFieldService;
+
   @InjectField() schemaCache:SchemaCacheService;
+
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() I18n!:I18nService;
 
   /** We cache the previously used fields to avoid reinitialization */
   private fieldCache:{ [key:string]:DisplayField } = {};
 
   constructor(public readonly injector:Injector,
-              public readonly container:'table'|'single-view'|'timeline',
-              public readonly options:{ [key:string]:any } = {}) {
+    public readonly container:'table'|'single-view'|'timeline',
+    public readonly options:{ [key:string]:any } = {}) {
   }
 
   public render(resource:T,
     name:string,
     change:ResourceChangeset<T>|null,
     placeholder?:string):HTMLSpanElement {
-
     const [field, span] = this.renderFieldValue(resource, name, change, placeholder);
 
     if (field === null) {
@@ -72,7 +75,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     const field = this.getField(resource, fieldSchema, attributeName, change);
     field.render(span, this.getText(field, fieldSchema, placeholder), fieldSchema.options);
 
-    const title = field.title;
+    const { title } = field;
     if (title) {
       span.setAttribute('title', title);
     }
@@ -127,9 +130,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   private getText(field:DisplayField, fieldSchema:IFieldSchema, placeholder?:string):string {
     if (field.isEmpty()) {
       return placeholder || this.getDefaultPlaceholder(fieldSchema);
-    } else {
-      return field.valueString;
     }
+    return field.valueString;
   }
 
   private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, resource:T, change:ResourceChangeset<T>|null):void {
@@ -173,27 +175,24 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       try {
         titleContent = _.escape(jQuery(`<div>${labelContent}</div>`).text());
       } catch (e) {
-        console.error("Failed to parse formattable labelContent");
-        titleContent = "Label for " + field.displayName;
+        console.error('Failed to parse formattable labelContent');
+        titleContent = `Label for ${field.displayName}`;
       }
-
     } else {
       titleContent = labelContent;
     }
 
     if (field.writable && schema.isAttributeEditable(field.name)) {
       return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
-    } else {
-      return `${field.displayName} ${titleContent}`;
     }
+    return `${field.displayName} ${titleContent}`;
   }
 
   private getLabelContent(field:DisplayField):string {
     if (field.isEmpty()) {
       return this.I18n.t('js.inplace.null_value_label');
-    } else {
-      return field.valueString;
     }
+    return field.valueString;
   }
 
   /**
@@ -206,9 +205,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   private attributeName(attribute:string, schema:SchemaResource) {
     if (schema.mappedName) {
       return schema.mappedName(attribute);
-    } else {
-      return attribute;
     }
+    return attribute;
   }
 
   private getDefaultPlaceholder(fieldSchema:IFieldSchema):string {
@@ -222,10 +220,9 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   private schema(resource:T, change:ResourceChangeset<T>|null) {
     if (change) {
       return change.schema;
-    } else if (this.halEditing.typedState(resource).hasValue()) {
+    } if (this.halEditing.typedState(resource).hasValue()) {
       return this.halEditing.typedState(resource).value!.schema;
-    } else {
-      return this.schemaCache.of(resource) as ISchemaProxy;
     }
+    return this.schemaCache.of(resource);
   }
 }

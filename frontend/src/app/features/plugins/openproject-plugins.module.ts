@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -24,14 +24,12 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++    Ng1FieldControlsWrapper,
+// ++    Ng1FieldControlsWrapper,
 
-
-import { Injector, NgModule } from "@angular/core";
-import { HookService } from "core-app/features/plugins/hook-service";
-import { OpenProjectPluginContext } from "core-app/features/plugins/plugin-context";
-import { debugLog } from "core-app/shared/helpers/debug_output";
-
+import { Injector, NgModule } from '@angular/core';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 @NgModule({
   providers: [
@@ -40,10 +38,8 @@ import { debugLog } from "core-app/shared/helpers/debug_output";
 })
 export class OpenprojectPluginsModule {
   constructor(injector:Injector) {
-    debugLog("Registering OpenProject plugin context");
+    debugLog('Registering OpenProject plugin context');
     const pluginContext = new OpenProjectPluginContext(injector);
     window.OpenProject.pluginContext.putValue(pluginContext);
   }
 }
-
-

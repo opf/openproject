@@ -1,0 +1,43 @@
+# Schema: HelptextModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Help text id
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: true
+  attribute:
+    type: string
+    description: Attribute name
+    readOnly: true
+  attributeCaption:
+    type: string
+    description: Attribute caption
+    readOnly: true
+  helpText:
+    allOf:
+    - "$ref": "./formattable.yml"
+    - description: Help text content
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This help text
+
+            **Resource**: HelpText
+          readOnly: true
+      editText:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Edit the help text entry
+
+            **Resource**: text/htm
+          readOnly: true

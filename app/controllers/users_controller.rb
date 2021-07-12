@@ -99,22 +99,18 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(language: Setting.default_language)
-    @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
-    @user.admin = params[:user][:admin] || false
-    @user.login = params[:user][:login] || @user.mail
+    call = Users::CreateService
+           .new(user: current_user)
+           .call(create_params)
 
-    if UserInvitation.invite_user! @user
-      respond_to do |format|
-        format.html do
-          flash[:notice] = I18n.t(:notice_successful_create)
-          redirect_to(params[:continue] ? new_user_path : edit_user_path(@user))
-        end
-      end
+    @user = call.result
+
+    if call.success?
+      flash[:notice] = I18n.t(:notice_successful_create)
+      redirect_to(params[:continue] ? new_user_path : edit_user_path(@user))
     else
-      respond_to do |format|
-        format.html { render action: 'new' }
-      end
+      @errors = call.errors
+      render action: 'new'
     end
   end
 
@@ -336,5 +332,13 @@ class UsersController < ApplicationController
     end
 
     update_params
+  end
+
+  def create_params
+    permitted_params
+      .user_create_as_admin(false, false)
+      .merge(admin: params[:user][:admin] || false,
+             login: params[:user][:login] || params[:user][:mail],
+             status: User.statuses[:invited])
   end
 end

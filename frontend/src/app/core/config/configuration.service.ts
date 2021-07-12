@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,9 +27,9 @@
 //++
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ConfigurationResource } from "core-app/features/hal/resources/configuration-resource";
-import * as moment from "moment";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
+import * as moment from 'moment';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
@@ -37,10 +37,11 @@ export class ConfigurationService {
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
   private configuration:ConfigurationResource;
+
   public initialized:Promise<boolean>;
 
   public constructor(readonly I18n:I18nService,
-                     readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:APIV3Service) {
     this.initialized = this.loadConfiguration().then(() => true).catch(() => false);
   }
 
@@ -103,9 +104,8 @@ export class ConfigurationService {
   public startOfWeek() {
     if (this.startOfWeekPresent()) {
       return this.systemPreference('startOfWeek');
-    } else {
-      return moment.localeData(I18n.locale).firstDayOfWeek();
     }
+    return moment.localeData(I18n.locale).firstDayOfWeek();
   }
 
   private loadConfiguration() {

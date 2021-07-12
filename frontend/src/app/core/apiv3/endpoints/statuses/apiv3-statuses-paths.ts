@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourceCollection, APIv3ResourcePath } from "core-app/core/apiv3/paths/apiv3-resource";
-import { Injector } from "@angular/core";
-import { StatusResource } from "core-app/features/hal/resources/status-resource";
-import { APIv3StatusPaths } from "core-app/core/apiv3/endpoints/statuses/apiv3-status-paths";
-import { Observable } from "rxjs";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { tap } from "rxjs/operators";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { StatusResource } from 'core-app/features/hal/resources/status-resource';
+import { APIv3StatusPaths } from 'core-app/core/apiv3/endpoints/statuses/apiv3-status-paths';
+import { Observable } from 'rxjs';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { tap } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class APIv3StatusesPaths extends APIv3ResourceCollection<StatusResource, APIv3StatusPaths> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'statuses', APIv3StatusPaths);
   }
 
@@ -49,12 +48,11 @@ export class APIv3StatusesPaths extends APIv3ResourceCollection<StatusResource, 
       .halResourceService
       .get<CollectionResource<StatusResource>>(this.path)
       .pipe(
-        tap(collection => {
+        tap((collection) => {
           collection.elements.forEach((resource, id) => {
             this.id(resource.id!).cache.updateValue(resource.id!, resource);
           });
-        })
+        }),
       );
   }
-
 }

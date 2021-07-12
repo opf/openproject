@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 export const backlogsPageComponentSelector = 'op-backlogs-page';
 
@@ -9,8 +9,8 @@ export const backlogsPageComponentSelector = 'op-backlogs-page';
   encapsulation: ViewEncapsulation.None,
   template: '',
   styleUrls: [
-    './styles/backlogs.sass'
-  ]
+    './styles/backlogs.sass',
+  ],
 })
 export class BacklogsPageComponent implements OnInit {
   ngOnInit() {

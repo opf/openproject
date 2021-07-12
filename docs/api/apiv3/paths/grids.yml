@@ -1,0 +1,206 @@
+# /api/v3/grids
+---
+get:
+  parameters:
+  - description: Page number inside the requested collection.
+    example: '25'
+    in: query
+    name: offset
+    required: false
+    schema:
+      default: 1
+      type: integer
+  - description: Number of elements to display per page.
+    example: '25'
+    in: query
+    name: pageSize
+    required: false
+    schema:
+      type: integer
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+
+      + page: Filter grid by work package
+    example: '[{ "page": { "operator": "=", "values": ["/my/page"] } }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  scope:
+                    href: "/my/page"
+                    type: text/html
+                  self:
+                    href: "/api/v3/grids/2"
+                  update:
+                    href: "/api/v3/grids/2/form"
+                    method: post
+                  updateImmediately:
+                    href: "/api/v3/grids/2"
+                    method: patch
+                _type: Grid
+                columnCount: 5
+                createdAt: '2018-12-03T16:58:30Z'
+                id: 2
+                rowCount: 8
+                updatedAt: '2018-12-13T19:36:40Z'
+                widgets:
+                - _type: GridWidget
+                  endColumn: 3
+                  endRow: 8
+                  identifier: time_entries_current_user
+                  startColumn: 1
+                  startRow: 1
+                - _type: GridWidget
+                  endColumn: 5
+                  endRow: 8
+                  identifier: news
+                  startColumn: 4
+                  startRow: 3
+                - _type: GridWidget
+                  endColumn: 6
+                  endRow: 3
+                  identifier: documents
+                  startColumn: 3
+                  startRow: 1
+          schema:
+            "$ref": "../components/schemas/grid_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+                message:
+                - Filters Invalid filter does not exist.
+      description: Returned if the client sends invalid request parameters e.g. filters
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to view this resource.
+      description: Returned if the client is not logged in and login is required.
+      headers: {}
+  tags:
+  - Grids
+  description: Lists all grids matching the provided filters and being part of the
+    selected query page. The grids returned will also depend on the permissions of
+    the requesting user.
+  operationId: List_Grids
+  summary: List Grids
+patch:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/grid_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request body was not a single JSON object.
+      description: Occurs when the client did not send a valid JSON object in the
+        request body.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** The permission depends on the page the grid is placed in.
+      headers: {}
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      headers: {}
+  tags:
+  - Grids
+  description: Updates the given grid by applying the attributes provided in the body.  The
+    constraints applied to the grid depend on the page the grid is placed in which
+    is why the create form end point should be used to be guided when wanting to update
+    a grid.
+  operationId: Update_Grid
+  summary: Update Grid
+post:
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/grid_model.yml"
+      description: Created
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request body was not a single JSON object.
+      description: Occurs when the client did not send a valid JSON object in the
+        request body.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Depends on the page the grid is defined for.
+      headers: {}
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      headers: {}
+  tags:
+  - Grids
+  description: Creates a new grid applying the attributes provided in the body. The
+    constraints applied to the grid depend on the page the grid is placed in which
+    is why the create form end point should be used to be guided when wanting to create
+    a grid.
+  operationId: Create_Grid
+  summary: Create Grid

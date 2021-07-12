@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+/* jshint expr: true */
 
-import { TestBed, waitForAsync } from "@angular/core/testing";
-import { States } from "core-app/core/states/states.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
-import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { States } from 'core-app/core/states/states.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
+import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { of } from 'rxjs';
 import SpyObj = jasmine.SpyObj;
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { of } from "rxjs";
 
-describe('WorkPackageViewIndentation service', function () {
+describe('WorkPackageViewIndentation service', () => {
   let service:WorkPackageViewHierarchyIdentationService;
   let states:States;
   let querySpace:IsolatedQuerySpace;
@@ -54,18 +54,16 @@ describe('WorkPackageViewIndentation service', function () {
 
   class Apiv3serviceStub {
     work_packages = {
-      id: (wpId:string) => {
-        return {
-          get: () => of(states.workPackages.get(wpId).value)
-        };
-      }
+      id: (wpId:string) => ({
+        get: () => of(states.workPackages.get(wpId).value),
+      }),
     };
   }
 
   beforeEach(waitForAsync(() => {
     parentServiceSpy = jasmine.createSpyObj(
       'WorkPackageRelationHierarchyService',
-      ['changeParent']
+      ['changeParent'],
     );
 
     parentServiceSpy.changeParent.and.returnValue(Promise.resolve());
@@ -79,8 +77,8 @@ describe('WorkPackageViewIndentation service', function () {
         { provide: APIV3Service, useClass: Apiv3serviceStub },
         { provide: WorkPackageViewHierarchiesService, useClass: HierarchyServiceStub },
         { provide: WorkPackageRelationsHierarchyService, useValue: parentServiceSpy },
-        WorkPackageViewHierarchyIdentationService
-      ]
+        WorkPackageViewHierarchyIdentationService,
+      ],
     })
       .compileComponents()
       .then(() => {
@@ -100,7 +98,7 @@ describe('WorkPackageViewIndentation service', function () {
     it('Cannot indent when is first index', () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
-        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' }
+        { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = { id: '1234', changeParent: () => 'foo' };
@@ -110,7 +108,7 @@ describe('WorkPackageViewIndentation service', function () {
     it('Can indent as second when it has no ancestors', () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
-        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
@@ -120,7 +118,7 @@ describe('WorkPackageViewIndentation service', function () {
     it('Cannot indent when possible but hierarchy disabled', () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
-        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       spyOnProperty(hierarchyServiceStub, 'isEnabled', 'get')
@@ -133,7 +131,7 @@ describe('WorkPackageViewIndentation service', function () {
     it('Can not indent with a predecessor that is an ancestor already', () => {
       querySpace.tableRendered.putValue([
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
-        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['2345'] };
@@ -144,7 +142,7 @@ describe('WorkPackageViewIndentation service', function () {
       querySpace.tableRendered.putValue([
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
-        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['2345'] };
@@ -179,7 +177,7 @@ describe('WorkPackageViewIndentation service', function () {
       querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
-        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
@@ -197,7 +195,7 @@ describe('WorkPackageViewIndentation service', function () {
       querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
-        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: [] };
@@ -215,7 +213,7 @@ describe('WorkPackageViewIndentation service', function () {
       querySpace.tableRendered.putValue([
         { workPackageId: '5555', hidden: false, classIdentifier: 'foo' },
         { workPackageId: '2345', hidden: false, classIdentifier: 'foo' },
-        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' }
+        { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
       const workPackage:any = { id: '1234', changeParent: () => 'foo', ancestorIds: ['5555'] };
@@ -236,7 +234,9 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: '5555', ancestorIds: ['2345', '5555'] };
+      const workPackage:any = {
+        id: '1234', changeParent: () => 'foo', parent: '5555', ancestorIds: ['2345', '5555'],
+      };
 
       service.outdent(workPackage).then(() => {
         expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, '2345');
@@ -249,7 +249,9 @@ describe('WorkPackageViewIndentation service', function () {
         { workPackageId: '1234', hidden: false, classIdentifier: 'foo' },
       ]);
 
-      const workPackage:any = { id: '1234', changeParent: () => 'foo', parent: '2345', ancestorIds: ['2345'] };
+      const workPackage:any = {
+        id: '1234', changeParent: () => 'foo', parent: '2345', ancestorIds: ['2345'],
+      };
 
       service.outdent(workPackage).then(() => {
         expect(parentServiceSpy.changeParent).toHaveBeenCalledWith(workPackage, null);

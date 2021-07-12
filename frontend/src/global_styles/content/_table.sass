@@ -262,10 +262,11 @@ thead.-sticky th
 
 .generic-table--header,
 .generic-table--sort-header
-  white-space: nowrap
+  @include text-shortener
   width:   100%
   clear:   both
   min-width: 40px
+  max-width: 300px
   display: flex
 
   & > a

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -36,7 +36,6 @@ export function makeColorPreviews() {
   jQuery('.color--preview').each(function () {
     const preview = jQuery(this);
     let input:any;
-    let func:any;
     const target = preview.data('target');
 
     if (target) {
@@ -49,13 +48,13 @@ export function makeColorPreviews() {
       return;
     }
 
-    func = function () {
-      var previewColor = '';
+    const func = function () {
+      let previewColor = '';
 
       if (input.val() && input.val().length > 0) {
         previewColor = input.val();
-      } else if (input.attr('placeholder') &&
-        input.attr('placeholder').length > 0) {
+      } else if (input.attr('placeholder')
+        && input.attr('placeholder').length > 0) {
         previewColor = input.attr('placeholder');
       }
 

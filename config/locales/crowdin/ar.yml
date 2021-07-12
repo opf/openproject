@@ -481,7 +481,6 @@ ar:
         force_password_change: "تنفيذ تغيير كلمة المرور في تسجيل الدخول التالي"
         language: "اللغة"
         last_login_on: "آخر تسجيل دخول"
-        mail_notification: "إشعارات البريد الإلكتروني"
         new_password: "كلمة مرور جديدة"
         password_confirmation: "تأكيد"
         consented_at: "Consented at"
@@ -611,6 +610,13 @@ ar:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -765,6 +771,13 @@ ar:
       status: "حالة مجموعة العمل"
       member: "عضو"
       news: "الأخبار"
+      notification:
+        zero: "Notifications"
+        one: "Notification"
+        two: "Notifications"
+        few: "Notifications"
+        many: "Notifications"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "مشروع"
       query: "استعلام مخصص"
@@ -1337,6 +1350,9 @@ ar:
   instructions_after_logout: "يمكنك تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}."
   instructions_after_error: "يمكنك محاولة تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}. إذا استمر الخطأ، اسأل المسؤول الخاص بك للحصول على تعليمات."
   menus:
+    admin:
+      mail_notification: "إشعارات البريد الإلكتروني"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1349,6 +1365,14 @@ ar:
         action: "الإجراء"
         expiration: "انتهاء الصلاحية"
       indefinite_expiration: "أبداً"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accessibility"
   label_account: "الحساب"
   label_active: "مفعّل"
@@ -2297,6 +2321,10 @@ ar:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "التوثيق"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "طريقة تسليم البريد الإلكتروني"
   setting_sendmail_location: "موقع إرسال بريد إلكتروني قابل للتنفيذ"
   setting_smtp_enable_starttls_auto: "استخدم STARTTLS تلقائيًّا إذا كان متوفرًا"
@@ -2333,7 +2361,6 @@ ar:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "صيغة التاريخ"
   setting_default_language: "اللغة الافتراضية"
-  setting_default_notification_option: "خيار الشعار  الافتراضي"
   setting_default_projects_modules: "وحدات التمكين الافتراضية للمشاريع الجديدة"
   setting_default_projects_public: "هناك مشاريع جديدة عامة بشكل افتراضي"
   setting_diff_max_lines_displayed: "الحد الأقصى لعدد الخطوط المختلفة المعروضة"
@@ -2343,6 +2370,8 @@ ar:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "تمكين SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "تمكين التغذية"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
@@ -2356,7 +2385,7 @@ ar:
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
   setting_work_packages_export_limit: "حد تصدير مجموعات العمل"
-  setting_journal_aggregation_time_minutes: "عرض دفاتر اليومية كمجمعة داخل"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "تسجيل الدخول تسجيل دخول المستخدم واسم وعنوان البريد لجميع الطلبات"
   setting_login_required: "مطلوب مصادقة"
   setting_mail_from: "انبعاث عنوان البريد الإلكتروني"
@@ -2411,6 +2440,10 @@ ar:
     passwords: "كلمات المرور"
     session: "الجلسة"
     brute_force_prevention: "حجب المستخدم الآلي"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2491,7 +2524,7 @@ ar:
   text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
   text_work_packages_ref_in_commit_messages: "تحديد المراجع وتثبيت مجموعات العمل في رسائل commit"
   text_journal_added: "%{value} %{label} أضيف"
-  text_journal_aggregation_time_explanation: "الجمع بين دفاتر اليومية للعرض إذا كان الفارق في السن أقل من المدى الزمني المحدد. وهذا أيضا تأخير إعلامات البريد بنفس المقدار من الوقت."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
   text_journal_changed_no_detail: "%{label} تم تحديثه"
@@ -2521,7 +2554,7 @@ ar:
   text_regexp_info: "على سبيل المثال. ^[A-Z0-9] + $"
   text_regexp_multiline: 'يتم تطبيق التعبير الاعتيادي في وضع متعدد الأسطر. على سبيل المثال: ^---\s+'
   text_repository_usernames_mapping: "قم باختيار أو تحديث مستخدم \"OpenProject: المشروع المفتوح\" الذي تم تعيينه لكل اسم مستخدم وُجِد في سجل المستودع.\nالمستخدمون الذين لديهم نفس اسم المستخدم أو عنوان البريد الإلكتروني في المشروع المفتوح OpenProject والمستودع يتم تعيينهم تلقائيًّا."
-  text_select_mail_notifications: "حدد إجراءات للبريد الإلكتروني التي يجب إرسال الإخطارات."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "تطبيق التغييرات %{value}."
   text_table_difference_description: "في هذا الجدول يتم إظهار %{entries} الفردية. تستطيع أن تشاهد الفرق بين أي اثنين من المدخلات بواسطة اختيار الخانات المتوافقة في الجدول أولًا. عند الضغط على الزر في أسفل الجدول، سيتم عرض الاختلافات."
   text_time_logged_by_changeset: "تطبيق التغييرات %{value}."
@@ -2752,10 +2785,6 @@ ar:
     password_change_unsupported: تغيير كلمة المرور غير معتمد.
     registered: "تم التسجيل"
     reset_failed_logins: "إعادة تعيين فشل تسجيل الدخول"
-    settings:
-      mail_notifications: "إرسال إشعارات البريد الإلكتروني؟"
-      mail_project_explanaition: "لمشاريع غير محددة، سيتم فقط تتلقى إعلامات حول أشياء يمكنك مشاهدة أو كنت تشارك في (على سبيل المثال-العمل بحزم كنت مؤلف أو المحال إليه)."
-      mail_self_notified: "أريد إعلامك بالتغييرات التي فعلتها"
     status_user_and_brute_force: "%{user} و %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."

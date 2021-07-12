@@ -1,20 +1,23 @@
 import { Injector } from '@angular/core';
-import { CardEventHandler } from "core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry";
-import { WorkPackageCardViewComponent } from "core-app/features/work-packages/components/wp-card-view/wp-card-view.component";
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { WorkPackageViewFocusService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service";
-import { WorkPackageCardViewService } from "core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service";
-import { StateService } from "@uirouter/core";
-import { DeviceService } from "core-app/core/browser/device.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { CardEventHandler } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
+import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
+import { StateService } from '@uirouter/core';
+import { DeviceService } from 'core-app/core/browser/device.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class CardClickHandler implements CardEventHandler {
-
   // Injections
   @InjectField() deviceService:DeviceService;
+
   @InjectField() $state:StateService;
+
   @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+
   @InjectField() wpTableFocus:WorkPackageViewFocusService;
+
   @InjectField() wpCardView:WorkPackageCardViewService;
 
   constructor(public readonly injector:Injector,
@@ -54,7 +57,6 @@ export class CardClickHandler implements CardEventHandler {
     return false;
   }
 
-
   protected handleWorkPackage(card:WorkPackageCardViewComponent, wpId:any, element:JQuery, evt:JQuery.TriggeredEvent) {
     this.setSelection(card, wpId, element, evt);
 
@@ -87,5 +89,4 @@ export class CardClickHandler implements CardEventHandler {
     // Thus save that card for the details view button.
     this.wpTableFocus.updateFocus(wpId);
   }
-
 }

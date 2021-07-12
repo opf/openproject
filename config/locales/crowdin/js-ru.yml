@@ -503,6 +503,32 @@ ru:
           create_button: 'Кнопка <b>Создать</b> добавляет новый пакет работ к вашему проекту.'
           timeline_button: 'Вы можете активировать <b>Диаграмму Ганта</b> для создания временной шкалы вашего проекта.'
           timeline: 'Здесь вы можете редактировать план вашего проекта. Создать новые фазы, вехи и добавить зависимости. Отредактированный план может быть отредактирован любым членом вашей команды в любое время.'
+    notifications:
+      title: "Уведомления"
+      channel: "Канал"
+      channels:
+        in_app: "Встроенное"
+        mail: "Электронная почта"
+      reasons:
+        mentioned: 'упомянутый'
+        watched: 'просмотрено'
+        involved: 'вовлечено'
+      facets:
+        unread: 'Непрочтено'
+        all: 'Bсе'
+      center:
+        mark_all_read: 'Отметить всё как прочитанное'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Хочу получать уведомления об изменениях, которые делаю сам"
     password_confirmation:
       field_description: 'Необходимо ввести свой пароль для подтверждения изменений.'
       title: 'Для продолжения введите свой пароль'

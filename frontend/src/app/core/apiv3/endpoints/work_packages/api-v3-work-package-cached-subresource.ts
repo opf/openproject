@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { Observable } from "rxjs";
-import { APIV3WorkPackagesPaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import { take, tap } from "rxjs/operators";
-import { WorkPackageCache } from "core-app/core/apiv3/endpoints/work_packages/work-package.cache";
-import { States } from "core-app/core/states/states.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { Observable } from 'rxjs';
+import { APIV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
+import { take, tap } from 'rxjs/operators';
+import { WorkPackageCache } from 'core-app/core/apiv3/endpoints/work_packages/work-package.cache';
+import { States } from 'core-app/core/states/states.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 export class ApiV3WorkPackageCachedSubresource extends APIv3GettableResource<WorkPackageCollectionResource> {
   @InjectField() private states:States;
@@ -45,9 +45,9 @@ export class ApiV3WorkPackageCachedSubresource extends APIv3GettableResource<Wor
       .halResourceService
       .get<WorkPackageCollectionResource>(this.path)
       .pipe(
-        tap(collection => collection.schemas && this.updateSchemas(collection.schemas)),
-        tap(collection => this.cache.updateWorkPackageList(collection.elements)),
-        take(1)
+        tap((collection) => collection.schemas && this.updateSchemas(collection.schemas)),
+        tap((collection) => this.cache.updateWorkPackageList(collection.elements)),
+        take(1),
       );
   }
 
@@ -56,7 +56,7 @@ export class ApiV3WorkPackageCachedSubresource extends APIv3GettableResource<Wor
   }
 
   private updateSchemas(schemas:CollectionResource<SchemaResource>) {
-    schemas.elements.forEach(schema => {
+    schemas.elements.forEach((schema) => {
       this.states.schemas.get(schema.href as string).putValue(schema);
     });
   }

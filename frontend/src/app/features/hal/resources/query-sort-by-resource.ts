@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,10 +27,10 @@
 //++
 
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-export const QUERY_SORT_BY_ASC = "urn:openproject-org:api:v3:queries:directions:asc";
-export const QUERY_SORT_BY_DESC = "urn:openproject-org:api:v3:queries:directions:desc";
+export const QUERY_SORT_BY_ASC = 'urn:openproject-org:api:v3:queries:directions:asc';
+export const QUERY_SORT_BY_DESC = 'urn:openproject-org:api:v3:queries:directions:desc';
 
 export interface QuerySortByResourceEmbedded {
   column:QueryColumn;
@@ -39,7 +39,9 @@ export interface QuerySortByResourceEmbedded {
 
 export class QuerySortByResource extends HalResource {
   public $embedded:QuerySortByResourceEmbedded;
+
   public column:QueryColumn;
+
   public direction:QuerySortByDirection;
 }
 

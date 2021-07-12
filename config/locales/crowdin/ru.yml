@@ -478,7 +478,6 @@ ru:
         force_password_change: "Принудительное изменение пароля при следующем входе"
         language: "Язык"
         last_login_on: "Последний вход в систему"
-        mail_notification: "Уведомления по электронной почте"
         new_password: "Новый пароль"
         password_confirmation: "Подтверждение"
         consented_at: "Согласен с"
@@ -608,6 +607,13 @@ ru:
           overlaps: 'перекрытие.'
           outside: 'за пределами сетки.'
           end_before_start: 'конечное значение должно быть больше начального.'
+        notifications:
+          at_least_one_channel: 'Нужно указать хотя бы один канал для отправки уведомлений.'
+          attributes:
+            read_ian:
+              read_on_creation: 'невозможно установить истину при создании уведомления.'
+            read_email:
+              read_on_creation: 'невозможно установить истину при создании уведомления.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -758,6 +764,11 @@ ru:
       status: "Состояние группы работ"
       member: "Участник"
       news: "Новости"
+      notification:
+        one: "Уведомление"
+        few: "Уведомления"
+        many: "Notifications"
+        other: "Уведомления"
       placeholder_user: "Пользователь-заполнитель"
       project: "Проект"
       query: "Настраиваемый запрос"
@@ -1304,6 +1315,9 @@ ru:
   instructions_after_logout: "Вы можете войти в снова, нажав %{signin}."
   instructions_after_error: "Вы можете попробовать войти снова, нажав %{signin}. Если ошибка повторится, обратитесь к вашему администратору за помощью."
   menus:
+    admin:
+      mail_notification: "Уведомления по электронной почте"
+      incoming_outgoing: "Входящие и исходящие"
     quick_add:
       label: "Открыть меню быстрого добавления"
   my_account:
@@ -1316,6 +1330,14 @@ ru:
         action: "Действие"
         expiration: "Срок действия"
       indefinite_expiration: "Никогда"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "Вы были назначены %{work_package}"
+        subscribed: "Вы подписались на %{work_package}"
+        mentioned: "Вы были назначены %{work_package}"
+        involved: "Вы либо назначены, либо ответственны за %{work_package}"
+        watched: "Вы просматриваете %{work_package}"
   label_accessibility: "Спец. возможности"
   label_account: "Учетная запись"
   label_active: "Активно"
@@ -2261,6 +2283,10 @@ ru:
   setting_apiv3_cors_origins: "Разделение ресурсов (CORS) разрешено в API V3"
   setting_apiv3_cors_origins_text_html: >
     Если CORS включен, то это источники, которым разрешен доступ к OpenProject API. <br/> Пожалуйста, проверьте <a href="%{origin_link}" target="_blank">документацию по происхождению</a> о том, как указывать ожидаемые значения.
+  setting_apiv3_docs: "Документация"
+  setting_apiv3_docs_enabled: "Включить страницу с документами"
+  setting_apiv3_docs_enabled_instructions_html: >
+    Если включена страница документации к документации, вы можете получить интерактивный вид документации APIv3 под <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Метод доставки электронной почты"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
   setting_smtp_enable_starttls_auto: "Автоматически использовать STARTTLS, если таковые имеются"
@@ -2297,7 +2323,6 @@ ru:
   setting_first_week_of_year: "Первая неделя в году содержит"
   setting_date_format: "Формат даты"
   setting_default_language: "Язык по умолчанию"
-  setting_default_notification_option: "Опция уведомления по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
   setting_diff_max_lines_displayed: "Максимальное количество отображаемых строк diff(разницы)"
@@ -2307,6 +2332,8 @@ ru:
   setting_email_login: "Использовать email как логин"
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
   setting_enabled_projects_columns: "Видимый в списке проектов"
+  setting_notification_retention_period_days: "Период хранения уведомлений"
+  setting_notification_email_delay_minutes: "Задержка отправки письма"
   setting_feeds_enabled: "Включить новостные ленты"
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
@@ -2320,7 +2347,7 @@ ru:
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_export_limit: "Лимит экспорта пакета работ"
-  setting_journal_aggregation_time_minutes: "Отображение журналов в виде агрегированных в"
+  setting_journal_aggregation_time_minutes: "Действия пользователя агрегированы в"
   setting_log_requesting_user: "Журналировать входное имя, имя и адрес электронной почты для всех запросов"
   setting_login_required: "Требуется аутентификация"
   setting_mail_from: "Адрес электронной почты выпуска"
@@ -2375,6 +2402,10 @@ ru:
     passwords: "Пароли"
     session: "Сессия"
     brute_force_prevention: "Автоматическое блокирование пользователя"
+    notifications:
+      retention_text: >
+        Количество дней в системе уведомлений для пользователей (источник уведомлений в приложении). Все события, старше этого времени будут удалены.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
@@ -2455,7 +2486,7 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_aggregation_time_explanation: "Объединить журналы для отображения, если разница в их возрасте меньше заданного значения. Это приведет к задержке почтовых уведомлений на указанное время."
+  text_journal_aggregation_time_explanation: "Личные действия пользователя (напр. обновление пакета работ дважды) агрегируются в одно действие, если их разница в возрасте меньше указанного промежутка времени. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомления на то же количество времени, уменьшая количество отправляемых сообщений."
   text_journal_changed: "%{label} изменено с %{old} <br/><strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
@@ -2485,7 +2516,7 @@ ru:
   text_regexp_info: "например:  ^[A-Z0-9]+$"
   text_regexp_multiline: 'Регулярное выражение применяется в многострочном режиме. Например: ^---\s+'
   text_repository_usernames_mapping: "Выберете или обновите пользователя OpenProject сопоставленного с именами пользователей найдеными в журнале репозитория. Пользователи с одинаковыми именами в OpenProject и в репозитории или почте будут сопоставлены автоматически."
-  text_select_mail_notifications: "Выберите действия, для которых следует направлять уведомления по электронной почте."
+  text_select_notifications: "Выберите действия, для которых уведомления должны быть отправлены."
   text_status_changed_by_changeset: "Применены в наборе изменений %{value}."
   text_table_difference_description: "В этой таблице показаны одинарные %{entries}. Посмотреть разницу между любыми двумя записями можно, выбрав флажки и нажав на кнопку. Под таблицей будут показаны различия."
   text_time_logged_by_changeset: "Применены в наборе изменений %{value}."
@@ -2712,10 +2743,6 @@ ru:
     password_change_unsupported: Смена пароля не поддерживается.
     registered: "Зарегистрирован"
     reset_failed_logins: "Сброс неудачных попыток входа"
-    settings:
-      mail_notifications: "Отправить уведомление по электронной почте"
-      mail_project_explanaition: "Для невыбранных проектов Вы будете получать только уведомления о том, за чем Вы наблюдаете или в чем участвуете (например, пакеты работ, где Вы автор или критик)."
-      mail_self_notified: "Хочу получать уведомления об изменениях, которые делаю сам"
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: "Смена статуса"
     text_change_disabled_for_provider_login: "Это имя задано вашим поставщиком авторизации, поэтому его нельзя изменить."

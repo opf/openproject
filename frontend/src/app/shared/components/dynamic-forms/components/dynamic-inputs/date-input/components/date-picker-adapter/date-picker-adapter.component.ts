@@ -1,8 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, forwardRef, NgZone } from '@angular/core';
-import { OpDatePickerComponent } from "core-app/shared/components/op-date-picker/op-date-picker.component";
-import * as moment from "moment";
-import { NG_VALUE_ACCESSOR } from "@angular/forms";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import {
+  AfterViewInit, ChangeDetectorRef, Component, forwardRef, NgZone,
+} from '@angular/core';
+import { OpDatePickerComponent } from 'core-app/shared/components/op-date-picker/op-date-picker.component';
+import * as moment from 'moment';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   selector: 'op-date-picker-adapter',
@@ -11,17 +13,18 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => DatePickerAdapterComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class DatePickerAdapterComponent extends OpDatePickerComponent implements AfterViewInit {
-  onControlChange = (_:any) => { }
-  onControlTouch = () => { }
+  onControlChange = (_:any) => { };
+
+  onControlTouch = () => { };
 
   constructor(
     timezoneService:TimezoneService,
-    private ngZone: NgZone,
+    private ngZone:NgZone,
     private changeDetectorRef:ChangeDetectorRef,
   ) {
     super(timezoneService);
@@ -31,15 +34,15 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
     this.initialDate = this.formatter(date);
   }
 
-  registerOnChange(fn: (_: any) => void): void {
+  registerOnChange(fn:(_:any) => void):void {
     this.onControlChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn:any):void {
     this.onControlTouch = fn;
   }
 
-  setDisabledState(disabled: boolean): void {
+  setDisabledState(disabled:boolean):void {
     this.disabled = disabled;
   }
 
@@ -70,18 +73,16 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
   public parser(data:any) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
-    } else {
-      return null;
     }
+    return null;
   }
 
   public formatter(data:any):string {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      var d = this.timezoneService.parseDate(data);
+      const d = this.timezoneService.parseDate(data);
 
       return this.timezoneService.formattedISODate(d);
-    } else {
-      return '';
     }
+    return '';
   }
 }

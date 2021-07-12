@@ -503,6 +503,32 @@ sv:
           create_button: '<b>Skapa</b> -knappen lägger till ett nytt arbetspaket till ditt projekt.'
           timeline_button: 'Du kan aktivera <b>Gantt-diagrammet</b> för att skapa en tidslinje för ditt projekt.'
           timeline: 'Här kan du redigera din projektplan. Skapa nya faser, milstolpar och lägga till beroenden. Alla teammedlemmar kan när som helst se och uppdatera den senaste planen.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-post"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Alla'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Jag vill bli meddelad om ändringar som jag själv gör"
     password_confirmation:
       field_description: 'Du behöver ange ditt lösenord för att bekräfta ändringen.'
       title: 'Bekräfta ditt lösenord för att fortsätta'

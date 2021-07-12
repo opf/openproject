@@ -379,6 +379,9 @@ apiv3_cors_enabled:
 apiv3_cors_origins:
   serialized: true
   default: []
+apiv3_docs_enabled:
+  default: true
+  format: boolean
 notification_retention_period_days:
   default: 30
   format: int

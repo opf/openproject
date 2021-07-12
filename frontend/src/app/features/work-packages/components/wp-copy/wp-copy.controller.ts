@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,24 +27,26 @@
 //++
 
 import { take } from 'rxjs/operators';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { Directive } from "@angular/core";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { Directive } from '@angular/core';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Directive()
 export class WorkPackageCopyController extends WorkPackageCreateComponent {
   private __initialized_at:number;
+
   private copiedWorkPackageId:string;
 
   /** Are we in the copying substates ? */
   public copying = true;
 
   @InjectField() wpRelations:WorkPackageRelationsService;
+
   @InjectField() halEditing:HalResourceEditingService;
 
   ngOnInit() {
@@ -52,7 +54,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
 
     this.wpCreate.onNewWorkPackage()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
         if (wp.__initialized_at === this.__initialized_at) {
@@ -70,7 +72,7 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
         .id(this.copiedWorkPackageId)
         .get()
         .pipe(
-          take(1)
+          take(1),
         )
         .subscribe((wp:WorkPackageResource) => {
           this.createCopyFrom(wp).then(resolve, reject);
@@ -83,11 +85,11 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent {
   }
 
   private createCopyFrom(wp:WorkPackageResource) {
-    const sourceChangeset = this.halEditing.changeFor(wp) as WorkPackageChangeset;
+    const sourceChangeset:WorkPackageChangeset = this.halEditing.changeFor(wp);
 
     return this.wpCreate
       .copyWorkPackage(sourceChangeset)
-      .then((copyChangeset:WorkPackageChangeset) => {
+      .then((copyChangeset) => {
         this.__initialized_at = copyChangeset.pristineResource.__initialized_at;
 
         this

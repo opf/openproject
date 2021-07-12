@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
+import {
+  Component, ElementRef, Input, OnInit,
+} from '@angular/core';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 
 @Component({
   selector: 'wp-replacement-label',
-  templateUrl: './wp-replacement-label.html'
+  templateUrl: './wp-replacement-label.html',
 })
 export class WorkPackageReplacementLabelComponent implements OnInit {
   @Input('fieldName') public fieldName:string;
+
   private $element:JQuery;
 
   constructor(protected wpeditForm:EditFormComponent,
-              protected elementRef:ElementRef) {
+    protected elementRef:ElementRef) {
   }
 
   ngOnInit() {

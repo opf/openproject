@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,31 +26,32 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { ConfirmDialogService } from '../confirm-dialog/confirm-dialog.service';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Component, ElementRef, OnInit } from "@angular/core";
 
 export const confirmFormSubmitSelector = 'confirm-form-submit';
 
 @Component({
   template: '',
-  selector: confirmFormSubmitSelector
+  selector: confirmFormSubmitSelector,
 })
 export class ConfirmFormSubmitController implements OnInit {
-
   // Allow original form submission after dialog was closed
   public confirmed = false;
+
   public text = {
     title: this.I18n.t('js.modals.form_submit.title'),
-    text: this.I18n.t('js.modals.form_submit.text')
+    text: this.I18n.t('js.modals.form_submit.text'),
   };
 
   private $element:JQuery<HTMLElement>;
+
   private $form:JQuery<HTMLElement>;
 
   constructor(readonly element:ElementRef,
-              readonly confirmDialog:ConfirmDialogService,
-              readonly I18n:I18nService) {
+    readonly confirmDialog:ConfirmDialogService,
+    readonly I18n:I18nService) {
   }
 
   ngOnInit() {

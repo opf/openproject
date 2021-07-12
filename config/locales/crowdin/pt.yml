@@ -475,7 +475,6 @@ pt:
         force_password_change: "Forçar alteração de senha no próximo acesso"
         language: "Idioma"
         last_login_on: "Último acesso"
-        mail_notification: "Notificações por e-mail"
         new_password: "Nova senha"
         password_confirmation: "Confirmação"
         consented_at: "Consentido em"
@@ -605,6 +604,13 @@ pt:
           overlaps: 'sobreposição.'
           outside: 'está fora da grade.'
           end_before_start: 'o valor final precisa ser maior que o valor inicial.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -751,6 +757,9 @@ pt:
       status: "Situação do pacote de trabalho"
       member: "Membro"
       news: "Notícias"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Usuário do espaço reservado"
       project: "Projeto"
       query: "Consulta personalizada"
@@ -1271,6 +1280,9 @@ pt:
   instructions_after_logout: "Você pode entrar novamente clicando em %{signin}."
   instructions_after_error: "Você pode tentar entrar novamente, clicando em %{signin}. Se o erro persistir, consulte seu administrador para obter ajuda."
   menus:
+    admin:
+      mail_notification: "Notificações por e-mail"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Abrir menu de adição rápida"
   my_account:
@@ -1283,6 +1295,14 @@ pt:
         action: "Ação"
         expiration: "Expira"
       indefinite_expiration: "Nunca"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Acessibilidade"
   label_account: "Conta"
   label_active: "Ativo"
@@ -2228,6 +2248,10 @@ pt:
   setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
+  setting_apiv3_docs: "Documentação"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Método de entrega de e-mail"
   setting_sendmail_location: "Localização do executável do sendmail"
   setting_smtp_enable_starttls_auto: "Automaticamente usar STARTTLS, se disponível"
@@ -2264,7 +2288,6 @@ pt:
   setting_first_week_of_year: "A primeira semana no ano contém"
   setting_date_format: "Formato de data"
   setting_default_language: "Idioma padrão"
-  setting_default_notification_option: "Opção de notificação padrão"
   setting_default_projects_modules: "Módulos habilitados por padrão para novos projetos"
   setting_default_projects_public: "Novos projetos são públicos por padrão"
   setting_diff_max_lines_displayed: "Número máximo de linhas diferentes exibidas"
@@ -2274,6 +2297,8 @@ pt:
   setting_email_login: "Usar e-mail como login"
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
@@ -2287,7 +2312,7 @@ pt:
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
   setting_work_packages_export_limit: "Limite para exportação de pacotes de trabalho"
-  setting_journal_aggregation_time_minutes: "Exibir diários como agregados dentro"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Registrar início de sessão do usuário, nome e endereço de e-mail para todas as requisições"
   setting_login_required: "Autenticação requerida"
   setting_mail_from: "Endereço de e-mail de saída"
@@ -2342,6 +2367,10 @@ pt:
     passwords: "Senhas"
     session: "Sessão"
     brute_force_prevention: "Bloqueio automatizado de usuário"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
@@ -2422,7 +2451,7 @@ pt:
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
-  text_journal_aggregation_time_explanation: "Combine diários para exibir se a diferença de tempo for menor que o intervalo de tempo especificado. Isso também vai atrasar as notificações de email pela mesma quantidade de tempo."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} alterado de %{old} <br/><strong>para</strong> %{new}"
   text_journal_changed_plain: "%{label} alterado de %{old} \npara %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
@@ -2452,7 +2481,7 @@ pt:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'A expressão regular é aplicada no modo multilinha. Por exemplo: ^---\s+'
   text_repository_usernames_mapping: "Selecionar ou atualizar o usuário do OpenProject mapeado para cada nome de usuário encontrado no log do repositório. Os usuários com o mesmo nome de usuário OpenProject e repositório ou e-mail serão mapeados automaticamente."
-  text_select_mail_notifications: "Selecione as ações para as quais uma notificação por e-mail deve ser enviada."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplicado no conjunto de alterações %{value}."
   text_table_difference_description: "Nesta tabela, os únicos %{entries} são mostrados. Você pode ver a diferença entre quaisquer duas entradas selecionando primeiro as caixas de seleção correspondentes na tabela. Ao clicar no botão abaixo da tabela são mostradas as diferenças."
   text_time_logged_by_changeset: "Aplicado no conjunto de alterações %{value}."
@@ -2675,10 +2704,6 @@ pt:
     password_change_unsupported: Mudança de senha não é suportada.
     registered: "registrado"
     reset_failed_logins: "Redefinição de logins que falharam"
-    settings:
-      mail_notifications: "Enviar notificações por e-mail"
-      mail_project_explanaition: "Para projetos não selecionados, você irá receber notificações somente sobre as coisas que você observar ou estiver envolvido (ex.: pacotes de trabalho em que você é o autor ou responsável)."
-      mail_self_notified: "Quero ser notificado das alterações que eu faço"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Mudança de situação"
     text_change_disabled_for_provider_login: "O nome é definido por seu fornecedor de início de sessão e, desta forma, não pode ser alterado."

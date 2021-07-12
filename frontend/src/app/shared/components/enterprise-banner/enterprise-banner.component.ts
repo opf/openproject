@@ -1,6 +1,6 @@
-import {Component, Input} from "@angular/core";
-import {BannersService} from "core-app/core/enterprise/banners.service";
-import {I18nService} from "core-app/core/i18n/i18n.service";
+import { Component, Input } from '@angular/core';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   selector: 'enterprise-banner',
@@ -16,12 +16,15 @@ import {I18nService} from "core-app/core/i18n/i18n.service";
              [textContent]="linkMessage"></a>
         </div>
       </div>
-  `
+  `,
 })
 export class EnterpriseBannerComponent {
-  @Input() public leftMargin:boolean = false;
+  @Input() public leftMargin = false;
+
   @Input() public textMessage:string;
+
   @Input() public linkMessage:string;
+
   @Input() public opReferrer:string;
 
   public text:any = {

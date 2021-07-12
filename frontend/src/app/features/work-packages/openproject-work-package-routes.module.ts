@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,9 +27,9 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { UIRouterModule } from "@uirouter/angular";
-import { WORK_PACKAGES_ROUTES } from "core-app/features/work-packages/routing/work-packages-routes";
-import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";
+import { UIRouterModule } from '@uirouter/angular';
+import { WORK_PACKAGES_ROUTES } from 'core-app/features/work-packages/routing/work-packages-routes';
+import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 
 /**
  * Separate module for work package routes because WP modules
@@ -45,7 +45,7 @@ import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/o
 
     // Routes for /work_packages
     UIRouterModule.forChild({ states: WORK_PACKAGES_ROUTES }),
-  ]
+  ],
 })
 export class OpenprojectWorkPackageRoutesModule {
 }

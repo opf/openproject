@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Inject, Injectable, Injector } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { DynamicContentModal } from "core-app/shared/components/modals/modal-wrapper/dynamic-content.modal";
+import { Inject, Injectable, Injector } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
 
 const iframeSelector = '.iframe-target-wrapper';
 
@@ -40,10 +39,9 @@ const iframeSelector = '.iframe-target-wrapper';
  */
 @Injectable({ providedIn: 'root' })
 export class OpModalWrapperAugmentService {
-
   constructor(@Inject(DOCUMENT) protected documentElement:Document,
-              protected injector:Injector,
-              protected opModalService:OpModalService) {
+    protected injector:Injector,
+    protected opModalService:OpModalService) {
   }
 
   /**
@@ -91,12 +89,12 @@ export class OpModalWrapperAugmentService {
     }
 
     this.opModalService.show(
-      DynamicContentModal,
+      DynamicContentModalComponent,
       this.injector,
       {
-        modalBody: modalBody,
-        modalClassName: modalClassName
-      }
+        modalBody,
+        modalClassName,
+      },
     );
   }
 

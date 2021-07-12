@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit,
+} from '@angular/core';
 import { Transition } from '@uirouter/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -46,35 +48,44 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 })
 export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin implements OnInit {
   public workPackageId:string;
+
   public workPackage:WorkPackageResource;
+
   public trackByHref = AngularTrackingHelpers.trackByHref;
 
   public error = false;
+
   public noResults = false;
+
   public allowedToView = false;
+
   public allowedToAdd = false;
+
   public allowedToRemove = false;
+
   public availableWatchersPath:string;
+
   private $element:JQuery;
 
   public watching:any[] = [];
+
   public text = {
     loading: this.I18n.t('js.watchers.label_loading'),
     loadingError: this.I18n.t('js.watchers.label_error_loading'),
     autocomplete: {
-      placeholder: this.I18n.t('js.watchers.typeahead_placeholder')
-    }
+      placeholder: this.I18n.t('js.watchers.typeahead_placeholder'),
+    },
   };
 
   public constructor(readonly I18n:I18nService,
-                     readonly elementRef:ElementRef,
-                     readonly wpWatchersService:WorkPackageWatchersService,
-                     readonly $transition:Transition,
-                     readonly notificationService:WorkPackageNotificationService,
-                     readonly loadingIndicator:LoadingIndicatorService,
-                     readonly cdRef:ChangeDetectorRef,
-                     readonly pathHelper:PathHelperService,
-                     readonly apiV3Service:APIV3Service) {
+    readonly elementRef:ElementRef,
+    readonly wpWatchersService:WorkPackageWatchersService,
+    readonly $transition:Transition,
+    readonly notificationService:WorkPackageNotificationService,
+    readonly loadingIndicator:LoadingIndicatorService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly pathHelper:PathHelperService,
+    readonly apiV3Service:APIV3Service) {
     super();
   }
 
@@ -88,7 +99,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
       .id(this.workPackageId)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -123,7 +134,6 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
     this.loadingIndicator.wpDetails.promise = promise;
   }
 
-
   public addWatcher(user:any) {
     this.loadingPromise = this.workPackage.addWatcher.$link.$fetch({ user: { href: user.href } })
       .then(() => {
@@ -144,9 +154,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
   public removeWatcher(watcher:any) {
     this.workPackage.removeWatcher.$link.$prepare({ user_id: watcher.id })()
       .then(() => {
-        _.remove(this.watching, (other:HalResource) => {
-          return other.href === watcher.href;
-        });
+        _.remove(this.watching, (other:HalResource) => other.href === watcher.href);
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed

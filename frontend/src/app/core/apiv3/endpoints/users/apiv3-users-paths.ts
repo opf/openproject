@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { APIv3UserPaths } from "core-app/core/apiv3/endpoints/users/apiv3-user-paths";
-import { Observable } from "rxjs";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { APIv3FormResource } from "core-app/core/apiv3/forms/apiv3-form-resource";
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { APIv3UserPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-paths';
+import { Observable } from 'rxjs';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 
 export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3UserPaths> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'users', APIv3UserPaths);
   }
 
@@ -68,8 +68,8 @@ export class Apiv3UsersPaths extends APIv3ResourceCollection<UserResource, APIv3
     return this
       .halResourceService
       .post<UserResource>(
-        this.path,
-        resource,
-      );
+      this.path,
+      resource,
+    );
   }
 }
