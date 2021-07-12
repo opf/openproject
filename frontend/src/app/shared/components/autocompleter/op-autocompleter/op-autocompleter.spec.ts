@@ -64,7 +64,7 @@ describe('autocompleter', () => {
   ];
 
   beforeEach(() => {
-    opAutocompleterServiceSpy = jasmine.createSpyObj('OpAutocompleterService', ['loadData']);
+    opAutocompleterServiceSpy = jasmine.createSpyObj('OpAutocompleterService', ['loadData', 'loadWorkPackageResource']);
 
     TestBed.configureTestingModule({
       declarations: [
@@ -95,6 +95,7 @@ describe('autocompleter', () => {
 
     // @ts-ignore
     opAutocompleterServiceSpy.loadData.and.returnValue(of(workPackagesStub));
+    opAutocompleterServiceSpy.loadWorkPackageResource.and.returnValue(of(workPackagesStub[0] as any));
   });
 
   it('should load the ng-select correctly', () => {
