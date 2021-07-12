@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -31,7 +31,7 @@ export namespace PrincipalHelper {
   export type PrincipalPluralType = 'users'|'placeholder_users'|'groups';
 
   export function typeFromHref(href:string):PrincipalType|null {
-    const match = href.match(/\/(user|group|placeholder_user)s\/\d+$/);
+    const match = /\/(user|group|placeholder_user)s\/\d+$/.exec(href);
 
     if (!match) {
       return null;
@@ -40,4 +40,3 @@ export namespace PrincipalHelper {
     return match[1] as PrincipalType;
   }
 }
-

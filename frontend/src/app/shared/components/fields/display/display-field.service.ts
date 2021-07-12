@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,10 +27,10 @@
 //++
 
 import { Injectable, Injector } from '@angular/core';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { AbstractFieldService, IFieldType } from "core-app/shared/components/fields/field.service";
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { AbstractFieldService, IFieldType } from 'core-app/shared/components/fields/field.service';
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
 export interface IDisplayFieldType extends IFieldType<DisplayField> {
   new(resource:HalResource, attributeType:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField;
@@ -49,7 +49,6 @@ export interface DisplayFieldContext {
 
 @Injectable({ providedIn: 'root' })
 export class DisplayFieldService extends AbstractFieldService<DisplayField, IDisplayFieldType> {
-
   /**
    * Create an instance of the field type T given the required arguments
    * with either in descending order:

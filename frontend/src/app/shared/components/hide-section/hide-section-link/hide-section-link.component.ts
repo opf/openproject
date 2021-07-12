@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit } from "@angular/core";
-import { HideSectionService } from "core-app/shared/components/hide-section/hide-section.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { HideSectionService } from 'core-app/shared/components/hide-section/hide-section.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+
 export const hideSectionLinkSelector = 'hide-section-link';
 
 @Component({
@@ -41,12 +42,12 @@ export class HideSectionLinkComponent implements OnInit {
   public sectionName:string;
 
   text = {
-    remove: this.I18n.t('js.label_remove')
-  }
+    remove: this.I18n.t('js.label_remove'),
+  };
 
   constructor(protected elementRef:ElementRef,
-              protected hideSectionService:HideSectionService,
-              protected I18n:I18nService) {}
+    protected hideSectionService:HideSectionService,
+    protected I18n:I18nService) {}
 
   ngOnInit():void {
     this.sectionName = this.elementRef.nativeElement.dataset.sectionName;

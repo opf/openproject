@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,23 +27,23 @@
 //++
 
 import { Moment } from 'moment';
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OnInit, Directive } from '@angular/core';
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 @Directive()
 export abstract class AbstractDateTimeValueController extends UntilDestroyedMixin implements OnInit {
   public filter:QueryFilterInstanceResource;
 
   constructor(protected I18n:I18nService,
-              protected timezoneService:TimezoneService) {
+    protected timezoneService:TimezoneService) {
     super();
   }
 
   ngOnInit() {
-    _.remove(this.filter.values as string[], value => !this.timezoneService.isValidISODateTime(value));
+    _.remove(this.filter.values as string[], (value) => !this.timezoneService.isValidISODateTime(value));
   }
 
   public abstract get lowerBoundary():Moment|null;
@@ -54,7 +54,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
     if (!this.timezoneService.isValidISODate(data)) {
       return '';
     }
-    var d = this.timezoneService.parseISODatetime(data);
+    const d = this.timezoneService.parseISODatetime(data);
     return this.timezoneService.formattedISODateTime(d);
   }
 
@@ -62,7 +62,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
     if (!this.timezoneService.isValidISODateTime(data)) {
       return '';
     }
-    var d = this.timezoneService.parseISODatetime(data);
+    const d = this.timezoneService.parseISODatetime(data);
     return this.timezoneService.formattedISODate(d);
   }
 
@@ -71,9 +71,8 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
 
     if (!value) {
       return false;
-    } else {
-      return value.hours() !== 0 || value.minutes() !== 0;
     }
+    return value.hours() !== 0 || value.minutes() !== 0;
   }
 
   public get timeZoneText() {
@@ -81,16 +80,14 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
       return this.I18n.t('js.filter.time_zone_converted.two_values',
         {
           from: this.lowerBoundary.format('YYYY-MM-DD HH:mm'),
-          to: this.upperBoundary.format('YYYY-MM-DD HH:mm')
+          to: this.upperBoundary.format('YYYY-MM-DD HH:mm'),
         });
-    } else if (this.upperBoundary) {
+    } if (this.upperBoundary) {
       return this.I18n.t('js.filter.time_zone_converted.only_end',
         { to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
-
-    } else if (this.lowerBoundary) {
+    } if (this.lowerBoundary) {
       return this.I18n.t('js.filter.time_zone_converted.only_start',
         { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm') });
-
     }
 
     return '';

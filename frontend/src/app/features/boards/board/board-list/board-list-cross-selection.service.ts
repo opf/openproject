@@ -1,6 +1,6 @@
-import { Observable, Subject } from "rxjs";
-import { filter } from "rxjs/operators";
-import { Injectable } from "@angular/core";
+import { Observable, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 export interface BoardSelection {
   /** The query that the selection happened in */
@@ -13,14 +13,12 @@ export interface BoardSelection {
   allSelected:string[];
 }
 
-
 /**
  * Responsible for keeping selected items across all lists of a board,
  * selections in one list will propagate to other lists as well.
  */
 @Injectable()
 export class BoardListCrossSelectionService {
-
   private selections$ = new Subject<BoardSelection>();
 
   /**
@@ -44,7 +42,7 @@ export class BoardListCrossSelectionService {
     return this
       .selections$
       .pipe(
-        filter(selection => selection.withinQuery !== id)
+        filter((selection) => selection.withinQuery !== id),
       );
   }
 

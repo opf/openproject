@@ -1,17 +1,18 @@
-import { AfterViewInit, Directive, ElementRef } from "@angular/core";
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
-import { OpContextMenuHandler } from "core-app/shared/components/op-context-menu/op-context-menu-handler";
-import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
+import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Directive({
-  selector: '[opContextMenuTrigger]'
+  selector: '[opContextMenuTrigger]',
 })
 export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterViewInit {
   protected $element:JQuery;
+
   protected items:OpContextMenuItem[] = [];
 
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService) {
+    readonly opContextMenu:OPContextMenuService) {
     super(opContextMenu);
   }
 
@@ -49,7 +50,7 @@ export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterV
       my: 'left top',
       at: 'left bottom',
       of: this.$element,
-      collision: 'flipfit'
+      collision: 'flipfit',
     };
   }
 }

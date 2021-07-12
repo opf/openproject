@@ -1,39 +1,53 @@
-import { AfterViewInit, ChangeDetectorRef, Directive, Input, SimpleChanges } from '@angular/core';
-import { WorkPackageStatesInitializationService } from '../../wp-list/wp-states-initialization.service';
+import {
+  AfterViewInit, ChangeDetectorRef, Directive, Input, SimpleChanges,
+} from '@angular/core';
 import {
   WorkPackageTableConfiguration,
-  WorkPackageTableConfigurationObject
+  WorkPackageTableConfigurationObject,
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { WorkPackagesViewBase } from "core-app/features/work-packages/routing/wp-view-base/work-packages-view.base";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { WorkPackageStatesInitializationService } from '../../wp-list/wp-states-initialization.service';
 
 @Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
+
   @Input() public uniqueEmbeddedTableName = `embedded-table-${Date.now()}`;
+
   @Input() public initialLoadingIndicator = true;
 
   public renderTable = false;
+
   public showTablePagination = false;
+
   public configuration:WorkPackageTableConfiguration;
+
   public error:string|null = null;
 
   protected initialized = false;
 
   @InjectField() apiV3Service:APIV3Service;
+
   @InjectField() querySpace:IsolatedQuerySpace;
+
   @InjectField() I18n!:I18nService;
+
   @InjectField() urlParamsHelper:UrlParamsHelperService;
+
   @InjectField() loadingIndicatorService:LoadingIndicatorService;
+
   @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
+
   @InjectField() currentProject:CurrentProjectService;
+
   @InjectField() cdRef:ChangeDetectorRef;
 
   ngOnInit() {
@@ -59,9 +73,8 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   public get projectIdentifier() {
     if (this.configuration.projectContext) {
       return this.currentProject.identifier || undefined;
-    } else {
-      return this.configuration.projectIdentifier || undefined;
     }
+    return this.configuration.projectIdentifier || undefined;
   }
 
   public buildQueryProps() {
@@ -92,12 +105,11 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
 
     const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
-    const promise =
-      this
-        .wpListService
-        .loadQueryFromExisting(query, params, this.queryProjectScope)
-        .toPromise()
-        .then((query) => this.wpStatesInitialization.updateQuerySpace(query, query.results));
+    const promise = this
+      .wpListService
+      .loadQueryFromExisting(query, params, this.queryProjectScope)
+      .toPromise()
+      .then((query) => this.wpStatesInitialization.updateQuerySpace(query, query.results));
 
     if (visible) {
       this.loadingIndicator = promise;
@@ -122,9 +134,8 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
   protected get queryProjectScope() {
     if (!this.configuration.projectContext) {
       return undefined;
-    } else {
-      return this.projectIdentifier;
     }
+    return this.projectIdentifier;
   }
 
   protected initializeStates(query:QueryResource) {

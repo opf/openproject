@@ -1,16 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { GlobalEditFormChangesTrackerService } from './global-edit-form-changes-tracker.service';
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
 
 describe('GlobalEditFormChangesTrackerService', () => {
   let service:GlobalEditFormChangesTrackerService;
-  const createForm = (changed?:boolean) => {
-    return {
-      change: {
-        isEmpty: () => !changed
-      }
-    } as EditFormComponent;
-  };
+  const createForm = (changed?:boolean) => ({
+    change: {
+      isEmpty: () => !changed,
+    },
+  } as EditFormComponent);
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

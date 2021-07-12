@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { HttpErrorResponse } from "@angular/common/http";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { HttpErrorResponse } from '@angular/common/http';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
-import { OpenProjectFileUploadService, UploadFile } from "core-app/core/file-upload/op-file-upload.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { AttachmentCollectionResource } from "core-app/features/hal/resources/attachment-collection-resource";
+import { OpenProjectFileUploadService, UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 
@@ -44,11 +44,17 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     public attachments:AttachmentCollectionResource;
 
     private NotificationsService:NotificationsService;
+
     private halNotification:HalResourceNotificationService;
+
     private opFileUpload:OpenProjectFileUploadService;
+
     private opDirectFileUpload:OpenProjectDirectFileUploadService;
+
     private pathHelper:PathHelperService;
+
     private apiV3Service:APIV3Service;
+
     private config:ConfigurationService;
 
     /**
@@ -145,7 +151,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
           setTimeout(() => this.NotificationsService.remove(notification), 700);
 
           this.attachments.count += result.length;
-          result.forEach(r => {
+          result.forEach((r) => {
             this.attachments.elements.push(r.response);
           });
           this.updateState();
@@ -154,11 +160,11 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
         })
         .catch((error:HttpErrorResponse) => {
           let message:undefined|string;
-          console.error("Error while uploading: %O", error);
+          console.error('Error while uploading: %O', error);
 
           if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred.
-            message = this.I18n.t('js.error_attachment_upload', { error: error });
+            message = this.I18n.t('js.error_attachment_upload', { error });
           } else if (_.get(error, 'error._type') === 'Error') {
             message = error.error.message;
           } else {
@@ -176,7 +182,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
       if (href) {
         return this.opDirectFileUpload.uploadAndMapResponse(href, files);
-      } else if (this.isNew || !this.id || !this.attachmentsBackend) {
+      } if (this.isNew || !this.id || !this.attachmentsBackend) {
         href = this.apiV3Service.attachments.path;
       } else {
         href = this.addAttachment.$link.href;
@@ -192,9 +198,8 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
       if (this.isNew) {
         return this.config.prepareAttachmentURL;
-      } else {
-        return null;
       }
+      return null;
     }
 
     private updateState() {
@@ -235,7 +240,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
         attachments,
         false,
         this.halInitializer,
-        'HalResource'
+        'HalResource',
       );
     }
   };

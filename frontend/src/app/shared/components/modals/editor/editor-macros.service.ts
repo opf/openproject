@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { Injectable, Injector } from "@angular/core";
-import { WpButtonMacroModal } from "core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal";
-import { WikiIncludePageMacroModal } from "core-app/shared/components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal";
-import { CodeBlockMacroModal } from "core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal";
-import { ChildPagesMacroModal } from "core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal";
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { Injectable, Injector } from '@angular/core';
+import { WpButtonMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
+import { WikiIncludePageMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-wiki-include-page-modal/wiki-include-page-macro.modal';
+import { CodeBlockMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal';
+import { ChildPagesMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
 
 @Injectable()
 export class EditorMacrosService {
-
   constructor(readonly opModalService:OpModalService,
-              readonly injector:Injector) {
+    readonly injector:Injector) {
   }
 
   /**
@@ -46,8 +45,8 @@ export class EditorMacrosService {
    */
   public configureWorkPackageButton(typeName?:string, classes?:string):Promise<{ type:string, classes:string }> {
     return new Promise<{ type:string, classes:string }>((resolve, reject) => {
-      const modal = this.opModalService.show(WpButtonMacroModal, this.injector, { type: typeName, classes: classes });
-      modal.closingEvent.subscribe((modal:WpButtonMacroModal) => {
+      const modal = this.opModalService.show(WpButtonMacroModalComponent, this.injector, { type: typeName, classes });
+      modal.closingEvent.subscribe((modal:WpButtonMacroModalComponent) => {
         if (modal.changed) {
           resolve({ type: modal.type, classes: modal.classes });
         }
@@ -62,8 +61,8 @@ export class EditorMacrosService {
   public configureWikiPageInclude(page:string):Promise<string> {
     return new Promise<string>((resolve, _) => {
       const pageValue = page || '';
-      const modal = this.opModalService.show(WikiIncludePageMacroModal, this.injector, { page: pageValue });
-      modal.closingEvent.subscribe((modal:WikiIncludePageMacroModal) => {
+      const modal = this.opModalService.show(WikiIncludePageMacroModalComponent, this.injector, { page: pageValue });
+      modal.closingEvent.subscribe((modal:WikiIncludePageMacroModalComponent) => {
         if (modal.changed) {
           resolve(modal.page);
         }
@@ -77,8 +76,8 @@ export class EditorMacrosService {
    */
   public editCodeBlock(content:string, languageClass:string):Promise<{ content:string, languageClass:string }> {
     return new Promise<{ content:string, languageClass:string }>((resolve, _) => {
-      const modal = this.opModalService.show(CodeBlockMacroModal, this.injector, { content: content, languageClass: languageClass });
-      modal.closingEvent.subscribe((modal:CodeBlockMacroModal) => {
+      const modal = this.opModalService.show(CodeBlockMacroModalComponent, this.injector, { content, languageClass });
+      modal.closingEvent.subscribe((modal:CodeBlockMacroModalComponent) => {
         if (modal.changed) {
           resolve({ languageClass: modal.languageClass, content: modal.content });
         }
@@ -92,12 +91,12 @@ export class EditorMacrosService {
    */
   public configureChildPages(page:string, includeParent:string):Promise<object> {
     return new Promise<object>((resolve, _) => {
-      const modal = this.opModalService.show(ChildPagesMacroModal, this.injector,{ page: page, includeParent: includeParent });
-      modal.closingEvent.subscribe((modal:ChildPagesMacroModal) => {
+      const modal = this.opModalService.show(ChildPagesMacroModalComponent, this.injector, { page, includeParent });
+      modal.closingEvent.subscribe((modal:ChildPagesMacroModalComponent) => {
         if (modal.changed) {
           resolve({
             page: modal.page,
-            includeParent: modal.includeParent
+            includeParent: modal.includeParent,
           });
         }
       });

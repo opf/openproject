@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Injectable } from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentProjectService {
   private current:{ id:string, identifier:string, name:string };
 
   constructor(private PathHelper:PathHelperService,
-              private apiV3Service:APIV3Service) {
+    private apiV3Service:APIV3Service) {
     this.detect();
   }
 
@@ -88,7 +88,7 @@ export class CurrentProjectService {
       this.current = {
         id: element.dataset.projectId!,
         name: element.dataset.projectName!,
-        identifier: element.dataset.projectIdentifier!
+        identifier: element.dataset.projectIdentifier!,
       };
     }
   }

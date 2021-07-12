@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";
-import { APIv3TypesPaths } from "core-app/core/apiv3/endpoints/types/apiv3-types-paths";
-import { APIV3WorkPackagesPaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { APIv3VersionsPaths } from "core-app/core/apiv3/endpoints/versions/apiv3-versions-paths";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { APIv3ProjectsPaths } from "core-app/core/apiv3/endpoints/projects/apiv3-projects-paths";
-import { APIv3ProjectCopyPaths } from "core-app/core/apiv3/endpoints/projects/apiv3-project-copy-paths";
+import { APIv3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
+import { APIv3TypesPaths } from 'core-app/core/apiv3/endpoints/types/apiv3-types-paths';
+import { APIV3WorkPackagesPaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-packages-paths';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { APIv3VersionsPaths } from 'core-app/core/apiv3/endpoints/versions/apiv3-versions-paths';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { APIv3ProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-projects-paths';
+import { APIv3ProjectCopyPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-project-copy-paths';
 
 export class APIv3ProjectPaths extends CachableAPIV3Resource<ProjectResource> {
   // /api/v3/projects/:project_id/available_assignees

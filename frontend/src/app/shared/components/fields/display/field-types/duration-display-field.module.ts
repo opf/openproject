@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export class DurationDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
@@ -43,7 +43,7 @@ export class DurationDisplayField extends DisplayField {
    * Duration fields may have an additional derived value
    */
   public get derivedPropertyName() {
-    return "derived" + this.name.charAt(0).toUpperCase() + this.name.slice(1);
+    return `derived${this.name.charAt(0).toUpperCase()}${this.name.slice(1)}`;
   }
 
   public get derivedValue():string|null {
@@ -55,9 +55,8 @@ export class DurationDisplayField extends DisplayField {
 
     if (value) {
       return this.timezoneService.formattedDuration(value);
-    } else {
-      return this.placeholder;
     }
+    return this.placeholder;
   }
 
   public render(element:HTMLElement, displayText:string):void {
@@ -67,7 +66,7 @@ export class DurationDisplayField extends DisplayField {
     }
 
     element.classList.add('split-time-field');
-    const value = this.value;
+    const { value } = this;
     const actual:number = (value && this.timezoneService.toHours(value)) || 0;
 
     if (actual !== 0) {
@@ -94,7 +93,7 @@ export class DurationDisplayField extends DisplayField {
     const span = document.createElement('span');
 
     span.setAttribute('title', this.texts.empty);
-    span.textContent = '(' + (actualPresent ? '+' : '') + displayText + ')';
+    span.textContent = `(${actualPresent ? '+' : ''}${displayText})`;
     span.title = `${this.derivedValueString} ${this.derivedText}`;
     span.classList.add('-derived-value');
 
@@ -110,12 +109,11 @@ export class DurationDisplayField extends DisplayField {
   }
 
   public isEmpty():boolean {
-    const value = this.value;
+    const { value } = this;
     const derived = this.derivedValue;
 
     const valueEmpty = !value || this.timezoneService.toHours(value) === 0;
     const derivedEmpty = !derived || this.timezoneService.toHours(derived) === 0;
-
 
     return valueEmpty && derivedEmpty;
   }

@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { SubtasksBoardHeaderComponent } from "core-app/features/boards/board/board-actions/subtasks/subtasks-board-header.component";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Injectable } from '@angular/core';
+import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SubtasksBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/subtasks/subtasks-board-header.component';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class BoardSubtasksActionService extends BoardActionService {
@@ -22,7 +22,7 @@ export class BoardSubtasksActionService extends BoardActionService {
 
   icon = 'icon-hierarchy';
 
-  image = ImageHelpers.imagePath('board_creation_modal/parent-child.svg');
+  image = imagePath('board_creation_modal/parent-child.svg');
 
   localizedName = this.I18n.t('js.boards.board_type.action_type.subtasks');
 
@@ -48,7 +48,7 @@ export class BoardSubtasksActionService extends BoardActionService {
   protected loadValues(matching?:string):Observable<HalResource[]> {
     const filters = new ApiV3FilterBuilder();
     filters.add('is_milestone', '=', false);
-    filters.add('project', '=', [this.currentProject.id]);
+    filters.add('project', '=', [this.currentProject.id || '']);
 
     if (matching) {
       filters.add('subjectOrId', '**', [matching]);
@@ -60,7 +60,7 @@ export class BoardSubtasksActionService extends BoardActionService {
       .filtered(filters)
       .get()
       .pipe(
-        map(collection => collection.elements)
+        map((collection) => collection.elements),
       );
   }
 

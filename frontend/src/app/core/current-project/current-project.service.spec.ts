@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,21 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+/* jshint expr: true */
 
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from './current-project.service';
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
-describe('currentProject service', function() {
+describe('currentProject service', () => {
   let element:JQuery;
   let currentProject:CurrentProjectService;
 
   const apiV3Stub:any = {
     projects: {
-      id: (id:string) => {
-        return { toString: () => '/api/v3/projects/' + id };
-      }
-    }
+      id: (id:string) => ({ toString: () => `/api/v3/projects/${id}` }),
+    },
   };
 
   beforeEach(() => {

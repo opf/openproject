@@ -12,7 +12,7 @@ export namespace I18nHelpers {
    * @param map A hash of locale => URL to use
    */
   export function localizeLink(map:LocalizedLinkMap) {
-    const locale = I18n.locale;
+    const { locale } = I18n;
 
     return map[locale] || map.en;
   }

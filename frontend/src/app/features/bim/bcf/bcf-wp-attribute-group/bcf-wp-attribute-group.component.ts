@@ -6,31 +6,31 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild
-} from "@angular/core";
-import { StateService } from "@uirouter/core";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+  ViewChild,
+} from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { NgxGalleryComponent, NgxGalleryOptions } from '@kolkov/ngx-gallery';
-import { HalLink } from "core-app/features/hal/hal-link/hal-link";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ViewerBridgeService } from "core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { WorkPackageCreateService } from "core-app/features/work-packages/components/wp-new/wp-create.service";
-import { BcfAuthorizationService } from "core-app/features/bim/bcf/api/bcf-authorization.service";
-import { ViewpointsService } from "core-app/features/bim/bcf/helper/viewpoints.service";
-import { BcfViewpointItem } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
+import { BcfAuthorizationService } from 'core-app/features/bim/bcf/api/bcf-authorization.service';
+import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
+import { BcfViewpointItem } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
   styleUrls: ['./bcf-wp-attribute-group.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ViewpointsService]
+  providers: [ViewpointsService],
 })
 export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy, OnInit {
   @Input() workPackage:WorkPackageResource;
+
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
 
   text = {
@@ -86,7 +86,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       imagePercent: 80,
       thumbnailsPercent: 20,
       thumbnailsMargin: 5,
-      thumbnailMargin: 5
+      thumbnailMargin: 5,
     },
     // max-width 680
     {
@@ -95,7 +95,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       thumbnailsColumns: 3,
       thumbnailsMargin: 5,
       thumbnailMargin: 5,
-    }
+    },
   ];
 
   viewpoints:BcfViewpointItem[] = [];
@@ -104,21 +104,24 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
   // Store whether viewing is allowed
   viewAllowed = false;
+
   // Store whether viewpoint creation is allowed
   createAllowed = false;
+
   // Currently, this is static. Need observable if this changes over time
   viewerVisible = false;
+
   projectId:string;
 
   constructor(readonly state:StateService,
-              readonly bcfAuthorization:BcfAuthorizationService,
-              readonly viewerBridge:ViewerBridgeService,
-              readonly apiV3Service:APIV3Service,
-              readonly wpCreate:WorkPackageCreateService,
-              readonly notifications:NotificationsService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService,
-              readonly viewpointsService:ViewpointsService) {
+    readonly bcfAuthorization:BcfAuthorizationService,
+    readonly viewerBridge:ViewerBridgeService,
+    readonly apiV3Service:APIV3Service,
+    readonly wpCreate:WorkPackageCreateService,
+    readonly notifications:NotificationsService,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService,
+    readonly viewpointsService:ViewpointsService) {
     super();
   }
 
@@ -145,7 +148,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       .id(this.workPackage)
       .requireAndStream()
       .pipe(this.untilDestroyed())
-      .subscribe(async wp => {
+      .subscribe(async (wp) => {
         this.workPackage = wp;
 
         if (!this.projectId) {
@@ -184,7 +187,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
     this.viewpointsService
       .deleteViewPoint$(workPackage, index)
-      .subscribe(data => {
+      .subscribe((data) => {
         this.notifications.addSuccess(this.text.notice_successful_delete);
         this.gallery.preview.close();
       });
@@ -193,7 +196,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   public saveViewpoint(workPackage:WorkPackageResource) {
     this.viewpointsService
       .saveViewpoint$(workPackage)
-      .subscribe(viewpoint => {
+      .subscribe((viewpoint) => {
         this.notifications.addSuccess(this.text.notice_successful_create);
         this.showIndex = this.viewpoints.length;
       });
@@ -210,9 +213,9 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   public shouldShowGroup() {
-    return this.viewAllowed &&
-      (this.viewpoints.length > 0 ||
-        (this.createAllowed && this.viewerVisible));
+    return this.viewAllowed
+      && (this.viewpoints.length > 0
+        || (this.createAllowed && this.viewerVisible));
   }
 
   // Gallery functionality
@@ -224,13 +227,13 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
           this.showViewpoint(this.workPackage, index);
           this.gallery.preview.close();
         },
-        titleText: this.text.show_viewpoint
+        titleText: this.text.show_viewpoint,
       },
       {
         icon: 'icon-delete',
         onClick: (evt:any, index:number) => this.deleteViewpoint(this.workPackage, index),
-        titleText: this.text.delete_viewpoint
-      }
+        titleText: this.text.delete_viewpoint,
+      },
     ];
   }
 
@@ -261,7 +264,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   protected setViewpointsOnGallery(viewpoints:BcfViewpointItem[]) {
-    const length = viewpoints.length;
+    const { length } = viewpoints;
 
     this.setThumbnailProperties(length);
 
@@ -271,13 +274,11 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       this.showIndex = length - 1;
     }
 
-    this.galleryImages = viewpoints.map(viewpoint => {
-      return {
-        small: viewpoint.snapshotURL,
-        medium: viewpoint.snapshotURL,
-        big: viewpoint.snapshotURL
-      };
-    });
+    this.galleryImages = viewpoints.map((viewpoint) => ({
+      small: viewpoint.snapshotURL,
+      medium: viewpoint.snapshotURL,
+      big: viewpoint.snapshotURL,
+    }));
     this.cdRef.detectChanges();
   }
 

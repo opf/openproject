@@ -1,27 +1,30 @@
-import { EventEmitter, ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
+import {
+  EventEmitter, ChangeDetectionStrategy, Component, Input, OnInit, Output,
+} from '@angular/core';
 import {
   InAppNotification,
-  InAppNotificationDetail
-} from "core-app/features/in-app-notifications/store/in-app-notification.model";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { NEVER, Observable, timer } from "rxjs";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { HalResource, HalSourceLink } from "core-app/features/hal/resources/hal-resource";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { InAppNotificationsService } from "core-app/features/in-app-notifications/store/in-app-notifications.service";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { distinctUntilChanged, map, mapTo } from "rxjs/operators";
-import { PrincipalLike } from "core-app/shared/components/principal/principal-types";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+  InAppNotificationDetail,
+} from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Observable, timer } from 'rxjs';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   selector: 'op-in-app-notification-entry',
   templateUrl: './in-app-notification-entry.component.html',
   styleUrls: ['./in-app-notification-entry.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationEntryComponent implements OnInit {
   @Input() notification:InAppNotification;
+
   @Output() resourceLinkClicked = new EventEmitter<unknown>();
 
   workPackage$:Observable<WorkPackageResource>|null = null;
@@ -41,6 +44,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   // Format relative elapsed time (n seconds/minutes/hours ago)
   // at an interval for auto updating
   relativeTime$:Observable<string>;
+
   fixedTime:string;
 
   project?:{ href:string, title:string, showUrl:string };
@@ -48,7 +52,6 @@ export class InAppNotificationEntryComponent implements OnInit {
   text = {
     loading: this.I18n.t('js.ajax.loading'),
   };
-
 
   constructor(
     readonly apiV3Service:APIV3Service,
@@ -83,8 +86,8 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   private buildDetails() {
     const details = this.notification.details || [];
-    this.body = details.filter(el => el.format === 'markdown');
-    this.details = details.filter(el => el.format === 'custom');
+    this.body = details.filter((el) => el.format === 'markdown');
+    this.details = details.filter((el) => el.format === 'custom');
   }
 
   private buildTime() {
@@ -92,7 +95,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     this.relativeTime$ = timer(0, 10000)
       .pipe(
         map(() => this.timezoneService.formattedRelativeDateTime(this.notification.updatedAt)),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
   }
 
@@ -108,7 +111,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   private buildActor() {
-    const actor = this.notification._links.actor;
+    const { actor } = this.notification._links;
 
     if (actor) {
       this.actor = {
@@ -120,8 +123,8 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   private buildTranslatedReason() {
     this.translatedReason = this.I18n.t(
-      'js.notifications.reasons.' + this.notification.reason,
-      { defaultValue: this.notification.reason }
+      `js.notifications.reasons.${this.notification.reason}`,
+      { defaultValue: this.notification.reason },
     );
   }
 
@@ -130,7 +133,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   private buildProject() {
-    const project = this.notification._links.project;
+    const { project } = this.notification._links;
 
     if (project) {
       this.project = {

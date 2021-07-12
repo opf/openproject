@@ -1,26 +1,25 @@
-import { Injectable } from "@angular/core";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { Board } from "core-app/features/boards/board/board";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
+import { Injectable } from '@angular/core';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { Board } from 'core-app/features/boards/board/board';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 
 @Injectable({ providedIn: 'root' })
 export class BoardListsService {
-
   private v3 = this.pathHelper.api.v3;
 
   constructor(private readonly CurrentProject:CurrentProjectService,
-              private readonly pathHelper:PathHelperService,
-              private readonly apiV3Service:APIV3Service,
-              private readonly halResourceService:HalResourceService,
-              private readonly notifications:NotificationsService,
-              private readonly I18n:I18nService) {
+    private readonly pathHelper:PathHelperService,
+    private readonly apiV3Service:APIV3Service,
+    private readonly halResourceService:HalResourceService,
+    private readonly notifications:NotificationsService,
+    private readonly I18n:I18nService) {
 
   }
 
@@ -34,7 +33,7 @@ export class BoardListsService {
       .loadWithParams(
         {
           pageSize: 0,
-          filters: filterJson
+          filters: filterJson,
         },
         undefined,
         this.CurrentProject.identifier,
@@ -44,15 +43,14 @@ export class BoardListsService {
       .then(([form, query]) => {
         // When the permission to create public queries is missing, throw an error.
         // Otherwise private queries would be created.
-        if (form.schema['public'].writable) {
+        if (form.schema.public.writable) {
           return this
             .apiV3Service
             .queries
             .post(query, form)
             .toPromise();
-        } else {
-          throw new Error(this.I18n.t('js.boards.error_permission_missing'));
         }
+        throw new Error(this.I18n.t('js.boards.error_permission_missing'));
       });
   }
 
@@ -83,8 +81,8 @@ export class BoardListsService {
         endColumn: count + 2,
         options: {
           queryId: query.id,
-          filters: filters,
-        }
+          filters,
+        },
       };
 
       const resource = this.halResourceService.createHalResourceOfClass(GridWidgetResource, source);
@@ -100,13 +98,13 @@ export class BoardListsService {
     return {
       hidden: true,
       public: true,
-      "_links": {
-        "sortBy": [
-          { "href": this.v3.apiV3Base + "/queries/sort_bys/manualSorting-asc" },
-          { "href": this.v3.apiV3Base + "/queries/sort_bys/id-asc" },
-        ]
+      _links: {
+        sortBy: [
+          { href: `${this.v3.apiV3Base}/queries/sort_bys/manualSorting-asc` },
+          { href: `${this.v3.apiV3Base}/queries/sort_bys/id-asc` },
+        ],
       },
-      ...params
+      ...params,
     };
   }
 

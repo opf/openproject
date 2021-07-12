@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { Observable } from "rxjs";
-import { InAppNotification } from "core-app/features/in-app-notifications/store/in-app-notification.model";
-import { HttpClient } from "@angular/common/http";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { Observable } from 'rxjs';
+import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { HttpClient } from '@angular/common/http';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class Apiv3NotificationPaths extends APIv3GettableResource<InAppNotification> {
   @InjectField() http:HttpClient;
@@ -39,12 +39,12 @@ export class Apiv3NotificationPaths extends APIv3GettableResource<InAppNotificat
     return this
       .http
       .post(
-        this.path + '/read_ian',
+        `${this.path}/read_ian`,
         {},
         {
           withCredentials: true,
-          responseType: 'json'
-        }
+          responseType: 'json',
+        },
       );
   }
 
@@ -52,12 +52,12 @@ export class Apiv3NotificationPaths extends APIv3GettableResource<InAppNotificat
     return this
       .http
       .post(
-        this.path + '/unread_ian',
+        `${this.path}/unread_ian`,
         {},
         {
           withCredentials: true,
-          responseType: 'json'
-        }
+          responseType: 'json',
+        },
       );
   }
 }

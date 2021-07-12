@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Inject, Injectable } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
-import { debugLog } from "core-app/shared/helpers/debug_output";
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 @Injectable({ providedIn: 'root' })
 export class PathScriptAugmentService {
-
   constructor(@Inject(DOCUMENT) protected documentElement:Document) {
   }
 
@@ -49,8 +47,8 @@ export class PathScriptAugmentService {
     const matches = this.documentElement.querySelectorAll<HTMLMetaElement>('meta[name="required_script"]');
     for (let i = 0; i < matches.length; ++i) {
       const name = matches[i].content;
-      debugLog("Loading required script " + name);
-      import('../dynamic-scripts/' + name);
+      debugLog(`Loading required script ${name}`);
+      import(`../dynamic-scripts/${name}`);
     }
   }
 }

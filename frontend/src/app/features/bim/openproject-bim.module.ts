@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,15 +27,14 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OpenprojectBcfModule } from "core-app/features/bim/bcf/openproject-bcf.module";
-import { OpenprojectIFCModelsModule } from "core-app/features/bim/ifc_models/openproject-ifc-models.module";
+import { OpenprojectBcfModule } from 'core-app/features/bim/bcf/openproject-bcf.module';
+import { OpenprojectIFCModelsModule } from 'core-app/features/bim/ifc_models/openproject-ifc-models.module';
 
 @NgModule({
   imports: [
     OpenprojectBcfModule,
     OpenprojectIFCModelsModule,
-  ]
+  ],
 })
 export class OpenprojectBimModule {
 }
-

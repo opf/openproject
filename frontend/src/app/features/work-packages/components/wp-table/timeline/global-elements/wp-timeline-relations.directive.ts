@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, Injector, OnInit } from '@angular/core';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import {
+  Component, ElementRef, Injector, OnInit,
+} from '@angular/core';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { State } from 'reactivestates';
 import { combineLatest } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { States } from "core-app/core/states/states.service";
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { RelationsStateValue, WorkPackageRelationsService } from '../../../wp-relations/wp-relations.service';
 import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { timelineElementCssClass, TimelineViewParameters } from '../wp-timeline';
 import { TimelineRelationElement, workPackagePrefix } from './timeline-relation-element';
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
@@ -53,19 +55,18 @@ function newSegment(vp:TimelineViewParameters,
   width:number,
   height:number,
   color?:string):HTMLElement {
-
   const segment = document.createElement('div');
   segment.classList.add(
     timelineElementCssClass,
     timelineGlobalElementCssClassname,
-    ...classNames
+    ...classNames,
   );
 
   // segment.style.backgroundColor = color;
-  segment.style.top = ((yPosition * 40) + top) + 'px';
-  segment.style.left = left + 'px';
-  segment.style.width = width + 'px';
-  segment.style.height = height + 'px';
+  segment.style.top = `${(yPosition * 40) + top}px`;
+  segment.style.left = `${left}px`;
+  segment.style.width = `${width}px`;
+  segment.style.height = `${height}px`;
 
   if (DEBUG_DRAW_RELATION_LINES_WITH_COLOR && color !== undefined) {
     segment.style.zIndex = '9999999';
@@ -76,10 +77,9 @@ function newSegment(vp:TimelineViewParameters,
 
 @Component({
   selector: 'wp-timeline-relations',
-  template: '<div class="wp-table-timeline--relations"></div>'
+  template: '<div class="wp-table-timeline--relations"></div>',
 })
 export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
-
   @InjectField() querySpace:IsolatedQuerySpace;
 
   private container:JQuery;
@@ -87,11 +87,11 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   private workPackagesWithRelations:{ [workPackageId:string]:State<RelationsStateValue> } = {};
 
   constructor(public readonly injector:Injector,
-              public elementRef:ElementRef,
-              public states:States,
-              public workPackageTimelineTableController:WorkPackageTimelineTableController,
-              public wpTableTimeline:WorkPackageViewTimelineService,
-              public wpRelations:WorkPackageRelationsService) {
+    public elementRef:ElementRef,
+    public states:States,
+    public workPackageTimelineTableController:WorkPackageTimelineTableController,
+    public wpTableTimeline:WorkPackageViewTimelineService,
+    public wpRelations:WorkPackageRelationsService) {
     super();
   }
 
@@ -119,26 +119,26 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
     // for all visible WorkPackage rows...
     combineLatest([
       this.querySpace.renderedWorkPackages.values$(),
-      this.wpTableTimeline.live$()
+      this.wpTableTimeline.live$(),
     ])
       .pipe(
         filter(([_, timeline]) => timeline.visible),
         this.untilDestroyed(),
-        map(([rendered, _]) => rendered)
+        map(([rendered, _]) => rendered),
       )
-      .subscribe(list => {
+      .subscribe((list) => {
         // ... make sure that the corresponding relations are loaded ...
-        const wps = _.compact(list.map(row => row.workPackageId) as string[]);
+        const wps = _.compact(list.map((row) => row.workPackageId) as string[]);
         this.wpRelations.requireAll(wps);
 
-        wps.forEach(wpId => {
+        wps.forEach((wpId) => {
           const relationsForWorkPackage = this.wpRelations.state(wpId);
           this.workPackagesWithRelations[wpId] = relationsForWorkPackage;
 
           // ... once they are loaded, display them.
           relationsForWorkPackage.values$()
             .pipe(
-              take(1)
+              take(1),
             )
             .subscribe(() => {
               this.renderWorkPackagesRelations([wpId]);
@@ -150,26 +150,24 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
     this.states.workPackages.observeChange()
       .pipe(
         this.untilDestroyed(),
-        filter(() => this.wpTableTimeline.isVisible)
+        filter(() => this.wpTableTimeline.isVisible),
       )
       .subscribe(([workPackageId]) => {
         this.renderWorkPackagesRelations([workPackageId]);
       });
-
   }
 
   private renderWorkPackagesRelations(workPackageIds:string[]) {
-    workPackageIds.forEach(workPackageId => {
+    workPackageIds.forEach((workPackageId) => {
       const workPackageWithRelation = this.workPackagesWithRelations[workPackageId];
       if (_.isNil(workPackageWithRelation)) {
         return;
       }
 
       this.removeRelationElementsForWorkPackage(workPackageId);
-      const relations = _.values(workPackageWithRelation.value!);
+      const relations = _.values(workPackageWithRelation.value);
       const relationsList = _.values(relations);
-      relationsList.forEach(relation => {
-
+      relationsList.forEach((relation) => {
         if (!(relation.type === 'precedes'
           || relation.type === 'follows')) {
           return;
@@ -178,7 +176,6 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
         const elem = new TimelineRelationElement(relation.ids.from, relation);
         this.renderElement(this.workPackageTimelineTableController.viewParameters, elem);
       });
-
     });
   }
 
@@ -189,18 +186,17 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
 
   private removeRelationElementsForWorkPackage(workPackageId:string) {
     const className = workPackagePrefix(workPackageId);
-    const found = this.container.find('.' + className);
+    const found = this.container.find(`.${className}`);
     found.remove();
   }
 
   private removeAllVisibleElements() {
-    this.container.find('.' + timelineGlobalElementCssClassname).remove();
+    this.container.find(`.${timelineGlobalElementCssClassname}`).remove();
   }
 
   private renderElements() {
     const wpIdsWithRelations:string[] = _.keys(this.workPackagesWithRelations);
     this.renderWorkPackagesRelations(wpIdsWithRelations);
-
   }
 
   /**
@@ -236,7 +232,6 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
     idxTo:number,
     startCell:WorkPackageTimelineCell,
     endCell:WorkPackageTimelineCell) {
-
     const rowFrom = this.workPackageIdOrder[idxFrom];
     const rowTo = this.workPackageIdOrder[idxTo];
 
@@ -259,8 +254,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
     const directionY:'toUp'|'toDown' = idxFrom < idxTo ? 'toDown' : 'toUp';
 
     // Horizontal direction
-    const directionX:'toLeft'|'beneath'|'toRight' =
-      targetX > startX ? 'toRight' : targetX < startX ? 'toLeft' : 'beneath';
+    const directionX:'toLeft'|'beneath'|'toRight' = targetX > startX ? 'toRight' : targetX < startX ? 'toLeft' : 'beneath';
 
     // start
     if (!startCell) {
@@ -305,7 +299,5 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX + 1, 1, 11, 'blue'));
       }
     }
-
   }
 }
-

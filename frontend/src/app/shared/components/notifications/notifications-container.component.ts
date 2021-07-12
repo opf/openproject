@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,11 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
+} from '@angular/core';
 import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 export const notificationsContainerSelector = 'notifications-container';
 
@@ -41,14 +43,13 @@ export const notificationsContainerSelector = 'notifications-container';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: notificationsContainerSelector
+  selector: notificationsContainerSelector,
 })
 export class NotificationsContainerComponent extends UntilDestroyedMixin implements OnInit {
-
   public stack:INotification[] = [];
 
   constructor(readonly notificationsService:NotificationsService,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -57,13 +58,11 @@ export class NotificationsContainerComponent extends UntilDestroyedMixin impleme
       .current
       .values$('Subscribing to changes in the notification stack')
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
-      .subscribe(stack => {
+      .subscribe((stack) => {
         this.stack = stack;
         this.cdRef.detectChanges();
       });
   }
 }
-
-

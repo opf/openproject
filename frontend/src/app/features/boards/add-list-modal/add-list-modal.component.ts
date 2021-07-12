@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,35 +26,37 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
-import { StateService } from "@uirouter/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from '@angular/core';
+import { StateService } from '@uirouter/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import {
   DebouncedRequestSwitchmap,
   errorNotificationHandler,
-} from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { Board } from "core-app/features/boards/board/board";
-import { BoardService } from "core-app/features/boards/board/board.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { BoardActionsRegistryService } from "core-app/features/boards/board/board-actions/board-actions-registry.service";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
-import { ValueOption } from "core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { Board } from 'core-app/features/boards/board/board';
+import { BoardService } from 'core-app/features/boards/board/board.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
+import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
+import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 @Component({
-  templateUrl: './add-list-modal.html'
+  templateUrl: './add-list-modal.html',
 })
 export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
     (searchTerm:string) => this.actionService.loadAvailable(this.board, this.active, searchTerm),
     errorNotificationHandler(this.halNotification),
-    true
+    true,
   );
 
   public showClose:boolean;
@@ -102,7 +104,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     onCreate: (value:HalResource) => this.onNewActionCreated(value),
     onOpen: () => this.requests.input$.next(''),
     onChange: (value:HalResource) => this.onModelChange(value),
-    onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField()
+    onAfterViewInit: (component:CreateAutocompleterComponent) => component.focusInputField(),
   };
 
   /** The loaded available values */
@@ -112,14 +114,13 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   showWarning = false;
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly boardActions:BoardActionsRegistryService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly state:StateService,
-              readonly boardService:BoardService,
-              readonly I18n:I18nService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly boardActions:BoardActionsRegistryService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly state:StateService,
+    readonly boardService:BoardService,
+    readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -130,12 +131,11 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
 
-
     this
       .requests
       .output$
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((values:unknown[]) => {
         let hasMember = false;
@@ -152,7 +152,8 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
           .warningTextWhenNoOptionsAvailable(hasMember)
           .then((text) => {
             this.warningText = text;
-          });
+          })
+          .catch(() => {});
         this.availableValues = values;
         this.showWarning = this.requests.lastRequestedValue !== undefined && (values.length === 0);
         this.cdRef.detectChanges();
@@ -170,13 +171,13 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.inFlight = true;
     this.actionService
       .addColumnWithActionAttribute(this.board, this.selectedAttribute!)
-      .then(board => this.boardService.save(board).toPromise())
+      .then((board) => this.boardService.save(board).toPromise())
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
         this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
-      .catch(() => this.inFlight = false);
+      .catch(() => (this.inFlight = false));
   }
 
   onNewActionCreated(newValue:HalResource) {
@@ -188,4 +189,3 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     return this.actionService.autocompleterComponent();
   }
 }
-

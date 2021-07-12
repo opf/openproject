@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,18 +27,18 @@
 //++
 
 import { Component, InjectFlags, OnInit } from '@angular/core';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { EditFieldComponent } from '../../edit-field.component';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
 import { from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { CreateAutocompleterComponent } from "core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component";
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
-import { StateService } from "@uirouter/core";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { HalResourceSortingService } from "core-app/features/hal/services/hal-resource-sorting.service";
+import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { StateService } from '@uirouter/core';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
+import { EditFieldComponent } from '../../edit-field.component';
 
 export interface ValueOption {
   name:string;
@@ -56,27 +56,37 @@ export interface ValueOption {
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
+
   @InjectField() halNotification:HalResourceNotificationService;
+
   @InjectField() halSorting:HalResourceSortingService;
+
   @InjectField() $state:StateService;
+
   @InjectField(EditFormComponent, null, InjectFlags.Optional) editFormComponent:EditFormComponent;
 
   public availableOptions:any[];
+
   public valueOptions:ValueOption[];
+
   public text:{ [key:string]:string };
+
   public appendTo:any = null;
+
   public referenceOutputs:{ [key:string]:Function } = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
     onKeydown: (event:JQuery.TriggeredEvent) => this.handler.handleUserKeydown(event, true),
     onOpen: () => this.onOpen(),
     onClose: () => this.onClose(),
-    onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component
+    onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component,
   };
+
   public get selectedOption() {
     const href = this.value ? this.value.href : null;
-    return _.find(this.valueOptions, o => o.href === href)!;
+    return _.find(this.valueOptions, (o) => o.href === href)!;
   }
+
   public set selectedOption(val:ValueOption|HalResource) {
     // The InviteUserModal gives us a resource that is not in availableOptions yet,
     // but we also don't want to wait for a refresh of the options every time we want to
@@ -86,7 +96,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       return;
     }
 
-    const option = _.find(this.availableOptions, o => o.href === val.href);
+    const option = _.find(this.availableOptions, (o) => o.href === val.href);
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
@@ -96,12 +106,15 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
     this.value = option;
   }
+
   public showAddNewButton:boolean;
 
   protected valuesLoaded = false;
+
   protected _autocompleterComponent:CreateAutocompleterComponent;
 
   private hiddenOverflowContainer = '.__hidden_overflow_container';
+
   /** Remember the values loading promise which changes as soon as the changeset is updated
    * (e.g., project or type is changed).
    */
@@ -114,7 +127,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     this.handler
       .$onUserActivate
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.valuesLoadingPromise.then(() => {
@@ -123,18 +136,15 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       });
 
     this._syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
-
   }
 
   protected initialize() {
     this.text = {
       requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
-      placeholder: this.I18n.t('js.placeholders.default')
+      placeholder: this.I18n.t('js.placeholders.default'),
     };
 
-    this.valuesLoadingPromise = this.change.getForm().then(() => {
-      return this.initialValueLoading();
-    });
+    this.valuesLoadingPromise = this.change.getForm().then(() => this.initialValueLoading());
 
     this.initializeShowAddButton();
   }
@@ -149,18 +159,18 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   public autocompleterComponent() {
-    const type = this.schema.type;
+    const { type } = this.schema;
     return this.selectAutocompleterRegister.getAutocompleterOfAttribute(type) || CreateAutocompleterComponent;
   }
 
   private setValues(availableValues:HalResource[]) {
     this.availableOptions = this.sortValues(availableValues);
     this.addEmptyOption();
-    this.valueOptions = this.availableOptions.map(el => this.mapAllowedValue(el));
+    this.valueOptions = this.availableOptions.map((el) => this.mapAllowedValue(el));
   }
 
   protected loadValues(query?:string) {
-    const allowedValues = this.schema.allowedValues;
+    const { allowedValues } = this.schema;
 
     if (Array.isArray(allowedValues)) {
       this.setValues(allowedValues);
@@ -176,24 +186,23 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   protected loadValuesFromBackend(query?:string) {
     return from(
-      this.loadAllowedValues(query)
+      this.loadAllowedValues(query),
     ).pipe(
-      tap(collection => {
+      tap((collection) => {
         // if it is an unpaginated collection or if we get all possible entries when fetching with a blank
         // query, we do not need to load the values again;
         if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count)) {
           this.valuesLoaded = true;
         }
       }),
-      map(collection => {
+      map((collection) => {
         if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count) || !this.value) {
           return collection.elements;
-        } else {
-          return collection.elements.concat([this.value]);
         }
+        return collection.elements.concat([this.value]);
       }),
-      tap(elements => this.setValues(elements)),
-      map(() => this.valueOptions)
+      tap((elements) => this.setValues(elements)),
+      map(() => this.valueOptions),
     );
   }
 
@@ -219,8 +228,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   public get currentValueInvalid():boolean {
     return !!(
       (this.value && !_.some(this.availableOptions, (option:HalResource) => (option.href === this.value.href)))
-      ||
-      (!this.value && this.schema.required)
+      || (!this.value && this.schema.required)
     );
   }
 
@@ -267,7 +275,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     if (emptyOption === undefined) {
       this.availableOptions.unshift({
         name: this.text.placeholder,
-        href: ''
+        href: '',
       });
     }
   }
@@ -291,7 +299,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   private getEmptyOption():ValueOption|undefined {
-    return _.find(this.availableOptions, el => el.name === this.text.placeholder);
+    return _.find(this.availableOptions, (el) => el.name === this.text.placeholder);
   }
 
   private _syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode:boolean) {

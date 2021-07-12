@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { ApplicationRef } from "@angular/core";
-import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { ExpressionService } from "core-app/core/expression/expression.service";
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { ApplicationRef } from '@angular/core';
+import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { ExpressionService } from 'core-app/core/expression/expression.service';
 
 export class FormattableDisplayField extends DisplayField {
-
   @InjectField() readonly appRef:ApplicationRef;
 
   public render(element:HTMLElement, displayText:string, options:any = {}):void {
@@ -80,8 +79,7 @@ export class FormattableDisplayField extends DisplayField {
   protected unescape(html:string) {
     if (html) {
       return ExpressionService.unescape(html);
-    } else {
-      return '';
     }
+    return '';
   }
 }

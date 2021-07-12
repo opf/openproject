@@ -1,17 +1,17 @@
-import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { Injector } from "@angular/core";
-import { TypedJSON } from "typedjson";
-import { Constructor } from "@angular/cdk/table";
-import { Observable, throwError } from "rxjs";
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Injector } from '@angular/core';
+import { TypedJSON } from 'typedjson';
+import { Constructor } from '@angular/cdk/table';
+import { Observable, throwError } from 'rxjs';
 import {
   HTTPClientHeaders,
   HTTPClientOptions,
   HTTPClientParamMap,
-  HTTPSupportedMethods
-} from "core-app/features/hal/http/http.interfaces";
-import { catchError, map } from "rxjs/operators";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { URLParamsEncoder } from "core-app/features/hal/services/url-params-encoder";
+  HTTPSupportedMethods,
+} from 'core-app/features/hal/http/http.interfaces';
+import { catchError, map } from 'rxjs/operators';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { URLParamsEncoder } from 'core-app/features/hal/services/url-params-encoder';
 
 export class BcfApiRequestService<T> {
   @InjectField() http:HttpClient;
@@ -24,7 +24,7 @@ export class BcfApiRequestService<T> {
    * @param resourceClass Optional mapped resource class with TypedJson annotations
    */
   constructor(readonly injector:Injector,
-              readonly resourceClass?:Constructor<T>) {
+    readonly resourceClass?:Constructor<T>) {
   }
 
   /**
@@ -36,10 +36,10 @@ export class BcfApiRequestService<T> {
    */
   get(path:string, params:HTTPClientParamMap, headers:HTTPClientHeaders = {}):Observable<T> {
     const config:HTTPClientOptions = {
-      headers: headers,
+      headers,
       params: new HttpParams({ encoder: new URLParamsEncoder(), fromObject: params }),
       withCredentials: true,
-      responseType: 'json'
+      responseType: 'json',
     };
 
     return this._request('get', path, config);
@@ -54,7 +54,6 @@ export class BcfApiRequestService<T> {
    * @param data Request payload (URL params for get, JSON payload otherwise)
    */
   public request(method:HTTPSupportedMethods, path:string, data:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}):Observable<T> {
-
     // HttpClient requires us to create HttpParams instead of passing data for get
     // so forward to that method instead.
     if (method === 'get') {
@@ -63,9 +62,9 @@ export class BcfApiRequestService<T> {
 
     const config:HTTPClientOptions = {
       body: data || {},
-      headers: headers,
+      headers,
       withCredentials: true,
-      responseType: 'json'
+      responseType: 'json',
     };
 
     return this._request(method, path, config);
@@ -89,7 +88,7 @@ export class BcfApiRequestService<T> {
         catchError((error:HttpErrorResponse) => {
           console.error(`Failed to ${method} ${path}: ${error.name}`);
           return throwError(error);
-        })
+        }),
       );
   }
 
@@ -101,8 +100,7 @@ export class BcfApiRequestService<T> {
     if (this.resourceClass) {
       const serializer = new TypedJSON(this.resourceClass);
       return serializer.parse(data)!;
-    } else {
-      return data;
     }
+    return data;
   }
 }

@@ -1,13 +1,15 @@
-import { ChangeDetectorRef, ElementRef, EventEmitter, OnDestroy, OnInit, Directive } from '@angular/core';
+import {
+  ChangeDetectorRef, Directive, ElementRef, EventEmitter, OnDestroy, OnInit,
+} from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Directive()
 export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-
   /* Close on escape? */
   public closeOnEscape = true;
+
   public closeOnEscapeFunction = this.closeMe;
 
   /* Close on outside click */
@@ -27,8 +29,8 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   public data:unknown;
 
   protected constructor(public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef) {
     super();
   }
 

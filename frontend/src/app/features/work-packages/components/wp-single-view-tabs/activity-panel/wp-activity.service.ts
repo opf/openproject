@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ActivityEntryInfo } from './activity-entry-info';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageLinkedResourceCache } from 'core-app/features/work-packages/components/wp-single-view-tabs/wp-linked-resource-cache.service';
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ActivityEntryInfo } from './activity-entry-info';
 
 @Injectable()
 export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {
-
   constructor(public ConfigurationService:ConfigurationService,
-              readonly timezoneService:TimezoneService) {
+    readonly timezoneService:TimezoneService) {
     super();
   }
 
@@ -56,9 +55,10 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
    * whose order depends on the 'commentsSortedInDescendingOrder' property.
    */
   protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
-    var aggregated:any[] = [], promises:Promise<any>[] = [];
+    const aggregated:any[] = []; const
+      promises:Promise<any>[] = [];
 
-    var add = function (data:any) {
+    const add = function (data:any) {
       aggregated.push(data.elements);
     };
 
@@ -67,9 +67,7 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
     if (workPackage.revisions) {
       promises.push(workPackage.revisions.$update().then(add));
     }
-    return Promise.all(promises).then(() => {
-      return this.sortedActivityList(aggregated);
-    });
+    return Promise.all(promises).then(() => this.sortedActivityList(aggregated));
   }
 
   protected sortedActivityList(activities:HalResource[], attr = 'createdAt'):HalResource[] {
@@ -77,9 +75,8 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
 
     if (this.isReversed) {
       return sorted.reverse();
-    } else {
-      return sorted;
     }
+    return sorted;
   }
 
   public info(activities:HalResource[], activity:HalResource, index:number) {

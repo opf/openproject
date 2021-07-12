@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,7 +27,7 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { UserResource } from "core-app/features/hal/resources/user-resource";
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
@@ -42,7 +42,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
       {{ name }}
     <ng-container>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserLinkComponent {
   @Input() user:UserResource;

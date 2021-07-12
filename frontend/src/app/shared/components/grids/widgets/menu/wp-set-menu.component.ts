@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injector, EventEmitter, Output, Directive } from '@angular/core';
+import {
+  Directive, EventEmitter, Injector, Output,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
 import { ComponentType } from '@angular/cdk/portal';
-import { WidgetAbstractMenuComponent } from "core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component";
-import { WpGraphConfigurationModalComponent } from "core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal";
-import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
+import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
+import { WpGraphConfigurationModalComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal';
+import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 
 @Directive()
 export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuComponent {
@@ -45,14 +47,14 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
 
   protected menuItemList = [
     this.removeItem,
-    this.configureItem
+    this.configureItem,
   ];
 
   constructor(private readonly injector:Injector,
-              private readonly opModalService:OpModalService,
-              readonly i18n:I18nService,
-              protected readonly remove:GridRemoveWidgetService,
-              readonly layout:GridAreaService) {
+    private readonly opModalService:OpModalService,
+    readonly i18n:I18nService,
+    protected readonly remove:GridRemoveWidgetService,
+    readonly layout:GridAreaService) {
     super(i18n,
       remove,
       layout);
@@ -67,7 +69,7 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
             this.onConfigured.emit(modal.configuration);
           });
         return true;
-      }
+      },
     };
   }
 

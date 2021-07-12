@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit } from '@angular/core';
 
 export const persistentToggleSelector = 'persistent-toggle';
 
 @Component({
   selector: persistentToggleSelector,
-  template: ''
+  template: '',
 })
 export class PersistentToggleComponent implements OnInit {
-
   /** Unique identifier of the toggle */
   private identifier:string;
 
@@ -44,6 +43,7 @@ export class PersistentToggleComponent implements OnInit {
 
   /** Element reference */
   private $element:JQuery;
+
   private $targetNotification:JQuery;
 
   constructor(private elementRef:ElementRef) {
@@ -53,7 +53,7 @@ export class PersistentToggleComponent implements OnInit {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.$targetNotification = this.getTargetNotification();
 
-    this.identifier =  this.$element.data('identifier');
+    this.identifier = this.$element.data('identifier');
     this.isHidden = window.OpenProject.guardedLocalStorage(this.identifier) === 'true';
 
     // Set initial state
@@ -69,7 +69,6 @@ export class PersistentToggleComponent implements OnInit {
     this.$targetNotification
       .find('.notification-box--close')
       .on('click', () => this.toggle(true));
-
   }
 
   private getTargetNotification() {

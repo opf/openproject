@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,7 +29,7 @@
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { input, State } from 'reactivestates';
 import { Injectable } from '@angular/core';
-import { UploadInProgress } from "core-app/core/file-upload/op-file-upload.service";
+import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
@@ -47,7 +47,6 @@ export interface INotification {
 
 @Injectable({ providedIn: 'root' })
 export class NotificationsService {
-
   // The current stack of notifications
   private stack = input<INotification[]>([]);
 
@@ -72,9 +71,7 @@ export class NotificationsService {
 
     this.stack.doModify((current) => {
       const nextValue = [notification].concat(current);
-      _.remove(nextValue, (n, i) =>
-        i > 0 && (n.type === 'success' || n.type === 'error')
-      );
+      _.remove(nextValue, (n, i) => i > 0 && (n.type === 'success' || n.type === 'error'));
       return nextValue;
     });
 
@@ -115,7 +112,7 @@ export class NotificationsService {
 
   public remove(notification:INotification) {
     this.stack.doModify((current) => {
-      _.remove(current, n => n === notification);
+      _.remove(current, (n) => n === notification);
       return current;
     });
   }
@@ -126,10 +123,9 @@ export class NotificationsService {
 
   private createNotification(message:INotification|string, type:NotificationType):INotification {
     if (typeof message === 'string') {
-      return { message: message, type: type };
-    } else {
-      message.type = type;
+      return { message, type };
     }
+    message.type = type;
 
     return message;
   }

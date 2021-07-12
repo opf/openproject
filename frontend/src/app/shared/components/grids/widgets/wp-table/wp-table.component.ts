@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageTableConfiguration } from "core-app/features/work-packages/components/wp-table/wp-table-configuration";
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { Observable } from 'rxjs';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { StateService } from '@uirouter/core';
-import { finalize, publish, skip } from 'rxjs/operators';
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { skip } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'widget-wp-table',
@@ -19,23 +19,26 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 })
 export class WidgetWpTableComponent extends AbstractWidgetComponent {
   public queryId:string|null;
+
   private queryForm:QueryFormResource;
+
   public inFlight = false;
+
   public query$:Observable<QueryResource>;
 
   public configuration:Partial<WorkPackageTableConfiguration> = {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
     hierarchyToggleEnabled: true,
-    contextMenuEnabled: false
+    contextMenuEnabled: false,
   };
 
   constructor(protected i18n:I18nService,
-              protected readonly injector:Injector,
-              protected urlParamsHelper:UrlParamsHelperService,
-              protected readonly state:StateService,
-              protected readonly querySpace:IsolatedQuerySpace,
-              protected readonly apiV3Service:APIV3Service) {
+    protected readonly injector:Injector,
+    protected urlParamsHelper:UrlParamsHelperService,
+    protected readonly state:StateService,
+    protected readonly querySpace:IsolatedQuerySpace,
+    protected readonly apiV3Service:APIV3Service) {
     super(i18n, injector);
   }
 
@@ -62,7 +65,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
       .pipe(
         // 2 because ... well it is a magic number and works
         skip(2),
-        this.untilDestroyed()
+        this.untilDestroyed(),
       ).subscribe((query) => {
         this.ensureFormAndSaveQuery(query);
       });
@@ -107,9 +110,12 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
   }
 
   private createInitial():Promise<QueryResource> {
-    const projectIdentifier = this.state.params['projectPath'];
-    const initializationProps = this.resource.options.queryProps;
-    const queryProps = Object.assign({ pageSize: 0 }, initializationProps);
+    const projectIdentifier = this.state.params.projectPath;
+    const initializationProps = this.resource.options.queryProps as { [key:string]:unknown };
+    const queryProps = {
+      pageSize: 0,
+      ...initializationProps,
+    };
 
     return this
       .apiV3Service
@@ -119,32 +125,30 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
         queryProps,
         undefined,
         projectIdentifier,
-        this.queryCreationParams()
+        this.queryCreationParams(),
       )
       .toPromise()
-      .then(([form, query]) => {
-        return this
-          .apiV3Service
-          .queries
-          .post(query, form)
-          .toPromise()
-          .then((query) => {
-            delete this.resource.options.queryProps;
+      .then(([form, query]) => this
+        .apiV3Service
+        .queries
+        .post(query, form)
+        .toPromise()
+        .then((query) => {
+          delete this.resource.options.queryProps;
 
-            return query;
-          });
-      });
+          return query;
+        }));
   }
 
   protected queryCreationParams() {
     // On the MyPage, the queries should be non public, on a project dashboard, they should be public.
     // This will not longer work, when global dashboards are implemented as the tables then need to
     // be public as well.
-    const projectIdentifier = this.state.params['projectPath'];
+    const projectIdentifier = this.state.params.projectPath;
 
     return {
       hidden: true,
-      public: !!projectIdentifier
+      public: !!projectIdentifier,
     };
   }
 }

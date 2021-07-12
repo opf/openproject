@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { SelectionHelpers } from '../../../../helpers/selection-helpers';
-import { debugLog } from '../../../../helpers/debug_output';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -37,61 +35,72 @@ import {
   Injector,
   Input,
   OnDestroy,
-  OnInit, Optional,
-  ViewChild
+  OnInit,
+  Optional,
+  ViewChild,
 } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { OPContextMenuService } from "core-app/shared/components/op-context-menu/op-context-menu.service";
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ClickPositionMapper } from "core-app/shared/helpers/set-click-position/set-click-position";
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { ISchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
+import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   displayClassName,
   DisplayFieldRenderer,
-  editFieldContainerClass
-} from "core-app/shared/components/fields/display/display-field-renderer";
-import { States } from "core-app/core/states/states.service";
+  editFieldContainerClass,
+} from 'core-app/shared/components/fields/display/display-field-renderer';
+import { States } from 'core-app/core/states/states.service';
+import { debugLog } from '../../../../helpers/debug_output';
+import { hasSelectionWithin } from '../../../../helpers/selection-helpers';
 
 @Component({
   selector: 'editable-attribute-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './editable-attribute-field.component.html'
+  templateUrl: './editable-attribute-field.component.html',
 })
 export class EditableAttributeFieldComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() public fieldName:string;
+
   @Input() public resource:HalResource;
+
   @Input() public wrapperClasses?:string;
+
   @Input() public displayFieldOptions:any = {};
+
   @Input() public displayPlaceholder?:string;
+
   @Input() public isDropTarget?:boolean = false;
 
   @ViewChild('displayContainer', { static: true }) readonly displayContainer:ElementRef;
+
   @ViewChild('editContainer', { static: true }) readonly editContainer:ElementRef;
 
   public fieldRenderer:DisplayFieldRenderer;
+
   public editFieldContainerClass = editFieldContainerClass;
+
   public active = false;
+
   private $element:JQuery;
 
   public destroyed = false;
 
   constructor(protected states:States,
-              protected injector:Injector,
-              protected elementRef:ElementRef,
-              protected ConfigurationService:ConfigurationService,
-              protected opContextMenu:OPContextMenuService,
-              protected halEditing:HalResourceEditingService,
-              protected schemaCache:SchemaCacheService,
-              // Get parent field group from injector if we're in a form
-              @Optional() protected editForm:EditFormComponent,
-              protected NotificationsService:NotificationsService,
-              protected cdRef:ChangeDetectorRef,
-              protected I18n:I18nService) {
+    protected injector:Injector,
+    protected elementRef:ElementRef,
+    protected ConfigurationService:ConfigurationService,
+    protected opContextMenu:OPContextMenuService,
+    protected halEditing:HalResourceEditingService,
+    protected schemaCache:SchemaCacheService,
+    // Get parent field group from injector if we're in a form
+    @Optional() protected editForm:EditFormComponent,
+    protected NotificationsService:NotificationsService,
+    protected cdRef:ChangeDetectorRef,
+    protected I18n:I18nService) {
     super();
   }
 
@@ -113,9 +122,9 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       .temporaryEditResource(this.resource)
       .values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
-      .subscribe(resource => {
+      .subscribe((resource) => {
         this.resource = resource;
         this.render();
       });
@@ -154,7 +163,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
   public activateIfEditable(event:MouseEvent|KeyboardEvent) {
     // Ignore selections
-    if (SelectionHelpers.hasSelectionWithin(event.target as HTMLElement)) {
+    if (hasSelectionWithin(event.target as HTMLElement)) {
       debugLog(`Not activating ${this.fieldName} because of active selection within`);
       return true;
     }
@@ -190,7 +199,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
     if (evt?.type === 'click') {
       // Get the position where the user clicked.
-      positionOffset = ClickPositionMapper.getPosition(evt);
+      positionOffset = getPosition(evt);
     }
 
     this.activateOnForm()
@@ -214,8 +223,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   private get schema() {
     if (this.halEditing.typedState(this.resource).hasValue()) {
       return this.halEditing.typedState(this.resource).value!.schema;
-    } else {
-      return this.schemaCache.of(this.resource) as ISchemaProxy;
     }
+    return this.schemaCache.of(this.resource);
   }
 }

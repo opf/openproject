@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,26 +26,27 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, Injector, Input } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, Injector, Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Component({
   selector: 'icon-triggered-context-menu',
   templateUrl: './icon-triggered-context-menu.component.html',
-  styleUrls: ['./icon-triggered-context-menu.component.sass']
+  styleUrls: ['./icon-triggered-context-menu.component.sass'],
 })
 export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly opModalService:OpModalService,
-              readonly injector:Injector,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly opModalService:OpModalService,
+    readonly injector:Injector,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(elementRef, opContextMenu);
   }
 
@@ -64,7 +65,7 @@ export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
   public positionArgs(evt:JQuery.TriggeredEvent) {
     const additionalPositionArgs = {
       my: 'right top',
-      at: 'right bottom'
+      at: 'right bottom',
     };
 
     const position = super.positionArgs(evt);

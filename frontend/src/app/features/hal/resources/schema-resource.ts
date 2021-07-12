@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { InputState } from 'reactivestates';
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
 
 export class SchemaResource extends HalResource {
-
   public get state():InputState<this> {
     return this.states.schemas.get(this.href as string) as any;
   }
 
   public get availableAttributes() {
-    return _.keys(this.$source).filter(name => name.indexOf('_') !== 0);
+    return _.keys(this.$source).filter((name) => name.indexOf('_') !== 0);
   }
 
   // Find the attribute name with a matching (localized) name;
@@ -59,9 +57,14 @@ export class SchemaResource extends HalResource {
 
 export class SchemaAttributeObject<T = HalResource> {
   public type:string;
+
   public name:string;
+
   public required:boolean;
+
   public hasDefault:boolean;
+
   public writable:boolean;
+
   public allowedValues:T[] | CollectionResource<T>;
 }

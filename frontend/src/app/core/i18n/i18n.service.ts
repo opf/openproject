@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { Observable, combineLatest } from "rxjs";
+import { Injectable } from '@angular/core';
 
 /**
  * General components
@@ -43,7 +42,6 @@ interface ToHumanSizeOptions extends ToNumberOptions {
   format?:string;
 }
 
-
 @Injectable({ providedIn: 'root' })
 export class I18nService {
   private _i18n:GlobalI18n = (window as any).I18n;
@@ -61,9 +59,12 @@ export class I18nService {
   }
 
   public toNumber = this._i18n.toNumber.bind(this._i18n);
-  public toPercentage = this._i18n.toPercentage.bind(this._i18n);
-  public toCurrency = this._i18n.toCurrency.bind(this._i18n);
-  public strftime = this._i18n.strftime.bind(this._i18n);
-  public toHumanSize = this._i18n.toHumanSize.bind(this._i18n);
 
+  public toPercentage = this._i18n.toPercentage.bind(this._i18n);
+
+  public toCurrency = this._i18n.toCurrency.bind(this._i18n);
+
+  public strftime = this._i18n.strftime.bind(this._i18n);
+
+  public toHumanSize = this._i18n.toHumanSize.bind(this._i18n);
 }

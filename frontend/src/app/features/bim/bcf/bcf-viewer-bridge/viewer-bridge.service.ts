@@ -1,10 +1,9 @@
-import { Injector, Injectable } from '@angular/core';
-import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import { Observable } from "rxjs";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { StateService } from "@uirouter/core";
-
+import { Injectable, Injector } from '@angular/core';
+import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
+import { Observable } from 'rxjs';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { StateService } from '@uirouter/core';
 
 @Injectable()
 export abstract class ViewerBridgeService {
@@ -25,6 +24,7 @@ export abstract class ViewerBridgeService {
   }
 
   constructor(readonly injector:Injector) {}
+
   /**
    * Get a viewpoint from the viewer
    */

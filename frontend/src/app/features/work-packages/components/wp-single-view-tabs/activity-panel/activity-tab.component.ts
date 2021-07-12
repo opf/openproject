@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,9 +27,9 @@
 //++
 
 import { Component } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { ActivityPanelBaseController } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-base.controller";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { ActivityPanelBaseController } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-base.controller';
 
 @Component({
   templateUrl: './activity-tab.html',
@@ -37,7 +37,9 @@ import { ActivityPanelBaseController } from "core-app/features/work-packages/com
 })
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController {
   public workPackage:WorkPackageResource;
+
   public tabName = this.I18n.t('js.work_packages.tabs.activity');
+
   public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('version');
 
   ngOnInit() {

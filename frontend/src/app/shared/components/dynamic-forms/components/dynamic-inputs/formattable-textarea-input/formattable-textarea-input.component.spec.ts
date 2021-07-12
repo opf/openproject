@@ -1,8 +1,6 @@
 import { discardPeriodicTasks, fakeAsync, flush, tick } from '@angular/core/testing';
-import {
-  createDynamicInputFixture,
-} from "core-app/shared/components/dynamic-forms/spec/helpers";
-import { By } from "@angular/platform-browser";
+import { createDynamicInputFixture } from 'core-app/shared/components/dynamic-forms/spec/helpers';
+import { By } from '@angular/platform-browser';
 // @ts-ignore
 import(/* webpackChunkName: "ckeditor-augmented-textarea" */ 'core-vendor/ckeditor/ckeditor.js');
 
@@ -10,24 +8,24 @@ describe('FormattableTextareaInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
-        "type": "formattableInput" as "formattableInput",
-        "key": "testControl",
-        "templateOptions": {
-          "required": true,
-          "label": "testControl",
-          "type": "text",
-          "placeholder": "",
-          "disabled": false,
-          "bindLabel": 'name',
-          "bindValue": 'value',
-          "noWrapLabel": true
+        type: 'formattableInput' as const,
+        key: 'testControl',
+        templateOptions: {
+          required: true,
+          label: 'testControl',
+          type: 'text',
+          placeholder: '',
+          disabled: false,
+          bindLabel: 'name',
+          bindValue: 'value',
+          noWrapLabel: true,
         },
-      }
+      },
     ];
     const formModel = {
       testControl: {
         html: '<p>tesValue</p>',
-        raw: 'tesValue'
+        raw: 'tesValue',
       },
     };
     const testModel = {
@@ -55,4 +53,3 @@ describe('FormattableTextareaInputComponent', () => {
     discardPeriodicTasks();
   }));
 });
-

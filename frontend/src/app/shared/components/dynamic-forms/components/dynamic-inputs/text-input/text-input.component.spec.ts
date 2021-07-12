@@ -2,22 +2,22 @@ import { fakeAsync } from '@angular/core/testing';
 import {
   createDynamicInputFixture,
   testDynamicInputControValueAccessor,
-} from "core-app/shared/components/dynamic-forms/spec/helpers";
+} from 'core-app/shared/components/dynamic-forms/spec/helpers';
 
 describe('TextInputComponent', () => {
   it('should load the field', fakeAsync(() => {
     const fieldsConfig = [
       {
-        "type": "textInput" as "textInput",
-        "key": "testControl",
-        "templateOptions": {
-          "required": true,
-          "label": "testControl",
-          "type": "text",
-          "placeholder": "",
-          "disabled": false
+        type: 'textInput' as const,
+        key: 'testControl',
+        templateOptions: {
+          required: true,
+          label: 'testControl',
+          type: 'text',
+          placeholder: '',
+          disabled: false,
         },
-      }
+      },
     ];
     const formModel = {
       testControl: 'testValue',

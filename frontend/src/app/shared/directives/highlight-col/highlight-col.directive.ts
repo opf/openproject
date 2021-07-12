@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component, ElementRef, OnDestroy, OnInit,
+} from '@angular/core';
 
 @Component({
   selector: 'col[highlight-col]',
-  template: ''
+  template: '',
 })
 
 export class HighlightColDirective implements OnInit, OnDestroy {
   private $element:JQuery;
+
   private thead:JQuery;
 
   constructor(private elementRef:ElementRef) {
@@ -68,5 +71,5 @@ export class HighlightColDirective implements OnInit, OnDestroy {
 
 export const highlightColBootstrap = {
   selector: 'col[highlight-col]',
-  cls: HighlightColDirective
+  cls: HighlightColDirective,
 };

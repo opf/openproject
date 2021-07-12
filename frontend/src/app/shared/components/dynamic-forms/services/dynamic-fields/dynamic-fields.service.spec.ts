@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
-import { HttpClient } from "@angular/common/http";
-import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
-import { isObservable } from "rxjs";
-import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
+import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
+import { isObservable } from 'rxjs';
+import { IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 
 describe('DynamicFieldsService', () => {
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
+  let httpClient:HttpClient;
+  let httpTestingController:HttpTestingController;
   let service:DynamicFieldsService;
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('DynamicFieldsService', () => {
       ],
       providers: [
         DynamicFieldsService,
-      ]
+      ],
     });
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -30,45 +30,45 @@ describe('DynamicFieldsService', () => {
 
   it('should generate a proper dynamic form schema', () => {
     const formPayload = {
-      "name": "Project 1",
-      "_links": {
-        "parent": {
-          "href": "/api/v3/projects/26",
-          "title": "Parent project"
-        }
-      }
+      name: 'Project 1',
+      _links: {
+        parent: {
+          href: '/api/v3/projects/26',
+          title: 'Parent project',
+        },
+      },
     };
     const formSchema = {
-      "name": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
+      name: {
+        type: 'String',
+        name: 'Name',
+        required: true,
+        hasDefault: false,
+        writable: true,
+        minLength: 1,
+        maxLength: 255,
+        options: {},
       },
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "location": "_links",
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
+      parent: {
+        type: 'Project',
+        name: 'Subproject of',
+        required: false,
+        hasDefault: false,
+        location: '_links',
+        writable: true,
+        _links: {
+          allowedValues: {
+            href: '/api/v3/projects/available_parent_projects?of=25',
+          },
+        },
       },
-      "id": {
-        "type": "Integer",
-        "name": "ID",
-        "required": true,
-        "hasDefault": false,
-        "writable": false,
-        "options": {}
+      id: {
+        type: 'Integer',
+        name: 'ID',
+        required: true,
+        hasDefault: false,
+        writable: false,
+        options: {},
       },
       _dependencies: [],
     };
@@ -83,59 +83,59 @@ describe('DynamicFieldsService', () => {
 
   it('should format the form model (add the name property to resources (_links: single and multiple))', () => {
     const formPayload = {
-      "title": "Project 1",
-      "_links": {
-        "parent": {
-          "href": "/api/v3/projects/26",
-          "title": "Parent project"
+      title: 'Project 1',
+      _links: {
+        parent: {
+          href: '/api/v3/projects/26',
+          title: 'Parent project',
         },
-        "children": [
+        children: [
           {
-            "href": "/api/v3/projects/27",
-            "title": "Child project 1"
+            href: '/api/v3/projects/27',
+            title: 'Child project 1',
           },
           {
-            "href": "/api/v3/projects/28",
-            "title": "Child project 2"
-          }
-        ]
+            href: '/api/v3/projects/28',
+            title: 'Child project 2',
+          },
+        ],
       },
     };
     const formSchema = {
-      "title": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {}
+      title: {
+        type: 'String',
+        name: 'Name',
+        required: true,
+        hasDefault: false,
+        writable: true,
+        minLength: 1,
+        maxLength: 255,
+        options: {},
       },
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "location": "_links",
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
+      parent: {
+        type: 'Project',
+        name: 'Subproject of',
+        required: false,
+        hasDefault: false,
+        writable: true,
+        location: '_links',
+        _links: {
+          allowedValues: {
+            href: '/api/v3/projects/available_parent_projects?of=25',
+          },
+        },
       },
-      "children": {
-        "type": "Project",
-        "name": "Project's children",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
+      children: {
+        type: 'Project',
+        name: "Project's children",
+        required: false,
+        hasDefault: false,
+        writable: true,
+        _links: {
+          allowedValues: {
+            href: '/api/v3/projects/available_parent_projects?of=25',
+          },
+        },
       },
       _dependencies: [],
     };
@@ -153,53 +153,51 @@ describe('DynamicFieldsService', () => {
 
   it('should generate a proper dynamic form config', () => {
     const formPayload = {
-      "name": "Project 1",
-      "_links": {
-        "parent": {
-          "href": "/api/v3/projects/26",
-          "title": "Parent project"
+      name: 'Project 1',
+      _links: {
+        parent: {
+          href: '/api/v3/projects/26',
+          title: 'Parent project',
         },
-      }
+      },
     };
     const formSchema = {
-      "parent": {
-        "type": "Project",
-        "name": "Subproject of",
-        "required": false,
-        "hasDefault": false,
-        "writable": true,
-        "_links": {
-          "allowedValues": {
-            "href": "/api/v3/projects/available_parent_projects?of=25"
-          }
-        }
+      parent: {
+        type: 'Project',
+        name: 'Subproject of',
+        required: false,
+        hasDefault: false,
+        writable: true,
+        _links: {
+          allowedValues: {
+            href: '/api/v3/projects/available_parent_projects?of=25',
+          },
+        },
       },
-      "name": {
-        "type": "String",
-        "name": "Name",
-        "required": true,
-        "hasDefault": false,
-        "writable": true,
-        "minLength": 1,
-        "maxLength": 255,
-        "options": {},
-        "attributeGroup": "People"
+      name: {
+        type: 'String',
+        name: 'Name',
+        required: true,
+        hasDefault: false,
+        writable: true,
+        minLength: 1,
+        maxLength: 255,
+        options: {},
+        attributeGroup: 'People',
       },
       _attributeGroups: [
         {
-          "_type": "WorkPackageFormAttributeGroup",
-          "name": "People",
-          "attributes": [
-            "name",
-          ]
+          _type: 'WorkPackageFormAttributeGroup',
+          name: 'People',
+          attributes: [
+            'name',
+          ],
         },
-      ]
+      ],
     };
     // @ts-ignore
     const formlyConfig = service.getConfig(formSchema, formPayload);
-    const formlyFields = formlyConfig.reduce((result, formlyField) => {
-      return formlyField.fieldGroup ? [...result, ...formlyField.fieldGroup] : [...result, formlyField];
-    }, [] as IOPFormlyFieldSettings[]);
+    const formlyFields = formlyConfig.reduce((result, formlyField) => (formlyField.fieldGroup ? [...result, ...formlyField.fieldGroup] : [...result, formlyField]), [] as IOPFormlyFieldSettings[]);
     const formGroup = formlyConfig[1];
 
     expect(formlyFields[1].templateOptions!.label).toBe('Name', 'should set the correct label');

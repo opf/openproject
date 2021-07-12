@@ -2,17 +2,29 @@ import { createPointCB, getClientRect as getRect, pointInside } from 'dom-plane'
 
 export class DomAutoscrollService {
   public elements:Element[];
+
   public scrolling:boolean;
+
   public down = false;
+
   public scrollWhenOutside:boolean;
+
   public autoScroll:() => boolean;
+
   public maxSpeed:number;
+
   public margin:number;
+
   public animationFrame:number;
+
   public windowAnimationFrame:number;
+
   public current:HTMLElement[];
+
   public outerScrollContainer:HTMLElement;
+
   public point:any;
+
   public pointCB:any;
 
   constructor(elements:Element[],
@@ -106,7 +118,7 @@ export class DomAutoscrollService {
   public getElementsUnderPoint():HTMLElement[] {
     const underPoint = [];
 
-    for (var i = 0; i < this.elements.length; i++) {
+    for (let i = 0; i < this.elements.length; i++) {
       if (this.inside(this.point, this.elements[i])) {
         underPoint.push(this.elements[i] as HTMLElement);
       }
@@ -128,10 +140,10 @@ export class DomAutoscrollService {
     if (event.target !== null) {
       target.push(event.target as HTMLElement);
     }
-    const body = document.body;
+    const { body } = document;
 
     if (target.length > 0 && target[0].parentNode === body) {
-      //The special condition to improve speed.
+      // The special condition to improve speed.
       target = this.getElementsUnderPoint();
     } else {
       target = this.getTarget(target[0]);
@@ -168,9 +180,7 @@ export class DomAutoscrollService {
 
     cancelAnimationFrame(this.animationFrame);
     this.animationFrame = requestAnimationFrame(this.scrollTick.bind(this));
-
   }
-
 
   public scrollAutomatically(el:Element) {
     const rect = getRect(el);
@@ -223,10 +233,8 @@ export class DomAutoscrollService {
   public inside(point:any, el:Element, rect?:any) {
     if (!rect) {
       return pointInside(point, el);
-    } else {
-      return (point.y > rect.top && point.y < rect.bottom &&
-        point.x > rect.left && point.x < rect.right);
     }
+    return (point.y > rect.top && point.y < rect.bottom
+        && point.x > rect.left && point.x < rect.right);
   }
 }
-

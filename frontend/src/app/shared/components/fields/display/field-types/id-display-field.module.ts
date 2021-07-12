@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 
 export class IdDisplayField extends DisplayField {
   public text = {
-    linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+    linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
   };
 
   public get value() {
     if (this.resource.isNew) {
       return null;
-    } else {
-      return this.resource[this.name];
     }
+    return this.resource[this.name];
   }
 
   public render(element:HTMLElement, displayText:string):void {

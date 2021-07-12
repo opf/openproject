@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-export const selectorTableSide = ".work-packages-tabletimeline--table-side";
-export const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side";
-const jQueryScrollSyncEventNamespace = ".scroll-sync";
+export const selectorTableSide = '.work-packages-tabletimeline--table-side';
+export const selectorTimelineSide = '.work-packages-tabletimeline--timeline-side';
+const jQueryScrollSyncEventNamespace = '.scroll-sync';
 const scrollStep = 15;
-
 
 function getXandYScrollDeltas(ev:WheelEvent):[number, number] {
   let x = ev.deltaX;
@@ -72,11 +71,11 @@ function syncWheelEvent(jev:JQuery.TriggeredEvent, elementTable:JQuery, elementT
   deltaX = getPlattformAgnosticScrollAmount(deltaX); // apply only in target div
   deltaY = getPlattformAgnosticScrollAmount(deltaY); // apply in both divs
 
-  window.requestAnimationFrame(function () {
+  window.requestAnimationFrame(() => {
     elementTable[0].scrollTop = elementTable[0].scrollTop + deltaY;
     elementTimeline[0].scrollTop = elementTable[0].scrollTop + deltaY;
 
-    scrollTarget.scrollLeft = scrollTarget.scrollLeft + deltaX;
+    scrollTarget.scrollLeft += deltaX;
   });
 }
 
@@ -86,22 +85,20 @@ function syncWheelEvent(jev:JQuery.TriggeredEvent, elementTable:JQuery, elementT
  * @param $element true if the timeline is visible, false otherwise.
  */
 export function createScrollSync($element:JQuery) {
-
-  var elTable = jQuery($element).find(selectorTableSide);
-  var elTimeline = jQuery($element).find(selectorTimelineSide);
+  const elTable = jQuery($element).find(selectorTableSide);
+  const elTimeline = jQuery($element).find(selectorTimelineSide);
 
   return (timelineVisible:boolean) => {
-
     // state vars
-    var syncedLeft = false;
-    var syncedRight = false;
+    let syncedLeft = false;
+    let syncedRight = false;
 
     if (timelineVisible) {
       // setup event listener for table
-      elTable.on("wheel" + jQueryScrollSyncEventNamespace, (jev:JQuery.TriggeredEvent) => {
+      elTable.on(`wheel${jQueryScrollSyncEventNamespace}`, (jev:JQuery.TriggeredEvent) => {
         syncWheelEvent(jev, elTable, elTimeline);
       });
-      elTable.on("scroll" + jQueryScrollSyncEventNamespace, (ev:JQuery.TriggeredEvent) => {
+      elTable.on(`scroll${jQueryScrollSyncEventNamespace}`, (ev:JQuery.TriggeredEvent) => {
         syncedLeft = true;
         if (!syncedRight) {
           elTimeline[0].scrollTop = ev.target.scrollTop;
@@ -113,10 +110,10 @@ export function createScrollSync($element:JQuery) {
       });
 
       // setup event listener for timeline
-      elTimeline.on("wheel" + jQueryScrollSyncEventNamespace, (jev:JQuery.TriggeredEvent) => {
+      elTimeline.on(`wheel${jQueryScrollSyncEventNamespace}`, (jev:JQuery.TriggeredEvent) => {
         syncWheelEvent(jev, elTable, elTimeline);
       });
-      elTimeline.on("scroll" + jQueryScrollSyncEventNamespace, (ev:JQuery.TriggeredEvent) => {
+      elTimeline.on(`scroll${jQueryScrollSyncEventNamespace}`, (ev:JQuery.TriggeredEvent) => {
         syncedRight = true;
         if (!syncedLeft) {
           elTable[0].scrollTop = ev.target.scrollTop;
@@ -130,5 +127,4 @@ export function createScrollSync($element:JQuery) {
       elTable.off(jQueryScrollSyncEventNamespace);
     }
   };
-
 }

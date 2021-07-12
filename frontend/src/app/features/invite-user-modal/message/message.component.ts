@@ -11,10 +11,10 @@ import {
   FormControl,
   FormGroup,
 } from '@angular/forms';
-import {I18nService} from "core-app/core/i18n/i18n.service";
-import {PrincipalType} from '../invite-user.component';
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { PrincipalType } from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-message',
@@ -23,15 +23,20 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 })
 export class MessageComponent implements OnInit {
   @Input() type:PrincipalType;
+
   @Input() project:ProjectResource;
+
   @Input() principal:HalResource;
-  @Input() message:string = '';
+
+  @Input() message = '';
 
   @Output() close = new EventEmitter<void>();
-  @Output() back = new EventEmitter<void>();
-  @Output() save = new EventEmitter<{message:string}>();
 
-  @ViewChild('input') input: ElementRef;
+  @Output() back = new EventEmitter<void>();
+
+  @Output() save = new EventEmitter<{ message:string }>();
+
+  @ViewChild('input') input:ElementRef;
 
   public text = {
     title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
@@ -50,7 +55,9 @@ export class MessageComponent implements OnInit {
     message: new FormControl(''),
   });
 
-  get messageControl() { return this.messageForm.get('message'); }
+  get messageControl() {
+    return this.messageForm.get('message');
+  }
 
   constructor(
     readonly I18n:I18nService,

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,12 +27,15 @@
 //++
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { EditFieldComponent } from "core-app/shared/components/fields/edit/edit-field.component";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { projectStatusCodeCssClass, projectStatusI18n } from "core-app/shared/components/fields/helpers/project-status-helper";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import {
+  projectStatusCodeCssClass,
+  projectStatusI18n,
+} from 'core-app/shared/components/fields/helpers/project-status-helper';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 interface ProjectStatusOption {
   href:string
@@ -42,46 +45,49 @@ interface ProjectStatusOption {
 
 @Component({
   templateUrl: './project-status-edit-field.component.html',
-  styleUrls: ['./project-status-edit-field.component.sass']
+  styleUrls: ['./project-status-edit-field.component.sass'],
 })
 export class ProjectStatusEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
+
   @InjectField() I18n!:I18nService;
 
   public availableStatuses:ProjectStatusOption[] = [{
-      href: 'not_set',
-      name: projectStatusI18n('not_set', this.I18n),
-      colorClass: projectStatusCodeCssClass('not_set')
-    }];
+    href: 'not_set',
+    name: projectStatusI18n('not_set', this.I18n),
+    colorClass: projectStatusCodeCssClass('not_set'),
+  }];
 
   public currentStatusCode:string;
+
   public hiddenOverflowContainer = '#content-wrapper';
+
   public appendToContainer = 'body';
 
   ngOnInit() {
-    this.currentStatusCode = this.resource['status'] === null ? this.availableStatuses[0].href : this.resource['status'].href;
+    this.currentStatusCode = this.resource.status === null ? this.availableStatuses[0].href : this.resource.status.href;
 
     this.change.getForm().then((form) => {
-      form.schema['status'].allowedValues.forEach((status:HalResource) => {
+      form.schema.status.allowedValues.forEach((status:HalResource) => {
         this.availableStatuses = [...this.availableStatuses,
-                                  {
-                                    href: status.href!,
-                                    name: status.name,
-                                    colorClass: projectStatusCodeCssClass(status.id)
-                                  }];
+          {
+            href: status.href!,
+            name: status.name,
+            colorClass: projectStatusCodeCssClass(status.id),
+          }];
       });
 
       // The timeout takes care that the opening is added to the end of the current call stack.
       // Thus we can be sure that the select box is rendered and ready to be opened.
       const that = this;
-      window.setTimeout(function () {
+      window.setTimeout(() => {
         that.ngSelectComponent.open();
       }, 0);
     });
   }
 
   public onChange() {
-    this.resource['status'] = this.currentStatusCode === this.availableStatuses[0].href ? null : { href: this.currentStatusCode };
+    this.resource.status = this.currentStatusCode === this.availableStatuses[0].href ? null : { href: this.currentStatusCode };
     this.handler.handleUserSubmit();
   }
 

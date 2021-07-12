@@ -1,24 +1,24 @@
-import { Constructor } from "@angular/cdk/table";
-import { SimpleResource, SimpleResourceCollection } from "core-app/core/apiv3/paths/path-resources";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { Observable } from "rxjs";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+import { Constructor } from '@angular/cdk/table';
+import { SimpleResource, SimpleResourceCollection } from 'core-app/core/apiv3/paths/path-resources';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { Observable } from 'rxjs';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 export class APIv3ResourcePath<T = HalResource> extends SimpleResource {
   readonly injector = this.apiRoot.injector;
+
   @InjectField() halResourceService:HalResourceService;
 
   constructor(protected apiRoot:APIV3Service,
-              readonly basePath:string,
-              readonly id:string|number,
-              protected parent?:APIv3ResourcePath|APIv3ResourceCollection<any, any>) {
+    readonly basePath:string,
+    readonly id:string|number,
+    protected parent?:APIv3ResourcePath|APIv3ResourceCollection<any, any>) {
     super(basePath, id);
   }
-
 
   /**
    * Build a singular resource from the current segment
@@ -29,7 +29,6 @@ export class APIv3ResourcePath<T = HalResource> extends SimpleResource {
     return new cls(this.apiRoot, this.path, segment, this);
   }
 }
-
 
 export class APIv3GettableResource<T = HalResource> extends APIv3ResourcePath<T> {
   /**
@@ -44,12 +43,13 @@ export class APIv3GettableResource<T = HalResource> extends APIv3ResourcePath<T>
 
 export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> extends SimpleResourceCollection {
   readonly injector = this.apiRoot.injector;
+
   @InjectField() halResourceService:HalResourceService;
 
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string,
-              segment:string,
-              protected resource?:Constructor<T>) {
+    protected basePath:string,
+    segment:string,
+    protected resource?:Constructor<T>) {
     super(basePath, segment, resource);
   }
 
@@ -69,13 +69,11 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
     return new (this.resource || APIv3GettableResource)(this.apiRoot, this.path, id, this) as T;
   }
 
-
   public withOptionalId(id?:string|number|null):this|T {
     if (_.isNil(id)) {
       return this;
-    } else {
-      return this.id(id);
     }
+    return this.id(id);
   }
 
   /**
@@ -100,7 +98,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    * @param params additional URL params to append
    */
   public filtered<R = APIv3GettableResource<CollectionResource<V>>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
-    return this.subResource<R>('?' + filters.toParams(params), resourceClass) as R;
+    return this.subResource<R>(`?${filters.toParams(params)}`, resourceClass);
   }
 
   /**

@@ -1,39 +1,38 @@
-import { ApplicationRef, Injector, NgZone } from "@angular/core";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ExternalQueryConfigurationService } from "core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service";
-import { PasswordConfirmationModal } from "../../shared/components/modals/request-for-confirmation/password-confirmation.modal";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { DynamicContentModal } from "../../shared/components/modals/modal-wrapper/dynamic-content.modal";
-import { DisplayField } from "core-app/shared/components/fields/display/display-field.module";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { EditFieldService } from "core-app/shared/components/fields/edit/edit-field.service";
-import { HTMLSanitizeService } from "../../core/html-sanitize/html-sanitize.service";
-import { PathHelperService } from "../../core/path-helper/path-helper.service";
-import { DynamicBootstrapper } from "core-app/core/setup/globals/dynamic-bootstrapper";
+import { ApplicationRef, Injector, NgZone } from '@angular/core';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ExternalQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { EditFieldService } from 'core-app/shared/components/fields/edit/edit-field.service';
+import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 import { States } from 'core-app/core/states/states.service';
-import { CKEditorPreviewService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-preview.service";
-import { ExternalRelationQueryConfigurationService } from "core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
-import { EditorMacrosService } from "core-app/shared/components/modals/editor/editor-macros.service";
-import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { HookService } from "core-app/features/plugins/hook-service";
+import { CKEditorPreviewService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-preview.service';
+import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
+import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { PathHelperService } from '../../core/path-helper/path-helper.service';
+import { HTMLSanitizeService } from '../../core/html-sanitize/html-sanitize.service';
+import { DynamicContentModalComponent } from '../../shared/components/modals/modal-wrapper/dynamic-content.modal';
+import { PasswordConfirmationModalComponent } from '../../shared/components/modals/request-for-confirmation/password-confirmation.modal';
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
  * in order to access services and parts of the core application
  */
 export class OpenProjectPluginContext {
-
   private _knownHookNames = [
     'workPackageTableContextMenu',
     'workPackageSingleContextMenu',
-    'workPackageNewInitialization'
+    'workPackageNewInitialization',
   ];
 
   // Common services referencable by index
@@ -55,17 +54,17 @@ export class OpenProjectPluginContext {
     pathHelperService: this.injector.get<PathHelperService>(PathHelperService),
     states: this.injector.get<States>(States),
     apiV3Service: this.injector.get<APIV3Service>(APIV3Service),
-    configurationService: this.injector.get<ConfigurationService>(ConfigurationService)
+    configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
   };
 
   // Random collection of classes needed outside of angular
   public readonly classes = {
     modals: {
-      passwordConfirmation: PasswordConfirmationModal,
-      dynamicContent: DynamicContentModal,
+      passwordConfirmation: PasswordConfirmationModalComponent,
+      dynamicContent: DynamicContentModalComponent,
     },
-    HalResource: HalResource,
-    DisplayField: DisplayField
+    HalResource,
+    DisplayField,
   };
 
   // Hooks
@@ -100,7 +99,7 @@ export class OpenProjectPluginContext {
   public bootstrap(element:HTMLElement) {
     DynamicBootstrapper.bootstrapOptionalEmbeddable(
       this.injector.get(ApplicationRef),
-      element
+      element,
     );
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Board } from "core-app/features/boards/board/board";
-import { Observable } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { CachableAPIV3Resource } from "core-app/core/apiv3/cache/cachable-apiv3-resource";
-import { MultiInputState } from "reactivestates";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { Apiv3BoardsPaths } from "core-app/core/apiv3/virtual/apiv3-boards-paths";
+import { Board } from 'core-app/features/boards/board/board';
+import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { Apiv3BoardsPaths } from 'core-app/core/apiv3/virtual/apiv3-boards-paths';
 
 export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
-
   /**
    * Perform a request to the HalResourceService with the current path
    */
@@ -47,13 +45,13 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
       .id(this.id)
       .get()
       .pipe(
-        map(grid => {
+        map((grid) => {
           const newBoard = new Board(grid);
 
           newBoard.sortWidgets();
 
           return newBoard;
-        })
+        }),
       );
   }
 
@@ -68,14 +66,13 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
           .apiRoot
           .grids
           .id(board.grid)
-          .patch(board.grid, schema)
-        ),
-        map(grid => {
+          .patch(board.grid, schema)),
+        map((grid) => {
           board.grid = grid;
           board.sortWidgets();
           return board;
         }),
-        this.cacheResponse()
+        this.cacheResponse(),
       );
   }
 
@@ -86,7 +83,7 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
       .id(this.id)
       .delete()
       .pipe(
-        tap(() => this.cache.clearSome(this.id.toString()))
+        tap(() => this.cache.clearSome(this.id.toString())),
       );
   }
 
@@ -98,7 +95,7 @@ export class APIv3BoardPath extends CachableAPIV3Resource<Board> {
       .form
       .post({})
       .pipe(
-        map(form => form.schema)
+        map((form) => form.schema),
       );
   }
 

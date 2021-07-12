@@ -1,6 +1,6 @@
-import { jsonArrayMember, jsonMember, jsonObject } from "typedjson";
-import * as moment from "moment";
-import { Moment } from "moment";
+import { jsonArrayMember, jsonMember, jsonObject } from 'typedjson';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 
 @jsonObject
 export class BcfTopicAuthorizationMap {
@@ -13,7 +13,6 @@ export class BcfTopicAuthorizationMap {
 
 @jsonObject
 export class BcfTopicResource {
-
   @jsonMember
   guid:string;
 
@@ -38,13 +37,13 @@ export class BcfTopicResource {
   @jsonArrayMember(String)
   labels:string[];
 
-  @jsonMember({ deserializer: value => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
+  @jsonMember({ deserializer: (value) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
   creation_date:Moment;
 
   @jsonMember
   creation_author:string;
 
-  @jsonMember({ deserializer: value => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
+  @jsonMember({ deserializer: (value) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
   modified_date:Moment;
 
   @jsonMember({ preserveNull: true })
@@ -60,8 +59,8 @@ export class BcfTopicResource {
   description:string;
 
   @jsonMember({
-    deserializer: value => moment(value),
-    serializer: (timestamp:Moment) => timestamp.format('YYYY-MM-DD')
+    deserializer: (value) => moment(value),
+    serializer: (timestamp:Moment) => timestamp.format('YYYY-MM-DD'),
   })
   due_date:Moment;
 

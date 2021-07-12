@@ -1,4 +1,4 @@
-import { DatePicker } from "core-app/shared/components/op-date-picker/datepicker";
+import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 
 /**
  * Our application is still a hybrid one, meaning most routes are still
@@ -13,18 +13,19 @@ export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
       .attr('autocomplete', 'off'); // Disable autocomplete for those fields
 
     window.OpenProject.getPluginContext()
-      .then(context => {
-        var datePicker = new DatePicker(
+      .then((context) => {
+        const datePicker = new DatePicker(
           '.-augmented-datepicker',
           target.val(),
           {
             weekNumbers: true,
-            allowInput: true
+            allowInput: true,
           },
           target[0],
-          context.services.configurationService
+          context.services.configurationService,
         );
         datePicker.show();
-      });
+      })
+      .catch(() => {});
   }
 }

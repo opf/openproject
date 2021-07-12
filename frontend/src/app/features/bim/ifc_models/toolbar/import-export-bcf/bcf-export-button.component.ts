@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, OnDestroy, OnInit, Injector } from '@angular/core';
+import {
+  Component, Injector, OnDestroy, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { BcfPathHelperService } from "core-app/features/bim/bcf/helper/bcf-path-helper.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { UrlParamsHelperService } from "core-app/features/work-packages/components/wp-query/url-params-helper";
-import { StateService } from "@uirouter/core";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { StateService } from '@uirouter/core';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 
 @Component({
   template: `
@@ -53,19 +55,21 @@ import { WpTableExportModal } from "core-app/shared/components/modals/export-mod
 export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   public text = {
     export: this.I18n.t('js.bcf.export'),
-    export_hover: this.I18n.t('js.bcf.export_bcf_xml_file')
+    export_hover: this.I18n.t('js.bcf.export_bcf_xml_file'),
   };
+
   public query:QueryResource;
+
   public exportLink:string;
 
   constructor(readonly I18n:I18nService,
-              readonly currentProject:CurrentProjectService,
-              readonly bcfPathHelper:BcfPathHelperService,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly queryUrlParamsHelper:UrlParamsHelperService,
-              readonly opModalService:OpModalService,
-              readonly injector:Injector,
-              readonly state:StateService) {
+    readonly currentProject:CurrentProjectService,
+    readonly bcfPathHelper:BcfPathHelperService,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly queryUrlParamsHelper:UrlParamsHelperService,
+    readonly opModalService:OpModalService,
+    readonly injector:Injector,
+    readonly state:StateService) {
     super();
   }
 
@@ -73,7 +77,7 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
     this.querySpace.query
       .values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((query) => {
         this.query = query;
@@ -82,13 +86,13 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
         const filters = this.queryUrlParamsHelper.buildV3GetFilters(this.query.filters);
         this.exportLink = this.bcfPathHelper.projectExportIssuesPath(
           projectIdentifier!,
-          JSON.stringify(filters)
+          JSON.stringify(filters),
         );
       });
   }
 
   public showDelayedExport(event:any) {
-    this.opModalService.show(WpTableExportModal, this.injector, { link: this.exportLink });
+    this.opModalService.show(WpTableExportModalComponent, this.injector, { link: this.exportLink });
     event.preventDefault();
   }
 }

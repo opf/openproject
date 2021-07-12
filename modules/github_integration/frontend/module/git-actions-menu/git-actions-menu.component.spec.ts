@@ -1,8 +1,5 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
-import { DebugElement }  from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 import { GitActionsMenuComponent } from "./git-actions-menu.component";
 import { GitActionsService } from "../git-actions/git-actions.service";
 import { By } from "@angular/platform-browser";

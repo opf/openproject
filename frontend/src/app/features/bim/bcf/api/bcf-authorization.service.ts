@@ -1,15 +1,14 @@
-import { multiInput } from "reactivestates";
-import { BcfExtensionResource } from "core-app/features/bim/bcf/api/extensions/bcf-extension.resource";
-import { BcfApiService } from "core-app/features/bim/bcf/api/bcf-api.service";
-import { Observable } from "rxjs";
-import { map, take } from "rxjs/operators";
-import { Injectable } from "@angular/core";
+import { multiInput } from 'reactivestates';
+import { BcfExtensionResource } from 'core-app/features/bim/bcf/api/extensions/bcf-extension.resource';
+import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
 export type AllowedExtensionKey = keyof BcfExtensionResource;
 
 @Injectable({ providedIn: 'root' })
 export class BcfAuthorizationService {
-
   // Poor mans caching to avoid repeatedly fetching from the backend.
   protected authorizationMap = multiInput<BcfExtensionResource>();
 
@@ -29,20 +28,18 @@ export class BcfAuthorizationService {
   public authorized$(projectIdentifier:string, extension:AllowedExtensionKey, action:string):Observable<boolean> {
     const state = this.authorizationMap.get(projectIdentifier);
 
-    state.putFromPromiseIfPristine(() =>
-      this.bcfApi
-        .projects.id(projectIdentifier)
-        .extensions
-        .get()
-        .toPromise()
-    );
+    state.putFromPromiseIfPristine(() => this.bcfApi
+      .projects.id(projectIdentifier)
+      .extensions
+      .get()
+      .toPromise());
 
     return state
       .values$()
       .pipe(
         map(
-          resource => resource[extension] && resource[extension].includes(action)
-        )
+          (resource) => resource[extension] && resource[extension].includes(action),
+        ),
       );
   }
 
@@ -57,10 +54,9 @@ export class BcfAuthorizationService {
     return this
       .authorized$(projectIdentifier, extension, action)
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise()
       .catch(() => false);
   }
 }
-

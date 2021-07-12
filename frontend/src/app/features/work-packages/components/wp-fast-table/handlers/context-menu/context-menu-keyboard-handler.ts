@@ -1,11 +1,9 @@
 import { Injector } from '@angular/core';
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { WorkPackageTable } from '../../wp-fast-table';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { ContextMenuHandler } from './context-menu-handler';
-import { TableEventComponent } from "core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry";
 
 export class ContextMenuKeyboardHandler extends ContextMenuHandler {
-
   constructor(public readonly injector:Injector) {
     super(injector);
   }
@@ -25,7 +23,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
 
     const target = jQuery(evt.target);
 
-    if (!(evt.keyCode === keyCodes.F10 && evt.shiftKey && evt.altKey)) {
+    if (!(evt.keyCode === KeyCodes.F10 && evt.shiftKey && evt.altKey)) {
       return true;
     }
 
