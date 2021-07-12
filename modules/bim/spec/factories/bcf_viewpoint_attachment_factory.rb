@@ -29,13 +29,15 @@
 FactoryBot.define do
   factory :bcf_viewpoint_attachment, class: 'Attachment' do
     description  { "snapshot" }
-    filename     { "snapshot.jpg" }
+    filename     { "image.png" }
     content_type { "image/jpeg" }
     author       { User.current }
     file do
-      OpenProject::Files.create_uploaded_file name: filename,
-                                              content_type: content_type,
-                                              binary: true
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/fixtures/files/image.png"),
+        'image/png',
+        true,
+      )
     end
   end
 end
