@@ -36,7 +36,7 @@ FactoryBot.define do
       Rack::Test::UploadedFile.new(
         Rails.root.join("spec/fixtures/files/image.png"),
         'image/png',
-        true,
+        true
       )
     end
   end

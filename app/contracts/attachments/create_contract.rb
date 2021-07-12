@@ -72,20 +72,27 @@ module Attachments
     ##
     # Validates the content type, if a whitelist is set
     def validate_content_type
-      # In some cases, we do not want to process the whitelist
-      # for the attachment mime types. For example, when
-      # storing backups or exports
-      return unless options.fetch(:validate_content_type, true)
-
-      whitelist = Array(Setting.attachment_whitelist)
-
       # If the whitelist is empty, assume all files are allowed
       # as before
-      return if whitelist.empty?
-
-      unless whitelist.include?(model.content_type) || whitelist.include?("*#{model.extension}")
+      unless matches_whitelist?(attachment_whitelist)
+        Rails.logger.info { "Uploaded file #{model.filename} with type #{model.content_type} does not match whitelist" }
         errors.add :content_type, :not_whitelisted, value: model.content_type
       end
+    end
+
+    ##
+    # Get the user-defined whitelist or a custom whitelist
+    # defined for this invocation
+    def attachment_whitelist
+      Array(options.fetch(:whitelist, Setting.attachment_whitelist))
+    end
+
+    ##
+    # Returns whether the attachment matches the whitelist
+    def matches_whitelist?(whitelist)
+      return true if whitelist.empty?
+
+      whitelist.include?(model.content_type) || whitelist.include?("*#{model.extension}")
     end
   end
 end
