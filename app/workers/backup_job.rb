@@ -121,7 +121,7 @@ class BackupJob < ::ApplicationJob
   def store_backup(file_name, backup:, user:)
     File.open(file_name) do |file|
       call = Attachments::CreateService
-        .new(user: user)
+        .bypass_whitelist(user: user)
         .call(container: backup, filename: file_name, file: file, description: 'OpenProject backup')
 
       call.on_success do

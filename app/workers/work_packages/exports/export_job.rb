@@ -90,7 +90,7 @@ module WorkPackages
 
       def store_attachment(container, file)
         call = Attachments::CreateService
-          .new(user: User.current)
+          .bypass_whitelist(user: User.current)
           .call(container: container, file: file, filename: File.basename(file), description: '')
 
         call.on_success do
