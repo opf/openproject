@@ -57,7 +57,6 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
         this.valuesLoaded = false;
         const lastValue = this.requests.lastRequestedValue!;
 
-        console.log('modeSwitch force load');
         // Hack to provide a new value to "reset" the input.
         // Only the second input is actually processed as the input is debounced.
         this.requests.input$.next('_/&"()____');

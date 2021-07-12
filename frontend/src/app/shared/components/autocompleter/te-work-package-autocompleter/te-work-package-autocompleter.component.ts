@@ -60,7 +60,6 @@ export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutoc
   public mode:TimeEntryWorkPackageAutocompleterMode = 'all';
 
   public setMode(value:TimeEntryWorkPackageAutocompleterMode) {
-    console.log('setMode', this.mode, value);
     if (value !== this.mode) {
       this.modeSwitch.emit(value);
     }

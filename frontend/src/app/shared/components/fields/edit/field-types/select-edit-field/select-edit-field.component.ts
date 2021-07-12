@@ -186,7 +186,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         return collection.elements.concat([this.value]);
       }),
       tap((elements) => this.setValues(elements)),
-      tap((elements) => console.log('values from backend', elements)),
       map(() => this.availableOptions),
     );
   }
