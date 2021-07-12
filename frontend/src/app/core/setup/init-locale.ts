@@ -28,7 +28,7 @@
 
 import * as moment from 'moment';
 
-export async function initializeLocale() {
+export function initializeLocale() {
   const meta = document.querySelector('meta[name=openproject_initializer]') as HTMLMetaElement;
   const locale = meta.dataset.locale || 'en';
   const firstDayOfWeek = parseInt(meta.dataset.firstDayOfWeek || '', 10);
@@ -59,14 +59,6 @@ export async function initializeLocale() {
         return ['other'];
     }
   };
-
-  try {
-    const momentLocaleExtension = await import(/* webpackChunkName: "moment-locale-extensions" */ `../datetime/moment-locale-extensions/${I18n.locale}.js`)
-      .then((importedConfig) => importedConfig.default);
-    moment.updateLocale(I18n.locale, momentLocaleExtension);
-  } catch {
-    console.warn(`moment-locale-extension for locale ${I18n.locale} isn't available.`);
-  }
 
   return import(/* webpackChunkName: "locale" */ `../../../locales/${I18n.locale}.js`);
 }
