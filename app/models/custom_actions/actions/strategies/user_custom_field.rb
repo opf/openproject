@@ -28,26 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
-  include CustomActions::Actions::Strategies::MeAssociated
+module CustomActions::Actions::Strategies::UserCustomField
+  include CustomActions::Actions::Strategies::CustomField
+  include ::CustomActions::Actions::Strategies::MeAssociated
 
-  def self.key
-    :assigned_to
+  def apply(work_package)
+    if work_package.respond_to?(:"#{custom_field.accessor_name}=")
+      work_package.send(:"#{custom_field.accessor_name}=", transformed_value(values.first))
+    end
   end
 
   def available_principles
-    principal_class
-      .not_locked
-      .select(:id, :firstname, :lastname, :type)
-      .ordered_by_name
-      .map { |u| [u.id, u.name] }
-  end
-
-  def apply(work_package)
-    work_package.assigned_to_id = transformed_value(values.first)
-  end
-
-  def principal_class
-    Principal
+    custom_field
+      .possible_values_options
+      .map { |label, value| [value.empty? ? nil : value.to_i, label] }
   end
 end
