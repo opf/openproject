@@ -48,8 +48,9 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
       expect(attachment.downloads)
         .to eql(0)
+      # expect to replace the content type with the actual value
       expect(attachment.content_type)
-        .to eql('application/binary')
+        .to eql('text/plain')
       expect(attachment.digest)
         .to eql("9473fdd0d880a43c21b7778d34872157")
     end
