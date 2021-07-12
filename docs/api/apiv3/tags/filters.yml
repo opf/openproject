@@ -8,13 +8,13 @@ description: |-
 
   - You can combine any number of distinct filters can be added to the endpoint definitions in this API documentation
 
-  - A combination of filter objects are treated as an AND filter. OR filters are not yet possible in a single query, but this feature is tracked in https://community.openproject.com/wp/26837
+  - A combination of filter objects are treated as an AND filter. OR filters are not yet possible in a single query.
 
   ## Filter syntax
 
   The filter syntax is a JSON object that can be passed as a GET parameter to the endpoints as an URL-encoded JSON string looks like the following:
 
-  ```
+  ```json
   [
     { "<filter name>": { "operator": "<operator>", "values": [<value>, ...] },
     ...
@@ -25,7 +25,7 @@ description: |-
 
   Filtering the work packages API endpoint for a work package that matches the subject or ID "12" and has a status with the ID=5.
 
-  ```
+  ```json
   [
     { "subjectOrId": { "operator": "**", values: ["12"] } },
     { "status": { "operator": "=", values: ["5"] } }
@@ -59,7 +59,7 @@ description: |-
 
   All of the props can be put inside a json object
 
-  ```
+  ```json
   {
     "filters": "[{\"subjectOrId\":{\"operator\":\"**\",\"values\":[\"12\"]}},{\"status\":{\"operator\":\"=\",\"values\":[\"5\"]}}]",
     "sortBy": "[[\"id\",\"asc\"]]",

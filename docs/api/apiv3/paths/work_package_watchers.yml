@@ -1,11 +1,11 @@
-# /api/v3/work_packages/{work_package_id}/watchers
+# /api/v3/work_packages/{id}/watchers
 ---
 get:
   parameters:
   - description: Work package id
     example: '1'
     in: path
-    name: work_package_id
+    name: id
     required: true
     schema:
       type: integer
@@ -117,7 +117,7 @@ post:
   - description: Work package id
     example: '1'
     in: path
-    name: work_package_id
+    name: id
     required: true
     schema:
       type: integer

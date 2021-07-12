@@ -9,7 +9,7 @@ If you need help developing a client library you can [contact us](mailto:support
 
 ## JavaScript / TypeScript
 
-* [op-client](https://www.npmjs.com/package/op-client): "Client library for OpenProject server. Works both on Node.js and browser."
+* [op-client](https://www.npmjs.com/package/op-client): Client library for OpenProject server. Works both on Node.js and browser.
 
 ## Excel
 

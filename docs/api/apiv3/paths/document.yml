@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: document id
+  - description: Document id
     example: '1'
     in: path
     name: id

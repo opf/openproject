@@ -86,6 +86,7 @@ description: |-
   `startDate` can also not be earlier than a finish date of any predecessor.
 
   While attachments are returned as a link which's content is to be fetched separately, clients can choose to
-  replace the work package's attachments by providing an array of already uploaded [Attachment resources](#attachments) on [create](#work-packages-work-packages-post)
-  and [update](#work-packages-work-package-patch). The attachments the work package has had prior to the request will be removed.
+  replace the work package's attachments by providing an array of already uploaded [Attachment resources](https://www.openproject.org/docs/api/endpoints/attachments/) 
+  on [create](https://www.openproject.org/docs/api/endpoints/work-packages/#create-work-package)
+  and [update](https://www.openproject.org/docs/api/endpoints/work-packages/#edit-work-package). The attachments the work package has had prior to the request will be removed.
 name: Work Packages

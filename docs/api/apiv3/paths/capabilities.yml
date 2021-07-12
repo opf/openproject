@@ -4,7 +4,7 @@ get:
   parameters:
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](#queries) endpoint.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
 
       + action: Get all capabilities of a certain action
 
@@ -19,7 +19,7 @@ get:
       type: string
   - description: |-
       JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
 
       + id: Sort by the capabilities id
     example: '[["id", "asc"]]'
@@ -27,7 +27,7 @@ get:
     name: sortBy
     required: false
     schema:
-      default: '["id", "asc"]'
+      default: '[["id", "asc"]]'
       type: string
   responses:
     '200':

@@ -4,7 +4,6 @@ get:
   parameters:
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](#queries) endpoint.
       Currently supported filters are:
 
       + project: filters queries by the project they are assigned to. If the project filter is passed with the `!*` (not any) operator, global queries are returned.

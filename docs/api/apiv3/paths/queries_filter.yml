@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: QueryFilter identifier.
+  - description: QueryFilter identifier
     example: status
     in: path
     name: id

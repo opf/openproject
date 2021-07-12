@@ -1,11 +1,11 @@
-# /api/v3/work_packages/{work_package_id}/relations
+# /api/v3/work_packages/{id}/relations
 ---
 get:
   parameters:
   - description: Work package id
     example: '1'
     in: path
-    name: work_package_id
+    name: id
     required: true
     schema:
       type: integer
@@ -15,9 +15,7 @@ get:
         text/plain:
           examples:
             response:
-              value: 'You are being redirected to /api/v3/relations?involved={work_package_id}
-
-'
+              value: 'You are being redirected to /api/v3/relations?involved={work_package_id}'
       description: Found
       headers:
         Location:
@@ -33,7 +31,7 @@ post:
   - description: Work package id
     example: '1'
     in: path
-    name: work_package_id
+    name: id
     required: true
     schema:
       type: integer

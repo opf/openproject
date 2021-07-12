@@ -21,16 +21,10 @@ post:
   responses:
     '200':
       content:
-        application/json:
-          schema:
-            "$ref": "../components/schemas/markdown_model.yml"
         text/html:
           examples:
             response:
-              value: '<p>Hello world! <a href="http://example.com">This</a> <strong>is</strong>
-                markdown!</p>
-
-'
+              value: '<p>Hello world! <a href="http://example.com">This</a> <strong>is</strong> markdown!</p>'
           schema:
             "$ref": "../components/schemas/markdown_model.yml"
       description: OK

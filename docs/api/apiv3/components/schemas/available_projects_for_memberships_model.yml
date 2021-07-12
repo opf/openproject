@@ -16,7 +16,7 @@ example:
           href: "/api/v3/projects/6"
           title: A project
         editWorkPackage:
-          href: "/api/v3//work_packages/{work_package_id}/form"
+          href: "/api/v3/work_packages/{id}/form"
           templated: true
           method: post
         createWorkPackage:

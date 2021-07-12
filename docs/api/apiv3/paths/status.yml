@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: status id
+  - description: Status id
     example: '1'
     in: path
     name: id

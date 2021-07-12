@@ -19,7 +19,7 @@ get:
       type: string
   - description: |-
       JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](#queries) endpoint and allows all the filters and sortBy supported by the project list end point.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint and allows all the filters and sortBy supported by the project list end point.
     example: '[["id", "asc"]]'
     in: query
     name: sortBy
