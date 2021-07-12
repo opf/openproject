@@ -618,6 +618,7 @@ en:
         label: 'Project autocompletion'
 
     text_are_you_sure: "Are you sure?"
+    text_data_lost: "All entered data will be lost."
 
     types:
       attribute_groups:
