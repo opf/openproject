@@ -1,7 +1,7 @@
 <op-autocompleter
   #ngSelectComponent
   [model]="model"
-  [getOptionsFn]="getOptionsFn.bind(this)"
+  [items]="availableValues"
   [ngClass]="classes"
   [addTag]="createAllowed"
   [virtualScroll]="true"

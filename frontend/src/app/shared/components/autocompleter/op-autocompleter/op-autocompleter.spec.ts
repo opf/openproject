@@ -91,7 +91,7 @@ describe('autocompleter', () => {
     fixture.componentInstance.closeOnSelect = true;
     fixture.componentInstance.virtualScroll = true;
     fixture.componentInstance.classes = 'wp-inline-create--reference-autocompleter';
-    fixture.componentInstance.defaulData = true;
+    fixture.componentInstance.defaultData = true;
 
     // @ts-ignore
     opAutocompleterServiceSpy.loadData.and.returnValue(of(workPackagesStub));

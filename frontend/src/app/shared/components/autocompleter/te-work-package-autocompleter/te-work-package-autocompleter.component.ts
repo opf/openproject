@@ -30,6 +30,7 @@ import {
   AfterViewInit, Component, EventEmitter, Injector, Output, ViewEncapsulation,
 } from '@angular/core';
 import { of } from 'rxjs';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 
 export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
@@ -59,16 +60,10 @@ export class TimeEntryWorkPackageAutocompleterComponent extends WorkPackageAutoc
   public mode:TimeEntryWorkPackageAutocompleterMode = 'all';
 
   public setMode(value:TimeEntryWorkPackageAutocompleterMode) {
+    console.log('setMode', this.mode, value);
     if (value !== this.mode) {
       this.modeSwitch.emit(value);
     }
     this.mode = value;
-  }
-
-  public getOptionsFn() {
-    return of(this.availableValues.map(item => ({
-      ...item,
-      id: (item.href || '').split('/').pop(),
-    })));
   }
 }

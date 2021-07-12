@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  OnChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -10,9 +11,10 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  SimpleChanges,
 } from '@angular/core';
 import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
-import { Observable, of, Subject, combineLatest } from 'rxjs';
+import { Observable, NEVER, of, Subject, combineLatest, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 
@@ -39,7 +41,7 @@ import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocomp
 // it has all inputs and outputs of ng-select
 // in order to use it, you only need to pass the data type and its filters
 // you also can change the value of ng-select default options by changing @inputs and @outputs
-export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
+export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
   @Input() public filters?:IAPIFilter[] = [];
 
   @Input() public resource:resource;
@@ -48,7 +50,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public searchKey?:string = '';
 
-  @Input() public defaulData?:boolean = false;
+  @Input() public defaultData?:boolean = false;
 
   @Input() public focusDirectly?:boolean = true;
 
@@ -70,7 +72,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public id?:string;
 
-  @Input() public configOptions?:IOPAutocompleterOption[];
+  @Input() public items?:IOPAutocompleterOption[]|HalResource[];
+  private items$ = new Subject();
 
   @Input() public clearSearchOnAdd?:boolean = true;
 
@@ -210,6 +213,12 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     super();
   }
 
+  ngOnChanges(changes:SimpleChanges) {
+    if (changes.items) {
+      this.items$.next(changes.items.currentValue);
+    }
+  }
+
   ngAfterViewInit():void {
     if (!this.ngSelectInstance) {
       return;
@@ -217,26 +226,27 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        this.results$ = (this.configOptions ? (this.typeahead.pipe(
-          debounceTime(250),
-          distinctUntilChanged(),
-          switchMap((queryString) => this.getOptionsItems(queryString)),
-        )) : this.defaulData ? (this.typeahead.pipe(
-          debounceTime(250),
-          distinctUntilChanged(),
-          switchMap((queryString) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey)),
-        )) : (this.typeahead.pipe(
-          debounceTime(250),
-          distinctUntilChanged(),
-          switchMap((queryString) => this.getOptionsFn(queryString)),
-        ))).pipe(
-          switchMap((results) => {
+        this.results$ = merge(
+          (this.items$ || new Subject()),
+          this.typeahead.pipe(
+            distinctUntilChanged(),
+            debounceTime(250),
+            (this.defaultData
+              ? switchMap((queryString) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
+              : this.getOptionsFn
+                ? switchMap((queryString) => this.getOptionsFn(queryString))
+                : switchMap(() => NEVER)
+            ),
+          ),
+        ).pipe(
+          switchMap((results:HalResource[]|any[]) => {
+            console.log('results', results);
             if (this.resource === 'work_packages') {
-              return combineLatest(results.map((item: IOPAutocompleterOption) => {
+              return combineLatest(results.map((item: HalResource|any) => {
                 if (item instanceof HalResource) {
-                  return of([item]);
+                  return of(item);
                 }
-                
+
                 return this.opAutocompleterService.loadWorkPackageResource(`${item.id}`);
               }));
             }
@@ -246,7 +256,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         );
 
         if (this.fetchDataDirectly) {
-          this.results$ = this.defaulData
+          this.results$ = this.defaultData
             ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
             : (this.getOptionsFn(''));
         }
@@ -274,7 +284,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public opened(val: any) {
     if (this.openDirectly) {
-      this.results$ = this.defaulData
+      this.results$ = this.defaultData
         ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
         : (this.getOptionsFn(''));
     }
@@ -283,7 +293,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   }
 
   public getOptionsItems(searchKey:string):Observable<any> {
-    return of(this.configOptions?.filter((element) => element.name.includes(searchKey)));
+    return of((this.items as IOPAutocompleterOption[])?.filter((element) => element.name.includes(searchKey)));
   }
 
   public closeSelect() {
