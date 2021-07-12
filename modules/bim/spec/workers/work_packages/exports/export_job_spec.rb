@@ -67,7 +67,7 @@ describe WorkPackages::Exports::ExportJob do
         service = double('attachments create service')
 
         expect(Attachments::CreateService)
-          .to receive(:new)
+          .to receive(:bypass_whitelist)
           .with(user: user)
           .and_return(service)
 

@@ -183,7 +183,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
       uuid = bcf_issue.viewpoints.first.uuid
       viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
       expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.xml")
-      expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.jpg")
+      expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.png")
     end
   end
 
