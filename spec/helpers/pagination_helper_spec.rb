@@ -66,15 +66,15 @@ describe PaginationHelper, type: :helper do
     end
 
     it "should be inside a 'pagination' div" do
-      expect(pagination).to have_selector('div.pagination')
+      expect(pagination).to have_selector('div.op-pagination')
     end
 
     it 'should have a next_page reference' do
-      expect(pagination).to have_selector('.pagination--item.-next')
+      expect(pagination).to have_selector('.op-pagination--item_next')
     end
 
     it 'should not have a previous_page reference' do
-      expect(pagination).not_to have_selector('.pagination--item.-prev')
+      expect(pagination).not_to have_selector('.op-pagination--item_prev')
     end
 
     it 'should have links to every page except the current one' do
@@ -91,14 +91,14 @@ describe PaginationHelper, type: :helper do
     end
 
     it 'should have an element for the current page' do
-      expect(pagination).to have_selector('.pagination--item.-current',
+      expect(pagination).to have_selector('.op-pagination--item_current',
                                           text: Regexp.new("^#{current_page}$"))
     end
 
     it 'should show the range of the entries displayed' do
       range = "(#{(current_page * per_page) - per_page + 1} - " +
               "#{current_page * per_page}/#{total_entries})"
-      expect(pagination).to have_selector('.pagination--range', text: range)
+      expect(pagination).to have_selector('.op-pagination--range', text: range)
     end
 
     it 'should have different urls if the params are specified as options' do
@@ -115,29 +115,29 @@ describe PaginationHelper, type: :helper do
       end
     end
 
-    it 'should show the available pre page options' do
+    it 'should show the available per page options' do
       allow(Setting)
         .to receive(:per_page_options)
         .and_return("#{per_page},#{per_page * 10}")
 
-      expect(pagination).to have_selector('.pagination--options')
+      expect(pagination).to have_selector('.op-pagination--options')
 
-      expect(pagination).to have_selector('.pagination--options .-current', text: per_page)
+      expect(pagination).to have_selector('.op-pagination--options .op-pagination--item_current', text: per_page)
 
       path = work_packages_path(page: current_page, per_page: Setting.per_page_options_array.last)
-      expect(pagination).to have_selector(".pagination--options a[href='#{path}']")
+      expect(pagination).to have_selector(".op-pagination--options a[href='#{path}']")
     end
 
     describe 'WHEN the first page is the current' do
       let(:current_page) { 1 }
 
       it 'should deactivate the previous page link' do
-        expect(pagination).not_to have_selector('.pagination--item.-prev')
+        expect(pagination).not_to have_selector('.op-pagination--item_prev')
       end
 
       it 'should have a link to the next page' do
         path = work_packages_path(page: current_page + 1)
-        expect(pagination).to have_selector(".pagination--item.-next a[href='#{path}']")
+        expect(pagination).to have_selector(".op-pagination--item_next a[href='#{path}']")
       end
     end
 
@@ -145,12 +145,12 @@ describe PaginationHelper, type: :helper do
       let(:current_page) { total_entries / per_page + 1 }
 
       it 'should deactivate the next page link' do
-        expect(pagination).not_to have_selector('.pagination--item.-next')
+        expect(pagination).not_to have_selector('.op-pagination--item_next')
       end
 
       it 'should have a link to the previous page' do
         path = work_packages_path(page: current_page - 1)
-        expect(pagination).to have_selector(".pagination--item.-prev a[href='#{path}']")
+        expect(pagination).to have_selector(".op-pagination--item_prev a[href='#{path}']")
       end
     end
 
@@ -158,11 +158,11 @@ describe PaginationHelper, type: :helper do
       let(:total_entries) { 0 }
 
       it 'should show no pages' do
-        expect(pagination).not_to have_selector('.pagination--items .pagination--item')
+        expect(pagination).not_to have_selector('.op-pagination--items .op-pagination--item')
       end
 
       it 'should show no pagination' do
-        expect(pagination).not_to have_selector('.pagination')
+        expect(pagination).not_to have_selector('.op-pagination')
       end
     end
   end
