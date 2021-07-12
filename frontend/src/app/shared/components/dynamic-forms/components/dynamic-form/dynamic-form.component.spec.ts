@@ -24,6 +24,7 @@ import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dy
 import { OpFormFieldComponent } from 'core-app/shared/components/forms/form-field/form-field.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DynamicFieldWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-wrapper/dynamic-field-wrapper.component';
+import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 @Component({
   template: `
@@ -274,6 +275,7 @@ describe('DynamicFormComponent', () => {
   beforeEach(async () => {
     const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
     const dynamicFormServiceSpy = jasmine.createSpyObj('DynamicFormService', ['getSettings', 'getSettingsFromBackend$', 'registerForm', 'submit$']);
+    const confirmDialogServiceSpy = jasmine.createSpyObj('ConfirmDialogService', ['confirm']);
 
     await TestBed
       .configureTestingModule({
@@ -322,6 +324,7 @@ describe('DynamicFormComponent', () => {
           { provide: I18nService, useValue: I18nServiceStub },
           { provide: PathHelperService, useValue: IPathHelperServiceStub },
           { provide: NotificationsService, useValue: notificationsServiceSpy },
+          { provide: ConfirmDialogService, useValue: confirmDialogServiceSpy },
         ],
       })
       // Set component providers
@@ -355,7 +358,7 @@ describe('DynamicFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('sould get the form schema from the backend when no @Input settings', fakeAsync(() => {
+  it('should get the form schema from the backend when no @Input settings', fakeAsync(() => {
     // @ts-ignore
     dynamicFormService.getSettingsFromBackend$.and.returnValue(defer(() => Promise.resolve(dynamicFormSettings)));
 

@@ -20,8 +20,9 @@
             [disabled]="inFlight">
       {{text.save}}
     </button>
-    <button class="button"
-            (click)="goBack()">
+    <button type="button"
+            class="button"
+            (click)="handleCancel()">
       {{text.cancel}}
     </button>
   </div>
