@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -38,11 +38,11 @@ export class SelectAutocompleterRegisterService {
   private _fields:SelectAutocompleterAssignment[] = [];
 
   public register(component:any, attribute:string) {
-    this._fields.push({ attribute: attribute, component: component, });
+    this._fields.push({ attribute, component });
   }
 
   public getAutocompleterOfAttribute(attribute:string) {
-    const assignment = _.find(this._fields, field => field.attribute === attribute);
+    const assignment = _.find(this._fields, (field) => field.attribute === attribute);
     return assignment ? assignment.component : undefined;
   }
 }

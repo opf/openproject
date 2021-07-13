@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,25 +26,27 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { Injector } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { ClickPositionMapper } from "core-app/shared/helpers/set-click-position/set-click-position";
-import { debugLog } from "core-app/shared/helpers/debug_output";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { setPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { Subject } from 'rxjs';
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
   @InjectField() FocusHelper:FocusHelperService;
+
   @InjectField() ConfigurationService:ConfigurationService;
+
   @InjectField() I18n!:I18nService;
 
   // Subject to fire when user demanded activation
@@ -54,13 +56,12 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   public errors:string[];
 
   constructor(public injector:Injector,
-              public form:EditForm,
-              public fieldName:string,
-              public schema:IFieldSchema,
-              public element:HTMLElement,
-              protected pathHelper:PathHelperService,
-              protected withErrors?:string[]) {
-
+    public form:EditForm,
+    public fieldName:string,
+    public schema:IFieldSchema,
+    public element:HTMLElement,
+    protected pathHelper:PathHelperService,
+    protected withErrors?:string[]) {
     super();
 
     if (withErrors !== undefined) {
@@ -100,14 +101,14 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
     // Set selection state if input element
     if (setClickOffset && target.tagName === 'INPUT') {
-      ClickPositionMapper.setPosition(target as HTMLInputElement, setClickOffset);
+      setPosition(target as HTMLInputElement, setClickOffset);
     }
   }
 
   public onFocusOut() {
     // In case of inline create or erroneous forms: do not save on focus loss
     // const specialField = this.resource.shouldCloseOnFocusOut(this.fieldName);
-    if (this.resource.subject && this.withErrors && this.withErrors!.length === 0) {
+    if (this.resource.subject && this.withErrors && this.withErrors.length === 0) {
       this.handleUserSubmit();
     }
   }
@@ -141,7 +142,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   public handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel = false) {
     // Only handle submission in edit mode
     if (this.inEditMode && !onlyCancel) {
-      if (event.which === keyCodes.ENTER) {
+      if (event.which === KeyCodes.ENTER) {
         this.form.submit();
         return false;
       }
@@ -149,7 +150,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     }
 
     // Escape editing when not in edit mode
-    if (event.which === keyCodes.ESCAPE) {
+    if (event.which === KeyCodes.ESCAPE) {
       this.handleUserCancel();
       return false;
     }
@@ -215,10 +216,9 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   public errorMessageOnLabel() {
     if (!this.isErrorenous) {
       return '';
-    } else {
-      return this.I18n.t('js.inplace.errors.messages_on_field',
-        { messages: this.errors.join(' ') });
     }
+    return this.I18n.t('js.inplace.errors.messages_on_field',
+      { messages: this.errors.join(' ') });
   }
 
   public previewContext(resource:HalResource) {

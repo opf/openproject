@@ -1,7 +1,7 @@
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { CardHighlightingMode } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const";
-import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { CardHighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export type BoardType = 'free'|'action';
 
@@ -60,7 +60,7 @@ export class Board {
   }
 
   public removeQuery(widget:GridWidgetResource) {
-    this.grid.widgets = this.grid.widgets.filter(el => el.options.queryId !== widget.options.queryId);
+    this.grid.widgets = this.grid.widgets.filter((el) => el.options.queryId !== widget.options.queryId);
   }
 
   public get queries():GridWidgetResource[] {
@@ -80,9 +80,7 @@ export class Board {
   }
 
   public sortWidgets() {
-    this.grid.widgets = this.grid.widgets.sort((a, b) => {
-      return a.startColumn - b.startColumn;
-    });
+    this.grid.widgets = this.grid.widgets.sort((a, b) => a.startColumn - b.startColumn);
   }
 
   public showStatusButton() {

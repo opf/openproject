@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Observable } from "rxjs";
-import { HelpTextResource } from "core-app/features/hal/resources/help-text-resource";
+import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Observable } from 'rxjs';
+import { HelpTextResource } from 'core-app/features/hal/resources/help-text-resource';
 
 export class Apiv3HelpTextsPaths
   extends APIv3ResourceCollection<HelpTextResource, APIv3GettableResource<HelpTextResource>> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'help_texts');
   }
 

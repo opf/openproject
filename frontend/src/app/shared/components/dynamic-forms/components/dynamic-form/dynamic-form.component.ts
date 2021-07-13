@@ -7,19 +7,20 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-} from "@angular/core";
-import { FormlyForm } from "@ngx-formly/core";
-import { DynamicFormService } from "../../services/dynamic-form/dynamic-form.service";
-import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from "../../typings";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { catchError, finalize } from "rxjs/operators";
-import { HalSource } from "core-app/features/hal/resources/hal-resource";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { DynamicFieldsService } from "core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service";
-import { FormGroup } from "@angular/forms";
-import { HttpErrorResponse } from "@angular/common/http";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+} from '@angular/core';
+import { FormlyForm } from '@ngx-formly/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { catchError, finalize } from 'rxjs/operators';
+import { HalSource } from 'core-app/features/hal/resources/hal-resource';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
+import { FormGroup } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from '../../typings';
+import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
+import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 /**
 * SETTINGS:
@@ -115,9 +116,9 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 */
 
 @Component({
-  selector: "op-dynamic-form",
-  templateUrl: "./dynamic-form.component.html",
-  styleUrls: ["./dynamic-form.component.scss"],
+  selector: 'op-dynamic-form',
+  templateUrl: './dynamic-form.component.html',
+  styleUrls: ['./dynamic-form.component.scss'],
   providers: [
     DynamicFormService,
     DynamicFieldsService,
@@ -126,54 +127,79 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
 export class DynamicFormComponent extends UntilDestroyedMixin implements OnChanges {
   /** Backend form URL (e.g. https://community.openproject.org/api/v3/projects/dev-large/form) */
   @Input() formUrl?:string;
+
   /** When using the formUrl @Input(), set the http method to use if it is not 'POST' */
   @Input() formHttpMethod?:'post'|'patch' = 'post';
+
   /** Part of the URL that belongs to the resource type (e.g. '/projects' in the previous example)
   * Use this option when you don't have a form URL, the DynamicForm will build it from the resourcePath
   * for you (⌐■_■).
   */
   @Input() resourcePath?:string;
+
   /** Pass the resourceId in case you are editing an existing resource and you don't have the Form URL. */
   @Input() resourceId?:string;
+
   @Input() settings?:IOPFormSettings;
+
   @Input() dynamicFormGroup?:FormGroup;
+
   /** Initial payload to POST to the form */
   @Input() initialPayload:Object = {};
+
   @Input() set model(payload:IOPFormModel) {
-    if (!this.innerModel && !payload) { return; }
+    if (!this.innerModel && !payload) {
+      return;
+    }
 
     const formattedModel = this._dynamicFormService.formatModelToEdit(payload);
 
     this.form.patchValue(formattedModel);
   }
+
   /** Chance to modify the dynamicFormFields settings before the form is rendered */
   @Input() fieldsSettingsPipe?:(dynamicFieldsSettings:IOPFormlyFieldSettings[]) => IOPFormlyFieldSettings[];
+
   /** Create fieldGroups programmatically */
   @Input() fieldGroups?:IDynamicFieldGroupConfig[];
+
   @Input() showNotifications = true;
+
   @Input() showValidationErrorsOn:'change'|'blur'|'submit'|'never' = 'submit';
+
   @Input() handleSubmit = true;
+
   @Input() helpTextAttributeScope?:string;
 
   @Output() modelChange = new EventEmitter<IOPFormModel>();
+
   @Output() submitted = new EventEmitter<HalSource>();
+
   @Output() errored = new EventEmitter<IOPFormErrorResponse>();
 
   form:FormGroup;
+
   fields:IOPFormlyFieldSettings[];
+
   formEndpoint?:string;
+
   inFlight:boolean;
+
   text = {
     save: this._I18n.t('js.button_save'),
+    cancel: this._I18n.t('js.button_cancel'),
     load_error_message: this._I18n.t('js.forms.load_error_message'),
     successful_update: this._I18n.t('js.notice_successful_update'),
     successful_create: this._I18n.t('js.notice_successful_create'),
     job_started: this._I18n.t('js.notice_job_started'),
   };
+
   noSettingsSourceErrorMessage = `DynamicFormComponent needs a settings, formUrl or resourcePath @Input
   in order to fetch its setting. Please provide one.`;
+
   noPathToSubmitToError = `DynamicForm needs a resourcePath or formUrl @Input in order to be submitted 
   and validated. Please provide one.`;
+
   innerModel:IOPFormModel;
 
   get model() {
@@ -192,6 +218,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
     private _changeDetectorRef:ChangeDetectorRef,
+    private _confirmDialogService:ConfirmDialogService,
   ) {
     super();
   }
@@ -202,15 +229,15 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   ngOnChanges(changes:SimpleChanges) {
     if (
-      changes.settings ||
-      changes.resourcePath ||
-      changes.resourceId ||
-      changes.formUrl ||
-      changes.formHttpMethod ||
-      changes.dynamicFormGroup ||
-      changes.initialPayload ||
-      changes.fieldsSettingsPipe ||
-      changes.fieldGroups
+      changes.settings
+      || changes.resourcePath
+      || changes.resourceId
+      || changes.formUrl
+      || changes.formHttpMethod
+      || changes.dynamicFormGroup
+      || changes.initialPayload
+      || changes.fieldsSettingsPipe
+      || changes.fieldGroups
     ) {
       this.initializeDynamicForm(
         this.settings,
@@ -261,6 +288,27 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     return this._dynamicFormService.validateForm$(this.form, this.formEndpoint);
   }
 
+
+  handleCancel() {
+    if (this.form.dirty) {
+      this._confirmDialogService.confirm({
+        text: {
+          title: this._I18n.t('js.text_are_you_sure'),
+          text: this._I18n.t('js.text_data_lost'),
+        },
+      }).then(() => {
+        this.goBack();
+      })
+        .catch(() => {});
+    } else {
+      this.goBack();
+    }
+  }
+
+  private goBack() {
+    window.history.back();
+  }
+
   private initializeDynamicForm(
     settings?:IOPFormSettings,
     resourcePath?:string,
@@ -285,30 +333,30 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
   }
 
-  private getFormEndPoint(formUrl?:string, resourcePath?:string):string|undefined {
+  private getFormEndPoint(formUrl?:string, resourcePath?:string):string {
     if (formUrl) {
-      return formUrl.endsWith(`/form`) ?
-        formUrl.replace(`/form`, ``) :
-        formUrl;
+      return formUrl.endsWith('/form')
+        ? formUrl.replace('/form', '')
+        : formUrl;
     }
 
     if (resourcePath) {
       return resourcePath;
     }
 
-    return;
+    return '';
   }
 
   private setupDynamicFormFromBackend(formEndpoint?:string, resourceId?:string, payload?:Object) {
     this._dynamicFormService
       .getSettingsFromBackend$(formEndpoint, resourceId, payload)
       .pipe(
-        catchError(error => {
+        catchError((error) => {
           this._notificationsService.addError(this.text.load_error_message);
           throw error;
         }),
       )
-      .subscribe(dynamicFormSettings => this.setupDynamicForm(dynamicFormSettings));
+      .subscribe((dynamicFormSettings) => this.setupDynamicForm(dynamicFormSettings));
   }
 
   private setupDynamicFormFromSettings(settings:IOPFormSettings) {

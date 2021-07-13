@@ -1,17 +1,17 @@
 
 <div class="wp-relations--autocomplete">
   <op-autocompleter
-  classes="wp-inline-create--reference-autocompleter"
-  [appendTo]="appendToContainer"
-  [placeholder]="inputPlaceholder"
-  [typeToSearchText]="inputPlaceholder"
-  [loading]="isLoading"
-  [resource]="autocompleterOptions.resource"
-  [defaulData]="false"
-  (open)="onOpen()"
-  (change)="onWorkPackageSelected($event)"
-  [getOptionsFn]=autocompleterOptions.getOptionsFn>
-  </op-autocompleter>
+    classes="wp-inline-create--reference-autocompleter"
+    [appendTo]="appendToContainer"
+    [placeholder]="inputPlaceholder"
+    [typeToSearchText]="inputPlaceholder"
+    [loading]="isLoading"
+    [resource]="autocompleterOptions.resource"
+    [defaultData]="false"
+    (open)="onOpen()"
+    (change)="onWorkPackageSelected($event)"
+    [getOptionsFn]=autocompleterOptions.getOptionsFn
+  ></op-autocompleter>
 </div>
 
 

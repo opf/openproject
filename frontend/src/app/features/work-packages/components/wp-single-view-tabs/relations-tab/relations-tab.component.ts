@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,9 +29,9 @@
 import { Transition } from '@uirouter/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './relations-tab.html',
@@ -39,11 +39,12 @@ import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 })
 export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackageId?:string;
+
   public workPackage:WorkPackageResource;
 
   public constructor(readonly I18n:I18nService,
-                     readonly $transition:Transition,
-                     readonly apiV3Service:APIV3Service) {
+    readonly $transition:Transition,
+    readonly apiV3Service:APIV3Service) {
     super();
   }
 
@@ -55,12 +56,11 @@ export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implem
       .id(wpId)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp) => {
         this.workPackageId = wp.id!;
         this.workPackage = wp;
       });
   }
-
 }

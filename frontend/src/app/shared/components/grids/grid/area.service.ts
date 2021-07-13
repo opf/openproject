@@ -1,37 +1,44 @@
 import { Injectable } from '@angular/core';
-import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
-import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
-import { GridGap } from "core-app/shared/components/grids/areas/grid-gap";
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { WidgetChangeset } from "core-app/shared/components/grids/widgets/widget-changeset";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
+import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
+import { GridGap } from 'core-app/shared/components/grids/areas/grid-gap';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { WidgetChangeset } from 'core-app/shared/components/grids/widgets/widget-changeset';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BehaviorSubject } from 'rxjs';
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Apiv3GridForm } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-form";
-import { map } from "rxjs/operators";
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Apiv3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
 
 @Injectable()
 export class GridAreaService {
-
   private resource:GridResource;
+
   public schema:SchemaResource;
 
   public numColumns = 0;
+
   public numRows = 0;
+
   public gridAreas:GridArea[];
+
   public gridGaps:GridArea[];
+
   public widgetAreas:GridWidgetArea[];
+
   public gridAreaIds:string[];
+
   public mousedOverArea:GridArea|null = null;
+
   public $mousedOverArea = new BehaviorSubject(this.mousedOverArea);
+
   public helpMode = false;
 
-  constructor (private apiV3Service:APIV3Service,
-               private notification:NotificationsService,
-               private i18n:I18nService) { }
+  constructor(private apiV3Service:APIV3Service,
+    private notification:NotificationsService,
+    private i18n:I18nService) { }
 
   public set gridResource(value:GridResource) {
     this.resource = value;
@@ -57,11 +64,11 @@ export class GridAreaService {
     // array containing Numbers from this.numRows to 1
     let unusedRows = _.range(this.numRows, 0, -1);
 
-    this.widgetAreas.forEach(widget => {
-      unusedRows = unusedRows.filter(item => item !== widget.startRow);
+    this.widgetAreas.forEach((widget) => {
+      unusedRows = unusedRows.filter((item) => item !== widget.startRow);
     });
 
-    unusedRows.forEach(number => {
+    unusedRows.forEach((number) => {
       if (this.numRows > 1) {
         this.removeRow(number);
       }
@@ -69,11 +76,11 @@ export class GridAreaService {
 
     let unusedColumns = _.range(this.numColumns, 0, -1);
 
-    this.widgetAreas.forEach(widget => {
-      unusedColumns = unusedColumns.filter(item => item !== widget.startColumn);
+    this.widgetAreas.forEach((widget) => {
+      unusedColumns = unusedColumns.filter((item) => item !== widget.startColumn);
     });
 
-    unusedColumns.forEach(number => {
+    unusedColumns.forEach((number) => {
       if (this.numColumns > 1) {
         this.removeColumn(number);
       }
@@ -95,7 +102,7 @@ export class GridAreaService {
   }
 
   public persist() {
-    this.resource.rowCount = this.numRows = (this.widgetAreas.map(area => area.endRow).sort((a, b) => a - b).pop() || 2) - 1;
+    this.resource.rowCount = this.numRows = (this.widgetAreas.map((area) => area.endRow).sort((a, b) => a - b).pop() || 2) - 1;
     this.resource.columnCount = this.numColumns;
 
     this.writeAreaChangesToWidgets();
@@ -110,7 +117,7 @@ export class GridAreaService {
     Object.assign(payloadWidget, changeset.changes);
 
     // Adding the id so that the url can be deduced
-    payload['id'] = this.resource.id;
+    payload.id = this.resource.id;
 
     this.saveGrid(payload);
   }
@@ -149,7 +156,7 @@ export class GridAreaService {
       .grids
       .id(resource)
       .patch(resource, schema)
-      .subscribe(updatedGrid => {
+      .subscribe((updatedGrid) => {
         this.assignAreasWidget(updatedGrid);
         this.notification.addSuccess(this.i18n.t('js.notice_successful_update'));
       });
@@ -158,17 +165,17 @@ export class GridAreaService {
   private assignAreasWidget(newGrid:GridResource) {
     this.resource.widgets = newGrid.widgets;
 
-    const takenIds = this.widgetAreas.map(a => a.widget.id);
-    this.widgetAreas.forEach(area => {
+    const takenIds = this.widgetAreas.map((a) => a.widget.id);
+    this.widgetAreas.forEach((area) => {
       let newWidget:GridWidgetResource;
 
       // identify the right resource for the area. Typically that means fetching them by id.
       // But new areas have unpersisted resources at first. Unpersisted resources have no id.
       // In those cases, we find the one resource which is not claimed by any other area.
       if (area.widget.id) {
-        newWidget = newGrid.widgets.find(widget => widget.id === area.widget.id)!;
+        newWidget = newGrid.widgets.find((widget) => widget.id === area.widget.id)!;
       } else {
-        newWidget = newGrid.widgets.find(widget => !takenIds.includes(widget.id) && widget.identifier === area.widget.identifier && widget.startRow === area.widget.startRow && widget.startColumn === area.widget.startColumn)!;
+        newWidget = newGrid.widgets.find((widget) => !takenIds.includes(widget.id) && widget.identifier === area.widget.identifier && widget.startRow === area.widget.startRow && widget.startColumn === area.widget.startColumn)!;
       }
 
       area.widget = newWidget!;
@@ -241,9 +248,7 @@ export class GridAreaService {
   }
 
   private buildGridWidgetAreas() {
-    return this.widgetResources.map((widget) => {
-      return new GridWidgetArea(widget);
-    });
+    return this.widgetResources.map((widget) => new GridWidgetArea(widget));
   }
 
   // persist all changes to the areas caused by dragging/resizing
@@ -267,10 +272,10 @@ export class GridAreaService {
       const widget = this
         .rowWidgets(row)
         .sort((a, b) => a.startColumn - b.startColumn)
-        .find(widget => !(widget.startRow < excludeRow && widget.endRow > excludeRow) &&
-                     (widget.startColumn === column + 1 ||
-                      widget.endColumn === column + 1 ||
-                      widget.startColumn <= column && widget.endColumn > column));
+        .find((widget) => !(widget.startRow < excludeRow && widget.endRow > excludeRow)
+                     && (widget.startColumn === column + 1
+                      || widget.endColumn === column + 1
+                      || widget.startColumn <= column && widget.endColumn > column));
 
       if (widget) {
         movedWidgets.push(widget);
@@ -278,7 +283,7 @@ export class GridAreaService {
       }
     }
 
-    this.moveSubsequentRowWidgets(this.widgetAreas.filter(widget => !movedWidgets.includes(widget)),
+    this.moveSubsequentRowWidgets(this.widgetAreas.filter((widget) => !movedWidgets.includes(widget)),
       column);
   }
 
@@ -295,10 +300,10 @@ export class GridAreaService {
       const widget = this
         .columnWidgets(column)
         .sort((a, b) => a.startRow - b.startRow)
-        .find(widget => !(widget.startColumn < excludeColumn && widget.endColumn > excludeColumn) &&
-                     (widget.startRow === row + 1 ||
-                       widget.endRow === row + 1 ||
-                       widget.startRow <= row && widget.endRow > row));
+        .find((widget) => !(widget.startColumn < excludeColumn && widget.endColumn > excludeColumn)
+                     && (widget.startRow === row + 1
+                       || widget.endRow === row + 1
+                       || widget.startRow <= row && widget.endRow > row));
 
       if (widget) {
         movedWidgets.push(widget);
@@ -306,26 +311,24 @@ export class GridAreaService {
       }
     }
 
-    this.moveSubsequentColumnWidgets(this.widgetAreas.filter(widget => !movedWidgets.includes(widget)),
+    this.moveSubsequentColumnWidgets(this.widgetAreas.filter((widget) => !movedWidgets.includes(widget)),
       row);
   }
 
   public removeColumn(column:number) {
     this.numColumns--;
 
-    //shrink widgets that span more than the removed column
+    // shrink widgets that span more than the removed column
     this.widgetAreas.forEach((widget) => {
       if (widget.startColumn <= column && widget.endColumn >= column + 1) {
-        //shrink widgets that span more than the removed column
+        // shrink widgets that span more than the removed column
         widget.endColumn--;
       }
     });
 
     // move all widgets that are after the removed column
     // so that they appear to keep their place.
-    this.widgetAreas.filter((widget) => {
-      return widget.startColumn > column;
-    }).forEach((widget) => {
+    this.widgetAreas.filter((widget) => widget.startColumn > column).forEach((widget) => {
       widget.startColumn--;
       widget.endColumn--;
     });
@@ -334,28 +337,24 @@ export class GridAreaService {
   public removeRow(row:number) {
     this.numRows--;
 
-    //shrink widgets that span more than the removed row
+    // shrink widgets that span more than the removed row
     this.widgetAreas.forEach((widget) => {
       if (widget.startRow <= row && widget.endRow >= row + 1) {
-        //shrink widgets that span more than the removed row
+        // shrink widgets that span more than the removed row
         widget.endRow--;
       }
     });
 
     // move all widgets that are after the removed row
     // so that they appear to keep their place.
-    this.widgetAreas.filter((widget) => {
-      return widget.startRow > row;
-    }).forEach((widget) => {
+    this.widgetAreas.filter((widget) => widget.startRow > row).forEach((widget) => {
       widget.startRow--;
       widget.endRow--;
     });
   }
 
   public resetAreas(ignoredArea:GridWidgetArea|null = null) {
-    this.widgetAreas.filter((area) => {
-      return !ignoredArea || area.guid !== ignoredArea.guid;
-    }).forEach(area => area.reset());
+    this.widgetAreas.filter((area) => !ignoredArea || area.guid !== ignoredArea.guid).forEach((area) => area.reset());
 
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;
@@ -368,7 +367,7 @@ export class GridAreaService {
   private buildGridAreaIds() {
     return this
       .gridAreas
-      .filter(area => !this.isGap(area))
+      .filter((area) => !this.isGap(area))
       .map((area) => area.guid);
   }
 
@@ -379,11 +378,11 @@ export class GridAreaService {
       .id(this.resource)
       .form
       .post({})
-      .subscribe(form => this.schema = form.schema);
+      .subscribe((form) => this.schema = form.schema);
   }
 
   public removeWidget(removedWidget:GridWidgetResource) {
-    let index = this.resource.widgets.findIndex((widget) => widget.id === removedWidget.id );
+    let index = this.resource.widgets.findIndex((widget) => widget.id === removedWidget.id);
     this.resource.widgets.splice(index, 1);
 
     index = this.widgetAreas.findIndex((area) => area.widget.id === removedWidget.id);
@@ -398,11 +397,11 @@ export class GridAreaService {
   }
 
   private rowWidgets(row:number) {
-    return this.widgetAreas.filter(widget => widget.startRow === row);
+    return this.widgetAreas.filter((widget) => widget.startRow === row);
   }
 
   private moveSubsequentRowWidgets(rowWidgets:GridWidgetArea[], column:number) {
-    rowWidgets.forEach(subsequentWidget => {
+    rowWidgets.forEach((subsequentWidget) => {
       if (subsequentWidget.startColumn > column) {
         subsequentWidget.startColumn++;
         subsequentWidget.endColumn++;
@@ -411,11 +410,11 @@ export class GridAreaService {
   }
 
   private columnWidgets(column:number) {
-    return this.widgetAreas.filter(widget => widget.startColumn === column);
+    return this.widgetAreas.filter((widget) => widget.startColumn === column);
   }
 
   private moveSubsequentColumnWidgets(columnWidgets:GridWidgetArea[], row:number) {
-    columnWidgets.forEach(subsequentWidget => {
+    columnWidgets.forEach((subsequentWidget) => {
       if (subsequentWidget.startRow > row) {
         subsequentWidget.startRow++;
         subsequentWidget.endRow++;

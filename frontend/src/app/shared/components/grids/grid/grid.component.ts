@@ -1,23 +1,20 @@
-import { Component,
-  ComponentRef,
-  OnDestroy,
-  OnInit,
-  Input,
-  HostListener } from "@angular/core";
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { DomSanitizer } from "@angular/platform-browser";
-import { GridWidgetsService } from "core-app/shared/components/grids/widgets/widgets.service";
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
-import { GridArea } from "core-app/shared/components/grids/areas/grid-area";
-import { GridMoveService } from "core-app/shared/components/grids/grid/move.service";
-import { GridDragAndDropService } from "core-app/shared/components/grids/grid/drag-and-drop.service";
-import { GridResizeService } from "core-app/shared/components/grids/grid/resize.service";
-import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
-import { GridAddWidgetService } from "core-app/shared/components/grids/grid/add-widget.service";
-import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
-import { WidgetWpGraphComponent } from "core-app/shared/components/grids/widgets/wp-graph/wp-graph.component";
-import { GridWidgetArea } from "core-app/shared/components/grids/areas/grid-widget-area";
-import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
+import {
+  Component, ComponentRef, HostListener, Input, OnDestroy, OnInit,
+} from '@angular/core';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { DomSanitizer } from '@angular/platform-browser';
+import { GridWidgetsService } from 'core-app/shared/components/grids/widgets/widgets.service';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
+import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
+import { GridMoveService } from 'core-app/shared/components/grids/grid/move.service';
+import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
+import { GridResizeService } from 'core-app/shared/components/grids/grid/resize.service';
+import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
+import { GridAddWidgetService } from 'core-app/shared/components/grids/grid/add-widget.service';
+import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
+import { WidgetWpGraphComponent } from 'core-app/shared/components/grids/widgets/wp-graph/wp-graph.component';
+import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 
 export interface WidgetRegistration {
   identifier:string;
@@ -32,16 +29,18 @@ export const GRID_PROVIDERS = [
   GridDragAndDropService,
   GridResizeService,
   GridAddWidgetService,
-  GridRemoveWidgetService
+  GridRemoveWidgetService,
 ];
 
 @Component({
   templateUrl: './grid.component.html',
-  selector: 'grid'
+  selector: 'grid',
 })
 export class GridComponent implements OnDestroy, OnInit {
   public uiWidgets:ComponentRef<any>[] = [];
+
   public GRID_AREA_HEIGHT = 'auto';
+
   public GRID_GAP_DIMENSION = '20px';
 
   public component = WidgetWpGraphComponent;
@@ -49,13 +48,13 @@ export class GridComponent implements OnDestroy, OnInit {
   @Input() grid:GridResource;
 
   constructor(private sanitization:DomSanitizer,
-              private widgetsService:GridWidgetsService,
-              public drag:GridDragAndDropService,
-              public resize:GridResizeService,
-              public layout:GridAreaService,
-              public add:GridAddWidgetService,
-              public remove:GridRemoveWidgetService,
-              readonly browserDetector:BrowserDetector) {
+    private widgetsService:GridWidgetsService,
+    public drag:GridDragAndDropService,
+    public resize:GridResizeService,
+    public layout:GridAreaService,
+    public add:GridAddWidgetService,
+    public remove:GridRemoveWidgetService,
+    readonly browserDetector:BrowserDetector) {
   }
 
   ngOnInit() {
@@ -69,7 +68,7 @@ export class GridComponent implements OnDestroy, OnInit {
   @HostListener('window:keyup', ['$event'])
   handleKeyboardEvent(event:KeyboardEvent) {
     if (event.key !== 'Escape') {
-      return;
+
     } else if (this.drag.currentlyDragging) {
       this.drag.abort();
     } else if (this.resize.currentlyResizing) {
@@ -78,7 +77,7 @@ export class GridComponent implements OnDestroy, OnInit {
   }
 
   public widgetComponent(area:GridWidgetArea) {
-    const widget = area.widget;
+    const { widget } = area;
 
     if (!widget) {
       return null;
@@ -90,9 +89,8 @@ export class GridComponent implements OnDestroy, OnInit {
       // debugLog(`No widget registered with identifier ${widget.identifier}`);
 
       return null;
-    } else {
-      return registration.component;
     }
+    return registration.component;
   }
 
   public widgetComponentInput(area:GridWidgetArea) {

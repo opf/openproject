@@ -1,19 +1,19 @@
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageQueryStateService } from './wp-view-base.service';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
-import { BannersService } from "core-app/core/enterprise/banners.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
-import { WorkPackageViewHighlight } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-highlight";
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
+import { WorkPackageViewHighlight } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-highlight';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewHighlightingService extends WorkPackageQueryStateService<WorkPackageViewHighlight> {
   public constructor(readonly states:States,
-                     readonly Banners:BannersService,
-                     readonly querySpace:IsolatedQuerySpace) {
+    readonly Banners:BannersService,
+    readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
 
@@ -64,12 +64,12 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
   }
 
   public hasChanged(query:QueryResource) {
-    return query.highlightingMode !== this.current.mode ||
-      !_.isEqual(query.highlightedAttributes, this.current.selectedAttributes);
+    return query.highlightingMode !== this.current.mode
+      || !_.isEqual(query.highlightedAttributes, this.current.selectedAttributes);
   }
 
   public applyToQuery(query:QueryResource):boolean {
-    const current = this.current;
+    const { current } = this;
     query.highlightingMode = current.mode;
 
     query.highlightedAttributes = current.selectedAttributes;

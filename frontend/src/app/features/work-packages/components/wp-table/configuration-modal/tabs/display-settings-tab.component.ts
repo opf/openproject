@@ -1,22 +1,21 @@
-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
-import { Component, Injector } from "@angular/core";
-import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
+import { Component, Injector } from '@angular/core';
+import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 @Component({
-  templateUrl: './display-settings-tab.component.html'
+  templateUrl: './display-settings-tab.component.html',
 })
-export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
-
+export class WpTableConfigurationDisplaySettingsTabComponent implements TabComponent {
   // Display mode
   public displayMode:'hierarchy'|'grouped'|'default' = 'default';
 
   // Grouping
   public currentGroup:QueryGroupByResource|null;
+
   public availableGroups:QueryGroupByResource[] = [];
 
   // Sums row display
@@ -28,22 +27,22 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
     title: this.I18n.t('js.label_group_by'),
     placeholder: this.I18n.t('js.placeholders.default'),
     please_select: this.I18n.t('js.placeholders.selection'),
-    default: '— ' + this.I18n.t('js.work_packages.table_configuration.default'),
+    default: `— ${this.I18n.t('js.work_packages.table_configuration.default')}`,
     display_sums: this.I18n.t('js.work_packages.query.display_sums'),
-    display_sums_hint: '— ' + this.I18n.t('js.work_packages.table_configuration.display_sums_hint'),
+    display_sums_hint: `— ${this.I18n.t('js.work_packages.table_configuration.display_sums_hint')}`,
     display_mode: {
       default: this.I18n.t('js.work_packages.table_configuration.default_mode'),
       grouped: this.I18n.t('js.work_packages.table_configuration.grouped_mode'),
       hierarchy: this.I18n.t('js.work_packages.table_configuration.hierarchy_mode'),
-      hierarchy_hint: '— ' + this.I18n.t('js.work_packages.table_configuration.hierarchy_hint')
-    }
+      hierarchy_hint: `— ${this.I18n.t('js.work_packages.table_configuration.hierarchy_hint')}`,
+    },
   };
 
   constructor(readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly wpTableGroupBy:WorkPackageViewGroupByService,
-              readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
-              readonly wpTableSums:WorkPackageViewSumService) {
+    readonly I18n:I18nService,
+    readonly wpTableGroupBy:WorkPackageViewGroupByService,
+    readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
+    readonly wpTableSums:WorkPackageViewSumService) {
   }
 
   public onSave() {
@@ -60,7 +59,7 @@ export class WpTableConfigurationDisplaySettingsTab implements TabComponent {
 
   public updateGroup(href:string) {
     this.displayMode = 'grouped';
-    this.currentGroup = _.find(this.availableGroups, group => group.href === href) || null;
+    this.currentGroup = _.find(this.availableGroups, (group) => group.href === href) || null;
   }
 
   ngOnInit() {

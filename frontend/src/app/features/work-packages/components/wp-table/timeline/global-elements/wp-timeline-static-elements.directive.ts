@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,7 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { States } from "core-app/core/states/states.service";
+import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { TimelineViewParameters } from '../wp-timeline';
 import { TimelineStaticElement, timelineStaticElementCssClassname } from './timeline-static-element';
@@ -34,10 +34,9 @@ import { TodayLineElement } from './wp-timeline.today-line';
 
 @Component({
   selector: 'wp-timeline-static-elements',
-  template: '<div class="wp-table-timeline--static-elements"></div>'
+  template: '<div class="wp-table-timeline--static-elements"></div>',
 })
 export class WorkPackageTableTimelineStaticElements implements OnInit {
-
   public $element:JQuery;
 
   private container:JQuery;
@@ -45,13 +44,12 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
   private elements:TimelineStaticElement[];
 
   constructor(elementRef:ElementRef,
-              public states:States,
-              public workPackageTimelineTableController:WorkPackageTimelineTableController) {
-
+    public states:States,
+    public workPackageTimelineTableController:WorkPackageTimelineTableController) {
     this.$element = jQuery(elementRef.nativeElement);
 
     this.elements = [
-      new TodayLineElement()
+      new TodayLineElement(),
     ];
   }
 
@@ -67,7 +65,7 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
   }
 
   private removeAllVisibleElements() {
-    jQuery('.' + timelineStaticElementCssClassname).remove();
+    jQuery(`.${timelineStaticElementCssClassname}`).remove();
   }
 
   private renderElements(vp:TimelineViewParameters) {

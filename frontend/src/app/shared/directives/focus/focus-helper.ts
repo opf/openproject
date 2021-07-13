@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -31,13 +31,15 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class FocusHelperService {
   private minimumOffsetForNewSwitchInMs = 100;
+
   private lastFocusSwitch = -this.minimumOffsetForNewSwitchInMs;
+
   private lastPriority = -1;
 
   private static FOCUSABLE_SELECTORS = 'a, button, :input, [tabindex], select';
 
   public throttleAndCheckIfAllowedFocusChangeBasedOnTimeout() {
-    var allowFocusSwitch = (Date.now() - this.lastFocusSwitch) >= this.minimumOffsetForNewSwitchInMs;
+    const allowFocusSwitch = (Date.now() - this.lastFocusSwitch) >= this.minimumOffsetForNewSwitchInMs;
 
     // Always update so that a chain of focus-change-requests gets considered as one
     this.lastFocusSwitch = Date.now();
@@ -46,7 +48,7 @@ export class FocusHelperService {
   }
 
   public checkIfAllowedFocusChange(priority?:any) {
-    var checkTimeout = this.throttleAndCheckIfAllowedFocusChangeBasedOnTimeout();
+    const checkTimeout = this.throttleAndCheckIfAllowedFocusChangeBasedOnTimeout();
 
     if (checkTimeout) {
       // new timeout window -> reset priority
@@ -63,13 +65,13 @@ export class FocusHelperService {
   }
 
   public getFocusableElement(element:JQuery) {
-    var focusser = element.find('input.ui-select-focusser');
+    const focusser = element.find('input.ui-select-focusser');
 
     if (focusser.length > 0) {
       return focusser[0];
     }
 
-    var focusable = element;
+    let focusable = element;
 
     if (!element.is(FocusHelperService.FOCUSABLE_SELECTORS)) {
       focusable = element.find(FocusHelperService.FOCUSABLE_SELECTORS);
@@ -79,9 +81,9 @@ export class FocusHelperService {
   }
 
   public focus(element:JQuery) {
-    var focusable = jQuery(this.getFocusableElement(element)),
-      $focusable = jQuery(focusable),
-      isDisabled = $focusable.is('[disabled]');
+    const focusable = jQuery(this.getFocusableElement(element));
+    const $focusable = jQuery(focusable);
+    const isDisabled = $focusable.is('[disabled]');
 
     if (isDisabled && !$focusable.attr('ng-disabled')) {
       $focusable.prop('disabled', false);

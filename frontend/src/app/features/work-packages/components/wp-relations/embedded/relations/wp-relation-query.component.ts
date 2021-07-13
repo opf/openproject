@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,34 +26,37 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import {
+  Component, Inject, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { OpUnlinkTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/unlink-table-action';
 import { OpTableActionFactory } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
-import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
-import { WorkPackageRelationQueryBase } from "core-app/features/work-packages/components/wp-relations/embedded/wp-relation-query.base";
-import { WpRelationInlineCreateService } from "core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-inline-create.service";
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
-import { filter } from "rxjs/operators";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { GroupDescriptor } from "core-app/features/work-packages/components/wp-single-view/wp-single-view.component";
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { WorkPackageRelationQueryBase } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-query.base';
+import { WpRelationInlineCreateService } from 'core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-inline-create.service';
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { filter } from 'rxjs/operators';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { GroupDescriptor } from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
 
 @Component({
   selector: 'wp-relation-query',
   templateUrl: '../wp-relation-query.html',
   providers: [
-    { provide: WorkPackageInlineCreateService, useClass: WpRelationInlineCreateService }
-  ]
+    { provide: WorkPackageInlineCreateService, useClass: WpRelationInlineCreateService },
+  ],
 })
 export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryBase implements OnInit {
   @Input() public workPackage:WorkPackageResource;
 
   @Input() public query:QueryResource;
+
   @Input() public group:GroupDescriptor;
 
   public tableActions:OpTableActionFactory[] = [
@@ -66,17 +69,17 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
           .then(() => this.refreshTable())
           .catch((error) => this.notificationService.handleRawError(error, this.workPackage));
       },
-      (child:WorkPackageResource) => !!child.changeParent
-    )
+      (child:WorkPackageResource) => !!child.changeParent,
+    ),
   ];
 
   constructor(protected readonly PathHelper:PathHelperService,
-              @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
-              protected readonly wpRelations:WorkPackageRelationsService,
-              protected readonly halEvents:HalEventsService,
-              protected readonly queryUrlParamsHelper:UrlParamsHelperService,
-              protected readonly notificationService:WorkPackageNotificationService,
-              protected readonly I18n:I18nService) {
+    @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
+    protected readonly wpRelations:WorkPackageRelationsService,
+    protected readonly halEvents:HalEventsService,
+    protected readonly queryUrlParamsHelper:UrlParamsHelperService,
+    protected readonly notificationService:WorkPackageNotificationService,
+    protected readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
   }
 
@@ -93,15 +96,15 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     // Wire the successful saving of a new addition to refreshing the embedded table
     this.wpInlineCreate.newInlineWorkPackageCreated
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((toId:string) => this.addRelation(toId));
 
     // When relations have changed, refresh this table
     this.wpRelations.observe(this.workPackage.id!)
       .pipe(
-        filter(val => !_.isEmpty(val)),
-        this.untilDestroyed()
+        filter((val) => !_.isEmpty(val)),
+        this.untilDestroyed(),
       )
       .subscribe(() => this.refreshTable());
   }
@@ -113,10 +116,10 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
         this.halEvents.push(this.workPackage, {
           eventType: 'association',
           relatedWorkPackage: toId,
-          relationType: this.getRelationTypeFromQuery()
+          relationType: this.getRelationTypeFromQuery(),
         });
       })
-      .catch(error => this.notificationService.handleRawError(error, this.workPackage));
+      .catch((error) => this.notificationService.handleRawError(error, this.workPackage));
   }
 
   private getRelationTypeFromQuery() {

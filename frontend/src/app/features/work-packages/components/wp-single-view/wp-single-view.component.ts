@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -33,28 +33,27 @@ import {
   ElementRef,
   Injector,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { Subject } from "rxjs";
-import { randomString } from "core-app/shared/helpers/random-string";
-import { BrowserDetector } from "core-app/core/browser/browser-detector.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { ISchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { States } from "core-app/core/states/states.service";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { debugLog } from "core-app/shared/helpers/debug_output";
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { Subject } from 'rxjs';
+import { randomString } from 'core-app/shared/helpers/random-string';
+import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { States } from 'core-app/core/states/states.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 export interface FieldDescriptor {
   name:string;
@@ -86,7 +85,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 @Component({
   templateUrl: './wp-single-view.html',
   selector: 'wp-single-view',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
@@ -108,9 +107,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     href:string|null,
     field?:FieldDescriptor[]
   };
+
   public text = {
     attachments: {
-      label: this.I18n.t('js.label_attachments')
+      label: this.I18n.t('js.label_attachments'),
     },
     project: {
       required: this.I18n.t('js.project.required_outside_context'),
@@ -123,7 +123,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     },
     infoRow: {
       createdBy: this.I18n.t('js.label_created_by'),
-      lastUpdatedOn: this.I18n.t('js.label_last_updated_on')
+      lastUpdatedOn: this.I18n.t('js.label_last_updated_on'),
     },
   };
 
@@ -132,18 +132,18 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   $element:JQuery;
 
   constructor(readonly I18n:I18nService,
-              protected currentProject:CurrentProjectService,
-              protected PathHelper:PathHelperService,
-              protected states:States,
-              protected halEditing:HalResourceEditingService,
-              protected halResourceService:HalResourceService,
-              protected displayFieldService:DisplayFieldService,
-              protected schemaCache:SchemaCacheService,
-              protected hook:HookService,
-              protected injector:Injector,
-              protected cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef,
-              readonly browserDetector:BrowserDetector) {
+    protected currentProject:CurrentProjectService,
+    protected PathHelper:PathHelperService,
+    protected states:States,
+    protected halEditing:HalResourceEditingService,
+    protected halResourceService:HalResourceService,
+    protected displayFieldService:DisplayFieldService,
+    protected schemaCache:SchemaCacheService,
+    protected hook:HookService,
+    protected injector:Injector,
+    protected cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef,
+    readonly browserDetector:BrowserDetector) {
     super();
   }
 
@@ -160,7 +160,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       .pipe(
         this.untilDestroyed(),
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
-        map(() => this.halEditing.changeFor(this.workPackage))
+        map(() => this.halEditing.changeFor(this.workPackage)),
       )
       .subscribe((change:WorkPackageChangeset) => this.refresh(change));
 
@@ -170,16 +170,16 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       .temporaryEditResource(this.workPackage)
       .values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
-      .subscribe(resource => {
+      .subscribe((resource) => {
         this.resourceContextChange.next(this.contextFrom(resource));
       });
   }
 
   private refresh(change:WorkPackageChangeset) {
     // Prepare the fields that are required always
-    const isNew = this.workPackage.isNew;
+    const { isNew } = this.workPackage;
     const resource = change.projectedResource;
 
     if (!resource.project) {
@@ -187,7 +187,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     } else {
       this.projectContext = {
         href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),
-        matches: resource.project.href === this.currentProject.apiv3Path
+        matches: resource.project.href === this.currentProject.apiv3Path,
       };
     }
 
@@ -284,19 +284,18 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
           id: groupId || randomString(16),
           members: this.getFields(change, group.attributes),
           type: group._type,
-          isolated: false
-        };
-      } else {
-        return {
-          name: group.name,
-          id: groupId || randomString(16),
-          query: this.halResourceService.createHalResourceOfClass(QueryResource, group._embedded.query),
-          relationType: group.relationType,
-          members: [group._embedded.query],
-          type: group._type,
-          isolated: true
+          isolated: false,
         };
       }
+      return {
+        name: group.name,
+        id: groupId || randomString(16),
+        query: this.halResourceService.createHalResourceOfClass(QueryResource, group._embedded.query),
+        relationType: group.relationType,
+        members: [group._embedded.query],
+        type: group._type,
+        isolated: true,
+      };
     });
   }
 
@@ -324,7 +323,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
         label: field.label,
         multiple: false,
         spanAll: field.isFormattable,
-        field: field
+        field,
       });
     });
 
@@ -339,7 +338,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
     const object:any = {
       label: this.I18n.t('js.work_packages.properties.date'),
-      multiple: false
+      multiple: false,
     };
 
     if (change.schema.ofProperty('date')) {
@@ -373,11 +372,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       schemaHref = schema.href;
     }
 
-
     return {
       isNew: workPackage.isNew,
       schema: schemaHref,
-      project: projectHref
+      project: projectHref,
     };
   }
 
@@ -386,27 +384,25 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       change.projectedResource,
       name,
       change.schema.ofProperty(name),
-      { container: 'single-view', injector: this.injector, options: {} }
-    ) as DisplayField;
+      { container: 'single-view', injector: this.injector, options: {} },
+    );
   }
 
   private getAttributesGroupId(group:any):string {
     const overflowingIdentifier = this.$element
-      .find("[data-group-name=\'" + group.name + "\']")
+      .find(`[data-group-name=\'${group.name}\']`)
       .data(overflowingContainerAttribute);
 
     if (overflowingIdentifier) {
       return overflowingIdentifier.replace('.__overflowing_', '');
-    } else {
-      return '';
     }
+    return '';
   }
 
   private schema(resource:WorkPackageResource) {
     if (this.halEditing.typedState(resource).hasValue()) {
       return this.halEditing.typedState(this.workPackage).value!.schema;
-    } else {
-      return this.schemaCache.of(resource) as ISchemaProxy;
     }
+    return this.schemaCache.of(resource);
   }
 }

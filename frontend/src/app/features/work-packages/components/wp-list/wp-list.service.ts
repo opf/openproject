@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,31 +26,32 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { States } from "core-app/core/states/states.service";
-import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
-import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { States } from 'core-app/core/states/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { StateService } from '@uirouter/core';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { from, Observable, of } from 'rxjs';
-import { input } from "reactivestates";
-import { catchError, mergeMap, share, switchMap, take } from "rxjs/operators";
+import { input } from 'reactivestates';
 import {
-  PaginationUpdateObject,
-  WorkPackageViewPaginationService
-} from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { APIv3QueriesPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-queries-paths";
-import { APIv3QueryPaths } from "core-app/core/apiv3/endpoints/queries/apiv3-query-paths";
-import { PaginationService } from "core-app/shared/components/table-pagination/pagination-service";
-import { ErrorResource } from "core-app/features/hal/resources/error-resource";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
+  catchError, mergeMap, share, switchMap, take,
+} from 'rxjs/operators';
+import {
+  WorkPackageViewPaginationService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { APIv3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
+import { APIv3QueryPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-paths';
+import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
+import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -59,7 +60,6 @@ export interface QueryDefinition {
 
 @Injectable()
 export class WorkPackagesListService {
-
   // We remember the query requests coming in so we can ensure only the latest request is being tended to
   private queryRequests = input<QueryDefinition>();
 
@@ -67,13 +67,9 @@ export class WorkPackagesListService {
   private queryLoading = this.queryRequests
     .values$()
     .pipe(
-      switchMap((q:QueryDefinition) => {
-        return from(this.ensurePerPageKnown().then(() => q));
-      }),
+      switchMap((q:QueryDefinition) => from(this.ensurePerPageKnown().then(() => q))),
       // Stream the query request, switchMap will call previous requests to be cancelled
-      switchMap((q:QueryDefinition) =>
-        this.streamQueryRequest(q.queryParams, q.projectIdentifier)
-      ),
+      switchMap((q:QueryDefinition) => this.streamQueryRequest(q.queryParams, q.projectIdentifier)),
       // Map the observable from the stream to a new one that completes when states are loaded
       mergeMap((query:QueryResource) => {
         // load the form if needed
@@ -85,22 +81,22 @@ export class WorkPackagesListService {
       }),
       // Share any consecutive requests to the same resource, this is due to switchMap
       // diverting observables to the LATEST emitted.
-      share()
+      share(),
     );
 
   constructor(protected NotificationsService:NotificationsService,
-              readonly I18n:I18nService,
-              protected UrlParamsHelper:UrlParamsHelperService,
-              protected authorisationService:AuthorisationService,
-              protected $state:StateService,
-              protected apiV3Service:APIV3Service,
-              protected states:States,
-              protected querySpace:IsolatedQuerySpace,
-              protected pagination:PaginationService,
-              protected configuration:ConfigurationService,
-              protected wpTablePagination:WorkPackageViewPaginationService,
-              protected wpStatesInitialization:WorkPackageStatesInitializationService,
-              protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
+    readonly I18n:I18nService,
+    protected UrlParamsHelper:UrlParamsHelperService,
+    protected authorisationService:AuthorisationService,
+    protected $state:StateService,
+    protected apiV3Service:APIV3Service,
+    protected states:States,
+    protected querySpace:IsolatedQuerySpace,
+    protected pagination:PaginationService,
+    protected configuration:ConfigurationService,
+    protected wpTablePagination:WorkPackageViewPaginationService,
+    protected wpStatesInitialization:WorkPackageStatesInitializationService,
+    protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
   }
 
   /**
@@ -123,7 +119,7 @@ export class WorkPackagesListService {
         // Load a default query
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
         return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
-      })
+      }),
     );
   }
 
@@ -133,12 +129,12 @@ export class WorkPackagesListService {
    */
   public fromQueryParams(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier?:string):Observable<QueryResource> {
     this.queryRequests.clear();
-    this.queryRequests.putValue({ queryParams: queryParams, projectIdentifier: projectIdentifier });
+    this.queryRequests.putValue({ queryParams, projectIdentifier });
 
     return this
       .queryLoading
       .pipe(
-        take(1)
+        take(1),
       );
   }
 
@@ -170,13 +166,13 @@ export class WorkPackagesListService {
     this.queryRequests.clear();
     this.queryRequests.putValue({
       queryParams: { query_id: query.id || undefined, query_props: queryParams },
-      projectIdentifier: projectIdentifier
+      projectIdentifier,
     });
 
     return this
       .queryLoading
       .pipe(
-        take(1)
+        take(1),
       );
   }
 
@@ -241,7 +237,7 @@ export class WorkPackagesListService {
       .toPromise();
 
     promise
-      .then(query => {
+      .then((query) => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
 
         // Reload the query, and then reload the menu
@@ -281,7 +277,6 @@ export class WorkPackagesListService {
 
         this.states.changes.queries.next(query.id!);
       });
-
 
     return promise;
   }
@@ -323,7 +318,7 @@ export class WorkPackagesListService {
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-      this.states.changes.queries.next(query!.id!);
+      this.states.changes.queries.next(query.id!);
     });
 
     return promise;
@@ -343,7 +338,7 @@ export class WorkPackagesListService {
 
   private updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
     promise
-      .then(query => {
+      .then((query) => {
         this.wpStatesInitialization.initialize(query, query.results);
         return query;
       });
@@ -395,8 +390,7 @@ export class WorkPackagesListService {
   private async ensurePerPageKnown() {
     if (this.pagination.isPerPageKnown) {
       return true;
-    } else {
-      return this.configuration.initialized;
     }
+    return this.configuration.initialized;
   }
 }

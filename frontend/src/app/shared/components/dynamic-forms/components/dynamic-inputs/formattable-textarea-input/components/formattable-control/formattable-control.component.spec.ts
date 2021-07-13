@@ -3,14 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormattableControlComponent } from './formattable-control.component';
 
 xdescribe('FormattableControlComponent', () => {
-  let component: FormattableControlComponent;
-  let fixture: ComponentFixture<FormattableControlComponent>;
+  let component:FormattableControlComponent;
+  let fixture:ComponentFixture<FormattableControlComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FormattableControlComponent ]
+      declarations: [FormattableControlComponent],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

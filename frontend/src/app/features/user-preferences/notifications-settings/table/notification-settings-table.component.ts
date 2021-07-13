@@ -1,23 +1,27 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { KeyValue } from "@angular/common";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { UserPreferencesService } from "core-app/features/user-preferences/state/user-preferences.service";
-import { UserPreferencesStore } from "core-app/features/user-preferences/state/user-preferences.store";
-import { UserPreferencesQuery } from "core-app/features/user-preferences/state/user-preferences.query";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { UIRouterGlobals } from "@uirouter/core";
-import { HalSourceLink } from "core-app/features/hal/resources/hal-resource";
+// noinspection ES6UnusedImports
+
+import {
+  Component, OnInit, ChangeDetectionStrategy, Input,
+} from '@angular/core';
+import { KeyValue } from '@angular/common';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
+import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
+import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { UIRouterGlobals } from '@uirouter/core';
+import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import {
   buildNotificationSetting,
-  NotificationSetting
-} from "core-app/features/user-preferences/state/notification-setting.model";
-import { arrayAdd } from "@datorama/akita";
+  NotificationSetting,
+} from 'core-app/features/user-preferences/state/notification-setting.model';
+import { arrayAdd } from '@datorama/akita';
 
 @Component({
   selector: 'op-notification-settings-table',
   templateUrl: './notification-settings-table.component.html',
   styleUrls: ['./notification-settings-table.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationSettingsTableComponent {
   @Input() userId:string;
@@ -52,7 +56,7 @@ export class NotificationSettingsTableComponent {
     private I18n:I18nService,
     private stateService:UserPreferencesService,
     private store:UserPreferencesStore,
-    private query:UserPreferencesQuery
+    private query:UserPreferencesQuery,
   ) {
   }
 
@@ -64,8 +68,8 @@ export class NotificationSettingsTableComponent {
 
     this.store.update(
       ({ notifications }) => ({
-        notifications: arrayAdd(notifications, added)
-      })
+        notifications: arrayAdd(notifications, added),
+      }),
     );
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,14 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { PasswordConfirmationModal } from "core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal";
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { PasswordConfirmationModalComponent } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
 
 function registerListener(
   form:JQuery,
   $event:JQuery.TriggeredEvent,
   opModalService:OpModalService,
-  modal:typeof PasswordConfirmationModal) {
+  modal:typeof PasswordConfirmationModalComponent,
+) {
   const passwordConfirm = form.find('_password_confirmation');
 
   if (passwordConfirm.length > 0) {
@@ -41,14 +42,14 @@ function registerListener(
   }
 
   $event.preventDefault();
-  const confirmModal = opModalService.show(modal, 'global');
-  confirmModal.closingEvent.subscribe((modal:any) => {
-    if (modal.confirmed) {
+  const modalComponent = opModalService.show(modal, 'global');
+  modalComponent.closingEvent.subscribe((confirmModal:any) => {
+    if (confirmModal.confirmed) {
       jQuery('<input>')
         .attr({
           type: 'hidden',
           name: '_password_confirmation',
-          value: modal.password_confirmation
+          value: confirmModal.password_confirmation,
         })
         .appendTo(form);
 
@@ -63,13 +64,13 @@ export function registerRequestForConfirmation($:JQueryStatic) {
   window.OpenProject
     .getPluginContext()
     .then((context) => {
-      const opModalService = context.services.opModalService;
+      const { opModalService } = context.services;
       const passwordConfirmationModal = context.classes.modals.passwordConfirmation;
 
       $(document).on(
         'submit',
         'form[data-request-for-confirmation]',
-        function(this:any, $event:JQuery.TriggeredEvent) {
+        function (this:any, $event:JQuery.TriggeredEvent) {
           const form = jQuery(this);
 
           if (form.find('input[name="_password_confirmation"]').length) {
@@ -77,6 +78,8 @@ export function registerRequestForConfirmation($:JQueryStatic) {
           }
 
           return registerListener(form, $event, opModalService, passwordConfirmationModal);
-        });
-    });
+        },
+      );
+    })
+    .catch(() => {});
 }

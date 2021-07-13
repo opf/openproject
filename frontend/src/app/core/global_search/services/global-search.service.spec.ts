@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,17 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+/* jshint expr: true */
 
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { GlobalSearchService } from "core-app/core/global_search/services/global-search.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { TestBed, waitForAsync } from "@angular/core/testing";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { States } from "core-app/core/states/states.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { States } from 'core-app/core/states/states.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-describe('Global search service', function() {
+describe('Global search service', () => {
   let service:GlobalSearchService;
   let CurrentProject:CurrentProjectService;
   let CurrentProjectSpy;
@@ -51,13 +51,13 @@ describe('Global search service', function() {
         APIV3Service,
         CurrentProjectService,
         GlobalSearchService,
-      ]
+      ],
     })
-    .compileComponents()
-    .then(() => {
-      CurrentProject = TestBed.inject(CurrentProjectService);
-      service = TestBed.inject(GlobalSearchService);
-    });
+      .compileComponents()
+      .then(() => {
+        CurrentProject = TestBed.inject(CurrentProjectService);
+        service = TestBed.inject(GlobalSearchService);
+      });
   }));
 
   describe('outside a project', () => {

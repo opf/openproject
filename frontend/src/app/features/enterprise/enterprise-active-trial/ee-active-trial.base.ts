@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export class EEActiveTrialBase extends UntilDestroyedMixin {
   public text = {
@@ -37,7 +37,7 @@ export class EEActiveTrialBase extends UntilDestroyedMixin {
     label_company: this.I18n.t('js.admin.enterprise.trial.form.label_company'),
     label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
     label_starts_at: this.I18n.t('js.admin.enterprise.trial.form.label_starts_at'),
-    label_subscriber: this.I18n.t('js.admin.enterprise.trial.form.label_subscriber')
+    label_subscriber: this.I18n.t('js.admin.enterprise.trial.form.label_subscriber'),
   };
 
   constructor(readonly I18n:I18nService) {

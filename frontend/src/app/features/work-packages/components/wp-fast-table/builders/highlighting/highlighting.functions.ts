@@ -10,9 +10,8 @@ export namespace Highlighting {
   export function colorClass(highlightColorTextInline:boolean, id:string|number) {
     if (highlightColorTextInline) {
       return `__hl_inline_color_${id}_text`;
-    } else {
-      return `__hl_inline_color_${id}_dot`;
     }
+    return `__hl_inline_color_${id}_dot`;
   }
 
   /**

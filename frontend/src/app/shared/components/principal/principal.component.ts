@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  Component, ElementRef, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-import { AvatarSize, PrincipalRendererService } from "./principal-renderer.service";
-import { PrincipalLike } from "./principal-types";
-import { PrincipalHelper } from "./principal-helper";
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { AvatarSize, PrincipalRendererService } from './principal-renderer.service';
+import { PrincipalLike } from './principal-types';
+import { PrincipalHelper } from './principal-helper';
 import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
 
 export const principalSelector = 'op-principal';
 
@@ -46,17 +48,21 @@ export const principalSelector = 'op-principal';
 export class OpPrincipalComponent implements OnInit {
   /** If coming from angular, pass a principal resource if available */
   @Input() principal:PrincipalLike;
-  @Input('hide-avatar') hideAvatar:boolean = false;
-  @Input('hide-name') hideName:boolean = false;
-  @Input() link:boolean = true;
+
+  @Input('hide-avatar') hideAvatar = false;
+
+  @Input('hide-name') hideName = false;
+
+  @Input() link = true;
+
   @Input() size:AvatarSize = 'default';
 
   public constructor(readonly elementRef:ElementRef,
-                     readonly PathHelper:PathHelperService,
-                     readonly principalRenderer:PrincipalRendererService,
-                     readonly I18n:I18nService,
-                     readonly apiV3Service:APIV3Service,
-                     readonly timezoneService:TimezoneService) {
+    readonly PathHelper:PathHelperService,
+    readonly principalRenderer:PrincipalRendererService,
+    readonly I18n:I18nService,
+    readonly apiV3Service:APIV3Service,
+    readonly timezoneService:TimezoneService) {
 
   }
 
@@ -80,7 +86,7 @@ export class OpPrincipalComponent implements OnInit {
       },
       {
         hide: this.hideAvatar,
-        size: this.size
+        size: this.size,
       },
     );
   }
@@ -89,7 +95,7 @@ export class OpPrincipalComponent implements OnInit {
     const id = element.dataset.principalId!;
     const name = element.dataset.principalName!;
     const type = element.dataset.principalType;
-    const plural = type + 's' as PrincipalPluralType;
+    const plural = `${type}s` as PrincipalPluralType;
     const href = this.apiV3Service[plural].id(id).toString();
 
     return {

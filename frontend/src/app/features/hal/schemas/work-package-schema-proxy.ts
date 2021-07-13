@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { SchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 export class WorkPackageSchemaProxy extends SchemaProxy {
   get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
     switch (property) {
-    case 'isMilestone': {
-      return this.isMilestone;
-    }
-    case 'isReadonly': {
-      return this.isReadonly;
-    }
-    default: {
-      return super.get(schema, property, receiver);
-    }
+      case 'isMilestone': {
+        return this.isMilestone;
+      }
+      case 'isReadonly': {
+        return this.isReadonly;
+      }
+      default: {
+        return super.get(schema, property, receiver);
+      }
     }
   }
 
@@ -62,14 +62,13 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
         return null;
       }
 
-      propertySchema.writable = propertySchema.writable ||
-        this.isAttributeEditable('dueDate') ||
-        this.isAttributeEditable('scheduleManually');
+      propertySchema.writable = propertySchema.writable
+        || this.isAttributeEditable('dueDate')
+        || this.isAttributeEditable('scheduleManually');
 
       return propertySchema;
-    } else {
-      return super.ofProperty(property);
     }
+    return super.ofProperty(property);
   }
 
   public get isReadonly():boolean {
@@ -85,13 +84,12 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
   public isAttributeEditable(property:string):boolean {
     if (this.isReadonly && property !== 'status') {
       return false;
-    } else if (['startDate', 'dueDate', 'date'].includes(property) &&
-      this.resource.scheduleManually) {
+    } if (['startDate', 'dueDate', 'date'].includes(property)
+      && this.resource.scheduleManually) {
       // This is a blatant shortcut but should be adequate.
       return super.isAttributeEditable('scheduleManually');
-    } else {
-      return super.isAttributeEditable(property);
     }
+    return super.isAttributeEditable(property);
   }
 
   public get isMilestone():boolean {
@@ -101,8 +99,7 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
   public mappedName(property:string):string {
     if (this.isMilestone && (property === 'startDate' || property === 'dueDate')) {
       return 'date';
-    } else {
-      return property;
     }
+    return property;
   }
 }

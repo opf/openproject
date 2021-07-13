@@ -29,6 +29,7 @@ Before adding users we recommend to check and configure the following topics:
 | [Start page](../../user-guide/start-page)                        | Set up the home page, shown after login                      |
 
 If required, especially for on-premises versions, it might make sense to have a look at these sections, too:
+
 | Topic                                                        | What to set up                                               |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Configure outbound emails](../../installation-and-operations/configuration/outbound-emails/) | Set up SMTP on the server to send email                      |

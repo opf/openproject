@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,6 +29,7 @@ export const ANIMATION_RATE_MS = 100;
 
 export class TopMenu {
   private hover = false;
+
   private menuIsOpen = false;
 
   constructor(readonly menuContainer:JQuery) {
@@ -56,7 +57,7 @@ export class TopMenu {
   }
 
   accessibility() {
-    jQuery(".op-app-menu--dropdown").attr("aria-expanded", "false");
+    jQuery('.op-app-menu--dropdown').attr('aria-expanded', 'false');
   }
 
   toggleClick(dropdown:JQuery) {
@@ -76,7 +77,7 @@ export class TopMenu {
   opening() {
     this.startHover();
     this.menuIsOpen = true;
-    this.menuContainer.trigger("openedMenu", this.menuContainer);
+    this.menuContainer.trigger('openedMenu', this.menuContainer);
   }
 
   // the entire menu gets closed, no hover possible afterwards
@@ -84,17 +85,17 @@ export class TopMenu {
     this.stopHover();
     this.closeAllItems();
     this.menuIsOpen = false;
-    this.menuContainer.trigger("closedMenu", this.menuContainer);
+    this.menuContainer.trigger('closedMenu', this.menuContainer);
   }
 
   stopHover() {
     this.hover = false;
-    this.menuContainer.removeClass("hover");
+    this.menuContainer.removeClass('hover');
   }
 
   startHover() {
     this.hover = true;
-    this.menuContainer.addClass("hover");
+    this.menuContainer.addClass('hover');
   }
 
   closeAllItems() {
@@ -117,24 +118,26 @@ export class TopMenu {
   }
 
   openDropdowns() {
-    return this.menuContainer.find(".op-app-menu--item_dropdown-open");
+    return this.menuContainer.find('.op-app-menu--item_dropdown-open');
   }
 
   dropdowns() {
-    return this.menuContainer.find(".op-app-menu--item_has-dropdown");
+    return this.menuContainer.find('.op-app-menu--item_has-dropdown');
   }
 
   withHeadingFoldOutAtBorder() {
-    let menu_start_position;
+    let menuStartPosition;
     if (this.menuContainer.next().get(0) !== undefined && (this.menuContainer.next().get(0).tagName === 'H2')) {
-      menu_start_position = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
-      this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
-    } else if (this.menuContainer.next().hasClass("wiki-content") &&
-      this.menuContainer.next().children().next().first().get(0) !== undefined &&
-      this.menuContainer.next().children().next().first().get(0).tagName === 'H1') {
-      var wiki_heading = this.menuContainer.next().children().next().first();
-      menu_start_position = wiki_heading.innerHeight()! + wiki_heading.position().top;
-      this.menuContainer.find(".op-app-menu--body").css({ top: menu_start_position });
+      menuStartPosition = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
+      this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
+    } else if (this.menuContainer.next().hasClass('wiki-content')
+      && this.menuContainer.next().children().next().first()
+        .get(0) !== undefined
+      && this.menuContainer.next().children().next().first()
+        .get(0).tagName === 'H1') {
+      const wikiHeading = this.menuContainer.next().children().next().first();
+      menuStartPosition = wikiHeading.innerHeight()! + wikiHeading.position().top;
+      this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
     }
   }
 
@@ -144,7 +147,7 @@ export class TopMenu {
         this.toggleClick(jQuery(it));
         return false;
       });
-      jQuery(it).find('op-app-menu--item-action').on('touchstart', function (e) {
+      jQuery(it).find('op-app-menu--item-action').on('touchstart', (e) => {
         // This shall avoid the hover event is fired,
         // which would otherwise lead to menu being closed directly after its opened.
         // Ignore clicks from within the dropdown
@@ -159,7 +162,7 @@ export class TopMenu {
   }
 
   isOpen(dropdown:JQuery) {
-    return dropdown.filter(".op-app-menu--item_dropdown-open").length === 1;
+    return dropdown.filter('.op-app-menu--item_dropdown-open').length === 1;
   }
 
   isClosed(dropdown:JQuery) {
@@ -169,14 +172,14 @@ export class TopMenu {
   open(dropdown:JQuery) {
     this.dontCloseWhenUsing(dropdown);
     this.closeOtherItems(dropdown);
-    this.slideAndFocus(dropdown, function () {
-      dropdown.trigger("opened", dropdown);
+    this.slideAndFocus(dropdown, () => {
+      dropdown.trigger('opened', dropdown);
     });
   }
 
   close(dropdown:JQuery, immediate?:any) {
     this.slideUp(dropdown, immediate);
-    dropdown.trigger("closed", dropdown);
+    dropdown.trigger('closed', dropdown);
   }
 
   closeOtherItems(dropdown:JQuery) {
@@ -188,10 +191,10 @@ export class TopMenu {
   }
 
   dontCloseWhenUsing(dropdown:JQuery) {
-    jQuery(dropdown).find("li").click(function (event) {
+    jQuery(dropdown).find('li').click((event) => {
       event.stopPropagation();
     });
-    jQuery(dropdown).bind("mousedown mouseup click", function (event) {
+    jQuery(dropdown).bind('mousedown mouseup click', (event) => {
       event.stopPropagation();
     });
   }
@@ -202,14 +205,14 @@ export class TopMenu {
   }
 
   slideDown(dropdown:JQuery, callback:any) {
-    const toDrop = dropdown.find(".op-app-menu--dropdown");
-    dropdown.addClass("op-app-menu--item_dropdown-open");
-    toDrop.slideDown(ANIMATION_RATE_MS, callback).attr("aria-expanded", "true");
+    const toDrop = dropdown.find('.op-app-menu--dropdown');
+    dropdown.addClass('op-app-menu--item_dropdown-open');
+    toDrop.slideDown(ANIMATION_RATE_MS, callback).attr('aria-expanded', 'true');
   }
 
   slideUp(dropdown:JQuery, immediate:any) {
-    const toDrop = jQuery(dropdown).find(".op-app-menu--dropdown");
-    dropdown.removeClass("op-app-menu--item_dropdown-open");
+    const toDrop = jQuery(dropdown).find('.op-app-menu--dropdown');
+    dropdown.removeClass('op-app-menu--item_dropdown-open');
 
     if (immediate) {
       toDrop.hide();
@@ -217,40 +220,40 @@ export class TopMenu {
       toDrop.slideUp(ANIMATION_RATE_MS);
     }
 
-    toDrop.attr("aria-expanded", "false");
+    toDrop.attr('aria-expanded', 'false');
   }
 
   // If there is ANY input, it will have precedence over links,
   // i.e. links will only get focussed, if there is NO input whatsoever
   focusFirstInputOrLink(dropdown:JQuery) {
-    var toFocus = dropdown.find("ul :input:visible:first");
+    let toFocus = dropdown.find('ul :input:visible:first');
     if (toFocus.length === 0) {
-      toFocus = dropdown.find("ul a:visible:first");
+      toFocus = dropdown.find('ul a:visible:first');
     }
     // actually a simple focus should be enough.
     // The rest is only there to work around a rendering bug in webkit (as of Oct 2011),
     // occuring mostly inside the login/signup dropdown.
     toFocus.blur();
-    setTimeout(function () {
+    setTimeout(() => {
       toFocus.focus();
     }, 10);
   }
 
   registerEventHandlers() {
-    const toggler = jQuery("#main-menu-toggle");
+    const toggler = jQuery('#main-menu-toggle');
 
-    this.menuContainer.on("closeDropDown", (event: Event) => {
+    this.menuContainer.on('closeDropDown', (event:Event) => {
       this.close(jQuery(event.target as HTMLElement));
-    }).on("openDropDown", (event) => {
-      this.open(jQuery(event.target as HTMLElement));
-    }).on("closeMenu", () => {
+    }).on('openDropDown', (event) => {
+      this.open(jQuery(event.target));
+    }).on('closeMenu', () => {
       this.closing();
-    }).on("openMenu", () => {
+    }).on('openMenu', () => {
       this.open(this.dropdowns().first());
       this.opening();
     });
 
-    toggler.on("click", () => {  // click on hamburger icon is closing other menu
+    toggler.on('click', () => { // click on hamburger icon is closing other menu
       this.closing();
     });
   }

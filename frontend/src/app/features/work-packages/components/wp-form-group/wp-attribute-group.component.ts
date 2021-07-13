@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,29 +26,32 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Injector, Input, AfterViewInit } from '@angular/core';
+import {
+  Component, Injector, Input, AfterViewInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { fromEvent } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import {
   FieldDescriptor,
   GroupDescriptor,
-} from "core-app/features/work-packages/components/wp-single-view/wp-single-view.component";
+} from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
 
 @Component({
   selector: 'wp-attribute-group',
-  templateUrl: './wp-attribute-group.template.html'
+  templateUrl: './wp-attribute-group.template.html',
 })
 export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public workPackage:WorkPackageResource;
+
   @Input() public group:GroupDescriptor;
 
   constructor(readonly I18n:I18nService,
-              public wpEditForm:EditFormComponent,
-              protected injector:Injector) {
+    public wpEditForm:EditFormComponent,
+    protected injector:Injector) {
     super();
   }
 
@@ -59,7 +62,7 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
     fromEvent(window, 'resize', { passive: true })
       .pipe(
         this.untilDestroyed(),
-        debounceTime(250)
+        debounceTime(250),
       )
       .subscribe(() => {
         this.fixColumns();
@@ -82,9 +85,8 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
   public fieldName(name:string) {
     if (name === 'startDate') {
       return 'combinedDate';
-    } else {
-      return name;
     }
+    return name;
   }
 
   /**
@@ -94,9 +96,9 @@ export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin 
   private fixColumns() {
     let lastOffset = 0;
     // Find corresponding HTML of attribute fields for each group
-    const htmlAttributes = jQuery('div.attributes-group:contains(' + this.group.name + ')').find('.attributes-key-value');
+    const htmlAttributes = jQuery(`div.attributes-group:contains(${this.group.name})`).find('.attributes-key-value');
 
-    htmlAttributes.each(function() {
+    htmlAttributes.each(function () {
       const offset = jQuery(this).position().top;
 
       if (offset < lastOffset) {

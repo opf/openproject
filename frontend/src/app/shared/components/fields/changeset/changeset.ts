@@ -51,7 +51,7 @@ export class Changeset {
   public set(key:string, value:unknown, pristineValue:unknown):void {
     this.changes[key] = {
       from: pristineValue,
-      to: value
+      to: value,
     };
   }
 

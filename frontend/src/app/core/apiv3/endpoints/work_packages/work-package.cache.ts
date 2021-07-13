@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,12 +27,12 @@
 //++
 
 import { MultiInputState } from 'reactivestates';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Injectable, Injector } from '@angular/core';
-import { debugLog } from "core-app/shared/helpers/debug_output";
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Injectable()
 export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
@@ -53,13 +53,12 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
   updateWorkPackage(wp:WorkPackageResource, immediate = false):Promise<WorkPackageResource> {
     if (immediate || wp.isNew) {
       return super.updateValue(wp.id!, wp);
-    } else {
-      return this.updateValue(wp.id!, wp);
     }
+    return this.updateValue(wp.id!, wp);
   }
 
   updateWorkPackageList(list:WorkPackageResource[], skipOnIdentical = true) {
-    for (var i of list) {
+    for (const i of list) {
       const wp = i;
       const workPackageId = wp.id!;
       const state = this.multiState.get(workPackageId);

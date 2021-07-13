@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,14 +28,13 @@
 
 import { NgModule } from '@angular/core';
 import { OPSharedModule } from 'core-app/shared/shared.module';
-import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
-import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
-import { TimeEntryCreateModal } from "core-app/shared/components/time_entries/create/create.modal";
-import { TimeEntryEditModal } from "core-app/shared/components/time_entries/edit/edit.modal";
-import { TimeEntryFormComponent } from "core-app/shared/components/time_entries/form/form.component";
-import { TimeEntryEditService } from "core-app/shared/components/time_entries/edit/edit.service";
-import { TriggerActionsEntryComponent } from "core-app/shared/components/time_entries/edit/trigger-actions-entry.component";
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
+import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
+import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
+import { TimeEntryCreateModalComponent } from 'core-app/shared/components/time_entries/create/create.modal';
+import { TimeEntryEditModalComponent } from 'core-app/shared/components/time_entries/edit/edit.modal';
+import { TimeEntryFormComponent } from 'core-app/shared/components/time_entries/form/form.component';
+import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
+import { TriggerActionsEntryComponent } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
 
 @NgModule({
   imports: [
@@ -47,14 +46,14 @@ import { HalResourceEditingService } from "core-app/shared/components/fields/edi
     OpenprojectFieldsModule,
   ],
   providers: [
-    TimeEntryEditService
+    TimeEntryEditService,
   ],
   declarations: [
-    TimeEntryEditModal,
-    TimeEntryCreateModal,
+    TimeEntryEditModalComponent,
+    TimeEntryCreateModalComponent,
     TimeEntryFormComponent,
-    TriggerActionsEntryComponent
-  ]
+    TriggerActionsEntryComponent,
+  ],
 })
 export class OpenprojectTimeEntriesModule {
 }

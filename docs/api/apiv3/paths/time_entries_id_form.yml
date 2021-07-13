@@ -1,6 +1,14 @@
-# /api/v3/time_entries/:id/form
+# /api/v3/time_entries/{id}/form
 ---
 post:
+  parameters:
+    - description: Time entries activity id
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
       description: OK
@@ -54,6 +62,6 @@ post:
       application/json:
         schema:
           type: integer
-    description: time entries activity id
+    description: Time entries activity id
     required: true
   summary: Time entry update form

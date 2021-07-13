@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: type id
+  - description: Type id
     example: '1'
     in: path
     name: id

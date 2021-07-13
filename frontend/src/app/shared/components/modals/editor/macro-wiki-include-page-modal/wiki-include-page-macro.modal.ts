@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,23 +26,28 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild } from "@angular/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import {
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
+} from '@angular/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  templateUrl: './wiki-include-page-macro.modal.html'
+  templateUrl: './wiki-include-page-macro.modal.html',
 })
-export class WikiIncludePageMacroModal extends OpModalComponent implements AfterViewInit {
-
+export class WikiIncludePageMacroModalComponent extends OpModalComponent implements AfterViewInit {
   public changed = false;
+
   public showClose = true;
+
   public closeOnEscape = true;
+
   public closeOnOutsideClick = true;
 
   public selectedPage:string;
+
   public page = '';
 
   @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef;
@@ -53,14 +58,13 @@ export class WikiIncludePageMacroModal extends OpModalComponent implements After
     page: this.I18n.t('js.editor.macro.wiki_page_include.page'),
     button_save: this.I18n.t('js.button_save'),
     button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title')
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly I18n:I18nService) {
-
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService) {
     super(locals, cdRef, elementRef);
     this.selectedPage = this.page = this.locals.page;
 
@@ -77,4 +81,3 @@ export class WikiIncludePageMacroModal extends OpModalComponent implements After
     this.selectedPageInput.nativeElement.focus();
   }
 }
-

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,19 +27,18 @@
 //++
 
 import { Injectable, Injector } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageRelationsHierarchyService } from "core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
-import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
-import { WpRelationInlineCreateServiceInterface } from "core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface";
-import { WpRelationInlineAddExistingComponent } from "core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { WpRelationInlineCreateServiceInterface } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface';
+import { WpRelationInlineAddExistingComponent } from 'core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Injectable()
 export class WpChildrenInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface {
-
   constructor(readonly injector:Injector,
-              protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected readonly schemaCache:SchemaCacheService) {
+    protected readonly wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
+    protected readonly schemaCache:SchemaCacheService) {
     super(injector);
   }
 
@@ -89,7 +88,7 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
    */
   public readonly buttonTexts = {
     reference: this.I18n.t('js.relation_buttons.add_existing_child'),
-    create: this.I18n.t('js.relation_buttons.add_new_child')
+    create: this.I18n.t('js.relation_buttons.add_new_child'),
   };
 
   private get schema() {

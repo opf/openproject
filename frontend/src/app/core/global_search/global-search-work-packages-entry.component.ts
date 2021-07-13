@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -40,9 +40,7 @@ export const globalSearchWorkPackagesSelectorEntry = 'global-search-work-package
     <ng-container wp-isolated-query-space>
       <global-search-work-packages></global-search-work-packages>
     </ng-container>
-  `
+  `,
 })
 export class GlobalSearchWorkPackagesEntryComponent {
 }
-
-

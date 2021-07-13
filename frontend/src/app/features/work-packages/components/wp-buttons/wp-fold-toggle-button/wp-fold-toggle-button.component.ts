@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { I18nService } from "core-app/core/i18n/i18n.service";
 
 @Component({
   template: `
@@ -40,7 +39,7 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'wp-fold-toggle-view-button'
+  selector: 'wp-fold-toggle-view-button',
 })
 export class WorkPackageFoldToggleButtonComponent {
 }

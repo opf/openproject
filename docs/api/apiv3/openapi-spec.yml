@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   description: |-
     You're looking at the current **stable** documentation of the OpenProject APIv3. If you're interested in the current
-    development version, please go to https://docs.openproject.org/api/
+    development version, please go to [github.com/opf](https://github.com/opf/openproject/tree/dev/docs/api/apiv3).
 
     ## Introduction
 
@@ -14,19 +14,19 @@ info:
     authenticated user can take are being rendered. This can be used to dynamically identify actions that the user might take for any
     given response.
 
-    As an example, if you fetch a work package through the [Work Package endpoint](#work-packages), the `update` link will only
+    As an example, if you fetch a work package through the [Work Package endpoint](https://www.openproject.org/docs/api/endpoints/work-packages/), the `update` link will only
     be present when the user you authenticated has been granted a permission to update the work package in the assigned project.
 
     ## HAL+JSON
 
     HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
-    Read more in the following specification: https://tools.ietf.org/html/draft-kelly-json-hal-08
+    Read more in the following specification: [https://tools.ietf.org/html/draft-kelly-json-hal-08](https://tools.ietf.org/html/draft-kelly-json-hal-08)
 
     **OpenProject API implementation of HAL+JSON format** enriches JSON and introduces a few meta properties:
 
     - `_type` - specifies the type of the resource (e.g.: WorkPackage, Project)
-        - `_links` - contains all related resource and action links available for the resource
-        - `_embedded` - contains all embedded objects
+    - `_links` - contains all related resource and action links available for the resource
+    - `_embedded` - contains all embedded objects
 
     HAL does not guarantee that embedded resources are embedded in their full representation, they might as well be
     partially represented (e.g. some properties can be left out).
@@ -36,9 +36,9 @@ info:
 
     All API responses contain a single HAL+JSON object, even collections of objects are technically represented by
     a single HAL+JSON object that itself contains its members. More details on collections can be found
-    in the [Collections Section](#collections).
+    in the [Collections Section](https://www.openproject.org/docs/api/group-objects/).
 
-    # Authentication
+    ## Authentication
 
     The API supports the following authentication schemes: OAuth2, session based authentication, and basic auth.
 
@@ -48,14 +48,14 @@ info:
 
     Otherwise unauthenticated clients have all the permissions of the anonymous user.
 
-    ## Session-based Authentication
+    ### Session-based Authentication
 
     This means you have to login to OpenProject via the Web-Interface to be authenticated in the API.
     This method is well-suited for clients acting within the browser, like the Angular-Client built into OpenProject.
 
     In this case, you always need to pass the HTTP header `X-Requested-With "XMLHttpRequest"` for authentication.
 
-    ## API Key through Basic Auth
+    ### API Key through Basic Auth
 
     Users can authenticate towards the API v3 using basic auth with `apikey` (as a string, NOT your API key) as the user name and their API key as the password.
     Users can find their API key on their account page.
@@ -67,7 +67,7 @@ info:
     curl -u apikey:$API_KEY https://community.openproject.com/api/v3/users/42
     ```
 
-    ## OAuth2.0 authentication
+    ### OAuth2.0 authentication
 
     OpenProject allows authentication and authorization with OAuth2 with *Authorization code flow*, as well as *Client credentials* operation modes.
 
@@ -80,7 +80,7 @@ info:
 
     - [Client credentials](https://oauth.net/2/grant-types/client-credentials/) - Requires an application to be bound to an impersonating user for non-public access
 
-    ## Why not username and password?
+    ### Why not username and password?
 
     The simplest way to do basic auth would be to use a user's username and password naturally.
     However, OpenProject already has supported API keys in the past for the API v2, though not through basic auth.
@@ -100,15 +100,15 @@ info:
     Most importantly users may not actually have a password to begin with. Specifically when they have registered
     through an OpenID Connect provider.
 
-    # Cross-Origin Resource Sharing (CORS)
+    ## Cross-Origin Resource Sharing (CORS)
 
     By default, the OpenProject API is _not_ responding with any CORS headers.
     If you want to allow cross-domain AJAX calls against your OpenProject instance, you need to enable CORS headers being returned.
 
-    Please see [our API settings documentation](https://docs.openproject.org/system-admin-guide/system-settings/api-settings/) on
+    Please see [our API settings documentation](https://www.openproject.org/docs/system-admin-guide/system-settings/api-settings/) on
     how to selectively enable CORS.
 
-    # Allowed HTTP methods
+    ## Allowed HTTP methods
 
     - `GET` - Get a single resource or collection of resources
 
@@ -118,7 +118,7 @@ info:
 
     - `DELETE` - Delete a resource
 
-    # Compression
+    ## Compression
 
     Responses are compressed if requested by the client. Currently [gzip](http://www.gzip.org/) and [deflate](https://tools.ietf.org/html/rfc1951)
     are supported. The client signals the desired compression by setting the [`Accept-Encoding` header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3).
@@ -151,9 +151,9 @@ paths:
     "$ref": "./paths/category.yml"
   "/api/v3/configuration":
     "$ref": "./paths/configuration.yml"
-  "/api/v3/custom_actions/{custom_action_id}":
+  "/api/v3/custom_actions/{id}":
     "$ref": "./paths/custom_action.yml"
-  "/api/v3/custom_actions/{custom_action_id}/execute":
+  "/api/v3/custom_actions/{id}/execute":
     "$ref": "./paths/custom_action_execute.yml"
   "/api/v3/custom_objects/{id}":
     "$ref": "./paths/custom_object.yml"
@@ -241,15 +241,15 @@ paths:
     "$ref": "./paths/project_work_packages.yml"
   "/api/v3/projects/{id}/work_packages/form":
     "$ref": "./paths/project_work_packages_form.yml"
-  "/api/v3/projects/{project_id}/available_assignees":
+  "/api/v3/projects/{id}/available_assignees":
     "$ref": "./paths/project_available_assignees.yml"
-  "/api/v3/projects/{project_id}/available_responsibles":
+  "/api/v3/projects/{id}/available_responsibles":
     "$ref": "./paths/project_available_responsibles.yml"
-  "/api/v3/projects/{project_id}/categories":
+  "/api/v3/projects/{id}/categories":
     "$ref": "./paths/project_categories.yml"
-  "/api/v3/projects/{project_id}/types":
+  "/api/v3/projects/{id}/types":
     "$ref": "./paths/project_types.yml"
-  "/api/v3/projects/{project_id}/versions":
+  "/api/v3/projects/{id}/versions":
     "$ref": "./paths/project_versions.yml"
   "/api/v3/queries":
     "$ref": "./paths/queries.yml"
@@ -261,8 +261,8 @@ paths:
     "$ref": "./paths/queries_default.yml"
   "/api/v3/queries/filter_instance_schemas":
     "$ref": "./paths/queries_filter_instance_schemas.yml"
-  "/api/v3/queries/filter_instance_schemas/{identifier}":
-    "$ref": "./paths/queries_filter_instance_schemas_{identifier}.yml"
+  "/api/v3/queries/filter_instance_schemas/{id}":
+    "$ref": "./paths/queries_filter_instance_schemas_{id}.yml"
   "/api/v3/queries/filters/{id}":
     "$ref": "./paths/queries_filter.yml"
   "/api/v3/queries/form":
@@ -305,8 +305,8 @@ paths:
     "$ref": "./paths/status.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
-  "/api/v3/time_entries/:id/form":
-    "$ref": "./paths/time_entries_:id_form.yml"
+  "/api/v3/time_entries/{id}/form":
+    "$ref": "./paths/time_entries_id_form.yml"
   "/api/v3/time_entries/activity/{id}":
     "$ref": "./paths/time_entries_activity_item.yml"
   "/api/v3/time_entries/available_projects":
@@ -375,11 +375,11 @@ paths:
     "$ref": "./paths/work_package_relations_form.yml"
   "/api/v3/work_packages/{id}/revisions":
     "$ref": "./paths/work_package_revisions.yml"
-  "/api/v3/work_packages/{work_package_id}/relations":
+  "/api/v3/work_packages/{id}/relations":
     "$ref": "./paths/work_package_relations.yml"
-  "/api/v3/work_packages/{work_package_id}/watchers":
+  "/api/v3/work_packages/{id}/watchers":
     "$ref": "./paths/work_package_watchers.yml"
-  "/api/v3/work_packages/{work_package_id}/watchers/{id}":
+  "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
 components:
   schemas:

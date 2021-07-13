@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-export namespace LinkHandling {
+export function isClickedWithModifier(event:MouseEvent|JQuery.TriggeredEvent) {
+  const modifier = event.ctrlKey || event.shiftKey || event.metaKey;
+  const middleButton = event.button === 1;
 
-  export function isClickedWithModifier(event:MouseEvent|JQuery.TriggeredEvent) {
-    const modifier = event.ctrlKey || event.shiftKey || event.metaKey;
-    const middleButton = event.button === 1;
-
-    return modifier || middleButton;
-  }
+  return modifier || middleButton;
 }

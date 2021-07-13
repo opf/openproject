@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,21 +26,21 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component } from "@angular/core";
-import { WorkPackageEditFieldComponent } from "core-app/shared/components/fields/edit/field-types/work-package-edit-field.component";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { Component } from '@angular/core';
+import { WorkPackageEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/work-package-edit-field.component';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
   TimeEntryWorkPackageAutocompleterComponent,
-  TimeEntryWorkPackageAutocompleterMode
-} from "core-app/shared/components/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component";
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+  TimeEntryWorkPackageAutocompleterMode,
+} from 'core-app/shared/components/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
 
 @Component({
-  templateUrl: './work-package-edit-field.component.html'
+  templateUrl: './work-package-edit-field.component.html',
 })
 export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditFieldComponent {
   @InjectField() apiV3Service:APIV3Service;
@@ -53,7 +53,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
     // For reasons beyond me, the referenceOutputs variable is not defined at first when editing
     // existing values.
     if (this.referenceOutputs) {
-      this.referenceOutputs['modeSwitch'] = (mode:TimeEntryWorkPackageAutocompleterMode) => {
+      this.referenceOutputs.modeSwitch = (mode:TimeEntryWorkPackageAutocompleterMode) => {
         this.valuesLoaded = false;
         const lastValue = this.requests.lastRequestedValue!;
 
@@ -87,9 +87,9 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
       return this
         .apiV3Service
         .time_entries
-        .list({ filters: [['user_id', '=', ['me']]], sortBy: [["updated_at", "desc"]], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
+        .list({ filters: [['user_id', '=', ['me']]], sortBy: [['updated_at', 'desc']], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
         .toPromise()
-        .then(collection => {
+        .then((collection) => {
           this.recentWorkPackageIds = collection
             .elements
             .map((timeEntry) => timeEntry.workPackage.idFromLink)
@@ -97,9 +97,8 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
 
           return this.fetchAllowedValueQuery(query);
         });
-    } else {
-      return this.fetchAllowedValueQuery(query);
     }
+    return this.fetchAllowedValueQuery(query);
   }
 
   protected allowedValuesFilter(query?:string):{} {
@@ -119,15 +118,12 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   protected sortValues(availableValues:HalResource[]) {
     if ((this._autocompleterComponent as TimeEntryWorkPackageAutocompleterComponent).mode === 'recent') {
       return this.sortValuesByRecentIds(availableValues);
-    } else {
-      return super.sortValues(availableValues);
     }
+    return super.sortValues(availableValues);
   }
 
   protected sortValuesByRecentIds(availableValues:HalResource[]) {
     return availableValues
-      .sort((a, b) => {
-        return this.recentWorkPackageIds.indexOf(a.id!) - this.recentWorkPackageIds.indexOf(b.id!);
-      });
+      .sort((a, b) => this.recentWorkPackageIds.indexOf(a.id!) - this.recentWorkPackageIds.indexOf(b.id!));
   }
 }

@@ -1,9 +1,8 @@
-import { Injectable } from "@angular/core";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
+import { Injectable } from '@angular/core';
+import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
 
 @Injectable({ providedIn: 'root' })
 export class BoardActionsRegistryService {
-
   private mapping:{ [attribute:string]:BoardActionService } = {};
 
   public add(attribute:string, service:BoardActionService) {
@@ -11,9 +10,9 @@ export class BoardActionsRegistryService {
   }
 
   public available() {
-    return _.map(this.mapping, (service:BoardActionService, attribute:string) => {
-      return { attribute: attribute, text: service.localizedName, icon:'', description:'', image:'' };
-    });
+    return _.map(this.mapping, (service:BoardActionService, attribute:string) => ({
+      attribute, text: service.localizedName, icon: '', description: '', image: '',
+    }));
   }
 
   public get(attribute:string):BoardActionService {
@@ -21,6 +20,6 @@ export class BoardActionsRegistryService {
       return this.mapping[attribute];
     }
 
-    throw(`No action service exists for ${attribute}`);
+    throw new Error(`No action service exists for ${attribute}`);
   }
 }

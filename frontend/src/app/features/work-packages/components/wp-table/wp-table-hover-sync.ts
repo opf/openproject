@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,7 +29,6 @@
 const cssClassRowHovered = 'row-hovered';
 
 export class WpTableHoverSync {
-
   private lastHoveredElement:Element | null = null;
 
   private eventListener = (evt:MouseEvent) => {
@@ -90,10 +89,10 @@ export class WpTableHoverSync {
     const hovered = parentTableRow !== null ? parentTableRow : parentTimelineRow;
     const wpId = this.extractWorkPackageId(hovered!);
 
-    const tableRow:JQuery = this.tableAndTimeline.find('tr.wp-row-' + wpId).first();
-    const timelineRow:JQuery = this.tableAndTimeline.find('div.wp-row-' + wpId).length ?
-      this.tableAndTimeline.find('div.wp-row-' + wpId).first() :
-      this.tableAndTimeline.find('div.wp-ancestor-row-' + wpId).first();
+    const tableRow:JQuery = this.tableAndTimeline.find(`tr.wp-row-${wpId}`).first();
+    const timelineRow:JQuery = this.tableAndTimeline.find(`div.wp-row-${wpId}`).length
+      ? this.tableAndTimeline.find(`div.wp-row-${wpId}`).first()
+      : this.tableAndTimeline.find(`div.wp-ancestor-row-${wpId}`).first();
 
     requestAnimationFrame(() => {
       this.removeAllHoverClasses();

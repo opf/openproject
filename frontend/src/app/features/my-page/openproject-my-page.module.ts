@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,11 +27,11 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
-import { OPSharedModule } from "core-app/shared/shared.module";
-import { OpenprojectModalModule } from "core-app/shared/components/modal/modal.module";
-import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
-import { MyPageComponent } from "core-app/features/my-page/my-page.component";
+import { Ng2StateDeclaration, UIRouterModule } from '@uirouter/angular';
+import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
+import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
+import { MyPageComponent } from 'core-app/features/my-page/my-page.component';
 
 export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -40,8 +40,8 @@ export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
     component: MyPageComponent,
     data: {
       bodyClasses: ['router--work-packages-my-page', 'widget-grid-layout'],
-      parent: 'work-packages'
-    }
+      parent: 'work-packages',
+    },
   },
 ];
 
@@ -55,9 +55,8 @@ export const MY_PAGE_ROUTES:Ng2StateDeclaration[] = [
     UIRouterModule.forChild({ states: MY_PAGE_ROUTES }),
   ],
   declarations: [
-    MyPageComponent
-  ]
+    MyPageComponent,
+  ],
 })
 export class OpenprojectMyPageModule {
 }
-

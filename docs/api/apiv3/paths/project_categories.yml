@@ -1,11 +1,11 @@
-# /api/v3/projects/{project_id}/categories
+# /api/v3/projects/{id}/categories
 ---
 get:
   parameters:
   - description: ID of the project whose categories will be listed
     example: '1'
     in: path
-    name: project_id
+    name: id
     required: true
     schema:
       type: integer

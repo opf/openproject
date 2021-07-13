@@ -1,32 +1,32 @@
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
 
 export class WorkPackageFilterValues {
-
   @InjectField() currentUser:CurrentUserService;
+
   @InjectField() halResourceService:HalResourceService;
 
   handlers:Partial<Record<FilterOperator, (filter:QueryFilterInstanceResource) => void>> = {
     '=': this.applyFirstValue.bind(this),
-    '!*': this.setToNull.bind(this)
+    '!*': this.setToNull.bind(this),
   };
 
   constructor(public injector:Injector,
-              private filters:QueryFilterInstanceResource[],
-              private excluded:string[] = []) {
+    private filters:QueryFilterInstanceResource[],
+    private excluded:string[] = []) {
 
   }
 
   public applyDefaultsFromFilters(change:WorkPackageChangeset|Object) {
-    _.each(this.filters, filter => {
+    _.each(this.filters, (filter) => {
       // Exclude filters specified in constructor
       if (this.excluded.indexOf(filter.id) !== -1) {
         return;
@@ -47,7 +47,7 @@ export class WorkPackageFilterValues {
    * @param filter A positive '=' filter with at least one value
    * @private
    */
-  private applyFirstValue(change:WorkPackageChangeset|{[id:string]:any}, filter:QueryFilterInstanceResource):void {
+  private applyFirstValue(change:WorkPackageChangeset|{ [id:string]:any }, filter:QueryFilterInstanceResource):void {
     // Avoid setting a value if current value is in filter list
     // and more than one value selected
     if (this.filterAlreadyApplied(change, filter)) {
@@ -70,10 +70,10 @@ export class WorkPackageFilterValues {
    * @param filter A none '!*' filter
    * @private
    */
-  private setToNull(change:WorkPackageChangeset|{[id:string]:any}, filter:QueryFilterInstanceResource):void {
+  private setToNull(change:WorkPackageChangeset|{ [id:string]:any }, filter:QueryFilterInstanceResource):void {
     const attributeName = this.mapFilterToAttribute(filter);
 
-    this.setValue(change, attributeName,{ href: null });
+    this.setValue(change, attributeName, { href: null });
   }
 
   private setValueFor(change:WorkPackageChangeset|Object, field:string, value:string|HalResource) {
@@ -84,7 +84,7 @@ export class WorkPackageFilterValues {
     }
   }
 
-  private setValue(change:WorkPackageChangeset|{[id:string]:any}, field:string, value:any) {
+  private setValue(change:WorkPackageChangeset|{ [id:string]:any }, field:string, value:any) {
     if (change instanceof WorkPackageChangeset) {
       change.setValue(field, value);
     } else {
@@ -113,7 +113,7 @@ export class WorkPackageFilterValues {
    * Avoid applying filter values when changeset already matches one of the selected values
    * @param filter
    */
-  private filterAlreadyApplied(change:WorkPackageChangeset|{[id:string]:any}, filter:any):boolean {
+  private filterAlreadyApplied(change:WorkPackageChangeset|{ [id:string]:any }, filter:any):boolean {
     let current = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
     current = _.castArray(current);
 

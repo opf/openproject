@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,21 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component } from "@angular/core";
-import { SelectEditFieldComponent, ValueOption } from './select-edit-field/select-edit-field.component';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
+import { Component } from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  DebouncedRequestSwitchmap,
+  errorNotificationHandler,
+} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { take } from 'rxjs/operators';
-import { ApiV3FilterBuilder } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { SelectEditFieldComponent } from './select-edit-field/select-edit-field.component';
 
 @Component({
-  templateUrl: './work-package-edit-field.component.html'
+  templateUrl: './work-package-edit-field.component.html',
 })
 export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
+  public requests = new DebouncedRequestSwitchmap<string, HalResource>(
     (searchTerm:string) => this.loadValues(searchTerm),
-    errorNotificationHandler(this.halNotification)
+    errorNotificationHandler(this.halNotification),
   );
 
   protected initialValueLoading() {
@@ -48,8 +51,8 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
 
     // Using this hack with the empty value to have the values loaded initially
     // while avoiding loading it multiple times.
-    return new Promise<ValueOption[]>((resolve) => {
-      this.requests.output$.pipe(take(1)).subscribe(options => {
+    return new Promise<HalResource[]>((resolve) => {
+      this.requests.output$.pipe(take(1)).subscribe((options) => {
         resolve(options);
       });
 
@@ -58,11 +61,7 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   }
 
   public get typeahead() {
-    if (this.valuesLoaded) {
-      return false;
-    } else {
-      return this.requests.input$;
-    }
+    return this.requests.input$;
   }
 
   protected allowedValuesFilter(query?:string):{} {
@@ -77,20 +76,5 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
     }
 
     return filterParams;
-  }
-
-  protected mapAllowedValue(value:WorkPackageResource|ValueOption):ValueOption {
-    if ((value as WorkPackageResource).id) {
-
-      const prefix = (value as WorkPackageResource).type ? `${(value as WorkPackageResource).type.name} ` : '';
-      const suffix = (value as WorkPackageResource).subject || value.name;
-
-      return {
-        name: `${prefix}#${ (value as WorkPackageResource).id } ${suffix}`,
-        href: value.href
-      };
-    } else {
-      return value;
-    }
   }
 }

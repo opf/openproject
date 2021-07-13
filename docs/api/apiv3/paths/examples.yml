@@ -5,7 +5,7 @@ get:
   - description: |-
       The column to group by.
       Note: Aggregation is as of now only supported by the work package collection.
-      You can pass any column name as returned by the [queries](#queries) endpoint.
+      You can pass any column name as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
     example: status
     in: query
     name: groupBy
@@ -13,6 +13,7 @@ get:
     schema:
       type: string
   - description: ''
+    example: 'true'
     in: query
     name: showSums
     required: false

@@ -101,7 +101,7 @@ Please follow this section only if you have installed OpenProject using [this pr
 Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 </div>
 
-[compose-based-installation]: ../../installation/docker/#compose-based-docker-installation
+[compose-based-installation]: ../../installation/docker/#one-container-per-process-recommended
 
 ## All-in-one docker installation
 
@@ -173,7 +173,6 @@ sudo mv /var/lib/openproject/pgdata-prev /var/lib/openproject/pgdata
 
 And then restart OpenProject.
 
-[all-in-one-docker-installation]: ../../installation/docker/#all-in-one-docker-installation
+[all-in-one-docker-installation]: ../../installation/docker/#all-in-one-container
 
-[backup-guide]:
-../../operation/backing-up/
+[backup-guide]: ../../operation/backing-up/

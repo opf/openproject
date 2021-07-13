@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: time entries activity id
+  - description: Time entries activity id
     example: '1'
     in: path
     name: id

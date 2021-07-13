@@ -1,4 +1,6 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import {
+  Component, ElementRef, Input, OnInit,
+} from '@angular/core';
 
 export const wpTableEntrySelector = 'wp-embedded-table-entry';
 
@@ -11,11 +13,13 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
                          [configuration]="configuration">
       </wp-embedded-table>
     </ng-container>
-  `
+  `,
 })
 export class WorkPackageEmbeddedTableEntryComponent implements OnInit {
   @Input() public queryProps:any;
+
   @Input() public configuration:any;
+
   @Input() public initialLoadingIndicator = true;
 
   constructor(readonly elementRef:ElementRef) {

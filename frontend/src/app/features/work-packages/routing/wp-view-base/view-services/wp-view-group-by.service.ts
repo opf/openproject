@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
-import { QueryColumn } from "core-app/features/work-packages/components/wp-query/query-column";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { QueryGroupByResource } from "core-app/features/hal/resources/query-group-by-resource";
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<QueryGroupByResource|null> {
   public constructor(readonly states:States,
-                     readonly querySpace:IsolatedQuerySpace) {
+    readonly querySpace:IsolatedQuerySpace) {
     super(querySpace);
   }
 
@@ -47,22 +47,22 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   }
 
   public hasChanged(query:QueryResource) {
-    const comparer = (groupBy:QueryColumn|HalResource|null|undefined) => groupBy ? groupBy.href : null;
+    const comparer = (groupBy:QueryColumn|HalResource|null|undefined) => (groupBy ? groupBy.href : null);
 
     return !_.isEqual(
       comparer(query.groupBy),
-      comparer(this.current)
+      comparer(this.current),
     );
   }
 
   public applyToQuery(query:QueryResource) {
-    const current = this.current;
+    const { current } = this;
     query.groupBy = current === null ? undefined : current;
     return true;
   }
 
   public isGroupable(column:QueryColumn):boolean {
-    return !!_.find(this.available, candidate => candidate.id === column.id);
+    return !!_.find(this.available, (candidate) => candidate.id === column.id);
   }
 
   public disable() {
@@ -70,7 +70,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   }
 
   public setBy(column:QueryColumn) {
-    const groupBy = _.find(this.available, candidate => candidate.id === column.id);
+    const groupBy = _.find(this.available, (candidate) => candidate.id === column.id);
 
     if (groupBy) {
       this.update(groupBy);

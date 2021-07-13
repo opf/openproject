@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { registerTableSorter } from "core-app/features/reporting/reporting-page/functionality/tablesorter";
-
-export const reportingPageComponentSelector = 'op-reporting-page';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { registerTableSorter } from 'core-app/features/reporting/reporting-page/functionality/tablesorter';
 
 import './functionality/reporting_engine';
 import './functionality/reporting_engine/filters';
@@ -9,6 +7,7 @@ import './functionality/reporting_engine/group_bys';
 import './functionality/reporting_engine/restore_query';
 import './functionality/reporting_engine/controls';
 
+export const reportingPageComponentSelector = 'op-reporting-page';
 
 @Component({
   selector: reportingPageComponentSelector,
@@ -17,8 +16,8 @@ import './functionality/reporting_engine/controls';
   encapsulation: ViewEncapsulation.None,
   template: '',
   styleUrls: [
-    './styles/reporting.sass'
-  ]
+    './styles/reporting.sass',
+  ],
 })
 export class ReportingPageComponent implements OnInit {
   ngOnInit() {

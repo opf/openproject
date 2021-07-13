@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { DebugElement } from "@angular/core";
+import { DebugElement } from '@angular/core';
 
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
-import { By } from "@angular/platform-browser";
+import { By } from '@angular/platform-browser';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HomescreenNewFeaturesBlockComponent } from './new-features.component';
 
@@ -42,11 +42,10 @@ describe('shows edition-specific content', () => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       declarations: [
-        HomescreenNewFeaturesBlockComponent
+        HomescreenNewFeaturesBlockComponent,
       ],
-      providers: [I18nService]
+      providers: [I18nService],
     }).compileComponents();
-
 
     fixture = TestBed.createComponent(HomescreenNewFeaturesBlockComponent);
     app = fixture.debugElement.componentInstance;
@@ -59,7 +58,7 @@ describe('shows edition-specific content', () => {
     fixture.detectChanges();
 
     // checking for missing translation key as translations are not loaded in specs
-    expect(element.nativeElement.textContent).toContain(".bim.current_new_feature_html");
+    expect(element.nativeElement.textContent).toContain('.bim.current_new_feature_html');
   }));
 
   it('should render standard text for standard edition', fakeAsync(() => {
@@ -68,6 +67,6 @@ describe('shows edition-specific content', () => {
     fixture.detectChanges();
 
     // checking for missing translation key as translations are not loaded in specs
-    expect(element.nativeElement.textContent).toContain(".standard.current_new_feature_html");
+    expect(element.nativeElement.textContent).toContain('.standard.current_new_feature_html');
   }));
 });

@@ -1,15 +1,15 @@
-import { BcfResourceCollectionPath } from "core-app/features/bim/bcf/api/bcf-path-resources";
-import { BcfApiRequestService } from "core-app/features/bim/bcf/api/bcf-api-request.service";
-import { BcfViewpointInterface } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
-import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/features/hal/http/http.interfaces";
-import { Observable } from "rxjs";
-import { BcfViewpointPaths } from "core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.paths";
+import { BcfResourceCollectionPath } from 'core-app/features/bim/bcf/api/bcf-path-resources';
+import { BcfApiRequestService } from 'core-app/features/bim/bcf/api/bcf-api-request.service';
+import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
+import { HTTPClientHeaders, HTTPClientParamMap } from 'core-app/features/hal/http/http.interfaces';
+import { Observable } from 'rxjs';
+import { BcfViewpointPaths } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.paths';
 
 export class BcfViewpointCollectionPath extends BcfResourceCollectionPath<BcfViewpointPaths> {
   readonly bcfTopicService = new BcfApiRequestService<BcfViewpointInterface>(this.injector);
 
   get(params:HTTPClientParamMap = {}, headers:HTTPClientHeaders = {}) {
-    throw new Error("Not implemented");
+    throw new Error('Not implemented');
   }
 
   post(viewpoint:BcfViewpointInterface):Observable<BcfViewpointInterface> {
@@ -18,7 +18,7 @@ export class BcfViewpointCollectionPath extends BcfResourceCollectionPath<BcfVie
       .request(
         'post',
         this.toPath(),
-        viewpoint
+        viewpoint,
       );
   }
 }

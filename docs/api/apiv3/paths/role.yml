@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: role id
+  - description: Role id
     example: '1'
     in: path
     name: id

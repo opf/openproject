@@ -1,4 +1,4 @@
-# /api/v3/queries/filter_instance_schemas/{identifier}
+# /api/v3/queries/filter_instance_schemas/{id}
 ---
 get:
   parameters:
@@ -6,7 +6,7 @@ get:
       identifier.
     example: author
     in: path
-    name: identifier
+    name: id
     required: true
     schema:
       type: string

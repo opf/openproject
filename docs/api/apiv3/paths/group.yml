@@ -56,7 +56,7 @@ delete:
   summary: Delete group
 get:
   parameters:
-  - description: Group id.
+  - description: Group id
     example: '1'
     in: path
     name: id
@@ -130,6 +130,32 @@ patch:
     '200':
       content:
         application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  delete:
+                    href: "/api/v3/group/9"
+                    method: delete
+                  members:
+                    - href: "/api/v3/users/363"
+                      title: First user
+                    - href: "/api/v3/users/60"
+                      title: Second user
+                  memberships:
+                    href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]
+                    title: Memberships
+                  self:
+                    href: "/api/v3/groups/9"
+                    title: The group
+                  updateImmediately:
+                    href: "/api/v3/group/9"
+                    method: patch
+                _type: Group
+                createdAt: '2015-09-23T11:06:36Z'
+                id: 9
+                name: The group
+                updatedAt: '2015-09-23T11:06:36Z'
           schema:
             "$ref": "../components/schemas/view_group_model.yml"
       description: OK

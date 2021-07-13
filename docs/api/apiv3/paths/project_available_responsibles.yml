@@ -1,11 +1,11 @@
-# /api/v3/projects/{project_id}/available_responsibles
+# /api/v3/projects/{id}/available_responsibles
 ---
 get:
   parameters:
   - description: Project id
     example: '1'
     in: path
-    name: project_id
+    name: id
     required: true
     schema:
       type: integer

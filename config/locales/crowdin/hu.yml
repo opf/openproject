@@ -200,7 +200,7 @@ hu:
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
-      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt: 'Gantt nézet megnyitása'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Jelenleg nincsenek projektek
@@ -551,7 +551,7 @@ hu:
         invalid_url: 'nem érvényes URL.'
         invalid_url_scheme: 'nem támogatott protokoll (támogatott: %{allowed_schemes}).'
         less_than_or_equal_to: "kisebbnek vagy egyenlőnek kell lennie mint, %{count}."
-        not_deletable: "cannot be deleted."
+        not_deletable: "nem törölhető"
         not_current_user: "is not the current user."
         not_a_date: "nem érvényes dátum."
         not_a_datetime: "ez nem érvényes dátum."
@@ -879,7 +879,7 @@ hu:
   button_change_password: "Jelszó változtatás"
   button_check_all: "Az összes kijelölése"
   button_clear: "Törlés"
-  button_click_to_reveal: "Click to reveal"
+  button_click_to_reveal: "Kattints a felfedéshez"
   button_close: 'Bezár'
   button_collapse_all: "Az összes bezárása"
   button_configure: "Beállítások"
@@ -1298,8 +1298,10 @@ hu:
     work_packages:
       subject:
         assigned: "You have been assigned to %{work_package}"
-        subscribed: "You are subscribed to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Kisegítő lehetőségek"
   label_account: "Felhasználói fiók"
   label_active: "aktív"
@@ -1415,7 +1417,7 @@ hu:
   label_custom_field_plural: "Választható mezők"
   label_custom_field_default_type: "Üres típus"
   label_custom_style: "Kinézet"
-  label_database_version: "PostgreSQL version"
+  label_database_version: "PostgreSQL verzió"
   label_date: "dátum"
   label_date_and_time: "Dátum és idő"
   label_date_from: "tól"
@@ -1827,11 +1829,11 @@ hu:
   label_workflow_summary: "Összegzés"
   label_x_closed_work_packages_abbr:
     one: "1 lezárt"
-    other: "%{count} closed"
+    other: "%{count} lezárt"
     zero: "0 lezárt"
   label_x_comments:
     one: "1 komment"
-    other: "%{count} comments"
+    other: "%{count} hozzászólás"
     zero: "nincsenek hozzászólások"
   label_x_open_work_packages_abbr:
     one: "1 nyitott"
@@ -1884,7 +1886,7 @@ hu:
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_user: "Kedves %{name},"
   mail_body_register_links_html: |
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
@@ -2801,7 +2803,7 @@ hu:
     pre_authorization:
       status: 'Pre-authorization'
     auth_url: 'Auth URL'
-    access_token_url: 'Access token URL'
+    access_token_url: 'Hozzáférési token URL'
     errors:
       messages:
         #Common error messages
@@ -2828,7 +2830,7 @@ hu:
           expired: "Hozzáférési kulcs lejárt"
           unknown: "Hozzáférési kulcs érvénytelen"
   unsupported_browser:
-    title: "Your browser is outdated and unsupported."
+    title: "A böngésződ elavult és nem támogatott"
     message: "You may run into errors and degraded experience on this page."
     update_message: 'Kérjük frissítse a böngészőjét.'
     close_warning: "Figyelmeztetés figyelmen kívül hagyása."

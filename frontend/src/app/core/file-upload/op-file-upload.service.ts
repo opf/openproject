@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { filter, map, share } from "rxjs/operators";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Injectable } from '@angular/core';
+import {
+  HttpClient, HttpEvent, HttpEventType, HttpResponse,
+} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { filter, map, share } from 'rxjs/operators';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export interface UploadFile extends File {
   description?:string;
   customName?:string;
 }
-
 
 export interface UploadBlob extends Blob {
   description?:string;
@@ -61,7 +62,7 @@ export interface MappedUploadResult {
 @Injectable()
 export class OpenProjectFileUploadService {
   constructor(protected http:HttpClient,
-              protected halResource:HalResourceService) {
+    protected halResource:HalResourceService) {
   }
 
   /**
@@ -75,11 +76,9 @@ export class OpenProjectFileUploadService {
   public uploadAndMapResponse(url:string, files:UploadFile[], method = 'post') {
     const { uploads, finished } = this.upload(url, files);
     const mapped = finished
-      .then((result:HalResource[]) => result.map((el:HalResource) => {
-        return { response: el, uploadUrl: el.staticDownloadLocation.href };
-      })) as Promise<{ response:HalResource, uploadUrl:string }[]>;
+      .then((result:HalResource[]) => result.map((el:HalResource) => ({ response: el, uploadUrl: el.staticDownloadLocation.href }))) as Promise<{ response:HalResource, uploadUrl:string }[]>;
 
-    return { uploads: uploads, finished: mapped } as MappedUploadResult;
+    return { uploads, finished: mapped } as MappedUploadResult;
   }
 
   /**
@@ -104,7 +103,7 @@ export class OpenProjectFileUploadService {
     const formData = new FormData();
     const metadata = {
       description: file.description,
-      fileName: file.customName || file.name
+      fileName: file.customName || file.name,
     };
 
     // add the metadata object
@@ -119,20 +118,20 @@ export class OpenProjectFileUploadService {
     const observable = this
       .http
       .request<HalResource>(
-        method,
-        url,
-        {
-          body: formData,
-          // Observe the response, not the body
-          observe: 'events',
-          withCredentials: true,
-          responseType: responseType as any,
-          // Subscribe to progress events. subscribe() will fire multiple times!
-          reportProgress: true
-        }
-      )
+      method,
+      url,
+      {
+        body: formData,
+        // Observe the response, not the body
+        observe: 'events',
+        withCredentials: true,
+        responseType: responseType as any,
+        // Subscribe to progress events. subscribe() will fire multiple times!
+        reportProgress: true,
+      },
+    )
       .pipe(
-        share()
+        share(),
       );
 
     return [file, observable] as UploadInProgress;
@@ -144,14 +143,12 @@ export class OpenProjectFileUploadService {
    * @param {UploadInProgress[]} uploads
    */
   private whenFinished(uploads:UploadInProgress[]):Promise<HalResource[]> {
-    const promises = uploads.map(([_, observable]) => {
-      return observable
-        .pipe(
-          filter((evt) => evt.type === HttpEventType.Response),
-          map((evt:HttpResponse<HalResource>) => this.halResource.createHalResource(evt.body))
-        )
-        .toPromise();
-    });
+    const promises = uploads.map(([_, observable]) => observable
+      .pipe(
+        filter((evt) => evt.type === HttpEventType.Response),
+        map((evt:HttpResponse<HalResource>) => this.halResource.createHalResource(evt.body)),
+      )
+      .toPromise());
 
     return Promise.all(promises);
   }

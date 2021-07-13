@@ -1,6 +1,7 @@
-import { Component, EventEmitter, HostListener, Input, OnDestroy, Output } from "@angular/core";
-import { DomHelpers } from "core-app/shared/helpers/dom/set-window-cursor.helper";
-
+import {
+  Component, EventEmitter, HostListener, Input, OnDestroy, Output,
+} from '@angular/core';
+import { DomHelpers } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 
 export interface ResizeDelta {
   origin:any;
@@ -20,25 +21,37 @@ export interface ResizeDelta {
 
 @Component({
   selector: 'resizer',
-  templateUrl: './resizer.component.html'
+  templateUrl: './resizer.component.html',
 })
 export class ResizerComponent implements OnDestroy {
   private startX:number;
+
   private startY:number;
+
   private oldX:number;
+
   private oldY:number;
+
   private newX:number;
+
   private newY:number;
+
   private mouseMoveHandler:EventListener;
+
   private mouseUpHandler:EventListener;
+
   private resizing = false;
 
   @Output() end:EventEmitter<ResizeDelta> = new EventEmitter();
+
   @Output() start:EventEmitter<ResizeDelta> = new EventEmitter();
+
   @Output() move:EventEmitter<ResizeDelta> = new EventEmitter();
 
   @Input() customHandler = false;
+
   @Input() cursorClass = 'nwse-resize';
+
   @Input() resizerClass = 'resizer';
 
   ngOnDestroy() {
@@ -125,7 +138,7 @@ export class ResizerComponent implements OnDestroy {
       relative: {
         x: this.newX - this.oldX,
         y: this.newY - this.oldX,
-      }
+      },
     };
   }
 }

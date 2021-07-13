@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export type OpTableActionFactory = (i:Injector, wp:WorkPackageResource) => OpTableAction;
 export const contextMenuTdClassName = 'wp-table--context-menu-td';
@@ -10,11 +10,10 @@ export const contextMenuLinkClassName = 'wp-table-context-menu-link';
 export const contextColumnIcon = 'wp-table-context-menu-icon';
 
 export abstract class OpTableAction {
-
   @InjectField() I18n!:I18nService;
 
   constructor(readonly injector:Injector,
-              readonly workPackage:WorkPackageResource) {
+    readonly workPackage:WorkPackageResource) {
   }
 
   /** Identifier to uniquely identify the action */
