@@ -1,0 +1,37 @@
+name: "Core/Ruby-Brakeman"
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - release/*
+    paths:
+      - '**.rb'
+  schedule:
+    - cron: '10 6 * * 1'
+
+jobs:
+  brakeman-scan:
+    if: github.repository == 'opf/openproject'
+    name: Brakeman Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+
+      - name: Setup Brakeman
+        run: |
+          gem install brakeman
+
+      - name: Scan
+        continue-on-error: true
+        run: |
+          brakeman -i config/brakeman.ignore -f sarif -o output.sarif.json .
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: output.sarif.json
