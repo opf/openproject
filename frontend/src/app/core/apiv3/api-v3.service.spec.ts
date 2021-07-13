@@ -62,14 +62,14 @@ describe('APIv3Service', () => {
 
     it('should provide a path to work package query on subject or ID ', () => {
       let params = {
-        filters: '[{"subjectOrId":{"operator":"**","values":["bogus"]}}]',
+        filters: '[{"typeahead":{"operator":"**","values":["bogus"]}}]',
         sortBy: '[["updatedAt","desc"]]',
         offset: '1',
         pageSize: '10',
       };
 
       expect(
-        service.work_packages.filterBySubjectOrId('bogus').path,
+        service.work_packages.filterByTypeaheadOrId('bogus').path,
       ).toEqual(`/api/v3/work_packages?${encodeParams(params)}`);
 
       params = {
@@ -79,7 +79,7 @@ describe('APIv3Service', () => {
         pageSize: '10',
       };
       expect(
-        service.work_packages.filterBySubjectOrId('1234', true).path,
+        service.work_packages.filterByTypeaheadOrId('1234', true).path,
       ).toEqual(`/api/v3/work_packages?${encodeParams(params)}`);
     });
   });
