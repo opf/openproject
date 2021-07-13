@@ -1248,24 +1248,25 @@ describe 'API v3 Work package resource',
       priority.save!
 
       FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
-      post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
-      perform_enqueued_jobs
+      perform_enqueued_jobs do
+        post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
+      end
     end
 
     context 'notifications' do
       let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
-        expect(Mails::WorkPackageJob)
-          .to have_been_enqueued
-          .at_least(1)
+        expect(ActionMailer::Base.deliveries.size)
+          .to eql 1
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
 
         it 'should not send a mail' do
-          expect(Mails::WorkPackageJob).not_to have_been_enqueued
+          expect(ActionMailer::Base.deliveries.size)
+            .to eql 0
         end
       end
 
@@ -1273,9 +1274,8 @@ describe 'API v3 Work package resource',
         let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
 
         it 'should send a mail' do
-          expect(Mails::WorkPackageJob)
-            .to have_been_enqueued
-            .at_least(1)
+          expect(ActionMailer::Base.deliveries.size)
+            .to eql 1
         end
       end
     end

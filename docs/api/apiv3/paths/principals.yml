@@ -1,0 +1,133 @@
+# /api/v3/principals
+---
+get:
+  parameters:
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      Currently supported filters are:
+
+      + type: filters principals by their type (*User*, *Group*, *PlaceholderUser*).
+
+      + member: filters principals by the projects they are members in.
+
+      + name: filters principals by the user or group name.
+
+      + any_name_attribute: filters principals by the user or group first- and last name, email or login.
+
+      + status: filters principals by their status number (active = *1*, registered = *2*, locked = *3*, invited = *4*)
+    example: '[{ "type": { "operator": "=", "values": ["User"] } }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      delete:
+                        href: "/api/v3/users/4"
+                        method: delete
+                        title: Delete Eliza92778
+                      lock:
+                        href: "/api/v3/users/4/lock"
+                        method: post
+                        title: Set lock on Eliza92778
+                      self:
+                        href: "/api/v3/users/4"
+                        title: Danika O'Keefe
+                      showUser:
+                        href: "/users/4"
+                        type: text/html
+                      updateImmediately:
+                        href: "/api/v3/users/4"
+                        method: patch
+                        title: Update Eliza92778
+                    _type: User
+                    admin: false
+                    avatar: https://example.org/users/4/avatar
+                    createdAt: '2015-03-20T12:57:02Z'
+                    email: jackie@dicki.org
+                    firstName: Danika
+                    id: 4
+                    identityUrl: 
+                    lastName: O'Keefe
+                    login: Eliza92778
+                    name: Danika O'Keefe
+                    status: active
+                    updatedAt: '2015-06-16T15:28:14Z'
+                  - _links:
+                      delete:
+                        href: "/api/v3/users/2"
+                        method: delete
+                        title: Delete Sebastian9686
+                      lock:
+                        href: "/api/v3/users/2/lock"
+                        method: post
+                        title: Set lock on Sebastian9686
+                      self:
+                        href: "/api/v3/users/2"
+                        title: Peggie Feeney
+                      showUser:
+                        href: "/users/2"
+                        type: text/html
+                      updateImmediately:
+                        href: "/api/v3/users/2"
+                        method: patch
+                        title: Update Sebastian9686
+                    _type: User
+                    admin: false
+                    avatar: https://example.org/users/4/avatar
+                    createdAt: '2015-03-20T12:56:55Z'
+                    email: 
+                    firstName: Peggie
+                    id: 2
+                    identityUrl: 
+                    lastName: Feeney
+                    login: Sebastian9686
+                    name: Peggie Feeney
+                    status: active
+                    updatedAt: '2015-03-20T12:56:55Z'
+                  - _links:
+                      self:
+                        href: "/api/v3/groups/9"
+                        title: The group
+                    _type: Group
+                    createdAt: '2015-09-23T11:06:36Z'
+                    id: 9
+                    name: The group
+                    updatedAt: '2015-09-23T11:06:36Z'
+                  - _links:
+                      self:
+                        href: "/api/v3/placeholder_users/29"
+                        title: UX Designer
+                    _type: PlaceholderUser
+                    createdAt: '2018-09-23T11:06:36Z'
+                    id: 29
+                    name: UX Designer
+                    updatedAt: '2019-10-23T11:06:36Z'
+                _links:
+                  self:
+                    href: "/api/v3/principals"
+                _type: Collection
+                count: 4
+                total: 4
+          schema:
+            "$ref": "../components/schemas/principals_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Principals
+  description: List all principals. The client can choose to filter the principals
+    similar to how work packages are filtered. In addition to the provided filters,
+    the server will reduce the result set to only contain principals who are members
+    in projects the client is allowed to see.
+  operationId: List_principals
+  summary: List principals

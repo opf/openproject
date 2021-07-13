@@ -57,7 +57,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
         context 'if logged in' do
           it_behaves_like 'has an untitled link' do
             let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.my_preferences }
+            let(:href) { api_v3_paths.user_preferences(current_user.id) }
           end
         end
 
@@ -66,7 +66,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.my_preferences }
+            let(:href) { api_v3_paths.user_preferences(current_user.id) }
           end
         end
       end

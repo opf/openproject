@@ -196,7 +196,6 @@ sl:
             label_company: "Podjetje"
             label_first_name: "Ime"
             label_last_name: "Priimek"
-            label_email: "E-pošta"
             label_domain: "Domena"
             label_subscriber: "Naročnik"
             label_maximum_users: "Največje število aktivnih uporabnikov"
@@ -314,6 +313,7 @@ sl:
     label_board_locked: "Zaklenjeno"
     label_board_plural: "Boardi"
     label_board_sticky: "Lepljivo"
+    label_change: "Spremeni"
     label_create: "Ustvari"
     label_create_work_package: "Ustvari delovni paket"
     label_created_by: "Ustvaril"
@@ -336,6 +336,7 @@ sl:
     label_created_on: "Ustvarjeno dne"
     label_edit_comment: "Uredi ta komentar"
     label_edit_status: "Spremeni status tega delovnega paketa"
+    label_email: "E-pošta"
     label_equals: "je"
     label_expand: "Razširi"
     label_expanded: "Razširjen"
@@ -502,6 +503,32 @@ sl:
           create_button: 'Gumb <b>Ustvari</b> bo dodal nov delovni paket vašemu projektu. '
           timeline_button: 'Omogočite lahko <b>Gantogram</b> da ustvarite časovnico za vaš projekt.'
           timeline: 'Tukaj lahko uredite svoj projektni načrt. Ustvari lahko nove faze, mejnike in dodate odvisnosti. Vsi člani ekipe lahko kadar koli vidijo in posodobijo najnovejši načrt.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-pošta"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Vse'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Želim biti opozorjen(a) za spremembe, ki jih naredim sam(a)"
     password_confirmation:
       field_description: 'Prosimo vnesite svoje uporabniško geslo za potrditev te spremembe. '
       title: 'Potrdite svoje geslo za nadaljevanje'
@@ -1026,12 +1053,9 @@ sl:
         already_member_message: 'Je že član %{project}'
         no_results_user: 'Nobenih uporabnikov ni bilo najdenih'
         invite_user: 'Povabi:'
-        change_user_selection: 'Spremeni e-mail naslov ali izberi obstoječega uporabnika'
         no_results_placeholder: 'Nobenih rezerviranih mest ni bilo najdenih'
-        change_placeholder_selection: 'Spremeni ime ali izberi obstoječe rezervirano mesto'
         create_new_placeholder: 'Ustvari novo rezervirano mesto:'
         no_results_group: 'Nobenih skupin ni bilo najdenih'
-        change_group_selection: 'Spremeni ime ali izberi obstoječo skupino'
         next_button: 'Naprej'
         required:
           user: 'Izberite uporabnika'

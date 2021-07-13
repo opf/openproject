@@ -198,7 +198,6 @@ ja:
             label_company: "会社名"
             label_first_name: "名前"
             label_last_name: "苗字"
-            label_email: "電子メールアドレス"
             label_domain: "ドメイン"
             label_subscriber: "購入者"
             label_maximum_users: "アクティブなユーザーの最大数"
@@ -316,6 +315,7 @@ ja:
     label_board_locked: "ロックされている"
     label_board_plural: "ボード"
     label_board_sticky: "固定する"
+    label_change: "変更"
     label_create: "作成"
     label_create_work_package: "新しいワークパッケージを作成"
     label_created_by: "作成者："
@@ -338,6 +338,7 @@ ja:
     label_created_on: "作成日時"
     label_edit_comment: "このコメントを編集"
     label_edit_status: "ワークパッケージのステータスを編集"
+    label_email: "電子メールアドレス"
     label_equals: "等しい"
     label_expand: "展開"
     label_expanded: "展開"
@@ -504,6 +505,32 @@ ja:
           create_button: '<b>作成</b>ボタンをクリックすると、プロジェクトに新しいワークパッケージが追加されます。'
           timeline_button: '<b>ガントチャート</b>をアクティブにして、プロジェクトのタイムラインを作成することができます。'
           timeline: 'ここでプロジェクト計画を編集できます。 新しい段階、マイルストーンを作成し、依存関係を追加します。 すべてのチームメンバーは、いつでも最新のプランを見て更新することができます。'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "電子メールアドレス"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: '全て'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "自分自身による変更の通知を希望"
     password_confirmation:
       field_description: 'この変更を確認するには、アカウントのパスワードを入力する必要があります。'
       title: '続行するにはパスワードを確認してください'
@@ -525,7 +552,7 @@ ja:
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
       confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
       use_template: "テンプレートを使用"
-      no_template_selected: "(None)"
+      no_template_selected: "(なし)"
       copy:
         copy_options: "コピーオプション"
       autocompleter:
@@ -934,7 +961,7 @@ ja:
     notice_successful_create: "正常に作成しました。"
     notice_successful_delete: "正常に削除しました。"
     notice_successful_update: "正常に更新しました。"
-    notice_job_started: "job started."
+    notice_job_started: "ジョブか開始されました。"
     notice_bad_request: "不正な要求です。"
     relations:
       empty: 関係は存在しません
@@ -999,8 +1026,8 @@ ja:
       project:
         label: 'プロジェクト'
         required: 'プロジェクトを選択してください'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission: '現在選択されているプロジェクトにユーザーを割り当てる権限がないため、別のプロジェクトを選択してください。'
+        lacking_permission_info: '現在参加しているプロジェクトにユーザーを割り当てる権限がありません。別のプロジェクトを選択する必要があります。'
         next_button: '次へ'
         no_results: 'プロジェクトが見つかりませんでした'
         no_invite_rights: 'このプロジェクトにメンバーを招待することは許可されていません'
@@ -1024,12 +1051,9 @@ ja:
         already_member_message: '既に %{project} のメンバーです'
         no_results_user: 'ユーザーが見つかりませんでした'
         invite_user: '招待:'
-        change_user_selection: 'メールアドレスを変更するか、既存のユーザーを選択してください'
         no_results_placeholder: 'プレースホルダが見つかりません'
-        change_placeholder_selection: '名前を変更するか、既存のプレースホルダを選択してください'
         create_new_placeholder: '新しいプレースホルダを作成:'
         no_results_group: 'グループが見つかりませんでした'
-        change_group_selection: '名前を変更するか、既存のグループを選択してください'
         next_button: '次へ'
         required:
           user: 'ユーザーを選択してください'
@@ -1037,8 +1061,8 @@ ja:
           group: 'グループを選択してください'
       role:
         label: '%{project} でのロール'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        no_roles_found: 'ロールが見つかりません'
+        description: 'これは、 %{principal} がプロジェクトに参加したときに受け取るロールです。ロールは、実行できるアクションと表示できる情報を定義します。 <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">ロールと権限の詳細はこちら。</a>'
         required: 'ロールを選択してください'
         next_button: '次へ'
       message:

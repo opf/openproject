@@ -18,4 +18,4 @@ The cost for the installation support of a Community version is 150 € (excludi
 
 ## Installation checklist
 
-Please have a look at our [installation checklist](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2021/03/OpenProject_Installation_Checklist_v1.8.pdf) and send us the completed document prior to the on-premise installation.
+Please have a look at our [installation checklist](https://www.openproject.org/assets/pdf/OpenProject_Installation_Checklist_v1.8.pdf) and send us the completed document prior to the on-premise installation.

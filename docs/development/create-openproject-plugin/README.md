@@ -113,7 +113,7 @@ It is probably best to use READMEs of already released plugins as a template.
 8. Push the version of the plugin, mostly by just removing any .preX specials at the end.
 9. Don’t forget to add a changelog entry.
 10. Commit everything.
-11. Also create a release tag (named ‘release/<version>’ for example ‘release/1.0.2′) to name the new version.
+11. Also create a release tag (named ‘release/&lt;version&gt;’ for example ‘release/1.0.2′) to name the new version.
 12. Push the tag with `git push --tags`.
 
 ### Publish the gem at Rubygems

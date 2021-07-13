@@ -471,7 +471,7 @@ describe 'new work package', js: true do
     it 'from the relations tab' do
       wp_page.visit_tab!('relations')
 
-      click_link('Create new child')
+      click_button('Create new child')
 
       subject = EditField.new wp_page, :subject
       subject.set_value 'Child'

@@ -34,7 +34,7 @@ class Services::CreateWatcher
     @watcher = Watcher.new(user: user, watchable: work_package)
   end
 
-  def run(success: -> {}, failure: -> {})
+  def run(send_notifications: true, success: ->(*) {}, failure: ->(*) {})
     if @work_package.watcher_users.include?(@user)
       success.(created: false)
     elsif @watcher.valid?
@@ -42,7 +42,8 @@ class Services::CreateWatcher
       success.(created: true)
       OpenProject::Notifications.send(OpenProject::Events::WATCHER_ADDED,
                                       watcher: @watcher,
-                                      watcher_setter: User.current)
+                                      watcher_setter: User.current,
+                                      send_notifications: send_notifications)
     else
       failure.(@watcher)
     end

@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.3'
+ruby '~> 2.7.4'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -73,7 +73,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.21.0'
+gem 'commonmarker', '~> 0.22.0'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -191,9 +191,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.4.0', require: false
-  gem "sentry-rails", '~> 4.4.0', require: false
-  gem "sentry-ruby", '~> 4.4.1',  require: false
+  gem "sentry-delayed_job", '~> 4.5.1', require: false
+  gem "sentry-rails", '~> 4.5.1', require: false
+  gem "sentry-ruby", '~> 4.5.1',  require: false
 end
 
 group :test do

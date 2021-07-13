@@ -254,34 +254,27 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  def add_attachments(obj)
-    create_attachments_from_mail(obj)
-      .each do |attachment|
-        obj.attachments << attachment
-      end
-  end
-
-  def create_attachments_from_mail(container = nil)
+  def add_attachments(container)
     return [] unless email.attachments&.present?
 
     email
       .attachments
       .reject { |attachment| ignored_filename?(attachment.filename) }
-      .map do |attachment|
-      file = OpenProject::Files.create_uploaded_file(
-        name: attachment.filename,
-        content_type: attachment.mime_type,
-        content: attachment.decoded,
-        binary: true
-      )
+      .map { |attachment| create_attachment(attachment, container) }
+      .compact
+  end
 
-      Attachment.create(
-        container: container,
-        file: file,
-        author: user,
-        content_type: attachment.mime_type
-      )
-    end
+  def create_attachment(attachment, container)
+    file = OpenProject::Files.create_uploaded_file(
+      name: attachment.filename,
+      content_type: attachment.mime_type,
+      content: attachment.decoded,
+      binary: true
+    )
+
+    ::Attachments::CreateService
+      .new(container, author: user)
+      .call(uploaded_file: file, description: nil)
   end
 
   # Adds To and Cc as watchers of the given object if the sender has the
@@ -291,9 +284,13 @@ class MailHandler < ActionMailer::Base
        user.allowed_to?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
       unless addresses.empty?
-        watchers = User.active.where(['LOWER(mail) IN (?)', addresses])
-        watchers.each do |w|
-          obj.add_watcher(w)
+        User
+          .active
+          .where(['LOWER(mail) IN (?)', addresses])
+          .each do |user|
+          Services::CreateWatcher
+            .new(obj, user)
+            .run
         end
         # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
         # So we fix that here manually
@@ -548,7 +545,7 @@ class MailHandler < ActionMailer::Base
 
   def update_work_package(work_package)
     attributes = collect_wp_attributes_from_email_on_update(work_package)
-    attributes[:attachment_ids] = work_package.attachment_ids + create_attachments_from_mail.map(&:id)
+    attributes[:attachment_ids] = work_package.attachment_ids + add_attachments(work_package).map(&:id)
 
     service_call = WorkPackages::UpdateService
                    .new(user: user,

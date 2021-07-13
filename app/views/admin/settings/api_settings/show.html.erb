@@ -31,6 +31,17 @@ See docs/COPYRIGHT.rdoc for more details.
 <%= styled_form_tag(admin_settings_update_api_path, method: :patch) do %>
   <section class="form--section">
     <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t("setting_apiv3_docs") %></legend>
+    </fieldset>
+    <div class="form--field">
+      <%= setting_check_box :apiv3_docs_enabled %>
+      <div class="form--field-instructions">
+        <p><%= t(:setting_apiv3_docs_enabled_instructions_html, link: api_docs_url) %></p>
+      </div>
+    </div>
+  </section>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend">Cross-Origin Resource Sharing (CORS)</legend>
     </fieldset>
     <div class="form--field">

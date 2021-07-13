@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MessagesController, type: :controller do
+describe MessagesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { FactoryBot.create(:user) }
   let(:project) { FactoryBot.create(:project) }
   let(:role) { FactoryBot.create(:role) }

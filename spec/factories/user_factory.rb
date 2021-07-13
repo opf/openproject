@@ -39,8 +39,6 @@ FactoryBot.define do
       preferences { {} }
     end
 
-    mail_notification { OpenProject::VERSION::MAJOR > 0 ? 'all' : true }
-
     language { 'en' }
     status { User.statuses[:active] }
     admin { false }
@@ -58,6 +56,13 @@ FactoryBot.define do
 
     callback(:after_create) do |user, factory|
       user.pref.save unless factory.preferences&.empty?
+
+      if user.notification_settings.empty?
+        user.notification_settings = [
+          FactoryBot.create(:mail_notification_setting, user: user, all: true),
+          FactoryBot.create(:in_app_notification_setting, user: user, all: true)
+        ]
+      end
 
       if factory.global_permissions.present?
         global_role = FactoryBot.create :global_role, permissions: factory.global_permissions

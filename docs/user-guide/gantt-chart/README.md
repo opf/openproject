@@ -24,7 +24,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
 
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Project-Plan-and-Timelines-Gantt-charts.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Activate the Gantt chart
 
@@ -68,7 +68,7 @@ Select the item to which you want to create a dependency. The precede and follow
 
 To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](scheduling).
 
-Relations between work packages that are not predecessor/follower or parent/child relations won't be displayed in the Gantt chart. Find out more about other work package relations [here](../../work-packages/work-package-relations-hierarchies).
+Relations between work packages that are not predecessor/follower or parent/child relations won't be displayed in the Gantt chart. Find out more about other work package relations [here](../work-packages/work-package-relations-hierarchies).
 
 ## Understanding the colors and lines in the Gantt chart
 
@@ -125,7 +125,7 @@ Press the **Print** button.
 
 For other browsers, please simply follow the browser's printing instruction to optimize results.
 
-To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../integrations/Excel Synchronization).
+To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../integrations/excel-synchronization).
 
 ## Gantt chart views
 

@@ -43,9 +43,9 @@ describe Projects::SetAttributesService, 'integration', type: :model do
   describe 'with a project name starting with numbers' do
     let(:attributes) { { name: '100 Project A' } }
 
-    it 'will create an identifier with the numbers stripped' do
+    it 'will create an identifier including the numbers' do
       expect(service_result).to be_success
-      expect(service_result.result.identifier).to eq 'project-a'
+      expect(service_result.result.identifier).to eq '100-project-a'
     end
   end
 
@@ -71,15 +71,6 @@ describe Projects::SetAttributesService, 'integration', type: :model do
 
         errors = service_result.errors.full_messages
         expect(errors).to eq ['Identifier has already been taken.']
-      end
-    end
-
-    context 'with an existing identifier and a project name starting with numbers' do
-      let(:attributes) { { name: '100 My new project' } }
-
-      it 'will auto correct the identifier with the numbers stripped' do
-        expect(service_result).to be_success
-        expect(service_result.result.identifier).to eq 'my-new-project-1'
       end
     end
   end

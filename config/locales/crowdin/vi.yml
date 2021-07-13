@@ -478,7 +478,6 @@ vi:
         force_password_change: "Buộc thay đổi mật khẩu trong lần đăng nhập tiếp theo"
         language: "Ngôn ngữ"
         last_login_on: "Lần đăng nhập trước"
-        mail_notification: "Thông báo qua email"
         new_password: "Mật khẩu mới"
         password_confirmation: "Xác nhận lại mật khẩu"
         consented_at: "Đồng ý tại"
@@ -580,7 +579,7 @@ vi:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Ít nhất một lựa chọn cần phải được cung cấp."
         custom_actions:
@@ -608,6 +607,13 @@ vi:
           overlaps: 'chồng lấn.'
           outside: 'nằm ngoài bảng dữ liệu.'
           end_before_start: 'giá trị kết thúc cần lớn hơn giá trị bắt đầu.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -752,6 +758,8 @@ vi:
       status: "Tình trạng work package"
       member: "Thành viên"
       news: "Tin tức"
+      notification:
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Dự án"
       query: "Truy vấn riêng"
@@ -1259,6 +1267,9 @@ vi:
   instructions_after_logout: "Bạn có thể đăng nhập một lần nữa bằng cách nhấp vào %{signin}."
   instructions_after_error: "Bạn có thể thử đăng nhập lại bằng cách nhấn vào %{signin}. Nếu lỗi vẫn còn, yêu cầu quản trị của bạn để được giúp đỡ."
   menus:
+    admin:
+      mail_notification: "Thông báo qua email"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1271,6 +1282,14 @@ vi:
         action: "Hành động"
         expiration: "Hết hạn"
       indefinite_expiration: "Không bao giờ"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Trợ năng"
   label_account: "Tài khoản"
   label_active: "Đang hoạt động"
@@ -1869,7 +1888,7 @@ vi:
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Bản sao lưu của bạn đã sẵn sàng"
-  mail_subject_backup_token_reset: "Token bản sao lưu của bạn đã được tạo lại"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
@@ -2216,6 +2235,10 @@ vi:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Cách gửi email"
   setting_sendmail_location: "Vị trí của tệp thực thi sendmail (đường dẫn)"
   setting_smtp_enable_starttls_auto: "Tự động sử dụng STARTTLS nếu hiện hữu"
@@ -2252,7 +2275,6 @@ vi:
   setting_first_week_of_year: "Tuần đầu tiên trong năm"
   setting_date_format: "Date format"
   setting_default_language: "Default language"
-  setting_default_notification_option: "Default notification option"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
@@ -2262,6 +2284,8 @@ vi:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2275,7 +2299,7 @@ vi:
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_export_limit: "Work packages export limit"
-  setting_journal_aggregation_time_minutes: "Display journals as aggregated within"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log user login, name, and mail address for all requests"
   setting_login_required: "Authentication required"
   setting_mail_from: "Emission email address"
@@ -2330,6 +2354,10 @@ vi:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2410,7 +2438,7 @@ vi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Combine journals for display if their age difference is less than the specified timespan. This will also delay mail notifications by the same amount of time."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} được sửa từ %{old} <br/><strong>thành</strong> %{new}"
   text_journal_changed_plain: "%{label} thay đổi %{old} thành %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -2440,7 +2468,7 @@ vi:
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Biểu thức được áp dụng ở chế độ đa dòng. Ví dụ: ^---\s+'
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
-  text_select_mail_notifications: "Select actions for which email notifications should be sent."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
@@ -2661,10 +2689,6 @@ vi:
     password_change_unsupported: Change of password is not supported.
     registered: "registered"
     reset_failed_logins: "Reset failed logins"
-    settings:
-      mail_notifications: "Gửi email thông báo"
-      mail_project_explanaition: "Với các dự án không được chọn, bạn chỉ có thể nhận được thông báo về các vấn đề bạn đăng ký theo dõi hoặc có liên quan đến bạn (chẳng hạn, vấn đề được gán cho bạn)."
-      mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "Tên được thiết lập với người cung cấp đăng nhập của bạn và vì thế không thể thay đổi"

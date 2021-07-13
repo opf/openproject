@@ -197,7 +197,6 @@ es:
             label_company: "Empresa"
             label_first_name: "Nombre"
             label_last_name: "Apellido"
-            label_email: "Correo electrónico"
             label_domain: "Dominio"
             label_subscriber: "Suscriptor"
             label_maximum_users: "Máximo de usuarios activos"
@@ -315,6 +314,7 @@ es:
     label_board_locked: "Bloqueado"
     label_board_plural: "Tableros"
     label_board_sticky: "Adhesivo"
+    label_change: "Cambiar"
     label_create: "Crear"
     label_create_work_package: "Crear un nuevo paquete de trabajo"
     label_created_by: "Creado por"
@@ -337,6 +337,7 @@ es:
     label_created_on: "creado en"
     label_edit_comment: "Editar este comentario"
     label_edit_status: "Edite el estado del paquete de trabajo"
+    label_email: "Correo electrónico"
     label_equals: "es"
     label_expand: "Expandir"
     label_expanded: "expandido"
@@ -503,6 +504,32 @@ es:
           create_button: 'Use el botón <b>Crear</b> para agregar un nuevo paquete de trabajo al proyecto.'
           timeline_button: 'Puede activar el <b>diagrama de Gantt</b> para crear una línea de tiempo del proyecto.'
           timeline: 'Aquí puede editar el plan del proyecto. Cree nuevas fases e hitos, y agregue dependencias. Todos los miembros del equipo pueden ver y actualizar el último plan en cualquier momento.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "Correo electrónico"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Todo'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Deseo ser notificado de los cambios realizados por mí"
     password_confirmation:
       field_description: 'Necesitas introducir la contraseña de tu cuenta para confirmar este cambio.'
       title: 'Confirma tu contraseña para continuar'
@@ -1023,12 +1050,9 @@ es:
         already_member_message: 'Ya es miembro de %{project}'
         no_results_user: 'No se encontraron usuarios'
         invite_user: 'Invitar:'
-        change_user_selection: 'Cambie la dirección de correo electrónico o seleccione un usuario existente'
         no_results_placeholder: 'No se encontraron marcadores de posición'
-        change_placeholder_selection: 'Cambie el nombre o seleccione un marcador de posición existente'
         create_new_placeholder: 'Crear marcador de posición:'
         no_results_group: 'No se encontraron grupos'
-        change_group_selection: 'Cambie el nombre o seleccione un grupo existente'
         next_button: 'Siguiente'
         required:
           user: 'Seleccione un usuario'

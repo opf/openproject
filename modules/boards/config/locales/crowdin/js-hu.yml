@@ -33,7 +33,7 @@ hu:
       click_to_remove_list: "Kattints a lista eltávolításához"
       board_type:
         text: 'Tábla típus'
-        free: 'basic'
+        free: 'alap'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Start from scratch with a blank board. Manually add cards and columns to this board.
@@ -52,18 +52,18 @@ hu:
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          assignee: felelős
+          status: állapot
+          version: verzió
+          subproject: alprojekt
+          subtasks: szülő-gyerek
         board_type_title:
           assignee: Megbízott
           status: Állapot
           version: Verzió
           subproject: Alprojekt
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Szülő-gyerek
+          basic: Alap
         select_attribute: "Akció attribútum"
       add_list_modal:
         labels:

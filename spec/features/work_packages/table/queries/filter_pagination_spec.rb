@@ -59,18 +59,18 @@ describe 'Filter updates pagination', type: :feature, js: true do
     wp_table.ensure_work_package_not_listed! work_package_2
 
     # Expect pagination to be correct
-    expect(page).to have_selector('.pagination--item.-current', text: '1')
+    expect(page).to have_selector('.op-pagination--item_current', text: '1')
 
     # Go to second page
-    within('.pagination--pages') do
-      find('.pagination--item a', text: '2').click
+    within('.op-pagination--pages') do
+      find('.op-pagination--item button', text: '2').click
     end
 
     wp_table.expect_work_package_listed work_package_2
     wp_table.ensure_work_package_not_listed! work_package_1
 
     # Expect pagination to be correct
-    expect(page).to have_selector('.pagination--item.-current', text: '2')
+    expect(page).to have_selector('.op-pagination--item_current', text: '2')
 
     # Change filter to assigned to
     filters.expect_filter_count 1
@@ -82,6 +82,6 @@ describe 'Filter updates pagination', type: :feature, js: true do
     wp_table.ensure_work_package_not_listed! work_package_2
 
     # Expect pagination to be back to 1
-    expect(page).to have_selector('.pagination--range', text: '1 - 1/1')
+    expect(page).to have_selector('.op-pagination--range', text: '1 - 1/1')
   end
 end

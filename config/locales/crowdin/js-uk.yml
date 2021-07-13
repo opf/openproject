@@ -197,7 +197,6 @@ uk:
             label_company: "Company"
             label_first_name: "Ім'я"
             label_last_name: "Прізвище"
-            label_email: "Електронна пошта"
             label_domain: "Domain"
             label_subscriber: "Абонент"
             label_maximum_users: "Максимальна кількість активних користувачів"
@@ -315,6 +314,7 @@ uk:
     label_board_locked: "Заблоковано"
     label_board_plural: "Дошки"
     label_board_sticky: "Приліплена"
+    label_change: "Змінити"
     label_create: "Створити"
     label_create_work_package: "Створити новий робочий пакет"
     label_created_by: "Створено"
@@ -337,6 +337,7 @@ uk:
     label_created_on: "створено"
     label_edit_comment: "Редагувати цей коментар"
     label_edit_status: "Відредагуйте стан робочого пакету"
+    label_email: "Електронна пошта"
     label_equals: "є"
     label_expand: "Розгорнути"
     label_expanded: "розгорнуто"
@@ -503,6 +504,32 @@ uk:
           create_button: 'Кнопка <b>Створити</b> додасть новий робочий пакет до вашого проекту.'
           timeline_button: 'Ви можете активувати <b>діаграму Ганта</b>, щоб створити шкалу часу для вашого проекту.'
           timeline: 'Тут ви можете редагувати план проекту. Створіть нові фази, віхи та додайте залежності. Усі члени команди можуть побачити і оновити останній план у будь-який час.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "Електронна пошта"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Всі'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Я хочу отримувати повідомлення про зміни, які я роблю сам"
     password_confirmation:
       field_description: 'Вам необхідно ввести пароль облікового запису, щоб підтвердити цю зміну.'
       title: 'Підтвердіть ваш пароль щоб продовжити'
@@ -1027,12 +1054,9 @@ uk:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
         next_button: 'Далі'
         required:
           user: 'Please select a user'

@@ -35,8 +35,7 @@ describe WikiContent, type: :model do
   let(:author) do
     FactoryBot.create(:user,
                       member_in_project: wiki.project,
-                      member_with_permissions: [:view_wiki_pages],
-                      mail_notification: nil)
+                      member_with_permissions: [:view_wiki_pages])
   end
   let(:project_watcher) do
     FactoryBot.create(:user,
@@ -46,8 +45,7 @@ describe WikiContent, type: :model do
   let(:page_watcher) do
     watcher = FactoryBot.create(:user,
                                 member_in_project: wiki.project,
-                                member_with_permissions: [:view_wiki_pages],
-                                mail_notification: nil)
+                                member_with_permissions: [:view_wiki_pages])
     page.watcher_users << watcher
 
     watcher
@@ -56,8 +54,7 @@ describe WikiContent, type: :model do
   let(:wiki_watcher) do
     watcher = FactoryBot.create(:user,
                                 member_in_project: wiki.project,
-                                member_with_permissions: [:view_wiki_pages],
-                                mail_notification: nil)
+                                member_with_permissions: [:view_wiki_pages])
     wiki.watcher_users << watcher
 
     watcher

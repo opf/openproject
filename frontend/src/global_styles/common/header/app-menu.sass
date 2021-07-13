@@ -1,0 +1,84 @@
+.op-app-menu
+  list-style: none
+  display: flex
+  margin: 0
+  height: 100%
+  min-width: 0px
+
+  &--item
+    display: flex
+    position: relative
+    height: 100%
+    min-width: 0px
+
+  &--item-dropdown-indicator
+    display: inline-flex
+    justify-content: center
+    align-items: center
+
+  &--item-title
+    min-width: 0px
+    white-space: nowrap
+
+  &--item-action
+    background: transparent 
+    border: 0
+    display: flex
+    justify-content: center
+    align-items: center
+    height: var(--header-height)
+    line-height: var(--header-height)
+    zoom: 1
+    color: var(--header-item-font-color)
+    font-size: var(--header-item-font-size)
+    text-decoration: none
+    padding: 0 15px
+    min-width: 0px
+
+    .op-app-menu--item_dropdown-open &,
+    &:hover
+      text-decoration: none
+      background: var(--header-item-bg-hover-color)
+      color: var(--header-item-font-hover-color)
+      border-bottom: var(--header-border-bottom-width) solid var(--header-border-bottom-color)
+
+    &:focus
+      color: var(--header-item-font-hover-color)
+
+  &--dropdown
+    position: absolute
+    top: 100%
+    left: auto
+    right: 0
+
+    background: #fff
+    border-radius: 0
+    box-shadow: 1px 1px 4px rgba(0,0,0,.15)
+    overflow: visible
+    padding: 3px 0
+    margin: 0
+
+    min-width: 270px
+    padding: 6px 0
+    border: 1px solid var(--header-drop-down-border-color)
+    border-top: 0
+    background-color: var(--header-drop-down-bg-color)
+    max-height: calc(100vh - var(--header-height))
+    overflow-y: auto
+    overflow-x: hidden
+    scrollbar-color: transparent transparent
+    scrollbar-width: thin
+
+    &_open
+      display: flex
+
+    @at-root .op-app-menu_drop-left &
+      left: 0
+      right: auto
+
+    @include breakpoint(680px down)
+      position: fixed
+      top: var(--header-height)
+      left: 0
+      right: 0
+      width: 100vw

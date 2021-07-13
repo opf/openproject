@@ -1,0 +1,152 @@
+# /api/v3/groups
+---
+get:
+  parameters:
+  - description: |-
+      JSON specifying sort criteria.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+
+      + id: Sort by primary key
+
+      + created_at: Sort by group creation datetime
+
+      + updated_at: Sort by the time the group was updated last
+    example: '[["id", "asc"]]'
+    in: query
+    name: sortBy
+    required: false
+    schema:
+      default: '[["id", "asc"]]'
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      members:
+                      - href: "/api/v3/users/363"
+                        title: First user
+                      - href: "/api/v3/users/60"
+                        title: Second user
+                      memberships:
+                        href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]
+                        title: Memberships
+                      self:
+                        href: "/api/v3/groups/9"
+                        title: The group
+                    _type: Group
+                    createdAt: '2015-09-23T11:06:36Z'
+                    id: 9
+                    name: The group
+                    updatedAt: '2015-09-23T11:06:36Z'
+                  - _links:
+                      members:
+                      - href: "/api/v3/users/343"
+                        title: Third user
+                      - href: "/api/v3/users/60"
+                        title: Second user
+                      memberships:
+                        href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["123"]}}]
+                        title: Memberships
+                      self:
+                        href: "/api/v3/groups/123"
+                        title: Another group
+                    _type: Group
+                    createdAt: '2018-09-23T11:06:36Z'
+                    id: 123
+                    name: Another group
+                    updatedAt: '2019-09-23T11:06:36Z'
+                _links:
+                  self:
+                    href: "/api/v3/groups"
+                _type: Collection
+                count: 2
+                total: 2
+          schema:
+            "$ref": "../components/schemas/list_groups_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** View members or manage members in any project
+      headers: {}
+  tags:
+  - Groups
+  description: Returns a collection of groups. The client can choose to filter the
+    groups similar to how work packages are filtered. In addition to the provided
+    filters, the server will reduce the result set to only contain groups, for which
+    the requesting client has sufficient permissions (*view_members*, *manage_members*).
+  operationId: List_groups
+  summary: List groups
+post:
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/view_group_model.yml"
+      description: Created
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request body was not a single JSON object.
+      description: Occurs when the client did not send a valid JSON object in the
+        request body.
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Administrator
+      headers: {}
+    '422':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  details:
+                    attribute: name
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Name can't be blank.
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      headers: {}
+  tags:
+  - Groups
+  description: Creates a new group applying the attributes provided in the body.
+  operationId: Create_group
+  summary: Create group

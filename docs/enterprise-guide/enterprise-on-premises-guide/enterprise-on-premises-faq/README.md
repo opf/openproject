@@ -23,7 +23,7 @@ If you prefer to test the Enterprise on-premises edition before purchasing, you 
 
 You will keep your data during the whole process.
 
-Find more information [here](https://www.openproject.org/enterprise-edition-upgrade-test-free/).
+Find more information [here](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/).
 
 ## How can I book additional users?
 

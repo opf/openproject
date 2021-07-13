@@ -71,6 +71,8 @@ shared_examples 'BaseServices create service' do
     allow(service)
       .to(receive(:call))
       .and_return(set_attributes_result)
+
+    service
   end
 
   let(:model_save_result) { true }

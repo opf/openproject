@@ -34,7 +34,7 @@ ko:
           commit_message: 커밋 메시지
           cmd: 빈 커밋으로 브랜치 생성
           title: Git용 빠른 코드 조각
-          copy_success: '✅ 복사 완료!'
+          copy_success: '✅ 복사됨!'
           copy_error: '❌ 복사 실패!'
       tab_prs:
         empty: '아직 연결된 끌어오기 요청이 없습니다. 끌어오기 요청 설명란에서 코드 <code>OP#%{wp_id}</code>(을)를 사용하여 기존 끌어오기 요청을 연결하거나 새 끌어오기 요청을 만드십시오.'

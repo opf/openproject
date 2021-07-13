@@ -92,10 +92,12 @@ because of an [issue regarding pseudo-TTY allocations](https://github.com/moby/m
 and permissions to write to `/dev/stdout`. If you run into this, a workaround
 seems to be to add `-t` to your run command, even if you run in detached mode.
 
-### Recommended usage
+## Using this container in production
 
-The one-liner above is great to get started quickly, but if you want to run
-OpenProject in production you will likely want to ensure that your data is not
+The one-liner above is great to get started quickly, but we strongly advise against
+using this setup for production purposes.
+
+Also, if you want to run OpenProject in production you need to ensure that your data is not
 lost if you restart the container.
 
 To achieve this, we recommend that you create a directory on your host system
@@ -109,7 +111,9 @@ those directories mounted:
 ```bash
 sudo mkdir -p /var/lib/openproject/{pgdata,assets} 
 
-docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
+docker run -d -p 8080:80 --name openproject \
+  -e SERVER_HOSTNAME=openproject.example.com \ # The public facing host name
+  -e SECRET_KEY_BASE=secret \ # The secret key base used for cookies
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/community:11
@@ -158,7 +162,8 @@ For more advanced configuration, please have a look at the [Advanced configurati
 
 ### Apache Reverse Proxy Setup
 
-Often there will be an existing web server through which you want to make OpenProject accessible.
+The containers above are not meant as public facing endpoints. Always use an existing proxying web server or load balancer to provide access to OpenProject
+
 There are two ways to run OpenProject. We'll cover each configuration in a separate of the following sections.
 
 For both configurations the following Apache mods are required:
@@ -502,8 +507,8 @@ x-op-app: &app
     - "OPENPROJECT_DISABLED__MODULES='backlogs meetings'"
 ```
 
-Please refer to our documentation on the [configuration](https://docs.openproject.org/installation-and-operations/configuration/)
-and [environment variables](https://docs.openproject.org/installation-and-operations/configuration/environment/) for further information
+Please refer to our documentation on the [configuration](../../configuration/)
+and [environment variables](../../configuration/environment/) for further information
 on what you can configure and how.
 
 #### Launching

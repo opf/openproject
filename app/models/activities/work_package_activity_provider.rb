@@ -30,7 +30,6 @@
 
 class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
   activity_provider_for type: 'work_packages',
-                        aggregated: true,
                         permission: :view_work_packages
 
   def extend_event_query(query)

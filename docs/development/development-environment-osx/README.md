@@ -32,20 +32,20 @@ $ rbenv init
 ### Installing ruby-2.7
 
 With both installed, we can now install the actual ruby version 2.7. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `2.7.3`, which we also require.
+At the time of this writing, the latest stable version is `2.7.4`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 2.7.3
+rbenv install 2.7.4
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 2.7.3
+rbenv global 2.7.4
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -116,7 +116,7 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 $ ruby --version
-ruby 2.7.3p183 (2021-04-05 revision 6847ee089d) [x86_64-linux]
+ruby 2.7.4p191 (2021-07-07 revision a21a3b7d23) [x86_64-linux]
 
 $ bundler --version
 Bundler version 2.1.4
@@ -237,7 +237,7 @@ You can then access the application either through `localhost:3000` (Rails serve
 
 ## Start Coding
 
-Please have a look at [our development guidelines](https://www.openproject.org/open-source/code-contributions/) for tips and guides on how to start coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
+Please have a look at [our development guidelines](../code-review-guidelines) for tips and guides on how to start coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
 Also, take a look at the `doc` directory in our sources, especially the [how to run tests](https://github.com/opf/openproject/blob/dev/docs/development/running-tests.md) documentation (we like to have automated tests for every new developed feature).
 
 ## Troubleshooting

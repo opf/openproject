@@ -32,8 +32,11 @@ OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |p
   Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
 end
 
+# The aggregated journal ready listeners in effect are run inside a delayed job
+# since they are called by (in effect) by a background job triggered within the
+# Notifications::JournalNotificationService
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWpMailService.call(payload[:journal], payload[:send_mail])
+  Notifications::JournalWpNotificationService.call(payload[:journal], payload[:send_mail])
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
@@ -41,6 +44,8 @@ OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNA
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_ADDED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::WatcherAddedJob
     .perform_later(payload[:watcher],
                    payload[:watcher_setter])

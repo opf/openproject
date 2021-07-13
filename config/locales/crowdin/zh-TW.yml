@@ -63,16 +63,16 @@ zh-TW:
         main-menu-bg-color: "左側選單的背景顏色"
       theme_warning: 改變佈景主題會覆蓋你的自訂樣式，你的變更將會遺失。你確定要繼續嗎？
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      upgrade_to_ee: "升級到企業版"
       add_token: "上傳企業版support token"
       replace_token: "替換當前 support token"
       order: "Order Enterprise on-premises Edition"
       paste: "貼上您的企業版support token"
       required_for_feature: "此功能僅限企業版使用。"
       enterprise_link: "如需了解詳細信息，請點擊此處。"
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
-      get_quote: 'Get a quote'
+      start_trial: '開始免費試用'
+      book_now: '立即預約'
+      get_quote: '獲取報價'
   announcements:
     show_until: 顯示直到
     is_active: 當前已顯示
@@ -476,7 +476,6 @@ zh-TW:
         force_password_change: "強制在下次登入時更改密碼"
         language: "語言"
         last_login_on: "上次登入時間"
-        mail_notification: "電子郵件通知"
         new_password: "新密碼"
         password_confirmation: "確認密碼"
         consented_at: "同意在"
@@ -578,7 +577,7 @@ zh-TW:
             global: '全域設定'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "需要至少一個選項可用。"
         custom_actions:
@@ -606,6 +605,13 @@ zh-TW:
           overlaps: '重疊'
           outside: 'is outside of the grid.'
           end_before_start: '結束值必須大於開始值。'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -750,6 +756,8 @@ zh-TW:
       status: "工作項目狀態"
       member: "成員"
       news: "新知"
+      notification:
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "專案"
       query: "自訂查詢"
@@ -1249,14 +1257,17 @@ zh-TW:
   image_conversion:
     imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "更改已被撤銷"
   links:
     configuration_guide: '設定指南'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "如有任何問題，歡迎聯繫我們"
   instructions_after_registration: "帳號啟用後即可點擊 %{signin} 登入"
   instructions_after_logout: "您可點擊 %{signin} 再次登入。"
   instructions_after_error: "你可以試著再按一次 %{signin} 來嘗試登入。如果持續發生錯誤，請向您的管理員尋求幫助。"
   menus:
+    admin:
+      mail_notification: "電子郵件通知"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1269,6 +1280,14 @@ zh-TW:
         action: "動作"
         expiration: "過期"
       indefinite_expiration: "永不"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "輔助功能"
   label_account: "帳號"
   label_active: "啟用"
@@ -1867,7 +1886,7 @@ zh-TW:
   mail_body_wiki_content_updated: "Wiki 頁面 '%{id}' 已經被 %{author} 更新"
   mail_subject_account_activation_request: "帳號 %{value} 啟用請求"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "你的 %{value} 密碼"
   mail_subject_register: "你的帳號 %{value} 啟用"
   mail_subject_reminder: "%{count} 個工作項目將在 %{days} 天後到期"
@@ -2213,6 +2232,10 @@ zh-TW:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "說明文件"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_sendmail_location: "Sendmail 的執行位置"
   setting_smtp_enable_starttls_auto: "如果可用將自動使用 STARTTLS"
@@ -2249,7 +2272,6 @@ zh-TW:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "日期格式"
   setting_default_language: "預設語言"
-  setting_default_notification_option: "預設通知選項"
   setting_default_projects_modules: "新專案預設啟用的模組"
   setting_default_projects_public: "新專案預設為公開"
   setting_diff_max_lines_displayed: "顯示比對差異的最大行數"
@@ -2259,6 +2281,8 @@ zh-TW:
   setting_email_login: "使用信箱登入"
   setting_enabled_scm: "啟用 SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "啟用 Feed"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
@@ -2272,7 +2296,7 @@ zh-TW:
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_export_limit: "工作項目匯出數量限制"
-  setting_journal_aggregation_time_minutes: "將日誌顯示嵌入到"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"
   setting_mail_from: "發出的電子郵件地址"
@@ -2327,6 +2351,10 @@ zh-TW:
     passwords: "密碼"
     session: "Session"
     brute_force_prevention: "自動禁止使用者"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2407,7 +2435,7 @@ zh-TW:
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
-  text_journal_aggregation_time_explanation: "合併日誌顯示，如果他們的建立時間差小於某固定時間。這也會減慢郵件通知相同時間。"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} 從 %{old} <br/><strong>變成</strong> %{new}"
   text_journal_changed_plain: "%{label} 從 %{old} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
@@ -2437,7 +2465,7 @@ zh-TW:
   text_regexp_info: "例如: ^[A-Z0-9]+$"
   text_regexp_multiline: '這個正規表達式被套用在多行模式'
   text_repository_usernames_mapping: "選擇或更新與版本庫中的帳號所對應的OpenProject使用者。\n版本庫中與OpenProject的使用者具有相同名稱或email將被自動對應。"
-  text_select_mail_notifications: "選擇應發送電子郵件通知的操作。"
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "已套用至變更列表 %{value} 中。"
   text_table_difference_description: "此表格展示了單個%{entries}。您可以先選擇複選框，再點擊表格下方的按鈕來比較兩項之間的差異。"
   text_time_logged_by_changeset: "已套用至變更列表 %{value} 中。"
@@ -2658,13 +2686,9 @@ zh-TW:
     password_change_unsupported: 不支援更改密碼。
     registered: "已註冊"
     reset_failed_logins: "重置失敗的登錄"
-    settings:
-      mail_notifications: "發送電子郵件通知"
-      mail_project_explanaition: "對於未選定的專案, 您只會收到您所關注或所參與的項目的通知 (例如, 您是工作包的發起者或被指派者)。"
-      mail_self_notified: "我想要在我自己有變更的時候被通知"
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "狀態變更"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "該名稱由賬戶提供者設定，因此無法更改。"
     unlock: "解除鎖定"
     unlock_and_reset_failed_logins: "解除鎖定並重置失敗的登錄"
   version_status_closed: "已關閉"

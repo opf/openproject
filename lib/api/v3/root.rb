@@ -51,6 +51,7 @@ module API
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomActions::CustomActionsAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
+      mount ::API::V3::Notifications::NotificationsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
       mount ::API::V3::Memberships::MembershipsAPI
       mount ::API::V3::News::NewsAPI
@@ -78,6 +79,16 @@ module API
 
       get '/' do
         RootRepresenter.new({}, current_user: current_user)
+      end
+
+      get '/spec.json' do
+        API::OpenAPI.spec
+      end
+
+      get '/spec.yml' do
+        content_type 'text/vnd.yaml'
+
+        API::OpenAPI.spec.to_yaml
       end
     end
   end

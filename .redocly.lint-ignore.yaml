@@ -1,0 +1,470 @@
+# This file instructs Redocly's linter to ignore the rules contained for specific parts of your API.
+# See https://redoc.ly/docs/cli/ for more information.
+docs/api/apiv3/openapi-spec.yml:
+  no-empty-servers:
+    - '#/servers'
+  info-license:
+    - '#/info'
+  no-ambiguous-paths:
+    - '#/paths/~1api~1v3~1queries~1{id}~1star'
+    - '#/paths/~1api~1v3~1queries~1{id}~1unstar'
+    - '#/paths/~1api~1v3~1relations~1{id}~1form'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1activities'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1attachments'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1available_projects'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1available_relation_candidates'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1available_watchers'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1form'
+    - '#/paths/~1api~1v3~1work_packages~1{id}~1revisions'
+    - '#/paths/~1api~1v3~1work_packages~1{work_package_id}~1relations'
+    - '#/paths/~1api~1v3~1work_packages~1{work_package_id}~1watchers'
+docs/api/apiv3/paths/root.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+docs/api/apiv3/components/schemas/activity_model.yml:
+  spec:
+    - '#/properties/details/type'
+docs/api/apiv3/paths/activity.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/components/schemas/attachment_model.yml:
+  spec:
+    - '#/properties/digest/type'
+docs/api/apiv3/components/schemas/link.yml:
+  spec:
+    - '#/examples'
+docs/api/apiv3/paths/attachments.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/filesize
+    - '#/post/responses/200/content/application~1hal+json/examples/response/value'
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/staticDownloadLocation
+docs/api/apiv3/paths/attachment.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/filesize
+    - '#/get/responses/200/content/application~1hal+json/examples/response/value'
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/staticDownloadLocation
+docs/api/apiv3/paths/budget.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/id
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/subject
+docs/api/apiv3/paths/category.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/components/schemas/configuration_model.yml:
+  spec:
+    - '#/properties/perPageOptions/type'
+docs/api/apiv3/paths/configuration.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/custom_object.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/document.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_embedded
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/description
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/addAttachment
+docs/api/apiv3/components/schemas/grid_model.yml:
+  spec:
+    - '#/properties/widgets/type'
+docs/api/apiv3/paths/grids.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/scope
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+docs/api/apiv3/paths/grid.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/scope
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+docs/api/apiv3/paths/news_item.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_embedded
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/description
+docs/api/apiv3/paths/post.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_embedded
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/attachments
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/project
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/self
+docs/api/apiv3/paths/priority.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/project_copy.yml:
+  operation-2xx-response:
+    - '#/post/responses'
+docs/api/apiv3/paths/project_work_packages.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/customField1
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/customField2
+    - '#/post/responses/200/content/application~1hal+json/examples/response/value'
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/startDate
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/dueDate
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/derivedStartDate
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/derivedDueDate
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/changeParent
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/customField3
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/delete
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/logTime
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/move
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/addWatcher/payload
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/customActions
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/watch/payload
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/ancestors
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/children
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/timeEntries/type
+docs/api/apiv3/components/schemas/query_model.yml:
+  spec:
+    - '#/properties/filters/type'
+    - '#/properties/timelineLabels/type'
+docs/api/apiv3/paths/queries.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_embedded
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_links/columns
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_links/groupBy
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_links/highlightedAttributes
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_links/project
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_links/results
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_links/self
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_links/sortBy
+    - >-
+      #/post/responses/201/content/application~1hal+json/examples/response/value/_links/user
+docs/api/apiv3/paths/queries_column.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/components/schemas/query_filter_instance_schema_model.yml:
+  spec:
+    - '#/properties/name/type'
+    - '#/properties/filter/type'
+docs/api/apiv3/paths/queries_filter.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/queries_operator.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/queries_sort_by.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/query.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_embedded
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/columns
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/groupBy
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/highlightedAttributes
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/project
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/results
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/self
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/sortBy
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/user
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_embedded
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/columns
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/groupBy
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/highlightedAttributes
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/project
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/results
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/self
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/sortBy
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/user
+docs/api/apiv3/paths/relation.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/delay
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/delay
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links
+docs/api/apiv3/paths/revision.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/role.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/status.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/components/schemas/type_model.yml:
+  spec:
+    - '#/properties/color/type'
+docs/api/apiv3/paths/type.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+docs/api/apiv3/paths/version.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/customField14
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/endDate
+    - '#/get/responses/200/content/application~1hal+json/examples/response/value'
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/customField4
+docs/api/apiv3/paths/wiki_page.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_embedded
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/attachments
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/project
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/self
+docs/api/apiv3/paths/work_packages.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/customField1
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/customField2
+    - '#/post/responses/200/content/application~1hal+json/examples/response/value'
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/startDate
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/dueDate
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/derivedStartDate
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/derivedDueDate
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/changeParent
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/customField3
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/delete
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/logTime
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/move
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/addWatcher/payload
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/customActions
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/watch/payload
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/ancestors
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/children
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/timeEntries/type
+docs/api/apiv3/paths/work_packages_schemas.yml:
+  no-path-trailing-slash:
+    - '#/'
+docs/api/apiv3/paths/work_package.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/customField1
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/customField2
+    - '#/get/responses/200/content/application~1hal+json/examples/response/value'
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/startDate
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/dueDate
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/derivedStartDate
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/derivedDueDate
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/changeParent
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/customField3
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/delete
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/logTime
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/move
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/addWatcher/payload
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/customActions
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/watch/payload
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/ancestors
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/children
+    - >-
+      #/get/responses/200/content/application~1hal+json/examples/response/value/_links/timeEntries/type
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/customField1
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/customField2
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/startDate
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/dueDate
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/derivedStartDate
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/derivedDueDate
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/changeParent
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/customField3
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/delete
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/logTime
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/move
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/addWatcher/payload
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/customActions
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/watch/payload
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/ancestors
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/children
+    - >-
+      #/patch/responses/200/content/application~1hal+json/examples/response/value/_links/timeEntries/type
+docs/api/apiv3/paths/work_package_attachments.yml:
+  no-invalid-media-type-examples:
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_type
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/filesize
+    - '#/post/responses/200/content/application~1hal+json/examples/response/value'
+    - >-
+      #/post/responses/200/content/application~1hal+json/examples/response/value/_links/staticDownloadLocation
+docs/api/apiv3/paths/work_package_relations.yml:
+  operation-2xx-response:
+    - '#/get/responses'
+docs/api/apiv3/components/schemas/schema_model.yml:
+  spec:
+    - '#/properties/_dependencies/type'
+docs/api/apiv3/components/schemas/time_entry_model.yml:
+  spec:
+    - '#/properties/hours/type'

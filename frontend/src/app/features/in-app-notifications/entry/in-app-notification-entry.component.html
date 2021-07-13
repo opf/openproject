@@ -1,0 +1,104 @@
+<div
+    class="op-ian-item"
+    [class.op-ian-item_expanded]="notification.expanded"
+    attr.data-qa-selector="op-ian-notification-item-{{notification.id}}"
+    [attr.data-qa-ian-read]="notification.readIAN === true || undefined"
+>
+  <button
+      type="button"
+      class="op-ian-item--row"
+      (click)="toggleDetails()"
+  >
+    <a
+        *ngIf="project"
+        class="op-ian-item--project"
+        [href]="project.showUrl"
+        [textContent]="project.title"
+        (click)="projectClicked($event)"
+        target="_blank"
+    ></a>
+    <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
+      <span
+          class="op-ian-item--title"
+          ngPreserveWhitespaces
+      >
+        <span [ngClass]="'__hl_inline_type_' + workPackage.type.id" [textContent]="workPackage.type.name">
+        </span>
+          <a
+              [attr.title]="workPackage.subject"
+              uiSref="work-packages.show"
+              [uiParams]="{workPackageId: workPackage.id}"
+              [textContent]="'#' + workPackage.id"
+              (click)="resourceLinkClicked.emit(workPackage)"
+          >
+        </a>
+        <span
+            [textContent]="workPackage.subject"
+            class="op-ian-item--work-package-subject"
+            [class.-read]="notification.readIAN"
+        >
+        </span>
+      </span>
+    </ng-container>
+    <ng-template #workPackageLoading>
+      <span
+          class="op-ian-item--title"
+          [textContent]="text.loading"
+      ></span>
+    </ng-template>
+    <ng-container *ngIf="!workPackage$">
+      <span
+          class="op-ian-item--title"
+          [textContent]="notification.subject"
+      ></span>
+    </ng-container>
+    <div
+      class="op-ian-item--actor"
+      *ngIf="actor"
+    >
+      <op-principal
+        [hide-name]="false"
+        [principal]="actor"
+        [link]="false"
+        size="medium"
+        class="op-principal_hide-name-on-mobile"
+      ></op-principal>
+    </div>
+    <div
+        class="op-ian-item--reason"
+        [textContent]="translatedReason || notification.reason"
+    ></div>
+    <div
+        class="op-ian-item--date"
+        [title]="fixedTime"
+        [textContent]="relativeTime$ | async"
+    ></div>
+  </button>
+  <div
+      *ngIf="notification.expanded"
+      class="op-ian-item--details"
+      data-qa-selector="op-ian-details"
+  >
+    <ng-container *ngIf="body.length > 0">
+      <div class="op-ian-item--body">
+        <ng-container *ngFor="let bodyItem of body">
+          <div
+              class="op-ian-item--body-item"
+              [innerHTML]="bodyItem.html"
+          >
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ul class="work-package-details-activities-messages" *ngIf="notification.details.length > 1">
+      <ng-container *ngFor="let detail of details">
+        <li *ngIf="detail.html && detail.html !== ''">
+          <span
+              class="message"
+              [innerHtml]="detail.html"
+          ></span>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

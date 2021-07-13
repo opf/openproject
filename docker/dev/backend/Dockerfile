@@ -1,4 +1,4 @@
-FROM ruby:2.7-buster as develop
+FROM ruby:2.7.4-buster as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -9,7 +9,13 @@ ENV RAILS_ENV=development
 
 ENV BUNDLER_VERSION "2.0.2"
 
-RUN useradd -d /home/$USER -m $USER
+# `--no-log-init` is required as a workaround to avoid disk exhaustion.
+#
+# Read more at:
+# * https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
+# * https://github.com/golang/go/issues/13548
+RUN useradd --no-log-init -d /home/$USER -m $USER
+
 RUN usermod -u $DEV_UID $USER
 RUN groupmod -g $DEV_GID $USER || true
 

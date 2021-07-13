@@ -197,7 +197,6 @@ sk:
             label_company: "Company"
             label_first_name: "Krstné meno"
             label_last_name: "Priezvisko"
-            label_email: "E-mail"
             label_domain: "Domain"
             label_subscriber: "Odberateľ"
             label_maximum_users: "Maximálny počet aktívnych užívateľov"
@@ -315,6 +314,7 @@ sk:
     label_board_locked: "Uzamknuté"
     label_board_plural: "Nástenky"
     label_board_sticky: "Dôležité (vždy vyššie)"
+    label_change: "Zmeniť"
     label_create: "Vytvoriť"
     label_create_work_package: "Vytvoriť nový pracovný balíček"
     label_created_by: "Vytvoril(a)"
@@ -337,6 +337,7 @@ sk:
     label_created_on: "vytvorené"
     label_edit_comment: "Upraviť tento komentár"
     label_edit_status: "Upraviť stav pracovného balíka"
+    label_email: "E-mail"
     label_equals: "je"
     label_expand: "Rozbaliť"
     label_expanded: "rozbalené"
@@ -503,6 +504,32 @@ sk:
           create_button: 'Tlačidlo <b>Vytvoriť</b> pridá nový pracovný balíček pre váš projekt.'
           timeline_button: 'Môžete aktivovať <b>Ganttov diagram</b> pre vytvorenie časového harmonogramu projektu.'
           timeline: 'Tu môžete upraviť svoj projektový plán. Vytvárať nové fázy, míľniky a pridávať závislosti. Všetci členovia tímu môžu kedykoľvek zobraziť a aktualizovať aktuálny plán.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-mail"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Všetky'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Chcem byť upozornený na zmeny, ktoré som urobil sám"
     password_confirmation:
       field_description: 'Ak chcete potvrdiť túto zmenu, musíte zadať heslo svojho účtu.'
       title: 'Ak chcete pokračovať, potvrďte svoje heslo'
@@ -1027,12 +1054,9 @@ sk:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
         next_button: 'Ďalšie'
         required:
           user: 'Please select a user'

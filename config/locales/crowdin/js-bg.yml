@@ -197,7 +197,6 @@ bg:
             label_company: "Company"
             label_first_name: "Собствено име"
             label_last_name: "Фамилно име"
-            label_email: "E-mail"
             label_domain: "Domain"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
@@ -315,6 +314,7 @@ bg:
     label_board_locked: "Заключен"
     label_board_plural: "Boards"
     label_board_sticky: "Лепкава"
+    label_change: "Промени"
     label_create: "Създаване"
     label_create_work_package: "Създаване на нов работен пакет"
     label_created_by: "Created by"
@@ -337,6 +337,7 @@ bg:
     label_created_on: "създадена на"
     label_edit_comment: "Редактиране на този коментар"
     label_edit_status: "Edit the status of the work package"
+    label_email: "E-mail"
     label_equals: "е"
     label_expand: "Разтвори"
     label_expanded: "разширена"
@@ -503,6 +504,32 @@ bg:
           create_button: 'The <b>Create</b> button will add a new work package to your project.'
           timeline_button: 'You can activate the <b>Gantt chart</b> to create a timeline for your project.'
           timeline: 'Here you can edit your project plan. Create new phases, milestones, and add dependencies. All team members can see and update the latest plan at any time.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-mail"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'All'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Искам да бъдете уведомявани за промени, които аз правя"
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
       title: 'Confirm your password to continue'
@@ -1023,12 +1050,9 @@ bg:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
         next_button: 'Следващо'
         required:
           user: 'Please select a user'

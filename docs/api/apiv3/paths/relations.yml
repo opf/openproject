@@ -1,0 +1,83 @@
+# /api/v3/relations
+---
+get:
+  parameters:
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Valid fields to filter by are:
+
+      + id - ID of relation
+
+      + from - ID of work package from which the filtered relations emanates.
+
+      + to - ID of work package to which this related points.
+
+      + involved - ID of either the `from` or the `to` work package.
+
+      + type - The type of relation to filter by, e.g. "follows".
+    example: '[{ "from": { "operator": "=", "values": 42 }" }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  - description: |-
+      JSON specifying sort criteria.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+    example: '[["type", "asc"]]'
+    in: query
+    name: sortBy
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      delete:
+                        href: "/api/v3/relations/1"
+                        method: DELETE
+                      from:
+                        href: "/api/v3/work_packages/42"
+                        title: Steel Delivery
+                      self:
+                        href: "/api/v3/relations/1"
+                      to:
+                        href: "/api/v3/work_packages/84"
+                        title: Bending the steel
+                      update:
+                        href: "/api/v3/relations/1/form"
+                        method: POST
+                      updateImmediately:
+                        href: "/api/v3/relations/1"
+                        method: PATCH
+                    _type: Relation
+                    delay: 0
+                    description: We can't bend the steel before it's been delivered!
+                    id: 1
+                    name: precedes
+                    reverseType: follows
+                    type: precedes
+                _links:
+                  self:
+                    href: "/api/v3/relations"
+                _type: Collection
+                count: 1
+                total: 3
+          schema:
+            "$ref": "../components/schemas/relations_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Relations
+  description: |-
+    Lists all relations according to the given (optional, logically conjunctive) filters and ordered by ID.
+    The response only includes relations between work packages which the user is allowed to see.
+  operationId: List_Relations
+  summary: List Relations

@@ -94,10 +94,8 @@ module API
       end
 
       link :userPreferences do
-        next unless current_user.logged?
-
         {
-          href: api_v3_paths.my_preferences
+          href: api_v3_paths.user_preferences(current_user.id)
         }
       end
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::MovesController, type: :controller do
+describe WorkPackages::MovesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { FactoryBot.create(:user) }
   let(:role) do
     FactoryBot.create :role,

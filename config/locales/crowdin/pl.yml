@@ -476,7 +476,6 @@ pl:
         force_password_change: "Wymusza zmianę hasła przy następnym logowaniu"
         language: "Język"
         last_login_on: "Ostatnie logowanie"
-        mail_notification: "Powiadomienia e-mail"
         new_password: "Nowe hasło"
         password_confirmation: "Potwierdzenie"
         consented_at: "Zgodę na"
@@ -578,7 +577,7 @@ pl:
             global: 'Globalna'
           query:
             filters:
-              minimum: "musi zawierać co najmniej jeden filtr nazwy głównej, kontekstu lub identyfikatora z operatorem „=”."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Przynajmniej jedna opcja musi być dostępna."
         custom_actions:
@@ -606,6 +605,13 @@ pl:
           overlaps: 'nałożenie.'
           outside: 'jest poza siatką.'
           end_before_start: 'wartość końcowa musi być większa niż wartość początkowa.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_email:
+              read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -756,6 +762,11 @@ pl:
       status: "Status pakietu roboczego"
       member: "Członek"
       news: "Aktualności"
+      notification:
+        one: "Notification"
+        few: "Notifications"
+        many: "Notifications"
+        other: "Notifications"
       placeholder_user: "Użytkownik zastępczy"
       project: "Projekt"
       query: "Kwerenda użytkownika"
@@ -1302,6 +1313,9 @@ pl:
   instructions_after_logout: "Możesz zalogować się ponownie klikając %{signin}."
   instructions_after_error: "Można spróbować się zalogować ponownie klikając %{signin}. Jeśli ten błąd będzie się powtarzał, poproś swojego admina o pomoc."
   menus:
+    admin:
+      mail_notification: "Powiadomienia e-mail"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Otwórz menu szybkiego dodawania"
   my_account:
@@ -1314,6 +1328,14 @@ pl:
         action: "Czynność"
         expiration: "Wygasa"
       indefinite_expiration: "Nigdy"
+  notifications:
+    work_packages:
+      subject:
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Dostępność"
   label_account: "Konto"
   label_active: "Aktywne"
@@ -1912,7 +1934,7 @@ pl:
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Twoja kopia zapasowa jest gotowa"
-  mail_subject_backup_token_reset: "Twój token kopii zapasowej został zresetowany"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "Termin wykonania %{count} pakietów roboczych kończy się w ciągu %{days} dni"
@@ -2259,6 +2281,10 @@ pl:
   setting_apiv3_cors_origins: "Dozwolone źródła mechanizmu Cross-Origin Resource Sharing (CORS) interfejsu API V3"
   setting_apiv3_cors_origins_text_html: >
     Jeśli mechanizm CORS jest włączony, są to źródła, których dostęp do interfejsu API OpenProject jest dozwolony. <br/> Sprawdź w <a href="%{origin_link}" target="_blank">dokumentacji nagłówka origin</a> jak należy określić oczekiwane wartości.
+  setting_apiv3_docs: "Dokumentacja"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Metoda dostarczenia maila"
   setting_sendmail_location: "Lokalizacja pliku wykonywalnego sendmail"
   setting_smtp_enable_starttls_auto: "Automatycznie użyj STARTTLS, jeśli jest dostępny"
@@ -2295,7 +2321,6 @@ pl:
   setting_first_week_of_year: "Pierwszy tydzień w roku zawiera"
   setting_date_format: "Format daty"
   setting_default_language: "Język domyślny"
-  setting_default_notification_option: "Domyślna opcja powiadomienia"
   setting_default_projects_modules: "Domyślnie włączone moduły dla nowych projektów"
   setting_default_projects_public: "Nowe projekty są publiczne (domyślnie)"
   setting_diff_max_lines_displayed: "Maksymalna wyświetlana liczba linii różnic"
@@ -2305,6 +2330,8 @@ pl:
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
   setting_enabled_projects_columns: "Widoczny na liście projektów"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
   setting_feeds_enabled: "Włącz kanały"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
@@ -2318,7 +2345,7 @@ pl:
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
   setting_work_packages_export_limit: "Limit eksportowanych pakietów roboczych"
-  setting_journal_aggregation_time_minutes: "Wyświetl dzienniki jako zagregowane"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Rejestrowanie loginu, nazwy i adresu e-mail użytkownika dla wszystkich żądań"
   setting_login_required: "Wymagane uwierzytelnienie"
   setting_mail_from: "Adres emisji"
@@ -2373,6 +2400,10 @@ pl:
     passwords: "Hasła"
     session: "Sesja"
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Jeśli ustawiona jest opcja „%{day_of_week_setting_name}” albo „%{first_week_setting_name}”, druga musi zostać ustawiona w taki sposób, aby uniknąć niespójności we frontendzie.
@@ -2453,7 +2484,7 @@ pl:
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Połącz dzienniki dla wyświetlania, jeśli ich różnica wiekowa jest poniżej wskazanej wartości. To opóźni dostawę powiadomień mailowych o ten sam czas."
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: "%{label} zmieniono z %{old} <br/><strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} zmieniono z %{old} \nna %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -2483,7 +2514,7 @@ pl:
   text_regexp_info: "np. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Wyrażenie regularne jest stosowane w trybie wielolinijkowym. np. ^---\s+'
   text_repository_usernames_mapping: "Wybierz lub zaktualizuj użytkownika OpenProject do każdego użytkownika w dzienniku repozytorium.\nUżytkownicy z tym samym loginem lub adresem e-mail w OpenProject i repozytorium są automatycznie mapowani."
-  text_select_mail_notifications: "Wybierz akcje które mają być przesyłane powiadomieniami e-mail."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Zastosowane w zbiorze zmian %{value}."
   text_table_difference_description: "W tej tabeli wyświetlane sa pojedyncze %{entries}. Możesz porównać dwa elementy poprzez odznaczenie odpowiadających im pól wyboru. Po kliknięciu na przycick na dole wyświetlane są różnice."
   text_time_logged_by_changeset: "Zastosowane w zbiorze zmian %{value}."
@@ -2710,10 +2741,6 @@ pl:
     password_change_unsupported: Zmiana hasła nie jest obsługiwana.
     registered: "zarejestrowany"
     reset_failed_logins: "Resetuj nieudane logowania"
-    settings:
-      mail_notifications: "Wyślij powiadomienia emailem"
-      mail_project_explanaition: "W przypadku niezaznaczonych projektów, będziesz otrzymywać powiadomienia, które obserwujesz lub które dotyczą Ciebie (np. zadania, w których jesteś autorem lub osobą przypisaną)."
-      mail_self_notified: "Chcę być powiadamiany o zmianach, które sam wprowadzam"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Zmiana statusu"
     text_change_disabled_for_provider_login: "Nazwa jest ustawiana przez dostawcę usług logowania i dlatego nie można jej zmienić."

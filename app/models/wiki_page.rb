@@ -143,7 +143,7 @@ class WikiPage < ApplicationRecord
   end
 
   def content_for_version(version = nil)
-    journal = content.versions.find_by(version: version.to_i) if version
+    journal = content.journals.find_by(version: version.to_i) if version
 
     if journal.nil? || content.version == journal.version
       content
@@ -161,15 +161,15 @@ class WikiPage < ApplicationRecord
     version_from = version_from ? version_from.to_i : version_to - 1
     version_to, version_from = version_from, version_to unless version_from < version_to
 
-    content_to = content.versions.find_by(version: version_to)
-    content_from = content.versions.find_by(version: version_from)
+    content_to = content.journals.find_by(version: version_to)
+    content_from = content.journals.find_by(version: version_from)
 
     content_to && content_from ? Wikis::Diff.new(content_to, content_from) : nil
   end
 
   def annotate(version = nil)
     version = version ? version.to_i : content.version
-    c = content.versions.find_by(version: version)
+    c = content.journals.find_by(version: version)
     c ? Wikis::Annotate.new(c) : nil
   end
 

@@ -13,7 +13,7 @@ Welcome to the OpenProject **Enterprise cloud edition guide**.
 ![image-20200113133750107](image-20200113133750107.png)
 
 <div class="alert alert-info" role="alert">
-**Note**: This guide only describes the management of your Enterprise cloud. The feature descriptions are included in the respective parts of the OpenProject [user guide](../user-guide).
+**Note**: This guide only describes the management of your Enterprise cloud. The feature descriptions are included in the respective parts of the OpenProject [user guide](../../user-guide).
 </div>
 
 

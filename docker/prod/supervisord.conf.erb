@@ -1,0 +1,90 @@
+[supervisord]
+nodaemon=true
+user=root
+
+[unix_http_server]
+file=/var/run/supervisor.sock
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[program:web]
+priority=4
+user=app
+environment=HOME="/home/%(ENV_APP_USER)s",USER="%(ENV_APP_USER)s"
+directory=%(ENV_APP_PATH)s
+command=./docker/prod/web
+autorestart=true
+stderr_logfile = /dev/stderr
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+
+[program:worker]
+priority=5
+user=app
+environment=HOME="/home/%(ENV_APP_USER)s",USER="%(ENV_APP_USER)s"
+directory=%(ENV_APP_PATH)s
+command=./docker/prod/worker
+startretries=10
+autorestart=true
+stderr_logfile = /dev/stderr
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+
+[program:memcached]
+priority=100
+user=app
+environment=HOME="/home/%(ENV_APP_USER)s",USER="%(ENV_APP_USER)s"
+command=/usr/bin/memcached
+autorestart=true
+stderr_logfile = /dev/stderr
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+
+[program:cron]
+priority=100
+user=app
+environment=HOME="/home/%(ENV_APP_USER)s",USER="%(ENV_APP_USER)s"
+directory=%(ENV_APP_PATH)s
+command=./docker/prod/cron
+autostart=false
+autorestart=true
+stderr_logfile = /dev/stderr
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+
+[program:apache2]
+priority=2
+directory=%(ENV_APP_PATH)s
+command=./docker/prod/proxy
+stderr_logfile = /dev/stderr
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+
+[program:postfix]
+priority=100
+directory=/etc/postfix
+command=/usr/sbin/postfix -c /etc/postfix start
+startsecs=0
+autorestart=false
+stderr_logfile = /dev/stderr
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+
+<% if URI(ENV.fetch("DATABASE_URL")).host == "127.0.0.1" %>
+[program:postgres]
+user=postgres
+priority=1
+command=%(ENV_PGBIN)s/postgres -D %(ENV_PGDATA)s -c config_file=%(ENV_PGCONF_FILE)s
+autorestart=true
+stderr_logfile = /dev/stderr
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+<% end %>

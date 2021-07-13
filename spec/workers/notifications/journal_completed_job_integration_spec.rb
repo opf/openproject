@@ -66,7 +66,7 @@ describe Notifications::JournalCompletedJob, type: :model do
         expect(OpenProject::Notifications)
           .to receive(:send)
           .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-                journal: an_instance_of(Journal::AggregatedJournal),
+                journal: an_instance_of(Journal),
                 send_mail: send_mail)
 
         subject
@@ -87,16 +87,6 @@ describe Notifications::JournalCompletedJob, type: :model do
     context 'non-existant journal' do
       before do
         journal.destroy
-      end
-
-      it_behaves_like 'sends no notification'
-    end
-
-    context 'outdated journal' do
-      before do
-        # make sure there is a later journal, that supersedes the original one
-        work_package.subject = 'changed subject'
-        work_package.save!
       end
 
       it_behaves_like 'sends no notification'
@@ -130,129 +120,6 @@ describe Notifications::JournalCompletedJob, type: :model do
         it_behaves_like 'sends notification'
       end
     end
-
-    describe 'mail suppressing aggregation' do
-      # business logic of whether to send or not to send a mail is mainly driven by the presence
-      # of an aggregated journal. However, there is an edge case that could lead to a notification
-      # getting lost. Sadly this is very implementation specific, so I'll describe it:
-      #  Journal 1: comment
-      #  Journal 2: change (this can also be multiple journals)
-      #  Journal 3: comment
-      #
-      # The Job for the first journal will not send any mail, because Journal 2 supersedes it.
-      # However, after adding Journal 3, the aggregation will look like (1), (2, 3). Therefore the
-      # job for Journal 2 will not send a notification. Finally the job for Journal 3 will send a
-      # notification, but only containing the changes of 2 and 3. The comment of journal 1 is lost.
-      # Therefore two things have to happen:
-      # - someone needs to send notifications for the hidden journal
-      #   (done by JournalNotificationMailer)
-      # - in case a journal is hidden, its Job is not allowed to enqueue a mail for it
-      #   (because someone else will do it on behalf)
-      #   This is important since late exec of a Job might cause it to _not_ skip notifications
-
-      before do
-        change = { subject: 'new subject' }
-        note = { journal_notes: 'a comment' }
-
-        allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
-        service = WorkPackages::UpdateService.new(user: author, model: work_package)
-
-        expect(service.call(**note)).to be_success
-        expect(service.call(**change)).to be_success
-        expect(service.call(**note)).to be_success
-      end
-
-      let(:timeout) { Setting.journal_aggregation_time_minutes.to_i.minutes }
-      let(:journal_1) { work_package.journals[1] }
-      let(:journal_2) { work_package.journals[2] }
-      let(:journal_3) { work_package.journals[3] }
-
-      context 'all changes happen within the timeout of journal 1' do
-        # The job for 1 will know, that Journal 3 took its addition.
-        # The job for 2 will know, that it has become part of Journal 3.
-        #  -> no special behaviour required
-
-        context 'for journal 1' do
-          let(:journal) { journal_1 }
-
-          it_behaves_like 'sends notification' # for journal 1
-        end
-
-        context 'for journal 2' do
-          let(:journal) { journal_2 }
-
-          it_behaves_like 'sends no notification'
-        end
-
-        context 'for journal 3' do
-          let(:journal) { journal_3 }
-
-          it_behaves_like 'sends notification' # for journals 2 and 3
-        end
-      end
-
-      context 'journal 3 created after timeout of 1, but inside of timeout for 2' do
-        # Job 1 will not send a mail because it does not know about journal 3
-        #   (thinking 2 will take its mail)
-        # The mail of Job 1 is taken over by the JournalNotificationMailer for Journal 3
-        # Even if Job 1 knew of journal 3 (due to late execution), it was not allowed to send a mail
-        #   (that would cause a duplicate mail delivery)
-
-        before do
-          journal_2.created_at = journal_1.created_at + (timeout / 2)
-          journal_3.created_at = journal_1.created_at + timeout + 5.seconds
-          journal_2.save!
-          journal_3.save!
-        end
-
-        context 'for journal 1' do
-          let(:journal) { journal_1 }
-
-          it_behaves_like 'sends no notification'
-        end
-
-        context 'for journal 2' do
-          let(:journal) { journal_2 }
-
-          it_behaves_like 'sends no notification'
-        end
-
-        context 'for journal 3' do
-          let(:journal) { journal_3 }
-
-          it_behaves_like 'sends notification' # for journals 1, 2 and 3
-        end
-      end
-
-      context 'journal 3 created after timeout of 1 and 2' do
-        # This is a normal case again, ensuring nobody takes responsibility when not necessary.
-
-        before do
-          journal_2.created_at = journal_1.created_at + (timeout / 2)
-          journal_3.created_at = journal_2.created_at + timeout + 5.seconds
-          journal_2.save!
-          journal_3.save!
-        end
-
-        context 'for journal 1' do
-          let(:journal) { journal_1 }
-
-          it_behaves_like 'sends no notification'
-        end
-
-        context 'for journal 2' do
-          let(:journal) { journal_2 }
-
-          it_behaves_like 'sends notification' # for journals 1 and 2
-        end
-
-        context 'for journal 3' do
-          let(:journal) { journal_3 }
-
-          it_behaves_like 'sends notification' # for journal 3
-        end
-      end
-    end
   end
 
   context 'for wiki page content' do
@@ -275,7 +142,7 @@ describe Notifications::JournalCompletedJob, type: :model do
       expect(OpenProject::Notifications)
         .to receive(:send)
         .with(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY,
-              journal: an_instance_of(Journal::AggregatedJournal),
+              journal: an_instance_of(Journal),
               send_mail: send_mail)
 
       subject

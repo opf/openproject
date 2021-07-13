@@ -157,14 +157,6 @@ describe Attachment, type: :model do
       expect(attachment.content_type).to eq 'image/jpeg'
     end
 
-    context 'with wrong content-type' do
-      let(:file) { FactoryBot.create :uploaded_jpg, content_type: 'text/html' }
-
-      it 'detects the correct content-type' do
-        expect(attachment.content_type).to eq 'image/jpeg'
-      end
-    end
-
     it 'has the correct filesize' do
       expect(attachment.filesize)
         .to eql file.size

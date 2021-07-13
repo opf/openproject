@@ -1,0 +1,105 @@
+// TODO: Check out -danger-zone and modal-close-button patterns
+.op-modal
+  --modal-padding: 2rem
+
+  position: relative
+  display: flex
+  flex-direction: column
+  align-items: stretch
+  background: white
+  pointer-events: all
+
+  width: 40rem
+  min-height: 500px
+
+  max-width: 100vw
+  max-height: 100vh
+
+  overflow-y: auto
+  @include styled-scroll-bar
+
+  @media (max-width: 680px), (max-height: 500px)
+    --modal-padding: 1rem
+    height: 100vh
+    width: 100vw
+    min-height: unset
+
+  &_wide
+    width: 70rem
+    min-height: 40vh
+
+  &_fullscreen
+    width: 100vw
+    height: 100vh
+
+  &_autoheight
+    min-height: initial
+
+  &--header
+    display: flex
+    padding: calc(0.5 * var(--modal-padding)) var(--modal-padding) calc(0.5 * var(--modal-padding)) var(--modal-padding)
+    position: relative
+    border-bottom: 1px solid #eee
+    align-items: center
+
+    &_highlight
+      background-color: var(--header-bg-color)
+      border-bottom-width: var(--header-border-bottom-width)
+      border-bottom-color: var(--header-border-bottom-color)
+
+      *
+        color: var(--header-item-font-color)
+
+  &--body
+    display: flex
+    flex-direction: column
+    padding: var(--modal-padding)
+    flex-grow: 1
+    flex-shrink: 1
+    overflow-y: auto
+
+    &:focus
+      outline-style: none
+
+    &_limited-height
+      max-height: 50vh
+
+    &_center
+      justify-content: center
+      align-items: center
+      text-align: center
+
+  &--title
+    font-size: 1.3rem 
+    padding: 0
+    margin: 0
+    margin-right: auto
+
+  &--footer
+    display: flex
+    justify-content: flex-end
+    padding: calc(0.5 * var(--modal-padding)) var(--modal-padding) var(--modal-padding) var(--modal-padding) 
+    width: 100%
+
+    .button
+      margin-bottom: 0
+
+    @media (max-width: 680px), (max-height: 500px)
+      padding: var(--modal-padding) 
+
+  &--close-button
+    height: 100%
+    width: 3rem
+    padding: 0.45rem 0
+    margin: 0 -1rem
+    display: flex
+    justify-content: center
+    align-items: center
+    cursor: pointer
+    color: var(--body-font-color)
+    background: transparent
+    border: 0
+
+    &:hover
+      text-decoration: none
+      color: var(--content-link-color)

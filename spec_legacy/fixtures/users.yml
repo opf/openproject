@@ -39,7 +39,6 @@ users_004:
   firstname: Robert
   id: 4
   auth_source_id:
-  mail_notification: all
   login: rhill
   type: User
   first_login: false
@@ -55,7 +54,6 @@ users_001:
   firstname: redMine
   id: 1
   auth_source_id:
-  mail_notification: all
   login: admin
   type: User
   first_login: false
@@ -71,7 +69,6 @@ users_002:
   firstname: John
   id: 2
   auth_source_id:
-  mail_notification: all
   login: jsmith
   type: User
   first_login: false
@@ -120,7 +117,6 @@ users_006:
   lastname: Anonymous
   firstname: ''
   auth_source_id:
-  mail_notification: only_my_events
   login: ''
   type: AnonymousUser
   first_login: false

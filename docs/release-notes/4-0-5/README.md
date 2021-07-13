@@ -36,7 +36,7 @@ fixing this bug\!
 Finally, syntax highlighting is working again (e.g. in the wiki and
 repository):
 
-![SyntaxHighlighting](http://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2015/01/SyntaxHighlighting.png)
+![SyntaxHighlighting](SyntaxHighlighting.png)
 
 In the Translations plugin an error was fixed which caused translations
 in the work package list not to be displayed properly

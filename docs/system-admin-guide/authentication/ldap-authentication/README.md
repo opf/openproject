@@ -37,7 +37,7 @@ In the upper section, you have to specify the connection details of your LDAP se
 
 
 
-- **Name:** Arbitrary identifier used to show which authentication source a user is coming from (e.g., in the [Administration > Users view](https://www.openproject.org/help/administration/manage-users/))
+- **Name:** Arbitrary identifier used to show which authentication source a user is coming from (e.g., in the [Administration > Users view](../../users-permissions/users/))
 - **Host:** Full hostname to the LDAP server
 - **Port :** LDAP port. Will usually be 389 for LDAP and StartTLS and 636 for LDAP over SSL connections.
 - **Connection encryption**: Select the appropriate connection encryption.
@@ -52,7 +52,7 @@ In the upper section, you have to specify the connection details of your LDAP se
 
 If you use `start_tls` , certificate details and host names will be verified on connections as recommended for security. In case you use a custom untrusted certificate authority (CA) that your LDAP is connecting to, you can place this CA in your system's trusted CA store if possible. For some distributions, you will need to specify this CA manually to OpenProject.
 
-You can do this by using the [advanced configuration](https://docs.openproject.org/installation-and-operations/configuration/) function of OpenProject. You can define the CA path by setting the following ENV variable:
+You can do this by using the [advanced configuration](../../../installation-and-operations/configuration/) function of OpenProject. You can define the CA path by setting the following ENV variable:
 
 ```bash
 OPENPROJECT_LDAP__TLS__OPTIONS_CA__FILE="/path/to/the/root-ca.crt"

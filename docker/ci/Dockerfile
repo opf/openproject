@@ -1,4 +1,4 @@
-FROM ruby:2.7-buster
+FROM ruby:2.7.4-buster
 MAINTAINER operations@openproject.com
 
 ENV NODE_VERSION="14.17.0"
@@ -15,7 +15,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/a
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    postgresql-9.6 postgresql-client-9.6 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
+    postgresql-9.6 postgresql-client-9.6 postgresql-13 postgresql-client-13 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
 
 RUN wget --no-verbose -O /tmp/$(basename $CHROME_SOURCE_URL) $CHROME_SOURCE_URL && \
   apt install -y /tmp/$(basename $CHROME_SOURCE_URL) && rm -f /tmp/$(basename $CHROME_SOURCE_URL)
@@ -30,6 +30,7 @@ ENV CAPYBARA_DOWNLOADED_FILE_DIR=/tmp
 # disable deprecations and other warnings in output
 ENV RUBYOPT="-W0"
 ENV DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1/app
+ENV PGVERSION=13
 
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 

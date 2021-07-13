@@ -28,7 +28,7 @@ In order to see a project and work in it, you have to be a member of a project. 
 | [Groups as project members](#behavior-of-groups-as-project-members) | Understand the effects of adding groups as project members.  |
 | [Placeholder users as project members](#behavior-of-placeholder-users-as-project-members) | Understand how to differentiate between regular users and placeholder users. |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## View members
 

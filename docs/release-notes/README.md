@@ -1,5 +1,9 @@
 ---
-  unnumbered_toc: true
+unnumbered_toc: true
+sidebar_navigation:
+  title: Release Notes
+  priority: 930
+robots: index, follow
 ---
 
 # Release Notes
@@ -11,6 +15,13 @@ Stay up to date and get an overview of the new features included in the releases
 
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
+
+## 11.3.2
+
+Release date: 2021-06-10
+
+[Release Notes](11-3-2/)
+
 
 ## 11.3.1
 

@@ -197,7 +197,6 @@ lt:
             label_company: "Kompanija"
             label_first_name: "Vardas"
             label_last_name: "Pavardė"
-            label_email: "El. paštas"
             label_domain: "Domenas"
             label_subscriber: "Prenumeruotojas"
             label_maximum_users: "Maksimalus aktyvių vartotojų skaičius"
@@ -315,6 +314,7 @@ lt:
     label_board_locked: "Užrakinta"
     label_board_plural: "Lentos"
     label_board_sticky: "Lipnus"
+    label_change: "Pakeisti"
     label_create: "Sukurti"
     label_create_work_package: "Sukurti naują darbų paketą"
     label_created_by: "Sukurta"
@@ -337,6 +337,7 @@ lt:
     label_created_on: "sukurta"
     label_edit_comment: "Redaguoti šį komentarą"
     label_edit_status: "Redaguoti darbų paketo būsena"
+    label_email: "El. paštas"
     label_equals: "yra"
     label_expand: "Išskleisti"
     label_expanded: "išskleistas"
@@ -503,6 +504,32 @@ lt:
           create_button: 'Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.'
           timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
           timeline: 'Čia jūs galite redaguoti savo projekto planą. Kurti naujus etapus, etapai, ir pridėti priklausomybių. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+    notifications:
+      title: "Pranešimai"
+      channel: "Kanalas"
+      channels:
+        in_app: "Programoje"
+        mail: "El. paštas"
+      reasons:
+        mentioned: 'paminėtas'
+        watched: 'stebimas'
+        involved: 'įtrauktas'
+      facets:
+        unread: 'Neskaitytas'
+        all: 'Visi'
+      center:
+        mark_all_read: 'Pažymėti visus kaip perskaitytus'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Numatytasis visiems projektams'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'Visi įvykiai'
+        add: 'Add setting for project'
+        remove_projects: 'Pašalinti pranešimus projektams'
+        title: "Pranešimų nustatymai"
+        self_notify: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'
@@ -1027,12 +1054,9 @@ lt:
         already_member_message: 'Jau yra %{project} narys'
         no_results_user: 'Nerasta jokių vartotojų.'
         invite_user: 'Pakviesti:'
-        change_user_selection: 'Pakeiskite el. pašto adresą arba pasirinkite jau esamą vartotoją'
         no_results_placeholder: 'Nerasta jokių statytinių vartotojų.'
-        change_placeholder_selection: 'Pakeiskite vardą arba pasirinkite jau esamą statytinį vartotoją'
         create_new_placeholder: 'Sukurkite naują statytinį vartotoją:'
         no_results_group: 'Nerasta jokių grupių.'
-        change_group_selection: 'Pakeiskite vardą arba pasirinkite jau esamą grupę'
         next_button: 'Kitas'
         required:
           user: 'Pasirinkite naudotoją'

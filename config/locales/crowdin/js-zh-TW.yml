@@ -196,7 +196,6 @@ zh-TW:
             label_company: "Company"
             label_first_name: "名字"
             label_last_name: "姓："
-            label_email: "電子郵件"
             label_domain: "Domain"
             label_subscriber: "訂閱者"
             label_maximum_users: "最大活動使用者數"
@@ -229,11 +228,11 @@ zh-TW:
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "專業支援"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "開始免費試用"
+          button_book_now: "立即預約"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+          link_quote: "獲取報價"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
@@ -314,6 +313,7 @@ zh-TW:
     label_board_locked: "鎖定"
     label_board_plural: "看板"
     label_board_sticky: "附著"
+    label_change: "變更"
     label_create: "建立"
     label_create_work_package: "建立新的工作項目"
     label_created_by: "建立由"
@@ -336,6 +336,7 @@ zh-TW:
     label_created_on: "建立於"
     label_edit_comment: "編輯此評論"
     label_edit_status: "編輯工作項目的狀態"
+    label_email: "電子郵件"
     label_equals: "是"
     label_expand: "展開"
     label_expanded: "已展開"
@@ -502,6 +503,32 @@ zh-TW:
           create_button: '<b>創建</b>按鍵將新增一個工作包至您的專案'
           timeline_button: '您可啟用<b>甘特圖</b>來建立您專案的時間軸'
           timeline: '在這裡您可以編輯您的專案計畫．建立新的階段，里程碑以及相依來源．所有的隊員都可在任何時候檢視及更新最新的計畫．'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "電子郵件"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: '全部'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "我想要在我自己有變更的時候被通知"
     password_confirmation:
       field_description: '您需要輸入您的帳戶密碼，以確認此更改。'
       title: '確認您的密碼以便繼續'
@@ -1020,12 +1047,9 @@ zh-TW:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
         no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
         create_new_placeholder: 'Create new placeholder:'
         no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
         next_button: '下一個'
         required:
           user: 'Please select a user'

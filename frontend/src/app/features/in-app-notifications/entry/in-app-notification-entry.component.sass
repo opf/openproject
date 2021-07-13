@@ -1,0 +1,89 @@
+@import "src/assets/sass/helpers"
+
+$ian-bg-color: #F9F9F9
+$ian-bg-hover-color: #F1F8FF
+
+.op-ian-item
+  background: $ian-bg-color
+  margin: 0 0 10px 0
+  padding: 5px 10px
+  font-size: 0.9rem
+  border: 1px solid var(--content-default-border-color)
+  border-radius: 2px
+  // This needs to be set in the itemSize of
+  // the virtual scroller
+  height: 50px
+
+  &_expanded
+    height: auto
+    display: grid
+    grid-template-rows: auto 1fr
+    grid-gap: 0.5rem
+
+  &:hover
+    background: $ian-bg-hover-color
+
+  &--row
+    @include unset-button-styles
+    width: 100%
+    display: grid
+    grid-template-columns: 1fr 20% 15% 15%
+    grid-template-rows: 1fr 1fr
+    grid-template-areas: "project actor reason date" "title actor reason date"
+    grid-gap: 0.5rem
+    align-items: center
+
+    @media screen and (max-width: 679px)
+      grid-template-columns: 1fr 35px 30%
+      grid-template-rows: auto 1fr
+      grid-template-areas: "project actor reason" "title actor date"
+
+
+  &--indicator
+    width: 10px
+    height: 10px
+    margin-right: 0.5rem
+    display: block
+    background: var(--primary-color)
+    border-radius: 50%
+
+    &_read
+      background: #AFAFAF
+
+  &--work-package-subject
+    font-weight: bold
+    &.-read
+      font-weight: normal
+
+  &--project
+    grid-area: project
+    font-size: 0.8rem
+    color: var(--gray-dark)
+    @include text-shortener
+
+  &--reason,
+  &--date
+    color: var(--gray-dark)
+
+  &--title
+    grid-area: title
+    @include text-shortener
+
+  &--reason
+    grid-area: reason
+    @include text-shortener
+    max-width: 100%
+    @media screen and (max-width: 679px)
+      justify-self: end
+
+  &--date
+    grid-area: date
+    justify-self: end
+    text-align: end
+    @include text-shortener(false)
+    white-space: nowrap
+    max-width: 100%
+
+  &--actor
+    grid-area: actor
+    @include text-shortener

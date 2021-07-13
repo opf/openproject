@@ -99,19 +99,19 @@ Furthermore, with 11.2 we have implemented various UI and UX  improvements for O
 To use OpenProject 11.2 right away, create a free trial instance for our [OpenProject Enterprise cloud.](https://start.openproject.com/)
 
 Prefer to run OpenProject 11.2 in your own infrastructure?
- Here you can find the [Installation guidelines](https://docs.openproject.org/installation-and-operations) for OpenProject.
+ Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
 
 Want to upgrade from a Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition/)
 
 ## Migrating to OpenProject 11.2
 
-Follow the [upgrade guide for the packaged installation or Docker installation](https://docs.openproject.org/installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.2.
+Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.2.
 
 We update hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Support
 
-You will find useful information in the OpenProject [Documentation](https://docs.openproject.org) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+You will find useful information in the OpenProject [Documentation](https://www.openproject.org/docs) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
 
 ## Credits
 
@@ -125,6 +125,6 @@ Special thanks go to all OpenProject contributors without whom this release woul
 
 - Thank you for the updates of our documentation, cugu, txsing, luzpaz, Amandine-Malo, marcelotm23, ivangriggs, Siltes, loganwedwards.
 
-- Every dedicated user who has [reported bugs](https://docs.openproject.org/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has [reported bugs](../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 
 - All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

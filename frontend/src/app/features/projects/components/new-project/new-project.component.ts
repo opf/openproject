@@ -1,0 +1,139 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { StateService, UIRouterGlobals } from '@uirouter/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+
+export interface ProjectTemplateOption {
+  href:string|null;
+  name:string;
+}
+
+@Component({
+  selector: 'op-new-project',
+  templateUrl: './new-project.component.html',
+  styleUrls: ['./new-project.component.sass'],
+})
+export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
+  formUrl:string|null;
+
+  resourcePath:string;
+
+  dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
+
+  fieldGroups:IDynamicFieldGroupConfig[];
+
+  initialPayload = {};
+
+  text = {
+    use_template: this.I18n.t('js.project.use_template'),
+    no_template_selected: this.I18n.t('js.project.no_template_selected'),
+    advancedSettingsLabel: this.I18n.t('js.forms.advanced_settings'),
+  };
+
+  hiddenFields:string[] = [
+    'identifier',
+    'sendNotifications',
+    'active',
+  ];
+
+  copyableTemplateFilter = new ApiV3FilterBuilder()
+    .add('user_action', '=', ['projects/copy']) // no null values
+    .add('templated', '=', true);
+
+  templateOptions$:Observable<ProjectTemplateOption[]> =
+  this
+    .apiV3Service
+    .projects
+    .filtered(this.copyableTemplateFilter)
+    .get()
+    .pipe(
+      map((response) => response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),
+    );
+
+  templateForm = new FormGroup({
+    template: new FormControl(),
+  });
+
+  get templateControl() {
+    return this.templateForm.get('template');
+  }
+
+  @ViewChild(DynamicFormComponent) dynamicForm:DynamicFormComponent;
+
+  constructor(
+    private apiV3Service:APIV3Service,
+    private uIRouterGlobals:UIRouterGlobals,
+    private pathHelperService:PathHelperService,
+    private modalService:OpModalService,
+    private $state:StateService,
+    private I18n:I18nService,
+  ) {
+    super();
+  }
+
+  ngOnInit():void {
+    this.resourcePath = this.apiV3Service.projects.path;
+    this.fieldGroups = [{
+      name: this.text.advancedSettingsLabel,
+      fieldsFilter: (field) => !['name', 'parent'].includes(field.templateOptions?.property!)
+        && !(field.templateOptions?.required
+        && !field.templateOptions.hasDefault
+        && field.templateOptions.payloadValue == null),
+    }];
+
+    if (this.uIRouterGlobals.params.parent_id) {
+      this.setParentAsPayload(this.uIRouterGlobals.params.parent_id);
+    }
+  }
+
+  onSubmitted(response:HalSource) {
+    if (response._type === 'JobStatus') {
+      this.modalService.show(JobStatusModalComponent, 'global', { jobId: response.jobId });
+    } else {
+      window.location.href = this.pathHelperService.projectPath(response.identifier as string);
+    }
+  }
+
+  onTemplateSelected(selected:{ href:string|null }) {
+    this.initialPayload = {
+      ...this.initialPayload,
+      name: this.dynamicForm.model.name,
+    };
+    this.formUrl = selected?.href ? `${selected.href}/copy` : null;
+  }
+
+  private isHiddenField(key:string|undefined):boolean {
+    return !!key && (this.hiddenFields.includes(key) || this.isMeta(key));
+  }
+
+  private isMeta(key:string):boolean {
+    return key.startsWith('_meta.');
+  }
+
+  private setParentAsPayload(parentId:string) {
+    const href = this.apiV3Service.projects.id(parentId).path;
+
+    this.initialPayload = {
+      _links: {
+        parent: {
+          href,
+        },
+      },
+    };
+  }
+
+  private fieldSettingsPipe(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
+    return dynamicFieldsSettings.map((field) => ({ ...field, hide: this.isHiddenField(field.key) }));
+  }
+}

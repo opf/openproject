@@ -33,13 +33,13 @@ describe Projects::UpdateContract do
   it_behaves_like 'project contract' do
     let(:project) do
       FactoryBot.build_stubbed(:project,
-                               identifier: project_identifier,
                                active: project_active,
                                public: project_public,
                                status: project_status).tap do |p|
         # in order to actually have something changed
         p.name = project_name
         p.parent = project_parent
+        p.identifier = project_identifier
       end
     end
     let(:permissions) { [:edit_project] }

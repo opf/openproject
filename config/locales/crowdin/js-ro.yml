@@ -196,7 +196,6 @@ ro:
             label_company: "Companie"
             label_first_name: "Prenume"
             label_last_name: "Nume"
-            label_email: "E-mail"
             label_domain: "domeniu"
             label_subscriber: "Abonat"
             label_maximum_users: "Număr maxim de utilizatori activi"
@@ -314,6 +313,7 @@ ro:
     label_board_locked: "Închis"
     label_board_plural: "Panouri"
     label_board_sticky: "Lipicios"
+    label_change: "Modificare"
     label_create: "Creare"
     label_create_work_package: "Creare pachet de lucru nou"
     label_created_by: "Creat de"
@@ -336,6 +336,7 @@ ro:
     label_created_on: "creat la data de"
     label_edit_comment: "Editare comentariu"
     label_edit_status: "Editați starea pachetului de lucru"
+    label_email: "E-mail"
     label_equals: "este"
     label_expand: "Extindere"
     label_expanded: "extins"
@@ -502,6 +503,32 @@ ro:
           create_button: 'Butonul <b>Create (Creare</b> ) va adăuga un nou pachet de lucru la proiectul dumneavoastră.'
           timeline_button: 'Puteți activa <b>diagrama Gantt</b> pentru a crea o cronologie pentru proiectul dvs.'
           timeline: 'Aici vă puteți edita planul de proiect. Creați noi faze, repere și adăugați dependențe. Toți membrii echipei pot vedea și actualiza cel mai recent plan în orice moment.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      channels:
+        in_app: "In-app"
+        mail: "E-mail"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Toate'
+      center:
+        mark_all_read: 'Mark all as read'
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        all: 'All events'
+        add: 'Add setting for project'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Vreau să fiu notificat pentru modificările pe care le fac eu"
     password_confirmation:
       field_description: 'Trebuie să introduceţi parola contului dumneavoastră pentru a confirma această schimbare.'
       title: 'Vă rugăm să confirmați parola dumneavoastră pentru a continua'
@@ -1024,12 +1051,9 @@ ro:
         already_member_message: 'Deja membru al %{project}'
         no_results_user: 'Nu au fost găsiți utilizatori'
         invite_user: 'Invită'
-        change_user_selection: 'Modificarea adresei de e-mail sau selectarea unui utilizator existent'
         no_results_placeholder: 'Nu au fost găsiți spații libere'
-        change_placeholder_selection: 'Schimbați numele sau selectați un marcaj existent'
         create_new_placeholder: 'Creați un nou spațiu rezervat:'
         no_results_group: 'Nu au fost găsite grupuri'
-        change_group_selection: 'Modificați numele sau selectați un grup existent'
         next_button: 'Înainte'
         required:
           user: 'Vă rugăm să selectați un utilizator'
