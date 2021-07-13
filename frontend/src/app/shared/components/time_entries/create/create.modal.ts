@@ -6,7 +6,6 @@ import { TimeEntryBaseModal } from '../shared/modal/base.modal';
 
 @Component({
   templateUrl: '../shared/modal/base.modal.html',
-  styleUrls: ['../shared/modal/base.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,

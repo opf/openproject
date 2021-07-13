@@ -111,24 +111,24 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <ng-container *ngIf="!isSchedulable">
-    <div class="notification-box -info">
-      <div class="notification-box--content">
-        <ng-container *ngIf="isParent">
-          <p [textContent]="text.isParent"></p>
-        </ng-container>
-        <ng-container *ngIf="isSwitchedFromManualToAutomatic && !isParent">
-          <p [textContent]="text.isSwitchedFromManualToAutomatic"></p>
-        </ng-container>
+    <ng-container *ngIf="!isSchedulable">
+      <div class="notification-box -info">
+        <div class="notification-box--content">
+          <ng-container *ngIf="isParent">
+            <p [textContent]="text.isParent"></p>
+          </ng-container>
+          <ng-container *ngIf="isSwitchedFromManualToAutomatic && !isParent">
+            <p [textContent]="text.isSwitchedFromManualToAutomatic"></p>
+          </ng-container>
+        </div>
       </div>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="isSchedulable">
-    <input id="flatpickr-input"
-           hidden>
-  </ng-container>
+    </ng-container>
+    <ng-container *ngIf="isSchedulable">
+      <input id="flatpickr-input"
+             hidden>
+    </ng-container>
+  </div>
 
   <div class="op-modal--footer">
     <button

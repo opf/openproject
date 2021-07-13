@@ -44,7 +44,6 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { SortHeaderDirective } from 'core-app/features/work-packages/components/wp-table/sort-header/sort-header.directive';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { OPContextMenuComponent } from 'core-app/shared/components/op-context-menu/op-context-menu.component';
-import { BoardVideoTeaserModalComponent } from 'core-app/features/boards/board/board-video-teaser-modal/board-video-teaser-modal.component';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
 import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
@@ -223,7 +222,6 @@ export function bootstrapModule(injector:Injector) {
     EnterpriseBannerBootstrapComponent,
 
     HomescreenNewFeaturesBlockComponent,
-    BoardVideoTeaserModalComponent,
 
     // filter
     SlideToggleComponent,

@@ -3,14 +3,14 @@
 ## Modals: Standard style
 
 ```
-<div class="op-modal--modal-container">
-  <div class="op-modal--modal-header">
+<div class="op-modal">
+  <div class="op-modal--header">
     <h3>Export</h3>
-    <a class="op-modal--modal-close-button">
+    <a class="op-modal--close-button">
       <i class="icon-close" title="Close popup"></i>
     </a>
   </div>
-  <div class="op-modal--modal-body">
+  <div class="op-modal--body">
     <ul class="export-options">
       <li>
         <a>
@@ -57,14 +57,14 @@
 ## Modals: Highlighted and with footer
 
 ```
-<div class="op-modal--modal-container -highlight">
-  <div class="op-modal--modal-header">
+<div class="op-modal -highlight">
+  <div class="op-modal--header">
     <h2>Welcome to OpenProject</h2>
-    <a class="op-modal--modal-close-button" title="Close popup">
+    <a class="op-modal--close-button" title="Close popup">
       <i class="icon-close"></i>
     </a>
   </div>
-  <div class="op-modal--modal-body">
+  <div class="op-modal--body">
     <b>Please select your language</b>
     <fieldset class="form--fieldset">
       <div class="form--field">
@@ -81,7 +81,7 @@
       </div>
     </fieldset>
   </div>
-  <div class="op-modal--modal-footer">
+  <div class="op-modal--footer">
     <button name="button" type="submit" class="button -highlight">Save</button>
   </div>
 </div>
@@ -90,18 +90,18 @@
 ## Modals: Danger zone highlighting
 
 ```
-<div class="op-modal--modal-container -highlight -danger-zone">
-  <div class="op-modal--modal-header">
+<div class="op-modal -highlight -danger-zone">
+  <div class="op-modal--header">
     <h3 class="icon-context icon-warning">Confirm deletion of Work Package</h3>
-    <a class="op-modal--modal-close-button" title="Close popup">
+    <a class="op-modal--close-button" title="Close popup">
       <i class="icon-close"></i>
     </a>
   </div>
-  <div class="op-modal--modal-body">
+  <div class="op-modal--body">
     <p>Are you sure you want to delete the following work package?<p>
     <p> ... </p>
   </div>
-  <div class="op-modal--modal-footer">
+  <div class="op-modal--footer">
     <button name="button" type="submit" class="button -danger">Continue</button>
     <button name="button" type="submit" class="button">Cancel</button>
   </div>
