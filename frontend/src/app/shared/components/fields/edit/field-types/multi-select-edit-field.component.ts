@@ -45,8 +45,6 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   public availableOptions:any[] = [];
 
-  public valueOptions:ValueOption[];
-
   public text = {
     requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
     placeholder: this.I18n.t('js.placeholders.default'),
@@ -160,7 +158,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     let result;
 
     if (option) {
-      result = _.find(this.valueOptions, (valueOption) => valueOption.href === option.href)!;
+      result = _.find(this.availableOptions, (valueOption) => valueOption.href === option.href)!;
     }
 
     return result || this.nullOption;
@@ -176,7 +174,6 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
     }
 
     this.availableOptions = availableValues || [];
-    this.valueOptions = this.availableOptions.map((el) => ({ name: el.name, href: el.href }));
     this._selectedOption = this.buildSelectedOption();
     this.checkCurrentValueValidity();
 

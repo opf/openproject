@@ -1,7 +1,6 @@
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
-import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { Observable } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -42,7 +41,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   public active:Set<string>;
 
-  public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
+  public requests = new DebouncedRequestSwitchmap<string, HalResource>(
     (searchTerm:string) => this.loadAvailable(searchTerm),
     errorNotificationHandler(this.halNotification),
     true,

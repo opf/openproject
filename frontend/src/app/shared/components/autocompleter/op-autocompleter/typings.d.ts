@@ -4,7 +4,7 @@ interface IAPIFilter {
   values:ApiV3FilterValueType[];
 }
 
-interface IOPAutocompleterOptions {
+interface IOPAutocompleterOption {
   id:number;
   name:string;
 }
