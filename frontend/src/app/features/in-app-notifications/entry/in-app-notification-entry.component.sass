@@ -1,11 +1,14 @@
 @import "src/assets/sass/helpers"
 
+$ian-bg-color: #F9F9F9
+$ian-bg-hover-color: #F1F8FF
+
 .op-ian-item
-  background: #F9F9F9
-  margin: 10px 0
+  background: $ian-bg-color
+  margin: 0 0 10px 0
   padding: 5px 10px
-  font-size: 1rem
-  border: 1px solid #F1F1F1
+  font-size: 0.9rem
+  border: 1px solid var(--content-default-border-color)
   border-radius: 2px
   // This needs to be set in the itemSize of
   // the virtual scroller
@@ -13,18 +16,28 @@
 
   &_expanded
     height: auto
-
-  &:first-child
-    margin-top: 0
+    display: grid
+    grid-template-rows: auto 1fr
+    grid-gap: 0.5rem
 
   &:hover
-    background: #F1F8FF
+    background: $ian-bg-hover-color
 
   &--row
     @include unset-button-styles
     width: 100%
-    display: flex
+    display: grid
+    grid-template-columns: 1fr 20% 15% 15%
+    grid-template-rows: 1fr 1fr
+    grid-template-areas: "project actor reason date" "title actor reason date"
+    grid-gap: 0.5rem
     align-items: center
+
+    @media screen and (max-width: 679px)
+      grid-template-columns: 1fr 35px 30%
+      grid-template-rows: auto 1fr
+      grid-template-areas: "project actor reason" "title actor date"
+
 
   &--indicator
     width: 10px
@@ -41,23 +54,36 @@
     font-weight: bold
     &.-read
       font-weight: normal
-  &--message
-    flex: 1
-    display: flex
-    flex-direction: column
-    line-height: 1.1rem
 
   &--project
+    grid-area: project
     font-size: 0.8rem
     color: var(--gray-dark)
+    @include text-shortener
 
   &--reason,
-  &--date,
-  &--actor
-    width: 15%
-    flex-grow: 0
-    text-align: right
+  &--date
+    color: var(--gray-dark)
 
-  &--body
-    padding: 0.5rem
-    padding-left: 1.2rem
+  &--title
+    grid-area: title
+    @include text-shortener
+
+  &--reason
+    grid-area: reason
+    @include text-shortener
+    max-width: 100%
+    @media screen and (max-width: 679px)
+      justify-self: end
+
+  &--date
+    grid-area: date
+    justify-self: end
+    text-align: end
+    @include text-shortener(false)
+    white-space: nowrap
+    max-width: 100%
+
+  &--actor
+    grid-area: actor
+    @include text-shortener
