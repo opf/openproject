@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,24 +28,26 @@
 
 import { Component, Input, Output } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 @Component({
   selector: 'filter-date-value',
-  templateUrl: './filter-date-value.component.html'
+  templateUrl: './filter-date-value.component.html',
 })
 export class FilterDateValueComponent extends UntilDestroyedMixin {
   @Input() public shouldFocus = false;
+
   @Input() public filter:QueryFilterInstanceResource;
+
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
   constructor(readonly timezoneService:TimezoneService,
-              readonly I18n:I18nService) {
+    readonly I18n:I18nService) {
     super();
   }
 
@@ -61,17 +63,15 @@ export class FilterDateValueComponent extends UntilDestroyedMixin {
   public parser(data:any) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
-    } else {
-      return null;
     }
+    return null;
   }
 
   public formatter(data:any) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      var d = this.timezoneService.parseDate(data);
+      const d = this.timezoneService.parseDate(data);
       return this.timezoneService.formattedISODate(d);
-    } else {
-      return null;
     }
+    return null;
   }
 }

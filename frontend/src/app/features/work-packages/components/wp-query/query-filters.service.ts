@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
+import { Injectable } from '@angular/core';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
   QueryFilterInstanceSchemaResource,
-  QueryFilterInstanceSchemaResourceLinks
-} from "core-app/features/hal/resources/query-filter-instance-schema-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+
+} from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 @Injectable()
 export class QueryFiltersService {
@@ -20,7 +20,7 @@ export class QueryFiltersService {
    */
   private getFilterSchema(filter:QueryFilterInstanceResource, form:QueryFormResource):QueryFilterInstanceSchemaResource|undefined {
     const available = form.$embedded.schema.filtersSchemas.elements;
-    return _.find(available, schema => schema.allowedFilterValue.href === filter.filter.href);
+    return _.find(available, (schema) => schema.allowedFilterValue.href === filter.filter.href);
   }
 
   /**
@@ -30,7 +30,7 @@ export class QueryFiltersService {
    * @param form
    */
   public mapSchemasIntoFilters(query:QueryResource, form:QueryFormResource) {
-    query.filters.forEach(filter => {
+    query.filters.forEach((filter) => {
       const schema = this.getFilterSchema(filter, form)!;
       filter.$links.schema = schema.$links.self;
       this.schemaCache.update(filter, schema);
@@ -38,7 +38,7 @@ export class QueryFiltersService {
   }
 
   public setSchemas(schemas:CollectionResource<QueryFilterInstanceSchemaResource>) {
-    schemas.elements.forEach(schema => {
+    schemas.elements.forEach((schema) => {
       this.schemaCache.updateValue(schema.$links.self.href!, schema);
     });
   }

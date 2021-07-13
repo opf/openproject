@@ -1,18 +1,11 @@
+import { Directive, forwardRef, Input } from '@angular/core';
 import {
-  Directive,
-  forwardRef,
-  Input,
-} from '@angular/core';
-import {
-  NgControl,
-  FormControl,
-  FormGroup,
-  FormArray,
+  FormArray, FormControl, FormGroup, NgControl,
 } from '@angular/forms';
 
 export const formControlBinding:any = {
   provide: NgControl,
-  useExisting: forwardRef(() => OpFormBindingDirective)
+  useExisting: forwardRef(() => OpFormBindingDirective),
 };
 
 @Directive({

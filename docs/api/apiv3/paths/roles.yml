@@ -1,0 +1,78 @@
+# /api/v3/roles
+---
+get:
+  parameters:
+  - description: |-
+      JSON specifying filter conditions.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
+      Currently supported filters are:
+
+      + grantable: filters roles based on whether they are selectable for a membership
+
+      + unit: filters roles based on the unit ('project' or 'system') for which they are selectable for a membership
+    example: '[{ "unit": { "operator": "=", "values": ["system"] }" }]'
+    in: query
+    name: filters
+    required: false
+    schema:
+      type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      self:
+                        href: "/api/v3/roles/3"
+                        title: Manager
+                    _type: Role
+                    id: 3
+                    name: Manager
+                  - _links:
+                      self:
+                        href: "/api/v3/roles/2"
+                        title: Anonymous
+                    _type: Role
+                    id: 2
+                    name: Anonymous
+                  - _links:
+                      self:
+                        href: "/api/v3/roles/5"
+                        title: Reader
+                    _type: Role
+                    id: 5
+                    name: Reader
+                  - _links:
+                      self:
+                        href: "/api/v3/roles/4"
+                        title: Member
+                    _type: Role
+                    id: 4
+                    name: Member
+                  - _links:
+                      self:
+                        href: "/api/v3/roles/1"
+                        title: Non member
+                    _type: Role
+                    id: 1
+                    name: Non member
+                _links:
+                  self:
+                    href: "/api/v3/roles"
+                _type: Collection
+                count: 5
+                total: 5
+          schema:
+            "$ref": "../components/schemas/roles_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Roles
+  description: List all defined roles. This includes built in roles like 'Anonymous'
+    and 'Non member'.
+  operationId: List_roles
+  summary: List roles

@@ -1,0 +1,78 @@
+# /api/v3/grids/{id}
+---
+get:
+  parameters:
+  - description: Grid id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  scope:
+                    href: "/my/page"
+                    type: text/html
+                  self:
+                    href: "/api/v3/grids/2"
+                  update:
+                    href: "/api/v3/grids/2/form"
+                    method: post
+                  updateImmediately:
+                    href: "/api/v3/grids/2"
+                    method: patch
+                _type: Grid
+                columnCount: 5
+                createdAt: '2018-12-03T16:58:30Z'
+                id: 2
+                rowCount: 8
+                updatedAt: '2018-12-13T19:36:40Z'
+                widgets:
+                - _type: GridWidget
+                  endColumn: 3
+                  endRow: 8
+                  identifier: time_entries_current_user
+                  startColumn: 1
+                  startRow: 1
+                - _type: GridWidget
+                  endColumn: 5
+                  endRow: 8
+                  identifier: news
+                  startColumn: 4
+                  startRow: 3
+                - _type: GridWidget
+                  endColumn: 6
+                  endRow: 3
+                  identifier: documents
+                  startColumn: 3
+                  startRow: 1
+          schema:
+            "$ref": "../components/schemas/grid_model.yml"
+      description: OK
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the Grid does not exist or if the user does not have permission to view it.
+
+        **Required permission** depends on the page the grid is defined for
+      headers: {}
+  tags:
+  - Grids
+  description: ''
+  operationId: View_grid
+  summary: View grid

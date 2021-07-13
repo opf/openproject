@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,26 +28,25 @@
 
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { WorkPackageFilterValues } from "core-app/features/work-packages/components/wp-edit-form/work-package-filter-values";
+import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
 import {
   HalResourceEditingService,
-  ResourceChangesetCommit
-} from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { filter } from "rxjs/operators";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { AuthorisationService } from "core-app/core/model-auth/model-auth.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { HalResource, HalSource, HalSourceLink } from "core-app/features/hal/resources/hal-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-
+  ResourceChangesetCommit,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { filter } from 'rxjs/operators';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalResource, HalSource, HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -59,21 +58,21 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
   constructor(protected injector:Injector,
-              protected hooks:HookService,
-              protected apiV3Service:APIV3Service,
-              protected halResourceService:HalResourceService,
-              protected querySpace:IsolatedQuerySpace,
-              protected authorisationService:AuthorisationService,
-              protected halEditing:HalResourceEditingService,
-              protected schemaCache:SchemaCacheService,
-              protected halEvents:HalEventsService) {
+    protected hooks:HookService,
+    protected apiV3Service:APIV3Service,
+    protected halResourceService:HalResourceService,
+    protected querySpace:IsolatedQuerySpace,
+    protected authorisationService:AuthorisationService,
+    protected halEditing:HalResourceEditingService,
+    protected schemaCache:SchemaCacheService,
+    protected halEvents:HalEventsService) {
     super();
 
     this.halEditing
       .committedChanges
       .pipe(
         this.untilDestroyed(),
-        filter(commit => commit.resource._type === 'WorkPackage' && commit.wasNew)
+        filter((commit) => commit.resource._type === 'WorkPackage' && commit.wasNew),
       )
       .subscribe((commit:ResourceChangesetCommit<WorkPackageResource>) => {
         this.newWorkPackageCreated(commit.resource);
@@ -83,7 +82,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .changes$(newWorkPackageHref)
       .pipe(
         this.untilDestroyed(),
-        filter(changeset => !changeset)
+        filter((changeset) => !changeset),
       )
       .subscribe(() => {
         this.reset();
@@ -107,9 +106,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       .form
       .forPayload(payload)
       .toPromise()
-      .then((form:FormResource) => {
-        return this.fromCreateForm(form);
-      });
+      .then((form:FormResource) => this.fromCreateForm(form));
   }
 
   public fromCreateForm(form:FormResource):WorkPackageChangeset {
@@ -152,7 +149,6 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this.halEditing.edit(wp, form);
   }
 
-
   public getEmptyForm(projectIdentifier:string|null|undefined):Promise<FormResource> {
     if (!this.form) {
       this.form = this
@@ -164,7 +160,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
         .toPromise();
     }
 
-    return this.form as Promise<FormResource>;
+    return this.form;
   }
 
   public cancelCreation() {
@@ -240,12 +236,12 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   protected createNewWithDefaults(projectIdentifier:string|null|undefined, defaults?:HalSource) {
     return this
       .withFiltersPayload(projectIdentifier, defaults)
-      .then(filterDefaults => {
+      .then((filterDefaults) => {
         const mergedPayload = _.merge({ _links: {} }, filterDefaults, defaults);
 
         return this.createNewWorkPackage(projectIdentifier, mergedPayload).then((change:WorkPackageChangeset) => {
           if (!change) {
-            throw 'No new work package was created';
+            throw new Error('No new work package was created');
           }
 
           // We need to apply the defaults again (after them being applied in the form requests)
@@ -273,7 +269,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const query = this.querySpace.query.value;
 
     if (query) {
-      const except:string[] = defaults?._links && defaults._links['type'] ? ['type'] : [];
+      const except:string[] = defaults?._links && defaults._links.type ? ['type'] : [];
 
       new WorkPackageFilterValues(this.injector, query.filters, except)
         .applyDefaultsFromFilters(object);
@@ -307,15 +303,14 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
           this.toApiPayload(fromFilter, form.schema);
           return fromFilter;
         });
-    } else {
-      return Promise.resolve(fromFilter);
     }
+    return Promise.resolve(fromFilter);
   }
 
   private toApiPayload(payload:HalSource, schema:SchemaResource) {
     const links:string[] = [];
 
-    Object.keys(schema.$source).forEach(attribute => {
+    Object.keys(schema.$source).forEach((attribute) => {
       if (!['Integer',
         'Float',
         'Date',
@@ -330,7 +325,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       }
     });
 
-    links.forEach(attribute => {
+    links.forEach((attribute) => {
       const value = payload[attribute];
       if (value === undefined) {
         // nothing
@@ -353,7 +348,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     const payload = form.payload.$plain();
 
     // maintain the reference to the schema
-    payload['_links']['schema'] = { href: 'new' };
+    payload._links.schema = { href: 'new' };
 
     const wp = this.halResourceService.createHalResourceOfType<WorkPackageResource>('WorkPackage', payload);
 
@@ -367,11 +362,9 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     wp.__initialized_at = Date.now();
 
     // Set update link to form
-    wp['update'] = wp.$links.update = form.$links.self;
+    wp.update = wp.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
-    wp['updateImmediately'] = wp.$links.updateImmediately = (payload) => {
-      return this.apiV3Service.work_packages.post(payload).toPromise();
-    };
+    wp.updateImmediately = wp.$links.updateImmediately = (payload) => this.apiV3Service.work_packages.post(payload).toPromise();
 
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
     // the editability.

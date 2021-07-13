@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,13 +25,12 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { Directive, ElementRef, OnInit } from "@angular/core";
+import { Directive, ElementRef, OnInit } from '@angular/core';
 
 @Directive({
   selector: 'op-drag-scroll',
 })
 export class OpDragScrollDirective implements OnInit {
-
   constructor(readonly elementRef:ElementRef) {
   }
 
@@ -40,10 +39,11 @@ export class OpDragScrollDirective implements OnInit {
     const eventName = 'op:dragscroll';
 
     // Is mouse down?
-    var mousedown = false;
+    let mousedown = false;
 
     // Position of last mousedown
-    var mousedownX:number, mousedownY:number;
+    let mousedownX:number; let
+      mousedownY:number;
 
     // Mousedown: Potential drag start
     element.on('mousedown', (evt) => {
@@ -68,7 +68,7 @@ export class OpDragScrollDirective implements OnInit {
       // Trigger drag scroll event
       element.trigger(eventName, {
         x: evt.clientX - mousedownX,
-        y: evt.clientY - mousedownY
+        y: evt.clientY - mousedownY,
       });
 
       // Update last mouse position

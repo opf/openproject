@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,18 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from "core-app/shared/helpers/rxjs/debounced-input-switchmap";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { ApiV3FilterBuilder, FilterOperator } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import {
+  Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild,
+} from '@angular/core';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import {
+  DebouncedRequestSwitchmap,
+  errorNotificationHandler,
+} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
@@ -47,22 +52,26 @@ export interface UserAutocompleteItem {
   href:string|null;
 }
 
-
 @Component({
   templateUrl: './user-autocompleter.component.html',
-  selector: usersAutocompleterSelector
+  selector: usersAutocompleterSelector,
 })
 export class UserAutocompleterComponent implements OnInit {
   userTracker = (item:any) => item.href || item.id;
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
+
   @Output() public onChange = new EventEmitter<void>();
+
   @Input() public clearAfterSelection = false;
 
   // Load all users as default
   @Input() public url:string = this.apiV3Service.users.path;
+
   @Input() public allowEmpty = false;
+
   @Input() public appendTo = '';
+
   @Input() public multiple = false;
 
   @Input() public initialSelection:number|null = null;
@@ -73,36 +82,36 @@ export class UserAutocompleterComponent implements OnInit {
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, UserAutocompleteItem>(
     (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
-    errorNotificationHandler(this.halNotification)
+    errorNotificationHandler(this.halNotification),
   );
 
   public inputFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
   constructor(protected elementRef:ElementRef,
-              protected halResourceService:HalResourceService,
-              protected I18n:I18nService,
-              protected halNotification:HalResourceNotificationService,
-              readonly pathHelper:PathHelperService,
-              readonly apiV3Service:APIV3Service,
-              readonly injector:Injector) {
+    protected halResourceService:HalResourceService,
+    protected I18n:I18nService,
+    protected halNotification:HalResourceNotificationService,
+    readonly pathHelper:PathHelperService,
+    readonly apiV3Service:APIV3Service,
+    readonly injector:Injector) {
   }
 
   ngOnInit() {
-    const input = this.elementRef.nativeElement.dataset['updateInput'];
-    const allowEmpty = this.elementRef.nativeElement.dataset['allowEmpty'];
-    const appendTo = this.elementRef.nativeElement.dataset['appendTo'];
-    const multiple = this.elementRef.nativeElement.dataset['multiple'];
-    const url = this.elementRef.nativeElement.dataset['url'];
+    const input = this.elementRef.nativeElement.dataset.updateInput;
+    const { allowEmpty } = this.elementRef.nativeElement.dataset;
+    const { appendTo } = this.elementRef.nativeElement.dataset;
+    const { multiple } = this.elementRef.nativeElement.dataset;
+    const { url } = this.elementRef.nativeElement.dataset;
 
     if (input) {
       this.updateInputField = document.getElementsByName(input)[0] as HTMLInputElement|undefined;
       this.setInitialSelection();
     }
 
-    const filterInput  = this.elementRef.nativeElement.dataset['additionalFilter'];
+    const filterInput = this.elementRef.nativeElement.dataset.additionalFilter;
     if (filterInput) {
-      JSON.parse(filterInput).forEach((filter:{selector:string; operator:FilterOperator, values:string[]}) => {
-        this.inputFilters.add(filter['selector'], filter['operator'], filter['values']);
+      JSON.parse(filterInput).forEach((filter:{ selector:string; operator:FilterOperator, values:string[] }) => {
+        this.inputFilters.add(filter.selector, filter.operator, filter.values);
       });
     }
 
@@ -160,17 +169,17 @@ export class UserAutocompleterComponent implements OnInit {
     return this.halResourceService
       .get(url, { filters: searchFilters.toJson() })
       .pipe(
-        map(res => {
-          const options = res.elements.map((el:any) => {
-            return { name: el.name, id: el.id, href: el.href, avatar: el.avatar };
-          });
+        map((res) => {
+          const options = res.elements.map((el:any) => ({
+            name: el.name, id: el.id, href: el.href, avatar: el.avatar,
+          }));
 
           if (this.allowEmpty) {
             options.unshift({ name: this.I18n.t('js.timelines.filter.noneSelection'), href: null, id: null });
           }
 
           return options;
-        })
+        }),
       );
   }
 
@@ -181,4 +190,3 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 }
-

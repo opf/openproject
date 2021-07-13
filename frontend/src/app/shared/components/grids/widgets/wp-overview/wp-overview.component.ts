@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,8 +26,8 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractWidgetComponent } from "core-app/shared/components/grids/widgets/abstract-widget.component";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 
 @Component({
   templateUrl: './wp-overview.component.html',

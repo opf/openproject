@@ -19,7 +19,7 @@ function initTableSorter() {
     sortDisabled: I18n.t('js.sort.sorting_disabled'),
     nextAsc: I18n.t('js.sort.activate_asc'),
     nextDesc: I18n.t('js.sort.activate_dsc'),
-    nextNone: I18n.t('js.sort.activate_no')
+    nextNone: I18n.t('js.sort.activate_no'),
   };
 
   jQuery('#sortable-table')
@@ -28,20 +28,20 @@ function initTableSorter() {
       sortList: [[0, 0]],
       widgets: ['saveSort'],
       widgetOptions: {
-        storage_storageType: 's'
+        storage_storageType: 's',
       },
-      textExtraction: function (node:HTMLElement, table:any, cellIndex:any) {
+      textExtraction(node:HTMLElement) {
         return node.getAttribute('raw-data');
-      }
+      },
     });
 }
 
 export function registerTableSorter() {
-  jQuery(document).ready(function () {
+  jQuery(document).ready(() => {
     initTableSorter();
   });
 
-  jQuery(document).ajaxComplete(function () {
+  jQuery(document).ajaxComplete(() => {
     initTableSorter();
   });
 }

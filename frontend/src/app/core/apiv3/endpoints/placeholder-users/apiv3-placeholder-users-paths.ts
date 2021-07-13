@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { Apiv3PlaceholderUserPaths } from "core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-user-paths";
-import { PlaceholderUserResource } from "core-app/features/hal/resources/placeholder-user-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { Observable } from "rxjs";
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { Apiv3PlaceholderUserPaths } from 'core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-user-paths';
+import { PlaceholderUserResource } from 'core-app/features/hal/resources/placeholder-user-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Observable } from 'rxjs';
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
-  listParamsString
-} from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 export class Apiv3PlaceholderUsersPaths
   extends APIv3ResourceCollection<PlaceholderUserResource, Apiv3PlaceholderUserPaths>
   implements Apiv3ListResourceInterface<PlaceholderUserResource> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'placeholder_users', Apiv3PlaceholderUserPaths);
   }
 
@@ -65,8 +65,8 @@ export class Apiv3PlaceholderUsersPaths
     return this
       .halResourceService
       .post<PlaceholderUserResource>(
-        this.path,
-        resource,
-      );
+      this.path,
+      resource,
+    );
   }
 }

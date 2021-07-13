@@ -10,8 +10,8 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import { GlobalI18n } from "core-app/core/i18n/i18n.service";
-import { I18nShim } from "./test/i18n-shim";
+import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
+import { I18nShim } from './test/i18n-shim';
 
 require('expose-loader?_!lodash');
 

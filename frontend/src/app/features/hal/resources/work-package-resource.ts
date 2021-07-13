@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,25 +26,24 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { InputState } from "reactivestates";
-import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
-import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-import { AttachmentCollectionResource } from "core-app/features/hal/resources/attachment-collection-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { TypeResource } from "core-app/features/hal/resources/type-resource";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { Attachable } from "core-app/features/hal/resources/mixins/attachable-mixin";
+import { InputState } from 'reactivestates';
+import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
+import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { TypeResource } from 'core-app/features/hal/resources/type-resource';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -113,21 +112,35 @@ export interface WorkPackageLinksObject extends WorkPackageResourceLinks {
 
 export class WorkPackageBaseResource extends HalResource {
   public $embedded:WorkPackageResourceEmbedded;
+
   public $links:WorkPackageLinksObject;
+
   public subject:string;
+
   public updatedAt:Date;
+
   public lockVersion:number;
+
   public description:any;
+
   public activities:CollectionResource;
+
   public attachments:AttachmentCollectionResource;
 
   @InjectField() I18n!:I18nService;
+
   @InjectField() states:States;
+
   @InjectField() wpActivity:WorkPackagesActivityService;
+
   @InjectField() apiV3Service:APIV3Service;
+
   @InjectField() NotificationsService:NotificationsService;
+
   @InjectField() workPackageNotificationService:WorkPackageNotificationService;
+
   @InjectField() pathHelper:PathHelperService;
+
   @InjectField() opFileUpload:OpenProjectFileUploadService;
 
   readonly attachmentsBackend = true;
@@ -136,7 +149,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return the ids of all its ancestors, if any
    */
   public get ancestorIds():string[] {
-    const ancestors = (this as any).ancestors;
+    const { ancestors } = this as any;
     return ancestors.map((el:WorkPackageResource) => el.id!);
   }
 
@@ -161,16 +174,15 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public get isLeaf():boolean {
-    const children = this.$links.children;
+    const { children } = this.$links;
     return !(children && children.length > 0);
   }
 
   public previewPath() {
     if (!this.isNew) {
       return this.apiV3Service.work_packages.id(this.id!).path;
-    } else {
-      return super.previewPath();
     }
+    return super.previewPath();
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
@@ -191,7 +203,7 @@ export class WorkPackageBaseResource extends HalResource {
   public updateLinkedResources(...resourceNames:string[]):Promise<any> {
     const resources:{ [id:string]:Promise<HalResource> } = {};
 
-    resourceNames.forEach(name => {
+    resourceNames.forEach((name) => {
       const linked = this[name];
       resources[name] = linked ? linked.$update() : Promise.reject(undefined);
     });
@@ -214,7 +226,7 @@ export class WorkPackageBaseResource extends HalResource {
       _.get(attachments, '$source', attachments),
       false,
       this.halInitializer,
-      'HalResource'
+      'HalResource',
     );
   }
 
@@ -236,7 +248,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Update the state
    */
   public push(newValue:this):Promise<unknown> {
-    this.wpActivity.clear(newValue.id!);
+    this.wpActivity.clear(newValue.id);
 
     // If there is a parent, its view has to be updated as well
     if (newValue.parent) {

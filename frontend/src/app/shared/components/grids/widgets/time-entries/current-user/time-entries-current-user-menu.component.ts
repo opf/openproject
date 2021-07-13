@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Output, EventEmitter, Injector } from '@angular/core';
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
-import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
-import { WidgetAbstractMenuComponent } from "core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component";
-import { TimeEntriesCurrentUserConfigurationModalComponent } from "core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal";
+import {
+  Component, EventEmitter, Injector, Output,
+} from '@angular/core';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
+import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
+import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
+import { TimeEntriesCurrentUserConfigurationModalComponent } from 'core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal';
 
 @Component({
   selector: 'widget-time-entries-current-user-menu',
-  templateUrl: '../../menu/widget-menu.component.html'
+  templateUrl: '../../menu/widget-menu.component.html',
 })
 export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMenuComponent {
   @Output()
@@ -44,14 +46,14 @@ export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMen
 
   protected menuItemList = [
     this.removeItem,
-    this.configureItem
+    this.configureItem,
   ];
 
   constructor(private readonly injector:Injector,
-              private readonly opModalService:OpModalService,
-              readonly i18n:I18nService,
-              protected readonly remove:GridRemoveWidgetService,
-              readonly layout:GridAreaService) {
+    private readonly opModalService:OpModalService,
+    readonly i18n:I18nService,
+    protected readonly remove:GridRemoveWidgetService,
+    readonly layout:GridAreaService) {
     super(i18n,
       remove,
       layout);
@@ -63,12 +65,12 @@ export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMen
       onClick: () => {
         this.opModalService.show(TimeEntriesCurrentUserConfigurationModalComponent, this.injector, this.locals)
           .closingEvent.subscribe((modal:TimeEntriesCurrentUserConfigurationModalComponent) => {
-          if (modal.options) {
-            this.onConfigured.emit(modal.options);
-          }
+            if (modal.options) {
+              this.onConfigured.emit(modal.options);
+            }
           });
         return true;
-      }
+      },
     };
   }
 

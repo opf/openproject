@@ -4,18 +4,19 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabl
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { zoomLevelOrder } from "core-app/features/work-packages/components/wp-table/timeline/wp-timeline";
-import { TimelineLabels, TimelineZoomLevel } from "core-app/features/hal/resources/query-resource";
+import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
+import { TimelineLabels, TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
 
 @Component({
-  templateUrl: './timelines-tab.component.html'
+  templateUrl: './timelines-tab.component.html',
 })
-export class WpTableConfigurationTimelinesTab implements TabComponent {
-
+export class WpTableConfigurationTimelinesTabComponent implements TabComponent {
   public timelineVisible = false;
+
   public availableAttributes:{ id:string, name:string }[];
 
   public labels:TimelineLabels;
+
   public availableLabels:string[];
 
   public zoomLevel:TimelineZoomLevel;
@@ -36,7 +37,7 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
       months: this.I18n.t('js.timelines.zoom.months'),
       quarters: this.I18n.t('js.timelines.zoom.quarters'),
       years: this.I18n.t('js.timelines.zoom.years'),
-      auto: this.I18n.t('js.timelines.zoom.auto')
+      auto: this.I18n.t('js.timelines.zoom.auto'),
     },
     labels: {
       title: this.I18n.t('js.timelines.labels.title'),
@@ -45,14 +46,14 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
       none: this.I18n.t('js.timelines.filter.noneSelection'),
       left: this.I18n.t('js.timelines.labels.left'),
       right: this.I18n.t('js.timelines.labels.right'),
-      farRight: this.I18n.t('js.timelines.labels.farRight')
-    }
+      farRight: this.I18n.t('js.timelines.labels.farRight'),
+    },
   };
 
   constructor(readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly wpTableTimeline:WorkPackageViewTimelineService,
-              readonly wpTableColumns:WorkPackageViewColumnsService) {
+    readonly I18n:I18nService,
+    readonly wpTableTimeline:WorkPackageViewTimelineService,
+    readonly wpTableColumns:WorkPackageViewColumnsService) {
   }
 
   public onSave() {
@@ -60,7 +61,7 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
       ...this.wpTableTimeline.current,
       visible: this.timelineVisible,
       labels: this.labels,
-      zoomLevel: this.zoomLevel
+      zoomLevel: this.zoomLevel,
     });
   }
 
@@ -79,7 +80,7 @@ export class WpTableConfigurationTimelinesTab implements TabComponent {
     this.zoomLevel = this.wpTableTimeline.zoomLevel;
 
     // Current label models
-    const labels = this.wpTableTimeline.labels;
+    const { labels } = this.wpTableTimeline;
     this.labels = _.clone(labels);
     this.availableLabels = Object.keys(this.labels);
 

@@ -1,6 +1,6 @@
-import { input } from "reactivestates";
-import { Injectable } from "@angular/core";
-import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
+import { input } from 'reactivestates';
+import { Injectable } from '@angular/core';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 @Injectable()
 export class BoardFiltersService {

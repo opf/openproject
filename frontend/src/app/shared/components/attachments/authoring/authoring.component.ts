@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,8 +29,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   templateUrl: './authoring.component.html',
@@ -40,19 +40,26 @@ import { TimezoneService } from "core-app/core/datetime/timezone.service";
 export class AuthoringComponent implements OnInit {
   // scope: { createdOn: '=', author: '=', showAuthorAsLink: '=', project: '=', activity: '=' },
   @Input('createdOn') createdOn:string;
+
   @Input('author') author:HalResource;
+
   @Input('showAuthorAsLink') showAuthorAsLink:boolean;
+
   @Input('project') project:any;
+
   @Input('activity') activity:any;
 
   public createdOnTime:any;
+
   public timeago:any;
+
   public time:any;
+
   public userLink:string;
 
   public constructor(readonly PathHelper:PathHelperService,
-                     readonly I18n:I18nService,
-                     readonly timezoneService:TimezoneService) {
+    readonly I18n:I18nService,
+    readonly timezoneService:TimezoneService) {
 
   }
 
@@ -64,10 +71,10 @@ export class AuthoringComponent implements OnInit {
   }
 
   public activityFromPath(from:any) {
-    var path = this.PathHelper.projectActivityPath(this.project);
+    let path = this.PathHelper.projectActivityPath(this.project);
 
     if (from) {
-      path += '?from=' + from;
+      path += `?from=${from}`;
     }
 
     return path;

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -30,22 +30,22 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
+import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 
-describe('NotificationsService', function () {
-  var notificationsService:NotificationsService;
+describe('NotificationsService', () => {
+  let notificationsService:NotificationsService;
 
   beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
-        OpenprojectHalModule
+        OpenprojectHalModule,
       ],
       providers: [
         { provide: ConfigurationService, useValue: { autoHidePopups: () => true } },
         I18nService,
         NotificationsService,
-      ]
+      ],
     })
       .compileComponents()
       .then(() => {
@@ -53,54 +53,54 @@ describe('NotificationsService', function () {
       });
   }));
 
-  it('should be able to create warnings', function () {
-    var notification = notificationsService.addWarning('warning!');
+  it('should be able to create warnings', () => {
+    const notification = notificationsService.addWarning('warning!');
 
     expect(notification).toEqual({ message: 'warning!', type: 'warning' });
   });
 
-  it('should be able to create error messages with errors', function () {
-    var notification = notificationsService.addError('a super cereal error', ['fooo', 'baarr']);
+  it('should be able to create error messages with errors', () => {
+    const notification = notificationsService.addError('a super cereal error', ['fooo', 'baarr']);
     expect(notification).toEqual({
       message: 'a super cereal error',
       data: ['fooo', 'baarr'],
-      type: 'error'
+      type: 'error',
     });
   });
 
-  it('should be able to create error messages with only a message', function () {
-    var notification = notificationsService.addError('a super cereal error');
+  it('should be able to create error messages with only a message', () => {
+    const notification = notificationsService.addError('a super cereal error');
     expect(notification).toEqual({
       message: 'a super cereal error',
       data: [],
-      type: 'error'
+      type: 'error',
     });
   });
 
-  it('should be able to create upload messages with uploads', function () {
-    var notification = notificationsService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
+  it('should be able to create upload messages with uploads', () => {
+    const notification = notificationsService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
     expect(notification).toEqual({
       message: 'uploading...',
       type: 'upload',
-      data: [0, 1, 2]
+      data: [0, 1, 2],
     });
   });
 
-  it('should throw an Error if trying to create an upload with uploads = null', function () {
-    expect(function () {
+  it('should throw an Error if trying to create an upload with uploads = null', () => {
+    expect(() => {
       notificationsService.addAttachmentUpload('themUploads', null as any);
     }).toThrow();
   });
 
-  it('should throw an Error if trying to create an upload without uploads', function () {
-    expect(function () {
+  it('should throw an Error if trying to create an upload without uploads', () => {
+    expect(() => {
       notificationsService.addAttachmentUpload('themUploads', []);
     }).toThrow();
   });
 
   it('sends a broadcast to remove the first notification upon adding a second success notification',
-    function () {
-      var firstNotification = notificationsService.addSuccess('blubs');
+    () => {
+      const firstNotification = notificationsService.addSuccess('blubs');
       expect(notificationsService.current.value!.length).toEqual(1);
 
       notificationsService.addSuccess('blubs2');
@@ -108,8 +108,8 @@ describe('NotificationsService', function () {
     });
 
   it('sends a broadcast to remove the first notification upon adding a second error notification',
-    function () {
-      var firstNotification = notificationsService.addSuccess('blubs');
+    () => {
+      const firstNotification = notificationsService.addSuccess('blubs');
       notificationsService.addError('blubs2');
 
       expect(notificationsService.current.value!.length).toEqual(1);

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -79,7 +79,7 @@ interface JQuery {
   mark:any;
 }
 
-declare var Factory:any;
+declare let Factory:any;
 
 declare namespace op {
   interface QueryParams {

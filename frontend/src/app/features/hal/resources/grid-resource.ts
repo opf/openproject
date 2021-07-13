@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { Attachable } from "core-app/features/hal/resources/mixins/attachable-mixin";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 
 export interface GridResourceLinks {
   update(payload:unknown):Promise<unknown>;
@@ -38,8 +38,11 @@ export interface GridResourceLinks {
 
 export class GridBaseResource extends HalResource {
   public widgets:GridWidgetResource[];
-  public options:{[key:string]:unknown};
+
+  public options:{ [key:string]:unknown };
+
   public rowCount:number;
+
   public columnCount:number;
 
   public $initialize(source:any) {
@@ -48,12 +51,11 @@ export class GridBaseResource extends HalResource {
     this.widgets = this
       .widgets
       .map((widget:Object) => {
-        const widgetResource = new GridWidgetResource( this.injector,
+        const widgetResource = new GridWidgetResource(this.injector,
           widget,
           true,
           this.halInitializer,
-          'GridWidget'
-        );
+          'GridWidget');
 
         widgetResource.grid = this;
 
@@ -70,7 +72,6 @@ export class GridBaseResource extends HalResource {
     });
   }
 }
-
 
 export const GridResource = Attachable(GridBaseResource);
 

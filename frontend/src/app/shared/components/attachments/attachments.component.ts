@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,32 +26,37 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import {
+  Component, ElementRef, Input, OnInit,
+} from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { filter } from 'rxjs/operators';
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 export const attachmentsSelector = 'attachments';
 
 @Component({
   selector: attachmentsSelector,
-  templateUrl: './attachments.html'
+  templateUrl: './attachments.html',
 })
 export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit {
   @Input('resource') public resource:HalResource;
 
   public $element:JQuery;
+
   public allowUploading:boolean;
+
   public destroyImmediately:boolean;
+
   public text:any;
 
   constructor(protected elementRef:ElementRef,
-              protected I18n:I18nService,
-              protected states:States,
-              protected halResourceService:HalResourceService) {
+    protected I18n:I18nService,
+    protected states:States,
+    protected halResourceService:HalResourceService) {
     super();
 
     this.text = {
@@ -83,7 +88,7 @@ export class AttachmentsComponent extends UntilDestroyedMixin implements OnInit 
     this.states.forResource(this.resource)!.changes$()
       .pipe(
         this.untilDestroyed(),
-        filter(newResource => !!newResource)
+        filter((newResource) => !!newResource),
       )
       .subscribe((newResource:HalResource) => {
         this.resource = newResource || this.resource;

@@ -540,3 +540,6 @@ ij_typescript_var_declaration_wrap = normal
 ij_typescript_while_brace_force = never
 ij_typescript_while_on_new_line = false
 ij_typescript_wrap_comments = false
+
+[docs/api/**/*.yml]
+trim_trailing_whitespace = false

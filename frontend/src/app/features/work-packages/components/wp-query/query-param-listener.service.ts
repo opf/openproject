@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,18 +27,21 @@
 //++
 
 import { Injectable, Injector } from '@angular/core';
-import { WorkPackagesListChecksumService } from "core-app/features/work-packages/components/wp-list/wp-list-checksum.service";
-import { WorkPackagesListService } from "core-app/features/work-packages/components/wp-list/wp-list.service";
-import { TransitionService } from "@uirouter/core";
-import { Subject } from "rxjs";
+import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { TransitionService } from '@uirouter/core';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class QueryParamListenerService {
   readonly wpListChecksumService:WorkPackagesListChecksumService = this.injector.get(WorkPackagesListChecksumService);
+
   readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
+
   readonly $transitions:TransitionService = this.injector.get(TransitionService);
 
   public observe$ = new Subject<any>();
+
   public queryChangeListener:Function;
 
   constructor(readonly injector:Injector) {

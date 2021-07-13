@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,28 +29,32 @@
 import { Injector } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
-import { EditingPortalService } from "core-app/shared/components/fields/edit/editing-portal/editing-portal-service";
-import { CellBuilder, editCellContainer, tdClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/cell-builder";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { editModeClassName } from "core-app/shared/components/fields/edit/edit-field.component";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
+import { CellBuilder, editCellContainer, tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
   @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+
   @InjectField() public apiV3Service!:APIV3Service;
+
   @InjectField() public states:States;
+
   @InjectField() public FocusHelper:FocusHelperService;
+
   @InjectField() public editingPortalService:EditingPortalService;
 
   // Use cell builder to reset edit fields
@@ -65,9 +69,9 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     .subscribe((wp) => this.resource = wp);
 
   constructor(public injector:Injector,
-              public table:WorkPackageTable,
-              public workPackageId:string,
-              public classIdentifier:string) {
+    public table:WorkPackageTable,
+    public workPackageId:string,
+    public classIdentifier:string) {
     super(injector);
   }
 
@@ -86,7 +90,6 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
     return this.waitForContainer(fieldName)
       .then((cell) => {
-
         // Forcibly set the width since the edit field may otherwise
         // be given more width. Thereby preserve a minimum width of 150.
         // To avoid flickering content, the padding is removed, too.
@@ -94,8 +97,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
         td.addClass(editModeClassName);
         let width = parseInt(td.css('width'));
         width = width > 150 ? width - 10 : 150;
-        td.css('max-width', width + 'px');
-        td.css('width', width + 'px');
+        td.css('max-width', `${width}px`);
+        td.css('width', `${width}px`);
 
         return this.editingPortalService.create(
           cell,
@@ -103,7 +106,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
           form,
           schema,
           fieldName,
-          errors
+          errors,
         );
       });
   }

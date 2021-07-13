@@ -1,31 +1,31 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Component, forwardRef, ViewChild } from "@angular/core";
-import { FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
-import { TextInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component";
-import { IntegerInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component";
-import { SelectInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component";
-import { SelectProjectStatusInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-project-status-input/select-project-status-input.component";
-import { BooleanInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component";
-import { DateInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/date-input.component";
-import { FormattableTextareaInputComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component";
-import { DynamicFieldGroupWrapperComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component";
-import { NgSelectModule } from "@ng-select/ng-select";
-import { NgOptionHighlightModule } from "@ng-select/ng-option-highlight";
-import { FormlyModule } from "@ngx-formly/core";
-import { IOPFormlyFieldSettings } from "core-app/shared/components/dynamic-forms/typings";
-import { FormlyForm } from "@ngx-formly/core";
-import { By } from "@angular/platform-browser";
-import { FormattableControlComponent } from "core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component";
-import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { CKEditorSetupService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { OpFormFieldComponent } from "core-app/shared/components/forms/form-field/form-field.component";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, forwardRef, ViewChild } from '@angular/core';
+import { FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { TextInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component';
+import { IntegerInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component';
+import { SelectInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component';
+import { SelectProjectStatusInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-project-status-input/select-project-status-input.component';
+import { BooleanInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/boolean-input/boolean-input.component';
+import { DateInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/date-input/date-input.component';
+import { FormattableTextareaInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/formattable-textarea-input.component';
+import { DynamicFieldGroupWrapperComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-field-group-wrapper/dynamic-field-group-wrapper.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
+import { FormlyForm, FormlyModule } from '@ngx-formly/core';
+import { IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 
-export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], model:any, providers?:any[]): ComponentFixture<any> {
+import { By } from '@angular/platform-browser';
+import { FormattableControlComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/formattable-textarea-input/components/formattable-control/formattable-control.component';
+import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { OpFormFieldComponent } from 'core-app/shared/components/forms/form-field/form-field.component';
+
+export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model:any, providers?:any[]):ComponentFixture<any> {
   @Component({
-    template:`
+    template: `
       <form [formGroup]="form">
         <formly-form [form]="form"
                      [model]="model"
@@ -37,7 +37,9 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
   })
   class DynamicInputsTestingComponent {
     form = new FormGroup({});
+
     model = model;
+
     fields = fields;
 
     @ViewChild(FormlyForm) dynamicForm:FormlyForm;
@@ -62,10 +64,10 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
           ],
           wrappers: [
             {
-              name: "op-dynamic-field-group-wrapper",
+              name: 'op-dynamic-field-group-wrapper',
               component: DynamicFieldGroupWrapperComponent,
             },
-          ]
+          ],
         }),
         NgSelectModule,
         NgOptionHighlightModule,
@@ -83,7 +85,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
         FormattableTextareaInputComponent,
         DynamicInputsTestingComponent,
       ],
-      providers: []
+      providers: [],
     })
     .overrideComponent(
       FormattableControlComponent,
@@ -99,11 +101,11 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
             },
             {
               provide: ConfigurationService,
-              useValue: {}
+              useValue: {},
             },
-          ]
-        }
-      }
+          ],
+        },
+      },
     );
 
   TestBed.compileComponents();
@@ -115,7 +117,7 @@ export function createDynamicInputFixture(fields: IOPFormlyFieldSettings[], mode
 }
 
 export function testDynamicInputControValueAccessor(fixture:ComponentFixture<any>, model:any, selector:string) {
-  const dynamicForm: FormGroup = fixture.componentInstance.dynamicForm.form;
+  const dynamicForm:FormGroup = fixture.componentInstance.dynamicForm.form;
   const dynamicInput = fixture.debugElement.query(By.css(selector)).nativeElement;
 
   // Test ControlValueAccessor

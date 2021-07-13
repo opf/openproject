@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,8 +27,8 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BackRoutingService } from "core-app/features/work-packages/components/back-routing/back-routing.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   templateUrl: './back-button.component.html',
@@ -38,14 +38,15 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 })
 export class BackButtonComponent {
   @Input() public linkClass:string;
+
   @Input() public customBackMethod:() => unknown;
 
   public text = {
-    goBack: this.I18n.t('js.button_back')
+    goBack: this.I18n.t('js.button_back'),
   };
 
   constructor(readonly backRoutingService:BackRoutingService,
-              readonly I18n:I18nService) {
+    readonly I18n:I18nService) {
   }
 
   public goBack():void {

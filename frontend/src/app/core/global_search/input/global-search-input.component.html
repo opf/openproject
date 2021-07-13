@@ -11,7 +11,7 @@
    
   <op-autocompleter
     #select
-    [defaulData]="false"
+    [defaultData]="false"
     [name]="'global-search-input'"
     [id]="'global-search-input'"
     class="global-search"
@@ -61,11 +61,11 @@
             <span class="global-search--wp-subject">{{item.subject}}</span>
 
             <div class="global-search--wp-content">
-              <span [textContent]="item.project" class="global-search--wp-project"></span>
+              <span [textContent]="item.project.name" class="global-search--wp-project"></span>
               #{{item.id}}
               <span
-                [textContent]="item.status"
-                [ngClass]="statusHighlighting(item.statusId)"
+                [textContent]="item.status.name"
+                [ngClass]="statusHighlighting(item.status.id)"
                 class="global-search--wp-status"
               ></span>
             </div>

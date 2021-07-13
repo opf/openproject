@@ -1279,7 +1279,7 @@ de:
   menus:
     admin:
       mail_notification: "Mailbenachrichtigung"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "Eingehende vs. Ausgehende"
     quick_add:
       label: "Schnellmenue öffnen"
   my_account:
@@ -1295,9 +1295,11 @@ de:
   notifications:
     work_packages:
       subject:
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You are subscribed to %{work_package}"
+        assigned: "Ihnen wurde %{work_package} zugewiesen"
+        subscribed: "Sie haben %{work_package} abonniert"
         mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "Du beobachtest %{work_package}"
   label_accessibility: "Barrierefreiheit"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -2244,6 +2246,10 @@ de:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) erlaubte Origins"
   setting_apiv3_cors_origins_text_html: >
     Wenn CORS aktiviert ist, sind dies die Origins, die auf die OpenProject API zugreifen dürfen. <br/> Bitte überprüfen Sie die <a href="%{origin_link}" target="_blank">Dokumentation über den Origin Header</a>, wie die Werte anzugeben sind.
+  setting_apiv3_docs: "Dokumentation"
+  setting_apiv3_docs_enabled: "Dokumentationsseite aktivieren"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "E-Mail Zustellungsoption"
   setting_sendmail_location: "Systempfad zu sendmail"
   setting_smtp_enable_starttls_auto: "Automatisch STARTTLS verwenden, falls vorhanden"
@@ -2290,7 +2296,7 @@ de:
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_delay_minutes: "Verzögerung des Versands von E-Mails"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
@@ -2304,7 +2310,7 @@ de:
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_export_limit: "Max. Anzahl Arbeitspakete bei CSV/PDF-Export"
-  setting_journal_aggregation_time_minutes: "User actions aggregated within"
+  setting_journal_aggregation_time_minutes: "Benutzeraktionen aggregiert innerhalb"
   setting_log_requesting_user: "Logge Benutzer Login, Name und Mailadresse für alle Anfragen"
   setting_login_required: "Authentifizierung erforderlich"
   setting_mail_from: "E-Mail-Absender"

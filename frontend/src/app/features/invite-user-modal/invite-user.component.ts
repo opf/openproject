@@ -9,12 +9,12 @@ import {
 } from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { PrincipalData } from "core-app/shared/components/principal/principal-types";
-import { RoleResource } from "core-app/features/hal/resources/role-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { PrincipalData } from 'core-app/shared/components/principal/principal-types';
+import { RoleResource } from 'core-app/features/hal/resources/role-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 enum Steps {
   ProjectSelection,
@@ -39,6 +39,7 @@ export enum PrincipalType {
 })
 export class InviteUserModalComponent extends OpModalComponent implements OnInit {
   public Steps = Steps;
+
   public step = Steps.ProjectSelection;
 
   /* Close on outside click */
@@ -48,13 +49,18 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
   public data:any = null;
 
   public type:PrincipalType|null = null;
+
   public project:ProjectResource|null = null;
+
   public principalData:PrincipalData = {
     principal: null,
     customFields: {},
   };
+
   public role:RoleResource|null = null;
+
   public message = '';
+
   public createdNewPrincipal = false;
 
   public get loading() {
@@ -75,7 +81,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
 
     if (this.locals.projectId) {
       this.apiV3Service.projects.id(this.locals.projectId).get().subscribe(
-        data => {
+        (data) => {
           this.project = data;
           this.cdRef.markForCheck();
         },
@@ -84,7 +90,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
           this.cdRef.markForCheck();
         },
       );
-    } 
+    }
   }
 
   onProjectSelectionSave({ type, project }:{ type:PrincipalType, project:any }) {

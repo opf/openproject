@@ -3,8 +3,8 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 export class DebouncedEventEmitter<T> {
-
   private emitter = new EventEmitter<T>();
+
   private debouncer:Subject<T>;
 
   constructor(takeUntil$:Observable<unknown>, debounceTimeInMs = 250) {
@@ -12,7 +12,7 @@ export class DebouncedEventEmitter<T> {
     this.debouncer
       .pipe(
         debounceTime(debounceTimeInMs),
-        takeUntil(takeUntil$)
+        takeUntil(takeUntil$),
       )
       .subscribe((val) => this.emitter.emit(val));
   }

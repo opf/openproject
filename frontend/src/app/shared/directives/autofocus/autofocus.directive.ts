@@ -1,14 +1,16 @@
-import { AfterContentInit, Directive, ElementRef, Input } from '@angular/core';
-import { FocusHelperService } from "core-app/shared/directives/focus/focus-helper";
+import {
+  AfterContentInit, Directive, ElementRef, Input,
+} from '@angular/core';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 @Directive({
-  selector: '[autoFocus]'
+  selector: '[autoFocus]',
 })
 export class AutofocusDirective implements AfterContentInit {
   @Input('autoFocus-condition') public condition = true;
 
   public constructor(private el:ElementRef,
-                     private focusHelper:FocusHelperService) {
+    private focusHelper:FocusHelperService) {
 
   }
 

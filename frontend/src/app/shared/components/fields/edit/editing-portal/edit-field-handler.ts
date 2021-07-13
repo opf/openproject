@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,8 +27,8 @@
 //++
 
 import { Subject } from 'rxjs';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**

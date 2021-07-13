@@ -1,11 +1,11 @@
 <div class="type-form-conf-group">
   <div class="group-head">
     <span class="group-handle icon-drag-handle"></span>
-    <group-edit-in-place
+    <op-group-edit-in-place
         [name]="group.name"
         (onValueChange)="rename($event)"
         class="group-name">
-    </group-edit-in-place>
+    </op-group-edit-in-place>
     <span class="delete-group icon-small icon-close" (click)="deleteGroup.emit()"></span>
   </div>
   <div class="attributes" dragula="attributes" [(dragulaModel)]="group.attributes">

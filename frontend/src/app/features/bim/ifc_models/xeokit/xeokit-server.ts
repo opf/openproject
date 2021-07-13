@@ -1,13 +1,14 @@
 // @ts-ignore
-import { utils } from "@xeokit/xeokit-sdk/src/viewer/scene/utils";
-import { IFCGonDefinition } from "../pages/viewer/ifc-models-data.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { utils } from '@xeokit/xeokit-sdk/src/viewer/scene/utils';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { IFCGonDefinition } from '../pages/viewer/ifc-models-data.service';
 
 /**
  * Default server client which loads content via HTTP from the file system.
  */
 export class XeokitServer {
   private ifcModels:IFCGonDefinition;
+
   /**
    *
    * @param config
@@ -33,14 +34,14 @@ export class XeokitServer {
    * @param error
    */
   getProject(projectData:any, done:Function, _error:Function) {
-    var manifestData = {
+    const manifestData = {
       id: projectData[0].id,
       name: projectData[0].name,
       models: this.ifcModels.models,
       viewerContent: {
-        modelsLoaded: this.ifcModels.shown_models
+        modelsLoaded: this.ifcModels.shown_models,
       },
-      viewerConfigs: {}
+      viewerConfigs: {},
     };
 
     done(manifestData);

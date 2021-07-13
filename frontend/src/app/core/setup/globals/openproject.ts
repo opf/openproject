@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,22 +29,23 @@
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { input, InputState } from 'reactivestates';
 import { take } from 'rxjs/operators';
-import { GlobalHelpers } from "core-app/core/setup/globals/global-helpers";
+import { GlobalHelpers } from 'core-app/core/setup/globals/global-helpers';
 
 /**
  * OpenProject instance methods
  */
 export class OpenProject {
-
   public pluginContext:InputState<OpenProjectPluginContext> = input<OpenProjectPluginContext>();
 
   public helpers = new GlobalHelpers();
 
   /** Globally setable variable whether the page was edited */
   public pageWasEdited = false;
+
   /** Globally setable variable whether the page form is submitted.
    * Necessary to avoid a data loss warning on beforeunload */
   public pageIsSubmitted = false;
+
   /** Globally setable variable whether any of the EditFormComponent
    * contain changes.
    * Necessary to show a data loss warning on beforeunload when clicking
@@ -72,11 +73,11 @@ export class OpenProject {
   }
 
   public get isStandardEdition():boolean {
-    return this.edition === "standard";
+    return this.edition === 'standard';
   }
 
   public get isBimEdition():boolean {
-    return this.edition === "bim";
+    return this.edition === 'bim';
   }
 
   /**

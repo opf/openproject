@@ -274,6 +274,8 @@ describe MailHandler, type: :model do
   it 'should add work package should send email notification' do
     Setting.notified_events = ['work_package_added']
 
+    User.find(2).notification_settings.create(channel: :mail, all: true)
+
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(WorkPackage)
@@ -321,6 +323,9 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package note should send email notification' do
+    User.find(2).notification_settings.create(channel: :mail, all: true)
+    User.find(3).notification_settings.create(channel: :mail, involved: true)
+
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
     assert_equal 2, ActionMailer::Base.deliveries.size

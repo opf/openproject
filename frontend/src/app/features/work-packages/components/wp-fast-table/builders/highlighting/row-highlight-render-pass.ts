@@ -1,20 +1,20 @@
 import { Injector } from '@angular/core';
-import { PrimaryRenderPass, RowRenderInfo } from "core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { Highlighting } from "core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { PrimaryRenderPass, RowRenderInfo } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class HighlightingRenderPass {
-
   @InjectField() wpTableHighlighting:WorkPackageViewHighlightingService;
+
   @InjectField() querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
-              private table:WorkPackageTable,
-              private tablePass:PrimaryRenderPass) {
+    private table:WorkPackageTable,
+    private tablePass:PrimaryRenderPass) {
 
   }
 
@@ -31,7 +31,6 @@ export class HighlightingRenderPass {
 
     // Render for each original row, clone it since we're modifying the tablepass
     this.tablePass.renderedOrder.forEach((row:RowRenderInfo, position:number) => {
-
       // We only care for rows that are natural work packages
       if (!row.workPackage) {
         return;

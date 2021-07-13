@@ -1301,8 +1301,10 @@ tr:
     work_packages:
       subject:
         assigned: "You have been assigned to %{work_package}"
-        subscribed: "You are subscribed to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Erişilebilirlik"
   label_account: "Hesap"
   label_active: "Aktif"
@@ -2249,6 +2251,10 @@ tr:
   setting_apiv3_cors_origins: "API V3 Kaynaklar Arası Kaynak Paylaşımı (CORS) izin verilen kaynaklar"
   setting_apiv3_cors_origins_text_html: >
     CORS etkinleştirilirse, bunlar OpenProject API'ye erişmesine izin verilen kaynaklardır. <br/> Beklenen değerlerin nasıl belirtileceğini öğrenmek için lütfen  <a href="%{origin_link}" target="_blank">Kaynak başlığındaki Belgeleri </a> kontrol edin.
+  setting_apiv3_docs: "Belgeleme"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "E-posta teslim yöntemi"
   setting_sendmail_location: "Çalıştırılabilir sendmail aracının yolu"
   setting_smtp_enable_starttls_auto: "STARTTLS varsa otomatik olarak kullan"

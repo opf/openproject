@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,61 +26,62 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+/* jshint expr: true */
 
 import { HookService } from 'core-app/features/plugins/hook-service';
 
-describe('HookService', function() {
+describe('HookService', () => {
   let service:HookService = new HookService();
 
-  var callback:any, invalidCallback:any;
-  var validId = 'myValidCallbacks';
+  let callback:any; let
+    invalidCallback:any;
+  const validId = 'myValidCallbacks';
 
   beforeEach(() => {
     service = new HookService();
   });
 
-  var shouldBehaveLikeEmptyResult = function(id:string) {
-    it('returns empty results', function() {
+  const shouldBehaveLikeEmptyResult = function (id:string) {
+    it('returns empty results', () => {
       expect(service.call(id).length).toEqual(0);
     });
   };
 
-  var shouldBehaveLikeResultWithElements = function(id:string, count:number) {
-    it('returns #count results', function() {
+  const shouldBehaveLikeResultWithElements = function (id:string, count:number) {
+    it('returns #count results', () => {
       expect(service.call(id).length).toEqual(count);
     });
   };
 
-  var shouldBehaveLikeCalledCallback = function(id:string) {
-    beforeEach(function() {
+  const shouldBehaveLikeCalledCallback = function (id:string) {
+    beforeEach(() => {
       service.call(id);
     });
 
-    it('is called', function() {
+    it('is called', () => {
       expect(callback).toHaveBeenCalled();
     });
   };
 
-  var shouldBehaveLikeUncalledCallback = function(id:string) {
-    beforeEach(function() {
+  const shouldBehaveLikeUncalledCallback = function (id:string) {
+    beforeEach(() => {
       service.call(id);
     });
 
-    it('is not called', function() {
+    it('is not called', () => {
       expect(invalidCallback.called).toBeFalsy();
     });
   };
 
-  describe('register', function() {
-    var invalidId = 'myInvalidCallbacks';
+  describe('register', () => {
+    const invalidId = 'myInvalidCallbacks';
 
-    describe('no callback registered', function() {
+    describe('no callback registered', () => {
       shouldBehaveLikeEmptyResult(invalidId);
     });
 
-    describe('valid function callback registered', function() {
-      beforeEach(function() {
+    describe('valid function callback registered', () => {
+      beforeEach(() => {
         callback = jasmine.createSpy('hook');
         service.register('myValidCallbacks', callback);
       });
@@ -91,9 +92,9 @@ describe('HookService', function() {
     });
   });
 
-  describe('call', function() {
-    describe('function that returns undefined', function() {
-      beforeEach(function() {
+  describe('call', () => {
+    describe('function that returns undefined', () => {
+      beforeEach(() => {
         callback = jasmine.createSpy('hook');
         service.register('myValidCallbacks', callback);
       });
@@ -103,8 +104,8 @@ describe('HookService', function() {
       shouldBehaveLikeEmptyResult(validId);
     });
 
-    describe('function that returns something that is not undefined', function() {
-      beforeEach(function() {
+    describe('function that returns something that is not undefined', () => {
+      beforeEach(() => {
         callback = jasmine.createSpy('hook').and.returnValue({});
 
         service.register('myValidCallbacks', callback);
@@ -115,8 +116,8 @@ describe('HookService', function() {
       shouldBehaveLikeResultWithElements(validId, 1);
     });
 
-    describe('function that returns something that is not undefined', function() {
-      beforeEach(function() {
+    describe('function that returns something that is not undefined', () => {
+      beforeEach(() => {
         callback = jasmine.createSpy('hook').and.returnValue({});
 
         service.register('myValidCallbacks', callback);
@@ -127,8 +128,8 @@ describe('HookService', function() {
       shouldBehaveLikeResultWithElements(validId, 1);
     });
 
-    describe('function that returns something that is not undefined', function() {
-      beforeEach(function() {
+    describe('function that returns something that is not undefined', () => {
+      beforeEach(() => {
         callback = jasmine.createSpy('hook');
         invalidCallback = jasmine.createSpy('invalidHook');
 
@@ -142,10 +143,11 @@ describe('HookService', function() {
       shouldBehaveLikeUncalledCallback(validId);
     });
 
-    describe('function that returns something that is not undefined', function() {
-      var callback1, callback2;
+    describe('function that returns something that is not undefined', () => {
+      let callback1; let
+        callback2;
 
-      beforeEach(function() {
+      beforeEach(() => {
         callback1 = jasmine.createSpy('hook1').and.returnValue({});
         callback2 = jasmine.createSpy('hook1').and.returnValue({});
 

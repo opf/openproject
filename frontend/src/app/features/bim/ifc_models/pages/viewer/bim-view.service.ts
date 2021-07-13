@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,11 +28,10 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Observable } from "rxjs";
-import { StateService, TransitionService } from "@uirouter/core";
-import { input } from "reactivestates";
-import { takeUntil } from "rxjs/operators";
-
+import { Observable } from 'rxjs';
+import { StateService, TransitionService } from '@uirouter/core';
+import { input } from 'reactivestates';
+import { takeUntil } from 'rxjs/operators';
 
 export const bimListViewIdentifier = 'list';
 export const bimTableViewIdentifier = 'table';
@@ -65,9 +64,8 @@ export class BimViewService implements OnDestroy {
   private transitionFn:Function;
 
   constructor(readonly I18n:I18nService,
-              readonly transitions:TransitionService,
-              readonly state:StateService) {
-
+    readonly transitions:TransitionService,
+    readonly state:StateService) {
     this.detectView();
 
     this.transitionFn = this.transitions.onSuccess({}, (transition) => {
@@ -89,20 +87,19 @@ export class BimViewService implements OnDestroy {
 
   public currentViewerState():BimViewState {
     if (this.state.includes('bim.partitioned.list')) {
-      return this.state.params?.cards ?
-        bimListViewIdentifier :
-        bimTableViewIdentifier;
-    } else if (this.state.includes('bim.**.model')) {
+      return this.state.params?.cards
+        ? bimListViewIdentifier
+        : bimTableViewIdentifier;
+    } if (this.state.includes('bim.**.model')) {
       return bimViewerViewIdentifier;
-    } else if (this.state.includes('bim.partitioned.show')) {
-      return this.state.params?.cards || this.state.params?.cards == null ?
-        bimListViewIdentifier :
-        bimTableViewIdentifier;
-    } else {
-      return this.state.params?.cards || this.state.params?.cards == null ?
-        bimSplitViewCardsIdentifier :
-        bimSplitViewListIdentifier;
+    } if (this.state.includes('bim.partitioned.show')) {
+      return this.state.params?.cards || this.state.params?.cards == null
+        ? bimListViewIdentifier
+        : bimTableViewIdentifier;
     }
+    return this.state.params?.cards || this.state.params?.cards == null
+      ? bimSplitViewCardsIdentifier
+      : bimSplitViewListIdentifier;
   }
 
   private detectView() {

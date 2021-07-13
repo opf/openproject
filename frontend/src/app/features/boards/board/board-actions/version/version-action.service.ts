@@ -1,22 +1,23 @@
-import { Injectable } from "@angular/core";
-import { Board } from "core-app/features/boards/board/board";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { VersionResource } from "core-app/features/hal/resources/version-resource";
-import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
-import { LinkHandling } from "core-app/shared/helpers/link-handling/link-handling";
-import { StateService } from "@uirouter/core";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { VersionBoardHeaderComponent } from "core-app/features/boards/board/board-actions/version/version-board-header.component";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
-import { VersionAutocompleterComponent } from "core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Injectable } from '@angular/core';
+import { Board } from 'core-app/features/boards/board/board';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { VersionResource } from 'core-app/features/hal/resources/version-resource';
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
+import { StateService } from '@uirouter/core';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { VersionBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/version/version-board-header.component';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {
   @InjectField() state:StateService;
+
   @InjectField() halNotification:HalResourceNotificationService;
 
   filterName = 'version';
@@ -29,7 +30,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
 
   icon = 'icon-getting-started';
 
-  image = ImageHelpers.imagePath('board_creation_modal/version.svg');
+  image = imagePath('board_creation_modal/version.svg');
 
   private writable$:Promise<boolean>;
 
@@ -54,19 +55,17 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return this
       .loadValues()
       .toPromise()
-      .then((results) => {
-        return Promise.all<unknown>(
-          results.map((version:VersionResource) => {
-            const definingName = _.get(version, 'definingProject.name', null);
-            if (version.isOpen() && definingName && definingName === this.currentProject.name) {
-              return this.addColumnWithActionAttribute(board, version);
-            }
+      .then((results) => Promise.all<unknown>(
+        results.map((version:VersionResource) => {
+          const definingName = _.get(version, 'definingProject.name', null);
+          if (version.isOpen() && definingName && definingName === this.currentProject.name) {
+            return this.addColumnWithActionAttribute(board, version);
+          }
 
-            return Promise.resolve(board);
-          })
-        )
-          .then(() => board);
-      });
+          return Promise.resolve(board);
+        }),
+      )
+        .then(() => board));
   }
 
   /**
@@ -80,9 +79,8 @@ export class BoardVersionActionService extends CachedBoardActionService {
       .then((version:VersionResource) => {
         if (version) {
           return this.buildItemsForVersion(version);
-        } else {
-          return [];
         }
+        return [];
       });
   }
 
@@ -97,11 +95,10 @@ export class BoardVersionActionService extends CachedBoardActionService {
   public disabledAddButtonPlaceholder(version:VersionResource) {
     if (version.isLocked()) {
       return { icon: 'locked', text: this.I18n.t('js.boards.version.locked') };
-    } else if (version.isClosed()) {
+    } if (version.isClosed()) {
       return { icon: 'not-supported', text: this.I18n.t('js.boards.version.closed') };
-    } else {
-      return undefined;
     }
+    return undefined;
   }
 
   public dragIntoAllowed(query:QueryResource, value:HalResource|undefined) {
@@ -116,11 +113,11 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return this
       .apiV3Service
       .projects
-      .id(this.currentProject.id!)
+      .id(this.currentProject.id)
       .versions
       .get()
       .toPromise()
-      .then(collection => collection.elements);
+      .then((collection) => collection.elements);
   }
 
   private patchVersionStatus(version:VersionResource, newStatus:'open'|'closed'|'locked') {
@@ -129,10 +126,10 @@ export class BoardVersionActionService extends CachedBoardActionService {
       .id(version)
       .patch({ status: newStatus })
       .subscribe(
-        version => {
+        (version) => {
           this.state.go('.', {}, { reload: true });
         },
-        error => this.halNotification.handleRawError(error)
+        (error) => this.halNotification.handleRawError(error),
       );
   }
 
@@ -146,7 +143,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
         onClick: () => {
           this.patchVersionStatus(version, 'locked');
           return true;
-        }
+        },
       },
       {
         // Unlock version
@@ -155,7 +152,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
         onClick: () => {
           this.patchVersionStatus(version, 'open');
           return true;
-        }
+        },
       },
       {
         // Close version
@@ -164,7 +161,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
         onClick: () => {
           this.patchVersionStatus(version, 'closed');
           return true;
-        }
+        },
       },
       {
         // Open version
@@ -173,20 +170,20 @@ export class BoardVersionActionService extends CachedBoardActionService {
         onClick: () => {
           this.patchVersionStatus(version, 'open');
           return true;
-        }
+        },
       },
       {
         // Show link
         linkText: this.I18n.t('js.boards.version.show_version'),
         href: this.pathHelper.versionShowPath(id),
         onClick: (evt:JQuery.TriggeredEvent) => {
-          if (!LinkHandling.isClickedWithModifier(evt)) {
+          if (!isClickedWithModifier(evt)) {
             window.open(this.pathHelper.versionShowPath(id), '_blank');
             return true;
           }
 
           return false;
-        }
+        },
       },
       {
         // Edit link
@@ -194,14 +191,14 @@ export class BoardVersionActionService extends CachedBoardActionService {
         linkText: this.I18n.t('js.boards.version.edit_version'),
         href: this.pathHelper.versionEditPath(id),
         onClick: (evt:JQuery.TriggeredEvent) => {
-          if (!LinkHandling.isClickedWithModifier(evt)) {
+          if (!isClickedWithModifier(evt)) {
             window.open(this.pathHelper.versionEditPath(id), '_blank');
             return true;
           }
 
           return false;
-        }
-      }
+        },
+      },
     ];
   }
 }

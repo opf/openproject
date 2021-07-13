@@ -1,12 +1,12 @@
 interface IAPIFilter {
   name:string;
   operator:FilterOperator;
-  values:unknown[]|boolean;
-};
+  values:ApiV3FilterValueType[];
+}
 
-interface IOPAutocompleterOptions {
-  id: number;
+interface IOPAutocompleterOption {
+  id:number;
   name:string;
-};
+}
 
 type resource = 'work_packages' | 'users';

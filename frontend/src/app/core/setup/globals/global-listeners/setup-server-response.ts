@@ -18,26 +18,26 @@ export function setupServerResponse() {
   * CVE-2011-0447
   * 2 - shows and hides ajax indicator
   */
-  jQuery(document).ajaxSend(function (event, request) {
-    if (jQuery(event.target.activeElement!).closest('[ajax-indicated]').length &&
-      jQuery('ajax-indicator')) {
+  jQuery(document).ajaxSend((event, request) => {
+    if (jQuery(event.target.activeElement!).closest('[ajax-indicated]').length
+      && jQuery('ajax-indicator')) {
       jQuery('#ajax-indicator').show();
     }
 
-    var csrf_meta_tag = jQuery('meta[name=csrf-token]');
+    const csrf_meta_tag = jQuery('meta[name=csrf-token]');
 
     if (csrf_meta_tag) {
-      var header = 'X-CSRF-Token',
-        token = csrf_meta_tag.attr('content');
+      const header = 'X-CSRF-Token';
+      const token = csrf_meta_tag.attr('content');
 
       request.setRequestHeader(header, token!);
     }
 
-    request.setRequestHeader('X-Authentication-Scheme', "Session");
+    request.setRequestHeader('X-Authentication-Scheme', 'Session');
   });
 
   // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
-  jQuery(document).ajaxStop(function () {
+  jQuery(document).ajaxStop(() => {
     if (jQuery('#ajax-indicator')) {
       jQuery('#ajax-indicator').hide();
     }
@@ -45,36 +45,36 @@ export function setupServerResponse() {
   });
 
   // show/hide the files table
-  jQuery(".attachments h4").click(function () {
-    jQuery(this).toggleClass("closed").next().slideToggle(100);
+  jQuery('.attachments h4').click(function () {
+    jQuery(this).toggleClass('closed').next().slideToggle(100);
   });
 
   let resizeTo:any = null;
-  jQuery(window).on('resize', function () {
+  jQuery(window).on('resize', () => {
     // wait 200 milliseconds for no further resize event
     // then readjust breadcrumb
 
     if (resizeTo) {
       clearTimeout(resizeTo);
     }
-    resizeTo = setTimeout(function () {
+    resizeTo = setTimeout(() => {
       jQuery(window).trigger('resizeEnd');
     }, 200);
   });
 
   // Do not close the login window when using it
-  jQuery('#nav-login-content').click(function (event) {
+  jQuery('#nav-login-content').click((event) => {
     event.stopPropagation();
   });
 
   // Set focus on first error message
-  var error_focus = jQuery('a.afocus').first();
-  var input_focus = jQuery('.autofocus').first();
+  const error_focus = jQuery('a.afocus').first();
+  const input_focus = jQuery('.autofocus').first();
   if (error_focus !== undefined) {
     error_focus.focus();
   } else if (input_focus !== undefined) {
     input_focus.focus();
-    if (input_focus[0].tagName === "INPUT") {
+    if (input_focus[0].tagName === 'INPUT') {
       input_focus.select();
     }
   }
@@ -82,11 +82,10 @@ export function setupServerResponse() {
   addClickEventToAllErrorMessages();
 
   // Click handler for formatting help
-  jQuery(document.body).on('click', '.formatting-help-link-button', function () {
-    window.open(window.appBasePath + '/help/wiki_syntax',
-      "",
-      "resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes"
-    );
+  jQuery(document.body).on('click', '.formatting-help-link-button', () => {
+    window.open(`${window.appBasePath}/help/wiki_syntax`,
+      '',
+      'resizable=yes, location=no, width=600, height=640, menubar=no, status=no, scrollbars=yes');
     return false;
   });
 }
@@ -102,19 +101,19 @@ function flashCloseHandler() {
 }
 
 function autoHideFlashMessage() {
-  setTimeout(function () {
+  setTimeout(() => {
     jQuery('.flash.autohide-notification').remove();
   }, 5000);
 }
 
 function addClickEventToAllErrorMessages() {
   jQuery('a.afocus').each(function () {
-    var target = jQuery(this);
-    target.click(function (evt) {
-      var field = jQuery('#' + target.attr('href')!.substr(1));
+    const target = jQuery(this);
+    target.click((evt) => {
+      let field = jQuery(`#${target.attr('href')!.substr(1)}`);
       if (field === null) {
         // Cut off '_id' (necessary for select boxes)
-        field = jQuery('#' + target.attr('href')!.substr(1).concat('_id'));
+        field = jQuery(`#${target.attr('href')!.substr(1).concat('_id')}`);
       }
       target.unbind(evt);
       return false;
@@ -134,14 +133,13 @@ function initMainMenuExpandStatus() {
 function activateFlash(selector:any) {
   const flashMessages = jQuery(selector);
 
-  flashMessages.each(function (ix, e) {
+  flashMessages.each((ix, e) => {
     const flashMessage = jQuery(e);
     flashMessage.show();
   });
 }
 
 function activateFlashNotice() {
-
   activateFlash('.flash');
 }
 
@@ -151,8 +149,7 @@ function activateFlashError() {
 
 function focusFirstErroneousField() {
   const firstErrorSpan = jQuery('span.errorSpan').first();
-  const erroneousInput = firstErrorSpan.find('*').filter(":input");
+  const erroneousInput = firstErrorSpan.find('*').filter(':input');
 
   erroneousInput.trigger('focus');
 }
-

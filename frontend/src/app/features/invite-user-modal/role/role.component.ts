@@ -10,11 +10,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {I18nService} from "core-app/core/i18n/i18n.service";
-import {PrincipalType} from '../invite-user.component';
-import {RoleResource} from "core-app/features/hal/resources/role-resource";
-import {ProjectResource} from "core-app/features/hal/resources/project-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { RoleResource } from 'core-app/features/hal/resources/role-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { PrincipalType } from '../invite-user.component';
 
 @Component({
   selector: 'op-ium-role',
@@ -23,12 +23,17 @@ import { HalResource } from "core-app/features/hal/resources/hal-resource";
 })
 export class RoleComponent implements OnInit {
   @Input() type:PrincipalType;
+
   @Input() project:ProjectResource;
+
   @Input() principal:HalResource;
+
   @Input() role:RoleResource;
 
   @Output() close = new EventEmitter<void>();
+
   @Output() back = new EventEmitter<void>();
+
   @Output() save = new EventEmitter<RoleResource>();
 
   public text = {
@@ -48,10 +53,12 @@ export class RoleComponent implements OnInit {
   };
 
   roleForm = new FormGroup({
-    role: new FormControl(null, [ Validators.required ]),
+    role: new FormControl(null, [Validators.required]),
   });
 
-  get roleControl() { return this.roleForm.get('role'); }
+  get roleControl() {
+    return this.roleForm.get('role');
+  }
 
   constructor(readonly I18n:I18nService) {}
 

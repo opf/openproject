@@ -1,0 +1,20 @@
+---
+description: |-
+  A QueryFilter can be referenced by a filter instance defined for a Query to denote the filtering applied to the query's work package results. This resource is not an instance of an applicable filter but rather the type an applicable filter can have.
+
+  ## Actions
+
+  As of now, no actions are defined.
+
+  ## Linked Properties
+
+  | Property         | Description                                            | Type        | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
+  | self             | This query filter                                      | QueryFilter | not null                         | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                            | Type        | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
+  | id               | QueryFilter id                                         | String      | not null                         | READ                 |
+name: Query Filters

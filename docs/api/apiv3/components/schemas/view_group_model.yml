@@ -1,0 +1,27 @@
+# Schema: View_groupModel
+---
+type: object
+example:
+  _type: Group
+  id: 9
+  name: The group
+  createdAt: '2015-09-23T11:06:36Z'
+  updatedAt: '2015-09-23T11:06:36Z'
+  _links:
+    self:
+      href: "/api/v3/groups/9"
+      title: The group
+    delete:
+      href: "/api/v3/group/9"
+      method: delete
+    memberships:
+      href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]
+      title: Memberships
+    updateImmediately:
+      href: "/api/v3/group/9"
+      method: patch
+    members:
+    - href: "/api/v3/users/363"
+      title: First user
+    - href: "/api/v3/users/60"
+      title: Second user

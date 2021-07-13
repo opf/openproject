@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { BoardActionService } from "core-app/features/boards/board/board-actions/board-action.service";
-import { input } from "reactivestates";
-import { Observable } from "rxjs";
-import { map, take } from "rxjs/operators";
-import { Board } from "core-app/features/boards/board/board";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { Injectable } from '@angular/core';
+import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
+import { input } from 'reactivestates';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { Board } from 'core-app/features/boards/board/board';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export abstract class CachedBoardActionService extends BoardActionService {
@@ -19,16 +19,13 @@ export abstract class CachedBoardActionService extends BoardActionService {
       .cache
       .values$()
       .pipe(
-        map(results => {
+        map((results) => {
           if (matching) {
-            return results.filter(resource =>
-              new RegExp(matching, 'i').test(resource.name)
-            );
-          } else {
-            return results;
+            return results.filter((resource) => new RegExp(matching, 'i').test(resource.name));
           }
+          return results;
         }),
-        take(1)
+        take(1),
       );
   }
 
@@ -51,14 +48,11 @@ export abstract class CachedBoardActionService extends BoardActionService {
       .cache
       .values$()
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise()
-      .then(results => {
-        return results.find(resource => resource.id === id)!;
-      });
+      .then((results) => results.find((resource) => resource.id === id)!);
   }
 
   protected abstract loadUncached():Promise<HalResource[]>;
 }
-

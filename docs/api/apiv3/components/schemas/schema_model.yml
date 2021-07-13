@@ -1,0 +1,18 @@
+# Schema: SchemaModel
+---
+type: object
+properties:
+  _dependencies:
+    type: schemadependency
+    description: A list of dependencies between one property's value and another property
+  _links:
+    type: object
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This schema
+
+            **Resource**: Schema
+          readOnly: true

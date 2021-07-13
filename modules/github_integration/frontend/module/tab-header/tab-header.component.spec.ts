@@ -1,8 +1,5 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
-import { DebugElement }  from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 import { TabHeaderComponent } from "core-app/features/plugins/linked/openproject-github_integration/tab-header/tab-header.component";
 import { By } from "@angular/platform-browser";
 import { OpIconComponent } from "core-app/shared/components/icon/icon.component";

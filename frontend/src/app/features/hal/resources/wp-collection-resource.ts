@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 export interface WorkPackageCollectionResourceEmbedded {
   elements:WorkPackageResource[];
@@ -38,11 +38,17 @@ export interface WorkPackageCollectionResourceEmbedded {
 
 export class WorkPackageCollectionResource extends CollectionResource<WorkPackageResource> {
   public schemas:CollectionResource<SchemaResource>;
+
   public createWorkPackage:any;
+
   public elements:WorkPackageResource[];
+
   public groups:GroupObject[];
-  public totalSums?:{[key:string]:number};
+
+  public totalSums?:{ [key:string]:number };
+
   public sumsSchema?:SchemaResource;
+
   public representations:Array<HalResource>;
 }
 
@@ -58,7 +64,7 @@ export interface GroupObject {
   collapsed?:boolean;
   index:number;
   identifier:string;
-  sums:{[attribute:string]:number|null};
+  sums:{ [attribute:string]:number|null };
   href:{ href:string }[];
   _links:{
     valueLink:{ href:string }[];

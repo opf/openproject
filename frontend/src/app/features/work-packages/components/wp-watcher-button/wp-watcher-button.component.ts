@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,33 +26,41 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'wp-watcher-button',
   templateUrl: './wp-watcher-button.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin implements OnInit {
   @Input('workPackage') public workPackage:WorkPackageResource;
+
   @Input('showText') public showText = false;
+
   @Input('disabled') public disabled = false;
 
   public buttonText:string;
+
   public buttonTitle:string;
+
   public buttonClass:string;
+
   public buttonId:string;
+
   public watchIconClass:string;
 
   constructor(readonly I18n:I18nService,
-              readonly wpWatchersService:WorkPackageWatchersService,
-              readonly apiV3Service:APIV3Service,
-              readonly cdRef:ChangeDetectorRef) {
+    readonly wpWatchersService:WorkPackageWatchersService,
+    readonly apiV3Service:APIV3Service,
+    readonly cdRef:ChangeDetectorRef) {
     super();
   }
 
@@ -63,7 +71,7 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
       .id(this.workPackage)
       .requireAndStream()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
@@ -84,7 +92,7 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
     const toggleLink = this.nextStateLink();
 
     toggleLink(toggleLink.$link.payload).then(() => {
-      this.wpWatchersService.clear(this.workPackage.id!);
+      this.wpWatchersService.clear(this.workPackage.id);
       this
         .apiV3Service
         .work_packages
@@ -105,7 +113,6 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
       this.buttonClass = '-active';
       this.buttonId = 'unwatch-button';
       this.watchIconClass = 'icon-watched';
-
     } else {
       this.buttonTitle = this.I18n.t('js.label_watch_work_package');
       this.buttonText = this.I18n.t('js.label_watch');

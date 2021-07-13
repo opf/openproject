@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,18 +28,18 @@
 
 import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { UiStateLinkBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder";
-import { WorkPackageDisplayField } from "core-app/shared/components/fields/display/field-types/work-package-display-field.module";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { WorkPackageDisplayField } from 'core-app/shared/components/fields/display/field-types/work-package-display-field.module';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
-
   public text = {
     linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
-    none: this.I18n.t('js.filter.noneElement')
+    none: this.I18n.t('js.filter.noneElement'),
   };
 
   @InjectField() $state!:StateService;
+
   @InjectField() keepTab!:KeepTabService;
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab);
@@ -53,11 +53,11 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     const link = this.uiStateBuilder.linkToShow(
       this.wpId,
       this.text.linkTitle,
-      this.valueString
+      this.valueString,
     );
 
     const title = document.createElement('span');
-    title.textContent = ' ' + _.truncate(this.title, { length: 40 });
+    title.textContent = ` ${_.truncate(this.title, { length: 40 })}`;
 
     element.innerHTML = '';
     element.appendChild(link);
@@ -69,6 +69,6 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
   }
 
   public get valueString() {
-    return '#' + this.wpId;
+    return `#${this.wpId}`;
   }
 }

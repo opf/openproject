@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,24 +28,29 @@
 
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { States } from 'core-app/core/states/states.service';
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from "@angular/core";
-import { QuerySharingChange } from "core-app/shared/components/modals/share-modal/query-sharing-form.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import {
+  ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+} from '@angular/core';
+import { QuerySharingChange } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 
 @Component({
-  templateUrl: './query-sharing.modal.html'
+  templateUrl: './query-sharing.modal.html',
 })
-export class QuerySharingModal extends OpModalComponent implements OnInit {
+export class QuerySharingModalComponent extends OpModalComponent implements OnInit {
   public query:QueryResource;
+
   public isStarred = false;
+
   public isPublic = false;
+
   public isBusy = false;
 
   public text = {
@@ -56,18 +61,18 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
     label_visibility_settings: this.I18n.t('js.label_visibility_settings'),
     button_save: this.I18n.t('js.modals.button_save'),
     button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title')
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-              readonly I18n:I18nService,
-              readonly states:States,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly cdRef:ChangeDetectorRef,
-              readonly wpListService:WorkPackagesListService,
-              readonly halNotification:HalResourceNotificationService,
-              readonly notificationsService:NotificationsService) {
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+    readonly I18n:I18nService,
+    readonly states:States,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly cdRef:ChangeDetectorRef,
+    readonly wpListService:WorkPackagesListService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly notificationsService:NotificationsService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -79,7 +84,6 @@ export class QuerySharingModal extends OpModalComponent implements OnInit {
     this.isStarred = this.query.starred;
     this.isPublic = this.query.public;
   }
-
 
   public setValues(change:QuerySharingChange) {
     this.isStarred = change.isStarred;

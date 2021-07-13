@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,19 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
 // Scroll header on mobile in and out when user scrolls the container
 export function scrollHeaderOnMobile() {
   const headerHeight = 55;
   let prevScrollPos = window.scrollY;
 
-  window.addEventListener('scroll', function() {
+  window.addEventListener('scroll', () => {
     // Condition needed for safari browser to avoid negative positions
-    const currentScrollPos = window.scrollY < 0 ? 0 :  window.scrollY;
+    const currentScrollPos = window.scrollY < 0 ? 0 : window.scrollY;
     // Only if sidebar is not opened or search bar is opened
-    if (!(jQuery('#main').hasClass('hidden-navigation')) ||
-        jQuery('#top-menu').hasClass('-global-search-expanded') ||
-        Math.abs(currentScrollPos - prevScrollPos) <= headerHeight) { // to avoid flickering at the end of the page
+    if (!(jQuery('#main').hasClass('hidden-navigation'))
+        || jQuery('#top-menu').hasClass('-global-search-expanded')
+        || Math.abs(currentScrollPos - prevScrollPos) <= headerHeight) { // to avoid flickering at the end of the page
       return;
     }
 

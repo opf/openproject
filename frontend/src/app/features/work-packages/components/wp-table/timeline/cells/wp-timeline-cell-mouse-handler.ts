@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,28 +28,27 @@
 
 import { Injector } from '@angular/core';
 import * as moment from 'moment';
-import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
-import { RenderInfo } from '../wp-timeline';
-import { TimelineCellRenderer } from './timeline-cell-renderer';
-import { WorkPackageCellLabels } from './wp-timeline-cell';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { keyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { LoadingIndicatorService } from "core-app/core/loading-indicator/loading-indicator.service";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { take } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageCellLabels } from './wp-timeline-cell';
+import { TimelineCellRenderer } from './timeline-cell-renderer';
+import { RenderInfo } from '../wp-timeline';
+import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import Moment = moment.Moment;
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { take } from "rxjs/operators";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
 export const classNameRightHandle = 'rightHandle';
 export const classNameBarLabel = 'bar-label';
-
 
 export function registerWorkPackageMouseHandler(this:void,
   injector:Injector,
@@ -64,11 +63,10 @@ export function registerWorkPackageMouseHandler(this:void,
   labels:WorkPackageCellLabels,
   renderer:TimelineCellRenderer,
   renderInfo:RenderInfo) {
-
   const querySpace:IsolatedQuerySpace = injector.get(IsolatedQuerySpace);
 
   let mouseDownStartDay:number|null = null; // also flag to signal active drag'n'drop
-  renderInfo.change = halEditing.changeFor(renderInfo.workPackage) as WorkPackageChangeset;
+  renderInfo.change = halEditing.changeFor(renderInfo.workPackage);
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
@@ -137,7 +135,7 @@ export function registerWorkPackageMouseHandler(this:void,
 
   function keyPressFn(ev:JQuery.TriggeredEvent) {
     const kev:KeyboardEvent = ev as any;
-    if (kev.keyCode === keyCodes.ESCAPE) {
+    if (kev.keyCode === KeyCodes.ESCAPE) {
       deactivate(true);
     }
   }
@@ -233,7 +231,7 @@ export function registerWorkPackageMouseHandler(this:void,
       // Persist the changes
       saveWorkPackage(renderInfo.change)
         .then(stopAndRefresh)
-        .catch(error => {
+        .catch((error) => {
           notificationService.handleRawError(error, renderInfo.workPackage);
           cancelChange();
         });
@@ -258,7 +256,7 @@ export function registerWorkPackageMouseHandler(this:void,
       .save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
-        const ids = _.map(querySpace.tableRendered.value!, row => row.workPackageId);
+        const ids = _.map(querySpace.tableRendered.value, (row) => row.workPackageId);
         return apiv3Service
           .work_packages
           .filterUpdatedSince(ids, updatedAt)
@@ -271,4 +269,3 @@ export function registerWorkPackageMouseHandler(this:void,
       });
   }
 }
-

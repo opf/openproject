@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,22 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Directive, ElementRef, Injector, Input } from '@angular/core';
+import {
+  Directive, ElementRef, Injector, Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { Board } from "core-app/features/boards/board/board";
-import { BoardConfigurationModal } from "core-app/features/boards/board/configuration-modal/board-configuration.modal";
-import { BoardService } from "core-app/features/boards/board/board.service";
-import { StateService } from "@uirouter/core";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { triggerEditingEvent } from "core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component";
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { Board } from 'core-app/features/boards/board/board';
+import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
+import { BoardService } from 'core-app/features/boards/board/board.service';
+import { StateService } from '@uirouter/core';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { triggerEditingEvent } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 
 @Directive({
-  selector: '[boardsToolbarMenu]'
+  selector: '[boardsToolbarMenu]',
 })
 export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
   @Input('boardsToolbarMenu-resource') public board:Board;
@@ -49,21 +51,20 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly opModalService:OpModalService,
-              readonly boardService:BoardService,
-              readonly Notifications:NotificationsService,
-              readonly State:StateService,
-              readonly injector:Injector,
-              readonly I18n:I18nService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly opModalService:OpModalService,
+    readonly boardService:BoardService,
+    readonly Notifications:NotificationsService,
+    readonly State:StateService,
+    readonly injector:Injector,
+    readonly I18n:I18nService) {
     super(elementRef, opContextMenu);
   }
 
   public get locals() {
     return {
       contextMenuId: 'boardsToolbarMenu',
-      items: this.items
+      items: this.items,
     };
   }
 
@@ -78,32 +79,32 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
         // Configuration modal
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
         icon: 'icon-settings',
-        onClick: ($event:JQuery.TriggeredEvent) => {
+        onClick: () => {
           this.opContextMenu.close();
-          this.opModalService.show(BoardConfigurationModal, this.injector, { board: this.board });
+          this.opModalService.show(BoardConfigurationModalComponent, this.injector, { board: this.board });
 
           return true;
-        }
+        },
       },
       {
         // Rename query shortcut
         linkText: this.I18n.t('js.toolbar.settings.page_settings'),
         icon: 'icon-edit',
-        onClick: ($event:JQuery.TriggeredEvent) => {
+        onClick: () => {
           if (this.board.grid.updateImmediately) {
-            jQuery(`.toolbar-container .editable-toolbar-title--input`).trigger(triggerEditingEvent);
+            jQuery('.toolbar-container .editable-toolbar-title--input').trigger(triggerEditingEvent);
           }
 
           return true;
-        }
+        },
       },
       {
         // Delete query
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
-        onClick: ($event:JQuery.TriggeredEvent) => {
-          if (this.board.grid.delete &&
-            window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
+        onClick: () => {
+          if (this.board.grid.delete
+            && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
             this.boardService
               .delete(this.board)
               .then(() => {
@@ -112,8 +113,8 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
           }
 
           return true;
-        }
-      }
+        },
+      },
     ];
   }
 }

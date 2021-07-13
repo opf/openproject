@@ -1,15 +1,15 @@
 import { Injector } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { SingleRowBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder";
-import { WorkPackageTable } from "core-app/features/work-packages/components/wp-fast-table/wp-fast-table";
-import { States } from "core-app/core/states/states.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { SingleRowBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { States } from 'core-app/core/states/states.service';
 import {
   collapsedGroupClass,
   hierarchyGroupClass,
-  hierarchyRootClass
-} from "core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers";
-import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+  hierarchyRootClass,
+} from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -20,6 +20,7 @@ export const hierarchyBaseIndentation = 25;
 export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   // Injected
   @InjectField() public wpTableHierarchies:WorkPackageViewHierarchiesService;
+
   @InjectField() public states:States;
 
   // Retain a map of hierarchy elements present in the table
@@ -33,16 +34,15 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   };
 
   constructor(public readonly injector:Injector,
-              protected workPackageTable:WorkPackageTable) {
-
+    protected workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
 
     this.text = {
-      leaf: (level:number) => this.I18n.t('js.work_packages.hierarchy.leaf', { level: level }),
+      leaf: (level:number) => this.I18n.t('js.work_packages.hierarchy.leaf', { level }),
       expanded: (level:number) => this.I18n.t('js.work_packages.hierarchy.children_expanded',
-        { level: level }),
+        { level }),
       collapsed: (level:number) => this.I18n.t('js.work_packages.hierarchy.children_collapsed',
-        { level: level }),
+        { level }),
     };
   }
 
@@ -53,7 +53,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   public refreshRow(workPackage:WorkPackageResource, jRow:JQuery):JQuery {
     // Remove any old hierarchy
     const newRow = super.refreshRow(workPackage, jRow);
-    newRow.find(`.wp-table--hierarchy-span`).remove();
+    newRow.find('.wp-table--hierarchy-span').remove();
     this.appendHierarchyIndicator(workPackage, newRow);
 
     return newRow;
@@ -92,7 +92,6 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
           hidden = true;
           rowClasses.push(collapsedGroupClass(ancestor.id!));
         }
-
       });
     }
 
@@ -105,7 +104,6 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   public buildAncestorRow(ancestor:WorkPackageResource,
     ancestorGroups:string[],
     index:number):[HTMLTableRowElement, boolean] {
-
     const workPackage = this.states.workPackages.get(ancestor.id!).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
     tr.classList.add(additionalHierarchyRowClassName);
@@ -127,9 +125,9 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
       .prepend(hierarchyElement);
 
     // Assure that the content is still visible when the hierarchy indentation is very large
-    jRow.find('td.subject').css('minWidth', 125 + (hierarchyIndentation * hierarchyLevel) + 'px');
+    jRow.find('td.subject').css('minWidth', `${125 + (hierarchyIndentation * hierarchyLevel)}px`);
     jRow.find('td.subject .wp-table--cell-container')
-      .css('width', 'calc(100% - ' + hierarchyBaseIndentation + 'px - ' + (hierarchyIndentation * hierarchyLevel) + 'px)');
+      .css('width', `calc(100% - ${hierarchyBaseIndentation}px - ${hierarchyIndentation * hierarchyLevel}px)`);
   }
 
   /**
@@ -138,7 +136,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   private buildHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery|null, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
-    const indicatorWidth = hierarchyBaseIndentation + (hierarchyIndentation * level) + 'px';
+    const indicatorWidth = `${hierarchyBaseIndentation + (hierarchyIndentation * level)}px`;
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;
     hierarchyIndicator.dataset.indentation = indicatorWidth;
@@ -149,9 +147,11 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
             <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
               <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>
               <span class="wp-table--hierarchy-indicator-expanded hidden-for-sighted">${this.text.expanded(
-    level)}</span>
+    level,
+  )}</span>
               <span class="wp-table--hierarchy-indicator-collapsed hidden-for-sighted">${this.text.collapsed(
-    level)}</span>
+    level,
+  )}</span>
             </a>
         `;
     } else {
@@ -164,5 +164,4 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
 
     return hierarchyIndicator;
   }
-
 }

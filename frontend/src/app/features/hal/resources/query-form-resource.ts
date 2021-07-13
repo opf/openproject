@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,10 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { FormResource } from "core-app/features/hal/resources/form-resource";
-import { QueryFilterInstanceSchemaResource } from "core-app/features/hal/resources/query-filter-instance-schema-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 export interface QueryFormResourceEmbedded {
   filtersSchemas:CollectionResource<QueryFilterInstanceSchemaResource>;
@@ -38,6 +38,7 @@ export interface QueryFormResourceEmbedded {
 
 export class QueryFormResource extends FormResource {
   public $embedded:QueryFormResourceEmbedded;
+
   public schema:SchemaResource;
 
   public get filtersSchemas():QueryFilterInstanceSchemaResource[] {

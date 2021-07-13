@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import {
+  Directive, EventEmitter, HostListener, Input, Output,
+} from '@angular/core';
 
 @Directive({
   selector: '[doubleClickOrTap]',
 })
 export class DoubleClickOrTapDirective {
   @Input('doubleClickOrTapStopEvent') stopEventPropagation = true;
+
   @Output('doubleClickOrTap') eventHandler = new EventEmitter<any>();
 
   @HostListener('dblclick', ['$event'])
@@ -44,7 +47,6 @@ export class DoubleClickOrTapDirective {
       this.eventHandler.emit(event);
       return this.eventStopReturnCode(event);
     }
-
 
     return true;
   }

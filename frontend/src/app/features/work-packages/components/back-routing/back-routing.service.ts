@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,9 +27,9 @@
 //++
 
 import { Injectable, Injector } from '@angular/core';
-import { StateService, Transition } from "@uirouter/core";
-import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { StateService, Transition } from '@uirouter/core';
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 interface BackRouteOptions {
   name:string;
@@ -41,6 +41,7 @@ interface BackRouteOptions {
 @Injectable({ providedIn: 'root' })
 export class BackRoutingService {
   @InjectField() private $state:StateService;
+
   @InjectField() private keepTab:KeepTabService;
 
   private _backRoute:BackRouteOptions;
@@ -56,7 +57,7 @@ export class BackRoutingService {
     if (preferListOverSplit) {
       this.goToOtherState(baseRoute, this.backRoute.params);
     } else {
-      const state = baseRoute + '.details.tabs';
+      const state = `${baseRoute}.details.tabs`;
       const params = { ...this.backRoute.params, tabIdentifier: this.keepTab.currentDetailsTab };
       this.goToOtherState(state, params);
     }
@@ -87,12 +88,10 @@ export class BackRoutingService {
     // if we are in the first state
     if (!this.backRoute && baseRoute.includes('show')) {
       this.$state.reload();
+    } else if (!this.backRoute || this.backRoute.name.includes('new')) {
+      this.$state.go(baseRoute, this.$state.params);
     } else {
-      if (!this.backRoute || this.backRoute.name.includes('new')) {
-        this.$state.go(baseRoute, this.$state.params);
-      } else {
-        this.goBackToPreviousState(preferListOverSplit, baseRoute);
-      }
+      this.goBackToPreviousState(preferListOverSplit, baseRoute);
     }
   }
 
@@ -106,15 +105,17 @@ export class BackRoutingService {
     const toState = transition.to();
 
     // Set backRoute to know where we came from
-    if (fromState.name &&
-      fromState.data &&
-      toState.data &&
-      fromState.data.parent !== toState.data.parent) {
+    if (fromState.name
+      && fromState.data
+      && toState.data
+      && fromState.data.parent !== toState.data.parent) {
       const paramsFromCopy = { ...transition.params('from') };
-      this.backRoute = { name: fromState.name,
+      this.backRoute = {
+        name: fromState.name,
         params: paramsFromCopy,
         parent: fromState.data.parent,
-        baseRoute: fromState.data.baseRoute };
+        baseRoute: fromState.data.baseRoute,
+      };
     }
   }
 

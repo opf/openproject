@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,21 +27,20 @@
 //++
 import { State } from 'reactivestates';
 import { Injectable } from '@angular/core';
-import { StateCacheService } from "core-app/core/apiv3/cache/state-cache.service";
-import { Observable } from "rxjs";
-import { take } from "rxjs/operators";
-import { States } from "core-app/core/states/states.service";
-import { ISchemaProxy, SchemaProxy } from "core-app/features/hal/schemas/schema-proxy";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
-import { WorkPackageSchemaProxy } from "core-app/features/hal/schemas/work-package-schema-proxy";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { States } from 'core-app/core/states/states.service';
+import { ISchemaProxy, SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {
-
   constructor(readonly states:States,
-              readonly halResourceService:HalResourceService) {
+    readonly halResourceService:HalResourceService) {
     super(states.schemas);
   }
 
@@ -60,14 +59,13 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
     const schema = this.state(resource).value;
 
     if (!schema) {
-      throw `Schema for resource ${resource} was expected to be loaded but isn't.`;
+      throw new Error(`Schema for resource ${resource} was expected to be loaded but isn't.`);
     }
 
     if (resource._type === 'WorkPackage') {
       return WorkPackageSchemaProxy.create(schema, resource);
-    } else {
-      return SchemaProxy.create(schema, resource);
     }
+    return SchemaProxy.create(schema, resource);
   }
 
   public getSchemaHref(resource:HalResource):string {
@@ -91,7 +89,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
     return this
       .requireAndStream(href)
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise();
   }
@@ -110,7 +108,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
     if (this.stale(href) || force) {
       this.clearAndLoad(
         href,
-        this.load(href)
+        this.load(href),
       );
     }
 
@@ -125,12 +123,12 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
       .halResourceService
       .get<SchemaResource>(href)
       .pipe(
-        take(1)
+        take(1),
       );
   }
 
   protected loadAll(hrefs:string[]):Promise<unknown|undefined> {
-    return Promise.all(hrefs.map(href => this.load(href)));
+    return Promise.all(hrefs.map((href) => this.load(href)));
   }
 
   /**
@@ -145,9 +143,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   private stateKey(id:string|HalResource):string {
     if (id instanceof HalResource) {
       return this.getSchemaHref(id);
-    } else {
-      return id;
     }
+    return id;
   }
 }
-

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,13 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {Inject, Injectable} from '@angular/core';
-import {DOCUMENT} from "@angular/common";
-import {enterpriseEditionUrl} from "core-app/core/setup/globals/constants.const";
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { enterpriseEditionUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Injectable({ providedIn: 'root' })
 export class BannersService {
-
   private readonly _banners:boolean = true;
 
   constructor(@Inject(DOCUMENT) protected documentElement:Document) {
@@ -43,7 +42,7 @@ export class BannersService {
     return this._banners;
   }
 
-  public getEnterPriseEditionUrl({ referrer, hash }:{referrer?:string, hash?:string} = {}) {
+  public getEnterPriseEditionUrl({ referrer, hash }:{ referrer?:string, hash?:string } = {}) {
     const url = new URL(enterpriseEditionUrl);
     if (referrer) {
       url.searchParams.set('op_referrer', referrer);

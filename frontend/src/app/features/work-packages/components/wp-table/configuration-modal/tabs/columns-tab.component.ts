@@ -4,21 +4,25 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
-import { BannersService } from "core-app/core/enterprise/banners.service";
-import { DraggableOption } from "core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component";
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { DraggableOption } from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
 
 @Component({
-  templateUrl: './columns-tab.component.html'
+  templateUrl: './columns-tab.component.html',
 })
-export class WpTableConfigurationColumnsTab implements TabComponent, OnInit {
-  public availableColumnsOptions = this.wpTableColumns.all.map(c => this.column2Like(c));
+export class WpTableConfigurationColumnsTabComponent implements TabComponent, OnInit {
+  public availableColumnsOptions = this.wpTableColumns.all.map((c) => this.column2Like(c));
 
   public availableColumns = this.wpTableColumns.all;
-  public availableColumnsMap:{ [id:string]:QueryColumn } = _.keyBy(this.availableColumns, c => c.id);
-  public selectedColumns:DraggableOption[] = this.wpTableColumns.getColumns().map(c => this.column2Like(c));
+
+  public availableColumnsMap:{ [id:string]:QueryColumn } = _.keyBy(this.availableColumns, (c) => c.id);
+
+  public selectedColumns:DraggableOption[] = this.wpTableColumns.getColumns().map((c) => this.column2Like(c));
 
   public selectedColumnMap:{ [id:string]:boolean } = {};
+
   public eeShowBanners = false;
+
   public text = {
 
     columnsHelp: this.I18n.t('js.work_packages.table_configuration.columns_help_text'),
@@ -27,18 +31,18 @@ export class WpTableConfigurationColumnsTab implements TabComponent, OnInit {
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
 
     upsaleRelationColumns: this.I18n.t('js.work_packages.table_configuration.upsale.relation_columns'),
-    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link')
+    upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
   };
 
   constructor(readonly injector:Injector,
-              readonly I18n:I18nService,
-              readonly wpTableColumns:WorkPackageViewColumnsService,
-              readonly ConfigurationService:ConfigurationService,
-              readonly bannerService:BannersService) {
+    readonly I18n:I18nService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly ConfigurationService:ConfigurationService,
+    readonly bannerService:BannersService) {
   }
 
   public onSave() {
-    this.wpTableColumns.setColumnsById(this.selectedColumns.map(c => c.id));
+    this.wpTableColumns.setColumnsById(this.selectedColumns.map((c) => c.id));
   }
 
   ngOnInit() {

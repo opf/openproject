@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,14 +27,16 @@
 //++
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, Injector, ViewChild } from '@angular/core';
+import {
+  AfterViewInit, Component, ElementRef, Injector, ViewChild,
+} from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { OpenProjectBackupService } from "core-app/core/backup/op-backup.service";
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OpenProjectBackupService } from 'core-app/core/backup/op-backup.service';
 
 export const backupSelector = 'backup';
 
@@ -56,18 +58,23 @@ export class BackupComponent implements AfterViewInit {
     attachmentsDisabled: this.i18n.t('js.backup.attachments_disabled'),
   };
 
-  public jobStatusId:string = this.elementRef.nativeElement.dataset['jobStatusId'];
-  public lastBackupDate:string = this.elementRef.nativeElement.dataset['lastBackupDate'];
-  public lastBackupAttachmentId:string = this.elementRef.nativeElement.dataset['lastBackupAttachmentId'];
-  public mayIncludeAttachments:boolean = this.elementRef.nativeElement.dataset['mayIncludeAttachments'] != "false";
+  public jobStatusId:string = this.elementRef.nativeElement.dataset.jobStatusId;
 
-  public isInProgress:boolean = false;
-  public includeAttachments:boolean = true;
-  public backupToken:string = "";
+  public lastBackupDate:string = this.elementRef.nativeElement.dataset.lastBackupDate;
+
+  public lastBackupAttachmentId:string = this.elementRef.nativeElement.dataset.lastBackupAttachmentId;
+
+  public mayIncludeAttachments:boolean = this.elementRef.nativeElement.dataset.mayIncludeAttachments != 'false';
+
+  public isInProgress = false;
+
+  public includeAttachments = true;
+
+  public backupToken = '';
 
   @InjectField() opBackup:OpenProjectBackupService;
 
-  @ViewChild("backupTokenInput") backupTokenInput: ElementRef;
+  @ViewChild('backupTokenInput') backupTokenInput:ElementRef;
 
   constructor(
     readonly elementRef:ElementRef,
@@ -75,7 +82,7 @@ export class BackupComponent implements AfterViewInit {
     protected i18n:I18nService,
     protected notificationsService:NotificationsService,
     protected opModalService:OpModalService,
-    protected pathHelper:PathHelperService
+    protected pathHelper:PathHelperService,
   ) {
     this.includeAttachments = this.mayIncludeAttachments;
   }
@@ -85,8 +92,8 @@ export class BackupComponent implements AfterViewInit {
   }
 
   public isDownloadReady():boolean {
-    return this.jobStatusId !== undefined && this.jobStatusId !== "" &&
-      this.lastBackupAttachmentId !== undefined && this.lastBackupAttachmentId !== "";
+    return this.jobStatusId !== undefined && this.jobStatusId !== ''
+      && this.lastBackupAttachmentId !== undefined && this.lastBackupAttachmentId !== '';
   }
 
   public getDownloadUrl():string {
@@ -107,16 +114,16 @@ export class BackupComponent implements AfterViewInit {
       event.preventDefault();
     }
 
-    var backupToken = this.backupToken;
+    const { backupToken } = this;
 
-    this.backupToken = "";
+    this.backupToken = '';
 
     this.opBackup
       .triggerBackup(backupToken, this.includeAttachments)
       .toPromise()
       .then((resp:any) => {
         this.jobStatusId = resp.jobStatusId;
-        this.opModalService.show(JobStatusModal, 'global', { jobId: resp.jobStatusId });
+        this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
       })
       .catch((error:HttpErrorResponse) => {
         this.notificationsService.addError(error.error);
