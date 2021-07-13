@@ -67,8 +67,8 @@ export class GitActionsService {
   }
 
   public branchName(workPackage:WorkPackageResource):string {
-    const { type, id, description } = this.formattingInput(workPackage);
-    return `${type}/${id}-${this.sanitizeBranchString(description)}`;
+    const { type, id, title } = this.formattingInput(workPackage);
+    return `${this.sanitizeBranchString(type)}/${id}-${this.sanitizeBranchString(title)}`.toLocaleLowerCase();
   }
 
   public commitMessage(workPackage:WorkPackageResource):string {
@@ -81,7 +81,6 @@ ${url}`;
   }
 
   public gitCommand(workPackage:WorkPackageResource):string {
-    const wp = this.formattingInput(workPackage);
     const branch = this.branchName(workPackage);
     const commit = this.commitMessage(workPackage);
     return `git checkout -b ${this.sanitizeShellInput(branch)} && git commit --allow-empty -m ${this.sanitizeShellInput(commit)}`;
