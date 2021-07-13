@@ -36,7 +36,6 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
-import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
@@ -44,6 +43,7 @@ import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
+import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;

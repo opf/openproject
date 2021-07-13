@@ -27,16 +27,17 @@
 //++
 
 import {
-  Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,
+  Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
 } from '@angular/core';
-import {
-  CKEditorSetupService,
-  ICKEditorContext,
-  ICKEditorInstance,
-} from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import {
+  ICKEditorContext,
+  ICKEditorInstance, ICKEditorWatchdog
+} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
+import { CKEditorSetupService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
+
 
 declare module 'codemirror';
 
@@ -47,7 +48,7 @@ const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
   templateUrl: './op-ckeditor.html',
   styleUrls: ['./op-ckeditor.sass'],
 })
-export class OpCkeditorComponent implements OnInit {
+export class OpCkeditorComponent implements OnInit, OnDestroy {
   @Input() context:ICKEditorContext;
 
   @Input()
@@ -74,6 +75,7 @@ export class OpCkeditorComponent implements OnInit {
   @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef;
 
   // CKEditor instance once initialized
+  public watchdog:ICKEditorWatchdog;
   public ckEditorInstance:ICKEditorInstance;
 
   public error:string|null = null;
@@ -85,7 +87,7 @@ export class OpCkeditorComponent implements OnInit {
   private _content:string;
 
   public text = {
-    errorTitle: this.I18n.t('js.editor.error_initialization_failed'),
+    errorTitle: this.I18n.t('js.editor.ckeditor_error'),
   };
 
   // Codemirror instance, initialized lazily when running source mode
@@ -107,10 +109,10 @@ export class OpCkeditorComponent implements OnInit {
   private $element:JQuery;
 
   constructor(private readonly elementRef:ElementRef,
-    private readonly Notifications:NotificationsService,
-    private readonly I18n:I18nService,
-    private readonly configurationService:ConfigurationService,
-    private readonly ckEditorSetup:CKEditorSetupService) {
+              private readonly Notifications:NotificationsService,
+              private readonly I18n:I18nService,
+              private readonly configurationService:ConfigurationService,
+              private readonly ckEditorSetup:CKEditorSetupService) {
   }
 
   /**
@@ -176,6 +178,14 @@ export class OpCkeditorComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    try {
+      this.watchdog?.destroy();
+    } catch (e) {
+      console.error(`Failed to destroy CKEditor instance: ${e}`)
+    }
+  }
+
   private initializeEditor() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
@@ -188,18 +198,19 @@ export class OpCkeditorComponent implements OnInit {
       .catch((error:string) => {
         throw (error);
       })
-      .then((editor:ICKEditorInstance) => {
-        this.ckEditorInstance = editor;
+      .then((watchdog:ICKEditorWatchdog) => {
+        this.setupWatchdog(watchdog);
+        this.ckEditorInstance = watchdog.editor;
 
         // Save changes while in wysiwyg mode
-        editor.model.document.on('change', this.debouncedEmitter);
+        watchdog.editor.model.document.on('change', this.debouncedEmitter);
 
         // Switch mode
-        editor.on('op:source-code-enabled', () => this.enableManualMode());
-        editor.on('op:source-code-disabled', () => this.disableManualMode());
+        watchdog.editor.on('op:source-code-enabled', () => this.enableManualMode());
+        watchdog.editor.on('op:source-code-disabled', () => this.disableManualMode());
 
-        this.onInitialized.emit(editor);
-        return editor;
+        this.onInitialized.emit(watchdog.editor);
+        return watchdog.editor;
       });
 
     this.$element.data('editor', editorPromise);
@@ -245,5 +256,20 @@ export class OpCkeditorComponent implements OnInit {
         setTimeout(() => this.codeMirrorInstance.refresh(), 100);
         this.manualMode = true;
       });
+  }
+
+  /**
+   * Listen to some of the error events of the watchdog to provide the
+   * user with some information on what went wrong.
+   *
+   * @param watchdog
+   * @private
+   */
+  private setupWatchdog(watchdog:ICKEditorWatchdog) {
+    this.watchdog = watchdog;
+
+    watchdog.on('error', (_, { error }) => {
+      this.error = error.message;
+    });
   }
 }
