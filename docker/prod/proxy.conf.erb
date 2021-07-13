@@ -1,5 +1,13 @@
+<% server_name = ENV.fetch('SERVER_NAME') { "localhost" } %>
+<% unless server_name == "_default_" %>
 <VirtualHost *:80>
-  ServerName <%= ENV.fetch('SERVER_NAME') { "_default_" } %>
+  ServerName _default_
+  DocumentRoot /var/www/html
+</VirtualHost>
+<% end %>
+
+<VirtualHost *:80>
+  ServerName <%= server_name %>
   DocumentRoot <%= ENV.fetch('APP_PATH') %>/public
 
   ProxyRequests off
