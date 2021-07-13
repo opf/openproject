@@ -84,15 +84,15 @@ export class CKEditorSetupService {
   private createWatchdog(
     editorClass:ICKEditorStatic,
     contentWrapper:HTMLElement,
-    config:unknown
+    config:unknown,
   ):Promise<ICKEditorWatchdog> {
     const watchdog = new window.OPEditorWatchdog();
 
-    watchdog.setCreator((element, config) => editorClass.createCustomized(element, config));
+    watchdog.setCreator(() => editorClass.createCustomized(contentWrapper, config));
     watchdog.setDestructor((editor) => editor.destroy());
 
     return watchdog
-      .create(contentWrapper, config)
+      .create(contentWrapper, {})
       .then(() => watchdog);
   }
 
