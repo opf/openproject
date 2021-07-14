@@ -556,6 +556,7 @@ sv:
       autocompleter:
         label: 'Automatisk komplettering av projekt'
     text_are_you_sure: "Är du säker?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Namnet %{group} används redan. Gruppnamn måste vara unika."

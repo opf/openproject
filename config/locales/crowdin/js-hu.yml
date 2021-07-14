@@ -556,6 +556,7 @@ hu:
       autocompleter:
         label: 'Projektnevek automatikus kiegészítése'
     text_are_you_sure: "Biztos vagy benne?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."

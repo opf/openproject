@@ -557,6 +557,7 @@ sk:
       autocompleter:
         label: 'Automatické doplňovanie projektu'
     text_are_you_sure: "Ste si istí?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Názov skupiny %{group} sa používa viackrát. Názvy skupín musia byť jedinečné."

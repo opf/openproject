@@ -557,6 +557,7 @@ fr:
       autocompleter:
         label: 'Remplissage automatique du projet'
     text_are_you_sure: "Êtes-vous sûr ?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Le nom %{group} est utilisé plus d’une fois. Les noms de groupe doivent être uniques."

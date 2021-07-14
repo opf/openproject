@@ -556,6 +556,7 @@ ro:
       autocompleter:
         label: 'Completarea automată a proiectului'
     text_are_you_sure: "Sunteți sigur?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Numele %{group} este utilizat de mai multe ori. Fiecare grup trebuie să aibă un nume unic."

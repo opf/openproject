@@ -556,6 +556,7 @@ ru:
       autocompleter:
         label: 'Автоматическое завершение проекта'
     text_are_you_sure: "Вы уверены?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Имя %{group} используется более одного раза. Имена групп должны быть уникальными."
