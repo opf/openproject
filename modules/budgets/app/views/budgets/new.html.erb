@@ -34,7 +34,6 @@ See docs/COPYRIGHT.rdoc for more details.
                               :url => projects_budgets_path(@project),
                               :as => :budget,
                               :html => {:multipart => true, :id => 'budget_form'} do |f| %>
-    <%= error_messages_for 'budget' %>
     <%= render :partial => 'form', :locals => {:f => f} %>
     <%= styled_button_tag t(:button_create), class: '-with-icon icon-checkmark' %>
     <%= styled_button_tag t(:button_create_and_continue), :name => 'continue',
