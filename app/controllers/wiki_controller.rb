@@ -117,6 +117,7 @@ class WikiController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to_show
     else
+      @errors = call.errors
       render action: 'new'
     end
   end
@@ -180,6 +181,7 @@ class WikiController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to_show
     else
+      @errors = call.errors
       render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError
