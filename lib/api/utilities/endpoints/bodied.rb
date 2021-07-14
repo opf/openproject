@@ -58,6 +58,7 @@ module API
                        params_modifier: default_params_modifier,
                        params_source: default_params_source,
                        process_state: default_process_state,
+                       before_hook: nil,
                        parse_representer: nil,
                        render_representer: nil,
                        process_service: nil,
@@ -74,12 +75,14 @@ module API
           self.process_contract = process_contract || deduce_process_contract
           self.process_service = process_service || deduce_process_service
           self.parse_service = parse_service || deduce_parse_service
+          self.before_hook = before_hook
         end
 
         def mount
           update = self
 
           -> do
+            update.before_hook&.(request: self)
             params = update.parse(self)
             call = update.process(self, params)
 
@@ -134,7 +137,8 @@ module API
                       :process_contract,
                       :process_service,
                       :parse_service,
-                      :process_state
+                      :process_state,
+                      :before_hook
 
         private
 
