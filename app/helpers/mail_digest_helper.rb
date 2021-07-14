@@ -30,8 +30,7 @@
 
 module MailDigestHelper
   def digest_timespan_text
-    end_time = Time.now.in_time_zone(User.current.time_zone).beginning_of_day +
-               Setting.notification_email_digest_time.minutes
+    end_time = Time.parse(Setting.notification_email_digest_time)
 
     I18n.t(:"mail.digests.time_frame",
            start: format_time(end_time - 1.day),

@@ -116,9 +116,7 @@ describe Notifications::CreateService, type: :model do
         end
 
         it 'schedules a digest mail job' do
-          expected_time = Time.now.in_time_zone(ActiveSupport::TimeZone['Tijuana']).beginning_of_day +
-            1.day +
-            Setting.notification_email_digest_time.minutes
+          expected_time = ActiveSupport::TimeZone['Tijuana'].parse(Setting.notification_email_digest_time) + 1.day
 
           expect { subject }
             .to have_enqueued_job(Mails::DigestJob)

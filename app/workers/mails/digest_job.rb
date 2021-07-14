@@ -29,6 +29,14 @@
 #++
 
 class Mails::DigestJob < Mails::DeliverJob
+  class << self
+    def execution_time(user)
+      zone = (user.time_zone || ActiveSupport::TimeZone.new('UTC'))
+
+      zone.parse(Setting.notification_email_digest_time) + 1.day
+    end
+  end
+
   private
 
   def render_mail

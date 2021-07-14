@@ -390,5 +390,4 @@ notification_email_delay_minutes:
   format: int
 # Time, the email digest is run in minutes after midnight.
 notification_email_digest_time:
-  default: 480
-  format: int
+  default: '8:00'

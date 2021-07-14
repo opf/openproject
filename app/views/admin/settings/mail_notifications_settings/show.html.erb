@@ -47,11 +47,9 @@ See docs/COPYRIGHT.rdoc for more details.
         </div>
       </div>
       <div class="form--field">
-        <%= setting_number_field :notification_email_digest_time,
-                                 container_class: '-xslim',
-                                 min: 0,
-                                 max: 1439,
-                                 unit: t(:label_minute_plural) %>
+        <%= setting_time_field :notification_email_digest_time,
+                               container_class: '-xslim',
+                               unit: 'UTC' %>
         <div class="form--field-instructions">
           <%= t(:'settings.notifications.email_digest_explanation') %>
         </div>

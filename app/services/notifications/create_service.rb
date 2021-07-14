@@ -59,7 +59,7 @@ class Notifications::CreateService < ::BaseServices::Create
     return if digest_job_already_scheduled?(notification)
 
     Mails::DigestJob
-      .set(wait_until: digest_job_execution_time(notification.recipient))
+      .set(wait_until: Mails::DigestJob.execution_time(notification.recipient))
       .perform_later(notification.recipient)
   end
 
@@ -69,11 +69,5 @@ class Notifications::CreateService < ::BaseServices::Create
                           time: notification.created_at)
       .where.not(id: notification.id)
       .exists?
-  end
-
-  def digest_job_execution_time(recipient)
-    Time.now.in_time_zone(recipient.time_zone).beginning_of_day +
-      1.day +
-      Setting.notification_email_digest_time.minutes
   end
 end
