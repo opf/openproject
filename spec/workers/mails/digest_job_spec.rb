@@ -138,5 +138,15 @@ describe Mails::DigestJob, type: :model do
           .to raise_error(SocketError)
       end
     end
+
+    context 'with an empty list of notification ids' do
+      let(:notification_ids) { [] }
+
+      it 'sends no mail' do
+        job
+        expect(DigestMailer)
+          .not_to have_received(:work_packages)
+      end
+    end
   end
 end

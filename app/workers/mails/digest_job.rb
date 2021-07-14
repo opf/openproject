@@ -44,6 +44,8 @@ class Mails::DigestJob < Mails::DeliverJob
     # will result in the notification to not be found via the .mail_digest_before scope.
     notification_ids = Notification.mail_digest_before(recipient: recipient, time: Time.current).pluck(:id)
 
+    return nil if notification_ids.empty?
+
     with_marked_notifications(notification_ids) do
       DigestMailer
         .work_packages(recipient.id, notification_ids)
