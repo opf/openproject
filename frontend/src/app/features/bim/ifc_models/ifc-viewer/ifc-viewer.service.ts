@@ -11,6 +11,7 @@ import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.s
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HttpClient } from '@angular/common/http';
 
+
 export interface XeokitElements {
   canvasElement:HTMLElement;
   explorerElement:HTMLElement;
@@ -20,16 +21,28 @@ export interface XeokitElements {
   enableEditModels?:boolean;
 }
 
+/**
+ * Options for saving current viewpoint in xeokit-bim-viewer.
+ * See: https://xeokit.github.io/xeokit-bim-viewer/docs/class/src/BIMViewer.js~BIMViewer.html#instance-method-saveBCFViewpoint
+ */
 export interface BCFCreationOptions {
   spacesVisible?:boolean;
   spaceBoundariesVisible?:boolean;
   openingsVisible?:boolean;
+  defaultInvisible?:boolean;
+  reverseClippingPlanes?:boolean;
 }
 
+/**
+ * Options for loading a viewpoint into xeokit-bim-viewer.
+ * See: https://xeokit.github.io/xeokit-bim-viewer/docs/class/src/BIMViewer.js~BIMViewer.html#instance-method-loadBCFViewpoint
+ */
 export interface BCFLoadOptions {
   rayCast?:boolean;
   immediate?:boolean;
   duration?:number;
+  updateCompositeObjects?:boolean;
+  reverseClippingPlanes?:boolean;
 }
 
 @Injectable()
@@ -54,7 +67,7 @@ export class IFCViewerService extends ViewerBridgeService {
     super(injector);
   }
 
-  public newViewer(elements:XeokitElements, projects:any[]) {
+  public newViewer(elements:XeokitElements, projects:any[]):void {
     import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
       const server = new XeokitServer(this.pathHelper);
       const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
@@ -106,7 +119,7 @@ export class IFCViewerService extends ViewerBridgeService {
     });
   }
 
-  public destroy() {
+  public destroy():void {
     this.viewerVisible$.complete();
 
     if (!this.viewer) {
@@ -117,7 +130,7 @@ export class IFCViewerService extends ViewerBridgeService {
     this.viewer = undefined;
   }
 
-  public get viewer() {
+  public get viewer():any {
     return this._viewer;
   }
 
@@ -125,12 +138,13 @@ export class IFCViewerService extends ViewerBridgeService {
     this._viewer = viewer;
   }
 
-  public setKeyboardEnabled(val:boolean) {
+  public setKeyboardEnabled(val:boolean):void {
     this.viewer.setKeyboardEnabled(val);
   }
 
   public getViewpoint$():Observable<BcfViewpointInterface> {
-    const viewpoint = this.viewer.saveBCFViewpoint({ spacesVisible: true });
+    const opts:BCFCreationOptions = { spacesVisible: true, reverseClippingPlanes: true };
+    const viewpoint = this.viewer.saveBCFViewpoint(opts);
 
     // The backend rejects viewpoints with bitmaps
     delete viewpoint.bitmaps;
@@ -138,15 +152,15 @@ export class IFCViewerService extends ViewerBridgeService {
     return of(viewpoint);
   }
 
-  public showViewpoint(workPackage:WorkPackageResource, index:number) {
+  public showViewpoint(workPackage:WorkPackageResource, index:number):void {
     // Avoid reload the app when there is a place to show the viewer
     // ('bim.partitioned.split')
     if (this.routeWithViewer) {
       if (this.viewer) {
-        const viewpointOptions = { updateCompositeObjects: true };
+        const opts:BCFLoadOptions = { updateCompositeObjects: true, reverseClippingPlanes: true };
         this.viewpointsService
           .getViewPoint$(workPackage, index)
-          .subscribe((viewpoint) => this.viewer.loadBCFViewpoint(viewpoint, viewpointOptions));
+          .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, opts));
       }
     } else {
       // Reload the whole app to get the correct menus and GON data
