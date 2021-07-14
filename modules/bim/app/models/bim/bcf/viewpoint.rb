@@ -35,6 +35,10 @@ module Bim::Bcf
       end
     end
 
+    def clipping_planes?
+      json_viewpoint && json_viewpoint["clipping_planes"]
+    end
+
     def snapshot=(file)
       snapshot&.destroy
       build_snapshot file
