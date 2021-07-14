@@ -73,6 +73,7 @@ class DocumentsController < ApplicationController
       redirect_to project_documents_path(@project)
     else
       @document = call.result
+      @errors = call.errors
       render action: 'new'
     end
   end
@@ -91,6 +92,7 @@ class DocumentsController < ApplicationController
       redirect_to action: 'show', id: @document
     else
       @document = call.result
+      @errors = call.errors
       render action: 'edit'
     end
   end
