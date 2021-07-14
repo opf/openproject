@@ -108,6 +108,7 @@ class BudgetsController < ApplicationController
       flash[:notice] = t(:notice_successful_create)
       redirect_to(params[:continue] ? { action: 'new' } : { action: 'show', id: @budget })
     else
+      @errors = call.errors
       render action: 'new', layout: !request.xhr?
     end
   end
@@ -126,6 +127,7 @@ class BudgetsController < ApplicationController
       redirect_to(params[:back_to] || { action: 'show', id: @budget })
     else
       @budget = call.result
+      @errors = call.errors
       render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError
