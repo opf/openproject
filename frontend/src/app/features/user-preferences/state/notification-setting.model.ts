@@ -1,6 +1,6 @@
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
-export type NotificationSettingChannel = 'mail'|'in_app';
+export type NotificationSettingChannel = 'mail'|'mail_digest'|'in_app';
 
 export interface NotificationSetting {
   _links:{ project:HalSourceLink };
@@ -21,7 +21,7 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
     },
     involved: true,
     mentioned: true,
-    watched: false,
+    watched: true,
     all: false,
     channel: 'in_app',
     ...params,

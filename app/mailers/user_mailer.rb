@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class UserMailer < BaseMailer
+class UserMailer < ApplicationMailer
   def test_mail(user)
     @welcome_url = url_for(controller: '/homescreen')
 

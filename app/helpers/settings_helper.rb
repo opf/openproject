@@ -118,6 +118,12 @@ module SettingsHelper
     end
   end
 
+  def setting_time_field(setting, options = {})
+    setting_field_wrapper(setting, options) do
+      styled_time_field_tag("settings[#{setting}]", Setting.send(setting), options)
+    end
+  end
+
   def setting_field_wrapper(setting, options)
     unit = options.delete(:unit)
     unit_html = ''

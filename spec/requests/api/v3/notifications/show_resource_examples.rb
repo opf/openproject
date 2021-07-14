@@ -40,9 +40,6 @@ shared_examples 'represents the notification' do
       .to(be_json_eql(notification.read_ian.to_json).at_path('readIAN'))
 
     expect(last_response.body)
-      .to(be_json_eql(notification.read_email.to_json).at_path('readEmail'))
-
-    expect(last_response.body)
       .to(be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_datetime(notification.created_at).to_json).at_path('createdAt'))
 
     expect(last_response.body)

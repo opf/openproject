@@ -606,7 +606,7 @@ de:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_email:
+            read_mail:
               read_on_creation: 'cannot be set to true on notification creation.'
         parse_schema_filter_params_service:
           attributes:

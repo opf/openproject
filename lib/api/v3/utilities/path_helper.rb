@@ -229,28 +229,12 @@ module API
             "#{notifications}/unread_ian"
           end
 
-          def self.notification_bulk_read_email
-            "#{notifications}/read_email"
-          end
-
-          def self.notification_bulk_unread_email
-            "#{notifications}/unread_email"
-          end
-
           def self.notification_read_ian(id)
             "#{notification(id)}/read_ian"
           end
 
           def self.notification_unread_ian(id)
             "#{notification(id)}/unread_ian"
-          end
-
-          def self.notification_read_email(id)
-            "#{notification(id)}/read_email"
-          end
-
-          def self.notification_unread_email(id)
-            "#{notification(id)}/unread_email"
           end
 
           index :placeholder_user

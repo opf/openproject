@@ -28,55 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::DeliverJob < ApplicationJob
-  queue_with_priority :notification
+module MailDigestHelper
+  def digest_timespan_text
+    end_time = Time.parse(Setting.notification_email_digest_time)
 
-  def perform(recipient_id)
-    self.recipient_id = recipient_id
-
-    return if abort?
-
-    deliver_mail
+    I18n.t(:"mail.digests.time_frame",
+           start: format_time(end_time - 1.day),
+           end: format_time(end_time))
   end
 
-  private
+  def digest_notification_timestamp_text(notification, html: true)
+    journal = notification.journal
+    user = html ? link_to_user(journal.user, only_path: false) : journal.user.name
 
-  attr_accessor :recipient_id
-
-  def abort?
-    # nothing to do if recipient was deleted in the meantime
-    recipient.nil?
-  end
-
-  def deliver_mail
-    mail = User.execute_as(recipient) { build_mail }
-
-    mail&.deliver_now
-  end
-
-  # To be implemented by subclasses.
-  # Returns a Mail::Message, or nil if no message should be sent.
-  def render_mail
-    raise NotImplementedError, 'SubclassResponsibility'
-  end
-
-  def build_mail
-    render_mail
-  rescue NotImplementedError
-    # Notify subclass of the need to implement
-    raise
-  rescue StandardError => e
-    Rails.logger.error "#{self.class.name}: Unexpected error rendering a mail: #{e}"
-    # not raising, to avoid re-schedule of DelayedJob; don't expect render errors to fix themselves
-    # by retrying
-    nil
-  end
-
-  def recipient
-    @recipient ||= if recipient_id.is_a?(User)
-                     recipient_id
-                   else
-                     User.find_by(id: recipient_id)
-                   end
+    raw(I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created_at' : 'updated_at'}",
+               user: user,
+               timestamp: format_time(journal.created_at)))
   end
 end

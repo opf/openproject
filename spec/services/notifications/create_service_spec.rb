@@ -32,6 +32,29 @@ require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
 describe Notifications::CreateService, type: :model do
+  let(:mail_digest_before) { false }
+
+  before do
+    scope = double('scope')
+
+    allow(Notification)
+      .to receive(:mail_digest_before)
+            .with(recipient: model_instance.recipient, time: model_instance.created_at)
+            .and_return(scope)
+
+    allow(scope)
+      .to receive(:where)
+            .and_return(scope)
+
+    allow(scope)
+      .to receive(:not)
+            .and_return(scope)
+
+    allow(scope)
+      .to receive(:exists?)
+            .and_return(mail_digest_before)
+  end
+
   it_behaves_like 'BaseServices create service' do
     let(:call_attributes) do
       {}
@@ -50,11 +73,11 @@ describe Notifications::CreateService, type: :model do
       context 'when mail ought to be send', { with_settings: { notification_email_delay_minutes: 30 } } do
         let(:call_attributes) do
           {
-            read_email: false
+            read_mail: false
           }
         end
 
-        it 'schedules a delayed event notification job' do
+        it 'schedules a delayed notification job' do
           allow(Time)
             .to receive(:now)
                   .and_return(Time.now)
@@ -69,13 +92,64 @@ describe Notifications::CreateService, type: :model do
       context 'when mail not ought to be send' do
         let(:call_attributes) do
           {
-            read_email: nil
+            read_mail: nil
           }
         end
 
-        it 'schedules no event notification job' do
+        it 'schedules no notification job' do
           expect { subject }
             .not_to have_enqueued_job(Mails::NotificationJob)
+        end
+      end
+
+      context 'when digests ought to be send' do
+        let(:call_attributes) do
+          {
+            read_mail_digest: false
+          }
+        end
+
+        before do
+          allow(model_instance.recipient)
+            .to receive(:time_zone)
+                  .and_return(ActiveSupport::TimeZone['Tijuana'])
+        end
+
+        it 'schedules a digest mail job' do
+          expected_time = ActiveSupport::TimeZone['Tijuana'].parse(Setting.notification_email_digest_time) + 1.day
+
+          expect { subject }
+            .to have_enqueued_job(Mails::DigestJob)
+                  .with({ "_aj_globalid" => "gid://open-project/User/#{model_instance.recipient.id}" })
+                  .at(expected_time)
+        end
+      end
+
+      context 'when digests ought to be send and there is already a digest job scheduled' do
+        let(:mail_digest_before) { true }
+
+        let(:call_attributes) do
+          {
+            read_mail_digest: false
+          }
+        end
+
+        it 'schedules no digest mail job' do
+          expect { subject }
+            .not_to have_enqueued_job(Mails::DigestJob)
+        end
+      end
+
+      context 'when digests not ought to be send' do
+        let(:call_attributes) do
+          {
+            read_mail_digest: nil
+          }
+        end
+
+        it 'schedules no digest mail job' do
+          expect { subject }
+            .not_to have_enqueued_job(Mails::DigestJob)
         end
       end
     end

@@ -128,6 +128,9 @@ software_url:
 attachment_max_size:
   format: int
   default: 5120
+attachment_whitelist:
+  serialized: true
+  default: []
 work_packages_export_limit:
   format: int
   default: 500
@@ -388,6 +391,5 @@ notification_retention_period_days:
 notification_email_delay_minutes:
   default: 15
   format: int
-attachment_whitelist:
-  serialized: true
-  default: []
+notification_email_digest_time:
+  default: '8:00'

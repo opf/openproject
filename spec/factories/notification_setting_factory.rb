@@ -12,6 +12,10 @@ FactoryBot.define do
       channel { :mail }
     end
 
+    factory :mail_digest_notification_setting do
+      channel { :mail_digest }
+    end
+
     factory :in_app_notification_setting do
       channel { :in_app }
     end
