@@ -48,7 +48,7 @@ module OpenProject::Backlogs
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-backlogs',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true,
              settings: settings do
       OpenProject::AccessControl.permission(:edit_project).tap do |add|

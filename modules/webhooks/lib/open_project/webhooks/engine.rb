@@ -36,7 +36,7 @@ module OpenProject::Webhooks
 
     register 'openproject-webhooks',
              bundled: true,
-             author_url: 'https://github.com/opf/openproject-webhooks' do
+             author_url: 'https://www.openproject.org' do
       menu :admin_menu,
            :plugin_webhooks,
            { controller: 'webhooks/outgoing/admin', action: :index },

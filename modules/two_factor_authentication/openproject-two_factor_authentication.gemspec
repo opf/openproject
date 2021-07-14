@@ -5,7 +5,6 @@ Gem::Specification.new do |s|
   s.version     = '1.0.0'
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
-  s.homepage    = "https://community.openproject.org/projects/two-factor-authentication"
   s.summary     = "OpenProject Two-factor authentication"
   s.description = "This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password " \
                   "through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call"
