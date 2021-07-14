@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
-import { DragAndDropHelpers } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
+import { findIndex, reinsert } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
 
 export interface DragMember {
   dragContainer:HTMLElement;
@@ -51,8 +51,14 @@ export class DragAndDropService implements OnDestroy {
 
   ngOnDestroy():void {
     this.document.documentElement.removeEventListener('keydown', this.escapeListener);
-    this.autoscroll && this.autoscroll.destroy();
-    this.drake && this.drake.destroy();
+
+    if (this.autoscroll) {
+      this.autoscroll.destroy();
+    }
+
+    if (this.drake) {
+      this.drake.destroy();
+    }
   }
 
   public remove(container:HTMLElement) {
@@ -137,18 +143,19 @@ export class DragAndDropService implements OnDestroy {
       ignoreInputTextSelection: true, // allows users to select input text, see details below
     });
 
-    this.drake.on('drag', (el:HTMLElement, source:HTMLElement) => {
-      el.dataset.sourceIndex = DragAndDropHelpers.findIndex(el).toString();
+    this.drake.on('drag', (el:HTMLElement) => {
+      // eslint-disable-next-line no-param-reassign
+      el.dataset.sourceIndex = findIndex(el).toString();
     });
 
-    this.drake.on('over', (el:HTMLElement, container:HTMLElement) => {
+    this.drake.on('over', (_, container:HTMLElement) => {
       const zone = container.closest('.drop-zone');
       if (zone) {
         zone.classList.add('-dragged-over');
       }
     });
 
-    this.drake.on('out', (el:HTMLElement, container:HTMLElement) => {
+    this.drake.on('out', (_, container:HTMLElement) => {
       const zone = container.closest('.drop-zone');
       if (zone) {
         zone.classList.remove('-dragged-over');
@@ -162,9 +169,9 @@ export class DragAndDropService implements OnDestroy {
       }
     });
 
-    this.drake.on('drop', async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement) => {
+    this.drake.on('drop', (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement) => {
       try {
-        await this.handleDrop(el, target, source, sibling);
+        this.handleDrop(el, target, source, sibling);
       } catch (e) {
         console.error('Failed to handle drop of %O, %O', el, e);
       }
@@ -177,7 +184,7 @@ export class DragAndDropService implements OnDestroy {
       }
     });
 
-    this.drake.on('cancel', (el:HTMLElement, container:HTMLElement, source:HTMLElement) => {
+    this.drake.on('cancel', (el:HTMLElement, container:HTMLElement) => {
       const member = this.member(container);
       if (member && member.onCancel) {
         member.onCancel(el);
@@ -194,16 +201,16 @@ export class DragAndDropService implements OnDestroy {
     }
 
     if (to === from) {
-      return to.onMoved(el, target, source, sibling);
+      to.onMoved(el, target, source, sibling);
+      return;
     }
 
     const result = await to.onAdded(el, target, source, sibling);
-
     if (result) {
       from.onRemoved(el, target, source, sibling);
     } else {
       // Restore element in from container
-      DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
+      reinsert(el, el.dataset.sourceIndex || -1, source);
     }
   }
 }

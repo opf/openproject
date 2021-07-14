@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
@@ -41,7 +41,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   @Output() public tabSelected = new EventEmitter<TabDefinition>();
 
-  trackById = AngularTrackingHelpers.trackByProperty('id');
+  trackById = trackByProperty('id');
 
   private container:Element;
 

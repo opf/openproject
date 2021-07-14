@@ -30,9 +30,9 @@ import { InputState } from 'reactivestates';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalLinkInterface } from "core-app/features/hal/hal-link/hal-link";
-import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
+import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
   new(injector:Injector,

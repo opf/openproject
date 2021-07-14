@@ -40,11 +40,11 @@ end -%>
       <div class="generic-table--results-container">
         <table class="generic-table" id="labor_budget_items">
           <colgroup>
-            <col highlight-col>
-            <col highlight-col>
-            <col highlight-col>
+            <col opHighlightCol>
+            <col opHighlightCol>
+            <col opHighlightCol>
             <% if User.current.allowed_to?(:view_cost_rates, @project)%>
-              <col highlight-col>
+              <col opHighlightCol>
             <%end%>
             <col>
           </colgroup>

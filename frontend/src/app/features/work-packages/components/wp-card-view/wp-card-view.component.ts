@@ -15,7 +15,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { trackByHrefAndProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { CardHighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { StateService } from '@uirouter/core';
@@ -84,7 +84,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
 
-  public trackByHref = AngularTrackingHelpers.trackByHrefAndProperty('lockVersion');
+  public trackByHref = trackByHrefAndProperty('lockVersion');
 
   public query:QueryResource;
 

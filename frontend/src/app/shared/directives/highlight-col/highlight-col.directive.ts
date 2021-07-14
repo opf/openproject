@@ -30,12 +30,13 @@ import {
   Component, ElementRef, OnDestroy, OnInit,
 } from '@angular/core';
 
+export const highlightColSelector = 'col[opHighlightCol]';
+
 @Component({
-  selector: 'col[highlight-col]',
+  selector: highlightColSelector,
   template: '',
 })
-
-export class HighlightColDirective implements OnInit, OnDestroy {
+export class OpHighlightColDirective implements OnInit, OnDestroy {
   private $element:JQuery;
 
   private thead:JQuery;
@@ -68,8 +69,3 @@ export class HighlightColDirective implements OnInit, OnDestroy {
     this.thead.off('mouseenter mouseleave');
   }
 }
-
-export const highlightColBootstrap = {
-  selector: 'col[highlight-col]',
-  cls: HighlightColDirective,
-};

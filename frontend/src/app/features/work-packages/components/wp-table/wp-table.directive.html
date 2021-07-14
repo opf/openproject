@@ -4,8 +4,8 @@
       <colgroup>
         <col *ngIf="configuration.dragAndDropEnabled">
         <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
-        <col highlight-col *ngFor="let column of [].constructor(columns.length)">
-        <col highlight-col *ngIf="configuration.columnMenuEnabled">
+        <col opHighlightCol *ngFor="let column of [].constructor(columns.length)">
+        <col opHighlightCol *ngIf="configuration.columnMenuEnabled">
         <col *ngIf="!configuration.columnMenuEnabled">
       </colgroup>
       <caption class="hidden-for-sighted">

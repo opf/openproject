@@ -41,7 +41,7 @@ import { BoardService } from 'core-app/features/boards/board/board.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { CreateAutocompleterComponent } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
 import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -78,7 +78,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** avoid double click */
   public inFlight = false;
 
-  public trackByHref = AngularTrackingHelpers.trackByHref;
+  public trackByHref = trackByHref;
 
   /* Do not close on outside click (because the select option are appended to the body */
   public closeOnOutsideClick = false;
