@@ -76,7 +76,7 @@ export class GitActionsService {
 
 ${description}
 
-${url}`;
+${url}`.replace(/\n\n+/g, '\n\n');
   }
 
   public gitCommand(workPackage:WorkPackageResource):string {
