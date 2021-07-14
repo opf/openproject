@@ -388,3 +388,6 @@ notification_retention_period_days:
 notification_email_delay_minutes:
   default: 15
   format: int
+attachment_whitelist:
+  serialized: true
+  default: []

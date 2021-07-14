@@ -252,6 +252,10 @@ class PermittedParams
     params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
   end
 
+  def wiki_page_with_content
+    wiki_page.merge(wiki_content)
+  end
+
   def pref
     params.fetch(:pref, {}).permit(:hide_mail, :time_zone, :theme,
                                    :comments_sorting, :warn_on_leaving_unsaved,

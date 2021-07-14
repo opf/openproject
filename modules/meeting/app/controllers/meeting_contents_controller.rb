@@ -27,6 +27,7 @@
 #++
 
 class MeetingContentsController < ApplicationController
+  include AttachableServiceCall
   include PaginationHelper
 
   menu_item :meetings
@@ -60,26 +61,26 @@ class MeetingContentsController < ApplicationController
   end
 
   def update
-    (render_403; return) unless @content.editable? # TODO: not tested!
-    @content.attributes = content_params.merge(author: User.current)
-    @content.attach_files(permitted_params.attachments.to_h)
+    call = attachable_update_call ::MeetingContents::UpdateService,
+                                  model: @content,
+                                  args: content_params
 
-    if !@content.lock_version_changed?
-      if @content.save
-        flash[:notice] = I18n.t(:notice_successful_update)
-        redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
-      end
+    if call.success?
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
     else
-      render_conflict
+      flash.now[:error] = call.message
+      params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+      render 'meetings/show'
     end
   end
 
   def history
     # don't load text
     @content_versions = @content.journals.select('id, user_id, notes, created_at, version')
-                        .order(Arel.sql('version DESC'))
-                        .page(page_param)
-                        .per_page(per_page_param)
+                                .order(Arel.sql('version DESC'))
+                                .page(page_param)
+                                .per_page(per_page_param)
 
     render 'meeting_contents/history', layout: !request.xhr?
   end
@@ -129,17 +130,11 @@ class MeetingContentsController < ApplicationController
 
   def find_meeting
     @meeting = Meeting.includes(:project, :author, :participants, :agenda, :minutes)
-               .find(params[:meeting_id])
+                      .find(params[:meeting_id])
     @project = @meeting.project
     @author = User.current
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def render_conflict
-    flash.now[:error] = I18n.t(:notice_locking_conflict)
-    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
-    render 'meetings/show'
   end
 
   def content_params

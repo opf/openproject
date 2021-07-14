@@ -97,11 +97,6 @@ class Budget < ApplicationRecord
     end
   end
 
-  def initialize(attributes = nil)
-    super
-    self.author = User.current if new_record?
-  end
-
   def budget
     material_budget + labor_budget
   end

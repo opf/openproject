@@ -55,9 +55,9 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
 
   def set_attributes_from_file(attachment, local_file)
     attachment.downloads = 0
-    attachment.set_file_size local_file unless attachment.filesize && attachment.filesize > 0
-    attachment.set_content_type local_file unless attachment.content_type.present?
-    attachment.set_digest local_file unless attachment.digest.present?
+    attachment.set_file_size local_file
+    attachment.set_content_type local_file
+    attachment.set_digest local_file
   end
 
   def save_attachment(attachment)

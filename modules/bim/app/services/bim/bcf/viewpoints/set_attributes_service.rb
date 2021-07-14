@@ -44,8 +44,9 @@ module Bim::Bcf
       def set_snapshot
         return unless snapshot_data_complete? && snapshot_content_type
 
+        name = "snapshot.#{snapshot_extension}"
         file = OpenProject::Files
-          .create_uploaded_file(name: "snapshot.#{snapshot_extension}",
+          .create_uploaded_file(name: name,
                                 content_type: snapshot_content_type,
                                 content: snapshot_binary_contents,
                                 binary: true)
@@ -54,7 +55,8 @@ module Bim::Bcf
         # to update existing viewpoints as the snapshot method will
         # delete any existing snapshot right away while the expectation
         # on a SetAttributesService is to not perform persisted changes.
-        model.snapshot = file
+        model.snapshot&.mark_for_destruction
+        model.build_snapshot file, user: user
       end
 
       def snapshot_data_complete?
