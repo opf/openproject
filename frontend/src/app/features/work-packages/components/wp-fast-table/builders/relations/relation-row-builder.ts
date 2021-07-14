@@ -1,14 +1,14 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
-import { WorkPackageTable } from '../../wp-fast-table';
-import { tdClassName } from '../cell-builder';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { RelationColumnType } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { States } from 'core-app/core/states/states.service';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { RelationColumnType } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { States } from "core-app/core/states/states.service";
-import { RelationResource } from "core-app/features/hal/resources/relation-resource";
+import { tdClassName } from '../cell-builder';
+import { WorkPackageTable } from '../../wp-fast-table';
+import { isRelationColumn, QueryColumn } from '../../../wp-query/query-column';
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;
@@ -21,13 +21,12 @@ export function relationIdentifier(targetId:string, workPackageId:string) {
 export const relationCellClassName = 'wp-table--relation-cell-td';
 
 export class RelationRowBuilder extends SingleRowBuilder {
-
   @InjectField() public states:States;
+
   @InjectField() public I18n:I18nService;
 
   constructor(public readonly injector:Injector,
-              protected workPackageTable:WorkPackageTable) {
-
+    protected workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
   }
 
@@ -39,7 +38,6 @@ export class RelationRowBuilder extends SingleRowBuilder {
    * @return {any}
    */
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement|null {
-
     // handle relation types
     if (isRelationColumn(column)) {
       return this.emptyRelationCell(column);
@@ -71,15 +69,15 @@ export class RelationRowBuilder extends SingleRowBuilder {
   public createEmptyRelationRow(from:WorkPackageResource, to:WorkPackageResource) {
     const identifier = this.relationClassIdentifier(from, to);
     const tr = document.createElement('tr');
-    tr.dataset['workPackageId'] = to.id!;
-    tr.dataset['classIdentifier'] = identifier;
+    tr.dataset.workPackageId = to.id!;
+    tr.dataset.classIdentifier = identifier;
 
     tr.classList.add(
       commonRowClassName, tableRowClassName, 'issue',
-      `wp-table--relations-aditional-row`,
+      'wp-table--relations-aditional-row',
       identifier,
       `${identifier}-table`,
-      relationGroupClass(from.id!)
+      relationGroupClass(from.id!),
     );
 
     return tr;

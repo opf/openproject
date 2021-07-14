@@ -29,7 +29,7 @@
 import copy from 'copy-text-to-clipboard';
 import { Component, Inject, Input } from '@angular/core';
 import { GitActionsService } from '../git-actions/git-actions.service';
-import { ISnippet} from "core-app/features/plugins/linked/openproject-github_integration/typings";
+import { ISnippet } from "core-app/features/plugins/linked/openproject-github_integration/typings";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { OPContextMenuComponent } from "core-app/shared/components/op-context-menu/op-context-menu.component";
 import {

@@ -1,22 +1,22 @@
-
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { SingleRowBuilder } from "core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
-import { SchemaCacheService } from "core-app/core/schemas/schema-cache.service";
-import { DisplayFieldService } from "core-app/shared/components/fields/display/display-field.service";
-import { groupedRowClassName } from "core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { SingleRowBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { groupedRowClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 
 export class GroupSumsBuilder extends SingleRowBuilder {
-
   @InjectField() readonly querySpace:IsolatedQuerySpace;
+
   @InjectField() readonly schemaCache:SchemaCacheService;
+
   @InjectField() readonly displayFieldService:DisplayFieldService;
 
   public text = {
-    sum: this.I18n.t('js.label_sum')
+    sum: this.I18n.t('js.label_sum'),
   };
 
   public buildSumsRow(group:GroupObject) {
@@ -28,7 +28,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
     return tr;
   }
 
-  public renderColumns(sums:{[key:string]:any}, tr:HTMLTableRowElement) {
+  public renderColumns(sums:{ [key:string]:any }, tr:HTMLTableRowElement) {
     this.augmentedColumns.forEach((column, i:number) => {
       const td = document.createElement('td');
       const div = this.renderContent(sums, column.id, this.sumsSchema[column.id]);
@@ -71,7 +71,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
       sums,
       name,
       fieldSchema,
-      { injector: this.injector, container: 'table', options: {} }
+      { injector: this.injector, container: 'table', options: {} },
     );
 
     if (!field.isEmpty()) {

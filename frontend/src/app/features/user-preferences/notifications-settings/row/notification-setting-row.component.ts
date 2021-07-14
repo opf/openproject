@@ -1,16 +1,19 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { arrayUpdate } from "@datorama/akita";
-import { NotificationSetting } from "core-app/features/user-preferences/state/notification-setting.model";
-import { UserPreferencesStore } from "core-app/features/user-preferences/state/user-preferences.store";
+import {
+  ChangeDetectionStrategy, Component, Input, OnInit,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { arrayUpdate } from '@datorama/akita';
+import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
+import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 
 @Component({
   selector: '[op-notification-setting-row]',
   templateUrl: './notification-setting-row.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationSettingRowComponent implements OnInit {
   @Input() first = false;
+
   @Input() setting:NotificationSetting;
 
   /** Whether this setting is global */
@@ -22,13 +25,13 @@ export class NotificationSettingRowComponent implements OnInit {
     email: this.I18n.t('js.notifications.email'),
     inApp: this.I18n.t('js.notifications.in_app'),
     remove_all: this.I18n.t('js.notifications.settings.remove_all'),
-    involved_header: 'I am involved',
-    mentioned_header: 'I was mentioned',
-    watched_header: 'I am watching',
-    any_event_header: 'All events',
-    default_all_projects: 'Default for all projects',
-    add_setting: 'Add settings for project',
-    channel: (channel:string):string => this.I18n.t('js.notifications.channels.' + channel)
+    involved_header: this.I18n.t('js.notifications.settings.involved'),
+    mentioned_header: this.I18n.t('js.notifications.settings.mentioned'),
+    watched_header: this.I18n.t('js.notifications.settings.watched'),
+    any_event_header: this.I18n.t('js.notifications.settings.all'),
+    default_all_projects: this.I18n.t('js.notifications.settings.default_all_projects'),
+    add_setting: this.I18n.t('js.notifications.settings.add'),
+    channel: (channel:string):string => this.I18n.t(`js.notifications.channels.${channel}`),
   };
 
   constructor(
@@ -44,9 +47,8 @@ export class NotificationSettingRowComponent implements OnInit {
   remove():void {
     this.store.update(
       ({ notifications }) => ({
-        notifications: notifications.filter(notification =>
-          notification._links.project.href !== this.setting._links.project.href)
-      })
+        notifications: notifications.filter((notification) => notification._links.project.href !== this.setting._links.project.href),
+      }),
     );
   }
 
@@ -54,14 +56,14 @@ export class NotificationSettingRowComponent implements OnInit {
     this.store.update(
       ({ notifications }) => ({
         notifications: arrayUpdate(
-          notifications, this.matcherFn.bind(this), delta
-        )
-      })
+          notifications, this.matcherFn.bind(this), delta,
+        ),
+      }),
     );
   }
 
   private matcherFn(notification:NotificationSetting) {
-    return notification._links.project.href === this.setting._links.project.href &&
-      notification.channel === this.setting.channel;
+    return notification._links.project.href === this.setting._links.project.href
+      && notification.channel === this.setting.channel;
   }
 }

@@ -1,9 +1,14 @@
-import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { FormlyTemplateOptions } from "@ngx-formly/core";
-import { ICKEditorContext, ICKEditorInstance } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import {
+  Component, forwardRef, Input, OnInit, ViewChild,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { FormlyTemplateOptions } from '@ngx-formly/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
+import {
+  ICKEditorContext,
+  ICKEditorInstance
+} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
 
 @Component({
   selector: 'op-formattable-control',
@@ -13,9 +18,9 @@ import { OpCkeditorComponent } from "core-app/shared/components/editor/component
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => FormattableControlComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class FormattableControlComponent implements ControlValueAccessor, OnInit {
   @Input() templateOptions:FormlyTemplateOptions;
@@ -23,19 +28,25 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
   @ViewChild(OpCkeditorComponent, { static: true }) editor:OpCkeditorComponent;
 
   text:{ [key:string]:string };
+
   value:{ raw:string };
+
   disabled = false;
+
   touched:boolean;
+
   // Detect when inner component could not be initialized
   initializationError = false;
+
   onChange:(_any:unknown) => void = () => undefined;
+
   onTouch:() => void = () => undefined;
 
   public get ckEditorContext():ICKEditorContext {
     return {
       type: this.templateOptions.editorType,
       macros: 'none',
-      options: { rtl: this.templateOptions?.rtl }
+      options: { rtl: this.templateOptions?.rtl },
     };
   }
 
@@ -48,7 +59,7 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
       save: this.I18n.t('js.inplace.button_save', { attribute: this.templateOptions?.name }),
-      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.templateOptions?.name })
+      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.templateOptions?.name }),
     };
   }
 
@@ -84,6 +95,7 @@ export class FormattableControlComponent implements ControlValueAccessor, OnInit
           this.touched = true;
           this.onTouch();
         }
-      });
+      },
+    );
   }
 }

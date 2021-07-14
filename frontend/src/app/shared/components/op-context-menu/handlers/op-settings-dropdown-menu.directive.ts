@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,45 +26,49 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Directive, ElementRef, Injector, Input } from '@angular/core';
+import {
+  Directive, ElementRef, Injector, Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
   selectableTitleIdentifier,
-  triggerEditingEvent
-} from "core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component";
-import { QuerySharingModal } from "core-app/shared/components/modals/share-modal/query-sharing.modal";
-import { WpTableExportModal } from "core-app/shared/components/modals/export-modal/wp-table-export.modal";
-import { SaveQueryModal } from "core-app/shared/components/modals/save-modal/save-query.modal";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
+  triggerEditingEvent,
+} from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
+import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
+import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
+import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 
 @Directive({
-  selector: '[opSettingsContextMenu]'
+  selector: '[opSettingsContextMenu]',
 })
 export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   @Input('opSettingsContextMenu-query') public query:QueryResource;
+
   private form:QueryFormResource;
+
   private loadingPromise:PromiseLike<any>;
+
   private focusAfterClose = true;
 
   constructor(readonly elementRef:ElementRef,
-              readonly opContextMenu:OPContextMenuService,
-              readonly opModalService:OpModalService,
-              readonly wpListService:WorkPackagesListService,
-              readonly authorisationService:AuthorisationService,
-              readonly states:States,
-              readonly injector:Injector,
-              readonly querySpace:IsolatedQuerySpace,
-              readonly I18n:I18nService) {
-
+    readonly opContextMenu:OPContextMenuService,
+    readonly opModalService:OpModalService,
+    readonly wpListService:WorkPackagesListService,
+    readonly authorisationService:AuthorisationService,
+    readonly states:States,
+    readonly injector:Injector,
+    readonly querySpace:IsolatedQuerySpace,
+    readonly I18n:I18nService) {
     super(elementRef, opContextMenu);
   }
 
@@ -73,9 +77,9 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
 
     this.querySpace.query.values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
-      .subscribe(queryUpdate => {
+      .subscribe((queryUpdate) => {
         this.query = queryUpdate;
       });
 
@@ -83,9 +87,9 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
 
     this.querySpace.queryForm.values$()
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
-      .subscribe(formUpdate => {
+      .subscribe((formUpdate) => {
         this.form = formUpdate;
       });
   }
@@ -100,7 +104,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   public get locals() {
     return {
       contextMenuId: 'settingsDropdown',
-      items: this.items
+      items: this.items,
     };
   }
 
@@ -112,7 +116,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   public positionArgs(evt:JQuery.TriggeredEvent) {
     const additionalPositionArgs = {
       my: 'right top',
-      at: 'right bottom'
+      at: 'right bottom',
     };
 
     const position = super.positionArgs(evt);
@@ -138,19 +142,17 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   private allowFormAction(event:JQuery.TriggeredEvent, action:string) {
     if (this.form.$links[action]) {
       return true;
-    } else {
-      event.stopPropagation();
-      return false;
     }
+    event.stopPropagation();
+    return false;
   }
 
   private allowAction(event:JQuery.TriggeredEvent, modelName:string, action:any) {
     if (this.authorisationService.can(modelName, action)) {
       return true;
-    } else {
-      event.stopPropagation();
-      return false;
     }
+    event.stopPropagation();
+    return false;
   }
 
   private buildItems() {
@@ -165,7 +167,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           this.opModalService.show(WpTableConfigurationModalComponent, this.injector);
 
           return true;
-        }
+        },
       },
       {
         // Insert columns
@@ -176,10 +178,10 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
-            { initialTab: 'columns' }
+            { initialTab: 'columns' },
           );
           return true;
-        }
+        },
       },
       {
         // Sort by
@@ -189,10 +191,10 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
-            { initialTab: 'sort-by' }
+            { initialTab: 'sort-by' },
           );
           return true;
-        }
+        },
       },
       {
         // Group by
@@ -203,10 +205,10 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,
             this.injector,
-            { initialTab: 'display-settings' }
+            { initialTab: 'display-settings' },
           );
           return true;
-        }
+        },
       },
       {
         // Rename query shortcut
@@ -220,7 +222,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
           }
 
           return true;
-        }
+        },
       },
       {
         // Query save modal
@@ -228,15 +230,15 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.toolbar.settings.save'),
         icon: 'icon-save',
         onClick: ($event:JQuery.TriggeredEvent) => {
-          const query = this.query;
+          const { query } = this;
           if (!query.persisted && this.allowQueryAction($event, 'updateImmediately')) {
-            this.opModalService.show(SaveQueryModal, this.injector);
+            this.opModalService.show(SaveQueryModalComponent, this.injector);
           } else if (query.id && this.allowQueryAction($event, 'updateImmediately')) {
             this.wpListService.save(query);
           }
 
           return true;
-        }
+        },
       },
       {
         // Query save as modal
@@ -245,11 +247,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-save',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowFormAction($event, 'create_new')) {
-            this.opModalService.show(SaveQueryModal, this.injector);
+            this.opModalService.show(SaveQueryModalComponent, this.injector);
           }
 
           return true;
-        }
+        },
       },
       {
         // Delete query
@@ -257,13 +259,13 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         linkText: this.I18n.t('js.toolbar.settings.delete'),
         icon: 'icon-delete',
         onClick: ($event:JQuery.TriggeredEvent) => {
-          if (this.allowQueryAction($event, 'delete') &&
-            window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
+          if (this.allowQueryAction($event, 'delete')
+            && window.confirm(this.I18n.t('js.text_query_destroy_confirmation'))) {
             this.wpListService.delete();
           }
 
           return true;
-        }
+        },
       },
       {
         // Export query
@@ -272,11 +274,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-export',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowWorkPackageAction($event, 'representations')) {
-            this.opModalService.show(WpTableExportModal, this.injector);
+            this.opModalService.show(WpTableExportModalComponent, this.injector);
           }
 
           return true;
-        }
+        },
       },
       {
         // Sharing modal
@@ -285,15 +287,15 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-watched',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowQueryAction($event, 'unstar') || this.allowQueryAction($event, 'star')) {
-            this.opModalService.show(QuerySharingModal, this.injector);
+            this.opModalService.show(QuerySharingModalComponent, this.injector);
           }
 
           return true;
-        }
+        },
       },
       {
         divider: true,
-        hidden: !(this.query.results.customFields && this.form.configureForm)
+        hidden: !(this.query.results.customFields && this.form.configureForm),
       },
       {
         // Settings modal
@@ -301,8 +303,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         href: this.query.results.customFields && this.query.results.customFields.href,
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',
-        onClick: () => false
-      }
+        onClick: () => false,
+      },
     ];
   }
 }

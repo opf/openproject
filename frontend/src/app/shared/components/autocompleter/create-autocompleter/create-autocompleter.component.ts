@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -31,24 +31,24 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   Input,
   Output,
   ViewChild,
-  Injector,
 } from '@angular/core';
-import { NgSelectComponent } from "@ng-select/ng-select";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { OpInviteUserModalService } from "core-app/features/invite-user-modal/invite-user-modal.service";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { AddTagFn } from "@ng-select/ng-select/lib/ng-select.component";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { AddTagFn } from '@ng-select/ng-select/lib/ng-select.component';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { Subject } from 'rxjs';
-import { PrincipalHelper } from "core-app/shared/components/principal/principal-helper";
-import { AngularTrackingHelpers } from "core-app/shared/helpers/angular/tracking-functions";
-import { filter } from "rxjs/operators";
+import { PrincipalHelper } from 'core-app/shared/components/principal/principal-helper';
+import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { filter } from 'rxjs/operators';
 
 export interface CreateAutocompleterValueOption {
   name:string;
@@ -62,37 +62,59 @@ export interface CreateAutocompleterValueOption {
 })
 export class CreateAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit {
   @Input() public availableValues:CreateAutocompleterValueOption[];
+
   @Input() public appendTo:string;
+
   @Input() public resource:HalResource;
+
   @Input() public model:any;
+
   @Input() public required = false;
+
   @Input() public disabled = false;
+
   @Input() public finishedLoading = false;
+
   @Input() public id = '';
+
   @Input() public classes = '';
+
   @Input() public typeahead?:Subject<string>;
+
   @Input() public hideSelected = false;
+
   @Input() public showAddNewButton:boolean;
 
   @Output() public onChange = new EventEmitter<HalResource>();
-  @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
-  @Output() public onOpen = new EventEmitter<void>();
-  @Output() public onClose = new EventEmitter<void>();
-  @Output() public onAfterViewInit = new EventEmitter<this>();
-  @Output() public onAddNew = new EventEmitter<this>();
 
+  @Output() public onKeydown = new EventEmitter<JQuery.TriggeredEvent>();
+
+  @Output() public onOpen = new EventEmitter<void>();
+
+  @Output() public onClose = new EventEmitter<void>();
+
+  @Output() public onAfterViewInit = new EventEmitter<this>();
+
+  @Output() public onAddNew = new EventEmitter<this>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @InjectField() readonly opInviteUserModalService:OpInviteUserModalService;
+
   @InjectField() readonly I18n:I18nService;
+
   @InjectField() readonly cdRef:ChangeDetectorRef;
+
   @InjectField() readonly currentProject:CurrentProjectService;
+
   @InjectField() readonly pathHelper:PathHelperService;
 
   public compareByHref = AngularTrackingHelpers.compareByHref;
+
   public text:{ [key:string]:string } = {};
+
   public createAllowed:boolean|AddTagFn = false;
+
   private _openDirectly = false;
 
   constructor(readonly injector:Injector) {
@@ -107,7 +129,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
       this.opInviteUserModalService.close
         .pipe(
           this.untilDestroyed(),
-          filter(user => !!user)
+          filter((user) => !!user),
         )
         .subscribe((user:HalResource) => {
           this.onChange.emit(user);

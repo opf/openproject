@@ -1,10 +1,9 @@
-import { Inject, Injectable } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class BrowserDetector {
-
-  constructor (@Inject(DOCUMENT) private documentElement:Document) {
+  constructor(@Inject(DOCUMENT) private documentElement:Document) {
   }
 
   /**
@@ -25,5 +24,4 @@ export class BrowserDetector {
   private hasBodyClass(name:string):boolean {
     return this.documentElement.body.classList.contains(name);
   }
-
 }

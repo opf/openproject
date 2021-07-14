@@ -1,13 +1,13 @@
-import { GroupObject } from "core-app/features/hal/resources/wp-collection-resource";
+import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 
 export function groupIdentifier(group:GroupObject) {
   let value = group.value || 'nullValue';
 
   if (group.href) {
     try {
-      value += group.href.map(el => el.href).join('-');
+      value += group.href.map((el) => el.href).join('-');
     } catch (e) {
-      console.error('Failed to extract group identifier for ' + group.value);
+      console.error(`Failed to extract group identifier for ${group.value}`);
     }
   }
 
@@ -16,12 +16,11 @@ export function groupIdentifier(group:GroupObject) {
 }
 
 export function groupName(group:GroupObject) {
-  const value = group.value;
+  const { value } = group;
   if (value === null) {
     return '-';
-  } else {
-    return value;
   }
+  return value;
 }
 
 export function groupByProperty(group:GroupObject):string {

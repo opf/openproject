@@ -557,6 +557,7 @@ zh-CN:
       autocompleter:
         label: '项目自动补全'
     text_are_you_sure: "是否确定？"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "名称 %{group} 已多次使用。组名不能重复。"

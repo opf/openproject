@@ -504,20 +504,20 @@ ru:
           timeline_button: 'Вы можете активировать <b>Диаграмму Ганта</b> для создания временной шкалы вашего проекта.'
           timeline: 'Здесь вы можете редактировать план вашего проекта. Создать новые фазы, вехи и добавить зависимости. Отредактированный план может быть отредактирован любым членом вашей команды в любое время.'
     notifications:
-      title: "Notifications"
-      channel: "Channel"
+      title: "Уведомления"
+      channel: "Канал"
       channels:
-        in_app: "In-app"
+        in_app: "Встроенное"
         mail: "Электронная почта"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watched'
-        involved: 'involved'
+        mentioned: 'упомянутый'
+        watched: 'просмотрено'
+        involved: 'вовлечено'
       facets:
-        unread: 'Unread'
+        unread: 'Непрочтено'
         all: 'Bсе'
       center:
-        mark_all_read: 'Mark all as read'
+        mark_all_read: 'Отметить всё как прочитанное'
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -556,6 +556,7 @@ ru:
       autocompleter:
         label: 'Автоматическое завершение проекта'
     text_are_you_sure: "Вы уверены?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Имя %{group} используется более одного раза. Имена групп должны быть уникальными."

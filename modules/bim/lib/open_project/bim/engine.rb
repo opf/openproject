@@ -37,7 +37,7 @@ module OpenProject::Bim
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-bim',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              settings: {
                default: {
                }

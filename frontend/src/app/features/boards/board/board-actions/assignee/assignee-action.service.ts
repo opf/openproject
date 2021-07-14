@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { AssigneeBoardHeaderComponent } from "core-app/features/boards/board/board-actions/assignee/assignee-board-header.component";
-import { CachedBoardActionService } from "core-app/features/boards/board/board-actions/cached-board-action.service";
-import { Board } from "core-app/features/boards/board/board";
-import { ImageHelpers } from "core-app/shared/helpers/images/path-helper";
-import { ApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { UserResource } from "core-app/features/hal/resources/user-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ProjectResource } from "core-app/features/hal/resources/project-resource";
+import { Injectable } from '@angular/core';
+import { AssigneeBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/assignee/assignee-board-header.component';
+import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
+import { Board } from 'core-app/features/boards/board/board';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 @Injectable()
 export class BoardAssigneeActionService extends CachedBoardActionService {
@@ -22,12 +22,12 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
 
   icon = 'icon-user';
 
-  image = ImageHelpers.imagePath('board_creation_modal/assignees.svg');
+  image = imagePath('board_creation_modal/assignees.svg');
 
   readonly unassignedUser:any = {
     id: null,
     href: null,
-    name: this.I18n.t('js.filter.noneElement')
+    name: this.I18n.t('js.filter.noneElement'),
   };
 
   /**
@@ -44,15 +44,15 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       filter = {
         assignee: {
           operator: '!*',
-          values: []
-        }
+          values: [],
+        },
       };
     } else {
       filter = {
         assignee: {
           operator: '=',
-          values: [value.idFromLink]
-        }
+          values: [value.idFromLink],
+        },
       };
     }
 
@@ -82,9 +82,9 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
   }
 
   public warningTextWhenNoOptionsAvailable(hasMember?:boolean) {
-    let text = hasMember ?
-      this.I18n.t('js.boards.add_list_modal.warning.assignee'):
-      this.I18n.t('js.boards.add_list_modal.warning.no_member');
+    let text = hasMember
+      ? this.I18n.t('js.boards.add_list_modal.warning.assignee')
+      : this.I18n.t('js.boards.add_list_modal.warning.no_member');
 
     return this
       .apiV3Service
@@ -96,8 +96,8 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
         if (project.memberships) {
           text = text.concat(
             this.I18n.t('js.boards.add_list_modal.warning.add_members', {
-              link: this.pathHelper.projectMembershipsPath(this.currentProject.identifier!)
-            })
+              link: this.pathHelper.projectMembershipsPath(this.currentProject.identifier!),
+            }),
           );
         }
 
@@ -114,7 +114,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       .get()
       .toPromise()
       .then(
-        (collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements)
+        (collection:CollectionResource<UserResource>) => [this.unassignedUser].concat(collection.elements),
       );
   }
 }

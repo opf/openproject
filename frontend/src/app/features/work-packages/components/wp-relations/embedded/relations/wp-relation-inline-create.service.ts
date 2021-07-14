@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,12 +27,12 @@
 //++
 
 import { Injectable, Injector, OnDestroy } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageInlineCreateService } from "core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service";
-import { WpRelationInlineAddExistingComponent } from "core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component";
-import { WorkPackageRelationsService } from "core-app/features/work-packages/components/wp-relations/wp-relations.service";
-import { WpRelationInlineCreateServiceInterface } from "core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { WpRelationInlineAddExistingComponent } from 'core-app/features/work-packages/components/wp-relations/embedded/inline/add-existing/wp-relation-inline-add-existing.component';
+import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
+import { WpRelationInlineCreateServiceInterface } from 'core-app/features/work-packages/components/wp-relations/embedded/wp-relation-inline-create.service.interface';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Injectable()
 export class WpRelationInlineCreateService extends WorkPackageInlineCreateService implements WpRelationInlineCreateServiceInterface, OnDestroy {
@@ -68,16 +68,14 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
 
     if (relation !== undefined) {
       return this.wpRelations.removeRelation(relation);
-    } else {
-      return Promise.reject();
     }
+    return Promise.reject();
   }
 
   /**
    * A related work package for the inline create context
    */
   public referenceTarget:WorkPackageResource|null = null;
-
 
   public get canAdd() {
     return !!(this.referenceTarget && this.canCreateWorkPackages && this.referenceTarget.addRelation);
@@ -92,6 +90,6 @@ export class WpRelationInlineCreateService extends WorkPackageInlineCreateServic
    */
   public readonly buttonTexts = {
     reference: this.I18n.t('js.relation_buttons.add_existing'),
-    create: this.I18n.t('js.relation_buttons.create_new')
+    create: this.I18n.t('js.relation_buttons.create_new'),
   };
 }

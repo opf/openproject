@@ -64,14 +64,6 @@ module API
             bulk_update_status(read_ian: false)
           end
 
-          post :read_email do
-            bulk_update_status(read_email: true)
-          end
-
-          post :unread_email do
-            bulk_update_status(read_email: false)
-          end
-
           route_param :id, type: Integer, desc: 'Notification ID' do
             after_validation do
               @notification = Notification.recipient(current_user).find(params[:id])
@@ -92,14 +84,6 @@ module API
 
             post :unread_ian do
               update_status(read_ian: false)
-            end
-
-            post :read_email do
-              update_status(read_email: true)
-            end
-
-            post :unread_email do
-              update_status(read_email: false)
             end
           end
         end

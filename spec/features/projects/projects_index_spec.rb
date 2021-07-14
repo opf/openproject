@@ -271,9 +271,9 @@ describe 'Projects index page',
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
       SeleniumHubWaiter.wait
-      find('.pagination--options .pagination--item', text: '5').click # click page size '5'
+      find('.op-pagination--options .op-pagination--item', text: '5').click # click page size '5'
       SeleniumHubWaiter.wait
-      find('.pagination--options .pagination--item', text: '1').click # return back to page size '1'
+      find('.op-pagination--options .op-pagination--item', text: '1').click # return back to page size '1'
       SeleniumHubWaiter.wait
       click_on '2' # Go to pagination page 2
 

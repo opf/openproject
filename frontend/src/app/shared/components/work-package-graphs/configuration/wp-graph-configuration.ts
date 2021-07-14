@@ -1,6 +1,6 @@
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { ChartType, ChartOptions } from 'chart.js';
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { ChartOptions, ChartType } from 'chart.js';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export interface WpGraphQueryParams {
   id?:string;
@@ -19,8 +19,8 @@ export class WpGraphConfiguration implements WpGraphConfiguration {
   public queries:QueryResource[] = [];
 
   constructor(public queryParams:WpGraphQueryParams[],
-              public chartOptions:ChartOptions,
-              public chartType:ChartType) {
+    public chartOptions:ChartOptions,
+    public chartType:ChartType) {
     this.chartType = this.chartType || 'horizontalBar';
   }
 
@@ -32,9 +32,9 @@ export class WpGraphConfiguration implements WpGraphConfiguration {
       showHierarchies: false,
       _links: {
         groupBy: {
-          href: "/api/v3/queries/group_bys/status"
-        }
-      }
+          href: '/api/v3/queries/group_bys/status',
+        },
+      },
     };
   }
 }

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,20 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { InputState } from "reactivestates";
+import { InputState } from 'reactivestates';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
 import { HalLinkInterface } from "core-app/features/hal/hal-link/hal-link";
+import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
   new(injector:Injector,
-      source:any,
-      $loaded:boolean,
-      halInitializer:(halResource:T) => void,
-      $halType:string):T;
+    source:any,
+    $loaded:boolean,
+    halInitializer:(halResource:T) => void,
+    $halType:string):T;
 }
 
 export type HalSourceLink = { href:string|null, title?:string };
@@ -75,6 +75,7 @@ export class HalResource {
   public $halType:string;
 
   @InjectField() states:States;
+
   @InjectField() I18n!:I18nService;
 
   /**
@@ -91,20 +92,22 @@ export class HalResource {
    *
    */
   public constructor(public injector:Injector,
-                     public $source:any,
-                     public $loaded:boolean,
-                     public halInitializer:(halResource:any) => void,
-                     $halType:string) {
+    public $source:any,
+    public $loaded:boolean,
+    public halInitializer:(halResource:any) => void,
+    $halType:string) {
     this.$halType = $halType;
     this.$initialize($source);
   }
 
   public static getEmptyResource(self:{ href:string|null } = { href: null }):any {
-    return { _links: { self: self } };
+    return { _links: { self } };
   }
 
   public $links:any = {};
+
   public $embedded:any = {};
+
   public $self:Promise<this>;
 
   public _name:string;
@@ -114,7 +117,7 @@ export class HalResource {
   }
 
   public static matchFromLink(href:string, expectedResource:string):string|null {
-    const match = href.match(new RegExp(`/api/v3/${expectedResource}/(\\d+)`));
+    const match = new RegExp(`/api/v3/${expectedResource}/(\\d+)`).exec(href);
     return match && match[1];
   }
 
@@ -138,9 +141,8 @@ export class HalResource {
   public toString() {
     if (this.href) {
       return `[HalResource href=${this.href}]`;
-    } else {
-      return `[HalResource id=${this.id}]`;
     }
+    return `[HalResource id=${this.id}]`;
   }
 
   /**
@@ -155,7 +157,7 @@ export class HalResource {
     }
 
     const id = this.idFromLink;
-    if (id.match(/^\d+$/)) {
+    if (/^\d+$/.exec(id)) {
       return id;
     }
 
@@ -184,7 +186,6 @@ export class HalResource {
   public retainFrom(other:HalResource) {
     this.__initialized_at = other.__initialized_at;
   }
-
 
   /**
    * Create a HalResource from the copied source of the given, other HalResource.
@@ -257,7 +258,7 @@ export class HalResource {
       return this.$loadResource(force);
     }
 
-    const state = this.state;
+    const { state } = this;
 
     if (force) {
       state.clear();
@@ -288,6 +289,28 @@ export class HalResource {
     // Reset and load this resource
     this.$loaded = false;
     this.$self = this.$links.self({}).then((source:any) => {
+      if (source.$halType === 'Collection') {
+        if (source.total > source.pageSize) {
+          const remaining = source.total - source.pageSize;
+          const pagesRemaining = Math.ceil(remaining / source.pageSize);
+          const calls = (new Array(pagesRemaining))
+            .fill(null)
+            .map((_, i) => this.$links.self({
+              pageSize: source.pageSize,
+              offset: i + 2, // Page offsets are 1-indexed, and we already fetched the first page
+            }));
+
+          return Promise.all(calls).then((data:any[]) => {
+            source.count = source.total;
+            source.elements = source.elements.concat(...data.map(source => source.elements));
+            return source;
+          });
+        }
+      }
+
+      return source;
+    })
+    .then((source:any) => {
       this.$loaded = true;
       this.$initialize(source.$source);
       return this;

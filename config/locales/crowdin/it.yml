@@ -756,7 +756,7 @@ it:
       member: "Membro"
       news: "Notizie"
       notification:
-        one: "Notification"
+        one: "Notifica"
         other: "Notifiche"
       placeholder_user: "Utente segnaposto"
       project: "Progetto"
@@ -1297,8 +1297,10 @@ it:
     work_packages:
       subject:
         assigned: "Sei stato assegnato a %{work_package}"
-        subscribed: "Sei iscritto a %{work_package}"
+        subscribed: "Ti sei abbonato a %{work_package}"
         mentioned: "Sei stato menzionato in %{work_package}"
+        involved: "Sei assegnato a o responsabile per %{work_package}"
+        watched: "Stai guardando il %{work_package}"
   label_accessibility: "Accessibilità"
   label_account: "Account"
   label_active: "Attivo"
@@ -2245,6 +2247,10 @@ it:
   setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
     Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
+  setting_apiv3_docs: "Documentazione"
+  setting_apiv3_docs_enabled: "Abilita pagina di documenti"
+  setting_apiv3_docs_enabled_instructions_html: >
+    Se la pagina dei documenti è abilitata, puoi ottenere una vista interattiva della documentazione APIv3 sotto <a href="%{link}" target="_blank">%{link}</a>.
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"

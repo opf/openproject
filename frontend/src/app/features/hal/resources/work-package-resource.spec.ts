@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,27 +27,27 @@
 //++
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { StateService } from "@uirouter/core";
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { StateService } from '@uirouter/core';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
-import { WorkPackageNotificationService } from "core-app/features/work-packages/services/notifications/work-package-notification.service";
-import { WorkPackagesActivityService } from "core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { OpenProjectFileUploadService } from "core-app/core/file-upload/op-file-upload.service";
-import { OpenProjectDirectFileUploadService } from "core-app/core/file-upload/op-direct-file-upload.service";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { AttachmentCollectionResource } from "core-app/features/hal/resources/attachment-collection-resource";
-import { OpenprojectHalModule } from "core-app/features/hal/openproject-hal.module";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
+import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
+import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -67,7 +67,7 @@ describe('WorkPackage', () => {
     // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       imports: [
-        OpenprojectHalModule
+        OpenprojectHalModule,
       ],
       providers: [
         HalResourceService,
@@ -87,7 +87,7 @@ describe('WorkPackage', () => {
         { provide: WorkPackageCreateService, useValue: {} },
         { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
-      ]
+      ],
     })
       .compileComponents()
       .then(() => {
@@ -142,9 +142,9 @@ describe('WorkPackage', () => {
         _links: {
           schema: { _type: 'Schema', href: 'schema' },
           attachments: { href: 'attachments' },
-          activities: { href: 'activities' }
+          activities: { href: 'activities' },
         },
-        isNew: true
+        isNew: true,
       };
       createWorkPackage();
     });
@@ -158,7 +158,7 @@ describe('WorkPackage', () => {
       file = {};
       attachment = {
         $isHal: true,
-        'delete': () => undefined
+        delete: () => undefined,
       };
 
       createWorkPackage();

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,26 +26,29 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIV3WorkPackagePaths } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths";
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { Observable } from "rxjs";
-import { APIv3WorkPackageForm } from "core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { CachableAPIV3Collection } from "core-app/core/apiv3/cache/cachable-apiv3-collection";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { WorkPackageCache } from "core-app/core/apiv3/endpoints/work_packages/work-package.cache";
-import { APIv3GettableResource } from "core-app/core/apiv3/paths/apiv3-resource";
-import { ApiV3WorkPackageCachedSubresource } from "core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource";
-import { ApiV3FilterBuilder, buildApiV3Filter } from "core-app/shared/helpers/api-v3/api-v3-filter-builder";
-
+import { Observable } from 'rxjs';
+import { APIV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { APIv3WorkPackageForm } from 'core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CachableAPIV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { WorkPackageCache } from 'core-app/core/apiv3/endpoints/work_packages/work-package.cache';
+import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3WorkPackageCachedSubresource } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource';
+import {
+  ApiV3FilterBuilder,
+  ApiV3FilterValueType,
+  buildApiV3Filter,
+} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageResource, APIV3WorkPackagePaths, WorkPackageCache> {
   // Base path
   public readonly path:string;
 
   constructor(readonly apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'work_packages', APIV3WorkPackagePaths);
   }
 
@@ -75,7 +78,6 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
             if (results.elements) {
               this.cache.updateWorkPackageList(results.elements);
             }
-
           });
 
           resolve(undefined);
@@ -94,7 +96,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       .halResourceService
       .post<WorkPackageResource>(this.path, payload)
       .pipe(
-        this.cacheResponse()
+        this.cacheResponse(),
       );
   }
 
@@ -108,20 +110,20 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    * @param idOnly
    * @param additionalParams Additional set of params to the API
    */
-  public filterBySubjectOrId(term:string, idOnly = false, additionalParams:{ [key:string]:string } = {}):ApiV3WorkPackageCachedSubresource {
+  public filterByTypeaheadOrId(term:string, idOnly = false, additionalParams:{ [key:string]:string } = {}):ApiV3WorkPackageCachedSubresource {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
     if (idOnly) {
       filters.add('id', '=', [term]);
     } else {
-      filters.add('subjectOrId', '**', [term]);
+      filters.add('typeahead', '**', [term]);
     }
 
     const params = {
       sortBy: '[["updatedAt","desc"]]',
       offset: '1',
       pageSize: '10',
-      ...additionalParams
+      ...additionalParams,
     };
 
     return this.filtered(filters, params);
@@ -132,14 +134,14 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
    * @param ids work package IDs to filter for
    * @param timestamp The timestamp to clip at
    */
-  public filterUpdatedSince(ids:(string|null)[], timestamp:unknown):ApiV3WorkPackageCachedSubresource {
+  public filterUpdatedSince(ids:(string|null)[], timestamp:ApiV3FilterValueType):ApiV3WorkPackageCachedSubresource {
     const filters = new ApiV3FilterBuilder()
-      .add('id', '=', ids.filter((n:string|null) => n)) // no null values
+      .add('id', '=', (ids.filter((n) => n) as string[]))
       .add('updatedAt', '<>d', [timestamp, '']);
 
     const params = {
       offset: '1',
-      pageSize: '10'
+      pageSize: '10',
     };
 
     return this.filtered(filters, params);
@@ -156,12 +158,12 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
     return this
       .halResourceService
       .getAllPaginated<WorkPackageCollectionResource[]>(
-        this.path,
-        ids.length,
-        {
-          filters: buildApiV3Filter('id', '=', ids).toJson(),
-        }
-      );
+      this.path,
+      ids.length,
+      {
+        filters: buildApiV3Filter('id', '=', ids).toJson(),
+      },
+    );
   }
 
   protected createCache():WorkPackageCache {

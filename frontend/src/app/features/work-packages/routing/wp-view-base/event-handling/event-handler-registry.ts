@@ -1,7 +1,7 @@
 import { EventEmitter, InjectionToken, Injector } from '@angular/core';
 
 export interface WorkPackageViewEventHandler<T> {
-  /** Event name to register **/
+  /** Event name to register * */
   EVENT:string;
 
   /** Event context CSS selector */
@@ -31,14 +31,13 @@ export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEve
  * of the table.
  */
 export abstract class WorkPackageViewHandlerRegistry<T> {
-
   constructor(public readonly injector:Injector) {
   }
 
   protected abstract eventHandlers:((view:T) => WorkPackageViewEventHandler<T>)[];
 
   attachTo(viewRef:T) {
-    this.eventHandlers.map(factory => {
+    this.eventHandlers.map((factory) => {
       const handler = factory(viewRef);
       const target = handler.eventScope(viewRef);
 

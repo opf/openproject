@@ -557,6 +557,7 @@ es:
       autocompleter:
         label: 'Contexto | Solicitar contexto'
     text_are_you_sure: "¿Estás seguro?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "El nombre %{group} se ha usado más de una vez. Los nombres de grupos deben ser únicos."

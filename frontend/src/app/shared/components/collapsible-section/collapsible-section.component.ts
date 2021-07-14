@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,17 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {
+  Component, ElementRef, OnInit, ViewChild,
+} from '@angular/core';
 
 export const collapsibleSectionAugmentSelector = 'collapsible-section-augment';
 
 @Component({
   selector: collapsibleSectionAugmentSelector,
-  templateUrl: './collapsible-section.html'
+  templateUrl: './collapsible-section.html',
 })
 export class CollapsibleSectionComponent implements OnInit {
   public expanded = false;
+
   public sectionTitle:string;
 
   @ViewChild('sectionBody', { static: true }) public sectionBody:ElementRef;

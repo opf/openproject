@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,21 +27,19 @@
 //++
 
 import { Injector } from '@angular/core';
-import { States } from "core-app/core/states/states.service";
+import { States } from 'core-app/core/states/states.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { RenderInfo } from '../wp-timeline';
 import { TimelineCellRenderer } from './timeline-cell-renderer';
 import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
 import { WorkPackageTimelineCell } from './wp-timeline-cell';
 
-import { HalResourceEditingService } from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { WorkPackageChangeset } from "core-app/features/work-packages/components/wp-edit/work-package-changeset";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-
 export class WorkPackageTimelineCellsRenderer {
-
   // Injections
   @InjectField() public states:States;
+
   @InjectField() public halEditing:HalResourceEditingService;
 
   public cells:{ [classIdentifier:string]:WorkPackageTimelineCell } = {};
@@ -49,10 +47,10 @@ export class WorkPackageTimelineCellsRenderer {
   private cellRenderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer };
 
   constructor(readonly injector:Injector,
-              readonly wpTimeline:WorkPackageTimelineTableController) {
+    readonly wpTimeline:WorkPackageTimelineTableController) {
     this.cellRenderers = {
       milestone: new TimelineMilestoneCellRenderer(this.injector, wpTimeline),
-      generic: new TimelineCellRenderer(this.injector, wpTimeline)
+      generic: new TimelineCellRenderer(this.injector, wpTimeline),
     };
   }
 
@@ -135,7 +133,7 @@ export class WorkPackageTimelineCellsRenderer {
       this.cellRenderers,
       this.renderInfoFor(workPackageId),
       classIdentifier,
-      workPackageId
+      workPackageId,
     );
   }
 
@@ -144,18 +142,17 @@ export class WorkPackageTimelineCellsRenderer {
     return {
       viewParams: this.wpTimeline.viewParameters,
       workPackage: wp,
-      change: this.halEditing.changeFor(wp) as WorkPackageChangeset,
+      change: this.halEditing.changeFor(wp),
       isDuplicatedCell,
       withAlternativeLabels,
     };
   }
 
   public buildCellsAndRenderOnRow(workPackageIds:string[], rowClassIdentifier:string, isDuplicatedCell?:boolean):WorkPackageTimelineCell[] {
-    const cells = workPackageIds.map(workPackageId => this.buildCell(rowClassIdentifier, workPackageId!));
+    const cells = workPackageIds.map((workPackageId) => this.buildCell(rowClassIdentifier, workPackageId));
 
     cells.forEach((cell:WorkPackageTimelineCell) => this.refreshSingleCell(cell, isDuplicatedCell, true));
 
     return cells;
   }
 }
-

@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,10 +27,10 @@
 //++
 
 import { NgModule } from '@angular/core';
-import { OPSharedModule } from "core-app/shared/shared.module";
-import { Ng2StateDeclaration, UIRouter, UIRouterModule } from "@uirouter/angular";
-import { DashboardComponent } from "core-app/features/dashboards/dashboard/dashboard.component";
-import { OpenprojectGridsModule } from "core-app/shared/components/grids/openproject-grids.module";
+import { OPSharedModule } from 'core-app/shared/shared.module';
+import { Ng2StateDeclaration, UIRouter, UIRouterModule } from '@uirouter/angular';
+import { DashboardComponent } from 'core-app/features/dashboards/dashboard/dashboard.component';
+import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
 
 const menuItemClass = 'dashboards-menu-item';
 
@@ -43,10 +43,10 @@ export const DASHBOARDS_ROUTES:Ng2StateDeclaration[] = [
     url: '/dashboards/',
     data: {
       bodyClasses: ['router--dashboards-view-base', 'widget-grid-layout'],
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
     },
-    component: DashboardComponent
-  }
+    component: DashboardComponent,
+  },
 ];
 
 export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
@@ -54,8 +54,8 @@ export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
   // cf., https://community.openproject.com/wp/29754
   uiRouter.urlService.rules
     .when(
-      new RegExp("^/projects/(.*)/dashboards$"),
-      match => `/projects/${match[1]}/dashboards/`
+      new RegExp('^/projects/(.*)/dashboards$'),
+      (match) => `/projects/${match[1]}/dashboards/`,
     );
 }
 
@@ -68,15 +68,14 @@ export function uiRouterDashboardsConfiguration(uiRouter:UIRouter) {
     // Routes for /dashboards
     UIRouterModule.forChild({
       states: DASHBOARDS_ROUTES,
-      config: uiRouterDashboardsConfiguration
+      config: uiRouterDashboardsConfiguration,
     }),
   ],
   providers: [
   ],
   declarations: [
-    DashboardComponent
-  ]
+    DashboardComponent,
+  ],
 })
 export class OpenprojectDashboardsModule {
 }
-

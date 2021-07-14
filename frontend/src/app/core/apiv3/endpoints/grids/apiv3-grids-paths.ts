@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,25 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourceCollection } from "core-app/core/apiv3/paths/apiv3-resource";
-import { Apiv3GridPaths } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-paths";
-import { GridResource } from "core-app/features/hal/resources/grid-resource";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { Apiv3GridForm } from "core-app/core/apiv3/endpoints/grids/apiv3-grid-form";
-import { Observable } from "rxjs";
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { Apiv3GridPaths } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-paths';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { Apiv3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
+import { Observable } from 'rxjs';
 import {
   Apiv3ListParameters,
   Apiv3ListResourceInterface,
-  listParamsString
-} from "core-app/core/apiv3/paths/apiv3-list-resource.interface";
-import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 export class Apiv3GridsPaths
   extends APIv3ResourceCollection<GridResource, Apiv3GridPaths>
   implements Apiv3ListResourceInterface<GridResource> {
   constructor(protected apiRoot:APIV3Service,
-              protected basePath:string) {
+    protected basePath:string) {
     super(apiRoot, basePath, 'grids', Apiv3GridPaths);
   }
 
@@ -70,8 +70,8 @@ export class Apiv3GridsPaths
     return this
       .halResourceService
       .post<GridResource>(
-        this.path,
-        this.form.extractPayload(resource, schema)
-      );
+      this.path,
+      this.form.extractPayload(resource, schema),
+    );
   }
 }

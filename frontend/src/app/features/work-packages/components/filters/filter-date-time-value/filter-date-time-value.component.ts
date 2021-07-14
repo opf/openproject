@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,27 +26,31 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input, OnInit, Output } from '@angular/core';
+import {
+  Component, Input, OnInit, Output,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { Moment } from 'moment';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { TimezoneService } from "core-app/core/datetime/timezone.service";
-import { QueryFilterInstanceResource } from "core-app/features/hal/resources/query-filter-instance-resource";
 
 @Component({
   selector: 'filter-date-time-value',
-  templateUrl: './filter-date-time-value.component.html'
+  templateUrl: './filter-date-time-value.component.html',
 })
 export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnInit {
   @Input() public shouldFocus = false;
+
   @Input() public filter:QueryFilterInstanceResource;
+
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
   constructor(readonly I18n:I18nService,
-              readonly timezoneService:TimezoneService) {
+    readonly timezoneService:TimezoneService) {
     super(I18n, timezoneService);
   }
 

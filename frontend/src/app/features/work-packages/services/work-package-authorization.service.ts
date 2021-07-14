@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,25 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StateService } from '@uirouter/core';
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export class WorkPackageAuthorization {
-
   public project:any;
 
   constructor(public workPackage:WorkPackageResource,
-              readonly PathHelper:PathHelperService,
-              readonly $state:StateService) {
+    readonly PathHelper:PathHelperService,
+    readonly $state:StateService) {
     this.project = workPackage.project;
   }
 
   public get allActions():any {
     return {
       workPackage: this.workPackage,
-      project: this.project
+      project: this.project,
     };
   }
 
@@ -52,9 +50,8 @@ export class WorkPackageAuthorization {
     const stateName = this.$state.current.name as string;
     if (stateName.indexOf('work-packages.partitioned.list.details') === 0) {
       return this.PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id!);
-    } else {
-      return this.PathHelper.workPackageCopyPath(this.workPackage.id!);
     }
+    return this.PathHelper.workPackageCopyPath(this.workPackage.id!);
   }
 
   public linkForAction(action:any) {
@@ -68,22 +65,20 @@ export class WorkPackageAuthorization {
   }
 
   public isPermitted(action:any) {
-    return this.allActions[action.resource] !== undefined &&
-      this.allActions[action.resource][action.link] !== undefined;
+    return this.allActions[action.resource] !== undefined
+      && this.allActions[action.resource][action.link] !== undefined;
   }
 
   public permittedActionKeys(allowedActions:any) {
-    var validActions = _.filter(allowedActions, (action:any) => this.isPermitted(action));
+    const validActions = _.filter(allowedActions, (action:any) => this.isPermitted(action));
 
-    return _.map(validActions, function (action:any) {
-      return action.key;
-    });
+    return _.map(validActions, (action:any) => action.key);
   }
 
   public permittedActionsWithLinks(allowedActions:any) {
-    var validActions = _.filter(_.cloneDeep(allowedActions), (action:any) => this.isPermitted(action));
+    const validActions = _.filter(_.cloneDeep(allowedActions), (action:any) => this.isPermitted(action));
 
-    var allowed = _.map(validActions, (action:any) => this.linkForAction(action));
+    const allowed = _.map(validActions, (action:any) => this.linkForAction(action));
 
     return allowed;
   }

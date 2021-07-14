@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,63 +26,74 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, OnInit, ViewChild,
+} from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { States } from 'core-app/core/states/states.service';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
-  ICKEditorContext,
-  ICKEditorInstance,
   ICKEditorType,
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
-import { componentDestroyed } from "@w11k/ngx-componentdestroyed";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';import {
+  ICKEditorContext,
+  ICKEditorInstance
+} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
 
 export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 
 @Component({
   selector: ckeditorAugmentedTextareaSelector,
-  templateUrl: './ckeditor-augmented-textarea.html'
+  templateUrl: './ckeditor-augmented-textarea.html',
 })
 export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin implements OnInit {
   public textareaSelector:string;
+
   public previewContext:string;
 
   // Which template to include
   public $element:JQuery;
+
   public formElement:JQuery;
+
   public wrappedTextArea:JQuery;
+
   public $attachmentsElement:JQuery;
 
   // Remember if the user changed
   public changed = false;
+
   public inFlight = false;
 
   public initialContent:string;
+
   public resource?:HalResource;
+
   public context:ICKEditorContext;
+
   public macros:boolean;
 
   // Reference to the actual ckeditor instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
 
   private attachments:HalResource[];
+
   private isEditing = false;
 
   constructor(protected elementRef:ElementRef,
-              protected pathHelper:PathHelperService,
-              protected halResourceService:HalResourceService,
-              protected Notifications:NotificationsService,
-              protected I18n:I18nService,
-              protected states:States,
-              protected ConfigurationService:ConfigurationService) {
+    protected pathHelper:PathHelperService,
+    protected halResourceService:HalResourceService,
+    protected Notifications:NotificationsService,
+    protected I18n:I18nService,
+    protected states:States,
+    protected ConfigurationService:ConfigurationService) {
     super();
   }
 
@@ -110,10 +121,10 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.context = {
       type: editorType,
       resource: this.resource,
-      previewContext: this.previewContext
+      previewContext: this.previewContext,
     };
     if (!this.macros) {
-      this.context['macros'] = 'none';
+      this.context.macros = 'none';
     }
   }
 
@@ -161,7 +172,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private setupAttachmentAddedCallback(editor:ICKEditorInstance) {
     editor.model.on('op:attachment-added', () => {
-      this.states.forResource(this.resource!)!.putValue(this.resource!);
+      this.states.forResource(this.resource!)!.putValue(this.resource);
     });
   }
 
@@ -171,20 +182,20 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.states.forResource(this.resource!)!.changes$()
       .pipe(
         takeUntil(componentDestroyed(this)),
-        filter(resource => !!resource)
-      ).subscribe(resource => {
-      const missingAttachments = _.differenceBy(this.attachments,
-        resource!.attachments.elements,
-        (attachment:HalResource) => attachment.id);
+        filter((resource) => !!resource),
+      ).subscribe((resource) => {
+        const missingAttachments = _.differenceBy(this.attachments,
+          resource!.attachments.elements,
+          (attachment:HalResource) => attachment.id);
 
-      const removedUrls = missingAttachments.map(attachment => attachment.downloadLocation.href);
+        const removedUrls = missingAttachments.map((attachment) => attachment.downloadLocation.href);
 
-      if (removedUrls.length) {
-        editor.model.fire('op:attachment-removed', removedUrls);
-      }
+        if (removedUrls.length) {
+          editor.model.fire('op:attachment-removed', removedUrls);
+        }
 
-      this.attachments = _.clone(resource!.attachments.elements);
-    });
+        this.attachments = _.clone(resource!.attachments.elements);
+      });
   }
 
   private setLabel() {
@@ -206,14 +217,13 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       return;
     }
 
-    const takenIds = this.$attachmentsElement.find('input[type=\'file\']').map((index, input) => {
-      const match = (input.getAttribute('name') || '').match(/attachments\[(\d+)\]\[(?:file|id)\]/);
+    const takenIds = this.$attachmentsElement.find("input[type='file']").map((index, input) => {
+      const match = /attachments\[(\d+)\]\[(?:file|id)\]/.exec((input.getAttribute('name') || ''));
 
       if (match) {
         return parseInt(match[1]);
-      } else {
-        return 0;
       }
+      return 0;
     });
 
     const maxValue:number = takenIds.toArray().sort().pop() || 0;

@@ -1,15 +1,7 @@
 import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  HostBinding,
-  forwardRef,
-} from "@angular/core";
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-} from "@angular/forms";
+  Component, EventEmitter, forwardRef, HostBinding, Input, Output,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface IOpOptionListOption<T> {
   value:T;
@@ -34,13 +26,17 @@ export class OpOptionListComponent<T> implements ControlValueAccessor {
   @HostBinding('class.op-option-list') className = true;
 
   @Input() options:IOpOptionListOption<T>[] = [];
+
   @Input() name = `op-option-list-${+(new Date())}`;
+
   @Output() selectedChange = new EventEmitter<T>();
 
   private _selected:IOpOptionListValue<T> = null;
+
   get selected() {
     return this._selected;
   }
+
   set selected(value:IOpOptionListValue<T>) {
     this._selected = value;
     this.onChange(value);
@@ -55,6 +51,7 @@ export class OpOptionListComponent<T> implements ControlValueAccessor {
   }
 
   onChange = (_:IOpOptionListValue<T>) => {};
+
   onTouched = (_:IOpOptionListValue<T>) => {};
 
   writeValue(value:IOpOptionListValue<T>) {

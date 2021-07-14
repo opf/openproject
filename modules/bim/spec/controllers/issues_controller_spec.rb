@@ -103,7 +103,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
       let(:file) do
         Rack::Test::UploadedFile.new(
           File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
-          'application/octet-stream'
+          'application/zip'
         )
       end
 
@@ -119,7 +119,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
       let(:file) { FileHelpers.mock_uploaded_file }
 
       it 'should redirect back to where we started from' do
-        expect { action }.to change { Attachment.count }.by(1)
+        expect { action }.to change { Attachment.count }.by(0)
         expect(response).to redirect_to '/projects/bim_project/issues/upload'
       end
     end

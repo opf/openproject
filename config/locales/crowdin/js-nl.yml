@@ -557,6 +557,7 @@ nl:
       autocompleter:
         label: 'Project auto aanvullen'
     text_are_you_sure: "Weet u het zeker?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "De groep naam %{group} word meer dan één keer gebruikt. Groep namen moeten uniek zijn."

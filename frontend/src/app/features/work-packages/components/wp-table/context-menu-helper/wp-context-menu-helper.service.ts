@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -25,14 +25,14 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { Injectable } from "@angular/core";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { Injectable } from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { HookService } from "core-app/features/plugins/hook-service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { WorkPackageViewHierarchyIdentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service";
-import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
+import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
 
 export type WorkPackageAction = {
   text:string;
@@ -45,40 +45,39 @@ export type WorkPackageAction = {
 
 @Injectable()
 export class WorkPackageContextMenuHelperService {
-
   private BULK_ACTIONS = [
     {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
       key: 'edit',
       link: 'update',
-      href: this.PathHelper.staticBase + '/work_packages/bulk/edit'
+      href: `${this.PathHelper.staticBase}/work_packages/bulk/edit`,
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.move'),
       key: 'move',
       link: 'move',
-      href: this.PathHelper.staticBase + '/work_packages/move/new'
+      href: `${this.PathHelper.staticBase}/work_packages/move/new`,
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.copy'),
       key: 'copy',
       link: 'copy',
-      href: this.PathHelper.staticBase + '/work_packages/move/new?copy=true'
+      href: `${this.PathHelper.staticBase}/work_packages/move/new?copy=true`,
     },
     {
       text: I18n.t('js.work_packages.bulk_actions.delete'),
       key: 'delete',
       link: 'delete',
-      href: this.PathHelper.staticBase + '/work_packages/bulk?_method=delete'
-    }
+      href: `${this.PathHelper.staticBase}/work_packages/bulk?_method=delete`,
+    },
   ];
 
   constructor(private HookService:HookService,
-              private UrlParamsHelper:UrlParamsHelperService,
-              private wpViewRepresentation:WorkPackageViewDisplayRepresentationService,
-              private wpViewTimeline:WorkPackageViewTimelineService,
-              private wpViewIndent:WorkPackageViewHierarchyIdentationService,
-              private PathHelper:PathHelperService) {
+    private UrlParamsHelper:UrlParamsHelperService,
+    private wpViewRepresentation:WorkPackageViewDisplayRepresentationService,
+    private wpViewTimeline:WorkPackageViewTimelineService,
+    private wpViewIndent:WorkPackageViewHierarchyIdentationService,
+    private PathHelper:PathHelperService) {
   }
 
   public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
@@ -95,7 +94,7 @@ export class WorkPackageContextMenuHelperService {
         key: allowedAction.key,
         text: allowedAction.text,
         icon: allowedAction.icon,
-        link: allowedAction.link ? workPackage[allowedAction.link].href : undefined
+        link: allowedAction.link ? workPackage[allowedAction.link].href : undefined,
       });
     });
 
@@ -105,17 +104,13 @@ export class WorkPackageContextMenuHelperService {
   public getIntersectOfPermittedActions(workPackages:any) {
     const bulkPermittedActions:any = [];
 
-    const permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => {
-      return _.every(workPackages, (workPackage:WorkPackageResource) => {
-        return this.getAllowedActions(workPackage, [action]).length >= 1;
-      });
-    });
+    const permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => _.every(workPackages, (workPackage:WorkPackageResource) => this.getAllowedActions(workPackage, [action]).length >= 1));
 
     _.each(permittedActions, (permittedAction:any) => {
       bulkPermittedActions.push({
         key: permittedAction.key,
         text: permittedAction.text,
-        link: this.getBulkActionLink(permittedAction, workPackages)
+        link: this.getBulkActionLink(permittedAction, workPackages),
       });
     });
 
@@ -124,9 +119,7 @@ export class WorkPackageContextMenuHelperService {
 
   public getBulkActionLink(action:any, workPackages:any) {
     const workPackageIdParams = {
-      'ids[]': workPackages.map(function(wp:any) {
-        return wp.id;
-      })
+      'ids[]': workPackages.map((wp:any) => wp.id),
     };
     const serializedIdParams = this.UrlParamsHelper.buildQueryString(workPackageIdParams);
 
@@ -134,7 +127,7 @@ export class WorkPackageContextMenuHelperService {
     const link = linkAndQueryString.shift();
     const queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
 
-    return link + '?' + queryParts.join('&');
+    return `${link}?${queryParts.join('&')}`;
   }
 
   private getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
@@ -142,7 +135,7 @@ export class WorkPackageContextMenuHelperService {
 
     _.each(actions, (action) => {
       if (action.link && workPackage.hasOwnProperty(action.link)) {
-        action.text = action.text || I18n.t('js.button_' + action.key);
+        action.text = action.text || I18n.t(`js.button_${action.key}`);
         allowedActions.push(action);
       }
     });
@@ -170,7 +163,7 @@ export class WorkPackageContextMenuHelperService {
       actions.push({
         key: 'hierarchy-outdent',
         icon: 'icon-paragraph-left',
-        text: I18n.t("js.relation_buttons.hierarchy_outdent")
+        text: I18n.t('js.relation_buttons.hierarchy_outdent'),
       });
     }
 
@@ -179,7 +172,7 @@ export class WorkPackageContextMenuHelperService {
       actions.push({
         key: 'hierarchy-indent',
         icon: 'icon-paragraph-right',
-        text: I18n.t("js.relation_buttons.hierarchy_indent")
+        text: I18n.t('js.relation_buttons.hierarchy_indent'),
       });
     }
 
@@ -191,34 +184,32 @@ export class WorkPackageContextMenuHelperService {
 
     if (!!workPackage.addRelation && this.wpViewTimeline.isVisible) {
       allowedActions.push({
-        key: "relation-precedes",
-        text: I18n.t("js.relation_buttons.add_predecessor"),
-        link: "addRelation"
+        key: 'relation-precedes',
+        text: I18n.t('js.relation_buttons.add_predecessor'),
+        link: 'addRelation',
       });
       allowedActions.push({
-        key: "relation-follows",
-        text: I18n.t("js.relation_buttons.add_follower"),
-        link: "addRelation"
+        key: 'relation-follows',
+        text: I18n.t('js.relation_buttons.add_follower'),
+        link: 'addRelation',
       });
     }
 
     if (!!workPackage.addChild && allowSplitScreenActions) {
       allowedActions.push({
-        key: "relation-new-child",
-        text: I18n.t("js.relation_buttons.add_new_child"),
-        link: "addChild"
+        key: 'relation-new-child',
+        text: I18n.t('js.relation_buttons.add_new_child'),
+        link: 'addChild',
       });
     }
 
     return allowedActions;
   }
 
-
   public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
     if (workPackages.length === 1) {
       return this.getPermittedActionLinks(workPackages[0], permittedActionConstants, allowSplitScreenActions);
-    } else {
-      return this.getIntersectOfPermittedActions(workPackages);
     }
+    return this.getIntersectOfPermittedActions(workPackages);
   }
 }

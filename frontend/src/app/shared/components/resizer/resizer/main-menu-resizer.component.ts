@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,11 +26,13 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, OnInit,
+} from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { ResizeDelta } from "core-app/shared/components/resizer/resizer.component";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { MainMenuToggleService } from "core-app/core/main-menu/main-menu-toggle.service";
+import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.service';
 
 export const mainMenuResizerSelector = 'main-menu-resizer';
 
@@ -58,17 +60,20 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
 
 export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnInit {
   public toggleTitle:string;
+
   private resizeEvent:string;
+
   private localStorageKey:string;
 
   private elementWidth:number;
+
   private mainMenu = jQuery('#main-menu')[0];
 
   public moving = false;
 
   constructor(readonly toggleService:MainMenuToggleService,
-              readonly cdRef:ChangeDetectorRef,
-              readonly elementRef:ElementRef) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly elementRef:ElementRef) {
     super();
   }
 
@@ -78,13 +83,13 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin implements OnI
         distinctUntilChanged(),
         this.untilDestroyed(),
       )
-      .subscribe(setToggleTitle => {
+      .subscribe((setToggleTitle) => {
         this.toggleTitle = setToggleTitle;
         this.cdRef.detectChanges();
       });
 
-    this.resizeEvent = "main-menu-resize";
-    this.localStorageKey = "openProject-mainMenuWidth";
+    this.resizeEvent = 'main-menu-resize';
+    this.localStorageKey = 'openProject-mainMenuWidth';
   }
 
   public resizeStart() {

@@ -2,35 +2,36 @@ import {
   IDynamicFieldGroupConfig,
   IOPFormlyFieldSettings,
   IOPFormlyTemplateOptions,
-} from "core-app/shared/components/dynamic-forms/typings";
-import { JobStatusModal } from "core-app/features/job-status/job-status-modal/job-status.modal";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-import { CurrentProjectService } from "core-app/core/current-project/current-project.service";
-import { OpModalService } from "core-app/shared/components/modal/modal.service";
-import { Component, OnInit } from "@angular/core";
-import { StateService } from "@uirouter/core";
+} from 'core-app/shared/components/dynamic-forms/typings';
+import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { Component, OnInit } from '@angular/core';
+import { StateService } from '@uirouter/core';
 
 @Component({
   selector: 'op-copy-project',
-  templateUrl: './copy-project.component.html'
+  templateUrl: './copy-project.component.html',
 })
 export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit {
   dynamicFieldsSettingsPipe = this.fieldSettingsPipe.bind(this);
+
   fieldGroups:IDynamicFieldGroupConfig[];
 
   formUrl:string;
 
   hiddenFields:string[] = [
     'identifier',
-    'active'
+    'active',
   ];
 
   text = {
-    advancedSettingsLabel: this.I18n.t("js.forms.advanced_settings"),
-    copySettingsLabel: this.I18n.t("js.project.copy.copy_options"),
+    advancedSettingsLabel: this.I18n.t('js.forms.advanced_settings'),
+    copySettingsLabel: this.I18n.t('js.project.copy.copy_options'),
   };
 
   constructor(
@@ -59,7 +60,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   onSubmitted(response:HalSource) {
-    this.modalService.show(JobStatusModal, 'global', { jobId: response.jobId });
+    this.modalService.show(JobStatusModalComponent, 'global', { jobId: response.jobId });
   }
 
   private isHiddenField(key:string|undefined):boolean {
@@ -67,7 +68,7 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
   }
 
   private fieldSettingsPipe(dynamicFieldsSettings:IOPFormlyFieldSettings[]):IOPFormlyFieldSettings[] {
-    return dynamicFieldsSettings.map(field => ({...field, hide: this.isHiddenField(field.key)}))
+    return dynamicFieldsSettings.map((field) => ({ ...field, hide: this.isHiddenField(field.key) }));
   }
 
   private isPrimaryAttribute(to?:IOPFormlyTemplateOptions):boolean {
@@ -75,11 +76,11 @@ export class CopyProjectComponent extends UntilDestroyedMixin implements OnInit 
       return false;
     }
 
-    return (to.required &&
-      !to.hasDefault &&
-      to.payloadValue == null) ||
-      to.property === 'name' ||
-      to.property === 'parent';
+    return (to.required
+      && !to.hasDefault
+      && to.payloadValue == null)
+      || to.property === 'name'
+      || to.property === 'parent';
   }
 
   private isMeta(property:string|undefined):boolean {

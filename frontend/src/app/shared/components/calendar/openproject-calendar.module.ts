@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -29,13 +29,13 @@
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { WorkPackagesCalendarEntryComponent } from "core-app/shared/components/calendar/wp-calendar-entry/wp-calendar-entry.component";
-import { WorkPackagesCalendarController } from "core-app/shared/components/calendar/wp-calendar/wp-calendar.component";
-import { OpenprojectWorkPackagesModule } from "core-app/features/work-packages/openproject-work-packages.module";
-import { Ng2StateDeclaration, UIRouterModule } from "@uirouter/angular";
-import { TimeEntryCalendarComponent } from "core-app/shared/components/calendar/te-calendar/te-calendar.component";
-import { OpenprojectFieldsModule } from "core-app/shared/components/fields/openproject-fields.module";
-import { OpenprojectTimeEntriesModule } from "core-app/shared/components/time_entries/openproject-time-entries.module";
+import { WorkPackagesCalendarEntryComponent } from 'core-app/shared/components/calendar/wp-calendar-entry/wp-calendar-entry.component';
+import { WorkPackagesCalendarController } from 'core-app/shared/components/calendar/wp-calendar/wp-calendar.component';
+import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
+import { Ng2StateDeclaration, UIRouterModule } from '@uirouter/angular';
+import { TimeEntryCalendarComponent } from 'core-app/shared/components/calendar/te-calendar/te-calendar.component';
+import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
+import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
 
 const menuItemClass = 'calendar-menu-item';
 
@@ -48,9 +48,9 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     data: {
       bodyClasses: 'router--work-packages-calendar',
       menuItem: menuItemClass,
-      parent: 'work-packages'
-    }
-  }
+      parent: 'work-packages',
+    },
+  },
 ];
 
 @NgModule({
@@ -82,7 +82,7 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
   exports: [
     WorkPackagesCalendarController,
     TimeEntryCalendarComponent,
-  ]
+  ],
 })
 export class OpenprojectCalendarModule {
 }

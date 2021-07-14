@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -27,8 +27,10 @@
 //++
 
 import { MultiInputState, State } from 'reactivestates';
-import { Observable } from "rxjs";
-import { auditTime, map, share, startWith, take } from "rxjs/operators";
+import { Observable } from 'rxjs';
+import {
+  auditTime, map, share, startWith, take,
+} from 'rxjs/operators';
 
 export interface HasId {
   id:string|null;
@@ -36,6 +38,7 @@ export interface HasId {
 
 export class StateCacheService<T> {
   protected cacheDurationInMs:number;
+
   protected multiState:MultiInputState<T>;
 
   constructor(state:MultiInputState<T>, holdValuesForSeconds = 3600) {
@@ -66,12 +69,11 @@ export class StateCacheService<T> {
    * Sets a promise to the state
    */
   public clearAndLoad(id:string, loader:Observable<T>):Observable<T> {
-    const observable =
-      loader
-        .pipe(
-          take(1),
-          share()
-        );
+    const observable = loader
+      .pipe(
+        take(1),
+        share(),
+      );
 
     this
       .multiState.get(id)
@@ -101,7 +103,6 @@ export class StateCacheService<T> {
   public updateFor(resource:HasId):Promise<T> {
     return this.updateValue(resource.id!, resource as any);
   }
-
 
   /**
    * Observe the value of the given id
@@ -135,7 +136,7 @@ export class StateCacheService<T> {
           });
 
           return mapped;
-        })
+        }),
       );
   }
 
@@ -144,7 +145,7 @@ export class StateCacheService<T> {
    * @param ids
    */
   public clearSome(...ids:string[]) {
-    ids.forEach(id => this.multiState.get(id).clear());
+    ids.forEach((id) => this.multiState.get(id).clear());
   }
 
   /**
@@ -173,4 +174,3 @@ export class StateCacheService<T> {
     this.multiState.get(id).putValue(val);
   }
 }
-

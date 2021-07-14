@@ -1,9 +1,9 @@
-import { BcfResourcePath } from "core-app/features/bim/bcf/api/bcf-path-resources";
-import { BcfApiRequestService } from "core-app/features/bim/bcf/api/bcf-api-request.service";
-import { BcfProjectResource } from "core-app/features/bim/bcf/api/projects/bcf-project.resource";
-import { HTTPClientHeaders, HTTPClientParamMap } from "core-app/features/hal/http/http.interfaces";
-import { BcfTopicCollectionPath } from "core-app/features/bim/bcf/api/topics/bcf-viewpoint-collection.paths";
-import { BcfExtensionPaths } from "core-app/features/bim/bcf/api/extensions/bcf-extension.paths";
+import { BcfResourcePath } from 'core-app/features/bim/bcf/api/bcf-path-resources';
+import { BcfApiRequestService } from 'core-app/features/bim/bcf/api/bcf-api-request.service';
+import { BcfProjectResource } from 'core-app/features/bim/bcf/api/projects/bcf-project.resource';
+import { HTTPClientHeaders, HTTPClientParamMap } from 'core-app/features/hal/http/http.interfaces';
+import { BcfTopicCollectionPath } from 'core-app/features/bim/bcf/api/topics/bcf-viewpoint-collection.paths';
+import { BcfExtensionPaths } from 'core-app/features/bim/bcf/api/extensions/bcf-extension.paths';
 
 export class BcfProjectPaths extends BcfResourcePath {
   readonly bcfProjectService = new BcfApiRequestService(this.injector, BcfProjectResource);

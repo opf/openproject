@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,25 +26,25 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { RelationQueryColumn, TypeRelationQueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from "core-app/features/hal/resources/query-sort-by-resource";
-import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import { WorkPackageViewRelationColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { combineLatest } from "rxjs";
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
-
+import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
+import { combineLatest } from 'rxjs';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
   selector: 'sortHeader',
-  templateUrl: './sort-header.directive.html'
+  templateUrl: './sort-header.directive.html',
 })
 export class SortHeaderDirective extends UntilDestroyedMixin implements AfterViewInit {
-
   @Input() headerColumn:any;
 
   @Input() locale:string;
@@ -58,7 +58,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
   public text = {
     toggleHierarchy: this.I18n.t('js.work_packages.hierarchy.show'),
     openMenu: this.I18n.t('js.label_open_menu'),
-    sortColumn: 'Sorting column' // TODO
+    sortColumn: 'Sorting column', // TODO
   };
 
   isHierarchyColumn:boolean;
@@ -76,12 +76,12 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
   private currentSortDirection:any;
 
   constructor(private wpTableHierarchies:WorkPackageViewHierarchiesService,
-              private wpTableSortBy:WorkPackageViewSortByService,
-              private wpTableGroupBy:WorkPackageViewGroupByService,
-              private wpTableRelationColumns:WorkPackageViewRelationColumnsService,
-              private elementRef:ElementRef,
-              private cdRef:ChangeDetectorRef,
-              private I18n:I18nService) {
+    private wpTableSortBy:WorkPackageViewSortByService,
+    private wpTableGroupBy:WorkPackageViewGroupByService,
+    private wpTableRelationColumns:WorkPackageViewRelationColumnsService,
+    private elementRef:ElementRef,
+    private cdRef:ChangeDetectorRef,
+    private I18n:I18nService) {
     super();
   }
 
@@ -94,10 +94,10 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
 
     combineLatest([
       this.wpTableSortBy.onReadyWithAvailable(),
-      this.wpTableSortBy.live$()
+      this.wpTableSortBy.live$(),
     ])
       .pipe(
-        this.untilDestroyed()
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         const latestSortElement = this.wpTableSortBy.current[0];
@@ -129,9 +129,8 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
       this.columnName = (this.headerColumn as TypeRelationQueryColumn).type.name;
     } else if (this.wpTableRelationColumns.relationColumnType(this.headerColumn) === 'ofType') {
       this.columnType = 'relation';
-      this.columnName = I18n.t('js.relation_labels.' + (this.headerColumn as RelationQueryColumn).relationType);
+      this.columnName = I18n.t(`js.relation_labels.${(this.headerColumn as RelationQueryColumn).relationType}`);
     }
-
 
     if (this.isHierarchyColumn) {
       this.hierarchyIcon = 'icon-hierarchy';
@@ -141,7 +140,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
       this.wpTableGroupBy
         .live$()
         .pipe(
-          this.untilDestroyed()
+          this.untilDestroyed(),
         )
         .subscribe(() => {
           this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
@@ -152,7 +151,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
       this.wpTableHierarchies
         .live$()
         .pipe(
-          this.untilDestroyed()
+          this.untilDestroyed(),
         )
         .subscribe(() => {
           this.setHierarchyIcon();
@@ -201,20 +200,16 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
     }
 
     switch (this.currentSortDirection.href) {
-    case QUERY_SORT_BY_ASC:
-      return 'asc';
-    case QUERY_SORT_BY_DESC:
-      return 'desc';
-    default:
-      return '';
+      case QUERY_SORT_BY_ASC:
+        return 'asc';
+      case QUERY_SORT_BY_DESC:
+        return 'desc';
+      default:
+        return '';
     }
   }
 
   setActiveColumnClass() {
     this.element.toggleClass('active-column', !!this.currentSortDirection);
   }
-
 }
-
-
-

@@ -557,6 +557,7 @@
       autocompleter:
         label: 'Prosjektet autofullføring'
     text_are_you_sure: "Er du sikker?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."

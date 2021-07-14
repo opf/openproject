@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { take } from "rxjs/internal/operators/take";
-import { UIRouterGlobals } from "@uirouter/core";
-import { UserPreferencesService } from "core-app/features/user-preferences/state/user-preferences.service";
-import { UserPreferencesStore } from "core-app/features/user-preferences/state/user-preferences.store";
-import { UserPreferencesQuery } from "core-app/features/user-preferences/state/user-preferences.query";
+import {
+  ChangeDetectionStrategy, Component, Input, OnInit,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { take } from 'rxjs/internal/operators/take';
+import { UIRouterGlobals } from '@uirouter/core';
+import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
+import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
+import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
@@ -25,7 +27,7 @@ export class NotificationsSettingsPageComponent implements OnInit {
     inApp: this.I18n.t('js.notifications.in_app'),
     default_all_projects: this.I18n.t('js.notifications.settings.default_all_projects'),
     advanced_settings: this.I18n.t('js.forms.advanced_settings'),
-    self_notify: this.I18n.t('js.notifications.settings.self_notify')
+    self_notify: this.I18n.t('js.notifications.settings.self_notify'),
   };
 
   constructor(
@@ -34,7 +36,7 @@ export class NotificationsSettingsPageComponent implements OnInit {
     private store:UserPreferencesStore,
     private query:UserPreferencesQuery,
     private currentUserService:CurrentUserService,
-    private uiRouterGlobals:UIRouterGlobals
+    private uiRouterGlobals:UIRouterGlobals,
   ) {
   }
 
@@ -44,7 +46,7 @@ export class NotificationsSettingsPageComponent implements OnInit {
       .currentUserService
       .user$
       .pipe(take(1))
-      .subscribe(user => {
+      .subscribe((user) => {
         this.userId = this.userId || user.id!;
         this.stateService.get(this.userId);
       });

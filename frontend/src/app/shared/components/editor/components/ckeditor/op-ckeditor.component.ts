@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,15 +26,18 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import {
-  CKEditorSetupService,
+  Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
+} from '@angular/core';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import {
   ICKEditorContext,
-  ICKEditorInstance
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ConfigurationService } from "core-app/core/config/configuration.service";
+  ICKEditorInstance, ICKEditorWatchdog
+} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
+import { CKEditorSetupService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
+
 
 declare module 'codemirror';
 
@@ -43,16 +46,17 @@ const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
 @Component({
   selector: 'op-ckeditor',
   templateUrl: './op-ckeditor.html',
-  styleUrls: ['./op-ckeditor.sass']
+  styleUrls: ['./op-ckeditor.sass'],
 })
-export class OpCkeditorComponent implements OnInit {
+export class OpCkeditorComponent implements OnInit, OnDestroy {
   @Input() context:ICKEditorContext;
+
   @Input()
   public set content(newVal:string) {
     this._content = newVal;
 
     if (this.initialized) {
-      this.ckEditorInstance!.setData(newVal);
+      this.ckEditorInstance.setData(newVal);
     }
   }
 
@@ -67,17 +71,23 @@ export class OpCkeditorComponent implements OnInit {
 
   // View container of the replacement used to initialize CKEditor5
   @ViewChild('opCkeditorReplacementContainer', { static: true }) opCkeditorReplacementContainer:ElementRef;
+
   @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef;
 
   // CKEditor instance once initialized
+  public watchdog:ICKEditorWatchdog;
   public ckEditorInstance:ICKEditorInstance;
+
   public error:string|null = null;
+
   public allowManualMode = false;
+
   public manualMode = false;
+
   private _content:string;
 
   public text = {
-    errorTitle: this.I18n.t('js.editor.error_initialization_failed')
+    errorTitle: this.I18n.t('js.editor.ckeditor_error'),
   };
 
   // Codemirror instance, initialized lazily when running source mode
@@ -88,12 +98,12 @@ export class OpCkeditorComponent implements OnInit {
   private debouncedEmitter = _.debounce(
     () => {
       this.getTransformedContent(false)
-        .then(val => {
+        .then((val) => {
           this.onContentChange.emit(val);
         });
     },
     1000,
-    { leading: true }
+    { leading: true },
   );
 
   private $element:JQuery;
@@ -111,10 +121,9 @@ export class OpCkeditorComponent implements OnInit {
    */
   public getRawData():string {
     if (this.manualMode) {
-      return this._content = this.codeMirrorInstance!.getValue();
-    } else {
-      return this._content = this.ckEditorInstance!.getData({ trim: false });
+      return this._content = this.codeMirrorInstance.getValue();
     }
+    return this._content = this.ckEditorInstance.getData({ trim: false });
   }
 
   /**
@@ -123,7 +132,7 @@ export class OpCkeditorComponent implements OnInit {
    */
   public getTransformedContent(notificationOnError = true):Promise<string> {
     if (!this.initialized) {
-      throw "Tried to access CKEditor instance before initialization.";
+      throw new Error('Tried to access CKEditor instance before initialization.');
     }
 
     return new Promise<string>((resolve, reject) => {
@@ -133,7 +142,7 @@ export class OpCkeditorComponent implements OnInit {
         console.error(`Failed to save CKEditor content: ${e}.`);
         const error = this.I18n.t(
           'js.editor.error_saving_failed',
-          { error: e || this.I18n.t('js.error.internal') }
+          { error: e || this.I18n.t('js.error.internal') },
         );
 
         if (notificationOnError) {
@@ -169,6 +178,14 @@ export class OpCkeditorComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    try {
+      this.watchdog?.destroy();
+    } catch (e) {
+      console.error(`Failed to destroy CKEditor instance: ${e}`)
+    }
+  }
+
   private initializeEditor() {
     this.$element = jQuery(this.elementRef.nativeElement);
 
@@ -176,28 +193,28 @@ export class OpCkeditorComponent implements OnInit {
       .create(
         this.opCkeditorReplacementContainer.nativeElement,
         this.context,
-        this.content
+        this.content,
       )
       .catch((error:string) => {
-        throw(error);
+        throw (error);
       })
-      .then((editor:ICKEditorInstance) => {
-        this.ckEditorInstance = editor;
+      .then((watchdog:ICKEditorWatchdog) => {
+        this.setupWatchdog(watchdog);
+        this.ckEditorInstance = watchdog.editor;
 
         // Save changes while in wysiwyg mode
-        editor.model.document.on('change', this.debouncedEmitter);
+        watchdog.editor.model.document.on('change', this.debouncedEmitter);
 
         // Switch mode
-        editor.on('op:source-code-enabled', () => this.enableManualMode());
-        editor.on('op:source-code-disabled', () => this.disableManualMode());
+        watchdog.editor.on('op:source-code-enabled', () => this.enableManualMode());
+        watchdog.editor.on('op:source-code-disabled', () => this.disableManualMode());
 
-        this.onInitialized.emit(editor);
-        return editor;
+        this.onInitialized.emit(watchdog.editor);
+        return watchdog.editor;
       });
 
     this.$element.data('editor', editorPromise);
   }
-
 
   /**
    * Disable the manual mode, kill the codeMirror instance and switch back to CKEditor
@@ -221,7 +238,7 @@ export class OpCkeditorComponent implements OnInit {
     Promise
       .all([
         import('codemirror'),
-        import(/* webpackChunkName: "codemirror-mode" */ `codemirror/mode/${cmMode}/${cmMode}.js`)
+        import(/* webpackChunkName: "codemirror-mode" */ `codemirror/mode/${cmMode}/${cmMode}.js`),
       ])
       .then((imported:any[]) => {
         const CodeMirror = imported[0].default;
@@ -231,13 +248,28 @@ export class OpCkeditorComponent implements OnInit {
             lineNumbers: true,
             smartIndent: true,
             value: current,
-            mode: ''
-          }
+            mode: '',
+          },
         );
 
         this.codeMirrorInstance.on('change', this.debouncedEmitter);
         setTimeout(() => this.codeMirrorInstance.refresh(), 100);
         this.manualMode = true;
       });
+  }
+
+  /**
+   * Listen to some of the error events of the watchdog to provide the
+   * user with some information on what went wrong.
+   *
+   * @param watchdog
+   * @private
+   */
+  private setupWatchdog(watchdog:ICKEditorWatchdog) {
+    this.watchdog = watchdog;
+
+    watchdog.on('error', (_, { error }) => {
+      this.error = error.message;
+    });
   }
 }

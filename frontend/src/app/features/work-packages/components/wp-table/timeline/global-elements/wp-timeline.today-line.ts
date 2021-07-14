@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -30,9 +30,7 @@ import * as moment from 'moment';
 import { calculatePositionValueForDayCount, TimelineViewParameters } from '../wp-timeline';
 import { TimelineStaticElement } from './timeline-static-element';
 
-
 export class TodayLineElement extends TimelineStaticElement {
-
   protected finishElement(elem:HTMLElement, vp:TimelineViewParameters):HTMLElement {
     const offsetToday = vp.now.diff(vp.dateDisplayStart, 'days');
     const dayProgress = moment().hour() / 24;
@@ -45,4 +43,3 @@ export class TodayLineElement extends TimelineStaticElement {
     return 'wp-timeline-static-element-today-line';
   }
 }
-

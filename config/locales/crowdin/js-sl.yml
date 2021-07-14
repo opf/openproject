@@ -556,6 +556,7 @@ sl:
       autocompleter:
         label: 'Samodejno dokončanje projekta'
     text_are_you_sure: "Ste prepričani?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Ime skupine %{group} je že uporabljeno. Imena skupin morajo biti unikatna."

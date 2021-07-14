@@ -1,23 +1,24 @@
 /**
  * A CDK portal implementation to wrap edit-fields in non-angular contexts.
  */
-import { ApplicationRef, ComponentFactoryResolver, Injectable, Injector } from "@angular/core";
-import { ComponentPortal, DomPortalOutlet } from "@angular/cdk/portal";
-import { EditFormPortalComponent } from "core-app/shared/components/fields/edit/editing-portal/edit-form-portal.component";
-import { createLocalInjector } from "core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector";
-import { take } from "rxjs/operators";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { EditForm } from "core-app/shared/components/fields/edit/edit-form/edit-form";
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { HalResourceEditFieldHandler } from "core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler";
+import {
+  ApplicationRef, ComponentFactoryResolver, Injectable, Injector,
+} from '@angular/core';
+import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
+import { EditFormPortalComponent } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.component';
+import { createLocalInjector } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector';
+import { take } from 'rxjs/operators';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 
 @Injectable({ providedIn: 'root' })
 export class EditingPortalService {
-
   constructor(private readonly appRef:ApplicationRef,
-              private readonly componentFactoryResolver:ComponentFactoryResolver,
-              private readonly pathHelper:PathHelperService) {
+    private readonly componentFactoryResolver:ComponentFactoryResolver,
+    private readonly pathHelper:PathHelperService) {
 
   }
 
@@ -27,7 +28,6 @@ export class EditingPortalService {
     schema:IFieldSchema,
     fieldName:string,
     errors:string[]):Promise<EditFieldHandler> {
-
     // Create the portal outlet
     const outlet = this.createDomOutlet(container, injector);
 
@@ -39,7 +39,7 @@ export class EditingPortalService {
       schema,
       container,
       this.pathHelper,
-      errors
+      errors,
     );
 
     fieldHandler
@@ -65,7 +65,7 @@ export class EditingPortalService {
       .instance
       .onEditFieldReady
       .pipe(
-        take(1)
+        take(1),
       )
       .toPromise()
       .then(() => fieldHandler);
@@ -82,9 +82,7 @@ export class EditingPortalService {
       hostElement,
       this.componentFactoryResolver,
       this.appRef,
-      injector
+      injector,
     );
   }
 }
-
-

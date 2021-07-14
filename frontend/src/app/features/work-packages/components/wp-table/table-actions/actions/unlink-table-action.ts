@@ -5,18 +5,16 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { Injector } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export class OpUnlinkTableAction extends OpTableAction {
-
   constructor(public injector:Injector,
-              public workPackage:WorkPackageResource,
-              public readonly identifier:string,
-              private title:string,
-              readonly applicable:(workPackage:WorkPackageResource) => boolean,
-              readonly onClick:(workPackage:WorkPackageResource) => void) {
+    public workPackage:WorkPackageResource,
+    public readonly identifier:string,
+    private title:string,
+    readonly applicable:(workPackage:WorkPackageResource) => boolean,
+    readonly onClick:(workPackage:WorkPackageResource) => void) {
     super(injector, workPackage);
-
   }
 
   /**
@@ -30,14 +28,12 @@ export class OpUnlinkTableAction extends OpTableAction {
     title:string,
     onClick:(workPackage:WorkPackageResource) => void,
     applicable:(workPackage:WorkPackageResource) => boolean = () => true):OpTableActionFactory {
-    return (injector:Injector, workPackage:WorkPackageResource) => {
-      return new OpUnlinkTableAction(injector,
-        workPackage,
-        identifier,
-        title,
-        applicable,
-        onClick) as OpTableAction;
-    };
+    return (injector:Injector, workPackage:WorkPackageResource) => new OpUnlinkTableAction(injector,
+      workPackage,
+      identifier,
+      title,
+      applicable,
+      onClick) as OpTableAction;
   }
 
   public buildElement() {

@@ -557,6 +557,7 @@ it:
       autocompleter:
         label: 'Autocompletamento del progetto'
     text_are_you_sure: "Sei sicuro?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Il nome %{group} è usato più di una volta. I nomi dei gruppi devono essere univoci."

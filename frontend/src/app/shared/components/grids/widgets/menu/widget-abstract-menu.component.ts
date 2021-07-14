@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,12 +26,12 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Input, Directive } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpContextMenuItem } from "core-app/shared/components/op-context-menu/op-context-menu.types";
-import { GridWidgetResource } from "core-app/features/hal/resources/grid-widget-resource";
-import { GridRemoveWidgetService } from "core-app/shared/components/grids/grid/remove-widget.service";
-import { GridAreaService } from "core-app/shared/components/grids/grid/area.service";
+import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
+import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 
 @Directive()
 export abstract class WidgetAbstractMenuComponent {
@@ -40,14 +40,12 @@ export abstract class WidgetAbstractMenuComponent {
   protected menuItemList:OpContextMenuItem[] = [this.removeItem];
 
   constructor(readonly i18n:I18nService,
-              protected readonly remove:GridRemoveWidgetService,
-              protected readonly layout:GridAreaService) {
+    protected readonly remove:GridRemoveWidgetService,
+    protected readonly layout:GridAreaService) {
   }
 
   public get menuItems() {
-    return async () => {
-      return this.menuItemList;
-    };
+    return async () => this.menuItemList;
   }
 
   protected get removeItem() {
@@ -56,7 +54,7 @@ export abstract class WidgetAbstractMenuComponent {
       onClick: () => {
         this.remove.widget(this.resource);
         return true;
-      }
+      },
     };
   }
 

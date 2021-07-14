@@ -504,30 +504,30 @@ de:
           timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
     notifications:
-      title: "Notifications"
-      channel: "Channel"
+      title: "Benachrichtigungen"
+      channel: "Kanal"
       channels:
-        in_app: "In-app"
+        in_app: "In-App"
         mail: "E-Mail"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
         involved: 'involved'
       facets:
-        unread: 'Unread'
+        unread: 'Ungelesen'
         all: 'Alle'
       center:
-        mark_all_read: 'Mark all as read'
+        mark_all_read: 'Alles als gelesen markieren'
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
-        default_all_projects: 'Default for all projects'
-        involved: 'I am involved'
+        default_all_projects: 'Standard für alle Projekte'
+        involved: 'Ich bin beteiligt'
         mentioned: 'I was mentioned'
         watched: 'I am watching'
         all: 'All events'
         add: 'Add setting for project'
         remove_projects: 'Remove notifications for projects'
-        title: "Notification settings"
+        title: "Benachrichtigungseinstellungen"
         self_notify: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"
     password_confirmation:
       field_description: 'Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.'
@@ -556,6 +556,7 @@ de:
       autocompleter:
         label: 'Projekt Auto-Vervollständigung'
     text_are_you_sure: "Sind Sie sicher?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Der Name %{group} wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein."

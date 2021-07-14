@@ -4,4 +4,3 @@ export interface OpModalLocalsMap {
   service:OpModalService;
   [key:string]:any;
 }
-

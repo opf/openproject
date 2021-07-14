@@ -32,7 +32,7 @@ module OpenProject
   module FormTagHelper
     include ActionView::Helpers::FormTagHelper
 
-    TEXT_LIKE_FIELDS = %w(number_field password_field url_field telephone_field email_field).freeze
+    TEXT_LIKE_FIELDS = %w(number_field password_field url_field telephone_field email_field time_field).freeze
 
     def styled_form_tag(url_for_options = {}, options = {}, &block)
       apply_css_class_to_options(options, 'form')

@@ -1,51 +1,51 @@
-import { States } from "core-app/core/states/states.service";
-import { QueryResource } from "core-app/features/hal/resources/query-resource";
-import { WorkPackagesListChecksumService } from './wp-list-checksum.service';
+import { States } from 'core-app/core/states/states.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { IsolatedQuerySpace } from "core-app/features/work-packages/directives/query-space/isolated-query-space";
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
-import { WorkPackageViewHighlightingService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service";
-import { take } from "rxjs/operators";
-import { WorkPackageViewOrderService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service";
-import { WorkPackageViewDisplayRepresentationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
-import { WorkPackageViewSumService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service";
-import { WorkPackageViewColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service";
-import { WorkPackageViewSortByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service";
-import { WorkPackageViewAdditionalElementsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-additional-elements.service";
-import { WorkPackageViewHierarchiesService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service";
-import { WorkPackageViewPaginationService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service";
-import { WorkPackageViewTimelineService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service";
-import { WorkPackageViewGroupByService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service";
-import { WorkPackageViewFiltersService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service";
-import { WorkPackageViewRelationColumnsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service";
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
-import { WorkPackageViewCollapsedGroupsService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service";
-import { QueryFormResource } from "core-app/features/hal/resources/query-form-resource";
-import { QuerySchemaResource } from "core-app/features/hal/resources/query-schema-resource";
-import { WorkPackageCollectionResource } from "core-app/features/hal/resources/wp-collection-resource";
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
+import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
+import { take } from 'rxjs/operators';
+import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
+import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
+import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
+import { WorkPackageViewAdditionalElementsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-additional-elements.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewPaginationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
+import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { WorkPackagesListChecksumService } from './wp-list-checksum.service';
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
   constructor(protected states:States,
-              protected querySpace:IsolatedQuerySpace,
-              protected wpTableColumns:WorkPackageViewColumnsService,
-              protected wpTableGroupBy:WorkPackageViewGroupByService,
-              protected wpTableGroupFold:WorkPackageViewCollapsedGroupsService,
-              protected wpTableSortBy:WorkPackageViewSortByService,
-              protected wpTableFilters:WorkPackageViewFiltersService,
-              protected wpTableSum:WorkPackageViewSumService,
-              protected wpTableTimeline:WorkPackageViewTimelineService,
-              protected wpTableHierarchies:WorkPackageViewHierarchiesService,
-              protected wpTableHighlighting:WorkPackageViewHighlightingService,
-              protected wpTableRelationColumns:WorkPackageViewRelationColumnsService,
-              protected wpTablePagination:WorkPackageViewPaginationService,
-              protected wpTableOrder:WorkPackageViewOrderService,
-              protected wpTableAdditionalElements:WorkPackageViewAdditionalElementsService,
-              protected apiV3Service:APIV3Service,
-              protected wpListChecksumService:WorkPackagesListChecksumService,
-              protected authorisationService:AuthorisationService,
-              protected wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService) {
+    protected querySpace:IsolatedQuerySpace,
+    protected wpTableColumns:WorkPackageViewColumnsService,
+    protected wpTableGroupBy:WorkPackageViewGroupByService,
+    protected wpTableGroupFold:WorkPackageViewCollapsedGroupsService,
+    protected wpTableSortBy:WorkPackageViewSortByService,
+    protected wpTableFilters:WorkPackageViewFiltersService,
+    protected wpTableSum:WorkPackageViewSumService,
+    protected wpTableTimeline:WorkPackageViewTimelineService,
+    protected wpTableHierarchies:WorkPackageViewHierarchiesService,
+    protected wpTableHighlighting:WorkPackageViewHighlightingService,
+    protected wpTableRelationColumns:WorkPackageViewRelationColumnsService,
+    protected wpTablePagination:WorkPackageViewPaginationService,
+    protected wpTableOrder:WorkPackageViewOrderService,
+    protected wpTableAdditionalElements:WorkPackageViewAdditionalElementsService,
+    protected apiV3Service:APIV3Service,
+    protected wpListChecksumService:WorkPackagesListChecksumService,
+    protected authorisationService:AuthorisationService,
+    protected wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService) {
   }
 
   /**
@@ -112,7 +112,7 @@ export class WorkPackageStatesInitializationService {
 
     this.authorisationService.initModelAuth('work_packages', results.$links);
 
-    results.elements.forEach(wp => this.apiV3Service.work_packages.cache.updateWorkPackage(wp, true));
+    results.elements.forEach((wp) => this.apiV3Service.work_packages.cache.updateWorkPackage(wp, true));
 
     this.querySpace.results.putValue(results);
 

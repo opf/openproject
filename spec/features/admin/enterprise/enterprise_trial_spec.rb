@@ -257,7 +257,7 @@ describe 'Enterprise trial management',
     end
 
     it 'can confirm that trial regularly' do
-      find('.op-modal--modal-body #resend-link', text: 'Resend').click
+      find('.op-modal--body #resend-link', text: 'Resend').click
       expect(page).to have_selector('.notification-box.-success', text: 'Email has been resent.', wait: 20)
 
       expect(page).to have_text 'foo@foocorp.example'

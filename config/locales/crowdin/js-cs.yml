@@ -557,6 +557,7 @@ cs:
       autocompleter:
         label: 'Automatické doplňování projektu'
     text_are_you_sure: "Jste si jisti?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Jméno %{group} je již použito. Jména skupin musí být jedinečná."

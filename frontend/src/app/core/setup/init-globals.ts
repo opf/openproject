@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -34,4 +34,3 @@ import './globals/dynamic-bootstrapper';
 import './globals/global-listeners';
 import './globals/openproject';
 import './globals/tree-menu';
-

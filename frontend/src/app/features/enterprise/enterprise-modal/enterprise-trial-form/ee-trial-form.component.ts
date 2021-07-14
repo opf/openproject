@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,20 +26,19 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-import { Component, ElementRef } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { EnterpriseTrialData, EnterpriseTrialService } from "core-app/features/enterprise/enterprise-trial.service";
-import { CurrentUserService } from "core-app/core/current-user/current-user.service";
-import { I18nHelpers } from "core-app/shared/helpers/i18n/localized-link";
+import { Component, ElementRef } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { EnterpriseTrialData, EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { I18nHelpers } from 'core-app/shared/helpers/i18n/localized-link';
 
 const newsletterURL = 'https://www.openproject.com/newsletter/';
 
 @Component({
   selector: 'enterprise-trial-form',
   templateUrl: './ee-trial-form.component.html',
-  styleUrls: ['./ee-trial-form.component.sass']
+  styleUrls: ['./ee-trial-form.component.sass'],
 })
 export class EETrialFormComponent {
   // Retain used values
@@ -53,7 +52,7 @@ export class EETrialFormComponent {
     domain: [this.userData.domain || window.location.host, Validators.required],
     general_consent: [null, Validators.required],
     newsletter_consent: null,
-    language: this.currentUserService.language
+    language: this.currentUserService.language,
   });
 
   public text = {
@@ -64,8 +63,8 @@ export class EETrialFormComponent {
       }),
       link_privacy: I18nHelpers.localizeLink({
         en: 'https://www.openproject.org/data-privacy-and-security/',
-        de: 'https://www.openproject.org/de/datenschutz/'
-      })
+        de: 'https://www.openproject.org/de/datenschutz/',
+      }),
     }),
     label_test_ee: this.I18n.t('js.admin.enterprise.trial.form.test_ee'),
     label_company: this.I18n.t('js.admin.enterprise.trial.form.label_company'),
@@ -75,14 +74,14 @@ export class EETrialFormComponent {
     label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
     privacy_policy: this.I18n.t('js.admin.enterprise.trial.form.privacy_policy'),
     receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter', { link: newsletterURL }),
-    terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service')
+    terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service'),
   };
 
   constructor(readonly elementRef:ElementRef,
-              readonly I18n:I18nService,
-              private formBuilder:FormBuilder,
-              readonly currentUserService:CurrentUserService,
-              public eeTrialService:EnterpriseTrialService) {
+    readonly I18n:I18nService,
+    private formBuilder:FormBuilder,
+    readonly currentUserService:CurrentUserService,
+    public eeTrialService:EnterpriseTrialService) {
 
   }
 

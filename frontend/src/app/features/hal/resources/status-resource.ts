@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,16 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InputState } from 'reactivestates';
 
 export class StatusResource extends HalResource {
-
   isClosed:boolean;
+
   isDefault:boolean;
 
   public get state():InputState<this> {
     return this.states.statuses.get(this.href as string) as any;
   }
 }
-

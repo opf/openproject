@@ -43,107 +43,86 @@ class Notifications::JournalWpNotificationService
     def call(journal, send_notifications)
       return nil if abort_sending?(journal, send_notifications)
 
-      author = User.find_by(id: journal.user_id) || DeletedUser.first
-
-      notification_receivers(journal.journable, journal) do |recipient, reason|
-        create_event(journal, recipient, reason, author)
+      notification_receivers(journal.journable, journal).each do |recipient_id, channel_reasons|
+        create_notification(journal,
+                            recipient_id,
+                            channel_reasons)
       end
     end
 
     private
 
-    def create_event(journal, recipient, reason, user)
+    def create_notification(journal, recipient_id, channel_reasons)
       notification_attributes = {
-        recipient: recipient,
-        reason: reason,
+        recipient_id: recipient_id,
         project: journal.project,
         resource: journal.journable,
         journal: journal,
-        actor: journal.user
-      }.merge(channel_attributes(recipient, reason))
+        actor: user_with_fallback(journal)
+      }.merge(channel_attributes(channel_reasons))
 
       Notifications::CreateService
-        .new(user: user)
+        .new(user: user_with_fallback(journal))
         .call(notification_attributes)
     end
 
-    def channel_attributes(recipient, reason)
-      key =
-        case reason
-        when :subscribed
-          :all
-        else
-          reason
-        end
-
-      recipient.notification_settings.map do |setting|
-        channel =
-          case setting.channel
-          when 'mail'
-            :read_email
-          when 'in_app'
-            :read_ian
-          else
-            raise "Unknown notification channel"
-          end
-
-        [channel, setting[key] ? false : nil]
-      end.to_h
+    def channel_attributes(channel_reasons)
+      {
+        read_mail: channel_reasons.keys.include?('mail') ? false : nil,
+        read_mail_digest: channel_reasons.keys.include?('mail_digest') ? false : nil,
+        read_ian: channel_reasons.keys.include?('in_app') ? false : nil,
+        reason_ian: channel_reasons['in_app']&.first,
+        reason_mail: channel_reasons['mail']&.first,
+        reason_mail_digest: channel_reasons['mail_digest']&.first
+      }
     end
 
     def notification_receivers(work_package, journal)
-      seen = mentioned(journal).each do |user|
-        yield(user, :mentioned)
-      end
+      receivers = receivers_hash
 
-      seen += involved(journal, seen).each do |user|
-        yield(user, :involved)
-      end
+      add_receiver(receivers, settings_of_mentioned(journal), :mentioned)
+      add_receiver(receivers, settings_of_involved(journal), :involved)
+      add_receiver(receivers, settings_of_watched(work_package), :watched)
+      add_receiver(receivers, settings_of_subscribed(journal), :subscribed)
 
-      seen += subscribed(journal, seen).each do |user|
-        yield(user, :subscribed)
-      end
-
-      watched(work_package, seen).each do |user|
-        yield(user, :watched)
-      end
+      receivers
     end
 
-    def mentioned(journal)
-      allowed_and_unique(mentioned_ids(journal),
-                         journal.data.project,
-                         [])
+    def settings_of_mentioned(journal)
+      applicable_settings(mentioned_ids(journal),
+                          journal.data.project,
+                          :mentioned)
     end
 
-    def involved(journal, seen)
+    def settings_of_involved(journal)
       scope = User
         .where(id: group_or_user_ids(journal.data.assigned_to))
         .or(User.where(id: group_or_user_ids(journal.data.responsible)))
 
-      allowed_and_unique(scope,
-                         journal.data.project,
-                         seen)
+      applicable_settings(scope,
+                          journal.data.project,
+                          :involved)
     end
 
-    def subscribed(journal, seen)
+    def settings_of_subscribed(journal)
       project = journal.data.project
 
-      allowed_and_unique(User.notified_on_all(project),
-                         project,
-                         seen)
+      applicable_settings(User.notified_on_all(project),
+                          project,
+                          :all)
     end
 
-    def watched(work_package, seen)
-      allowed_and_unique(work_package.watcher_users,
-                         work_package.project,
-                         seen)
+    def settings_of_watched(work_package)
+      applicable_settings(work_package.watcher_users,
+                          work_package.project,
+                          :watched)
     end
 
-    def allowed_and_unique(scope, project, seen = [])
-      scope
-        .where(id: User.allowed(:view_work_packages, project))
-        .where.not(id: seen.map(&:id))
-        .not_builtin
+    def applicable_settings(user_scope, project, reason)
+      NotificationSetting
+        .applicable(project)
+        .where(reason => true)
+        .where(user: user_scope.where(id: User.allowed(:view_work_packages, project)))
     end
 
     def text_for_mentions(journal)
@@ -241,6 +220,24 @@ class Notifications::JournalWpNotificationService
 
     def group_or_user_ids(association)
       association.is_a?(Group) ? association.user_ids : association&.id
+    end
+
+    def user_with_fallback(journal)
+      journal.user || DeletedUser.first
+    end
+
+    def add_receiver(receivers, collection, reason)
+      collection.each do |notification|
+        receivers[notification.user_id][notification.channel] << reason
+      end
+    end
+
+    def receivers_hash
+      Hash.new do |hash, user|
+        hash[user] = Hash.new do |channel_hash, channel|
+          channel_hash[channel] = []
+        end
+      end
     end
   end
 end

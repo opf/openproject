@@ -54,8 +54,6 @@ module Redmine
                         :attachments_claimed
 
           send :include, Redmine::Acts::Attachable::InstanceMethods
-
-          OpenProject::Deprecation.deprecate_method self, :attach_files
         end
 
         private
@@ -174,26 +172,6 @@ module Redmine
               (persisted? && allowed_to_on_attachment?(user, self.class.attachable_options[:add_on_persisted_permission]))
           end
 
-          # Bulk attaches a set of files to an object
-          # @deprecated
-          # Either use the already existing Attachments::CreateService or
-          # write/extend Services for the attached to object.
-          # The service should rely on the attachments_replacements variable.
-          # See:
-          # * app/services/attachments/set_replacements.rb
-          # * app/services/attachments/replace_attachments.rb
-          def attach_files(attachments)
-            return unless attachments&.is_a?(Hash)
-
-            attachments.each_value do |attachment|
-              if attachment['file']
-                build_attachments_from_hash(attachment)
-              elsif attachment['id']
-                memoize_attachment_for_claiming(attachment)
-              end
-            end
-          end
-
           private
 
           def allowed_to_on_attachment?(user, permissions)
@@ -220,21 +198,6 @@ module Redmine
 
           def attachable_class
             (Redmine::Acts::Attachable.attachables & self.class.ancestors).first
-          end
-
-          def build_attachments_from_hash(attachment_hash)
-            if (file = attachment_hash['file']) && file && file.size.positive?
-              attachments.build(file: file,
-                                container: self,
-                                description: attachment_hash['description'].to_s.strip,
-                                author: User.current)
-            end
-          end
-
-          def memoize_attachment_for_claiming(attachment_hash)
-            self.attachments_claimed ||= []
-            attachment = Attachment.find(attachment_hash['id'])
-            self.attachments_claimed << attachment unless id && attachment.container_id == id
           end
 
           def validate_attachments_claimable

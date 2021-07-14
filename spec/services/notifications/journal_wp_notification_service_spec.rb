@@ -49,13 +49,15 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
   let(:recipient_notification_settings) do
     [
       FactoryBot.build(:mail_notification_setting, all: true),
-      FactoryBot.build(:in_app_notification_setting, all: true)
+      FactoryBot.build(:in_app_notification_setting, all: true),
+      FactoryBot.build(:mail_digest_notification_setting, all: true)
     ]
   end
   let(:other_user_notification_settings) do
     [
       FactoryBot.build(:mail_notification_setting, all: false, involved: false, watched: false, mentioned: false),
-      FactoryBot.build(:in_app_notification_setting, all: false, involved: false, watched: false, mentioned: false)
+      FactoryBot.build(:in_app_notification_setting, all: false, involved: false, watched: false, mentioned: false),
+      FactoryBot.build(:mail_digest_notification_setting, all: false, involved: false, watched: false, mentioned: false)
     ]
   end
   let(:user_property) { nil }
@@ -118,34 +120,36 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
   shared_examples_for 'creates notification' do
     let(:sender) { author }
-    let(:event_reason) { :mentioned }
-    let(:event_channels) do
+    let(:notification_channel_reasons) do
       {
         read_ian: false,
-        read_email: false
+        reason_ian: :mentioned,
+        read_mail: false,
+        reason_mail: :mentioned,
+        read_mail_digest: false,
+        reason_mail_digest: :mentioned
       }
     end
 
     it 'creates a notification' do
-      events_service = instance_double(Notifications::CreateService)
+      notifications_service = instance_double(Notifications::CreateService)
 
       allow(Notifications::CreateService)
         .to receive(:new)
               .with(user: sender)
-              .and_return(events_service)
-      allow(events_service)
+              .and_return(notifications_service)
+      allow(notifications_service)
         .to receive(:call)
 
       call
 
-      expect(events_service)
+      expect(notifications_service)
         .to have_received(:call)
-              .with({ recipient: recipient,
-                      reason: event_reason,
+              .with({ recipient_id: recipient.id,
                       project: journal.project,
-                      actor: journal.user,
+                      actor: sender,
                       journal: journal,
-                      resource: journal.journable }.merge(event_channels))
+                      resource: journal.journable }.merge(notification_channel_reasons))
     end
   end
 
@@ -167,28 +171,42 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     let(:recipient_notification_settings) do
       [
         FactoryBot.build(:mail_notification_setting, involved: true),
-        FactoryBot.build(:in_app_notification_setting, involved: true)
+        FactoryBot.build(:in_app_notification_setting, involved: true),
+        FactoryBot.build(:mail_digest_notification_setting, involved: true)
       ]
     end
 
     it_behaves_like 'creates notification' do
-      let(:event_reason) { :involved }
+      let(:notification_channel_reasons) do
+        {
+          read_ian: false,
+          reason_ian: :involved,
+          read_mail: false,
+          reason_mail: :involved,
+          read_mail_digest: false,
+          reason_mail_digest: :involved
+        }
+      end
     end
 
     context 'assignee has in app notifications disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:mail_notification_setting, involved: false, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, involved: true),
           FactoryBot.build(:in_app_notification_setting, involved: false)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
             read_ian: nil,
-            read_email: false
+            reason_ian: nil,
+            read_mail: false,
+            reason_mail: :subscribed,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
           }
         end
       end
@@ -198,16 +216,20 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, involved: false),
+          FactoryBot.build(:mail_digest_notification_setting, involved: false),
           FactoryBot.build(:in_app_notification_setting, involved: true)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
             read_ian: false,
-            read_email: nil
+            reason_ian: :involved,
+            read_mail: nil,
+            reason_mail: nil,
+            read_mail_digest: nil,
+            reason_mail_digest: nil
           }
         end
       end
@@ -217,17 +239,32 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, involved: false),
+          FactoryBot.build(:mail_digest_notification_setting, involved: false),
           FactoryBot.build(:in_app_notification_setting, involved: false)
         ]
       end
 
-      # Event creation will be prevented by the service
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'assignee has all in app notifications enabled but only involved for mail' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: true),
+          FactoryBot.build(:mail_digest_notification_setting, involved: true),
+          FactoryBot.build(:in_app_notification_setting, involved: false, watched: false, mentioned: false, all: true)
+        ]
+      end
+
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
-            read_ian: nil,
-            read_email: nil
+            read_ian: false,
+            reason_ian: :subscribed,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
           }
         end
       end
@@ -251,28 +288,42 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     let(:recipient_notification_settings) do
       [
         FactoryBot.build(:mail_notification_setting, involved: true),
+        FactoryBot.build(:mail_digest_notification_setting, involved: true),
         FactoryBot.build(:in_app_notification_setting, involved: true)
       ]
     end
 
     it_behaves_like 'creates notification' do
-      let(:event_reason) { :involved }
+      let(:notification_channel_reasons) do
+        {
+          read_ian: false,
+          reason_ian: :involved,
+          read_mail: false,
+          reason_mail: :involved,
+          read_mail_digest: false,
+          reason_mail_digest: :involved
+        }
+      end
     end
 
     context 'when responsible has in app notifications disabled' do
       let(:recipient_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:mail_notification_setting, involved: false, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, involved: false, all: true),
           FactoryBot.build(:in_app_notification_setting, involved: false)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
             read_ian: nil,
-            read_email: false
+            reason_ian: nil,
+            read_mail: false,
+            reason_mail: :subscribed,
+            read_mail_digest: false,
+            reason_mail_digest: :subscribed
           }
         end
       end
@@ -282,16 +333,20 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, involved: false),
+          FactoryBot.build(:mail_digest_notification_setting, involved: false),
           FactoryBot.build(:in_app_notification_setting, involved: true)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
             read_ian: false,
-            read_email: nil
+            reason_ian: :involved,
+            read_mail: nil,
+            reason_mail: nil,
+            read_mail_digest: nil,
+            reason_mail_digest: nil
           }
         end
       end
@@ -301,20 +356,12 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, involved: false),
+          FactoryBot.build(:mail_digest_notification_setting, involved: false),
           FactoryBot.build(:in_app_notification_setting, involved: false)
         ]
       end
 
-      # Event creation will be prevented by the service
-      it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
-        let(:event_channels) do
-          {
-            read_ian: nil,
-            read_email: nil
-          }
-        end
-      end
+      it_behaves_like 'creates no notification'
     end
 
     context 'when responsible is not allowed to view work packages' do
@@ -335,28 +382,42 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     let(:recipient_notification_settings) do
       [
         FactoryBot.build(:mail_notification_setting, watched: true),
+        FactoryBot.build(:mail_digest_notification_setting, watched: true),
         FactoryBot.build(:in_app_notification_setting, watched: true)
       ]
     end
 
     it_behaves_like 'creates notification' do
-      let(:event_reason) { :watched }
+      let(:notification_channel_reasons) do
+        {
+          read_ian: false,
+          reason_ian: :watched,
+          read_mail: false,
+          reason_mail: :watched,
+          read_mail_digest: false,
+          reason_mail_digest: :watched
+        }
+      end
     end
 
     context 'when watcher has in app notifications disabled' do
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, watched: true),
+          FactoryBot.build(:mail_digest_notification_setting, watched: true),
           FactoryBot.build(:in_app_notification_setting, watched: false)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :watched }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
             read_ian: nil,
-            read_email: false
+            reason_ian: nil,
+            read_mail: false,
+            reason_mail: :watched,
+            read_mail_digest: false,
+            reason_mail_digest: :watched
           }
         end
       end
@@ -366,16 +427,20 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, watched: false),
+          FactoryBot.build(:mail_digest_notification_setting, watched: false),
           FactoryBot.build(:in_app_notification_setting, watched: true)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :watched }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
             read_ian: false,
-            read_email: nil
+            reason_ian: :watched,
+            read_mail: nil,
+            reason_mail: nil,
+            read_mail_digest: nil,
+            reason_mail_digest: nil
           }
         end
       end
@@ -385,20 +450,12 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, watched: false),
+          FactoryBot.build(:mail_digest_notification_setting, watched: false),
           FactoryBot.build(:in_app_notification_setting, watched: false)
         ]
       end
 
-      # Event creation will be prevented by the service
-      it_behaves_like 'creates notification' do
-        let(:event_reason) { :watched }
-        let(:event_channels) do
-          {
-            read_ian: nil,
-            read_email: nil
-          }
-        end
-      end
+      it_behaves_like 'creates no notification'
     end
 
     context 'when watcher is not allowed to view work packages' do
@@ -414,28 +471,42 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     let(:recipient_notification_settings) do
       [
         FactoryBot.build(:mail_notification_setting, all: true),
+        FactoryBot.build(:mail_digest_notification_setting, all: true),
         FactoryBot.build(:in_app_notification_setting, all: true)
       ]
     end
 
     it_behaves_like 'creates notification' do
-      let(:event_reason) { :subscribed }
+      let(:notification_channel_reasons) do
+        {
+          read_ian: false,
+          reason_ian: :subscribed,
+          read_mail: false,
+          reason_mail: :subscribed,
+          read_mail_digest: false,
+          reason_mail_digest: :subscribed
+        }
+      end
     end
 
     context 'with in app notifications disabled' do
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, all: true),
           FactoryBot.build(:in_app_notification_setting, all: false)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :subscribed }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
             read_ian: nil,
-            read_email: false
+            reason_ian: nil,
+            read_mail: false,
+            reason_mail: :subscribed,
+            read_mail_digest: false,
+            reason_mail_digest: :subscribed
           }
         end
       end
@@ -445,16 +516,20 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, all: false),
+          FactoryBot.build(:mail_digest_notification_setting, all: false),
           FactoryBot.build(:in_app_notification_setting, all: true)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :subscribed }
-        let(:event_channels) do
+        let(:notification_channel_reasons) do
           {
             read_ian: false,
-            read_email: nil
+            reason_ian: :subscribed,
+            read_mail: nil,
+            reason_mail: nil,
+            read_mail_digest: nil,
+            reason_mail_digest: nil
           }
         end
       end
@@ -464,6 +539,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, all: false),
+          FactoryBot.build(:mail_digest_notification_setting, all: false),
           FactoryBot.build(:in_app_notification_setting, all: false)
         ]
       end
@@ -475,14 +551,25 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, all: false),
+          FactoryBot.build(:mail_digest_notification_setting, all: false),
           FactoryBot.build(:in_app_notification_setting, all: false),
           FactoryBot.build(:mail_notification_setting, project: project, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, project: project, all: true),
           FactoryBot.build(:in_app_notification_setting, project: project, all: true)
         ]
       end
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :subscribed }
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :subscribed,
+            read_mail: false,
+            reason_mail: :subscribed,
+            read_mail_digest: false,
+            reason_mail_digest: :subscribed
+          }
+        end
       end
     end
 
@@ -490,8 +577,10 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, all: true),
           FactoryBot.build(:in_app_notification_setting, all: true),
           FactoryBot.build(:mail_notification_setting, project: project, all: false),
+          FactoryBot.build(:mail_digest_notification_setting, project: project, all: false),
           FactoryBot.build(:in_app_notification_setting, project: project, all: false)
         ]
       end
@@ -527,7 +616,16 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:notification_setting) { %w(work_package_updated) }
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :involved,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
+          }
+        end
       end
     end
 
@@ -535,7 +633,16 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:notification_setting) { %w(work_package_note_added) }
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :involved,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
+          }
+        end
       end
     end
   end
@@ -554,7 +661,16 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:notification_setting) { %w(work_package_updated) }
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :involved,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
+          }
+        end
       end
     end
 
@@ -562,7 +678,16 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:notification_setting) { %w(status_updated) }
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :involved,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
+          }
+        end
       end
     end
   end
@@ -581,7 +706,16 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:notification_setting) { %w(work_package_updated) }
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :involved,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
+          }
+        end
       end
     end
 
@@ -589,7 +723,16 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:notification_setting) { %w(work_package_priority_updated) }
 
       it_behaves_like 'creates notification' do
-        let(:event_reason) { :involved }
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :involved,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
+          }
+        end
       end
     end
   end
@@ -605,7 +748,16 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
     it_behaves_like 'creates notification' do
       let(:sender) { deleted_user }
-      let(:event_reason) { :involved }
+      let(:notification_channel_reasons) do
+        {
+          read_ian: false,
+          reason_ian: :involved,
+          read_mail: false,
+          reason_mail: :involved,
+          read_mail_digest: false,
+          reason_mail_digest: :involved
+        }
+      end
     end
   end
 
@@ -613,6 +765,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     let(:recipient_notification_settings) do
       [
         FactoryBot.build(:mail_notification_setting, mentioned: true),
+        FactoryBot.build(:mail_digest_notification_setting, mentioned: true),
         FactoryBot.build(:in_app_notification_setting, mentioned: true)
       ]
     end
@@ -620,26 +773,30 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     shared_examples_for 'group mention' do
       context 'group member is allowed to view the work package' do
         context 'user wants to receive notifications' do
-          it_behaves_like 'creates notification'
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason_ian: :mentioned,
+                read_mail: false,
+                reason_mail: :mentioned,
+                read_mail_digest: false,
+                reason_mail_digest: :mentioned
+              }
+            end
+          end
         end
 
         context 'user disabled mention notifications' do
           let(:recipient_notification_settings) do
             [
               FactoryBot.build(:mail_notification_setting, mentioned: false),
+              FactoryBot.build(:mail_digest_notification_setting, mentioned: false),
               FactoryBot.build(:in_app_notification_setting, mentioned: false)
             ]
           end
 
-          # Event creation will be prevented by the service
-          it_behaves_like 'creates notification' do
-            let(:event_channels) do
-              {
-                read_ian: nil,
-                read_email: nil
-              }
-            end
-          end
+          it_behaves_like 'creates no notification'
         end
       end
 
@@ -652,7 +809,18 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
         context 'but group member is allowed individually' do
           let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
 
-          it_behaves_like 'creates notification'
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason_ian: :mentioned,
+                read_mail: false,
+                reason_mail: :mentioned,
+                read_mail_digest: false,
+                reason_mail_digest: :mentioned
+              }
+            end
+          end
         end
       end
     end
@@ -664,20 +832,53 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
             let(:note) { "Hello user:\"#{recipient_login}\"" }
 
             context "that is pretty normal word" do
-              it_behaves_like 'creates notification'
+              it_behaves_like 'creates notification' do
+                let(:notification_channel_reasons) do
+                  {
+                    read_ian: false,
+                    reason_ian: :mentioned,
+                    read_mail: false,
+                    reason_mail: :mentioned,
+                    read_mail_digest: false,
+                    reason_mail_digest: :mentioned
+                  }
+                end
+              end
             end
 
             context "that is an email address" do
               let(:recipient_login) { "foo@bar.com" }
 
-              it_behaves_like 'creates notification'
+              it_behaves_like 'creates notification' do
+                let(:notification_channel_reasons) do
+                  {
+                    read_ian: false,
+                    reason_ian: :mentioned,
+                    read_mail: false,
+                    reason_mail: :mentioned,
+                    read_mail_digest: false,
+                    reason_mail_digest: :mentioned
+                  }
+                end
+              end
             end
           end
 
           context "The added text contains a user ID" do
             let(:note) { "Hello user##{recipient.id}" }
 
-            it_behaves_like 'creates notification'
+            it_behaves_like 'creates notification' do
+              let(:notification_channel_reasons) do
+                {
+                  read_ian: false,
+                  reason_ian: :mentioned,
+                  read_mail: false,
+                  reason_mail: :mentioned,
+                  read_mail_digest: false,
+                  reason_mail_digest: :mentioned
+                }
+              end
+            end
           end
 
           context "The added text contains a user mention tag in one way" do
@@ -687,7 +888,18 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
               NOTE
             end
 
-            it_behaves_like 'creates notification'
+            it_behaves_like 'creates notification' do
+              let(:notification_channel_reasons) do
+                {
+                  read_ian: false,
+                  reason_ian: :mentioned,
+                  read_mail: false,
+                  reason_mail: :mentioned,
+                  read_mail_digest: false,
+                  reason_mail_digest: :mentioned
+                }
+              end
+            end
           end
 
           context "The added text contains a user mention tag in the other way" do
@@ -697,13 +909,25 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
               NOTE
             end
 
-            it_behaves_like 'creates notification'
+            it_behaves_like 'creates notification' do
+              let(:notification_channel_reasons) do
+                {
+                  read_ian: false,
+                  reason_ian: :mentioned,
+                  read_mail: false,
+                  reason_mail: :mentioned,
+                  read_mail_digest: false,
+                  reason_mail_digest: :mentioned
+                }
+              end
+            end
           end
 
           context "the recipient turned off mention notifications" do
             let(:recipient_notification_settings) do
               [
                 FactoryBot.build(:mail_notification_setting, mentioned: false),
+                FactoryBot.build(:mail_digest_notification_setting, mentioned: false),
                 FactoryBot.build(:in_app_notification_setting, mentioned: false)
               ]
             end
@@ -712,15 +936,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
               "Hello user:\"#{recipient.login}\", hey user##{recipient.id}"
             end
 
-            # Event creation will be prevented by the service
-            it_behaves_like 'creates notification' do
-              let(:event_channels) do
-                {
-                  read_ian: nil,
-                  read_email: nil
-                }
-              end
-            end
+            it_behaves_like 'creates no notification'
           end
         end
 

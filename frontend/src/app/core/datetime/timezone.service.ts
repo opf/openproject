@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -34,8 +34,8 @@ import { Moment } from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
-  constructor(readonly ConfigurationService:ConfigurationService,
-              readonly I18n:I18nService) {
+  constructor(readonly configurationService:ConfigurationService,
+    readonly I18n:I18nService) {
     this.setupLocale();
   }
 
@@ -48,11 +48,11 @@ export class TimezoneService {
    * a local date time moment object.
    */
   public parseDatetime(datetime:string, format?:string):Moment {
-    var d = moment.utc(datetime, format);
+    const d = moment.utc(datetime, format);
 
-    if (this.ConfigurationService.isTimezoneSet()) {
+    if (this.configurationService.isTimezoneSet()) {
       d.local();
-      d.tz(this.ConfigurationService.timezone());
+      d.tz(this.configurationService.timezone());
     }
 
     return d;
@@ -73,13 +73,13 @@ export class TimezoneService {
    * @returns {Moment}
    */
   public parseLocalDateTime(date:string, format?:string) {
-    var result;
-    format = format || this.getTimeFormat();
+    let result;
+    const timeFormat = format || this.getTimeFormat();
 
-    if (this.ConfigurationService.isTimezoneSet()) {
-      result = moment.tz(date, format!, this.ConfigurationService.timezone());
+    if (this.configurationService.isTimezoneSet()) {
+      result = moment.tz(date, timeFormat, this.configurationService.timezone());
     } else {
-      result = moment(date, format);
+      result = moment(date, timeFormat);
     }
     result.utc();
 
@@ -103,7 +103,7 @@ export class TimezoneService {
   }
 
   public formattedDate(date:string) {
-    var d = this.parseDate(date);
+    const d = this.parseDate(date);
     return d.format(this.getDateFormat());
   }
 
@@ -132,20 +132,20 @@ export class TimezoneService {
   }
 
   public formattedDatetime(datetimeString:string) {
-    var c = this.formattedDatetimeComponents(datetimeString);
-    return c[0] + ' ' + c[1];
+    const c = this.formattedDatetimeComponents(datetimeString);
+    return `${c[0]} ${c[1]}`;
   }
 
-  public formattedRelativeDateTime(datetimeString:string) {
+  public formattedRelativeDateTime(datetimeString:string):string {
     const d = this.parseDatetime(datetimeString);
     return d.fromNow();
   }
 
   public formattedDatetimeComponents(datetimeString:string) {
-    var d = this.parseDatetime(datetimeString);
+    const d = this.parseDatetime(datetimeString);
     return [
       d.format(this.getDateFormat()),
-      d.format(this.getTimeFormat())
+      d.format(this.getTimeFormat()),
     ];
   }
 
@@ -174,15 +174,15 @@ export class TimezoneService {
   }
 
   public isValid(date:string, dateFormat:string) {
-    var format = dateFormat || this.getDateFormat();
+    const format = dateFormat || this.getDateFormat();
     return moment(date, [format], true).isValid();
   }
 
   public getDateFormat() {
-    return this.ConfigurationService.dateFormatPresent() ? this.ConfigurationService.dateFormat() : 'L';
+    return this.configurationService.dateFormatPresent() ? this.configurationService.dateFormat() : 'L';
   }
 
   public getTimeFormat() {
-    return this.ConfigurationService.timeFormatPresent() ? this.ConfigurationService.timeFormat() : 'LT';
+    return this.configurationService.timeFormatPresent() ? this.configurationService.timeFormat() : 'LT';
   }
 }

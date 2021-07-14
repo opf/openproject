@@ -1,6 +1,6 @@
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destroyed.mixin";
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 /**
  * Interface passed to CM service to open a particular context menu.
@@ -8,6 +8,7 @@ import { UntilDestroyedMixin } from "core-app/shared/helpers/angular/until-destr
  */
 export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
   protected $element:JQuery;
+
   protected items:OpContextMenuItem[] = [];
 
   constructor(readonly opContextMenu:OPContextMenuService) {
@@ -35,7 +36,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
       my: 'left top',
       at: 'right bottom',
       of: openerEvent,
-      collision: 'flipfit'
+      collision: 'flipfit',
     };
   }
 
@@ -44,7 +45,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
    */
   public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[] } {
     return {
-      items: this.items
+      items: this.items,
     };
   }
 

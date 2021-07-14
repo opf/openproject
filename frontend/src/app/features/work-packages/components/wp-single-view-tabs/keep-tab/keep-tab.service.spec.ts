@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -42,22 +42,22 @@ describe('keepTab service', () => {
       current: {
         name: 'whatever',
       },
-      includes: includes
+      includes,
     };
 
     $transitions = {
-      onSuccess: (criteria:any, cb:(transition:any) => void) => callback = cb
+      onSuccess: (criteria:any, cb:(transition:any) => void) => callback = cb,
     };
 
     uiRouterGlobals = {
-      params: { tabIdentifier: 'activity' }
+      params: { tabIdentifier: 'activity' },
     };
 
     keepTab = new KeepTabService($state, uiRouterGlobals, $transitions);
 
     defaults = {
       showTab: 'work-packages.show.tabs',
-      detailsTab: 'work-packages.partitioned.list.details.tabs'
+      detailsTab: 'work-packages.partitioned.list.details.tabs',
     };
   });
 
@@ -72,12 +72,10 @@ describe('keepTab service', () => {
   });
 
   describe('when opening a show route', () => {
-    var currentPathPrefix = 'work-packages.show.*';
+    let currentPathPrefix = 'work-packages.show.*';
 
     beforeEach(() => {
-      spyOn($state, 'includes').and.callFake((path:string) => {
-        return path === currentPathPrefix;
-      });
+      spyOn($state, 'includes').and.callFake((path:string) => path === currentPathPrefix);
 
       $state.current.name = 'work-packages.show.tabs';
       uiRouterGlobals.params.tabIdentifier = 'relations';
@@ -93,12 +91,12 @@ describe('keepTab service', () => {
     });
 
     it('should propagate the previous change', () => {
-      var cb = jasmine.createSpy();
+      const cb = jasmine.createSpy();
 
-      var expected = {
+      const expected = {
         active: 'relations',
         show: 'relations',
-        details: 'relations'
+        details: 'relations',
       };
 
       keepTab.observable.subscribe(cb);
@@ -118,9 +116,7 @@ describe('keepTab service', () => {
 
   describe('when opening show#activity', () => {
     beforeEach(() => {
-      spyOn($state, 'includes').and.callFake((path:string) => {
-        return path === 'work-packages.show.*';
-      });
+      spyOn($state, 'includes').and.callFake((path:string) => path === 'work-packages.show.*');
 
       uiRouterGlobals.params.tabIdentifier = 'activity';
       $state.current.name = 'work-packages.show.tabs';
@@ -134,9 +130,7 @@ describe('keepTab service', () => {
 
   describe('when opening a details route', () => {
     beforeEach(() => {
-      spyOn($state, 'includes').and.callFake((path:string) => {
-        return path === '**.details.*';
-      });
+      spyOn($state, 'includes').and.callFake((path:string) => path === '**.details.*');
 
       uiRouterGlobals.params.tabIdentifier = 'activity';
       $state.current.name = 'work-packages.partitioned.list.details.tabs';
@@ -152,12 +146,12 @@ describe('keepTab service', () => {
     });
 
     it('should propagate the previous and next change', () => {
-      var cb = jasmine.createSpy();
+      const cb = jasmine.createSpy();
 
-      var expected = {
+      const expected = {
         active: 'activity',
         details: 'activity',
-        show: 'activity'
+        show: 'activity',
       };
 
       keepTab.observable.subscribe(cb);
@@ -167,6 +161,5 @@ describe('keepTab service', () => {
 
       expect(cb.calls.count()).toEqual(2);
     });
-
   });
 });

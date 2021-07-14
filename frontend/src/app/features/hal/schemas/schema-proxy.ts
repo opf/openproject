@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { SchemaResource } from "core-app/features/hal/resources/schema-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 
 export interface ISchemaProxy extends SchemaResource {
   ofProperty(property:string):IFieldSchema;
@@ -38,33 +38,33 @@ export interface ISchemaProxy extends SchemaResource {
 
 export class SchemaProxy implements ProxyHandler<SchemaResource> {
   constructor(protected schema:SchemaResource,
-              protected resource:HalResource) {
+    protected resource:HalResource) {
   }
 
   static create(schema:SchemaResource, resource:HalResource) {
     return new Proxy(
       schema,
-      new this(schema, resource)
+      new this(schema, resource),
     ) as ISchemaProxy;
   }
 
   get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
     switch (property) {
-    case 'ofProperty': {
-      return this.proxyMethod(this.ofProperty);
-    }
-    case 'isAttributeEditable': {
-      return this.proxyMethod(this.isAttributeEditable);
-    }
-    case 'mappedName': {
-      return this.proxyMethod(this.mappedName);
-    }
-    case 'isEditable': {
-      return this.isEditable;
-    }
-    default: {
-      return Reflect.get(schema, property, receiver);
-    }
+      case 'ofProperty': {
+        return this.proxyMethod(this.ofProperty);
+      }
+      case 'isAttributeEditable': {
+        return this.proxyMethod(this.isAttributeEditable);
+      }
+      case 'mappedName': {
+        return this.proxyMethod(this.mappedName);
+      }
+      case 'isEditable': {
+        return this.isEditable;
+      }
+      default: {
+        return Reflect.get(schema, property, receiver);
+      }
     }
   }
 
@@ -82,10 +82,9 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
     const propertySchema = this.schema[this.mappedName(property)];
 
     if (propertySchema) {
-      return Object.assign({}, propertySchema, { writable: this.isEditable && propertySchema && propertySchema.writable });
-    } else {
-      return null;
+      return { ...propertySchema, writable: this.isEditable && propertySchema && propertySchema.writable };
     }
+    return null;
   }
 
   /**
@@ -122,9 +121,9 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
     // Returning a Proxy here so that the call is bound
     // to the SchemaProxy instance.
     return new Proxy(method, {
-      apply: function (_, __, argumentsList) {
+      apply(_, __, argumentsList) {
         return method.apply(self, [argumentsList[0]]);
-      }
+      },
     });
   }
 }

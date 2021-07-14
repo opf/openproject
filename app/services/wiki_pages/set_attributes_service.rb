@@ -36,6 +36,8 @@
 #
 # Attributes for both the page as well as for the content are accepted.
 class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
+  include Attachments::SetReplacements
+
   private
 
   def set_attributes(params)
@@ -53,7 +55,7 @@ class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def set_default_attributes(_params)
-    model.build_content
+    model.build_content page: model
     model.content.extend(OpenProject::ChangedBySystem)
 
     model.content.change_by_system do
@@ -66,6 +68,10 @@ class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def split_page_and_content_params(params)
-    params.partition { |p, _| WikiContent.column_names.include?(p) }.map(&:to_h)
+    params.partition { |p, _| content_attribute?(p) }.map(&:to_h)
+  end
+
+  def content_attribute?(name)
+    WikiContent.column_names.include?(name) || name.to_s == 'comments'
   end
 end

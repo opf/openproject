@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -24,13 +24,12 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See docs/COPYRIGHT.rdoc for more details.
-//++    Ng1FieldControlsWrapper,
+// ++    Ng1FieldControlsWrapper,
 
-
-import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
-import { DoubleClickOrTapDirective } from "core-app/shared/directives/a11y/double-click-or-tap.directive";
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { DoubleClickOrTapDirective } from 'core-app/shared/directives/a11y/double-click-or-tap.directive';
 
 @NgModule({
   imports: [
@@ -42,9 +41,7 @@ import { DoubleClickOrTapDirective } from "core-app/shared/directives/a11y/doubl
   ],
   declarations: [
     DoubleClickOrTapDirective,
-  ]
+  ],
 })
 export class OpenprojectAccessibilityModule {
 }
-
-

@@ -1,23 +1,25 @@
 import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { States } from "core-app/core/states/states.service";
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { States } from 'core-app/core/states/states.service';
+import { StateService } from '@uirouter/core';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
-import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
-import { StateService } from '@uirouter/core';
-import { WorkPackageViewSelectionService } from "core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
-
   // Injections
   @InjectField() public $state:StateService;
+
   @InjectField() public keepTab:KeepTabService;
+
   @InjectField() public states:States;
+
   @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+
   @InjectField() public wpTableFocus:WorkPackageViewFocusService;
 
   constructor(public readonly injector:Injector) {
@@ -63,7 +65,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     // Update single selection if no modifier present
     this.wpTableSelection.setSelection(workPackageId, index);
 
-    view.stateLinkClicked.emit({ workPackageId: workPackageId, requestedState: state });
+    view.stateLinkClicked.emit({ workPackageId, requestedState: state });
 
     evt.preventDefault();
     evt.stopPropagation();

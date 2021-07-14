@@ -1,13 +1,12 @@
 import { StateService } from '@uirouter/core';
-import { KeepTabService } from "core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service";
+import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 
 export const uiStateLinkClass = '__ui-state-link';
 export const checkedClassName = '-checked';
 
 export class UiStateLinkBuilder {
-
   constructor(public readonly $state:StateService,
-              public readonly keepTab:KeepTabService) {
+    public readonly keepTab:KeepTabService) {
   }
 
   public linkToDetails(workPackageId:string, title:string, content:string) {
@@ -33,13 +32,13 @@ export class UiStateLinkBuilder {
     a.href = this.$state.href(
       tabState,
       {
-        workPackageId: workPackageId,
-        tabIdentifier: tabIdentifier
-      }
+        workPackageId,
+        tabIdentifier,
+      },
     );
     a.classList.add(uiStateLinkClass);
-    a.dataset['workPackageId'] = workPackageId;
-    a.dataset['wpState'] = state;
+    a.dataset.workPackageId = workPackageId;
+    a.dataset.wpState = state;
 
     a.setAttribute('title', title);
     a.textContent = content;

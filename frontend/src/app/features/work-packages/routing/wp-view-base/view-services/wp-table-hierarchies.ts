@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,8 +28,10 @@
 
 export class WorkPackageViewHierarchies {
   public isVisible = false;
+
   public last:string|null = null;
-  public collapsed:{[workPackageId:string]:boolean} = {};
+
+  public collapsed:{ [workPackageId:string]:boolean } = {};
 
   constructor(visible:boolean) {
     this.isVisible = visible;

@@ -1,0 +1,41 @@
+# /api/v3
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  configuration:
+                    href: "/api/v3/configuration"
+                  priorities:
+                    href: "/api/v3/priorities"
+                  relations:
+                    href: "/api/v3/relations"
+                  statuses:
+                    href: "/api/v3/statuses"
+                  types:
+                    href: "/api/v3/types"
+                  user:
+                    href: "/api/v3/users/1"
+                    title: John Sheppard
+                  userPreferences:
+                    href: "/api/v3/my_preferences"
+                  users:
+                    href: "/api/v3/users"
+                  workPackages:
+                    href: "/api/v3/work_packages"
+                coreVersion: 10.3.0
+                instanceName: My own OpenProject
+          schema:
+            "$ref": "../components/schemas/root_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Root
+  description: ''
+  operationId: View_root
+  summary: View root

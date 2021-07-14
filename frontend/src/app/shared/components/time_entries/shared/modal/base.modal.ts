@@ -1,12 +1,14 @@
-import { ElementRef, Inject, ChangeDetectorRef, ViewChild, Directive, Injector } from "@angular/core";
-import { OpModalComponent } from "core-app/shared/components/modal/modal.component";
-import { OpModalLocalsToken } from "core-app/shared/components/modal/modal.service";
-import { OpModalLocalsMap } from "core-app/shared/components/modal/modal.types";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { TimeEntryFormComponent } from "core-app/shared/components/time_entries/form/form.component";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import {
+  ChangeDetectorRef, Directive, ElementRef, Inject, Injector, ViewChild,
+} from '@angular/core';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
+import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimeEntryFormComponent } from 'core-app/shared/components/time_entries/form/form.component';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from "core-app/core/apiv3/api-v3.service";
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Directive()
 export abstract class TimeEntryBaseModal extends OpModalComponent {
@@ -21,20 +23,22 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
   };
 
   public closeOnEscape = false;
+
   public closeOnOutsideClick = false;
+
   public formInFlight:boolean;
 
   @InjectField() apiV3Service:APIV3Service;
 
   constructor(readonly elementRef:ElementRef,
-              @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
-              readonly cdRef:ChangeDetectorRef,
-              readonly i18n:I18nService,
-              readonly injector:Injector) {
+    @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
+    readonly cdRef:ChangeDetectorRef,
+    readonly i18n:I18nService,
+    readonly injector:Injector) {
     super(locals, cdRef, elementRef);
   }
 
-  public abstract setModifiedEntry($event:{savedResource:HalResource, isInital:boolean}):void;
+  public abstract setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }):void;
 
   public get changeset() {
     return this.locals.changeset;

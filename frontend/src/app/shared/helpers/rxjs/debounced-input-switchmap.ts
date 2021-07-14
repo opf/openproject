@@ -1,15 +1,19 @@
-import { concat, Observable, of, Subject } from "rxjs";
+import {
+  concat, Observable, of, Subject,
+} from 'rxjs';
 import {
   catchError,
   debounceTime,
-  distinctUntilChanged, filter, shareReplay,
+  distinctUntilChanged,
+  filter,
+  shareReplay,
   switchMap,
   takeUntil,
-  tap
-} from "rxjs/operators";
-import { RequestSwitchmapHandler } from "core-app/shared/helpers/rxjs/request-switchmap";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+  tap,
+} from 'rxjs/operators';
+import { RequestSwitchmapHandler } from 'core-app/shared/helpers/rxjs/request-switchmap';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export type RequestErrorHandler = (error:unknown) => void;
 
@@ -18,7 +22,6 @@ export function errorNotificationHandler(service:HalResourceNotificationService)
 }
 
 export class DebouncedRequestSwitchmap<T, R = HalResource> {
-
   /** Input request state */
   public input$ = new Subject<T>();
 
@@ -41,15 +44,14 @@ export class DebouncedRequestSwitchmap<T, R = HalResource> {
    * @param emptyValue {R} The empty fall back value before first response or on errors
    */
   constructor(readonly requestHandler:RequestSwitchmapHandler<T, R[]>,
-              readonly errorHandler:RequestErrorHandler,
-              readonly preFilterNull:boolean = false,
-              readonly debounceMs = 250) {
-
+    readonly errorHandler:RequestErrorHandler,
+    readonly preFilterNull:boolean = false,
+    readonly debounceMs = 250) {
     /** Output switchmap observable */
     this.output$ = concat(
       of([]),
       this.input$.pipe(
-        filter(val => !preFilterNull || (val !== undefined && val !== null)),
+        filter((val) => !preFilterNull || (val !== undefined && val !== null)),
         distinctUntilChanged(),
         debounceTime(debounceMs),
         tap((val:T) => {
@@ -57,21 +59,19 @@ export class DebouncedRequestSwitchmap<T, R = HalResource> {
           this.lastResult = [];
           this.loading$.next(true);
         }),
-        switchMap(term =>
-          this.requestHandler(term)
-            .pipe(
-              catchError((error) => {
-                this.errorHandler(error);
-                return of([]);
-              }),
-              tap((results) => {
-                this.loading$.next(false);
-                this.lastResult = results;
-              })
-            )
-        ),
-        shareReplay(1)
-      )
+        switchMap((term) => this.requestHandler(term)
+          .pipe(
+            catchError((error) => {
+              this.errorHandler(error);
+              return of([]);
+            }),
+            tap((results) => {
+              this.loading$.next(false);
+              this.lastResult = results;
+            }),
+          )),
+        shareReplay(1),
+      ),
     );
   }
 
@@ -98,7 +98,7 @@ export class DebouncedRequestSwitchmap<T, R = HalResource> {
     return this
       .output$
       .pipe(
-        takeUntil(until)
+        takeUntil(until),
       );
   }
 }

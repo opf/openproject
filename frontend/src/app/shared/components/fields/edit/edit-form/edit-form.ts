@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -28,28 +28,30 @@
 
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
-import { IFieldSchema } from "core-app/shared/components/fields/field.base";
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import {
   HalResourceEditingService,
-  ResourceChangesetCommit
-} from "core-app/shared/components/fields/edit/services/hal-resource-editing.service";
-import { HalEventsService } from "core-app/features/hal/services/hal-events.service";
-import { EditFieldHandler } from "core-app/shared/components/fields/edit/editing-portal/edit-field-handler";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
-import { ResourceChangeset } from "core-app/shared/components/fields/changeset/resource-changeset";
-import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
-import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
-import { ErrorResource } from "core-app/features/hal/resources/error-resource";
+  ResourceChangesetCommit,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
 
 export abstract class EditForm<T extends HalResource = HalResource> {
-
   // Injections
   @InjectField() states:States;
+
   @InjectField() halEditing:HalResourceEditingService;
+
   @InjectField() halNotification:HalResourceNotificationService;
+
   @InjectField() halEvents:HalEventsService;
 
   // All current active (open) edit fields
@@ -98,7 +100,6 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     return !_.isEmpty(this.activeFields);
   }
 
-
   /**
    * Return the current or a new change object for the given resource.
    * This will always return a valid (potentially empty) change.
@@ -136,9 +137,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
       return Promise.resolve();
     }
 
-    return this.requireVisible(fieldName).then(() => {
-      return this.activate(fieldName, true);
-    });
+    return this.requireVisible(fieldName).then(() => this.activate(fieldName, true));
   }
 
   /**
@@ -179,7 +178,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
     return new Promise<T>((resolve, reject) => {
       this.halEditing.save<T, ResourceChangeset<T>>(this.change)
-        .then(result => {
+        .then((result) => {
           // Close all current fields
           this.closeEditFields(openFields);
 
@@ -246,15 +245,13 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
   private setErrorsForFields(erroneousFields:string[]) {
     // Accumulate errors for the given response
-    const promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
-      return this.requireVisible(fieldName).then(() => {
-        if (this.activeFields[fieldName]) {
-          this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
-        }
+    const promises:Promise<any>[] = erroneousFields.map((fieldName:string) => this.requireVisible(fieldName).then(() => {
+      if (this.activeFields[fieldName]) {
+        this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
+      }
 
-        return this.activateWhenNeeded(fieldName) as any;
-      });
-    });
+      return this.activateWhenNeeded(fieldName) as any;
+    }));
 
     Promise.all(promises)
       .then(() => {
@@ -319,7 +316,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
         return fieldHandler;
       })
       .catch((error) => {
-        console.error('Failed to render edit field:' + error);
+        console.error(`Failed to render edit field:${error}`);
         this.halNotification.handleRawError(error);
       });
   }

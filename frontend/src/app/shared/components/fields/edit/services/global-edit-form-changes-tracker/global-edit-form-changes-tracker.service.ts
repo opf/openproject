@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { EditFormComponent } from "core-app/shared/components/fields/edit/edit-form/edit-form.component";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GlobalEditFormChangesTrackerService {
   private activeForms = new Map<EditFormComponent, boolean>();
 
-  get thereAreFormsWithUnsavedChanges () {
-    return Array.from(this.activeForms.keys()).some(form => {
-      return !form.change.isEmpty();
-    });
+  get thereAreFormsWithUnsavedChanges() {
+    return Array.from(this.activeForms.keys()).some((form) => !form.change.isEmpty());
   }
 
   constructor(
