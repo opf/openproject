@@ -106,6 +106,9 @@ export class OpModalService {
 
       // Mark that we've opened the modal now
       this.opening = false;
+
+      // Trigger another round of change detection in the modal
+      ref.changeDetectorRef.detectChanges();
     }, 20);
 
     return this.active as T;

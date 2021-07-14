@@ -213,9 +213,16 @@ module Bim
       end
 
       def create_attachment
-        Attachments::CreateService
-          .new(nil, author: current_user)
-          .call(uploaded_file: params[:bcf_file], description: params[:bcf_file].original_filename)
+        filename = params[:bcf_file].original_filename
+        call = Attachments::CreateService
+          .bypass_whitelist(user: current_user, whitelist: %w[application/zip])
+          .call(file: params[:bcf_file],
+                filename: filename,
+                description: filename)
+
+        call.on_failure { raise e.message }
+
+        call.result
       end
 
       def check_file_param

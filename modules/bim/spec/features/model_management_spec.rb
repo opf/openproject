@@ -44,14 +44,14 @@ describe 'model management',
                       member_through_role: role
   end
 
-  let(:model) do
+  let!(:model) do
     FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user,
                       is_default: true)
   end
 
-  let(:model2) do
+  let!(:model2) do
     FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)

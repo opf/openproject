@@ -33,7 +33,7 @@ module OpenProject::Documents
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-documents',
-             author_url: "http://www.openproject.com",
+             author_url: "http://www.openproject.org",
              bundled: true do
       menu :project_menu,
            :documents,

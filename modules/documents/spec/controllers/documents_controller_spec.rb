@@ -128,6 +128,7 @@ describe DocumentsController do
     end
 
     describe "with attachments" do
+      let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
       before do
         notify_project = project
         FactoryBot.create(:member, project: notify_project, user: user, roles: [role])
@@ -138,7 +139,7 @@ describe DocumentsController do
                document: FactoryBot.attributes_for(:document, title: "New Document",
                                                               project_id: notify_project.id,
                                                               category_id: default_category.id),
-               attachments: { '1' => { description: "sample file", file: file_attachment } }
+               attachments: { '1' => { id: uncontainered.id } }
              }
       end
 
@@ -147,8 +148,7 @@ describe DocumentsController do
 
         expect(document.attachments.count).to eql 1
         attachment = document.attachments.first
-        expect(attachment.description).to eql "sample file"
-        expect(attachment.filename).to eql "testfile.txt"
+        expect(uncontainered.reload).to eql attachment
       end
 
       it "should redirect to the documents-page" do
@@ -174,12 +174,14 @@ describe DocumentsController do
   end
 
   describe '#add_attachment' do
+    let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
+
     before do
       document
       post :add_attachment,
            params: {
              id: document.id,
-             attachments: { '1' => { description: "sample file", file: file_attachment } }
+             attachments: { '1' => { id: uncontainered.id } }
            }
     end
 
@@ -187,6 +189,7 @@ describe DocumentsController do
       expect(response).to be_redirect
       document.reload
       expect(document.attachments.length).to eq(1)
+      expect(uncontainered.reload).to eq document.attachments.first
     end
   end
 

@@ -59,7 +59,7 @@ describe BackupJob, type: :model do
 
     let(:arguments) { [{ backup: backup, user: user, **opts }] }
 
-    let(:user) { FactoryBot.create :user }
+    let(:user) { FactoryBot.create :admin }
 
     before do
       previous_backup; backup; status # create

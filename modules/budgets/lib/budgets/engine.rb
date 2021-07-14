@@ -3,7 +3,7 @@ module Budgets
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'budgets',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true,
              name: 'Budgets' do
       project_module :budgets do

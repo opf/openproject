@@ -86,8 +86,8 @@ describe Document do
 
       expect do
         Attachments::CreateService
-          .new(valid_document, author: admin)
-          .call(uploaded_file: FactoryBot.attributes_for(:attachment)[:file], description: '')
+          .new(user: admin)
+          .call(container: valid_document, file: FactoryBot.attributes_for(:attachment)[:file], filename: 'foo')
 
         expect(valid_document.attachments.size).to eql 1
       end.to(change do

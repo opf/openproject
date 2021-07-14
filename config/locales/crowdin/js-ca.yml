@@ -557,6 +557,7 @@ ca:
       autocompleter:
         label: 'Autoemplenament del projecte'
     text_are_you_sure: "N'esteu segur?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "El nom %{group} ja està en ús. Els noms de Grup han de ser únics."

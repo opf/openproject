@@ -37,6 +37,35 @@ See docs/COPYRIGHT.rdoc for more details.
           <col>
           <col>
         </colgroup>
+        <thead>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= I18n.t('label_name') %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= I18n.t('attributes.author') %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= I18n.t('attributes.version') %>
+                </span>
+              </div>
+            </div>
+          </th>
+        </thead>
         <tbody>
           <% @plugins.each do |plugin| %>
             <tr>

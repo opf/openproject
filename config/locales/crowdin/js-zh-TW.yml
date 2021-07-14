@@ -556,6 +556,7 @@ zh-TW:
       autocompleter:
         label: '專案自動完成'
     text_are_you_sure: "是否確定？"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "名稱 %{group} 已被使用，群組名稱不可重複。"

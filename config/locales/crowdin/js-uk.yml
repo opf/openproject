@@ -557,6 +557,7 @@ uk:
       autocompleter:
         label: 'Автозавершення проекту'
     text_are_you_sure: "Ви впевненені?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} використовується більше одного разу. Назви груп повинні бути унікальними."
