@@ -59,9 +59,7 @@ export class GitActionsService {
 
   private sanitizeShellInput(str:string):string {
     return `"${str
-      .replace(/\n/g, '\\/n')
       .replace(/\$/g, '\\$')
-      .replace(/\//g, '\\/')
       .replace(/"/g, '\\"')
     }"`;
   }
