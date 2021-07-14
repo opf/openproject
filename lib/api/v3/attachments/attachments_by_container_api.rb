@@ -53,14 +53,14 @@ module API
           def restrict_permissions(permissions)
             authorize_any(permissions, projects: container.project) unless permissions.empty?
           end
+        end
 
-          def parse_multipart(request)
-            request.params.tap do |params|
-              params[:metadata] = JSON.parse(params[:metadata]) if params.key?(:metadata)
-            end
-          rescue JSON::ParserError
-            raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
+        def self.parse_multipart(request)
+          request.params.tap do |params|
+            params[:metadata] = JSON.parse(params[:metadata]) if params.key?(:metadata)
           end
+        rescue JSON::ParserError
+          raise ::API::Errors::InvalidRequestBody.new(I18n.t('api_v3.errors.invalid_json'))
         end
 
         def self.read
@@ -73,36 +73,30 @@ module API
         end
 
         def self.create(permissions = [])
-          -> do
-            restrict_permissions permissions
-
-            instance_exec &::API::V3::Utilities::Endpoints::Create
-              .new(model: ::Attachment,
-                   parse_representer: AttachmentParsingRepresenter,
-                   params_source: method(:parse_multipart),
-                   params_modifier: ->(params) do
-                     params.merge(container: container)
-                   end)
-              .mount
-          end
+          ::API::V3::Utilities::Endpoints::Create
+            .new(model: ::Attachment,
+                 parse_representer: AttachmentParsingRepresenter,
+                 params_source: method(:parse_multipart),
+                 before_hook: ->(request:) { request.restrict_permissions(permissions) },
+                 params_modifier: ->(params) do
+                   params.merge(container: container)
+                 end)
+            .mount
         end
 
         def self.prepare(permissions = [])
-          -> do
-            restrict_permissions permissions
-
-            instance_exec &::API::V3::Utilities::Endpoints::Create
-               .new(model: ::Attachment,
-                    parse_representer: AttachmentParsingRepresenter,
-                    render_representer: AttachmentUploadRepresenter,
-                    process_service: ::Attachments::PrepareUploadService,
-                    process_contract: ::Attachments::PrepareUploadContract,
-                    params_source: method(:parse_multipart),
-                    params_modifier: ->(params) do
-                      params.merge(container: container)
-                    end)
-               .mount
-          end
+          ::API::V3::Utilities::Endpoints::Create
+            .new(model: ::Attachment,
+                 parse_representer: AttachmentParsingRepresenter,
+                 render_representer: AttachmentUploadRepresenter,
+                 process_service: ::Attachments::PrepareUploadService,
+                 process_contract: ::Attachments::PrepareUploadContract,
+                 params_source: method(:parse_multipart),
+                 before_hook: ->(request:) { request.restrict_permissions(permissions) },
+                 params_modifier: ->(params) do
+                   params.merge(container: container)
+                 end)
+            .mount
         end
       end
     end
