@@ -289,6 +289,28 @@ export class HalResource {
     // Reset and load this resource
     this.$loaded = false;
     this.$self = this.$links.self({}).then((source:any) => {
+      if (source.$halType === 'Collection') {
+        if (source.total > source.pageSize) {
+          const remaining = source.total - source.pageSize;
+          const pagesRemaining = Math.ceil(remaining / source.pageSize);
+          const calls = (new Array(pagesRemaining))
+            .fill(null)
+            .map((_, i) => this.$links.self({
+              pageSize: source.pageSize,
+              offset: i + 2, // Page offsets are 1-indexed, and we already fetched the first page
+            }));
+
+          return Promise.all(calls).then((data:any[]) => {
+            source.count = source.total;
+            source.elements = source.elements.concat(...data.map(source => source.elements));
+            return source;
+          });
+        }
+      }
+
+      return source;
+    })
+    .then((source:any) => {
       this.$loaded = true;
       this.$initialize(source.$source);
       return this;
