@@ -5,7 +5,7 @@ module OpenProject::XlsExport
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-xls_export',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true
 
     patches %i[CostReportsController]
