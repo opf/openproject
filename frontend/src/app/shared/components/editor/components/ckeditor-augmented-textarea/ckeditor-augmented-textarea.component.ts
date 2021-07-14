@@ -38,13 +38,14 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
-  ICKEditorContext,
-  ICKEditorInstance,
   ICKEditorType,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';import {
+  ICKEditorContext,
+  ICKEditorInstance
+} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
 
 export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 

@@ -27,7 +27,7 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
 
 export class ProjectResource extends HalResource {
   public get state() {
