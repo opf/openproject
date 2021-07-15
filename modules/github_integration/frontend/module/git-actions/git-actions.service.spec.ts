@@ -81,7 +81,7 @@ http://localhost:9876/work_packages/42
 
   it('shell-escapes output for the git-command', () => {
     const wp = createWorkPackage({ subject: "' && rm -rf / #" });
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m '[#42] '\\'' && Rm -rf / #
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m '[#42] \\' && rm -rf / #
 
 http://localhost:9876/work_packages/42
 '`);
