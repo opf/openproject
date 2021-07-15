@@ -127,7 +127,7 @@ ru:
       preview: 'Переключить режим предпросмотра'
       source_code: 'Переключить режим источника уценок'
       error_saving_failed: 'Сохранение документа завершилась следующей ошибкой: %{error}'
-      error_initialization_failed: 'Не удалось инициализировать CKEditor!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Перейти к источнику уценок'
         wysiwyg: 'Перейти к WYSIWYG-редактору'
@@ -478,37 +478,38 @@ ru:
         next: 'Следующие'
         got_it: 'Принять'
       steps:
-        help_menu: 'В меню <b>Справка</b> руководство пользователя и дополнительные справочные материалы. <br>Приятной работы с OpenProject!'
-        members: 'Предложите новому <b>участнику</b> присоединиться к вашему проекту.'
-        project_selection: 'Пожалуйста, кликните по проекту с полезными демонстрационными данными. <br> <b>Демонстрационный проект</b> подходит лучше всего для классического проекта управления, пока <b>проект Scrum</b> лучший в Agile-управлении проектами.'
-        quick_add_button: 'Создайте новый проект или пригласите коллег.'
-        sidebar_arrow: "Стрелка возвращает к <b>главному меню</b> проекта."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Совершите вводный трехминутный тур для знакомства с наиболее <b>важными особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Пройти вводный тур повторно можно в любое время.'
-        wiki: 'В пределах <b>вики</b> возможно документирование и обмен знаниями в вашей команде.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Управляйте своей работой в представлении <b>Backlogs</b>. <br> Справа список невыполненных работ и ошибки, слева им соответствующие спринты. Здесь можно создавать <b>эпопеи, описания функциональности пользователей и ошибок</b>, меняя их приоритет с помощью перетаскивания, и добавлять их к спринту."
-          task_board_arrow: 'Чтобы увидеть вашу <b>Панель задач</b>, откройте раскрывающийся список спринта...'
-          task_board_select: '... и выберите строку <b>Панель задач</b>.'
-          task_board: "<b>Панель задач</b> визуализирует прогресс этого спринта. Добавьте новые задачи или помехи с помощью значка + рядом с историей пользователя. Используя перетаскивание, вы можете обновить статус."
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Управляйте работой в интуитивном представлении <b>Доски</b>.'
-          lists: 'Можно создать несколько списков (столбцов) в пределах представления одной Доски, например, создав доску KANBAN.'
-          add: 'Клик по + <b>добавить новую карточку</b> к списку Доски.'
-          drag: 'Перетащите ваши карточки в список для повторного заказа, или в другой список. Двойной клик мыши откроет детальное представление.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Давайте теперь в секции <b>Пакет работ</b> посмотрим более детальное описание вашей работы."
-          list: 'Это список <b>пакета работ</b> с важной работой в вашем проекте, таких как задачи, этапы, фазы и многое другое. <br> Вы можете создать или редактировать пакет работ непосредственно в этом списке. Чтобы увидеть его подробности, щелкните дважды по строке.'
-          full_view: 'В <b>Деталях пакета работ</b> вы найдете всю необходимую информацию: описание, состояние и приоритет, активность, зависимости или комментарии.'
-          back_button: 'Стрелка возвращает к списку пакетов работ.'
-          create_button: 'Кнопка <b>Создать</b> добавляет новый пакет работ к вашему проекту.'
-          timeline_button: 'Вы можете активировать <b>Диаграмму Ганта</b> для создания временной шкалы вашего проекта.'
-          timeline: 'Здесь вы можете редактировать план вашего проекта. Создать новые фазы, вехи и добавить зависимости. Отредактированный план может быть отредактирован любым членом вашей команды в любое время.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Уведомления"
       channel: "Канал"
       channels:
         in_app: "Встроенное"
         mail: "Электронная почта"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'упомянутый'
         watched: 'просмотрено'

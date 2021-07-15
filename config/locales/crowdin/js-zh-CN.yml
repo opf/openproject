@@ -127,7 +127,7 @@ zh-CN:
       preview: '切换预览模式'
       source_code: '切换标记源模式'
       error_saving_failed: '保存文档失败，出现以下错误：%{error}'
-      error_initialization_failed: '无法初始化 CKEditor！'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: '切换到标记源'
         wysiwyg: '切换到 WYSIWYG 编辑器'
@@ -479,37 +479,38 @@ zh-CN:
         next: '下一个'
         got_it: '知道了'
       steps:
-        help_menu: '在<b>帮助</b>菜单中，您可以找到用户指南和其他帮助资源。<br>使用 OpenProject 享受您的工作！'
-        members: '邀请新<b>成员</b>加入您的项目。'
-        project_selection: '请点击其中一个包含有用演示数据的项目以开始。<br><b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>更适合敏捷项目管理。'
-        quick_add_button: '创建新项目或邀请同事。'
-        sidebar_arrow: "使用箭头可以导航回项目的<b>主菜单</b>。"
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: '通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。'
-        wiki: '在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "在 <b>Backlogs</b> 视图中管理您的工作。右边是产品 Backlog 或错误 Backlog，左边是各自的 sprint。<br>在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到 sprint 中。"
-          task_board_arrow: '要查看您的<b>任务面板</b>，请打开 Sprint 下拉菜单…'
-          task_board_select: '…并选择<b>任务面板</b>条目。'
-          task_board: "<b>任务面板</b>将此 sprint 的进度可视化。使用用户故事旁边的 + 图标添加新任务或障碍。通过拖放可以更新状态。"
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: '在直观的<b>面板</b>视图中管理您的工作。'
-          lists: '您可以在一个面板视图中创建多个列表（列），例如创建看板面板。'
-          add: '单击 + 将向面板内的列表中<b>添加新卡</b>。'
-          drag: '在列表中拖放卡片进行重新排序，或者拖放到另一个列表中。双击将打开详细信息视图。'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。"
-          list: '这是<b>工作包</b>列表，包含项目中的重要工作，如任务、里程碑、阶段等。<br>您可以在这个列表中直接创建或编辑工作包。要查看工作包的详细信息，可以双击该行。'
-          full_view: '在<b>工作包详细信息</b>中，您可以找到所有相关信息，如描述、状态与优先级、依赖项或评论。'
-          back_button: '使用箭头可以导航回工作包列表。'
-          create_button: '<b>创建</b>按钮将为您的项目添加一个新工作包。'
-          timeline_button: '您可以激活<b>甘特图</b>来为项目创建时间轴。'
-          timeline: '在这里您可以编辑您的项目计划。创建新的阶段、里程碑，并添加依赖项。所有团队成员都可以随时查看和更新最新计划。'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Notifications"
       channel: "Channel"
       channels:
         in_app: "In-app"
         mail: "电子邮件"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
