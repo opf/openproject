@@ -14,7 +14,7 @@
          type="text"
          aria-required="true"
          [attr.name]="selectableTitleIdentifier"
-         [focus]="this.initialFocus || undefined"
+         [opFocus]="this.initialFocus || undefined"
          (focus)="onFocus($event)"
          (blur)="onBlur()"
          (keydown.escape)="reset($event)"

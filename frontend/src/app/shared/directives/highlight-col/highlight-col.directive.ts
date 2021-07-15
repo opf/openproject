@@ -36,7 +36,7 @@ export const highlightColSelector = 'col[opHighlightCol]';
   selector: highlightColSelector,
   template: '',
 })
-export class OpHighlightColDirective implements OnInit, OnDestroy {
+export class OpHighlightColDirective implements OnInit, OnDestroy { // eslint-ignore-line @angular-eslint/component-class-suffix
   private $element:JQuery;
 
   private thead:JQuery;

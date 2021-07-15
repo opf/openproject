@@ -1,7 +1,7 @@
 <div id="div-values-{{filter.id}}" class="inline-label">
   <op-date-picker (onChange)="begin = isoDateParser($event)"
                   [initialDate]="isoDateFormatter(begin)"
-                  [focus]="shouldFocus"
+                  [opFocus]="shouldFocus"
                   required="true"
                   [id]="'values-' + filter.id + '-begin'"
                   [name]="'v[' + filter.id + ']-begin'"
