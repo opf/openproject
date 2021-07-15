@@ -20,7 +20,8 @@
             cdkDragHandle></span>
       <board-list [resource]="boardWidget"
                   [board]="board"
-                  (onRemove)="removeList(board, boardWidget)">
+                  (onRemove)="removeList(board, boardWidget)"
+                  (visibilityChange)="changeVisibilityOfList(board, boardWidget, $event)">
       </board-list>
     </div>
 

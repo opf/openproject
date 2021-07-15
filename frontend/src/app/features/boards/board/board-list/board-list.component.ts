@@ -76,6 +76,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Output fired upon query removal */
   @Output() onRemove = new EventEmitter<void>();
 
+  /* Output fired after it is assured whether a user has the right to see the list */
+  @Output() visibilityChange = new EventEmitter<boolean>();
+
   /** Access to the board resource */
   @Input() public board:Board;
 
@@ -409,8 +412,14 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
     observable
       .subscribe(
-        (query) => this.wpStatesInitialization.updateQuerySpace(query, query.results),
+        (query) => {
+          this.wpStatesInitialization.updateQuerySpace(query, query.results);
+        },
         (error) => {
+          const userIsNotAllowedToSeeSubprojectError = 'urn:openproject-org:api:v3:errors:InvalidQuery';
+          if(error.errorIdentifier === userIsNotAllowedToSeeSubprojectError) {
+            this.visibilityChange.emit(false);
+          }
           this.loadingError = this.halNotification.retrieveErrorMessage(error);
           this.cdRef.detectChanges();
         },
