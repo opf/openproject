@@ -28,9 +28,6 @@
 
 require 'spec_helper'
 
-##
-# The concern is implemented in the ApplicationController and is therewore applicable
-# in every controller. We're just using this particular one for the test.
 describe MyController, type: :controller do
   render_views
 
@@ -98,15 +95,17 @@ describe MyController, type: :controller do
     end
 
     it "should log in given user" do
-      expect(response.body.squish).to have_content("Username   h.wurst")
+      expect(response).to redirect_to my_page_path
+      expect(session[:user_id]).to eq user.id
     end
 
     context 'when the secret being null' do
       let(:secret) { nil }
 
       it "should log in given user" do
-        expect(response.body.squish).to have_content("Username   h.wurst")
+        expect(response).to redirect_to my_page_path
         expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.now)
+        expect(session[:user_id]).to eq user.id
       end
     end
 
@@ -116,8 +115,9 @@ describe MyController, type: :controller do
       end
 
       it "should log in given user and activate it" do
-        expect(response.body.squish).to have_content("Username   h.wurst")
+        expect(response).to redirect_to my_page_path
         expect(user.reload).to be_active
+        expect(session[:user_id]).to eq user.id
       end
     end
 

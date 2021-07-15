@@ -1,4 +1,26 @@
 module Accounts::AuthenticationStages
+  def successful_authentication(user, reset_stages: true, just_registered: false)
+    stages = authentication_stages after_activation: just_registered, reset: reset_stages
+
+    if stages.empty?
+      # setting params back_url to be used by redirect_after_login
+      params[:back_url] = session.delete :back_url if session.include?(:back_url)
+
+      if just_registered || session[:just_registered]
+        finish_registration! user
+      else
+        login_user! user
+      end
+    else
+      stage = stages.first
+
+      session[:just_registered] = just_registered
+      session[:authenticated_user_id] = user.id
+
+      redirect_to stage.path
+    end
+  end
+
   def stage_success
     stage = session[:authentication_stages]&.first
 
@@ -30,6 +52,15 @@ module Accounts::AuthenticationStages
   end
 
   private
+
+  def finish_registration!(user)
+    session[:just_registered] = nil
+    self.logged_user = user
+    user.update last_login_on: Time.now
+
+    flash[:notice] = I18n.t(:notice_account_registered_and_logged_in)
+    redirect_after_login user
+  end
 
   def authentication_stages(after_activation: false, reset: true)
     if OpenProject::Authentication::Stage.stages.select(&:active?).any?
