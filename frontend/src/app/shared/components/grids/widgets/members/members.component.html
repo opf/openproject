@@ -12,7 +12,7 @@
   <no-results *ngIf="noMembers"
               [title]="text.noResults">
   </no-results>
-  <div class="attributes-map -minimal-keys">
+  <div class="op-members-widget--attributes-map -minimal-keys">
     <ng-container *ngFor="let usersByRole of usersByRole">
       <div class="attributes-map--key">
         {{usersByRole.role.name}}
@@ -30,12 +30,12 @@
     </ng-container>
   </div>
   <div *ngIf="moreMembers"
-       class="members-widget--notification">
+       class="op-members-widget--notification">
     {{moreMembersText}}
   </div>
 </div>
 
-<div class="grid--widget-footer">
+<div class="op-members-widget--grid--widget-footer">
   <a *ngIf="membersAddable"
      [href]="projectMembershipsPath + '?show_add_members=true'"
      class="button -alt-highlight">

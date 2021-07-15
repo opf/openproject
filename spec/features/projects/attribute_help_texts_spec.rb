@@ -68,7 +68,7 @@ describe 'Project attribute help texts', type: :feature, js: true do
         click_link "Overview"
       end
 
-      expect(page).to have_selector('.widget-box--header .help-text--entry', wait: 10)
+      expect(page).to have_selector('[data-qa-selector="op-widget-box--header"] .help-text--entry', wait: 10)
 
       # Open help text modal
       modal.open!
