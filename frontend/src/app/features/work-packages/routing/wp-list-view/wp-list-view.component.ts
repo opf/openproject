@@ -59,7 +59,7 @@ import { KeepTabService } from 'core-app/features/work-packages/components/wp-si
   selector: 'wp-list-view',
   templateUrl: './wp-list-view.component.html',
   styleUrls: ['./wp-list-view.component.sass'],
-  host: { class: 'work-packages-split-view--tabletimeline-side' },
+  host: { class: 'op-wp-list-view work-packages-split-view--tabletimeline-side' },
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },

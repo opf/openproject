@@ -94,12 +94,13 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public cardClasses() {
+    const base = 'op-wp-single-card'
     let classes = this.isSelected(this.workPackage) ? checkedClassName : '';
-    classes += this.draggable ? ' -draggable' : '';
-    classes += this.workPackage.isNew ? ' -new' : '';
-    classes += ' op-wp-single-card-' + this.workPackage.id;
-    classes += ' -' + this.orientation;
-    classes += this.shrinkOnMobile ? ' -shrink' : '';
+    classes += this.draggable ? ` ${base}_draggable` : '';
+    classes += this.workPackage.isNew ? ` ${base}_new` : '';
+    classes += ` ${base}-${this.workPackage.id}`;
+    classes += ` ${base}_${this.orientation}`;
+    classes += this.shrinkOnMobile ? ` ${base}_shrink` : '';
     return classes;
   }
 

@@ -46,7 +46,7 @@
   <div *ngIf="!workPackage.isNew"
        class="op-wp-single-card--content">
     <span [textContent]="wpProjectName(workPackage)"
-          class="op-wp-single-card--content--project-name">
+          class="op-wp-single-card--content-project-name">
     </span>
     <span [textContent]="wpTypeAttribute(workPackage)"
           class="op-wp-single-card--content-type"
@@ -66,7 +66,7 @@
     </span>
     <img *ngIf="this.cardCoverImageShown(workPackage)"
          [src]="this.bcfSnapshotPath(workPackage)"
-         class="op-wp-single-card--content--cover-image">
+         class="op-wp-single-card--content-cover-image">
     <wp-status-button *ngIf="showStatusButton"
                       [workPackage]="workPackage"
                       class="op-wp-single-card--content-status">

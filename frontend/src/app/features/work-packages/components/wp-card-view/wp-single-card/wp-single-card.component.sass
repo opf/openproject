@@ -15,16 +15,16 @@
   &:hover
     box-shadow: 0px 0px 10px lightgrey
 
-  &.-new
+  &_new
     padding-right: 25px
 
-  &.-checked
+  &_checked
     background-color: var(--table-row-highlighting-color)
 
-  &.-horizontal
+  &_horizontal
     height: 100%
     
-  &.-vertical
+  &_vertical
     margin-top: 10px
     // Take care that the shadow of the last element is still visible
     &:last-of-type
@@ -45,7 +45,7 @@
       overflow: hidden
       flex-grow: 1
 
-    &--project-name
+    &-project-name
       grid-area: project
       font-style: italic
       color: var(--gray-dark)
@@ -67,7 +67,7 @@
       max-width: 120px
       margin-right: 5px
       overflow: hidden
-    &--cover-image
+    &-cover-image
       grid-area: image
       max-height: 350px
 
@@ -91,9 +91,8 @@
     &.-show, .op-wp-single-card:hover &
       opacity: 1
 
-@media only screen and (max-width: 679px)
-  .op-wp-single-card
-    &.-shrink
+  @media only screen and (max-width: 679px)
+    &_shrink
       border: none
       box-shadow: none
       padding: 15px

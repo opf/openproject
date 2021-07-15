@@ -1,7 +1,7 @@
 @import "helpers"
 
 .op-wp-status-button
-  .button
+  &--button
     @include text-shortener(false)
     padding: 5px
     margin-bottom: 0
@@ -10,11 +10,5 @@
     color: white
     max-width: 100%
 
-    .button--text
-      margin: 0 5px
-
-  &.-small
-    .button
-      font-size: 12px
-      padding: 4px
-      margin-right: 0
+  &--text
+    margin: 0 5px
