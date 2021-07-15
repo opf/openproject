@@ -127,7 +127,7 @@ el:
       preview: 'Ενεργοποίηση λειτουργίας προεπισκόπησης'
       source_code: 'Ενεργοποίηση λειτουργίας Markdown source'
       error_saving_failed: 'Η αποθήκευση του αρχείου απέτυχε δίνοντας το ακόλουθο μήνυμα: %{error}'
-      error_initialization_failed: 'Αποτυχία αρχικοποίησης του CKEditor!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Αλλαγή σε Markdown source'
         wysiwyg: 'Αλλαγή σε επεξεργαστή WYSIWYG'
@@ -478,37 +478,38 @@ el:
         next: 'Επόμενο'
         got_it: 'Το κατάλαβα'
       steps:
-        help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε τη δουλειά σας με το OpenProject!'
-        members: 'Προσκαλέστε καινούργια <b>Μέλη</b> για να συμμετάσχουν στο έργο σας.'
-        project_selection: 'Παρακαλούμε κάντε κλικ σε ένα από τα έργα με χρήσιμα demo δεδομένα για ξεκινήσετε. <br> Το <b>Demo έργο</b> ταιριάζει καλύτερα στη κλασική διαχείριση έργου, ενώ το <b>Scrum έργο</b> είναι καλύτερο για Agile διαχείριση έργου.'
-        quick_add_button: 'Δημιουργία ενός νέου έργου ή της πρόσκληση συναδέλφων.'
-        sidebar_arrow: "Με τα βέλη μπορείτε να πλοηγηθείτε πίσω στο <b>Κύριο μενού</b> του έργου."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Κάντε μια τρίλεπτη εισαγωγική περιήγηση για να μάθετε τα πιο <b>σημαντικά χαρακτηριστικά</b>. <br> Προτείνουμε να ολοκληρώσετε τα βήματα μέχρι το τέλος. Μπορείτε να επανεκκινήσετε την περιήγηση ανά πάσα στιγμή.'
-        wiki: 'Μέσα στο <b>Wiki</b> μπορείτε να καταγράψετε και να μοιραστείτε γνώση μαζί με την ομάδα σας.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Διαχειριστείτε την εργασία σας στην προβολή <b>Backlogs</b>. <br> Στα δεξιά υπάρχει το Backlog Προϊόντων ή το Backlog Σφαλμάτων, στα αριστερά τα αντίστοιχα sprints. Εδώ μπορείτε να δημιουργήσετε <b>epics, ιστορίες χρηστών και σφάλματα</b>, να δώσετε προτεραιότητα μέσω drag and drop και να τα προσθέσετε σε ένα sprint."
-          task_board_arrow: 'Για να δείτε τον <b>Πίνακα Εργασιών</b> σας, ανοίξτε το αναπτυσσόμενο μενού Sprint...'
-          task_board_select: '... και επιλέξτε την καταχώρηση <b>Πίνακας Εργασιών</b>.'
-          task_board: "Ο <b>Πίνακας Εργασιών</b> οπτικοποιεί την διαδικασία για αυτό το sprint. Προσθέστε καινούργιες εργασίες ή εμπόδια με το εικονίδιο + δίπλα σε μια ιστορία χρήστη. Μέσω drag'n'drop μπορείτε να ενημερώσετε την κατάσταση."
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Διαχειριστείτε την εργασία σας μέσα από την διαισθητική προβολή <b>Πινάκων</b>.'
-          lists: 'Μπορείτε να δημιουργήσετε πολλαπλές λίστες (στήλες) μέσα σε μια προβολή Πίνακα, π.χ. να δημιουργήσετε έναν πίνακα KANBAN.'
-          add: 'Κάντε κλικ στο + για να <b>προσθέσετε μια νέα κάρτα</b> στη λίστα μέσα σε ένα Πίνακα.'
-          drag: 'Σύρετε τις κάρτες μέσα στη λίστα για να αλλάξετε την σειρά ή σε άλλη λίστα. Με διπλό κλικ μπορείτε να ανοίξετε την προβολή λεπτομερειών.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Τώρα ας ρίξουμε μια ματιά στη ενότητα <b>Πακέτα εργασίας</b>, η οποία δίνει μια πιο λεπτομερή ματιά της εργασίας σας."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-          full_view: 'Μέσα στις <b>λεπτομέρειες του πακέτου εργασίας</b> θα βρείτε όλες τις σχετικές πληροφορίες, όπως την περιγραφή, την κατάσταση, την προτεραιότητα, τις δραστηριότητες, τις εξαρτήσεις και τα σχόλια του.'
-          back_button: 'Με το βέλος μπορείτε να πλοηγηθείτε πίσω στην λίστα πακέτων εργασίας.'
-          create_button: 'Το κουμπί <b>Δημιουργία</b> θα προσθέσει ένα καινούργιο πακέτο εργασίας στο έργο σας.'
-          timeline_button: 'Μπορείτε να ενεργοποιήσετε το <b>διάγραμμα Gantt</b> για να δημιουργήσετε ένα χρονοδιάγραμμα για το project σας.'
-          timeline: 'Εδώ μπορείτε να επεξεργαστείτε το πλάνο του έργου σας. Να δημιουργήσετε καινούργιες φάσεις, ορόσημα και να προσθέσετε εξαρτήσεις. Όλα τα μέλη της ομάδας θα μπορούν να δουν και να ενημερώσουν το τελευταίο πλάνο οποιαδήποτε στιγμή.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Notifications"
       channel: "Channel"
       channels:
         in_app: "In-app"
         mail: "Email"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
@@ -556,6 +557,7 @@ el:
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
     text_are_you_sure: "Είστε σίγουρος/η;"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Το όνομα %{group} χρησιμοποιείται περισσότερες από μία φορές. Τα ονόματα ομάδων πρέπει να είναι μοναδικά."

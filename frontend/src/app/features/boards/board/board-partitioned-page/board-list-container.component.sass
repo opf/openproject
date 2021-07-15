@@ -1,6 +1,7 @@
 @import 'src/assets/sass/helpers'
 
 $board-list-max-width: 300px
+$board-list-top-offset: 18px
 
 .boards-list--container
   display: flex
@@ -17,7 +18,7 @@ $board-list-max-width: 300px
   position: absolute
   font-size: 14px
   left: 0
-  top: 18px
+  top: $board-list-top-offset
   z-index: 100
   opacity: 0
   cursor: grab
@@ -60,3 +61,7 @@ $board-list-max-width: 300px
 
   &.cdk-drag-placeholder
     @include modifying--placeholder
+
+.boards-list--tooltip
+  align-self: start
+  margin-top: $board-list-top-offset

@@ -15,7 +15,7 @@ hu:
       file_invalid: "BCF fájl érvénytelen"
     x_bcf_issues:
       zero: 'Nincs BCF feladat'
-      one: 'One BCF issue'
+      one: 'Egy BCF probléma'
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML fájl'

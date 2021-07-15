@@ -114,7 +114,7 @@ describe 'onboarding tour for new users', js: true do
 
       it 'and I continue the tutorial' do
         next_button.click
-        expect(page).to have_text 'Please click on one of the projects with useful demo data to get started'
+        expect(page).to have_text 'Please click on one of the demo projects that we have prepared.'
 
         # SeleniumHubWaiter.wait
         find('.welcome').click_link 'Demo project'

@@ -29,14 +29,14 @@
 #++
 
 class Mails::WorkPackageJob < Mails::DeliverJob
-  queue_with_priority :notification
+  include Mails::WithSender
 
   def perform(journal_id, recipient_id, author_id)
     @journal_id = journal_id
     super(recipient_id, author_id)
   end
 
-  def render_mail(recipient:, sender:)
+  def render_mail
     return nil unless journal # abort, assuming that the underlying WP was deleted
 
     if journal.initial?

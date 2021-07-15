@@ -59,6 +59,7 @@ class AdminUserSeeder < Seeder
       user.force_password_change = force_password_change?
       user.notification_settings.build(channel: :mail, involved: true, mentioned: true, watched: true)
       user.notification_settings.build(channel: :in_app, involved: true, mentioned: true, watched: true)
+      user.notification_settings.build(channel: :mail_digest, involved: true, mentioned: true, watched: true)
     end
   end
 

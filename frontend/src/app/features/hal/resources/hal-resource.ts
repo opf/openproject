@@ -30,9 +30,9 @@ import { InputState } from 'reactivestates';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
-import { HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
+import { InjectField } from "core-app/shared/helpers/angular/inject-field.decorator";
+import { HalLinkInterface } from "core-app/features/hal/hal-link/hal-link";
+import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
   new(injector:Injector,
@@ -289,6 +289,28 @@ export class HalResource {
     // Reset and load this resource
     this.$loaded = false;
     this.$self = this.$links.self({}).then((source:any) => {
+      if (source.$halType === 'Collection') {
+        if (source.total > source.pageSize) {
+          const remaining = source.total - source.pageSize;
+          const pagesRemaining = Math.ceil(remaining / source.pageSize);
+          const calls = (new Array(pagesRemaining))
+            .fill(null)
+            .map((_, i) => this.$links.self({
+              pageSize: source.pageSize,
+              offset: i + 2, // Page offsets are 1-indexed, and we already fetched the first page
+            }));
+
+          return Promise.all(calls).then((data:any[]) => {
+            source.count = source.total;
+            source.elements = source.elements.concat(...data.map(source => source.elements));
+            return source;
+          });
+        }
+      }
+
+      return source;
+    })
+    .then((source:any) => {
       this.$loaded = true;
       this.$initialize(source.$source);
       return this;

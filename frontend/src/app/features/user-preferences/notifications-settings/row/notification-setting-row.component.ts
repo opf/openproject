@@ -25,12 +25,12 @@ export class NotificationSettingRowComponent implements OnInit {
     email: this.I18n.t('js.notifications.email'),
     inApp: this.I18n.t('js.notifications.in_app'),
     remove_all: this.I18n.t('js.notifications.settings.remove_all'),
-    involved_header: 'I am involved',
-    mentioned_header: 'I was mentioned',
-    watched_header: 'I am watching',
-    any_event_header: 'All events',
-    default_all_projects: 'Default for all projects',
-    add_setting: 'Add settings for project',
+    involved_header: this.I18n.t('js.notifications.settings.involved'),
+    mentioned_header: this.I18n.t('js.notifications.settings.mentioned'),
+    watched_header: this.I18n.t('js.notifications.settings.watched'),
+    any_event_header: this.I18n.t('js.notifications.settings.all'),
+    default_all_projects: this.I18n.t('js.notifications.settings.default_all_projects'),
+    add_setting: this.I18n.t('js.notifications.settings.add'),
     channel: (channel:string):string => this.I18n.t(`js.notifications.channels.${channel}`),
   };
 

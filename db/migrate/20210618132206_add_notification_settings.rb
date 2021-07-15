@@ -89,14 +89,18 @@ class AddNotificationSettings < ActiveRecord::Migration[6.1]
         (user_id,
          channel,
          involved,
-         mentioned)
+         mentioned,
+         watched)
       SELECT
         id,
         0,
         true,
+        true,
         true
       FROM
         users
+      WHERE
+        type = 'User'
     SQL
   end
 

@@ -29,18 +29,18 @@
 module OnboardingSteps
   def step_through_onboarding_board_tour
     next_button.click
-    expect(page).to have_text 'Manage your work within an intuitive Boards view.'
+    expect(page).to have_text 'Select boards to shift the view and manage your project using the agile boards view.'
 
     next_button.click
     expect(page)
-      .to have_text 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
+      .to have_text 'Here you can create multiple lists (columns) within your board.'
 
     next_button.click
-    expect(page).to have_text 'Click the + will add a new card to the list within a Board.'
+    expect(page).to have_text 'Click on the plus (+) icon to create a new card'
 
     next_button.click
     expect(page)
-      .to have_text 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+      .to have_text 'Drag and drop your cards within a given list to reorder them, or to move them to another list.'
   end
 end
 

@@ -272,9 +272,15 @@ class MailHandler < ActionMailer::Base
       binary: true
     )
 
-    ::Attachments::CreateService
-      .new(container, author: user)
-      .call(uploaded_file: file, description: nil)
+    call = ::Attachments::CreateService
+      .new(user: user)
+      .call(container: container, filename: attachment.filename, file: file)
+
+    call.on_failure do
+      log "Failed to add attachment #{attachment.filename} for [#{sender_email}]: #{call.message}"
+    end
+
+    call.result
   end
 
   # Adds To and Cc as watchers of the given object if the sender has the

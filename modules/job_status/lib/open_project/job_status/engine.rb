@@ -37,7 +37,7 @@ module OpenProject::JobStatus
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-job_status',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true
 
     add_api_endpoint 'API::V3::Root' do

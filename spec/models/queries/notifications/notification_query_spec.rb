@@ -128,7 +128,7 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = "SELECT \"notifications\".* FROM \"notifications\" WHERE \"notifications\".\"recipient_id\" = #{recipient.id} ORDER BY \"notifications\".\"reason\" DESC, \"notifications\".\"id\" DESC"
+        expected = "SELECT \"notifications\".* FROM \"notifications\" WHERE \"notifications\".\"recipient_id\" = #{recipient.id} ORDER BY \"reason\" DESC, \"notifications\".\"id\" DESC"
 
         expect(instance.results.to_sql).to eql expected
       end

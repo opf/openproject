@@ -554,6 +554,7 @@ sl:
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manjše ali enako %{count}. "
+        not_available: "is not available due to a system configuration."
         not_deletable: "se ne da izbrisati."
         not_current_user: "ni trenutni uporabnik."
         not_a_date: "ni veljaven datum"
@@ -573,6 +574,10 @@ sl:
         unremovable: "ne more biti odstranjeno."
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Globalno'
@@ -611,8 +616,16 @@ sl:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_email:
+            read_mail:
               read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1252,6 +1265,7 @@ sl:
   export:
     your_work_packages_export: "Izvoz delovnih paketov\n"
     succeeded: "Izvoz uspešno zaključen."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1909,6 +1923,18 @@ sl:
       link_name_type: 'Nov %{type_name}'
   mail:
     actions: 'Akcije'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'vsi'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
@@ -2288,6 +2314,7 @@ sl:
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Način dostave po e-pošti"
   setting_sendmail_location: "Lokacija izvršljive pošte"
   setting_smtp_enable_starttls_auto: "Avtomatično uporabi STARTTLS, če je možno"
@@ -2335,6 +2362,7 @@ sl:
   setting_enabled_projects_columns: "Vidno na seznamu projektov"
   setting_notification_retention_period_days: "Notification retention period"
   setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Omogoči vire"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
@@ -2403,10 +2431,14 @@ sl:
     passwords: "Gesla"
     session: "Seja"
     brute_force_prevention: "Avtomatično blokiranje uporabnika"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

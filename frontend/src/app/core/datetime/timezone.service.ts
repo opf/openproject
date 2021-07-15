@@ -136,7 +136,7 @@ export class TimezoneService {
     return `${c[0]} ${c[1]}`;
   }
 
-  public formattedRelativeDateTime(datetimeString:string) {
+  public formattedRelativeDateTime(datetimeString:string):string {
     const d = this.parseDatetime(datetimeString);
     return d.fromNow();
   }

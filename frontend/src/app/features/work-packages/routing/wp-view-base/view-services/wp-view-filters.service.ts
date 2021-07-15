@@ -61,6 +61,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'subjectOrId',
     'subjectOr',
     'manualSort',
+    'typeahead'
   ];
 
   /** Flag state to determine whether the filters are incomplete */

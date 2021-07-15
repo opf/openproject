@@ -43,7 +43,7 @@ describe 'model viewer',
                       member_through_role: role
   end
 
-  let(:model) do
+  let!(:model) do
     FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
@@ -92,6 +92,8 @@ describe 'model viewer',
     end
 
     context 'in a project with no model' do
+      let!(:model) { nil }
+
       it 'shows a warning that no IFC models exist yet' do
         login_as user
         visit defaults_bcf_project_ifc_models_path(project)

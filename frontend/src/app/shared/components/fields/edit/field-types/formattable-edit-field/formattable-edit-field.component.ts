@@ -32,8 +32,9 @@ import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {
   ICKEditorContext,
-  ICKEditorInstance,
-} from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+  ICKEditorInstance
+} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
+
 
 @Component({
   templateUrl: './formattable-edit-field.component.html',

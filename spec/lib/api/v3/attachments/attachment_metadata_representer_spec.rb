@@ -28,15 +28,16 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Attachments::AttachmentMetadataRepresenter do
+describe ::API::V3::Attachments::AttachmentParsingRepresenter do
+  let(:current_user) { FactoryBot.build_stubbed :user }
   include API::V3::Utilities::PathHelper
 
   let(:metadata) do
     data = Hashie::Mash.new
-    data.file_name = original_file_name
+    data.filename = original_file_name
     data.description = original_description
     data.content_type = original_content_type
-    data.file_size = original_file_size
+    data.filesize = original_file_size
     data.digest = original_digest
     data
   end
@@ -47,34 +48,18 @@ describe ::API::V3::Attachments::AttachmentMetadataRepresenter do
   let(:original_file_size) { 42 }
   let(:original_digest) { "0xFF" }
 
-  let(:representer) { ::API::V3::Attachments::AttachmentMetadataRepresenter.new(metadata) }
-
-  describe 'generation' do
-    subject { representer.to_json }
-
-    it 'is a type-less representer' do
-      is_expected.not_to have_json_path('_type')
-    end
-
-    it { is_expected.to be_json_eql(original_file_name.to_json).at_path('fileName') }
-    it { is_expected.to be_json_eql(original_content_type.to_json).at_path('contentType') }
-    it { is_expected.to be_json_eql(original_file_size.to_json).at_path('fileSize') }
-    it { is_expected.to be_json_eql(original_digest.to_json).at_path('digest') }
-
-    it_behaves_like 'API V3 formattable', 'description' do
-      let(:format) { 'plain' }
-      let(:raw) { original_description }
-    end
-  end
+  let(:representer) { described_class.new(metadata, current_user: current_user) }
 
   describe 'parsing' do
     let(:parsed_hash) do
       {
-        'fileName' => 'the parsed name',
-        'description' => { 'raw' => 'the parsed description' },
-        'contentType' => 'text/html',
-        'fileSize' => 43,
-        'digest' => '0x00'
+        'metadata' => {
+          'fileName' => 'the parsed name',
+          'description' => { 'raw' => 'the parsed description' },
+          'contentType' => 'text/html',
+          'fileSize' => 43,
+          'digest' => '0x00'
+        }
       }
     end
 
@@ -84,10 +69,10 @@ describe ::API::V3::Attachments::AttachmentMetadataRepresenter do
       representer.from_hash parsed_hash
     end
 
-    it { expect(subject.file_name).to eql('the parsed name') }
+    it { expect(subject.filename).to eql('the parsed name') }
     it { expect(subject.description).to eql('the parsed description') }
     it { expect(subject.content_type).to eql('text/html') }
-    it { expect(subject.file_size).to eql(43) }
+    it { expect(subject.filesize).to eql(43) }
     it { expect(subject.digest).to eql('0x00') }
   end
 end

@@ -42,13 +42,18 @@ describe Bim::IfcModels::UpdateContract do
                                project: model_project).tap do |model|
         model.extend(OpenProject::ChangedBySystem)
 
-        model.change_by_system do
+        if changed_by_system
+          changed_by_system do
+            model.uploader = uploader_user
+          end
+        else
           model.uploader = uploader_user
         end
       end
     end
     let(:permissions) { %i(manage_ifc_models) }
     let(:uploader_user) { model_user }
+    let(:changed_by_system) { false }
 
     context 'if the uploader changes' do
       let(:model_user) { FactoryBot.build_stubbed(:user) }
@@ -56,14 +61,20 @@ describe Bim::IfcModels::UpdateContract do
       let(:current_user) { other_user }
       let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment, author: other_user) }
 
-      it_behaves_like 'is valid'
+      it 'is invalid as not writable' do
+        expect_valid(false, uploader_id: %i(error_readonly))
+      end
+    end
 
-      context 'if the uploader is different from the current_user' do
-        let(:current_user) { model_user }
+    context 'if the uploader changes' do
+      let(:model_user) { FactoryBot.build_stubbed(:user) }
+      let(:uploader_user) { other_user }
+      let(:current_user) { other_user }
+      let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment, author: other_user) }
+      let(:changed_by_system) { true }
 
-        it 'is invalid' do
-          expect_valid(false, uploader_id: %i(invalid))
-        end
+      it 'is invalid as does not match' do
+        expect_valid(false, uploader_id: %i(invalid))
       end
     end
 

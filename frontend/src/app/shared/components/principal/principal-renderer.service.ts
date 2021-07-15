@@ -91,6 +91,7 @@ export class PrincipalRendererService {
     fallback.classList.add(`op-avatar_${options.size}`);
     fallback.classList.add(`op-avatar_${type.replace('_', '-')}`);
     fallback.classList.add('op-avatar--fallback');
+    fallback.title = principal.name;
     fallback.textContent = userInitials;
 
     if (type === 'placeholder_user') {
@@ -138,12 +139,14 @@ export class PrincipalRendererService {
       link.textContent = principal.name;
       link.href = this.principalURL(principal, type);
       link.target = '_blank';
+      link.classList.add('op-principal--name');
 
       return link;
     }
 
     const span = document.createElement('span');
     span.textContent = principal.name;
+    span.classList.add('op-principal--name');
     return span;
   }
 

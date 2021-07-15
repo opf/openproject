@@ -29,13 +29,15 @@
 #++
 
 class Mails::WatcherJob < Mails::DeliverJob
+  include Mails::WithSender
+
   def perform(watcher, watcher_changer)
     self.watcher = watcher
 
     super(watcher.user, watcher_changer)
   end
 
-  def render_mail(recipient:, sender:)
+  def render_mail
     UserMailer
       .work_package_watcher_changed(watcher.watchable,
                                     recipient,

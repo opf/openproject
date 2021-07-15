@@ -28,7 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class BaseMailer < ActionMailer::Base
+class ApplicationMailer < ActionMailer::Base
   layout 'mailer'
 
   helper :application, # for format_text
@@ -55,8 +55,8 @@ class BaseMailer < ActionMailer::Base
 
     def generate_message_id(object, user)
       # id + timestamp should reduce the odds of a collision
-      # as far as we don't send multiple emails for the same object
-      journable = (object.is_a? Journal) ? object.journable : object
+      # as long as we don't send multiple emails for the same object
+      journable = object.is_a?(Journal) ? object.journable : object
 
       timestamp = mail_timestamp(object)
       hash = 'openproject'\

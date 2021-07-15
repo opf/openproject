@@ -92,7 +92,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
 
       it 'inserts the setting, removing the old one' do
         default = current_user.notification_settings.to_a
-        expect(default.count).to eq 2
+        expect(default.count).to eq 3
 
         expect(subject.count).to eq 1
         expect(subject.first.project_id).to eq project.id
