@@ -52,7 +52,7 @@ import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/e
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { highlightColBootstrap, HighlightColDirective } from './directives/highlight-col/highlight-col.directive';
+import { highlightColSelector, OpHighlightColDirective } from './directives/highlight-col/highlight-col.directive';
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
@@ -90,7 +90,10 @@ export function bootstrapModule(injector:Injector) {
 
   const hookService = injector.get(HookService);
   hookService.register('openProjectAngularBootstrap', () => [
-    highlightColBootstrap,
+    {
+      selector: highlightColSelector,
+      cls: OpHighlightColDirective,
+    },
   ]);
 }
 
@@ -148,7 +151,7 @@ export function bootstrapModule(injector:Injector) {
     OpDateTimeComponent,
 
     // Table highlight
-    HighlightColDirective,
+    OpHighlightColDirective,
 
     ResizerComponent,
 
@@ -192,7 +195,7 @@ export function bootstrapModule(injector:Injector) {
     IconTriggeredContextMenuComponent,
 
     // Table highlight
-    HighlightColDirective,
+    OpHighlightColDirective,
 
     // Add functionality to rails rendered templates
     CopyToClipboardDirective,

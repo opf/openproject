@@ -47,7 +47,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { Subject } from 'rxjs';
 import { PrincipalHelper } from 'core-app/shared/components/principal/principal-helper';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { filter } from 'rxjs/operators';
 
 export interface CreateAutocompleterValueOption {
@@ -109,7 +109,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @InjectField() readonly pathHelper:PathHelperService;
 
-  public compareByHref = AngularTrackingHelpers.compareByHref;
+  public compareByHref = compareByHref;
 
   public text:{ [key:string]:string } = {};
 

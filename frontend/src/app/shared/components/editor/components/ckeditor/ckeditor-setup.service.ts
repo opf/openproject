@@ -1,11 +1,11 @@
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { Injectable } from "@angular/core";
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { Injectable } from '@angular/core';
 import {
   ICKEditorContext,
   ICKEditorStatic,
-  ICKEditorWatchdog
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
-import { Constructor } from "@angular/cdk/schematics";
+  ICKEditorWatchdog,
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import { Constructor } from '@angular/cdk/schematics';
 
 export type ICKEditorType = 'full'|'constrained';
 export type ICKEditorMacroType = 'none'|'resource'|'full'|boolean|string[];
@@ -36,7 +36,7 @@ export class CKEditorSetupService {
    */
   public async create(
     wrapper:HTMLElement, context:ICKEditorContext,
-    initialData:string|null = null
+    initialData:string|null = null,
   ):Promise<ICKEditorWatchdog> {
     // Load the bundle
     await CKEditorSetupService.load();
@@ -51,7 +51,7 @@ export class CKEditorSetupService {
 
     const config = {
       openProject: this.createConfig(context),
-       initialData,
+      initialData,
       language: {
         content: contentLanguage,
       },
@@ -60,7 +60,7 @@ export class CKEditorSetupService {
     return this
       .createWatchdog(editorClass, contentWrapper, config)
       .then((watchdog:ICKEditorWatchdog) => {
-        const editor = watchdog.editor;
+        const { editor } = watchdog;
         toolbarWrapper.appendChild(editor.ui.view.toolbar.element);
 
         // Allow custom events on wrapper to set/get data for debugging

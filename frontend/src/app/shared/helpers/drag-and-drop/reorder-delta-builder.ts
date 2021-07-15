@@ -74,80 +74,37 @@ function isAscendingOrder(
 }
 
 /**
- * Insert +wpId+ at +index+ in a position that is determined either
- * by its neighbors, one of them in case both do not yet have a position
+ * Since from and to index or only one apart,
+ * we can swap the positions.
+ *
+ * TODO: This should not modify in-place and then return an unrelated value
  */
-function buildInsertPosition(
+function positionSwap(
+  delta:QueryOrder,
   order:string[],
   positions:QueryOrder,
-  wpId:string,
   index:number,
   fromIndex:number|null,
-) {
-  const delta:QueryOrder = {};
-
-  // Special case, order is empty or only contains wpId
-  // Then simply insert as the default position unless it already has a position
-  if (order.length <= 1 && positions[wpId] === undefined) {
-    return {
-      ...delta,
-      [wpId]: DEFAULT_ORDER,
-    };
-  }
-
-  // Special case, shifted movement by one
-  if (fromIndex !== null
-    && Math.abs(fromIndex - index) === 1
-    && positionSwap(delta, order, positions, index, fromIndex, wpId)
-  ) {
+  wpId:string,
+):QueryOrder {
+  if (fromIndex === null) {
     return delta;
   }
 
-  // Special case, index is 0
-  if (index === 0) {
-    return insertAsFirst(delta, order, positions, index, wpId);
-  }
+  const myPosition = positionFor(delta, order, positions, index);
+  const neighbor = order[fromIndex];
+  const neighborPosition = positionFor(delta, order, positions, fromIndex);
 
-  // Ensure previous positions exist so we can insert wpId @ index
-  const predecessorPosition = buildUpPredecessorPosition(delta, order, positions, index);
-
-  // Ensure we reorder when predecessor is at max already
-  if (predecessorPosition >= MAX_ORDER) {
-    debugLog('Predecessor position is at max order, need to reorder');
-    return reorderedInsert(delta, order, positions);
-  }
-
-  // Get the actual successor position, it might vary wildly from the optimal position
-  const successorPosition = positionFor(delta, order, positions, index + 1);
-
-  if (successorPosition === undefined) {
-    // Successor does not have a position yet (is NULL), any position will work
-    // so let's use the optimal one which is halfway to a potential successor
-    return {
-      ...delta,
-      [wpId]: predecessorPosition + (ORDER_DISTANCE / 2),
-    };
-  }
-
-  // Ensure we reorder when successor is at max already
-  if (successorPosition >= MAX_ORDER) {
-    debugLog('Successor position is at max order, need to reorder');
-    return reorderedInsert(delta, order, positions);
-  }
-
-  // successor exists and has a position
-  // We will want to insert at the half way from predecessorPosition ... successorPosition
-  const distance = Math.floor((successorPosition - predecessorPosition) / 2);
-
-  // If there is no space to insert, we're going to optimize the available space
-  if (distance < 1) {
-    debugLog('Cannot insert at optimal position, no space left. Need to reorder');
-    return reorderedInsert(delta, order, positions);
+  // If either the neighbor or wpid have no position yet,
+  // go through the regular update flow
+  if (myPosition === undefined || neighborPosition === undefined) {
+    return delta;
   }
 
   return {
     ...delta,
-    [wpId]: predecessorPosition + distance,
+    [wpId]: neighborPosition,
+    [neighbor]: myPosition,
   };
 }
 
@@ -178,37 +135,6 @@ function insertAsFirst(
 }
 
 /**
- * Since from and to index or only one apart,
- * we can swap the positions.
- *
- * TODO: This should not modify in-place and then return an unrelated value
- */
-function positionSwap(
-  delta:QueryOrder,
-  order:string[],
-  positions:QueryOrder,
-  index:number,
-  fromIndex:number,
-  wpId:string,
-):boolean {
-  const myPosition = positionFor(delta, order, positions, index);
-  const neighbor = order[fromIndex];
-  const neighborPosition = positionFor(delta, order, positions, fromIndex);
-
-  // If either the neighbor or wpid have no position yet,
-  // go through the regular update flow
-  if (myPosition === undefined || neighborPosition === undefined) {
-    return false;
-  }
-
-  // Simply swap the two positions
-  delta[wpId] = neighborPosition;
-  delta[neighbor] = myPosition;
-
-  return true;
-}
-
-/**
  * Builds any previous unset position from 0 .. index
  * so we can properly insert the wpId @ index.
  */
@@ -219,94 +145,24 @@ function buildUpPredecessorPosition(
   index:number,
 ) {
   let predecessorPosition:number = DEFAULT_ORDER - ORDER_DISTANCE;
-
+  const newDelta = { ...delta };
   for (let i = 0; i < index; i += 1) {
     const id = order[i];
     const position = positions[id];
 
     // If this current ID has no position yet, assign the current one
     if (position === undefined) {
-      predecessorPosition = delta[id] = predecessorPosition + ORDER_DISTANCE;
+      newDelta[id] = predecessorPosition + ORDER_DISTANCE;
+      predecessorPosition = newDelta[id];
     } else {
       predecessorPosition = position;
     }
   }
 
-  return predecessorPosition;
-}
-
-/**
- * Distribute the items over a given min/max
- */
-function redistribute(
-  delta:QueryOrder,
-  order:string[],
-  min:number,
-  max:number,
-) {
-  const itemsToDistribute = order.length;
-
-  // We can keep min and max orders if distance/(items to distribute) >= 1
-  let space = Math.floor((max - min) / (itemsToDistribute - 1));
-
-  // If no space is left, first try to add to the max item
-  // Or subtract from the min item
-  if (space < 1) {
-    if ((max + itemsToDistribute) <= MAX_ORDER) {
-      max += itemsToDistribute;
-    } else if ((min - itemsToDistribute) >= MIN_ORDER) {
-      min -= itemsToDistribute;
-    } else {
-      // This should not happen in a 4-byte integer with our frontend
-      throw new Error('Elements cannot be moved further and no space is left. Too many elements');
-    }
-
-    // Rebuild space
-    space = Math.floor((max - min) / (itemsToDistribute - 1));
-  }
-
-  // Assign positions for all values in between min/max
-  for (let i = 0; i < itemsToDistribute; i += 1) {
-    const wpId = order[i];
-    delta[wpId] = min + (i * space);
-  }
-
-  return delta;
-}
-
-/**
- * Get the absolute minimum and maximum positions
- * currently assigned in the slot.
- *
- * If there is at least two positions assigned, returns the maximum
- * between them.
- *
- * Otherwise, returns the optimum min max for the given order length.
- */
-function minMaxPositions(
-  delta:QueryOrder,
-  order:string[],
-  positions:QueryOrder,
-):[number, number] {
-  let min:number = MAX_ORDER;
-  let max:number = MIN_ORDER;
-  let any = false;
-
-  for (let i = order.length - 1; i >= 0; i -= 1) {
-    const wpId = order[i];
-    const position = livePosition(delta, positions, wpId);
-
-    if (position !== undefined) {
-      min = Math.min(position, min);
-      max = Math.max(position, max);
-      any = true;
-    }
-  }
-
-  if (any && min !== max) {
-    return [min, max];
-  }
-  return [DEFAULT_ORDER, order.length * ORDER_DISTANCE];
+  return {
+    predecessorPosition,
+    delta: newDelta,
+  };
 }
 
 /**
@@ -344,6 +200,61 @@ function lastPosition(
 }
 
 /**
+ * Distribute the items over a given min/max
+ */
+function redistribute(
+  delta:QueryOrder,
+  order:string[],
+  minIndex:number,
+  maxIndex:number,
+) {
+  const itemsToDistribute = order.length;
+
+  const { space, min } = (() => {
+    // We can keep min and max orders if distance/(items to distribute) >= 1
+    const initial = Math.floor((maxIndex - minIndex) / (itemsToDistribute - 1));
+
+    // If no space is left, first try to add to the max item
+    // Or subtract from the min item
+    if (initial > 1) {
+      // Rebuild space
+      return {
+        space: Math.floor((maxIndex - minIndex) / (itemsToDistribute - 1)),
+        min: minIndex,
+      };
+    }
+
+    const spaceLeftAbove = ((maxIndex + itemsToDistribute) <= MAX_ORDER);
+    if (spaceLeftAbove) {
+      return {
+        space: Math.floor(((maxIndex + itemsToDistribute) - minIndex) / (itemsToDistribute - 1)),
+        min: minIndex,
+      };
+    }
+
+    const spaceLeftBelow = ((minIndex - itemsToDistribute) >= MIN_ORDER);
+    if (spaceLeftBelow) {
+      return {
+        space: Math.floor((maxIndex - (minIndex - itemsToDistribute)) / (itemsToDistribute - 1)),
+        min: minIndex - itemsToDistribute,
+      };
+    }
+
+    // This should not happen in a 4-byte integer with our frontend
+    throw new Error('Elements cannot be moved further and no space is left. Too many elements');
+  })();
+
+  // Assign positions for all values in between min/max
+  const newDelta = { ...delta };
+  for (let i = 0; i < itemsToDistribute; i += 1) {
+    const wpId = order[i];
+    newDelta[wpId] = min + (i * space);
+  }
+
+  return newDelta;
+}
+
+/**
  * There was no space left at the desired insert position,
  * we're going to evenly distribute all items again
  */
@@ -358,6 +269,119 @@ function reorderedInsert(
   const max = lastPosition(delta, order, positions);
 
   return redistribute(delta, order, min, max);
+}
+
+/**
+ * Insert +wpId+ at +index+ in a position that is determined either
+ * by its neighbors, one of them in case both do not yet have a position
+ */
+function buildInsertPosition(
+  order:string[],
+  positions:QueryOrder,
+  wpId:string,
+  index:number,
+  fromIndex:number|null,
+):QueryOrder {
+  const delta = {};
+  // Special case, order is empty or only contains wpId
+  // Then simply insert as the default position unless it already has a position
+  if (order.length <= 1 && positions[wpId] === undefined) {
+    return {
+      ...delta,
+      [wpId]: DEFAULT_ORDER,
+    };
+  }
+
+  // Special case, shifted movement by one
+  const newDelta = positionSwap(delta, order, positions, index, fromIndex, wpId);
+  if (fromIndex !== null
+    && Math.abs(fromIndex - index) === 1
+    && delta !== newDelta
+  ) {
+    return delta;
+  }
+
+  // Special case, index is 0
+  if (index === 0) {
+    return insertAsFirst(newDelta, order, positions, index, wpId);
+  }
+
+  // Ensure previous positions exist so we can insert wpId @ index
+  const { delta: rebuiltDelta, predecessorPosition } = buildUpPredecessorPosition(newDelta, order, positions, index);
+
+  // Ensure we reorder when predecessor is at max already
+  if (predecessorPosition >= MAX_ORDER) {
+    debugLog('Predecessor position is at max order, need to reorder');
+    return reorderedInsert(rebuiltDelta, order, positions);
+  }
+
+  // Get the actual successor position, it might vary wildly from the optimal position
+  const successorPosition = positionFor(rebuiltDelta, order, positions, index + 1);
+
+  if (successorPosition === undefined) {
+    // Successor does not have a position yet (is NULL), any position will work
+    // so let's use the optimal one which is halfway to a potential successor
+    return {
+      ...rebuiltDelta,
+      [wpId]: predecessorPosition + (ORDER_DISTANCE / 2),
+    };
+  }
+
+  // Ensure we reorder when successor is at max already
+  if (successorPosition >= MAX_ORDER) {
+    debugLog('Successor position is at max order, need to reorder');
+    return reorderedInsert(rebuiltDelta, order, positions);
+  }
+
+  // successor exists and has a position
+  // We will want to insert at the half way from predecessorPosition ... successorPosition
+  const distance = Math.floor((successorPosition - predecessorPosition) / 2);
+
+  // If there is no space to insert, we're going to optimize the available space
+  if (distance < 1) {
+    debugLog('Cannot insert at optimal position, no space left. Need to reorder');
+    return reorderedInsert(rebuiltDelta, order, positions);
+  }
+
+  return {
+    ...rebuiltDelta,
+    [wpId]: predecessorPosition + distance,
+  };
+}
+
+/**
+ * Get the absolute minimum and maximum positions
+ * currently assigned in the slot.
+ *
+ * If there is at least two positions assigned, returns the maximum
+ * between them.
+ *
+ * Otherwise, returns the optimum min max for the given order length.
+ */
+function minMaxPositions(
+  delta:QueryOrder,
+  order:string[],
+  positions:QueryOrder,
+):[number, number] {
+  let min:number = MAX_ORDER;
+  let max:number = MIN_ORDER;
+  let any = false;
+
+  for (let i = order.length - 1; i >= 0; i -= 1) {
+    const wpId = order[i];
+    const position = livePosition(delta, positions, wpId);
+
+    if (position !== undefined) {
+      min = Math.min(position, min);
+      max = Math.max(position, max);
+      any = true;
+    }
+  }
+
+  if (any && min !== max) {
+    return [min, max];
+  }
+  return [DEFAULT_ORDER, order.length * ORDER_DISTANCE];
 }
 
 /**

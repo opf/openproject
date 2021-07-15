@@ -9,7 +9,7 @@ import { QuerySpacedTabComponent } from 'core-app/shared/components/work-package
 import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
 
 @Component({
-  selector: 'filters-tab-inner',
+  selector: 'op-filters-tab-inner',
   templateUrl: './filters-tab-inner.component.html',
 })
 export class WpGraphConfigurationFiltersTabInnerComponent extends QuerySpacedTabComponent implements TabComponent {

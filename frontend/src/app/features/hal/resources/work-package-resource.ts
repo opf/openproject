@@ -43,7 +43,7 @@ import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
-import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
+import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;

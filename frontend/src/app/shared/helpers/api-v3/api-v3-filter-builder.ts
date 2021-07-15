@@ -46,14 +46,18 @@ export type ApiV3FilterObject = { [filter:string]:ApiV3FilterValue };
 export class ApiV3FilterBuilder {
   private filterMap:ApiV3FilterObject = {};
 
-  public add(name:string, operator:FilterOperator, values:ApiV3FilterValueType[]|boolean):this {
-    if (values === true) {
-      values = TrueValue;
-    }
+  public add(name:string, operator:FilterOperator, filterValues:ApiV3FilterValueType[]|boolean):this {
+    const values = (() => {
+      if (filterValues === true) {
+        return TrueValue;
+      }
 
-    if (values === false) {
-      values = FalseValue;
-    }
+      if (filterValues === false) {
+        return FalseValue;
+      }
+
+      return filterValues;
+    })();
 
     this.filterMap[name] = {
       operator,
@@ -143,23 +147,18 @@ export class ApiV3FilterBuilder {
   }
 
   private serializeFilter(filter:ApiV3Filter) {
-    let transformedFilter:string;
-    let keys:Array<string>;
-
-    keys = Object.keys(filter);
+    const keys:Array<string> = Object.keys(filter);
 
     const typeName = keys[0];
     const operatorAndValues = filter[typeName];
 
-    transformedFilter = `{"${typeName}":{"operator":"${operatorAndValues.operator}","values":[${operatorAndValues.values
+    return `{"${typeName}":{"operator":"${operatorAndValues.operator}","values":[${operatorAndValues.values
       .map((val) => this.serializeFilterValue(val))
       .join(',')}]}}`;
-
-    return transformedFilter;
   }
 
   private serializeFilterValue(filterValue:ApiV3FilterValueType) {
-    return `"${filterValue}"`;
+    return `"${filterValue.toString()}"`;
   }
 }
 

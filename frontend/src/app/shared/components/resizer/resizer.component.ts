@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, HostListener, Input, OnDestroy, Output,
 } from '@angular/core';
-import { DomHelpers } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
+import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 
 export interface ResizeDelta {
   origin:any;
@@ -121,11 +121,11 @@ export class ResizerComponent implements OnDestroy {
   }
 
   private setResizeCursor() {
-    DomHelpers.setBodyCursor(this.cursorClass, 'important');
+    setBodyCursor(this.cursorClass, 'important');
   }
 
   private setAutoCursor() {
-    DomHelpers.setBodyCursor('auto');
+    setBodyCursor('auto');
   }
 
   private buildDelta(event:any):ResizeDelta {

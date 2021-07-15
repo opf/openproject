@@ -4,10 +4,10 @@ import {
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 
 @Directive({
-  selector: '[autoFocus]',
+  selector: '[opAutoFocus]',
 })
 export class AutofocusDirective implements AfterContentInit {
-  @Input('autoFocus-condition') public condition = true;
+  @Input('opAutoFocus') public condition = true;
 
   public constructor(private el:ElementRef,
     private focusHelper:FocusHelperService) {

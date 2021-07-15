@@ -17,7 +17,7 @@ import {
   ChangeDetectorRef,
   Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild,
 } from '@angular/core';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -37,7 +37,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   public _availableOptions:HalResource[] = [];
 
-  public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
+  public compareByHrefOrString = compareByHrefOrString;
 
   public active:Set<string>;
 

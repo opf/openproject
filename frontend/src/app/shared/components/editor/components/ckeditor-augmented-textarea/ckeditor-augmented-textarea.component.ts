@@ -42,10 +42,10 @@ import {
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';import {
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin'; import {
   ICKEditorContext,
-  ICKEditorInstance
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
+  ICKEditorInstance,
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 
 export const ckeditorAugmentedTextareaSelector = 'ckeditor-augmented-textarea';
 

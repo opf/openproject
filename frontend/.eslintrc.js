@@ -67,6 +67,9 @@ module.exports = {
         // Disable webpack loader definitions
         "import/no-webpack-loader-syntax": "off",
 
+        // It'd be good if we could error this for switch cases but allow it for for loops
+        "no-continue": "off",
+
         /*
         // Disable use before define, as irrelevant for TS interfaces
         "no-use-before-define": "off",

@@ -38,7 +38,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ContainHelpers } from 'core-app/shared/directives/focus/contain-helpers';
+import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export const triggerEditingEvent = 'op:selectableTitle:trigger';
@@ -138,7 +138,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   }
 
   public saveWhenFocusOutside($event:FocusEvent) {
-    ContainHelpers.whenOutside(this.elementRef.nativeElement, () => this.save($event));
+    whenOutside(this.elementRef.nativeElement, () => this.save($event));
   }
 
   public reset() {

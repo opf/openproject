@@ -1,8 +1,8 @@
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
   ICKEditorMacroType,
-  ICKEditorType
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
+  ICKEditorType,
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
 export interface ICKEditorInstance {
   getData(options:{ trim:boolean }):string;

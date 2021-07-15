@@ -31,7 +31,7 @@ import { ActivityPanelBaseController } from 'core-app/features/work-packages/com
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 
 @Component({
   selector: 'newest-activity-on-overview',
@@ -43,7 +43,7 @@ export class NewestActivityOnOverviewComponent extends ActivityPanelBaseControll
 
   public latestActivityInfo:ActivityEntryInfo[] = [];
 
-  public trackByHref = AngularTrackingHelpers.trackByProperty('identifier');
+  public trackByHref = trackByProperty('identifier');
 
   ngOnInit() {
     this.workPackageId = this.workPackage.id!;

@@ -1,9 +1,10 @@
-<li class="form--selected-value--container work-package--attachments--draggable-item"
-    focus-within
-    draggable="true"
-    (dragstart)="setDragData($event)"
-    [title]="text.dragHint"
-    focusWithinSelector=".inplace-editing--trigger-icon">
+<li
+  class="form--selected-value--container work-package--attachments--draggable-item"
+  opFocusWithin=".inplace-editing--trigger-icon"
+  draggable="true"
+  (dragstart)="setDragData($event)"
+  [title]="text.dragHint"
+>
   <span class="form--selected-value">
     <op-icon icon-classes="icon-context icon-attachment"></op-icon>
     <a

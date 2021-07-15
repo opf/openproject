@@ -34,7 +34,7 @@ import {
   HideSectionDefinition,
   HideSectionService,
 } from 'core-app/shared/components/hide-section/hide-section.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 export const addSectionDropdownSelector = 'add-section-dropdown';
@@ -46,7 +46,7 @@ export const addSectionDropdownSelector = 'add-section-dropdown';
 export class AddSectionDropdownComponent extends UntilDestroyedMixin implements OnInit {
   @ViewChild('fallbackOption', { static: true }) private option:ElementRef;
 
-  trackByKey = AngularTrackingHelpers.trackByProperty('key');
+  trackByKey = trackByProperty('key');
 
   selectable:HideSectionDefinition[] = [];
 

@@ -33,7 +33,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { filter } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
@@ -45,7 +45,7 @@ export class AttachmentListComponent extends UntilDestroyedMixin implements OnIn
 
   @Input() public destroyImmediately = true;
 
-  trackByHref = AngularTrackingHelpers.trackByHref;
+  trackByHref = trackByHref;
 
   attachments:HalResource[] = [];
 

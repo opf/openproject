@@ -48,7 +48,7 @@ export class DomAutoscrollService {
         this.onMove(evt);
       }
     });
-    jQuery(window).on('mousedown.domautoscroll touchstart.domautoscroll', () => this.down = true);
+    jQuery(window).on('mousedown.domautoscroll touchstart.domautoscroll', () => { this.down = true; });
     jQuery(window).on('mouseup.domautoscroll touchend.domautoscroll', () => this.onUp());
     jQuery(window).on('scroll.domautoscroll', (evt:any) => this.setScroll(evt));
   }
@@ -86,7 +86,7 @@ export class DomAutoscrollService {
     }
 
     if (this.scrolling) {
-      requestAnimationFrame(() => this.scrolling = false);
+      requestAnimationFrame(() => { this.scrolling = false; });
     }
   }
 
@@ -100,19 +100,11 @@ export class DomAutoscrollService {
       return [];
     }
 
-    const results = [];
-    if (this.elements.includes(target)) {
-      results.push(target);
-    }
-
-    let targetObject = target;
-    while (targetObject = targetObject.parentNode as HTMLElement) {
-      if (this.elements.includes(targetObject)) {
-        results.push(targetObject);
-      }
-    }
-
-    return results;
+    const recurseParents = (targetObject:HTMLElement):HTMLElement[] => [
+      ...(this.elements.includes(targetObject) ? [targetObject] : []),
+      ...(targetObject.parentElement ? recurseParents(targetObject.parentElement) : []),
+    ];
+    return recurseParents(target);
   }
 
   public getElementsUnderPoint():HTMLElement[] {
@@ -184,24 +176,23 @@ export class DomAutoscrollService {
 
   public scrollAutomatically(el:Element) {
     const rect = getRect(el);
-    let scrollx:number;
-    let scrolly:number;
+    const scrollx = (() => {
+      if (this.point.x < rect.left + this.margin) {
+        return -this.maxSpeed;
+      } if (this.point.x > rect.right - this.margin) {
+        return this.maxSpeed;
+      }
+      return 0;
+    })();
 
-    if (this.point.x < rect.left + this.margin) {
-      scrollx = -this.maxSpeed;
-    } else if (this.point.x > rect.right - this.margin) {
-      scrollx = this.maxSpeed;
-    } else {
-      scrollx = 0;
-    }
-
-    if (this.point.y < rect.top + this.margin) {
-      scrolly = -this.maxSpeed;
-    } else if (this.point.y > rect.bottom - this.margin) {
-      scrolly = this.maxSpeed;
-    } else {
-      scrolly = 0;
-    }
+    const scrolly = (() => {
+      if (this.point.y < rect.top + this.margin) {
+        return -this.maxSpeed;
+      } if (this.point.y > rect.bottom - this.margin) {
+        return this.maxSpeed;
+      }
+      return 0;
+    })();
 
     setTimeout(() => {
       if (scrolly) {
@@ -214,19 +205,21 @@ export class DomAutoscrollService {
     });
   }
 
-  public scrollY(el:any, amount:number) {
+  public scrollY(el:Element|Window, amount:number) {
     if (el === window) {
       window.scrollTo(el.pageXOffset, el.pageYOffset + amount);
     } else {
-      el.scrollTop += amount;
+      // eslint-disable-next-line no-param-reassign
+      (el as Element).scrollTop += amount;
     }
   }
 
-  public scrollX(el:any, amount:number) {
+  public scrollX(el:Element|Window, amount:number) {
     if (el === window) {
       window.scrollTo(el.pageXOffset + amount, el.pageYOffset);
     } else {
-      el.scrollLeft += amount;
+      // eslint-disable-next-line no-param-reassign
+      (el as Element).scrollLeft += amount;
     }
   }
 

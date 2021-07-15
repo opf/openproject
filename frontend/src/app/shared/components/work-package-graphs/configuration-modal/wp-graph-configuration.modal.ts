@@ -61,7 +61,8 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   // And a reference to the actual portal host interface
   public tabPortalHost:TabPortalOutlet;
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
     readonly I18n:I18nService,
     readonly injector:Injector,
@@ -70,9 +71,10 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
     readonly loadingIndicator:LoadingIndicatorService,
     readonly notificationService:WorkPackageNotificationService,
     readonly cdRef:ChangeDetectorRef,
-    readonly ConfigurationService:ConfigurationService,
+    readonly configurationService:ConfigurationService,
     readonly elementRef:ElementRef,
-    readonly graphConfiguration:WpGraphConfigurationService) {
+    readonly graphConfiguration:WpGraphConfigurationService,
+  ) {
     super(locals, cdRef, elementRef);
   }
 

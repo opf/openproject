@@ -8,6 +8,7 @@ export interface InjectableClass {
 
 export function InjectField(token?:any, defaultValue:any = null, flags?:InjectFlags) {
   return (target:InjectableClass, property:string) => {
+    // eslint-ignore-next-line no-param-reassign
     if (delete (target as any)[property]) {
       Object.defineProperty(target, property, {
         get(this:InjectableClass) {
@@ -17,7 +18,7 @@ export function InjectField(token?:any, defaultValue:any = null, flags?:InjectFl
           const type = Reflect.getMetadata('design:type', target, property);
           return this.injector.get<any>(type, defaultValue, flags);
         },
-        set(this:InjectableClass, _val:any) {
+        set(this:InjectableClass) {
           debugLog(`Trying to set InjectField property ${property}`);
         },
       });

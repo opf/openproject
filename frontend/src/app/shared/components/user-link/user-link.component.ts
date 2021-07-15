@@ -31,7 +31,7 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
-  selector: 'user-link',
+  selector: 'op-user-link',
   template: `
     <a *ngIf="href"
        [attr.href]="href"

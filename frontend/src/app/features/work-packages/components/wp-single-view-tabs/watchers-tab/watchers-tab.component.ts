@@ -36,7 +36,7 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -51,7 +51,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
 
   public workPackage:WorkPackageResource;
 
-  public trackByHref = AngularTrackingHelpers.trackByHref;
+  public trackByHref = trackByHref;
 
   public error = false;
 

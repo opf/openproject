@@ -26,16 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-
-.focus-within--trigger
+.op-focus-within
   &:hover,
   &:focus,
   &.-focus
-    .focus-within--depending
+    .op-focus-within--depending
       visibility: visible
 
-.focus-within--depending
-  visibility: hidden
+  &--depending
+    visibility: hidden
 
   &.-visible
     visibility: visible

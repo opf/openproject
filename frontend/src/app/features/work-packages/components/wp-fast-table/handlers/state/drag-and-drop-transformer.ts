@@ -9,7 +9,7 @@ import { TableDragActionService } from 'core-app/features/work-packages/componen
 import { States } from 'core-app/core/states/states.service';
 import { tableRowClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
-import { DragAndDropHelpers } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
+import { reinsert } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
@@ -110,7 +110,7 @@ export class DragAndDropTransformer {
           // Restore original element's styles
           this.actionService.changeShadowElement(el, true);
           // Restore element in from container
-          DragAndDropHelpers.reinsert(el, el.dataset.sourceIndex || -1, source);
+          reinsert(el, el.dataset.sourceIndex || -1, source);
         }
       },
       onRemoved: (el:HTMLElement) => {
