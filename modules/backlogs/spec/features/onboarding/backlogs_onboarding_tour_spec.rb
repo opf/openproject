@@ -51,11 +51,11 @@ describe 'backlogs onboarding tour', js: true do
 
   let(:impediment) do
     FactoryBot.build(:impediment, author: user,
-                                  version: sprint,
-                                  assigned_to: user,
-                                  project: project,
-                                  type: type_task,
-                                  status: status)
+                     version: sprint,
+                     assigned_to: user,
+                     project: project,
+                     type: type_task,
+                     status: status)
   end
 
   let(:story_type) { FactoryBot.create(:type_feature) }
@@ -93,23 +93,23 @@ describe 'backlogs onboarding tour', js: true do
     it 'I see a part of the onboarding tour in the backlogs section' do
       # Set the tour parameter so that we can start on the overview page
       visit "/projects/#{project.identifier}/backlogs/?start_scrum_onboarding_tour=true"
-      expect(page).to have_text 'Manage your work in the Backlogs view.'
+      expect(page).to have_text 'Manage your work in the backlogs view.'
 
       next_button.click
-      expect(page).to have_text 'To see your Task board, open the Sprint drop-down...'
+      expect(page).to have_text 'To see your task board, open the sprint drop-down...'
 
       next_button.click
       expect(page).to have_selector('.backlog .items', visible: true)
-      expect(page).to have_text '... and select the Task board entry.'
+      expect(page).to have_text '...and select the task board entry.'
 
       next_button.click
       expect(page)
         .to have_current_path backlogs_project_sprint_taskboard_path(project.identifier, sprint.id)
-      expect(page).to have_text 'The Task board visualizes the progress for this sprint.'
+      expect(page).to have_text 'The task board visualizes the progress for this sprint.'
 
       next_button.click
       expect(page)
-        .to have_text "Now let's have a look at the Work package section, which gives you a more detailed view of your work."
+        .to have_text "Now let's have a look at the work package section, which gives you a more detailed view of your work."
 
       next_button.click
       expect(page).to have_current_path project_work_packages_path(project.identifier)

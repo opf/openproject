@@ -1,11 +1,8 @@
 ---
 description: |-
-  A QueryColumn can be referenced by a Query to denote the work package properties the client should display for the work packages returned as query results. The columns maps to the WorkPackage by the id property. QueryColumns exist in three types: QueryColumn::Property, QueryColumn::RelationToType and QueryColumn::RelationOfType.
+  A QueryColumn can be referenced by a Query to denote the work package properties the client should display for the work packages returned as query results. The columns maps to the WorkPackage by the id property. QueryColumns exist in three types: `QueryColumn::Property`, `QueryColumn::RelationToType` and `QueryColumn::RelationOfType`.
 
   ## Actions
-
-  | Link                | Description                                                          | Condition                              |
-  |:-------------------:|----------------------------------------------------------------------| ---------------------------------------|
 
   As of now, no actions are defined.
 

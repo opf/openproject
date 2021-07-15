@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: category id
+  - description: Category id
     example: '1'
     in: path
     name: id

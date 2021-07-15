@@ -38,7 +38,7 @@ describe SettingsHelper, type: :helper do
 
   describe '#setting_select' do
     before do
-      expect(Setting).to receive(:field).and_return('2')
+      allow(Setting).to receive(:field).and_return('2')
     end
 
     subject(:output) do
@@ -57,7 +57,7 @@ describe SettingsHelper, type: :helper do
 
   describe '#setting_multiselect' do
     before do
-      expect(Setting).to receive(:field).at_least(:once).and_return('1')
+      allow(Setting).to receive(:field).at_least(:once).and_return('1')
     end
 
     subject(:output) do
@@ -83,8 +83,8 @@ describe SettingsHelper, type: :helper do
 
   describe '#settings_matrix' do
     before do
-      expect(Setting).to receive(:field_a).at_least(:once).and_return('2')
-      expect(Setting).to receive(:field_b).at_least(:once).and_return('3')
+      allow(Setting).to receive(:field_a).at_least(:once).and_return('2')
+      allow(Setting).to receive(:field_b).at_least(:once).and_return('3')
     end
 
     subject(:output) do
@@ -157,7 +157,7 @@ describe SettingsHelper, type: :helper do
 
   describe '#setting_text_field' do
     before do
-      expect(Setting).to receive(:field).and_return('important value')
+      allow(Setting).to receive(:field).and_return('important value')
     end
 
     subject(:output) do
@@ -178,7 +178,7 @@ describe SettingsHelper, type: :helper do
 
   describe '#setting_text_area' do
     before do
-      expect(Setting).to receive(:field).and_return('important text')
+      allow(Setting).to receive(:field).and_return('important text')
     end
 
     subject(:output) do
@@ -204,7 +204,7 @@ important text</textarea>
 
     context 'when setting is true' do
       before do
-        expect(Setting).to receive(:field?).and_return(true)
+        allow(Setting).to receive(:field?).and_return(true)
       end
 
       it_behaves_like 'labelled by default'
@@ -219,7 +219,7 @@ important text</textarea>
 
     context 'when setting is false' do
       before do
-        expect(Setting).to receive(:field?).and_return(false)
+        allow(Setting).to receive(:field?).and_return(false)
       end
 
       it_behaves_like 'labelled by default'
@@ -230,6 +230,27 @@ important text</textarea>
         expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_unchecked_field 'settings_field'
       end
+    end
+  end
+
+  describe '#setting_time_field' do
+    subject(:output) do
+      helper.setting_time_field :field, options
+    end
+
+    before do
+      allow(Setting).to receive(:field).and_return('16:00')
+    end
+
+    it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
+
+    it 'should output element' do
+      expect(output).to be_html_eql(%{
+        <input class="custom-class form--text-field -time"
+          id="settings_field" name="settings[field]" type="time" value="16:00" />
+      }).at_path('input')
     end
   end
 
@@ -244,7 +265,7 @@ important text</textarea>
 
   describe '#notification_field' do
     before do
-      expect(Setting).to receive(:notified_events).and_return(%w(interesting_stuff))
+      allow(Setting).to receive(:notified_events).and_return(%w(interesting_stuff))
     end
 
     subject(:output) do

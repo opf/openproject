@@ -78,12 +78,12 @@ module Pages::Meetings
 
     def expect_to_be_on_page(number)
       expect(page)
-        .to have_selector('.pagination--item.-current',
+        .to have_selector('.op-pagination--item_current',
                           text: number)
     end
 
     def to_page(number)
-      within '.pagination--pages' do
+      within '.op-pagination--pages' do
         click_link number.to_s
       end
     end

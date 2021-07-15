@@ -18,7 +18,7 @@ description: |-
 
   Even though user might have a capability, it might still not be possible to carry out the action
   because some other requirement is not met.
-  E.g. A user might have the capability to update work packages, but if a particular work package is
+  E.g. a user might have the capability to update work packages, but if a particular work package is
   in a readonly state, that work package cannot be updated.
 
   *Only a small set of actions that actually already exist in the system are currently exposed via

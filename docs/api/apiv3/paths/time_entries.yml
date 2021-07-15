@@ -19,7 +19,7 @@ get:
       type: integer
   - description: |-
       JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
 
       + id: Sort by primary key
 
@@ -39,7 +39,7 @@ get:
       type: string
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
 
       + work_package: Filter time entries by work package
 

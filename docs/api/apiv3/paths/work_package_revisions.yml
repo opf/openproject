@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: work package id
+  - description: Work package id
     example: '1'
     in: path
     name: id

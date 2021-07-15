@@ -554,6 +554,7 @@ fi:
         invalid_url: 'ei ole kelvollinen URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "täytyy olla pienempi tai yhtä suuri kuin %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "ei ole kelvollinen päivämäärä."
@@ -573,6 +574,10 @@ fi:
         unremovable: "ei voida poistaa."
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Yleinen'
@@ -611,8 +616,16 @@ fi:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_email:
+            read_mail:
               read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1220,6 +1233,7 @@ fi:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1877,6 +1891,18 @@ fi:
       link_name_type: 'New %{type_name}'
   mail:
     actions: 'Toiminnot'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'kaikki'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "Uusi käyttäjä (%{value}) on rekisteröitynyt. Hänen tili odottaa hyväksyntääsi:"
   mail_body_account_information: "Kirjautumistiedot"
   mail_body_account_information_external: "Voit nyt käyttää %{value} tiliäsi kirjautuaksesi järjestelmään."
@@ -2255,6 +2281,7 @@ fi:
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Sähköpostiviestien toimitustapa"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2302,6 +2329,7 @@ fi:
   setting_enabled_projects_columns: "Visible in project list"
   setting_notification_retention_period_days: "Notification retention period"
   setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Ota syötteet käyttöön"
   setting_feeds_limit: "Syötteen sisällön raja"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2370,10 +2398,14 @@ fi:
     passwords: "Salasana"
     session: "Istunto"
     brute_force_prevention: "Automaattinen käyttäjän estäminen"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

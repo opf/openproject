@@ -8,19 +8,6 @@ import { By } from '@angular/platform-browser';
 import { OpAutocompleterService } from './services/op-autocompleter.service';
 import { OpAutocompleterComponent } from './op-autocompleter.component';
 
-function triggerKeyDownEvent(element:DebugElement, which:number, key = ''):void {
-  element.triggerEventHandler('keydown', {
-    which,
-    key,
-    preventDefault: () => {
-    },
-  });
-}
-
-function getNgSelectElement(fixture:ComponentFixture<any>):DebugElement {
-  return fixture.debugElement.query(By.css('ng-select'));
-}
-
 describe('autocompleter', () => {
   let fixture:ComponentFixture<OpAutocompleterComponent>;
   let opAutocompleterServiceSpy:jasmine.SpyObj<OpAutocompleterService>;
@@ -91,7 +78,7 @@ describe('autocompleter', () => {
     fixture.componentInstance.closeOnSelect = true;
     fixture.componentInstance.virtualScroll = true;
     fixture.componentInstance.classes = 'wp-relations-autocomplete';
-    fixture.componentInstance.defaulData = true;
+    fixture.componentInstance.defaultData = true;
 
     // @ts-ignore
     opAutocompleterServiceSpy.loadData.and.returnValue(of(workPackagesStub));

@@ -127,7 +127,7 @@ pt:
       preview: 'Alternar modo de visualização'
       source_code: 'Alternar para código Markdown'
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
-      error_initialization_failed: 'Falha ao inicializar CKEditor!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Alternar para fonte Markdown'
         wysiwyg: 'Alternar para editor WYSIWYG'
@@ -478,37 +478,38 @@ pt:
         next: 'Próxima'
         got_it: 'Entendi'
       steps:
-        help_menu: 'No menu <b>Ajuda</b> você vai encontrar um guia do usuário e recursos adicionais de ajuda. <br> Aprecie o seu trabalho com OpenProject!'
-        members: 'Convide novos <b>Membros</b> para participar de seu projeto.'
-        project_selection: 'Por favor, selecione um dos projetos com dados de demonstração úteis para começar. <br> O <b>Projeto de Demonstração</b> é o melhor para gerenciamento de projetos tradicionais, enquanto o <b>Projeto Scrum</b> é melhor para gerenciamento ágil de projetos.'
-        quick_add_button: 'Crie um novo projeto ou convide colaboradores.'
-        sidebar_arrow: "Com a seta, você pode navegar para o <b>menu principal</b> do projeto."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Acompanhe um tour de apresentação de 3 minutos para descobrir mais <b>recursos importantes</b>.<br> Recomendamos que você conclua as etapas até o final. Você pode reiniciar o tour a qualquer momento.'
-        wiki: 'Na <b>Wiki</b> você pode documentar e compartilhar conhecimento com sua equipe.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Gerencie seu trabalho na visão de <b>Backlogs</b>.<br> À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los a um sprint."
-          task_board_arrow: 'Para visualizar seu <b>Quadro de tarefas</b>, abra o menu suspenso de Sprint...'
-          task_board_select: '... e selecione <b>Quadro de tarefas</b>.'
-          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar a situação."
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Gerencie seu trabalho através de uma visão intuitiva de <b>Quadros</b>.'
-          lists: 'Você pode criar várias listas (colunas) dentro de uma visão de um quadro, por exemplo, para criar um quadro KANBAN.'
-          add: 'Clicar no + irá <b>adicionar um novo cartão</b> à lista dentro de um Quadro.'
-          drag: 'Arraste e solte seus cartões dentro de uma lista para reordenar ou mover para outra lista. Um clique duplo abrirá a visualização detalhada.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>, que lhe fornece uma visão mais detalhada do seu trabalho."
-          list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, marcos, fases e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
-          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, situação e prioridade, atividades, dependências ou comentários.'
-          back_button: 'Com a seta você pode navegar de volta para a lista de pacotes de trabalho.'
-          create_button: 'O botão <b>Criar</b> irá adicionar um novo pacote de trabalho ao seu projeto.'
-          timeline_button: 'Você pode ativar o <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
-          timeline: 'Aqui você pode editar o seu plano de projeto. Criar novas fases, marcos e adicionar dependências. Todos os membros da equipe podem ver e atualizar o plano mais recente a qualquer momento.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Notifications"
       channel: "Channel"
       channels:
         in_app: "In-app"
         mail: "E-mail"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
@@ -556,6 +557,7 @@ pt:
       autocompleter:
         label: 'Autocompletar projeto'
     text_are_you_sure: "Você tem certeza?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "O nome %{group} foi usado mais de uma vez. Nomes de Grupos devem ser únicos."

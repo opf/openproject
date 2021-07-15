@@ -1,11 +1,11 @@
-# /api/v3/custom_actions/{custom_action_id}/execute
+# /api/v3/custom_actions/{id}/execute
 ---
 post:
   parameters:
   - description: The id of the custom action to execute
     example: '1'
     in: path
-    name: custom_action_id
+    name: id
     required: true
     schema:
       type: integer

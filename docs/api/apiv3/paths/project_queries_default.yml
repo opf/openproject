@@ -44,7 +44,7 @@ get:
     name: sortBy
     required: false
     schema:
-      default: '["id", "asc"]'
+      default: '[["id", "asc"]]'
       type: string
   - description: The column to group by. The grouping criteria is applied to the to
       the query's result collection of work packages overriding the query's persisted
@@ -201,7 +201,7 @@ get:
       headers: {}
   tags:
   - Queries
-  description: Same as [viewing an existing, persisted Query](#queries-query-get)
+  description: Same as [viewing an existing, persisted Query](https://www.openproject.org/docs/api/endpoints/queries/#list-queries)
     in its response, this resource returns an unpersisted query and by that allows
     to get the default query configuration. The client may also provide additional
     parameters which will modify the default query. The query will already be scoped

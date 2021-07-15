@@ -53,7 +53,6 @@ export class OpAutocompleterService extends UntilDestroyedMixin {
     // in this case we can add more functions for fetching usual resources
       default: {
         return this.loadAvailable(matching, resource, filters, searchKey);
-        break;
       }
     }
   }

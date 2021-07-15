@@ -37,70 +37,120 @@ describe Notifications::CreateContract do
     end
   end
 
-  let(:event_context) { FactoryBot.build_stubbed(:project) }
-  let(:event_resource) { FactoryBot.build_stubbed(:journal) }
-  let(:event_recipient) { FactoryBot.build_stubbed(:user) }
-  let(:event_subject) { 'Some text' }
-  let(:event_reason) { :mentioned }
-  let(:event_read_ian) { false }
-  let(:event_read_email) { false }
+  let(:notification_context) { FactoryBot.build_stubbed(:project) }
+  let(:notification_resource) { FactoryBot.build_stubbed(:journal) }
+  let(:notification_recipient) { FactoryBot.build_stubbed(:user) }
+  let(:notification_subject) { 'Some text' }
+  let(:notification_reason_ian) { :mentioned }
+  let(:notification_reason_mail) { :involved }
+  let(:notification_reason_mail_digest) { :watched }
+  let(:notification_read_ian) { false }
+  let(:notification_read_mail) { false }
+  let(:notification_read_mail_digest) { false }
 
-  let(:event) do
-    Notification.new(project: event_context,
-                     recipient: event_recipient,
-                     subject: event_subject,
-                     reason: event_reason,
-                     resource: event_resource,
-                     read_ian: event_read_ian,
-                     read_email: event_read_email)
+  let(:notification) do
+    Notification.new(project: notification_context,
+                     recipient: notification_recipient,
+                     subject: notification_subject,
+                     reason_ian: notification_reason_ian,
+                     reason_mail: notification_reason_mail,
+                     reason_mail_digest: notification_reason_mail_digest,
+                     resource: notification_resource,
+                     read_ian: notification_read_ian,
+                     read_mail: notification_read_mail,
+                     read_mail_digest: notification_read_mail_digest)
   end
 
-  let(:contract) { described_class.new(event, current_user) }
+  let(:contract) { described_class.new(notification, current_user) }
 
   describe '#validation' do
     it_behaves_like 'contract is valid'
 
     context 'without a recipient' do
-      let(:event_recipient) { nil }
+      let(:notification_recipient) { nil }
 
       it_behaves_like 'contract is invalid', recipient: :blank
     end
 
-    context 'without a reason' do
-      let(:event_reason) { nil }
+    context 'without a reason for IAN with read_ian false' do
+      let(:notification_reason_ian) { nil }
+      let(:notification_read_ian) { false }
 
-      it_behaves_like 'contract is invalid', reason: :blank
+      it_behaves_like 'contract is invalid', reason_ian: :no_notification_reason
+    end
+
+    context 'without a reason for IAN with read_ian nil' do
+      let(:notification_reason_ian) { nil }
+      let(:notification_read_ian) { nil }
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'without a reason for mail with read_mail false' do
+      let(:notification_reason_mail) { nil }
+      let(:notification_read_mail) { false }
+
+      it_behaves_like 'contract is invalid', reason_mail: :no_notification_reason
+    end
+
+    context 'without a reason for mail with read_mail nil' do
+      let(:notification_reason_mail) { nil }
+      let(:notification_read_mail) { nil }
+
+      it_behaves_like 'contract is valid'
+    end
+
+
+    context 'without a reason for mail_digest with read_mail_digest false' do
+      let(:notification_reason_mail_digest) { nil }
+      let(:notification_read_mail_digest) { false }
+
+      it_behaves_like 'contract is invalid', reason_mail_digest: :no_notification_reason
+    end
+
+    context 'without a reason for mail_digest with read_mail_digest nil' do
+      let(:notification_reason_mail_digest) { nil }
+      let(:notification_read_mail_digest) { nil }
+
+      it_behaves_like 'contract is valid'
     end
 
     context 'without a subject' do
-      let(:event_subject) { nil }
+      let(:notification_subject) { nil }
 
-      it_behaves_like 'contract is invalid', subject: :blank
+      it_behaves_like 'contract is valid'
     end
 
     context 'with an empty subject' do
-      let(:event_subject) { '' }
+      let(:notification_subject) { '' }
 
-      it_behaves_like 'contract is invalid', subject: :blank
+      it_behaves_like 'contract is valid'
     end
 
     context 'with all channels nil' do
-      let(:event_read_ian) { nil }
-      let(:event_read_email) { nil }
+      let(:notification_read_ian) { nil }
+      let(:notification_read_mail) { nil }
+      let(:notification_read_mail_digest) { nil }
 
       it_behaves_like 'contract is invalid', base: :at_least_one_channel
     end
 
     context 'with read_ian true' do
-      let(:event_read_ian) { true }
+      let(:notification_read_ian) { true }
 
       it_behaves_like 'contract is invalid', read_ian: :read_on_creation
     end
 
-    context 'with read_email true' do
-      let(:event_read_email) { true }
+    context 'with read_mail true' do
+      let(:notification_read_mail) { true }
 
-      it_behaves_like 'contract is invalid', read_email: :read_on_creation
+      it_behaves_like 'contract is invalid', read_mail: :read_on_creation
+    end
+
+    context 'with read_mail_digest true' do
+      let(:notification_read_mail_digest) { true }
+
+      it_behaves_like 'contract is invalid', read_mail_digest: :read_on_creation
     end
   end
 end

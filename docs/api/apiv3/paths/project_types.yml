@@ -1,11 +1,11 @@
-# /api/v3/projects/{project_id}/types
+# /api/v3/projects/{id}/types
 ---
 get:
   parameters:
   - description: ID of the project whose types will be listed
     example: '1'
     in: path
-    name: project_id
+    name: id
     required: true
     schema:
       type: integer

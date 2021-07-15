@@ -2,7 +2,7 @@
 ---
 get:
   parameters:
-  - description: Id of the project.
+  - description: Project id
     example: '1'
     in: path
     name: id

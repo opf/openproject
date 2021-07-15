@@ -39,13 +39,13 @@ hu:
         You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
       note: >
         A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
+      last_backup: 'Utolsó biztonsági mentés:'
       last_backup_from: Last backup from
       title: Backup OpenProject
       options: Beállítások
       include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      download_backup: Biztonsági mentés letöltése
+      request_backup: Biztonsági mentés kérés
     close_popup_title: "Előugró ablak bezárása"
     close_filter_title: "Szűrő bezárása"
     close_form_title: "Űrlap bezárása"
@@ -127,7 +127,7 @@ hu:
       preview: 'Váltás az előnézeti módra'
       source_code: 'Váltás Markdown forrás módra'
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
-      error_initialization_failed: 'A CKEditor inicializálása nem sikerült!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Váltás Markdown forrásra'
         wysiwyg: 'Váltás a WYSIWYG szerkesztőre'
@@ -235,7 +235,7 @@ hu:
           link_quote: "Árajánlat kérése"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
+          unlimited: "Korlátlan"
           you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
     custom_actions:
       date:
@@ -418,7 +418,7 @@ hu:
     label_public_query: "Nyilvános"
     label_sum: "Össz."
     label_sum_for: "Összeg"
-    label_total_sum: "Total sum"
+    label_total_sum: "Teljes összeg:"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
     label_today: "Ma"
@@ -478,56 +478,57 @@ hu:
         next: ' Következő'
         got_it: 'Rendben'
       steps:
-        help_menu: 'A <b>Súgó</b> menüben találja a felhasználói útmutatót és további segítséget. <br> Élvezze az OpenProject munkáját!'
-        members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
-        project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
-        quick_add_button: 'Create a new project or invite coworkers.'
-        sidebar_arrow: "A nyíl segítségével visszatérhet a projekt <b>főmenüjébe</b>."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
-        wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Kezelje munkáját <b>Backlogs</b> nézetben.<br>Jobb oldalon van a Product Backlog vagy a Bug Backlog, bal oldalon a megfelelő sprint. Itt létrehozhat <b>epic, user stories és bug</b> típusokat, rangsorolhatja drag'n'drop segítségével, és hozzáadhatja őket a sprinthez."
-          task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
-          task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
-          task_board: "A <b>Feladatlap</b> megjeleníti a sprint előrehaladását. Új feladatok vagy akadályok hozzáadása a + ikonhoz a felhasználói történet mellett. A drag'n'drop segítségével frissítheti az állapotot."
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
-          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
-          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására, amely részletesebb képet ad a munkáról."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
-          back_button: 'A nyíl segítségével visszatérhet a munkacsomagok listájához.'
-          create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'
-          timeline_button: 'Aktiválhatja a <b>Gantt-diagramot</b>, hogy létrehozzon egy idővonalat a projekthez.'
-          timeline: 'Itt szerkesztheti a projekt tervét. Hozzon létre új fázisokat, mérföldköveket és hozzon létre függőségeket. A csapat minden tagja bármikor megtekintheti és frissítheti a legújabb tervet.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
-      title: "Notifications"
-      channel: "Channel"
+      title: "Értesítések"
+      channel: "Csatorna"
       channels:
-        in_app: "In-app"
+        in_app: "Alkalmazásban"
         mail: "Email"
+        mail_digest: "Daily email summary"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watched'
+        mentioned: 'megemlített'
+        watched: 'Megfigyelt'
         involved: 'involved'
       facets:
-        unread: 'Unread'
+        unread: 'Olvasatlan'
         all: 'Mind'
       center:
-        mark_all_read: 'Mark all as read'
+        mark_all_read: 'Mindegyik megjelölése olvasottként'
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
         involved: 'I am involved'
         mentioned: 'I was mentioned'
         watched: 'I am watching'
-        all: 'All events'
+        all: 'Minden esemény'
         add: 'Add setting for project'
         remove_projects: 'Remove notifications for projects'
-        title: "Notification settings"
+        title: "Értesítési beállítások"
         self_notify: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
     password_confirmation:
       field_description: 'A változás megerősítéséhez adja meg jelszavát.'
@@ -556,6 +557,7 @@ hu:
       autocompleter:
         label: 'Projektnevek automatikus kiegészítése'
     text_are_you_sure: "Biztos vagy benne?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
@@ -593,7 +595,7 @@ hu:
     relation_labels:
       parent: "Szülő"
       children: "Gyermekek"
-      relates: "Related To"
+      relates: "Kapcsolódóan"
       duplicates: "Duplikátumok"
       duplicated: "Duplikálta (a)z"
       blocks: "Blokkolja"
@@ -1013,17 +1015,17 @@ hu:
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Vissza'
-      invite: 'Invite'
+      invite: 'Meghívás'
       title:
         invite: 'Felhasználó meghívása'
         invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
+        User: 'Felhasználó'
+        Group: 'csoport'
         PlaceholderUser: 'placeholder user'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: 'Projekt'
-        required: 'Please select a project'
+        required: 'Válasszon projektet'
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: ' Következő'
@@ -1044,22 +1046,22 @@ hu:
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Név vagy e-mail cím'
           name: 'Név'
         already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
+        no_results_user: 'Nem található felhasználó.'
+        invite_user: 'Meghívás:'
         no_results_placeholder: 'No placeholders were found'
         create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
+        no_results_group: 'Nem találhatók csoportok.'
         next_button: ' Következő'
         required:
-          user: 'Please select a user'
+          user: 'Válassz egy felhasználót'
           placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          group: 'Válaszd ki a csoportot'
       role:
         label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
+        no_roles_found: 'Nem található szerepkör.'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: ' Következő'

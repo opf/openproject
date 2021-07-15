@@ -552,6 +552,7 @@ ko:
         invalid_url: '은(는) 올바른 URL이 아닙니다.'
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         less_than_or_equal_to: "은(는) %{count} 보다 작거나 같아야 합니다"
+        not_available: "is not available due to a system configuration."
         not_deletable: "- 삭제할 수 없습니다."
         not_current_user: "은(는) 현재 유효한 사용자가 아닙니다."
         not_a_date: "은(는) 유효한 날짜가 아닙니다."
@@ -571,6 +572,10 @@ ko:
         unremovable: "- 제거할 수 없습니다."
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: '글로벌'
@@ -609,8 +614,16 @@ ko:
           attributes:
             read_ian:
               read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            read_email:
+            read_mail:
               read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
+            read_mail_digest:
+              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1202,6 +1215,7 @@ ko:
   export:
     your_work_packages_export: "내 작업 패키지 내보내기"
     succeeded: "내보내기가 성공적으로 완료되었습니다."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1859,6 +1873,18 @@ ko:
       link_name_type: '새로운 %{type_name}'
   mail:
     actions: '작업'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: '지켜본'
+          involved: 'assignee or responsible'
+          mentioned: '멘션 된'
+          subscribed: '모두'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
@@ -2234,6 +2260,7 @@ ko:
   setting_apiv3_docs_enabled: "문서 페이지 활성화"
   setting_apiv3_docs_enabled_instructions_html: >
     문서 페이지가 활성화되면 <a href="%{link}" target="_blank">%{link}</a>에서 APIv3 문서의 대화식 보기를 얻을 수 있습니다.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"
@@ -2281,6 +2308,7 @@ ko:
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_notification_retention_period_days: "알림 보관 기간"
   setting_notification_email_delay_minutes: "이메일 지연 전송"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
@@ -2349,10 +2377,14 @@ ko:
     passwords: "암호"
     session: "세션"
     brute_force_prevention: "자동화된 사용자 차단"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
       retention_text: >
         사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
       delay_minutes_explanation: "앱 내 알림이 구성된 사용자가 메일이 발송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
     display:
       first_date_of_week_and_year_set: >
         "%{day_of_week_setting_name}"이나 "%{first_week_setting_name}" 중 하나가 설정되었다면, 프론트엔드 충돌을 방지하기 위해 나머지 하나도 설정되어야 합니다.

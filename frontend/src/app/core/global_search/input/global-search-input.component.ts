@@ -112,9 +112,9 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   /** Remember the item that best matches the query.
    * That way, it will be highlighted (as we manually mark the selected item) and we can handle enter.
    * */
-  public selectedItem:SearchResultItem|SearchOptionItem|null;
+  public selectedItem:WorkPackageResource|SearchOptionItem|null;
 
-  private unregisterGlobalListener:Function|undefined;
+  private unregisterGlobalListener:(() => unknown)|undefined;
 
   public text:{ [key:string]:string } = {
     all_projects: this.I18n.t('js.global_search.all_projects'),
@@ -239,13 +239,13 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return this.selectedItem && this.selectedItem.hasOwnProperty('id');
   }
 
-  public followItem(item:SearchResultItem|SearchOptionItem) {
-    if (item.hasOwnProperty('id')) {
-      window.location.href = this.wpPath((item as SearchResultItem).id);
+  public followItem(item:WorkPackageResource|SearchOptionItem) {
+    if (item instanceof HalResource) {
+      window.location.href = this.wpPath(item.id!);
     } else {
       // update embedded table and title when new search is submitted
       this.globalSearchService.searchTerm = this.currentValue;
-      this.searchInScope((item as SearchOptionItem).projectScope);
+      this.searchInScope(item.projectScope);
     }
   }
 
@@ -260,7 +260,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
   }
 
-  private autocompleteWorkPackages(query:string):Observable<(SearchResultItem|SearchOptionItem)[]> {
+  private autocompleteWorkPackages(query:string):Observable<(WorkPackageResource|SearchOptionItem)[]> {
     if (!query) {
       return of([]);
     }
@@ -298,36 +298,18 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return this
       .apiV3Service
       .work_packages
-      .filterBySubjectOrId(query, idOnly);
+      .filterByTypeaheadOrId(query, idOnly);
   }
 
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
-    const searchItems = results.map((wp) => {
-      const item = {
-        id: wp.id!,
-        subject: wp.subject,
-        status: wp.status.name,
-        statusId: wp.status.idFromLink,
-        href: wp.href,
-        project: wp.project.name,
-        author: wp.author,
-        type: wp.type,
-      } as SearchResultItem;
-      // If we have a direct hit, we choose it to be the selected element.
-      if (query === wp.id!.toString()) {
-        this.selectedItem = item;
-      }
-
-      return item;
-    });
-
     const searchOptions = this.detailedSearchOptions();
+    // If we have a direct hit, we choose it to be the selected element.
+    this.selectedItem = results.find((wp) => wp.id?.toString() === query) || searchOptions[0];
 
-    if (!this.selectedItem) {
-      this.selectedItem = searchOptions[0];
-    }
-
-    return (searchOptions as (SearchResultItem|SearchOptionItem)[]).concat(searchItems);
+    return [
+      ...searchOptions,
+      ...results,
+    ];
   }
 
   // set the possible 'search in scope' options for the current project path

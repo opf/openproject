@@ -1,18 +1,18 @@
-# /api/v3/work_packages/{work_package_id}/watchers/{id}
+# /api/v3/work_packages/{id}/watchers/{user_id}
 ---
 delete:
   parameters:
   - description: Work package id
     example: '1'
     in: path
-    name: work_package_id
+    name: id
     required: true
     schema:
       type: integer
   - description: User id
     example: '1'
     in: path
-    name: id
+    name: user_id
     required: true
     schema:
       type: integer

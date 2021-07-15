@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.3'
+ruby '~> 2.7.4'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -58,7 +58,7 @@ gem 'awesome_nested_set', '~> 3.4.0'
 gem 'rubytree', '~> 1.0.0'
 gem 'typed_dag', '~> 2.0.2'
 
-gem 'addressable', '~> 2.7.0'
+gem 'addressable', '~> 2.8.0'
 
 # Remove whitespace from model input
 gem "auto_strip_attributes", "~> 2.5"
@@ -107,7 +107,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.11.0'
+gem 'oj', '~> 3.12.0'
 
 gem 'daemons'
 gem 'delayed_cron_job', '~> 0.7.4'
@@ -191,9 +191,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.5.1', require: false
-  gem "sentry-rails", '~> 4.5.1', require: false
-  gem "sentry-ruby", '~> 4.5.1',  require: false
+  gem "sentry-delayed_job", '~> 4.6.0', require: false
+  gem "sentry-rails", '~> 4.6.0', require: false
+  gem "sentry-ruby", '~> 4.6.0',  require: false
 end
 
 group :test do
@@ -282,8 +282,8 @@ group :development, :test do
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'
 
-  # Dangerfile scanner on travis and locally
-  gem 'danger', '~> 8.2.0'
+  # Dangerfile scanner on CI and locally
+  gem 'danger', '~> 8.3.1'
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.0.0'
@@ -318,8 +318,6 @@ end
 gem 'openproject-translations',
     git: 'https://github.com/opf/openproject-translations.git',
     branch: 'dev'
-
-gem 'newrelic_rpm', require: ENV.has_key?('NEW_RELIC_LICENSE_KEY')
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
 gemfiles = Dir.glob File.expand_path('{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',

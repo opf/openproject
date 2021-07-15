@@ -34,16 +34,6 @@ describe Budget, type: :model do
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:user) { FactoryBot.create(:user) }
 
-  describe 'initialization' do
-    let(:budget) { Budget.new }
-
-    before do
-      allow(User).to receive(:current).and_return(user)
-    end
-
-    it { expect(budget.author).to eq(user) }
-  end
-
   describe 'destroy' do
     let(:work_package) { FactoryBot.create(:work_package, project: project) }
 

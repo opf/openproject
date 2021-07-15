@@ -63,7 +63,7 @@ description: |-
 
   ### Schema
 
-  The schema embedded in a form is a normal [schema describing the underlying resource](#schema).
+  The schema embedded in a form is a normal [schema describing the underlying resource](https://www.openproject.org/docs/api/endpoints/schemas/).
   However, the embedded schema can change with each revalidation of the form.
   For example it might be possible, that changing the type of a work package affects its available properties,
   as well as possible values for certain properties.
@@ -71,7 +71,7 @@ description: |-
 
   ### Validation Errors
 
-  Like a [schema](#schema) the validation errors build a dictionary where the key is a property name.
+  Like a schema the validation errors build a dictionary where the key is a property name.
   Each value is an error object that indicates the error that occurred validating the corresponding property.
   There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
 

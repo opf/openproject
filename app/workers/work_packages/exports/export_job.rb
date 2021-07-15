@@ -88,16 +88,23 @@ module WorkPackages
         end
       end
 
-      def store_attachment(storage, file)
-        attachment = Attachments::CreateService
-          .new(storage, author: User.current)
-          .call(uploaded_file: file, description: '')
+      def store_attachment(container, file)
+        call = Attachments::CreateService
+          .bypass_whitelist(user: User.current)
+          .call(container: container, file: file, filename: File.basename(file), description: '')
 
-        download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(attachment.id)
+        call.on_success do
+          download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
 
-        upsert_status status: :success,
-                      message: I18n.t('export.succeeded'),
-                      payload: download_payload(download_url)
+          upsert_status status: :success,
+                        message: I18n.t('export.succeeded'),
+                        payload: download_payload(download_url)
+        end
+
+        call.on_failure do
+          upsert_status status: :failure,
+                        message: I18n.t('export.failed', message: call.message)
+        end
       end
     end
   end

@@ -1,5 +1,4 @@
-
-  <op-autocompleter
+<op-autocompleter
   classes="wp-relations-autocomplete"
   data-qa-selector="wp-relations-autocomplete"
   [appendTo]="appendToContainer"
@@ -10,6 +9,5 @@
   [defaulData]="false"
   (open)="onOpen()"
   (change)="onWorkPackageSelected($event)"
-  [getOptionsFn]=autocompleterOptions.getOptionsFn>
-  </op-autocompleter>
-
+  [getOptionsFn]="autocompleterOptions.getOptionsFn"
+></op-autocompleter>

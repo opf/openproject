@@ -61,8 +61,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public availableOptions:any[];
 
-  public valueOptions:ValueOption[];
-
   public text:{ [key:string]:string };
 
   public appendTo:any = null;
@@ -78,7 +76,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public get selectedOption() {
     const href = this.value ? this.value.href : null;
-    return _.find(this.valueOptions, (o) => o.href === href)!;
+    return _.find(this.availableOptions, (o) => o.href === href)!;
   }
 
   public set selectedOption(val:ValueOption|HalResource) {
@@ -160,7 +158,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   private setValues(availableValues:HalResource[]) {
     this.availableOptions = this.sortValues(availableValues);
     this.addEmptyOption();
-    this.valueOptions = this.availableOptions.map((el) => this.mapAllowedValue(el));
   }
 
   protected loadValues(query?:string) {
@@ -175,20 +172,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       this.setValues([]);
     }
 
-    return from(Promise.resolve(this.valueOptions));
+    return from(Promise.resolve(this.availableOptions));
   }
 
   protected loadValuesFromBackend(query?:string) {
     return from(
       this.loadAllowedValues(query),
     ).pipe(
-      tap((collection) => {
-        // if it is an unpaginated collection or if we get all possible entries when fetching with a blank
-        // query, we do not need to load the values again;
-        if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count)) {
-          this.valuesLoaded = true;
-        }
-      }),
       map((collection) => {
         if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count) || !this.value) {
           return collection.elements;
@@ -196,7 +186,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         return collection.elements.concat([this.value]);
       }),
       tap((elements) => this.setValues(elements)),
-      map(() => this.valueOptions),
+      map(() => this.availableOptions),
     );
   }
 
@@ -216,7 +206,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   private addValue(val:HalResource) {
     this.availableOptions.push(val);
-    this.valueOptions.push({ name: val.name, href: val.href });
   }
 
   public get currentValueInvalid():boolean {
@@ -282,17 +271,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     return this.halSorting.sort(availableValues);
   }
 
-  protected mapAllowedValue(value:HalResource):ValueOption {
-    return { name: value.name, href: value.href };
-  }
-
   // Subclasses shall be able to override the filters with which the
   // allowed values are reduced in the backend.
   protected allowedValuesFilter(query?:string) {
     return {};
   }
 
-  private getEmptyOption():ValueOption|undefined {
+  private getEmptyOption():undefined {
     return _.find(this.availableOptions, (el) => el.name === this.text.placeholder);
   }
 

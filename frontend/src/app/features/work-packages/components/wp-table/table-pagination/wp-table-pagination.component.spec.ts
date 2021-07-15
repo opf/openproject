@@ -58,7 +58,7 @@ function setupMocks(paginationService:PaginationService) {
 }
 
 function pageString(element:JQuery) {
-  return element.find('.pagination--range').text().trim();
+  return element.find('.op-pagination--range').text().trim();
 }
 
 describe('wpTablePagination Directive', () => {
@@ -119,7 +119,7 @@ describe('wpTablePagination Directive', () => {
           app.update();
           fixture.detectChanges();
 
-          const liWithNextLink = element.find('.pagination--next-link').parent('li');
+          const liWithNextLink = element.find('.op-pagination--item-link_next').parent('li');
           const attrHidden = liWithNextLink.attr('hidden');
           expect(attrHidden).toBeDefined();
         }));

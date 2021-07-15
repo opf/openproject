@@ -20,6 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from '../../typings';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
+import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 /**
 * SETTINGS:
@@ -186,6 +187,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   text = {
     save: this._I18n.t('js.button_save'),
+    cancel: this._I18n.t('js.button_cancel'),
     load_error_message: this._I18n.t('js.forms.load_error_message'),
     successful_update: this._I18n.t('js.notice_successful_update'),
     successful_create: this._I18n.t('js.notice_successful_create'),
@@ -216,6 +218,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     private _pathHelperService:PathHelperService,
     private _notificationsService:NotificationsService,
     private _changeDetectorRef:ChangeDetectorRef,
+    private _confirmDialogService:ConfirmDialogService,
   ) {
     super();
   }
@@ -283,6 +286,27 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     return this._dynamicFormService.validateForm$(this.form, this.formEndpoint);
+  }
+
+
+  handleCancel() {
+    if (this.form.dirty) {
+      this._confirmDialogService.confirm({
+        text: {
+          title: this._I18n.t('js.text_are_you_sure'),
+          text: this._I18n.t('js.text_data_lost'),
+        },
+      }).then(() => {
+        this.goBack();
+      })
+        .catch(() => {});
+    } else {
+      this.goBack();
+    }
+  }
+
+  private goBack() {
+    window.history.back();
   }
 
   private initializeDynamicForm(

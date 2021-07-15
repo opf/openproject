@@ -31,40 +31,40 @@ require 'spec_helper'
 module OnboardingHelper
   def step_through_onboarding_wp_tour(project, wp)
     expect(page).not_to have_selector('.loading-indicator')
-    expect(page).to have_text 'This is the Work package list'
+    expect(page).to have_text 'This work package overview provides a list of all the work in your project'
 
     next_button.click
     expect(page).to have_current_path project_work_package_path(project, wp.id, 'activity')
-    expect(page).to have_text 'Within the Work package details you find all relevant information'
+    expect(page).to have_text 'The work package details view provides all the relevant information'
 
     next_button.click
-    expect(page).to have_text 'With the arrow you can navigate back to the work package list.'
+    expect(page).to have_text 'Use the return arrow in the top left corner to exit and return to the work package list'
 
     next_button.click
-    expect(page).to have_text 'The Create button will add a new work package to your project'
+    expect(page).to have_text 'The + Create button will add a new work package to your project'
 
     next_button.click
-    expect(page).to have_text 'You can activate the Gantt chart to create a timeline for your project.'
+    expect(page).to have_text 'You can activate the Gantt chart view to create a timeline for your project.'
 
     next_button.click
-    expect(page).to have_text 'Here you can edit your project plan. Create new phases, milestones, and add dependencies.'
+    expect(page).to have_text 'Here you can edit your project plan'
 
     next_button.click
-    expect(page).to have_text "With the arrow you can navigate back to the project's Main menu."
+    expect(page).to have_text 'Use the return arrow in the top left corner to return to the project’s main menu'
   end
 
   def step_through_onboarding_main_menu_tour
     next_button.click
-    expect(page).to have_text 'Invite new Members to join your project.'
+    expect(page).to have_text 'Invite new members to join your project.'
 
     next_button.click
-    expect(page).to have_text 'Within the Wiki you can document and share knowledge together with your team.'
+    expect(page).to have_text 'Within the wiki you can document and share knowledge together with your team.'
 
     next_button.click
-    expect(page).to have_text 'Create a new project or invite coworkers.'
+    expect(page).to have_text 'Click on the plus (+) icon in the header navigation to create a new project or to invite coworkers.'
 
     next_button.click
-    expect(page).to have_text 'In the Help menu you will find a user guide and additional help resources.'
+    expect(page).to have_text 'The Help (?) menu provides additional help resources.'
 
     next_button.click
     expect(page).not_to have_selector '.enjoy_hint_label'

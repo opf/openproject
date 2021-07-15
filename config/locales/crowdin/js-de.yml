@@ -127,7 +127,7 @@ de:
       preview: 'Vorschau-Modus ein/aus'
       source_code: 'Wechseln zwischen Markdown-Source und WYSIWYG'
       error_saving_failed: 'Fehler beim Speichern des Dokuments: %{error}'
-      error_initialization_failed: 'Fehler bei CKEditor-Initialisierung!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Wechseln zu reinem Markdown-Text'
         wysiwyg: 'Wechseln zu WYSIWYG-Editor'
@@ -478,56 +478,57 @@ de:
         next: 'Weiter'
         got_it: 'Verstanden'
       steps:
-        help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere Hilfematerialien. <br> Viel Spaß mit OpenProject!'
-        members: 'Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.'
-        project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
-        quick_add_button: 'Mit dem Plus (+) Knopf, können sie entweder ein <b>neues Projekt anlegen</b> oder <b>Mitarbeiter zu Ihrem Projekt einladen</b>.'
-        sidebar_arrow: "Mit dem Pfeil gelangen Sie zurück zum <b>Hauptmenü</b> des Projektes."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese jeder Zeit wieder neu starten.'
-        wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Sie können Anforderungen in der <b>Backlogs Ansicht</b> verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog, links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und Fehler</b> anlegen und mit Drag & Drop priorisieren und einem Sprint zuweisen."
-          task_board_arrow: 'Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint Drop-down Menü...'
-          task_board_select: '… und wählen Sie den Menüpunkt <b>Taskboard</b>.'
-          task_board: "Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints. Sie können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren."
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Verwalten Sie Ihre Arbeit in einer intuitiven <b>Boards</b> -Ansicht.'
-          lists: 'Sie können mehrere Listen (Spalten) innerhalb einer Board-Ansicht erstellen, z.B. um ein KANBAN-Board zu erstellen.'
-          add: 'Klicken Sie + um <b>eine neue Karte</b> zur Liste eines Boards hinzuzufügen.'
-          drag: 'Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet die Detailansicht.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere Sicht auf die Arbeit in Ihrem Projekt geben."
-          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf eine Zeile öffnet die Detailansicht.'
-          full_view: 'In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten oder Kommentare.'
-          back_button: 'Mit dem Pfeil kommen Sie zurück in die Listenansicht.'
-          create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'
-          timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
-          timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
-      title: "Notifications"
-      channel: "Channel"
+      title: "Benachrichtigungen"
+      channel: "Kanal"
       channels:
-        in_app: "In-app"
+        in_app: "In-App"
         mail: "E-Mail"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
         involved: 'involved'
       facets:
-        unread: 'Unread'
+        unread: 'Ungelesen'
         all: 'Alle'
       center:
-        mark_all_read: 'Mark all as read'
+        mark_all_read: 'Alles als gelesen markieren'
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
-        default_all_projects: 'Default for all projects'
-        involved: 'I am involved'
+        default_all_projects: 'Standard für alle Projekte'
+        involved: 'Ich bin beteiligt'
         mentioned: 'I was mentioned'
         watched: 'I am watching'
         all: 'All events'
         add: 'Add setting for project'
         remove_projects: 'Remove notifications for projects'
-        title: "Notification settings"
+        title: "Benachrichtigungseinstellungen"
         self_notify: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"
     password_confirmation:
       field_description: 'Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.'
@@ -556,6 +557,7 @@ de:
       autocompleter:
         label: 'Projekt Auto-Vervollständigung'
     text_are_you_sure: "Sind Sie sicher?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Der Name %{group} wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein."

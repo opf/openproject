@@ -87,15 +87,12 @@ export class WorkPackageRelationsAutocompleteComponent {
   // Whether we're currently loading
   public isLoading = false;
 
-  getAutocompleterData = (query:string):Observable<HalResource[]> => {
+  getAutocompleterData = (query:string|null):Observable<HalResource[]> => {
     // Return when the search string is empty
     if (query === null || query.length === 0) {
       this.isLoading = false;
       return of([]);
     }
-
-    // Remove prefix # from search
-    query = query.replace(/^#/, '');
 
     return from(
       this.workPackage.availableRelationCandidates.$link.$fetch({

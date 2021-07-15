@@ -31,7 +31,7 @@ description: |-
 
   Note, that the parent link may contain the "undisclosed uri" `urn:openproject-org:api:v3:undisclosed` in case a
   parent project is defined but the client lacks permission to see it. See the
-  [general introduction into links' properties](/docs/api/basic-objects/#header-local-properties-1) for more information.
+  [general introduction into links' properties](https://www.openproject.org/docs/api/basic-objects/#local-properties) for more information.
 
   ## Local Properties
 

@@ -68,22 +68,22 @@ describe WorkPackages::Exports::ExportJob do
       service = double('attachments create service')
 
       expect(Attachments::CreateService)
-        .to receive(:new)
-        .with(export, author: user)
+        .to receive(:bypass_whitelist)
+        .with(user: user)
         .and_return(service)
 
       expect(WorkPackages::Exports::CleanupOutdatedJob)
         .to receive(:perform_after_grace)
 
       expect(service)
-        .to receive(:call) do |uploaded_file:, description:|
-        expect(File.basename(uploaded_file))
+        .to receive(:call) do |file:, **args|
+        expect(File.basename(file))
           .to start_with 'some_title'
 
-        expect(File.basename(uploaded_file))
+        expect(File.basename(file))
           .to end_with ".#{mime_type}"
 
-        attachment
+        ServiceResult.new(result: attachment, success: true)
       end
 
       allow("WorkPackage::Exporter::#{mime_type.upcase}".constantize)

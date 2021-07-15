@@ -127,7 +127,7 @@ ko:
       preview: '미리 보기 모드 토글'
       source_code: 'Markdown 소스 모드 토글'
       error_saving_failed: '다음 오류로 인해 문서를 저장하지 못했습니다: %{error}'
-      error_initialization_failed: 'CKEditor를 초기화하지 못했습니다.'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Markdown 소스로 전환'
         wysiwyg: 'WYSIWYG 편집기로 전환'
@@ -479,37 +479,38 @@ ko:
         next: '다음'
         got_it: '확인'
       steps:
-        help_menu: '<b>도움말</b> 메뉴에서 사용자 가이드 및 추가 도움말 리소스를 찾아볼 수 있습니다. <br> OpenProject에서 즐겁게 작업하세요!'
-        members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
-        project_selection: '시작하려면 유용한 데모 데이터가 포함된 프로젝트 중 하나를 클릭하십시오. <br> <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
-        quick_add_button: '새 프로젝트를 만들거나 동료를 초대하십시오.'
-        sidebar_arrow: "화살표를 사용하여 프로젝트의 <b>기본 메뉴</b>로 다시 돌아갈 수 있습니다."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: '3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다. 언제든지 투어를 다시 시작할 수 있습니다.'
-        wiki: '<b>Wiki</b>에서 문서화하고 팀과 함께 지식을 공유할 수 있습니다.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "<b>백로그</b> 보기에서 작업을 관리하세요. <br> 오른쪽에 제품 백로그 또는 버그 백로그가 있고, 왼쪽에 해당 스프린트가 있습니다. 여기에서 <b>에픽, 사용자 이야기 및 버그</b>를 작성하고 드래그 앤 드롭으로 우선 순위를 정하고 스프린트에 추가할 수 있습니다."
-          task_board_arrow: '<b>작업 보드</b>를 보려면 스프린트 드롭다운을 여세요...'
-          task_board_select: '... 그리고 <b>작업보드</b> 항목을 선택하세요.'
-          task_board: "<b>작업 보드</b>는 이 스프린트의 진행률을 시각화합니다. 사용자 이야기 옆에 있는 + 아이콘을 사용하여 새 작업이나 제한을 추가하세요. 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: '직관적인 <b>보드</b> 보기에서 작업을 관리하십시오.'
-          lists: '하나의 보드 보기에서 여러 목록(열)을 만들 수 있습니다. 예를 들어, KANBAN 보드를 만들 수 있습니다.'
-          add: '+를 클릭하면 보드의 목록에 <b>새로운 카드가 추가</b>됩니다.'
-          drag: '목록에서 카드를 끌어다 놓아 다시 정렬하거나, 다른 목록으로 끌어오십시오. 두 번 클릭하면 상세 보기가 열립니다.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업의 자세한 보기가 제공됩니다."
-          list: '작업, 마일스톤, 단계 등 프로젝트 내 중요 작업이 포함된 <b>작업 패키지</b> 목록입니다. <br> 목록에서 바로 작업 패키지를 만들거나 편집할 수 있습니다. 해당 세부 정보를 보려면 행을 두 번 클릭하면 됩니다.'
-          full_view: '<b>작업 패키지 세부 정보</b>에서 설명, 상태 및 우선 순위, 활동, 종속성 또는 코멘트 등 모든 관련 정보를 찾아볼 수 있습니다.'
-          back_button: '화살표를 사용하여 작업 패키지 목록으로 돌아갈 수 있습니다.'
-          create_button: '<b>만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
-          timeline_button: '<b>Gantt 차트</b>를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
-          timeline: '여기에서 프로젝트 계획을 편집할 수 있습니다. 새로운 단계, 마일스톤을 만들고 종속성을 추가하세요. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "알림"
       channel: "채널"
       channels:
         in_app: "앱내"
         mail: "이메일"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: '멘션 된'
         watched: '지켜본'
@@ -557,6 +558,7 @@ ko:
       autocompleter:
         label: '프로젝트 자동완성'
     text_are_you_sure: "계속하시겠습니까?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다."

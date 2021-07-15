@@ -35,9 +35,20 @@ module Bim::Bcf
       end
     end
 
+    def clipping_planes?
+      json_viewpoint && json_viewpoint["clipping_planes"]
+    end
+
     def snapshot=(file)
       snapshot&.destroy
-      attach_files('first' => { 'file' => file, 'description' => 'snapshot' })
+      build_snapshot file
+    end
+
+    def build_snapshot(file, user: User.current)
+      ::Attachments::BuildService
+        .new(user: user)
+        .call(file: file, container: self, filename: file.original_filename, description: 'snapshot')
+        .result
     end
   end
 end

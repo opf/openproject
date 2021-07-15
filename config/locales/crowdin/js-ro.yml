@@ -127,7 +127,7 @@ ro:
       preview: 'Activaţi/Dezactivați previzualizarea'
       source_code: 'Faceți click pentru a activa/dezactiva modul ierarhic.'
       error_saving_failed: 'Salvarea documentului a eșuat cu următoarea eroare: %{error}'
-      error_initialization_failed: 'Nu s-a reușit inițializarea CKEditor!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Sursă'
         wysiwyg: 'Treceți la editorul WYSIWYG'
@@ -478,37 +478,38 @@ ro:
         next: 'Înainte'
         got_it: 'Am înțeles'
       steps:
-        help_menu: 'În meniul <b>Help (Ajutor</b> ) veți găsi un ghid de utilizare și resurse suplimentare de ajutor. <br> Bucurați-vă de munca dumneavoastră cu OpenProject!</br> '
-        members: 'Invitați noi <b>membri</b> să se alăture proiectului dumneavoastră.'
-        project_selection: 'Vă rugăm să faceți clic pe unul dintre proiectele cu date demonstrative utile pentru a începe. <br> <b>Proiectul Demo</b> se potrivește cel mai bine pentru gestionarea clasică a proiectelor, în timp ce <b>proiectul Scrum</b></br> este mai potrivit pentru gestionarea agilă a proiectelor.'
-        quick_add_button: 'Creați un nou proiect sau invitați colegi de muncă.'
-        sidebar_arrow: "Cu ajutorul săgeții puteți naviga înapoi la <b>meniul principal</b> al proiectului."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Faceți un tur introductiv de trei minute pentru a afla cele mai <b>importante caracteristici</b>. <br> Vă recomandăm să parcurgeți pașii până la sfârșit. Puteți relua turul în orice moment.</br> '
-        wiki: 'În cadrul <b>Wiki</b> puteți documenta și împărtăși cunoștințe împreună cu echipa dumneavoastră.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Gestionați-vă activitatea în vizualizarea <b>Backlogs</b>. <br> În dreapta aveți Product Backlog sau Bug Backlog, iar în stânga veți avea sprinturile respective. Aici puteți crea <b>povești epice, povești de utilizator și bug-uri</b></br>, le puteți prioritiza prin drag'n'drop și le puteți adăuga la un sprint."
-          task_board_arrow: 'Pentru a vedea <b>panoul de sarcini</b>, deschideți meniul Sprint...'
-          task_board_select: '... și selectați intrarea <b>Task board</b>.'
-          task_board: " <b>Tabloul de sarcini</b> vizualizează progresul pentru acest sprint. Adăugați noi sarcini sau impedimente cu ajutorul pictogramei + de lângă o poveste de utilizator. Prin intermediul funcției drag'n'drop puteți actualiza starea."
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Gestionați-vă activitatea într-o vizualizare intuitivă a <b>planșelor</b>.'
-          lists: 'Puteți crea mai multe liste (coloane) în cadrul unei vizualizări a unui tablou, de exemplu, pentru a crea un tablou KANBAN.'
-          add: 'Faceți clic pe + pentru a adăuga <b>un nou card</b> la lista din cadrul unui consiliu.'
-          drag: 'Trageți și plasați cărțile într-o listă pentru a le rearanja sau pentru a le muta într-o altă listă. Un dublu clic va deschide vizualizarea detaliilor.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Acum să ne uităm la secțiunea <b>Pachet de lucru</b>, care vă oferă o vizualizare mai detaliată a activității dumneavoastră."
-          list: 'Aceasta este lista <b>pachetelor de lucru</b> cu lucrările importante din cadrul proiectului, cum ar fi sarcini, caracteristici, etape, erori și altele. <br> Puteți crea sau edita un pachet de lucru direct din această listă. Pentru a vedea detaliile acestuia, puteți face dublu clic pe un rând.</br> '
-          full_view: 'În <b>detaliile pachetului de lucru</b> găsiți toate informațiile relevante, cum ar fi descrierea, starea și prioritatea, activitățile, dependențele sau comentariile.'
-          back_button: 'Cu ajutorul săgeții puteți naviga înapoi la lista pachetelor de lucru.'
-          create_button: 'Butonul <b>Create (Creare</b> ) va adăuga un nou pachet de lucru la proiectul dumneavoastră.'
-          timeline_button: 'Puteți activa <b>diagrama Gantt</b> pentru a crea o cronologie pentru proiectul dvs.'
-          timeline: 'Aici vă puteți edita planul de proiect. Creați noi faze, repere și adăugați dependențe. Toți membrii echipei pot vedea și actualiza cel mai recent plan în orice moment.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Notifications"
       channel: "Channel"
       channels:
         in_app: "In-app"
         mail: "E-mail"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
@@ -556,6 +557,7 @@ ro:
       autocompleter:
         label: 'Completarea automată a proiectului'
     text_are_you_sure: "Sunteți sigur?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Numele %{group} este utilizat de mai multe ori. Fiecare grup trebuie să aibă un nume unic."

@@ -29,13 +29,17 @@
 import {
   AfterViewInit, Component, EventEmitter, Injector, Output, ViewEncapsulation,
 } from '@angular/core';
+import { of } from 'rxjs';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 
 export type TimeEntryWorkPackageAutocompleterMode = 'all'|'recent';
 
 @Component({
   templateUrl: './te-work-package-autocompleter.component.html',
-  styleUrls: ['./te-work-package-autocompleter.component.sass'],
+  styleUrls: [
+    './te-work-package-autocompleter.component.sass',
+  ],
   selector: 'te-work-package-autocompleter',
   encapsulation: ViewEncapsulation.None,
 })

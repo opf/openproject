@@ -4,7 +4,7 @@ get:
   parameters:
   - description: |-
       JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](#queries) endpoint.
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint.
       Currently supported filters are:
 
       + id: Returns only the action having the id or all actions except those having the id(s).
@@ -16,7 +16,7 @@ get:
       type: string
   - description: |-
       JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported sorts are:
+      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
 
       + *No sort supported yet*
     example: '[["id", "asc"]]'
@@ -24,7 +24,7 @@ get:
     name: sortBy
     required: false
     schema:
-      default: '["id", "asc"]'
+      default: '[["id", "asc"]]'
       type: string
   responses:
     '200':

@@ -31,7 +31,10 @@
 require 'spec_helper'
 
 describe Bim::IfcModels::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  shared_let(:project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
+  shared_let(:other_project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
+  shared_let(:user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i[manage_ifc_models]) }
+
   let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
@@ -58,10 +61,8 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:ifc_file) { FileHelpers.mock_uploaded_file(name: "model_2.ifc", content_type: 'application/binary', binary: true) }
-  let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
   let(:model) do
-    FactoryBot.build_stubbed(:ifc_model, attachments: [ifc_attachment], uploader: other_user)
+    FactoryBot.create(:ifc_model, project: project, uploader: other_user)
   end
 
   before do
@@ -72,7 +73,7 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
   describe 'call' do
     let(:call_attributes) do
       {
-        project_id: project.id
+        project_id: other_project.id
       }
     end
 
@@ -96,7 +97,7 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
       subject
 
       expect(model.attributes.slice(*model.changed).symbolize_keys)
-        .to eql call_attributes
+        .to eql call_attributes.merge(uploader_id: user.id)
     end
 
     it 'does not persist the model' do
@@ -108,7 +109,7 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
 
     context 'for a new record' do
       let(:model) do
-        Bim::IfcModels::IfcModel.new
+        Bim::IfcModels::IfcModel.new project: project
       end
 
       context 'with an ifc_attachment' do
@@ -167,6 +168,8 @@ describe Bim::IfcModels::SetAttributesService, type: :model do
         end
 
         it 'marks existing attachments for destruction' do
+          ifc_attachment = model.ifc_attachment
+
           subject
 
           expect(ifc_attachment)

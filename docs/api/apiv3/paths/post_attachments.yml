@@ -242,6 +242,5 @@ post:
   description: |-
     Adds an attachment with the post as it's container.
 
-    See [the general specification for uploading attachments](#attachments-attachments) for details.
   operationId: Add_attachment_to_post
   summary: Add attachment to post

@@ -1,0 +1,36 @@
+<%= digest_timespan_text %>
+
+<% @notifications_by_project.each do |project, notifications_by_work_package| %>
+
+<%= "=" * (project.name.length + 4) %>
+= <%= project.name %> =
+<%= "=" * (project.name.length + 4) %>
+
+<% notifications_by_work_package.each do |work_package, notifications| %>
+
+<%= "*" * (work_package.to_s.length + 4) %>
+* <%= work_package.to_s %> *
+<%= "*" * (work_package.to_s.length + 4) %>
+
+<% notifications.sort_by(&:created_at).each do |notification| %>
+
+<%= "-" * 20 %>
+
+<%= digest_notification_timestamp_text(notification, html: false) %> (<%= I18n.t('mail.digests.work_packages.reason.prefix',
+           reason: I18n.t(:"mail.digests.work_packages.reason.#{notification.reason_mail_digest}")) %>)
+
+<% journal = notification.journal %>
+<% if journal.notes.present? %>
+<%= journal.notes %>
+
+<% end %>
+<% journal.details.each do |detail| %>
+  * <%= journal.render_detail(detail, only_path: false, no_html: true) %>
+<% end %>
+<% end %>
+
+<%= "-" * 20 %>
+
+
+<% end %>
+<% end %>
