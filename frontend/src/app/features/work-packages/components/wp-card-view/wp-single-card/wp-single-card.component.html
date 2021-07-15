@@ -1,6 +1,9 @@
-<div class="op-wp-single-card"
-      data-qa-selector="op-wp-single-card"
-     [ngClass]="cardClasses()">
+<div
+  class="op-wp-single-card"
+  data-qa-selector="op-wp-single-card"
+  [data-qa-draggable]="draggable"
+  [ngClass]="cardClasses()"
+>
 
   <div class="op-wp-single-card--highlighting"
        [ngClass]="cardHighlightingClass(workPackage)">
