@@ -399,10 +399,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     let observable = this
       .apiv3Service
       .queries
-      .find(this.columnsQueryProps, this.queryId)
-      .pipe(
-        retry(3),
-      );
+      .find(this.columnsQueryProps, this.queryId);
 
     // Spread arguments on pipe does not work:
     // https://github.com/ReactiveX/rxjs/issues/3989
