@@ -1,9 +1,5 @@
-import {
-  Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren,
-} from '@angular/core';
-import {
-  forkJoin, Observable, of, Subscription,
-} from 'rxjs';
+import { Component, ElementRef, Injector, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 import { StateService } from '@uirouter/core';
@@ -23,9 +19,7 @@ import { BoardPartitionedPageComponent } from 'core-app/features/boards/board/bo
 import { AddListModalComponent } from 'core-app/features/boards/board/add-list-modal/add-list-modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
-import {
-  catchError, filter, map, switchMap, tap,
-} from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
@@ -39,7 +33,6 @@ import { WorkPackageStatesInitializationService } from 'core-app/features/work-p
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
   text = {
-    button_more: this.I18n.t('js.button_more'),
     delete: this.I18n.t('js.button_delete'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
     deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
@@ -48,7 +41,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     addList: this.I18n.t('js.boards.add_list'),
     upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
-    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
+    unnamedList: this.I18n.t('js.boards.label_unnamed_list'),
+    hiddenListWarning: this.I18n.t('js.boards.text_hidden_list_warning'),
   };
 
   /** Container reference */
@@ -74,6 +68,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   board$:Observable<Board>;
 
   boardWidgets:GridWidgetResource[] = [];
+
+  showHiddenListWarning:boolean = false;
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -105,7 +101,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .id(id)
       .requireAndStream()
       .pipe(
-        this.setAllowedBoardWidgets,
         tap((board) => this.setupQueryUpdatedMonitoring(board)),
       );
 
@@ -123,42 +118,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       });
   }
 
-  setAllowedBoardWidgets = (boardObservable:Observable<Board>) =>
-    // The grid config could have widgets that the user is not allowed to
-    // see, so we filter out those that rise an access error.
-    boardObservable
-      .pipe(
-        switchMap(
-          (board) => this.getAllowedBoardWidgets(board).pipe(map((allowedBoardWidgets) => ({ board, allowedBoardWidgets }))),
-        ),
-        map((result) => {
-          this.boardWidgets = result.allowedBoardWidgets;
-
-          return result.board;
-        }),
-      )
-  ;
-
-  getAllowedBoardWidgets(board:Board) {
-    if (board.queries?.length) {
-      const queryRequests$ = board.queries.map((query) => this.apiv3Service.queries
-        .find({ filters: JSON.stringify(query.options.filters), pageSize: 0 }, query.options.queryId as string)
-        .pipe(
-          map(() => query),
-          catchError((error) => {
-            const userIsNotAllowedToSeeSubprojectError = 'urn:openproject-org:api:v3:errors:InvalidQuery';
-            const result = error.errorIdentifier === userIsNotAllowedToSeeSubprojectError ? null : query;
-
-            return of(result);
-          }),
-        ));
-
-      return forkJoin([...queryRequests$])
-        .pipe(map((boardWidgets) => boardWidgets.filter((boardWidget) => !!boardWidget) as GridWidgetResource[]));
-    }
-    return of([]);
-  }
-
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
     moveItemInArray(board.queries, event.previousIndex, event.currentIndex);
     this.saveBoard(board);
@@ -172,7 +131,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   addList(board:Board):any {
     if (board.isFree) {
       return this.BoardList
-        .addFreeQuery(board, { name: this.text.unnamed_list })
+        .addFreeQuery(board, { name: this.text.unnamedList })
         .then((board) => this.Boards.save(board).toPromise())
         .catch((error) => this.showError(error));
     }
@@ -182,6 +141,13 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       this.injector,
       { board, active },
     );
+  }
+
+  changeVisibilityOfList(board:Board, boardWidget:GridWidgetResource, visible:boolean) {
+    if (!visible) {
+      this.showHiddenListWarning = true;
+      this.boardWidgets = this.boardWidgets.filter(widget => widget.id !== boardWidget.id);
+    }
   }
 
   showBoardListView() {
@@ -200,6 +166,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     if (this.currentQueryUpdatedMonitoring) {
       this.currentQueryUpdatedMonitoring.unsubscribe();
     }
+
+    this.boardWidgets = board.queries;
 
     this.currentQueryUpdatedMonitoring = this
       .QueryUpdated
