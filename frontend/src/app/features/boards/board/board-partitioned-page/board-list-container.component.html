@@ -24,6 +24,11 @@
                   (visibilityChange)="changeVisibilityOfList(board, boardWidget, $event)">
       </board-list>
     </div>
+    <span *ngIf="showHiddenListWarning"
+          class="boards-list--tooltip tooltip--right"
+          [attr.data-tooltip]="text.hiddenListWarning">
+      <i class="icon icon-attention"></i>
+    </span>
 
     <div class="boards-list--add-item -no-text-select"
          *ngIf="board.editable"

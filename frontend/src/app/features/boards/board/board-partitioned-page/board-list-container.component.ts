@@ -33,7 +33,6 @@ import { WorkPackageStatesInitializationService } from 'core-app/features/work-p
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
   text = {
-    button_more: this.I18n.t('js.button_more'),
     delete: this.I18n.t('js.button_delete'),
     areYouSure: this.I18n.t('js.text_are_you_sure'),
     deleteSuccessful: this.I18n.t('js.notice_successful_delete'),
@@ -42,7 +41,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
     addList: this.I18n.t('js.boards.add_list'),
     upsaleBoards: this.I18n.t('js.boards.upsale.teaser_text'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
-    unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
+    unnamedList: this.I18n.t('js.boards.label_unnamed_list'),
+    hiddenListWarning: this.I18n.t('js.boards.text_hidden_list_warning'),
   };
 
   /** Container reference */
@@ -68,6 +68,8 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   board$:Observable<Board>;
 
   boardWidgets:GridWidgetResource[] = [];
+
+  showHiddenListWarning:boolean = false;
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -129,7 +131,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   addList(board:Board):any {
     if (board.isFree) {
       return this.BoardList
-        .addFreeQuery(board, { name: this.text.unnamed_list })
+        .addFreeQuery(board, { name: this.text.unnamedList })
         .then((board) => this.Boards.save(board).toPromise())
         .catch((error) => this.showError(error));
     }
@@ -143,6 +145,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   changeVisibilityOfList(board:Board, boardWidget:GridWidgetResource, visible:boolean) {
     if (!visible) {
+      this.showHiddenListWarning = true;
       this.boardWidgets = this.boardWidgets.filter(widget => widget.id !== boardWidget.id);
     }
   }
