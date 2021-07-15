@@ -41,7 +41,7 @@ module BreadcrumbHelper
 
   def breadcrumb(*args)
     elements = args.flatten
-    elements.any? ? content_tag('p', (args.join(' &#187; ') + ' &#187; ').html_safe, class: 'breadcrumb') : nil
+    elements.any? ? content_tag('p', (args.join(' &#187; ') + ' &#187; ').html_safe, class: 'op-breadcrumb') : nil
   end
 
   def breadcrumb_list(*args)
@@ -53,8 +53,8 @@ module BreadcrumbHelper
 
     breadcrumb_elements += elements.map do |element|
       if element
-        css_class = if element.try(:include?, 'breadcrumb-project-title')
-                      'breadcrumb-project-element '
+        css_class = if element.try(:include?, 'op-breadcrumb-project-title')
+                      'op-breadcrumb-project-element '
                     end
         content_tag(:li,
                     h(element.to_s),
@@ -62,7 +62,7 @@ module BreadcrumbHelper
       end
     end
 
-    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'breadcrumb')
+    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'op-breadcrumb',  'data-qa-selector': 'op-breadcrumb')
   end
 
   def breadcrumb_paths(*args)
@@ -100,9 +100,9 @@ module BreadcrumbHelper
       ancestors << project
       ancestors.map do |p|
         if p == project
-          link_to_project(p, { only_path: false }, title: p, class: 'breadcrumb-project-title nocut').html_safe
+          link_to_project(p, { only_path: false }, title: p, class: 'op-breadcrumb-project-title nocut').html_safe
         else
-          link_to_project(p, { jump: current_menu_item }, title: p, class: 'breadcrumb-project-title').html_safe
+          link_to_project(p, { jump: current_menu_item }, title: p, class: 'op-breadcrumb-project-title').html_safe
         end
       end
     end

@@ -212,7 +212,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     it 'add existing, remove it, add it from relations tab, remove from relations tab' do
       embedded_table.table_container.find('button', text: I18n.t('js.relation_buttons.add_existing')).click
       container = embedded_table.table_container.find('.wp-relations-create--form', wait: 10)
-      autocomplete = page.find(".wp-relations--autocomplete")
+      autocomplete = page.find("[data-qa-selector='wp-relations-autocomplete']")
       select_autocomplete autocomplete,
                           results_selector: '.ng-dropdown-panel-items',
                           query: independent_work_package.subject,

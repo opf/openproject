@@ -151,7 +151,7 @@ describe 'Work package table context menu', js: true do
         subject.submit_by_enter
 
         split_view.expect_and_dismiss_notification message: 'Successful creation.'
-        expect(page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{work_package.subject}")
+        expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{work_package.subject}")
         wp = WorkPackage.last
         expect(wp.parent).to eq work_package
       end

@@ -15,12 +15,12 @@ export function boardTourSteps() {
     },
     {
       'next .board-list--container': I18n.t('js.onboarding.steps.boards.lists'),
-      showSkip: false,
-      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
-      containerClass: '-dark -hidden-arrow',
-      timeout() {
-        return new Promise((resolve) => {
-          waitForElement('.wp-card', '#content', () => {
+      'showSkip': false,
+      'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
+      'containerClass': '-dark -hidden-arrow',
+      'timeout': function () {
+        return new Promise(function (resolve) {
+          waitForElement('.op-wp-single-card', '#content', function () {
             resolve(undefined);
           });
         });

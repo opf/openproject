@@ -38,7 +38,7 @@ module Components
         sleep 0.5
 
         if page.has_selector?('#wp-view-toggle-button', text: 'Cards')
-          page.find(".wp-card-#{work_package.id}").right_click
+          page.find(".op-wp-single-card-#{work_package.id}").right_click
         else
           page.find(".wp-row-#{work_package.id}-table").right_click
         end

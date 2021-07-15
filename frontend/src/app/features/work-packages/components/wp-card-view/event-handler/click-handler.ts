@@ -29,7 +29,7 @@ export class CardClickHandler implements CardEventHandler {
   }
 
   public get SELECTOR() {
-    return `.wp-card`;
+    return `[data-qa-selector="op-wp-single-card"]`;
   }
 
   public eventScope(card:WorkPackageCardViewComponent) {

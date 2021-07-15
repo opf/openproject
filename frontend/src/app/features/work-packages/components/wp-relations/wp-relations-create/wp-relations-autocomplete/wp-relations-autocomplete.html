@@ -1,17 +1,13 @@
-
-<div class="wp-relations--autocomplete">
-  <op-autocompleter
-    classes="wp-inline-create--reference-autocompleter"
-    [appendTo]="appendToContainer"
-    [placeholder]="inputPlaceholder"
-    [typeToSearchText]="inputPlaceholder"
-    [loading]="isLoading"
-    [resource]="autocompleterOptions.resource"
-    [defaultData]="false"
-    (open)="onOpen()"
-    (change)="onWorkPackageSelected($event)"
-    [getOptionsFn]=autocompleterOptions.getOptionsFn
-  ></op-autocompleter>
-</div>
-
-
+<op-autocompleter
+  classes="wp-relations-autocomplete"
+  data-qa-selector="wp-relations-autocomplete"
+  [appendTo]="appendToContainer"
+  [placeholder]="inputPlaceholder"
+  [typeToSearchText]="inputPlaceholder"
+  [loading]="isLoading"
+  [resource]="autocompleterOptions.resource"
+  [defaultData]="false"
+  (open)="onOpen()"
+  (change)="onWorkPackageSelected($event)"
+  [getOptionsFn]="autocompleterOptions.getOptionsFn"
+></op-autocompleter>

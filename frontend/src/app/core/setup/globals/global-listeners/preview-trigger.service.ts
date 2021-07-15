@@ -68,12 +68,12 @@ export class PreviewTriggerService {
       this.closeAfterTimeout();
     });
 
-    jQuery(document.body).on('mouseleave', '.preview-modal--container', () => {
+    jQuery(document.body).on('mouseleave', '.op-wp-preview-modal', () => {
       this.mouseInModal = false;
       this.closeAfterTimeout();
     });
 
-    jQuery(document.body).on('mouseenter', '.preview-modal--container', () => {
+    jQuery(document.body).on('mouseenter', '.op-wp-preview-modal', () => {
       this.mouseInModal = true;
     });
   }

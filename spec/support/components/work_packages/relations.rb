@@ -100,7 +100,7 @@ module Components
         select relation_label, from: 'relation-type--select'
 
         # Enter the query and select the child
-        autocomplete = container.find(".wp-relations--autocomplete")
+        autocomplete = container.find("[data-qa-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             results_selector: '.ng-dropdown-panel-items',
                             query: to.subject,
@@ -140,7 +140,7 @@ module Components
 
         # Enter the query and select the child
         SeleniumHubWaiter.wait
-        autocomplete = find(".wp-relations--autocomplete")
+        autocomplete = find("[data-qa-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             query: query,
                             results_selector: '.ng-dropdown-panel-items',
@@ -148,13 +148,13 @@ module Components
       end
 
       def expect_parent(work_package)
-        expect(page).to have_selector '.wp-breadcrumb-parent',
+        expect(page).to have_selector '[data-qa-selector="op-wp-breadcrumb-parent"]',
                                       text: work_package.subject,
                                       wait: 10
       end
 
       def expect_no_parent
-        expect(page).to have_no_selector '.wp-breadcrumb-parent', wait: 10
+        expect(page).to have_no_selector '[data-qa-selector="op-wp-breadcrumb-parent"]', wait: 10
       end
 
       def remove_parent
@@ -185,7 +185,7 @@ module Components
 
       def add_existing_child(work_package)
         # Enter the query and select the child
-        autocomplete = page.find(".wp-relations--add-form .wp-relations--autocomplete")
+        autocomplete = page.find(".wp-relations--add-form [data-qa-selector='wp-relations-autocomplete']")
         select_autocomplete autocomplete,
                             query: work_package.id,
                             results_selector: '.ng-dropdown-panel-items',

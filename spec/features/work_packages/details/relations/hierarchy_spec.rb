@@ -170,7 +170,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
           expect(page).to have_no_selector('#hierarchy--add-new-child')
 
           # But it should show the linked parent
-          expect(page).to have_selector('.wp-breadcrumb-parent', text: parent.subject)
+          expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]', text: parent.subject)
 
           # And it should count the two relations
           tabs.expect_counter(relations_tab, 2)
