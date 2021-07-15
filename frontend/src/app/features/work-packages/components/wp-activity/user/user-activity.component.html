@@ -12,7 +12,7 @@
     ></op-principal>
 
     <div>
-      <user-link class="op-user-activity--user-name" [user]="user"></user-link>
+      <op-user-link class="op-user-activity--user-name" [user]="user"></op-user-link>
       <span class="op-user-activity--date">
       {{ isInitial ? text.label_created_on : text.label_updated_on }}
         <op-date-time [dateTimeValue]="activity.createdAt"></op-date-time>

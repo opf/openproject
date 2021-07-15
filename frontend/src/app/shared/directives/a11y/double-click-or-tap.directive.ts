@@ -31,12 +31,12 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[doubleClickOrTap]',
+  selector: '[opDoubleClickOrTap]',
 })
 export class DoubleClickOrTapDirective {
-  @Input('doubleClickOrTapStopEvent') stopEventPropagation = true;
+  @Input('opDoubleClickOrTapStopEvent') stopEventPropagation = true;
 
-  @Output('doubleClickOrTap') eventHandler = new EventEmitter<any>();
+  @Output('opDoubleClickOrTap') eventHandler = new EventEmitter<any>();
 
   @HostListener('dblclick', ['$event'])
   @HostListener('tap', ['$event'])

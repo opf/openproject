@@ -104,9 +104,11 @@ export class WpGraphConfigurationService {
       .toPromise()
       .then((query) => {
         if (params.name) {
+          // eslint-ignore-next-line no-param-reassign
           query.name = params.name;
         }
         this.configuration.queries.push(query);
+        });
       });
   }
 
@@ -161,7 +163,7 @@ export class WpGraphConfigurationService {
         .form
         .load(query)
         .toPromise()
-        .then(([form, _]) => {
+        .then(([form]) => {
           this._forms[query.id as string] = form;
         })
         .catch((error) => this.notificationService.handleRawError(error)));

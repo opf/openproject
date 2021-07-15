@@ -82,6 +82,8 @@ export class OpenprojectWorkPackageGraphsModule {
     // so it will not be active. The current default of the plugin is to be enabled
     // by default. This will be changed in the future:
     // https://github.com/chartjs/chartjs-plugin-datalabels/issues/42
+    //
+    // eslint-ignore-next-line @typescript-eslint/no-unused-expressions
     ChartDataLabels;
   }
 }

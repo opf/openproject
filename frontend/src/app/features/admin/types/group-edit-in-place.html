@@ -8,7 +8,7 @@
     *ngIf="editing"
     class="group-edit-in-place--input"
     type="text"
-    autoFocus
+    opAutoFocus
     [(ngModel)]="editedName"
     [attr.placeholder]="placeholder"
     (blur)="saveEdition($event)"

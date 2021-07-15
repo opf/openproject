@@ -44,7 +44,7 @@ import { GlobalSearchService } from 'core-app/core/global_search/services/global
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { ContainHelpers } from 'core-app/shared/directives/focus/contain-helpers';
+import { insideOrSelf } from 'core-app/shared/directives/focus/contain-helpers';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -156,7 +156,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
 
     // handle click on search button
-    if (ContainHelpers.insideOrSelf(this.btn.nativeElement, event.target)) {
+    if (insideOrSelf(this.btn.nativeElement, event.target)) {
       if (this.deviceService.isMobile) {
         this.toggleMobileSearch();
         // open ng-select menu on default

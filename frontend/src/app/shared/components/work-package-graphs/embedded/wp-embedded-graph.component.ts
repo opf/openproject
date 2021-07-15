@@ -16,16 +16,16 @@ interface ChartDataSet {
 }
 
 @Component({
-  selector: 'wp-embedded-graph',
+  selector: 'op-wp-embedded-graph',
   templateUrl: './wp-embedded-graph.html',
   styleUrls: ['./wp-embedded-graph.component.sass'],
 })
 export class WorkPackageEmbeddedGraphComponent {
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
-  @Input('chartOptions') public inputChartOptions:ChartOptions;
+  @Input() public chartOptions:ChartOptions;
 
-  @Input('chartType') chartType:ChartType = 'horizontalBar';
+  @Input() chartType:ChartType = 'horizontalBar';
 
   public configuration:WorkPackageTableConfiguration;
 
@@ -37,7 +37,7 @@ export class WorkPackageEmbeddedGraphComponent {
 
   public chartData:ChartDataSet[] = [];
 
-  public chartOptions:ChartOptions;
+  public internalChartOptions:ChartOptions;
 
   public initialized = false;
 
@@ -67,10 +67,10 @@ export class WorkPackageEmbeddedGraphComponent {
     }, [])) as string[];
 
     const labelCountMaps = this.datasets.map((dataset) => {
-      const countMap = (dataset.groups || []).reduce((hash, group) => {
-        hash[group.value] = group.count;
-        return hash;
-      }, {} as any);
+      const countMap = (dataset.groups || []).reduce((hash, group) => ({
+        ...hash,
+        [group.value]: group.count,
+      }), {} as any);
 
       return {
         label: dataset.label,
@@ -109,15 +109,18 @@ export class WorkPackageEmbeddedGraphComponent {
       },
     };
 
-    const chartTypeDefaults:ChartOptions = { scales: {} };
-    if (this.chartType === 'horizontalBar' || this.chartType === 'bar') {
-      this.setChartAxesValues(chartTypeDefaults);
-    }
+    const chartTypeDefaults:ChartOptions = (() => {
+      if (this.chartType === 'horizontalBar' || this.chartType === 'bar') {
+        return this.setChartAxesValues();
+      }
 
-    this.chartOptions = {
+      return { scales: {} };
+    })();
+
+    this.internalChartOptions = {
       ...defaults,
       ...chartTypeDefaults,
-      ...this.inputChartOptions,
+      ...this.chartOptions,
     };
   }
 
@@ -150,7 +153,8 @@ export class WorkPackageEmbeddedGraphComponent {
   }
 
   // function to set ticks of axis
-  private setChartAxesValues(chartOptions:ChartOptions) {
+  private setChartAxesValues() {
+    const chartOptions:ChartOptions = { scales: {} };
     const changeableValuesAxis = [{
       stacked: true,
       ticks: {
@@ -176,5 +180,7 @@ export class WorkPackageEmbeddedGraphComponent {
         chartOptions.scales.yAxes = constantValuesAxis;
       }
     }
+
+    return chartOptions;
   }
 }

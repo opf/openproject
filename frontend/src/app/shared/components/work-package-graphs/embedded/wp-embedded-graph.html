@@ -3,7 +3,7 @@
           [datasets]="chartData"
           [labels]="chartLabels"
           [chartType]="chartType"
-          [options]="chartOptions"
+          [options]="internalChartOptions"
           *ngIf="hasDataToDisplay">
   </canvas>
   <no-results *ngIf="!hasDataToDisplay && initialized"
