@@ -36,7 +36,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 // with courtesy of http://stackoverflow.com/a/29722694/3206935
 
 @Directive({
-  selector: '[focus-within]',
+  selector: '[opFocusWithin]',
 })
 export class FocusWithinDirective extends UntilDestroyedMixin implements OnInit {
   @Input() public selector:string;
@@ -69,8 +69,8 @@ export class FocusWithinDirective extends UntilDestroyedMixin implements OnInit 
     element[0].addEventListener('blur', blurListener, true);
 
     setTimeout(() => {
-      element.addClass('focus-within--trigger');
-      element.find(this.selector).addClass('focus-within--depending');
+      element.addClass('op-focus-within');
+      element.find(this.selector).addClass('op-focus-within');
     }, 0);
   }
 }

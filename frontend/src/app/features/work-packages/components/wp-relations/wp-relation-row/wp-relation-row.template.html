@@ -1,15 +1,16 @@
-<div *ngIf="workPackage && relatedWorkPackage"
-     class="relation-row relation-row-{{ relatedWorkPackage.id }}"
-     focus-within="'.wp-relations-controls-section button'">
+<div
+  *ngIf="workPackage && relatedWorkPackage"
+  class="relation-row relation-row-{{ relatedWorkPackage.id }}"
+  opFocusWithin=".wp-relations-controls-section button"
+>
   <div class="grid-block hierarchy-item">
-
     <div class="grid-content medium-2 collapse">
       <button
         type="button"
         class="relation-row--type"
         (click)="activateRelationTypeEdit()"
-        *ngIf="!userInputs.showRelationTypesForm">
-
+        *ngIf="!userInputs.showRelationTypesForm"
+      >
         <span *ngIf="groupByWorkPackageType"
               [textContent]="normalizedRelationType"></span>
         <span *ngIf="!groupByWorkPackageType"
