@@ -54,6 +54,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { States } from 'core-app/core/states/states.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { DomSanitizer} from '@angular/platform-browser';
 
 export interface FieldDescriptor {
   name:string;
@@ -143,7 +144,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     protected injector:Injector,
     protected cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
-    readonly browserDetector:BrowserDetector) {
+    readonly browserDetector:BrowserDetector,
+    private sanitizer: DomSanitizer) {
     super();
   }
 
@@ -247,6 +249,16 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     // we take the last registered group component which means that
     // plugins will have their say if they register for it.
     return this.hook.call('workPackageAttachmentUploadComponent', this.workPackage).pop() || null;
+  }
+
+  public getGoogleMapUrl() {
+    const latitude = this.workPackage.customField1;
+    const longitude = this.workPackage.customField2;
+
+    const api_key = "AIzaSyCsK-87Vkz3hiWFwPiiJaWxNMN6DguvFjc";
+    const url = "https://www.google.com/maps/embed/v1/place?key=" + api_key + "&q=" + latitude + ", " + longitude;
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   /*

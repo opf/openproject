@@ -114,6 +114,16 @@
                    [ndcDynamicInjector]="injector"
                    [ndcDynamicInputs]="{ workPackage: workPackage, group: group }">
       </ndc-dynamic>
+
+
+    </ng-container>
+
+    <ng-container *ngIf="group.name==='GPS Coordinates' && !workPackage.isNew">
+      <iframe *ngIf="workPackage.customField1 && workPackage.customField2"
+        style="border:0"
+        width="100%"
+        [src]="getGoogleMapUrl()">
+      </iframe>
     </ng-container>
   </div>
 </div>

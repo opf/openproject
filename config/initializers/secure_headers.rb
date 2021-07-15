@@ -17,7 +17,7 @@ SecureHeaders::Configuration.default do |config|
   assets_src << asset_host if asset_host.present?
 
   # Valid for iframes
-  frame_src = %w['self' https://player.vimeo.com]
+  frame_src = %w['self' https://player.vimeo.com https://www.google.com/]
   frame_src << OpenProject::Configuration[:security_badge_url]
 
   # Default src
