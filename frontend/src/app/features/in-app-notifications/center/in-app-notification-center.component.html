@@ -10,21 +10,23 @@
         </div>
 
         <ul class="toolbar-items">
-          <li class="toolbar-item" *ngFor="let facet of facets">
-            <button
-                type="button"
-                class="button"
-                [class.-active]="facet === (activeFacet$ | async)"
-                (click)="activateFacet(facet)"
-            >
-              <span
-                  class="button--text"
-                  [textContent]="text.facets[facet]"
-              >
-              </span>
-            </button>
-          </li>
 
+          <li class="toolbar-item form--field-inline-buttons-container">
+            <ng-container *ngFor="let facet of facets">
+              <button
+                  type="button"
+                  class="button form--field-inline-button"
+                  [class.-active]="facet === (activeFacet$ | async)"
+                  (click)="activateFacet(facet)"
+              >
+                <span
+                    class="button--text"
+                    [textContent]="text.facets[facet]"
+                >
+                </span>
+              </button>
+            </ng-container>
+          </li>
           <li class="toolbar-item">
             <button
                 type="button"
