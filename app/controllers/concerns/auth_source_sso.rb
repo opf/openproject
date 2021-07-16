@@ -110,7 +110,7 @@ module AuthSourceSSO
   end
 
   def sso_in_progress!
-    sso_failure_in_progress! || session[:auth_source_registration]
+    sso_failure_in_progress! || session[:auth_source_registration] || session[:authenticated_user_id]
   end
 
   def sso_failure_in_progress!
@@ -136,23 +136,22 @@ module AuthSourceSSO
       handle_sso_failure!({ user: user, login: login })
     else # valid user
       # If a user is invited, ensure it gets activated
+      activated = user.invited?
       activate_user_if_invited! user
 
-      handle_sso_success user
+      handle_sso_success user, activated
     end
   end
 
-  def handle_sso_success(user)
-    login_user(user)
+  def handle_sso_success(user, just_activated)
     session[:user_from_auth_header] = true
-
-    user
+    successful_authentication(user, reset_stages: true, just_registered: just_activated)
   end
 
   def activate_user_if_invited!(user)
     return unless user.invited?
 
-    user.activate!
+    user.active!
   end
 
   def perform_post_logout(prev_session, previous_user)
