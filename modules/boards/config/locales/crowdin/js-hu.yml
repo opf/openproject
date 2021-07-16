@@ -30,6 +30,7 @@ hu:
       error_loading_the_list: "Betöltési hiba: %{error_message}"
       error_permission_missing: "Nincs jogosultság a publikus lekérdezés létrehozásához"
       error_cannot_move_into_self: "Nem mozgatható a munkacsomag a saját sorába."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Kattints a lista eltávolításához"
       board_type:
         text: 'Tábla típus'

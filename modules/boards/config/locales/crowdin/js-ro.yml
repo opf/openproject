@@ -30,6 +30,7 @@ ro:
       error_loading_the_list: "Eroare la încărcarea listei: %{error_message}"
       error_permission_missing: "Lipsește permisiunea de a crea interogări publice"
       error_cannot_move_into_self: "Nu puteți muta un pachet de lucru în coloana sa proprie."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Faceți clic pentru a elimina această listă"
       board_type:
         text: 'Tipul de placă'

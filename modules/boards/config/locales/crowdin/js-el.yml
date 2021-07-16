@@ -30,6 +30,7 @@ el:
       error_loading_the_list: "Σφάλμα κατά την φόρτωση της λίστας: %{error_message}"
       error_permission_missing: "Λείπει το δικαίωμα δημιουργίας δημόσιων ερωτημάτων"
       error_cannot_move_into_self: "Δεν μπορείτε να μετακινήσετε ένα πακέτο εργασίας στη δική του στήλη."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Κάντε κλικ για να αφαιρέσετε αυτή τη λίστα"
       board_type:
         text: 'Τύπος πίνακα'
