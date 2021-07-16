@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  Component, Injector, OnDestroy, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { StateService } from '@uirouter/core';
 
@@ -41,6 +39,7 @@ import { StateService } from '@uirouter/core';
     </a>
   `,
   selector: 'op-refresh-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class RefreshButtonComponent {
@@ -54,6 +53,6 @@ export class RefreshButtonComponent {
   }
 
   refresh() {
-    this.state.go('.', {}, { reload: true });
+    void this.state.go('.', {}, { reload: true });
   }
 }
