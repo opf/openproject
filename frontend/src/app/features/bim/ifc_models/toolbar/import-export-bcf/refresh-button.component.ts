@@ -31,7 +31,6 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { StateService } from '@uirouter/core';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
   template: `
@@ -41,9 +40,10 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
       <op-icon icon-classes="button--icon icon-workflow"></op-icon>
     </a>
   `,
-  selector: 'refresh-button',
+  selector: 'op-refresh-button',
 })
-export class RefreshButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+
+export class RefreshButtonComponent {
   public text = {
     refresh: this.I18n.t('js.bcf.refresh'),
     refresh_hover: this.I18n.t('js.bcf.refresh_work_package'),
@@ -51,10 +51,6 @@ export class RefreshButtonComponent extends UntilDestroyedMixin implements OnIni
 
   constructor(readonly I18n:I18nService,
     readonly state:StateService) {
-    super();
-  }
-
-  ngOnInit() {
   }
 
   refresh() {

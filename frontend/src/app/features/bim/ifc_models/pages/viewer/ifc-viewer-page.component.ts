@@ -61,7 +61,7 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
     },
     {
       component: RefreshButtonComponent,
-      show: () => window.navigator.userAgent.search('Revit') > -1,
+      show: () => !this.viewerBridgeService.shouldShowViewer
     },
     {
       component: BcfImportButtonComponent,
