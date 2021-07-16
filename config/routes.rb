@@ -32,6 +32,11 @@ OpenProject::Application.routes.draw do
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
+  # Route for error pages
+  get '/404', to: "errors#not_found"
+  get '/422', to: "errors#unacceptable"
+  get '/500', to: "errors#internal_error"
+
   # Route for health_checks
   get '/health_check' => 'ok_computer/ok_computer#show', check: 'web'
   # Override the default `all` checks route to return the full check

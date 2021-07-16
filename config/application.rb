@@ -105,6 +105,9 @@ module OpenProject
     config.paths.add Rails.root.join('lib').to_s, eager_load: true
     config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
 
+    # Use our own error rendering for prettier error pages
+    config.exceptions_app = routes
+
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]

@@ -32,13 +32,7 @@ See docs/COPYRIGHT.rdoc for more details.
       xml:lang="<%= I18n.locale.to_s %>"
       class="<%= 'in_modal' unless show_decoration %>">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-  <meta name="viewport" content="width=device-width">
-  <%= output_title_and_meta_tags %>
-  <%= csrf_meta_tags %>
-  <%= render 'common/favicons' %>
-  <%# Include CLI assets (development) or prod build assets %>
-  <%= include_frontend_assets %>
+  <%= render partial: 'layouts/common_head' %>
 </head>
 <body>
   <div id="wrapper">
