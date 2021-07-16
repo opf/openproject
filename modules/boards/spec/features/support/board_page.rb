@@ -151,8 +151,8 @@ module Pages
 
     def expect_movable(list_name, card_title, movable: true)
       within_list(list_name) do
-        expect(page).to have_selector('[data-qa-selector="op-wp-single-card"]', text: card_title)
-        expect(page).to have_conditional_selector(movable, '[data-qa-selector="op-wp-single-card"][data-qa-draggable]', text: card_title)
+        expect(page).to have_selector('.op-wp-single-card', text: card_title)
+        expect(page).to have_conditional_selector(movable, '.op-wp-single-card_draggable', text: card_title)
       end
     end
 
