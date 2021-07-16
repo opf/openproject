@@ -39,13 +39,13 @@ hu:
         You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
       note: >
         A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
+      last_backup: 'Utolsó biztonsági mentés:'
       last_backup_from: Last backup from
       title: Backup OpenProject
       options: Beállítások
       include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      download_backup: Biztonsági mentés letöltése
+      request_backup: Biztonsági mentés kérés
     close_popup_title: "Előugró ablak bezárása"
     close_filter_title: "Szűrő bezárása"
     close_form_title: "Űrlap bezárása"
@@ -234,7 +234,7 @@ hu:
           link_quote: "Árajánlat kérése"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
+          unlimited: "Korlátlan"
           you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
     custom_actions:
       date:
@@ -416,7 +416,7 @@ hu:
     label_public_query: "Nyilvános"
     label_sum: "Össz."
     label_sum_for: "Összeg"
-    label_total_sum: "Total sum"
+    label_total_sum: "Teljes összeg:"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
     label_today: "Ma"
@@ -565,7 +565,7 @@ hu:
     relation_labels:
       parent: "Szülő"
       children: "Gyermekek"
-      relates: "Related To"
+      relates: "Kapcsolódóan"
       duplicates: "Duplikátumok"
       duplicated: "Duplikálta (a)z"
       blocks: "Blokkolja"
@@ -981,17 +981,17 @@ hu:
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Vissza'
-      invite: 'Invite'
+      invite: 'Meghívás'
       title:
         invite: 'Felhasználó meghívása'
         invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
+        User: 'Felhasználó'
+        Group: 'csoport'
         PlaceholderUser: 'placeholder user'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: 'Projekt'
-        required: 'Please select a project'
+        required: 'Válasszon projektet'
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: ' Következő'
@@ -1012,22 +1012,22 @@ hu:
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Név vagy e-mail cím'
           name: 'Név'
         already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
+        no_results_user: 'Nem található felhasználó.'
+        invite_user: 'Meghívás:'
         no_results_placeholder: 'No placeholders were found'
         create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
+        no_results_group: 'Nem találhatók csoportok.'
         next_button: ' Következő'
         required:
-          user: 'Please select a user'
+          user: 'Válassz egy felhasználót'
           placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          group: 'Válaszd ki a csoportot'
       role:
         label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
+        no_roles_found: 'Nem található szerepkör.'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: ' Következő'
