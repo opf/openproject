@@ -1,11 +1,11 @@
 module WorkPackage::Exporter
   module Formatters
+    @@formatters = %i[default costs estimated_hours].map do |key|
+      Kernel.const_get("WorkPackage::Exporter::Formatters::#{key.to_s.camelize}")
+    end
+
     def self.all
-      @formatters ||= begin
-        %i[default costs estimated_hours].map do |key|
-          Kernel.const_get("WorkPackage::Exporter::Formatters::#{key.to_s.camelize}")
-        end
-      end
+      @@formatters
     end
 
     def self.keys
@@ -13,7 +13,7 @@ module WorkPackage::Exporter
     end
 
     def self.register(clz)
-      @formatters << clz
+      @@formatters << clz
     end
 
     ##
