@@ -164,7 +164,7 @@ file to see which port each browser container is exposed on. The password is `se
 ## Local files
 
 Running the docker images will change some of your local files in the mounted code directory.
-The file `frontend/npm-shrinkwrap.json` may be modified.
+The file `frontend/package-lock.json` may be modified.
 You can just reset these changes if you want to commit something or pull the latest changes.
 
 ## Debugging
