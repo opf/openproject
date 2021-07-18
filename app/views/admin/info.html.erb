@@ -54,6 +54,28 @@ See docs/COPYRIGHT.rdoc for more details.
         <span><%= @db_version %></span>
       </div>
     </div>
+    <% if OpenProject::Database.version_deprecated? %>
+      <div class="attributes-key-value--key"></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <strong>
+            <%= op_icon 'icon3 icon-warning' %>
+            Deprecation warning:
+          </strong>
+          <p>
+            The next major release of OpenProject will update the requirements
+            on the required PostgreSQL database version.
+            <br/>
+            Starting with OpenProject 12.0, anticipated end of 2021, PostgreSQL 13 will be required
+            to use OpenProject.
+            <br/>
+            We have prepared <%= static_link_to :postgres_13_upgrade,
+                                                label: 'upgrade guides for all installation methods' %>.
+            You can perform the upgrade ahead of the release at any time by following the guides.
+          </p>
+        </div>
+      </div>
+    <% end %>
     <% if display_security_badge_graphic? %>
       <div class="attributes-key-value--key"></div>
       <div class="attributes-key-value--value-container">
@@ -95,38 +117,38 @@ See docs/COPYRIGHT.rdoc for more details.
   </div>
 </div>
 
-<% @storage_information.each_with_index do  |(_,entries), i| %>
-<%= content_tag :h3, t(:label_storage_group, identifier: i + 1) %>
-<div class="attributes-group">
-  <div class="attributes-key-value">
-    <div class="attributes-key-value--key"><%= t(:label_storage_for) %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
+<% @storage_information.each_with_index do |(_, entries), i| %>
+  <%= content_tag :h3, t(:label_storage_group, identifier: i + 1) %>
+  <div class="attributes-group">
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key"><%= t(:label_storage_for) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
         <span>
           <% entries[:labels].each do |l| %>
             <%= l %>
             <br/>
           <% end %>
         </span>
+        </div>
       </div>
-    </div>
-    <div class="attributes-key-value--key"><%= t(:label_storage_free_space) %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= number_to_human_size(entries[:data][:free], precision: 2) %></span>
+      <div class="attributes-key-value--key"><%= t(:label_storage_free_space) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= number_to_human_size(entries[:data][:free], precision: 2) %></span>
+        </div>
       </div>
-    </div>
-    <div class="attributes-key-value--key"><%= t(:label_storage_used_space) %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
+      <div class="attributes-key-value--key"><%= t(:label_storage_used_space) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
         <span>
           <%= number_to_human_size(entries[:data][:used], precision: 2) %>
           (<%= entries[:data][:percent_used].round(2) %> %)
         </span>
+        </div>
       </div>
     </div>
   </div>
-</div>
 <% end %>
 
 <%= call_hook(:view_admin_info_bottom) %>
