@@ -30,7 +30,7 @@ ru:
       error_loading_the_list: "Ошибка загрузки списка: %{error_message}"
       error_permission_missing: "Отсутствует разрешение на создание публичных запросов"
       error_cannot_move_into_self: "Вы не можете переместить пакет работ в свой столбец."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      text_hidden_list_warning: "Не все списки отображаются, потому что у вас недостаточно прав доступа. Обратитесь к администратору за дополнительной информацией."
       click_to_remove_list: "Нажмите, чтобы удалить этот список"
       board_type:
         text: 'Тип доски'
