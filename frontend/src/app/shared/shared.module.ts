@@ -35,7 +35,6 @@ import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
 import { StateService, UIRouterModule } from '@uirouter/angular';
-import { OpenprojectAccessibilityModule } from 'core-app/shared/directives/a11y/openproject-a11y.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
@@ -67,7 +66,6 @@ import { PersistentToggleComponent } from './components/persistent-toggle/persis
 import { AddSectionDropdownComponent } from './components/hide-section/add-section-dropdown/add-section-dropdown.component';
 import { HideSectionLinkComponent } from './components/hide-section/hide-section-link/hide-section-link.component';
 import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/remote-field-updater.component';
-import { AutofocusDirective } from './directives/autofocus/autofocus.directive';
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
 import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
@@ -109,8 +107,6 @@ export function bootstrapModule(injector:Injector) {
     PortalModule,
     DragDropModule,
     DragulaModule,
-    // Our own A11y module
-    OpenprojectAccessibilityModule,
     CurrentUserModule,
     NgSelectModule,
     NgOptionHighlightModule,
@@ -133,7 +129,6 @@ export function bootstrapModule(injector:Injector) {
     DragDropModule,
     IconModule,
     AttributeHelpTextModule,
-    OpenprojectAccessibilityModule,
     NgSelectModule,
     NgOptionHighlightModule,
     DynamicBootstrapModule,
@@ -142,7 +137,6 @@ export function bootstrapModule(injector:Injector) {
     DatePickerModule,
     FocusModule,
     OpDateTimeComponent,
-    AutofocusDirective,
 
     // Notifications
     NotificationsContainerComponent,
@@ -183,7 +177,6 @@ export function bootstrapModule(injector:Injector) {
   ],
   declarations: [
     OpDateTimeComponent,
-    AutofocusDirective,
 
     // Notifications
     NotificationsContainerComponent,

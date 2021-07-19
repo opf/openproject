@@ -23,11 +23,12 @@ export class WpGraphConfigurationService {
 
   private _formsPromise:Promise<void[]>|null;
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly apiv3Service:APIV3Service,
     readonly notificationService:WorkPackageNotificationService,
-    readonly currentProject:CurrentProjectService) {
-  }
+    readonly currentProject:CurrentProjectService,
+  ) { }
 
   public persistAndReload():Promise<unknown> {
     return this
@@ -108,7 +109,6 @@ export class WpGraphConfigurationService {
           query.name = params.name;
         }
         this.configuration.queries.push(query);
-        });
       });
   }
 

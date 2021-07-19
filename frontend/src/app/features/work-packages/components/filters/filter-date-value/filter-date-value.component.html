@@ -1,7 +1,7 @@
 <div id="div-values-{{filter.id}}">
   <op-date-picker (onChange)="value = parser($event)"
                   [initialDate]="formatter(value)"
-                  [opFocus]="shouldFocus"
+                  [opAutofocus]="shouldFocus"
                   required="true"
                   [id]="'values-' + filter.id"
                   [name]="'v[' + filter.id + ']'"

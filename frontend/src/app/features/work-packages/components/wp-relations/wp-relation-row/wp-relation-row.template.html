@@ -23,7 +23,7 @@
                 [(ngModel)]="selectedRelationType"
                 (change)="saveRelationType()"
                 role="listbox"
-                opFocus
+                opAutofocus
                 (keydown.escape)="cancelRelationTypeEditOnEscape($event)">
           <option *ngFor="let relationType of availableRelationTypes"
                   [textContent]="relationType.label"
