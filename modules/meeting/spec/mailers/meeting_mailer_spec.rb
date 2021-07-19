@@ -34,7 +34,11 @@ describe MeetingMailer, type: :mailer do
   let(:author) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
   let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:meeting) { FactoryBot.create(:meeting, author: author, project: project) }
+  let(:meeting) do
+    FactoryBot.create :meeting,
+                      author: author,
+                      project: project
+  end
   let(:meeting_agenda) do
     FactoryBot.create(:meeting_agenda, meeting: meeting)
   end
@@ -88,6 +92,62 @@ describe MeetingMailer, type: :mailer do
     end
   end
 
+  describe 'icalendar' do
+    let(:meeting) do
+      FactoryBot.create :meeting,
+                        author: author,
+                        project: project,
+                        start_time: "2021-07-19T10:00:00Z".to_time(:utc),
+                        duration: 1.0
+
+    end
+    let(:mail) { MeetingMailer.icalendar_notification meeting_agenda, 'agenda', author }
+    let!(:preference) { FactoryBot.create(:user_preference, user: author, time_zone: 'Europe/Berlin') }
+
+    it 'renders the headers' do
+      expect(mail.subject).to include(meeting.project.name)
+      expect(mail.subject).to include(meeting.title)
+      expect(mail.to).to match_array([author.mail])
+      expect(mail.from).to eq([Setting.mail_from])
+    end
+
+    describe 'text body' do
+      subject(:body) { mail.text_part.body }
+
+      it 'renders the text body' do
+        expect(body).to include(meeting.project.name)
+        expect(body).to include(meeting.title)
+        expect(body).to include('07/19/2021 11:00 AM-12:00 PM (GMT+01:00) Europe/Berlin')
+        expect(body).to include(meeting.participants[0].name)
+        expect(body).to include(meeting.participants[1].name)
+      end
+    end
+
+    describe 'renders the html body' do
+      subject(:body) { mail.html_part.body }
+
+      it 'renders the text body' do
+        expect(body).to include(meeting.project.name)
+        expect(body).to include(meeting.title)
+        expect(body).to include('07/19/2021 11:00 AM-12:00 PM (GMT+01:00) Europe/Berlin')
+        expect(body).to include(meeting.participants[0].name)
+        expect(body).to include(meeting.participants[1].name)
+      end
+    end
+
+    context 'with a recipient with another time zone' do
+      let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
+      let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', watcher1 }
+
+      it 'renders the mail with the correcet locale' do
+        expect(mail.text_part.body).to include('07/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
+        expect(mail.html_part.body).to include('07/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
+
+        expect(mail.to).to match_array([watcher1.mail])
+      end
+    end
+  end
+
   def check_meeting_mail_content(body)
     expect(body).to include(meeting.project.name)
     expect(body).to include(meeting.title)
@@ -96,30 +156,5 @@ describe MeetingMailer, type: :mailer do
     expect(body).to include(i18n.format_time(meeting.end_time, false))
     expect(body).to include(meeting.participants[0].name)
     expect(body).to include(meeting.participants[1].name)
-  end
-
-  def save_and_open_mail_html_body(mail)
-    save_and_open_mail_part mail.html_part.body
-  end
-
-  def save_and_open_mail_text_body(mail)
-    save_and_open_mail_part mail.text_part.body
-  end
-
-  def save_and_open_mail_part(part)
-    FileUtils.mkdir_p(Rails.root.join('tmp/mails'))
-
-    page_path = Rails.root.join("tmp/mails/#{SecureRandom.hex(16)}.html").to_s
-    File.open(page_path, 'w') { |f| f.write(part) }
-
-    Launchy.open(page_path)
-
-    begin
-      binding.pry
-    rescue NoMethodError
-      debugger
-    end
-
-    FileUtils.rm(page_path)
   end
 end
