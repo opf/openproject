@@ -282,6 +282,7 @@ function buildInsertPosition(
   index:number,
   fromIndex:number|null,
 ):QueryOrder {
+  console.log('buildInsertPosition');
   const delta = {};
   // Special case, order is empty or only contains wpId
   // Then simply insert as the default position unless it already has a position

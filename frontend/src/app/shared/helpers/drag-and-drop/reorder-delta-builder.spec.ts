@@ -228,7 +228,11 @@ describe('ReorderDeltaBuilder', () => {
   });
 
   it('just shifts two values when index <- 1 -> fromIndex', () => {
-    const positions = { 1: 8192, 2: 0, 3: 16384 };
+    const positions = {
+      1: 8192,
+      2: 0,
+      3: 16384,
+    };
     // From index 1 to 0
     const delta = buildSpecDelta('1', positions, ['1', '2', '3'], 1);
 
