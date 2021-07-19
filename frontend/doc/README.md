@@ -59,14 +59,15 @@ For more information on styling the application, see [STYLING](./STYLING.md).
 
 ## Changing or updating Dependencies
 
-We use `npm shrinkwrap` to lock down runtime (but not development)
-dependencies. When adding or removing dependencies, please adhere to the
-following workflow:
+We use a `package-lock` to lock down runtime (but not development)
+dependencies. When adding or removing dependencies, please use `npm install` to also update the lockfile.
+Please commit `package-lock.json` along with any changes to `package.json`.
 
-    npm install
-    npm shrinkwrap
+If you want to install the packages from the lockfile without updating it, please use the following command:
 
-Please commit `npm-shrinkwrap.json` along with any changes to `package.json`.
+```
+npm ci
+```
 
 ## Topics
 

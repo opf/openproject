@@ -44,7 +44,7 @@ describe 'BIM navigation spec',
                       member_through_role: role
   end
 
-  let!(:model) do
+  let(:model) do
     FactoryBot.create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
@@ -56,16 +56,19 @@ describe 'BIM navigation spec',
   let(:model_tree) { ::Components::XeokitModelTree.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
+  before do
+    login_as user
+    model
+  end
+
   shared_examples 'can switch from split to viewer to list-only' do
     before do
-      login_as(user)
       model_page.visit!
       model_page.finished_loading
     end
 
     context 'deep link on the page' do
       before do
-        login_as(user)
         model_page.visit!
         model_page.finished_loading
 
@@ -74,7 +77,7 @@ describe 'BIM navigation spec',
         model_page.model_viewer_shows_a_toolbar true
         model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
-        expect(page).to have_selector('.wp-cards-container')
+        expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
         card_view.expect_work_package_listed work_package
       end
 
@@ -103,13 +106,13 @@ describe 'BIM navigation spec',
         model_page.switch_view 'Viewer'
 
         model_page.model_viewer_visible true
-        expect(page).to have_no_selector('.wp-cards-container')
+        expect(page).to have_no_selector('[data-qa-selector="op-wp-card-view"]')
 
         # Go to list only
         model_page.switch_view 'Cards'
 
         model_page.model_viewer_visible false
-        expect(page).to have_selector('.wp-cards-container')
+        expect(page).to have_selector('[data-qa-selector="op-wp-card-view"]')
         card_view.expect_work_package_listed work_package
 
         # Go to single view

@@ -103,9 +103,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
 
   before do
     allow(User).to receive(:current).and_return current_user
-
-    bcf_issue.comments.first.journal.update_attribute('journable_id', work_package.id)
-    FactoryBot.create(:work_package_journal, notes: "Some note created in OP.", journable_id: work_package.id)
+    bcf_issue.comments.first.journal.update_columns(journable_id: work_package.id, version: 2)
   end
 
   shared_examples_for "writes Topic" do
@@ -174,6 +172,9 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     end
 
     it 'creates BCF comments for comments that were created within OP.' do
+      work_package.journal_notes = 'Some note created in OP.'
+      work_package.save!
+
       expect(subject.at('/Markup/Comment[2]/Comment').content).to eql("Some note created in OP.")
       expect(Bim::Bcf::Comment.count).to eql(2)
     end
@@ -182,7 +183,7 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
       uuid = bcf_issue.viewpoints.first.uuid
       viewpoint_node = subject.at("/Markup/Viewpoints[@Guid='#{uuid}']")
       expect(viewpoint_node.at('Viewpoint').content).to eql("#{uuid}.xml")
-      expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.jpg")
+      expect(viewpoint_node.at('Snapshot').content).to eql("#{uuid}.png")
     end
   end
 

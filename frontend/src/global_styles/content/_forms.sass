@@ -536,7 +536,7 @@ fieldset.form--fieldset
 .form--text-field
   @extend %input-style
 
-  &.-number
+  &.-number, &.-time
     text-align: right
 
 .form--text-field,
@@ -831,12 +831,23 @@ input[readonly].-clickable
     padding-top: 0.6rem
 
 .form--field-inline-buttons-container
+  white-space: nowrap
   .form--field-inline-button
     margin-right: 0
+    border: 1px solid var(--button--border-color)
+    border-left-width: 0px
     border-radius: 0px
-    background: transparent
-    height: 30px
-    padding: 0 10px
+
+    .toolbar &
+      width: auto
+
+    &:first-of-type
+      border-left-width: 1px
+      border-top-left-radius: 2px
+      border-bottom-left-radius: 2px
+    &:last-of-type
+      border-top-right-radius: 2px
+      border-bottom-right-radius: 2px
 
 .form--list
   display: flex

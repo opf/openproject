@@ -1,5 +1,5 @@
 // @ts-ignore
-import { utils } from '@xeokit/xeokit-sdk/src/viewer/scene/utils';
+import { utils } from '@xeokit/xeokit-sdk/dist/xeokit-sdk.es';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IFCGonDefinition } from '../pages/viewer/ifc-models-data.service';
 

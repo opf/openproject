@@ -30,6 +30,7 @@ it:
       error_loading_the_list: "Errore nel caricamento della lista: %{error_message}"
       error_permission_missing: "Manca l'autorizzazione per creare query pubbliche"
       error_cannot_move_into_self: "Non è possibile spostare una macro-attività nella propria colonna."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Clicca per rimuovere questa lista"
       board_type:
         text: 'Tipo scheda'

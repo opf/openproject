@@ -7,7 +7,7 @@ hu:
       redirect: 'Átirányítjuk...'
       redirect_link: 'Kattints ide a folytatáshoz'
       redirect_errors: 'Due to these errors, you will not be redirected automatically.'
-      errors: 'Some errors have occurred'
+      errors: 'Problémák adódtak'
       generic_messages:
         not_found: 'This job could not be found.'
         in_queue: 'The job has been queued and will be processed shortly.'

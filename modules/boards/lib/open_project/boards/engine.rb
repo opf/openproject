@@ -23,7 +23,7 @@ module OpenProject::Boards
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-boards',
-             author_url: 'https://community.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true,
              settings: {},
              name: 'OpenProject Boards' do

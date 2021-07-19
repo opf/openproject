@@ -558,6 +558,7 @@ ar:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "يجب أن يكون أقل من أو يساوي %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
@@ -577,6 +578,10 @@ ar:
         unremovable: "cannot be removed."
         wrong_length: "هو طول خاطئ (يجب أن تكون الأحرف %{count})."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'عالمي'
@@ -615,8 +620,16 @@ ar:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_email:
+            read_mail:
               read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1288,6 +1301,7 @@ ar:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "ذرّة"
       csv: "CSV"
@@ -1945,6 +1959,18 @@ ar:
       link_name_type: 'New %{type_name}'
   mail:
     actions: 'Actions'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'الكل'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "وقد سجل مستخدم جديد (%{value}). الحساب انتظار الموافقة الخاصة بك:"
   mail_body_account_information: "معلومات الحساب الخاص بك"
   mail_body_account_information_external: "يمكنك استخدام حساب %{value} الخاص بك لتسجيل الدخول."
@@ -2325,6 +2351,7 @@ ar:
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "طريقة تسليم البريد الإلكتروني"
   setting_sendmail_location: "موقع إرسال بريد إلكتروني قابل للتنفيذ"
   setting_smtp_enable_starttls_auto: "استخدم STARTTLS تلقائيًّا إذا كان متوفرًا"
@@ -2372,6 +2399,7 @@ ar:
   setting_enabled_projects_columns: "Visible in project list"
   setting_notification_retention_period_days: "Notification retention period"
   setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "تمكين التغذية"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
@@ -2440,10 +2468,14 @@ ar:
     passwords: "كلمات المرور"
     session: "الجلسة"
     brute_force_prevention: "حجب المستخدم الآلي"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

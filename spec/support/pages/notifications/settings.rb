@@ -46,21 +46,21 @@ module Pages
       def expect_represented
         user.notification_settings.each do |setting|
           within_channel(setting.channel, project: setting.project&.name) do
-            expect_setting setting
+            expect_setting setting.attributes.symbolize_keys
           end
         end
       end
 
       def expect_setting(setting)
-        channel_name = I18n.t("js.notifications.channels.#{setting.channel}")
+        channel_name = I18n.t("js.notifications.channels.#{setting[:channel]}")
         expect(page).to have_selector('td', text: channel_name)
 
         %i[involved mentioned watched all].each do |type|
           expect(page).to have_selector("input[type='checkbox'][data-qa-notification-type='#{type}']") do |checkbox|
-            if setting.all && type != :all
+            if setting[:all] && type != :all
               checkbox.disabled?
             else
-              checkbox.checked? == setting.send(type)
+              checkbox.checked? == setting[type]
             end
           end
         end
@@ -94,7 +94,7 @@ module Pages
       end
 
       def within_channel(channel, project: nil, &block)
-        raise(ArgumentError, "Invalid channel") unless %i[mail in_app].include?(channel.to_sym)
+        raise(ArgumentError, "Invalid channel") unless NotificationSetting.channels.include?(channel.to_sym)
 
         project = 'global' if project.nil?
         page.within(

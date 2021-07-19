@@ -48,6 +48,6 @@ class WorkPackageCards
   end
 
   def card(work_package)
-    page.find(".wp-card-#{work_package.id}")
+    page.find(".op-wp-single-card-#{work_package.id}")
   end
 end

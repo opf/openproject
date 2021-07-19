@@ -328,7 +328,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.expect_editable_board(true)
       board_page.expect_editable_list(false)
 
-      expect(page).to have_no_selector('.wp-card.-draggable')
+      expect(page).to have_no_selector('[data-qa-selector="op-wp-single-card"].-draggable')
     end
   end
 

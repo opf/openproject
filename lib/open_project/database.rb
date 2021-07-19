@@ -83,6 +83,12 @@ module OpenProject
     end
 
     ##
+    # Determine whether the current version is deprecated
+    def self.version_deprecated?
+      !version_matches?(130000)
+    end
+
+    ##
     # Check the database for
     # * being postgresql
     # * version compatibility
@@ -106,10 +112,11 @@ module OpenProject
                   "but current version is #{current}"
 
         raise InsufficientVersionError.new message
-      elsif !version_matches?(130000)
+      elsif version_deprecated?
         message = "The next major release of OpenProject (v12) will require PostgreSQL 13 or later.\n" \
                   "You can anticipate this upgrade by updating your database installation by following the guide at " \
                   "https://docs.openproject.org/installation-and-operations/misc/migration-to-postgresql13/"
+
         raise DeprecatedVersionWarning.new message
       end
     end

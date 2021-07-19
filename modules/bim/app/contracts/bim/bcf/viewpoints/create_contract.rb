@@ -84,6 +84,7 @@ module Bim::Bcf
 
       attribute :uuid
       attribute :issue
+      attribute :snapshot
       attribute :json_viewpoint do
         validate_json_viewpoint_present
         validate_json_viewpoint_hash

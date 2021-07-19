@@ -45,6 +45,10 @@ FactoryBot.define do
                                      binary: true
     end
 
+    callback(:after_build, :after_stub) do |attachment, evaluator|
+      attachment.filename = evaluator.filename if evaluator.filename
+    end
+
     factory :wiki_attachment do
       container factory: :wiki_page_with_content
     end

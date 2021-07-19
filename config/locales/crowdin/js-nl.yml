@@ -127,7 +127,7 @@ nl:
       preview: 'Voorbeeld modus wijzigen'
       source_code: 'Wissel Markdown bronmodus'
       error_saving_failed: 'Het opslaan van het document is mislukt met de volgende foutmelding:%{error}'
-      error_initialization_failed: 'Kon CKEditor niet initialiseren!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Schakel naar de bron van het Markdown'
         wysiwyg: 'Schakel over naar de WYSIWYG-Editor'
@@ -479,37 +479,38 @@ nl:
         next: 'Volgende'
         got_it: 'Begrepen'
       steps:
-        help_menu: 'In het menu <b>Help</b> vindt u een handleiding en aanvullende help-bronnen. <br> genieten van uw werk met OpenProject!'
-        members: 'Nodig nieuwe <b>leden,</b> uit voor uw project.'
-        project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
-        quick_add_button: 'Create a new project or invite coworkers.'
-        sidebar_arrow: "U kunt met de pijl terug navigeren naar het <b>Hoofd menu</b> van het project."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Neem drie minuten introductie rondleiding om de meeste <b>belangrijke kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot het einde. U kunt de tour ieder moment opnieuw doen.'
-        wiki: 'U kunt binnen de <b>Wiki</b> kennis delen en documenteren samen met uw team.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Beheer uw werk volgens <b>Backlogs</b> overzicht. <br> aan de rechterkant heb je de Productbacklog of een Bugbacklog, aan de linkerkant zul je de respectieve sprints. Hier kunt u het maken van <b>Epics, gebruiker verhalen en bugs</b>, prioriteren via drag'n'drop en voeg ze toe aan een sprint."
-          task_board_arrow: 'Open de vervolgkeuzelijst van de Sprint om te zien uw <b>Takenlijst</b>...'
-          task_board_select: '... en selecteer het <b>Taakbord</b>.'
-          task_board: "Het <b>takenbord</b> visualiseert de voortgang voor deze sprint. Toevoegen van nieuwe taken of belemmeringen met de + pictogram naast het verhaal van een gebruiker. Via drag'n'drop kunt u de status bijwerken."
+          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Manage your work within an intuitive <b>Boards</b> view.'
-          lists: 'You can create multiple lists (columns) within one Board view, e.g. to create a KANBAN board.'
-          add: 'Click the + will <b>add a new card</b> to the list within a Board.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Laten we nu eens een kijkje op de <b>werk pakket</b> -sectie, die je een meer gedetailleerde weergave van uw werk geeft."
-          list: 'This is the <b>Work package</b> list with the important work within your project, such as tasks, milestones, phases, and more. <br> You can create or edit a work package directly within this list. To see its details you can double click on a row.'
-          full_view: 'In de <b>werk pakket details</b> vindt u alle relevante informatie, zoals beschrijving, de status en de prioriteit, de activiteiten, de afhankelijkheden of de opmerkingen.'
-          back_button: 'Met de pijltjestoetsen kunt u navigeren naar de pakketlijst werk.'
-          create_button: 'De <b>maken</b> -knop zal een nieuw werkpakket aan uw project toevoegen.'
-          timeline_button: 'U kunt met de <b>Gantt-diagram</b> een tijdlijn voor uw project maken.'
-          timeline: 'Hier kunt u uw projectplan bewerken. Maak nieuwe fasen, mijlpalen, en voeg afhankelijkheden toe. Alle teamleden kunnen de meest recente planning op elk gewenst moment zien en bijwerken.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Notifications"
       channel: "Channel"
       channels:
         in_app: "In-app"
         mail: "E-mail"
+        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'

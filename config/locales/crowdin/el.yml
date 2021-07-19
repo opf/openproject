@@ -549,6 +549,7 @@ el:
         invalid_url: 'δεν είναι μια έγκυρη διεύθυνση URL.'
         invalid_url_scheme: 'δεν είναι υποστηριζόμενο πρωτόκολλο (επιτρεπόμενα: %{allowed_schemes}).'
         less_than_or_equal_to: "πρέπει να είναι μικρότερο ή ίσο με %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "δεν μπορεί να διαγραφεί."
         not_current_user: "δεν είναι ο τρέχων χρήστης."
         not_a_date: "δεν είναι έγκυρη ημερομηνία."
@@ -568,6 +569,10 @@ el:
         unremovable: "δεν μπορεί να αφαιρεθεί."
         wrong_length: "έχει λάθος μέγεθος (πρέπει να είναι %{count} χαρακτήρες)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Καθολικό'
@@ -606,8 +611,16 @@ el:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_email:
+            read_mail:
               read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -1215,6 +1228,7 @@ el:
   export:
     your_work_packages_export: "Η εξαγωγή των πακέτων εργασίας σας"
     succeeded: "Η εξαγωγή ολοκληρώθηκε επιτυχώς."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1872,6 +1886,18 @@ el:
       link_name_type: 'Νέο %{type_name}'
   mail:
     actions: 'Ενέργειες'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'όλα'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "'Ένας νέος χρήστης (%{value}) έχει εγγραφεί. Ο λογαριασμός είναι σε στάδιο αναμονής της έγκρισης σας:"
   mail_body_account_information: "Πληροφορίες του λογαριασμού σας"
   mail_body_account_information_external: "Μπορείτε να χρησιμοποιήσετε τον λογαριασμό %{value} για να συνδεθείτε."
@@ -2249,6 +2275,7 @@ el:
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Μέθοδος αποστολής email"
   setting_sendmail_location: "Τοποθεσία του εκτελέσιμου sendmail"
   setting_smtp_enable_starttls_auto: "Αυτόματη χρήση STARTTLS αν είναι διαθέσιμο"
@@ -2296,6 +2323,7 @@ el:
   setting_enabled_projects_columns: "Ορατό στη λίστα έργων"
   setting_notification_retention_period_days: "Notification retention period"
   setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
@@ -2364,10 +2392,14 @@ el:
     passwords: "Κωδικοί πρόσβασης"
     session: "Συνεδρία"
     brute_force_prevention: "Αυτόματο μπλοκάρισμα χρήστη"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

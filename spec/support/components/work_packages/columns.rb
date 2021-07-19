@@ -42,15 +42,15 @@ module Components
       end
 
       def column_autocompleter
-        find('.columns-modal--content .draggable-autocomplete--input')
+        find('.columns-modal--content .op-draggable-autocomplete--input')
       end
 
       def close_autocompleter
-        find('.columns-modal--content .draggable-autocomplete--input input').send_keys :escape
+        find('.columns-modal--content .op-draggable-autocomplete--input input').send_keys :escape
       end
 
       def column_item(name)
-        find('.draggable-autocomplete--item', text: name)
+        find('.op-draggable-autocomplete--item', text: name)
       end
 
       def expect_column_not_available(name)
@@ -95,7 +95,7 @@ module Components
 
         within_modal do
           container = column_item(name)
-          container.find('.draggable-autocomplete--remove-item').click
+          container.find('.op-draggable-autocomplete--remove-item').click
         end
 
         apply if save_changes
@@ -103,13 +103,13 @@ module Components
 
       def expect_checked(name)
         within_modal do
-          expect(page).to have_selector('.draggable-autocomplete--item', text: name)
+          expect(page).to have_selector('.op-draggable-autocomplete--item', text: name)
         end
       end
 
       def expect_unchecked(name)
         within_modal do
-          expect(page).to have_no_selector('.draggable-autocomplete--item', text: name)
+          expect(page).to have_no_selector('.op-draggable-autocomplete--item', text: name)
         end
       end
 
@@ -117,8 +117,8 @@ module Components
         modal_open? or open_modal
 
         within_modal do
-          expect(page).to have_selector('.draggable-autocomplete--item', minimum: 1)
-          page.all('.draggable-autocomplete--remove-item').each do |el|
+          expect(page).to have_selector('.op-draggable-autocomplete--item', minimum: 1)
+          page.all('.op-draggable-autocomplete--remove-item').each do |el|
             el.click
             sleep 0.2
           end

@@ -52,6 +52,11 @@ module SettingsHelper
         label: :label_project_plural
       },
       {
+        name: 'attachments',
+        controller: '/admin/settings/attachments_settings',
+        label: :'attributes.attachments'
+      },
+      {
         name: 'api',
         controller: '/admin/settings/api_settings',
         label: :label_api_access_key_type
@@ -110,6 +115,12 @@ module SettingsHelper
   def setting_number_field(setting, options = {})
     setting_field_wrapper(setting, options) do
       styled_number_field_tag("settings[#{setting}]", Setting.send(setting), options)
+    end
+  end
+
+  def setting_time_field(setting, options = {})
+    setting_field_wrapper(setting, options) do
+      styled_time_field_tag("settings[#{setting}]", Setting.send(setting), options)
     end
   end
 

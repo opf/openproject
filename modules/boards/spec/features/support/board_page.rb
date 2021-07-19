@@ -91,9 +91,9 @@ module Pages
     end
 
     def remove_card(list_name, card_title, index)
-      source = page.all("#{list_selector(list_name)} .wp-card")[index]
+      source = page.all("#{list_selector(list_name)} [data-qa-selector='op-wp-single-card']")[index]
       source.hover
-      source.find('.wp-card--inline-cancel-button').click
+      source.find('[data-qa-selector="op-wp-single-card--inline-cancel-button"]').click
 
       expect_card(list_name, card_title, present: false)
     end
@@ -131,7 +131,7 @@ module Pages
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
-        expect(page).to have_conditional_selector(present, '.wp-card--subject', text: card_title)
+        expect(page).to have_conditional_selector(present, '[data-qa-selector="op-wp-single-card--content-subject"]', text: card_title)
       end
     end
 
@@ -140,7 +140,7 @@ module Pages
     # No non mentioned cards are allowed to be in the list.
     def expect_cards_in_order(list_name, *card_titles)
       within_list(list_name) do
-        found = all('.wp-card .wp-card--subject')
+        found = all('[data-qa-selector="op-wp-single-card--content-subject"]')
           .map(&:text)
         expected = card_titles.map { |title| title.is_a?(WorkPackage) ? title.subject : title.to_s }
 
@@ -151,13 +151,13 @@ module Pages
 
     def expect_movable(list_name, card_title, movable: true)
       within_list(list_name) do
-        expect(page).to have_selector('.wp-card', text: card_title)
-        expect(page).to have_conditional_selector(movable, '.wp-card.-draggable', text: card_title)
+        expect(page).to have_selector('[data-qa-selector="op-wp-single-card"]', text: card_title)
+        expect(page).to have_conditional_selector(movable, '[data-qa-selector="op-wp-single-card"][data-qa-draggable]', text: card_title)
       end
     end
 
     def move_card(index, from:, to:)
-      source = page.all("#{list_selector(from)} .wp-card")[index]
+      source = page.all("#{list_selector(from)} [data-qa-selector='op-wp-single-card']")[index]
       target = page.find list_selector(to)
 
       scroll_to_element(source)

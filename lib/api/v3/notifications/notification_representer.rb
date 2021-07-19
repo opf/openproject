@@ -45,9 +45,9 @@ module API
 
         property :read_ian,
                  as: :readIAN
-        property :read_email
 
-        property :reason
+        property :reason_ian,
+                 as: :reason
 
         date_time_property :created_at
 
@@ -77,24 +77,6 @@ module API
 
           {
             href: api_v3_paths.notification_unread_ian(represented.id),
-            method: :post
-          }
-        end
-
-        link :readEmail do
-          next if represented.read_email
-
-          {
-            href: api_v3_paths.notification_read_email(represented.id),
-            method: :post
-          }
-        end
-
-        link :unreadEmail do
-          next unless represented.read_email
-
-          {
-            href: api_v3_paths.notification_unread_email(represented.id),
             method: :post
           }
         end

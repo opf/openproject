@@ -4,9 +4,11 @@ require_relative './shared_examples'
 describe "user notifications settings", type: :feature, js: true do
   shared_let(:user) { FactoryBot.create :user }
 
+  let(:settings_page) { ::Pages::Notifications::Settings.new(user) }
+
   before do
     login_as current_user
-    visit edit_user_path(user, tab: :notifications)
+    settings_page.visit!
   end
 
   context 'as admin' do
