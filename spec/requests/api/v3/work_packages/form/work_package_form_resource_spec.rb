@@ -37,15 +37,15 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
   shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions view_budgets] }
   shared_let(:assign_permissions) { %i[view_work_packages assign_versions] }
   shared_let(:project) { FactoryBot.create(:project, public: false) }
+  shared_let(:authorized_user) do
+    FactoryBot.create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
+  end
   shared_let(:work_package) do
     # Prevent executing as potentially unsaved AnyonymousUser which would
     # lead to the creation failing as the journal cannot be written with user_id = nil.
     User.execute_as authorized_user do
       FactoryBot.create(:work_package, project: project)
     end
-  end
-  shared_let(:authorized_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
   end
   shared_let(:authorized_assign_user) do
     FactoryBot.create(:user, member_in_project: project, member_with_permissions: assign_permissions)

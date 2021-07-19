@@ -79,7 +79,7 @@ describe Group, type: :model do
         start = Time.now.to_i
 
         Groups::DeleteService
-          .new(user: nil, contract_class: EmptyContract, model: group)
+          .new(user: User.system, contract_class: EmptyContract, model: group)
           .call
         perform_enqueued_jobs
 
