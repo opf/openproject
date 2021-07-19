@@ -103,8 +103,8 @@ function positionSwap(
 
   return {
     ...delta,
-    [wpId]: neighborPosition,
-    [neighbor]: myPosition,
+    [`${wpId}`]: neighborPosition,
+    [`${neighbor}`]: myPosition,
   };
 }
 
@@ -210,39 +210,27 @@ function redistribute(
 ) {
   const itemsToDistribute = order.length;
 
-  const { space, min } = (() => {
-    // We can keep min and max orders if distance/(items to distribute) >= 1
-    const initial = Math.floor((maxIndex - minIndex) / (itemsToDistribute - 1));
+  let min = minIndex;
+  let max = maxIndex;
 
-    // If no space is left, first try to add to the max item
-    // Or subtract from the min item
-    if (initial > 1) {
-      // Rebuild space
-      return {
-        space: Math.floor((maxIndex - minIndex) / (itemsToDistribute - 1)),
-        min: minIndex,
-      };
+  // We can keep min and max orders if distance/(items to distribute) >= 1
+  let space = Math.floor((max - min) / (itemsToDistribute - 1));
+
+  // If no space is left, first try to add to the max item
+  // Or subtract from the min item
+  if (space < 1) {
+    if ((max + itemsToDistribute) <= MAX_ORDER) {
+      max += itemsToDistribute;
+    } else if ((min - itemsToDistribute) >= MIN_ORDER) {
+      min -= itemsToDistribute;
+    } else {
+      // This should not happen in a 4-byte integer with our frontend
+      throw new Error('Elements cannot be moved further and no space is left. Too many elements');
     }
 
-    const spaceLeftAbove = ((maxIndex + itemsToDistribute) <= MAX_ORDER);
-    if (spaceLeftAbove) {
-      return {
-        space: Math.floor(((maxIndex + itemsToDistribute) - minIndex) / (itemsToDistribute - 1)),
-        min: minIndex,
-      };
-    }
-
-    const spaceLeftBelow = ((minIndex - itemsToDistribute) >= MIN_ORDER);
-    if (spaceLeftBelow) {
-      return {
-        space: Math.floor((maxIndex - (minIndex - itemsToDistribute)) / (itemsToDistribute - 1)),
-        min: minIndex - itemsToDistribute,
-      };
-    }
-
-    // This should not happen in a 4-byte integer with our frontend
-    throw new Error('Elements cannot be moved further and no space is left. Too many elements');
-  })();
+    // Rebuild space
+    space = Math.floor((max - min) / (itemsToDistribute - 1));
+  }
 
   // Assign positions for all values in between min/max
   const newDelta = { ...delta };
@@ -282,7 +270,6 @@ function buildInsertPosition(
   index:number,
   fromIndex:number|null,
 ):QueryOrder {
-  console.log('buildInsertPosition');
   const delta = {};
   // Special case, order is empty or only contains wpId
   // Then simply insert as the default position unless it already has a position
@@ -299,7 +286,7 @@ function buildInsertPosition(
     && Math.abs(fromIndex - index) === 1
     && delta !== newDelta
   ) {
-    return delta;
+    return newDelta;
   }
 
   // Special case, index is 0
