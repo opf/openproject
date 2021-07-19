@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,44 +26,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module MetaTagsHelper
-  ##
-  # Use meta-tags to output title and site name
-  def output_title_and_meta_tags
-    display_meta_tags site: Setting.app_title,
-                      title: html_title_parts,
-                      separator: ' | ', # Update the TitleService when changing this!
-                      reverse: true
-  end
+require 'spec_helper'
 
-  def initializer_meta_tag
-    tag :meta,
-        name: :openproject_initializer,
-        data: {
-          locale: I18n.locale,
-          defaultLocale: I18n.default_locale,
-          firstWeekOfYear: locale_first_week_of_year,
-          firstDayOfWeek: locale_first_day_of_week,
-          environment: Rails.env,
-          edition: OpenProject::Configuration.edition
-    }
-  end
-
-  ##
-  # Writer of html_title as string
-  def html_title(*args)
-    raise "Don't use html_title getter" if args.empty?
-
-    @html_title ||= []
-    @html_title += args
-  end
-
-  ##
-  # The html title parts currently defined
-  def html_title_parts
-    [].tap do |parts|
-      parts << h(@project.name) if @project
-      parts.concat @html_title.map(&:to_s) if @html_title
-    end
-  end
+describe 'errors routing', type: :routing do
+  it { is_expected.to route(:get, '/404').to(controller: 'errors', action: 'not_found') }
+  it { is_expected.to route(:get, '/422').to(controller: 'errors', action: 'unacceptable') }
+  it { is_expected.to route(:get, '/500').to(controller: 'errors', action: 'internal_error') }
 end
