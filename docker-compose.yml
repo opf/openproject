@@ -116,12 +116,13 @@ services:
   frontend-test:
     build:
       <<: *frontend-build
-    command: "npm run serve-test"
+    command: "npm run serve:test"
     volumes:
       - ".:/home/dev/openproject"
       - "fedata-test:/home/dev/openproject/public/assets/frontend"
     environment:
       PROXY_HOSTNAME: backend-test
+      CHROME_BIN: chromium
     networks:
       - testing
 
