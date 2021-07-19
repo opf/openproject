@@ -6,7 +6,7 @@
 declare let module:NodeModule;
 declare module 'dom-plane' {
   export function createPointCB(point:any):any;
-  export function getClientRect(el:Element|Window):any;
+  export function getClientRect(el:Element|Window):{ top:number, bottom:number, left:number, right:number };
   export function pointInside(point:any, el:Element|Window):any;
 }
 

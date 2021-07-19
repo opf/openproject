@@ -11,6 +11,7 @@ import { FocusHelperService } from './focus-helper';
 })
 export class AutofocusDirective implements AfterViewInit {
   @Input('opAutofocus') public condition = true;
+
   @Input('opAutofocusPriority') priority?:number = 0;
 
   constructor(

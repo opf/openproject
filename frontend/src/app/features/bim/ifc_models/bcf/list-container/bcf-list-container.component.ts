@@ -65,7 +65,7 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
       .then(() => this.wpTableColumns.addColumn('bcfThumbnail', 2));
 
     this.uIRouterGlobals
-      .params$!
+      .params!
       .pipe(
         this.untilDestroyed(),
         pluck('cards'),

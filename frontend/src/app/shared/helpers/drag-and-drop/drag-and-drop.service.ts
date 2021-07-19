@@ -171,7 +171,7 @@ export class DragAndDropService implements OnDestroy {
 
     this.drake.on('drop', (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement) => {
       try {
-        this.handleDrop(el, target, source, sibling);
+        void this.handleDrop(el, target, source, sibling);
       } catch (e) {
         console.error('Failed to handle drop of %O, %O', el, e);
       }

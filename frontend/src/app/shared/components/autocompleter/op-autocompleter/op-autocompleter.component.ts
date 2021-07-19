@@ -15,7 +15,11 @@ import {
 } from '@angular/core';
 import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
 import {
-  Observable, NEVER, of, Subject, combineLatest, merge,
+  Observable,
+  NEVER,
+  of,
+  Subject,
+  merge,
 } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
@@ -270,7 +274,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     }
   }
 
-  public opened(val:any) {
+  public opened(_:unknown) {
     if (this.openDirectly) {
       this.results$ = this.defaultData
         ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
@@ -300,7 +304,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     });
   }
 
-  public closed(val:any) {
+  public closed(_:unknown) {
     this.close.emit();
   }
 

@@ -70,6 +70,10 @@ module.exports = {
         // It'd be good if we could error this for switch cases but allow it for for loops
         "no-continue": "off",
 
+        // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
+        // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
+        "no-void": ["error", { allowAsStatement: true }],
+
         /*
         // Disable use before define, as irrelevant for TS interfaces
         "no-use-before-define": "off",
