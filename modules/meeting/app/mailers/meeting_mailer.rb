@@ -37,7 +37,7 @@ class MeetingMailer < UserMailer
     open_project_headers 'Project' => @meeting.project.identifier,
                          'Meeting-Id' => @meeting.id
 
-    with_locale_for(user) do
+    User.execute_as(user) do
       subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
       mail to: user.mail, subject: subject
     end
@@ -58,7 +58,7 @@ class MeetingMailer < UserMailer
     # Create a calendar with an event (standard method)
     entry = ::Icalendar::Calendar.new
 
-    with_locale_for(user) do
+    User.execute_as(user) do
       subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{@content_type}")}: #{@meeting.title}"
       tzid = @meeting.start_time.zone
       tz = TZInfo::Timezone.get tzid
