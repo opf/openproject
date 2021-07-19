@@ -6,15 +6,36 @@ module AuthSourceSSO
   def find_current_user
     user = super
 
-    return user if user || sso_in_progress!
-    return nil unless header_name
+    # Do nothing if sso disabled
+    return user unless auth_source_sso_enabled?
+    # Return super auth if SSO already in progress
+    return user if sso_in_progress!
+
+    # Get the header-provided login value
+    login = read_sso_login
+
+    # Log out the current user if the login does not match
+    logged_user = match_sso_with_logged_user(login, user)
+
+    # Return the logged in user if matches
+    return logged_user if logged_user.present?
 
     Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
-    perform_header_sso
+    perform_header_sso login
   end
 
-  def perform_header_sso
-    if login = read_sso_login
+  def match_sso_with_logged_user(login, user)
+    return if user.nil?
+    return user if user.login == login
+
+    Rails.logger.warn { "Header-based auth source SSO user changed from #{user.login} to #{login}. Re-authenticating" }
+    ::Users::LogoutService.new(controller: self).call(user)
+
+    nil
+  end
+
+  def perform_header_sso(login)
+    if login
       user = find_user_from_auth_source(login) || create_user_from_auth_source(login)
 
       handle_sso_for! user, login
@@ -29,6 +50,10 @@ module AuthSourceSSO
 
   def sso_config
     @sso_config ||= OpenProject::Configuration.auth_source_sso.try(:with_indifferent_access)
+  end
+
+  def auth_source_sso_enabled?
+    header_name.present?
   end
 
   def op_auth_header_value
