@@ -46,3 +46,6 @@ wizards:
   - https://github.com/pkgr/addon-memcached.git
   - ./packaging/addons/openproject
 buildpack: https://github.com/opf/heroku-buildpack-multi.git
+env:
+  - NODE_ENV=production
+  - NPM_CONFIG_PRODUCTION=false
