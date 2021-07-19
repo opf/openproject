@@ -274,7 +274,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     }
   }
 
-  public opened(_:unknown) {
+  public opened(_:unknown) { // eslint-disable-line no-unused-vars
     if (this.openDirectly) {
       this.results$ = this.defaultData
         ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
@@ -304,7 +304,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     });
   }
 
-  public closed(_:unknown) {
+  public closed(_:unknown) { // eslint-disable-line no-unused-vars
     this.close.emit();
   }
 

@@ -182,7 +182,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     try {
       this.watchdog?.destroy();
     } catch (e) {
-      console.error(`Failed to destroy CKEditor instance:`, e);
+      console.error('Failed to destroy CKEditor instance:', e);
     }
   }
 

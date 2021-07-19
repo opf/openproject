@@ -236,7 +236,6 @@ describe('ReorderDeltaBuilder', () => {
     // From index 1 to 0
     const delta = buildSpecDelta('1', positions, ['1', '2', '3'], 1);
 
-    console.log(delta);
     expect(Object.keys(delta)).toEqual(['1', '2']);
     expect(delta['1']).toEqual(0);
     expect(delta['2']).toEqual(8192);
