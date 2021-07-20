@@ -299,18 +299,6 @@ describe WorkPackage, type: :model do
 
         it { is_expected.to eq(@original_journal_count) }
       end
-
-      context 'attachment removed' do
-        before do
-          work_package.attachments.delete(attachment)
-        end
-
-        subject { work_package.journals.reload.last.details }
-
-        it { is_expected.to have_key attachment_id }
-
-        it { expect(subject[attachment_id]).to eq([attachment.filename, nil]) }
-      end
     end
 
     context 'custom values', with_settings: { journal_aggregation_time_minutes: 0 } do
