@@ -201,6 +201,10 @@ paths:
     "$ref": "./paths/news.yml"
   "/api/v3/news/{id}":
     "$ref": "./paths/news_item.yml"
+  "/api/v3/notifications":
+    "$ref": "./paths/notifications.yml"
+  "/api/v3/notifications/{id}":
+    "$ref": "./paths/notifications_item.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -511,6 +515,8 @@ components:
       "$ref": "./components/schemas/list_memberships_model.yml"
     List_of_NewsModel:
       "$ref": "./components/schemas/list_of_news_model.yml"
+    List_notificationsModel:
+      "$ref": "./components/schemas/list_notifications_model.yml"
     List_projectsModel:
       "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
@@ -531,6 +537,8 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
+    NotificationModel:
+      "$ref": "./components/schemas/notification_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
     Plain_Text:
@@ -736,6 +744,7 @@ tags:
 - "$ref": "./tags/help_texts.yml"
 - "$ref": "./tags/memberships.yml"
 - "$ref": "./tags/news.yml"
+- "$ref": "./tags/notifications.yml"
 - "$ref": "./tags/posts.yml"
 - "$ref": "./tags/principals.yml"
 - "$ref": "./tags/priorities.yml"

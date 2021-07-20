@@ -1,0 +1,152 @@
+# /api/v3/notifications
+---
+get:
+  parameters:
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+
+        + id: Sort by primary key
+
+        + reason: Sort by notification reason
+
+        + readIAN: Sort by read status
+      example: '[["reason", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        type: string
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+
+        + readIAN: Filter by read status
+        + id: Filter by primary key
+      example: '[{ "readIAN": { "operator": "=", "values": ["t"] } }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  elements:
+                  - _links:
+                      readIAN:
+                        href: "/api/v3/notifications/1/read_ian"
+                        method: "post"
+                      actor:
+                        href: "/api/v3/users/2"
+                        title: Peggie Feeney
+                      activity:
+                        href: "/api/v3/activities/1234"
+                      project:
+                        href: "/api/v3/projects/1"
+                        title: Seeded Project
+                      self:
+                        href: "/api/v3/notifications/1"
+                    _type: Notification
+                    createdAt: "2021-07-20T08:32:18Z"
+                    updatedAt: "2021-07-20T08:33:19Z"
+                    details:
+                      format: markdown
+                      raw: "<mention class=\"mention\" data-id=\"90\" data-type=\"user\" data-text=\"@Recipeint User\">@Recipient User</mention>  test"
+                      html: "<p class=\"op-uc-p\"><a class=\"user-mention op-uc-link\" title=\"User Recipient User\" href=\"/users/90\">Recipient User</a>  test</p>"
+                    id: 1
+                    reason: mentioned
+                    subject: "You have been mentioned in Task #1234 An important task"
+                  - _links:
+                      readIAN:
+                        href: "/api/v3/notifications/1/read_ian"
+                        method: "post"
+                      actor:
+                        href: "/api/v3/users/2"
+                        title: Peggie Feeney
+                      activity:
+                        href: "/api/v3/activities/1234"
+                      project:
+                        href: "/api/v3/projects/1"
+                        title: Seeded Project
+                      self:
+                        href: "/api/v3/notifications/1"
+                      _type: Notification
+                      createdAt: "2021-07-20T08:32:18Z"
+                      updatedAt: "2021-07-20T08:33:19Z"
+                      details:
+                        format: markdown
+                        raw: "<mention class=\"mention\" data-id=\"90\" data-type=\"user\" data-text=\"@Recipeint User\">@Recipient User</mention>  test"
+                        html: "<p class=\"op-uc-p\"><a class=\"user-mention op-uc-link\" title=\"User Recipient User\" href=\"/users/90\">Recipient User</a>  test</p>"
+                      id: 1
+                      reason: mentioned
+                      subject: "You have been mentioned in Task #1234 An important task"
+                _links:
+                  changeSize:
+                    href: "/api/v3/notifications?offset=1&pageSize=%7Bsize%7D"
+                    templated: true
+                  jumpTo:
+                    href: "/api/v3/notifications?offset=%7Boffset%7D&pageSize=2"
+                    templated: true
+                  nextByOffset:
+                    href: "/api/v3/notifications?offset=2&pageSize=2"
+                  self:
+                    href: "/api/v3/notifications?offset=1&pageSize=2"
+                _type: Collection
+                count: 1
+                offset: 1
+                pageSize: 50
+                total: 1
+          schema:
+            "$ref": "../components/schemas/list_notifications_model.yml"
+      description: OK
+      headers: { }
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+                message:
+                  - Filters Invalid filter does not exist.
+      description: Returned if the client sends invalid request parameters e.g. filters
+      headers: { }
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to view this resource.
+      description: Returned if the client is not logged in and login is required.
+      headers: { }
+  tags:
+    - Notifications
+  description: Lists available in-app notifications. The notifications returned depend on the provided parameters and
+    also on the requesting user's permissions.
+  operationId: List_Notifications
+  summary: List Notifications
