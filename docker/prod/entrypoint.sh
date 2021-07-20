@@ -4,9 +4,16 @@ set -e
 set -o pipefail
 
 APACHE_PIDFILE=/run/apache2/apache2.pid
+SERVER_NAME=${SERVER_NAME:="_default_"}
 
 if [ -n "$DATABASE_URL" ]; then
 	/usr/local/bin/migrate-mysql-to-postgres || exit 1
+fi
+
+# Warn when default hostname set
+if [ "${SERVER_NAME}" = "_default_" ]; then
+	echo "WARNING: You are using the default SERVER_NAME setting. If your docker container is public-facing, this is a security concern."
+	echo "Please see https://www.openproject.org/docs/installation-and-operations/installation/docker/ for more information how to secure your installation."
 fi
 
 # handle legacy configs
