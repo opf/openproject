@@ -51,6 +51,7 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   text = {
     loading: this.I18n.t('js.ajax.loading'),
+    placeholder: this.I18n.t('js.placeholders.default'),
   };
 
   constructor(
@@ -124,7 +125,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   private buildTranslatedReason() {
     this.translatedReason = this.I18n.t(
       `js.notifications.reasons.${this.notification.reason}`,
-      { defaultValue: this.notification.reason },
+      { defaultValue: this.notification.reason || this.text.placeholder },
     );
   }
 
