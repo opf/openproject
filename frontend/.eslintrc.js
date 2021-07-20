@@ -14,6 +14,8 @@ module.exports = {
   },
   plugins: [
     "@typescript-eslint",
+    "change-detection-strategy",
+    "jasmine",
   ],
   overrides: [
     {
@@ -46,6 +48,9 @@ module.exports = {
           "error",
           { "type": "element", "prefix": "op", "style": "kebab-case" }
         ],
+
+        // Warn when new components are being created without OnPush
+        "change-detection-strategy/on-push": "error",
 
         "no-console": [
           "error",
@@ -116,6 +121,16 @@ module.exports = {
     {
       files: ["*.html"],
       extends: ["plugin:@angular-eslint/template/recommended"],
+      rules: {
+        /**
+         * Any template/HTML related rules you wish to use/reconfigure over and above the
+         * recommended set provided by the @angular-eslint project would go here.
+         */
+      }
+    },
+    {
+      files: ["*.spec.ts"],
+      extends: ["plugin:jasmine/recommended"],
       rules: {
         /**
          * Any template/HTML related rules you wish to use/reconfigure over and above the
