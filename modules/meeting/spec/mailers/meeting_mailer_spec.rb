@@ -26,14 +26,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require_relative '../spec_helper'
 
 describe MeetingMailer, type: :mailer do
-  let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:author) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
-  let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
+  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:author) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role,
+                      preferences: { time_zone: 'Europe/Berlin' }
+  end
+  shared_let(:watcher1) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+  shared_let(:watcher2) { FactoryBot.create(:user, member_in_project: project, member_through_role: role) }
+
   let(:meeting) do
     FactoryBot.create :meeting,
                       author: author,
@@ -52,14 +58,13 @@ describe MeetingMailer, type: :mailer do
   end
 
   describe 'content_for_review' do
-    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', author }
+    let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', author }
     # this is needed to call module functions from Redmine::I18n
     let(:i18n) do
-      class A
+      Class.new do
         include Redmine::I18n
         public :format_date, :format_time
       end
-      A.new
     end
 
     it 'renders the headers' do
@@ -79,7 +84,7 @@ describe MeetingMailer, type: :mailer do
 
     context 'with a recipient with another time zone' do
       let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
-      let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', watcher1 }
+      let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', watcher1 }
 
       it 'renders the mail with the correcet locale' do
         expect(mail.text_part.body).to include('Tokyo')
@@ -97,12 +102,11 @@ describe MeetingMailer, type: :mailer do
       FactoryBot.create :meeting,
                         author: author,
                         project: project,
-                        start_time: "2021-07-19T10:00:00Z".to_time(:utc),
+                        start_time: "2021-01-19T10:00:00Z".to_time(:utc),
                         duration: 1.0
 
     end
-    let(:mail) { MeetingMailer.icalendar_notification meeting_agenda, 'agenda', author }
-    let!(:preference) { FactoryBot.create(:user_preference, user: author, time_zone: 'Europe/Berlin') }
+    let(:mail) { described_class.icalendar_notification meeting_agenda, 'meeting_agenda', author }
 
     it 'renders the headers' do
       expect(mail.subject).to include(meeting.project.name)
@@ -117,7 +121,7 @@ describe MeetingMailer, type: :mailer do
       it 'renders the text body' do
         expect(body).to include(meeting.project.name)
         expect(body).to include(meeting.title)
-        expect(body).to include('07/19/2021 11:00 AM-12:00 PM (GMT+01:00) Europe/Berlin')
+        expect(body).to include('01/19/2021 11:00 AM-12:00 PM (GMT+01:00) Europe/Berlin')
         expect(body).to include(meeting.participants[0].name)
         expect(body).to include(meeting.participants[1].name)
       end
@@ -129,7 +133,7 @@ describe MeetingMailer, type: :mailer do
       it 'renders the text body' do
         expect(body).to include(meeting.project.name)
         expect(body).to include(meeting.title)
-        expect(body).to include('07/19/2021 11:00 AM-12:00 PM (GMT+01:00) Europe/Berlin')
+        expect(body).to include('01/19/2021 11:00 AM-12:00 PM (GMT+01:00) Europe/Berlin')
         expect(body).to include(meeting.participants[0].name)
         expect(body).to include(meeting.participants[1].name)
       end
@@ -137,11 +141,11 @@ describe MeetingMailer, type: :mailer do
 
     context 'with a recipient with another time zone' do
       let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
-      let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda', watcher1 }
+      let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', watcher1 }
 
       it 'renders the mail with the correcet locale' do
-        expect(mail.text_part.body).to include('07/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
-        expect(mail.html_part.body).to include('07/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
+        expect(mail.text_part.body).to include('01/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
+        expect(mail.html_part.body).to include('01/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
 
         expect(mail.to).to match_array([watcher1.mail])
       end

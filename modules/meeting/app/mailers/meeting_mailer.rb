@@ -60,10 +60,12 @@ class MeetingMailer < UserMailer
 
     User.execute_as(user) do
       subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{@content_type}")}: #{@meeting.title}"
-      tzid = @meeting.start_time.zone
-      tz = TZInfo::Timezone.get tzid
-      timezone = tz.ical_timezone @meeting.start_time
-      entry.add_timezone timezone
+      timezone = Time.zone || Time.zone_default
+      # Get the tzinfo object from the rails timezone
+      tzinfo = timezone.tzinfo
+      # Get the global identifier like Europe/Berlin
+      tzid = tzinfo.canonical_identifier
+      entry.add_timezone tzinfo.ical_timezone(@meeting.start_time)
 
       entry.event do |e|
         e.dtstart     = Icalendar::Values::DateTime.new @meeting.start_time, 'tzid' => tzid
