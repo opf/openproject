@@ -40,7 +40,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
@@ -67,7 +67,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   public _availableOptions:HalResource[] = [];
 
-  public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
+  public compareByHrefOrString = compareByHrefOrString;
 
   private _isEmpty:boolean;
 

@@ -14,7 +14,7 @@ import { DragulaService, Group } from 'ng2-dragula';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { merge } from 'rxjs';
-import { DomHelpers } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
+import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 
 export interface DraggableOption {
   name:string;
@@ -67,7 +67,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     // Set cursor when dragging
     this.dragula.drag('columns')
       .pipe(this.untilDestroyed())
-      .subscribe(() => DomHelpers.setBodyCursor('move', 'important'));
+      .subscribe(() => setBodyCursor('move', 'important'));
 
     // Reset cursor when cancel or dropped
     merge(
@@ -75,7 +75,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
       this.dragula.cancel('columns'),
     )
       .pipe(this.untilDestroyed())
-      .subscribe(() => DomHelpers.setBodyCursor('auto'));
+      .subscribe(() => setBodyCursor('auto'));
 
     // Setup autoscroll
     const that = this;

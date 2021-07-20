@@ -18,9 +18,11 @@ export interface WpGraphConfiguration {
 export class WpGraphConfiguration implements WpGraphConfiguration {
   public queries:QueryResource[] = [];
 
-  constructor(public queryParams:WpGraphQueryParams[],
+  constructor(
+    public queryParams:WpGraphQueryParams[],
     public chartOptions:ChartOptions,
-    public chartType:ChartType) {
+    public chartType:ChartType,
+  ) {
     this.chartType = this.chartType || 'horizontalBar';
   }
 
@@ -38,3 +40,4 @@ export class WpGraphConfiguration implements WpGraphConfiguration {
     };
   }
 }
+

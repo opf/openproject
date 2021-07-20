@@ -33,14 +33,12 @@ import { TypeFormAttributeGroupComponent } from 'core-app/features/admin/types/a
 import { TypeFormConfigurationComponent } from 'core-app/features/admin/types/type-form-configuration.component';
 import { TypeFormQueryGroupComponent } from 'core-app/features/admin/types/query-group.component';
 import { GroupEditInPlaceComponent } from 'core-app/features/admin/types/group-edit-in-place.component';
-import { OpenprojectAccessibilityModule } from 'core-app/shared/directives/a11y/openproject-a11y.module';
 import { EditableQueryPropsComponent } from 'core-app/features/admin/editable-query-props/editable-query-props.component';
 
 @NgModule({
   imports: [
     DragulaModule.forRoot(),
     OPSharedModule,
-    OpenprojectAccessibilityModule,
   ],
   providers: [
   ],

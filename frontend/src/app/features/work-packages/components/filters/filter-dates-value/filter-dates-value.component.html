@@ -2,7 +2,7 @@
   class="inline-label">
   <op-date-picker (onChange)="begin = parser($event)"
                   [initialDate]="formatter(begin)"
-                  [focus]="shouldFocus"
+                  [opAutofocus]="shouldFocus"
                   required="true"
                   [id]="'values-' + filter.id + '-begin'"
                   [name]="'v[' + filter.id + ']-begin'"

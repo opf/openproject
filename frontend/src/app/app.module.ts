@@ -51,7 +51,7 @@ import { PreviewTriggerService } from 'core-app/core/setup/globals/global-listen
 import { OpenprojectOverviewModule } from 'core-app/features/overview/openproject-overview.module';
 import { OpenprojectMyPageModule } from 'core-app/features/my-page/openproject-my-page.module';
 import { OpenprojectProjectsModule } from 'core-app/features/projects/openproject-projects.module';
-import { KeyboardShortcutService } from 'core-app/shared/directives/a11y/keyboard-shortcut-service';
+import { KeyboardShortcutService } from 'core-app/shared/directives/a11y/keyboard-shortcut.service';
 import { OpenprojectMembersModule } from 'core-app/shared/components/autocompleter/members-autocompleter/members.module';
 import { OpenprojectAugmentingModule } from 'core-app/core/augmenting/openproject-augmenting.module';
 import { OpenprojectInviteUserModalModule } from 'core-app/features/invite-user-modal/invite-user-modal.module';

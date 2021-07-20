@@ -18,9 +18,9 @@ import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/s
 import { FormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from '../../typings';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
-import { ConfirmDialogService } from "core-app/shared/components/modals/confirm-dialog/confirm-dialog.service";
 
 /**
 * SETTINGS:
@@ -287,7 +287,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
     return this._dynamicFormService.validateForm$(this.form, this.formEndpoint);
   }
-
 
   handleCancel() {
     if (this.form.dirty) {

@@ -8,7 +8,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
-import { ICKEditorContext } from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
+import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {

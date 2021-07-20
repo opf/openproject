@@ -31,7 +31,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialData, EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { I18nHelpers } from 'core-app/shared/helpers/i18n/localized-link';
+import { localizeLink } from 'core-app/shared/helpers/i18n/localized-link';
 
 const newsletterURL = 'https://www.openproject.com/newsletter/';
 
@@ -57,11 +57,11 @@ export class EETrialFormComponent {
 
   public text = {
     general_consent: this.I18n.t('js.admin.enterprise.trial.form.general_consent', {
-      link_terms: I18nHelpers.localizeLink({
+      link_terms: localizeLink({
         en: 'https://www.openproject.com/terms-of-service/',
         de: 'https://www.openproject.org/de/nutzungsbedingungen/',
       }),
-      link_privacy: I18nHelpers.localizeLink({
+      link_privacy: localizeLink({
         en: 'https://www.openproject.org/data-privacy-and-security/',
         de: 'https://www.openproject.org/de/datenschutz/',
       }),

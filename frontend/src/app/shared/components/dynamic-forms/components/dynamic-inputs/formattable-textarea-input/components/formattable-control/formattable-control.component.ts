@@ -4,11 +4,11 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { FormlyTemplateOptions } from '@ngx-formly/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { OpCkeditorComponent } from "core-app/shared/components/editor/components/ckeditor/op-ckeditor.component";
+import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
 import {
   ICKEditorContext,
-  ICKEditorInstance
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
+  ICKEditorInstance,
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 
 @Component({
   selector: 'op-formattable-control',

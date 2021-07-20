@@ -149,13 +149,11 @@ export class KeyboardShortcutService {
 
   focusItemOffset(offset:number) {
     const list = this.findListInPage();
-    let index;
-
     if (list === null) {
       return;
     }
 
-    index = list.indexOf(
+    const index:number = list.indexOf(
       jQuery(document.activeElement!)
         .closest(accessibleRowSelector)
         .find(':visible:tabbable')[0],

@@ -67,6 +67,13 @@ module.exports = {
         // Disable webpack loader definitions
         "import/no-webpack-loader-syntax": "off",
 
+        // It'd be good if we could error this for switch cases but allow it for for loops
+        "no-continue": "off",
+
+        // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
+        // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
+        "no-void": ["error", { allowAsStatement: true }],
+
         /*
         // Disable use before define, as irrelevant for TS interfaces
         "no-use-before-define": "off",
@@ -104,15 +111,6 @@ module.exports = {
         // It's common in Angular to wrap even pure functions in classes for injection purposes
         // TODO: Should probably be turned off and pure unit tests should be used at some point
         "class-methods-use-this": "warn",
-
-        // There's too much interop with legacy code that is `any`-typed for this to be an error in any practical sense
-        // TODO: Actually type everything
-        "@typescript-eslint/no-unsafe-member-access": "warn",
-        "@typescript-eslint/no-unsafe-assignment": "warn",
-        "@typescript-eslint/no-unsafe-call": "warn",
-
-        // This is probably the first rule that should be fixed. It had 309 errors last time we checked
-        "@typescript-eslint/no-unsafe-return": "warn",
       }
     },
     {

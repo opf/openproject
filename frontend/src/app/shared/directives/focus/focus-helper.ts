@@ -53,12 +53,13 @@ export class FocusHelperService {
     if (checkTimeout) {
       // new timeout window -> reset priority
       this.lastPriority = -1;
-    } else {
+      return checkTimeout;
+    }
+
+    if (priority > this.lastPriority) {
       // within timeout window
-      if (priority > this.lastPriority) {
-        this.lastPriority = priority;
-        return true;
-      }
+      this.lastPriority = priority;
+      return true;
     }
 
     return checkTimeout;

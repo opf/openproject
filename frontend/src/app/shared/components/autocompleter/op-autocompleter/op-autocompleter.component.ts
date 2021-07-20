@@ -14,7 +14,13 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
-import { Observable, NEVER, of, Subject, combineLatest, merge } from 'rxjs';
+import {
+  Observable,
+  NEVER,
+  of,
+  Subject,
+  merge,
+} from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 
@@ -22,7 +28,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 
 import { OpAutocompleterService } from './services/op-autocompleter.service';
@@ -73,6 +79,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
   @Input() public id?:string;
 
   @Input() public items?:IOPAutocompleterOption[]|HalResource[];
+
   private items$ = new Subject();
 
   @Input() public clearSearchOnAdd?:boolean = true;
@@ -182,7 +189,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Output() public scrollToEnd = new EventEmitter();
 
-  public compareByHrefOrString = AngularTrackingHelpers.compareByHrefOrString;
+  public compareByHrefOrString = compareByHrefOrString;
 
   public active:Set<string>;
 
@@ -267,7 +274,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     }
   }
 
-  public opened(val: any) {
+  public opened(_:unknown) { // eslint-disable-line no-unused-vars
     if (this.openDirectly) {
       this.results$ = this.defaultData
         ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
@@ -297,7 +304,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     });
   }
 
-  public closed(val:any) {
+  public closed(_:unknown) { // eslint-disable-line no-unused-vars
     this.close.emit();
   }
 

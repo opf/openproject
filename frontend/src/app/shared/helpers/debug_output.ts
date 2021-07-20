@@ -15,6 +15,7 @@ export function whenDebugging(cb:() => void) {
  * through webpack.
  */
 export function debugLog(message:string, ...args:any[]) {
+  // eslint-disable-next-line no-console
   whenDebugging(() => console.log(`[DEBUG] ${message}`, ...args));
 }
 
@@ -25,6 +26,7 @@ export function timeOutput(msg:string, cb:() => void):any {
     const results = cb();
 
     const t1 = performance.now();
+    // eslint-disable-next-line no-console
     console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, 'color:#00A093;');
 
     return results;
@@ -38,6 +40,7 @@ export function asyncTimeOutput(msg:string, promise:Promise<any>):any {
 
     return promise.then(() => {
       const t1 = performance.now();
+      // eslint-disable-next-line no-console
       console.log(`%c${msg} completed in ${(t1 - t0)} milliseconds.`, 'color:#00A093;');
     });
   }

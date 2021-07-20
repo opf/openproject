@@ -301,7 +301,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
         'ui-autocomplete': 'collapsible-menu--search-ul -inplace',
         'ui-menu-divider': 'collapsible-menu--category-icon',
       },
-      autoFocus: false, // Don't automatically select first entry since we 'open' the autocomplete on page load
+      opAutofocus: false, // Don't automatically select first entry since we 'open' the autocomplete on page load
       minLength: 0,
     });
   }

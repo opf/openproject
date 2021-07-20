@@ -30,7 +30,7 @@ import {
   Component, EventEmitter, Input, OnInit, Output,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { AngularTrackingHelpers } from 'core-app/shared/helpers/angular/tracking-functions';
+import { halHref, compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -57,9 +57,9 @@ export class QueryFilterComponent implements OnInit {
 
   public eeShowBanners = false;
 
-  public trackByHref = AngularTrackingHelpers.halHref;
+  public trackByHref = halHref;
 
-  public compareByHref = AngularTrackingHelpers.compareByHref;
+  public compareByHref = compareByHref;
 
   public text = {
     open_filter: this.I18n.t('js.filter.description.text_open_filter'),

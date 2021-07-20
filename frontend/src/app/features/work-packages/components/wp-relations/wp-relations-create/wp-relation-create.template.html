@@ -6,7 +6,7 @@
         <button
           type="button"
           class="op-link wp-inline-create--add-link relation-create"
-          autoFocus
+          opAutofocus
           (click)="toggleRelationsCreateForm()"
           id="relation--add-relation"
         >
@@ -28,7 +28,7 @@
                 id="relation-type--select"
                 role="listbox"
                 [(ngModel)]="selectedRelationType"
-                focus>
+                opAutoFocus>
           <option *ngFor="let type of relationTypes"
                   [textContent]="type.label"
                   [value]="type.name"></option>

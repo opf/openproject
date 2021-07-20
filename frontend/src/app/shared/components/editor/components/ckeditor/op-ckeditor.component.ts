@@ -34,10 +34,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   ICKEditorContext,
-  ICKEditorInstance, ICKEditorWatchdog
-} from "core-app/shared/components/editor/components/ckeditor/ckeditor.types";
-import { CKEditorSetupService } from "core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service";
-
+  ICKEditorInstance, ICKEditorWatchdog,
+} from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
 declare module 'codemirror';
 
@@ -76,6 +75,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   // CKEditor instance once initialized
   public watchdog:ICKEditorWatchdog;
+
   public ckEditorInstance:ICKEditorInstance;
 
   public error:string|null = null;
@@ -109,10 +109,10 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   private $element:JQuery;
 
   constructor(private readonly elementRef:ElementRef,
-              private readonly Notifications:NotificationsService,
-              private readonly I18n:I18nService,
-              private readonly configurationService:ConfigurationService,
-              private readonly ckEditorSetup:CKEditorSetupService) {
+    private readonly Notifications:NotificationsService,
+    private readonly I18n:I18nService,
+    private readonly configurationService:ConfigurationService,
+    private readonly ckEditorSetup:CKEditorSetupService) {
   }
 
   /**
@@ -182,7 +182,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     try {
       this.watchdog?.destroy();
     } catch (e) {
-      console.error(`Failed to destroy CKEditor instance: ${e}`)
+      console.error('Failed to destroy CKEditor instance:', e);
     }
   }
 

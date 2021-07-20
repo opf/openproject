@@ -138,7 +138,7 @@
     "pretest": "./scripts/link_plugin_placeholder.js",
     "test": "ng test --watch=false",
     "test:watch": "ng test --watch=true",
-    "lint": "eslint -c .eslintrc.js --ext .ts src/app/",
+    "lint": "esprint check",
     "lint:fix": "esprint check --fix",
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   }

@@ -23,11 +23,12 @@ export class WpGraphConfigurationService {
 
   private _formsPromise:Promise<void[]>|null;
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly apiv3Service:APIV3Service,
     readonly notificationService:WorkPackageNotificationService,
-    readonly currentProject:CurrentProjectService) {
-  }
+    readonly currentProject:CurrentProjectService,
+  ) { }
 
   public persistAndReload():Promise<unknown> {
     return this
@@ -104,6 +105,7 @@ export class WpGraphConfigurationService {
       .toPromise()
       .then((query) => {
         if (params.name) {
+          // eslint-ignore-next-line no-param-reassign
           query.name = params.name;
         }
         this.configuration.queries.push(query);
@@ -161,7 +163,7 @@ export class WpGraphConfigurationService {
         .form
         .load(query)
         .toPromise()
-        .then(([form, _]) => {
+        .then(([form]) => {
           this._forms[query.id as string] = form;
         })
         .catch((error) => this.notificationService.handleRawError(error)));

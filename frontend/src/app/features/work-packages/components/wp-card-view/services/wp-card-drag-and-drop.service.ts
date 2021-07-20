@@ -5,7 +5,7 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
-import { DragAndDropHelpers } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
+import { findIndex } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -63,7 +63,7 @@ export class WorkPackageCardDragAndDropService {
       accepts: () => this.cardView.dragInto,
       onMoved: async (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
-        const toIndex = DragAndDropHelpers.findIndex(card);
+        const toIndex = findIndex(card);
 
         const newOrder = await this.reorderService.move(this.currentOrder, wpId, toIndex);
         this.updateOrder(newOrder);
@@ -78,7 +78,7 @@ export class WorkPackageCardDragAndDropService {
       },
       onAdded: async (card:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
-        const toIndex = DragAndDropHelpers.findIndex(card);
+        const toIndex = findIndex(card);
 
         const workPackage = await this
           .apiV3Service
