@@ -25,6 +25,15 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
       map((settings) => settings.filter((notification) => notification._links.project.href !== null)),
     );
 
+  /** Selected projects */
+  selectedProjects$ = this
+    .notificationSettings$
+    .pipe(
+      map((notifications) => (
+        new Set(notifications.map((setting) => setting._links.project?.href))
+      )),
+    );
+
   preferences$ = this.select();
 
   constructor(protected store:UserPreferencesStore) {
