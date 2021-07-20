@@ -1,4 +1,4 @@
-<% server_name = ENV.fetch('SERVER_NAME') { "localhost" } %>
+<% server_name = ENV.fetch('SERVER_NAME') { "_default_" } %>
 <% unless server_name == "_default_" %>
 <VirtualHost *:80>
   ServerName _default_
