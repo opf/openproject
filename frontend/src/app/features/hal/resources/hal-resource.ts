@@ -168,14 +168,6 @@ export class HalResource {
     this.$source.id = val;
   }
 
-  public get isNew():boolean {
-    return !this.id || this.id === 'new';
-  }
-
-  public get persisted() {
-    return !!(this.id && this.id !== 'new');
-  }
-
   /**
    * Retain the internal tracking identifier from the given other work package.
    * This is due to us needing to identify a work package beyond its actual ID,
@@ -199,54 +191,12 @@ export class HalResource {
     return new clone(this.injector, _.merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
   }
 
-  public $plain():any {
-    return _.cloneDeep(this.$source);
-  }
-
-  public get $isHal():boolean {
-    return true;
-  }
-
   public get $link():HalLinkInterface {
     return this.$links.self.$link;
   }
 
-  public get name():string {
-    return this._name || this.$link.title || '';
-  }
-
-  public set name(name:string) {
-    this._name = name;
-  }
-
   public get href():string|null {
     return this.$link.href;
-  }
-
-  /**
-   * Return the associated state to this HAL resource, if any.
-   */
-  public get state():InputState<this>|null {
-    return null;
-  }
-
-  /**
-   * Update the state
-   */
-  public push(newValue:this):Promise<unknown> {
-    if (this.state) {
-      this.state.putValue(newValue);
-    }
-
-    return Promise.resolve();
-  }
-
-  public previewPath():string|undefined {
-    if (this.isNew && this.project) {
-      return this.project.href;
-    }
-
-    return undefined;
   }
 
   public getEditorContext(fieldName:string):ICKEditorContext {
@@ -317,13 +267,6 @@ export class HalResource {
     });
 
     return this.$self;
-  }
-
-  /**
-   * Update the resource ignoring the cache.
-   */
-  public $update() {
-    return this.$load(true);
   }
 
   /**
