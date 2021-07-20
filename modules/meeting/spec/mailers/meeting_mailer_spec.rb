@@ -30,7 +30,7 @@ require_relative '../spec_helper'
 
 describe MeetingMailer, type: :mailer do
   shared_let(:role) { FactoryBot.create(:role, permissions: [:view_meetings]) }
-  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:project) { FactoryBot.create(:project, name: 'My project') }
   shared_let(:author) do
     FactoryBot.create :user,
                       member_in_project: project,
@@ -49,7 +49,7 @@ describe MeetingMailer, type: :mailer do
     FactoryBot.create(:meeting_agenda, meeting: meeting)
   end
 
-  before(:each) do
+  before do
     author.pref[:no_self_notified] = false
     author.save!
     meeting.participants.merge([meeting.participants.build(user: watcher1, invited: true, attended: false),
@@ -102,9 +102,9 @@ describe MeetingMailer, type: :mailer do
       FactoryBot.create :meeting,
                         author: author,
                         project: project,
+                        title: 'Important meeting',
                         start_time: "2021-01-19T10:00:00Z".to_time(:utc),
                         duration: 1.0
-
     end
     let(:mail) { described_class.icalendar_notification meeting_agenda, 'meeting_agenda', author }
 
@@ -136,6 +136,22 @@ describe MeetingMailer, type: :mailer do
         expect(body).to include('01/19/2021 11:00 AM-12:00 PM (GMT+01:00) Europe/Berlin')
         expect(body).to include(meeting.participants[0].name)
         expect(body).to include(meeting.participants[1].name)
+      end
+    end
+
+    describe 'renders the calendar entry' do
+      let(:ical) { mail.parts.detect { |x| !x.multipart? } }
+      let(:parsed) { Icalendar::Event.parse(ical.body.raw_source) }
+      let(:entry) { parsed.first }
+
+      it 'renders the calendar entry' do
+        expect(parsed).to be_a Array
+        expect(parsed.length).to eq 1
+
+        expect(entry.dtstart.utc).to eq meeting.start_time
+        expect(entry.dtend.utc).to eq meeting.start_time + 1.hour
+        expect(entry.summary).to eq '[My project] Important meeting'
+        expect(entry.description).to eq "[My project] Agenda: Important meeting"
       end
     end
 
