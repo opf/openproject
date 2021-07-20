@@ -42,6 +42,12 @@ module API
                                       .call(params)
             end
 
+            def notification_scope
+              ::Notification
+                .recipient(current_user)
+                .where.not(reason_ian: nil)
+            end
+
             def bulk_update_status(attributes)
               if notification_query.valid?
                 notification_query.results.update_all({ updated_at: Time.zone.now }.merge(attributes))
@@ -53,7 +59,7 @@ module API
           end
 
           get &::API::V3::Utilities::Endpoints::Index
-            .new(model: Notification, scope: -> { Notification.recipient(current_user) })
+            .new(model: Notification, scope: -> { notification_scope })
             .mount
 
           post :read_ian do
@@ -66,7 +72,7 @@ module API
 
           route_param :id, type: Integer, desc: 'Notification ID' do
             after_validation do
-              @notification = Notification.recipient(current_user).find(params[:id])
+              @notification = notification_scope.find(params[:id])
             end
 
             helpers do
