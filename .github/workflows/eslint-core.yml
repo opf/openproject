@@ -1,4 +1,4 @@
-name: Core/eslint
+name: "Core/Frontend-Linting"
 on:
   pull_request:
     branches:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   eslint:
-    name: runner / eslint
+    name: eslint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
