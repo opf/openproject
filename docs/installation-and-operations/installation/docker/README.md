@@ -119,6 +119,9 @@ docker run -d -p 8080:80 --name openproject \
   openproject/community:11
 ```
 
+Please make sure you set the correct public facing hostname in `SERVER_HOSTNAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
+you will otherwise be vulnerable to [HOST header injections](https://portswigger.net/web-security/host-header), as the internal server has no way of identifying the correct host name.
+
 **Note**: Make sure to replace `secret` with a random string. One way to generate one is to run `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 32 ; echo ''` if you are on Linux.
 
 **Note**: MacOS users might encounter an "Operation not permitted" error on the mounted directories. The fix for this is to create the two directories in a user-owned directory of the host machine.
