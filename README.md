@@ -1,5 +1,7 @@
 # OpenProject
-[![Code Climate](https://codeclimate.com/github/opf/openproject/badges/gpa.svg)](https://codeclimate.com/github/opf/openproject)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/opf/openproject)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/opf/openproject)
+![GitHub branch checks state](https://img.shields.io/github/checks-status/opf/openproject/dev)
 [![Github Tests](https://github.com/opf/openproject/actions/workflows/test-core.yml/badge.svg?branch=dev)](https://github.com/opf/openproject/actions/workflows/test-core.yml)
 
 OpenProject is a web-based project management software. Its key features are:
