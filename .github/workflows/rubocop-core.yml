@@ -1,4 +1,5 @@
-name: Core/rubocop
+name: "Core/Backend-Linting"
+
 on:
   pull_request:
     branches:
@@ -9,7 +10,7 @@ on:
 
 jobs:
   rubocop:
-    name: runner / rubocop
+    name: rubocop
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

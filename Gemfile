@@ -282,9 +282,6 @@ group :development, :test do
   gem 'pry-rescue', '~> 1.5.2'
   gem 'pry-stack_explorer', '~> 0.6.0'
 
-  # Dangerfile scanner on CI and locally
-  gem 'danger', '~> 8.3.1'
-
   # Brakeman scanner
   gem 'brakeman', '~> 5.0.0'
   gem 'danger-brakeman'

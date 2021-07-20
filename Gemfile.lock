@@ -983,7 +983,6 @@ DEPENDENCIES
   costs!
   daemons
   dalli (~> 2.7.10)
-  danger (~> 8.3.1)
   danger-brakeman
   dashboards!
   database_cleaner (~> 2.0)
