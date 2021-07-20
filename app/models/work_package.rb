@@ -163,8 +163,7 @@ class WorkPackage < ApplicationRecord
   # test_destroying_root_projects_should_clear_data #
   # for details.                                    #
   ###################################################
-  acts_as_attachable after_remove: :attachments_changed,
-                     order: "#{Attachment.table_name}.file",
+  acts_as_attachable order: "#{Attachment.table_name}.file",
                      add_on_new_permission: :add_work_packages,
                      add_on_persisted_permission: :edit_work_packages,
                      modification_blocked: ->(*) { readonly_status? },
