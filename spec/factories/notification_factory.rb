@@ -5,7 +5,7 @@ FactoryBot.define do
     read_mail { false }
     read_mail_digest { false }
     reason_ian { :mentioned }
-    reason_mail { :involved}
+    reason_mail { :involved }
     reason_mail_digest { :watched }
     recipient factory: :user
     project { association :project }
