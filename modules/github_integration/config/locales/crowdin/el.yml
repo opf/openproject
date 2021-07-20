@@ -21,7 +21,7 @@
 #++
 el:
   project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
+  permission_show_github_content: "Εμφάνιση περιεχομένου GitHub"
   github_integration:
     pull_request_opened_comment: >
       **Κλειστό PR:** Το αίτημα για Pull %{pr_number} [%{pr_title}](%{pr_url}) για [%{repository}](%{repository_url}) έχει ανοίξει από [%{github_user}](%{github_user_url}).
