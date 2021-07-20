@@ -45,9 +45,9 @@ See docs/COPYRIGHT.rdoc for more details.
       <% end %>
     </li>
   <% end %>
-  <% if authorize_for(:budgets, :copy) %>
+  <% if authorize_for(:budgets, :destroy) %>
     <li class="toolbar-item">
-      <%= link_to({ controller: 'budgets', action: 'destroy', id: @budget }, class: 'button', method: :delete, data: { confirm: t(:text_are_you_sure)}) do %>
+      <%= link_to({ controller: 'budgets', action: 'destroy', id: @budget }, class: 'button', method: :delete) do %>
         <%= op_icon('button--icon icon-delete') %>
         <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
