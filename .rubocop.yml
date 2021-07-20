@@ -137,6 +137,8 @@ RSpec/MultipleMemoizedHelpers:
   Max: 15
   AllowSubject: true
 
+RSpec/NestedGroups:
+  Max: 4
 
 Style/Alias:
   Enabled: false
