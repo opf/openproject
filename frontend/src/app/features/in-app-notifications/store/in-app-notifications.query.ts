@@ -6,7 +6,7 @@ import { InAppNotificationsStore, InAppNotificationsState } from './in-app-notif
 @Injectable({ providedIn: 'root' })
 export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState> {
   /** Get the number of unread items */
-  unreadCount$ = this.select('count');
+  unreadCount$ = this.select('unreadCount');
 
   /** Do we have any unread items? */
   hasUnread$ = this.unreadCount$.pipe(map((count) => count > 0));
