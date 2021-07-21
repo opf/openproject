@@ -771,7 +771,7 @@ es:
       news: "Noticias"
       notification:
         one: "Notification"
-        other: "Notificaciones"
+        other: "Notifications"
       placeholder_user: "Usuario de marcador de posición"
       project: "Proyecto"
       query: "Consulta personalizada"
@@ -2756,7 +2756,7 @@ es:
     Alcanzado el límite de usuarios. No se puede activar ningún usuario más. <a href="%{upgrade_url}">actualice su plan</a> o bloquee miembros para permitir usuarios adicionales.
   warning_user_limit_reached_instructions: >
     Has alcanzado el límite de usuarios (%{current}/%{max} usuarios activos). Por favor, contacta con sales@openproject.com para mejorar tu plan a la edición Enterprise y añadir usuarios adicionales.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

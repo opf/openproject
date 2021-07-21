@@ -2799,7 +2799,7 @@ sk:
     Váš limit počtu užívateľov bol dosiahnutý. Nie je možné aktivovať viac užívateľov. Prosím <a href="%{upgrade_url}">upgradujte váš cenový plán</a> alebo zablokujte niektorých stávajúcich členov aby bolo možné pridanie ďalších užívateľov.
   warning_user_limit_reached_instructions: >
     Limit počtu užívateľov (%{current}/%{max} aktívnych užívateľov) dosiahnutý. Prosím kontaktujte sales@openproject.com a upgradujte Vašu Enterprise Edition a pridajte ďalších užívateľov.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

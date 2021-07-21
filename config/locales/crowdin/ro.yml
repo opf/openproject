@@ -2779,7 +2779,7 @@ ro:
     A fost atinsă limita de utilizatori. Nu mai puteți activa alți utilizatori. Vă rugăm să <a href="%{upgrade_url}">vă actualizați planul</a> sau să blocați membrii pentru a permite accesul la utilizatori suplimentari.
   warning_user_limit_reached_instructions: >
     Ați atins limita de utilizatori (%{current}/%{max} utilizatori activi). Vă rugăm să contactați sales@openproject.com pentru a vă actualiza planul Enterprise Edition și a adăuga utilizatori suplimentari.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

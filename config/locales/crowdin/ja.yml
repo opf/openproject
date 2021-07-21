@@ -2736,7 +2736,7 @@ ja:
     ユーザー制限に達しました。 これ以上ユーザーをアクティブにすることはできません。 追加のユーザーが参加できるように<a href="%{upgrade_url}">プランをアップグレード</a>するか、メンバーをブロックしてください。
   warning_user_limit_reached_instructions: >
     ユーザー制限（%{current}/%{max} アクティブユーザー）に達しました。 sales@openproject.com に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

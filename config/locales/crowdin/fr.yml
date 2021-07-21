@@ -2758,7 +2758,7 @@ fr:
     Limite d'utilisateur atteinte. Vous ne pouvez plus activer d'autres utilisateurs. Veuillez <a href="%{upgrade_url}">mettre à jour votre plan</a> ou bloquez des membres pour permettre d'autres utilisateurs.
   warning_user_limit_reached_instructions: >
     Vous avez atteint votre limite d'utilisateurs (%{current}/%{max} utilisateurs actifs). Veuillez contacter sales@openproject.com pour mettre à jour votre plan Enterprise Edition et ajouter des utilisateurs supplémentaires.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

@@ -2797,7 +2797,7 @@ sl:
     Dosežena omejitev uporabnika. Ne morete več aktivirati uporabnikov. <a href="%{upgrade_url}"> nadgradite svoj načrt </a> ali blokirajte člane, da omogočite dodatne uporabnike.
   warning_user_limit_reached_instructions: >
     Dosegli ste uporabniško omejitev (%{current} /%{max} aktivni uporabniki).Prosimo kontaktirajte sales@openproject.com  če želite nadgraditi načrt za Enterprise Edition in dodati dodatne uporabnike.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

@@ -549,7 +549,7 @@ de:
         invalid_url: 'ist keine gültige URL.'
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein."
-        not_available: "is not available due to a system configuration."
+        not_available: "ist aufgrund einer Systemkonfiguration nicht verfügbar."
         not_deletable: "kann nicht entfernt werden."
         not_current_user: "ist nicht der aktuelle Benutzer."
         not_a_date: "ist kein gültiges Datum."
@@ -2754,7 +2754,7 @@ de:
     Nutzerlimit erreicht. Sie können keine weiteren Nutzer aktivieren. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren Sie Mitglieder, um Platz für weitere Nutzer zu schaffen.
   warning_user_limit_reached_instructions: >
     Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
