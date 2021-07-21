@@ -140,7 +140,7 @@ describe 'My page', type: :feature, js: true do
 
     sleep(0.3)
 
-    # Resizing leads to the calender area now spanning a larger area
+    # Resizing leads to the calendar area now spanning a larger area
     calendar_area.expect_to_span(1, 1, 3, 2)
     # Because of the added row, and the resizing the other widgets (assigned and created) have moved down
     assigned_area.expect_to_span(3, 1, 4, 2)

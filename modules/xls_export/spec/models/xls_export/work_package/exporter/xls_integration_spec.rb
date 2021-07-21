@@ -100,7 +100,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     it 'produces the correct result' do
       expect(query.columns.map(&:name)).to eq %i[type id subject status assigned_to priority]
 
-      # the first header row devides the sheet into work packages and relation columns
+      # the first header row divides the sheet into work packages and relation columns
       expect(sheet.rows.first.take(8)).to eq ['Work packages', nil, nil, nil, nil, nil, nil, 'Relations']
 
       # the second header row includes the column names for work packages and relations and the related work package
