@@ -1,0 +1,83 @@
+# /api/v3/notifications
+---
+get:
+  parameters:
+    - description: Page number inside the requested collection.
+      example: '25'
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 1
+        type: integer
+    - description: Number of elements to display per page.
+      example: '25'
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+    - description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+
+        + id: Sort by primary key
+
+        + reason: Sort by notification reason
+
+        + readIAN: Sort by read status
+      example: '[["reason", "asc"]]'
+      in: query
+      name: sortBy
+      required: false
+      schema:
+        type: string
+    - description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+
+        + readIAN: Filter by read status
+        + id: Filter by primary key
+      example: '[{ "readIAN": { "operator": "=", "values": ["t"] } }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/list_notifications_model.yml"
+      description: OK
+      headers: { }
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+                message:
+                  - Filters Invalid filter does not exist.
+      description: Returned if the client sends invalid request parameters e.g. filters
+      headers: { }
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to view this resource.
+      description: Returned if the client is not logged in and login is required.
+      headers: { }
+  tags:
+    - Notifications
+  description: Lists available in-app notifications. The notifications returned depend on the provided parameters and
+    also on the requesting user's permissions.
+  operationId: List_Notifications
+  summary: List Notifications
