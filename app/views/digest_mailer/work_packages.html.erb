@@ -19,7 +19,9 @@
                   <%= digest_notification_timestamp_text(notification) %>
                 </td>
                 <td style="text-align: right">
-                  <%= I18n.t(:"mail.digests.work_packages.reason.#{notification.reason_mail_digest}") %>
+                  <%= I18n.t(
+                        :"mail.digests.work_packages.reason.#{notification.reason_mail_digest || :unknown}",
+                        default: '-') %>
                 </td>
                 <td width="20px"></td>
               </tr>
