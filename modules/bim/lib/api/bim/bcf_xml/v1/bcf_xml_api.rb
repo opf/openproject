@@ -38,7 +38,7 @@ module API
               namespace 'bcf_xml' do
                 helpers do
                   # Global helper to set allowed content_types
-                  # This may be overriden when multipart is allowed (file uploads)
+                  # This may be overridden when multipart is allowed (file uploads)
                   def allowed_content_types
                     if post_request?
                       %w(multipart/form-data)

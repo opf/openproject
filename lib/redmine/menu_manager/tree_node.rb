@@ -85,7 +85,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
     child
   end
 
-  # Wrapp remove! making sure to decrement the last_items counter if
+  # Wrap remove! making sure to decrement the last_items counter if
   # the removed child was a last item
   def remove!(child)
     @last_items_count -= +1 if child && child.last

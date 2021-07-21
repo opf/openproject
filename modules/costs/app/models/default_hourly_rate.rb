@@ -76,7 +76,7 @@ class DefaultHourlyRate < Rate
   end
 
   def rate_updated
-    # FIXME: This might be extremly slow. Consider using an implementation like in HourlyRateObserver
+    # FIXME: This might be extremely slow. Consider using an implementation like in HourlyRateObserver
     unless valid_from_changed?
       # We have not moved a rate, maybe just changed the rate value
 

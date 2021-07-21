@@ -77,7 +77,7 @@ module OpenProject
         # Retrieve the local FS path
         # of this repository.
         #
-        # Overriden by some vendors, as not
+        # Overridden by some vendors, as not
         # all vendors have a path root_url.
         # (e.g., subversion uses file:// URLs)
         def local_repository_path

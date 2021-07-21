@@ -257,7 +257,7 @@ describe CostEntry, type: :model do
     end
 
     describe '#real_costs' do
-      describe 'WHEN overrridden cost are set' do
+      describe 'WHEN overridden cost are set' do
         let(:value) { rand(500) }
 
         before do

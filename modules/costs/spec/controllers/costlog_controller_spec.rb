@@ -688,7 +688,7 @@ describe CostlogController, type: :controller do
 
     describe "WHEN the user is allowed to update own cost_entries and not all
               WHEN updating foreign cost_entry
-              WHEN updating someting" do
+              WHEN updating something" do
       let(:user3) { FactoryBot.create(:user) }
 
       before do

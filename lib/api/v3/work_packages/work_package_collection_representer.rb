@@ -54,12 +54,12 @@ module API
           # In order to optimize performance we
           #   * override paged_models so that only the id is fetched from the
           #     scope (typically a query with a couple of includes for e.g.
-          #     filtering), circumventing AR instantiation alltogether
+          #     filtering), circumventing AR instantiation altogether
           #   * use the ids to fetch the actual work packages with all the fields
           #     necessary for rendering the work packages in _elements
           #
           # This results in the weird flow where the scope is passed to super (models variable),
-          # which calls the overriden paged_models method fetching the ids. In order to have
+          # which calls the overridden paged_models method fetching the ids. In order to have
           # real AR objects again, we finally get the work packages we actually want to have
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.

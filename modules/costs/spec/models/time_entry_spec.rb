@@ -269,7 +269,7 @@ describe TimeEntry, type: :model do
       expect(@default_example.costs).to eq(default_hourly_five.rate)
     end
 
-    it 'shoud be able to switch between default hourly rate and hourly rate' do
+    it 'should be able to switch between default hourly rate and hourly rate' do
       @default_example.user = user2
       @default_example.rate = default_hourly_one
       @default_example.save!
