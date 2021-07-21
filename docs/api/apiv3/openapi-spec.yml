@@ -204,7 +204,7 @@ paths:
   "/api/v3/notifications":
     "$ref": "./paths/notifications.yml"
   "/api/v3/notifications/{id}":
-    "$ref": "./paths/notifications_item.yml"
+    "$ref": "./paths/notification.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
