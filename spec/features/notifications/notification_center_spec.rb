@@ -19,6 +19,25 @@ describe "Notification center", type: :feature, js: true do
 
   let(:center) { ::Components::Notifications::Center.new }
 
+  describe 'notification for a new journal' do
+    current_user { recipient }
+
+    it 'will not show all details of the journal' do
+      allow(notification.journal).to receive(:initial?).and_return true
+      visit home_path
+      center.expect_bell_count 1
+      center.open
+
+      center.expect_work_package_item notification
+      center.click_item notification
+      center.expect_expanded notification
+
+      center.within_item(notification) do
+        expect(page).to have_text "The work package was created."
+      end
+    end
+  end
+
   describe 'basic use case' do
     current_user { recipient }
 
