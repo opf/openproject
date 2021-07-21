@@ -38,5 +38,6 @@ OpenProject::Application.routes.draw do
 
   resources :budgets, only: %i[show update destroy edit] do
     get :copy, on: :member
+    get :destroy_info, on: :member
   end
 end
