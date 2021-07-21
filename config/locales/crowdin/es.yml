@@ -1880,7 +1880,7 @@ es:
   mail_body_wiki_content_updated: "La página wiki de '%{id}' ha sido actualizada por %{author}."
   mail_subject_account_activation_request: "solicitud de activación de cuenta de %{value}"
   mail_subject_backup_ready: "La copia de seguridad está preparada"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_token_reset: "Resetear token de respaldo"
   mail_subject_lost_password: "Su contraseña %{value}"
   mail_subject_register: "La activación de la cuenta %{value}"
   mail_subject_reminder: "%{count} paquete(s) de trabajo pendientes en los siguientes %{days} dias"

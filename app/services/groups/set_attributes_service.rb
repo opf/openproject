@@ -33,7 +33,7 @@ module Groups
     private
 
     def set_attributes(params)
-      set_users(params)
+      set_users(params) if params.key?(:user_ids)
       super
     end
 

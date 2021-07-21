@@ -203,7 +203,7 @@ el:
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
     settings:
-      change_identifier: Change identifier
+      change_identifier: Αλλαγή αναγνωριστικού
       activities:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
@@ -225,7 +225,7 @@ el:
     index:
       no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν μέλη που να αποτελούν μέρος αυτού του έργου.
       no_results_content_text: Προσθέστε ένα μέλος στο έργο
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Αποστολή πρόσκλησης στο %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Αποτυχία επαναφοράς του token πρόσβασης: %{error}"
@@ -832,7 +832,7 @@ el:
     label_create_token: "Δημιουργία token αντιγράφου ασφαλείας"
     label_delete_token: "Διαγραφή token αντιγράφου ασφαλείας"
     label_reset_token: "Επαναφορά token αντιγράφου ασφαλείας"
-    label_token_users: "The following users have active backup tokens"
+    label_token_users: "Οι ακόλουθοι χρήστες έχουν ενεργά token αντιγράφων ασφαλείας"
     reset_token:
       action_create: Δημιουργία
       action_reset: Επαναφορά
@@ -1532,8 +1532,8 @@ el:
   label_member_new: "Νέο μέλος"
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Το μέλος προστέθηκε'
+  lable_membership_updated: 'Το μέλος ενημερώθηκε'
   label_menu_item_name: "Όνομα στοιχείου μενού"
   label_message: "Μήνυμα"
   label_message_last: "Τελευταίο μήνυμα"
@@ -1855,8 +1855,8 @@ el:
   mail_body_account_activation_request: "'Ένας νέος χρήστης (%{value}) έχει εγγραφεί. Ο λογαριασμός είναι σε στάδιο αναμονής της έγκρισης σας:"
   mail_body_account_information: "Πληροφορίες του λογαριασμού σας"
   mail_body_account_information_external: "Μπορείτε να χρησιμοποιήσετε τον λογαριασμό %{value} για να συνδεθείτε."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_ready: "Το ζητούμενο αντίγραφο ασφαλείας είναι έτοιμο. Μπορείτε να το κατεβάσετε εδώ:"
+  mail_body_backup_token_reset_admin_info: Το token αντιγράφου ασφαλείας για το χρήστη '%{user}' έχει επαναφερθεί.
   mail_body_backup_token_reset_user_info: Your backup token has been reset.
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
@@ -1877,7 +1877,7 @@ el:
   mail_body_wiki_content_added: "Η σελίδα wiki '%{id}' προστέθηκε από τον %{author}."
   mail_body_wiki_content_updated: "Η σελίδα wiki '%{id}' ενημερώθηκε από τον %{author}."
   mail_subject_account_activation_request: "Αίτηση ενεργοποίησης του λογαριασμού %{value}"
-  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_ready: "Το αντίγραφο ασφαλείας σας είναι έτοιμο"
   mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Ο %{value} κωδικός σας"
   mail_subject_register: "Ενεργοποίηση του %{value} λογαριασμού σας"
@@ -1891,21 +1891,21 @@ el:
       added_by:
         without_message: "%{user} added you as a member to the project '%{project}'."
         with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+      roles: "Έχετε τους ακόλουθους ρόλους:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Οι ρόλοι σας έχουν ενημερωθεί"
     body:
       updated_by:
         without_message: "%{user} updated the roles you have in the project '%{project}'."
         with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+      roles: "Πλέον έχετε τους ακόλουθους ρόλους:"
   mail_member_updated_global:
     subject: "Your global permissions have been updated"
     body:
       updated_by:
         without_message: "%{user} updated the roles you have globally."
         with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+      roles: "Πλέον έχετε τους ακόλουθους ρόλους:"
   mail_user_activation_limit_reached:
     subject: Επετεύχθη το όριο ενεργοποίησης χρηστών
     message: |
@@ -2258,7 +2258,7 @@ el:
   setting_consent_required: "Απαιτείται συγκατάθεση"
   setting_consent_decline_mail: "Συγκατάθεση επικοινωνίας διεύθυνσης email"
   setting_cross_project_work_package_relations: "Επιτρέψτε συσχετισμό πακέτων εργασίας μεταξύ έργων"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "Η πρώτη εβδομάδα του έτους περιέχει"
   setting_date_format: "Μορφηποίηση ημερομηνίας"
   setting_default_language: "Προεπιλεγμένη γλώσσα"
   setting_default_notification_option: "Προεπιλεγμένη επιλογή ειδοποιήσεων"
@@ -2734,7 +2734,7 @@ el:
       code_403: "Δεν έχετε εξουσιοδότηση πρόσβασης σε αυτή τη σελίδα."
       code_404: "Ο ζητούμενος πόρος δεν βρέθηκε."
       code_409: "Δεν ήταν δυνατή η ενημέρωση του πόρου λόγω αντιφατικών τροποποιήσεων."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Πάρα πολλά αιτήματα. Παρακαλώ δοκιμάστε ξανά αργότερα."
       code_500: "Παρουσιάστηκε ένα εσωτερικό σφάλμα."
       expected:
         date: "ΕΕΕΕ-ΜΜ-ΗΗ (ISO 8601 ημερομηνία μόνο)"
@@ -2855,4 +2855,4 @@ el:
     authorization_error: "Παρουσιάστηκε ένα σφάλμα εξουσιοδότησης."
     revoke_my_application_confirmation: "Είστε βέβαιοι ότι θέλετε να αφαιρέσετε αυτή την εφαρμογή; Αυτό θα ανακαλέσει %{token_count} που είναι ενεργά για αυτή."
     my_registered_applications: "Καταγεγραμμένες εφαρμογές OAuth"
-  you: you
+  you: εσείς

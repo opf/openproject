@@ -7,8 +7,8 @@ ca:
     label_imported_failed: 'Failed imports of BCF topics'
     label_imported_successfully: 'Successfully imported BCF topics'
     issues: "Issues"
-    recommended: 'recommended'
-    not_recommended: 'not recommended'
+    recommended: 'recomanat'
+    not_recommended: 'no recomanat'
     no_viewpoints: 'No viewpoints'
     new_badge: "Nou"
     exceptions:
