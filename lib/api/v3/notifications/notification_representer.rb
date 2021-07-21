@@ -58,7 +58,7 @@ module API
                  getter: ->(*) do
                    next unless represented.journal
 
-                   formatted_details(represented.journal)
+                   formatted_notification_details(represented.journal)
                      .unshift formatted_notes(represented.journal)
                  end,
                  render_nil: false
@@ -98,6 +98,20 @@ module API
 
         def _type
           'Notification'
+        end
+
+        ##
+        # For notifications, we want to skip the initial journal
+        # as the information is not that useful
+        def formatted_notification_details(journal)
+          if journal.initial?
+            note_created = I18n.t('notifications.work_packages.subject.created')
+            [
+              { format: 'custom', raw: note_created, html: "<em>#{note_created}</em>" }
+            ]
+          else
+            formatted_details(journal)
+          end
         end
       end
     end
