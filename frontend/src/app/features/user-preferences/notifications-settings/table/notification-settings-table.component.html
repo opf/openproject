@@ -77,7 +77,7 @@
     <op-notification-setting-inline-create
         *ngIf="userId"
         [userId]="userId"
-        (onSelect)="addRow($event)"
+        (selected)="addRow($event)"
         data-qa-selector="notification-setting-inline-create"
     ></op-notification-setting-inline-create>
   </div>

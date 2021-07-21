@@ -155,11 +155,17 @@ module Authentication
     # Update or assign the user attributes
     def update_attributes
       if user.new_record? || user.invited?
-        user.assign_attributes user_attributes
         user.register unless user.invited?
+
+        ::Users::SetAttributesService
+          .new(user: User.system, model: user, contract_class: ::Users::UpdateContract)
+          .call(user_attributes)
+          .result
       else
         # Update the user, but never change the admin flag
-        user.update user_attributes.except(:admin)
+        ::Users::UpdateService
+          .new(user: User.system, model: user)
+          .call(user_attributes.except(:admin))
       end
     end
 
