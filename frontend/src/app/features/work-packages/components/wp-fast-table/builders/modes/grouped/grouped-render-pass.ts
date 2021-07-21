@@ -85,7 +85,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       // Otherwise, fall back to simple value comparison.
       let value = group.value === '' ? null : group.value;
 
-      if (value) {
+      if (value && typeof value === 'string') {
         // For matching we have to remove the % sign which is shown when grouping after progress
         value = value.replace('%', '');
       }
