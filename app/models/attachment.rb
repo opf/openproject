@@ -44,6 +44,19 @@ class Attachment < ApplicationRecord
            if: -> { !internal_container? }
   validate :container_changed_more_than_once
 
+  # Those columns are currently not displayed in the application and are rarely used
+  # at all.
+  # Their purpose currently is limited to full text search where the results are not highlighted.
+  # As the columns can contain a lot of text (with the exception of file_tsv) and having them included
+  # leads to them being loaded when attachments are fetched, including the columns leads to a heavily
+  # increased loading time
+  # From a production database:
+  # SELECT "attachments"."id", "attachments"."fulltext" ...
+  # => 2650 ms
+  # SELECT "attachments"."id" ...
+  # => 1 ms
+  self.ignored_columns = %w(fulltext fulltext_tsv file_tsv)
+
   acts_as_journalized
   acts_as_event title: -> { file.name },
                 url: (Proc.new do |o|

@@ -33,10 +33,10 @@ describe 'Work Package group by progress', js: true do
     group_by.enable_via_menu 'Progress (%)'
 
     # Expect table to be grouped as WP created above
-    expect(page).to have_selector('.group--value .count', count: 3)
-    expect(page).to have_selector('.group--value', text: '0% (1)')
-    expect(page).to have_selector('.group--value', text: '10% (2)')
-    expect(page).to have_selector('.group--value', text: '50% (1)')
+    group_by.expect_number_of_groups 3
+    group_by.expect_grouped_by_value '0%', 1
+    group_by.expect_grouped_by_value '10%', 2
+    group_by.expect_grouped_by_value '50%', 1
 
     # Update category of wp_none
     cat = wp_table.edit_field(wp_1, :percentageDone)
@@ -45,9 +45,9 @@ describe 'Work Package group by progress', js: true do
     loading_indicator_saveguard
 
     # Expect changed groups
-    expect(page).to have_selector('.group--value .count', count: 2)
-    expect(page).to have_selector('.group--value', text: '10% (2)')
-    expect(page).to have_selector('.group--value', text: '50% (2)')
+    group_by.expect_number_of_groups 2
+    group_by.expect_grouped_by_value '10%', 2
+    group_by.expect_grouped_by_value '50%', 2
   end
 
   context 'with grouped query' do
@@ -62,14 +62,14 @@ describe 'Work Package group by progress', js: true do
 
     it 'keeps the disabled group by when reloading (Regression WP#26778)' do
       # Expect table to be grouped as WP created above
-      expect(page).to have_selector('.group--value .count', count: 3)
+      group_by.expect_number_of_groups 3
 
       group_by.disable_via_menu
-      expect(page).to have_no_selector('.group--value')
+      group_by.expect_no_groups
 
       # Expect disabled group by to be kept after reload
       page.driver.browser.navigate.refresh
-      expect(page).to have_no_selector('.group--value')
+      group_by.expect_no_groups
 
       # But query has not been changed
       query.reload

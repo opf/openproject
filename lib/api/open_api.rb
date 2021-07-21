@@ -27,6 +27,8 @@ module API
       spec = YAML.safe_load File.read(file_path.to_s)
 
       substitute_refs(spec, path: file_path.parent, root_path: file_path.parent)
+    rescue Psych::SyntaxError => e
+      raise "Failed to load #{file_path}: #{e.class} #{e.message}"
     end
 
     def substitute_refs(spec, path:, root_path:, root_spec: spec)
@@ -49,6 +51,8 @@ module API
       else
         spec.transform_values { |v| substitute_refs(v, path: path, root_path: root_path, root_spec: root_spec) }
       end
+    rescue Psych::SyntaxError => e
+      raise "Failed to load #{ref_path}: #{e.class} #{e.message}"
     end
 
     def resolve_refs(spec, path:, root_path:, root_spec:)

@@ -4,9 +4,10 @@ require:
 
 AllCops:
   TargetRubyVersion: 2.7
+  # Enable any new cops in new versions by default
+  NewCops: enable
   Exclude:
     - db/schema.rb
-
 
 Gemspec/RequiredRubyVersion:
   Exclude:
@@ -136,6 +137,8 @@ RSpec/MultipleMemoizedHelpers:
   Max: 15
   AllowSubject: true
 
+RSpec/NestedGroups:
+  Max: 4
 
 Style/Alias:
   Enabled: false

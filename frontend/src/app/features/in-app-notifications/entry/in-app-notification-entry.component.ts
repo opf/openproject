@@ -92,10 +92,10 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   private buildTime() {
-    this.fixedTime = this.timezoneService.formattedDatetime(this.notification.updatedAt);
+    this.fixedTime = this.timezoneService.formattedDatetime(this.notification.createdAt);
     this.relativeTime$ = timer(0, 10000)
       .pipe(
-        map(() => this.timezoneService.formattedRelativeDateTime(this.notification.updatedAt)),
+        map(() => this.timezoneService.formattedRelativeDateTime(this.notification.createdAt)),
         distinctUntilChanged(),
       );
   }
