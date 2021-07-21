@@ -9,14 +9,18 @@
       class="op-ian-item--row"
       (click)="toggleDetails()"
   >
-    <a
-        *ngIf="project"
-        class="op-ian-item--project"
-        [href]="project.showUrl"
-        [textContent]="project.title"
-        (click)="projectClicked($event)"
-        target="_blank"
-    ></a>
+    <div
+          *ngIf="project"
+          class="op-ian-item--project"
+      >
+      <a
+          class="op-ian-item--project-link"
+          [href]="project.showUrl"
+          [textContent]="project.title"
+          (click)="projectClicked($event)"
+          target="_blank"
+      ></a>
+    </div>
     <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
       <span
           class="op-ian-item--title"

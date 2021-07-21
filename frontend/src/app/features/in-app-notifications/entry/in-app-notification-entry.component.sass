@@ -58,8 +58,13 @@ $ian-bg-hover-color: #F1F8FF
   &--project
     grid-area: project
     font-size: 0.8rem
-    color: var(--gray-dark)
     @include text-shortener
+
+  &--project-link
+    color: var(--gray-dark)
+    // Set line-height to show underline
+    // which is otherwise swallowed by overflow
+    line-height: 1.1
 
   &--reason,
   &--date
