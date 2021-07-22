@@ -165,9 +165,18 @@ module Redmine
         # This method, for the time being only returns users which have their mail notification setting
         # set to watched: true
         def watcher_recipients
+          possible_watcher_users.where(id: watched_or_all_recipients)
+        end
+
+        # Ensure that only watched users or users
+        # with mail=all notification setting are returned here
+        def watched_or_all_recipients
           mail_settings = NotificationSetting.applicable(project).mail
 
-          possible_watcher_users.where(id: mail_settings.where(all: true).or(mail_settings).where(watched: true).select(:user_id))
+          mail_settings
+            .where(all: true)
+            .or(mail_settings.where(watched: true, user_id: watcher_users))
+            .select(:user_id)
         end
 
         module ClassMethods
