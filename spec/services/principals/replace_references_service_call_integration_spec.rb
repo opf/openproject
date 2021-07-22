@@ -395,5 +395,23 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
         end
       end
     end
+
+    context 'with Notification actor' do
+      let(:recipient) { FactoryBot.create :user }
+
+      it_behaves_like 'rewritten record',
+                      :notification,
+                      :actor_id do
+        let(:attributes) do
+          {
+            recipient_id: user.id,
+            resource_id: 1234,
+            resource_type: "'WorkPackage'",
+            created_at: 'NOW()',
+            updated_at: 'NOW()'
+          }
+        end
+      end
+    end
   end
 end

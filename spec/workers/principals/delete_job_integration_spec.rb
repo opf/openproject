@@ -193,6 +193,20 @@ describe Principals::DeleteJob, type: :model do
       it { expect(Token::RSS.find_by(id: token.id)).to be_nil }
     end
 
+    shared_examples_for 'notification handling' do
+      let(:notification) do
+        FactoryBot.create(:notification, recipient: principal)
+      end
+
+      before do
+        notification
+
+        job
+      end
+
+      it { expect(Notification.find_by(id: notification.id)).to be_nil }
+    end
+
     shared_examples_for 'private query handling' do
       let!(:query) do
         FactoryBot.create(:private_query, user: principal)
@@ -360,6 +374,7 @@ describe Principals::DeleteJob, type: :model do
       it_behaves_like 'member handling'
       it_behaves_like 'watcher handling'
       it_behaves_like 'token handling'
+      it_behaves_like 'notification handling'
       it_behaves_like 'private query handling'
       it_behaves_like 'issue category handling'
       it_behaves_like 'private cost_query handling'
