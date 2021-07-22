@@ -527,6 +527,7 @@ de:
         watched: 'I am watching'
         all: 'All events'
         add: 'Add setting for project'
+        already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Benachrichtigungseinstellungen"
         self_notify: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"

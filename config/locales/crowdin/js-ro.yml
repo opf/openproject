@@ -527,6 +527,7 @@ ro:
         watched: 'I am watching'
         all: 'All events'
         add: 'Add setting for project'
+        already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
         self_notify: "Vreau să fiu notificat pentru modificările pe care le fac eu"

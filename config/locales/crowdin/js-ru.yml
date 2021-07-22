@@ -527,6 +527,7 @@ ru:
         watched: 'Я смотрю'
         all: 'Все события'
         add: 'Добавить настройку для проекта'
+        already_selected: 'This project is already selected'
         remove_projects: 'Удалить уведомления для проектов'
         title: "Настройки уведомлений"
         self_notify: "Хочу получать уведомления об изменениях, которые делаю сам"
