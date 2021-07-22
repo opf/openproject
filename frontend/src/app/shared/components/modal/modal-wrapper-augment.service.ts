@@ -48,7 +48,7 @@ export class OpModalWrapperAugmentService {
    * Create initial listeners for Rails-rendered modals
    */
   public setupListener() {
-    const matches = this.documentElement.querySelectorAll('section[data-augmented-model-wrapper]');
+    const matches = this.documentElement.querySelectorAll('[data-augmented-model-wrapper]');
     for (let i = 0; i < matches.length; ++i) {
       this.wrapElement(jQuery(matches[i]) as JQuery);
     }
@@ -85,7 +85,7 @@ export class OpModalWrapperAugmentService {
     let modalBody = wrappedElement.html();
 
     if (iframeUrl) {
-      modalBody = this.appendIframe(modalBody, iframeUrl);
+      modalBody = this.appendIframe(wrappedElement, iframeUrl);
     }
 
     this.opModalService.show(
@@ -98,13 +98,12 @@ export class OpModalWrapperAugmentService {
     );
   }
 
-  private appendIframe(body:string, url:string) {
-    const subdom = jQuery(body);
+  private appendIframe(body:JQuery<HTMLElement>, url:string) {
     const iframe = jQuery('<iframe frameborder="0" height="400" allowfullscreen>></iframe>');
     iframe.attr('src', url);
 
-    subdom.find(iframeSelector).append(iframe);
+    body.find(iframeSelector).append(iframe);
 
-    return subdom.html();
+    return body.html();
   }
 }
