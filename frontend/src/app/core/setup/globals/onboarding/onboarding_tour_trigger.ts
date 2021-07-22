@@ -7,6 +7,13 @@ import {
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 
+
+async function triggerTour(name:OnboardingTourNames) {
+  debugLog(`Loading and triggering onboarding tour ${name}`);
+  const tour = await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour');
+  tour.start(name);
+}
+
 export function detectOnboardingTour() {
   // ------------------------------- Global -------------------------------
   const url = new URL(window.location.href);
@@ -48,23 +55,23 @@ export function detectOnboardingTour() {
     if (currentTourPart === 'startMainTourFromBacklogs' || url.searchParams.get('start_onboarding_tour')) {
       triggerTour('main');
     }
-
-    // ------------------------------- Tutorial Backlogs page -------------------------------
+    // ------------------------------- Prepare Backlogs page -------------------------------
     if (url.searchParams.get('start_scrum_onboarding_tour')) {
       if (jQuery('.backlogs-menu-item').length > 0) {
-        triggerTour('backlogs');
+        triggerTour('prepareBacklogs');
+      } else {
+        triggerTour('taskboard');
       }
     }
 
+    // ------------------------------- Tutorial Backlogs page -------------------------------
+    if (currentTourPart === 'prepareTaskBoardTour') {
+      triggerTour('backlogs');
+    }
+    
     // ------------------------------- Tutorial Task Board page -------------------------------
     if (currentTourPart === 'startTaskBoardTour') {
       triggerTour('taskboard');
     }
   }
-}
-
-async function triggerTour(name:OnboardingTourNames) {
-  debugLog(`Loading and triggering onboarding tour ${name}`);
-  const tour = await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour');
-  tour.start(name);
 }

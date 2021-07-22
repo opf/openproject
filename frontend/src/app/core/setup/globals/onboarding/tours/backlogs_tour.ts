@@ -1,7 +1,21 @@
+export function prepareScrumBacklogsTourSteps() {
+  return [
+    {
+      'next .backlogs-menu-item': I18n.t('js.onboarding.steps.backlogs.overview'),
+      showSkip: false,
+      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
+      containerClass: '-dark -hidden-arrow',
+      onNext() {
+        jQuery('.backlogs-menu-item')[0].click();
+      },
+    }
+  ];
+}
+
 export function scrumBacklogsTourSteps() {
   return [
     {
-      'next #content-wrapper': I18n.t('js.onboarding.steps.backlogs.overview'),
+      'next #content-wrapper': I18n.t('js.onboarding.steps.backlogs.sprints'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       containerClass: '-dark -hidden-arrow',
@@ -37,6 +51,9 @@ export function scrumTaskBoardTourSteps() {
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       containerClass: '-dark -hidden-arrow',
+      condition: () => {
+        return document.getElementsByClassName('backlogs-menu-item').length !== 0;
+      },
     },
     {
       'next #main-menu-work-packages-wrapper': I18n.t('js.onboarding.steps.wp.toggler'),
@@ -48,3 +65,4 @@ export function scrumTaskBoardTourSteps() {
     },
   ];
 }
+

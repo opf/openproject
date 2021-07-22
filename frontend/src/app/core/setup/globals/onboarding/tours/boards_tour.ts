@@ -30,6 +30,9 @@ export function boardTourSteps() {
       'next .board-list--add-button': I18n.t('js.onboarding.steps.boards.add'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
+      condition: () => {
+        document.getElementsByClassName('board-list--add-button').length !== 0
+      },
     },
     {
       'next .boards-list--container': I18n.t('js.onboarding.steps.boards.drag'),

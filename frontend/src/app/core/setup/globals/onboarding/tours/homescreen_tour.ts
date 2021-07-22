@@ -25,7 +25,7 @@ export function homescreenOnboardingTourSteps() {
         // This will be removed once the project selection is implemented
         jQuery(`.widget-box.welcome a:contains(${scrumDemoProjectName})`).click(function (this:HTMLAnchorElement) {
           window.onboardingTourInstance.trigger('next');
-          window.location.href = `${this.href}/backlogs/?start_scrum_onboarding_tour=true`;
+          window.location.href = `${this.href}/?start_scrum_onboarding_tour=true`;
         });
         jQuery(`.widget-box.welcome a:contains(${demoProjectName})`).click(function (this:HTMLAnchorElement) {
           window.onboardingTourInstance.trigger('next');
