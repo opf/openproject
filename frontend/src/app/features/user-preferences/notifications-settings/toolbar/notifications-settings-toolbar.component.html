@@ -4,17 +4,15 @@
       <h2 [textContent]="text.title"></h2>
     </div>
     <ul class="toolbar-items">
-      <li class="toolbar-item">
+      <li
+          *ngIf="(projectSettings$ | async).length > 0"
+          class="toolbar-item"
+      >
         <button
-            *ngIf="(projectSettings$ | async).length > 0"
             class="button"
             (click)="removeAll()"
         >
-          <span
-              class="button--text"
-              [textContent]="text.remove_projects"
-          >
-          </span>
+          <span [textContent]="text.remove_projects"></span>
         </button>
       </li>
     </ul>
