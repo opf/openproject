@@ -528,6 +528,7 @@ ko:
         watched: '내가 지켜보는 중'
         all: '모든 이벤트'
         add: '프로젝트에 셋팅 추가'
+        already_selected: 'This project is already selected'
         remove_projects: '프로젝트에 알림 제거'
         title: "알림 설정"
         self_notify: "내가 만든 것이 변경되면 알림을 받고 싶습니다."

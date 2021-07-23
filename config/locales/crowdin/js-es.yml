@@ -528,6 +528,7 @@ es:
         watched: 'Estoy viendo'
         all: 'Todos los eventos'
         add: 'Añadir configuración para el proyecto'
+        already_selected: 'This project is already selected'
         remove_projects: 'Eliminar notificaciones de proyectos'
         title: "Ajustes de notificación"
         self_notify: "Deseo ser notificado de los cambios realizados por mí"

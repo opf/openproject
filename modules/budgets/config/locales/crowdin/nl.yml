@@ -68,3 +68,6 @@ nl:
   permission_edit_budgets: "Edit budgets"
   permission_view_budgets: "View budgets"
   project_module_budgets: "Budgets"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

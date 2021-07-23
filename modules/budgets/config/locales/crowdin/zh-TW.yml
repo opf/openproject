@@ -68,3 +68,6 @@ zh-TW:
   permission_edit_budgets: "Edit budgets"
   permission_view_budgets: "檢視預算"
   project_module_budgets: "預算"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

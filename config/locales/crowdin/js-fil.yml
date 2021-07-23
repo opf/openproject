@@ -528,6 +528,7 @@ fil:
         watched: 'I am watching'
         all: 'All events'
         add: 'Add setting for project'
+        already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
         self_notify: "Gusto kong mapa-alam sa mga pagbabago na ginagawa ko sa aking sarili"

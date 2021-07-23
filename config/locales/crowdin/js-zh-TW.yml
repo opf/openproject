@@ -527,6 +527,7 @@ zh-TW:
         watched: 'I am watching'
         all: 'All events'
         add: 'Add setting for project'
+        already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
         self_notify: "我想要在我自己有變更的時候被通知"

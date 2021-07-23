@@ -528,6 +528,7 @@ lt:
         watched: 'Aš stebiu'
         all: 'Visi įvykiai'
         add: 'Pridėkite projekto nustatymus'
+        already_selected: 'This project is already selected'
         remove_projects: 'Pašalinti pranešimus projektams'
         title: "Pranešimų nustatymai"
         self_notify: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
