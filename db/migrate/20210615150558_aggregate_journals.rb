@@ -25,7 +25,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   # The change is irreversible (aggregated journals cannot be broken down) but down will not cause database inconsistencies.
 
   def aggregate_journals(klass)
-    klass.in_batches do |instances|
+    klass.in_batches(of: ENV["OPENPROJECT_MIGRATION_AGGREGATE_JOURNALS_BATCH_SIZE"]&.to_i || 1000) do |instances|
       # Instantiating is faster than calculating the aggregated journals multiple times.
       aggregated_journals = aggregated_journals_of(klass, instances).to_a
 
