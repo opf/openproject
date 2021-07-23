@@ -31,7 +31,7 @@ export function boardTourSteps() {
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       condition: () => {
-        document.getElementsByClassName('board-list--add-button').length !== 0
+        return document.getElementsByClassName('board-list--add-button').length !== 0;
       },
     },
     {

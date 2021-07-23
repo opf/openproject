@@ -48,8 +48,6 @@ function initializeTour(storageValue:string, disabledElements?:string, projectSe
 }
 
 function startTour(steps:any[]) {
-  steps = steps.filter((step) => step.condition ? step.condition() : true );
-
   window.onboardingTourInstance.set(steps);
   window.onboardingTourInstance.run();
 }
