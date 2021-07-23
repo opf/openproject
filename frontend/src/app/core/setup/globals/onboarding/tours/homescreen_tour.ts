@@ -3,8 +3,9 @@ import {
   preventClickHandler,
   scrumDemoProjectName,
 } from 'core-app/core/setup/globals/onboarding/helpers';
+import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
-export function homescreenOnboardingTourSteps() {
+export function homescreenOnboardingTourSteps():OnboardingStep[] {
   return [
     {
       'next .op-app-header': I18n.t('js.onboarding.steps.welcome'),

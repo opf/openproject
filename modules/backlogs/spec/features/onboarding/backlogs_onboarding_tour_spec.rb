@@ -88,7 +88,7 @@ describe 'backlogs onboarding tour', js: true do
     page.execute_script("window.sessionStorage.clear();")
   end
 
-  context 'as a new user who is allowed to see the backlogs plugin' do
+  context 'with a new user who is allowed to see the backlogs plugin' do
     before do
       login_as user
     end
@@ -122,12 +122,13 @@ describe 'backlogs onboarding tour', js: true do
     end
   end
 
-  context 'as a new user who is not allowed to see the backlogs plugin' do
+  context 'with a new user who is not allowed to see the backlogs plugin' do
     # necessary to be able to see public projects
-    let!(:non_member_role) { FactoryBot.create :non_member, permissions: [:view_work_packages] }
+    let(:non_member_role) { FactoryBot.create :non_member, permissions: [:view_work_packages] }
     let(:non_member_user) { FactoryBot.create :user }
 
     before do
+      non_member_role
       login_as non_member_user
     end
 

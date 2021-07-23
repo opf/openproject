@@ -41,7 +41,7 @@ describe 'onboarding tour for new users', js: true do
   let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
   let(:next_button) { find('.enjoyhint_next_btn') }
 
-  context 'as a new user' do
+  context 'with a new user' do
     before do
       login_as user
       allow(Setting).to receive(:demo_projects_available).and_return(true)
@@ -127,13 +127,14 @@ describe 'onboarding tour for new users', js: true do
     end
   end
 
-  context 'as a new user who is not allowed to see the parts of the tour' do
+  context 'with a new user who is not allowed to see the parts of the tour' do
     # necessary to be able to see public projects
-    let!(:non_member_role) { FactoryBot.create :non_member, permissions: [:view_work_packages] }
+    let(:non_member_role) { FactoryBot.create :non_member, permissions: [:view_work_packages] }
     let(:non_member_user) { FactoryBot.create :user }
 
     before do
       allow(Setting).to receive(:demo_projects_available).and_return(true)
+      non_member_role
       login_as non_member_user
     end
 

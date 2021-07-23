@@ -1,6 +1,7 @@
 import { waitForElement } from 'core-app/core/setup/globals/onboarding/helpers';
+import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
-export function wpOnboardingTourSteps():any[] {
+export function wpOnboardingTourSteps():OnboardingStep[] {
   return [
     {
       'next .wp-table--row': I18n.t('js.onboarding.steps.wp.list'),
@@ -29,16 +30,14 @@ export function wpOnboardingTourSteps():any[] {
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       shape: 'circle',
-      timeout() {
-        return new Promise((resolve) => {
-          // We are waiting here for the badge to appear,
-          // because its the last that appears and it shifts the WP create button to the left.
-          // Thus it is important that the tour rendering starts after the badge is visible
-          waitForElement('#work-packages-filter-toggle-button .badge', '#content', () => {
-            resolve(undefined);
-          });
+      timeout: () => new Promise((resolve) => {
+        // We are waiting here for the badge to appear,
+        // because its the last that appears and it shifts the WP create button to the left.
+        // Thus it is important that the tour rendering starts after the badge is visible
+        waitForElement('#work-packages-filter-toggle-button .badge', '#content', () => {
+          resolve(undefined);
         });
-      },
+      }),
       onNext() {
         jQuery('#wp-view-toggle-button').click();
       },

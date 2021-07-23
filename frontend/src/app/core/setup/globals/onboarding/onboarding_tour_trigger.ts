@@ -7,14 +7,14 @@ import {
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 
-
-async function triggerTour(name:OnboardingTourNames) {
+async function triggerTour(name:OnboardingTourNames):Promise<void> {
   debugLog(`Loading and triggering onboarding tour ${name}`);
-  const tour = await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour');
-  tour.start(name);
+  await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour').then((tour) => {
+    tour.start(name);
+  });
 }
 
-export function detectOnboardingTour() {
+export function detectOnboardingTour():void {
   // ------------------------------- Global -------------------------------
   const url = new URL(window.location.href);
   const isMobile = document.body.classList.contains('-browser-mobile');
@@ -34,44 +34,45 @@ export function detectOnboardingTour() {
       // Start automatically when the language selection is closed
       jQuery('.op-modal--close-button').click(() => {
         tourCancelled = true;
-        triggerTour('homescreen');
+        void triggerTour('homescreen');
       });
 
       // Start automatically when the escape button is pressed
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && !tourCancelled) {
           tourCancelled = true;
-          triggerTour('homescreen');
+          void triggerTour('homescreen');
         }
       }, { once: true });
     }
 
     // ------------------------------- Tutorial Homescreen page -------------------------------
     if (currentTourPart === 'readyToStart') {
-      triggerTour('homescreen');
+      void triggerTour('homescreen');
     }
 
     // ------------------------------- Tutorial WP page -------------------------------
     if (currentTourPart === 'startMainTourFromBacklogs' || url.searchParams.get('start_onboarding_tour')) {
-      triggerTour('main');
+      void triggerTour('main');
     }
+
     // ------------------------------- Prepare Backlogs page -------------------------------
     if (url.searchParams.get('start_scrum_onboarding_tour')) {
       if (jQuery('.backlogs-menu-item').length > 0) {
-        triggerTour('prepareBacklogs');
+        void triggerTour('prepareBacklogs');
       } else {
-        triggerTour('taskboard');
+        void triggerTour('taskboard');
       }
     }
 
     // ------------------------------- Tutorial Backlogs page -------------------------------
     if (currentTourPart === 'prepareTaskBoardTour') {
-      triggerTour('backlogs');
+      void triggerTour('backlogs');
     }
-    
+
     // ------------------------------- Tutorial Task Board page -------------------------------
     if (currentTourPart === 'startTaskBoardTour') {
-      triggerTour('taskboard');
+      void triggerTour('taskboard');
     }
   }
 }
