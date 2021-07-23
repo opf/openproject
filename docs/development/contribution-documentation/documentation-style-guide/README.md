@@ -7,19 +7,19 @@ robots: index, follow
 keywords: documentation style guide, style guide, 
 ---
 
-# Documentation Style Guide
+# Documentation style guide
 
 This document defines the standards for the OpenProject documentation, including grammar, formatting, wording and more.
 
 
 
-## Markdown
+## Markup language
 
 All OpenProject documentation is written in Markdown. Feel free to either work directly in the Markdown files or to use [GitHub desktop](https://desktop.github.com) with a markdown editor like [Typora](https://typora.io) or others.
 
 
 
-## Structure
+## Documentation structure
 
 The OpenProject documentation is divided into the top level folders:
 
@@ -35,7 +35,7 @@ Within each folder there is a sub-hierarchy of topics. E.g. in the Getting start
 
 
 
-### Folder structure overview
+### Folder content
 
 We aim to have a clear hierarchical structure with meaningful URLs like https://www.openproject.org/docs/getting-started/sign-in-registration/. With this structure you can identify straight away that this part of the documentation is about the sign in and registration process. At the same time, the website path matches our repository, making it easy to update the documentation.
 
@@ -55,22 +55,22 @@ Find an overview of content per folder here:
 
  
 
-## Work with directories and files
+## Directories and files
 
 Please respect the following when working with directories and files:
 
-1. When you create a new topic, i.e. a new documentation page, always create a new folder and a new `README.md` file in that folder.
+1. When you create a new topic, i.e. a new documentation page, always create a new folder and a new README.md file in that folder.
 2. Do not use special characters and spaces, or capital letters in file names, directory names, branch names and anything that generates a path.
 
-3. When creating a file or directory and it has more than one word in its name, use underscores (`_`) instead of spaces or dashes. For example use [open_details-view_work_packages.png](https://github.com/opf/openproject/blob/dev/docs/getting-started/work-packages-introduction/open-details-view-work-packages.png). This applies to both image files and Markdown files.
+3. When creating a file or directory and it has more than one word in its name, use underscores (`_`) instead of spaces or dashes. For example use open_details-view_work_packages.png. This applies to both image files and Markdown files.
 
-1. For image files, do not exceed 100KB.
+1. For image files, do not exceed 200KB.
 
 If you are unsure where to place a document or a content addition, this should not stop you from authoring and contributing. Use your best judgment, and then add a comment to your pull request.
 
  
 
-## Avoid duplication
+## Avoid duplication of information
 
 Do not include the same information in multiple places. Instead, link through to the information in the documentation where it is already mentioned so that there is only a single source of truth that needs to be maintained.
 
@@ -79,7 +79,7 @@ Do not include the same information in multiple places. Instead, link through to
 ## References across documents
 
 - When making reference to other OpenProject modules or features, link to their respective documentation, at least on first mention. 
-- Please see under links how to use links within the documentation.
+- Please see in [links](../#links) how to use links within the documentation.
 
 - When making reference to third-party products or technologies, link out to their external sites,     documentation and resources.
 
@@ -384,33 +384,33 @@ Before including an image in the documentation, ensure it provides value to the 
 
 
 
-### Capture the image
+### Capture images
 
 Use images to help the reader understand where they are in a process, or how they need to interact with the application.
 
 When you take screenshots:
 
-- Capture the most relevant area of the page: Do not include unnecessary white space or areas of the page that don’t help illustrate the point. The project menu on the left of the OpenProject application can change, so don’t include it unless it is necessary.
+- Capture the most relevant area: Do not include unnecessary blank space or areas of the page that do not help illustrate the point. The project menu on the left of the OpenProject application can change, so don’t include it unless it is necessary.
 
 - Be consistent: Coordinate screenshots with the other screenshots already on a documentation page. For example, if other screenshots include the left sidebar, include the sidebar in all screenshots.
 
   
 
-### Save the image
+### Save images
 
-- Save the image with a lower case file name that is descriptive of the feature or concept in the image. 
+- Save the image with a file name that describes the image. Use lower cases. 
 
-- Place your images in the same directory where the `.md` document that you are working on is located.
+- Make sure to not exceed the maximum image size of 200KB.
 
-- Compress GIFs.
+- Place your images in the same directory where the README.md document that you are working on is located.
 
-- Max image size: 100KB (GIFs included).
+- Compress GIFs, maximum size 250KB.
 
   
 
 ### Add the image link to content
 
-The Markdown code for including an image in a document is: `![Image description which will be the alt tag](img/document_image_title_vX_Y.png)`
+The Markdown code for including an image in a document is: `![Image description which will be the alt tag](img/document_image_title_vX_Y.png)
 
 The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are descriptive and precise.
 
@@ -418,7 +418,7 @@ The image description is the alt text for the rendered image on the documentatio
 
 ## Videos
 
-At the moment it is not possible for external contributors to upload videos to the documentation. Please open a ticket .
+At the moment it is not possible for external contributors to upload videos to the documentation. Please open a ticket in case you want to add a video.
 
 
 
@@ -426,7 +426,7 @@ At the moment it is not possible for external contributors to upload videos to t
 
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
-<div class="alert alert-info" role="alert">
+''<div class="alert alert-info" role="alert">''
 
 **Note**: This is where your description goes.
 
