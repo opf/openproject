@@ -29,18 +29,18 @@
 module OnboardingSteps
   def step_through_onboarding_board_tour
     next_button.click
-    expect(page).to have_text 'Select boards to shift the view and manage your project using the agile boards view.'
+    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.overview')), normalize_ws: true
 
     next_button.click
     expect(page)
-      .to have_text 'Here you can create multiple lists (columns) within your board.'
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists')), normalize_ws: true
 
     next_button.click
-    expect(page).to have_text 'Click on the plus (+) icon to create a new card'
+    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.add')), normalize_ws: true
 
     next_button.click
     expect(page)
-      .to have_text 'Drag and drop your cards within a given list to reorder them, or to move them to another list.'
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.drag')), normalize_ws: true
   end
 end
 

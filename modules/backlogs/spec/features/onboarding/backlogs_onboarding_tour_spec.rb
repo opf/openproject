@@ -78,7 +78,6 @@ describe 'backlogs onboarding tour', js: true do
   end
 
   before do
-    login_as user
     allow(Setting).to receive(:demo_projects_available).and_return(true)
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('story_types' => [story_type.id.to_s],
                                                                        'task_type' => task_type.id.to_s)
@@ -89,27 +88,54 @@ describe 'backlogs onboarding tour', js: true do
     page.execute_script("window.sessionStorage.clear();")
   end
 
-  context 'as a new user' do
+  context 'as a new user who is allowed to see the backlogs plugin' do
+    before do
+      login_as user
+    end
+
     it 'I see a part of the onboarding tour in the backlogs section' do
       # Set the tour parameter so that we can start on the overview page
-      visit "/projects/#{project.identifier}/backlogs/?start_scrum_onboarding_tour=true"
-      expect(page).to have_text 'Manage your work in the backlogs view.'
+      visit "/projects/#{project.identifier}?start_scrum_onboarding_tour=true"
+      expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.backlogs.overview')), normalize_ws: true
 
       next_button.click
-      expect(page).to have_text 'To see your task board, open the sprint drop-down...'
+      expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.backlogs.sprints')), normalize_ws: true
+
+      next_button.click
+      expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.backlogs.task_board_arrow')), normalize_ws: true
 
       next_button.click
       expect(page).to have_selector('.backlog .items', visible: true)
-      expect(page).to have_text '...and select the task board entry.'
+      expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.backlogs.task_board_select')), normalize_ws: true
 
       next_button.click
       expect(page)
         .to have_current_path backlogs_project_sprint_taskboard_path(project.identifier, sprint.id)
-      expect(page).to have_text 'The task board visualizes the progress for this sprint.'
+      expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.backlogs.task_board')), normalize_ws: true
 
       next_button.click
       expect(page)
-        .to have_text "Now let's have a look at the work package section, which gives you a more detailed view of your work."
+        .to have_text sanitize_string(I18n.t('js.onboarding.steps.wp.toggler')), normalize_ws: true
+
+      next_button.click
+      expect(page).to have_current_path project_work_packages_path(project.identifier)
+    end
+  end
+
+  context 'as a new user who is not allowed to see the backlogs plugin' do
+    # necessary to be able to see public projects
+    let!(:non_member_role) { FactoryBot.create :non_member, permissions: [:view_work_packages] }
+    let(:non_member_user) { FactoryBot.create :user }
+
+    before do
+      login_as non_member_user
+    end
+
+    it 'skips the backlogs tour and continues directly with the WP tour' do
+      # Set the tour parameter so that we can start on the overview page
+      visit "/projects/#{project.identifier}?start_scrum_onboarding_tour=true"
+      expect(page)
+        .to have_text sanitize_string(I18n.t('js.onboarding.steps.wp.toggler')), normalize_ws: true
 
       next_button.click
       expect(page).to have_current_path project_work_packages_path(project.identifier)

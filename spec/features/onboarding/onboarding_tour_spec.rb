@@ -71,7 +71,7 @@ describe 'onboarding tour for new users', js: true do
       end
 
       it 'when the welcome block does not include the demo projects' do
-        expect(page).to have_no_text 'Take a three minutes introduction tour to learn the most important features.'
+        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
         expect(page).to have_no_selector '.enjoyhint_next_btn'
       end
     end
@@ -94,7 +94,7 @@ describe 'onboarding tour for new users', js: true do
 
       it 'directly after the language selection' do
         # The tutorial appears
-        expect(page).to have_text 'Take a three minutes introduction tour to learn the most important features.'
+        expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
         expect(page).to have_selector '.enjoyhint_next_btn:not(.enjoyhint_hide)'
       end
 
@@ -102,19 +102,19 @@ describe 'onboarding tour for new users', js: true do
         find('.enjoyhint_skip_btn').click
 
         # The tutorial disappears
-        expect(page).to have_no_text 'Take a three minutes introduction tour to learn the most important features.'
+        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
         expect(page).to have_no_selector '.enjoyhint_next_btn'
 
         page.driver.browser.navigate.refresh
 
         # The tutorial did not start again
-        expect(page).to have_no_text 'Take a three minutes introduction tour to learn the most important features.'
+        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
         expect(page).to have_no_selector '.enjoyhint_next_btn'
       end
 
       it 'and I continue the tutorial' do
         next_button.click
-        expect(page).to have_text 'Please click on one of the demo projects that we have prepared.'
+        expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.project_selection')), normalize_ws: true
 
         # SeleniumHubWaiter.wait
         find('.welcome').click_link 'Demo project'
@@ -122,8 +122,27 @@ describe 'onboarding tour for new users', js: true do
 
         step_through_onboarding_wp_tour project, wp_1
 
-        step_through_onboarding_main_menu_tour
+        step_through_onboarding_main_menu_tour has_full_capabilities: true
       end
+    end
+  end
+
+  context 'as a new user who is not allowed to see the parts of the tour' do
+    # necessary to be able to see public projects
+    let!(:non_member_role) { FactoryBot.create :non_member, permissions: [:view_work_packages] }
+    let(:non_member_user) { FactoryBot.create :user }
+
+    before do
+      allow(Setting).to receive(:demo_projects_available).and_return(true)
+      login_as non_member_user
+    end
+
+    it 'skips these steps and continues directly' do
+      # Set the tour parameter so that we can start on the overview page
+      visit "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
+      step_through_onboarding_wp_tour project, wp_1
+
+      step_through_onboarding_main_menu_tour has_full_capabilities: false
     end
   end
 end
