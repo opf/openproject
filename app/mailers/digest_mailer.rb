@@ -58,6 +58,8 @@ class DigestMailer < ApplicationMailer
                                   .group_by(&:project)
                                   .transform_values { |of_project| of_project.group_by(&:resource) }
 
+    return if @notifications_by_project.empty?
+
     mail to: recipient.mail,
          subject: I18n.t('mail.digests.work_packages.subject',
                          date: format_time_as_date(Time.current),
@@ -70,5 +72,6 @@ class DigestMailer < ApplicationMailer
     Notification
       .where(id: notification_ids)
       .includes(:project, :resource, journal: %i[data attachable_journals customizable_journals])
+      .reject { |notification| notification.resource.nil? || notification.project.nil? || notification.journal.nil? }
   end
 end
