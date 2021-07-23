@@ -572,13 +572,13 @@ de:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              not_whitelisted: "ist auf '%{value}' gesetzt, was nicht Teil der Positivliste für Dateiuploads ist."
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+              minimum: "müssen mindestens einen Filter für Principal, Kontext oder ID mit dem '=' Operator enthalten."
         custom_field:
           at_least_one_custom_option: "Mindestens ein Wert muss verfügbar sein."
         custom_actions:
@@ -607,20 +607,20 @@ de:
           outside: 'ist außerhalb des Rasters.'
           end_before_start: 'der Endwert muss größer sein als der Startwert.'
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: 'Mindestens ein Kanal zum Senden von Benachrichtigungen muss angegeben werden.'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
             read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
             read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
             reason_ian:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'darf nicht leer sein, da In-App-Benachrichtigung als Kanal ausgewählt ist.'
             reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+              no_notification_reason: 'darf nicht leer sein, da E-Mail als Kanal ausgewählt ist.'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'darf nicht leer sein, da tägliche E-Mail-Übersicht als Kanal ausgewählt ist.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -768,8 +768,8 @@ de:
       member: "Mitglied"
       news: "Nachrichten"
       notification:
-        one: "Notification"
-        other: "Notifications"
+        one: "Benachrichtigung"
+        other: "Benachrichtigungen"
       placeholder_user: "Platzhalter-Benutzer"
       project: "Projekt"
       query: "Benutzerdefinierte Abfrage"
@@ -1228,7 +1228,7 @@ de:
   export:
     your_work_packages_export: "Export der Arbeitspakete"
     succeeded: "Der Export wurde erfolgreich abgeschlossen."
-    failed: "The export has failed: %{message}"
+    failed: "Export fehlgeschlagen: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1311,8 +1311,8 @@ de:
       subject:
         assigned: "Ihnen wurde %{work_package} zugewiesen"
         subscribed: "Sie haben %{work_package} abonniert"
-        mentioned: "You have been mentioned in %{work_package}"
-        involved: "You either are assigned to or are responsible for %{work_package}"
+        mentioned: "Sie wurden in %{work_package} erwähnt"
+        involved: "Sie sind entweder zugewiesen oder verantwortlich für %{work_package}"
         watched: "Du beobachtest %{work_package}"
   label_accessibility: "Barrierefreiheit"
   label_account: "Konto"
@@ -1887,17 +1887,17 @@ de:
   mail:
     actions: 'Aktionen'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      time_frame: 'Zusammenfassung aller Benachrichtigungen, die Sie im Zeitraum zwischen %{start} und %{end} erhalten haben'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        created_at: '%{user} erstellt am %{timestamp}'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'beobachtet'
+          involved: 'Zugewiesen oder Verantwortlich'
+          mentioned: 'erwähnt'
           subscribed: 'alle'
-          prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+          prefix: 'Erhalten aufgrund der Benachrichtigungseinstellung: %{reason}'
+        subject: 'Tägliche Projektübersicht für %{date} - %{number} Einträge'
+        updated_at: '%{user} aktualisiert %{timestamp}'
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
@@ -1924,7 +1924,7 @@ de:
   mail_body_wiki_content_updated: "Die Wiki-Seite '%{id}' wurde von %{author} aktualisiert."
   mail_subject_account_activation_request: "Antrag auf %{value} Kontoaktivierung"
   mail_subject_backup_ready: "Ihr Backup steht bereit"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_token_reset: "Backup-Token zurücksetzen"
   mail_subject_lost_password: "Ihr %{value} Kennwort"
   mail_subject_register: "Ihre %{value} Kontoaktivierung"
   mail_subject_reminder: "%{count} Arbeitspaket(e) müssen in den nächsten %{days} Tagen abgeschlossen werden"
@@ -2275,8 +2275,9 @@ de:
   setting_apiv3_docs: "Dokumentation"
   setting_apiv3_docs_enabled: "Dokumentationsseite aktivieren"
   setting_apiv3_docs_enabled_instructions_html: >
-    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+    Wenn die Dokumentationsseite aktiviert ist,  sehen Sie eine interaktive APIv3 Dokumentation unter <a href="%{link}" target="_blank">%{link}</a>.
+
+  setting_attachment_whitelist: "Positivliste für Dateiuploads"
   setting_email_delivery_method: "E-Mail Zustellungsoption"
   setting_sendmail_location: "Systempfad zu sendmail"
   setting_smtp_enable_starttls_auto: "Automatisch STARTTLS verwenden, falls vorhanden"
@@ -2322,9 +2323,9 @@ de:
   setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
-  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_retention_period_days: "Aufbewahrungsfrist für Benachrichtigungen"
   setting_notification_email_delay_minutes: "Verzögerung des Versands von E-Mails"
-  setting_notification_email_digest_time: "Email digest time"
+  setting_notification_email_digest_time: "Versandzeit für E-Mail-Zusammenfassung"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
@@ -2395,12 +2396,12 @@ de:
     brute_force_prevention: "Automatisches Sperren von Benutzern"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+        Legen Sie die Anzahl der Tage fest, in denen Benachrichtigungen für Benutzer im System gehalten werden. Alle Ereignisse, die älter als diese Zeit sind, werden gelöscht und stehen nicht mehr als In-App-Benachrichtigungen zur Verfügung.
+      delay_minutes_explanation: "Das Senden von E-Mails kann verzögert werden, damit Benutzer Benachrichtigungen innerhalb der Anwendung bestätigen können, bevor eine E-Mail versendet wird. Benutzer, die eine Benachrichtigung innerhalb der Anwendung lesen, erhalten keine E-Mail für die bereits gelesene Benachrichtigung."
+      email_digest_explanation: "Einmal pro Tag kann eine E-Mail-Zusammenfassung mit allen abonnierten Benachrichtigungen verschickt werden. Die eingestellte Zeit wird für jeden Benutzer in dessen eingestellte Zeitzone umgerechnet."
     display:
       first_date_of_week_and_year_set: >
         Wenn beide Optionen "%{day_of_week_setting_name}" oder "%{first_week_setting_name}" gesetzt sind der andere muss ebenfalls gesetzt werden, um Ungereimtheiten im Frontend zu vermeiden.
@@ -2481,7 +2482,7 @@ de:
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_aggregation_time_explanation: "Individuelle Aktionen eines Benutzers (z. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden auch Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird."
   text_journal_changed: "%{label} geändert von %{old} <br/><strong>zu</strong> %{new}"
   text_journal_changed_plain: "%{label} geändert von %{old} \nzu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
@@ -2511,7 +2512,7 @@ de:
   text_regexp_info: "z. B. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Der reguläre Ausdruck wird in einem mehrzeiligen Modus angewandt, z.B. ^---\s+'
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der OpenProject-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen OpenProject- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
-  text_select_notifications: "Select actions for which notifications should be sent."
+  text_select_notifications: "Wählen Sie Aktionen aus, für die Benachrichtigungen gesendet werden sollen."
   text_status_changed_by_changeset: "Status geändert durch Projektarchiv-Änderung %{value}."
   text_table_difference_description: "Diese Tabelle zeigt einzelne %{entries} des Projektarchivs. Sie können über die Checkboxen zwei Einträge markieren und über den Schalter unter der Tabelle die Unterschiede zwischen den zwei markierten Einträgen anzeigen lassen."
   text_time_logged_by_changeset: "Status geändert durch Projektarchiv-Änderung %{value}."
