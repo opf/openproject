@@ -60,10 +60,12 @@ class DigestMailer < ApplicationMailer
 
     return if @notifications_by_project.empty?
 
-    mail to: recipient.mail,
-         subject: I18n.t('mail.digests.work_packages.subject',
-                         date: format_time_as_date(Time.current),
-                         number: notification_ids.count)
+    with_locale_for(recipient) do
+      mail to: recipient.mail,
+           subject: I18n.t('mail.digests.work_packages.subject',
+                           date: format_time_as_date(Time.current),
+                           number: notification_ids.count)
+    end
   end
 
   protected
