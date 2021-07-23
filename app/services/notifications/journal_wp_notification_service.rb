@@ -85,6 +85,8 @@ class Notifications::JournalWpNotificationService
       add_receiver(receivers, settings_of_watched(work_package), :watched)
       add_receiver(receivers, settings_of_subscribed(journal), :subscribed)
 
+      remove_self_recipient(receivers, journal)
+
       receivers
     end
 
@@ -230,6 +232,10 @@ class Notifications::JournalWpNotificationService
       collection.each do |notification|
         receivers[notification.user_id][notification.channel] << reason
       end
+    end
+
+    def remove_self_recipient(receivers, journal)
+      receivers.delete(journal.user_id) if receivers[journal.user_id] && !user_with_fallback(journal).pref.self_notified?
     end
 
     def receivers_hash
