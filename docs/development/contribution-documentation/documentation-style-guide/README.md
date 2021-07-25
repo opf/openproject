@@ -422,9 +422,7 @@ At the moment it is not possible for external contributors to upload videos to t
 
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
-''<div class="alert alert-info" role="alert">''
-
-**Note**: This is where your description goes.
-
-</div>
+`<div class="alert alert-info" role="alert">
+**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-an-openproject-trial-installation).
+</div>`
 
