@@ -55,7 +55,7 @@ Find an overview of content per folder here:
 
  
 
-## Directories and files
+## Directory and file names
 
 Please respect the following when working with directories and files:
 
@@ -70,15 +70,15 @@ If you are unsure where to place a document or a content addition, this should n
 
  
 
-## Avoid duplication of information
+## No duplication of information
 
 Do not include the same information in multiple places. Instead, link through to the information in the documentation where it is already mentioned so that there is only a single source of truth that needs to be maintained.
 
  
 
-## References across documents
+## References across the documentation
 
-- When making reference to other OpenProject modules or features, link to their respective documentation, at least on first mention. 
+- When mentioning other OpenProject modules or features, link to their respective documentation, at least on first mention. 
 - Please see in [links](../#links) how to use links within the documentation.
 
 - When making reference to third-party products or technologies, link out to their external sites,     documentation and resources.
@@ -87,11 +87,11 @@ Do not include the same information in multiple places. Instead, link through to
 
 ## Structure in documents
 
-- Structure content in tables or lists etc. in alphabetical order unless there is a reason to use an order of importance. 
+- Structure content in tables or lists etc. in alphabetical order unless there is a reason to use any other order of importance. 
 
   
 
-## Language
+## Documentation language
 
 The OpenProject documentation should be as clear and easy to understand as possible. Avoid unnecessary words.
 
@@ -107,48 +107,44 @@ The OpenProject documentation should be as clear and easy to understand as possi
 
 Use sentences that describe the content and capitalize the first letter in the sentence. For example:
 
-`# Create an OpenProject trial installation
+`# Create an OpenProject trial installation`
 
-`## Start a new trial installation
+`## Start a new trial installation`
 
 
 
 ### UI text
 
-When referring to specific user interface text, like a button label or menu item, use the name as in the application and start the word with a capital letter. Moreover, please make it make it bold. Example: **Start Free Trial** button.
+When referring to specific user interface text, like a button label or menu item, use the name as in the application and start the word with a capital letter. Moreover, please make it bold. Example: **Start free trial** button.
 
 
 
 ### Feature names
 
-- Feature names are typically capitalized and in bold. For example:
+Feature names are typically capitalized and in bold. For example:
 
-- - **Gantt chart**
+- **Gantt chart**
+- **Roadmap**
+- **Project overview**
+- **News**
+- **Wiki**
 
-  - **Roadmap**
-
-  - **Project overview**
-
-  - **News**      
-
-  - **Wiki**
-
-    
+- 
 
 #### Other terms
 
 Capitalize names of:
 
 - OpenProject products: OpenProject Community edition, OpenProject Enterprise on-premises edition, OpenProject Enterprise cloud edition
-- Third-party organizations, software, and products. For example Microsoft, Nextcloud, The Linux Foundation etc.
+- Third-party organizations, software, and products. For example Nextcloud, The Linux Foundation etc.
 
 Follow the capitalization style by the third party which may use non-standard case styles. For example: OpenProject, GitHub.
 
 
 
-## Placeholder 
+## Placeholders 
 
-### Fake user information
+### User information
 
 You may need to include user information in entries. Do not use real user information or email addresses in the OpenProject documentation. For email addresses and names, do use:
 
@@ -160,13 +156,13 @@ You may need to include user information in entries. Do not use real user inform
 
   
 
-### Fake URLs
+### URLs
 
 When including sample URLs in the documentation, use example.com when the domain name is generic.
 
 
 
-### Fake tokens
+### Tokens
 
 There may be times where a token is needed to demonstrate an API call. It is strongly advised not to use real tokens in documentation even if the probability of a token being exploited is low.
 
@@ -174,7 +170,7 @@ You can use this fake token as example: 12345678910ABCDE
 
 
 
-### Placeholder command
+### Commands
 
 You might want to provide a command or configuration that uses specific values.
 
@@ -218,9 +214,9 @@ Use only standard spaces between words so that the search engine can find indivi
 
 ## Lists
 
-- Always start list items with a capital letter.
+Always start list items with a capital letter.
 
-  
+
 
 ### Ordered and unordered lists
 
@@ -265,13 +261,13 @@ Example for an unordered list:
 
 ## Tables
 
-Tables should be used to describe complex information in a straightforward manner. Note that in many cases, an unordered list is sufficient to describe a list of items with a single, simple description per item. But, if you have data that’s best described by a matrix, tables are the best choice.
+Tables should be used to describe complex information. Note that in many cases, an unordered list is sufficient to describe a list of items with a single, simple description per item. But, if you have data that is best described by a matrix, tables are the best choice.
 
  
 
 ### Creation guidelines
 
-To keep tables accessible and scannable, tables should not have any empty cells. If there is no otherwise meaningful value for a cell, consider entering N/A (for ‘not applicable’) or none.
+To keep tables accessible and scannable, tables should not have any empty cells. If you still remain with a cell without content, please enter N/A (for ‘not applicable’) or none.
 
 To help tables be easier to maintain, consider adding additional spaces to the column widths to make them consistent. For example:
 
@@ -301,7 +297,7 @@ To help tables be easier to maintain, consider adding additional spaces to the c
 
 - Make your subheading titles clear, descriptive, and complete to help users find the right example.
 
-- See Capitalization for guidelines on capitalizing headings.
+- See  [Capitalization](../#capitalization) for guidelines on capitalizing headings.
 
   
 
@@ -352,7 +348,7 @@ When linking to external information, you have to use absolute URLs. Make sure t
 
 ## Navigation
 
-When documenting navigation through the OpenProject application, use these terms and styles.
+When documenting navigation through the OpenProject application, use these terms.
 
 
 
@@ -412,7 +408,7 @@ When you take screenshots:
 
 The Markdown code for including an image in a document is: `![Image description which will be the alt tag](img/document_image_title_vX_Y.png)
 
-The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are descriptive and precise.
+The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are short and precise.
 
 
 
