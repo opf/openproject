@@ -561,6 +561,7 @@ en:
     notifications:
       title: "Notifications"
       channel: "Channel"
+      no_unread: "No unread notifications"
       channels:
         in_app: "In-app"
         mail: "Email"
