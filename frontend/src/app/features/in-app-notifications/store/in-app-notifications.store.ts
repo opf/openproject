@@ -5,6 +5,8 @@ import { InAppNotification } from './in-app-notification.model';
 export interface InAppNotificationsState extends EntityState<InAppNotification> {
   /** The entities in the store might not all be unread so we keep separate count */
   unreadCount:number;
+  /** Number of elements not showing after max values loaded */
+  notShowing:number;
   activeFacet:string;
   expanded:boolean;
 }

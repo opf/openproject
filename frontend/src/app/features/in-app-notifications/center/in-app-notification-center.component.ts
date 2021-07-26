@@ -1,5 +1,10 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -8,6 +13,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -26,6 +32,12 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
 
   hasMoreThanPageSize$ = this.ianQuery.hasMoreThanPageSize$;
 
+  noResultText$ = this
+    .activeFacet$
+    .pipe(
+      map((facet:'unread'|'all') => this.text.no_results[facet] || this.text.no_results.unread),
+    );
+
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
   facets:string[] = ['unread', 'all'];
@@ -34,7 +46,10 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
     title: this.I18n.t('js.notifications.title'),
     mark_all_read: this.I18n.t('js.notifications.center.mark_all_read'),
     button_close: this.I18n.t('js.button_close'),
-    no_results: this.I18n.t('js.notice_no_results_to_display'),
+    no_results: {
+      unread: this.I18n.t('js.notifications.no_unread'),
+      all: this.I18n.t('js.notice_no_results_to_display'),
+    },
     facets: {
       unread: this.I18n.t('js.notifications.facets.unread'),
       all: this.I18n.t('js.notifications.facets.all'),
@@ -56,17 +71,17 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
     this.ianService.get();
   }
 
-  markAllRead() {
+  markAllRead():void {
     this.ianService.markAllRead();
     this.closeMe();
   }
 
-  activateFacet(facet:string) {
+  activateFacet(facet:string):void {
     this.ianService.setActiveFacet(facet);
     this.ianService.get();
   }
 
-  totalCountWarning() {
+  totalCountWarning():string {
     const state = this.ianQuery.getValue();
 
     return this.I18n.t(
