@@ -43,7 +43,7 @@ module WorkPackages
 
       def call(params:)
         self.permitted_params = PermittedParams.new(params, user)
-        in_user_context do
+        in_user_context(params[:send_notification] == '1') do
           bulk_update(params)
         end
       end
@@ -69,7 +69,7 @@ module WorkPackages
 
           service_call = WorkPackages::UpdateService
                          .new(user: user, model: work_package)
-                         .call(**attributes.merge(send_notifications: params[:send_notification] == '1').symbolize_keys)
+                         .call(**attributes.symbolize_keys)
 
           if service_call.success?
             saved << work_package.id
