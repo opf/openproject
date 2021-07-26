@@ -955,7 +955,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
         let(:group) do
           FactoryBot.create(:group, members: recipient) do |group|
             Members::CreateService
-              .new(user: nil, contract_class: EmptyContract)
+              .new(user: User.system, contract_class: EmptyContract)
               .call(project: project, principal: group, roles: [group_role])
           end
         end

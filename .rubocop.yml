@@ -88,6 +88,11 @@ Metrics/ModuleLength:
 Metrics/ParameterLists:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'modules/*/spec/**/*.rb'
 
 Naming/AccessorMethodName:
   Enabled: false
@@ -143,6 +148,11 @@ RSpec/NestedGroups:
 # Don't force the second argument of describe
 # to be .class_method or #instance_method
 RSpec/DescribeMethod:
+  Enabled: false
+
+# We use let!() to ensure dependencies are created
+# instead of let() and referencing them explicitly
+RSpec/LetSetup:
   Enabled: false
 
 Style/Alias:

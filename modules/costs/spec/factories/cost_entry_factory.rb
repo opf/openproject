@@ -41,7 +41,7 @@ FactoryBot.define do
 
       unless ce.project.users.include?(ce.user)
         Members::CreateService
-          .new(user: nil, contract_class: EmptyContract)
+          .new(user: User.system, contract_class: EmptyContract)
           .call(principal: ce.user,
                 project: ce.project,
                 roles: [FactoryBot.create(:role)])
