@@ -66,9 +66,13 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   <% end %>
 
+  <%
+    email_methods = [:smtp, :sendmail]
+    email_methods << :letter_opener if Rails.env.development?
+  %>
   <%= content_tag :fieldset, id: "mail_configuration", class: "form--fieldset" do %>
     <legend class="form--fieldset-legend"><%=t(:text_setup_mail_configuration)%></legend>
-    <div class="form--field"><%= setting_select(:email_delivery_method, [:smtp, :sendmail], id: "email_delivery_method_switch", container_class: '-xslim') %></div>
+    <div class="form--field"><%= setting_select(:email_delivery_method, email_methods, id: "email_delivery_method_switch", container_class: '-slim') %></div>
     <div id="email_delivery_method_smtp" class="email_delivery_method_settings">
       <div class="form--field"><%= setting_text_field :smtp_address, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_text_field :smtp_port, size: 6, container_class: '-xslim' %></div>
@@ -81,6 +85,9 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
     <div id="email_delivery_method_sendmail" class="email_delivery_method_settings">
       <div class="form--field"><%= setting_text_field :sendmail_location %></div>
+    </div>
+    <div id="email_delivery_method_letter_opener" class="email_delivery_method_settings">
+      <p>Letter opener is used to render emails as a file in your Rails tmp folder. Mails will automatically open in your browser if supported.</p>
     </div>
   <% end unless OpenProject::Configuration['email_delivery_configuration'] == 'legacy' %>
 
