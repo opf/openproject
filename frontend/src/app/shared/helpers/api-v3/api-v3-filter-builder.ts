@@ -71,7 +71,7 @@ export class ApiV3FilterBuilder {
    * Remove from the filter set
    * @param name
    */
-  public remove(name:string) {
+  public remove(name:string):void {
     delete this.filterMap[name];
   }
 
@@ -81,7 +81,7 @@ export class ApiV3FilterBuilder {
    * @param filters APIv3 filter array [ {foo: { operator: '=', val: ['bar'] } }, ...]
    * @return A map { foo: { operator: '=', val: ['bar'] } , ... }
    */
-  public toFilterObject(filters:ApiV3Filter[]):ApiV3FilterObject {
+  public static toFilterObject(filters:ApiV3Filter[]):ApiV3FilterObject {
     const map:ApiV3FilterObject = {};
 
     filters.forEach((item:ApiV3Filter) => {
@@ -100,9 +100,9 @@ export class ApiV3FilterBuilder {
    * @param filters
    * @param only Only apply the given filters
    */
-  public merge(filters:ApiV3Filter[], ...only:string[]) {
+  public merge(filters:ApiV3Filter[], ...only:string[]):void {
     const toAdd:ApiV3FilterObject = _.pickBy(
-      this.toFilterObject(filters),
+      ApiV3FilterBuilder.toFilterObject(filters),
       (_, filter:string) => only.includes(filter),
     );
 
@@ -126,15 +126,11 @@ export class ApiV3FilterBuilder {
   }
 
   public toParams(mergeParams:{ [key:string]:string } = {}):string {
-    let transformedFilters:string[] = [];
-
-    transformedFilters = this.filters.map((filter:ApiV3Filter) => this.serializeFilter(filter));
-
-    const params = { filters: `[${transformedFilters.join(',')}]`, ...mergeParams };
+    const params = { filters: this.toJson(), ...mergeParams };
     return new URLSearchParams(params).toString();
   }
 
-  public clone() {
+  public clone():ApiV3FilterBuilder {
     const newFilters = new ApiV3FilterBuilder();
 
     this.filters.forEach((filter) => {
@@ -145,23 +141,8 @@ export class ApiV3FilterBuilder {
 
     return newFilters;
   }
-
-  private serializeFilter(filter:ApiV3Filter) {
-    const keys:Array<string> = Object.keys(filter);
-
-    const typeName = keys[0];
-    const operatorAndValues = filter[typeName];
-
-    return `{"${typeName}":{"operator":"${operatorAndValues.operator}","values":[${operatorAndValues.values
-      .map((val) => this.serializeFilterValue(val))
-      .join(',')}]}}`;
-  }
-
-  private serializeFilterValue(filterValue:ApiV3FilterValueType) {
-    return `"${filterValue.toString()}"`;
-  }
 }
 
-export function buildApiV3Filter(name:string, operator:FilterOperator, values:any) {
+export function buildApiV3Filter(name:string, operator:FilterOperator, values:ApiV3FilterValueType[]):ApiV3FilterBuilder {
   return new ApiV3FilterBuilder().add(name, operator, values);
 }
