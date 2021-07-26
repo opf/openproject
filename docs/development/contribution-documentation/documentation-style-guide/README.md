@@ -31,7 +31,7 @@ The OpenProject documentation is divided into the top level folders:
 
 Within each folder there is a sub-hierarchy of topics. E.g. in the Getting started guide you find amongst others the Introduction to OpenProject and Sign in and registration as sub-topics. Sub-topics are individual documentation pages in GitHub. You will notice the sub-topics in the documentation menu on the left when unfolding each folder's menu.
 
-![OpenProject_documentation_menu](OpenProject_documentation_menu.png)
+![OpenProject_documentation_menu_left_side_unfolded_sub_topics](OpenProject_documentation_menu.png)
 
 
 
