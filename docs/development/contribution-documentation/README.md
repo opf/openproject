@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Contribute to documentation
   priority: 999
-description: The process of how to contribute to the OpenProject documentation
+description: Overview of the OpenProject documentation
 robots: index, follow
 keywords: contribution, documentation, documentation process
 ---
@@ -40,8 +40,25 @@ Documentation improvements and changes apply to the documentation described in t
 We are looking forward to receiving the following contributions from you:
 
 - Eliminating errors and working on other improvements in the existing documentation. This could be missing content, e.g. descriptions or step-by-step guides for features.
+
 - Adding use cases.
+
 - Adding visuals, e.g. screenshots, to complement descriptions.
+
 - Fixing of spelling, grammar, punctuation mistakes.
+
 - Fixing of internal and external links that are not working or are incorrect.
 
+  
+
+## Overview
+
+| Topic                                                  | Content                                                      |
+| ------------------------------------------------------ | :----------------------------------------------------------- |
+| [Documentation process](documentation-process)         | A step-by-step guide on how to contribute to the documentation. |
+| [Documentation style guide](documentation-style-guide) | What are the styles and other requirements to follow when contributing to the documentation? |
+| [Contribution support](contribution-support)           | What to do if you need help regarding your contribution to the documentation? |
+
+
+
+With this guide for contributing to the OpenProject documentation we followed and took inspiration from the [Contribute to GitLab guide](https://about.gitlab.com/community/contribute/). 
