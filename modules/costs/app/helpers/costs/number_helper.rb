@@ -36,7 +36,12 @@ module Costs::NumberHelper
 
     # All locales seem to have their delimiters set to "".
     # We thus remove all typical delimiters that are not the separator.
-    separator = I18n.t(:'number.format.separator')
+    separator =
+      if I18n.exists?(:'number.currency.format.separator')
+        I18n.t(:'number.currency.format.separator')
+      else
+        I18n.t(:'number.format.separator', default: '.')
+      end
 
     if separator
       delimiters = Regexp.new('[ .,’˙]'.gsub(separator, ''))
