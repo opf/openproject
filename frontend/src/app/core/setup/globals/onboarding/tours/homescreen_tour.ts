@@ -3,8 +3,9 @@ import {
   preventClickHandler,
   scrumDemoProjectName,
 } from 'core-app/core/setup/globals/onboarding/helpers';
+import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
-export function homescreenOnboardingTourSteps() {
+export function homescreenOnboardingTourSteps():OnboardingStep[] {
   return [
     {
       'next .op-app-header': I18n.t('js.onboarding.steps.welcome'),
@@ -25,7 +26,7 @@ export function homescreenOnboardingTourSteps() {
         // This will be removed once the project selection is implemented
         jQuery(`.widget-box.welcome a:contains(${scrumDemoProjectName})`).click(function (this:HTMLAnchorElement) {
           window.onboardingTourInstance.trigger('next');
-          window.location.href = `${this.href}/backlogs/?start_scrum_onboarding_tour=true`;
+          window.location.href = `${this.href}/?start_scrum_onboarding_tour=true`;
         });
         jQuery(`.widget-box.welcome a:contains(${demoProjectName})`).click(function (this:HTMLAnchorElement) {
           window.onboardingTourInstance.trigger('next');

@@ -1,6 +1,7 @@
 import { waitForElement } from 'core-app/core/setup/globals/onboarding/helpers';
+import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
 
-export function boardTourSteps() {
+export function boardTourSteps():OnboardingStep[] {
   return [
     {
       'next .board-view-menu-item': I18n.t('js.onboarding.steps.boards.overview'),
@@ -15,21 +16,20 @@ export function boardTourSteps() {
     },
     {
       'next .board-list--container': I18n.t('js.onboarding.steps.boards.lists'),
-      'showSkip': false,
-      'nextButton': { text: I18n.t('js.onboarding.buttons.next') },
-      'containerClass': '-dark -hidden-arrow',
-      'timeout': function () {
-        return new Promise(function (resolve) {
-          waitForElement('.op-wp-single-card', '#content', function () {
-            resolve(undefined);
-          });
+      showSkip: false,
+      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
+      containerClass: '-dark -hidden-arrow',
+      timeout: () => new Promise((resolve) => {
+        waitForElement('.op-wp-single-card', '#content', () => {
+          resolve(undefined);
         });
-      },
+      }),
     },
     {
       'next .board-list--add-button': I18n.t('js.onboarding.steps.boards.add'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
+      condition: () => document.getElementsByClassName('board-list--add-button').length !== 0,
     },
     {
       'next .boards-list--container': I18n.t('js.onboarding.steps.boards.drag'),

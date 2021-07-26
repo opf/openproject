@@ -1,7 +1,23 @@
-export function scrumBacklogsTourSteps() {
+import { OnboardingStep } from 'core-app/core/setup/globals/onboarding/onboarding_tour';
+
+export function prepareScrumBacklogsTourSteps():OnboardingStep[] {
   return [
     {
-      'next #content-wrapper': I18n.t('js.onboarding.steps.backlogs.overview'),
+      'next .backlogs-menu-item': I18n.t('js.onboarding.steps.backlogs.overview'),
+      showSkip: false,
+      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
+      containerClass: '-dark -hidden-arrow',
+      onNext() {
+        jQuery('.backlogs-menu-item')[0].click();
+      },
+    },
+  ];
+}
+
+export function scrumBacklogsTourSteps():OnboardingStep[] {
+  return [
+    {
+      'next #content-wrapper': I18n.t('js.onboarding.steps.backlogs.sprints'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       containerClass: '-dark -hidden-arrow',
@@ -30,13 +46,14 @@ export function scrumBacklogsTourSteps() {
   ];
 }
 
-export function scrumTaskBoardTourSteps() {
+export function scrumTaskBoardTourSteps():OnboardingStep[] {
   return [
     {
       'next #content-wrapper': I18n.t('js.onboarding.steps.backlogs.task_board'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       containerClass: '-dark -hidden-arrow',
+      condition: () => document.getElementsByClassName('backlogs-menu-item').length !== 0,
     },
     {
       'next #main-menu-work-packages-wrapper': I18n.t('js.onboarding.steps.wp.toggler'),

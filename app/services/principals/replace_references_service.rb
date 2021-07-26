@@ -49,6 +49,7 @@ module Principals
       rewrite_user(from, to)
       rewrite_assigned_to(from, to)
       rewrite_responsible(from, to)
+      rewrite_actor(from, to)
     end
 
     def rewrite_custom_value(from, to)
@@ -99,6 +100,12 @@ module Principals
        CostQuery,
        MeetingParticipant].each do |klass|
         klass.where(user_id: from.id).update_all(user_id: to.id)
+      end
+    end
+
+    def rewrite_actor(from, to)
+      [::Notification].each do |klass|
+        klass.where(actor_id: from.id).update_all(actor_id: to.id)
       end
     end
 
