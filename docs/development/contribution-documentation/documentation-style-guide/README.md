@@ -64,7 +64,7 @@ Please respect the following when working with directories and files:
 
 3. When creating a file or directory and it has more than one word in its name, use underscores (`_`) instead of spaces or dashes. For example use open_details-view_work_packages.png. This applies to both image files and Markdown files.
 
-1. For image files, do not exceed 200KB.
+4. For image files, do not exceed 200KB.
 
 If you are unsure where to place a document or a content addition, this should not stop you from authoring and contributing. Use your best judgment, and then add a comment to your pull request.
 
