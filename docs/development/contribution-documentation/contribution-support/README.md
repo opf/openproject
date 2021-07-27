@@ -19,6 +19,6 @@ If you have any questions on the contribution process or encounter problems with
 
 4. Add a detailed description about your issue and how we could help.
 
-5. Attach a screen-shot or log-file file (optional).
+5. Attach a screen-shot or log-file (optional).
 
 6. Press **Save**.

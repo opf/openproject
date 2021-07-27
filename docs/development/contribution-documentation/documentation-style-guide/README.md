@@ -121,7 +121,7 @@ When referring to specific user interface text, like a button label or menu item
 
 ### Feature names
 
-Feature names are typically capitalized and in bold. For example:
+Feature names are typically capitalized (the first word) and in bold. For example:
 
 - **Gantt chart**
 - **Roadmap**
@@ -129,7 +129,8 @@ Feature names are typically capitalized and in bold. For example:
 - **News**
 - **Wiki**
 
-- 
+  
+
 
 #### Other terms
 
@@ -356,9 +357,9 @@ When documenting navigation through the OpenProject application, use these terms
 
 Use these terms when referring to OpenProject’s main application elements:
 
-- **Header menu**: This is the blue bar at the top that spans the width of the application. It includes the OpenProject logo, the search field, the link to all projects, the short menu, the help icon and the user’s avatar.
+- **Header menu**: This is the blue bar at the top that spans the width of the application. It includes the OpenProject logo, the search field, the link to all projects, the global modules, the help icon and the user’s avatar.
 
-- **Project menu**: This is the black menu on the left in the OpenProject application that displays the modules.
+- **Project menu**: This is the menu on the left in the OpenProject application that displays the modules after the selection of a project.
 
   
 
@@ -406,7 +407,7 @@ When you take screenshots:
 
 ### Add the image link to content
 
-The Markdown code for including an image in a document is: `![Image description which will be the alt tag](img/document_image_title_vX_Y.png)
+The Markdown code for including an image in a document is: `![Image description which will be the alt tag](img/document_image_title_vX_Y.png)`
 
 The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are short and precise.
 

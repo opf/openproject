@@ -49,6 +49,8 @@ We are looking forward to receiving the following contributions from you:
 
 - Fixing of internal and external links that are not working or are incorrect.
 
+- Translations into your mother tongue (coming soon).
+
   
 
 ## Overview
