@@ -119,6 +119,13 @@ Rails/SkipsModelValidations:
 Rails/ContentTag:
   Enabled: false
 
+# Disable I18n.locale = in specs, where it is reset
+# by us explicitly
+Rails/I18nLocaleAssignment:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+
 # For feature specs, we tend to have longer specs that cover a larger part of the functionality.
 # This is done for multiple reasons:
 # * performance, as setting up integration tests is costly
