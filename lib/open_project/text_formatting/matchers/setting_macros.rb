@@ -29,30 +29,41 @@
 #++
 
 module OpenProject::TextFormatting
-  module Filters
-    class PatternMatcherFilter < HTML::Pipeline::Filter
-      # Skip text nodes that are within preformatted blocks
-      PREFORMATTED_BLOCKS = %w(pre code).to_set
+  module Matchers
+    # OpenProject macros for inserting setting values
+    # Examples:
+    #   opSetting:host_name # Outputs the Setting.host_name
+    class SettingMacros < RegexMatcher
+      ALLOWED_SETTINGS = %w[
+        host_name
+        base_url
+      ].freeze
 
-      def self.matchers
-        [
-          OpenProject::TextFormatting::Matchers::ResourceLinksMatcher,
-          OpenProject::TextFormatting::Matchers::WikiLinksMatcher,
-          OpenProject::TextFormatting::Matchers::AttributeMacros,
-          OpenProject::TextFormatting::Matchers::SettingMacros
-        ]
+      def self.regexp
+        %r{
+          opSetting:(#{ALLOWED_SETTINGS.join("|")})
+        }x
       end
 
-      def call
-        doc.search('.//text()').each do |node|
-          next if has_ancestor?(node, PREFORMATTED_BLOCKS)
+      ##
+      # Faster inclusion check before the regex is being applied
+      def self.applicable?(content)
+        content.include?('opSetting:')
+      end
 
-          self.class.matchers.each do |matcher|
-            matcher.call(node, doc: doc, context: context)
-          end
-        end
+      def self.process_match(match, matched_string, _context)
+        variable = match[1]
+        return matched_string unless ALLOWED_SETTINGS.include?(variable)
 
-        doc
+        send variable
+      end
+
+      def self.host_name
+        OpenProject::StaticRouting::UrlHelpers.host
+      end
+
+      def self.base_url
+        OpenProject::Application.root_url
       end
     end
   end

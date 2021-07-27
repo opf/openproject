@@ -317,7 +317,7 @@ emails_footer:
   default:
     en: |-
       You have received this notification because you have either subscribed to it, or are involved in it.
-      To change your notification preferences, please click here: http://hostname/my/account
+      To change your notification preferences, please click here: opSetting:base_url/my/notifications
 start_of_week:
   default: ''
 first_week_of_year:
