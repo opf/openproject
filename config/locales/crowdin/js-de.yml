@@ -486,7 +486,8 @@ de:
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese jeder Zeit wieder neu starten.'
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
         backlogs:
-          overview: "Sie können Anforderungen in der <b>Backlogs Ansicht</b> verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog, links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und Bugs (Fehler)</b> anlegen und mit Drag and Drop priorisieren und einem Sprint zuweisen."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
           task_board_arrow: 'Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint Drop-down Menü...'
           task_board_select: '… und wählen Sie den Menüpunkt <b>Taskboard</b>.'
           task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
@@ -506,6 +507,7 @@ de:
     notifications:
       title: "Benachrichtigungen"
       channel: "Kanal"
+      no_unread: "No unread notifications"
       channels:
         in_app: "In-App"
         mail: "E-Mail"

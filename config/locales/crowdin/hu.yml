@@ -197,7 +197,7 @@ hu:
       schedule_failed: "A projektet nem lehet törölni: %{errors}"
       failed: "A projekt %{name} törlése meghiúsult"
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
+      completed: "A projekt %{name} törlölve"
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
       open_as_gantt: 'Gantt nézet megnyitása'
@@ -228,7 +228,7 @@ hu:
     index:
       no_results_title_text: Jelenleg egy tagja sincs a projektnek.
       no_results_content_text: Tag hozzáadása a projekthez
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Meghívás küldése %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Hozzáférési token helyreállítása sikertelen: %{error}"
@@ -599,7 +599,7 @@ hu:
               invalid_uri: 'érvényes URI-nak kell lennie.'
               relative_uri: 'abszolút URI-nak kell lennie.'
               secured_uri: 'HTTPS/SSL URI-nak kell lennie.'
-              forbidden_uri: 'is forbidden by the server.'
+              forbidden_uri: 'A szerver tiltja a hozzáférést'
             scopes:
               not_match_configured: "doesn't match available scopes."
         enterprise_token:
@@ -1309,8 +1309,10 @@ hu:
         expiration: "Lejár"
       indefinite_expiration: "Soha"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1443,7 +1445,7 @@ hu:
   label_delete_project: "Projekt törlése"
   label_deleted: "Törölve"
   label_deleted_custom_field: "(egyéni mező törölve)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(opció törlése)"
   label_descending: "Csökkenő"
   label_details: "Részletek"
   label_development_roadmap: "Fejlesztési ütemterv"
@@ -1461,7 +1463,7 @@ hu:
   label_duplicate: "duplikált"
   label_duplicates: "Ismétlődések"
   label_edit: "Szerkesztés"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Szerkesztés: %{x}"
   label_enable_multi_select: "Multiselect ki-/ bekapcsolása"
   label_enabled_project_custom_fields: 'Egyéni mezők engedélyezve'
   label_enabled_project_modules: 'Engedélyezett modulok'
@@ -1566,7 +1568,7 @@ hu:
   label_max_size: "Maximális mérete"
   label_me: "Nekem"
   label_member_new: "Új tag"
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_plural: "Tagok"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
@@ -1617,7 +1619,6 @@ hu:
   label_none_parentheses: "(nincs)"
   label_not_contains: "nem tartalmaz"
   label_not_equals: "nem"
-  label_notify_member_plural: "E-mail frissítések"
   label_on: "be"
   label_open_menu: "Menü megnyitása"
   label_open_work_packages: "nyitott"
@@ -1925,8 +1926,8 @@ hu:
   mail_body_wiki_content_added: "A '%{id}' wiki oldal hozzáadva %{author} által."
   mail_body_wiki_content_updated: "A '%{id}' wiki oldal frissítve %{author} által."
   mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_ready: "A biztonsági mentés elkészült"
+  mail_subject_backup_token_reset: "Biztonsági mentés token visszaállítás"
   mail_subject_lost_password: "A jelszavad %{value}"
   mail_subject_register: "A %{value} fiókód aktiválása"
   mail_subject_reminder: "%{count} munkacsomag(ok) miatt a következő %{days} nap"
@@ -2099,7 +2100,7 @@ hu:
   permission_manage_project_activities: "Projekt tevékenységek kezelése"
   permission_manage_public_queries: "Nyilvános nézetek kezelése"
   permission_manage_repository: "Csomagtároló kezelése"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "feladatcsoport hierarchiák kezelése"
   permission_manage_versions: "Verziók kezelése"
   permission_manage_wiki: "Wiki kezelése"
   permission_manage_wiki_menu: "Wiki menü kezelése"
@@ -2849,7 +2850,7 @@ hu:
         temporarily_unavailable: 'A hitelesítő szerver jelenleg nem tudja teljesíteni a kérést átmeneti túlterheltség vagy a kiszolgáló karbantartása miatt.'
         #Configuration error messages
         credential_flow_not_configured: 'Az erőforrás tulajdonos jelszóadatainak átadása megszakadt, mert a Doorkeeper.configure.resource_owner_from_credentials beállítatlan.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
+        resource_owner_authenticator_not_configured: 'Erőforrás tulajdonos keresés megszakadt, ugyanis a Doorkeeper.configure.resource_owner_authenticator beállítatlan.'
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
         unsupported_response_type: 'A hitelesítő kiszolgáló nem támogatja ezt a választ.'
@@ -2901,8 +2902,8 @@ hu:
       successful_application_revocation: "Revocation of application %{application_name} successful."
       none_given: "No OAuth applications have been granted access to your user account."
     x_active_tokens:
-      one: 'one active token'
-      other: '%{count} active token'
+      one: 'egy aktív token'
+      other: '%{count} aktív token'
     flows:
       authorization_code: "Hitelesítő kód:"
       client_credentials: "Client credentials flow"

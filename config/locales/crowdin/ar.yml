@@ -1380,8 +1380,10 @@ ar:
         expiration: "انتهاء الصلاحية"
       indefinite_expiration: "أبداً"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1688,7 +1690,6 @@ ar:
   label_none_parentheses: "(بلا)"
   label_not_contains: "لا يحتوي على"
   label_not_equals: "ليس"
-  label_notify_member_plural: "تحديثات البريد الالكتروني"
   label_on: "في"
   label_open_menu: "فتح القائمة"
   label_open_work_packages: "افتح"

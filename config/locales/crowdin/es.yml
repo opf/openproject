@@ -1309,8 +1309,10 @@ es:
         expiration: "Expira"
       indefinite_expiration: "Nunca"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "Has sido asignado a %{work_package}"
         subscribed: "Te has suscrito a %{work_package}"
         mentioned: "Has sido mencionado en %{work_package}"
@@ -1617,7 +1619,6 @@ es:
   label_none_parentheses: "(ninguno)"
   label_not_contains: "no contiene"
   label_not_equals: "no es"
-  label_notify_member_plural: "Actualizaciones por correo electrónico"
   label_on: "en"
   label_open_menu: "Abrir menú"
   label_open_work_packages: "abierto"
