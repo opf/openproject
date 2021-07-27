@@ -108,8 +108,9 @@ describe DigestMailer, type: :mailer do
       expect(mail_body)
         .to have_selector('body section h1', text: project1.name)
 
+      expected = "#{work_package.type.name} ##{work_package.id} #{work_package.status.name}: #{work_package.subject}"
       expect(mail_body)
-        .to have_selector('body section section h2', text: work_package.to_s)
+        .to have_selector('body section section h2', text: expected)
 
       expect(mail_body)
         .to have_selector('body section section p.op-uc-p', text: journal.notes)
