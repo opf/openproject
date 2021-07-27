@@ -95,13 +95,13 @@ describe 'Work package transitive status workflows', js: true do
     wp_page.update_attributes status: status_intermediate.name
     wp_page.expect_attributes status: status_intermediate.name
 
-    wp_page.expect_activity_message "Status changed from #{status_from.name}\n" \
+    wp_page.expect_activity_message "Status changed from #{status_from.name} " \
                                     "to #{status_intermediate.name}"
 
     wp_page.update_attributes status: status_to.name
     wp_page.expect_attributes status: status_to.name
 
-    wp_page.expect_activity_message "Status changed from #{status_from.name}\n" \
+    wp_page.expect_activity_message "Status changed from #{status_from.name} " \
                                     "to #{status_to.name}"
 
     work_package.reload
