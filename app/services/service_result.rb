@@ -184,7 +184,7 @@ class ServiceResult
       if errors
         errors
       elsif result.respond_to?(:errors)
-        result.errors
+        ActiveModel::Errors.new(self).tap { |e| e.merge! result }
       else
         ActiveModel::Errors.new(self)
       end
