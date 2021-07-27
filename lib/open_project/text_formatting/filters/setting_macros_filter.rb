@@ -27,42 +27,27 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'task_list/filter'
 
-module OpenProject::TextFormatting::Formats::Markdown
-  class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-    def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
+module OpenProject::TextFormatting
+  module Filters
+    class SettingMacrosFilter < PatternMatcherFilter
+      def self.matchers
+        [
+          OpenProject::TextFormatting::Matchers::SettingMacros
+        ]
+      end
 
-      output.html_safe
-    end
+      def call
+        doc.search('.//text()|.//a[@href]').each do |node|
+          next if has_ancestor?(node, PREFORMATTED_BLOCKS)
 
-    def to_document(text)
-      pipeline.to_document text, context
-    end
+          self.class.matchers.each do |matcher|
+            matcher.call(node, doc: doc, context: context)
+          end
+        end
 
-    def filters
-      %i[
-        markdown
-        setting_macros
-        sanitization
-        task_list
-        table_of_contents
-        macro
-        mention
-        pattern_matcher
-        syntax_highlight
-        attachment
-        relative_link
-        figure_wrapped
-        bem_css
-        autolink
-      ]
-    end
-
-    def self.format
-      :markdown
+        doc
+      end
     end
   end
 end

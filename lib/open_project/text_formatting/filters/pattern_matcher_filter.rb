@@ -38,8 +38,7 @@ module OpenProject::TextFormatting
         [
           OpenProject::TextFormatting::Matchers::ResourceLinksMatcher,
           OpenProject::TextFormatting::Matchers::WikiLinksMatcher,
-          OpenProject::TextFormatting::Matchers::AttributeMacros,
-          OpenProject::TextFormatting::Matchers::SettingMacros
+          OpenProject::TextFormatting::Matchers::AttributeMacros
         ]
       end
 

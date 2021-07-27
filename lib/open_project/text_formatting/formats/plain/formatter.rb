@@ -40,7 +40,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def filters
-        %i(plain pattern_matcher)
+        %i(plain setting_macros pattern_matcher)
       end
 
       def self.format
