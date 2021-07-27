@@ -486,7 +486,8 @@ hu:
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -506,6 +507,7 @@ hu:
     notifications:
       title: "Értesítések"
       channel: "Csatorna"
+      no_unread: "No unread notifications"
       channels:
         in_app: "Alkalmazásban"
         mail: "Email"
@@ -527,7 +529,7 @@ hu:
         watched: 'I am watching'
         all: 'Minden esemény'
         add: 'Add setting for project'
-        already_selected: 'This project is already selected'
+        already_selected: 'A projekt már ki lett választva'
         remove_projects: 'Remove notifications for projects'
         title: "Értesítési beállítások"
         self_notify: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
@@ -552,9 +554,9 @@ hu:
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Sablon használata"
-      no_template_selected: "(None)"
+      no_template_selected: "(Nincs)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Másolási beállítás"
       autocompleter:
         label: 'Projektnevek automatikus kiegészítése'
     text_are_you_sure: "Biztos vagy benne?"
@@ -638,7 +640,7 @@ hu:
       abort: "Megszakít"
     relations_autocomplete:
       placeholder: "Gépeljen a kereséshez"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      parent_placeholder: "Válassz egy szülő objektumot vagy nyomd meg az ESC gombot  kilépéshez"
     autocompleter:
       placeholder: "Gépeljen a kereséshez"
       notFoundText: "Nem található elem"
@@ -858,7 +860,7 @@ hu:
         public_text: >
           Tegye közzé ezt a nézetet, lehetővé téve más felhasználók számára, hogy hozzáférjenek a nézethez. A „Nyilvános nézetek kezelése” engedéllyel rendelkező felhasználók módosíthatják vagy eltávolíthatják a nyilvános lekérdezéseket. Ez nem befolyásolja a munkacsomag-eredmények láthatóságát abban a nézetben, és engedélyüktől függően a felhasználók eltérő eredményeket láthatnak.
         errors:
-          unretrievable_query: "Unable to retrieve view from URL"
+          unretrievable_query: "Nem érhető el a nézet az URL-ből"
           not_found: "Nincs ilyen nézet"
           duplicate_query_title: "A nézet neve már létezik. Biztos megváltoztatod?"
         text_no_results: "Nem található egyező nézet"
@@ -954,8 +956,8 @@ hu:
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "Minden al feladatcsoportot és leszármazottait is rekurzívan törli."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Időbejegyzés törlésének jóváhagyása"
+        text: "Biztosan törölni akarja a következő időbejegyzést?"
     notice_no_results_to_display: "Nincs megjeleníthető eredmény."
     notice_successful_create: "Sikeres létrehozás."
     notice_successful_delete: "Sikeres törlés."

@@ -155,6 +155,12 @@ RSpec/DescribeMethod:
 RSpec/LetSetup:
   Enabled: false
 
+RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
 Style/Alias:
   Enabled: false
 

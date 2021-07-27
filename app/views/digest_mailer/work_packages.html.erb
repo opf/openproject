@@ -8,7 +8,7 @@
 
     <% notifications_by_work_package.each do |work_package, notifications| %>
         <section style="margin-bottom: 3em;">
-          <h2 style="margin-bottom: 1em; font-size: 1.5em;"><%= link_to_work_package work_package, only_path: false %></h2>
+          <h2 style="margin-bottom: 1em; font-size: 1.5em;"><%= link_to_work_package work_package, status: true, only_path: false %></h2>
 
           <% notifications.sort_by(&:created_at).each do |notification| %>
 

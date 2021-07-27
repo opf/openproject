@@ -9,7 +9,7 @@ hu:
         teaser_text: 'Javítsa az agilis projektmenedzsmentet ezzel a rugalmas táblák nézettel. Készítsen annyi táblát, amennyit csak akar, bármihez, amelyet nyomon követni szeretne.'
         upgrade_to_ee_text: 'A táblák egy vállalati szolgáltatás. Kérjük, frissítsen Vállalati OpenProject licencre!'
         upgrade: 'Frissítés most'
-        personal_demo: 'Contact us for a demo'
+        personal_demo: 'Keressen fel minket a próbaverzióért'
       lists:
         delete: 'Törölt lista'
       version:

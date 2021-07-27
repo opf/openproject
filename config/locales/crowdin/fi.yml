@@ -1312,8 +1312,10 @@ fi:
         expiration: "Vanhentuu"
       indefinite_expiration: "Ei koskaan"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1620,7 +1622,6 @@ fi:
   label_none_parentheses: "(none)"
   label_not_contains: "ei sisällä"
   label_not_equals: "ei ole"
-  label_notify_member_plural: "Lähetä päivitykset sähköpostilla"
   label_on: "päälle"
   label_open_menu: "Avaa valikko"
   label_open_work_packages: "avoin"

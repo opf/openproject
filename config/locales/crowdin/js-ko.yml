@@ -487,7 +487,8 @@ ko:
         welcome: '3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다. 언제든지 투어를 다시 시작할 수 있습니다.'
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -507,6 +508,7 @@ ko:
     notifications:
       title: "알림"
       channel: "채널"
+      no_unread: "No unread notifications"
       channels:
         in_app: "앱내"
         mail: "이메일"

@@ -76,14 +76,14 @@ hu:
       description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
       none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
+      singular: Visszaállítási kulcs
+      plural: Visszaállítási kulcsok
       your_codes: for your %{app_name} account %{login}
       overview_description: |
         If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
         Use the following button to generate a new set of backup codes.
       generate:
-        title: Generate backup codes
+        title: Új biztonsági kódok igénylése
         keep_safe_as_password: 'Important! Treat these codes as passwords.'
         keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
         regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'

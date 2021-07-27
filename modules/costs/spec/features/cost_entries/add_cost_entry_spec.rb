@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require_relative '../../spec_helper'
 
 describe 'Work Package cost fields', type: :feature, js: true do
   shared_let(:type_task) { FactoryBot.create(:type_task) }

@@ -1308,8 +1308,10 @@ it:
         expiration: "Scade"
       indefinite_expiration: "Mai"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "Sei stato assegnato a %{work_package}"
         subscribed: "Ti sei abbonato a %{work_package}"
         mentioned: "Sei stato menzionato in %{work_package}"
@@ -1616,7 +1618,6 @@ it:
   label_none_parentheses: "(nessuno)"
   label_not_contains: "non contiene"
   label_not_equals: "non è"
-  label_notify_member_plural: "Aggiornamenti email"
   label_on: "il"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"

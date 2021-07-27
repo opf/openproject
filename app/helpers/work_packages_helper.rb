@@ -173,7 +173,7 @@ module WorkPackagesHelper
                                checked,
                                class: 'form--check-box')
         boxes
-      end) + I18n.t(:label_notify_member_plural)
+      end) + I18n.t('notifications.send_notifications')
     end
   end
 

@@ -487,7 +487,8 @@ lt:
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
         backlogs:
-          overview: "Valdykite savo darbus <b>darbų sąrašo</b> vaizde. <br> Kairėje jūs matote produkto darbų sąrašą arba klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioretizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
           task_board_arrow: 'Norėdami matyti jūsų <b>užduočių lentą</b>, atverkite sprinto iškrentantį meniu...'
           task_board_select: '... ir pasirinkite <b>task board</b> elementą.'
           task_board: "Užduočių lenta vizualizuoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
@@ -507,6 +508,7 @@ lt:
     notifications:
       title: "Pranešimai"
       channel: "Kanalas"
+      no_unread: "No unread notifications"
       channels:
         in_app: "Programoje"
         mail: "El. paštas"
