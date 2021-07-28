@@ -26,7 +26,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
-| [Global projects overview](#Global-projects-overview---view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
+| [Global projects overview](#global-projects-overview---view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
