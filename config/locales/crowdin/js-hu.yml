@@ -222,7 +222,7 @@ hu:
             description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
+            installation: "Telepítési támogatás"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
             premium_features: "Prémium funkciók"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
@@ -434,7 +434,7 @@ hu:
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Szülő munkacsomag"
     label_work_package_plural: "Munkacsomagok"
     label_watch: "Megfigyelés"
     label_watch_work_package: "Megfigyelő munkacsomag"
@@ -507,7 +507,7 @@ hu:
     notifications:
       title: "Értesítések"
       channel: "Csatorna"
-      no_unread: "No unread notifications"
+      no_unread: "Nincs olvasatlan értesítés"
       channels:
         in_app: "Alkalmazásban"
         mail: "Email"
@@ -1066,12 +1066,12 @@ hu:
         label: 'Role in %{project}'
         no_roles_found: 'Nem található szerepkör.'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        required: 'Kérjük, válasszon szerepet'
         next_button: ' Következő'
       message:
-        label: 'Invitation message'
+        label: 'Meghívó üzenet'
         description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        next_button: 'Meghívó ellenőrzése'
       summary:
         next_button: 'Meghívó küldése'
       success:

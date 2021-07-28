@@ -201,7 +201,7 @@ hu:
       completed_text: "The request to delete project '%{name}' has been completed."
     index:
       open_as_gantt: 'Gantt nézet megnyitása'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title: "Használja ezt a gombot hogy egy szűrt Gantt nézetet generáljon a projekthez"
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
@@ -241,8 +241,8 @@ hu:
       no_results_content_text: Hír hozzáadása
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'A felhasználó a következő csoportoknak a tagja:'
+      no_results_title_text: A falhasználó egyik csoportnak se a tagja
     memberships:
       no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
   placeholder_users:
@@ -383,7 +383,7 @@ hu:
         attr_mail: "Email attribútum"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Automatikus felhasználó készítés"
         port: "Port szám"
       changeset:
         repository: "Csomagtároló"
@@ -591,7 +591,7 @@ hu:
           not_an_integer: "(%{name}) nem egész szám."
           smaller_than_or_equal_to: "(%{name}) kisebb vagy egyenlő, mint %{count}."
           greater_than_or_equal_to: "(%{name}) nagyobbnak vagy egyenlőnek kell lennie %{count} értékkel."
-          format: "%{message}"
+          format: "%{message}\n"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -607,7 +607,7 @@ hu:
         grids/grid:
           overlaps: 'átfedés'
           outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          end_before_start: 'a befejező értéknek nagyobbnak kell lennie mint a kezdőnek'
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -637,7 +637,7 @@ hu:
               in_use_by_work_packages: "munkacsomagok használatban vannak: %{types}"
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
-              format: "%{message}"
+              format: "%{message}\n"
         query:
           attributes:
             project:
@@ -646,13 +646,13 @@ hu:
               error_unauthorized: "- A felhasználó nem jogosult nyilvános nézeteket létrehozni."
             group_by:
               invalid: "Nem csoportosítható e szerint: %{value}"
-              format: "%{message}"
+              format: "%{message}\n"
             column_names:
               invalid: "Érvénytelen lekérdezési oszlop: %{value}"
-              format: "%{message}"
+              format: "%{message}\n"
             sort_criteria:
               invalid: "Nem lehet rendezni ezen oszlop szerint: %{value}"
-              format: "%{message}"
+              format: "%{message}\n"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:
@@ -662,7 +662,7 @@ hu:
           attributes:
             values:
               inclusion: "filter has invalid values."
-              format: "%{message}"
+              format: "%{message}\n"
         relation:
           typed_dag:
             circular_dependency: "A kapcsolat körkörös függőséget hoz létre."
@@ -718,7 +718,7 @@ hu:
           attributes:
             attribute_groups:
               attribute_unknown: "Érvénytelen feladatcsoport attribútumot használt."
-              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
+              attribute_unknown_name: "Érvénytelen munkacsomag értek %{attribute}"
               duplicate_group: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
               query_invalid: "A beágyazott lekérdezés '%{group}' érvénytelen: %{details}"
               group_without_name: "Névtelen csoport nem engedélyezett."
@@ -749,7 +749,7 @@ hu:
             principal:
               unassignable: "cannot be assigned to a project."
         version:
-          undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
         status:
           readonly_default_exlusive: "can not be activated for statuses that are marked default."
       template:
@@ -960,7 +960,7 @@ hu:
     title: 'Copy project "%{source_project_name}"'
     started: "Projekt másolása elindult a \"%{source_project_name}\" nevű projektből a \"%{target_project_name}\" projektbe. E-mailben értesítjük, amint \"%{target_project_name}\" elérhető."
     failed: "Nem lehet másolni a %{source_project_name} projektet "
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "Sikertelen másolás egy belső hiba miatt."
     succeeded: "A %{target_project_name} projekt létrehozva "
     errors: "Hiba"
     project_custom_fields: 'Projekt egyéni mezői'
@@ -1228,8 +1228,8 @@ hu:
     work_package_edit: 'A feladatcsoport szerkesztve'
     work_package_note: 'A feladatcsoport jegyzet hozzáadva'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Munkacsomagok exportálása"
+    succeeded: "Az exportálás sikeresen végetért."
     failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
@@ -1312,7 +1312,7 @@ hu:
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
-        created: "The work package was created."
+        created: "A munkacsomag létrehozása sikeres"
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1570,8 +1570,8 @@ hu:
   label_member_new: "Új tag"
   label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_plural: "Tagok"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Felhasználó hozzáadva'
+  lable_membership_updated: 'Felhasználó frissítve'
   label_menu_item_name: "A menüpont neve"
   label_message: "Üzenet"
   label_message_last: "Utolsó üzenet"
@@ -1949,7 +1949,7 @@ hu:
         with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
       roles: "You now have the following roles:"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "A globális jogosultságaid frissítve"
     body:
       updated_by:
         without_message: "%{user} updated the roles you have globally."
@@ -2063,7 +2063,7 @@ hu:
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Alprojektek létrehozása"
   permission_add_work_package_watchers: "Megfigyelő hozzáadása"
-  permission_assign_versions: "Assign versions"
+  permission_assign_versions: "Hozzárendelt verziók."
   permission_browse_repository: "Csak olvasható hozzáférés a tárolóhoz (böngészés és kijelentkezés)"
   permission_change_wiki_parent_page: "A szülő wiki oldal megváltoztatása"
   permission_comment_news: "Megjegyzések írása a hírekehez"
@@ -2262,7 +2262,7 @@ hu:
       username: "Tároló felhasználónév"
     truncated: "Elnézést, le kellett szűkítenünk ezt a könyvtárat %{limit} fájlra. %{truncated} bejegyzés került kihagyásra."
     named_repository: "%{vendor_name} tároló"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "A beállításokat mentése sikerült."
     url: "Tároló URL-címe"
     warnings:
       cannot_annotate: "Ez a fájl nem annotálható."
@@ -2788,13 +2788,13 @@ hu:
     attributes:
       lock_version: "Lezárt változat"
     errors:
-      code_400: "Bad request: %{message}"
+      code_400: "Hibás hívás %{message}"
       code_401: "Az erőforrás eléréséhez azonosítás szükséges."
       code_401_wrong_credentials: "Nem megfelelő hitelesítési adatok kerültek megadásra."
       code_403: "Ön nem jogosult az erőforrás eléréséhez."
       code_404: "A kért erőforrás nem található."
       code_409: "Nem sikerült frissíteni az erőforrást az ütköző módosítások miatt."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Túl sok próbálkozás, próbáld meg később"
       code_500: "Belső hiba történt."
       expected:
         date: "ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)"

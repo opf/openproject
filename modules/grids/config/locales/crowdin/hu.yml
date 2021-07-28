@@ -13,4 +13,4 @@ hu:
         grids/grid:
           overlaps: 'átfedés'
           outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          end_before_start: 'a befejező értéknek nagyobbnak kell lennie mint a kezdőnek'

@@ -1313,7 +1313,7 @@ pt:
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
-        created: "The work package was created."
+        created: "O pacote de trabalho foi criado."
         assigned: "Você foi designado para %{work_package}"
         subscribed: "Você se inscreveu em %{work_package}"
         mentioned: "Você foi mencionado em %{work_package}"
