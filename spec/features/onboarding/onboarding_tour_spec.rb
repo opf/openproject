@@ -34,11 +34,15 @@ describe 'onboarding tour for new users', js: true do
     FactoryBot.create :project, name: 'Demo project', identifier: 'demo-project', public: true,
                                 enabled_module_names: %w[work_package_tracking wiki]
   end
+  let(:project_link) { "<a href=/projects/#{project.identifier}> #{project.name} </a>" }
+
   let(:scrum_project) do
     FactoryBot.create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
                                 enabled_module_names: %w[work_package_tracking]
   end
-  let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
+  let(:scrum_project_link) { "<a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>" }
+
+  let!(:wp1) { FactoryBot.create(:work_package, project: project) }
   let(:next_button) { find('.enjoyhint_next_btn') }
 
   context 'with a new user' do
@@ -53,7 +57,6 @@ describe 'onboarding tour for new users', js: true do
       visit home_path first_time_user: true
       expect(page).to have_text 'Please select your language'
 
-      # SeleniumHubWaiter.wait
       select 'Deutsch', from: 'user_language'
       click_button 'Save'
 
@@ -76,12 +79,39 @@ describe 'onboarding tour for new users', js: true do
       end
     end
 
+    context 'when I skip the language selection' do
+      before do
+        allow(Setting)
+          .to receive(:welcome_text)
+          .and_return(project_link + scrum_project_link)
+        visit home_path first_time_user: true
+      end
+
+      after do
+        # Clear session to avoid that the onboarding tour starts
+        page.execute_script("window.sessionStorage.clear();")
+      end
+
+      it 'the tutorial starts directly' do
+        visit home_path first_time_user: true
+        expect(page).to have_text 'Please select your language'
+
+        # Cancel language selection
+        click_button('Close popup')
+
+        # The tutorial appears
+        expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).to have_selector '.enjoyhint_next_btn:not(.enjoyhint_hide)'
+      end
+    end
+
     context 'the tutorial starts' do
       before do
-        allow(Setting).to receive(:welcome_text).and_return("<a href=/projects/#{project.identifier}> #{project.name} </a><a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>")
+        allow(Setting)
+          .to receive(:welcome_text)
+          .and_return(project_link + scrum_project_link)
         visit home_path first_time_user: true
 
-        # SeleniumHubWaiter.wait
         select 'English', from: 'user_language'
         click_button 'Save'
         SeleniumHubWaiter.wait
@@ -120,7 +150,7 @@ describe 'onboarding tour for new users', js: true do
         find('.welcome').click_link 'Demo project'
         expect(page).to have_current_path "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
 
-        step_through_onboarding_wp_tour project, wp_1
+        step_through_onboarding_wp_tour project, wp1
 
         step_through_onboarding_main_menu_tour has_full_capabilities: true
       end
@@ -141,7 +171,7 @@ describe 'onboarding tour for new users', js: true do
     it 'skips these steps and continues directly' do
       # Set the tour parameter so that we can start on the overview page
       visit "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"
-      step_through_onboarding_wp_tour project, wp_1
+      step_through_onboarding_wp_tour project, wp1
 
       step_through_onboarding_main_menu_tour has_full_capabilities: false
     end
