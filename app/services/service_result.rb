@@ -180,14 +180,13 @@ class ServiceResult
   private
 
   def initialize_errors(errors)
-    self.errors =
-      if errors
-        errors
-      elsif result.respond_to?(:errors)
-        result.errors
-      else
-        ActiveModel::Errors.new(self)
-      end
+    self.errors = errors || new_errors_with_result
+  end
+
+  def new_errors_with_result
+    ActiveModel::Errors.new(self).tap do |errors|
+      errors.merge!(result) if result.try(:errors).present?
+    end
   end
 
   def get_message_type

@@ -82,6 +82,15 @@ describe ServiceResult, type: :model do
     it 'is an empty ActiveModel::Errors by default' do
       expect(instance.errors).to be_a ActiveModel::Errors
     end
+
+    context 'providing errors from user' do
+      let(:result) { FactoryBot.build :work_package }
+
+      it 'creates a new errors instance' do
+        instance = ServiceResult.new result: result
+        expect(instance.errors).not_to eq result.errors
+      end
+    end
   end
 
   describe 'result' do
