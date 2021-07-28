@@ -1310,7 +1310,6 @@ da:
         expiration: "Udløber"
       indefinite_expiration: "Aldrig"
   notifications:
-    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1620,6 +1619,7 @@ da:
   label_none_parentheses: "(ingen)"
   label_not_contains: "indeholder ikke"
   label_not_equals: "er ikke"
+  label_notify_member_plural: "Opdateringer af e-mail"
   label_on: "på"
   label_open_menu: "Åbn menuen"
   label_open_work_packages: "åbn"

@@ -1329,7 +1329,6 @@ hr:
         expiration: "Vrijedi do"
       indefinite_expiration: "Nikad"
   notifications:
-    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1639,6 +1638,7 @@ hr:
   label_none_parentheses: "(nijedan)"
   label_not_contains: "ne sadrži"
   label_not_equals: "nije"
+  label_notify_member_plural: "Email ažuriranja"
   label_on: "na"
   label_open_menu: "Otvori izbornik"
   label_open_work_packages: "otvori"

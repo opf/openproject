@@ -1309,7 +1309,6 @@ hu:
         expiration: "Lejár"
       indefinite_expiration: "Soha"
   notifications:
-    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1619,6 +1618,7 @@ hu:
   label_none_parentheses: "(nincs)"
   label_not_contains: "nem tartalmaz"
   label_not_equals: "nem"
+  label_notify_member_plural: "E-mail frissítések"
   label_on: "be"
   label_open_menu: "Menü megnyitása"
   label_open_work_packages: "nyitott"

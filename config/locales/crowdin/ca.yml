@@ -1312,7 +1312,6 @@ ca:
         expiration: "Caduca"
       indefinite_expiration: "Mai"
   notifications:
-    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1622,6 +1621,7 @@ ca:
   label_none_parentheses: "(cap)"
   label_not_contains: "no conté"
   label_not_equals: "no és"
+  label_notify_member_plural: "Actualitzacions per correu electrònic"
   label_on: "en"
   label_open_menu: "Obrir menú"
   label_open_work_packages: "obrir"

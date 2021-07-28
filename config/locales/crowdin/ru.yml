@@ -1345,7 +1345,6 @@ ru:
         expiration: "Срок действия"
       indefinite_expiration: "Никогда"
   notifications:
-    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1655,6 +1654,7 @@ ru:
   label_none_parentheses: "(нет)"
   label_not_contains: "не содержит"
   label_not_equals: "не"
+  label_notify_member_plural: "Уведомление электронной почтой"
   label_on: "на"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
