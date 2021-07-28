@@ -117,12 +117,8 @@ describe WorkPackages::UpdateService, type: :model do
       end
 
       context 'when setting the attributes is unsuccessful (invalid)' do
-        let(:errors) { double('set errors', empty?: false) }
+        let(:errors) { ActiveModel::Errors.new(work_package) }
         let(:set_service_results) { ServiceResult.new success: false, errors: errors, result: work_package }
-
-        before do
-          allow(errors).to receive(:merge!)
-        end
 
         it 'is unsuccessful' do
           expect(subject.success?).to be_falsey
@@ -135,18 +131,20 @@ describe WorkPackages::UpdateService, type: :model do
         end
 
         it 'exposes the errors' do
+          errors.add(:base, 'This is a custom error!')
+
           subject
 
           expect(subject.errors).to eql errors
+          expect(subject.errors[:base]).to include 'This is a custom error!'
         end
       end
 
       context 'when the saving is unsuccessful' do
         let(:work_package_save_result) { false }
-        let(:saving_errors) { double('saving_errors', empty?: false) }
+        let(:saving_errors) { ActiveModel::Errors.new(work_package) }
 
         before do
-          allow(saving_errors).to receive(:merge!)
           allow(work_package)
             .to receive(:errors)
             .and_return(saving_errors)
@@ -162,10 +160,13 @@ describe WorkPackages::UpdateService, type: :model do
           expect(work_package.changed?).to be_truthy
         end
 
-        it "exposes the work_packages's errors" do
+        it 'exposes the errors, but is a new instance' do
+          saving_errors.add(:base, 'This is a custom error!')
+
           subject
 
-          expect(subject.errors).to eql saving_errors
+          expect(subject.errors).not_to eql saving_errors
+          expect(subject.errors[:base]).to include 'This is a custom error!'
         end
       end
     end
