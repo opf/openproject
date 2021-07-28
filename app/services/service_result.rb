@@ -185,7 +185,7 @@ class ServiceResult
 
   def new_errors_with_result
     ActiveModel::Errors.new(self).tap do |errors|
-      errors.merge!(result) if result.respond_to?(:errors)
+      errors.merge!(result) if result.try(:errors).present?
     end
   end
 
