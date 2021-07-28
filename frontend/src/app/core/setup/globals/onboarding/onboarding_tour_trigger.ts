@@ -4,6 +4,7 @@ import {
   demoProjectsLinks,
   OnboardingTourNames,
   onboardingTourStorageKey,
+  waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 
@@ -31,10 +32,12 @@ export function detectOnboardingTour():void {
       currentTourPart = '';
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
-      // Start automatically when the language selection is closed
-      jQuery('.op-modal--close-button').click(() => {
-        tourCancelled = true;
-        void triggerTour('homescreen');
+      waitForElement('.onboarding-modal .op-modal--close-button', 'body', () => {
+        // Start automatically when the language selection is closed
+        jQuery('.op-modal--close-button').click(() => {
+          tourCancelled = true;
+          void triggerTour('homescreen');
+        });
       });
 
       // Start automatically when the escape button is pressed
