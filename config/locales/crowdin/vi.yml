@@ -1297,6 +1297,7 @@ vi:
         expiration: "Hết hạn"
       indefinite_expiration: "Không bao giờ"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1606,7 +1607,6 @@ vi:
   label_none_parentheses: "(trống)"
   label_not_contains: "không chứa"
   label_not_equals: "không là"
-  label_notify_member_plural: "Cập nhật thư"
   label_on: "lúc"
   label_open_menu: "Mở trình đơn"
   label_open_work_packages: "mở"

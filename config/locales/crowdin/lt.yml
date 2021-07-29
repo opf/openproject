@@ -1342,6 +1342,7 @@ lt:
         expiration: "Baigiasi"
       indefinite_expiration: "Niekada"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1651,7 +1652,6 @@ lt:
   label_none_parentheses: "(nėra)"
   label_not_contains: "neturi"
   label_not_equals: "nėra"
-  label_notify_member_plural: "El. pašto atnaujinimai"
   label_on: "įjungta"
   label_open_menu: "Atidaryti meniu"
   label_open_work_packages: "atidarytas"

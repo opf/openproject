@@ -1312,6 +1312,7 @@ fil:
         expiration: "Natapos"
       indefinite_expiration: "Hindi kailanman"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1621,7 +1622,6 @@ fil:
   label_none_parentheses: "(wala)"
   label_not_contains: "hindi naglalaman"
   label_not_equals: "ay hindi"
-  label_notify_member_plural: "I-update ang mga email"
   label_on: "sa"
   label_open_menu: "Buksan ang pagpipilian"
   label_open_work_packages: "buksan"

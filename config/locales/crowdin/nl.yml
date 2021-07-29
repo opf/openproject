@@ -1312,6 +1312,7 @@ nl:
         expiration: "Verloopt"
       indefinite_expiration: "Nooit"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1621,7 +1622,6 @@ nl:
   label_none_parentheses: "(geen)"
   label_not_contains: "bevat geen"
   label_not_equals: "is niet"
-  label_notify_member_plural: "E-mail updates"
   label_on: "op"
   label_open_menu: "Menu openen"
   label_open_work_packages: "Open"

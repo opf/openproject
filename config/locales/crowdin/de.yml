@@ -1307,6 +1307,7 @@ de:
         expiration: "Läuft aus"
       indefinite_expiration: "Nie"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1616,7 +1617,6 @@ de:
   label_none_parentheses: "(keiner)"
   label_not_contains: "enthält nicht"
   label_not_equals: "ist nicht"
-  label_notify_member_plural: "Aktualisierungen per E-Mail verschicken"
   label_on: "am"
   label_open_menu: "Menü öffnen"
   label_open_work_packages: "Offen"

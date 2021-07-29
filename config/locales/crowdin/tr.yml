@@ -1312,6 +1312,7 @@ tr:
         expiration: "Bitiş tarihi"
       indefinite_expiration: "Hiçbir zaman"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1621,7 +1622,6 @@ tr:
   label_none_parentheses: "(yok)"
   label_not_contains: "içermiyor"
   label_not_equals: "değildir"
-  label_notify_member_plural: "Eposta güncellemeleri"
   label_on: "açık"
   label_open_menu: "Menüyü Aç"
   label_open_work_packages: "açık"

@@ -1346,6 +1346,7 @@ cs:
         expiration: "Vyprší"
       indefinite_expiration: "Nikdy"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1655,7 +1656,6 @@ cs:
   label_none_parentheses: "(žádný)"
   label_not_contains: "neobsahuje"
   label_not_equals: "není"
-  label_notify_member_plural: "Aktualizace e-mailu"
   label_on: "zapnuto"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřít"

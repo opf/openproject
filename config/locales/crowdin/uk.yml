@@ -1346,6 +1346,7 @@ uk:
         expiration: "Закінчується"
       indefinite_expiration: "Ніколи"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1655,7 +1656,6 @@ uk:
   label_none_parentheses: "(нічого)"
   label_not_contains: "не містить"
   label_not_equals: "немає"
-  label_notify_member_plural: "Оновлення електронної пошти"
   label_on: "на"
   label_open_menu: "Відкрити меню"
   label_open_work_packages: "відкрити"

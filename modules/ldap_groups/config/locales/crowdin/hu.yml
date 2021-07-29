@@ -45,7 +45,7 @@ hu:
           Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection.
           Leave this option empty to reuse the base DN of the connection
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: 'Szinkronizált LDAP csoport hozzáadása'
       destroy:
         title: 'Remove synchronized group %{name}'
         confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."

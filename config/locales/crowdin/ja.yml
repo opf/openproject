@@ -1291,6 +1291,7 @@ ja:
         expiration: "有効期限"
       indefinite_expiration: "なし"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1600,7 +1601,6 @@ ja:
   label_none_parentheses: "(なし)"
   label_not_contains: "含まない"
   label_not_equals: "等しくない"
-  label_notify_member_plural: "電子メールで更新の通知"
   label_on: "オン"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
