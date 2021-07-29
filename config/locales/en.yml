@@ -600,6 +600,7 @@ en:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "can't be empty."
         even: "must be even."
         exclusion: "is reserved."
