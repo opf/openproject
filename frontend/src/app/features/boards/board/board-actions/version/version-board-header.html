@@ -1,7 +1,8 @@
 <div class="op-version-board-header"
+      data-qa-selector="op-version-board-header"
      [ngClass]="{ '-closed': version.isClosed(), '-locked': version.isLocked() }"
      *ngIf="version">
-  <h2 class="op-version-board-header--editable-toolbar-title--fixed">
+  <h2 class="editable-toolbar-title--fixed">
     <small [textContent]="text.version"></small>
     <br/>
     <a [href]="pathHelper.versionShowPath(version.id)"
