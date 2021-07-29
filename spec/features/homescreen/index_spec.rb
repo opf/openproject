@@ -39,7 +39,7 @@ describe 'Homescreen index', type: :feature do
 
   describe 'with a dynamic URL in the welcome text',
            with_settings: {
-             welcome_text: "With [a link to the public project](opSetting:base_url/projects/public-project)",
+             welcome_text: "With [a link to the public project]({{opSetting:base_url}}/projects/public-project)",
              welcome_on_homescreen?: true
            } do
     it 'renders the correct link' do

@@ -32,7 +32,7 @@ module OpenProject::TextFormatting
   module Matchers
     # OpenProject macros for inserting setting values
     # Examples:
-    #   opSetting:host_name # Outputs the Setting.host_name
+    #   {{opSetting:host_name}} # Outputs the Setting.host_name
     class SettingMacros < RegexMatcher
       ALLOWED_SETTINGS = %w[
         host_name
@@ -41,14 +41,14 @@ module OpenProject::TextFormatting
 
       def self.regexp
         %r{
-          opSetting:(#{ALLOWED_SETTINGS.join("|")})
+          \{\{opSetting:(#{ALLOWED_SETTINGS.join("|")})\}\}
         }x
       end
 
       ##
       # Faster inclusion check before the regex is being applied
       def self.applicable?(content)
-        content.include?('opSetting:')
+        content.include?('{{opSetting:')
       end
 
       def self.process_match(match, matched_string, _context)

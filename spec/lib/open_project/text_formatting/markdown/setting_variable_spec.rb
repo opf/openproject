@@ -37,15 +37,15 @@ describe OpenProject::TextFormatting,
     it_behaves_like 'format_text produces' do
       let(:raw) do
         <<~RAW
-          Inline reference to variable setting: opSetting:host_name
+          Inline reference to variable setting: {{opSetting:host_name}}
 
-          Inline reference to base_url variable: opSetting:base_url
+          Inline reference to base_url variable: {{opSetting:base_url}}
 
-          [Link with setting](opSetting:base_url/foo/bar)
+          [Link with setting]({{opSetting:base_url}}/foo/bar)
 
-          Inline reference to invalid variable: opSetting:smtp_password
+          Inline reference to invalid variable: {{opSetting:smtp_password}}
 
-          Inline reference to missing variable: opSetting:does_not_exist
+          Inline reference to missing variable: {{opSetting:does_not_exist}}
         RAW
       end
 
